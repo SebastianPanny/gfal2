@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.13 $ $Date: 2004/10/25 15:56:44 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.14 $ $Date: 2004/11/15 09:40:31 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -11,6 +11,25 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
+
+#ifndef GFAL_LONG64_FORMAT
+#if defined(__ia64__) || defined(__x86_64)
+#define GFAL_LONG64_FORMAT "%ld"
+#elif defined(_WIN32)
+#define GFAL_LONG64_FORMAT "%I64d"
+#else
+#define GFAL_LONG64_FORMAT "%lld"
+#endif
+#endif
+#ifndef GFAL_LONG64
+#if defined(__ia64__) || defined(__x86_64)
+#define GFAL_LONG64 long
+#elif defined(_WIN32)
+#define GFAL_LONG64 __i64
+#else
+#define GFAL_LONG64 long long
+#endif
+#endif
 
 struct srm_filestatus {
 	char	*surl;
@@ -58,9 +77,9 @@ int gfal_stat64 (const char *, struct stat *);
 #endif
 
                   /* catalog operation entry points */
-int create_alias (const char *, const char *, long long);
+int create_alias (const char *, const char *, GFAL_LONG64);
 char *getbestfile(char **, int size);
-int getfilesizeg(const char *, long long*);
+int getfilesizeg(const char *, GFAL_LONG64 *);
 int guid_exists (const char *);
 char *guidforpfn (const char *);
 char *guidfromlfn (const char *);
@@ -73,7 +92,7 @@ char *surlfromguid (const char *);
 char **surlsfromguid (const char *);
 
 /* legacy method for EDG Catalog where size is set on pfn, not guid */
-int setfilesize (const char *, long long);
+int setfilesize (const char *, GFAL_LONG64);
 
                 /* storage operation entry points */
 int deletesurl (const char *);
@@ -100,8 +119,8 @@ int get_seap_info (const char *, char ***, int **);
 int se_getfilemd (const char *, struct stat64 *);
 int srm_getfilemd (const char *, struct stat64 *);
 #endif
-int lfc_getfilesizeg(const char *, long long*);
-int lfc_create_alias (const char *, const char *, long long);
+int lfc_getfilesizeg(const char *, GFAL_LONG64 *);
+int lfc_create_alias (const char *, const char *, GFAL_LONG64);
 int lfc_deletepfn (const char *, const char *);
 int lfc_deletesurl (const char *);
 char *lfc_guidforpfn (const char *);
@@ -119,7 +138,7 @@ int lrc_deletepfn (const char *, const char *);
 int lrc_deletesurl (const char *);
 char *lrc_guidforpfn (const char *);
 int lrc_guid_exists (const char *);
-int lrc_setfilesize (const char *, long long);
+int lrc_setfilesize (const char *, GFAL_LONG64);
 char *lrc_surlfromguid (const char *);
 char **lrc_surlsfromguid (const char *);
 int parsesurl (const char *, char *, int, char **);
@@ -141,6 +160,6 @@ int srm_getstatus (int, char **, int, char *, struct srm_filestatus **);
 int srm_set_xfer_done (const char *, int, int, char *, int);
 int srm_set_xfer_running (const char *, int, int, char *);
 char *srm_turlfromsurl (const char *, char **, int, int *, int *, char **);
-int srm_turlsfromsurls (int, const char **, long long *, char **, int, int *, int **, char **, char ***);
+int srm_turlsfromsurls (int, const char **, GFAL_LONG64 *, char **, int, int *, int **, char **, char ***);
 char *turlfromsfn (const char *, char **);
 #endif
