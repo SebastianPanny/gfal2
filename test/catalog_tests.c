@@ -519,7 +519,7 @@ START_TEST(test_surlsfromguid) {
     guid */
 START_TEST(test_surlfromguid_unknown_guid) {
   char unknown_guid[CA_MAXGUIDLEN+1];
-  char **p;
+  char *p;
 
   helper_make_guid(unknown_guid);
 

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.9 $ $Date: 2004/12/14 14:07:39 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.10 $ $Date: 2005/01/05 12:32:12 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -177,7 +177,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
     return (NULL);
 
   /* allocate some memory for the pointers */
-  if((p = calloc(size, sizeof(char*))) == NULL) {
+  if((p = (char**)calloc(size, sizeof(char*))) == NULL) {
     return (NULL);
   }
 
@@ -193,7 +193,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
     
     if(i >= size) {
       size += ALLOC_BLOCK_SIZE;
-      if((p = realloc(p, size * sizeof(char*))) == NULL) {
+      if((p = (char**)realloc(p, size * sizeof(char*))) == NULL) {
 	(void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
 	return (NULL);
       }
@@ -208,7 +208,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
   
   p[i++]='\0';
   /* and trim */
-  if((p = realloc(p, i * sizeof(char*))) == NULL)
+  if((p = (char**)realloc(p, i * sizeof(char*))) == NULL)
     return (NULL);
   
   return (p);
@@ -295,7 +295,7 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
     return (NULL);
 
   /* allocate some memory for the pointers */
-  if((p = calloc(size, sizeof(char*))) == NULL) {
+  if((p = (char**)calloc(size, sizeof(char*))) == NULL) {
     return (NULL);
   }
 
@@ -311,7 +311,7 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
     
     if(i >= size) {
       size += ALLOC_BLOCK_SIZE;
-      if((p = realloc(p, size * sizeof(char*))) == NULL) {
+      if((p = (char**)realloc(p, size * sizeof(char*))) == NULL) {
 	(void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
 	return (NULL);
       }
@@ -326,7 +326,7 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
   }
 
   p[i++] = '\0';
-  if((p = realloc(p, i * sizeof(char*))) == NULL)
+  if((p = (char**)realloc(p, i * sizeof(char*))) == NULL)
     return (NULL);
   return (p);
 }

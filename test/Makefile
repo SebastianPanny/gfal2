@@ -6,7 +6,7 @@ LFC_DIR=$(prefix)/opt/lcg
 GFAL_DIR=..
 CHECK_DIR=/usr
 
-#CHECK_DIR=/afs/cern.ch/user/j/jamesc/tmp1/check
+#CHECK_DIR=/afs/cern.ch/user/j/jamesc/tmp1/lcg-deps/check
 #
 #
 
