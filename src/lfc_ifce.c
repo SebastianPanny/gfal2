@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.21 $ $Date: 2005/02/04 14:48:57 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.22 $ $Date: 2005/02/07 10:54:35 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -20,7 +20,8 @@
 #define ALLOC_BLOCK_SIZE 16 /* the block size to allocate new pointers in */
 char *lfc_host = NULL;
 
-static  char lfc_env[64];
+static char lfc_env[64];
+static char lfc_penv[64];
 
 /** extract a hostname from a SURL.  We search for "://" to get the start of
     the hostname.  Then we keep going to the next slash, colon or end of the
@@ -56,12 +57,33 @@ get_hostname(const char *path, char *errbuf, int errbufsz) {
 
 static int 
 lfc_init (char *errbuf, int errbufsz) {
+  char *lfc_endpoint;
+  char *p;
+  char *lfc_port = NULL;
+
   if (lfc_host == NULL) {
-    if((lfc_host = getenv("LFC_HOST")) == NULL &&
-       get_lfc_endpoint (&lfc_host, errbuf, errbufsz) < 0) {
-      errno = EINVAL;
-      return (-1);
+    /* Try first from env */
+    if((lfc_host = getenv("LFC_HOST")) != NULL) {
+      lfc_port = getenv("LFC_PORT");
+    } else { /* get endpoint from MDS */
+      if(get_lfc_endpoint (&lfc_endpoint, errbuf, errbufsz) < 0) {
+	return (-1);
+      }
+      if ((lfc_port = strchr (lfc_endpoint, ':')) != NULL) {
+	*lfc_port = '\0';
+	lfc_port++;
+      }
+
+      if (strncmp(lfc_endpoint, "lfc://", 6) == 0) {
+	if((lfc_host = strdup(lfc_endpoint + 6)) == NULL) {
+	  free(lfc_endpoint);
+	  return (-1);
+	}
+      } else { /* just a plain hostname */
+	lfc_host = lfc_endpoint;
+      }
     }
+    
     if( 10 + strlen(lfc_host) > 64) {
       gfal_errmsg(errbuf, errbufsz, "Host too long") ;
       errno = ENAMETOOLONG;
@@ -70,6 +92,18 @@ lfc_init (char *errbuf, int errbufsz) {
     sprintf(lfc_env, "LFC_HOST=%s", lfc_host);
     if(putenv(lfc_env) < 0) {
       return (-1);
+    }
+
+    if(lfc_port && *lfc_port != '\0') {
+      if( 10 + strlen(lfc_port) > 64) {
+	gfal_errmsg(errbuf, errbufsz, "Port too long") ;
+	errno = ENAMETOOLONG;
+	return (-1);
+      }
+      sprintf(lfc_penv, "LFC_PORT=%s", lfc_port);
+      if(putenv(lfc_penv) < 0) {
+	return (-1);
+      }
     }
   }
   lfc_seterrbuf(errbuf, errbufsz);
@@ -229,13 +263,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
   } 
   (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
 
-  /* no results - return NULL */
-  if(i == 0) {
-    free (p);
-    return (NULL);
-  }
-  
-  p[i++]='\0';
+  i++;
   /* and trim */
   if((pp = (char**)realloc(p, i * sizeof(char*))) == NULL) {
     free(p);
@@ -363,7 +391,7 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
     return (NULL);
   }
 
-  p[i++] = '\0';
+  i++;
   if((pp = (char**)realloc(p, i * sizeof(char*))) == NULL) {
     free (p);
     return (NULL);
