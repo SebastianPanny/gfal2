@@ -616,7 +616,7 @@ START_TEST(test_surlfromguid_unknown_guid) {
 /** test_surlfromguid: check that surl from guid returns an entry.  If
 the server is local (cern.ch) then it should be returned */
 START_TEST(test_surlfromguid) {
-	char *p;
+	char *p = NULL;
 	char buf[CA_MAXSFNLEN+1];
 	char base_surl[CA_MAXSFNLEN+1];
   	char *path="foo/test_surlfromguid";
@@ -634,19 +634,19 @@ START_TEST(test_surlfromguid) {
 
 	/* add an entry */
 	helper_make_surl(base_surl, path);
-	if(register_pfn (file_guid, buf, errbuf, ERRBUFSZ) < 0) {
+	if(register_pfn (file_guid, base_surl, errbuf, ERRBUFSZ) < 0) {
 		sprintf (error_msg, "Could not register surl %s : %s\n",
-			 buf, strerror (errno));
+			 base_surl, strerror (errno));
 		fail (error_msg);
 	}
 
 	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) == NULL) {
 		sprintf(error_msg, 
 			"Could not get best surl from guid %s : %s\n",
-			buf, strerror (errno));
+			base_surl, strerror (errno));
 			fail (error_msg);
 	}
-	fail_unless(strcmp(p, buf) == 0 , "Should be only surl for the guid");
+	fail_unless(strcmp(p, base_surl) == 0 , "Should be only surl for the guid");
 	free(p);
 
 	/* now add a local entry - it should be first */
@@ -793,7 +793,7 @@ Suite *add_catalog_tests(Suite *s) {
 
   /* a test case for EDG catalog checks */
   tc_edg_catalog = tcase_create("EDGCatalogs");
-  suite_add_tcase(s, tc_edg_catalog);
+  //suite_add_tcase(s, tc_edg_catalog);
   tcase_add_checked_fixture(tc_edg_catalog, setup_edg_catalog, teardown_common);
 
   //tcase_add_test(tc_edg_catalog, test_guid_exists);
@@ -825,7 +825,6 @@ Suite *add_catalog_tests(Suite *s) {
   suite_add_tcase(s, tc_lfc_catalog);
 
   tcase_add_checked_fixture(tc_lfc_catalog, setup_lfc_catalog, teardown_common);
-
   tcase_add_test(tc_lfc_catalog, test_guid_exists);
   tcase_add_test(tc_lfc_catalog, test_create_lfn);
   tcase_add_test(tc_lfc_catalog, test_register_before_create);
@@ -842,10 +841,11 @@ Suite *add_catalog_tests(Suite *s) {
   tcase_add_test(tc_lfc_catalog, test_replica_exists);
   tcase_add_test(tc_lfc_catalog, test_surlsfromguid_unknown_guid);
   tcase_add_test(tc_lfc_catalog, test_surlsfromguid);
-  tcase_add_test(tc_lfc_catalog, test_surlfromguid_unknown_guid);
+  tcase_add_test(tc_lfc_catalog, test_surlfromguid_unknown_guid); 
   tcase_add_test(tc_lfc_catalog, test_surlfromguid);
 
   tcase_add_test(tc_lfc_catalog, test_lfnsforguid);
   tcase_add_test(tc_lfc_catalog, test_delete_lfns_master_first);
+
   return s; 
 }

@@ -85,6 +85,7 @@ int helper_remove_lfn(const char* lfn, char* errbuf, int errbufsz) {
   char **lfns;
   char **replicas;
   char **p;
+  int has_error = 0;
 
   if((guid = guidfromlfn(lfn, errbuf, errbufsz)) == NULL) {
     return (0);
@@ -92,14 +93,19 @@ int helper_remove_lfn(const char* lfn, char* errbuf, int errbufsz) {
 
   if((replicas = surlsfromguid(guid, errbuf, errbufsz)) != NULL) {
     for(p = replicas; *p != NULL; p++) {
-      if(unregister_pfn(guid, *p, errbuf, errbufsz) < 0) {
-	sprintf(error_msg, "Could not unregister surl %s : %s\n", 
-		*p, strerror(errno));
-	fail(error_msg);
+      if(has_error == 0) {
+	if(unregister_pfn(guid, *p, errbuf, errbufsz) < 0) {
+	  sprintf(error_msg, "Could not unregister surl %s : %s\n", 
+		  *p, strerror(errno));
+	  has_error = 1;
+	}
       }
       free(*p);
     }
     free(replicas);
+    if(has_error) {
+      fail(error_msg);
+    }
   }
   
   if((lfns = lfnsforguid(guid, errbuf, errbufsz)) != NULL) {
