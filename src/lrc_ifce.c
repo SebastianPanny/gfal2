@@ -3,11 +3,10 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.6 $ $Date: 2004/06/10 15:00:42 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.7 $ $Date: 2004/10/24 10:50:19 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
-#include <stdio.h>
 #include <string.h>
 #include "stdsoap2.h"
 #undef SOAP_FMAC3
@@ -24,35 +23,7 @@
 char *lrc_endpoint;
 extern char *rmc_endpoint;
 
-int
-getdomainnm (char *name, int namelen)
-{
-	FILE *fd;
-	char line[300];
-	char *p;
-
-	if ((fd = fopen ("/etc/resolv.conf", "r")) != NULL) {
-		while (fgets (line, sizeof(line), fd) != NULL) {
-			if ((strncmp (line, "domain", 6) == 0 ||
-			    strncmp (line, "search", 6) == 0) && line[6] == ' ') {
-				fclose (fd);
-				p = line + 6;
-				while (*p == ' ')
-					p++;
-				if (*p)
-					*(p + strlen (p) - 1) = '\0';
-				if (strlen (p) > namelen) {
-					errno = EINVAL;
-					return (-1);
-				}
-				strcpy (name, p);
-				return (0);
-			}
-		}
-		fclose (fd);
-	}
-	return (-1);
-}
+#include "gfal_api.h"
 
 static int
 lrc_init (struct soap *soap)
@@ -79,7 +50,7 @@ lrc_init (struct soap *soap)
 }
 
 char *
-guidforpfn (const char *pfn)
+lrc_guidforpfn (const char *pfn)
 {
 	struct impl__guidForPfnResponse out;
 	char *p;
@@ -132,7 +103,7 @@ lrc_guid_exists (const char *guid)
 	return (ret);
 }
 
-register_pfn (const char *guid, const char *pfn)
+lrc_register_pfn (const char *guid, const char *pfn)
 {
 	struct impl__addMappingResponse out;
 	int ret;
@@ -163,7 +134,7 @@ register_pfn (const char *guid, const char *pfn)
 	return (0);
 }
 
-setfilesize (const char *pfn, long long filesize)
+lrc_setfilesize (const char *pfn, long long filesize)
 {
 	struct impl__setStringPfnAttributeResponse out;
 	int ret;
@@ -195,16 +166,14 @@ setfilesize (const char *pfn, long long filesize)
 }
 
 char *
-surlfromguid (const char *guid)
+lrc_surlfromguid (const char *guid)
 {
-	char dname[64];
-	int first;
-	int i;
 	struct impl__getPfnsResponse out;
-	char *p, *p1, *p2;
+	char *p, *result;
 	int ret;
 	int sav_errno;
 	struct soap soap;
+	char **surls;
 
 	if (lrc_init (&soap) < 0)
 		return (NULL);
@@ -223,46 +192,25 @@ surlfromguid (const char *guid)
 		errno = sav_errno;
 		return (NULL);
 	} else {
-		/* skip entries not in the form srm: or sfn:
-		 * take entry on same domain if it exists else
-		 * take the first supported entry
-		 */
-		first = -1;
-		*dname = '\0';
-		(void) getdomainnm (dname, sizeof(dname));
-		for (i = 0; i < out._getPfnsReturn->__size; i++) {
-			p = out._getPfnsReturn->__ptr[i];
-			if (strncmp (p, "srm://", 6) && strncmp (p, "sfn://", 6))
-				continue;
-			if ((p1 = strchr (p + 6, '/')) == NULL) continue;
-			*p1 = '\0';
-			if ((p2 = strchr (p + 6, ':')))
-				*p2 = '\0';
-			if ((p = strchr (p + 6, '.')) == NULL) continue;
-			if (first < 0) first = i;
-			ret = strcmp (p + 1, dname);
-			*p1 = '/';
-			if (p2) *p2 = ':';
-			if (ret == 0) break;	/* domains match ==> local replica */
-		}
-		if (i == out._getPfnsReturn->__size) {	/* no entry on same domain */
-			if (first < 0) {	/* only non suported entries */
-				soap_end (&soap);
-				soap_done (&soap);
-				errno = EPROTONOSUPPORT;
-				return (NULL);
-			}
-			i = first;
-		}
-		p = strdup (out._getPfnsReturn->__ptr[i]);
-		soap_end (&soap);
-		soap_done (&soap);
-		return (p);
+	  result = getbestfile (out._getPfnsReturn->__ptr, 
+				out._getPfnsReturn->__size);
+	  if(result == NULL) {
+	    soap_end (&soap);
+	    soap_done (&soap);
+	    errno = EPROTONOSUPPORT;
+	    return (NULL);
+	  }
+	  p = strdup (result);
+	  soap_end (&soap);
+	  soap_done (&soap);
+	  return (p);
 	}
+	  
 }
 
+
 char **
-surlsfromguid (const char *guid)
+lrc_surlsfromguid (const char *guid)
 {
 	int i;
 	int j;
@@ -304,7 +252,7 @@ surlsfromguid (const char *guid)
 	return (surlarray);
 }
 
-unregister_pfn (const char *guid, const char *pfn)
+lrc_unregister_pfn (const char *guid, const char *pfn)
 {
 	struct impl__removeMappingResponse out;
 	int ret;

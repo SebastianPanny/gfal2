@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/06/10 15:00:43 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/10/24 10:50:19 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -49,7 +49,7 @@ rmc_init (struct soap *soap)
 }
 
 char *
-guidfromlfn (const char *lfn)
+rmc_guidfromlfn (const char *lfn)
 {
 	struct impl__guidForAliasResponse out;
 	char *p;
@@ -82,7 +82,7 @@ guidfromlfn (const char *lfn)
 }
 
 char **
-lfnsforguid (const char *guid)
+rmc_lfnsforguid (const char *guid)
 {
 	int i;
 	int j;
@@ -125,7 +125,12 @@ lfnsforguid (const char *guid)
 	return (lfnarray);
 }
 
-register_alias (const char *guid, const char *lfn)
+rmc_create_alias(const char *guid, const char* lfn)
+{
+  return rmc_register_alias(guid, lfn);
+}
+
+rmc_register_alias (const char *guid, const char *lfn)
 {
 	struct impl__addAliasResponse out;
 	int ret;
@@ -156,7 +161,7 @@ register_alias (const char *guid, const char *lfn)
 	return (0);
 }
 
-unregister_alias (const char *guid, const char *lfn)
+rmc_unregister_alias (const char *guid, const char *lfn)
 {
 	struct impl__removeAliasResponse out;
 	int ret;

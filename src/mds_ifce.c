@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.8 $ $Date: 2004/10/11 13:49:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.9 $ $Date: 2004/10/24 10:50:19 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -177,6 +177,92 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 		free (service_url);
 	}
 	if (*lrc_endpoint == NULL || *rmc_endpoint == NULL) {
+		errno = EINVAL;
+		rc = -1;
+	}
+	ldap_msgfree (reply);
+	ldap_unbind (ld);
+	return (rc);
+}
+
+/* get from the BDII the host for the LFC */
+
+int get_lfc_host(char **lfc_host) {
+	static char ep[] = "GlueServiceAccessPointURL";
+	static char type[] = "GlueServiceType";
+	static char *template = "(&(GlueServiceType=*)(GlueServiceAccessControlRule=%s))";
+	char *attr;
+	static char *attrs[] = {type, ep, NULL};
+	int bdii_port;
+	char bdii_server[75];
+	BerElement *ber;
+	LDAPMessage *entry;
+	char filter[128];
+	LDAP *ld;
+	int rc = 0;
+	LDAPMessage *reply;
+	char *service_type;
+	char *service_url;
+	struct timeval timeout;
+	char **value;
+	char *vo;
+
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+		return (-1);
+	if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
+		errno = EINVAL;
+		return (-1);
+	}
+	if (strlen (template) + strlen (vo) - 2 >= sizeof(filter)) {
+		errno = EINVAL;
+		return (-1);
+	}
+	sprintf (filter, template, vo);
+
+	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
+		return (-1);
+	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		errno = ECONNREFUSED;
+		return (-1);
+	}
+	timeout.tv_sec = 5;
+	timeout.tv_usec = 0;
+	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply) != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+			errno = ETIMEDOUT;
+		else
+			errno = EINVAL;
+		return (-1);
+	}
+	for (entry = ldap_first_entry (ld, reply);
+	     entry != NULL;
+	     entry = ldap_next_entry (ld, entry)) {
+		for (attr = ldap_first_attribute (ld, entry, &ber);
+		     attr != NULL;
+		     attr = ldap_next_attribute (ld, entry, ber)) {
+			value = ldap_get_values (ld, entry, attr);
+			if (strcmp (attr, "GlueServiceType") == 0) {
+				if((service_type = strdup (value[0])) == NULL)
+					rc = -1;
+			} else {	/* GlueServiceAccessPointURL */
+				if((service_url = strdup (value[0])) == NULL)
+					rc = -1;
+			}
+			ldap_value_free (value);
+		}
+		if (rc == 0) {
+			if (strcmp (service_type, "lcg-file-catalog") == 0) {
+			  if ((*lfc_host = strdup (service_url)) == NULL)
+			    rc = -1;
+			}
+		}
+		free (service_type);
+		free (service_url);
+	}
+	if (*lfc_host == NULL) {
 		errno = EINVAL;
 		rc = -1;
 	}

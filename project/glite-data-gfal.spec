@@ -7,6 +7,7 @@ License: GPL
 Group: Application/File
 BuildRoot: %{_builddir}/%{name}-%{version}-root
 Prefix: /opt/lcg
+Requires: LFC-client
 %define __spec_install_post %{nil}
 %define debug_package %{nil}
 %description
@@ -33,6 +34,7 @@ rm -rf $RPM_BUILD_ROOT
 /opt/lcg/bin/gfal_testread
 /opt/lcg/bin/gfal_testrw
 /opt/lcg/bin/gfal_teststat
+/opt/lcg/bin/gfal_testunlink
 /opt/lcg/include/gfal_api.h
 /opt/lcg/include/gfal_constants.h
 /opt/lcg/lib/libgfal.a

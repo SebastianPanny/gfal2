@@ -1,0 +1,487 @@
+/*
+ * Copyright (C) 2004 by CERN
+ */
+
+/*
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.1 $ $Date: 2004/10/24 10:50:18 $ CERN James Casey
+ */
+#include <sys/types.h>
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <uuid/uuid.h>
+
+#include "lfc_api.h"
+#include "gfal_api.h"
+#include "serrno.h"
+
+#define ALLOC_BLOCK_SIZE 16 /* the block size to allocate new pointers in */
+char *lfc_host = NULL;
+
+static  char cns_env[64];
+
+/** extract a hostname from a SURL.  We search for "://" to get the start of
+    the hostname.  Then we keep going to the next slash, colon or end of the
+    SURL. */
+char *
+get_hostname(const char *path) {
+  char *start;
+  char *cp;
+  char *result;
+  char c;
+  char sav_path[CA_MAXSFNLEN+1];
+
+  strcpy(sav_path, path);
+
+  start = strchr(sav_path, ':');
+  if ( start == NULL || *(start+1) != '/' || *(start+2) != '/') {
+    errno = EINVAL;
+    return (NULL);
+  }
+  /* point start to beginning of hostname */
+  start += 3;
+  for(cp = start; *cp != '\0' && *cp != ':' && *cp != '/'; cp++)
+    ;
+  c = *cp;
+  *cp = '\0';
+  if((result = strdup(start)) == NULL) {
+    return (NULL);
+  }
+  *cp = c;
+  return result;
+}
+
+extern char **environ;
+
+static int 
+lfc_init (void) {
+  /*  char **p;
+  for(p = environ; *p != NULL; p++) {
+    printf("ENV : %s\n", *p);
+  }
+  */
+  if (lfc_host == NULL) {
+    if((lfc_host = getenv("LFC_HOST")) == NULL &&
+	 get_lfc_host(&lfc_host) < 0) {
+      errno = EINVAL;
+      return (-1);
+    }
+    if( 10 + strlen(lfc_host) > 64) {
+      errno = EINVAL;
+      return (-1);
+    }
+    sprintf(cns_env, "CNS_HOST=%s", lfc_host);
+    if(putenv(cns_env) < 0) {
+      return (-1);
+    }
+  }
+  return (0);
+}
+
+lfc_getfilesizeg(const char *guid, long long *sizep) {
+  struct lfc_filestatg statg;
+
+  if(lfc_init() < 0)
+    return (-1);
+
+  if(lfc_statg(NULL, guid, &statg) < 0) {
+    if(serrno = ENOENT)
+      errno = ENOENT;
+    else
+      errno = ECOMM;
+    return (-1);
+  }
+  
+  *sizep = (u_signed64) statg.filesize;
+  return (0);
+}
+
+/** lfc_guidforpfn : Get the guid for a replica.  If the replica does not
+    exist, fail with ENOENT */
+char *
+lfc_guidforpfn (const char *pfn)
+{
+  char *p;
+  struct lfc_filestatg statg;
+
+  if(lfc_init() < 0)
+    return (NULL);
+
+  if(lfc_statr(pfn, &statg) < 0) {
+    if(serrno == ENOENT) {
+      errno = ENOENT;
+    } else {
+      errno = ECOMM;
+    }
+    return (NULL);
+  }
+  if((p = strdup(statg.guid)) == NULL) {
+    return (NULL);
+  }
+  return (p);
+}
+
+lfc_guid_exists (const char *guid)
+{
+  struct lfc_filestatg statg;
+
+  if(lfc_init() < 0)
+    return (-1);
+
+  if(lfc_statg(NULL, guid, &statg) < 0) {
+    if(serrno == ENOENT) {
+      return (0);
+    }
+    errno = ECOMM;
+    return (-1);
+  }
+  return (1);
+}
+
+lfc_register_pfn (const char *guid, const char *pfn)
+{
+  char *hostname;
+
+  if(lfc_init() < 0)
+    return (-1);
+  
+  if((hostname = get_hostname(pfn)) == NULL) {
+    return (-1);
+  }
+
+  if(lfc_addreplica(guid, NULL, hostname, pfn) < 0) {
+    if (serrno == ENOENT)
+      errno = ENOENT;
+    else if(serrno == EEXIST)
+      errno = EEXIST;
+    else
+      errno = ECOMM;
+    free(hostname);
+    return (-1);
+  }
+  free(hostname);
+  return (0);
+}
+
+
+char **
+lfc_surlsfromguid (const char *guid)
+{
+  struct lfc_filestatg statg;
+  lfc_list list;
+  struct lfc_filereplica* rp;
+  int flags;
+  char **p;
+  size_t size = ALLOC_BLOCK_SIZE;
+  size_t i = 0;
+  
+  if(lfc_init() < 0)
+    return (NULL);
+
+  /* allocate some memory for the pointers */
+  if((p = calloc(size, sizeof(char*))) == NULL) {
+    return (NULL);
+  }
+
+  flags = CNS_LIST_BEGIN;
+  while((rp = lfc_listreplica(NULL, guid, flags, &list)) != NULL) {
+    if(flags == CNS_LIST_BEGIN) 
+      flags = CNS_LIST_CONTINUE;
+    
+    if((p[i++] = strdup(rp->sfn)) == NULL) {
+      (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+      return (NULL);
+    }
+    
+    if(i >= size) {
+      size += ALLOC_BLOCK_SIZE;
+      if((p = realloc(p, size * sizeof(char*))) == NULL) {
+	(void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+	return (NULL);
+      }
+    }
+  } 
+  (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+
+  /* no results */
+  if(i == 0) {
+    free(p);
+    errno = ENOENT;
+    return (NULL);
+  }
+  
+  p[i++]='\0';
+  /* and trim */
+  if((p = realloc(p, i * sizeof(char*))) == NULL)
+    return (NULL);
+  
+  return (p);
+}
+
+char *
+lfc_surlfromguid (const char *guid)
+{
+  char **surls;
+  char **cp;
+  char *result;
+  
+  if(lfc_init() < 0)
+    return (NULL);
+
+  if((surls = lfc_surlsfromguid(guid)) < 0) {
+    return (NULL);
+  }
+  
+  if(surls == NULL) {
+ 	errno = ENOENT;
+    return (NULL);
+  }
+  result = getbestfile(surls, (sizeof(surls)/sizeof(char*)));
+
+  for(cp = surls; *cp != NULL; ++cp) {
+    if(*cp != result) {
+      free (*cp);
+    }
+  }
+  free (surls);
+  return (result);
+}
+
+/** lfc_unregister_pfn : We unregister a pfn from a guid, but only if it a
+    replica for that guid */
+lfc_unregister_pfn (const char *guid, const char *pfn)
+{
+  if(lfc_init() < 0)
+    return (-1);
+  
+  if(lfc_delreplica(guid, NULL, pfn) < 0) {
+    if(serrno == ENOENT) {
+      return (0);
+    }
+    errno = ECOMM;
+    return (-1);
+  }
+  return (0);
+}
+
+char *
+lfc_guidfromlfn (const char *lfn)
+{
+  struct lfc_filestatg statg;
+  char *p;
+
+  if(lfc_init() < 0)
+    return (NULL);
+
+  if(lfc_statg(lfn, NULL, &statg) < 0) {
+    if(serrno == ENOENT) {
+      errno = ENOENT;
+    } else {
+      errno = ECOMM;
+    }
+    return (NULL);
+  }
+  if((p = strdup(statg.guid)) == NULL)
+    return (NULL);
+  return (p);
+}
+
+char **
+lfc_lfnsforguid (const char *guid)
+{
+  struct lfc_filestatg statg;
+  lfc_list list;
+  struct lfc_linkinfo* lp;
+  int flags;
+  char **p;
+  size_t size = ALLOC_BLOCK_SIZE;
+  size_t i = 0;
+  
+  if(lfc_init() < 0)
+    return (NULL);
+
+  /* allocate some memory for the pointers */
+  if((p = calloc(size, sizeof(char*))) == NULL) {
+    return (NULL);
+  }
+
+  flags = CNS_LIST_BEGIN;
+  while((lp = lfc_listlinks(NULL, guid, flags, &list)) != NULL) {
+    if(flags == CNS_LIST_BEGIN) 
+      flags = CNS_LIST_CONTINUE;
+    
+    if((p[i++] = strdup(lp->path)) == NULL) {
+      (void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
+      return (NULL);
+    }
+    
+    if(i >= size) {
+      size += ALLOC_BLOCK_SIZE;
+      if((p = realloc(p, size * sizeof(char*))) == NULL) {
+	(void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
+	return (NULL);
+      }
+    }
+  } 
+  (void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
+  /* no results */
+  if( i== 0) {
+    free(p);
+    errno = ENOENT;
+    return (NULL);
+  }
+
+  p[i++] = '\0';
+  if((p = realloc(p, i * sizeof(char*))) == NULL)
+    return (NULL);
+  return (p);
+}
+
+lfc_create_alias (const char *guid, const char *lfn, long long size)
+{
+  if(lfc_init() < 0)
+    return (-1);
+
+  lfc_starttrans();
+  if(lfc_creatg(lfn, guid, 0775) < 0) {
+    if(serrno == EEXIST) 
+      errno = EEXIST;
+    else if(serrno == ENAMETOOLONG) 
+      errno = ENAMETOOLONG;
+    else
+      errno = ECOMM;
+    return (-1);
+  }
+  if(lfc_setfsizeg(guid, size, NULL, NULL) < 0) {
+    errno = ECOMM;
+    return (-1);
+  }
+  lfc_endtrans();
+  return (0);
+}
+
+lfc_register_alias (const char *guid, const char *lfn)
+{
+  struct lfc_filestatg statg;
+  char master_lfn[CA_MAXPATHLEN+1];
+  
+  if(lfc_init() < 0)
+    return (-1);
+
+  lfc_starttrans();
+  if(lfc_statg(NULL, guid, &statg) < 0) {
+    if(serrno == ENOENT) {
+      errno = ENOENT;
+    } else {
+      errno = ECOMM;
+    }
+    return (-1);
+  }
+  /* now we do a getpath() to get the master lfn */
+  if (lfc_getpath(lfc_host, statg.fileid, master_lfn) <0 ) {
+    errno = ECOMM;
+    return (-1);
+  }
+
+  /* and finally register */
+  if(lfc_symlink(master_lfn, lfn) < 0) {
+    errno = ECOMM;
+    return (-1);
+  }
+  lfc_endtrans();
+  return (0);
+}
+
+lfc_unregister_alias (const char *guid, const char *lfn)
+{
+  struct lfc_filestatg statg;
+  struct lfc_filestat stat;
+
+  if(lfc_init() < 0)
+    return (-1);
+
+  lfc_starttrans();
+  /*  In the case of the master lfn being unlinked already, statg will
+      return ENOENT.  We then check lstat in case it's a hanging link ?  */
+  if(lfc_statg(lfn, guid, &statg) < 0 ) {
+    if (serrno == ENOENT) {
+      if(lfc_lstat(lfn, &stat) < 0 ) {
+	if(serrno == ENOENT) 
+	  errno = ENOENT;
+	else
+	  errno = ECOMM;
+	return (-1);
+      } else {
+	/* all ok, continue */
+      }
+    } else {
+      errno = ECOMM;
+      return (-1);
+    }
+  }
+
+  /* lfn maps to the guid - unlink it */
+  if(lfc_unlink(lfn) < 0) {
+    if(serrno == ENOENT) 
+      errno = ENOENT;
+    else if(serrno == EEXIST)
+      errno = EEXIST;
+    else if(serrno == ENOTDIR)
+      errno = ENOTDIR;
+    else
+      errno = ECOMM;
+    return (-1);
+  }
+  lfc_endtrans();
+  return (0);
+}
+
+int 
+lfc_mkdirp(const char *path, mode_t mode) 
+{
+  int c;
+  char *lastslash = NULL;
+  char *p;
+  char *p1;
+  char *q;
+  char sav_path[CA_MAXPATHLEN+1];
+  struct lfc_filestatg statbuf;
+  uuid_t uuid;
+  char uuid_buf[CA_MAXGUIDLEN+1];
+
+  if (strlen (path) >= sizeof(sav_path)) {
+    errno = EINVAL;
+    return (-1);
+  }
+  strcpy (sav_path, path);
+  p1 = strchr (sav_path, '/');
+  p = strrchr (sav_path, '/');
+  while (p > p1) {
+    if (lastslash == NULL) lastslash = p;
+    *p = '\0';
+    c = lfc_statg (sav_path, NULL, &statbuf);
+    if (c == 0) {
+      *p = '/';
+      break;
+    }
+    if (serrno != ENOENT) 
+      return (c);
+    q = strrchr (sav_path, '/');
+    *p = '/';
+    p = q;
+  }
+  c = 0;
+  while (c == 0 && (p = strchr (p + 1, '/')) && p <= lastslash) {
+    *p = '\0';
+    uuid_generate(uuid);
+    uuid_unparse(uuid, uuid_buf);
+    c = lfc_mkdirg (sav_path, uuid_buf, mode);
+    if(c != 0) {
+      errno = serrno;
+    }
+    *p = '/';
+  }
+  return (c);
+}

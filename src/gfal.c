@@ -3,11 +3,12 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.9 $ $Date: 2004/09/24 09:03:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.10 $ $Date: 2004/10/24 10:50:18 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
 #include <errno.h>
+#include <stdio.h>
 #include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -1071,4 +1072,344 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fi
 		errno = EPROTONOSUPPORT;
 		return (NULL);
 	}
+}
+
+get_cat_type(char **cat_type) {
+	char *cat_env;
+	/* JC FIXME no hardcoded strings */
+	char *default_cat = "edg";
+
+	if((cat_env = getenv ("LCG_CATALOG_TYPE")) == NULL) {
+		/* default catalogs if no environment variable specified */
+		cat_env = default_cat;		
+	}
+	if((*cat_type = strdup(cat_env)) == NULL) {
+		return (-1);
+	}
+	return 0;
+}
+
+getfilesizeg (const char *guid, long long* filesize)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (-1);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_getfilesizeg (guid, filesize));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+char *
+guidforpfn (const char *pfn)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (NULL);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (lrc_guidforpfn (pfn));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_guidforpfn (pfn));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (NULL);
+	}
+}
+
+guid_exists (const char *guid)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (-1);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (lrc_guid_exists (guid));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_guid_exists (guid));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+register_pfn (const char *guid, const char *pfn)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (-1);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (lrc_register_pfn (guid, pfn));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_register_pfn (guid, pfn));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+setfilesize (const char *pfn, long long filesize)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (-1);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (lrc_setfilesize (pfn, filesize));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+char *
+surlfromguid (const char *guid)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (NULL);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (lrc_surlfromguid (guid));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_surlfromguid (guid));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (NULL);
+	}
+}
+
+char **
+surlsfromguid (const char *guid)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (NULL);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (lrc_surlsfromguid (guid));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_surlsfromguid (guid));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (NULL);
+	}
+}
+
+unregister_pfn (const char *guid, const char *pfn)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (-1);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (lrc_unregister_pfn (guid, pfn));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_unregister_pfn (guid, pfn));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+char *
+guidfromlfn (const char *lfn)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (NULL);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (rmc_guidfromlfn (lfn));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_guidfromlfn (lfn));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (NULL);
+	}
+}
+
+char **
+lfnsforguid (const char *guid)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (NULL);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (rmc_lfnsforguid (guid));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_lfnsforguid (guid));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (NULL);
+	}
+}
+
+create_alias (const char *guid, const char *lfn, long long size)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (-1);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (rmc_register_alias (guid, lfn));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_create_alias (guid, lfn, size));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+register_alias (const char *guid, const char *lfn)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (-1);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (rmc_register_alias (guid, lfn));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_register_alias (guid, lfn));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+unregister_alias (const char *guid, const char *lfn)
+{
+	char *cat_type;
+	if(get_cat_type (&cat_type) < 0) {
+		return (-1);
+	}
+	if(strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (rmc_unregister_alias (guid, lfn));
+	} else if(strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_unregister_alias (guid, lfn));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+int
+getdomainnm (char *name, int namelen)
+{
+  FILE *fd;
+  char line[300];
+  char *p;
+  
+  if ((fd = fopen ("/etc/resolv.conf", "r")) != NULL) {
+    while (fgets (line, sizeof(line), fd) != NULL) {
+      if ((strncmp (line, "domain", 6) == 0 ||
+	   strncmp (line, "search", 6) == 0) && line[6] == ' ')
+	{
+	  fclose (fd);
+	  p = line + 6;
+	  while (*p == ' ')
+	    p++;
+	  if (*p)
+	    *(p + strlen (p) - 1) = '\0';
+	  if (strlen (p) > namelen) {
+	    errno = EINVAL;
+	    return (-1);
+	  }
+	  strcpy (name, p);
+	  return (0);
+	}
+    }
+    fclose (fd);
+  }
+  return (-1);
+}
+
+char *
+getbestfile(char **surls, int size)
+{
+  char dname[64];
+  int first;
+  int i;
+  char  *p1, *p2;
+  char *p;
+  int ret;
+
+  /* skip entries not in the form srm: or sfn:
+   * take entry on same domain if it exists else
+   * take the first supported entry
+   */
+  first = -1;
+  *dname = '\0';
+  (void) getdomainnm (dname, sizeof(dname));
+  for (i = 0; i < size; i++) {
+    p = surls[i];
+    if (strncmp (p, "srm://", 6) && strncmp (p, "sfn://", 6))
+      continue;
+    if ((p1 = strchr (p + 6, '/')) == NULL) continue;
+    *p1 = '\0';
+    if ((p2 = strchr (p + 6, ':')))
+      *p2 = '\0';
+    if ((p = strchr (p + 6, '.')) == NULL) continue;
+    if (first < 0) first = i;
+    ret = strcmp (p + 1, dname);
+    *p1 = '/';
+    if (p2) *p2 = ':';
+    if (ret == 0) break;	/* domains match ==> local replica */
+  }
+  if (i == size) {	/* no entry on same domain */
+    if (first < 0) {	/* only non suported entries */
+      errno = EPROTONOSUPPORT;
+      return (NULL);
+    }
+    i = first;
+  }
+  return surls[i];
 }
