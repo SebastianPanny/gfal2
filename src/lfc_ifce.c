@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.8 $ $Date: 2004/12/13 16:11:41 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.9 $ $Date: 2004/12/14 14:07:39 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -201,10 +201,8 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
   } 
   (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
 
-  /* no results */
+  /* no results - return NULL */
   if(i == 0) {
-    free(p);
-    errno = ENOENT;
     return (NULL);
   }
   
@@ -226,12 +224,8 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
   if(lfc_init(errbuf, errbufsz) < 0)
     return (NULL);
 
-  if((surls = lfc_surlsfromguid(guid, errbuf, errbufsz)) < 0) {
-    return (NULL);
-  }
-  
-  if(surls == NULL) {
- 	errno = ENOENT;
+  if((surls = lfc_surlsfromguid(guid, errbuf, errbufsz)) == NULL) {
+    errno = ENOENT;
     return (NULL);
   }
   result = getbestfile(surls, (sizeof(surls)/sizeof(char*)));
