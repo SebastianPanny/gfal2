@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.3 $ $Date: 2004/02/10 15:41:02 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.4 $ $Date: 2004/03/26 10:53:28 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -229,7 +229,7 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename)) == NULL)
+		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
 		if ((surl = surlfromguid (guid)) == NULL) {
 			free (guid);
@@ -241,7 +241,7 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 		free (surl);
 		return (rc);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename)) == NULL)
+		if ((surl = surlfromguid (filename + 5)) == NULL)
 			return (-1);
 		if ((rc = getfilemd (surl, &statb64)) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
@@ -277,7 +277,7 @@ gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename)) == NULL)
+		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
 		if ((surl = surlfromguid (guid)) == NULL) {
 			free (guid);
@@ -288,7 +288,7 @@ gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 		free (surl);
 		return (rc);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename)) == NULL)
+		if ((surl = surlfromguid (filename + 5)) == NULL)
 			return (-1);
 		rc = getfilemd (surl, statbuf);
 		free (surl);
@@ -350,7 +350,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	supported_protocols = get_sup_proto ();
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename)) == NULL)
+		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
 		if ((surl = surlfromguid (guid)) == NULL) {
 			free (guid);
@@ -363,7 +363,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 			return (-1);
 		}
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename)) == NULL)
+		if ((surl = surlfromguid (filename + 5)) == NULL)
 			return (-1);
 		if ((turl = turlfromsurl (surl, supported_protocols, flags,
 		    &reqid, &fileid)) == NULL) {
@@ -576,7 +576,7 @@ gfal_stat (const char *filename, struct stat *statbuf)
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename)) == NULL)
+		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
 		if ((surl = surlfromguid (guid)) == NULL) {
 			free (guid);
@@ -588,7 +588,7 @@ gfal_stat (const char *filename, struct stat *statbuf)
 		free (surl);
 		return (rc);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename)) == NULL)
+		if ((surl = surlfromguid (filename + 5)) == NULL)
 			return (-1);
 		if ((rc = getfilemd (surl, &statb64)) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
@@ -624,7 +624,7 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename)) == NULL)
+		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
 		if ((surl = surlfromguid (guid)) == NULL) {
 			free (guid);
@@ -635,7 +635,7 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 		free (surl);
 		return (rc);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename)) == NULL)
+		if ((surl = surlfromguid (filename + 5)) == NULL)
 			return (-1);
 		rc = getfilemd (surl, statbuf);
 		free (surl);
