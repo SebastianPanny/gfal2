@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.2 $ $Date: 2004/02/10 15:41:02 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.3 $ $Date: 2004/04/06 10:00:10 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -79,10 +79,10 @@ checkdcaplib (struct proto_ops *pops)
 	}
 	pops->libok = 1;
 	pops->geterror = (int (*) ()) dlsym (dlhandle, "__dc_errno");
-	pops->access = (int (*) (const char *, int)) &access;
+	pops->access = (int (*) (const char *, int)) dlsym (dlhandle, "dc_access");
 	pops->chmod = (int (*) (const char *, mode_t)) &chmod;
 	pops->close = (int (*) (int)) dlsym (dlhandle, "dc_close");
-	pops->closedir = (int (*) (DIR *)) &closedir;
+	pops->closedir = (int (*) (DIR *)) dlsym (dlhandle, "dc_closedir");
 	if (dc64) {
 		pops->lseek = (off_t (*) (int, off_t, int)) &dc_lseek32;
 		pops->lseek64 = (off64_t (*) (int, off64_t, int)) dlsym (dlhandle, "dc_lseek");
@@ -94,10 +94,10 @@ checkdcaplib (struct proto_ops *pops)
 	pops->lstat64 = (int (*) (const char *, struct stat64 *)) dlsym (dlhandle, "dc_lstat64");
 	pops->mkdir = (int (*) (const char *, mode_t)) &mkdir;
 	pops->open = (int (*) (const char *, int, ...)) dlsym (dlhandle, "dc_open");
-	pops->opendir = (DIR * (*) (const char *)) &opendir;
+	pops->opendir = (DIR * (*) (const char *)) dlsym (dlhandle, "dc_opendir");
 	pops->read = (ssize_t (*) (int, void *, size_t)) dlsym (dlhandle, "dc_read");
-	pops->readdir = (struct dirent * (*) (DIR *)) &readdir;
-	pops->readdir64 = (struct dirent64 * (*) (DIR *)) &readdir64;
+	pops->readdir = (struct dirent * (*) (DIR *)) dlsym (dlhandle, "dc_readdir");
+	pops->readdir64 = (struct dirent64 * (*) (DIR *)) dlsym (dlhandle, "dc_readdir64");
 	pops->rename = (int (*) (const char *, const char *)) &rename;
 	pops->rmdir = (int (*) (const char *)) &rmdir;
 	pops->setfilchg = (ssize_t (*) (int, const void *, size_t)) &dummysetfilchg;
@@ -221,6 +221,16 @@ static struct proto_ops pops_array[] = {
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 	},
+	{
+		"gsidcap", 0, &checkdcaplib, NULL, &mapdcaperror, NULL, NULL,
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+	},
+	{
+		"kdcap", 0, &checkdcaplib, NULL, &mapdcaperror, NULL, NULL,
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+	},
 #endif
 	{
 		"", 1, NULL, NULL, NULL, NULL, NULL,
@@ -239,15 +249,24 @@ struct proto_ops *
 find_pops (const char *protocol)
 {
 	struct proto_ops *pops;
+	struct proto_ops *tmp;
 
 	for (pops = pops_array; *pops->proto_name; pops++) {
 		if (strcmp (protocol, pops->proto_name) == 0)
 			break;
 	}
 	if (*pops->proto_name) {
-		if (pops->libok > 0 ||
-		    (pops->libok == 0 && pops->checkprotolib (pops) == 0))
+		if (pops->libok > 0)
 			return (pops);
+		if (pops->libok == 0 && pops->checkprotolib (pops) == 0) {
+			for (tmp = pops_array; *tmp->proto_name; tmp++) {
+				if (tmp != pops &&
+				    tmp->checkprotolib == pops->checkprotolib)
+					memcpy (&tmp->libok, &pops->libok,
+					    sizeof(struct proto_ops) - sizeof(char *));
+			}
+			return (pops);
+		}
 	}
 	errno = EPROTONOSUPPORT;
 	return (NULL);
@@ -266,11 +285,20 @@ get_sup_proto ()
 	int i = 0;
 	struct proto_ops *pops;
 	static char *supported_protocols[sizeof(pops_array)/sizeof(struct proto_ops)];
+	struct proto_ops *tmp;
 
 	for (pops = pops_array;; pops++) {
 		if (pops->libok < 0) continue;		/* library not accessible */
-		if (pops->libok == 0 && pops->checkprotolib (pops))
-			continue;
+		if (pops->libok == 0) {
+			if (pops->checkprotolib (pops))
+				continue;
+			for (tmp = pops_array; *tmp->proto_name; tmp++) {
+				if (tmp != pops &&
+				    tmp->checkprotolib == pops->checkprotolib)
+					memcpy (&tmp->libok, &pops->libok,
+					    sizeof(struct proto_ops) - sizeof(char *));
+			}
+		}
 		supported_protocols[i++] = pops->proto_name;
 		if (*pops->proto_name == '\0') break;
 	}

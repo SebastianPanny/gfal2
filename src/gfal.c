@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.4 $ $Date: 2004/03/26 10:53:28 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.5 $ $Date: 2004/04/06 10:01:12 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -780,8 +780,6 @@ parseturl (const char *turl, char **protocol, char **pfn)
 
 	if (strcmp (proto, "file") == 0) {
 		*pfn = p + 1;
-	} else if (strcmp (proto, "dcap") == 0) {
-		*pfn = (char *) turl;
 	} else if (strcmp (proto, "rfio") == 0) {
 		p += 2;
 		if (*p != '/') {
@@ -801,10 +799,8 @@ parseturl (const char *turl, char **protocol, char **pfn)
 				*p = ':';
 			*pfn = path;
 		}
-	} else {
-		errno = EPROTONOSUPPORT;
-		return (-1);
-	}
+	} else 
+		*pfn = (char *) turl;
 	*protocol = proto;
 	return (0);
 }
