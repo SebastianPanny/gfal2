@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.13 $ $Date: 2005/01/06 15:33:43 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.14 $ $Date: 2005/01/13 17:03:13 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -85,11 +85,12 @@ int lfc_replica_exists(const char *guid, char *errbuf, int errbufsz) {
     return (-1);
   
   if((rp = lfc_listreplica(NULL, guid, CNS_LIST_BEGIN, &list)) == NULL) {
+    (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
     return (0);
-  } 
-  (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
-  
-  return (1);
+  } else { 
+    (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+    return (1);
+  }
 }
 
 int
@@ -103,8 +104,10 @@ lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep, char *errbuf, int errbufs
   if(lfc_statg(NULL, guid, &statg) < 0) {
     if (serrno < 1000) 
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (-1);
   }
   
@@ -126,8 +129,10 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
   if(lfc_statr(pfn, &statg) < 0) {
     if(serrno < 1000)
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (NULL);
   }
   if((p = strdup(statg.guid)) == NULL) {
@@ -149,8 +154,10 @@ lfc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 	return (0);
     if (serrno < 1000) 
       errno = serrno;
-    else 
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (-1);
   }
   return (1);
@@ -171,8 +178,10 @@ lfc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
   if(lfc_addreplica(guid, NULL, hostname, pfn) < 0) {
     if (serrno < 1000)
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     free(hostname);
     return (-1);
   }
@@ -205,12 +214,14 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
     
     if((p[i++] = strdup(rp->sfn)) == NULL) {
       (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+      free(p);
       return (NULL);
     }
     
     if(i >= size) {
       size += ALLOC_BLOCK_SIZE;
       if((p = (char**)realloc(p, size * sizeof(char*))) == NULL) {
+	/* TODO : JC what about freeing old p */
 	(void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
 	return (NULL);
       }
@@ -220,6 +231,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 
   /* no results - return NULL */
   if(i == 0) {
+    free (p);
     return (NULL);
   }
   
@@ -270,8 +282,10 @@ lfc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
     }
     if(serrno < 1000) 
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (-1);
   }
   return (0);
@@ -289,8 +303,10 @@ lfc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
   if(lfc_statg(lfn, NULL, &statg) < 0) {
     if(serrno < 1000)
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (NULL);
   }
   if((p = strdup(statg.guid)) == NULL)
@@ -358,15 +374,19 @@ lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *err
   if(lfc_creatg(lfn, guid, 0775) < 0) {
     if(serrno < 1000) 
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (-1);
   }
   if(lfc_setfsizeg(guid, size, NULL, NULL) < 0) {
     if(serrno < 1000)
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (-1);
   }
   lfc_endtrans();
@@ -386,16 +406,20 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
   if(lfc_statg(NULL, guid, &statg) < 0) {
     if(serrno < 1000) 
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (-1);
   }
   /* now we do a getpath() to get the master lfn */
   if (lfc_getpath(lfc_host, statg.fileid, master_lfn) <0 ) {
     if (serrno < 1000)
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (-1);
   }
 
@@ -403,8 +427,10 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
   if(lfc_symlink(master_lfn, lfn) < 0) {
     if (serrno < 1000)
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (-1);
   }
   lfc_endtrans();
@@ -428,8 +454,10 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
       if(lfc_lstat(lfn, &stat) < 0 ) {
 	if(serrno < 1000 ) 
 	  errno = serrno;
-	else
+	else {
+	  gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
 	  errno = ECOMM;
+	}
 	return (-1);
       } else {
 	/* all ok, continue */
@@ -437,8 +465,10 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
     } else {
       if(serrno < 1000) 
 	errno = serrno;
-      else
+      else {
+	gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
 	errno = ECOMM;
+      }
       return (-1);
     }
   }
@@ -447,8 +477,10 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
   if(lfc_unlink(lfn) < 0) {
     if(serrno < 1000) 
       errno = serrno;
-    else
+    else {
+      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
       errno = ECOMM;
+    }
     return (-1);
   }
   lfc_endtrans();
@@ -487,8 +519,10 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
     if (serrno != ENOENT) {
       if(serrno < 1000) 
 	errno = serrno;
-      else
+      else {
+	gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
 	errno = ECOMM;
+      }
       return (c);
     }
     q = strrchr (sav_path, '/');
@@ -504,8 +538,10 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
     if(c != 0) {
       if (serrno < 1000)
 	errno = serrno;
-      else 
+      else {
+	gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
 	errno = ECOMM;
+      }
     }
     *p = '/';
   }
