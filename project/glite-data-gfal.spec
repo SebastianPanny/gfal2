@@ -1,6 +1,6 @@
 Summary: Grid File Access Library
 Name: GFAL-client
-Version: 1.3.10
+Version: 1.3.11
 Release: 1
 Source0: %{name}-%{version}.src.tar.gz
 License: GPL
@@ -21,8 +21,8 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make DESTDIR=$RPM_BUILD_ROOT install
-make DESTDIR=$RPM_BUILD_ROOT install.man
+make prefix=$RPM_BUILD_ROOT install
+make prefix=$RPM_BUILD_ROOT install.man
 
 %clean
 rm -rf $RPM_BUILD_ROOT

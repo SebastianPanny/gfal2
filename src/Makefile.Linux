@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.8 $ $Date: 2004/09/21 15:12:24 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.9 $ $Date: 2004/09/22 14:34:35 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -104,111 +104,111 @@ gfal_teststat: gfal_api.h libgfal.so
 gfal_testunlink: gfal_api.h libgfal.so
 	$(CC) -o gfal_testunlink gfal_testunlink.c -L. -lgfal $(SECLIB)
 
-install: $(DESTDIR)/opt/lcg/bin \
-	 $(DESTDIR)/opt/lcg/bin/gfal_testdir \
-	 $(DESTDIR)/opt/lcg/bin/gfal_testread \
-	 $(DESTDIR)/opt/lcg/bin/gfal_testrw \
-	 $(DESTDIR)/opt/lcg/bin/gfal_teststat \
-	 $(DESTDIR)/opt/lcg/bin/gfal_testunlink \
-	 $(DESTDIR)/opt/lcg/include $(DESTDIR)/opt/lcg/include/gfal_api.h \
-	 $(DESTDIR)/opt/lcg/include/gfal_constants.h \
-	 $(DESTDIR)/opt/lcg/lib \
-	 $(DESTDIR)/opt/lcg/lib/libgfal.a $(DESTDIR)/opt/lcg/lib/libgfal.so
+install: $(prefix)/opt/lcg/bin \
+	 $(prefix)/opt/lcg/bin/gfal_testdir \
+	 $(prefix)/opt/lcg/bin/gfal_testread \
+	 $(prefix)/opt/lcg/bin/gfal_testrw \
+	 $(prefix)/opt/lcg/bin/gfal_teststat \
+	 $(prefix)/opt/lcg/bin/gfal_testunlink \
+	 $(prefix)/opt/lcg/include $(prefix)/opt/lcg/include/gfal_api.h \
+	 $(prefix)/opt/lcg/include/gfal_constants.h \
+	 $(prefix)/opt/lcg/lib \
+	 $(prefix)/opt/lcg/lib/libgfal.a $(prefix)/opt/lcg/lib/libgfal.so
 
-$(DESTDIR)/opt/lcg/bin:
+$(prefix)/opt/lcg/bin:
 	mkdir -p $@
 
-$(DESTDIR)/opt/lcg/bin/gfal_testdir: gfal_testdir
-	-mv $@ $(DESTDIR)/opt/lcg/bin/OLD$?
+$(prefix)/opt/lcg/bin/gfal_testdir: gfal_testdir
+	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/bin/gfal_testread: gfal_testread
-	-mv $@ $(DESTDIR)/opt/lcg/bin/OLD$?
+$(prefix)/opt/lcg/bin/gfal_testread: gfal_testread
+	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/bin/gfal_testrw: gfal_testrw
-	-mv $@ $(DESTDIR)/opt/lcg/bin/OLD$?
+$(prefix)/opt/lcg/bin/gfal_testrw: gfal_testrw
+	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/bin/gfal_teststat: gfal_teststat
-	-mv $@ $(DESTDIR)/opt/lcg/bin/OLD$?
+$(prefix)/opt/lcg/bin/gfal_teststat: gfal_teststat
+	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/bin/gfal_testunlink: gfal_testunlink
-	-mv $@ $(DESTDIR)/opt/lcg/bin/OLD$?
+$(prefix)/opt/lcg/bin/gfal_testunlink: gfal_testunlink
+	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
 	cp -p $? $@
 
-$(DESTDIR)/opt/lcg/include:
+$(prefix)/opt/lcg/include:
 	mkdir -p $@
 
-$(DESTDIR)/opt/lcg/include/gfal_api.h: gfal_api.h
-	-mv $@ $(DESTDIR)/opt/lcg/include/OLD$?
+$(prefix)/opt/lcg/include/gfal_api.h: gfal_api.h
+	-mv $@ $(prefix)/opt/lcg/include/OLD$?
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/include/gfal_constants.h: gfal_constants.h
-	-mv $@ $(DESTDIR)/opt/lcg/include/OLD$?
+$(prefix)/opt/lcg/include/gfal_constants.h: gfal_constants.h
+	-mv $@ $(prefix)/opt/lcg/include/OLD$?
 	cp -p $? $@
 
-$(DESTDIR)/opt/lcg/lib:
+$(prefix)/opt/lcg/lib:
 	mkdir -p $@
 
-$(DESTDIR)/opt/lcg/lib/libgfal.a: libgfal.a
-	-mv $@ $(DESTDIR)/opt/lcg/lib/OLD$?
+$(prefix)/opt/lcg/lib/libgfal.a: libgfal.a
+	-mv $@ $(prefix)/opt/lcg/lib/OLD$?
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/lib/libgfal.so: libgfal.so
-	-mv $@ $(DESTDIR)/opt/lcg/lib/OLD$?
+$(prefix)/opt/lcg/lib/libgfal.so: libgfal.so
+	-mv $@ $(prefix)/opt/lcg/lib/OLD$?
 	cp -p $? $@
 
-install.man: $(DESTDIR)/opt/lcg/man/man3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_access.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_chmod.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_close.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_closedir.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_creat.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_lseek.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_mkdir.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_open.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_opendir.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_read.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_readdir.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_rename.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_rmdir.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_stat.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_unlink.3 \
-	     $(DESTDIR)/opt/lcg/man/man3/gfal_write.3
+install.man: $(prefix)/opt/lcg/man/man3 \
+	     $(prefix)/opt/lcg/man/man3/gfal.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_access.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_chmod.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_close.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_closedir.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_creat.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_lseek.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_mkdir.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_open.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_opendir.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_read.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_readdir.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_rename.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_rmdir.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_stat.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_unlink.3 \
+	     $(prefix)/opt/lcg/man/man3/gfal_write.3
 
-$(DESTDIR)/opt/lcg/man/man3:
+$(prefix)/opt/lcg/man/man3:
 	mkdir -p $@
 
-$(DESTDIR)/opt/lcg/man/man3/gfal.3: gfal.man
+$(prefix)/opt/lcg/man/man3/gfal.3: gfal.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_access.3: gfal_access.man
+$(prefix)/opt/lcg/man/man3/gfal_access.3: gfal_access.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_chmod.3: gfal_chmod.man
+$(prefix)/opt/lcg/man/man3/gfal_chmod.3: gfal_chmod.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_close.3: gfal_close.man
+$(prefix)/opt/lcg/man/man3/gfal_close.3: gfal_close.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_closedir.3: gfal_closedir.man
+$(prefix)/opt/lcg/man/man3/gfal_closedir.3: gfal_closedir.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_creat.3: gfal_creat.man
+$(prefix)/opt/lcg/man/man3/gfal_creat.3: gfal_creat.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_lseek.3: gfal_lseek.man
+$(prefix)/opt/lcg/man/man3/gfal_lseek.3: gfal_lseek.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_mkdir.3: gfal_mkdir.man
+$(prefix)/opt/lcg/man/man3/gfal_mkdir.3: gfal_mkdir.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_open.3: gfal_open.man
+$(prefix)/opt/lcg/man/man3/gfal_open.3: gfal_open.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_opendir.3: gfal_opendir.man
+$(prefix)/opt/lcg/man/man3/gfal_opendir.3: gfal_opendir.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_read.3: gfal_read.man
+$(prefix)/opt/lcg/man/man3/gfal_read.3: gfal_read.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_readdir.3: gfal_readdir.man
+$(prefix)/opt/lcg/man/man3/gfal_readdir.3: gfal_readdir.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_rename.3: gfal_rename.man
+$(prefix)/opt/lcg/man/man3/gfal_rename.3: gfal_rename.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_rmdir.3: gfal_rmdir.man
+$(prefix)/opt/lcg/man/man3/gfal_rmdir.3: gfal_rmdir.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_stat.3: gfal_stat.man
+$(prefix)/opt/lcg/man/man3/gfal_stat.3: gfal_stat.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_unlink.3: gfal_unlink.man
+$(prefix)/opt/lcg/man/man3/gfal_unlink.3: gfal_unlink.man
 	cp -p $? $@
-$(DESTDIR)/opt/lcg/man/man3/gfal_write.3: gfal_write.man
+$(prefix)/opt/lcg/man/man3/gfal_write.3: gfal_write.man
 	cp -p $? $@
 
 dist:
