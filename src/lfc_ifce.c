@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/10/24 12:31:54 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/10/25 15:56:44 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -64,7 +64,7 @@ lfc_init (void) {
   */
   if (lfc_host == NULL) {
     if((lfc_host = getenv("LFC_HOST")) == NULL &&
-	 get_lfc_host(&lfc_host) < 0) {
+       get_lfc_host(&lfc_host) < 0) {
       errno = EINVAL;
       return (-1);
     }
@@ -80,6 +80,7 @@ lfc_init (void) {
   return (0);
 }
 
+int
 lfc_getfilesizeg(const char *guid, long long *sizep) {
   struct lfc_filestatg statg;
 
@@ -87,7 +88,7 @@ lfc_getfilesizeg(const char *guid, long long *sizep) {
     return (-1);
 
   if(lfc_statg(NULL, guid, &statg) < 0) {
-    if(serrno = ENOENT)
+    if(serrno == ENOENT)
       errno = ENOENT;
     else
       errno = ECOMM;
@@ -123,6 +124,7 @@ lfc_guidforpfn (const char *pfn)
   return (p);
 }
 
+int
 lfc_guid_exists (const char *guid)
 {
   struct lfc_filestatg statg;
@@ -140,6 +142,7 @@ lfc_guid_exists (const char *guid)
   return (1);
 }
 
+int
 lfc_register_pfn (const char *guid, const char *pfn)
 {
   char *hostname;
@@ -169,7 +172,6 @@ lfc_register_pfn (const char *guid, const char *pfn)
 char **
 lfc_surlsfromguid (const char *guid)
 {
-  struct lfc_filestatg statg;
   lfc_list list;
   struct lfc_filereplica* rp;
   int flags;
@@ -251,6 +253,7 @@ lfc_surlfromguid (const char *guid)
 
 /** lfc_unregister_pfn : We unregister a pfn from a guid, but only if it a
     replica for that guid */
+int
 lfc_unregister_pfn (const char *guid, const char *pfn)
 {
   if(lfc_init() < 0)
@@ -291,7 +294,6 @@ lfc_guidfromlfn (const char *lfn)
 char **
 lfc_lfnsforguid (const char *guid)
 {
-  struct lfc_filestatg statg;
   lfc_list list;
   struct lfc_linkinfo* lp;
   int flags;
@@ -339,6 +341,7 @@ lfc_lfnsforguid (const char *guid)
   return (p);
 }
 
+int
 lfc_create_alias (const char *guid, const char *lfn, long long size)
 {
   if(lfc_init() < 0)
@@ -366,6 +369,7 @@ lfc_create_alias (const char *guid, const char *lfn, long long size)
   return (0);
 }
 
+int
 lfc_register_alias (const char *guid, const char *lfn)
 {
   struct lfc_filestatg statg;
@@ -401,6 +405,7 @@ lfc_register_alias (const char *guid, const char *lfn)
   return (0);
 }
 
+int 
 lfc_unregister_alias (const char *guid, const char *lfn)
 {
   struct lfc_filestatg statg;

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.12 $ $Date: 2004/10/24 10:50:18 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.13 $ $Date: 2004/10/25 15:56:44 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -89,6 +89,7 @@ int deletepfn (const char *, const char *);
 int get_bdii (char *, int, int *);
 int get_cat_type(char **);
 int get_ce_ap (const char *, char **);
+int get_lfc_host (char **);
 int get_rls_endpoints (char **, char **);
 int get_sa_root (const char *, const char *, char **);
 int get_se_endpoint (const char *, char **);
