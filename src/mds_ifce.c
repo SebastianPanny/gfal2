@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.6 $ $Date: 2004/05/26 08:06:54 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.7 $ $Date: 2004/06/07 10:04:01 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -167,6 +167,10 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 		}
 		free (service_type);
 		free (service_url);
+	}
+	if (*lrc_endpoint == NULL || *rmc_endpoint == NULL) {
+		errno = EINVAL;
+		rc = -1;
 	}
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
