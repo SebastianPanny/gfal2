@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.5 $ $Date: 2005/02/03 17:07:42 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -115,7 +115,8 @@ se_makedirp (const char *surl, char *errbuf, int errbufsz)
 	struct stat64 statbuf;
 
 	if (strlen (surl) >= sizeof(sav_surl)) {
-		errno = EINVAL;
+		gfal_errmsg(errbuf, errbufsz, "Source URL too long.");
+		errno = ENAMETOOLONG;
 		return (-1);
 	}
 	strcpy (sav_surl, surl);
