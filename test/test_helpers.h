@@ -7,6 +7,9 @@
 #ifndef _TEST_HELPERS_H
 #define _TEST_HELPERS_H
 
+
+#define ERRBUFSZ 1024
+
 void helper_make_guid(char *);
 void helper_make_test_root();
 

@@ -21,11 +21,13 @@
 
 /** catalog_tests : These test the catalog operations  */
 
+
+extern char* errbuf;
+
 char error_msg[1024];
 
 char file_path[CA_MAXPATHLEN+1];
 char file_guid[CA_MAXGUIDLEN+1];
-
 
 void setup_common() {
   char *name = "catalog_tests";
@@ -37,7 +39,7 @@ void setup_common() {
   helper_remove_lfn(file_path);
 
   helper_make_test_root();
-  if(create_alias(file_guid, file_path, DEFAULT_SIZE) < 0) {
+  if(create_alias(file_guid, file_path, DEFAULT_SIZE, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not create file : %s : %s : %s\n", 
 	    file_path, file_guid, strerror(errno));
     fail(error_msg);
@@ -133,7 +135,7 @@ START_TEST(test_guid_exists) {
   int exists;
   char nexist_guid[CA_MAXGUIDLEN+1];
 
-  if((exists = guid_exists(file_guid)) < 0) {
+  if((exists = guid_exists(file_guid, errbuf, ERRBUFSZ)) < 0) {
     sprintf(error_msg, "Could not check guid existence  %s : %s\n", 
 	    file_guid, strerror(errno));
     fail(error_msg);
@@ -142,7 +144,7 @@ START_TEST(test_guid_exists) {
   
   /* now try a non-existent one */
   helper_make_guid(nexist_guid);
-  if((exists = guid_exists(nexist_guid)) < 0) {
+  if((exists = guid_exists(nexist_guid, errbuf, ERRBUFSZ)) < 0) {
     sprintf(error_msg, "Could not check guid existence  %s : %s\n", 
 	    nexist_guid, strerror(errno));
     fail(error_msg);
@@ -165,14 +167,14 @@ START_TEST(test_create_lfn) {
   helper_remove_lfn(lfn);
 
   /* and register */
-  if(create_alias(guid, lfn, DEFAULT_SIZE) < 0) {
+  if(create_alias(guid, lfn, DEFAULT_SIZE, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not create lfn  %s : %s\n", 
 	    lfn, strerror(errno));
     fail(error_msg);
   }
 
   /* check it's there */
-  if((lfns = lfnsforguid(guid)) == NULL) {
+  if((lfns = lfnsforguid(guid, errbuf, ERRBUFSZ)) == NULL) {
     sprintf(error_msg, "Could not get lfns for guid  %s : %s\n", 
 	    guid, strerror(errno));
     fail(error_msg);
@@ -196,7 +198,7 @@ START_TEST(test_register_before_create) {
 
   helper_make_guid(guid);
   helper_make_lfn(lfn, name);
-  if(register_alias(guid, lfn) < 0) {
+  if(register_alias(guid, lfn, errbuf, ERRBUFSZ) < 0) {
     if(errno == ENOENT) {
       return;
     }
@@ -227,7 +229,7 @@ START_TEST(test_multiple_register_lfn) {
 
   /* and register */
 
-  if(create_alias(guid, lfn, DEFAULT_SIZE) < 0) {
+  if(create_alias(guid, lfn, DEFAULT_SIZE, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not create master lfn  %s : %s\n", 
 	    lfn, strerror(errno));
     fail(error_msg);
@@ -235,7 +237,7 @@ START_TEST(test_multiple_register_lfn) {
 
   for (i = 0; i < 10 ; ++i) {
     sprintf(buf, "%s%d", lfn, i);
-    if(register_alias(guid, buf) < 0) {
+    if(register_alias(guid, buf, errbuf, ERRBUFSZ) < 0) {
       sprintf(error_msg, "Could not register lfn  %s : %s\n", 
 	      buf, strerror(errno));
       fail(error_msg);
@@ -243,7 +245,7 @@ START_TEST(test_multiple_register_lfn) {
   }
 
   /* check it's there */
-  if((lfns = lfnsforguid(guid)) == NULL) {
+  if((lfns = lfnsforguid(guid, errbuf, ERRBUFSZ)) == NULL) {
     sprintf(error_msg, "Could not get lfns for guid  %s : %s\n", 
 	    guid, strerror(errno));
     fail(error_msg);
@@ -269,13 +271,13 @@ START_TEST(test_registerpfn) {
   helper_remove_surl(surl);
 
   /* and register */
-  if(register_pfn(file_guid, surl) < 0) {
+  if(register_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not register surl %s : %s\n", 
 	    surl, strerror(errno));
     fail(error_msg);
   }
 
-  if((guid = guidforpfn(surl)) == NULL) {
+  if((guid = guidforpfn(surl, errbuf, ERRBUFSZ)) == NULL) {
     sprintf(error_msg, "Could not get guid for surl %s : %s\n", 
 	    surl, strerror(errno));
     fail(error_msg);
@@ -298,7 +300,7 @@ START_TEST(test_registerpfn_exists) {
   helper_remove_surl(surl);
 
   /* register */
-  if(register_pfn(file_guid, surl) < 0) {
+  if(register_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not register surl %s : %s\n", 
 	    surl, strerror(errno));
     fail(error_msg);
@@ -308,7 +310,7 @@ START_TEST(test_registerpfn_exists) {
   /* and register again on a different guid - should get a ENOENT for the
      guid */
   helper_make_guid(guid2);
-  if(register_pfn(guid2, surl) < 0) {
+  if(register_pfn(guid2, surl, errbuf, ERRBUFSZ) < 0) {
     if(errno == ENOENT) {
       return;
     }
@@ -334,7 +336,7 @@ START_TEST(test_registerpfn_guid_exists) {
   helper_remove_surl(surl);
 
   /* register */
-  if(register_pfn(file_guid, surl) < 0) {
+  if(register_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not register surl %s : %s\n", 
 	    surl, strerror(errno));
     fail(error_msg);
@@ -346,12 +348,12 @@ START_TEST(test_registerpfn_guid_exists) {
   helper_make_guid(guid2);
   helper_make_lfn(lfn, name);
   helper_remove_lfn(lfn);
-  if(create_alias(guid2, lfn, DEFAULT_SIZE) < 0) {
+  if(create_alias(guid2, lfn, DEFAULT_SIZE, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not create %s : %s\n", 
 	    lfn, strerror(errno));
     fail(error_msg);
   }
-  if(register_pfn(guid2, surl) < 0) {
+  if(register_pfn(guid2, surl, errbuf, ERRBUFSZ) < 0) {
     if(errno == EEXIST) {
       return;
     }
@@ -372,20 +374,20 @@ START_TEST(test_unregisterpfn) {
   helper_remove_surl(surl);
 
   /* and register */
-  if(register_pfn(file_guid, surl) < 0) {
+  if(register_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not register surl %s : %s\n", 
 	    surl, strerror(errno));
     fail(error_msg);
   }
 
   /* and unregister */
-  if(unregister_pfn(file_guid, surl) < 0) {
+  if(unregister_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not unregister surl %s : %s\n", 
 	    surl, strerror(errno));
     fail(error_msg);
   }
 
-  if((guid = guidforpfn(surl)) == NULL) {
+  if((guid = guidforpfn(surl, errbuf, ERRBUFSZ)) == NULL) {
     if(errno == ENOENT) {
       return;
     }
@@ -407,7 +409,7 @@ START_TEST(test_unregisterpfn_nexist) {
   helper_remove_surl(surl);
 
   /* and unregister */
-  if(unregister_pfn(file_guid, surl) < 0) {
+  if(unregister_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not unregister surl %s : %s\n", 
 	    surl, strerror(errno));
     fail(error_msg);
@@ -419,7 +421,7 @@ START_TEST(test_unregisterpfn_nexist) {
 START_TEST(test_getfilesize) {
   long long guid_size;
   
-  if(getfilesizeg(file_guid, &guid_size) < 0) {
+  if(getfilesizeg(file_guid, &guid_size, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Can't get file size on guid %s : %s\n", 
 	    file_guid, strerror(errno));
     fail(error_msg);
@@ -451,7 +453,7 @@ START_TEST(test_surlsfromguid) {
   int i;
 
   /* check that the list is initially empty */
-  if((p = surlsfromguid(file_guid)) != NULL) {
+  if((p = surlsfromguid(file_guid, errbuf, ERRBUFSZ)) != NULL) {
     fail("There should be no surls initially");
   }
   
@@ -459,12 +461,12 @@ START_TEST(test_surlsfromguid) {
   helper_make_surl(base_surl, path);
   for (i = 1; i < 10 ; ++i) {
     sprintf(buf, "%s%d", base_surl, i);
-    if(register_pfn(file_guid, buf) < 0) {
+    if(register_pfn(file_guid, buf, errbuf, ERRBUFSZ) < 0) {
       sprintf(error_msg, "Could not register surl  %s : %s\n", 
 	      buf, strerror(errno));
       fail(error_msg);
     }
-    if((p = surlsfromguid(file_guid)) == NULL) {
+    if((p = surlsfromguid(file_guid, errbuf, ERRBUFSZ)) == NULL) {
       sprintf(error_msg, "Could not get surls for guid  %s : %s\n", 
 	      file_guid, strerror(errno));
       fail(error_msg);
@@ -475,14 +477,14 @@ START_TEST(test_surlsfromguid) {
 
   /* and remove them again */
   for (i = 1; i < 10 ; ++i) {
-    if((p = surlsfromguid(file_guid)) == NULL) {
+    if((p = surlsfromguid(file_guid, errbuf, ERRBUFSZ)) == NULL) {
       sprintf(error_msg, "Could not get surls for guid  %s : %d : %s\n", 
 	      file_guid, i, strerror(errno));
       fail(error_msg);
     }
     free_list(p, 10 - i);
     sprintf(buf, "%s%d", base_surl, i);
-    if(unregister_pfn(file_guid, buf) < 0) {
+    if(unregister_pfn(file_guid, buf, errbuf, ERRBUFSZ) < 0) {
       sprintf(error_msg, "Could not unregister surl  %s : %s\n", 
 	      buf, strerror(errno));
       fail(error_msg);
@@ -490,7 +492,7 @@ START_TEST(test_surlsfromguid) {
   }
 
   /* check that the list is finally empty */
-  if((p = surlsfromguid(file_guid)) != NULL) {
+  if((p = surlsfromguid(file_guid, errbuf, ERRBUFSZ)) != NULL) {
     fail("There should be no surls finally");
   }
 
@@ -506,20 +508,20 @@ START_TEST(test_surlfromguid) {
 	char *local_server = "foo.cern.ch";
 
 	/* check that we don't get anything initially */
-	if((p = surlfromguid (file_guid)) != NULL) {
+	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) != NULL) {
 		free(p);
 		fail("There should be no surls initially");
 	}
 
 	/* add an entry */
 	helper_make_surl(base_surl, path);
-	if(register_pfn (file_guid, buf) < 0) {
+	if(register_pfn (file_guid, buf, errbuf, ERRBUFSZ) < 0) {
 		sprintf (error_msg, "Could not register surl %s : %s\n",
 		buf, strerror (errno));
 		fail (error_msg);
 	}
 
-	if((p = surlfromguid (file_guid)) == NULL) {
+	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) == NULL) {
 		sprintf(error_msg, "Could not get best surl from guid %s : %s\n",
 			buf, strerror (errno));
 			fail (error_msg);
@@ -529,13 +531,13 @@ START_TEST(test_surlfromguid) {
 
 	/* now add a local entry - it should be first */
 	sprintf(buf, "srm://%s/%s", local_server, path);
-	if(register_pfn (file_guid, buf) < 0) {
+	if(register_pfn (file_guid, buf, errbuf, ERRBUFSZ) < 0) {
 		sprintf (error_msg, "Could not register surl %s : %s\n",
 		buf, strerror (errno));
 		fail (error_msg);
 	}
 
-	if((p = surlfromguid (file_guid)) == NULL) {
+	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) == NULL) {
 		sprintf(error_msg, "Could not get best surl from guid %s : %s\n",
 			buf, strerror (errno));
 			fail (error_msg);
@@ -553,7 +555,7 @@ START_TEST(test_lfnsforguid) {
   int i;
 
   /* check that the list has one entry - the original lfn */
-  if((p = lfnsforguid(file_guid)) == NULL) {
+  if((p = lfnsforguid(file_guid, errbuf, ERRBUFSZ)) == NULL) {
       sprintf(error_msg, "Should have a lfn for guid  %s : %s : %s\n", 
 	      file_guid, file_path, strerror(errno));
       fail(error_msg);
@@ -567,12 +569,12 @@ START_TEST(test_lfnsforguid) {
   /* now add some, and check the size */
   for (i = 1; i < 10 ; ++i) {
     sprintf(buf, "%s%d", file_path, i);
-    if(register_alias(file_guid, buf) < 0) {
+    if(register_alias(file_guid, buf, errbuf, ERRBUFSZ) < 0) {
       sprintf(error_msg, "Could not register alias  %s : %s\n", 
 	      buf, strerror(errno));
       fail(error_msg);
     }
-    if((p = lfnsforguid(file_guid)) == NULL) {
+    if((p = lfnsforguid(file_guid, errbuf, ERRBUFSZ)) == NULL) {
       sprintf(error_msg, "Could not get lfns for guid  %s : %s\n", 
 	      file_guid, strerror(errno));
       fail(error_msg);
@@ -582,14 +584,14 @@ START_TEST(test_lfnsforguid) {
 
   /* and remove them again */
   for (i = 1; i < 10 ; ++i) {
-    if((p = lfnsforguid(file_guid)) == NULL) {
+    if((p = lfnsforguid(file_guid, errbuf, ERRBUFSZ)) == NULL) {
       sprintf(error_msg, "Could not get lfns for guid  %s : %d : %s\n", 
 	      file_guid, i, strerror(errno));
       fail(error_msg);
     }
     free_list(p, 11 - i);
     sprintf(buf, "%s%d", file_path, i);
-    if(unregister_alias(file_guid, buf) < 0) {
+    if(unregister_alias(file_guid, buf, errbuf, ERRBUFSZ) < 0) {
       sprintf(error_msg, "Could not unregister lfn  %s : %s\n", 
 	      buf, strerror(errno));
       fail(error_msg);
@@ -597,7 +599,7 @@ START_TEST(test_lfnsforguid) {
   }
 
   /* check that the list has only the original lfn at the end */
-  if((p = lfnsforguid(file_guid)) == NULL) {
+  if((p = lfnsforguid(file_guid, errbuf, ERRBUFSZ)) == NULL) {
       sprintf(error_msg, "Should have a lfn for guid  %s : %s : %s\n", 
 	      file_guid, file_path, strerror(errno));
       fail(error_msg);
@@ -619,7 +621,7 @@ START_TEST(test_delete_lfns_master_first) {
   /* now add some aliases */
   for (i = 1; i < 10 ; ++i) {
     sprintf(buf, "%s%d", file_path, i);
-    if(register_alias(file_guid, buf) < 0) {
+    if(register_alias(file_guid, buf, errbuf, ERRBUFSZ) < 0) {
       sprintf(error_msg, "Could not register alias  %s : %s\n", 
 	      buf, strerror(errno));
       fail(error_msg);
@@ -627,7 +629,7 @@ START_TEST(test_delete_lfns_master_first) {
   }
 
   /* remove the master */
-  if(unregister_alias(file_guid, file_path) < 0) {
+  if(unregister_alias(file_guid, file_path, errbuf, ERRBUFSZ) < 0) {
       sprintf(error_msg, "Could not unregister master lfn  %s : %s\n", 
 	      file_path, strerror(errno));
       fail(error_msg);
@@ -636,7 +638,7 @@ START_TEST(test_delete_lfns_master_first) {
   /* and remove the aliases again */
   for (i = 1; i < 10 ; ++i) {
     sprintf(buf, "%s%d", file_path, i);
-    if(unregister_alias(file_guid, buf) < 0) {
+    if(unregister_alias(file_guid, buf, errbuf, ERRBUFSZ) < 0) {
       sprintf(error_msg, "Could not unregister lfn  %s : %s\n", 
 	      buf, strerror(errno));
       fail(error_msg);
@@ -644,7 +646,7 @@ START_TEST(test_delete_lfns_master_first) {
   }
 
   /* check that there are no elements for the guid */
-  if((p = lfnsforguid(file_guid)) == NULL) {
+  if((p = lfnsforguid(file_guid, errbuf, ERRBUFSZ)) == NULL) {
     if(errno == ENOENT) 
       return;
     sprintf(error_msg, "Can't get lfn for guid with no entries  %s : %s\n", 

@@ -13,11 +13,14 @@
 
 #include "gfal_api.h"
 #include "Cns_constants.h"
+#include "test_helpers.h"
 
 char error_msg[1024];
 
 const char *root_path = "/grid/dteam/test/catalog-test";
 const char *server_name = "foo.example.com";
+
+char errbuf[ERRBUFSZ];
 
 
 /** helper_make_guid : generate a unique ID into a predefined buffer.  It
@@ -60,10 +63,10 @@ helper_make_test_root() {
 
   free(cat_type);
   /* If root doesn't exist,  make it */
-  if((guid = guidfromlfn(root_path)) == NULL) {
+  if((guid = guidfromlfn(root_path, errbuf, ERRBUFSZ)) == NULL) {
     if(errno == ENOENT) {
       helper_make_guid(root_guid);
-      if((lfc_mkdirg(root_path, root_guid, 0775)) < 0) {
+      if((lfc_mkdirg(root_path, root_guid, 0775, errbuf, ERRBUFSZ)) < 0) {
 	sprintf(error_msg, "Could not create test root : %s : %s\n",
 		root_path, strerror(errno));
 	fail(error_msg);
@@ -85,13 +88,13 @@ int helper_remove_lfn(const char* lfn) {
   char **replicas;
   char **p;
 
-  if((guid = guidfromlfn(lfn)) == NULL) {
+  if((guid = guidfromlfn(lfn, errbuf, ERRBUFSZ)) == NULL) {
     return (0);
   }
 
-  if((replicas = surlsfromguid(guid)) != NULL) {
+  if((replicas = surlsfromguid(guid, errbuf, ERRBUFSZ)) != NULL) {
     for(p = replicas; *p != NULL; p++) {
-      if(unregister_pfn(guid, *p) < 0) {
+      if(unregister_pfn(guid, *p, errbuf, ERRBUFSZ) < 0) {
 	sprintf(error_msg, "Could not unregister surl %s : %s\n", 
 		*p, strerror(errno));
 	fail(error_msg);
@@ -101,10 +104,10 @@ int helper_remove_lfn(const char* lfn) {
     free(replicas);
   }
   
-  if((lfns = lfnsforguid(guid)) != NULL) {
+  if((lfns = lfnsforguid(guid, errbuf, ERRBUFSZ)) != NULL) {
     for(p = lfns; *p != NULL; p++) {
       if(strcmp(lfn, *p) != 0) {
-	if(unregister_alias(guid, *p) < 0) {
+	if(unregister_alias(guid, *p, errbuf, ERRBUFSZ) < 0) {
 	  sprintf(error_msg, "Could not unregister lfn %s : %s\n", 
 		  *p, strerror(errno));
 	  fail(error_msg);
@@ -115,7 +118,7 @@ int helper_remove_lfn(const char* lfn) {
     free(lfns);
   }
 
-  unregister_alias(guid, lfn);
+  unregister_alias(guid, lfn, errbuf, ERRBUFSZ);
   free(guid);
   return 0;
 }
@@ -124,11 +127,11 @@ int helper_remove_lfn(const char* lfn) {
 int helper_remove_surl(const char* surl) {
   char *guid;
 
-  if((guid = guidforpfn(surl)) == NULL) {
+  if((guid = guidforpfn(surl, errbuf, ERRBUFSZ)) == NULL) {
     return (0);
   }
 
-  if(unregister_pfn(guid, surl) < 0) {
+  if(unregister_pfn(guid, surl, errbuf, ERRBUFSZ) < 0) {
     if(errno == ENOENT) {
       return (-1);
     }

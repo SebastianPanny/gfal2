@@ -4,16 +4,18 @@
 
 LFC_DIR=$(prefix)/opt/lcg
 GFAL_DIR=..
+CHECK_DIR=/usr
 
+#CHECK_DIR=/afs/cern.ch/user/j/jamesc/tmp1/check
 #
 #
 
 CC += -g -fPIC
 SHLIBLDFLAGS = -shared
 
-INCLUDES= -I$(LFC_DIR)/include/lfc -I$(GFAL_DIR)
+INCLUDES= -I$(LFC_DIR)/include/lfc -I$(GFAL_DIR) -I$(CHECK_DIR)/include
 
-LIBS = -lcheck -L$(GFAL_DIR) -lgfal
+LIBS = -L$(CHECK_DIR)/lib -lcheck -L$(GFAL_DIR) -lgfal
 
 
 all: gfal-test
