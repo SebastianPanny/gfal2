@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/03/31 06:23:37 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/03/31 11:48:27 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -12,8 +12,29 @@
 #include <sys/time.h>
 #include <lber.h>
 #include <ldap.h>
-#define GRID_INFO_PORT 2135
 static char *dn = "mds-vo-name=local,o=grid";
+
+/* get BDII hostname and port number */
+
+get_bdii (char *bdii_server, int buflen, int *bdii_port)
+{
+	char *bdii_env;
+	char *p;
+
+	if ((bdii_env = getenv ("LCG_GFAL_INFOSYS")) == NULL ||
+	    strlen (bdii_env) >= buflen) {
+		errno = EINVAL;
+		return (-1);
+	}
+	strcpy (bdii_server, bdii_env);
+	if ((p = strchr (bdii_server, ':')) == NULL) {
+		errno = EINVAL;
+		return (-1);
+	}
+	*p = '\0';
+	*bdii_port = atoi (p + 1);
+	return (0);
+}
 
 /* get from the BDII the CE Accesspoint for a given SE */
 
@@ -24,29 +45,17 @@ get_ce_ap (const char *host, char **ce_ap)
 	char *attr;
 	static char *attrs[] = {ce_ap_atnm, NULL};
 	int bdii_port;
-	char *bdii_env;
 	char bdii_server[75];
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
-	char *p;
 	int rc = 0;
 	LDAPMessage *reply;
 	struct timeval timeout;
 	char **value;
 
-	if ((bdii_env = getenv ("LCG_GFAL_INFOSYS")) == NULL ||
-	    strlen (bdii_env) >= sizeof(bdii_server)) {
-		errno = EINVAL;
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
 		return (-1);
-	}
-	strcpy (bdii_server, bdii_env);
-	if ((p = strchr (bdii_server, ':')) == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
-	*p = '\0';
-	bdii_port = atoi (p + 1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
 		errno = EINVAL;
 		return (-1);
@@ -87,13 +96,11 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 	char *attr;
 	static char *attrs[] = {rls_type, rls_ep, NULL};
 	int bdii_port;
-	char *bdii_env;
 	char bdii_server[75];
 	BerElement *ber;
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
-	char *p;
 	int rc = 0;
 	LDAPMessage *reply;
 	char *service_type;
@@ -102,18 +109,8 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 	char **value;
 	char *vo;
 
-	if ((bdii_env = getenv ("LCG_GFAL_INFOSYS")) == NULL ||
-	    strlen (bdii_env) >= sizeof(bdii_server)) {
-		errno = EINVAL;
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
 		return (-1);
-	}
-	strcpy (bdii_server, bdii_env);
-	if ((p = strchr (bdii_server, ':')) == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
-	*p = '\0';
-	bdii_port = atoi (p + 1);
 	if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
 		errno = EINVAL;
 		return (-1);
@@ -171,7 +168,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 	return (rc);
 }
 
-/* get from the SE GRIS the root pathname to store data for a specific vo */
+/* get from the BDII the root pathname to store data for a specific vo */
 
 get_sa_root (const char *host, const char *vo, char **sa_root)
 {
@@ -179,6 +176,8 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 	static char *template = "(&(GlueSARoot=%s:*)(GlueChunkKey=GlueSEUniqueID=%s))";
 	char *attr;
 	static char *attrs[] = {sa_root_atnm, NULL};
+	int bdii_port;
+	char bdii_server[75];
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
@@ -187,13 +186,15 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 	struct timeval timeout;
 	char **value;
 
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+		return (-1);
 	if (strlen (template) + strlen (vo) + strlen (host) - 4 >= sizeof(filter)) {
 		errno = EINVAL;
 		return (-1);
 	}
 	sprintf (filter, template, vo, host);
 
-	if ((ld = ldap_init ((char *) host, GRID_INFO_PORT)) == NULL)
+	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
@@ -217,7 +218,7 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 	return (rc);
 }
 
-/* get from the SE GRIS the SE port */
+/* get from the BDII the SE port */
 
 get_se_port (const char *host, int *se_port)
 {
@@ -225,6 +226,8 @@ get_se_port (const char *host, int *se_port)
 	static char *template = "(GlueSEUniqueID=%s)";
 	char *attr;
 	static char *attrs[] = {se_port_atnm, NULL};
+	int bdii_port;
+	char bdii_server[75];
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
@@ -233,13 +236,15 @@ get_se_port (const char *host, int *se_port)
 	struct timeval timeout;
 	char **value;
 
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
 		errno = EINVAL;
 		return (-1);
 	}
 	sprintf (filter, template, host);
 
-	if ((ld = ldap_init ((char *) host, GRID_INFO_PORT)) == NULL)
+	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
@@ -262,7 +267,7 @@ get_se_port (const char *host, int *se_port)
 	return (rc);
 }
 
-/* get from the SE GRIS the SE type (disk, srm_v1) */
+/* get from the BDII the SE type (disk, srm_v1) */
 
 get_se_type (const char *host, char **se_type)
 {
@@ -270,6 +275,8 @@ get_se_type (const char *host, char **se_type)
 	static char *template = "(GlueSEUniqueID=%s)";
 	char *attr;
 	static char *attrs[] = {se_type_atnm, NULL};
+	int bdii_port;
+	char bdii_server[75];
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
@@ -279,13 +286,15 @@ get_se_type (const char *host, char **se_type)
 	struct timeval timeout;
 	char **value;
 
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
 		errno = EINVAL;
 		return (-1);
 	}
 	sprintf (filter, template, host);
 
-	if ((ld = ldap_init ((char *) host, GRID_INFO_PORT)) == NULL)
+	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
@@ -313,7 +322,7 @@ get_se_type (const char *host, char **se_type)
 	return (rc);
 }
 
-/* get from the SE GRIS the list of supported protocols with their associated
+/* get from the BDII the list of supported protocols with their associated
  * port number
  */
 
@@ -325,6 +334,8 @@ get_seap_info (const char *host, char ***access_protocol, int **port)
 	char **ap;
 	char *attr;
 	static char *attrs[] = {proto_type, proto_port, NULL};
+	int bdii_port;
+	char bdii_server[75];
 	BerElement *ber;
 	LDAPMessage *entry;
 	char filter[128];
@@ -338,13 +349,15 @@ get_seap_info (const char *host, char ***access_protocol, int **port)
 	struct timeval timeout;
 	char **value;
 
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
 		errno = EINVAL;
 		return (-1);
 	}
 	sprintf (filter, template, host);
 
-	if ((ld = ldap_init ((char *) host, GRID_INFO_PORT)) == NULL)
+	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
