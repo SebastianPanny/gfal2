@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.13 $ $Date: 2004/10/24 10:50:18 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.14 $ $Date: 2004/10/24 12:31:22 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -253,6 +253,6 @@ rpm: dist GFAL.spec
 test: all
 	cd test && make test
 clean:
-	rm -rf SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Stub.h *C.c *Client.c *Server.c *Proxy.h
+	rm -rf tmp SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Stub.h *C.c *Client.c *Server.c *ClientLib.c *ServerLib.c *Proxy.h *.xml *.xsd *.nsmap $(distdir) 
 clobber: clean
 	rm -f libgfal.a gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
