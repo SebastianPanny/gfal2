@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.11 $ $Date: 2005/01/05 15:21:41 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.12 $ $Date: 2005/01/05 15:29:44 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -26,7 +26,7 @@ static  char lfc_env[64];
     the hostname.  Then we keep going to the next slash, colon or end of the
     SURL. */
 char *
-get_hostname(const char *path) {
+get_hostname(const char *path, char *errbuf, int errbufsz) {
   char *start;
   char *cp;
   char *result;
@@ -149,7 +149,7 @@ lfc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
   
-  if((hostname = get_hostname(pfn)) == NULL) {
+  if((hostname = get_hostname(pfn, errbuf, errbufsz)) == NULL) {
     return (-1);
   }
 
