@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/04/19 08:50:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/05/12 08:24:43 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -52,6 +52,90 @@ getdomainnm (char *name, int namelen)
 		fclose (fd);
 	}
 	return (-1);
+}
+
+char *
+guidforpfn (const char *pfn)
+{
+	int flags;
+	struct impl__guidForPfnResponse out;
+	char *p;
+	int ret;
+	int sav_errno;
+	struct soap soap;
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_lrc;
+
+	if (lrc_endpoint == NULL &&
+	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (NULL);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (lrc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	}
+#endif
+
+	if (ret = soap_call_impl__guidForPfn (&soap, lrc_endpoint, "",
+	    (char *) pfn, &out)) {
+		if (ret == SOAP_FAULT) {
+			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
+				sav_errno = ENOENT;
+			else
+				sav_errno = ECOMM;
+		} else
+			sav_errno = ECOMM;
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = sav_errno;
+		return (NULL);
+	}
+	p = strdup (out._guidForPfnReturn);
+	soap_end (&soap);
+	soap_done (&soap);
+	return (p);
+}
+
+lrc_guid_exists (const char *guid)
+{
+	int flags;
+	struct impl__guidExistsResponse out;
+	int ret;
+	struct soap soap;
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_lrc;
+
+	if (lrc_endpoint == NULL &&
+	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (lrc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	}
+#endif
+
+	if (ret = soap_call_impl__guidExists (&soap, lrc_endpoint, "",
+	    (char *) guid, &out)) {
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+	ret = out._guidExistsReturn ? 1 : 0;
+	soap_end (&soap);
+	soap_done (&soap);
+	return (ret);
 }
 
 register_pfn (const char *guid, const char *pfn)
@@ -238,4 +322,40 @@ surlsfromguid (const char *guid)
 	soap_end (&soap);
 	soap_done (&soap);
 	return (surlarray);
+}
+
+unregister_pfn (const char *guid, const char *pfn)
+{
+	int flags;
+	struct impl__removeMappingResponse out;
+	int ret;
+	struct soap soap;
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_lrc;
+
+	if (lrc_endpoint == NULL &&
+	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (lrc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	}
+#endif
+
+	if (ret = soap_call_impl__removeMapping (&soap, lrc_endpoint, "",
+	    (char *) guid, (char *) pfn, &out)) {
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (0);
 }
