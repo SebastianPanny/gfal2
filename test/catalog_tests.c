@@ -21,8 +21,7 @@
 
 /** catalog_tests : These test the catalog operations  */
 
-
-extern char* errbuf;
+char *errbuf;
 
 char error_msg[1024];
 
@@ -31,20 +30,29 @@ char file_guid[CA_MAXGUIDLEN+1];
 
 void setup_common() {
   char *name = "catalog_tests";
-
+  
+  /* setup errbuf */
+  if((errbuf = (char*) malloc((ERRBUFSZ+1) * sizeof(char))) == NULL) {
+    return;
+  }
+  
   /* add a sample lfn and guid for testing replica functions */
   helper_make_guid(file_guid);
   helper_make_lfn(file_path, name);
 
-  helper_remove_lfn(file_path);
+  helper_remove_lfn(file_path, errbuf, ERRBUFSZ);
 
-  helper_make_test_root();
+  helper_make_test_root(errbuf, ERRBUFSZ);
   if(create_alias(file_guid, file_path, DEFAULT_SIZE, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not create file : %s : %s : %s\n", 
 	    file_path, file_guid, strerror(errno));
     fail(error_msg);
   }
 }
+
+  void teardown_common() {
+    free(errbuf);
+  }
 
 /** setup_edg_catalog : put the approriate env for the EDG LRC/RMC */
 void setup_edg_catalog() {
@@ -164,12 +172,12 @@ START_TEST(test_create_lfn) {
 
   helper_make_guid(guid);
   helper_make_lfn(lfn, name);
-  helper_remove_lfn(lfn);
+  helper_remove_lfn(lfn, errbuf, ERRBUFSZ);
 
   /* and register */
   if(create_alias(guid, lfn, DEFAULT_SIZE, errbuf, ERRBUFSZ) < 0) {
-    sprintf(error_msg, "Could not create lfn  %s : %s\n", 
-	    lfn, strerror(errno));
+    sprintf(error_msg, "Could not create lfn  %s : %s : %s\n", 
+	    lfn, errbuf, strerror(errno) );
     fail(error_msg);
   }
 
@@ -225,7 +233,7 @@ START_TEST(test_multiple_register_lfn) {
 
   helper_make_guid(guid);
   helper_make_lfn(lfn, name);
-  helper_remove_lfn(lfn);
+  helper_remove_lfn(lfn, errbuf, ERRBUFSZ);
 
   /* and register */
 
@@ -268,7 +276,7 @@ START_TEST(test_registerpfn) {
   char *guid;
   
   helper_make_surl(surl, surl_name);
-  helper_remove_surl(surl);
+  helper_remove_surl(surl, errbuf, ERRBUFSZ);
 
   /* and register */
   if(register_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
@@ -297,7 +305,7 @@ START_TEST(test_registerpfn_exists) {
   helper_make_guid(guid);
   helper_make_surl(surl, surl_name);
 
-  helper_remove_surl(surl);
+  helper_remove_surl(surl, errbuf, ERRBUFSZ);
 
   /* register */
   if(register_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
@@ -333,7 +341,7 @@ START_TEST(test_registerpfn_guid_exists) {
   helper_make_guid(guid);
   helper_make_surl(surl, surl_name);
 
-  helper_remove_surl(surl);
+  helper_remove_surl(surl, errbuf, ERRBUFSZ);
 
   /* register */
   if(register_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
@@ -347,7 +355,7 @@ START_TEST(test_registerpfn_guid_exists) {
      for the guid */
   helper_make_guid(guid2);
   helper_make_lfn(lfn, name);
-  helper_remove_lfn(lfn);
+  helper_remove_lfn(lfn, errbuf, ERRBUFSZ);
   if(create_alias(guid2, lfn, DEFAULT_SIZE, errbuf, ERRBUFSZ) < 0) {
     sprintf(error_msg, "Could not create %s : %s\n", 
 	    lfn, strerror(errno));
@@ -371,7 +379,7 @@ START_TEST(test_unregisterpfn) {
   char *guid;
   
   helper_make_surl(surl, surl_name);
-  helper_remove_surl(surl);
+  helper_remove_surl(surl, errbuf, ERRBUFSZ);
 
   /* and register */
   if(register_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
@@ -406,7 +414,7 @@ START_TEST(test_unregisterpfn_nexist) {
   char *surl_name = "foo/this_does_not_exist";
   
   helper_make_surl(surl, surl_name);
-  helper_remove_surl(surl);
+  helper_remove_surl(surl, errbuf, ERRBUFSZ);
 
   /* and unregister */
   if(unregister_pfn(file_guid, surl, errbuf, ERRBUFSZ) < 0) {
@@ -770,19 +778,23 @@ START_TEST(test_delete_lfns_master_first) {
 }END_TEST
 
 Suite *add_catalog_tests(Suite *s) { 
-  /* a test case to check for a given env */
-  TCase *tc_catalog_env = tcase_create("CatalogFromEnv");
+
+  TCase *tc_catalog_env;
+
   TCase *tc_edg_catalog;
   TCase *tc_lfc_catalog;
+  
+  /* a test case to check for a given env */
+  tc_catalog_env = tcase_create("CatalogFromEnv");
   suite_add_tcase(s, tc_catalog_env);
 
   tcase_add_test(tc_catalog_env, test_get_cat_type);
   tcase_add_test(tc_catalog_env, test_get_default_catalog);
-  /* a test case for EDG catalog checks */
 
+  /* a test case for EDG catalog checks */
   tc_edg_catalog = tcase_create("EDGCatalogs");
   suite_add_tcase(s, tc_edg_catalog);
-  tcase_add_checked_fixture(tc_edg_catalog, setup_edg_catalog, NULL);
+  tcase_add_checked_fixture(tc_edg_catalog, setup_edg_catalog, teardown_common);
 
   //tcase_add_test(tc_edg_catalog, test_guid_exists);
   tcase_add_test(tc_edg_catalog, test_create_lfn);
@@ -812,7 +824,7 @@ Suite *add_catalog_tests(Suite *s) {
   tc_lfc_catalog = tcase_create("LFCCatalogs");
   suite_add_tcase(s, tc_lfc_catalog);
 
-  tcase_add_checked_fixture(tc_lfc_catalog, setup_lfc_catalog, NULL);
+  tcase_add_checked_fixture(tc_lfc_catalog, setup_lfc_catalog, teardown_common);
 
   tcase_add_test(tc_lfc_catalog, test_guid_exists);
   tcase_add_test(tc_lfc_catalog, test_create_lfn);
