@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.6 $ $Date: 2004/04/19 09:10:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.7 $ $Date: 2004/04/29 11:32:22 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -742,11 +742,15 @@ mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 }
 
 #define SRM_EP_PATH "/srm/managerv1"
+#define SRM_PORT 8443
 parsesurl (const char *surl, char **endpoint, char **sfn)
 {
 	int len;
+	int len1;
 	int lenp;
 	char *p;
+	char *p1, *p2;
+	int se_port;
 	static char srm_ep[256];
 
 	if (strncmp (surl, "srm://", 6)) {
@@ -755,8 +759,11 @@ parsesurl (const char *surl, char **endpoint, char **sfn)
 	}
 	if (p = strstr (surl + 6, "?SFN=")) {
 		*sfn = p + 5;
+		for (p1 = (char *)surl + 6; p1 < p; p1++)
+			if (*p1 == '/') break;
 	} else if (p = strchr (surl + 6, '/')) {
 		*sfn = p;
+		p1 = p;
 	} else {
 		errno = EINVAL;
 		return (-1);
@@ -768,19 +775,45 @@ parsesurl (const char *surl, char **endpoint, char **sfn)
 	strcpy (srm_ep, "http://");
 	lenp = 7;
 #endif
-	len = p - surl - 6;
+	/* copy hostname */
+
+	len = p1 - surl - 6;
 	if (lenp + len >= sizeof(srm_ep)) {
 		errno = EINVAL;
 		return (-1);
 	}
 	strncpy (srm_ep + lenp, surl + 6, len);
 	*(srm_ep + lenp + len) = '\0';
-	if (strchr (srm_ep + lenp, '/') == NULL) {
-		if (strlen (SRM_EP_PATH) + lenp + len >= sizeof(srm_ep)) {
+
+	/* set port number if not specified by user */
+
+	if ((p2 = strchr (srm_ep + lenp, ':')) == NULL) {	/* no port specified */
+		if (get_se_port (srm_ep + lenp, &se_port) < 0)
+			se_port = SRM_PORT;
+		if (lenp + len + 6 >= sizeof(srm_ep)) {
 			errno = EINVAL;
 			return (-1);
 		}
-		strcat (srm_ep, SRM_EP_PATH);
+		len1 = sprintf (srm_ep + lenp + len, ":%d", se_port);
+	} else
+		len1 = 0;
+	len1 += lenp + len;
+
+	/* copy endpoint */
+
+	if (p1 != p) {	/* user specified endpoint */
+		if (len1 + (p - p1) >= sizeof(srm_ep)) {
+			errno = EINVAL;
+			return (-1);
+		}
+		strncpy (srm_ep + len1, p1, p - p1);
+		*(srm_ep + len1 + (p - p1)) = '\0';
+	} else {
+		if (len1 + strlen (SRM_EP_PATH) >= sizeof(srm_ep)) {
+			errno = EINVAL;
+			return (-1);
+		}
+		strcpy (srm_ep + len1, SRM_EP_PATH);
 	}
 	*endpoint = srm_ep;
 	return (0);
