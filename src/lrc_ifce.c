@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/05/12 08:24:43 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/06/10 14:28:35 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -170,6 +170,52 @@ register_pfn (const char *guid, const char *pfn)
 				sav_errno = EEXIST;
 			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
 				sav_errno = ENAMETOOLONG;
+			else
+				sav_errno = ECOMM;
+		} else
+			sav_errno = ECOMM;
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = sav_errno;
+		return (-1);
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (0);
+}
+
+setfilesize (const char *pfn, long long filesize)
+{
+	int flags;
+	struct impl__setStringPfnAttributeResponse out;
+	int ret;
+	int sav_errno;
+	struct soap soap;
+	char tmpbuf[21];
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_lrc;
+
+	if (lrc_endpoint == NULL &&
+	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (lrc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	}
+#endif
+
+	sprintf (tmpbuf, "%lld", filesize);
+	if (ret = soap_call_impl__setStringPfnAttribute (&soap, lrc_endpoint,
+	    "", (char *) pfn, "size", tmpbuf, &out)) {
+		if (ret == SOAP_FAULT) {
+			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
+				sav_errno = ENOENT;
 			else
 				sav_errno = ECOMM;
 		} else
