@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.7 $ $Date: 2004/12/10 14:58:27 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.8 $ $Date: 2004/12/13 16:11:41 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -127,6 +127,8 @@ lfc_guid_exists (const char *guid, char *errbuf, int errbufsz)
     return (-1);
 
   if(lfc_statg(NULL, guid, &statg) < 0) {
+    if(serrno == ENOENT) 
+	return (0);
     if (serrno < 1000) 
       errno = serrno;
     else 
