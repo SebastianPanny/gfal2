@@ -443,6 +443,21 @@ free_list(char **p, int i) {
   free(p);
 }
 
+/** test_surlsfromguid_unknown_guid : check that we get NULL on a unknown
+    guid */
+START_TEST(test_surlsfromguid_unknown_guid) {
+  char unknown_guid[CA_MAXGUIDLEN+1];
+  char **p;
+
+  helper_make_guid(unknown_guid);
+
+  p = surlsfromguid(unknown_guid, errbuf, ERRBUFSZ);
+  if(p != NULL) {
+    fail("Expected NULL from surlsfromguid");
+    free_list(p, sizeof(p)/sizeof(char*));
+  }
+}END_TEST
+
 /** test_surlsfromguid : check that we can add and remove surls to/from a guid
     and the list stays consistent */
 START_TEST(test_surlsfromguid) {
@@ -498,6 +513,28 @@ START_TEST(test_surlsfromguid) {
 
 }END_TEST
 
+
+
+/** test_surlsfromguid_unknown_guid : check that we get NULL on a unknown
+    guid */
+START_TEST(test_surlfromguid_unknown_guid) {
+  char unknown_guid[CA_MAXGUIDLEN+1];
+  char **p;
+
+  helper_make_guid(unknown_guid);
+
+  /* check that we don't get anything initially */
+  if((p = surlfromguid (unknown_guid, errbuf, ERRBUFSZ)) != NULL) {
+    free(p);
+    fail("There should be no surls, since it's not in the db");
+  }
+  /* and check the error was ENOENT */
+  if(errno != ENOENT) {
+    fail("Expected ENOENT where guid doesn't exist");
+  }
+  
+}END_TEST
+
 /** test_surlfromguid : check that surl from guid returns an entry.  If
 the server is local (cern.ch) then it should be returned */
 START_TEST(test_surlfromguid) {
@@ -511,6 +548,10 @@ START_TEST(test_surlfromguid) {
 	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) != NULL) {
 		free(p);
 		fail("There should be no surls initially");
+	}
+	/* and check the error was ENOENT */
+	if(errno != ENOENT) {
+		fail("Expected ENOENT where no surls");
 	}
 
 	/* add an entry */
@@ -705,7 +746,9 @@ Suite *add_catalog_tests(Suite *s) {
   tcase_add_test(tc_lfc_catalog, test_unregisterpfn_nexist);
   tcase_add_test(tc_lfc_catalog, test_getfilesize);
 
+  tcase_add_test(tc_lfc_catalog, test_surlsfromguid_unknown_guid);
   tcase_add_test(tc_lfc_catalog, test_surlsfromguid);
+  tcase_add_test(tc_lfc_catalog, test_surlfromguid_unknown_guid);
   tcase_add_test(tc_lfc_catalog, test_surlfromguid);
 
   tcase_add_test(tc_lfc_catalog, test_lfnsforguid);
