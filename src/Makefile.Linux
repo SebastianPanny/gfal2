@@ -1,9 +1,9 @@
 #
-#  Copyright (C) 2003 by CERN
+#  Copyright (C) 2003-2004 by CERN
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.3 $ $Date: 2003/12/15 10:45:15 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.4 $ $Date: 2004/04/19 08:56:37 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -18,7 +18,7 @@ RFIOINC = -I/usr/local/include/shift
 
 # To enable DCAP support, uncomment the next 2 lines
 DCAPFLG = -DGFAL_ENABLE_DCAP
-DCAPINC = -I/usr/local/include
+DCAPINC = -I/opt/d-cache-client/dcap
 
 # To add support for a new protocol, define a new flag (and possibly a new
 # header path) and add it to PROTOFLG
@@ -38,7 +38,7 @@ SHLIBLDFLAGS = -shared
 CLASSPATH = $(GSOAP_IMP)/wsdlcpp:$(XERCES)/xmlParserAPIs.jar:$(XERCES)/xercesImpl.jar
 GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o srm_ifce.o srmC.o srmClient.o stdsoap2.o
 
-all: libgfal.a libgfal.so gfal_testdir gfal_testread gfal_testrw gfal_teststat
+all: libgfal.a libgfal.so gfal_testdir gfal_testread gfal_testrw gfal_teststat gfal_testunlink
 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
@@ -48,7 +48,7 @@ libgfal.so: $(GFAL_OBJS)
 checkprotolib.o: gfal.h
 	$(CC) -c $(PROTOFLG) checkprotolib.c
 gfal.o: gfal.h gfal_api.h gfal_constants.h
-	$(CC) -c gfal.c
+	$(CC) -c $(SECFLG) gfal.c
 lrc_ifce.o: lrcH.h lrcStub.h lrcC.c lrcClient.c soapEdgLocalReplicaCatalogService+.nsmap
 	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL lrc_ifce.c
 rmc_ifce.o: rmcH.h rmcStub.h rmcC.c rmcClient.c soapEdgReplicaMetadataCatalogService+.nsmap
@@ -89,12 +89,15 @@ gfal_testrw: gfal_api.h libgfal.so
 	$(CC) -o gfal_testrw gfal_testrw.c -L. -lgfal $(SECLIB)
 gfal_teststat: gfal_api.h libgfal.so
 	$(CC) -o gfal_teststat gfal_teststat.c -L. -lgfal $(SECLIB)
+gfal_testunlink: gfal_api.h libgfal.so
+	$(CC) -o gfal_testunlink gfal_testunlink.c -L. -lgfal $(SECLIB)
 
 install: $(DESTDIR)/opt/lcg/bin \
 	 $(DESTDIR)/opt/lcg/bin/gfal_testdir \
 	 $(DESTDIR)/opt/lcg/bin/gfal_testread \
 	 $(DESTDIR)/opt/lcg/bin/gfal_testrw \
 	 $(DESTDIR)/opt/lcg/bin/gfal_teststat \
+	 $(DESTDIR)/opt/lcg/bin/gfal_testunlink \
 	 $(DESTDIR)/opt/lcg/include $(DESTDIR)/opt/lcg/include/gfal_api.h \
 	 $(DESTDIR)/opt/lcg/include/gfal_constants.h \
 	 $(DESTDIR)/opt/lcg/lib \
@@ -113,6 +116,9 @@ $(DESTDIR)/opt/lcg/bin/gfal_testrw: gfal_testrw
 	-mv $@ $(DESTDIR)/opt/lcg/bin/OLD$?
 	cp -p $? $@
 $(DESTDIR)/opt/lcg/bin/gfal_teststat: gfal_teststat
+	-mv $@ $(DESTDIR)/opt/lcg/bin/OLD$?
+	cp -p $? $@
+$(DESTDIR)/opt/lcg/bin/gfal_testunlink: gfal_testunlink
 	-mv $@ $(DESTDIR)/opt/lcg/bin/OLD$?
 	cp -p $? $@
 
@@ -196,4 +202,4 @@ $(DESTDIR)/opt/lcg/man/man3/gfal_write.3: gfal_write.man
 clean:
 	rm -f *.o *H.h *Stub.h *C.c *Client.c *Server.c *Proxy.h
 clobber: clean
-	rm -f libgfal.a gfal_testdir gfal_testread gfal_testrw gfal_teststat
+	rm -f libgfal.a gfal_testdir gfal_testread gfal_testrw gfal_teststat gfal_testunlink
