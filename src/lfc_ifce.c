@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.19 $ $Date: 2005/02/03 17:06:20 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.20 $ $Date: 2005/02/04 14:21:12 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -508,6 +508,9 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
   struct lfc_filestatg statbuf;
   uuid_t uuid;
   char uuid_buf[CA_MAXGUIDLEN+1];
+
+  if(lfc_init(errbuf, errbufsz) < 0)
+    return (-1);
 
   if (strlen (path) >= sizeof(sav_path)) {
     gfal_errmsg(errbuf, errbufsz, "Path too long");
