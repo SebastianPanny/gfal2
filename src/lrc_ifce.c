@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003 by CERN
+ * Copyright (C) 2003-2004 by CERN
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/03/26 10:56:28 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -24,12 +24,91 @@
 char *lrc_endpoint;
 extern char *rmc_endpoint;
 
+int
+getdomainnm (char *name, int namelen)
+{
+	FILE *fd;
+	char line[300];
+	char *p;
+
+	if ((fd = fopen ("/etc/resolv.conf", "r")) != NULL) {
+		while (fgets (line, sizeof(line), fd) != NULL) {
+			if ((strncmp (line, "domain", 6) == 0 ||
+			    strncmp (line, "search", 6) == 0) && line[6] == ' ') {
+				fclose (fd);
+				p = line + 6;
+				while (*p == ' ')
+					p++;
+				if (*p)
+					*(p + strlen (p) - 1) = '\0';
+				if (strlen (p) > namelen) {
+					errno = EINVAL;
+					return (-1);
+				}
+				strcpy (name, p);
+				return (0);
+			}
+		}
+		fclose (fd);
+	}
+	return (-1);
+}
+
+register_pfn (const char *guid, const char *pfn)
+{
+	int flags;
+	struct impl__addMappingResponse out;
+	int ret;
+	int sav_errno;
+	struct soap soap;
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_lrc;
+
+	if (lrc_endpoint == NULL &&
+	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (lrc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	}
+#endif
+
+	if (ret = soap_call_impl__addMapping (&soap, lrc_endpoint, "",
+	    (char *) guid, (char *) pfn, &out)) {
+		if (ret == SOAP_FAULT) {
+			if (strstr (soap.fault->faultcode, "PFNEXISTS"))
+				sav_errno = EEXIST;
+			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
+				sav_errno = ENAMETOOLONG;
+			else
+				sav_errno = ECOMM;
+		} else
+			sav_errno = ECOMM;
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = sav_errno;
+		return (-1);
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (0);
+}
+
 char *
 surlfromguid (const char *guid)
 {
+	char dname[64];
+	int first;
 	int flags;
+	int i;
 	struct impl__getPfnsResponse out;
-	char *p;
+	char *p, *p1, *p2;
 	int ret;
 	int sav_errno;
 	struct soap soap;
@@ -65,7 +144,38 @@ surlfromguid (const char *guid)
 		errno = sav_errno;
 		return (NULL);
 	} else {
-		p = strdup (out._getPfnsReturn->__ptr[0]);
+		/* skip entries not in the form srm: or sfn:
+		 * take entry on same domain if it exists else
+		 * take the first supported entry
+		 */
+		first = -1;
+		*dname = '\0';
+		(void) getdomainnm (dname, sizeof(dname));
+		for (i = 0; i < out._getPfnsReturn->__size; i++) {
+			p = out._getPfnsReturn->__ptr[i];
+			if (strncmp (p, "srm://", 6) && strncmp (p, "sfn://", 6))
+				continue;
+			if ((p1 = strchr (p + 6, '/')) == NULL) continue;
+			*p1 = '\0';
+			if ((p2 = strchr (p + 6, ':')))
+				*p2 = '\0';
+			if ((p = strchr (p + 6, '.')) == NULL) continue;
+			if (first < 0) first = i;
+			ret = strcmp (p + 1, dname);
+			*p1 = '/';
+			if (p2) *p2 = ':';
+			if (ret == 0) break;	/* domains match ==> local replica */
+		}
+		if (i == out._getPfnsReturn->__size) {	/* no entry on same domain */
+			if (first < 0) {	/* only non suported entries */
+				soap_end (&soap);
+				soap_done (&soap);
+				errno = EPROTONOSUPPORT;
+				return (NULL);
+			}
+			i = first;
+		}
+		p = strdup (out._getPfnsReturn->__ptr[i]);
 		soap_end (&soap);
 		soap_done (&soap);
 		return (p);
