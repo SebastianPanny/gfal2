@@ -1,0 +1,10 @@
+#!/bin/sh
+sysname=`uname -s`
+case $sysname in
+	Linux)	cp -p Makefile.Linux Makefile
+		exit 0;;
+	SunOS)	cp -p Makefile.Solaris Makefile
+		exit 0;;
+	*)	echo "Platform not supported"
+		exit 1;;
+esac
