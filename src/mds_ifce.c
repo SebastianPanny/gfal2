@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.7 $ $Date: 2004/06/07 10:04:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.8 $ $Date: 2004/10/11 13:49:36 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -69,11 +69,15 @@ get_ce_ap (const char *host, char **ce_ap)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 5;
+	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
-	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
-	    &timeout, &reply) != LDAP_SUCCESS) {
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+			errno = ETIMEDOUT;
+		else
+			errno = EINVAL;
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
@@ -133,11 +137,15 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 5;
+	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
-	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
-	    &timeout, &reply) != LDAP_SUCCESS) {
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+			errno = ETIMEDOUT;
+		else
+			errno = EINVAL;
 		return (-1);
 	}
 	for (entry = ldap_first_entry (ld, reply);
@@ -210,11 +218,15 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 5;
+	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
-	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
-	    &timeout, &reply) != LDAP_SUCCESS) {
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+			errno = ETIMEDOUT;
+		else
+			errno = EINVAL;
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
@@ -265,11 +277,15 @@ get_se_endpoint (const char *host, char **se_endpoint)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 5;
+	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
-	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
-	    &timeout, &reply) != LDAP_SUCCESS) {
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+			errno = ETIMEDOUT;
+		else
+			errno = EINVAL;
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
@@ -320,11 +336,15 @@ get_se_port (const char *host, int *se_port)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 5;
+	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
-	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
-	    &timeout, &reply) != LDAP_SUCCESS) {
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+			errno = ETIMEDOUT;
+		else
+			errno = EINVAL;
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
@@ -375,11 +395,15 @@ get_se_type (const char *host, char **se_type)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 5;
+	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
-	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
-	    &timeout, &reply) != LDAP_SUCCESS) {
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+			errno = ETIMEDOUT;
+		else
+			errno = EINVAL;
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
@@ -443,11 +467,15 @@ get_seap_info (const char *host, char ***access_protocol, int **port)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 5;
+	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
-	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
-	    &timeout, &reply) != LDAP_SUCCESS) {
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+			errno = ETIMEDOUT;
+		else
+			errno = EINVAL;
 		return (-1);
 	}
 	nbentries = ldap_count_entries (ld, reply);
