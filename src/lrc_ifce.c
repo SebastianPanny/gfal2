@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/06/10 14:28:35 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.6 $ $Date: 2004/06/10 15:00:42 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -54,32 +54,41 @@ getdomainnm (char *name, int namelen)
 	return (-1);
 }
 
+static int
+lrc_init (struct soap *soap)
+{
+	int flags;
+
+	soap_init (soap);
+	soap->namespaces = namespaces_lrc;
+
+	if (lrc_endpoint == NULL &&
+	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (lrc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (soap, client_cgsi_plugin, &flags);
+	}
+#endif
+	return (0);
+}
+
 char *
 guidforpfn (const char *pfn)
 {
-	int flags;
 	struct impl__guidForPfnResponse out;
 	char *p;
 	int ret;
 	int sav_errno;
 	struct soap soap;
 
-	soap_init (&soap);
-	soap.namespaces = namespaces_lrc;
-
-	if (lrc_endpoint == NULL &&
-	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
-		errno = EINVAL;
+	if (lrc_init (&soap) < 0)
 		return (NULL);
-	}
-
-#ifdef GFAL_SECURE
-	if (strncmp (lrc_endpoint, "https", 5) == 0) {
-		flags = CGSI_OPT_SSL_COMPATIBLE;
-		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-	}
-#endif
 
 	if (ret = soap_call_impl__guidForPfn (&soap, lrc_endpoint, "",
 	    (char *) pfn, &out)) {
@@ -103,27 +112,12 @@ guidforpfn (const char *pfn)
 
 lrc_guid_exists (const char *guid)
 {
-	int flags;
 	struct impl__guidExistsResponse out;
 	int ret;
 	struct soap soap;
 
-	soap_init (&soap);
-	soap.namespaces = namespaces_lrc;
-
-	if (lrc_endpoint == NULL &&
-	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
-		errno = EINVAL;
+	if (lrc_init (&soap) < 0)
 		return (-1);
-	}
-
-#ifdef GFAL_SECURE
-	if (strncmp (lrc_endpoint, "https", 5) == 0) {
-		flags = CGSI_OPT_SSL_COMPATIBLE;
-		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-	}
-#endif
 
 	if (ret = soap_call_impl__guidExists (&soap, lrc_endpoint, "",
 	    (char *) guid, &out)) {
@@ -140,28 +134,13 @@ lrc_guid_exists (const char *guid)
 
 register_pfn (const char *guid, const char *pfn)
 {
-	int flags;
 	struct impl__addMappingResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
 
-	soap_init (&soap);
-	soap.namespaces = namespaces_lrc;
-
-	if (lrc_endpoint == NULL &&
-	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
-		errno = EINVAL;
+	if (lrc_init (&soap) < 0)
 		return (-1);
-	}
-
-#ifdef GFAL_SECURE
-	if (strncmp (lrc_endpoint, "https", 5) == 0) {
-		flags = CGSI_OPT_SSL_COMPATIBLE;
-		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-	}
-#endif
 
 	if (ret = soap_call_impl__addMapping (&soap, lrc_endpoint, "",
 	    (char *) guid, (char *) pfn, &out)) {
@@ -186,29 +165,14 @@ register_pfn (const char *guid, const char *pfn)
 
 setfilesize (const char *pfn, long long filesize)
 {
-	int flags;
 	struct impl__setStringPfnAttributeResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
 	char tmpbuf[21];
 
-	soap_init (&soap);
-	soap.namespaces = namespaces_lrc;
-
-	if (lrc_endpoint == NULL &&
-	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
-		errno = EINVAL;
+	if (lrc_init (&soap) < 0)
 		return (-1);
-	}
-
-#ifdef GFAL_SECURE
-	if (strncmp (lrc_endpoint, "https", 5) == 0) {
-		flags = CGSI_OPT_SSL_COMPATIBLE;
-		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-	}
-#endif
 
 	sprintf (tmpbuf, "%lld", filesize);
 	if (ret = soap_call_impl__setStringPfnAttribute (&soap, lrc_endpoint,
@@ -235,7 +199,6 @@ surlfromguid (const char *guid)
 {
 	char dname[64];
 	int first;
-	int flags;
 	int i;
 	struct impl__getPfnsResponse out;
 	char *p, *p1, *p2;
@@ -243,22 +206,8 @@ surlfromguid (const char *guid)
 	int sav_errno;
 	struct soap soap;
 
-	soap_init(&soap);
-	soap.namespaces = namespaces_lrc;
-
-	if (lrc_endpoint == NULL &&
-	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
-		errno = EINVAL;
+	if (lrc_init (&soap) < 0)
 		return (NULL);
-	}
-
-#ifdef GFAL_SECURE
-	if (strncmp (lrc_endpoint, "https", 5) == 0) {
-		flags = CGSI_OPT_SSL_COMPATIBLE;
-		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-	}
-#endif
 
 	if (ret = soap_call_impl__getPfns (&soap, lrc_endpoint, "",
 	    (char *) guid, &out)) {
@@ -315,7 +264,6 @@ surlfromguid (const char *guid)
 char **
 surlsfromguid (const char *guid)
 {
-	int flags;
 	int i;
 	int j;
 	struct impl__getPfnsResponse out;
@@ -324,22 +272,8 @@ surlsfromguid (const char *guid)
 	struct soap soap;
 	char **surlarray;
 
-	soap_init(&soap);
-	soap.namespaces = namespaces_lrc;
-
-	if (lrc_endpoint == NULL &&
-	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
-		errno = EINVAL;
+	if (lrc_init (&soap) < 0)
 		return (NULL);
-	}
-
-#ifdef GFAL_SECURE
-	if (strncmp (lrc_endpoint, "https", 5) == 0) {
-		flags = CGSI_OPT_SSL_COMPATIBLE;
-		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-	}
-#endif
 
 	if (ret = soap_call_impl__getPfns (&soap, lrc_endpoint, "",
 	    (char *) guid, &out)) {
@@ -372,27 +306,12 @@ surlsfromguid (const char *guid)
 
 unregister_pfn (const char *guid, const char *pfn)
 {
-	int flags;
 	struct impl__removeMappingResponse out;
 	int ret;
 	struct soap soap;
 
-	soap_init (&soap);
-	soap.namespaces = namespaces_lrc;
-
-	if (lrc_endpoint == NULL &&
-	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
-		errno = EINVAL;
+	if (lrc_init (&soap) < 0)
 		return (-1);
-	}
-
-#ifdef GFAL_SECURE
-	if (strncmp (lrc_endpoint, "https", 5) == 0) {
-		flags = CGSI_OPT_SSL_COMPATIBLE;
-		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-	}
-#endif
 
 	if (ret = soap_call_impl__removeMapping (&soap, lrc_endpoint, "",
 	    (char *) guid, (char *) pfn, &out)) {
