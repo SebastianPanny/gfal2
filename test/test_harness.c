@@ -14,7 +14,7 @@ Suite* add_catalog_tests(Suite *);
 
 int main (int argc, char** argv) { 
   int nf; 
-  Suite *s = suite_create("GFAL suite");
+  Suite *s;
   SRunner *sr;
   char* hostname = NULL;
   
