@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/03/26 10:56:28 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/04/19 08:50:06 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -180,4 +180,62 @@ surlfromguid (const char *guid)
 		soap_done (&soap);
 		return (p);
 	}
+}
+
+char **
+surlsfromguid (const char *guid)
+{
+	int flags;
+	int i;
+	int j;
+	struct impl__getPfnsResponse out;
+	int ret;
+	int sav_errno;
+	struct soap soap;
+	char **surlarray;
+
+	soap_init(&soap);
+	soap.namespaces = namespaces_lrc;
+
+	if (lrc_endpoint == NULL &&
+	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (NULL);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (lrc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	}
+#endif
+
+	if (ret = soap_call_impl__getPfns (&soap, lrc_endpoint, "",
+	    (char *) guid, &out)) {
+		if (ret == SOAP_FAULT) {
+			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
+				sav_errno = ENOENT;
+			else
+				sav_errno = ECOMM;
+		} else
+			sav_errno = ECOMM;
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = sav_errno;
+		return (NULL);
+	}
+	if ((surlarray = calloc (out._getPfnsReturn->__size + 1, sizeof(char *))) == NULL)
+		return (NULL);
+	for (i = 0; i < out._getPfnsReturn->__size; i++) {
+		if ((surlarray[i] = strdup (out._getPfnsReturn->__ptr[i])) == NULL) {
+			for (j = 0; j < i; j++)
+				free (surlarray[j]);
+			free (surlarray);
+			return (NULL);
+		}
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (surlarray);
 }
