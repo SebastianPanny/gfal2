@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.16 $ $Date: 2005/01/06 15:33:43 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.17 $ $Date: 2005/02/04 14:48:57 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -79,7 +79,7 @@ int gfal_stat64 (const char *, struct stat *);
 
                   /* catalog operation entry points */
 int create_alias (const char *, const char *, GFAL_LONG64, char *, int);
-char *getbestfile(char **, int size);
+char *getbestfile(char **, int size, char *, int);
 int getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
 int guid_exists (const char *, char *, int);
 char *guidforpfn (const char *, char *, int);
@@ -110,8 +110,7 @@ int get_bdii (char *, int, int *, char *, int);
 int get_cat_type(char **);
 int get_ce_ap (const char *, char **);
 int get_ce_apx (const char *, char **, char *, int);
-int get_lfc_host (char **);
-int get_lfc_hostx (char **, char *, int);
+int get_lfc_endpoint (char **, char *, int);
 int get_rls_endpoints (char **, char **);
 int get_rls_endpointsx (char **, char **, char *, int);
 int get_sa_root (const char *, const char *, char **);
@@ -153,7 +152,7 @@ int lrc_setfilesize (const char *, GFAL_LONG64, char *, int);
 char *lrc_surlfromguid (const char *, char *, int);
 char **lrc_surlsfromguid (const char *, char *, int);
 int parsesurl (const char *, char *, int, char **, char *, int);
-int parseturl (const char *, char *, int, char *, int, char **);
+int parseturl (const char *, char *, int, char *, int, char **, char*, int);
 int replica_exists(const char*, char*, int);
 char *rmc_guidfromlfn (const char *, char *, int);
 char **rmc_lfnsforguid (const char *, char *, int);

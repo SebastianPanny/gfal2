@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.10 $ $Date: 2005/01/06 15:33:43 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.11 $ $Date: 2005/02/04 14:48:57 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -228,7 +228,7 @@ lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (NULL);
 	} else {
 	  result = getbestfile (out._getPfnsReturn->__ptr, 
-				out._getPfnsReturn->__size);
+				out._getPfnsReturn->__size, errbuf, errbufsz);
 	  if(result == NULL) {
 	    soap_end (&soap);
 	    soap_done (&soap);

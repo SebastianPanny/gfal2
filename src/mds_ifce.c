@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.10 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.11 $ $Date: 2005/02/04 14:48:57 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -207,14 +207,9 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 	return (rc);
 }
 
-/* get from the BDII the host for the LFC */
+/* get from the BDII the endpoint for the LFC */
 
-get_lfc_host (char **lfc_host)
-{
-	return (get_lfc_hostx (lfc_host, NULL, 0));
-}
-
-get_lfc_hostx (char **lfc_host, char *errbuf, int errbufsz)
+get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 {
 	static char ep[] = "GlueServiceAccessPointURL";
 	static char type[] = "GlueServiceType";
@@ -285,14 +280,14 @@ get_lfc_hostx (char **lfc_host, char *errbuf, int errbufsz)
 		}
 		if (rc == 0) {
 			if (strcmp (service_type, "lcg-file-catalog") == 0) {
-			  if ((*lfc_host = strdup (service_url)) == NULL)
+			  if ((*lfc_endpoint = strdup (service_url)) == NULL)
 			    rc = -1;
 			}
 		}
 		free (service_type);
 		free (service_url);
 	}
-	if (*lfc_host == NULL) {
+	if (*lfc_endpoint == NULL) {
 		gfal_errmsg (errbuf, errbufsz, "LFC endpoint not found");
 		errno = EINVAL;
 		rc = -1;

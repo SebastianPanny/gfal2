@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.20 $ $Date: 2005/02/04 14:21:12 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.21 $ $Date: 2005/02/04 14:48:57 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -58,8 +58,7 @@ static int
 lfc_init (char *errbuf, int errbufsz) {
   if (lfc_host == NULL) {
     if((lfc_host = getenv("LFC_HOST")) == NULL &&
-       get_lfc_host(&lfc_host) < 0) {
-      gfal_errmsg(errbuf, errbufsz, "LFC host not found");
+       get_lfc_endpoint (&lfc_host, errbuf, errbufsz) < 0) {
       errno = EINVAL;
       return (-1);
     }
@@ -260,7 +259,7 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
     errno = ENOENT;
     return (NULL);
   }
-  result = getbestfile(surls, (sizeof(surls)/sizeof(char*)));
+  result = getbestfile(surls, (sizeof(surls)/sizeof(char*)), errbuf, errbufsz);
 
   for(cp = surls; *cp != NULL; ++cp) {
     if(*cp != result) {
