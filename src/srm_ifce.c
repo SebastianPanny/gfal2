@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.8 $ $Date: 2004/09/24 09:04:20 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.9 $ $Date: 2004/10/11 13:50:52 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -163,11 +163,15 @@ srm_turlsfromsurls (int nbfiles, const char **surls, xsd__long *filesizes, char 
 	if (strcmp (reqstatp->state, "failed") == 0 ||
 	    strcmp (reqstatp->state, "Failed") == 0) {
 		if (reqstatp->errorMessage) {
-			if (strstr (reqstatp->errorMessage, "does not exist") ||
+			if (strstr (reqstatp->errorMessage, "ile exists"))
+				sav_errno = EEXIST;
+			else if (strstr (reqstatp->errorMessage, "does not exist") ||
 			    strstr (reqstatp->errorMessage, "GetStorageInfoFailed"))
 				sav_errno = ENOENT;
 			else if (strstr (reqstatp->errorMessage, "nvalid arg"))
 				sav_errno = EINVAL;
+			else if (strstr (reqstatp->errorMessage, "protocol"))
+				sav_errno = EPROTONOSUPPORT;
 			else
 				sav_errno = ECOMM;
 		} else
@@ -242,7 +246,8 @@ srm_getfilemd (const char *surl, struct stat64 *statbuf)
 	if ((ret = soap_call_tns__getFileMetaData (&soap, srm_endpoint,
 	    "getFileMetaData", &surlarray, &out))) {
 		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
-			if (strstr (soap.fault->faultstring, "No such file"))
+			if (strstr (soap.fault->faultstring, "No such file") ||
+			    strstr (soap.fault->faultstring, "could not get storage info by path"))
 				sav_errno = ENOENT;
 			else
 				sav_errno = ECOMM;
