@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.2 $ $Date: 2004/02/10 15:41:02 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.3 $ $Date: 2004/03/26 10:59:25 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -58,6 +58,8 @@ int getfilemd (const char *, struct stat64 *);
 char *guidfromlfn (const char *);
 int parsesurl (const char *, char **, char **);
 int parseturl (const char *, char **, char **);
+int register_alias (const char *, const char *);
+int register_pfn (const char *, const char *);
 int set_xfer_done (char *, int, int, int);
 int set_xfer_running (char *, int, int);
 char *surlfromguid (const char *);
