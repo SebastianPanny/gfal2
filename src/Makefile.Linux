@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.11 $ $Date: 2004/09/24 11:17:27 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.12 $ $Date: 2004/10/20 10:51:30 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -44,7 +44,7 @@ SHLIBLDFLAGS = -shared
 CLASSPATH = $(GSOAP_IMP)/wsdlcpp:$(XERCES)/xmlParserAPIs.jar:$(XERCES)/xercesImpl.jar
 GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm_ifce.o srmC.o srmClient.o stdsoap2.o
 
-all: libgfal.a libgfal.so libgfal_pthr.so gfal_testdir gfal_testread gfal_testrw gfal_teststat gfal_testunlink
+all: libgfal.a libgfal.so libgfal_pthr.so gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
@@ -99,6 +99,8 @@ srm.v1.1.h: srm.v1.1.wsdl
 
 gfal_testdir: gfal_api.h libgfal.so
 	$(CC) -o gfal_testdir gfal_testdir.c -L. -lgfal $(SECLIB)
+gfal_testget: gfal_api.h libgfal.so
+	$(CC) -o gfal_testget gfal_testget.c -L. -lgfal $(SECLIB)
 gfal_testread: gfal_api.h libgfal.so
 	$(CC) -o gfal_testread gfal_testread.c -L. -lgfal $(SECLIB)
 gfal_testrw: gfal_api.h libgfal.so
@@ -110,6 +112,7 @@ gfal_testunlink: gfal_api.h libgfal.so
 
 install: $(prefix)/opt/lcg/bin \
 	 $(prefix)/opt/lcg/bin/gfal_testdir \
+	 $(prefix)/opt/lcg/bin/gfal_testget \
 	 $(prefix)/opt/lcg/bin/gfal_testread \
 	 $(prefix)/opt/lcg/bin/gfal_testrw \
 	 $(prefix)/opt/lcg/bin/gfal_teststat \
@@ -124,6 +127,9 @@ $(prefix)/opt/lcg/bin:
 	mkdir -p $@
 
 $(prefix)/opt/lcg/bin/gfal_testdir: gfal_testdir
+	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
+	cp -p $? $@
+$(prefix)/opt/lcg/bin/gfal_testget: gfal_testget
 	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
 	cp -p $? $@
 $(prefix)/opt/lcg/bin/gfal_testread: gfal_testread
@@ -239,4 +245,4 @@ rpm: dist GFAL.spec
 clean:
 	rm -rf SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Stub.h *C.c *Client.c *Server.c *Proxy.h
 clobber: clean
-	rm -f libgfal.a gfal_testdir gfal_testread gfal_testrw gfal_teststat gfal_testunlink
+	rm -f libgfal.a gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
