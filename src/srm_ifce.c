@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/04/23 13:43:35 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/04/29 11:31:11 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -159,6 +159,8 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fi
 		if (strstr (reqstatp->errorMessage, "does not exist") ||
 		    strstr (reqstatp->errorMessage, "GetStorageInfoFailed"))
 			sav_errno = ENOENT;
+		else if (strstr (reqstatp->errorMessage, "nvalid arg"))
+			sav_errno = EINVAL;
 		else
 			sav_errno = ECOMM;
 		soap_end (&soap);
