@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Solaris,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Solaris,v $ $Revision: 1.2 $ $Date: 2003/11/19 13:36:39 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -158,39 +158,39 @@ $(DESTDIR)/usr/local/man/man3:
 	mkdir -p $@
 
 $(DESTDIR)/usr/local/man/man3/gfal.3: gfal.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_access.3: gfal_access.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_chmod.3: gfal_chmod.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_close.3: gfal_close.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_closedir.3: gfal_closedir.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_creat.3: gfal_creat.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_lseek.3: gfal_lseek.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_mkdir.3: gfal_mkdir.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_open.3: gfal_open.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_opendir.3: gfal_opendir.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_read.3: gfal_read.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_readdir.3: gfal_readdir.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_rename.3: gfal_rename.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_rmdir.3: gfal_rmdir.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_stat.3: gfal_stat.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_unlink.3: gfal_unlink.man
-	cp -p $? > $@
+	cp -p $? $@
 $(DESTDIR)/usr/local/man/man3/gfal_write.3: gfal_write.man
-	cp -p $? > $@
+	cp -p $? $@
 
 clean:
 	rm -f *.o *H.h *Stub.h *C.c *Client.c *Server.c *Proxy.h
