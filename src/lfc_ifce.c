@@ -1,9 +1,9 @@
-socket/*
+/*
  * Copyright (C) 2004 by CERN
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.15 $ $Date: 2005/01/17 14:17:20 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.16 $ $Date: 2005/01/17 14:39:42 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
