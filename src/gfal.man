@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.4 $ $Date: 2004/04/06 09:54:38 $ CERN Jean-Philippe Baud
+.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.5 $ $Date: 2004/10/24 10:56:45 $ CERN Jean-Philippe Baud
 .\" Copyright (C) 2003-2004 by CERN/IT/PDP/DM
 .\" All rights reserved
 .\"
-.TH GFAL 3 "$Date: 2004/04/06 09:54:38 $" GFAL "Library Functions"
+.TH GFAL 3 "$Date: 2004/10/24 10:56:45 $" GFAL "Library Functions"
 .SH NAME
 gfal - Grid File Access Library
 .SH DESCRIPTION
@@ -94,7 +94,7 @@ are used internally).
 All these libraries are available as shared libraries as well as archive
 libraries.
 .TP
-.B Replica Catalogs endpoints
+.B EDG Replica Catalogs endpoints
 To be able to use an LFN or a GUID as filename, one must specify the Virtual
 Organization LCG_GFAL_VO and the LCG_GFAL_INFOSYS or the servers endpoints,
 for example:
@@ -112,6 +112,18 @@ or
 	setenv LRC_ENDPOINT \\
 .br
 	http://rlscert01.cern.ch:7777/dteam/edg-local-replica-catalog/services/edg-local-replica-catalog
+.TP
+.B LCG File Catalog
+An alternative to the EDG Replica Catalogs is to use the LCG File Catalog (LFC)
+instead.  In order to use the LFC, one must set the LCG_CATALOG_TYPE variable to "lfc" and optionally provide the LFC_HOST to specify which host to contact.
+for example:
+.sp
+	setenv LCG_CATALOG_TYPE lfc
+.br
+and optionally
+.br
+	setenv LFC_HOST rlscert01.cern.ch:5010
+.br
 .TP
 .B Security
 The SRMs can only be accessed in secure mode, i.e. require a valid Grid
