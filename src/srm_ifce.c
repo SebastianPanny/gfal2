@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/04/19 08:48:32 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/04/23 13:43:35 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -139,8 +139,10 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fi
 
 	/* wait for file "ready" */
 
-	while (strcmp (reqstatp->fileStatuses->__ptr->state, "pending") == 0 ||
-	    strcmp (reqstatp->fileStatuses->__ptr->state, "Pending") == 0) {
+	while ((strcmp (reqstatp->state, "pending") == 0 ||
+	    strcmp (reqstatp->state, "Pending") == 0) &&
+	    (strcmp (reqstatp->fileStatuses->__ptr->state, "pending") == 0 ||
+	    strcmp (reqstatp->fileStatuses->__ptr->state, "Pending") == 0)) {
 		sleep ((r++ == 0) ? 1 : (reqstatp->retryDeltaTime > 0) ?
 		    reqstatp->retryDeltaTime : DEFPOLLINT);
 		if (soap_call_tns__getRequestStatus (&soap, srm_endpoint,
