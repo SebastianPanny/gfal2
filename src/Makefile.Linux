@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.10 $ $Date: 2004/09/24 09:06:22 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.11 $ $Date: 2004/09/24 11:17:27 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -156,6 +156,9 @@ $(prefix)/opt/lcg/lib/libgfal.a: libgfal.a
 	-mv $@ $(prefix)/opt/lcg/lib/OLD$?
 	cp -p $? $@
 $(prefix)/opt/lcg/lib/libgfal.so: libgfal.so
+	-mv $@ $(prefix)/opt/lcg/lib/OLD$?
+	cp -p $? $@
+$(prefix)/opt/lcg/lib/libgfal_pthr.so: libgfal_pthr.so
 	-mv $@ $(prefix)/opt/lcg/lib/OLD$?
 	cp -p $? $@
 
