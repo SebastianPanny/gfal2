@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.2 $ $Date: 2003/12/15 10:46:06 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -749,21 +749,49 @@ parseturl (const char *turl, char **protocol, char **pfn)
 {
 	int len;
 	char *p;
+	static char path[1024];
 	static char proto[64];
+
+	/* get protocol */
 
 	if ((p = strstr (turl, ":/")) == NULL) {
 		errno = EINVAL;
 		return (-1);
 	}
-	*pfn = p + 1;
 	if ((len = p - turl) > (sizeof(proto) - 1)) {
 		errno = EINVAL;
 		return (-1);
 	}
 	strncpy (proto, turl, len);
 	*(proto + len) = '\0';
-	if (*(p + 2) == '/' && strcmp (proto, "rfio") == 0)
-		*pfn = p + 2;
+
+	if (strcmp (proto, "file") == 0) {
+		*pfn = p + 1;
+	} else if (strcmp (proto, "dcap") == 0) {
+		*pfn = (char *) turl;
+	} else if (strcmp (proto, "rfio") == 0) {
+		p += 2;
+		if (*p != '/') {
+			errno = EINVAL;
+			return (-1);
+		}
+		p++;
+		if (*p == '/' && *(p + 1) == '/') {	/* no hostname */
+			*pfn = p + 1;
+		} else {
+			if (strlen (p) > sizeof(path)) {
+				errno = EINVAL;
+				return (-1);
+			}
+			strcpy (path, p);
+			if (p = strstr (path, "//"))
+				*p = ':';
+			*pfn = path;
+		}
+	} else {
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
 	*protocol = proto;
 	return (0);
 }
