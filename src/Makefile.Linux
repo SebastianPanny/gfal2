@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.7 $ $Date: 2004/08/20 15:34:26 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.8 $ $Date: 2004/09/21 15:12:24 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -14,7 +14,7 @@ GSOAP_IMP = /opt/gsoap-linux-2.2.3
 
 # To enable RFIO support, uncomment the next 2 lines
 RFIOFLG = -DGFAL_ENABLE_RFIO
-RFIOINC = -I/usr/local/include/shift
+RFIOINC = -I/usr/include/shift -I/usr/local/include/shift
 
 # To enable DCAP support, uncomment the next 2 lines
 DCAPFLG = -DGFAL_ENABLE_DCAP
@@ -221,7 +221,12 @@ rpm: dist GFAL.spec
 	mkdir -p SOURCES SPECS BUILD SRPMS RPMS/i386
 	cp $(distdir).src.tar.gz SOURCES
 	cp GFAL.spec SPECS
-	rpm --define "_topdir `pwd`" -ba SPECS/GFAL.spec
+	if [ -x /usr/bin/rpmbuild ] ; \
+	then \
+	  rpmbuild --define "_topdir `pwd`" -ba SPECS/GFAL.spec ; \
+	else \
+	  rpm --define "_topdir `pwd`" -ba SPECS/GFAL.spec ; \
+	fi
 
 clean:
 	rm -rf SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Stub.h *C.c *Client.c *Server.c *Proxy.h
