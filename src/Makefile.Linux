@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.6 $ $Date: 2004/06/18 09:36:04 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.7 $ $Date: 2004/08/20 15:34:26 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -31,6 +31,10 @@ GLOBUS_LIBS=-L/opt/globus/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR) -lglobus_gss
 SECLIB = -lcgsi_plugin_gsoap_2.3 $(GLOBUS_LIBS)
 
 # End of the part to be edited
+
+include VERSION
+PACKAGE = GFAL-client
+distdir = $(PACKAGE)-$(VERSION)
 
 CC = cc -g -fPIC -D_LARGEFILE64_SOURCE
 SHLIBLDFLAGS = -shared
@@ -207,7 +211,19 @@ $(DESTDIR)/opt/lcg/man/man3/gfal_unlink.3: gfal_unlink.man
 $(DESTDIR)/opt/lcg/man/man3/gfal_write.3: gfal_write.man
 	cp -p $? $@
 
+dist:
+	-rm -rf $(distdir)
+	mkdir $(distdir)
+	-cp -p * $(distdir)
+	tar cvzf $(distdir).src.tar.gz $(distdir)
+	-rm -rf $(distdir)
+rpm: dist GFAL.spec
+	mkdir -p SOURCES SPECS BUILD SRPMS RPMS/i386
+	cp $(distdir).src.tar.gz SOURCES
+	cp GFAL.spec SPECS
+	rpm --define "_topdir `pwd`" -ba SPECS/GFAL.spec
+
 clean:
-	rm -f *.o *H.h *Stub.h *C.c *Client.c *Server.c *Proxy.h
+	rm -rf SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Stub.h *C.c *Client.c *Server.c *Proxy.h
 clobber: clean
 	rm -f libgfal.a gfal_testdir gfal_testread gfal_testrw gfal_teststat gfal_testunlink
