@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003 by CERN
+ * Copyright (C) 2003-2004 by CERN
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/03/26 10:54:30 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -34,7 +34,7 @@ guidfromlfn (const char *lfn)
 	int sav_errno;
 	struct soap soap;
 
-	soap_init(&soap);
+	soap_init (&soap);
 	soap.namespaces = namespaces_rmc;
 
 	if (rmc_endpoint == NULL &&
@@ -70,4 +70,50 @@ guidfromlfn (const char *lfn)
 		soap_done (&soap);
 		return (p);
 	}
+}
+
+register_alias (const char *guid, const char *lfn)
+{
+	int flags;
+	struct impl__addAliasResponse out;
+	int ret;
+	int sav_errno;
+	struct soap soap;
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_rmc;
+
+	if (rmc_endpoint == NULL &&
+	    (rmc_endpoint = getenv ("RMC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (rmc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	}
+#endif
+
+	if (ret = soap_call_impl__addAlias (&soap, rmc_endpoint, "",
+	    (char *) guid, (char *) lfn, &out)) {
+		if (ret == SOAP_FAULT) {
+			if (strstr (soap.fault->faultcode, "ALIASEXISTS"))
+				sav_errno = EEXIST;
+			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
+				sav_errno = ENAMETOOLONG;
+			else
+				sav_errno = ECOMM;
+		} else
+			sav_errno = ECOMM;
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = sav_errno;
+		return (-1);
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (0);
 }
