@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.14 $ $Date: 2004/10/24 12:31:22 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.15 $ $Date: 2004/10/26 09:28:05 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -14,7 +14,7 @@ GSOAP_IMP = /opt/gsoap-linux-2.2.3
 
 # To configure LFC integration
 LFC = $(prefix)/opt/lcg
-LFCINC=-I$(LFC)/include
+LFCINC=-I$(LFC)/include/lfc
 LFCLIB=-L$(LFC)/lib -llfc -lshift -luuid
 
 # To enable RFIO support, uncomment the next 2 lines

@@ -2,7 +2,6 @@
 #  Copyright (C) 2004 by CERN
 #
 
-#LFC_DIR=/home/jamesc/work/LFC
 LFC_DIR=$(prefix)/opt/lcg
 GFAL_DIR=..
 
@@ -12,7 +11,7 @@ GFAL_DIR=..
 CC += -g -fPIC
 SHLIBLDFLAGS = -shared
 
-INCLUDES= -I$(LFC_DIR)/include -I$(GFAL_DIR)
+INCLUDES= -I$(LFC_DIR)/include/lfc -I$(GFAL_DIR)
 
 LIBS = -lcheck -L$(GFAL_DIR) -lgfal
 
