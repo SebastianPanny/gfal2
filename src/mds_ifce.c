@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/05/17 09:51:27 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.6 $ $Date: 2004/05/26 08:06:54 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -217,6 +217,61 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 	if (entry) {
 		value = ldap_get_values (ld, entry, sa_root_atnm);
 		if ((*sa_root = strdup (value[0] + strlen (vo) + 1)) == NULL)
+			rc = -1;
+		ldap_value_free (value);
+	} else {
+		errno = EINVAL;
+		rc = -1;
+	}
+	ldap_msgfree (reply);
+	ldap_unbind (ld);
+	return (rc);
+}
+
+/* get from the BDII the SE endpoint */
+
+get_se_endpoint (const char *host, char **se_endpoint)
+{
+	static char se_ep_atnm[] = "GlueServiceURI";
+	static char *template = "(GlueServiceURI=*%s*)";
+	char *attr;
+	static char *attrs[] = {se_ep_atnm, NULL};
+	int bdii_port;
+	char bdii_server[75];
+	LDAPMessage *entry;
+	char filter[128];
+	LDAP *ld;
+	int rc = 0;
+	LDAPMessage *reply;
+	struct timeval timeout;
+	char **value;
+
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+		return (-1);
+	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
+		errno = EINVAL;
+		return (-1);
+	}
+	sprintf (filter, template, host);
+
+	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
+		return (-1);
+	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		errno = ECONNREFUSED;
+		return (-1);
+	}
+	timeout.tv_sec = 5;
+	timeout.tv_usec = 0;
+	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply) != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		return (-1);
+	}
+	entry = ldap_first_entry (ld, reply);
+	if (entry) {
+		value = ldap_get_values (ld, entry, se_ep_atnm);
+		if ((*se_endpoint = strdup (value[0])) == NULL)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
