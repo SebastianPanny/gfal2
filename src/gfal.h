@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003 by CERN
+ * Copyright (C) 2003-2004 by CERN
  */
 
 /*
- * @(#)$RCSfile: gfal.h,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.h,v $ $Revision: 1.2 $ $Date: 2004/02/10 15:41:02 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_H
@@ -16,6 +16,7 @@ struct dir_info {
 	struct proto_ops *pops;
 };
 
+static ssize_t dummysetfilchg ();
 static int fnotsup ();
 
 struct proto_ops {
@@ -40,6 +41,7 @@ struct proto_ops {
 	struct dirent64	*(*readdir64)(DIR *);
 	int	(*rename)(const char *, const char *);
 	int	(*rmdir)(const char *);
+	ssize_t	(*setfilchg)(int, const void *, size_t);
 	int	(*stat)(const char *, struct stat *);
 	int	(*stat64)(const char *, struct stat64 *);
 	int	(*unlink)(const char *);

@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003 by CERN
+ * Copyright (C) 2003-2004 by CERN
  */
 
 /*
- * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.2 $ $Date: 2004/02/10 15:41:02 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -100,6 +100,7 @@ checkdcaplib (struct proto_ops *pops)
 	pops->readdir64 = (struct dirent64 * (*) (DIR *)) &readdir64;
 	pops->rename = (int (*) (const char *, const char *)) &rename;
 	pops->rmdir = (int (*) (const char *)) &rmdir;
+	pops->setfilchg = (ssize_t (*) (int, const void *, size_t)) &dummysetfilchg;
 	pops->stat = (int (*) (const char *, struct stat *)) dlsym (dlhandle, "dc_stat");
 	pops->stat64 = (int (*) (const char *, struct stat64 *)) dlsym (dlhandle, "dc_stat64");
 	pops->unlink = (int (*) (const char *)) &unlink;
@@ -157,6 +158,7 @@ checkrfiolib (struct proto_ops *pops)
 	pops->readdir64 = (struct dirent64 * (*) (DIR *)) dlsym (dlhandle, "rfio_readdir64");
 	pops->rename = (int (*) (const char *, const char *)) dlsym (dlhandle, "rfio_rename");
 	pops->rmdir = (int (*) (const char *)) dlsym (dlhandle, "rfio_rmdir");
+	pops->setfilchg = (ssize_t (*) (int, const void *, size_t)) dlsym (dlhandle, "rfio_HsmIf_FirstWrite");
 	pops->stat = (int (*) (const char *, struct stat *)) dlsym (dlhandle, "rfio_stat");
 	pops->stat64 = (int (*) (const char *, struct stat64 *)) dlsym (dlhandle, "rfio_stat64");
 	pops->unlink = (int (*) (const char *)) dlsym (dlhandle, "rfio_unlink");
@@ -198,6 +200,7 @@ static struct proto_ops pops_array[] = {
 		&readdir64,
 		&rename,
 		&rmdir,
+		&dummysetfilchg,
 		&stat,
 		&stat64,
 		&unlink,
@@ -208,7 +211,7 @@ static struct proto_ops pops_array[] = {
 	{
 		"rfio", 0, &checkrfiolib, NULL, &maprfioerror, NULL, NULL,
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 	},
 #endif
 
@@ -216,15 +219,21 @@ static struct proto_ops pops_array[] = {
 	{
 		"dcap", 0, &checkdcaplib, NULL, &mapdcaperror, NULL, NULL,
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 	},
 #endif
 	{
 		"", 1, NULL, NULL, NULL, NULL, NULL,
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 	}
 };
+
+static ssize_t
+dummysetfilchg (int fd, const void *buffer, size_t size)
+{
+	return (0);
+}
 
 struct proto_ops *
 find_pops (const char *protocol)

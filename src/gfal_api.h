@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003 by CERN
+ * Copyright (C) 2003-2004 by CERN
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.2 $ $Date: 2004/02/10 15:41:02 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -30,6 +30,7 @@ ssize_t gfal_read (int, void *, size_t);
 struct dirent *gfal_readdir (DIR *);
 int gfal_rename (const char *, const char *);
 int gfal_rmdir (const char *);
+ssize_t gfal_setfilchg (int, const void *, size_t);
 int gfal_stat (const char *, struct stat *);
 int gfal_unlink (const char *);
 ssize_t gfal_write (int, const void *, size_t);

@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003 by CERN
+ * Copyright (C) 2003-2004 by CERN
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.2 $ $Date: 2003/12/15 10:46:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.3 $ $Date: 2004/02/10 15:41:02 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -549,6 +549,19 @@ gfal_rmdir (const char *dirname)
 		return (-1);
 	}
 	return (0);
+}
+
+ssize_t
+gfal_setfilchg (int fd, const void *buf, size_t size)
+{
+	int rc;
+	struct xfer_info *xi;
+
+	if ((xi = find_xi (fd)) == NULL)
+		return (-1);
+	if ((rc = xi->pops->setfilchg (fd, buf, size)) < 0)
+		errno = xi->pops->maperror (xi->pops, 1);
+	return (rc);
 }
 
 gfal_stat (const char *filename, struct stat *statbuf)
