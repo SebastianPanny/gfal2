@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.6 $ $Date: 2004/06/18 09:36:04 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.7 $ $Date: 2004/08/20 14:52:03 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -65,9 +65,11 @@ srm_deletesurl (const char *surl)
 	return (0);
 }
 
-char *
-srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid, char **token)
+srm_turlsfromsurls (int nbfiles, const char **surls, xsd__long *filesizes, char **protocols, int oflag, int *reqid, int **fileids, char **token, char ***turls)
 {
+	int *f;
+	int i;
+	int n;
 	int nbproto = 0;
 	struct tns__getResponse outg;
 	struct tns__putResponse outp;
@@ -78,23 +80,22 @@ srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int
 	int r = 0;
 	struct ns11__RequestStatus *reqstatp;
 	int sav_errno;
-	xsd__boolean setperm = true_;
 	struct ArrayOflong sizearray;
 	struct soap soap;
 	struct ArrayOfstring srcarray;
 	char *srm_endpoint;
 	struct ArrayOfstring surlarray;
-	xsd__long zero = 0;
+	char **t;
 
-	if (srm_init (&soap, surl, &srm_endpoint) < 0)
-		return (NULL);
+	if (srm_init (&soap, surls[0], &srm_endpoint) < 0)
+		return (-1);
 
 	while (*protocols[nbproto]) nbproto++;
 
 	/* issue "get" or the "put" request */
 
-	surlarray.__ptr = (char **)&surl;
-	surlarray.__size = 1;
+	surlarray.__ptr = (char **)surls;
+	surlarray.__size = nbfiles;
 	surlarray.__offset = 0;
 	protoarray.__ptr = protocols;
 	protoarray.__size = nbproto;
@@ -106,25 +107,33 @@ srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int
 			soap_print_fault (&soap, stderr);
 			soap_end (&soap);
 			soap_done (&soap);
-			return (NULL);
+			return (-1);
 		}
 		reqstatp = outg._Result;
 	} else {
-		srcarray.__ptr = (char **)&surl;
-		srcarray.__size = 1;
+		srcarray.__ptr = (char **)surls;
+		srcarray.__size = nbfiles;
 		srcarray.__offset = 0;
-		sizearray.__ptr = &zero;
-		sizearray.__size = 1;
+		sizearray.__ptr = filesizes;
+		sizearray.__size = nbfiles;
 		sizearray.__offset = 0;
-		permarray.__ptr = &setperm;
-		permarray.__size = 1;
+		if ((permarray.__ptr =
+		    soap_malloc (&soap, nbfiles * sizeof(xsd__boolean))) == NULL) {
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ENOMEM;
+			return (-1);
+		}
+		for (i = 0; i< nbfiles; i++)
+			permarray.__ptr[i] = true_;
+		permarray.__size = nbfiles;
 		permarray.__offset = 0;
 		if (soap_call_tns__put (&soap, srm_endpoint, "put", &srcarray,
 		    &surlarray, &sizearray, &permarray, &protoarray, &outp)) {
 			soap_print_fault (&soap, stderr);
 			soap_end (&soap);
 			soap_done (&soap);
-			return (NULL);
+			return (-1);
 		}
 		reqstatp = outp._Result;
 	}
@@ -132,16 +141,14 @@ srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = EPROTONOSUPPORT;
-		return (NULL);
+		return (-1);
 	}
 	*reqid = reqstatp->requestId;
 
 	/* wait for file "ready" */
 
-	while ((strcmp (reqstatp->state, "pending") == 0 ||
-	    strcmp (reqstatp->state, "Pending") == 0) &&
-	    (strcmp (reqstatp->fileStatuses->__ptr->state, "pending") == 0 ||
-	    strcmp (reqstatp->fileStatuses->__ptr->state, "Pending") == 0)) {
+	while (strcmp (reqstatp->state, "pending") == 0 ||
+	    strcmp (reqstatp->state, "Pending") == 0) {
 		sleep ((r++ == 0) ? 1 : (reqstatp->retryDeltaTime > 0) ?
 		    reqstatp->retryDeltaTime : DEFPOLLINT);
 		if (soap_call_tns__getRequestStatus (&soap, srm_endpoint,
@@ -149,29 +156,66 @@ srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int
 			soap_print_fault (&soap, stderr);
 			soap_end (&soap);
 			soap_done (&soap);
-			return (NULL);
+			return (-1);
 		}
 		reqstatp = outq._Result;
 	}
-	if (strcmp (reqstatp->fileStatuses->__ptr->state, "ready") &&
-	    strcmp (reqstatp->fileStatuses->__ptr->state, "Ready")) {
-		if (strstr (reqstatp->errorMessage, "does not exist") ||
-		    strstr (reqstatp->errorMessage, "GetStorageInfoFailed"))
-			sav_errno = ENOENT;
-		else if (strstr (reqstatp->errorMessage, "nvalid arg"))
-			sav_errno = EINVAL;
-		else
+	if (strcmp (reqstatp->state, "failed") == 0 ||
+	    strcmp (reqstatp->state, "Failed") == 0) {
+		if (reqstatp->errorMessage) {
+			if (strstr (reqstatp->errorMessage, "does not exist") ||
+			    strstr (reqstatp->errorMessage, "GetStorageInfoFailed"))
+				sav_errno = ENOENT;
+			else if (strstr (reqstatp->errorMessage, "nvalid arg"))
+				sav_errno = EINVAL;
+			else
+				sav_errno = ECOMM;
+		} else
 			sav_errno = ECOMM;
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
-		return (NULL);
+		return (-1);
 	}
-	*fileid = reqstatp->fileStatuses->__ptr->fileId;
+	n = reqstatp->fileStatuses->__size;
+	if ((f = malloc (n * sizeof(int))) == NULL ||
+	    (t = malloc (n * sizeof(char *))) == NULL) {
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ENOMEM;
+		return (-1);
+	}
+	for (i = 0; i < n; i++) {
+		f[i] = (reqstatp->fileStatuses->__ptr+i)->fileId;
+		if (strcmp ((reqstatp->fileStatuses->__ptr+i)->state, "ready") &&
+		    strcmp ((reqstatp->fileStatuses->__ptr+i)->state, "Ready"))
+			t[i] = NULL;
+		else
+			t[i] = strdup ((reqstatp->fileStatuses->__ptr+i)->TURL);
+	}
+	*fileids = f;
 	*token = NULL;
-	p = strdup (reqstatp->fileStatuses->__ptr->TURL);
+	*turls = t;
 	soap_end (&soap);
 	soap_done (&soap);
+	return (n);
+}
+
+char *
+srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid, char **token)
+{
+	int *fileids;
+	char *p;
+	char **turls;
+	xsd__long zero = 0;
+
+	if (srm_turlsfromsurls (1, &surl, &zero, protocols, oflag,
+	    reqid, &fileids, token, &turls) <= 0)
+		return (NULL);
+	*fileid = fileids[0];
+	p = turls[0];
+	free (fileids);
+	free (turls);
 	return (p);
 }
 
