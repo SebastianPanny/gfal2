@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.10 $ $Date: 2005/01/05 12:32:12 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.11 $ $Date: 2005/01/05 15:21:41 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -37,6 +37,7 @@ get_hostname(const char *path) {
 
   start = strchr(sav_path, ':');
   if ( start == NULL || *(start+1) != '/' || *(start+2) != '/') {
+    gfal_errmsg(errbuf, errbufsz, "Path too long");
     errno = EINVAL;
     return (NULL);
   }
@@ -58,10 +59,12 @@ lfc_init (char *errbuf, int errbufsz) {
   if (lfc_host == NULL) {
     if((lfc_host = getenv("LFC_HOST")) == NULL &&
        get_lfc_host(&lfc_host) < 0) {
+      gfal_errmsg(errbuf, errbufsz, "LFC host not found");
       errno = EINVAL;
       return (-1);
     }
     if( 10 + strlen(lfc_host) > 64) {
+      gfal_errmsg(errbuf, errbufsz, "Host too long") ;
       errno = EINVAL;
       return (-1);
     }
@@ -452,6 +455,7 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
   char uuid_buf[CA_MAXGUIDLEN+1];
 
   if (strlen (path) >= sizeof(sav_path)) {
+    gfal_errmsg(errbuf, errbufsz, "Path too long");
     errno = EINVAL;
     return (-1);
   }
