@@ -1,9 +1,9 @@
-/*
+socket/*
  * Copyright (C) 2004 by CERN
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.14 $ $Date: 2005/01/13 17:03:13 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.15 $ $Date: 2005/01/17 14:17:20 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -195,7 +195,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
   lfc_list list;
   struct lfc_filereplica* rp;
   int flags;
-  char **p;
+  char **p, **pp;
   size_t size = ALLOC_BLOCK_SIZE;
   size_t i = 0;
   
@@ -220,11 +220,12 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
     
     if(i >= size) {
       size += ALLOC_BLOCK_SIZE;
-      if((p = (char**)realloc(p, size * sizeof(char*))) == NULL) {
-	/* TODO : JC what about freeing old p */
+      if((pp = (char**)realloc(p, size * sizeof(char*))) == NULL) {
 	(void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+	free(p);
 	return (NULL);
       }
+      p = pp;
     }
   } 
   (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
@@ -237,10 +238,12 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
   
   p[i++]='\0';
   /* and trim */
-  if((p = (char**)realloc(p, i * sizeof(char*))) == NULL)
+  if((pp = (char**)realloc(p, i * sizeof(char*))) == NULL) {
+    free(p);
     return (NULL);
+  }
   
-  return (p);
+  return (pp);
 }
 
 char *
@@ -320,7 +323,7 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
   lfc_list list;
   struct lfc_linkinfo* lp;
   int flags;
-  char **p;
+  char **p, **pp;
   size_t size = ALLOC_BLOCK_SIZE;
   size_t i = 0;
   
@@ -339,29 +342,35 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
     
     if((p[i++] = strdup(lp->path)) == NULL) {
       (void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
+      free (p);
       return (NULL);
     }
     
     if(i >= size) {
       size += ALLOC_BLOCK_SIZE;
-      if((p = (char**)realloc(p, size * sizeof(char*))) == NULL) {
+      if((pp = (char**)realloc(p, size * sizeof(char*))) == NULL) {
 	(void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
+	free (p);
 	return (NULL);
       }
+      p = pp;
     }
   } 
   (void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
   /* no results */
   if( i== 0) {
-    free(p);
     errno = ENOENT;
+    free (p);
     return (NULL);
   }
 
   p[i++] = '\0';
-  if((p = (char**)realloc(p, i * sizeof(char*))) == NULL)
+  if((pp = (char**)realloc(p, i * sizeof(char*))) == NULL) {
+    free (p);
     return (NULL);
-  return (p);
+  }
+
+  return (pp);
 }
 
 int
