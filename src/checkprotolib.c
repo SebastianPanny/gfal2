@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.3 $ $Date: 2004/04/06 10:00:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.4 $ $Date: 2004/06/10 11:33:54 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -67,43 +67,34 @@ dc_lseek64 (int fildes, off64_t offset, int whence)
 
 checkdcaplib (struct proto_ops *pops)
 {
-	int dc64 = 1;
 	void *dlhandle;
 
-	if ((dlhandle = dlopen ("libdcap64.so", RTLD_LAZY)) == NULL) {
-		if ((dlhandle = dlopen ("libdcap.so", RTLD_LAZY)) == NULL) {
-			pops->libok == -1;
-			return (-1);
-		}
-		dc64 = 0;
+	if ((dlhandle = dlopen ("libdcap.so", RTLD_LAZY)) == NULL) {
+		pops->libok == -1;
+		return (-1);
 	}
 	pops->libok = 1;
 	pops->geterror = (int (*) ()) dlsym (dlhandle, "__dc_errno");
 	pops->access = (int (*) (const char *, int)) dlsym (dlhandle, "dc_access");
-	pops->chmod = (int (*) (const char *, mode_t)) &chmod;
+	pops->chmod = (int (*) (const char *, mode_t)) dlsym (dlhandle, "dc_chmod");
 	pops->close = (int (*) (int)) dlsym (dlhandle, "dc_close");
 	pops->closedir = (int (*) (DIR *)) dlsym (dlhandle, "dc_closedir");
-	if (dc64) {
-		pops->lseek = (off_t (*) (int, off_t, int)) &dc_lseek32;
-		pops->lseek64 = (off64_t (*) (int, off64_t, int)) dlsym (dlhandle, "dc_lseek");
-	} else {
-		pops->lseek = (off_t (*) (int, off_t, int)) dlsym (dlhandle, "dc_lseek");
-		pops->lseek64 = (off64_t (*) (int, off64_t, int)) &dc_lseek64;
-	}
+	pops->lseek = (off_t (*) (int, off_t, int)) &dc_lseek32;
+	pops->lseek64 = (off64_t (*) (int, off64_t, int)) dlsym (dlhandle, "dc_lseek");
 	pops->lstat = (int (*) (const char *, struct stat *)) dlsym (dlhandle, "dc_lstat");
 	pops->lstat64 = (int (*) (const char *, struct stat64 *)) dlsym (dlhandle, "dc_lstat64");
-	pops->mkdir = (int (*) (const char *, mode_t)) &mkdir;
+	pops->mkdir = (int (*) (const char *, mode_t)) dlsym (dlhandle, "dc_mkdir");
 	pops->open = (int (*) (const char *, int, ...)) dlsym (dlhandle, "dc_open");
 	pops->opendir = (DIR * (*) (const char *)) dlsym (dlhandle, "dc_opendir");
 	pops->read = (ssize_t (*) (int, void *, size_t)) dlsym (dlhandle, "dc_read");
 	pops->readdir = (struct dirent * (*) (DIR *)) dlsym (dlhandle, "dc_readdir");
 	pops->readdir64 = (struct dirent64 * (*) (DIR *)) dlsym (dlhandle, "dc_readdir64");
 	pops->rename = (int (*) (const char *, const char *)) &rename;
-	pops->rmdir = (int (*) (const char *)) &rmdir;
+	pops->rmdir = (int (*) (const char *)) dlsym (dlhandle, "dc_rmdir");
 	pops->setfilchg = (ssize_t (*) (int, const void *, size_t)) &dummysetfilchg;
 	pops->stat = (int (*) (const char *, struct stat *)) dlsym (dlhandle, "dc_stat");
 	pops->stat64 = (int (*) (const char *, struct stat64 *)) dlsym (dlhandle, "dc_stat64");
-	pops->unlink = (int (*) (const char *)) &unlink;
+	pops->unlink = (int (*) (const char *)) dlsym (dlhandle, "dc_unlink");
 	pops->write = (ssize_t (*) (int, const void *, size_t)) dlsym (dlhandle, "dc_write");
 	return (0);
 }
