@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/04/29 11:31:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/05/24 11:47:29 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -29,10 +29,8 @@ deletesurl (const char *surl)
 	char *srm_endpoint;
 	struct ArrayOfstring surlarray;
 
-	if (parsesurl (surl, &srm_endpoint, &sfn) < 0) {
-		perror ("parsesurl");
-		exit (1);
-	}
+	if (parsesurl (surl, &srm_endpoint, &sfn) < 0)
+		return (-1);
 
 	soap_init (&soap);
 #ifdef GFAL_SECURE
