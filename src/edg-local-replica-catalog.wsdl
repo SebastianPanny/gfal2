@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:edg-replica-location" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="urn:edg-replica-location" xmlns:intf="urn:edg-replica-location" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><wsdl:types><schema targetNamespace="urn:edg-replica-location" xmlns="http://www.w3.org/2001/XMLSchema"><import namespace="http://schemas.xmlsoap.org/soap/encoding/"/><complexType name="ArrayOf_xsd_string"><complexContent><restriction base="soapenc:Array"><attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/></restriction></complexContent></complexType></schema></wsdl:types>
+  <wsdl:message name="guidForPfnResponse">
+    <wsdl:part name="guidForPfnReturn" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="attributeDefinitionExistsRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getAttributeDefinitionsResponse">
+    <wsdl:part name="getAttributeDefinitionsReturn" type="impl:ArrayOf_xsd_string"/>
+  </wsdl:message>
+  <wsdl:message name="guidExistsRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="removeAttributeDefinitionResponse">
+  </wsdl:message>
+  <wsdl:message name="setPfnAttributeRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:string"/>
+    <wsdl:part name="in2" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByPfnRequest2">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:int"/>
+    <wsdl:part name="in2" type="xsd:int"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByGuidResponse1">
+    <wsdl:part name="getMappingsByGuidReturn" type="impl:ArrayOf_xsd_string"/>
+  </wsdl:message>
+  <wsdl:message name="setDefaultResultLengthRequest">
+    <wsdl:part name="in0" type="xsd:int"/>
+  </wsdl:message>
+  <wsdl:message name="getPfnsRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="createAttributeDefinitionRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="pfnExistsResponse">
+    <wsdl:part name="pfnExistsReturn" type="xsd:boolean"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByGuidResponse">
+    <wsdl:part name="getMappingsByGuidReturn" type="impl:ArrayOf_xsd_string"/>
+  </wsdl:message>
+  <wsdl:message name="removeAttributeDefinitionRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByPfnResponse2">
+    <wsdl:part name="getMappingsByPfnReturn" type="impl:ArrayOf_xsd_string"/>
+  </wsdl:message>
+  <wsdl:message name="getAttributeDefinitionsRequest">
+  </wsdl:message>
+  <wsdl:message name="pingResponse">
+    <wsdl:part name="pingReturn" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getVersionRequest">
+  </wsdl:message>
+  <wsdl:message name="deleteMappingResponse">
+  </wsdl:message>
+  <wsdl:message name="guidExistsResponse">
+    <wsdl:part name="guidExistsReturn" type="xsd:boolean"/>
+  </wsdl:message>
+  <wsdl:message name="getDefaultResultLengthRequest">
+  </wsdl:message>
+  <wsdl:message name="getVersionResponse">
+    <wsdl:part name="getVersionReturn" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByPfnResponse1">
+    <wsdl:part name="getMappingsByPfnReturn" type="impl:ArrayOf_xsd_string"/>
+  </wsdl:message>
+  <wsdl:message name="attributeDefinitionExistsResponse">
+    <wsdl:part name="attributeDefinitionExistsReturn" type="xsd:boolean"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByPfnAttributeRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="addMappingResponse">
+  </wsdl:message>
+  <wsdl:message name="getMappingsByPfnResponse">
+    <wsdl:part name="getMappingsByPfnReturn" type="impl:ArrayOf_xsd_string"/>
+  </wsdl:message>
+  <wsdl:message name="removeMappingResponse">
+  </wsdl:message>
+  <wsdl:message name="pingRequest">
+  </wsdl:message>
+  <wsdl:message name="setDefaultResultLengthResponse">
+  </wsdl:message>
+  <wsdl:message name="getPfnsResponse">
+    <wsdl:part name="getPfnsReturn" type="impl:ArrayOf_xsd_string"/>
+  </wsdl:message>
+  <wsdl:message name="getPfnAttributeResponse">
+    <wsdl:part name="getPfnAttributeReturn" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="removePfnAttributeResponse">
+  </wsdl:message>
+  <wsdl:message name="getDefaultResultLengthResponse">
+    <wsdl:part name="getDefaultResultLengthReturn" type="xsd:int"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByGuidRequest1">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:int"/>
+  </wsdl:message>
+  <wsdl:message name="removeMappingRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByPfnRequest1">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:int"/>
+  </wsdl:message>
+  <wsdl:message name="deleteMappingRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="pfnExistsRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="createAttributeDefinitionResponse">
+  </wsdl:message>
+  <wsdl:message name="getMappingsByGuidRequest2">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:int"/>
+    <wsdl:part name="in2" type="xsd:int"/>
+  </wsdl:message>
+  <wsdl:message name="setPfnAttributeResponse">
+    <wsdl:part name="setPfnAttributeReturn" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="guidForPfnRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByGuidRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByPfnRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="removePfnAttributeRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByPfnAttributeResponse">
+    <wsdl:part name="getMappingsByPfnAttributeReturn" type="impl:ArrayOf_xsd_string"/>
+  </wsdl:message>
+  <wsdl:message name="getPfnAttributeRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="addMappingRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="getMappingsByGuidResponse2">
+    <wsdl:part name="getMappingsByGuidReturn" type="impl:ArrayOf_xsd_string"/>
+  </wsdl:message>
+  <wsdl:portType name="EdgLocalReplicaCatalog">
+    <wsdl:operation name="removeMapping" parameterOrder="in0 in1">
+      <wsdl:input message="impl:removeMappingRequest" name="removeMappingRequest"/>
+      <wsdl:output message="impl:removeMappingResponse" name="removeMappingResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="addMapping" parameterOrder="in0 in1">
+      <wsdl:input message="impl:addMappingRequest" name="addMappingRequest"/>
+      <wsdl:output message="impl:addMappingResponse" name="addMappingResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input message="impl:getVersionRequest" name="getVersionRequest"/>
+      <wsdl:output message="impl:getVersionResponse" name="getVersionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMapping" parameterOrder="in0">
+      <wsdl:input message="impl:deleteMappingRequest" name="deleteMappingRequest"/>
+      <wsdl:output message="impl:deleteMappingResponse" name="deleteMappingResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="guidExists" parameterOrder="in0">
+      <wsdl:input message="impl:guidExistsRequest" name="guidExistsRequest"/>
+      <wsdl:output message="impl:guidExistsResponse" name="guidExistsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="pfnExists" parameterOrder="in0">
+      <wsdl:input message="impl:pfnExistsRequest" name="pfnExistsRequest"/>
+      <wsdl:output message="impl:pfnExistsResponse" name="pfnExistsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getPfns" parameterOrder="in0">
+      <wsdl:input message="impl:getPfnsRequest" name="getPfnsRequest"/>
+      <wsdl:output message="impl:getPfnsResponse" name="getPfnsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="guidForPfn" parameterOrder="in0">
+      <wsdl:input message="impl:guidForPfnRequest" name="guidForPfnRequest"/>
+      <wsdl:output message="impl:guidForPfnResponse" name="guidForPfnResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createAttributeDefinition" parameterOrder="in0">
+      <wsdl:input message="impl:createAttributeDefinitionRequest" name="createAttributeDefinitionRequest"/>
+      <wsdl:output message="impl:createAttributeDefinitionResponse" name="createAttributeDefinitionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAttributeDefinitions">
+      <wsdl:input message="impl:getAttributeDefinitionsRequest" name="getAttributeDefinitionsRequest"/>
+      <wsdl:output message="impl:getAttributeDefinitionsResponse" name="getAttributeDefinitionsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="removeAttributeDefinition" parameterOrder="in0">
+      <wsdl:input message="impl:removeAttributeDefinitionRequest" name="removeAttributeDefinitionRequest"/>
+      <wsdl:output message="impl:removeAttributeDefinitionResponse" name="removeAttributeDefinitionResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="attributeDefinitionExists" parameterOrder="in0">
+      <wsdl:input message="impl:attributeDefinitionExistsRequest" name="attributeDefinitionExistsRequest"/>
+      <wsdl:output message="impl:attributeDefinitionExistsResponse" name="attributeDefinitionExistsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="setPfnAttribute" parameterOrder="in0 in1 in2">
+      <wsdl:input message="impl:setPfnAttributeRequest" name="setPfnAttributeRequest"/>
+      <wsdl:output message="impl:setPfnAttributeResponse" name="setPfnAttributeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getPfnAttribute" parameterOrder="in0 in1">
+      <wsdl:input message="impl:getPfnAttributeRequest" name="getPfnAttributeRequest"/>
+      <wsdl:output message="impl:getPfnAttributeResponse" name="getPfnAttributeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="removePfnAttribute" parameterOrder="in0 in1">
+      <wsdl:input message="impl:removePfnAttributeRequest" name="removePfnAttributeRequest"/>
+      <wsdl:output message="impl:removePfnAttributeResponse" name="removePfnAttributeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="setDefaultResultLength" parameterOrder="in0">
+      <wsdl:input message="impl:setDefaultResultLengthRequest" name="setDefaultResultLengthRequest"/>
+      <wsdl:output message="impl:setDefaultResultLengthResponse" name="setDefaultResultLengthResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDefaultResultLength">
+      <wsdl:input message="impl:getDefaultResultLengthRequest" name="getDefaultResultLengthRequest"/>
+      <wsdl:output message="impl:getDefaultResultLengthResponse" name="getDefaultResultLengthResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByGuid" parameterOrder="in0">
+      <wsdl:input message="impl:getMappingsByGuidRequest" name="getMappingsByGuidRequest"/>
+      <wsdl:output message="impl:getMappingsByGuidResponse" name="getMappingsByGuidResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByGuid" parameterOrder="in0 in1">
+      <wsdl:input message="impl:getMappingsByGuidRequest1" name="getMappingsByGuidRequest1"/>
+      <wsdl:output message="impl:getMappingsByGuidResponse1" name="getMappingsByGuidResponse1"/>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByGuid" parameterOrder="in0 in1 in2">
+      <wsdl:input message="impl:getMappingsByGuidRequest2" name="getMappingsByGuidRequest2"/>
+      <wsdl:output message="impl:getMappingsByGuidResponse2" name="getMappingsByGuidResponse2"/>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByPfn" parameterOrder="in0">
+      <wsdl:input message="impl:getMappingsByPfnRequest" name="getMappingsByPfnRequest"/>
+      <wsdl:output message="impl:getMappingsByPfnResponse" name="getMappingsByPfnResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByPfn" parameterOrder="in0 in1">
+      <wsdl:input message="impl:getMappingsByPfnRequest1" name="getMappingsByPfnRequest1"/>
+      <wsdl:output message="impl:getMappingsByPfnResponse1" name="getMappingsByPfnResponse1"/>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByPfn" parameterOrder="in0 in1 in2">
+      <wsdl:input message="impl:getMappingsByPfnRequest2" name="getMappingsByPfnRequest2"/>
+      <wsdl:output message="impl:getMappingsByPfnResponse2" name="getMappingsByPfnResponse2"/>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByPfnAttribute" parameterOrder="in0 in1">
+      <wsdl:input message="impl:getMappingsByPfnAttributeRequest" name="getMappingsByPfnAttributeRequest"/>
+      <wsdl:output message="impl:getMappingsByPfnAttributeResponse" name="getMappingsByPfnAttributeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="ping">
+      <wsdl:input message="impl:pingRequest" name="pingRequest"/>
+      <wsdl:output message="impl:pingResponse" name="pingResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="edg-local-replica-catalogSoapBinding" type="impl:EdgLocalReplicaCatalog">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="removeMapping">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="removeMappingRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="removeMappingResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addMapping">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="addMappingRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="addMappingResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getVersionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMapping">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="deleteMappingRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="deleteMappingResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="guidExists">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="guidExistsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="guidExistsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pfnExists">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="pfnExistsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="pfnExistsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPfns">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getPfnsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getPfnsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="guidForPfn">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="guidForPfnRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="guidForPfnResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createAttributeDefinition">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="createAttributeDefinitionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="createAttributeDefinitionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAttributeDefinitions">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getAttributeDefinitionsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getAttributeDefinitionsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeAttributeDefinition">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="removeAttributeDefinitionRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="removeAttributeDefinitionResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="attributeDefinitionExists">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="attributeDefinitionExistsRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="attributeDefinitionExistsResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setPfnAttribute">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="setPfnAttributeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="setPfnAttributeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPfnAttribute">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getPfnAttributeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getPfnAttributeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removePfnAttribute">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="removePfnAttributeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="removePfnAttributeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setDefaultResultLength">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="setDefaultResultLengthRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="setDefaultResultLengthResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDefaultResultLength">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getDefaultResultLengthRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getDefaultResultLengthResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByGuid">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getMappingsByGuidRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getMappingsByGuidResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByGuid">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getMappingsByGuidRequest1">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getMappingsByGuidResponse1">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByGuid">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getMappingsByGuidRequest2">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getMappingsByGuidResponse2">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByPfn">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getMappingsByPfnRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getMappingsByPfnResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByPfn">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getMappingsByPfnRequest1">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getMappingsByPfnResponse1">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByPfn">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getMappingsByPfnRequest2">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getMappingsByPfnResponse2">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMappingsByPfnAttribute">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getMappingsByPfnAttributeRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="getMappingsByPfnAttributeResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ping">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="pingRequest">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output name="pingResponse">
+        <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:edg-replica-location" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EdgLocalReplicaCatalogService">
+    <wsdl:port binding="impl:edg-local-replica-catalogSoapBinding" name="edg-local-replica-catalog">
+      <wsdlsoap:address location="http://lxshare0344.cern.ch:8080/edg-replica-location/services/edg-local-replica-catalog"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
