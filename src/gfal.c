@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.13 $ $Date: 2005/01/06 15:33:43 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.14 $ $Date: 2005/02/03 17:09:18 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -775,7 +775,8 @@ deletesurl (const char *surl, char *errbuf, int errbufsz)
 		return (se_deletesurl (surl, errbuf, errbufsz));
 	} else {
 		free (se_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The Storage Element type is neither 'srm_v1' nor 'edg-se'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -794,7 +795,8 @@ getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz)
 		return (se_getfilemd (surl, statbuf, errbuf, errbufsz));
 	} else {
 		free (se_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The Storage Element type is neither 'srm_v1' nor 'edg-se'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -833,6 +835,7 @@ parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn,
 	int se_port;
 
 	if (strncmp (surl, "srm://", 6)) {
+		gfal_errmsg(errbuf, errbufsz, "Source URL doesn't start with \"srm:\/\/\".");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -844,6 +847,7 @@ parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn,
 		*sfn = p;
 		p1 = p;
 	} else {
+		gfal_errmsg(errbuf, errbufsz, "Bad Source URL syntax.");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -858,7 +862,8 @@ parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn,
 
 	len = p1 - surl - 6;
 	if (lenp + len >= srm_endpointsz) {
-		errno = EINVAL;
+		gfal_errmsg(errbuf, errbufsz, "Source URL too long.");
+		errno = ENAMETOOLONG;
 		return (-1);
 	}
 	strncpy (endpoint + lenp, surl + 6, len);
@@ -885,7 +890,8 @@ parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn,
 		if (get_se_port (endpoint + lenp, &se_port) < 0)
 			se_port = SRM_PORT;
 		if (lenp + len + 6 >= srm_endpointsz) {
-			errno = EINVAL;
+			gfal_errmsg(errbuf, errbufsz, "Source URL too long");
+			errno = ENAMETOOLONG;
 			return (-1);
 		}
 		len1 = sprintf (endpoint + lenp + len, ":%d", se_port);
@@ -897,14 +903,16 @@ parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn,
 
 	if (p1 != p) {	/* user specified endpoint */
 		if (len1 + (p - p1) >= srm_endpointsz) {
-			errno = EINVAL;
+			gfal_errmsg(errbuf, errbufsz, "Source URL too long.");
+			errno = ENAMETOOLONG;
 			return (-1);
 		}
 		strncpy (endpoint + len1, p1, p - p1);
 		*(endpoint + len1 + (p - p1)) = '\0';
 	} else {
 		if (len1 + strlen (SRM_EP_PATH) >= srm_endpointsz) {
-			errno = EINVAL;
+			gfal_errmsg(errbuf, errbufsz, "Source URL too long.");
+			errno = ENAMETOOLONG;
 			return (-1);
 		}
 		strcpy (endpoint + len1, SRM_EP_PATH);
@@ -920,11 +928,13 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 	/* get protocol */
 
 	if ((p = strstr (turl, ":/")) == NULL) {
+		gfal_errmsg(errbuf, errbufsz, "Bad destination URL syntax.");
 		errno = EINVAL;
 		return (-1);
 	}
 	if ((len = p - turl) > (protocolsz - 1)) {
-		errno = EINVAL;
+		gfal_errmsg(errbuf, errbufsz, "Destination URL too long.");
+		errno = ENAMETOOLONG;
 		return (-1);
 	}
 	strncpy (protocol, turl, len);
@@ -935,6 +945,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 	} else if (strcmp (protocol, "rfio") == 0) {
 		p += 2;
 		if (*p != '/') {
+			gfal_errmsg(errbuf, errbufsz, "Bad destination URL syntax.");
 			errno = EINVAL;
 			return (-1);
 		}
@@ -943,7 +954,8 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 			*pfn = p + 1;
 		} else {
 			if (strlen (p) > pathbufsz) {
-				errno = EINVAL;
+				gfal_errmsg(errbuf, errbufsz, "Destination URL too long.");
+				errno = ENAMETOOLONG;
 				return (-1);
 			}
 			strcpy (pathbuf, p);
@@ -973,7 +985,8 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 		    errbuf, errbufsz));
 	} else {
 		free (se_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The Storage Element type is neither 'srm_v1' nor 'edg-se'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -995,7 +1008,8 @@ set_xfer_running (const char *surl, int reqid, int fileid, char *token,
 		    errbuf, errbufsz));
 	} else {
 		free (se_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The Storage Element type is neither 'srm_v1' nor 'edg-se'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1008,11 +1022,13 @@ setypefromsurl (const char *surl, char **se_type,
 	char server[256];
 
 	if ((p = strchr (surl + 6, '/')) == NULL) {
+		gfal_errmsg(errbuf, errbufsz, "Bad source URL syntax.");
 		errno = EINVAL;
 		return (-1);
 	}
 	if ((len = p - surl - 6) >= sizeof(server)) {
-		errno = EINVAL;
+		gfal_errmsg(errbuf, errbufsz, "Host name too long.");
+		errno = ENAMETOOLONG;
 		return (-1);
 	}
 	strncpy (server, surl + 6, len);
@@ -1035,12 +1051,14 @@ turlfromsfn (const char *sfn, char **protocols, char *errbuf, int errbufsz)
 	char *turl;
 
 	if (strncmp (sfn, "sfn://", 6)) {
+		gfal_errmsg(errbuf, errbufsz, "File doesn't start with \"sfn:\/\/\".");
 		errno = EINVAL;
 		return (NULL);
 	}
 	if ((p = strchr (sfn + 6, '/')) == NULL ||
 	    (len = p - (sfn + 6)) > sizeof(server)) {
-		errno = EINVAL;
+		gfal_errmsg(errbuf, errbufsz, "Host name too long.");
+		errno = ENAMETOOLONG;
 		return (NULL);
 	}
 
@@ -1072,6 +1090,7 @@ turlfromsfn (const char *sfn, char **protocols, char *errbuf, int errbufsz)
 	free (ap);
 	free (pn);
 	if (! port) {
+		gfal_errmsg(errbuf, errbufsz, "rfio protocol not supported by Storage Element.");
 		errno = EPROTONOSUPPORT;
 		return (NULL);
 	}
@@ -1100,7 +1119,8 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 		    token, errbuf, errbufsz));
 	} else {
 		free (se_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The Storage Element type is neither 'srm_v1' nor 'edg-se'.");
+		errno = EINVAL;
 		return (NULL);
 	}
 }
@@ -1128,13 +1148,15 @@ getfilesizeg (const char *guid, GFAL_LONG64 *filesize, char *errbuf, int errbufs
 	}
 	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The EDG catalog doesn't support the getfilesizeg() method.");
+		errno = EINVAL;
 	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
 		return (lfc_getfilesizeg (guid, filesize, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1154,7 +1176,8 @@ guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 		return (lfc_guidforpfn (pfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (NULL);
 	}
 }
@@ -1173,7 +1196,8 @@ guid_exists (const char *guid, char *errbuf, int errbufsz)
 		return (lfc_guid_exists (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1192,7 +1216,8 @@ register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 		return (lfc_register_pfn (guid, pfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1208,10 +1233,12 @@ setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
 		return (lrc_setfilesize (pfn, filesize, errbuf, errbufsz));
 	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The LFC catalog doesn't support the setfilesize() method.");
+		errno = EINVAL;
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1231,7 +1258,8 @@ surlfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (lfc_surlfromguid (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (NULL);
 	}
 }
@@ -1251,7 +1279,8 @@ surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (lfc_surlsfromguid (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (NULL);
 	}
 }
@@ -1270,7 +1299,8 @@ unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 		return (lfc_unregister_pfn (guid, pfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1290,7 +1320,8 @@ guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 		return (lfc_guidfromlfn (lfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (NULL);
 	}
 }
@@ -1310,7 +1341,8 @@ lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 		return (lfc_lfnsforguid (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (NULL);
 	}
 }
@@ -1330,7 +1362,8 @@ replica_exists(const char* guid, char *errbuf, int errbufsz)
 		return (lfc_replica_exists (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1350,7 +1383,8 @@ create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *errbuf,
 		return (lfc_create_alias (guid, lfn, size, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1369,7 +1403,8 @@ register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 		return (lfc_register_alias (guid, lfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1388,7 +1423,8 @@ unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 		return (lfc_unregister_alias (guid, lfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		errno = EPROTONOSUPPORT;
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
 		return (-1);
 	}
 }
@@ -1412,7 +1448,6 @@ getdomainnm (char *name, int namelen)
 	  if (*p)
 	    *(p + strlen (p) - 1) = '\0';
 	  if (strlen (p) > namelen) {
-	    errno = EINVAL;
 	    return (-1);
 	  }
 	  strcpy (name, p);
@@ -1458,7 +1493,8 @@ getbestfile(char **surls, int size)
   }
   if (i == size) {	/* no entry on same domain */
     if (first < 0) {	/* only non suported entries */
-      errno = EPROTONOSUPPORT;
+      gfal_errmsg(errbuf, errbufsz, "Only non supported entries. No replica entry starting with \"srm:\/\/\" or \"sfn:\/\/\".");
+      errno = EINVAL;
       return (NULL);
     }
     i = first;
