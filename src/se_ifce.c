@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/06/18 09:37:28 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/09/24 09:03:51 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -26,12 +26,12 @@
 #include "seClient.c"
 
 static int
-se_init (struct soap *soap, const char *surl, char **srm_endpoint)
+se_init (struct soap *soap, const char *surl, char *srm_endpoint, int srm_endpointsz)
 {
 	int flags;
 	char *sfn;
 
-	if (parsesurl (surl, srm_endpoint, &sfn) < 0)
+	if (parsesurl (surl, srm_endpoint, srm_endpointsz, &sfn) < 0)
 		return (-1);
 
 	soap_init (soap);
@@ -47,9 +47,9 @@ se_deletesurl (const char *surl)
 {
 	struct impl__deleteResponse out;
 	struct soap soap;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 
-	if (se_init (&soap, surl, &srm_endpoint) < 0)
+	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (-1);
 
 	/* issue "delete" request */
@@ -72,9 +72,9 @@ se_mkdir (const char *dir)
 	int ret;
 	int sav_errno;
 	struct soap soap;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 
-	if (se_init (&soap, dir, &srm_endpoint) < 0)
+	if (se_init (&soap, dir, srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (-1);
 
 	/* issue "mkdir" request */
@@ -153,10 +153,10 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int 
 	int ret;
 	int sav_errno;
 	struct soap soap;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 	xsd__long zero = 0;
 
-	if (se_init (&soap, surl, &srm_endpoint) < 0)
+	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (NULL);
 
 	while (*protocols[nbproto]) nbproto++;
@@ -243,9 +243,9 @@ se_getfilemd (const char *surl, struct stat64 *statbuf)
 	int ret;
 	int sav_errno;
 	struct soap soap;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 
-	if (se_init (&soap, surl, &srm_endpoint) < 0)
+	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (-1);
 
 	/* issue "getMetadata" request */
@@ -296,9 +296,9 @@ se_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int ofla
 	struct impl__abandonResponse outa;
 	struct impl__commitResponse outc;
 	struct soap soap;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 
-	if (se_init (&soap, surl, &srm_endpoint) < 0)
+	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (-1);
 
 	if ((oflag & O_ACCMODE) == 0) {
