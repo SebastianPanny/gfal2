@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.3 $ $Date: 2004/03/26 10:59:25 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.4 $ $Date: 2004/04/06 09:58:09 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -52,6 +52,13 @@ int gfal_stat64 (const char *, struct stat *);
 
 		/* Internal functions */
 
+int get_bdii (char *, int, int *);
+int get_ce_ap (const char *, char **);
+int get_rls_endpoints (char **, char **);
+int get_sa_root (const char *, const char *, char **);
+int get_se_port (const char *, int *);
+int get_se_type (const char *, char **);
+int get_seap_info (const char *, char ***, int **);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int getfilemd (const char *, struct stat64 *);
 #endif
