@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.7 $ $Date: 2004/06/03 08:12:44 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.8 $ $Date: 2004/06/18 09:36:04 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -64,6 +64,8 @@ int get_se_type (const char *, char **);
 int get_seap_info (const char *, char ***, int **);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int getfilemd (const char *, struct stat64 *);
+int se_getfilemd (const char *, struct stat64 *);
+int srm_getfilemd (const char *, struct stat64 *);
 #endif
 char *guidforpfn (const char *);
 char *guidfromlfn (const char *);
@@ -73,12 +75,22 @@ int parsesurl (const char *, char **, char **);
 int parseturl (const char *, char **, char **);
 int register_alias (const char *, const char *);
 int register_pfn (const char *, const char *);
-int set_xfer_done (char *, int, int, int);
-int set_xfer_running (char *, int, int);
+int se_deletesurl (const char *);
+int se_set_xfer_done (const char *, int, int, char *, int);
+int se_set_xfer_running (const char *, int, int, char *);
+char *se_turlfromsurl (const char *, char **, int, int *, int *, char **);
+int set_xfer_done (const char *, int, int, char *, int);
+int set_xfer_running (const char *, int, int, char *);
+int setfilesize (const char *, long long);
+int setypefromsurl (const char *, char **);
+int srm_deletesurl (const char *);
+int srm_set_xfer_done (const char *, int, int, char *, int);
+int srm_set_xfer_running (const char *, int, int, char *);
+char *srm_turlfromsurl (const char *, char **, int, int *, int *, char **);
 char *surlfromguid (const char *);
 char **surlsfromguid (const char *);
 char *turlfromsfn (const char *, char **);
-char *turlfromsurl (const char *, char **, int, int *, int*);
+char *turlfromsurl (const char *, char **, int, int *, int *, char **);
 int unregister_alias (const char *, const char *);
 int unregister_pfn (const char *, const char *);
 #endif

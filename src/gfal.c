@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.7 $ $Date: 2004/04/29 11:32:22 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.8 $ $Date: 2004/06/18 09:36:04 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -156,8 +156,9 @@ gfal_close (int fd)
 
 	if (xi->surl) {
 		rc1 = set_xfer_done (xi->surl, xi->reqid, xi->fileid,
-		    xi->oflag);
+		    xi->token, xi->oflag);
 		free (xi->surl);
+		if (xi->token) free (xi->token);
 	}
 	(void) free_xi (fd);
 	if (rc) {
@@ -350,6 +351,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	char *protocol;
 	int reqid;
 	char **supported_protocols;
+	char *token = NULL;
 	char *turl = NULL;
 	struct xfer_info *xi;
 
@@ -369,7 +371,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
 		if ((turl = turlfromsurl (fn, supported_protocols, flags,
-		    &reqid, &fileid)) == NULL)
+		    &reqid, &fileid, &token)) == NULL)
 			goto err;
 	} else if (strncmp (fn, "sfn:", 4) == 0) {
 		if ((turl = turlfromsfn (fn, supported_protocols)) == NULL)
@@ -393,7 +395,11 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		xi->surl = strdup (fn);
 		xi->reqid = reqid;
 		xi->fileid = fileid;
-		(void) set_xfer_running (fn, reqid, fileid);
+		if (token) {
+			xi->token = strdup (token);
+			free (token);
+		}
+		(void) set_xfer_running (xi->surl, xi->reqid, xi->fileid, xi->token);
 	}
 
 	if (guid) free (guid);
@@ -721,6 +727,44 @@ deletepfn (const char *fn, const char *guid)
 	return (0);
 }
 
+deletesurl (const char *surl)
+{
+	char *se_type;
+
+	if (setypefromsurl (surl, &se_type) < 0)
+		return (-1);
+	if (strcmp (se_type, "srm_v1") == 0) {
+		free (se_type);
+		return (srm_deletesurl (surl));
+	} else if (strcmp (se_type, "edg-se") == 0) {
+		free (se_type);
+		return (se_deletesurl (surl));
+	} else {
+		free (se_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+getfilemd (const char *surl, struct stat64 *statbuf)
+{
+	char *se_type;
+
+	if (setypefromsurl (surl, &se_type) < 0)
+		return (-1);
+	if (strcmp (se_type, "srm_v1") == 0) {
+		free (se_type);
+		return (srm_getfilemd (surl, statbuf));
+	} else if (strcmp (se_type, "edg-se") == 0) {
+		free (se_type);
+		return (se_getfilemd (surl, statbuf));
+	} else {
+		free (se_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
 static int
 mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 {
@@ -750,6 +794,7 @@ parsesurl (const char *surl, char **endpoint, char **sfn)
 	int lenp;
 	char *p;
 	char *p1, *p2;
+	char *se_endpoint;
 	int se_port;
 	static char srm_ep[256];
 
@@ -784,6 +829,22 @@ parsesurl (const char *surl, char **endpoint, char **sfn)
 	}
 	strncpy (srm_ep + lenp, surl + 6, len);
 	*(srm_ep + lenp + len) = '\0';
+
+	if (p1 == p) {	/* no user specified endpoint */
+
+		/* try to get endpoint from Information Service */
+
+		if ((p2 = strchr (srm_ep + lenp, ':')))
+			*p2 = '\0';
+		if (get_se_endpoint (srm_ep + lenp, &se_endpoint) == 0) {
+			strcpy (srm_ep, se_endpoint);
+			free (se_endpoint);
+			*endpoint = srm_ep;
+			return (0);
+		} else
+			if (p2)
+				*p2 = ':';
+	}
 
 	/* set port number if not specified by user */
 
@@ -866,6 +927,64 @@ parseturl (const char *turl, char **protocol, char **pfn)
 	return (0);
 }
 
+set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag)
+{
+	char *se_type;
+
+	if (setypefromsurl (surl, &se_type) < 0)
+		return (-1);
+	if (strcmp (se_type, "srm_v1") == 0) {
+		free (se_type);
+		return (srm_set_xfer_done (surl, reqid, fileid, token, oflag));
+	} else if (strcmp (se_type, "edg-se") == 0) {
+		free (se_type);
+		return (se_set_xfer_done (surl, reqid, fileid, token, oflag));
+	} else {
+		free (se_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+set_xfer_running (const char *surl, int reqid, int fileid, char *token)
+{
+	char *se_type;
+
+	if (setypefromsurl (surl, &se_type) < 0)
+		return (-1);
+	if (strcmp (se_type, "srm_v1") == 0) {
+		free (se_type);
+		return (srm_set_xfer_running (surl, reqid, fileid, token));
+	} else if (strcmp (se_type, "edg-se") == 0) {
+		free (se_type);
+		return (se_set_xfer_running (surl, reqid, fileid, token));
+	} else {
+		free (se_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+}
+
+setypefromsurl (const char *surl, char **se_type)
+{
+	int len;
+	char *p;
+	char server[256];
+
+	if ((p = strchr (surl + 6, '/')) == NULL) {
+		errno = EINVAL;
+		return (-1);
+	}
+	if ((len = p - surl - 6) >= sizeof(server)) {
+		errno = EINVAL;
+		return (-1);
+	}
+	strncpy (server, surl + 6, len);
+	server[len] = '\0';
+	if ((p = strchr (server, ':'))) *p = '\0';
+	return (get_se_type (server, se_type));
+}
+
 char *
 turlfromsfn (const char *sfn, char **protocols)
 {
@@ -925,4 +1044,24 @@ turlfromsfn (const char *sfn, char **protocols)
 	strcpy (turl, "rfio");
 	strcpy (turl + 4, sfn + 3);
 	return (turl);
+}
+
+char *
+turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid, char **token)
+{
+	char *se_type;
+
+	if (setypefromsurl (surl, &se_type) < 0)
+		return (NULL);
+	if (strcmp (se_type, "srm_v1") == 0) {
+		free (se_type);
+		return (srm_turlfromsurl (surl, protocols, oflag, reqid, fileid, token));
+	} else if (strcmp (se_type, "edg-se") == 0) {
+		free (se_type);
+		return (se_turlfromsurl (surl, protocols, oflag, reqid, fileid, token));
+	} else {
+		free (se_type);
+		errno = EPROTONOSUPPORT;
+		return (NULL);
+	}
 }

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/05/24 11:47:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.6 $ $Date: 2004/06/18 09:36:04 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -20,23 +20,32 @@
 #endif
 #define DEFPOLLINT 10
 
-deletesurl (const char *surl)
+static int
+srm_init (struct soap *soap, const char *surl, char **srm_endpoint)
 {
 	int flags;
-	struct tns__advisoryDeleteResponse out;
 	char *sfn;
+
+	if (parsesurl (surl, srm_endpoint, &sfn) < 0)
+		return (-1);
+
+	soap_init (soap);
+#ifdef GFAL_SECURE
+	flags = CGSI_OPT_DISABLE_NAME_CHECK;
+	soap_register_plugin_arg (soap, client_cgsi_plugin, &flags);
+#endif
+	return (0);
+}
+
+srm_deletesurl (const char *surl)
+{
+	struct tns__advisoryDeleteResponse out;
 	struct soap soap;
 	char *srm_endpoint;
 	struct ArrayOfstring surlarray;
 
-	if (parsesurl (surl, &srm_endpoint, &sfn) < 0)
+	if (srm_init (&soap, surl, &srm_endpoint) < 0)
 		return (-1);
-
-	soap_init (&soap);
-#ifdef GFAL_SECURE
-	flags = CGSI_OPT_DISABLE_NAME_CHECK;
-	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-#endif
 
 	/* issue "advisoryDelete" request */
 
@@ -57,9 +66,8 @@ deletesurl (const char *surl)
 }
 
 char *
-turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid)
+srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid, char **token)
 {
-	int flags;
 	int nbproto = 0;
 	struct tns__getResponse outg;
 	struct tns__putResponse outp;
@@ -71,7 +79,6 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fi
 	struct ns11__RequestStatus *reqstatp;
 	int sav_errno;
 	xsd__boolean setperm = true_;
-	char *sfn;
 	struct ArrayOflong sizearray;
 	struct soap soap;
 	struct ArrayOfstring srcarray;
@@ -79,16 +86,10 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fi
 	struct ArrayOfstring surlarray;
 	xsd__long zero = 0;
 
-	if (parsesurl (surl, &srm_endpoint, &sfn) < 0)
+	if (srm_init (&soap, surl, &srm_endpoint) < 0)
 		return (NULL);
 
 	while (*protocols[nbproto]) nbproto++;
-
-	soap_init(&soap);
-#ifdef GFAL_SECURE
-	flags = CGSI_OPT_DISABLE_NAME_CHECK;
-	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-#endif
 
 	/* issue "get" or the "put" request */
 
@@ -167,33 +168,26 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fi
 		return (NULL);
 	}
 	*fileid = reqstatp->fileStatuses->__ptr->fileId;
+	*token = NULL;
 	p = strdup (reqstatp->fileStatuses->__ptr->TURL);
 	soap_end (&soap);
 	soap_done (&soap);
 	return (p);
 }
 
-getfilemd (const char *surl, struct stat64 *statbuf)
+srm_getfilemd (const char *surl, struct stat64 *statbuf)
 {
-	int flags;
 	struct group *gr;
 	struct tns__getFileMetaDataResponse out;
 	struct passwd *pw;
 	int ret;
 	int sav_errno;
-	char *sfn;
 	struct soap soap;
 	char *srm_endpoint;
 	struct ArrayOfstring surlarray;
 
-	if (parsesurl (surl, &srm_endpoint, &sfn) < 0)
+	if (srm_init (&soap, surl, &srm_endpoint) < 0)
 		return (-1);
-
-	soap_init (&soap);
-#ifdef GFAL_SECURE
-	flags = CGSI_OPT_DISABLE_NAME_CHECK;
-	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-#endif
 
 	/* issue "getFileMetaData" request */
 
@@ -238,22 +232,15 @@ getfilemd (const char *surl, struct stat64 *statbuf)
 	return (0);
 }
 
-set_xfer_done (char *surl, int reqid, int fileid, int oflag)
+srm_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag)
 {
-	int flags;
 	struct tns__setFileStatusResponse out;
-	char *sfn;
 	struct soap soap;
 	char *srm_endpoint;
 
-	if (parsesurl (surl, &srm_endpoint, &sfn) < 0)
+	if (srm_init (&soap, surl, &srm_endpoint) < 0)
 		return (-1);
 
-	soap_init (&soap);
-#ifdef GFAL_SECURE
-	flags = CGSI_OPT_DISABLE_NAME_CHECK;
-	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-#endif
 	if (soap_call_tns__setFileStatus (&soap, srm_endpoint,
 	    "setFileStatus", reqid, fileid, "Done", &out)) {
 		soap_print_fault (&soap, stderr);
@@ -266,22 +253,15 @@ set_xfer_done (char *surl, int reqid, int fileid, int oflag)
 	return (0);
 }
 
-set_xfer_running (char *surl, int reqid, int fileid)
+srm_set_xfer_running (const char *surl, int reqid, int fileid, char *token)
 {
-	int flags;
 	struct tns__setFileStatusResponse out;
-	char *sfn;
 	struct soap soap;
 	char *srm_endpoint;
 
-	if (parsesurl (surl, &srm_endpoint, &sfn) < 0)
+	if (srm_init (&soap, surl, &srm_endpoint) < 0)
 		return (-1);
 
-	soap_init (&soap);
-#ifdef GFAL_SECURE
-	flags = CGSI_OPT_DISABLE_NAME_CHECK;
-	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-#endif
 	if (soap_call_tns__setFileStatus (&soap, srm_endpoint,
 	    "setFileStatus", reqid, fileid, "Running", &out)) {
 		soap_print_fault (&soap, stderr);

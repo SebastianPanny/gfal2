@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.h,v $ $Revision: 1.2 $ $Date: 2004/02/10 15:41:02 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.h,v $ $Revision: 1.3 $ $Date: 2004/06/18 09:36:04 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_H
@@ -54,6 +54,7 @@ struct xfer_info {
 	char	*surl;
 	int	reqid;
 	int	fileid;
+	char 	*token;
 	struct proto_ops *pops;
 };
 
