@@ -657,13 +657,15 @@ START_TEST(test_delete_lfns_master_first) {
 Suite *add_catalog_tests(Suite *s) { 
   /* a test case to check for a given env */
   TCase *tc_catalog_env = tcase_create("CatalogFromEnv");
+  TCase *tc_edg_catalog;
+  TCase *tc_lfc_catalog;
   suite_add_tcase(s, tc_catalog_env);
 
   tcase_add_test(tc_catalog_env, test_get_cat_type);
   tcase_add_test(tc_catalog_env, test_get_default_catalog);
   /* a test case for EDG catalog checks */
 
-  TCase *tc_edg_catalog = tcase_create("EDGCatalogs");
+  tc_edg_catalog = tcase_create("EDGCatalogs");
   suite_add_tcase(s, tc_edg_catalog);
   tcase_add_checked_fixture(tc_edg_catalog, setup_edg_catalog, NULL);
 
@@ -684,7 +686,7 @@ Suite *add_catalog_tests(Suite *s) {
 
   /* LFC Catalog tests */
 
-  TCase *tc_lfc_catalog = tcase_create("LFCCatalogs");
+  tc_lfc_catalog = tcase_create("LFCCatalogs");
   suite_add_tcase(s, tc_lfc_catalog);
 
   tcase_add_checked_fixture(tc_lfc_catalog, setup_lfc_catalog, NULL);

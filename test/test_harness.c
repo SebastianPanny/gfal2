@@ -15,10 +15,12 @@ Suite* add_catalog_tests(Suite *);
 int main (int argc, char** argv) { 
   int nf; 
   Suite *s = suite_create("GFAL suite");
-  add_catalog_tests(s); 
-
-  SRunner *sr = srunner_create(s); 
+  SRunner *sr;
   char* hostname = NULL;
+  
+  s = suite_create("GFAL suite");
+  add_catalog_tests(s); 
+  sr = srunner_create(s); 
   
   /* check for LFC_HOST env and fail early */
   if((hostname=getenv("LFC_HOST")) == NULL) {
