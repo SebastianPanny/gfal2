@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/03/31 11:48:27 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/05/17 09:51:27 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -77,10 +77,15 @@ get_ce_ap (const char *host, char **ce_ap)
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
-	value = ldap_get_values (ld, entry, ce_ap_atnm);
-	if ((*ce_ap = strdup (value[0])) == NULL)
+	if (entry) {
+		value = ldap_get_values (ld, entry, ce_ap_atnm);
+		if ((*ce_ap = strdup (value[0])) == NULL)
+			rc = -1;
+		ldap_value_free (value);
+	} else {
+		errno = EINVAL;
 		rc = -1;
-	ldap_value_free (value);
+	}
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
 	return (rc);
@@ -209,10 +214,15 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
-	value = ldap_get_values (ld, entry, sa_root_atnm);
-	if ((*sa_root = strdup (value[0] + strlen (vo) + 1)) == NULL)
+	if (entry) {
+		value = ldap_get_values (ld, entry, sa_root_atnm);
+		if ((*sa_root = strdup (value[0] + strlen (vo) + 1)) == NULL)
+			rc = -1;
+		ldap_value_free (value);
+	} else {
+		errno = EINVAL;
 		rc = -1;
-	ldap_value_free (value);
+	}
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
 	return (rc);
@@ -259,9 +269,14 @@ get_se_port (const char *host, int *se_port)
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
-	value = ldap_get_values (ld, entry, se_port_atnm);
-	*se_port = atoi (value[0]);
-	ldap_value_free (value);
+	if (entry) {
+		value = ldap_get_values (ld, entry, se_port_atnm);
+		*se_port = atoi (value[0]);
+		ldap_value_free (value);
+	} else {
+		errno = EINVAL;
+		rc = -1;
+	}
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
 	return (rc);
@@ -309,14 +324,19 @@ get_se_type (const char *host, char **se_type)
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
-	value = ldap_get_values (ld, entry, se_type_atnm);
-	if ((p = strchr (value[0], ':')))
-		p++;
-	else
-		p = value[0];
-	if ((*se_type = strdup (p)) == NULL)
+	if (entry) {
+		value = ldap_get_values (ld, entry, se_type_atnm);
+		if ((p = strchr (value[0], ':')))
+			p++;
+		else
+			p = value[0];
+		if ((*se_type = strdup (p)) == NULL)
+			rc = -1;
+		ldap_value_free (value);
+	} else {
+		errno = EINVAL;
 		rc = -1;
-	ldap_value_free (value);
+	}
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
 	return (rc);
