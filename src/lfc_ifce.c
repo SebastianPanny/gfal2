@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.22 $ $Date: 2005/02/07 10:54:35 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.23 $ $Date: 2005/02/11 13:20:00 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -407,7 +407,7 @@ lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *err
     return (-1);
 
   lfc_starttrans();
-  if(lfc_creatg(lfn, guid, 0775) < 0) {
+  if(lfc_creatg(lfn, guid, 0777) < 0) {
     if(serrno < 1000) 
       errno = serrno;
     else {
