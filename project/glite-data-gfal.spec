@@ -1,6 +1,6 @@
 Summary: Grid File Access Library
 Name: GFAL-client
-Version: 1.3.9
+Version: 1.3.10
 Release: 1
 Source0: %{name}-%{version}.src.tar.gz
 License: GPL
@@ -8,6 +8,7 @@ Group: Application/File
 BuildRoot: %{_builddir}/%{name}-%{version}-root
 Prefix: /opt/lcg
 %define __spec_install_post %{nil}
+%define debug_package %{nil}
 %description
 The Grid File Access Library offers a POSIX interface to Replica Catalogs,
 Storage Resource Managers and File Access services using protocols like rfio,
