@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.9 $ $Date: 2004/10/11 13:50:52 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.10 $ $Date: 2004/10/20 10:31:20 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -63,6 +63,133 @@ srm_deletesurl (const char *surl)
 	soap_end (&soap);
 	soap_done (&soap);
 	return (0);
+}
+
+srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols, int *reqid, char **token, struct srm_filestatus **filestatuses)
+{
+	int errflag = 0;
+	struct ns11__RequestFileStatus *f;
+	int i;
+	int n;
+	struct tns__getResponse outg;
+	char *p;
+	struct ArrayOfstring protoarray;
+	struct ns11__RequestStatus *reqstatp;
+	int sav_errno;
+	struct soap soap;
+	char srm_endpoint[256];
+	struct ArrayOfstring surlarray;
+
+	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint)) < 0)
+		return (-1);
+
+	surlarray.__ptr = (char **)surls;
+	surlarray.__size = nbfiles;
+	surlarray.__offset = 0;
+	protoarray.__ptr = protocols;
+	protoarray.__size = nbprotocols;
+	protoarray.__offset = 0;
+
+	if (soap_call_tns__get (&soap, srm_endpoint, "get", &surlarray,
+	    &protoarray, &outg)) {
+		soap_print_fault (&soap, stderr);
+		soap_end (&soap);
+		soap_done (&soap);
+		return (-1);
+	}
+	reqstatp = outg._Result;
+	if (reqstatp->fileStatuses == NULL) {
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
+	*reqid = reqstatp->requestId;
+	if (token)
+		*token = NULL;
+	n = reqstatp->fileStatuses->__size;
+	if ((*filestatuses = malloc (n * sizeof(struct srm_filestatus))) == NULL) {
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ENOMEM;
+		return (-1);
+	}
+	f = reqstatp->fileStatuses->__ptr;
+	for (i = 0; i < n; i++) {
+		if ((f+i)->SURL && (filestatuses[i]->surl = strdup ((f+i)->SURL)) == NULL)
+			errflag++;
+		if ((f+i)->state) {
+			if (strcmp ((f+i)->state, "Pending") == 0 ||
+			    strcmp ((f+i)->state, "pending") == 0)
+				filestatuses[i]->status = 0;
+			else if (strcmp ((f+i)->state, "Failed") == 0 ||
+			    strcmp ((f+i)->state, "failed") == 0)
+				filestatuses[i]->status = -1;
+			else
+				filestatuses[i]->status = 1;
+		}
+		filestatuses[i]->fileid = (f+i)->fileId;
+		if ((f+i)->TURL && (filestatuses[i]->turl = strdup ((f+i)->TURL)) == NULL)
+			errflag++;
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (n);
+}
+
+srm_getstatus (int nbfiles, char **surls, int reqid, char *token, struct srm_filestatus **filestatuses)
+{
+	int errflag = 0;
+	struct ns11__RequestFileStatus *f;
+	int i;
+	int n;
+	struct tns__getRequestStatusResponse outq;
+	char *p;
+	struct ns11__RequestStatus *reqstatp;
+	int sav_errno;
+	struct soap soap;
+	char srm_endpoint[256];
+	struct ArrayOfstring surlarray;
+
+	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint)) < 0)
+		return (-1);
+
+	if (soap_call_tns__getRequestStatus (&soap, srm_endpoint,
+	    "getRequestStatus", reqid, &outq)) {
+		soap_print_fault (&soap, stderr);
+		soap_end (&soap);
+		soap_done (&soap);
+		return (-1);
+	}
+	reqstatp = outq._Result;
+	n = reqstatp->fileStatuses->__size;
+	if ((*filestatuses = malloc (n * sizeof(struct srm_filestatus))) == NULL) {
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ENOMEM;
+		return (-1);
+	}
+	f = reqstatp->fileStatuses->__ptr;
+	for (i = 0; i < n; i++) {
+		if ((f+i)->SURL && (filestatuses[i]->surl = strdup ((f+i)->SURL)) == NULL)
+			errflag++;
+		if ((f+i)->state) {
+			if (strcmp ((f+i)->state, "Pending") == 0 ||
+			    strcmp ((f+i)->state, "pending") == 0)
+				filestatuses[i]->status = 0;
+			else if (strcmp ((f+i)->state, "Failed") == 0 ||
+			    strcmp ((f+i)->state, "failed") == 0)
+				filestatuses[i]->status = -1;
+			else
+				filestatuses[i]->status = 1;
+		}
+		filestatuses[i]->fileid = (f+i)->fileId;
+		if ((f+i)->TURL && (filestatuses[i]->turl = strdup ((f+i)->TURL)) == NULL)
+			errflag++;
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (n);
 }
 
 srm_turlsfromsurls (int nbfiles, const char **surls, xsd__long *filesizes, char **protocols, int oflag, int *reqid, int **fileids, char **token, char ***turls)

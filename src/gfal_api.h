@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.10 $ $Date: 2004/09/24 09:03:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.11 $ $Date: 2004/10/20 10:31:20 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -11,6 +11,13 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
+
+struct srm_filestatus {
+	char	*surl;
+	char	*turl;
+	int	fileid;
+	int	status;
+};
 
 		/* User-callable entry points */
 
@@ -84,6 +91,8 @@ int set_xfer_running (const char *, int, int, char *);
 int setfilesize (const char *, long long);
 int setypefromsurl (const char *, char **);
 int srm_deletesurl (const char *);
+int srm_get (int, char **, int, char **, int *, char **, struct srm_filestatus **);
+int srm_getstatus (int, char **, int, char *, struct srm_filestatus **);
 int srm_set_xfer_done (const char *, int, int, char *, int);
 int srm_set_xfer_running (const char *, int, int, char *);
 char *srm_turlfromsurl (const char *, char **, int, int *, int *, char **);
