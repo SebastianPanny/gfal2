@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.6 $ $Date: 2004/05/12 08:26:33 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.7 $ $Date: 2004/06/03 08:12:44 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -58,6 +58,7 @@ int get_bdii (char *, int, int *);
 int get_ce_ap (const char *, char **);
 int get_rls_endpoints (char **, char **);
 int get_sa_root (const char *, const char *, char **);
+int get_se_endpoint (const char *, char **);
 int get_se_port (const char *, int *);
 int get_se_type (const char *, char **);
 int get_seap_info (const char *, char ***, int **);
