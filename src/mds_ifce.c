@@ -3,13 +3,14 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/03/26 10:57:58 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/03/31 06:23:37 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include <lber.h>
 #include <ldap.h>
 #define GRID_INFO_PORT 2135
 static char *dn = "mds-vo-name=local,o=grid";
@@ -18,14 +19,13 @@ static char *dn = "mds-vo-name=local,o=grid";
 
 get_ce_ap (const char *host, char **ce_ap)
 {
-	static char *ce_ap_atnm = "GlueCESEBindCEAccesspoint";
+	static char ce_ap_atnm[] = "GlueCESEBindCEAccesspoint";
 	static char *template = "(GlueCESEBindSEUniqueID=%s)";
 	char *attr;
-	char *attrs[] = {ce_ap_atnm, NULL};
+	static char *attrs[] = {ce_ap_atnm, NULL};
 	int bdii_port;
 	char *bdii_env;
 	char bdii_server[75];
-	BerElement *ber;
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
@@ -61,18 +61,17 @@ get_ce_ap (const char *host, char **ce_ap)
 		return (-1);
 	}
 	timeout.tv_sec = 5;
+	timeout.tv_usec = 0;
 	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
-	attr = ldap_first_attribute (ld, entry, &ber);
-	value = ldap_get_values (ld, entry, attr);
+	value = ldap_get_values (ld, entry, ce_ap_atnm);
 	if ((*ce_ap = strdup (value[0])) == NULL)
 		rc = -1;
 	ldap_value_free (value);
-	attr = ldap_next_attribute (ld, entry, ber);	/* to free BerElement */
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
 	return (rc);
@@ -82,12 +81,11 @@ get_ce_ap (const char *host, char **ce_ap)
 
 get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 {
-	static char *rls_ep = "GlueServiceAccessPointURL";
-	static char *rls_type = "GlueServiceType";
-	static char *rls_vo = "GlueServiceAccessControlRule";
+	static char rls_ep[] = "GlueServiceAccessPointURL";
+	static char rls_type[] = "GlueServiceType";
 	static char *template = "(&(GlueServiceType=*)(GlueServiceAccessControlRule=%s))";
 	char *attr;
-	char *attrs[] = {rls_type, rls_ep, NULL};
+	static char *attrs[] = {rls_type, rls_ep, NULL};
 	int bdii_port;
 	char *bdii_env;
 	char bdii_server[75];
@@ -134,6 +132,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 		return (-1);
 	}
 	timeout.tv_sec = 5;
+	timeout.tv_usec = 0;
 	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
@@ -176,11 +175,10 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 
 get_sa_root (const char *host, const char *vo, char **sa_root)
 {
-	static char *sa_root_atnm = "GlueSARoot";
+	static char sa_root_atnm[] = "GlueSARoot";
 	static char *template = "(&(GlueSARoot=%s:*)(GlueChunkKey=GlueSEUniqueID=%s))";
 	char *attr;
-	char *attrs[] = {sa_root_atnm, NULL};
-	BerElement *ber;
+	static char *attrs[] = {sa_root_atnm, NULL};
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
@@ -195,7 +193,7 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 	}
 	sprintf (filter, template, vo, host);
 
-	if ((ld = ldap_init (host, GRID_INFO_PORT)) == NULL)
+	if ((ld = ldap_init ((char *) host, GRID_INFO_PORT)) == NULL)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
@@ -203,18 +201,62 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 		return (-1);
 	}
 	timeout.tv_sec = 5;
+	timeout.tv_usec = 0;
 	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
-	attr = ldap_first_attribute (ld, entry, &ber);
-	value = ldap_get_values (ld, entry, attr);
+	value = ldap_get_values (ld, entry, sa_root_atnm);
 	if ((*sa_root = strdup (value[0] + strlen (vo) + 1)) == NULL)
 		rc = -1;
 	ldap_value_free (value);
-	attr = ldap_next_attribute (ld, entry, ber);	/* to free BerElement */
+	ldap_msgfree (reply);
+	ldap_unbind (ld);
+	return (rc);
+}
+
+/* get from the SE GRIS the SE port */
+
+get_se_port (const char *host, int *se_port)
+{
+	static char se_port_atnm[] = "GlueSEPort";
+	static char *template = "(GlueSEUniqueID=%s)";
+	char *attr;
+	static char *attrs[] = {se_port_atnm, NULL};
+	LDAPMessage *entry;
+	char filter[128];
+	LDAP *ld;
+	int rc = 0;
+	LDAPMessage *reply;
+	struct timeval timeout;
+	char **value;
+
+	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
+		errno = EINVAL;
+		return (-1);
+	}
+	sprintf (filter, template, host);
+
+	if ((ld = ldap_init ((char *) host, GRID_INFO_PORT)) == NULL)
+		return (-1);
+	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		errno = ECONNREFUSED;
+		return (-1);
+	}
+	timeout.tv_sec = 5;
+	timeout.tv_usec = 0;
+	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply) != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		return (-1);
+	}
+	entry = ldap_first_entry (ld, reply);
+	value = ldap_get_values (ld, entry, se_port_atnm);
+	*se_port = atoi (value[0]);
+	ldap_value_free (value);
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
 	return (rc);
@@ -224,11 +266,10 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 
 get_se_type (const char *host, char **se_type)
 {
-	static char *se_type_atnm = "GlueSEName";
+	static char se_type_atnm[] = "GlueSEName";
 	static char *template = "(GlueSEUniqueID=%s)";
 	char *attr;
-	char *attrs[] = {se_type_atnm, NULL};
-	BerElement *ber;
+	static char *attrs[] = {se_type_atnm, NULL};
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
@@ -244,7 +285,7 @@ get_se_type (const char *host, char **se_type)
 	}
 	sprintf (filter, template, host);
 
-	if ((ld = ldap_init (host, GRID_INFO_PORT)) == NULL)
+	if ((ld = ldap_init ((char *) host, GRID_INFO_PORT)) == NULL)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
@@ -252,14 +293,14 @@ get_se_type (const char *host, char **se_type)
 		return (-1);
 	}
 	timeout.tv_sec = 5;
+	timeout.tv_usec = 0;
 	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
-	attr = ldap_first_attribute (ld, entry, &ber);
-	value = ldap_get_values (ld, entry, attr);
+	value = ldap_get_values (ld, entry, se_type_atnm);
 	if ((p = strchr (value[0], ':')))
 		p++;
 	else
@@ -267,7 +308,6 @@ get_se_type (const char *host, char **se_type)
 	if ((*se_type = strdup (p)) == NULL)
 		rc = -1;
 	ldap_value_free (value);
-	attr = ldap_next_attribute (ld, entry, ber);	/* to free BerElement */
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
 	return (rc);
@@ -279,12 +319,12 @@ get_se_type (const char *host, char **se_type)
 
 get_seap_info (const char *host, char ***access_protocol, int **port)
 {
-	static char *proto_port = "GlueSEAccessProtocolPort";
-	static char *proto_type = "GlueSEAccessProtocolType";
+	static char proto_port[] = "GlueSEAccessProtocolPort";
+	static char proto_type[] = "GlueSEAccessProtocolType";
 	static char *template = "(&(GlueSEAccessProtocolType=*)(GlueChunkKey=GlueSEUniqueID=%s))";
 	char **ap;
 	char *attr;
-	char *attrs[] = {proto_type, proto_port, NULL};
+	static char *attrs[] = {proto_type, proto_port, NULL};
 	BerElement *ber;
 	LDAPMessage *entry;
 	char filter[128];
@@ -304,7 +344,7 @@ get_seap_info (const char *host, char ***access_protocol, int **port)
 	}
 	sprintf (filter, template, host);
 
-	if ((ld = ldap_init (host, GRID_INFO_PORT)) == NULL)
+	if ((ld = ldap_init ((char *) host, GRID_INFO_PORT)) == NULL)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
@@ -312,6 +352,7 @@ get_seap_info (const char *host, char ***access_protocol, int **port)
 		return (-1);
 	}
 	timeout.tv_sec = 5;
+	timeout.tv_usec = 0;
 	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
@@ -319,10 +360,13 @@ get_seap_info (const char *host, char ***access_protocol, int **port)
 	}
 	nbentries = ldap_count_entries (ld, reply);
 	nbentries++;
-	if ((ap = calloc (nbentries, sizeof(char *))) == NULL)
+	if ((ap = calloc (nbentries, sizeof(char *))) == NULL) {
+		ldap_unbind (ld);
 		return (-1);
+	}
 	if ((pn = calloc (nbentries, sizeof(int))) == NULL) {
 		free (ap);
+		ldap_unbind (ld);
 		return (-1);
 	}
 	for (entry = ldap_first_entry (ld, reply), i = 0;
