@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.7 $ $Date: 2004/08/20 14:52:03 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.8 $ $Date: 2004/09/24 09:04:20 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -21,12 +21,12 @@
 #define DEFPOLLINT 10
 
 static int
-srm_init (struct soap *soap, const char *surl, char **srm_endpoint)
+srm_init (struct soap *soap, const char *surl, char *srm_endpoint, int srm_endpointsz)
 {
 	int flags;
 	char *sfn;
 
-	if (parsesurl (surl, srm_endpoint, &sfn) < 0)
+	if (parsesurl (surl, srm_endpoint, srm_endpointsz, &sfn) < 0)
 		return (-1);
 
 	soap_init (soap);
@@ -41,10 +41,10 @@ srm_deletesurl (const char *surl)
 {
 	struct tns__advisoryDeleteResponse out;
 	struct soap soap;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	if (srm_init (&soap, surl, &srm_endpoint) < 0)
+	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (-1);
 
 	/* issue "advisoryDelete" request */
@@ -83,11 +83,11 @@ srm_turlsfromsurls (int nbfiles, const char **surls, xsd__long *filesizes, char 
 	struct ArrayOflong sizearray;
 	struct soap soap;
 	struct ArrayOfstring srcarray;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 	char **t;
 
-	if (srm_init (&soap, surls[0], &srm_endpoint) < 0)
+	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (-1);
 
 	while (*protocols[nbproto]) nbproto++;
@@ -227,10 +227,10 @@ srm_getfilemd (const char *surl, struct stat64 *statbuf)
 	int ret;
 	int sav_errno;
 	struct soap soap;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	if (srm_init (&soap, surl, &srm_endpoint) < 0)
+	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (-1);
 
 	/* issue "getFileMetaData" request */
@@ -280,9 +280,9 @@ srm_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int ofl
 {
 	struct tns__setFileStatusResponse out;
 	struct soap soap;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 
-	if (srm_init (&soap, surl, &srm_endpoint) < 0)
+	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (-1);
 
 	if (soap_call_tns__setFileStatus (&soap, srm_endpoint,
@@ -301,9 +301,9 @@ srm_set_xfer_running (const char *surl, int reqid, int fileid, char *token)
 {
 	struct tns__setFileStatusResponse out;
 	struct soap soap;
-	char *srm_endpoint;
+	char srm_endpoint[256];
 
-	if (srm_init (&soap, surl, &srm_endpoint) < 0)
+	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
 		return (-1);
 
 	if (soap_call_tns__setFileStatus (&soap, srm_endpoint,
