@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/03/26 10:54:30 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/05/12 08:22:27 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -72,6 +72,65 @@ guidfromlfn (const char *lfn)
 	}
 }
 
+char **
+lfnsforguid (const char *guid)
+{
+	int flags;
+	int i;
+	int j;
+	char **lfnarray;
+	struct impl__getAliasesResponse out;
+	char *p;
+	int ret;
+	int sav_errno;
+	struct soap soap;
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_rmc;
+
+	if (rmc_endpoint == NULL &&
+	    (rmc_endpoint = getenv ("RMC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (NULL);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (rmc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	}
+#endif
+
+	if (ret = soap_call_impl__getAliases (&soap, rmc_endpoint, "",
+	    (char *) guid, &out)) {
+		if (ret == SOAP_FAULT) {
+			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
+				sav_errno = ENOENT;
+			else
+				sav_errno = ECOMM;
+		} else
+			sav_errno = ECOMM;
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = sav_errno;
+		return (NULL);
+	}
+	if ((lfnarray = calloc (out._getAliasesReturn->__size + 1, sizeof(char *))) == NULL) 
+		return (NULL);
+	for (i = 0; i < out._getAliasesReturn->__size; i++) {
+		if ((lfnarray[i] = strdup (out._getAliasesReturn->__ptr[i])) == NULL) {
+			for (j = 0; j < i; j++)
+				free (lfnarray[j]);
+			free (lfnarray);
+			return (NULL); 
+		}
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (lfnarray);
+}
+
 register_alias (const char *guid, const char *lfn)
 {
 	int flags;
@@ -111,6 +170,42 @@ register_alias (const char *guid, const char *lfn)
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
+		return (-1);
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (0);
+}
+
+unregister_alias (const char *guid, const char *lfn)
+{
+	int flags;
+	struct impl__removeAliasResponse out;
+	int ret;
+	struct soap soap;
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_rmc;
+
+	if (rmc_endpoint == NULL &&
+	    (rmc_endpoint = getenv ("RMC_ENDPOINT")) == NULL &&
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+#ifdef GFAL_SECURE
+	if (strncmp (rmc_endpoint, "https", 5) == 0) {
+		flags = CGSI_OPT_SSL_COMPATIBLE;
+		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	}
+#endif
+
+	if (ret = soap_call_impl__removeAlias (&soap, rmc_endpoint, "",
+	    (char *) guid, (char *) lfn, &out)) {
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
 		return (-1);
 	}
 	soap_end (&soap);
