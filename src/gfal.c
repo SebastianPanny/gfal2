@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.11 $ $Date: 2004/11/15 09:42:15 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.12 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -95,6 +95,7 @@ free_xi (int fd)
 
 gfal_access (const char *path, int amode)
 {
+	char errbuf[256];
 	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
@@ -145,6 +146,7 @@ gfal_chmod (const char *path, mode_t mode)
 
 gfal_close (int fd)
 {
+	char errbuf[256];
 	int rc;
 	int rc1 = 0;
 	int sav_errno;
@@ -159,7 +161,7 @@ gfal_close (int fd)
 
 	if (xi->surl) {
 		rc1 = set_xfer_done (xi->surl, xi->reqid, xi->fileid,
-		    xi->token, xi->oflag);
+		    xi->token, xi->oflag, errbuf, sizeof(errbuf));
 		free (xi->surl);
 		if (xi->token) free (xi->token);
 	}
@@ -195,6 +197,16 @@ gfal_creat64 (const char *filename, mode_t mode)
 	return (gfal_open64 (filename, O_WRONLY|O_CREAT|O_TRUNC, mode));
 }
 
+gfal_errmsg (char *errbuf, int errbufsz, const char *errmsg)
+{
+	if (errbuf == NULL)
+		fprintf (stderr, "%s\n", errmsg);
+	else {
+		strncpy (errbuf, errmsg, errbufsz - 1);
+		*(errbuf+errbufsz-1) = '\0';
+	}
+}
+
 off_t
 gfal_lseek (int fd, off_t offset, int whence)
 {
@@ -223,6 +235,7 @@ gfal_lseek64 (int fd, off64_t offset, int whence)
 
 gfal_lstat (const char *filename, struct stat *statbuf)
 {
+	char errbuf[256];
 	char *fn;
 	char *guid;
 	char pathbuf[1024];
@@ -234,26 +247,26 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename + 4)) == NULL)
+		if ((guid = guidfromlfn (filename + 4, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
-		if ((fn = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid, errbuf, sizeof(errbuf))) == NULL) {
 			free (guid);
 			return (-1);
 		}
 		free (guid);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((fn = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
 	} else
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		if ((rc = getfilemd (fn, &statb64)) == 0)
+		if ((rc = getfilemd (fn, &statb64, errbuf, sizeof(errbuf))) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
 		if (fn != filename) free (fn);
 		return (rc);
 	}
 	if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, NULL)) == NULL) {
+		if ((turl = turlfromsfn (fn, NULL, errbuf, sizeof(errbuf))) == NULL) {
 			if (fn != filename) free (fn);
 			return (-1);
 		}
@@ -274,6 +287,7 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 
 gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 {
+	char errbuf[256];
 	char *fn;
 	char *guid;
 	char pathbuf[1024];
@@ -284,25 +298,25 @@ gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename + 4)) == NULL)
+		if ((guid = guidfromlfn (filename + 4, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
-		if ((fn = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid, errbuf, sizeof(errbuf))) == NULL) {
 			free (guid);
 			return (-1);
 		}
 		free (guid);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((fn = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
 	} else
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		rc = getfilemd (fn, statbuf);
+		rc = getfilemd (fn, statbuf, errbuf, sizeof(errbuf));
 		if (fn != filename) free (fn);
 		return (rc);
 	}
 	if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, NULL)) == NULL) {
+		if ((turl = turlfromsfn (fn, NULL, errbuf, sizeof(errbuf))) == NULL) {
 			if (fn != filename) free (fn);
 			return (-1);
 		}
@@ -348,6 +362,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
 
 gfal_open (const char *filename, int flags, mode_t mode)
 {
+	char errbuf[256];
 	int fd;
 	int fileid;
 	char *fn;
@@ -365,23 +380,23 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	supported_protocols = get_sup_proto ();
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename + 4)) == NULL)
+		if ((guid = guidfromlfn (filename + 4, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
-		if ((fn = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid, errbuf, sizeof(errbuf))) == NULL) {
 			free (guid);
 			return (-1);
 		}
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((fn = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
 	} else
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
 		if ((turl = turlfromsurl (fn, supported_protocols, flags,
-		    &reqid, &fileid, &token)) == NULL)
+		    &reqid, &fileid, &token, errbuf, sizeof(errbuf))) == NULL)
 			goto err;
 	} else if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, supported_protocols)) == NULL)
+		if ((turl = turlfromsfn (fn, supported_protocols, errbuf, sizeof(errbuf))) == NULL)
 			goto err;
 	} else		/* assume that is a pfn */
 		turl = fn;
@@ -406,7 +421,8 @@ gfal_open (const char *filename, int flags, mode_t mode)
 			xi->token = strdup (token);
 			free (token);
 		}
-		(void) set_xfer_running (xi->surl, xi->reqid, xi->fileid, xi->token);
+		(void) set_xfer_running (xi->surl, xi->reqid, xi->fileid,
+		    xi->token, errbuf, sizeof(errbuf));
 	}
 
 	if (guid) free (guid);
@@ -576,6 +592,7 @@ gfal_setfilchg (int fd, const void *buf, size_t size)
 
 gfal_stat (const char *filename, struct stat *statbuf)
 {
+	char errbuf[256];
 	char *fn;
 	char *guid;
 	char pathbuf[1024];
@@ -587,26 +604,26 @@ gfal_stat (const char *filename, struct stat *statbuf)
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename + 4)) == NULL)
+		if ((guid = guidfromlfn (filename + 4, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
-		if ((fn = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid, errbuf, sizeof(errbuf))) == NULL) {
 			free (guid);
 			return (-1);
 		}
 		free (guid);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((fn = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
 	} else
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		if ((rc = getfilemd (fn, &statb64)) == 0)
+		if ((rc = getfilemd (fn, &statb64, errbuf, sizeof(errbuf))) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
 		if (fn != filename) free (fn);
 		return (rc);
 	}
 	if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, NULL)) == NULL) {
+		if ((turl = turlfromsfn (fn, NULL, errbuf, sizeof(errbuf))) == NULL) {
 			if (fn != filename) free (fn);
 			return (-1);
 		}
@@ -627,6 +644,7 @@ gfal_stat (const char *filename, struct stat *statbuf)
 
 gfal_stat64 (const char *filename, struct stat64 *statbuf)
 {
+	char errbuf[256];
 	char *fn;
 	char *guid;
 	char pathbuf[1024];
@@ -637,31 +655,32 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (filename + 4)) == NULL)
+		if ((guid = guidfromlfn (filename + 4, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
-		if ((fn = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid, errbuf, sizeof(errbuf))) == NULL) {
 			free (guid);
 			return (-1);
 		}
 		free (guid);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((fn = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
 	} else
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		rc = getfilemd (fn, statbuf);
+		rc = getfilemd (fn, statbuf, errbuf, sizeof(errbuf));
 		if (fn != filename) free (fn);
 		return (rc);
 	}
 	if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, NULL)) == NULL) {
+		if ((turl = turlfromsfn (fn, NULL, errbuf, sizeof(errbuf))) == NULL) {
 			if (fn != filename) free (fn);
 			return (-1);
 		}
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn)) == 0) {
+	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf),
+	    &pfn)) == 0) {
 		if ((pops = find_pops (protocol)) != NULL) {
 			if ((rc = pops->stat64 (pfn, statbuf)) < 0)
 				errno = pops->maperror (pops, 0);
@@ -676,6 +695,7 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 
 gfal_unlink (const char *filename)
 {
+	char errbuf[256];
 	int i = 0;
 	char **pfns;
 	int rc = 0;
@@ -685,16 +705,16 @@ gfal_unlink (const char *filename)
 		return (-1);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
 		/* must try to delete all PFNs mapped to this guid */
-		if ((pfns = surlsfromguid (filename + 5)) == NULL)
+		if ((pfns = surlsfromguid (filename + 5, errbuf, sizeof(errbuf))) == NULL)
 			return (-1);
 		while (pfns[i]) {
-			rc += deletepfn (pfns[i], filename + 5);
+			rc += deletepfn (pfns[i], filename + 5, errbuf, sizeof(errbuf));
 			free (pfns[i++]);
 		}
 		free (pfns);
 		return (rc == 0 ? 0 : -1);
 	} else
-		return (deletepfn (filename, NULL));
+		return (deletepfn (filename, NULL, errbuf, sizeof(errbuf)));
 }
 
 ssize_t
@@ -710,7 +730,7 @@ gfal_write (int fd, const void *buf, size_t size)
 	return (rc);
 }
 
-deletepfn (const char *fn, const char *guid)
+deletepfn (const char *fn, const char *guid, char *errbuf, int errbufsz)
 {
 	char pathbuf[1024];
 	char *pfn;
@@ -720,11 +740,11 @@ deletepfn (const char *fn, const char *guid)
 	char *turl;
 
 	if (strncmp (fn, "srm:", 4) == 0) {
-		if (deletesurl (fn) < 0)
+		if (deletesurl (fn, errbuf, errbufsz) < 0)
 			return (-1);
 	} else {
 		if (strncmp (fn, "sfn:", 4) == 0) {
-			if ((turl = turlfromsfn (fn, NULL)) == NULL)
+			if ((turl = turlfromsfn (fn, NULL, errbuf, errbufsz)) == NULL)
 				return (-1);
 		} else		/* assume that is a pfn */
 			turl = (char *)fn;
@@ -741,18 +761,18 @@ deletepfn (const char *fn, const char *guid)
 	return (0);
 }
 
-deletesurl (const char *surl)
+deletesurl (const char *surl, char *errbuf, int errbufsz)
 {
 	char *se_type;
 
-	if (setypefromsurl (surl, &se_type) < 0)
+	if (setypefromsurl (surl, &se_type, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
-		return (srm_deletesurl (surl));
+		return (srm_deletesurl (surl, errbuf, errbufsz));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
-		return (se_deletesurl (surl));
+		return (se_deletesurl (surl, errbuf, errbufsz));
 	} else {
 		free (se_type);
 		errno = EPROTONOSUPPORT;
@@ -760,18 +780,18 @@ deletesurl (const char *surl)
 	}
 }
 
-getfilemd (const char *surl, struct stat64 *statbuf)
+getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz)
 {
 	char *se_type;
 
-	if (setypefromsurl (surl, &se_type) < 0)
+	if (setypefromsurl (surl, &se_type, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
-		return (srm_getfilemd (surl, statbuf));
+		return (srm_getfilemd (surl, statbuf, errbuf, errbufsz));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
-		return (se_getfilemd (surl, statbuf));
+		return (se_getfilemd (surl, statbuf, errbuf, errbufsz));
 	} else {
 		free (se_type);
 		errno = EPROTONOSUPPORT;
@@ -801,7 +821,8 @@ mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 
 #define SRM_EP_PATH "/srm/managerv1"
 #define SRM_PORT 8443
-parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn)
+parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn,
+	char *errbuf, int errbufsz)
 {
 	int len;
 	int len1;
@@ -935,18 +956,21 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 	return (0);
 }
 
-set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag)
+set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
+	char *errbuf, int errbufsz)
 {
 	char *se_type;
 
-	if (setypefromsurl (surl, &se_type) < 0)
+	if (setypefromsurl (surl, &se_type, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
-		return (srm_set_xfer_done (surl, reqid, fileid, token, oflag));
+		return (srm_set_xfer_done (surl, reqid, fileid, token, oflag,
+		    errbuf, errbufsz));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
-		return (se_set_xfer_done (surl, reqid, fileid, token, oflag));
+		return (se_set_xfer_done (surl, reqid, fileid, token, oflag,
+		    errbuf, errbufsz));
 	} else {
 		free (se_type);
 		errno = EPROTONOSUPPORT;
@@ -954,18 +978,21 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag)
 	}
 }
 
-set_xfer_running (const char *surl, int reqid, int fileid, char *token)
+set_xfer_running (const char *surl, int reqid, int fileid, char *token,
+	char *errbuf, int errbufsz)
 {
 	char *se_type;
 
-	if (setypefromsurl (surl, &se_type) < 0)
+	if (setypefromsurl (surl, &se_type, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
-		return (srm_set_xfer_running (surl, reqid, fileid, token));
+		return (srm_set_xfer_running (surl, reqid, fileid, token,
+		    errbuf, errbufsz));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
-		return (se_set_xfer_running (surl, reqid, fileid, token));
+		return (se_set_xfer_running (surl, reqid, fileid, token,
+		    errbuf, errbufsz));
 	} else {
 		free (se_type);
 		errno = EPROTONOSUPPORT;
@@ -973,7 +1000,8 @@ set_xfer_running (const char *surl, int reqid, int fileid, char *token)
 	}
 }
 
-setypefromsurl (const char *surl, char **se_type)
+setypefromsurl (const char *surl, char **se_type,
+	char *errbuf, int errbufsz)
 {
 	int len;
 	char *p;
@@ -990,11 +1018,11 @@ setypefromsurl (const char *surl, char **se_type)
 	strncpy (server, surl + 6, len);
 	server[len] = '\0';
 	if ((p = strchr (server, ':'))) *p = '\0';
-	return (get_se_type (server, se_type));
+	return (get_se_typex (server, se_type, errbuf, errbufsz));
 }
 
 char *
-turlfromsfn (const char *sfn, char **protocols)
+turlfromsfn (const char *sfn, char **protocols, char *errbuf, int errbufsz)
 {
 	char **ap;
 	int i;
@@ -1033,7 +1061,7 @@ turlfromsfn (const char *sfn, char **protocols)
 
 	strncpy (server, sfn + 6, len);
 	*(server + len) = '\0';
-	if (get_seap_info (server, &ap, &pn) < 0)
+	if (get_seap_infox (server, &ap, &pn, errbuf, errbufsz) < 0)
 		return (NULL);
 	i = 0;
 	while (ap[i]) {
@@ -1055,18 +1083,21 @@ turlfromsfn (const char *sfn, char **protocols)
 }
 
 char *
-turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid, char **token)
+turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
+	int *fileid, char **token, char *errbuf, int errbufsz)
 {
 	char *se_type;
 
-	if (setypefromsurl (surl, &se_type) < 0)
+	if (setypefromsurl (surl, &se_type, errbuf, errbufsz) < 0)
 		return (NULL);
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
-		return (srm_turlfromsurl (surl, protocols, oflag, reqid, fileid, token));
+		return (srm_turlfromsurl (surl, protocols, oflag, reqid, fileid,
+		    token, errbuf, errbufsz));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
-		return (se_turlfromsurl (surl, protocols, oflag, reqid, fileid, token));
+		return (se_turlfromsurl (surl, protocols, oflag, reqid, fileid,
+		    token, errbuf, errbufsz));
 	} else {
 		free (se_type);
 		errno = EPROTONOSUPPORT;
@@ -1074,7 +1105,7 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fi
 	}
 }
 
-get_cat_type(char **cat_type) {
+get_cat_type (char **cat_type) {
 	char *cat_env;
 	/* JC FIXME no hardcoded strings */
 	char *default_cat = "edg";
@@ -1089,18 +1120,18 @@ get_cat_type(char **cat_type) {
 	return 0;
 }
 
-getfilesizeg (const char *guid, GFAL_LONG64 *filesize)
+getfilesizeg (const char *guid, GFAL_LONG64 *filesize, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (-1);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
-	} else if(strcmp (cat_type, "lfc") == 0) {
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_getfilesizeg (guid, filesize));
+		return (lfc_getfilesizeg (guid, filesize, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1109,18 +1140,18 @@ getfilesizeg (const char *guid, GFAL_LONG64 *filesize)
 }
 
 char *
-guidforpfn (const char *pfn)
+guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (NULL);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (lrc_guidforpfn (pfn));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (lrc_guidforpfn (pfn, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_guidforpfn (pfn));
+		return (lfc_guidforpfn (pfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1128,18 +1159,18 @@ guidforpfn (const char *pfn)
 	}
 }
 
-guid_exists (const char *guid)
+guid_exists (const char *guid, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (-1);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (lrc_guid_exists (guid));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (lrc_guid_exists (guid, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_guid_exists (guid));
+		return (lfc_guid_exists (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1147,18 +1178,18 @@ guid_exists (const char *guid)
 	}
 }
 
-register_pfn (const char *guid, const char *pfn)
+register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (-1);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (lrc_register_pfn (guid, pfn));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (lrc_register_pfn (guid, pfn, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_register_pfn (guid, pfn));
+		return (lfc_register_pfn (guid, pfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1166,16 +1197,16 @@ register_pfn (const char *guid, const char *pfn)
 	}
 }
 
-setfilesize (const char *pfn, GFAL_LONG64 filesize)
+setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (-1);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (lrc_setfilesize (pfn, filesize));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (lrc_setfilesize (pfn, filesize, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
 	} else {
@@ -1186,18 +1217,18 @@ setfilesize (const char *pfn, GFAL_LONG64 filesize)
 }
 
 char *
-surlfromguid (const char *guid)
+surlfromguid (const char *guid, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (NULL);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (lrc_surlfromguid (guid));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (lrc_surlfromguid (guid, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_surlfromguid (guid));
+		return (lfc_surlfromguid (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1206,18 +1237,18 @@ surlfromguid (const char *guid)
 }
 
 char **
-surlsfromguid (const char *guid)
+surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (NULL);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (lrc_surlsfromguid (guid));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (lrc_surlsfromguid (guid, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_surlsfromguid (guid));
+		return (lfc_surlsfromguid (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1225,18 +1256,18 @@ surlsfromguid (const char *guid)
 	}
 }
 
-unregister_pfn (const char *guid, const char *pfn)
+unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (-1);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (lrc_unregister_pfn (guid, pfn));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (lrc_unregister_pfn (guid, pfn, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_unregister_pfn (guid, pfn));
+		return (lfc_unregister_pfn (guid, pfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1245,18 +1276,18 @@ unregister_pfn (const char *guid, const char *pfn)
 }
 
 char *
-guidfromlfn (const char *lfn)
+guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (NULL);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (rmc_guidfromlfn (lfn));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (rmc_guidfromlfn (lfn, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_guidfromlfn (lfn));
+		return (lfc_guidfromlfn (lfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1265,18 +1296,18 @@ guidfromlfn (const char *lfn)
 }
 
 char **
-lfnsforguid (const char *guid)
+lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (NULL);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (rmc_lfnsforguid (guid));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (rmc_lfnsforguid (guid, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_lfnsforguid (guid));
+		return (lfc_lfnsforguid (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1284,18 +1315,19 @@ lfnsforguid (const char *guid)
 	}
 }
 
-create_alias (const char *guid, const char *lfn, GFAL_LONG64 size)
+create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *errbuf,
+	int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (-1);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (rmc_register_alias (guid, lfn));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (rmc_register_alias (guid, lfn, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_create_alias (guid, lfn, size));
+		return (lfc_create_alias (guid, lfn, size, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1303,18 +1335,18 @@ create_alias (const char *guid, const char *lfn, GFAL_LONG64 size)
 	}
 }
 
-register_alias (const char *guid, const char *lfn)
+register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (-1);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (rmc_register_alias (guid, lfn));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (rmc_register_alias (guid, lfn, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_register_alias (guid, lfn));
+		return (lfc_register_alias (guid, lfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
@@ -1322,18 +1354,18 @@ register_alias (const char *guid, const char *lfn)
 	}
 }
 
-unregister_alias (const char *guid, const char *lfn)
+unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
 	char *cat_type;
-	if(get_cat_type (&cat_type) < 0) {
+	if (get_cat_type (&cat_type) < 0) {
 		return (-1);
 	}
-	if(strcmp (cat_type, "edg") == 0) {
+	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		return (rmc_unregister_alias (guid, lfn));
-	} else if(strcmp (cat_type, "lfc") == 0) {
+		return (rmc_unregister_alias (guid, lfn, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_unregister_alias (guid, lfn));
+		return (lfc_unregister_alias (guid, lfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		errno = EPROTONOSUPPORT;

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.11 $ $Date: 2004/10/21 07:32:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.12 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -21,12 +21,13 @@
 #define DEFPOLLINT 10
 
 static int
-srm_init (struct soap *soap, const char *surl, char *srm_endpoint, int srm_endpointsz)
+srm_init (struct soap *soap, const char *surl, char *srm_endpoint,
+	int srm_endpointsz, char *errbuf, int errbufsz)
 {
 	int flags;
 	char *sfn;
 
-	if (parsesurl (surl, srm_endpoint, srm_endpointsz, &sfn) < 0)
+	if (parsesurl (surl, srm_endpoint, srm_endpointsz, &sfn, errbuf, errbufsz) < 0)
 		return (-1);
 
 	soap_init (soap);
@@ -37,14 +38,15 @@ srm_init (struct soap *soap, const char *surl, char *srm_endpoint, int srm_endpo
 	return (0);
 }
 
-srm_deletesurl (const char *surl)
+srm_deletesurl (const char *surl, char *errbuf, int errbufsz)
 {
 	struct tns__advisoryDeleteResponse out;
 	struct soap soap;
 	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	/* issue "advisoryDelete" request */
@@ -65,7 +67,16 @@ srm_deletesurl (const char *surl)
 	return (0);
 }
 
-srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols, int *reqid, char **token, struct srm_filestatus **filestatuses)
+srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols,
+	int *reqid, char **token, struct srm_filestatus **filestatuses)
+{
+	return (srm_getx (nbfiles, surls, nbprotocols, protocols, reqid, token,
+	    filestatuses, NULL, 0));
+}
+
+srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols,
+	int *reqid, char **token, struct srm_filestatus **filestatuses,
+	char *errbuf, int errbufsz)
 {
 	int errflag = 0;
 	struct ns11__RequestFileStatus *f;
@@ -81,7 +92,8 @@ srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols, int *reqi
 	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	surlarray.__ptr = (char **)surls;
@@ -140,7 +152,15 @@ srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols, int *reqi
 	return (n);
 }
 
-srm_getstatus (int nbfiles, char **surls, int reqid, char *token, struct srm_filestatus **filestatuses)
+srm_getstatus (int nbfiles, char **surls, int reqid, char *token,
+	struct srm_filestatus **filestatuses)
+{
+	return (srm_getstatusx (nbfiles, surls, reqid, token, filestatuses,
+	    NULL, 0));
+}
+
+srm_getstatusx (int nbfiles, char **surls, int reqid, char *token,
+	struct srm_filestatus **filestatuses, char *errbuf, int errbufsz)
 {
 	int errflag = 0;
 	struct ns11__RequestFileStatus *f;
@@ -155,7 +175,8 @@ srm_getstatus (int nbfiles, char **surls, int reqid, char *token, struct srm_fil
 	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (soap_call_tns__getRequestStatus (&soap, srm_endpoint,
@@ -198,7 +219,7 @@ srm_getstatus (int nbfiles, char **surls, int reqid, char *token, struct srm_fil
 	return (n);
 }
 
-srm_turlsfromsurls (int nbfiles, const char **surls, xsd__long *filesizes, char **protocols, int oflag, int *reqid, int **fileids, char **token, char ***turls)
+srm_turlsfromsurls (int nbfiles, const char **surls, xsd__long *filesizes, char **protocols, int oflag, int *reqid, int **fileids, char **token, char ***turls, char *errbuf, int errbufsz)
 {
 	int *f;
 	int i;
@@ -220,7 +241,8 @@ srm_turlsfromsurls (int nbfiles, const char **surls, xsd__long *filesizes, char 
 	struct ArrayOfstring surlarray;
 	char **t;
 
-	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	while (*protocols[nbproto]) nbproto++;
@@ -339,7 +361,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, xsd__long *filesizes, char 
 }
 
 char *
-srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid, char **token)
+srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid, char **token, char *errbuf, int errbufsz)
 {
 	int *fileids;
 	char *p;
@@ -347,7 +369,7 @@ srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int
 	xsd__long zero = 0;
 
 	if (srm_turlsfromsurls (1, &surl, &zero, protocols, oflag,
-	    reqid, &fileids, token, &turls) <= 0)
+	    reqid, &fileids, token, &turls, errbuf, errbufsz) <= 0)
 		return (NULL);
 	*fileid = fileids[0];
 	p = turls[0];
@@ -356,7 +378,7 @@ srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int
 	return (p);
 }
 
-srm_getfilemd (const char *surl, struct stat64 *statbuf)
+srm_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz)
 {
 	struct group *gr;
 	struct tns__getFileMetaDataResponse out;
@@ -367,7 +389,8 @@ srm_getfilemd (const char *surl, struct stat64 *statbuf)
 	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	/* issue "getFileMetaData" request */
@@ -414,13 +437,14 @@ srm_getfilemd (const char *surl, struct stat64 *statbuf)
 	return (0);
 }
 
-srm_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag)
+srm_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag, char *errbuf, int errbufsz)
 {
 	struct tns__setFileStatusResponse out;
 	struct soap soap;
 	char srm_endpoint[256];
 
-	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (soap_call_tns__setFileStatus (&soap, srm_endpoint,
@@ -435,13 +459,14 @@ srm_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int ofl
 	return (0);
 }
 
-srm_set_xfer_running (const char *surl, int reqid, int fileid, char *token)
+srm_set_xfer_running (const char *surl, int reqid, int fileid, char *token, char *errbuf, int errbufsz)
 {
 	struct tns__setFileStatusResponse out;
 	struct soap soap;
 	char srm_endpoint[256];
 
-	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (soap_call_tns__setFileStatus (&soap, srm_endpoint,

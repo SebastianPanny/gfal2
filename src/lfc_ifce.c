@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/11/15 09:43:38 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.6 $ $Date: 2004/12/02 07:40:22 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -54,7 +54,7 @@ get_hostname(const char *path) {
 }
 
 static int 
-lfc_init (void) {
+lfc_init (char *errbuf, int errbufsz) {
   if (lfc_host == NULL) {
     if((lfc_host = getenv("LFC_HOST")) == NULL &&
        get_lfc_host(&lfc_host) < 0) {
@@ -70,14 +70,16 @@ lfc_init (void) {
       return (-1);
     }
   }
+  lfc_seterrbuf(errbuf, errbufsz);
   return (0);
 }
 
 int
-lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep) {
+lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep, char *errbuf, int errbufsz)
+{
   struct lfc_filestatg statg;
 
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
   if(lfc_statg(NULL, guid, &statg) < 0) {
@@ -95,12 +97,12 @@ lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep) {
 /** lfc_guidforpfn : Get the guid for a replica.  If the replica does not
     exist, fail with ENOENT */
 char *
-lfc_guidforpfn (const char *pfn)
+lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 {
   char *p;
   struct lfc_filestatg statg;
 
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (NULL);
 
   if(lfc_statr(pfn, &statg) < 0) {
@@ -118,11 +120,11 @@ lfc_guidforpfn (const char *pfn)
 }
 
 int
-lfc_guid_exists (const char *guid)
+lfc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 {
   struct lfc_filestatg statg;
 
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
   if(lfc_statg(NULL, guid, &statg) < 0) {
@@ -136,11 +138,11 @@ lfc_guid_exists (const char *guid)
 }
 
 int
-lfc_register_pfn (const char *guid, const char *pfn)
+lfc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
   char *hostname;
 
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
   
   if((hostname = get_hostname(pfn)) == NULL) {
@@ -163,7 +165,7 @@ lfc_register_pfn (const char *guid, const char *pfn)
 
 
 char **
-lfc_surlsfromguid (const char *guid)
+lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 {
   lfc_list list;
   struct lfc_filereplica* rp;
@@ -172,7 +174,7 @@ lfc_surlsfromguid (const char *guid)
   size_t size = ALLOC_BLOCK_SIZE;
   size_t i = 0;
   
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (NULL);
 
   /* allocate some memory for the pointers */
@@ -216,16 +218,16 @@ lfc_surlsfromguid (const char *guid)
 }
 
 char *
-lfc_surlfromguid (const char *guid)
+lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 {
   char **surls;
   char **cp;
   char *result;
   
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (NULL);
 
-  if((surls = lfc_surlsfromguid(guid)) < 0) {
+  if((surls = lfc_surlsfromguid(guid, errbuf, errbufsz)) < 0) {
     return (NULL);
   }
   
@@ -247,9 +249,9 @@ lfc_surlfromguid (const char *guid)
 /** lfc_unregister_pfn : We unregister a pfn from a guid, but only if it a
     replica for that guid */
 int
-lfc_unregister_pfn (const char *guid, const char *pfn)
+lfc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
   
   if(lfc_delreplica(guid, NULL, pfn) < 0) {
@@ -263,12 +265,12 @@ lfc_unregister_pfn (const char *guid, const char *pfn)
 }
 
 char *
-lfc_guidfromlfn (const char *lfn)
+lfc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 {
   struct lfc_filestatg statg;
   char *p;
 
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (NULL);
 
   if(lfc_statg(lfn, NULL, &statg) < 0) {
@@ -285,7 +287,7 @@ lfc_guidfromlfn (const char *lfn)
 }
 
 char **
-lfc_lfnsforguid (const char *guid)
+lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 {
   lfc_list list;
   struct lfc_linkinfo* lp;
@@ -294,7 +296,7 @@ lfc_lfnsforguid (const char *guid)
   size_t size = ALLOC_BLOCK_SIZE;
   size_t i = 0;
   
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (NULL);
 
   /* allocate some memory for the pointers */
@@ -335,9 +337,9 @@ lfc_lfnsforguid (const char *guid)
 }
 
 int
-lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size)
+lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *errbuf, int errbufsz)
 {
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
   lfc_starttrans();
@@ -363,12 +365,12 @@ lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size)
 }
 
 int
-lfc_register_alias (const char *guid, const char *lfn)
+lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
   struct lfc_filestatg statg;
   char master_lfn[CA_MAXPATHLEN+1];
   
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
   lfc_starttrans();
@@ -399,12 +401,12 @@ lfc_register_alias (const char *guid, const char *lfn)
 }
 
 int 
-lfc_unregister_alias (const char *guid, const char *lfn)
+lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
   struct lfc_filestatg statg;
   struct lfc_filestat stat;
 
-  if(lfc_init() < 0)
+  if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
   lfc_starttrans();
@@ -444,7 +446,7 @@ lfc_unregister_alias (const char *guid, const char *lfn)
 }
 
 int 
-lfc_mkdirp(const char *path, mode_t mode) 
+lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
 {
   int c;
   char *lastslash = NULL;

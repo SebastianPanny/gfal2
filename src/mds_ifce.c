@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.9 $ $Date: 2004/10/24 10:50:19 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.10 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -16,18 +16,20 @@ static char *dn = "mds-vo-name=local,o=grid";
 
 /* get BDII hostname and port number */
 
-get_bdii (char *bdii_server, int buflen, int *bdii_port)
+get_bdii (char *bdii_server, int buflen, int *bdii_port, char *errbuf, int errbufsz)
 {
 	char *bdii_env;
 	char *p;
 
 	if ((bdii_env = getenv ("LCG_GFAL_INFOSYS")) == NULL ||
 	    strlen (bdii_env) >= buflen) {
+		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_INFOSYS not set or invalid");
 		errno = EINVAL;
 		return (-1);
 	}
 	strcpy (bdii_server, bdii_env);
 	if ((p = strchr (bdii_server, ':')) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_INFOSYS invalid");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -39,6 +41,11 @@ get_bdii (char *bdii_server, int buflen, int *bdii_port)
 /* get from the BDII the CE Accesspoint for a given SE */
 
 get_ce_ap (const char *host, char **ce_ap)
+{
+	return (get_ce_apx (host, ce_ap, NULL, 0));
+}
+
+get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 {
 	static char ce_ap_atnm[] = "GlueCESEBindCEAccesspoint";
 	static char *template = "(GlueCESEBindSEUniqueID=%s)";
@@ -54,9 +61,10 @@ get_ce_ap (const char *host, char **ce_ap)
 	struct timeval timeout;
 	char **value;
 
-	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "hostname too long");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -87,6 +95,7 @@ get_ce_ap (const char *host, char **ce_ap)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
+		gfal_errmsg (errbuf, errbufsz, "CE Accesspoint not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -98,6 +107,11 @@ get_ce_ap (const char *host, char **ce_ap)
 /* get from the BDII the RLS endpoints */
 
 get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
+{
+	return (get_rls_endpointsx (lrc_endpoint, rmc_endpoint, NULL, 0));
+}
+
+get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int errbufsz)
 {
 	static char rls_ep[] = "GlueServiceAccessPointURL";
 	static char rls_type[] = "GlueServiceType";
@@ -118,13 +132,15 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 	char **value;
 	char *vo;
 
-	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO not set");
 		errno = EINVAL;
 		return (-1);
 	}
 	if (strlen (template) + strlen (vo) - 2 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO too long");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -176,7 +192,13 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 		free (service_type);
 		free (service_url);
 	}
-	if (*lrc_endpoint == NULL || *rmc_endpoint == NULL) {
+	if (*lrc_endpoint == NULL) {
+		gfal_errmsg (errbuf, errbufsz, "LRC endpoint not found");
+		errno = EINVAL;
+		rc = -1;
+	}
+	if (*rmc_endpoint == NULL) {
+		gfal_errmsg (errbuf, errbufsz, "RMC endpoint not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -187,7 +209,13 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint)
 
 /* get from the BDII the host for the LFC */
 
-int get_lfc_host(char **lfc_host) {
+get_lfc_host (char **lfc_host)
+{
+	return (get_lfc_hostx (lfc_host, NULL, 0));
+}
+
+get_lfc_hostx (char **lfc_host, char *errbuf, int errbufsz)
+{
 	static char ep[] = "GlueServiceAccessPointURL";
 	static char type[] = "GlueServiceType";
 	static char *template = "(&(GlueServiceType=*)(GlueServiceAccessControlRule=%s))";
@@ -207,13 +235,15 @@ int get_lfc_host(char **lfc_host) {
 	char **value;
 	char *vo;
 
-	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO not set");
 		errno = EINVAL;
 		return (-1);
 	}
 	if (strlen (template) + strlen (vo) - 2 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO too long");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -263,6 +293,7 @@ int get_lfc_host(char **lfc_host) {
 		free (service_url);
 	}
 	if (*lfc_host == NULL) {
+		gfal_errmsg (errbuf, errbufsz, "LFC endpoint not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -274,6 +305,11 @@ int get_lfc_host(char **lfc_host) {
 /* get from the BDII the root pathname to store data for a specific vo */
 
 get_sa_root (const char *host, const char *vo, char **sa_root)
+{
+	return (get_sa_rootx (host, vo, sa_root, NULL, 0));
+}
+
+get_sa_rootx (const char *host, const char *vo, char **sa_root, char *errbuf, int errbufsz)
 {
 	static char sa_root_atnm[] = "GlueSARoot";
 	static char *template = "(&(GlueSARoot=%s:*)(GlueChunkKey=GlueSEUniqueID=%s))";
@@ -289,9 +325,10 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 	struct timeval timeout;
 	char **value;
 
-	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strlen (template) + strlen (vo) + strlen (host) - 4 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "vo or host too long");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -322,6 +359,7 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
+		gfal_errmsg (errbuf, errbufsz, "SA Root not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -333,6 +371,11 @@ get_sa_root (const char *host, const char *vo, char **sa_root)
 /* get from the BDII the SE endpoint */
 
 get_se_endpoint (const char *host, char **se_endpoint)
+{
+	return (get_se_endpointx (host, se_endpoint, NULL, 0));
+}
+
+get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbufsz)
 {
 	static char se_ep_atnm[] = "GlueServiceURI";
 	static char *template = "(GlueServiceURI=*%s*)";
@@ -348,9 +391,10 @@ get_se_endpoint (const char *host, char **se_endpoint)
 	struct timeval timeout;
 	char **value;
 
-	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "host too long");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -381,6 +425,7 @@ get_se_endpoint (const char *host, char **se_endpoint)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
+		gfal_errmsg (errbuf, errbufsz, "SE endpoint not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -392,6 +437,11 @@ get_se_endpoint (const char *host, char **se_endpoint)
 /* get from the BDII the SE port */
 
 get_se_port (const char *host, int *se_port)
+{
+	return (get_se_portx (host, se_port, NULL, 0));
+}
+
+get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 {
 	static char se_port_atnm[] = "GlueSEPort";
 	static char *template = "(GlueSEUniqueID=%s)";
@@ -407,9 +457,10 @@ get_se_port (const char *host, int *se_port)
 	struct timeval timeout;
 	char **value;
 
-	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "host too long");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -439,6 +490,7 @@ get_se_port (const char *host, int *se_port)
 		*se_port = atoi (value[0]);
 		ldap_value_free (value);
 	} else {
+		gfal_errmsg (errbuf, errbufsz, "SE port not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -450,6 +502,11 @@ get_se_port (const char *host, int *se_port)
 /* get from the BDII the SE type (disk, srm_v1) */
 
 get_se_type (const char *host, char **se_type)
+{
+	return (get_se_typex (host, se_type, NULL, 0));
+}
+
+get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 {
 	static char se_type_atnm[] = "GlueSEName";
 	static char *template = "(GlueSEUniqueID=%s)";
@@ -466,9 +523,10 @@ get_se_type (const char *host, char **se_type)
 	struct timeval timeout;
 	char **value;
 
-	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "host too long");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -503,6 +561,7 @@ get_se_type (const char *host, char **se_type)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
+		gfal_errmsg (errbuf, errbufsz, "SE type not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -516,6 +575,11 @@ get_se_type (const char *host, char **se_type)
  */
 
 get_seap_info (const char *host, char ***access_protocol, int **port)
+{
+	return (get_seap_infox (host, access_protocol, port, NULL, 0));
+}
+
+get_seap_infox (const char *host, char ***access_protocol, int **port, char *errbuf, int errbufsz)
 {
 	static char proto_port[] = "GlueSEAccessProtocolPort";
 	static char proto_type[] = "GlueSEAccessProtocolType";
@@ -538,9 +602,10 @@ get_seap_info (const char *host, char ***access_protocol, int **port)
 	struct timeval timeout;
 	char **value;
 
-	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port) < 0)
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "host too long");
 		errno = EINVAL;
 		return (-1);
 	}

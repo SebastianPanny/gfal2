@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/10/24 10:50:19 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.6 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -25,7 +25,7 @@ extern char *lrc_endpoint;
 char *rmc_endpoint;
 
 static int
-rmc_init (struct soap *soap)
+rmc_init (struct soap *soap, char *errbuf, int errbufsz)
 {
 	int flags;
 
@@ -34,7 +34,7 @@ rmc_init (struct soap *soap)
 
 	if (rmc_endpoint == NULL &&
 	    (rmc_endpoint = getenv ("RMC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+	    get_rls_endpointsx (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz)) {
 		errno = EINVAL;
 		return (-1);
 	}
@@ -49,7 +49,7 @@ rmc_init (struct soap *soap)
 }
 
 char *
-rmc_guidfromlfn (const char *lfn)
+rmc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 {
 	struct impl__guidForAliasResponse out;
 	char *p;
@@ -57,7 +57,7 @@ rmc_guidfromlfn (const char *lfn)
 	int sav_errno;
 	struct soap soap;
 
-	if (rmc_init (&soap) < 0)
+	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
 	if (ret = soap_call_impl__guidForAlias (&soap, rmc_endpoint, "",
@@ -82,7 +82,7 @@ rmc_guidfromlfn (const char *lfn)
 }
 
 char **
-rmc_lfnsforguid (const char *guid)
+rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 {
 	int i;
 	int j;
@@ -93,7 +93,7 @@ rmc_lfnsforguid (const char *guid)
 	int sav_errno;
 	struct soap soap;
 
-	if (rmc_init (&soap) < 0)
+	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
 	if (ret = soap_call_impl__getAliases (&soap, rmc_endpoint, "",
@@ -125,19 +125,19 @@ rmc_lfnsforguid (const char *guid)
 	return (lfnarray);
 }
 
-rmc_create_alias(const char *guid, const char* lfn)
+rmc_create_alias(const char *guid, const char* lfn, char *errbuf, int errbufsz)
 {
-  return rmc_register_alias(guid, lfn);
+	return (rmc_register_alias (guid, lfn));
 }
 
-rmc_register_alias (const char *guid, const char *lfn)
+rmc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
 	struct impl__addAliasResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
 
-	if (rmc_init (&soap) < 0)
+	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (ret = soap_call_impl__addAlias (&soap, rmc_endpoint, "",
@@ -161,13 +161,13 @@ rmc_register_alias (const char *guid, const char *lfn)
 	return (0);
 }
 
-rmc_unregister_alias (const char *guid, const char *lfn)
+rmc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
 	struct impl__removeAliasResponse out;
 	int ret;
 	struct soap soap;
 
-	if (rmc_init (&soap) < 0)
+	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (ret = soap_call_impl__removeAlias (&soap, rmc_endpoint, "",

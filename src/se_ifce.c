@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/09/24 09:03:51 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -26,12 +26,13 @@
 #include "seClient.c"
 
 static int
-se_init (struct soap *soap, const char *surl, char *srm_endpoint, int srm_endpointsz)
+se_init (struct soap *soap, const char *surl, char *srm_endpoint,
+	int srm_endpointsz, char *errbuf, int errbufsz)
 {
 	int flags;
 	char *sfn;
 
-	if (parsesurl (surl, srm_endpoint, srm_endpointsz, &sfn) < 0)
+	if (parsesurl (surl, srm_endpoint, srm_endpointsz, &sfn, errbuf, errbufsz) < 0)
 		return (-1);
 
 	soap_init (soap);
@@ -43,13 +44,14 @@ se_init (struct soap *soap, const char *surl, char *srm_endpoint, int srm_endpoi
 	return (0);
 }
 
-se_deletesurl (const char *surl)
+se_deletesurl (const char *surl, char *errbuf, int errbufsz)
 {
 	struct impl__deleteResponse out;
 	struct soap soap;
 	char srm_endpoint[256];
 
-	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	/* issue "delete" request */
@@ -66,7 +68,7 @@ se_deletesurl (const char *surl)
 	return (0);
 }
 
-se_mkdir (const char *dir)
+se_mkdir (const char *dir, char *errbuf, int errbufsz)
 {
 	struct impl__mkdirResponse out;
 	int ret;
@@ -74,7 +76,8 @@ se_mkdir (const char *dir)
 	struct soap soap;
 	char srm_endpoint[256];
 
-	if (se_init (&soap, dir, srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (se_init (&soap, dir, srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	/* issue "mkdir" request */
@@ -101,7 +104,7 @@ se_mkdir (const char *dir)
 }
 
 int
-se_makedirp (const char *surl)
+se_makedirp (const char *surl, char *errbuf, int errbufsz)
 {
 	int c;
 	char *lastslash = NULL;
@@ -121,7 +124,7 @@ se_makedirp (const char *surl)
 	while (p > p1) {
 		if (lastslash == NULL) lastslash = p;
 		*p = '\0';
-		c = se_getfilemd (sav_surl, &statbuf);
+		c = se_getfilemd (sav_surl, &statbuf, errbuf, errbufsz);
 		if (c == 0) {
 			*p = '/';
 			break;
@@ -135,14 +138,15 @@ se_makedirp (const char *surl)
 	c = 0;
 	while (c == 0 && (p = strchr (p + 1, '/')) && p <= lastslash) {
 		*p = '\0';
-		c = se_mkdir (sav_surl);
+		c = se_mkdir (sav_surl, errbuf, errbufsz);
 		*p = '/';
 	}
 	return (c);
 }
 
 char *
-se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid, char **token)
+se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
+	int *fileid, char **token, char *errbuf, int errbufsz)
 {
 	int nbproto = 0;
 	struct impl__cacheResponse outg;
@@ -156,7 +160,8 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int 
 	char srm_endpoint[256];
 	xsd__long zero = 0;
 
-	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (NULL);
 
 	while (*protocols[nbproto]) nbproto++;
@@ -196,7 +201,8 @@ retry:
 			if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 				if (strstr (soap.fault->faultstring, "o such file"))
 					sav_errno = ENOENT;
-					if (se_makedirp (surl) == 0) goto retry;
+					if (se_makedirp (surl, errbuf, errbufsz) == 0)
+						goto retry;
 				else if (strstr (soap.fault->faultstring, "File exists"))
 					sav_errno = EEXIST;
 				else
@@ -231,7 +237,7 @@ retry:
 	return (p);
 }
 
-se_getfilemd (const char *surl, struct stat64 *statbuf)
+se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz)
 {
 	char *dp;
 	struct group *gr;
@@ -245,7 +251,8 @@ se_getfilemd (const char *surl, struct stat64 *statbuf)
 	struct soap soap;
 	char srm_endpoint[256];
 
-	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	/* issue "getMetadata" request */
@@ -291,14 +298,16 @@ se_getfilemd (const char *surl, struct stat64 *statbuf)
 	return (0);
 }
 
-se_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag)
+se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
+	int oflag, char *errbuf, int errbufsz)
 {
 	struct impl__abandonResponse outa;
 	struct impl__commitResponse outc;
 	struct soap soap;
 	char srm_endpoint[256];
 
-	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint)) < 0)
+	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
+	    errbuf, errbufsz) < 0)
 		return (-1);
 
 	if ((oflag & O_ACCMODE) == 0) {
@@ -325,7 +334,8 @@ se_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int ofla
 	return (0);
 }
 
-se_set_xfer_running (const char *surl, int reqid, int fileid, char *token)
+se_set_xfer_running (const char *surl, int reqid, int fileid, char *token,
+	char *errbuf, int errbufsz)
 {
 	return (0);
 }

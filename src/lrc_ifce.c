@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.8 $ $Date: 2004/11/15 09:44:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.9 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -26,7 +26,7 @@ extern char *rmc_endpoint;
 #include "gfal_api.h"
 
 static int
-lrc_init (struct soap *soap)
+lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 {
 	int flags;
 
@@ -35,7 +35,7 @@ lrc_init (struct soap *soap)
 
 	if (lrc_endpoint == NULL &&
 	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint)) {
+	    get_rls_endpointsx (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz)) {
 		errno = EINVAL;
 		return (-1);
 	}
@@ -50,7 +50,7 @@ lrc_init (struct soap *soap)
 }
 
 char *
-lrc_guidforpfn (const char *pfn)
+lrc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 {
 	struct impl__guidForPfnResponse out;
 	char *p;
@@ -58,7 +58,7 @@ lrc_guidforpfn (const char *pfn)
 	int sav_errno;
 	struct soap soap;
 
-	if (lrc_init (&soap) < 0)
+	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
 	if (ret = soap_call_impl__guidForPfn (&soap, lrc_endpoint, "",
@@ -81,13 +81,13 @@ lrc_guidforpfn (const char *pfn)
 	return (p);
 }
 
-lrc_guid_exists (const char *guid)
+lrc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 {
 	struct impl__guidExistsResponse out;
 	int ret;
 	struct soap soap;
 
-	if (lrc_init (&soap) < 0)
+	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (ret = soap_call_impl__guidExists (&soap, lrc_endpoint, "",
@@ -103,14 +103,14 @@ lrc_guid_exists (const char *guid)
 	return (ret);
 }
 
-lrc_register_pfn (const char *guid, const char *pfn)
+lrc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
 	struct impl__addMappingResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
 
-	if (lrc_init (&soap) < 0)
+	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (ret = soap_call_impl__addMapping (&soap, lrc_endpoint, "",
@@ -134,7 +134,7 @@ lrc_register_pfn (const char *guid, const char *pfn)
 	return (0);
 }
 
-lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize)
+lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
 {
 	struct impl__setStringPfnAttributeResponse out;
 	int ret;
@@ -142,7 +142,7 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize)
 	struct soap soap;
 	char tmpbuf[21];
 
-	if (lrc_init (&soap) < 0)
+	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
 	sprintf (tmpbuf, GFAL_LONG64_FORMAT, filesize);
@@ -166,7 +166,7 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize)
 }
 
 char *
-lrc_surlfromguid (const char *guid)
+lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 {
 	struct impl__getPfnsResponse out;
 	char *p, *result;
@@ -175,7 +175,7 @@ lrc_surlfromguid (const char *guid)
 	struct soap soap;
 	char **surls;
 
-	if (lrc_init (&soap) < 0)
+	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
 	if (ret = soap_call_impl__getPfns (&soap, lrc_endpoint, "",
@@ -210,7 +210,7 @@ lrc_surlfromguid (const char *guid)
 
 
 char **
-lrc_surlsfromguid (const char *guid)
+lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 {
 	int i;
 	int j;
@@ -220,7 +220,7 @@ lrc_surlsfromguid (const char *guid)
 	struct soap soap;
 	char **surlarray;
 
-	if (lrc_init (&soap) < 0)
+	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
 	if (ret = soap_call_impl__getPfns (&soap, lrc_endpoint, "",
@@ -252,13 +252,13 @@ lrc_surlsfromguid (const char *guid)
 	return (surlarray);
 }
 
-lrc_unregister_pfn (const char *guid, const char *pfn)
+lrc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
 	struct impl__removeMappingResponse out;
 	int ret;
 	struct soap soap;
 
-	if (lrc_init (&soap) < 0)
+	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (ret = soap_call_impl__removeMapping (&soap, lrc_endpoint, "",
