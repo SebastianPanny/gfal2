@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.5 $ $Date: 2004/04/06 10:01:12 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.6 $ $Date: 2004/04/19 09:10:11 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -219,94 +219,100 @@ gfal_lseek64 (int fd, off64_t offset, int whence)
 
 gfal_lstat (const char *filename, struct stat *statbuf)
 {
+	char *fn;
 	char *guid;
 	char *pfn;
 	struct proto_ops *pops;
 	char *protocol;
 	int rc;
 	struct stat64 statb64;
-	char *surl;
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
 		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
-		if ((surl = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid)) == NULL) {
 			free (guid);
 			return (-1);
 		}
-		if ((rc = getfilemd (surl, &statb64)) == 0)
-			rc = mdtomd32 (&statb64, statbuf);
 		free (guid);
-		free (surl);
-		return (rc);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5)) == NULL)
 			return (-1);
-		if ((rc = getfilemd (surl, &statb64)) == 0)
+	} else
+		fn = (char *)filename;
+	if (strncmp (fn, "srm:", 4) == 0) {
+		if ((rc = getfilemd (fn, &statb64)) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
-		free (surl);
+		if (fn != filename) free (fn);
 		return (rc);
-	} else if (strncmp (filename, "srm:", 4) == 0 ||
-	    strncmp (filename, "sfn:", 4) == 0) {
-		if ((rc = getfilemd (filename, &statb64)) == 0)
-			rc = mdtomd32 (&statb64, statbuf);
-		return (rc);
-	} else {	/* assume that is a pfn */
-		if (parseturl (filename, &protocol, &pfn) < 0)
-			return (-1);
-		if ((pops = find_pops (protocol)) == NULL)
-			return (-1);
-		if (pops->lstat (pfn, statbuf) < 0) {
-			errno = pops->maperror (pops, 0);
+	}
+	if (strncmp (fn, "sfn:", 4) == 0) {
+		if ((turl = turlfromsfn (fn, NULL)) == NULL) {
+			if (fn != filename) free (fn);
 			return (-1);
 		}
-		return (0);
+	} else		/* assume that is a pfn */
+		turl = fn;
+	if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+		if ((pops = find_pops (protocol)) != NULL) {
+			if ((rc = pops->lstat (pfn, statbuf)) < 0)
+				errno = pops->maperror (pops, 0);
+		}
 	}
-
+	if (fn != filename) free (fn);
+	if (turl != fn) free (turl);
+	if (rc < 0 || pops == NULL)
+		return (-1);
+	return (0);
 }
 
 gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 {
+	char *fn;
 	char *guid;
 	char *pfn;
 	struct proto_ops *pops;
 	char *protocol;
 	int rc;
-	char *surl;
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
 		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
-		if ((surl = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid)) == NULL) {
 			free (guid);
 			return (-1);
 		}
-		rc = getfilemd (surl, statbuf);
 		free (guid);
-		free (surl);
-		return (rc);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5)) == NULL)
 			return (-1);
-		rc = getfilemd (surl, statbuf);
-		free (surl);
+	} else
+		fn = (char *)filename;
+	if (strncmp (fn, "srm:", 4) == 0) {
+		rc = getfilemd (fn, statbuf);
+		if (fn != filename) free (fn);
 		return (rc);
-	} else if (strncmp (filename, "srm:", 4) == 0 ||
-	    strncmp (filename, "sfn:", 4) == 0) {
-		return (getfilemd (filename, statbuf));
-	} else {	/* assume that is a pfn */
-		if (parseturl (filename, &protocol, &pfn) < 0)
-			return (-1);
-		if ((pops = find_pops (protocol)) == NULL)
-			return (-1);
-		if (pops->lstat64 (pfn, statbuf) < 0) {
-			errno = pops->maperror (pops, 0);
+	}
+	if (strncmp (fn, "sfn:", 4) == 0) {
+		if ((turl = turlfromsfn (fn, NULL)) == NULL) {
+			if (fn != filename) free (fn);
 			return (-1);
 		}
-		return (0);
+	} else		/* assume that is a pfn */
+		turl = fn;
+	if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+		if ((pops = find_pops (protocol)) != NULL) {
+			if ((rc = pops->lstat64 (pfn, statbuf)) < 0)
+				errno = pops->maperror (pops, 0);
+		}
 	}
+	if (fn != filename) free (fn);
+	if (turl != fn) free (turl);
+	if (rc < 0 || pops == NULL)
+		return (-1);
+	return (0);
 }
 
 gfal_mkdir (const char *dirname, mode_t mode)
@@ -337,13 +343,13 @@ gfal_open (const char *filename, int flags, mode_t mode)
 {
 	int fd;
 	int fileid;
+	char *fn;
 	char *guid = NULL;
 	char *pfn;
 	struct proto_ops *pops;
 	char *protocol;
 	int reqid;
 	char **supported_protocols;
-	char *surl = NULL;
 	char *turl = NULL;
 	struct xfer_info *xi;
 
@@ -352,33 +358,24 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	if (strncmp (filename, "lfn:", 4) == 0) {
 		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
-		if ((surl = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid)) == NULL) {
 			free (guid);
-			return (-1);
-		}
-		if ((turl = turlfromsurl (surl, supported_protocols, flags,
-		    &reqid, &fileid)) == NULL) {
-			free (guid);
-			free (surl);
 			return (-1);
 		}
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5)) == NULL)
 			return (-1);
-		if ((turl = turlfromsurl (surl, supported_protocols, flags,
-		    &reqid, &fileid)) == NULL) {
-			free (surl);
-			return (-1);
-		}
-	} else if (strncmp (filename, "srm:", 4) == 0 ||
-	    strncmp (filename, "sfn:", 4) == 0) {
-		surl = (char *)filename;
-		if ((turl = turlfromsurl (filename, supported_protocols, flags,
+	} else
+		fn = (char *)filename;
+	if (strncmp (fn, "srm:", 4) == 0) {
+		if ((turl = turlfromsurl (fn, supported_protocols, flags,
 		    &reqid, &fileid)) == NULL)
-			return (-1);
-	} else {	/* assume that is a pfn */
-		turl = (char *)filename;
-	}
+			goto err;
+	} else if (strncmp (fn, "sfn:", 4) == 0) {
+		if ((turl = turlfromsfn (fn, supported_protocols)) == NULL)
+			goto err;
+	} else		/* assume that is a pfn */
+		turl = fn;
 	if (parseturl (turl, &protocol, &pfn) < 0)
 		goto err;
 	if ((pops = find_pops (protocol)) == NULL)
@@ -391,26 +388,22 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		goto err;
 	xi->fd = fd;
 	xi->oflag = flags;
-	if (surl) {
-		xi->surl = strdup (surl);
+	xi->pops = pops;
+	if (strncmp (fn, "srm:", 4) == 0) {
+		xi->surl = strdup (fn);
 		xi->reqid = reqid;
 		xi->fileid = fileid;
+		(void) set_xfer_running (fn, reqid, fileid);
 	}
-	xi->pops = pops;
-
-	/* set status "running" */
-
-	if (surl)
-		(void) set_xfer_running (surl, reqid, fileid);
 
 	if (guid) free (guid);
-	if (surl && surl != filename) free (surl);
-	if (turl && turl != filename) free (turl);
+	if (fn != filename) free (fn);
+	if (turl != fn) free (turl);
 	return (fd);
 err:
 	if (guid) free (guid);
-	if (surl && surl != filename) free (surl);
-	if (turl && turl != filename) free (turl);
+	if (fn != filename) free (fn);
+	if (turl && turl != fn) free (turl);
 	return (-1);
 }
 
@@ -566,118 +559,123 @@ gfal_setfilchg (int fd, const void *buf, size_t size)
 
 gfal_stat (const char *filename, struct stat *statbuf)
 {
+	char *fn;
 	char *guid;
 	char *pfn;
 	struct proto_ops *pops;
 	char *protocol;
 	int rc;
 	struct stat64 statb64;
-	char *surl;
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
 		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
-		if ((surl = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid)) == NULL) {
 			free (guid);
 			return (-1);
 		}
-		if ((rc = getfilemd (surl, &statb64)) == 0)
-			rc = mdtomd32 (&statb64, statbuf);
 		free (guid);
-		free (surl);
-		return (rc);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5)) == NULL)
 			return (-1);
-		if ((rc = getfilemd (surl, &statb64)) == 0)
+	} else
+		fn = (char *)filename;
+	if (strncmp (fn, "srm:", 4) == 0) {
+		if ((rc = getfilemd (fn, &statb64)) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
-		free (surl);
+		if (fn != filename) free (fn);
 		return (rc);
-	} else if (strncmp (filename, "srm:", 4) == 0 ||
-	    strncmp (filename, "sfn:", 4) == 0) {
-		if ((rc = getfilemd (filename, &statb64)) == 0)
-			rc = mdtomd32 (&statb64, statbuf);
-		return (rc);
-	} else {	/* assume that is a pfn */
-		if (parseturl (filename, &protocol, &pfn) < 0)
-			return (-1);
-		if ((pops = find_pops (protocol)) == NULL)
-			return (-1);
-		if (pops->stat (pfn, statbuf) < 0) {
-			errno = pops->maperror (pops, 0);
+	}
+	if (strncmp (fn, "sfn:", 4) == 0) {
+		if ((turl = turlfromsfn (fn, NULL)) == NULL) {
+			if (fn != filename) free (fn);
 			return (-1);
 		}
-		return (0);
+	} else		/* assume that is a pfn */
+		turl = fn;
+	if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+		if ((pops = find_pops (protocol)) != NULL) {
+			if ((rc = pops->stat (pfn, statbuf)) < 0)
+				errno = pops->maperror (pops, 0);
+		}
 	}
-
+	if (fn != filename) free (fn);
+	if (turl != fn) free (turl);
+	if (rc < 0 || pops == NULL)
+		return (-1);
+	return (0);
 }
 
 gfal_stat64 (const char *filename, struct stat64 *statbuf)
 {
+	char *fn;
 	char *guid;
 	char *pfn;
 	struct proto_ops *pops;
 	char *protocol;
 	int rc;
-	char *surl;
 	char *turl;
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
 		if ((guid = guidfromlfn (filename + 4)) == NULL)
 			return (-1);
-		if ((surl = surlfromguid (guid)) == NULL) {
+		if ((fn = surlfromguid (guid)) == NULL) {
 			free (guid);
 			return (-1);
 		}
-		rc = getfilemd (surl, statbuf);
 		free (guid);
-		free (surl);
-		return (rc);
 	} else if (strncmp (filename, "guid:", 5) == 0) {
-		if ((surl = surlfromguid (filename + 5)) == NULL)
+		if ((fn = surlfromguid (filename + 5)) == NULL)
 			return (-1);
-		rc = getfilemd (surl, statbuf);
-		free (surl);
+	} else
+		fn = (char *)filename;
+	if (strncmp (fn, "srm:", 4) == 0) {
+		rc = getfilemd (fn, statbuf);
+		if (fn != filename) free (fn);
 		return (rc);
-	} else if (strncmp (filename, "srm:", 4) == 0 ||
-	    strncmp (filename, "sfn:", 4) == 0) {
-		return (getfilemd (filename, statbuf));
-	} else {	/* assume that is a pfn */
-		if (parseturl (filename, &protocol, &pfn) < 0)
-			return (-1);
-		if ((pops = find_pops (protocol)) == NULL)
-			return (-1);
-		if (pops->stat64 (pfn, statbuf) < 0) {
-			errno = pops->maperror (pops, 0);
+	}
+	if (strncmp (fn, "sfn:", 4) == 0) {
+		if ((turl = turlfromsfn (fn, NULL)) == NULL) {
+			if (fn != filename) free (fn);
 			return (-1);
 		}
-		return (0);
+	} else		/* assume that is a pfn */
+		turl = fn;
+	if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+		if ((pops = find_pops (protocol)) != NULL) {
+			if ((rc = pops->stat64 (pfn, statbuf)) < 0)
+				errno = pops->maperror (pops, 0);
+		}
 	}
+	if (fn != filename) free (fn);
+	if (turl != fn) free (turl);
+	if (rc < 0 || pops == NULL)
+		return (-1);
+	return (0);
 }
 
 gfal_unlink (const char *filename)
 {
-	char *pfn;
-	struct proto_ops *pops;
-	char *protocol;
+	int i = 0;
+	char **pfns;
+	int rc = 0;
 
-	if (strncmp (filename, "lfn:", 4) == 0 ||
-	    strncmp (filename, "guid:", 5) == 0 ||
-	    strncmp (filename, "srm:", 4) == 0 ||
-	    strncmp (filename, "sfn:", 4) == 0) {
+	if (strncmp (filename, "lfn:", 4) == 0) {
 		errno = EPROTONOSUPPORT;
 		return (-1);
-	}
-	if (parseturl (filename, &protocol, &pfn) < 0)
-		return (-1);
-	if ((pops = find_pops (protocol)) == NULL)
-		return (-1);
-	if (pops->unlink (pfn) < 0) {
-		errno = pops->maperror (pops, 0);
-		return (-1);
-	}
-	return (0);
+	} else if (strncmp (filename, "guid:", 5) == 0) {
+		/* must try to delete all PFNs mapped to this guid */
+		if ((pfns = surlsfromguid (filename + 5)) == NULL)
+			return (-1);
+		while (pfns[i]) {
+			rc += deletepfn (pfns[i], filename + 5);
+			free (pfns[i++]);
+		}
+		free (pfns);
+		return (rc == 0 ? 0 : -1);
+	} else
+		return (deletepfn (filename, NULL));
 }
 
 ssize_t
@@ -691,6 +689,36 @@ gfal_write (int fd, const void *buf, size_t size)
 	if ((rc = xi->pops->write (fd, buf, size)) < 0)
 		errno = xi->pops->maperror (xi->pops, 1);
 	return (rc);
+}
+
+deletepfn (const char *fn, const char *guid)
+{
+	char *pfn;
+	struct proto_ops *pops;
+	char *protocol;
+	int rc;
+	char *turl;
+
+	if (strncmp (fn, "srm:", 4) == 0) {
+		if (deletesurl (fn) < 0)
+			return (-1);
+	} else {
+		if (strncmp (fn, "sfn:", 4) == 0) {
+			if ((turl = turlfromsfn (fn, NULL)) == NULL)
+				return (-1);
+		} else		/* assume that is a pfn */
+			turl = (char *)fn;
+		if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+			if ((pops = find_pops (protocol)) != NULL) {
+				if ((rc = pops->unlink (pfn)) < 0)
+					errno = pops->maperror (pops, 0);
+			}
+		}
+		if (turl != fn) free (turl);
+		if (rc < 0 || pops == NULL)
+			return (-1);
+	}
+	return (0);
 }
 
 static int
@@ -721,7 +749,7 @@ parsesurl (const char *surl, char **endpoint, char **sfn)
 	char *p;
 	static char srm_ep[256];
 
-	if (strncmp (surl, "srm://", 6) && strncmp (surl, "sfn://", 6)) {
+	if (strncmp (surl, "srm://", 6)) {
 		errno = EINVAL;
 		return (-1);
 	}
@@ -803,4 +831,65 @@ parseturl (const char *turl, char **protocol, char **pfn)
 		*pfn = (char *) turl;
 	*protocol = proto;
 	return (0);
+}
+
+char *
+turlfromsfn (const char *sfn, char **protocols)
+{
+	char **ap;
+	int i;
+	int len;
+	char *p;
+	int *pn;
+	int port = 0;
+	char **protoarray;
+	char server[64];
+	char *turl;
+
+	if (strncmp (sfn, "sfn://", 6)) {
+		errno = EINVAL;
+		return (NULL);
+	}
+	if ((p = strchr (sfn + 6, '/')) == NULL ||
+	    (len = p - (sfn + 6)) > sizeof(server)) {
+		errno = EINVAL;
+		return (NULL);
+	}
+
+	/* check that RFIO library is available */
+
+	if (protocols == NULL)
+		protoarray = get_sup_proto ();
+	else
+		protoarray = protocols;
+	for (i = 0; *protoarray[i]; i++)
+		if (strcmp (protoarray[i], "rfio") == 0) break;
+	if (*protoarray[i] == '\0') {
+		errno = EPROTONOSUPPORT;
+		return (NULL);
+	}
+
+	/* check that the SE supports RFIO */
+
+	strncpy (server, sfn + 6, len);
+	*(server + len) = '\0';
+	if (get_seap_info (server, &ap, &pn) < 0)
+		return (NULL);
+	i = 0;
+	while (ap[i]) {
+		if (strcmp (ap[i], "rfio") == 0) port = pn[i];
+		free (ap[i]);
+		i++;
+	}
+	free (ap);
+	free (pn);
+	if (! port) {
+		errno = EPROTONOSUPPORT;
+		return (NULL);
+	}
+	if ((turl = malloc (strlen (sfn) + 2)) == NULL)
+		return (NULL);
+	strcpy (turl, "rfio");
+	strcpy (turl + 4, sfn + 3);
+	return (turl);
 }
