@@ -1,6 +1,6 @@
 Summary: Grid File Access Library
 Name: GFAL-client
-Version: 1.3.13
+Version: 1.3.14
 Release: 1
 Source0: %{name}-%{version}.src.tar.gz
 License: GPL
@@ -29,6 +29,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 /opt/lcg/bin/gfal_testdir
+/opt/lcg/bin/gfal_testget
 /opt/lcg/bin/gfal_testread
 /opt/lcg/bin/gfal_testrw
 /opt/lcg/bin/gfal_teststat
