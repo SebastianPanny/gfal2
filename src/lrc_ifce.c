@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.7 $ $Date: 2004/10/24 10:50:19 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.8 $ $Date: 2004/11/15 09:44:06 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -134,7 +134,7 @@ lrc_register_pfn (const char *guid, const char *pfn)
 	return (0);
 }
 
-lrc_setfilesize (const char *pfn, long long filesize)
+lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize)
 {
 	struct impl__setStringPfnAttributeResponse out;
 	int ret;
@@ -145,7 +145,7 @@ lrc_setfilesize (const char *pfn, long long filesize)
 	if (lrc_init (&soap) < 0)
 		return (-1);
 
-	sprintf (tmpbuf, "%lld", filesize);
+	sprintf (tmpbuf, GFAL_LONG64_FORMAT, filesize);
 	if (ret = soap_call_impl__setStringPfnAttribute (&soap, lrc_endpoint,
 	    "", (char *) pfn, "size", tmpbuf, &out)) {
 		if (ret == SOAP_FAULT) {

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/10/28 12:35:45 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.5 $ $Date: 2004/11/15 09:43:38 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -74,7 +74,7 @@ lfc_init (void) {
 }
 
 int
-lfc_getfilesizeg(const char *guid, long long *sizep) {
+lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep) {
   struct lfc_filestatg statg;
 
   if(lfc_init() < 0)
@@ -335,7 +335,7 @@ lfc_lfnsforguid (const char *guid)
 }
 
 int
-lfc_create_alias (const char *guid, const char *lfn, long long size)
+lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size)
 {
   if(lfc_init() < 0)
     return (-1);

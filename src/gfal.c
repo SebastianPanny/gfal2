@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.10 $ $Date: 2004/10/24 10:50:18 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.11 $ $Date: 2004/11/15 09:42:15 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1089,7 +1089,7 @@ get_cat_type(char **cat_type) {
 	return 0;
 }
 
-getfilesizeg (const char *guid, long long* filesize)
+getfilesizeg (const char *guid, GFAL_LONG64 *filesize)
 {
 	char *cat_type;
 	if(get_cat_type (&cat_type) < 0) {
@@ -1166,7 +1166,7 @@ register_pfn (const char *guid, const char *pfn)
 	}
 }
 
-setfilesize (const char *pfn, long long filesize)
+setfilesize (const char *pfn, GFAL_LONG64 filesize)
 {
 	char *cat_type;
 	if(get_cat_type (&cat_type) < 0) {
@@ -1284,7 +1284,7 @@ lfnsforguid (const char *guid)
 	}
 }
 
-create_alias (const char *guid, const char *lfn, long long size)
+create_alias (const char *guid, const char *lfn, GFAL_LONG64 size)
 {
 	char *cat_type;
 	if(get_cat_type (&cat_type) < 0) {
