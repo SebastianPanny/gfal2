@@ -27,7 +27,7 @@ int main (int argc, char** argv) {
     fprintf(stderr, "LFC_HOST environment not set.  Please check configuration.\n");
     return EXIT_FAILURE;
   }
-  printf("Running tests for catalog host : %s\n", hostname); 
+  printf("Running tests for LFC catalog host : %s\n", hostname); 
 
   /* and run the tests */
   srunner_set_fork_status (sr, CK_NOFORK);

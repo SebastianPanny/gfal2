@@ -443,6 +443,76 @@ free_list(char **p, int i) {
   free(p);
 }
 
+/** test_replica_exists_unknown_guid : check that we get -1 on a unknown
+    guid */
+START_TEST(test_replica_exists_unknown_guid) {
+  char unknown_guid[CA_MAXGUIDLEN+1];
+  int num;
+
+  helper_make_guid(unknown_guid);
+
+  num = replica_exists(unknown_guid, errbuf, ERRBUFSZ);
+  fail_unless(num == 0, "Expected 0 from replica_exists on unknown guid");
+}END_TEST
+
+/** test_replica_exists : check that we can add and remove surls to/from a guid
+    and the count stays consistent */
+START_TEST(test_replica_exists) {
+  char **p;
+  char buf[CA_MAXSFNLEN+1];
+  char base_surl[CA_MAXSFNLEN+1];
+  char *path="foo/test_surlsfromguid";
+  int i;
+  int num=0;
+
+  /* check that the list is initially empty */
+  if((num = replica_exists(file_guid, errbuf, ERRBUFSZ)) < 0) {
+    fail("There should be no surls initially");
+  }
+  fail_unless(num ==0, "Should be no surls");
+
+  /* now add some, and check the size */
+  helper_make_surl(base_surl, path);
+  for (i = 1; i < 10 ; ++i) {
+    sprintf(buf, "%s%d", base_surl, i);
+    if(register_pfn(file_guid, buf, errbuf, ERRBUFSZ) < 0) {
+      sprintf(error_msg, "Could not register surl  %s : %s\n", 
+	      buf, strerror(errno));
+      fail(error_msg);
+    }
+    if((num = replica_exists(file_guid, errbuf, ERRBUFSZ)) < 0) {
+      sprintf(error_msg, "Could not get surls for guid  %s : %s\n", 
+	      file_guid, strerror(errno));
+      fail(error_msg);
+    }
+    fail_unless(num == 1, "Should be surls.");
+  }
+
+
+  /* and remove them again */
+  for (i = 1; i < 10 ; ++i) {
+    if((num = replica_exists(file_guid, errbuf, ERRBUFSZ)) < 0) {
+      sprintf(error_msg, "Could not count surls for guid  %s : %d : %s\n", 
+	      file_guid, i, strerror(errno));
+      fail(error_msg);
+    }
+    fail_unless(num == 1, "Should be surls on delete before last one");
+    sprintf(buf, "%s%d", base_surl, i);
+    if(unregister_pfn(file_guid, buf, errbuf, ERRBUFSZ) < 0) {
+      sprintf(error_msg, "Could not unregister surl  %s : %s\n", 
+	      buf, strerror(errno));
+      fail(error_msg);
+    }
+  }
+
+  /* check that the list is finally empty */
+  if((num = replica_exists(file_guid, errbuf, ERRBUFSZ)) < 0) {
+    fail("There should be no surls finally");
+  }
+  fail_unless(num == 0, "there should be no surls at end");
+}END_TEST
+
+
 /** test_surlsfromguid_unknown_guid : check that we get NULL on a unknown
     guid */
 START_TEST(test_surlsfromguid_unknown_guid) {
@@ -535,7 +605,7 @@ START_TEST(test_surlfromguid_unknown_guid) {
   
 }END_TEST
 
-/** test_surlfromguid : check that surl from guid returns an entry.  If
+/** test_surlfromguid: check that surl from guid returns an entry.  If
 the server is local (cern.ch) then it should be returned */
 START_TEST(test_surlfromguid) {
 	char *p;
@@ -558,12 +628,13 @@ START_TEST(test_surlfromguid) {
 	helper_make_surl(base_surl, path);
 	if(register_pfn (file_guid, buf, errbuf, ERRBUFSZ) < 0) {
 		sprintf (error_msg, "Could not register surl %s : %s\n",
-		buf, strerror (errno));
+			 buf, strerror (errno));
 		fail (error_msg);
 	}
 
 	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) == NULL) {
-		sprintf(error_msg, "Could not get best surl from guid %s : %s\n",
+		sprintf(error_msg, 
+			"Could not get best surl from guid %s : %s\n",
 			buf, strerror (errno));
 			fail (error_msg);
 	}
@@ -579,7 +650,8 @@ START_TEST(test_surlfromguid) {
 	}
 
 	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) == NULL) {
-		sprintf(error_msg, "Could not get best surl from guid %s : %s\n",
+		sprintf(error_msg, 
+			"Could not get best surl from guid %s : %s\n",
 			buf, strerror (errno));
 			fail (error_msg);
 	}
@@ -712,20 +784,28 @@ Suite *add_catalog_tests(Suite *s) {
   suite_add_tcase(s, tc_edg_catalog);
   tcase_add_checked_fixture(tc_edg_catalog, setup_edg_catalog, NULL);
 
-  /*
-  tcase_add_test(tc_edg_catalog, test_guid_exists);
+  //tcase_add_test(tc_edg_catalog, test_guid_exists);
   tcase_add_test(tc_edg_catalog, test_create_lfn);
-  tcase_add_test(tc_edg_catalog, test_register_before_create);
+  //tcase_add_test(tc_edg_catalog, test_register_before_create);
   tcase_add_test(tc_edg_catalog, test_multiple_register_lfn);
 
   tcase_add_test(tc_edg_catalog, test_registerpfn);
-  tcase_add_test(tc_edg_catalog, test_registerpfn_exists);
+  //tcase_add_test(tc_edg_catalog, test_registerpfn_exists);
   tcase_add_test(tc_edg_catalog, test_registerpfn_guid_exists);
   tcase_add_test(tc_edg_catalog, test_unregisterpfn);
   tcase_add_test(tc_edg_catalog, test_unregisterpfn_nexist);
+  //tcase_add_test(tc_edg_catalog, test_getfilesize);
+
+  tcase_add_test(tc_edg_catalog, test_replica_exists_unknown_guid);
+  tcase_add_test(tc_edg_catalog, test_replica_exists);
+
+  tcase_add_test(tc_edg_catalog, test_surlsfromguid_unknown_guid);
   tcase_add_test(tc_edg_catalog, test_surlsfromguid);
+  tcase_add_test(tc_edg_catalog, test_surlfromguid_unknown_guid);
+  //tcase_add_test(tc_edg_catalog, test_surlfromguid);
+
   tcase_add_test(tc_edg_catalog, test_lfnsforguid);
-  */
+  tcase_add_test(tc_edg_catalog, test_delete_lfns_master_first);
 
   /* LFC Catalog tests */
 
@@ -746,6 +826,8 @@ Suite *add_catalog_tests(Suite *s) {
   tcase_add_test(tc_lfc_catalog, test_unregisterpfn_nexist);
   tcase_add_test(tc_lfc_catalog, test_getfilesize);
 
+  tcase_add_test(tc_lfc_catalog, test_replica_exists_unknown_guid);
+  tcase_add_test(tc_lfc_catalog, test_replica_exists);
   tcase_add_test(tc_lfc_catalog, test_surlsfromguid_unknown_guid);
   tcase_add_test(tc_lfc_catalog, test_surlsfromguid);
   tcase_add_test(tc_lfc_catalog, test_surlfromguid_unknown_guid);

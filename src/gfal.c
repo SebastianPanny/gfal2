@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.12 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.13 $ $Date: 2005/01/06 15:33:43 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1312,6 +1312,26 @@ lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 		free (cat_type);
 		errno = EPROTONOSUPPORT;
 		return (NULL);
+	}
+}
+
+int
+replica_exists(const char* guid, char *errbuf, int errbufsz) 
+{
+	char *cat_type;
+	if (get_cat_type (&cat_type) < 0) {
+		return (-1);
+	}
+	if (strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (lrc_replica_exists (guid, errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_replica_exists (guid, errbuf, errbufsz));
+	} else {
+		free (cat_type);
+		errno = EPROTONOSUPPORT;
+		return (-1);
 	}
 }
 

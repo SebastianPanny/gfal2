@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.9 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.10 $ $Date: 2005/01/06 15:33:43 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -47,6 +47,41 @@ lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 	}
 #endif
 	return (0);
+}
+
+int
+lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
+{
+	struct impl__getPfnsResponse out;
+	int ret;
+	int sav_errno;
+	struct soap soap;
+	char **surlarray;
+
+	if (lrc_init (&soap, errbuf, errbufsz) < 0)
+		return (-1);
+
+	if (ret = soap_call_impl__getPfns (&soap, lrc_endpoint, "",
+	    (char *) guid, &out)) {
+		if (ret == SOAP_FAULT) {
+		  if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
+				sav_errno = 0;
+			else
+				sav_errno = ECOMM;
+		} else
+			sav_errno = ECOMM;
+		soap_end (&soap);
+		soap_done (&soap);
+		// return 'false' if guid does not exist in LRC
+		if(sav_errno == 0)
+		  return (0);
+		
+		errno = sav_errno;
+		return (-1);
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (out._getPfnsReturn->__size==0?0:1);
 }
 
 char *
@@ -207,7 +242,6 @@ lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 	}
 	  
 }
-
 
 char **
 lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)

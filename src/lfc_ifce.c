@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.12 $ $Date: 2005/01/05 15:29:44 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.13 $ $Date: 2005/01/06 15:33:43 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -75,6 +75,21 @@ lfc_init (char *errbuf, int errbufsz) {
   }
   lfc_seterrbuf(errbuf, errbufsz);
   return (0);
+}
+
+int lfc_replica_exists(const char *guid, char *errbuf, int errbufsz) {
+  lfc_list list;
+  struct lfc_filereplica* rp;
+
+  if(lfc_init(errbuf, errbufsz) < 0)
+    return (-1);
+  
+  if((rp = lfc_listreplica(NULL, guid, CNS_LIST_BEGIN, &list)) == NULL) {
+    return (0);
+  } 
+  (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+  
+  return (1);
 }
 
 int
@@ -164,7 +179,6 @@ lfc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
   free(hostname);
   return (0);
 }
-
 
 char **
 lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
