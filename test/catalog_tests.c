@@ -6,9 +6,13 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <check.h>
 
+#include "lfc_api.h"
 #include "gfal_api.h"
+
 #include "Cns_constants.h"
 
 #include "test_helpers.h"
@@ -25,7 +29,6 @@ char file_guid[CA_MAXGUIDLEN+1];
 
 void setup_common() {
   char *name = "catalog_tests";
-  char root_guid[CA_MAXGUIDLEN+1];
 
   /* add a sample lfn and guid for testing replica functions */
   helper_make_guid(file_guid);
@@ -43,7 +46,7 @@ void setup_common() {
 
 /** setup_edg_catalog : put the approriate env for the EDG LRC/RMC */
 void setup_edg_catalog() {
-  const char *cat_env = "LCG_CATALOG_TYPE=edg";
+  char *cat_env = "LCG_CATALOG_TYPE=edg";
   if(putenv(cat_env) < 0) {
     sprintf(error_msg, "Could not putenv(catalog_type=edg) : %s\n", 
 	    strerror(errno));
@@ -55,7 +58,7 @@ void setup_edg_catalog() {
 
 /** setup_lfc_catalog : put the appropriate env for the LCG LFC */
 void setup_lfc_catalog() {
-  const char *cat_env = "LCG_CATALOG_TYPE=lfc";  
+  char *cat_env = "LCG_CATALOG_TYPE=lfc";  
   if(putenv(cat_env) < 0) {
     sprintf(error_msg, "Could not putenv(catalog_type=lfc) : %s\n", 
 	    strerror(errno));
@@ -216,7 +219,6 @@ START_TEST(test_multiple_register_lfn) {
 
   char **lfns;
   char **p;
-  int got = 0;
   int i;
 
   helper_make_guid(guid);
@@ -384,7 +386,7 @@ START_TEST(test_unregisterpfn) {
   }
 
   if((guid = guidforpfn(surl)) == NULL) {
-    if(errno = ENOENT) {
+    if(errno == ENOENT) {
       return;
     }
     sprintf(error_msg, "Could not get guid for surl %s : %s\n", 
@@ -400,7 +402,6 @@ START_TEST(test_unregisterpfn) {
 START_TEST(test_unregisterpfn_nexist) {
   char surl[CA_MAXSFNLEN+1];
   char *surl_name = "foo/this_does_not_exist";
-  char *guid;
   
   helper_make_surl(surl, surl_name);
   helper_remove_surl(surl);
@@ -426,7 +427,8 @@ START_TEST(test_getfilesize) {
   fail_unless(DEFAULT_SIZE == guid_size, "Correct size returned");
 }END_TEST
 
-int free_list(char **p, int i) {
+void
+free_list(char **p, int i) {
   char **cp;
   int j = 0;
 
@@ -502,7 +504,6 @@ START_TEST(test_surlfromguid) {
 	char base_surl[CA_MAXSFNLEN+1];
   	char *path="foo/test_surlfromguid";
 	char *local_server = "foo.cern.ch";
-	int i;
 
 	/* check that we don't get anything initially */
 	if((p = surlfromguid (file_guid)) != NULL) {
@@ -644,7 +645,7 @@ START_TEST(test_delete_lfns_master_first) {
 
   /* check that there are no elements for the guid */
   if((p = lfnsforguid(file_guid)) == NULL) {
-    if(errno = ENOENT) 
+    if(errno == ENOENT) 
       return;
     sprintf(error_msg, "Can't get lfn for guid with no entries  %s : %s\n", 
 	    file_guid, strerror(errno));
@@ -658,10 +659,8 @@ Suite *add_catalog_tests(Suite *s) {
   TCase *tc_catalog_env = tcase_create("CatalogFromEnv");
   suite_add_tcase(s, tc_catalog_env);
 
-  /*
   tcase_add_test(tc_catalog_env, test_get_cat_type);
   tcase_add_test(tc_catalog_env, test_get_default_catalog);
-  */
   /* a test case for EDG catalog checks */
 
   TCase *tc_edg_catalog = tcase_create("EDGCatalogs");

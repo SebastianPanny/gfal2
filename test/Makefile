@@ -9,7 +9,7 @@ GFAL_DIR=..
 #
 #
 
-CC = cc -g -fPIC
+CC += -g -fPIC
 SHLIBLDFLAGS = -shared
 
 INCLUDES= -I$(LFC_DIR)/include -I$(GFAL_DIR)

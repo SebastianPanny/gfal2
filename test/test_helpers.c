@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <check.h>
 #include <uuid/uuid.h>
 
@@ -20,7 +22,8 @@ const char *server_name = "foo.example.com";
 
 /** helper_make_guid : generate a unique ID into a predefined buffer.  It
     must be at least CA_MAXGUIDLEN+1 in length */
-int helper_make_guid(char *guid_buf) { 
+void
+helper_make_guid(char *guid_buf) { 
   uuid_t uuid;
   uuid_generate(uuid);
   uuid_unparse(uuid, guid_buf);
@@ -28,18 +31,21 @@ int helper_make_guid(char *guid_buf) {
 
 /** helper_make_path : create a pathname below the test root directory.  buf
     must be at CA_MAXPATHLEN+1 long.*/
-int helper_make_lfn(char *buf, const char* path) {
+void 
+helper_make_lfn(char *buf, const char* path) {
   if(strlen(root_path) + strlen(path) +1 > CA_MAXPATHLEN) {
     fail("Internal Error : path is too long for buffer");
   }
   sprintf(buf, "%s/%s", root_path, path);
 }
 
-int helper_make_surl(char *buf, const char *path) {
+void
+helper_make_surl(char *buf, const char *path) {
   sprintf(buf, "srm://%s/%s", server_name, path);
 }
 
-int helper_make_test_root() {
+void
+helper_make_test_root() {
   char *guid;
   char root_guid[CA_MAXGUIDLEN+1];
   char *cat_type;
@@ -123,8 +129,8 @@ int helper_remove_surl(const char* surl) {
   }
 
   if(unregister_pfn(guid, surl) < 0) {
-    if(errno = ENOENT) {
-      return;
+    if(errno == ENOENT) {
+      return (-1);
     }
     sprintf(error_msg, "Could not unregister surl %s : %s\n", 
 	    surl, strerror(errno));

@@ -19,7 +19,6 @@ int main (int argc, char** argv) {
 
   SRunner *sr = srunner_create(s); 
   char* hostname = NULL;
-  char hostname_env[128];
   
   /* check for LFC_HOST env and fail early */
   if((hostname=getenv("LFC_HOST")) == NULL) {
