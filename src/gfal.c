@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.8 $ $Date: 2004/06/18 09:36:04 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.9 $ $Date: 2004/09/24 09:03:09 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -94,9 +94,10 @@ free_xi (int fd)
 
 gfal_access (const char *path, int amode)
 {
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 
 	if (strncmp (path, "lfn:", 4) == 0 ||
 	    strncmp (path, "guid:", 5) == 0 ||
@@ -105,7 +106,7 @@ gfal_access (const char *path, int amode)
 		errno = EPROTONOSUPPORT;
 		return (-1);
 	}
-	if (parseturl (path, &protocol, &pfn) < 0)
+	if (parseturl (path, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn) < 0)
 		return (-1);
 	if ((pops = find_pops (protocol)) == NULL)
 		return (-1);
@@ -118,9 +119,10 @@ gfal_access (const char *path, int amode)
 
 gfal_chmod (const char *path, mode_t mode)
 {
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 
 	if (strncmp (path, "lfn:", 4) == 0 ||
 	    strncmp (path, "guid:", 5) == 0 ||
@@ -129,7 +131,7 @@ gfal_chmod (const char *path, mode_t mode)
 		errno = EPROTONOSUPPORT;
 		return (-1);
 	}
-	if (parseturl (path, &protocol, &pfn) < 0)
+	if (parseturl (path, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn) < 0)
 		return (-1);
 	if ((pops = find_pops (protocol)) == NULL)
 		return (-1);
@@ -222,9 +224,10 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 {
 	char *fn;
 	char *guid;
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 	int rc;
 	struct stat64 statb64;
 	char *turl;
@@ -255,7 +258,7 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 		}
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn)) == 0) {
 		if ((pops = find_pops (protocol)) != NULL) {
 			if ((rc = pops->lstat (pfn, statbuf)) < 0)
 				errno = pops->maperror (pops, 0);
@@ -272,9 +275,10 @@ gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 {
 	char *fn;
 	char *guid;
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 	int rc;
 	char *turl;
 
@@ -303,7 +307,7 @@ gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 		}
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn)) == 0) {
 		if ((pops = find_pops (protocol)) != NULL) {
 			if ((rc = pops->lstat64 (pfn, statbuf)) < 0)
 				errno = pops->maperror (pops, 0);
@@ -318,9 +322,10 @@ gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 
 gfal_mkdir (const char *dirname, mode_t mode)
 {
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 
 	if (strncmp (dirname, "lfn:", 4) == 0 ||
 	    strncmp (dirname, "guid:", 5) == 0 ||
@@ -329,7 +334,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
 		errno = EPROTONOSUPPORT;
 		return (-1);
 	}
-	if (parseturl (dirname, &protocol, &pfn) < 0)
+	if (parseturl (dirname, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn) < 0)
 		return (-1);
 	if ((pops = find_pops (protocol)) == NULL)
 		return (-1);
@@ -346,9 +351,10 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	int fileid;
 	char *fn;
 	char *guid = NULL;
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 	int reqid;
 	char **supported_protocols;
 	char *token = NULL;
@@ -378,7 +384,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 			goto err;
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if (parseturl (turl, &protocol, &pfn) < 0)
+	if (parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn) < 0)
 		goto err;
 	if ((pops = find_pops (protocol)) == NULL)
 		goto err;
@@ -423,9 +429,10 @@ gfal_opendir (const char *dirname)
 {
 	struct dir_info *di;
 	DIR *dir;
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 
 	if (strncmp (dirname, "lfn:", 4) == 0 ||
 	    strncmp (dirname, "guid:", 5) == 0 ||
@@ -434,7 +441,7 @@ gfal_opendir (const char *dirname)
 		errno = EPROTONOSUPPORT;
 		return (NULL);
 	}
-	if (parseturl (dirname, &protocol, &pfn) < 0)
+	if (parseturl (dirname, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn) < 0)
 		return (NULL);
 	if ((pops = find_pops (protocol)) == NULL)
 		return (NULL);
@@ -491,9 +498,11 @@ gfal_rename (const char *old_name, const char *new_name)
 {
 	char *new_pfn;
 	char *old_pfn;
+	char pathbuf1[1024];
+	char pathbuf2[1024];
 	struct proto_ops *pops;
-	char *protocol1;
-	char *protocol2;
+	char protocol1[64];
+	char protocol2[64];
 
 	if (strncmp (old_name, "lfn:", 4) == 0 ||
 	    strncmp (old_name, "guid:", 5) == 0 ||
@@ -509,9 +518,9 @@ gfal_rename (const char *old_name, const char *new_name)
 		errno = EPROTONOSUPPORT;
 		return (-1);
 	}
-	if (parseturl (old_name, &protocol1, &old_pfn) < 0)
+	if (parseturl (old_name, protocol1, sizeof(protocol1), pathbuf1, sizeof(pathbuf1), &old_pfn) < 0)
 		return (-1);
-	if (parseturl (new_name, &protocol2, &new_pfn) < 0)
+	if (parseturl (new_name, protocol2, sizeof(protocol2), pathbuf2, sizeof(pathbuf2), &new_pfn) < 0)
 		return (-1);
 	if (strcmp (protocol1, protocol2)) {
 		errno = EINVAL;
@@ -528,9 +537,10 @@ gfal_rename (const char *old_name, const char *new_name)
 
 gfal_rmdir (const char *dirname)
 {
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 
 	if (strncmp (dirname, "lfn:", 4) == 0 ||
 	    strncmp (dirname, "guid:", 5) == 0 ||
@@ -539,7 +549,7 @@ gfal_rmdir (const char *dirname)
 		errno = EPROTONOSUPPORT;
 		return (-1);
 	}
-	if (parseturl (dirname, &protocol, &pfn) < 0)
+	if (parseturl (dirname, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn) < 0)
 		return (-1);
 	if ((pops = find_pops (protocol)) == NULL)
 		return (-1);
@@ -567,9 +577,10 @@ gfal_stat (const char *filename, struct stat *statbuf)
 {
 	char *fn;
 	char *guid;
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 	int rc;
 	struct stat64 statb64;
 	char *turl;
@@ -600,7 +611,7 @@ gfal_stat (const char *filename, struct stat *statbuf)
 		}
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn)) == 0) {
 		if ((pops = find_pops (protocol)) != NULL) {
 			if ((rc = pops->stat (pfn, statbuf)) < 0)
 				errno = pops->maperror (pops, 0);
@@ -617,9 +628,10 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 {
 	char *fn;
 	char *guid;
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 	int rc;
 	char *turl;
 
@@ -648,7 +660,7 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 		}
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn)) == 0) {
 		if ((pops = find_pops (protocol)) != NULL) {
 			if ((rc = pops->stat64 (pfn, statbuf)) < 0)
 				errno = pops->maperror (pops, 0);
@@ -699,9 +711,10 @@ gfal_write (int fd, const void *buf, size_t size)
 
 deletepfn (const char *fn, const char *guid)
 {
+	char pathbuf[1024];
 	char *pfn;
 	struct proto_ops *pops;
-	char *protocol;
+	char protocol[64];
 	int rc;
 	char *turl;
 
@@ -714,7 +727,7 @@ deletepfn (const char *fn, const char *guid)
 				return (-1);
 		} else		/* assume that is a pfn */
 			turl = (char *)fn;
-		if ((rc = parseturl (turl, &protocol, &pfn)) == 0) {
+		if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn)) == 0) {
 			if ((pops = find_pops (protocol)) != NULL) {
 				if ((rc = pops->unlink (pfn)) < 0)
 					errno = pops->maperror (pops, 0);
@@ -787,7 +800,7 @@ mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 
 #define SRM_EP_PATH "/srm/managerv1"
 #define SRM_PORT 8443
-parsesurl (const char *surl, char **endpoint, char **sfn)
+parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn)
 {
 	int len;
 	int len1;
@@ -796,7 +809,6 @@ parsesurl (const char *surl, char **endpoint, char **sfn)
 	char *p1, *p2;
 	char *se_endpoint;
 	int se_port;
-	static char srm_ep[256];
 
 	if (strncmp (surl, "srm://", 6)) {
 		errno = EINVAL;
@@ -814,32 +826,31 @@ parsesurl (const char *surl, char **endpoint, char **sfn)
 		return (-1);
 	}
 #ifdef GFAL_SECURE
-	strcpy (srm_ep, "https://");
+	strcpy (endpoint, "https://");
 	lenp = 8;
 #else
-	strcpy (srm_ep, "http://");
+	strcpy (endpoint, "http://");
 	lenp = 7;
 #endif
 	/* copy hostname */
 
 	len = p1 - surl - 6;
-	if (lenp + len >= sizeof(srm_ep)) {
+	if (lenp + len >= srm_endpointsz) {
 		errno = EINVAL;
 		return (-1);
 	}
-	strncpy (srm_ep + lenp, surl + 6, len);
-	*(srm_ep + lenp + len) = '\0';
+	strncpy (endpoint + lenp, surl + 6, len);
+	*(endpoint + lenp + len) = '\0';
 
 	if (p1 == p) {	/* no user specified endpoint */
 
 		/* try to get endpoint from Information Service */
 
-		if ((p2 = strchr (srm_ep + lenp, ':')))
+		if ((p2 = strchr (endpoint + lenp, ':')))
 			*p2 = '\0';
-		if (get_se_endpoint (srm_ep + lenp, &se_endpoint) == 0) {
-			strcpy (srm_ep, se_endpoint);
+		if (get_se_endpoint (endpoint + lenp, &se_endpoint) == 0) {
+			strcpy (endpoint, se_endpoint);
 			free (se_endpoint);
-			*endpoint = srm_ep;
 			return (0);
 		} else
 			if (p2)
@@ -848,14 +859,14 @@ parsesurl (const char *surl, char **endpoint, char **sfn)
 
 	/* set port number if not specified by user */
 
-	if ((p2 = strchr (srm_ep + lenp, ':')) == NULL) {	/* no port specified */
-		if (get_se_port (srm_ep + lenp, &se_port) < 0)
+	if ((p2 = strchr (endpoint + lenp, ':')) == NULL) {	/* no port specified */
+		if (get_se_port (endpoint + lenp, &se_port) < 0)
 			se_port = SRM_PORT;
-		if (lenp + len + 6 >= sizeof(srm_ep)) {
+		if (lenp + len + 6 >= srm_endpointsz) {
 			errno = EINVAL;
 			return (-1);
 		}
-		len1 = sprintf (srm_ep + lenp + len, ":%d", se_port);
+		len1 = sprintf (endpoint + lenp + len, ":%d", se_port);
 	} else
 		len1 = 0;
 	len1 += lenp + len;
@@ -863,29 +874,26 @@ parsesurl (const char *surl, char **endpoint, char **sfn)
 	/* copy endpoint */
 
 	if (p1 != p) {	/* user specified endpoint */
-		if (len1 + (p - p1) >= sizeof(srm_ep)) {
+		if (len1 + (p - p1) >= srm_endpointsz) {
 			errno = EINVAL;
 			return (-1);
 		}
-		strncpy (srm_ep + len1, p1, p - p1);
-		*(srm_ep + len1 + (p - p1)) = '\0';
+		strncpy (endpoint + len1, p1, p - p1);
+		*(endpoint + len1 + (p - p1)) = '\0';
 	} else {
-		if (len1 + strlen (SRM_EP_PATH) >= sizeof(srm_ep)) {
+		if (len1 + strlen (SRM_EP_PATH) >= srm_endpointsz) {
 			errno = EINVAL;
 			return (-1);
 		}
-		strcpy (srm_ep + len1, SRM_EP_PATH);
+		strcpy (endpoint + len1, SRM_EP_PATH);
 	}
-	*endpoint = srm_ep;
 	return (0);
 }
 
-parseturl (const char *turl, char **protocol, char **pfn)
+parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int pathbufsz, char **pfn)
 {
 	int len;
 	char *p;
-	static char path[1024];
-	static char proto[64];
 
 	/* get protocol */
 
@@ -893,16 +901,16 @@ parseturl (const char *turl, char **protocol, char **pfn)
 		errno = EINVAL;
 		return (-1);
 	}
-	if ((len = p - turl) > (sizeof(proto) - 1)) {
+	if ((len = p - turl) > (protocolsz - 1)) {
 		errno = EINVAL;
 		return (-1);
 	}
-	strncpy (proto, turl, len);
-	*(proto + len) = '\0';
+	strncpy (protocol, turl, len);
+	*(protocol + len) = '\0';
 
-	if (strcmp (proto, "file") == 0) {
+	if (strcmp (protocol, "file") == 0) {
 		*pfn = p + 1;
-	} else if (strcmp (proto, "rfio") == 0) {
+	} else if (strcmp (protocol, "rfio") == 0) {
 		p += 2;
 		if (*p != '/') {
 			errno = EINVAL;
@@ -912,18 +920,17 @@ parseturl (const char *turl, char **protocol, char **pfn)
 		if (*p == '/' && *(p + 1) == '/') {	/* no hostname */
 			*pfn = p + 1;
 		} else {
-			if (strlen (p) > sizeof(path)) {
+			if (strlen (p) > pathbufsz) {
 				errno = EINVAL;
 				return (-1);
 			}
-			strcpy (path, p);
-			if (p = strstr (path, "//"))
+			strcpy (pathbuf, p);
+			if (p = strstr (pathbuf, "//"))
 				*p = ':';
-			*pfn = path;
+			*pfn = pathbuf;
 		}
 	} else 
 		*pfn = (char *) turl;
-	*protocol = proto;
 	return (0);
 }
 

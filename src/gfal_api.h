@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.9 $ $Date: 2004/08/20 14:50:33 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.10 $ $Date: 2004/09/24 09:03:09 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -71,8 +71,8 @@ char *guidforpfn (const char *);
 char *guidfromlfn (const char *);
 char **lfnsforguid (const char *);
 int lrc_guid_exists (const char *);
-int parsesurl (const char *, char **, char **);
-int parseturl (const char *, char **, char **);
+int parsesurl (const char *, char *, int, char **);
+int parseturl (const char *, char *, int, char *, int, char **);
 int register_alias (const char *, const char *);
 int register_pfn (const char *, const char *);
 int se_deletesurl (const char *);
