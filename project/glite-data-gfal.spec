@@ -1,6 +1,6 @@
 Summary: Grid File Access Library
 Name: GFAL-client
-Version: 1.3.14
+Version: 1.3.15
 Release: 1
 Source0: %{name}-%{version}.src.tar.gz
 License: GPL
