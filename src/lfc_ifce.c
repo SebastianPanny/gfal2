@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.6 $ $Date: 2004/12/02 07:40:22 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.7 $ $Date: 2004/12/10 14:58:27 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -83,8 +83,8 @@ lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep, char *errbuf, int errbufs
     return (-1);
 
   if(lfc_statg(NULL, guid, &statg) < 0) {
-    if(serrno == ENOENT)
-      errno = ENOENT;
+    if (serrno < 1000) 
+      errno = serrno;
     else
       errno = ECOMM;
     return (-1);
@@ -106,11 +106,10 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
     return (NULL);
 
   if(lfc_statr(pfn, &statg) < 0) {
-    if(serrno == ENOENT) {
-      errno = ENOENT;
-    } else {
+    if(serrno < 1000)
+      errno = serrno;
+    else
       errno = ECOMM;
-    }
     return (NULL);
   }
   if((p = strdup(statg.guid)) == NULL) {
@@ -128,10 +127,10 @@ lfc_guid_exists (const char *guid, char *errbuf, int errbufsz)
     return (-1);
 
   if(lfc_statg(NULL, guid, &statg) < 0) {
-    if(serrno == ENOENT) {
-      return (0);
-    }
-    errno = ECOMM;
+    if (serrno < 1000) 
+      errno = serrno;
+    else 
+      errno = ECOMM;
     return (-1);
   }
   return (1);
@@ -150,10 +149,8 @@ lfc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
   }
 
   if(lfc_addreplica(guid, NULL, hostname, pfn) < 0) {
-    if (serrno == ENOENT)
-      errno = ENOENT;
-    else if(serrno == EEXIST)
-      errno = EEXIST;
+    if (serrno < 1000)
+      errno = serrno;
     else
       errno = ECOMM;
     free(hostname);
@@ -258,7 +255,10 @@ lfc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
     if(serrno == ENOENT) {
       return (0);
     }
-    errno = ECOMM;
+    if(serrno < 1000) 
+      errno = serrno;
+    else
+      errno = ECOMM;
     return (-1);
   }
   return (0);
@@ -274,11 +274,10 @@ lfc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
     return (NULL);
 
   if(lfc_statg(lfn, NULL, &statg) < 0) {
-    if(serrno == ENOENT) {
-      errno = ENOENT;
-    } else {
+    if(serrno < 1000)
+      errno = serrno;
+    else
       errno = ECOMM;
-    }
     return (NULL);
   }
   if((p = strdup(statg.guid)) == NULL)
@@ -344,20 +343,17 @@ lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *err
 
   lfc_starttrans();
   if(lfc_creatg(lfn, guid, 0775) < 0) {
-    if(serrno == EEXIST) 
-      errno = EEXIST;
-    else if(serrno == ENOENT)
-      errno = ENOENT;
-    else if(serrno == ENAMETOOLONG) 
-      errno = ENAMETOOLONG;
-    else if(serrno == EACCES) 
-      errno = EACCES;
+    if(serrno < 1000) 
+      errno = serrno;
     else
       errno = ECOMM;
     return (-1);
   }
   if(lfc_setfsizeg(guid, size, NULL, NULL) < 0) {
-    errno = ECOMM;
+    if(serrno < 1000)
+      errno = serrno;
+    else
+      errno = ECOMM;
     return (-1);
   }
   lfc_endtrans();
@@ -375,25 +371,27 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 
   lfc_starttrans();
   if(lfc_statg(NULL, guid, &statg) < 0) {
-    if(serrno == ENOENT) 
-      errno = ENOENT;
-    else if(serrno == ENAMETOOLONG) 
-      errno = ENAMETOOLONG;
-    else if(serrno == EACCES) 
-      errno = EACCES;
+    if(serrno < 1000) 
+      errno = serrno;
     else
       errno = ECOMM;
     return (-1);
   }
   /* now we do a getpath() to get the master lfn */
   if (lfc_getpath(lfc_host, statg.fileid, master_lfn) <0 ) {
-    errno = ECOMM;
+    if (serrno < 1000)
+      errno = serrno;
+    else
+      errno = ECOMM;
     return (-1);
   }
 
   /* and finally register */
   if(lfc_symlink(master_lfn, lfn) < 0) {
-    errno = ECOMM;
+    if (serrno < 1000)
+      errno = serrno;
+    else
+      errno = ECOMM;
     return (-1);
   }
   lfc_endtrans();
@@ -415,8 +413,8 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
   if(lfc_statg(lfn, guid, &statg) < 0 ) {
     if (serrno == ENOENT) {
       if(lfc_lstat(lfn, &stat) < 0 ) {
-	if(serrno == ENOENT) 
-	  errno = ENOENT;
+	if(serrno < 1000 ) 
+	  errno = serrno;
 	else
 	  errno = ECOMM;
 	return (-1);
@@ -424,19 +422,18 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 	/* all ok, continue */
       }
     } else {
-      errno = ECOMM;
+      if(serrno < 1000) 
+	errno = serrno;
+      else
+	errno = ECOMM;
       return (-1);
     }
   }
 
   /* lfn maps to the guid - unlink it */
   if(lfc_unlink(lfn) < 0) {
-    if(serrno == ENOENT) 
-      errno = ENOENT;
-    else if(serrno == EEXIST)
-      errno = EEXIST;
-    else if(serrno == ENOTDIR)
-      errno = ENOTDIR;
+    if(serrno < 1000) 
+      errno = serrno;
     else
       errno = ECOMM;
     return (-1);
@@ -473,8 +470,13 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
       *p = '/';
       break;
     }
-    if (serrno != ENOENT) 
+    if (serrno != ENOENT) {
+      if(serrno < 1000) 
+	errno = serrno;
+      else
+	errno = ECOMM;
       return (c);
+    }
     q = strrchr (sav_path, '/');
     *p = '/';
     p = q;
@@ -486,9 +488,13 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
     uuid_unparse(uuid, uuid_buf);
     c = lfc_mkdirg (sav_path, uuid_buf, mode);
     if(c != 0) {
-      errno = serrno;
+      if (serrno < 1000)
+	errno = serrno;
+      else 
+	errno = ECOMM;
     }
     *p = '/';
   }
   return (c);
 }
+  
