@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.4 $ $Date: 2004/04/06 09:58:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.5 $ $Date: 2004/04/19 08:52:14 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -52,6 +52,8 @@ int gfal_stat64 (const char *, struct stat *);
 
 		/* Internal functions */
 
+int deletepfn (const char *, const char *);
+int deletesurl (const char *);
 int get_bdii (char *, int, int *);
 int get_ce_ap (const char *, char **);
 int get_rls_endpoints (char **, char **);
@@ -70,5 +72,7 @@ int register_pfn (const char *, const char *);
 int set_xfer_done (char *, int, int, int);
 int set_xfer_running (char *, int, int);
 char *surlfromguid (const char *);
+char **surlsfromguid (const char *);
+char *turlfromsfn (const char *, char **);
 char *turlfromsurl (const char *, char **, int, int *, int*);
 #endif
