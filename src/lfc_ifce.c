@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.3 $ $Date: 2004/10/25 15:56:44 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.4 $ $Date: 2004/10/28 12:35:45 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -20,7 +20,7 @@
 #define ALLOC_BLOCK_SIZE 16 /* the block size to allocate new pointers in */
 char *lfc_host = NULL;
 
-static  char cns_env[64];
+static  char lfc_env[64];
 
 /** extract a hostname from a SURL.  We search for "://" to get the start of
     the hostname.  Then we keep going to the next slash, colon or end of the
@@ -53,15 +53,8 @@ get_hostname(const char *path) {
   return result;
 }
 
-extern char **environ;
-
 static int 
 lfc_init (void) {
-  /*  char **p;
-  for(p = environ; *p != NULL; p++) {
-    printf("ENV : %s\n", *p);
-  }
-  */
   if (lfc_host == NULL) {
     if((lfc_host = getenv("LFC_HOST")) == NULL &&
        get_lfc_host(&lfc_host) < 0) {
@@ -72,8 +65,8 @@ lfc_init (void) {
       errno = EINVAL;
       return (-1);
     }
-    sprintf(cns_env, "CNS_HOST=%s", lfc_host);
-    if(putenv(cns_env) < 0) {
+    sprintf(lfc_env, "LFC_HOST=%s", lfc_host);
+    if(putenv(lfc_env) < 0) {
       return (-1);
     }
   }
