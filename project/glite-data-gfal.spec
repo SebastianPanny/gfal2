@@ -1,6 +1,6 @@
 Summary: Grid File Access Library
 Name: GFAL-client
-Version: 1.3.11
+Version: 1.3.12
 Release: 1
 Source0: %{name}-%{version}.src.tar.gz
 License: GPL
@@ -36,6 +36,7 @@ rm -rf $RPM_BUILD_ROOT
 /opt/lcg/include/gfal_constants.h
 /opt/lcg/lib/libgfal.a
 /opt/lcg/lib/libgfal.so
+/opt/lcg/lib/libgfal_pthr.so
 /opt/lcg/man/man3/gfal.3
 /opt/lcg/man/man3/gfal_access.3
 /opt/lcg/man/man3/gfal_chmod.3

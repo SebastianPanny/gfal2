@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.9 $ $Date: 2004/09/22 14:34:35 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.10 $ $Date: 2004/09/24 09:06:22 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -28,7 +28,9 @@ PROTOFLG = $(RFIOFLG) $(RFIOINC) $(DCAPFLG) $(DCAPINC)
 SECFLG = -DGFAL_SECURE
 GLOBUS_FLAVOUR=gcc32dbg
 GLOBUS_LIBS=-L/opt/globus/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR)
+GLOBUS_LIBS_PTHR=-L/opt/globus/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR)pthr -lglobus_gss_assist_$(GLOBUS_FLAVOUR)pthr
 SECLIB = -lcgsi_plugin_gsoap_2.3 $(GLOBUS_LIBS)
+SECLIB_PTHR = -lcgsi_plugin_gsoap_2.3 $(GLOBUS_LIBS_PTHR)
 
 # End of the part to be edited
 
@@ -42,12 +44,14 @@ SHLIBLDFLAGS = -shared
 CLASSPATH = $(GSOAP_IMP)/wsdlcpp:$(XERCES)/xmlParserAPIs.jar:$(XERCES)/xercesImpl.jar
 GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm_ifce.o srmC.o srmClient.o stdsoap2.o
 
-all: libgfal.a libgfal.so gfal_testdir gfal_testread gfal_testrw gfal_teststat gfal_testunlink
+all: libgfal.a libgfal.so libgfal_pthr.so gfal_testdir gfal_testread gfal_testrw gfal_teststat gfal_testunlink
 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
 libgfal.so: $(GFAL_OBJS)
 	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) -lc -lldap -ldl
+libgfal_pthr.so: $(GFAL_OBJS)
+	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -lc -lldap -ldl
 
 checkprotolib.o: gfal.h
 	$(CC) -c $(PROTOFLG) checkprotolib.c
@@ -113,7 +117,8 @@ install: $(prefix)/opt/lcg/bin \
 	 $(prefix)/opt/lcg/include $(prefix)/opt/lcg/include/gfal_api.h \
 	 $(prefix)/opt/lcg/include/gfal_constants.h \
 	 $(prefix)/opt/lcg/lib \
-	 $(prefix)/opt/lcg/lib/libgfal.a $(prefix)/opt/lcg/lib/libgfal.so
+	 $(prefix)/opt/lcg/lib/libgfal.a $(prefix)/opt/lcg/lib/libgfal.so \
+	 $(prefix)/opt/lcg/lib/libgfal_pthr.so
 
 $(prefix)/opt/lcg/bin:
 	mkdir -p $@
