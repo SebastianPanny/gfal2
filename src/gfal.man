@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.3 $ $Date: 2003/12/17 08:33:47 $ CERN Jean-Philippe Baud
-.\" Copyright (C) 2003 by CERN/IT/PDP/DM
+.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.4 $ $Date: 2004/04/06 09:54:38 $ CERN Jean-Philippe Baud
+.\" Copyright (C) 2003-2004 by CERN/IT/PDP/DM
 .\" All rights reserved
 .\"
-.TH GFAL 3 "$Date: 2003/12/17 08:33:47 $" GFAL "Library Functions"
+.TH GFAL 3 "$Date: 2004/04/06 09:54:38 $" GFAL "Library Functions"
 .SH NAME
 gfal - Grid File Access Library
 .SH DESCRIPTION
@@ -34,7 +34,10 @@ The GFAL library hides these interactions and presents a Posix interface for the
 I/O operations. The currently supported protocols are:
 .B file
 for local access,
-.B dcap
+.BR dcap ,
+.B gsidcap
+and
+.B kdcap
 (dCache access protocol) and
 .B rfio
 (CASTOR access protocol).
