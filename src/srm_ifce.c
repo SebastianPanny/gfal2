@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003-2004 by CERN
+ * Copyright (C) 2003-2005 by CERN
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.12 $ $Date: 2004/12/02 07:40:22 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.13 $ $Date: 2005/01/31 14:42:25 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -421,7 +421,9 @@ srm_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbu
 		return (-1);
 	}
 	memset (statbuf, 0, sizeof(struct stat64));
-	statbuf->st_mode = S_IFREG | out._Result->__ptr->permMode;
+	statbuf->st_mode = out._Result->__ptr->permMode;
+	if ((statbuf->st_mode & S_IFMT) == 0)
+		statbuf->st_mode |= S_IFREG;
 	statbuf->st_nlink = 1;
 	if (out._Result->__ptr->owner && (pw = getpwnam (out._Result->__ptr->owner)))
 		statbuf->st_uid = pw->pw_uid;
