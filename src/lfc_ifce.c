@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.1 $ $Date: 2004/10/24 10:50:18 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/10/24 12:31:54 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -348,8 +348,12 @@ lfc_create_alias (const char *guid, const char *lfn, long long size)
   if(lfc_creatg(lfn, guid, 0775) < 0) {
     if(serrno == EEXIST) 
       errno = EEXIST;
+    else if(serrno == ENOENT)
+      errno = ENOENT;
     else if(serrno == ENAMETOOLONG) 
       errno = ENAMETOOLONG;
+    else if(serrno == EACCES) 
+      errno = EACCES;
     else
       errno = ECOMM;
     return (-1);
@@ -372,11 +376,14 @@ lfc_register_alias (const char *guid, const char *lfn)
 
   lfc_starttrans();
   if(lfc_statg(NULL, guid, &statg) < 0) {
-    if(serrno == ENOENT) {
+    if(serrno == ENOENT) 
       errno = ENOENT;
-    } else {
+    else if(serrno == ENAMETOOLONG) 
+      errno = ENAMETOOLONG;
+    else if(serrno == EACCES) 
+      errno = EACCES;
+    else
       errno = ECOMM;
-    }
     return (-1);
   }
   /* now we do a getpath() to get the master lfn */
