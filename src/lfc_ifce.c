@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.23 $ $Date: 2005/02/11 13:20:00 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.24 $ $Date: 2005/03/05 16:58:47 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -208,7 +208,7 @@ lfc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
     return (-1);
   }
   /* We always have available permanent files at the minute */
-  if(lfc_addreplica(guid, NULL, hostname, pfn, '-', 'P', NULL, NULL) < 0) {
+  if(lfc_addreplica(guid, NULL, hostname, pfn, '-', '\0', NULL, NULL) < 0) {
     if (serrno < 1000)
       errno = serrno;
     else {
