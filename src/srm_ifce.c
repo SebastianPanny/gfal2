@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.10 $ $Date: 2004/10/20 10:31:20 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.11 $ $Date: 2004/10/21 07:32:59 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -69,6 +69,7 @@ srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols, int *reqi
 {
 	int errflag = 0;
 	struct ns11__RequestFileStatus *f;
+	struct srm_filestatus *fs;
 	int i;
 	int n;
 	struct tns__getResponse outg;
@@ -115,22 +116,24 @@ srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols, int *reqi
 		return (-1);
 	}
 	f = reqstatp->fileStatuses->__ptr;
+	fs = *filestatuses;
 	for (i = 0; i < n; i++) {
-		if ((f+i)->SURL && (filestatuses[i]->surl = strdup ((f+i)->SURL)) == NULL)
+		if ((f+i)->SURL && (fs->surl = strdup ((f+i)->SURL)) == NULL)
 			errflag++;
 		if ((f+i)->state) {
 			if (strcmp ((f+i)->state, "Pending") == 0 ||
 			    strcmp ((f+i)->state, "pending") == 0)
-				filestatuses[i]->status = 0;
+				fs->status = 0;
 			else if (strcmp ((f+i)->state, "Failed") == 0 ||
 			    strcmp ((f+i)->state, "failed") == 0)
-				filestatuses[i]->status = -1;
+				fs->status = -1;
 			else
-				filestatuses[i]->status = 1;
+				fs->status = 1;
 		}
-		filestatuses[i]->fileid = (f+i)->fileId;
-		if ((f+i)->TURL && (filestatuses[i]->turl = strdup ((f+i)->TURL)) == NULL)
+		fs->fileid = (f+i)->fileId;
+		if ((f+i)->TURL && (fs->turl = strdup ((f+i)->TURL)) == NULL)
 			errflag++;
+		fs++;
 	}
 	soap_end (&soap);
 	soap_done (&soap);
@@ -141,6 +144,7 @@ srm_getstatus (int nbfiles, char **surls, int reqid, char *token, struct srm_fil
 {
 	int errflag = 0;
 	struct ns11__RequestFileStatus *f;
+	struct srm_filestatus *fs;
 	int i;
 	int n;
 	struct tns__getRequestStatusResponse outq;
@@ -170,22 +174,24 @@ srm_getstatus (int nbfiles, char **surls, int reqid, char *token, struct srm_fil
 		return (-1);
 	}
 	f = reqstatp->fileStatuses->__ptr;
+	fs = *filestatuses;
 	for (i = 0; i < n; i++) {
-		if ((f+i)->SURL && (filestatuses[i]->surl = strdup ((f+i)->SURL)) == NULL)
+		if ((f+i)->SURL && (fs->surl = strdup ((f+i)->SURL)) == NULL)
 			errflag++;
 		if ((f+i)->state) {
 			if (strcmp ((f+i)->state, "Pending") == 0 ||
 			    strcmp ((f+i)->state, "pending") == 0)
-				filestatuses[i]->status = 0;
+				fs->status = 0;
 			else if (strcmp ((f+i)->state, "Failed") == 0 ||
 			    strcmp ((f+i)->state, "failed") == 0)
-				filestatuses[i]->status = -1;
+				fs->status = -1;
 			else
-				filestatuses[i]->status = 1;
+				fs->status = 1;
 		}
-		filestatuses[i]->fileid = (f+i)->fileId;
-		if ((f+i)->TURL && (filestatuses[i]->turl = strdup ((f+i)->TURL)) == NULL)
+		fs->fileid = (f+i)->fileId;
+		if ((f+i)->TURL && (fs->turl = strdup ((f+i)->TURL)) == NULL)
 			errflag++;
+		fs++;
 	}
 	soap_end (&soap);
 	soap_done (&soap);
