@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003 by CERN
+ * Copyright (C) 2003-2004 by CERN
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.2 $ $Date: 2004/04/19 08:48:32 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -19,6 +19,44 @@
 #include "cgsi_plugin.h"
 #endif
 #define DEFPOLLINT 10
+
+deletesurl (const char *surl)
+{
+	int flags;
+	struct tns__advisoryDeleteResponse out;
+	char *sfn;
+	struct soap soap;
+	char *srm_endpoint;
+	struct ArrayOfstring surlarray;
+
+	if (parsesurl (surl, &srm_endpoint, &sfn) < 0) {
+		perror ("parsesurl");
+		exit (1);
+	}
+
+	soap_init (&soap);
+#ifdef GFAL_SECURE
+	flags = CGSI_OPT_DISABLE_NAME_CHECK;
+	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
+	/* issue "advisoryDelete" request */
+
+	surlarray.__ptr = (char **)&surl;
+	surlarray.__size = 1;
+	surlarray.__offset = 0;
+
+	if (soap_call_tns__advisoryDelete (&soap, srm_endpoint,
+	    "advisoryDelete", &surlarray, &out)) {
+		soap_print_fault (&soap, stderr);
+		soap_end (&soap);
+		soap_done (&soap);
+		return (-1);
+	}
+	soap_end (&soap);
+	soap_done (&soap);
+	return (0);
+}
 
 char *
 turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int *fileid)
