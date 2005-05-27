@@ -12,6 +12,7 @@
 #include <uuid/uuid.h>
 
 #include "gfal_api.h"
+#include "lfc_api.h"
 #include "Cns_constants.h"
 #include "test_helpers.h"
 
@@ -64,7 +65,7 @@ helper_make_test_root(char *errbuf, int errbufsz) {
   if((guid = guidfromlfn(root_path, errbuf, errbufsz)) == NULL) {
     if(errno == ENOENT) {
       helper_make_guid(root_guid);
-      if((lfc_mkdirg(root_path, root_guid, 0775, errbuf, errbufsz)) < 0) {
+      if((lfc_mkdirg(root_path, root_guid, 0775)) < 0) {
 	sprintf(error_msg, "Could not create test root : %s : %s\n",
 		root_path, strerror(errno));
 	fail(error_msg);
