@@ -17,31 +17,6 @@
 char errmsg[1024];
 int getdomainnm (char *name, int namelen);
 
-int setenviron (const char *name, const char *value) {
-  char *env;
-
-  if((env = (char *)malloc (strlen(name) + strlen(value)+ 2)) == NULL) {
-    fail("Could not malloc space for env");
-  }
-  sprintf (env, "%s=%s", name, value);
-  if(putenv (env) < 0) {
-    fail("Could not set env");
-  }
-  return (0);
-}
-
-int clearenviron (const char *name) {
-  char *env;
-
-  if((env = (char *)malloc (strlen(name)+ 1)) == NULL) {
-    fail("Could not malloc space for env");
-  }
-  sprintf (env, "%s", name);
-  if(putenv (env) < 0) {
-    fail("Could not set env");
-  }
-  return (0);
-}
 
 void setup_getbestfile() {
   setenviron("LCG_GFAL_VO", "test");
