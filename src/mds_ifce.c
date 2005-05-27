@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.11 $ $Date: 2005/02/04 14:48:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.12 $ $Date: 2005/05/27 15:14:19 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -229,7 +229,8 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	struct timeval timeout;
 	char **value;
 	char *vo;
-
+	
+	*lfc_endpoint = NULL;
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
