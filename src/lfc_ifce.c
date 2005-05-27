@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.25 $ $Date: 2005/05/27 11:56:42 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.26 $ $Date: 2005/05/27 15:11:34 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -57,7 +57,7 @@ get_hostname(const char *path, char *errbuf, int errbufsz) {
 
 static int 
 lfc_init (char *errbuf, int errbufsz) {
-  char *lfc_endpoint;
+  char *lfc_endpoint = NULL;
   char *p;
   char *lfc_port = NULL;
 
@@ -83,7 +83,12 @@ lfc_init (char *errbuf, int errbufsz) {
 	lfc_host = lfc_endpoint;
       }
     }
-    
+    if(strlen(lfc_host) == 0) {
+      gfal_errmsg(errbuf, errbufsz, "LFC host is set to empty string");
+      errno = EINVAL;
+      return (-1);
+    }
+
     if( 10 + strlen(lfc_host) > 64) {
       gfal_errmsg(errbuf, errbufsz, "Host too long") ;
       errno = ENAMETOOLONG;
