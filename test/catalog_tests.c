@@ -31,6 +31,8 @@ char file_guid[CA_MAXGUIDLEN+1];
 void setup_common() {
   char *name = "catalog_tests";
   
+  /* this is needed for getbestfile to work out the default se */
+  setenviron("LCG_GFAL_VO", "test");
   /* setup errbuf */
   if((errbuf = (char*) malloc((ERRBUFSZ+1) * sizeof(char))) == NULL) {
     return;
@@ -466,7 +468,6 @@ START_TEST(test_replica_exists_unknown_guid) {
 /** test_replica_exists : check that we can add and remove surls to/from a guid
     and the count stays consistent */
 START_TEST(test_replica_exists) {
-  char **p;
   char buf[CA_MAXSFNLEN+1];
   char base_surl[CA_MAXSFNLEN+1];
   char *path="foo/test_surlsfromguid";
@@ -530,9 +531,10 @@ START_TEST(test_surlsfromguid_unknown_guid) {
   helper_make_guid(unknown_guid);
 
   p = surlsfromguid(unknown_guid, errbuf, ERRBUFSZ);
-  if(p != NULL) {
-    fail("Expected NULL from surlsfromguid");
-    free_list(p, sizeof(p)/sizeof(char*));
+  if(p == NULL || *p != NULL) {
+    fail("Expected empty list from surlsfromguid");
+    if (p != NULL)
+      free_list(p, sizeof(p)/sizeof(char*));
   }
 }END_TEST
 
@@ -546,8 +548,11 @@ START_TEST(test_surlsfromguid) {
   int i;
 
   /* check that the list is initially empty */
-  if((p = surlsfromguid(file_guid, errbuf, ERRBUFSZ)) != NULL) {
-    fail("There should be no surls initially");
+  if((p = surlsfromguid(file_guid, errbuf, ERRBUFSZ)) == NULL) {
+    fail("NULL returned by surlsfromguid");
+  }
+  if(*p != NULL) {
+    fail("there should be no surls initially");
   }
   
   /* now add some, and check the size */
@@ -585,10 +590,12 @@ START_TEST(test_surlsfromguid) {
   }
 
   /* check that the list is finally empty */
-  if((p = surlsfromguid(file_guid, errbuf, ERRBUFSZ)) != NULL) {
-    fail("There should be no surls finally");
+  if((p = surlsfromguid(file_guid, errbuf, ERRBUFSZ)) == NULL) {
+    fail("NULL returned by surlsfromguid");
   }
-
+  if(*p != NULL) {
+    fail("there should be no surls initially");
+  }
 }END_TEST
 
 
@@ -608,6 +615,7 @@ START_TEST(test_surlfromguid_unknown_guid) {
   }
   /* and check the error was ENOENT */
   if(errno != ENOENT) {
+    printf("ERROR is %d\n", errno);
     fail("Expected ENOENT where guid doesn't exist");
   }
   
@@ -616,55 +624,57 @@ START_TEST(test_surlfromguid_unknown_guid) {
 /** test_surlfromguid: check that surl from guid returns an entry.  If
 the server is local (cern.ch) then it should be returned */
 START_TEST(test_surlfromguid) {
-	char *p = NULL;
-	char buf[CA_MAXSFNLEN+1];
-	char base_surl[CA_MAXSFNLEN+1];
-  	char *path="foo/test_surlfromguid";
-	char *local_server = "foo.cern.ch";
-
-	/* check that we don't get anything initially */
-	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) != NULL) {
-		free(p);
-		fail("There should be no surls initially");
-	}
-	/* and check the error was ENOENT */
-	if(errno != ENOENT) {
-		fail("Expected ENOENT where no surls");
-	}
-
-	/* add an entry */
-	helper_make_surl(base_surl, path);
-	if(register_pfn (file_guid, base_surl, errbuf, ERRBUFSZ) < 0) {
-		sprintf (error_msg, "Could not register surl %s : %s\n",
-			 base_surl, strerror (errno));
-		fail (error_msg);
-	}
-
-	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) == NULL) {
-		sprintf(error_msg, 
-			"Could not get best surl from guid %s : %s\n",
-			base_surl, strerror (errno));
-			fail (error_msg);
-	}
-	fail_unless(strcmp(p, base_surl) == 0 , "Should be only surl for the guid");
-	free(p);
-
-	/* now add a local entry - it should be first */
-	sprintf(buf, "srm://%s/%s", local_server, path);
-	if(register_pfn (file_guid, buf, errbuf, ERRBUFSZ) < 0) {
-		sprintf (error_msg, "Could not register surl %s : %s\n",
-		buf, strerror (errno));
-		fail (error_msg);
-	}
-
-	if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) == NULL) {
-		sprintf(error_msg, 
-			"Could not get best surl from guid %s : %s\n",
-			buf, strerror (errno));
-			fail (error_msg);
-	}
-	fail_unless(strcmp(p, buf) == 0 , "Should be only surl for the guid");
-	free(p);
+  char *p = NULL;
+  char buf[CA_MAXSFNLEN+1];
+  char base_surl[CA_MAXSFNLEN+1];
+  char *path="foo/test_surlfromguid";
+  char *local_server = "foo.cern.ch";
+  
+  /* check that we don't get anything initially */
+  if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) != NULL) {
+    free(p);
+    fail("There should be no surls initially");
+  }
+  /* and check the error was ENOENT */
+  if(errno != ENOENT) {
+    snprintf(error_msg, sizeof(error_msg), 
+	     "Expected ENOENT where no surls.  Got: %d : %s\n", errno, errbuf);
+    fail(error_msg);
+  }
+  
+  /* add an entry */
+  helper_make_surl(base_surl, path);
+  if(register_pfn (file_guid, base_surl, errbuf, ERRBUFSZ) < 0) {
+    sprintf (error_msg, "Could not register surl %s : %s\n",
+	     base_surl, strerror (errno));
+    fail (error_msg);
+  }
+  
+  if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) == NULL) {
+    sprintf(error_msg, 
+	    "Could not get best surl from guid %s : %s\n",
+	    base_surl, strerror (errno));
+    fail (error_msg);
+  }
+  fail_unless(strcmp(p, base_surl) == 0 , "Should be only surl for the guid");
+  free(p);
+  
+  /* now add a local entry - it should be first */
+  sprintf(buf, "srm://%s/%s", local_server, path);
+  if(register_pfn (file_guid, buf, errbuf, ERRBUFSZ) < 0) {
+    sprintf (error_msg, "Could not register surl %s : %s\n",
+	     buf, strerror (errno));
+    fail (error_msg);
+  }
+  
+  if((p = surlfromguid (file_guid, errbuf, ERRBUFSZ)) == NULL) {
+    sprintf(error_msg, 
+	    "Could not get best surl from guid %s : %s\n",
+	    buf, strerror (errno));
+    fail (error_msg);
+  }
+  fail_unless(strcmp(p, buf) == 0 , "Should be only surl for the guid");
+  free(p);
 }END_TEST
 
 /** test_lfnsforguid : check that we can add/remove aliases from a guid and
@@ -825,6 +835,7 @@ Suite *add_catalog_tests(Suite *s) {
   suite_add_tcase(s, tc_lfc_catalog);
 
   tcase_add_checked_fixture(tc_lfc_catalog, setup_lfc_catalog, teardown_common);
+
   tcase_add_test(tc_lfc_catalog, test_guid_exists);
   tcase_add_test(tc_lfc_catalog, test_create_lfn);
   tcase_add_test(tc_lfc_catalog, test_register_before_create);
