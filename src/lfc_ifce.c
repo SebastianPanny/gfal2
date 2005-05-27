@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.24 $ $Date: 2005/03/05 16:58:47 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.25 $ $Date: 2005/05/27 11:56:42 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <errno.h>
@@ -284,6 +284,8 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
     return (NULL);
 
   if((surls = lfc_surlsfromguid(guid, errbuf, errbufsz)) == NULL) {
+    return (NULL);
+  } else if (*surls == NULL) {
     errno = ENOENT;
     return (NULL);
   }
