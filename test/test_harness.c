@@ -11,6 +11,7 @@
 
 /* definition of suites */
 Suite* add_catalog_tests(Suite *);
+Suite* add_getbestfile_tests(Suite *);
 
 int main (int argc, char** argv) { 
   int nf; 
@@ -19,7 +20,8 @@ int main (int argc, char** argv) {
   char* hostname = NULL;
   
   s = suite_create("GFAL suite");
-  add_catalog_tests(s); 
+  add_catalog_tests(s);
+  add_getbestfile_tests(s); 
   sr = srunner_create(s); 
   
   /* check for LFC_HOST env and fail early */
@@ -27,10 +29,10 @@ int main (int argc, char** argv) {
     fprintf(stderr, "LFC_HOST environment not set.  Please check configuration.\n");
     return EXIT_FAILURE;
   }
-  printf("Running tests for LFC catalog host : %s\n", hostname); 
+  printf("Using LFC catalog host : %s\n", hostname); 
 
   /* and run the tests */
-  srunner_set_fork_status (sr, CK_NOFORK);
+  srunner_set_fork_status (sr, CK_FORK);
   srunner_run_all (sr, CK_NORMAL); 
   nf = srunner_ntests_failed (sr); 
   srunner_free (sr); 

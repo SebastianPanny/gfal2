@@ -24,8 +24,8 @@
 char *errbuf;
 
 char error_msg[1024];
-
 char file_path[CA_MAXPATHLEN+1];
+
 char file_guid[CA_MAXGUIDLEN+1];
 
 void setup_common() {

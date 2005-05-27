@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.15 $ $Date: 2005/02/04 14:48:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.16 $ $Date: 2005/05/27 08:07:25 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <dirent.h>
 #include <fcntl.h>
+#include <time.h>
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1473,14 +1474,34 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
   char  *p1, *p2;
   char *p;
   int ret;
+  char *vo;
+  char se_env[64];
+  char *default_se;
+  int  localsurl, default_match;
 
   /* skip entries not in the form srm: or sfn:
    * take entry on same domain if it exists else
    * take the first supported entry
    */
   first = -1;
+  localsurl = -1;
   *dname = '\0';
   (void) getdomainnm (dname, sizeof(dname));
+
+  /* and get the default SE, it there is one */
+  if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
+    gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO not set");
+    errno = EINVAL;
+    return (NULL);
+  }
+  if(strlen(vo) + 15 >=  strlen(se_env)) {
+    sprintf(se_env, "VO_%s_DEFAULT_SE", vo);
+    for(i = 3; se_env[i] != '_'; ++i) {
+      se_env[i] = toupper(se_env[i]);
+    }
+  }
+  default_se = getenv(se_env);
+
   for (i = 0; i < size; i++) {
     p = surls[i];
     if (strncmp (p, "srm://", 6) && strncmp (p, "sfn://", 6))
@@ -1489,20 +1510,31 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
     *p1 = '\0';
     if ((p2 = strchr (p + 6, ':')))
       *p2 = '\0';
-    if ((p = strchr (p + 6, '.')) == NULL) continue;
     if (first < 0) first = i;
+    default_match = -1;
+    if(default_se != NULL) {
+      default_match = strcmp(p + 6, default_se);
+    }
+    if ((p = strchr (p + 6, '.')) == NULL) continue;
     ret = strcmp (p + 1, dname);
     *p1 = '/';
     if (p2) *p2 = ':';
-    if (ret == 0) break;	/* domains match ==> local replica */
+    if (default_match == 0) break; /* default se match => replica on default SE */
+    if (ret == 0) localsurl = i;	/* domains match ==> local replica */
   }
-  if (i == size) {	/* no entry on same domain */
+  if (i == size) {	/* no default SE entry */
     if (first < 0) {	/* only non suported entries */
       gfal_errmsg(errbuf, errbufsz, "Only non supported entries. No replica entry starting with \"srm://\" or \"sfn://\".");
       errno = EINVAL;
       return (NULL);
+    } else if(localsurl >= 0) {
+      i = localsurl;
+    } else {
+      /* seed with current time */
+      srand( (unsigned)time( NULL ) );
+      i = (int)((double)size * rand()/(RAND_MAX));
     }
-    i = first;
   }
   return surls[i];
 }
+
