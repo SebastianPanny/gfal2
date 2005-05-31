@@ -1,13 +1,12 @@
 Summary: Grid File Access Library
 Name: GFAL-client
-Version: 1.5.7
+Version: 1.6.0
 Release: 1
 Source0: %{name}-%{version}.src.tar.gz
 License: GPL
 Group: Application/File
 BuildRoot: %{_builddir}/%{name}-%{version}-root
 Prefix: /opt/lcg
-Requires: LFC-client >= 1.1.1
 %define __spec_install_post %{nil}
 %define debug_package %{nil}
 %description
