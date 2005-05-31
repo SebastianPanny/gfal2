@@ -3,9 +3,10 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.26 $ $Date: 2005/05/27 15:11:34 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.27 $ $Date: 2005/05/31 08:52:53 $ CERN James Casey
  */
 #include <sys/types.h>
+#include <dlfcn.h>
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
@@ -18,6 +19,29 @@
 #include "serrno.h"
 
 #define ALLOC_BLOCK_SIZE 16 /* the block size to allocate new pointers in */
+
+struct fc_ops {
+	int	*serrno;
+	char	*(*sstrerror)(int);
+	int	(*addreplica)(const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *);
+	int	(*creatg)(const char *, const char *, mode_t);
+	int	(*delreplica)(const char *, struct lfc_fileid *, const char *);
+	int	(*endtrans)();
+	int	(*getpath)(char *, u_signed64, char *);
+	struct lfc_linkinfo *(*listlinks)(const char *, const char *, int, lfc_list *);
+	struct lfc_filereplica *(*listreplica)(const char *, const char *, int, lfc_list *);
+	int	(*lstat)(const char *, struct lfc_filestat *);
+	int	(*mkdirg)(const char *, const char *, mode_t);
+	int	(*seterrbuf)(char *, int);
+	int	(*setfsizeg)(const char *, u_signed64, const char *, char *);
+	int	(*starttrans)();
+	int	(*statg)(const char *, const char *, struct lfc_filestatg *);
+	int	(*statr)(const char *, struct lfc_filestatg *);
+	int	(*symlink)(const char *, const char *);
+	int	(*unlink)(const char *);
+};
+
+struct fc_ops fcops;
 char *lfc_host = NULL;
 
 static char lfc_env[64];
@@ -110,8 +134,32 @@ lfc_init (char *errbuf, int errbufsz) {
 	return (-1);
       }
     }
+    {
+      void *dlhandle;
+      
+      if ((dlhandle = dlopen ("liblfc.so", RTLD_LAZY)) == NULL)
+        return (-1);
+      fcops.serrno = (int *) dlsym (dlhandle, "serrno");
+      fcops.sstrerror = (char * (*) (int)) dlsym (dlhandle, "sstrerror");
+      fcops.addreplica = (int (*) (const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *)) dlsym (dlhandle, "lfc_addreplica");
+      fcops.creatg = (int (*) (const char *, const char *, mode_t)) dlsym (dlhandle, "lfc_creatg");
+      fcops.delreplica = (int (*) (const char *, struct lfc_fileid *, const char *)) dlsym (dlhandle, "lfc_delreplica");
+      fcops.endtrans = (int (*) ()) dlsym (dlhandle, "lfc_endtrans");
+      fcops.getpath = (int (*) (char *, u_signed64, char *)) dlsym (dlhandle, "lfc_getpath");
+      fcops.listlinks = (struct lfc_linkinfo * (*) (const char *, const char *, int, lfc_list *)) dlsym (dlhandle, "lfc_listlinks");
+      fcops.listreplica = (struct lfc_filereplica * (*) (const char *, const char *, int, lfc_list *)) dlsym (dlhandle, "lfc_listreplica");
+      fcops.lstat = (int (*) (const char *, struct lfc_filestat *)) dlsym (dlhandle, "lfc_lstat");
+      fcops.mkdirg = (int (*) (const char *, const char *, mode_t)) dlsym (dlhandle, "lfc_mkdirg");
+      fcops.seterrbuf = (int (*) (char *, int)) dlsym (dlhandle, "lfc_seterrbuf");
+      fcops.setfsizeg = (int (*) (const char *, u_signed64, const char *, char *)) dlsym (dlhandle, "lfc_setfsizeg");
+      fcops.starttrans = (int (*) ()) dlsym (dlhandle, "lfc_starttrans");
+      fcops.statg = (int (*) (const char *, const char *, struct lfc_filestatg *)) dlsym (dlhandle, "lfc_statg");
+      fcops.statr = (int (*) (const char *, struct lfc_filestatg *)) dlsym (dlhandle, "lfc_statr");
+      fcops.symlink = (int (*) (const char *, const char *)) dlsym (dlhandle, "lfc_symlink");
+      fcops.unlink = (int (*) (const char *)) dlsym (dlhandle, "lfc_unlink");
+    }
   }
-  lfc_seterrbuf(errbuf, errbufsz);
+  fcops.seterrbuf(errbuf, errbufsz);
   return (0);
 }
 
@@ -122,11 +170,11 @@ int lfc_replica_exists(const char *guid, char *errbuf, int errbufsz) {
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
   
-  if((rp = lfc_listreplica(NULL, guid, CNS_LIST_BEGIN, &list)) == NULL) {
-    (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+  if((rp = fcops.listreplica(NULL, guid, CNS_LIST_BEGIN, &list)) == NULL) {
+    (void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
     return (0);
   } else { 
-    (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+    (void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
     return (1);
   }
 }
@@ -139,11 +187,11 @@ lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep, char *errbuf, int errbufs
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
-  if(lfc_statg(NULL, guid, &statg) < 0) {
-    if (serrno < 1000) 
-      errno = serrno;
+  if(fcops.statg(NULL, guid, &statg) < 0) {
+    if (*fcops.serrno < 1000) 
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (-1);
@@ -164,11 +212,11 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
   if(lfc_init(errbuf, errbufsz) < 0)
     return (NULL);
 
-  if(lfc_statr(pfn, &statg) < 0) {
-    if(serrno < 1000)
-      errno = serrno;
+  if(fcops.statr(pfn, &statg) < 0) {
+    if(*fcops.serrno < 1000)
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (NULL);
@@ -187,13 +235,13 @@ lfc_guid_exists (const char *guid, char *errbuf, int errbufsz)
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
-  if(lfc_statg(NULL, guid, &statg) < 0) {
-    if(serrno == ENOENT) 
+  if(fcops.statg(NULL, guid, &statg) < 0) {
+    if(*fcops.serrno == ENOENT) 
 	return (0);
-    if (serrno < 1000) 
-      errno = serrno;
+    if (*fcops.serrno < 1000) 
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (-1);
@@ -213,11 +261,11 @@ lfc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
     return (-1);
   }
   /* We always have available permanent files at the minute */
-  if(lfc_addreplica(guid, NULL, hostname, pfn, '-', '\0', NULL, NULL) < 0) {
-    if (serrno < 1000)
-      errno = serrno;
+  if(fcops.addreplica(guid, NULL, hostname, pfn, '-', '\0', NULL, NULL) < 0) {
+    if (*fcops.serrno < 1000)
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     free(hostname);
@@ -246,12 +294,12 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
   }
 
   flags = CNS_LIST_BEGIN;
-  while((rp = lfc_listreplica(NULL, guid, flags, &list)) != NULL) {
+  while((rp = fcops.listreplica(NULL, guid, flags, &list)) != NULL) {
     if(flags == CNS_LIST_BEGIN) 
       flags = CNS_LIST_CONTINUE;
     
     if((p[i++] = strdup(rp->sfn)) == NULL) {
-      (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+      (void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
       free(p);
       return (NULL);
     }
@@ -259,14 +307,14 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
     if(i >= size) {
       size += ALLOC_BLOCK_SIZE;
       if((pp = (char**)realloc(p, size * sizeof(char*))) == NULL) {
-	(void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+	(void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
 	free(p);
 	return (NULL);
       }
       p = pp;
     }
   } 
-  (void) lfc_listreplica(NULL, guid, CNS_LIST_END, &list);
+  (void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
 
   i++;
   /* and trim */
@@ -313,14 +361,14 @@ lfc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
   
-  if(lfc_delreplica(guid, NULL, pfn) < 0) {
-    if(serrno == ENOENT) {
+  if(fcops.delreplica(guid, NULL, pfn) < 0) {
+    if(*fcops.serrno == ENOENT) {
       return (0);
     }
-    if(serrno < 1000) 
-      errno = serrno;
+    if(*fcops.serrno < 1000) 
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (-1);
@@ -337,11 +385,11 @@ lfc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
   if(lfc_init(errbuf, errbufsz) < 0)
     return (NULL);
 
-  if(lfc_statg(lfn, NULL, &statg) < 0) {
-    if(serrno < 1000)
-      errno = serrno;
+  if(fcops.statg(lfn, NULL, &statg) < 0) {
+    if(*fcops.serrno < 1000)
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (NULL);
@@ -370,12 +418,12 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
   }
 
   flags = CNS_LIST_BEGIN;
-  while((lp = lfc_listlinks(NULL, guid, flags, &list)) != NULL) {
+  while((lp = fcops.listlinks(NULL, guid, flags, &list)) != NULL) {
     if(flags == CNS_LIST_BEGIN) 
       flags = CNS_LIST_CONTINUE;
     
     if((p[i++] = strdup(lp->path)) == NULL) {
-      (void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
+      (void) fcops.listlinks(NULL, guid, CNS_LIST_END, &list);
       free (p);
       return (NULL);
     }
@@ -383,14 +431,14 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
     if(i >= size) {
       size += ALLOC_BLOCK_SIZE;
       if((pp = (char**)realloc(p, size * sizeof(char*))) == NULL) {
-	(void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
+	(void) fcops.listlinks(NULL, guid, CNS_LIST_END, &list);
 	free (p);
 	return (NULL);
       }
       p = pp;
     }
   } 
-  (void) lfc_listlinks(NULL, guid, CNS_LIST_END, &list);
+  (void) fcops.listlinks(NULL, guid, CNS_LIST_END, &list);
   /* no results */
   if( i== 0) {
     errno = ENOENT;
@@ -413,26 +461,26 @@ lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *err
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
-  lfc_starttrans();
-  if(lfc_creatg(lfn, guid, 0777) < 0) {
-    if(serrno < 1000) 
-      errno = serrno;
+  fcops.starttrans();
+  if(fcops.creatg(lfn, guid, 0777) < 0) {
+    if(*fcops.serrno < 1000) 
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (-1);
   }
-  if(lfc_setfsizeg(guid, size, NULL, NULL) < 0) {
-    if(serrno < 1000)
-      errno = serrno;
+  if(fcops.setfsizeg(guid, size, NULL, NULL) < 0) {
+    if(*fcops.serrno < 1000)
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (-1);
   }
-  lfc_endtrans();
+  fcops.endtrans();
   return (0);
 }
 
@@ -445,38 +493,38 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
-  lfc_starttrans();
-  if(lfc_statg(NULL, guid, &statg) < 0) {
-    if(serrno < 1000) 
-      errno = serrno;
+  fcops.starttrans();
+  if(fcops.statg(NULL, guid, &statg) < 0) {
+    if(*fcops.serrno < 1000) 
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (-1);
   }
   /* now we do a getpath() to get the master lfn */
-  if (lfc_getpath(lfc_host, statg.fileid, master_lfn) <0 ) {
-    if (serrno < 1000)
-      errno = serrno;
+  if (fcops.getpath(lfc_host, statg.fileid, master_lfn) <0 ) {
+    if (*fcops.serrno < 1000)
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (-1);
   }
 
   /* and finally register */
-  if(lfc_symlink(master_lfn, lfn) < 0) {
-    if (serrno < 1000)
-      errno = serrno;
+  if(fcops.symlink(master_lfn, lfn) < 0) {
+    if (*fcops.serrno < 1000)
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (-1);
   }
-  lfc_endtrans();
+  fcops.endtrans();
   return (0);
 }
 
@@ -489,16 +537,16 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
-  lfc_starttrans();
+  fcops.starttrans();
   /*  In the case of the master lfn being unlinked already, statg will
       return ENOENT.  We then check lstat in case it's a hanging link ?  */
-  if(lfc_statg(lfn, guid, &statg) < 0 ) {
-    if (serrno == ENOENT) {
-      if(lfc_lstat(lfn, &stat) < 0 ) {
-	if(serrno < 1000 ) 
-	  errno = serrno;
+  if(fcops.statg(lfn, guid, &statg) < 0 ) {
+    if (*fcops.serrno == ENOENT) {
+      if(fcops.lstat(lfn, &stat) < 0 ) {
+	if(*fcops.serrno < 1000 ) 
+	  errno = *fcops.serrno;
 	else {
-	  gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+	  gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
 	  errno = ECOMM;
 	}
 	return (-1);
@@ -506,10 +554,10 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 	/* all ok, continue */
       }
     } else {
-      if(serrno < 1000) 
-	errno = serrno;
+      if(*fcops.serrno < 1000) 
+	errno = *fcops.serrno;
       else {
-	gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+	gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
 	errno = ECOMM;
       }
       return (-1);
@@ -517,16 +565,16 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
   }
 
   /* lfn maps to the guid - unlink it */
-  if(lfc_unlink(lfn) < 0) {
-    if(serrno < 1000) 
-      errno = serrno;
+  if(fcops.unlink(lfn) < 0) {
+    if(*fcops.serrno < 1000) 
+      errno = *fcops.serrno;
     else {
-      gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
       errno = ECOMM;
     }
     return (-1);
   }
-  lfc_endtrans();
+  fcops.endtrans();
   return (0);
 }
 
@@ -557,16 +605,16 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
   while (p > p1) {
     if (lastslash == NULL) lastslash = p;
     *p = '\0';
-    c = lfc_statg (sav_path, NULL, &statbuf);
+    c = fcops.statg (sav_path, NULL, &statbuf);
     if (c == 0) {
       *p = '/';
       break;
     }
-    if (serrno != ENOENT) {
-      if(serrno < 1000) 
-	errno = serrno;
+    if (*fcops.serrno != ENOENT) {
+      if(*fcops.serrno < 1000) 
+	errno = *fcops.serrno;
       else {
-	gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+	gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
 	errno = ECOMM;
       }
       return (c);
@@ -580,12 +628,12 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
     *p = '\0';
     uuid_generate(uuid);
     uuid_unparse(uuid, uuid_buf);
-    c = lfc_mkdirg (sav_path, uuid_buf, mode);
+    c = fcops.mkdirg (sav_path, uuid_buf, mode);
     if(c != 0) {
-      if (serrno < 1000)
-	errno = serrno;
+      if (*fcops.serrno < 1000)
+	errno = *fcops.serrno;
       else {
-	gfal_errmsg(errbuf, errbufsz, sstrerror(serrno));
+	gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
 	errno = ECOMM;
       }
     }
