@@ -1,25 +1,21 @@
 #
-#  Copyright (C) 2003-2004 by CERN
+#  Copyright (C) 2003-2005 by CERN
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.16 $ $Date: 2005/01/06 15:33:00 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.17 $ $Date: 2005/05/31 10:59:24 $ CERN Jean-Philippe Baud
 #
 
-# Edit the following 2 lines to put the actual path
+# Edit the following line to put the actual path
 
-XERCES = /opt/xerces-2_4_0
-GSOAP = /opt/gsoap-linux-2.3
-GSOAP_IMP = /opt/gsoap-linux-2.2.3
+GSOAP = /opt/gsoap-linux-2.6
 
 # To configure LFC integration
-LFC = $(prefix)/opt/lcg
-LFCINC=-I$(LFC)/include/lfc
-LFCLIB=-L$(LFC)/lib -llfc -lshift -luuid
+LFCINC=-I$(prefix)/opt/lcg/include/lfc
 
 # To enable RFIO support, uncomment the next 2 lines
 RFIOFLG = -DGFAL_ENABLE_RFIO
-RFIOINC = -I/usr/include/shift -I/usr/local/include/shift
+RFIOINC = -I/usr/include/shift -I/usr/local/include/shift -I$(prefix)/opt/lcg/include/dpm
 
 # To enable DCAP support, uncomment the next 2 lines
 DCAPFLG = -DGFAL_ENABLE_DCAP
@@ -34,8 +30,8 @@ SECFLG = -DGFAL_SECURE
 GLOBUS_FLAVOUR=gcc32dbg
 GLOBUS_LIBS=-L/opt/globus/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR)
 GLOBUS_LIBS_PTHR=-L/opt/globus/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR)pthr -lglobus_gss_assist_$(GLOBUS_FLAVOUR)pthr
-SECLIB = -lcgsi_plugin_gsoap_2.3 $(GLOBUS_LIBS)
-SECLIB_PTHR = -lcgsi_plugin_gsoap_2.3 $(GLOBUS_LIBS_PTHR)
+SECLIB = -lcgsi_plugin_gsoap_2.6 $(GLOBUS_LIBS)
+SECLIB_PTHR = -lcgsi_plugin_gsoap_2.6 $(GLOBUS_LIBS_PTHR)
 
 
 # End of the part to be edited
@@ -47,7 +43,6 @@ distdir = $(PACKAGE)-$(VERSION)
 CC = cc -g -fPIC -D_LARGEFILE64_SOURCE
 SHLIBLDFLAGS = -shared
 
-CLASSPATH = $(GSOAP_IMP)/wsdlcpp:$(XERCES)/xmlParserAPIs.jar:$(XERCES)/xercesImpl.jar
 GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm_ifce.o srmC.o srmClient.o stdsoap2.o lfc_ifce.o
 
 all: libgfal.a libgfal.so libgfal_pthr.so gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
@@ -55,23 +50,23 @@ all: libgfal.a libgfal.so libgfal_pthr.so gfal_testdir gfal_testget gfal_testrea
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
 libgfal.so: $(GFAL_OBJS)
-	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) $(LFCLIB) -lc -lldap -ldl
+	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) -luuid -lc -lldap -ldl
 libgfal_pthr.so: $(GFAL_OBJS)
-	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) $(LFCLIB) -lc -lldap -ldl
+	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -luuid -lc -lldap -ldl
 
 checkprotolib.o: gfal.h
 	$(CC) -c $(PROTOFLG) checkprotolib.c
 gfal.o: gfal.h gfal_api.h gfal_constants.h
 	$(CC) -c $(SECFLG) gfal.c
-lrc_ifce.o: lrcH.h lrcStub.h lrcC.c lrcClient.c soapEdgLocalReplicaCatalogService+.nsmap lrc_ifce.c
+lrc_ifce.o: lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap lrc_ifce.c
 	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL lrc_ifce.c
-rmc_ifce.o: rmcH.h rmcStub.h rmcC.c rmcClient.c soapEdgReplicaMetadataCatalogService+.nsmap rmc_ifce.c
+rmc_ifce.o: rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap rmc_ifce.c
 	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL rmc_ifce.c
 lfc_ifce.o: lfc_ifce.c
 	$(CC) -c $(LFCINC) $(SECFLG) lfc_ifce.c
-se_ifce.o: seH.h seStub.h seC.c seClient.c soapEdgSeWebserviceService+.nsmap
+se_ifce.o: seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding+.nsmap
 	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL se_ifce.c
-srm_ifce.o: srmH.h srmStub.h soapSRMServerV1.nsmap
+srm_ifce.o: srmH.h srmStub.h ISRM.nsmap
 	$(CC) -c -I$(GSOAP) $(SECFLG) srm_ifce.c
 srmC.o:
 	$(CC) -c -I$(GSOAP) srmC.c
@@ -80,43 +75,43 @@ srmClient.o:
 stdsoap2.o: $(GSOAP)/stdsoap2.c
 	$(CC) -c -I$(GSOAP) $(GSOAP)/stdsoap2.c
 
-soapEdgLocalReplicaCatalogService+.nsmap: soapEdgLocalReplicaCatalogService.nsmap
+edg_local_replica_catalogSoapBinding+.nsmap: edg_local_replica_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_lrc/' $? > $@
-soapEdgReplicaMetadataCatalogService+.nsmap: soapEdgReplicaMetadataCatalogService.nsmap
+edg_replica_metadata_catalogSoapBinding+.nsmap: edg_replica_metadata_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_rmc/' $? > $@
-soapEdgSeWebserviceService+.nsmap: soapEdgSeWebserviceService.nsmap
+edg_se_webserviceSoapBinding+.nsmap: edg_se_webserviceSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_se/' $? > $@
 
-lrcH.h lrcStub.h lrcC.c lrcClient.c soapEdgLocalReplicaCatalogService.nsmap: edg-local-replica-catalog.h
+lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding.nsmap: edg-local-replica-catalog.h
 	$(GSOAP)/soapcpp2 -c -p lrc edg-local-replica-catalog.h
-rmcH.h rmcStub.h rmcC.c rmcClient.c soapEdgReplicaMetadataCatalogService.nsmap: edg-replica-metadata-catalog.h
+rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding.nsmap: edg-replica-metadata-catalog.h
 	$(GSOAP)/soapcpp2 -c -p rmc edg-replica-metadata-catalog.h
-seH.h seStub.h seC.c seClient.c soapEdgSeWebserviceService.nsmap: edg-se-webservice.h
+seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding.nsmap: edg-se-webservice.h
 	$(GSOAP)/soapcpp2 -c -p se edg-se-webservice.h
-srmH.h srmStub.h srmC.c srmClient.c soapSRMServerV1.nsmap: srm.v1.1.h
+srmH.h srmStub.h srmC.c srmClient.c ISRM.nsmap: srm.v1.1.h
 	$(GSOAP)/soapcpp2 -c -p srm srm.v1.1.h
 
 edg-local-replica-catalog.h: edg-local-replica-catalog.wsdl
-	java -classpath $(CLASSPATH) wsdlcpp -c edg-local-replica-catalog.wsdl
+	$(GSOAP)/wsdl2h -c -t typemap.dat edg-local-replica-catalog.wsdl
 edg-replica-metadata-catalog.h: edg-replica-metadata-catalog.wsdl
-	java -classpath $(CLASSPATH) wsdlcpp -c edg-replica-metadata-catalog.wsdl
+	$(GSOAP)/wsdl2h -c -t typemap.dat edg-replica-metadata-catalog.wsdl
 edg-se-webservice.h: edg-se-webservice.wsdl
-	java -classpath $(CLASSPATH) wsdlcpp -c edg-se-webservice.wsdl
+	$(GSOAP)/wsdl2h -c -t typemap.dat edg-se-webservice.wsdl
 srm.v1.1.h: srm.v1.1.wsdl
-	java -classpath $(CLASSPATH) wsdlcpp -c srm.v1.1.wsdl
+	$(GSOAP)/wsdl2h -c -t typemap.dat srm.v1.1.wsdl
 
 gfal_testdir: gfal_api.h libgfal.so
-	$(CC) -o gfal_testdir gfal_testdir.c -L. -lgfal $(SECLIB) $(LFCLIB)
+	$(CC) -o gfal_testdir gfal_testdir.c -L. -lgfal $(SECLIB) -luuid
 gfal_testget: gfal_api.h libgfal.so
-	$(CC) -o gfal_testget gfal_testget.c -L. -lgfal $(SECLIB) $(LFCLIB)
+	$(CC) -o gfal_testget gfal_testget.c -L. -lgfal $(SECLIB) -luuid
 gfal_testread: gfal_api.h libgfal.so
-	$(CC) -o gfal_testread gfal_testread.c -L. -lgfal $(SECLIB) $(LFCLIB)
+	$(CC) -o gfal_testread gfal_testread.c -L. -lgfal $(SECLIB) -luuid
 gfal_testrw: gfal_api.h libgfal.so
-	$(CC) -o gfal_testrw gfal_testrw.c -L. -lgfal $(SECLIB) $(LFCLIB)
+	$(CC) -o gfal_testrw gfal_testrw.c -L. -lgfal $(SECLIB) -luuid
 gfal_teststat: gfal_api.h libgfal.so
-	$(CC) -o gfal_teststat gfal_teststat.c -L. -lgfal $(SECLIB) $(LFCLIB)
+	$(CC) -o gfal_teststat gfal_teststat.c -L. -lgfal $(SECLIB) -luuid
 gfal_testunlink: gfal_api.h libgfal.so
-	$(CC) -o gfal_testunlink gfal_testunlink.c -L. -lgfal $(SECLIB) $(LFCLIB)
+	$(CC) -o gfal_testunlink gfal_testunlink.c -L. -lgfal $(SECLIB) -luuid
 
 install: $(prefix)/opt/lcg/bin \
 	 $(prefix)/opt/lcg/bin/gfal_testdir \
@@ -253,6 +248,6 @@ rpm: dist GFAL.spec
 test: all
 	cd test && make test
 clean:
-	rm -rf tmp SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Stub.h *C.c *Client.c *Server.c *ClientLib.c *ServerLib.c *Proxy.h *.xml *.xsd *.nsmap $(distdir) 
+	rm -rf tmp SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Object.h *Proxy.h *Stub.h *C.c *Client.c *Lib.c *Server.c *.nsmap *.xml $(distdir) 
 clobber: clean
 	rm -f libgfal.a gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
