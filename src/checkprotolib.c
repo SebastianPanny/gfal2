@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.4 $ $Date: 2004/06/10 11:33:54 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.5 $ $Date: 2005/05/31 08:54:36 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -13,6 +13,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #if defined(_WIN32)
 #include <io.h>
@@ -126,8 +127,21 @@ mapdcaperror (struct proto_ops *pops, int ioflag)
 checkrfiolib (struct proto_ops *pops)
 {
 	void *dlhandle;
+	char *p;
 
-	if ((dlhandle = dlopen ("libshift.so", RTLD_LAZY)) == NULL) {
+	p = getenv ("LCG_RFIO_TYPE");
+	if (p && strcmp (p, "dpm") == 0) {
+		if ((dlhandle = dlopen ("libdpm.so", RTLD_LAZY)) == NULL) {
+			pops->libok == -1;
+			return (-1);
+		}
+	} else if (p && strcmp (p, "castor") == 0) {
+		if ((dlhandle = dlopen ("libshift.so", RTLD_LAZY)) == NULL) {
+			pops->libok == -1;
+			return (-1);
+		}
+	} else if ((dlhandle = dlopen ("libshift.so", RTLD_LAZY)) == NULL &&
+	    (dlhandle = dlopen ("libdpm.so", RTLD_LAZY)) == NULL) {
 		pops->libok == -1;
 		return (-1);
 	}
