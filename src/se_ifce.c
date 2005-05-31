@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.5 $ $Date: 2005/02/03 17:07:42 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.6 $ $Date: 2005/05/31 08:53:40 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -18,7 +18,7 @@
 #undef SOAP_FMAC5
 #define SOAP_FMAC5 static
 #include "seH.h"
-#include "soapEdgSeWebserviceService+.nsmap"
+#include "edg_se_webserviceSoapBinding+.nsmap"
 #ifdef GFAL_SECURE
 #include "cgsi_plugin.h"
 #endif
@@ -46,7 +46,7 @@ se_init (struct soap *soap, const char *surl, char *srm_endpoint,
 
 se_deletesurl (const char *surl, char *errbuf, int errbufsz)
 {
-	struct impl__deleteResponse out;
+	struct ns1__deleteResponse out;
 	struct soap soap;
 	char srm_endpoint[256];
 
@@ -56,7 +56,7 @@ se_deletesurl (const char *surl, char *errbuf, int errbufsz)
 
 	/* issue "delete" request */
 
-	if (soap_call_impl__delete (&soap, srm_endpoint,
+	if (soap_call_ns1__delete (&soap, srm_endpoint,
 	    "delete", (char *)surl + 6, &out)) {
 		soap_print_fault (&soap, stderr);
 		soap_end (&soap);
@@ -70,7 +70,7 @@ se_deletesurl (const char *surl, char *errbuf, int errbufsz)
 
 se_mkdir (const char *dir, char *errbuf, int errbufsz)
 {
-	struct impl__mkdirResponse out;
+	struct ns1__mkdirResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
@@ -82,7 +82,7 @@ se_mkdir (const char *dir, char *errbuf, int errbufsz)
 
 	/* issue "mkdir" request */
 
-	if ((ret = soap_call_impl__mkdir (&soap, srm_endpoint,
+	if ((ret = soap_call_ns1__mkdir (&soap, srm_endpoint,
 	    "mkdir", (char *)dir + 6, &out))) {
 		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 			if (strstr (soap.fault->faultstring, "does not exist"))
@@ -150,16 +150,16 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 	int *fileid, char **token, char *errbuf, int errbufsz)
 {
 	int nbproto = 0;
-	struct impl__cacheResponse outg;
-	struct impl__createResponse outp;
-	struct impl__getTurlResponse outq;
+	struct ns1__cacheResponse outg;
+	struct ns1__createResponse outp;
+	struct ns1__getTurlResponse outq;
 	char *p;
-	struct ArrayOf_USCORE_xsd_USCORE_string protoarray;
+	struct ArrayOf_USCORExsd_USCOREstring protoarray;
 	int ret;
 	int sav_errno;
 	struct soap soap;
 	char srm_endpoint[256];
-	xsd__long zero = 0;
+	LONG64 zero = 0;
 
 	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
 	    errbuf, errbufsz) < 0)
@@ -171,10 +171,9 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 
 	protoarray.__ptr = protocols;
 	protoarray.__size = nbproto;
-	protoarray.__offset = 0;
 
 	if ((oflag & O_ACCMODE) == 0) {
-		if ((ret = soap_call_impl__cache (&soap, srm_endpoint, "cache",
+		if ((ret = soap_call_ns1__cache (&soap, srm_endpoint, "cache",
 		    (char *)surl + 6, "read", 36000, &outg))) {
 			if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 				if (strstr (soap.fault->faultstring, "STFN not found"))
@@ -197,7 +196,7 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 		}
 	} else {
 retry:
-		if ((ret = soap_call_impl__create (&soap, srm_endpoint, "create",
+		if ((ret = soap_call_ns1__create (&soap, srm_endpoint, "create",
 		    (char *)surl + 6, zero, "x", 36000, &outp))) {
 			if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 				if (strstr (soap.fault->faultstring, "o such file"))
@@ -223,7 +222,7 @@ retry:
 			return (NULL);
 		}
 	}
-	if (soap_call_impl__getTurl (&soap, srm_endpoint, "getTurl", *token,
+	if (soap_call_ns1__getTurl (&soap, srm_endpoint, "getTurl", *token,
 	    &protoarray, &outq)) {
 		soap_print_fault (&soap, stderr);
 		soap_end (&soap);
@@ -243,7 +242,7 @@ se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbuf
 	char *dp;
 	struct group *gr;
 	int i;
-	struct impl__getMetadataResponse out;
+	struct ns1__getMetadataResponse out;
 	char *p;
 	struct passwd *pw;
 	char *q;
@@ -258,7 +257,7 @@ se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbuf
 
 	/* issue "getMetadata" request */
 
-	if ((ret = soap_call_impl__getMetadata (&soap, srm_endpoint,
+	if ((ret = soap_call_ns1__getMetadata (&soap, srm_endpoint,
 	    "getMetadata", (char *)surl + 6, &out))) {
 		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 			if (strstr (soap.fault->faultstring, "does not exist"))
@@ -302,8 +301,8 @@ se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbuf
 se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
 	int oflag, char *errbuf, int errbufsz)
 {
-	struct impl__abandonResponse outa;
-	struct impl__commitResponse outc;
+	struct ns1__abandonResponse outa;
+	struct ns1__commitResponse outc;
 	struct soap soap;
 	char srm_endpoint[256];
 
@@ -313,7 +312,7 @@ se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
 
 	if ((oflag & O_ACCMODE) == 0) {
 /*		not implemented yet 
-		if (soap_call_impl__abandon (&soap, srm_endpoint,
+		if (soap_call_ns1__abandon (&soap, srm_endpoint,
 		    "abandon", token, &outa)) {
 			soap_print_fault (&soap, stderr);
 			soap_end (&soap);
@@ -322,7 +321,7 @@ se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
 		}
 */
 	} else {
-		if (soap_call_impl__commit (&soap, srm_endpoint,
+		if (soap_call_ns1__commit (&soap, srm_endpoint,
 		    "commit", token, &outc)) {
 			soap_print_fault (&soap, stderr);
 			soap_end (&soap);

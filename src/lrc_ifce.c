@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.11 $ $Date: 2005/02/04 14:48:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.12 $ $Date: 2005/05/31 08:53:40 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -14,7 +14,7 @@
 #undef SOAP_FMAC5
 #define SOAP_FMAC5 static
 #include "lrcH.h"
-#include "soapEdgLocalReplicaCatalogService+.nsmap"
+#include "edg_local_replica_catalogSoapBinding+.nsmap"
 #ifdef GFAL_SECURE
 #include "cgsi_plugin.h"
 #endif
@@ -52,7 +52,7 @@ lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 int
 lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
 {
-	struct impl__getPfnsResponse out;
+	struct ns3__getPfnsResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
@@ -61,7 +61,7 @@ lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_impl__getPfns (&soap, lrc_endpoint, "",
+	if (ret = soap_call_ns3__getPfns (&soap, lrc_endpoint, "",
 	    (char *) guid, &out)) {
 		if (ret == SOAP_FAULT) {
 		  if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
@@ -87,7 +87,7 @@ lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
 char *
 lrc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 {
-	struct impl__guidForPfnResponse out;
+	struct ns3__guidForPfnResponse out;
 	char *p;
 	int ret;
 	int sav_errno;
@@ -96,7 +96,7 @@ lrc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_impl__guidForPfn (&soap, lrc_endpoint, "",
+	if (ret = soap_call_ns3__guidForPfn (&soap, lrc_endpoint, "",
 	    (char *) pfn, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
@@ -118,14 +118,14 @@ lrc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 
 lrc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 {
-	struct impl__guidExistsResponse out;
+	struct ns3__guidExistsResponse out;
 	int ret;
 	struct soap soap;
 
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_impl__guidExists (&soap, lrc_endpoint, "",
+	if (ret = soap_call_ns3__guidExists (&soap, lrc_endpoint, "",
 	    (char *) guid, &out)) {
 		soap_end (&soap);
 		soap_done (&soap);
@@ -140,7 +140,7 @@ lrc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 
 lrc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
-	struct impl__addMappingResponse out;
+	struct ns3__addMappingResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
@@ -148,7 +148,7 @@ lrc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_impl__addMapping (&soap, lrc_endpoint, "",
+	if (ret = soap_call_ns3__addMapping (&soap, lrc_endpoint, "",
 	    (char *) guid, (char *) pfn, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "PFNEXISTS"))
@@ -171,7 +171,7 @@ lrc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 
 lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
 {
-	struct impl__setStringPfnAttributeResponse out;
+	struct ns3__setStringPfnAttributeResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
@@ -181,7 +181,7 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 		return (-1);
 
 	sprintf (tmpbuf, GFAL_LONG64_FORMAT, filesize);
-	if (ret = soap_call_impl__setStringPfnAttribute (&soap, lrc_endpoint,
+	if (ret = soap_call_ns3__setStringPfnAttribute (&soap, lrc_endpoint,
 	    "", (char *) pfn, "size", tmpbuf, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
@@ -203,7 +203,7 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 char *
 lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 {
-	struct impl__getPfnsResponse out;
+	struct ns3__getPfnsResponse out;
 	char *p, *result;
 	int ret;
 	int sav_errno;
@@ -213,7 +213,7 @@ lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_impl__getPfns (&soap, lrc_endpoint, "",
+	if (ret = soap_call_ns3__getPfns (&soap, lrc_endpoint, "",
 	    (char *) guid, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
@@ -248,7 +248,7 @@ lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 {
 	int i;
 	int j;
-	struct impl__getPfnsResponse out;
+	struct ns3__getPfnsResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
@@ -257,7 +257,7 @@ lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_impl__getPfns (&soap, lrc_endpoint, "",
+	if (ret = soap_call_ns3__getPfns (&soap, lrc_endpoint, "",
 	    (char *) guid, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
@@ -271,13 +271,20 @@ lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 		errno = sav_errno;
 		return (NULL);
 	}
-	if ((surlarray = calloc (out._getPfnsReturn->__size + 1, sizeof(char *))) == NULL)
+	if ((surlarray = calloc (out._getPfnsReturn->__size + 1, sizeof(char *))) == NULL) {
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ENOMEM;
 		return (NULL);
+	}
 	for (i = 0; i < out._getPfnsReturn->__size; i++) {
 		if ((surlarray[i] = strdup (out._getPfnsReturn->__ptr[i])) == NULL) {
 			for (j = 0; j < i; j++)
 				free (surlarray[j]);
 			free (surlarray);
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ENOMEM;
 			return (NULL);
 		}
 	}
@@ -288,14 +295,14 @@ lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 
 lrc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
-	struct impl__removeMappingResponse out;
+	struct ns3__removeMappingResponse out;
 	int ret;
 	struct soap soap;
 
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_impl__removeMapping (&soap, lrc_endpoint, "",
+	if (ret = soap_call_ns3__removeMapping (&soap, lrc_endpoint, "",
 	    (char *) guid, (char *) pfn, &out)) {
 		soap_end (&soap);
 		soap_done (&soap);
