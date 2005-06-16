@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.12 $ $Date: 2005/05/27 15:14:19 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.13 $ $Date: 2005/06/16 09:35:22 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -374,7 +374,7 @@ get_se_endpoint (const char *host, char **se_endpoint)
 get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbufsz)
 {
 	static char se_ep_atnm[] = "GlueServiceURI";
-	static char *template = "(GlueServiceURI=*%s*)";
+	static char *template = "(&(GlueServiceURI=*%s*)(GlueServiceType=srm_v1))";
 	char *attr;
 	static char *attrs[] = {se_ep_atnm, NULL};
 	int bdii_port;
