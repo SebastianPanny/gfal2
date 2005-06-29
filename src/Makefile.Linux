@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.18 $ $Date: 2005/06/29 14:02:37 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.19 $ $Date: 2005/06/29 14:10:21 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following line to put the actual path
@@ -63,7 +63,7 @@ lrc_ifce.o: lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBin
 rmc_ifce.o: rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap rmc_ifce.c
 	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL rmc_ifce.c
 lfc_ifce.o: lfc_ifce.c
-	$(CC) -c -DVERSION="GFAL-$(VERSION)" $(LFCINC) $(SECFLG) lfc_ifce.c
+	$(CC) -c -DVERSION=\"GFAL-$(VERSION)\" $(LFCINC) $(SECFLG) lfc_ifce.c
 se_ifce.o: seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding+.nsmap
 	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL se_ifce.c
 srm_ifce.o: srmH.h srmStub.h ISRM.nsmap
