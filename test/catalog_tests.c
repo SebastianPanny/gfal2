@@ -787,6 +787,44 @@ START_TEST(test_delete_lfns_master_first) {
   fail("Should have ENOENT on lfnsforguid() with non-existent guid");
 }END_TEST
 
+/** test_session - check that sessions behave */
+/*
+START_TEST(test_session) {
+  lfc_startsess(NULL,NULL);
+
+  lfc_endsess();
+
+  lfc_startsess(NULL, "Just testing");
+  lfc_endsess();
+
+
+  lfc_startsess(NULL, "first");
+  lfc_startsess(NULL, "second");
+}END_TEST
+
+START_TEST(test_session_with_query) {
+  int exists;
+  char nexist_guid[CA_MAXGUIDLEN+1];
+
+  lfc_startsess(NULL, "gfal-unit-test-suite");
+  if((exists = guid_exists(file_guid, errbuf, ERRBUFSZ)) < 0) {
+    sprintf(error_msg, "Could not check guid existence  %s : %s\n", 
+	    file_guid, strerror(errno));
+    fail(error_msg);
+  }
+  fail_unless(exists, "guid should exist");
+  
+  helper_make_guid(nexist_guid);
+  if((exists = guid_exists(nexist_guid, errbuf, ERRBUFSZ)) < 0) {
+    sprintf(error_msg, "Could not check guid existence  %s : %s\n", 
+	    nexist_guid, strerror(errno));
+    fail(error_msg);
+  }
+  fail_unless(!exists, "guid should not exist");
+  lfc_endsess();
+
+}END_TEST
+*/
 Suite *add_catalog_tests(Suite *s) { 
 
   TCase *tc_catalog_env;
@@ -805,7 +843,6 @@ Suite *add_catalog_tests(Suite *s) {
   tc_edg_catalog = tcase_create("EDGCatalogs");
   //suite_add_tcase(s, tc_edg_catalog);
   tcase_add_checked_fixture(tc_edg_catalog, setup_edg_catalog, teardown_common);
-
   //tcase_add_test(tc_edg_catalog, test_guid_exists);
   tcase_add_test(tc_edg_catalog, test_create_lfn);
   //tcase_add_test(tc_edg_catalog, test_register_before_create);
@@ -835,7 +872,6 @@ Suite *add_catalog_tests(Suite *s) {
   suite_add_tcase(s, tc_lfc_catalog);
 
   tcase_add_checked_fixture(tc_lfc_catalog, setup_lfc_catalog, teardown_common);
-
   tcase_add_test(tc_lfc_catalog, test_guid_exists);
   tcase_add_test(tc_lfc_catalog, test_create_lfn);
   tcase_add_test(tc_lfc_catalog, test_register_before_create);
@@ -857,6 +893,9 @@ Suite *add_catalog_tests(Suite *s) {
 
   tcase_add_test(tc_lfc_catalog, test_lfnsforguid);
   tcase_add_test(tc_lfc_catalog, test_delete_lfns_master_first);
+
+//  tcase_add_test(tc_lfc_catalog, test_session);
+//  tcase_add_test(tc_lfc_catalog, test_session_with_query);
 
   return s; 
 }

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.27 $ $Date: 2005/05/31 08:52:53 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.28 $ $Date: 2005/06/29 14:02:37 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -34,7 +34,7 @@ struct fc_ops {
 	int	(*mkdirg)(const char *, const char *, mode_t);
 	int	(*seterrbuf)(char *, int);
 	int	(*setfsizeg)(const char *, u_signed64, const char *, char *);
-	int	(*starttrans)();
+	int	(*starttrans)(const char *, const char *);
 	int	(*statg)(const char *, const char *, struct lfc_filestatg *);
 	int	(*statr)(const char *, struct lfc_filestatg *);
 	int	(*symlink)(const char *, const char *);
@@ -46,6 +46,7 @@ char *lfc_host = NULL;
 
 static char lfc_env[64];
 static char lfc_penv[64];
+static char *gfal_version = VERSION;
 
 /** extract a hostname from a SURL.  We search for "://" to get the start of
     the hostname.  Then we keep going to the next slash, colon or end of the
@@ -152,7 +153,7 @@ lfc_init (char *errbuf, int errbufsz) {
       fcops.mkdirg = (int (*) (const char *, const char *, mode_t)) dlsym (dlhandle, "lfc_mkdirg");
       fcops.seterrbuf = (int (*) (char *, int)) dlsym (dlhandle, "lfc_seterrbuf");
       fcops.setfsizeg = (int (*) (const char *, u_signed64, const char *, char *)) dlsym (dlhandle, "lfc_setfsizeg");
-      fcops.starttrans = (int (*) ()) dlsym (dlhandle, "lfc_starttrans");
+      fcops.starttrans = (int (*) (const char*, const char*)) dlsym (dlhandle, "lfc_starttrans");
       fcops.statg = (int (*) (const char *, const char *, struct lfc_filestatg *)) dlsym (dlhandle, "lfc_statg");
       fcops.statr = (int (*) (const char *, struct lfc_filestatg *)) dlsym (dlhandle, "lfc_statr");
       fcops.symlink = (int (*) (const char *, const char *)) dlsym (dlhandle, "lfc_symlink");
@@ -169,7 +170,6 @@ int lfc_replica_exists(const char *guid, char *errbuf, int errbufsz) {
 
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
-  
   if((rp = fcops.listreplica(NULL, guid, CNS_LIST_BEGIN, &list)) == NULL) {
     (void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
     return (0);
@@ -461,7 +461,7 @@ lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *err
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
-  fcops.starttrans();
+  fcops.starttrans(NULL, gfal_version);
   if(fcops.creatg(lfn, guid, 0777) < 0) {
     if(*fcops.serrno < 1000) 
       errno = *fcops.serrno;
@@ -493,7 +493,7 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
-  fcops.starttrans();
+  fcops.starttrans(NULL, gfal_version);
   if(fcops.statg(NULL, guid, &statg) < 0) {
     if(*fcops.serrno < 1000) 
       errno = *fcops.serrno;
@@ -537,7 +537,7 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
-  fcops.starttrans();
+  fcops.starttrans(NULL, gfal_version);
   /*  In the case of the master lfn being unlinked already, statg will
       return ENOENT.  We then check lstat in case it's a hanging link ?  */
   if(fcops.statg(lfn, guid, &statg) < 0 ) {
