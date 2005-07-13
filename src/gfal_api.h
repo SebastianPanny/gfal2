@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003-2004 by CERN
+ * Copyright (C) 2003-2005 by CERN
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.17 $ $Date: 2005/02/04 14:48:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.18 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -96,13 +96,13 @@ char **surlsfromguid (const char *, char *, int);
 int setfilesize (const char *, GFAL_LONG64, char *, int);
 
                 /* storage operation entry points */
-int deletesurl (const char *, char *, int);
+int deletesurl (const char *, char *, int, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
-int getfilemd (const char *, struct stat64 *, char *, int);
+int getfilemd (const char *, struct stat64 *, char *, int, int);
 #endif
-int set_xfer_done (const char *, int, int, char *, int, char *, int);
-int set_xfer_running (const char *, int, int, char *, char *, int);
-char *turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int);
+int set_xfer_done (const char *, int, int, char *, int, char *, int, int);
+int set_xfer_running (const char *, int, int, char *, char *, int, int);
+char *turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
 
 		/* Internal functions */
 int deletepfn (const char *, const char *, char *, int);
@@ -124,8 +124,8 @@ int get_se_typex (const char *, char **, char *, int);
 int get_seap_info (const char *, char ***, int **);
 int get_seap_infox (const char *, char ***, int **, char *, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
-int se_getfilemd (const char *, struct stat64 *, char *, int);
-int srm_getfilemd (const char *, struct stat64 *, char *, int);
+int se_getfilemd (const char *, struct stat64 *, char *, int, int);
+int srm_getfilemd (const char *, struct stat64 *, char *, int, int);
 #endif
 int lfc_getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
 int lfc_create_alias (const char *, const char *, GFAL_LONG64, char *, int);
@@ -160,19 +160,19 @@ int rmc_register_alias (const char *, const char *, char *, int);
 int rmc_register_pfn (const char *, const char *, char *, int);
 int rmc_unregister_alias (const char *, const char *, char *, int);
 int rmc_unregister_pfn (const char *, const char *, char *, int);
-int se_deletesurl (const char *, char *, int);
-int se_set_xfer_done (const char *, int, int, char *, int, char *, int);
+int se_deletesurl (const char *, char *, int, int);
+int se_set_xfer_done (const char *, int, int, char *, int, char *, int, int);
 int se_set_xfer_running (const char *, int, int, char *, char *, int);
-char *se_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int);
+char *se_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
 int setypefromsurl (const char *, char **, char *, int);
-int srm_deletesurl (const char *, char *, int);
-int srm_get (int, char **, int, char **, int *, char **, struct srm_filestatus **);
-int srm_getx (int, char **, int, char **, int *, char **, struct srm_filestatus **, char *, int);
-int srm_getstatus (int, char **, int, char *, struct srm_filestatus **);
-int srm_getstatusx (int, char **, int, char *, struct srm_filestatus **, char *, int);
-int srm_set_xfer_done (const char *, int, int, char *, int, char *, int);
-int srm_set_xfer_running (const char *, int, int, char *, char *, int);
-char *srm_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int);
-int srm_turlsfromsurls (int, const char **, GFAL_LONG64 *, char **, int, int *, int **, char **, char ***, char *, int);
+int srm_deletesurl (const char *, char *, int, int);
+int srm_get (int, char **, int, char **, int *, char **, struct srm_filestatus **, int);
+int srm_getx (int, char **, int, char **, int *, char **, struct srm_filestatus **, char *, int, int);
+int srm_getstatus (int, char **, int, char *, struct srm_filestatus **, int );
+int srm_getstatusx (int, char **, int, char *, struct srm_filestatus **, char *, int, int);
+int srm_set_xfer_done (const char *, int, int, char *, int, char *, int, int);
+int srm_set_xfer_running (const char *, int, int, char *, char *, int, int);
+char *srm_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
+int srm_turlsfromsurls (int, const char **, GFAL_LONG64 *, char **, int, int *, int **, char **, char ***, char *, int, int);
 char *turlfromsfn (const char *, char **, char *, int);
 #endif

@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003-2004 by CERN
+ * Copyright (C) 2005-2006 by CERN
  */
 
 /*
- * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.6 $ $Date: 2005/05/31 08:53:40 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.7 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -44,7 +44,7 @@ se_init (struct soap *soap, const char *surl, char *srm_endpoint,
 	return (0);
 }
 
-se_deletesurl (const char *surl, char *errbuf, int errbufsz)
+se_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
 {
 	struct ns1__deleteResponse out;
 	struct soap soap;
@@ -53,11 +53,19 @@ se_deletesurl (const char *surl, char *errbuf, int errbufsz)
 	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
 	    errbuf, errbufsz) < 0)
 		return (-1);
+        soap.send_timeout = timeout ;
+        soap.recv_timeout = timeout ;
 
 	/* issue "delete" request */
 
 	if (soap_call_ns1__delete (&soap, srm_endpoint,
 	    "delete", (char *)surl + 6, &out)) {
+                if (soap.error == SOAP_EOF) {
+                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
+                        soap_end (&soap);
+                        soap_done (&soap);
+                        return (-1);
+                }
 		soap_print_fault (&soap, stderr);
 		soap_end (&soap);
 		soap_done (&soap);
@@ -68,7 +76,7 @@ se_deletesurl (const char *surl, char *errbuf, int errbufsz)
 	return (0);
 }
 
-se_mkdir (const char *dir, char *errbuf, int errbufsz)
+se_mkdir (const char *dir, char *errbuf, int errbufsz, int timeout)
 {
 	struct ns1__mkdirResponse out;
 	int ret;
@@ -79,11 +87,19 @@ se_mkdir (const char *dir, char *errbuf, int errbufsz)
 	if (se_init (&soap, dir, srm_endpoint, sizeof(srm_endpoint),
 	    errbuf, errbufsz) < 0)
 		return (-1);
-
+        soap.send_timeout = timeout ;
+        soap.recv_timeout = timeout ;
+	
 	/* issue "mkdir" request */
-
 	if ((ret = soap_call_ns1__mkdir (&soap, srm_endpoint,
 	    "mkdir", (char *)dir + 6, &out))) {
+                if (soap.error == SOAP_EOF) {
+                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
+                        soap_end (&soap);
+                        soap_done (&soap);
+                        return (-1);
+                }
+
 		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 			if (strstr (soap.fault->faultstring, "does not exist"))
 				sav_errno = ENOENT;
@@ -104,7 +120,7 @@ se_mkdir (const char *dir, char *errbuf, int errbufsz)
 }
 
 int
-se_makedirp (const char *surl, char *errbuf, int errbufsz)
+se_makedirp (const char *surl, char *errbuf, int errbufsz, int timeout)
 {
 	int c;
 	char *lastslash = NULL;
@@ -125,7 +141,7 @@ se_makedirp (const char *surl, char *errbuf, int errbufsz)
 	while (p > p1) {
 		if (lastslash == NULL) lastslash = p;
 		*p = '\0';
-		c = se_getfilemd (sav_surl, &statbuf, errbuf, errbufsz);
+		c = se_getfilemd (sav_surl, &statbuf, errbuf, errbufsz, timeout);
 		if (c == 0) {
 			*p = '/';
 			break;
@@ -139,7 +155,7 @@ se_makedirp (const char *surl, char *errbuf, int errbufsz)
 	c = 0;
 	while (c == 0 && (p = strchr (p + 1, '/')) && p <= lastslash) {
 		*p = '\0';
-		c = se_mkdir (sav_surl, errbuf, errbufsz);
+		c = se_mkdir (sav_surl, errbuf, errbufsz, timeout);
 		*p = '/';
 	}
 	return (c);
@@ -147,7 +163,7 @@ se_makedirp (const char *surl, char *errbuf, int errbufsz)
 
 char *
 se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
-	int *fileid, char **token, char *errbuf, int errbufsz)
+	int *fileid, char **token, char *errbuf, int errbufsz, int timeout)
 {
 	int nbproto = 0;
 	struct ns1__cacheResponse outg;
@@ -164,6 +180,8 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
 	    errbuf, errbufsz) < 0)
 		return (NULL);
+        soap.send_timeout = timeout ;
+        soap.recv_timeout = timeout ;
 
 	while (*protocols[nbproto]) nbproto++;
 
@@ -175,6 +193,13 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 	if ((oflag & O_ACCMODE) == 0) {
 		if ((ret = soap_call_ns1__cache (&soap, srm_endpoint, "cache",
 		    (char *)surl + 6, "read", 36000, &outg))) {
+	                if (soap.error == SOAP_EOF) {
+        	                gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
+                	        soap_end (&soap);
+                        	soap_done (&soap);
+                        	return (NULL);
+                	}
+
 			if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 				if (strstr (soap.fault->faultstring, "STFN not found"))
 					sav_errno = ENOENT;
@@ -198,10 +223,16 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 retry:
 		if ((ret = soap_call_ns1__create (&soap, srm_endpoint, "create",
 		    (char *)surl + 6, zero, "x", 36000, &outp))) {
+	                if (soap.error == SOAP_EOF) {
+        	                gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
+                	        soap_end (&soap);
+                        	soap_done (&soap);
+                        	return (NULL);
+                	}
 			if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 				if (strstr (soap.fault->faultstring, "o such file"))
 					sav_errno = ENOENT;
-					if (se_makedirp (surl, errbuf, errbufsz) == 0)
+					if (se_makedirp (surl, errbuf, errbufsz, timeout) == 0)
 						goto retry;
 				else if (strstr (soap.fault->faultstring, "File exists"))
 					sav_errno = EEXIST;
@@ -224,6 +255,12 @@ retry:
 	}
 	if (soap_call_ns1__getTurl (&soap, srm_endpoint, "getTurl", *token,
 	    &protoarray, &outq)) {
+                if (soap.error == SOAP_EOF) {
+                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
+                        soap_end (&soap);
+                        soap_done (&soap);
+                        return (NULL);
+                }
 		soap_print_fault (&soap, stderr);
 		soap_end (&soap);
 		soap_done (&soap);
@@ -237,7 +274,7 @@ retry:
 	return (p);
 }
 
-se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz)
+se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz, int timeout)
 {
 	char *dp;
 	struct group *gr;
@@ -254,11 +291,20 @@ se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbuf
 	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
 	    errbuf, errbufsz) < 0)
 		return (-1);
+        soap.send_timeout = timeout;
+        soap.recv_timeout = timeout;
 
 	/* issue "getMetadata" request */
 
 	if ((ret = soap_call_ns1__getMetadata (&soap, srm_endpoint,
 	    "getMetadata", (char *)surl + 6, &out))) {
+                if (soap.error == SOAP_EOF) {
+                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
+                        soap_end (&soap);
+                        soap_done (&soap);
+                        return (-1);
+                }
+
 		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 			if (strstr (soap.fault->faultstring, "does not exist"))
 				sav_errno = ENOENT;
@@ -299,7 +345,7 @@ se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbuf
 }
 
 se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
-	int oflag, char *errbuf, int errbufsz)
+	int oflag, char *errbuf, int errbufsz, int timeout)
 {
 	struct ns1__abandonResponse outa;
 	struct ns1__commitResponse outc;
@@ -309,6 +355,9 @@ se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
 	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
 	    errbuf, errbufsz) < 0)
 		return (-1);
+        soap.send_timeout = timeout ;
+        soap.recv_timeout = timeout ;
+
 
 	if ((oflag & O_ACCMODE) == 0) {
 /*		not implemented yet 
@@ -323,6 +372,12 @@ se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
 	} else {
 		if (soap_call_ns1__commit (&soap, srm_endpoint,
 		    "commit", token, &outc)) {
+                       if (soap.error == SOAP_EOF) {
+	                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
+        	                soap_end (&soap);
+                	        soap_done (&soap);
+                        	return (-1);
+			}
 			soap_print_fault (&soap, stderr);
 			soap_end (&soap);
 			soap_done (&soap);

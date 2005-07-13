@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003-2004 by CERN
+ * Copyright (C) 2005-2006 by CERN
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.13 $ $Date: 2005/06/16 09:35:22 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.14 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>

@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2004 by CERN
+ * Copyright (C) 2005 by CERN
  */
 
 /*
- * @(#)$RCSfile: gfal_testunlink.c,v $ $Release$ $Date: 2004/04/19 08:53:44 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_testunlink.c,v $ $Release$ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
  */
 
 #include <fcntl.h>

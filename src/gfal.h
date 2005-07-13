@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003-2004 by CERN
+ * Copyright (C) 2003-2005 by CERN
  */
 
 /*
- * @(#)$RCSfile: gfal.h,v $ $Revision: 1.3 $ $Date: 2004/06/18 09:36:04 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.h,v $ $Revision: 1.4 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_H

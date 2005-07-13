@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2003-2004 by CERN
+ * Copyright (C) 2005-2006 by CERN
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.16 $ $Date: 2005/05/27 08:07:25 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.17 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -163,7 +163,7 @@ gfal_close (int fd)
 
 	if (xi->surl) {
 		rc1 = set_xfer_done (xi->surl, xi->reqid, xi->fileid,
-		    xi->token, xi->oflag, errbuf, sizeof(errbuf));
+		    xi->token, xi->oflag, errbuf, sizeof(errbuf), 0);
 		free (xi->surl);
 		if (xi->token) free (xi->token);
 	}
@@ -262,7 +262,7 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 	} else
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		if ((rc = getfilemd (fn, &statb64, errbuf, sizeof(errbuf))) == 0)
+		if ((rc = getfilemd (fn, &statb64, errbuf, sizeof(errbuf), 0)) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
 		if (fn != filename) free (fn);
 		return (rc);
@@ -313,7 +313,7 @@ gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 	} else
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		rc = getfilemd (fn, statbuf, errbuf, sizeof(errbuf));
+		rc = getfilemd (fn, statbuf, errbuf, sizeof(errbuf), 0);
 		if (fn != filename) free (fn);
 		return (rc);
 	}
@@ -396,7 +396,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
 		if ((turl = turlfromsurl (fn, supported_protocols, flags,
-		    &reqid, &fileid, &token, errbuf, sizeof(errbuf))) == NULL)
+		    &reqid, &fileid, &token, errbuf, sizeof(errbuf), 0)) == NULL)
 			goto err;
 	} else if (strncmp (fn, "sfn:", 4) == 0) {
 		if ((turl = turlfromsfn (fn, supported_protocols, errbuf, sizeof(errbuf))) == NULL)
@@ -425,7 +425,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 			free (token);
 		}
 		(void) set_xfer_running (xi->surl, xi->reqid, xi->fileid,
-		    xi->token, errbuf, sizeof(errbuf));
+		    xi->token, errbuf, sizeof(errbuf), 0);
 	}
 
 	if (guid) free (guid);
@@ -623,7 +623,7 @@ gfal_stat (const char *filename, struct stat *statbuf)
 	} else
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		if ((rc = getfilemd (fn, &statb64, errbuf, sizeof(errbuf))) == 0)
+		if ((rc = getfilemd (fn, &statb64, errbuf, sizeof(errbuf), 0)) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
 		if (fn != filename) free (fn);
 		return (rc);
@@ -674,7 +674,7 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 	} else
 		fn = (char *)filename;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		rc = getfilemd (fn, statbuf, errbuf, sizeof(errbuf));
+		rc = getfilemd (fn, statbuf, errbuf, sizeof(errbuf), 0);
 		if (fn != filename) free (fn);
 		return (rc);
 	}
@@ -746,7 +746,7 @@ deletepfn (const char *fn, const char *guid, char *errbuf, int errbufsz)
 	char *turl;
 
 	if (strncmp (fn, "srm:", 4) == 0) {
-		if (deletesurl (fn, errbuf, errbufsz) < 0)
+		if (deletesurl (fn, errbuf, errbufsz, 0) < 0)
 			return (-1);
 	} else {
 		if (strncmp (fn, "sfn:", 4) == 0) {
@@ -767,7 +767,7 @@ deletepfn (const char *fn, const char *guid, char *errbuf, int errbufsz)
 	return (0);
 }
 
-deletesurl (const char *surl, char *errbuf, int errbufsz)
+deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
 {
 	char *se_type;
 
@@ -775,10 +775,10 @@ deletesurl (const char *surl, char *errbuf, int errbufsz)
 		return (-1);
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
-		return (srm_deletesurl (surl, errbuf, errbufsz));
+		return (srm_deletesurl (surl, errbuf, errbufsz, timeout));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
-		return (se_deletesurl (surl, errbuf, errbufsz));
+		return (se_deletesurl (surl, errbuf, errbufsz, timeout));
 	} else {
 		free (se_type);
 		gfal_errmsg(errbuf, errbufsz, "The Storage Element type is neither 'srm_v1' nor 'edg-se'.");
@@ -787,18 +787,19 @@ deletesurl (const char *surl, char *errbuf, int errbufsz)
 	}
 }
 
-getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz)
+getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz, int timeout)
 {
 	char *se_type;
-
-	if (setypefromsurl (surl, &se_type, errbuf, errbufsz) < 0)
+	int ret;
+	ret=setypefromsurl (surl, &se_type, errbuf, errbufsz);
+	if (ret < 0)
 		return (-1);
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
-		return (srm_getfilemd (surl, statbuf, errbuf, errbufsz));
+		return (srm_getfilemd (surl, statbuf, errbuf, errbufsz, timeout));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
-		return (se_getfilemd (surl, statbuf, errbuf, errbufsz));
+		return (se_getfilemd (surl, statbuf, errbuf, errbufsz, timeout));
 	} else {
 		free (se_type);
 		gfal_errmsg(errbuf, errbufsz, "The Storage Element type is neither 'srm_v1' nor 'edg-se'.");
@@ -975,7 +976,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 }
 
 set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
-	char *errbuf, int errbufsz)
+	char *errbuf, int errbufsz, int timeout)
 {
 	char *se_type;
 
@@ -984,11 +985,11 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
 		return (srm_set_xfer_done (surl, reqid, fileid, token, oflag,
-		    errbuf, errbufsz));
+		    errbuf, errbufsz, timeout));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
 		return (se_set_xfer_done (surl, reqid, fileid, token, oflag,
-		    errbuf, errbufsz));
+		    errbuf, errbufsz, timeout));
 	} else {
 		free (se_type);
 		gfal_errmsg(errbuf, errbufsz, "The Storage Element type is neither 'srm_v1' nor 'edg-se'.");
@@ -998,7 +999,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 }
 
 set_xfer_running (const char *surl, int reqid, int fileid, char *token,
-	char *errbuf, int errbufsz)
+	char *errbuf, int errbufsz, int timeout)
 {
 	char *se_type;
 
@@ -1007,7 +1008,7 @@ set_xfer_running (const char *surl, int reqid, int fileid, char *token,
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
 		return (srm_set_xfer_running (surl, reqid, fileid, token,
-		    errbuf, errbufsz));
+		    errbuf, errbufsz, timeout));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
 		return (se_set_xfer_running (surl, reqid, fileid, token,
@@ -1109,7 +1110,7 @@ turlfromsfn (const char *sfn, char **protocols, char *errbuf, int errbufsz)
 
 char *
 turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
-	int *fileid, char **token, char *errbuf, int errbufsz)
+	int *fileid, char **token, char *errbuf, int errbufsz, int timeout)
 {
 	char *se_type;
 
@@ -1118,11 +1119,11 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
 		return (srm_turlfromsurl (surl, protocols, oflag, reqid, fileid,
-		    token, errbuf, errbufsz));
+		    token, errbuf, errbufsz, timeout));
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
 		return (se_turlfromsurl (surl, protocols, oflag, reqid, fileid,
-		    token, errbuf, errbufsz));
+		    token, errbuf, errbufsz, timeout));
 	} else {
 		free (se_type);
 		gfal_errmsg(errbuf, errbufsz, "The Storage Element type is neither 'srm_v1' nor 'edg-se'.");
