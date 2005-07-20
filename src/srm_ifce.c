@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.15 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.16 $ $Date: 2005/07/20 07:30:38 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -68,7 +68,7 @@ srm_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
                         return (-1);
                 }
 
-		soap_print_fault (&soap, stderr);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		return (-1);
@@ -122,8 +122,7 @@ srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols,
                         soap_done (&soap);
                         return (-1);
                 }
-
-		soap_print_fault (&soap, stderr);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		return (-1);
@@ -208,7 +207,7 @@ srm_getstatusx (int nbfiles, char **surls, int reqid, char *token,
                         soap_done (&soap);
                         return (-1);
                 }
-		soap_print_fault (&soap, stderr);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		return (-1);
@@ -294,7 +293,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
                 	        soap_done (&soap);
                         	return (-1);
 			}
-			soap_print_fault (&soap, stderr);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			soap_end (&soap);
 			soap_done (&soap);
 			return (-1);
@@ -317,7 +316,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 		permarray.__size = nbfiles;
 		if (soap_call_ns5__put (&soap, srm_endpoint, "put", &srcarray,
 		    &surlarray, &sizearray, &permarray, &protoarray, &outp)) {
-			soap_print_fault (&soap, stderr);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			soap_end (&soap);
 			soap_done (&soap);
 			return (-1);
@@ -340,7 +339,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 		    reqstatp->retryDeltaTime : DEFPOLLINT);
 		if (soap_call_ns5__getRequestStatus (&soap, srm_endpoint,
 		    "getRequestStatus", *reqid, &outq)) {
-			soap_print_fault (&soap, stderr);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			soap_end (&soap);
 			soap_done (&soap);
 			return (-1);
@@ -355,6 +354,10 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 			else if (strstr (reqstatp->errorMessage, "does not exist") ||
 			    strstr (reqstatp->errorMessage, "GetStorageInfoFailed"))
 				sav_errno = ENOENT;
+                        else if (strstr (reqstatp->errorMessage, "o such file or directory"))
+                                sav_errno = ENOENT;
+                        else if (strstr (reqstatp->errorMessage, "Permission denied"))
+                                sav_errno = EACCES;
 			else if (strstr (reqstatp->errorMessage, "nvalid arg"))
 				sav_errno = EINVAL;
 			else if (strstr (reqstatp->errorMessage, "protocol"))
@@ -502,7 +505,7 @@ srm_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int ofl
 			return (-1);
                	}
 
-		soap_print_fault (&soap, stderr);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		return (-1);
@@ -533,7 +536,7 @@ srm_set_xfer_running (const char *surl, int reqid, int fileid, char *token, char
                         soap_done (&soap);
                         return (-1);
                 }
-		soap_print_fault (&soap, stderr);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		return (-1);

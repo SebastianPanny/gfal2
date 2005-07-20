@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.7 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.8 $ $Date: 2005/07/20 07:30:38 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -66,7 +66,7 @@ se_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
                         soap_done (&soap);
                         return (-1);
                 }
-		soap_print_fault (&soap, stderr);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		return (-1);
@@ -107,8 +107,8 @@ se_mkdir (const char *dir, char *errbuf, int errbufsz, int timeout)
 				sav_errno = ECOMM;
 		} else
 			sav_errno = ECOMM;
-		if (sav_errno == ECOMM)
-			soap_print_fault (&soap, stderr);
+		if (sav_errno == ECOMM) 
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -208,7 +208,7 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 			} else
 				sav_errno = ECOMM;
 			if (errno == ECOMM)
-				soap_print_fault (&soap, stderr);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			soap_end (&soap);
 			soap_done (&soap);
 			errno = sav_errno;
@@ -241,7 +241,7 @@ retry:
 			} else
 				sav_errno = ECOMM;
 			if (errno == ECOMM)
-				soap_print_fault (&soap, stderr);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			soap_end (&soap);
 			soap_done (&soap);
 			errno = sav_errno;
@@ -261,7 +261,7 @@ retry:
                         soap_done (&soap);
                         return (NULL);
                 }
-		soap_print_fault (&soap, stderr);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		return (NULL);
@@ -315,7 +315,7 @@ se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbuf
 		} else
 			sav_errno = ECOMM;
 		if (sav_errno == ECOMM)
-			soap_print_fault (&soap, stderr);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -363,7 +363,7 @@ se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
 /*		not implemented yet 
 		if (soap_call_ns1__abandon (&soap, srm_endpoint,
 		    "abandon", token, &outa)) {
-			soap_print_fault (&soap, stderr);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			soap_end (&soap);
 			soap_done (&soap);
 			return (-1);
@@ -378,7 +378,7 @@ se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
                 	        soap_done (&soap);
                         	return (-1);
 			}
-			soap_print_fault (&soap, stderr);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			soap_end (&soap);
 			soap_done (&soap);
 			return (-1);
