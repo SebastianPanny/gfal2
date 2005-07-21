@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.17 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.18 $ $Date: 2005/07/21 13:43:59 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1441,25 +1441,32 @@ getdomainnm (char *name, int namelen)
 {
   FILE *fd;
   char line[300];
-  char *p;
+  char *p, *q;
   
   if ((fd = fopen ("/etc/resolv.conf", "r")) != NULL) {
     while (fgets (line, sizeof(line), fd) != NULL) {
-      if ((strncmp (line, "domain", 6) == 0 ||
-	   strncmp (line, "search", 6) == 0) && line[6] == ' ')
-	{
-	  fclose (fd);
-	  p = line + 6;
-	  while (*p == ' ')
-	    p++;
-	  if (*p)
-	    *(p + strlen (p) - 1) = '\0';
-	  if (strlen (p) > namelen) {
-	    return (-1);
-	  }
-	  strcpy (name, p);
-	  return (0);
+      if (strncmp (line, "domain", 6) == 0 ||
+	  strncmp (line, "search", 6) == 0) {
+	p = line + 6;
+	while (*p == ' ' || *p == '\t')
+	  p++;
+	if (*p == '\0' || *p == '\n')
+	  continue;
+	fclose (fd);
+	q = p + strlen (p) - 1;
+	if (*q == '\n')
+	  *q = '\0';
+	q = p;
+	while (*q != '\0' && *q != ' ' && *q != '\t')
+	  q++;
+	if (*q)
+	  *q = '\0';
+	if (strlen (p) > namelen) {
+	  return (-1);
 	}
+	strcpy (name, p);
+	return (0);
+      }
     }
     fclose (fd);
   }
