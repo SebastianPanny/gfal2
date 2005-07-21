@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2005-2006 by CERN
+ * Copyright (C) 2003-2005 by CERN
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.14 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.15 $ $Date: 2005/07/21 12:08:08 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -82,7 +82,7 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
 			errno = ETIMEDOUT;
 		else
 			errno = EINVAL;
@@ -158,7 +158,7 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
 			errno = ETIMEDOUT;
 		else
 			errno = EINVAL;
@@ -257,7 +257,7 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
 			errno = ETIMEDOUT;
 		else
 			errno = EINVAL;
@@ -342,7 +342,7 @@ get_sa_rootx (const char *host, const char *vo, char **sa_root, char *errbuf, in
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
 			errno = ETIMEDOUT;
 		else
 			errno = EINVAL;
@@ -408,7 +408,7 @@ get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbuf
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
 			errno = ETIMEDOUT;
 		else
 			errno = EINVAL;
@@ -474,7 +474,7 @@ get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
 			errno = ETIMEDOUT;
 		else
 			errno = EINVAL;
@@ -540,7 +540,7 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
 			errno = ETIMEDOUT;
 		else
 			errno = EINVAL;
@@ -619,7 +619,7 @@ get_seap_infox (const char *host, char ***access_protocol, int **port, char *err
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
 			errno = ETIMEDOUT;
 		else
 			errno = EINVAL;
