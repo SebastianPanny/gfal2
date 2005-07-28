@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.15 $ $Date: 2005/07/21 12:08:08 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.16 $ $Date: 2005/07/28 05:18:40 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -167,6 +167,8 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 	for (entry = ldap_first_entry (ld, reply);
 	     entry != NULL;
 	     entry = ldap_next_entry (ld, entry)) {
+		service_type = NULL;
+		service_url = NULL;
 		for (attr = ldap_first_attribute (ld, entry, &ber);
 		     attr != NULL;
 		     attr = ldap_next_attribute (ld, entry, ber)) {
@@ -266,6 +268,8 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	for (entry = ldap_first_entry (ld, reply);
 	     entry != NULL;
 	     entry = ldap_next_entry (ld, entry)) {
+		service_type = NULL;
+		service_url = NULL;
 		for (attr = ldap_first_attribute (ld, entry, &ber);
 		     attr != NULL;
 		     attr = ldap_next_attribute (ld, entry, ber)) {
