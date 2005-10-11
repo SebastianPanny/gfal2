@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.16 $ $Date: 2005/07/20 07:30:38 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.17 $ $Date: 2005/10/11 15:13:27 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -363,9 +363,11 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 			else if (strstr (reqstatp->errorMessage, "protocol"))
 				sav_errno = EPROTONOSUPPORT;
 			else
-				sav_errno = ECOMM;
-		} else
-			sav_errno = ECOMM;
+				goto errout;
+		} else  {
+errout:			sav_errno = ECOMM;
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -450,9 +452,11 @@ srm_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbu
 			    strstr (soap.fault->faultstring, "could not get storage info by path"))
 				sav_errno = ENOENT;
 			else
-				sav_errno = ECOMM;
-		} else
-			sav_errno = ECOMM;
+				goto errout;
+		} else {
+errout:			sav_errno = ECOMM;
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
