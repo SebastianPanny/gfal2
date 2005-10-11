@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.17 $ $Date: 2005/10/11 15:13:27 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.18 $ $Date: 2005/10/11 15:41:56 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -362,6 +362,8 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 				sav_errno = EINVAL;
 			else if (strstr (reqstatp->errorMessage, "protocol"))
 				sav_errno = EPROTONOSUPPORT;
+			else if (strstr (reqstatp->errorMessage, "o space left on device"))
+				sav_errno = ENOSPC;
 			else
 				goto errout;
 		} else  {
