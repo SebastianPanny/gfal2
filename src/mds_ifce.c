@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.16 $ $Date: 2005/07/28 05:18:40 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.17 $ $Date: 2005/10/13 09:30:58 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -421,9 +421,16 @@ get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbuf
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, se_ep_atnm);
-		if ((*se_endpoint = strdup (value[0])) == NULL)
+		if (value == NULL) {
+			gfal_errmsg (errbuf, errbufsz, "SE endpoint not set");
+			errno = EINVAL; 	
 			rc = -1;
-		ldap_value_free (value);
+		}
+		else {
+			if ((*se_endpoint = strdup (value[0])) == NULL)
+				rc = -1;
+			ldap_value_free (value);
+		}
 	} else {
 		gfal_errmsg (errbuf, errbufsz, "SE endpoint not found");
 		errno = EINVAL;
