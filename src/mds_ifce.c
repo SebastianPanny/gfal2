@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.17 $ $Date: 2005/10/13 09:30:58 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.18 $ $Date: 2005/10/20 21:44:30 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -91,11 +91,13 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, ce_ap_atnm);
+		if (value == NULL) 
+			goto notfound;
 		if ((*ce_ap = strdup (value[0])) == NULL)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "CE Accesspoint not found");
+notfound:	gfal_errmsg (errbuf, errbufsz, "CE Accesspoint not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -173,14 +175,18 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 		     attr != NULL;
 		     attr = ldap_next_attribute (ld, entry, ber)) {
 			value = ldap_get_values (ld, entry, attr);
-			if (strcmp (attr, "GlueServiceType") == 0) {
-				if((service_type = strdup (value[0])) == NULL)
-					rc = -1;
-			} else {	/* GlueServiceAccessPointURL */
-				if((service_url = strdup (value[0])) == NULL)
-					rc = -1;
+			if (value != NULL) {
+				if (strcmp (attr, "GlueServiceType") == 0) {
+					if((service_type = strdup (value[0])) == NULL)
+						rc = -1;
+				} else {	/* GlueServiceAccessPointURL */
+					if((service_url = strdup (value[0])) == NULL)
+						rc = -1;
+				}
+				ldap_value_free (value);
 			}
-			ldap_value_free (value);
+			else 
+				rc = -1;
 		}
 		if (rc == 0) {
 			if (strcmp (service_type, "edg-replica-metadata-catalog") == 0) {
@@ -274,6 +280,10 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 		     attr != NULL;
 		     attr = ldap_next_attribute (ld, entry, ber)) {
 			value = ldap_get_values (ld, entry, attr);
+			if (value == NULL) {
+				rc = -1;
+				continue;
+			}
 			if (strcmp (attr, "GlueServiceType") == 0) {
 				if((service_type = strdup (value[0])) == NULL)
 					rc = -1;
@@ -355,11 +365,13 @@ get_sa_rootx (const char *host, const char *vo, char **sa_root, char *errbuf, in
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, sa_root_atnm);
+		if (value == NULL) 
+			goto notfound;
 		if ((*sa_root = strdup (value[0] + strlen (vo) + 1)) == NULL)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "SA Root not found");
+notfound:	gfal_errmsg (errbuf, errbufsz, "SA Root not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -494,10 +506,12 @@ get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, se_port_atnm);
+		if (value == NULL)
+			goto notfound;
 		*se_port = atoi (value[0]);
 		ldap_value_free (value);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "SE port not found");
+notfound:	gfal_errmsg (errbuf, errbufsz, "SE port not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -560,6 +574,8 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, se_type_atnm);
+		if (value == NULL)
+			goto notfound;
 		if ((p = strchr (value[0], ':')))
 			p++;
 		else
@@ -568,7 +584,7 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "SE type not found");
+notfound:	gfal_errmsg (errbuf, errbufsz, "SE type not found");
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -654,6 +670,10 @@ get_seap_infox (const char *host, char ***access_protocol, int **port, char *err
 		     attr != NULL;
 		     attr = ldap_next_attribute (ld, entry, ber)) {
 			value = ldap_get_values (ld, entry, attr);
+			if (value == NULL) {
+				rc = -1;
+				continue;
+			}
 			if (strcmp (attr, "GlueSEAccessProtocolType") == 0) {
 				if ((ap[i] = strdup (value[0])) == NULL)
 					rc = -1;
