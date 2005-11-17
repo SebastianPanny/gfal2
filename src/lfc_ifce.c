@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.28 $ $Date: 2005/06/29 14:02:37 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.29 $ $Date: 2005/11/17 15:26:27 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -462,7 +462,7 @@ lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *err
     return (-1);
 
   fcops.starttrans(NULL, gfal_version);
-  if(fcops.creatg(lfn, guid, 0777) < 0) {
+  if(fcops.creatg(lfn, guid, 0666) < 0) {
     if(*fcops.serrno < 1000) 
       errno = *fcops.serrno;
     else {
