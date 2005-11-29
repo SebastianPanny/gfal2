@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.18 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.19 $ $Date: 2005/11/29 13:03:26 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -103,6 +103,7 @@ int getfilemd (const char *, struct stat64 *, char *, int, int);
 int set_xfer_done (const char *, int, int, char *, int, char *, int, int);
 int set_xfer_running (const char *, int, int, char *, char *, int, int);
 char *turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
+char *turlfromsurlx (const char *, GFAL_LONG64, char **, int, int *, int *, char **, char *, int, int);
 
 		/* Internal functions */
 int deletepfn (const char *, const char *, char *, int);

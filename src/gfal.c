@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2005-2006 by CERN
+ * Copyright (C) 2003-2005 by CERN
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.18 $ $Date: 2005/07/21 13:43:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.19 $ $Date: 2005/11/29 13:03:26 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1109,17 +1109,27 @@ turlfromsfn (const char *sfn, char **protocols, char *errbuf, int errbufsz)
 }
 
 char *
-turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
-	int *fileid, char **token, char *errbuf, int errbufsz, int timeout)
+turlfromsurlx (const char *surl, GFAL_LONG64 filesize, char **protocols,
+	int oflag, int *reqid, int *fileid, char **token, char *errbuf,
+	int errbufsz, int timeout)
 {
+	int *fileids;
+	char *p;
 	char *se_type;
+	char **turls;
 
 	if (setypefromsurl (surl, &se_type, errbuf, errbufsz) < 0)
 		return (NULL);
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
-		return (srm_turlfromsurl (surl, protocols, oflag, reqid, fileid,
-		    token, errbuf, errbufsz, timeout));
+		if (srm_turlsfromsurls (1, &surl, &filesize, protocols, oflag,
+		    reqid, &fileids, token, &turls, errbuf, errbufsz, timeout) <= 0)
+			return (NULL);
+		*fileid = fileids[0];
+	       p = turls[0];
+	       free (fileids);
+	       free (turls);
+	       return (p);
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
 		return (se_turlfromsurl (surl, protocols, oflag, reqid, fileid,
@@ -1130,6 +1140,16 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 		errno = EINVAL;
 		return (NULL);
 	}
+}
+
+char *
+turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
+	int *fileid, char **token, char *errbuf, int errbufsz, int timeout)
+{
+	GFAL_LONG64 zero = 0;
+
+	return (turlfromsurlx (surl, zero, protocols, oflag, reqid, fileid,
+	    token, errbuf, errbufsz, timeout));
 }
 
 get_cat_type (char **cat_type) {
