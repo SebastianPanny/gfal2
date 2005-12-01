@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.19 $ $Date: 2005/12/01 10:49:04 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.20 $ $Date: 2005/12/01 12:10:35 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -79,7 +79,7 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
 		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
-		return (-1);
+	return (-1);
 	}
 	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
@@ -102,14 +102,20 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, ce_ap_atnm);
-		if (value == NULL) 
-			goto notfound;
-		if ((*ce_ap = strdup (value[0])) == NULL)
+		if (value == NULL) {
+ 	                snprintf(error_str, sizeof(error_str), "CE Accesspoint not found for host : %s", host);
+			gfal_errmsg (errbuf, errbufsz, error_str);
+			errno = EINVAL;
 			rc = -1;
-		ldap_value_free (value);
+
+		} else {
+		  if ((*ce_ap = strdup (value[0])) == NULL)
+		    rc = -1;
+		  ldap_value_free (value);
+		}
 	} else {
- 	        snprintf(error_str, sizeof(error_str), "CE Accesspoint not found for host : %s", host);
-notfound:	gfal_errmsg (errbuf, errbufsz, error_str);
+ 	        snprintf(error_str, sizeof(error_str), "No GlueCESEBind found for host : %s", host);
+ 	        gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -284,7 +290,7 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 5;
+	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
 	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply) != LDAP_SUCCESS) {
@@ -565,12 +571,17 @@ get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, se_port_atnm);
-		if (value == NULL)
-			goto notfound;
-		*se_port = atoi (value[0]);
-		ldap_value_free (value);
+		if (value == NULL) {
+ 	                snprintf(error_str, sizeof(error_str), "SE port not found for host : %s", host);
+			gfal_errmsg (errbuf, errbufsz, error_str);
+			errno = EINVAL;
+			rc = -1;
+		} else {
+ 		        *se_port = atoi (value[0]);
+			ldap_value_free (value);
+		}
 	} else {
-notfound:	snprintf(error_str, sizeof(error_str),"SE port not found for host : %s", host);
+ 	        snprintf(error_str, sizeof(error_str),"No information found for SE : %s", host);
                 gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
@@ -643,17 +654,23 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, se_type_atnm);
-		if (value == NULL)
-			goto notfound;
-		if ((p = strchr (value[0], ':')))
-			p++;
-		else
-			p = value[0];
-		if ((*se_type = strdup (p)) == NULL)
-			rc = -1;
-		ldap_value_free (value);
+		if (value == NULL) {
+		  snprintf(error_str, sizeof(error_str),  "SE type not found for host : %s", host);
+		  gfal_errmsg (errbuf, errbufsz, error_str);
+		  errno = EINVAL;
+		  rc = -1;
+
+		} else { 
+ 		  if ((p = strchr (value[0], ':')))
+		    p++;
+		  else
+		    p = value[0];
+		  if ((*se_type = strdup (p)) == NULL)
+		    rc = -1;
+		  ldap_value_free (value);
+		}
 	} else {
-notfound:	snprintf(error_str, sizeof(error_str),  "SE type not found for host : %s", host);
+	        snprintf(error_str, sizeof(error_str),  "No information found for SE : %s", host);
                 gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
