@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.18 $ $Date: 2005/10/20 21:44:30 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.19 $ $Date: 2005/12/01 10:49:04 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -60,11 +60,13 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 	LDAPMessage *reply;
 	struct timeval timeout;
 	char **value;
+	char error_str[255];
 
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
-		gfal_errmsg (errbuf, errbufsz, "hostname too long");
+	        snprintf(error_str, sizeof(error_str), "BDII Hostname too long: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -74,6 +76,8 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
 		return (-1);
 	}
@@ -82,11 +86,18 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
-			errno = ETIMEDOUT;
-		else
-			errno = EINVAL;
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+  		        snprintf(error_str, sizeof(error_str), "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+	 	        gfal_errmsg(errbuf, errbufsz, error_str);
+		        errno = ETIMEDOUT;
+		} else {
+		        snprintf(error_str, sizeof(error_str), "BDII ERROR: %s:%d %s", bdii_server, bdii_port, 
+				  ldap_err2string(rc));
+		        gfal_errmsg(errbuf, errbufsz, error_str);
+		        errno = EINVAL;
+		}
 		return (-1);
+
 	}
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
@@ -97,7 +108,8 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
-notfound:	gfal_errmsg (errbuf, errbufsz, "CE Accesspoint not found");
+ 	        snprintf(error_str, sizeof(error_str), "CE Accesspoint not found for host : %s", host);
+notfound:	gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -133,6 +145,7 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 	struct timeval timeout;
 	char **value;
 	char *vo;
+	char error_str[255];
 
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
@@ -152,6 +165,8 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
 		return (-1);
 	}
@@ -160,10 +175,16 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+		        snprintf(error_str, sizeof(error_str), "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+			gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = ETIMEDOUT;
-		else
+		} else {
+		        snprintf(error_str, sizeof(error_str), "BDII ERROR: %s:%d %s", bdii_server, bdii_port, 
+				 ldap_err2string(rc));
+			gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = EINVAL;
+		}
 		return (-1);
 	}
 	for (entry = ldap_first_entry (ld, reply);
@@ -237,6 +258,7 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	struct timeval timeout;
 	char **value;
 	char *vo;
+	char error_str[255];
 	
 	*lfc_endpoint = NULL;
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
@@ -257,6 +279,8 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
 		return (-1);
 	}
@@ -265,10 +289,16 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
-			errno = ETIMEDOUT;
-		else
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+  		        snprintf(error_str, sizeof(error_str), "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+	 	        gfal_errmsg(errbuf, errbufsz, error_str);
+		        errno = ETIMEDOUT;
+		} else {
+		        snprintf(error_str, sizeof(error_str), "BDII ERROR: %s:%d %s", bdii_server, bdii_port, 
+				 ldap_err2string(rc));
+			gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = EINVAL;
+		}
 		return (-1);
 	}
 	for (entry = ldap_first_entry (ld, reply);
@@ -334,6 +364,7 @@ get_sa_rootx (const char *host, const char *vo, char **sa_root, char *errbuf, in
 	LDAPMessage *reply;
 	struct timeval timeout;
 	char **value;
+	char error_str[255];
 
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
@@ -348,6 +379,8 @@ get_sa_rootx (const char *host, const char *vo, char **sa_root, char *errbuf, in
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
 		return (-1);
 	}
@@ -356,10 +389,16 @@ get_sa_rootx (const char *host, const char *vo, char **sa_root, char *errbuf, in
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+		        snprintf(error_str, sizeof(error_str), "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+			gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = ETIMEDOUT;
-		else
+		} else {
+		        snprintf(error_str, sizeof(error_str), "BDII ERROR: %s:%d %s", bdii_server, bdii_port, 
+				 ldap_err2string(rc));
+			gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = EINVAL;
+		}
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
@@ -371,7 +410,8 @@ get_sa_rootx (const char *host, const char *vo, char **sa_root, char *errbuf, in
 			rc = -1;
 		ldap_value_free (value);
 	} else {
-notfound:	gfal_errmsg (errbuf, errbufsz, "SA Root not found");
+notfound:	snprintf(error_str, sizeof(error_str), "SA Root not found for host : %s", host);
+                gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -402,7 +442,7 @@ get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbuf
 	LDAPMessage *reply;
 	struct timeval timeout;
 	char **value;
-
+	char error_str[255];
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
@@ -416,6 +456,8 @@ get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbuf
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
 		return (-1);
 	}
@@ -424,17 +466,24 @@ get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbuf
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+  		        snprintf(error_str, sizeof(error_str), "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+	 	        gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = ETIMEDOUT;
-		else
+		} else {
+		        snprintf(error_str, sizeof(error_str), "BDII ERROR: %s:%d %s", bdii_server, bdii_port, 
+				 ldap_err2string(rc));
+			gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = EINVAL;
+		}
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, se_ep_atnm);
 		if (value == NULL) {
-			gfal_errmsg (errbuf, errbufsz, "SE endpoint not set");
+		        snprintf(error_str, sizeof(error_str), "SE (SRM) endpoint not set for host : %s", host);
+			gfal_errmsg (errbuf, errbufsz, "SE (SRM) endpoint not set for host : %s");
 			errno = EINVAL; 	
 			rc = -1;
 		}
@@ -444,7 +493,8 @@ get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbuf
 			ldap_value_free (value);
 		}
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "SE endpoint not found");
+       	        snprintf(error_str, sizeof(error_str), "SE (SRM) service not found for host : %s", host);
+		gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -475,6 +525,7 @@ get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 	LDAPMessage *reply;
 	struct timeval timeout;
 	char **value;
+	char error_str[255];
 
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
@@ -489,6 +540,8 @@ get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
 		return (-1);
 	}
@@ -497,10 +550,16 @@ get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+  		        snprintf(error_str, sizeof(error_str), "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+	 	        gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = ETIMEDOUT;
-		else
+		} else {
+		        snprintf(error_str, sizeof(error_str), "BDII ERROR: %s:%d %s", bdii_server, bdii_port, 
+				 ldap_err2string(rc));
+			gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = EINVAL;
+		}
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
@@ -511,7 +570,8 @@ get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 		*se_port = atoi (value[0]);
 		ldap_value_free (value);
 	} else {
-notfound:	gfal_errmsg (errbuf, errbufsz, "SE port not found");
+notfound:	snprintf(error_str, sizeof(error_str),"SE port not found for host : %s", host);
+                gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -543,6 +603,7 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	LDAPMessage *reply;
 	struct timeval timeout;
 	char **value;
+	char error_str[255];
 
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
@@ -557,6 +618,8 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
 		return (-1);
 	}
@@ -565,10 +628,16 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+  		        snprintf(error_str, sizeof(error_str), "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+	 	        gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = ETIMEDOUT;
-		else
+		} else {
+		        snprintf(error_str, sizeof(error_str), "BDII ERROR: %s:%d %s", bdii_server, bdii_port, 
+				 ldap_err2string(rc));
+			gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = EINVAL;
+		}
 		return (-1);
 	}
 	entry = ldap_first_entry (ld, reply);
@@ -584,7 +653,8 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 			rc = -1;
 		ldap_value_free (value);
 	} else {
-notfound:	gfal_errmsg (errbuf, errbufsz, "SE type not found");
+notfound:	snprintf(error_str, sizeof(error_str),  "SE type not found for host : %s", host);
+                gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -624,6 +694,7 @@ get_seap_infox (const char *host, char ***access_protocol, int **port, char *err
 	LDAPMessage *reply;
 	struct timeval timeout;
 	char **value;
+	char error_str[255];
 
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
@@ -638,6 +709,8 @@ get_seap_infox (const char *host, char ***access_protocol, int **port, char *err
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
 		ldap_unbind (ld);
+		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
 		return (-1);
 	}
@@ -646,10 +719,16 @@ get_seap_infox (const char *host, char ***access_protocol, int **port, char *err
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
-		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT)
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+  		        snprintf(error_str, sizeof(error_str), "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+	 	        gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = ETIMEDOUT;
-		else
+		} else {
+		        snprintf(error_str, sizeof(error_str), "BDII ERROR: %s:%d %s", bdii_server, bdii_port, 
+				 ldap_err2string(rc));
+			gfal_errmsg(errbuf, errbufsz, error_str);
 			errno = EINVAL;
+		}
 		return (-1);
 	}
 	nbentries = ldap_count_entries (ld, reply);
