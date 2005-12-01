@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.8 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.9 $ $Date: 2005/12/01 13:16:01 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -65,10 +65,14 @@ rmc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHALIAS"))
 				sav_errno = ENOENT;
-			else
+			else {
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		} else
+			}
+		} else {
+		        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -101,10 +105,14 @@ rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
-			else
+			else {
+			  gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		} else
+			}
+		} else {
+		        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -147,10 +155,14 @@ rmc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 				sav_errno = EEXIST;
 			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
 				sav_errno = ENAMETOOLONG;
-			else
+			else {
+		        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		} else
+			}
+		} else {
+		        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -172,6 +184,7 @@ rmc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 
 	if (ret = soap_call_ns3__removeAlias (&soap, rmc_endpoint, "",
 	    (char *) guid, (char *) lfn, &out)) {
+	        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;

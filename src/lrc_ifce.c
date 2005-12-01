@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.13 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.14 $ $Date: 2005/12/01 13:16:01 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -66,10 +66,14 @@ lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
 		if (ret == SOAP_FAULT) {
 		  if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = 0;
-			else
+		  else {
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		} else
+		  }
+		} else {
+		  gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		// return 'false' if guid does not exist in LRC
@@ -101,10 +105,14 @@ lrc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
 				sav_errno = ENOENT;
-			else
+			else {
+			  gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		} else
+			}
+		} else {
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -127,8 +135,9 @@ lrc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 
 	if (ret = soap_call_ns3__guidExists (&soap, lrc_endpoint, "",
 	    (char *) guid, &out)) {
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
-		soap_done (&soap);
+		soap_done (&soap);	
 		errno = ECOMM;
 		return (-1);
 	}
@@ -155,10 +164,14 @@ lrc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 				sav_errno = EEXIST;
 			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
 				sav_errno = ENAMETOOLONG;
-			else
+			else {
+			  gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		} else
+			}
+		} else {
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -186,10 +199,14 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
 				sav_errno = ENOENT;
-			else
+			else {
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		} else
+			}
+		} else {
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -218,10 +235,14 @@ lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
-			else
+			else {
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		} else
+			}
+		} else {
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -262,10 +283,14 @@ lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
-			else
+			else {
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		} else
+			}
+		} else {
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -304,6 +329,7 @@ lrc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
 
 	if (ret = soap_call_ns3__removeMapping (&soap, lrc_endpoint, "",
 	    (char *) guid, (char *) pfn, &out)) {
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
