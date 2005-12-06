@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.8 $ $Date: 2005/07/20 07:30:38 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.9 $ $Date: 2005/12/06 14:21:32 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -308,9 +308,10 @@ se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbuf
 		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
 			if (strstr (soap.fault->faultstring, "does not exist"))
 				sav_errno = ENOENT;
-			else if (strstr (soap.fault->faultstring, "expired"))
+			else if (strstr (soap.fault->faultstring, "expired")) {
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = EACCES;
-			else
+			} else
 				sav_errno = ECOMM;
 		} else
 			sav_errno = ECOMM;
