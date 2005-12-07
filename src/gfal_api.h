@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.20 $ $Date: 2005/12/07 10:14:39 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.21 $ $Date: 2005/12/07 11:11:46 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -80,6 +80,7 @@ int gfal_stat64 (const char *, struct stat *);
                   /* catalog operation entry points */
 int create_alias (const char *, const char *, GFAL_LONG64, char *, int);
 char *getbestfile(char **, int size, char *, int);
+char *get_catalog_endpoint(char *, int);
 int getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
 int guid_exists (const char *, char *, int);
 char *guidforpfn (const char *, char *, int);
@@ -133,10 +134,11 @@ int lfc_getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
 int lfc_create_alias (const char *, const char *, GFAL_LONG64, char *, int);
 int lfc_deletepfn (const char *, const char *, char *, int);
 int lfc_deletesurl (const char *, char *, int);
+char *lfc_get_catalog_endpoint(char *, int);
 char *lfc_guidforpfn (const char *, char *, int);
 char *lfc_guidfromlfn (const char *, char *, int);
-char **lfc_lfnsforguid (const char *, char *, int);
 int lfc_guid_exists (const char *, char *, int);
+char **lfc_lfnsforguid (const char *, char *, int);
 int lfc_mkdirp (const char*, mode_t, char *, int);
 int lfc_register_alias (const char *, const char *, char *, int);
 int lfc_register_pfn (const char *, const char *, char *, int);
@@ -147,6 +149,7 @@ int lfc_unregister_alias (const char *, const char *, char *, int);
 int lfc_unregister_pfn (const char *, const char *, char *, int);
 int lrc_deletepfn (const char *, const char *, char *, int);
 int lrc_deletesurl (const char *, char *, int);
+char *lrc_get_catalog_endpoint(char *, int);
 char *lrc_guidforpfn (const char *, char *, int);
 int lrc_guid_exists (const char *, char *, int);
 int lrc_replica_exists(const char* ,char*, int);

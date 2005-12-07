@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.14 $ $Date: 2005/12/01 13:16:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.15 $ $Date: 2005/12/07 11:11:46 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -47,6 +47,15 @@ lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 	}
 #endif
 	return (0);
+}
+
+
+char *
+lrc_get_catalog_endpoint(char *errbuf, int errbufsz) {
+        struct soap soap;
+        if(lrc_init(&soap, errbuf, errbufsz) < 0)
+                return (NULL);
+        return lrc_endpoint;
 }
 
 int

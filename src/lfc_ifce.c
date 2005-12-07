@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.29 $ $Date: 2005/11/17 15:26:27 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.30 $ $Date: 2005/12/07 11:11:46 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -164,7 +164,15 @@ lfc_init (char *errbuf, int errbufsz) {
   return (0);
 }
 
-int lfc_replica_exists(const char *guid, char *errbuf, int errbufsz) {
+char *
+lfc_get_catalog_endpoint(char *errbuf, int errbufsz) {
+        if(lfc_init(errbuf, errbufsz) < 0)
+                return (-1);
+        return lfc_host;
+}
+
+int
+lfc_replica_exists(const char *guid, char *errbuf, int errbufsz) {
   lfc_list list;
   struct lfc_filereplica* rp;
 

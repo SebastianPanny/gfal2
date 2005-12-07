@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.19 $ $Date: 2005/11/29 13:03:26 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.20 $ $Date: 2005/12/07 11:11:46 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1185,6 +1185,26 @@ getfilesizeg (const char *guid, GFAL_LONG64 *filesize, char *errbuf, int errbufs
 		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
 		errno = EINVAL;
 		return (-1);
+	}
+}
+
+char *get_catalog_endpoint (char *errbuf, int errbufsz)
+{
+	char *cat_type;
+	if (get_cat_type (&cat_type) < 0) {
+		return (NULL);
+	}
+	if (strcmp (cat_type, "edg") == 0) {
+		free (cat_type);
+		return (lrc_get_catalog_endpoint (errbuf, errbufsz));
+	} else if (strcmp (cat_type, "lfc") == 0) {
+		free (cat_type);
+		return (lfc_get_catalog_endpoint (errbuf, errbufsz));
+	} else {
+		free (cat_type);
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		errno = EINVAL;
+		return (NULL);
 	}
 }
 
