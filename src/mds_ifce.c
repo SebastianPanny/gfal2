@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.20 $ $Date: 2005/12/01 12:10:35 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.21 $ $Date: 2005/12/07 10:14:39 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -425,6 +425,86 @@ notfound:	snprintf(error_str, sizeof(error_str), "SA Root not found for host : %
 	ldap_unbind (ld);
 	return (rc);
 }
+
+/* Get from the BDII the SAPath */
+
+get_sa_path (const char *host, const char *vo, char **sa_path, char *errbuf, int errbufsz)
+{
+	static char sa_path_atnm[] = "GlueSAPath";
+	static char *template = "(&(GlueSALocalID=%s)(GlueChunkKey=GlueSEUniqueID=%s))";
+	char *attr;
+	static char *attrs[] = {sa_path_atnm, NULL};
+	int bdii_port;
+	char bdii_server[75];
+	LDAPMessage *entry;
+	char filter[128];
+	LDAP *ld;
+	int rc = 0;
+	LDAPMessage *reply;
+	struct timeval timeout;
+	char **value;
+	char error_str[255];
+
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
+		return (-1);
+	if (strlen (template) + strlen (vo) + strlen (host) - 4 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "vo or host too long");
+		errno = EINVAL;
+		return (-1);
+	}
+	sprintf (filter, template, vo, host);
+
+	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
+		return (-1);
+	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		snprintf(error_str, sizeof(error_str), "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
+		errno = ECONNREFUSED;
+		return (-1);
+	}
+	timeout.tv_sec = 15;
+	timeout.tv_usec = 0;
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply)) != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+		        snprintf(error_str, sizeof(error_str), "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+			gfal_errmsg(errbuf, errbufsz, error_str);
+			errno = ETIMEDOUT;
+		} else {
+		        snprintf(error_str, sizeof(error_str), "BDII ERROR: %s:%d %s", bdii_server, bdii_port, 
+				 ldap_err2string(rc));
+			gfal_errmsg(errbuf, errbufsz, error_str);
+			errno = EINVAL;
+		}
+		return (-1);
+	}
+	entry = ldap_first_entry (ld, reply);
+	if (entry) {
+		value = ldap_get_values (ld, entry, sa_path_atnm);
+		if (value == NULL) 
+			goto notfound;
+                /* We deal with pre-LCG 2.7.0 where SA Path was incorrect and had vo: prefix */
+                if ((strncmp(value[0], vo, strlen(vo)) == 0) && (*(value[0] + strlen(vo)) == ':')) {
+                        if ((*sa_path = strdup (value[0] + strlen (vo) + 1)) == NULL)
+                                rc = -1;
+                } else
+                        if ((*sa_path = strdup (value[0])) == NULL)
+                                rc = -1;
+		ldap_value_free (value);
+
+	} else {
+notfound:	snprintf(error_str, sizeof(error_str), "SA Path not found for host : %s", host);
+                gfal_errmsg (errbuf, errbufsz, error_str);
+		errno = EINVAL;
+		rc = -1;
+	}
+	ldap_msgfree (reply);
+	ldap_unbind (ld);
+	return (rc);
+}
+
 
 /* get from the BDII the SE endpoint */
 

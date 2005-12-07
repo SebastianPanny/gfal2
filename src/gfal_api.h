@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.19 $ $Date: 2005/11/29 13:03:26 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.20 $ $Date: 2005/12/07 10:14:39 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -118,6 +118,7 @@ int get_sa_root (const char *, const char *, char **);
 int get_sa_rootx (const char *, const char *, char **, char *, int);
 int get_se_endpoint (const char *, char **);
 int get_se_endpointx (const char *, char **, char *, int);
+int get_sa_path (const char *, const char *, char **, char *, int);
 int get_se_port (const char *, int *);
 int get_se_portx (const char *, int *, char *, int);
 int get_se_type (const char *, char **);
