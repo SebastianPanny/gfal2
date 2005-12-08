@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.20 $ $Date: 2005/12/07 11:11:46 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.21 $ $Date: 2005/12/08 09:03:18 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1542,7 +1542,7 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
     errno = EINVAL;
     return (NULL);
   }
-  if(strlen(vo) + 15 >=  strlen(se_env)) {
+  if(strlen(vo) + 15 < 64) {
     sprintf(se_env, "VO_%s_DEFAULT_SE", vo);
     for(i = 3; se_env[i] != '_'; ++i) {
       se_env[i] = toupper(se_env[i]);

@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.19 $ $Date: 2005/06/29 14:10:21 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.20 $ $Date: 2005/12/08 09:03:18 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following line to put the actual path
@@ -54,9 +54,9 @@ libgfal.so: $(GFAL_OBJS)
 libgfal_pthr.so: $(GFAL_OBJS)
 	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -luuid -lc -lldap -ldl
 
-checkprotolib.o: gfal.h
+checkprotolib.o: gfal.h checkprotolib.c
 	$(CC) -c $(PROTOFLG) checkprotolib.c
-gfal.o: gfal.h gfal_api.h gfal_constants.h
+gfal.o: gfal.h gfal_api.h gfal_constants.h gfal.c
 	$(CC) -c $(SECFLG) gfal.c
 lrc_ifce.o: lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap lrc_ifce.c
 	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL lrc_ifce.c
@@ -66,11 +66,11 @@ lfc_ifce.o: lfc_ifce.c
 	$(CC) -c -DVERSION=\"GFAL-$(VERSION)\" $(LFCINC) $(SECFLG) lfc_ifce.c
 se_ifce.o: seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding+.nsmap
 	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL se_ifce.c
-srm_ifce.o: srmH.h srmStub.h ISRM.nsmap
+srm_ifce.o: srmH.h srmStub.h ISRM.nsmap srm_ifce.c
 	$(CC) -c -I$(GSOAP) $(SECFLG) srm_ifce.c
-srmC.o:
+srmC.o: srmcC.c
 	$(CC) -c -I$(GSOAP) srmC.c
-srmClient.o:
+srmClient.o: srmClient.c
 	$(CC) -c -I$(GSOAP) srmClient.c
 stdsoap2.o: $(GSOAP)/stdsoap2.c
 	$(CC) -c -I$(GSOAP) $(GSOAP)/stdsoap2.c
