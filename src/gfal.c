@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.23 $ $Date: 2005/12/08 15:00:23 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.24 $ $Date: 2005/12/08 16:10:13 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1582,6 +1582,7 @@ get_default_se(char *vo, char *errbuf, int errbufsz)
         int i;
         char se_env[64];
         char *vo_env;
+        char error_str[128];
 
         if(vo == NULL) {
                 if ((vo_env = getenv ("LCG_GFAL_VO")) == NULL) {
@@ -1605,7 +1606,8 @@ get_default_se(char *vo, char *errbuf, int errbufsz)
         } 
         default_se = getenv(se_env);
         if(default_se == NULL) {
-                gfal_errmsg(errbuf, errbufsz, "Default SE not set");
+	        snprintf(error_str, 128, "No Default SE: %s not set", se_env);
+                gfal_errmsg(errbuf, errbufsz, error_str);
                 errno = EINVAL;
                 return (NULL);
         }
