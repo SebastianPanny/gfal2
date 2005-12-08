@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.21 $ $Date: 2005/12/08 09:03:18 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.22 $ $Date: 2005/12/08 13:08:23 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1522,8 +1522,6 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
   char  *p1, *p2;
   char *p;
   int ret;
-  char *vo;
-  char se_env[64];
   char *default_se;
   int  localsurl, default_match;
 
@@ -1537,18 +1535,8 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
   (void) getdomainnm (dname, sizeof(dname));
 
   /* and get the default SE, it there is one */
-  if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
-    gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO not set");
-    errno = EINVAL;
-    return (NULL);
-  }
-  if(strlen(vo) + 15 < 64) {
-    sprintf(se_env, "VO_%s_DEFAULT_SE", vo);
-    for(i = 3; se_env[i] != '_'; ++i) {
-      se_env[i] = toupper(se_env[i]);
-    }
-  }
-  default_se = getenv(se_env);
+  if((default_se = get_default_se(NULL, errbuf, errbufsz)) == NULL) 
+          return (NULL);
 
   for (i = 0; i < size; i++) {
     p = surls[i];
@@ -1586,3 +1574,40 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
   return surls[i];
 }
 
+
+char *
+get_default_se(char *vo, char *errbuf, int errbufsz) 
+{
+        char *default_se;
+        int i;
+        char se_env[64];
+        char *vo_env;
+
+        if(vo == NULL) {
+                if ((vo_env = getenv ("LCG_GFAL_VO")) == NULL) {
+                        gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO not set");
+                        errno = EINVAL;
+                        return (NULL);
+                }
+                vo = vo_env;
+        }
+        if(strlen(vo) + 15 >= 64) {
+                errno = ENAMETOOLONG;
+                gfal_errmsg(errbuf, errbufsz, "VO Name too long");
+                return (NULL);
+        }
+        sprintf(se_env, "VO_%s_DEFAULT_SE", vo);
+        for(i = 3; i < 3 + strlen(vo); ++i) {
+                if (se_env[i] == '.') 
+                        se_env[i] = '_';
+                else
+                        se_env[i] = toupper(se_env[i]);
+        } 
+        default_se = getenv(se_env);
+        if(default_se == NULL) {
+                gfal_errmsg(errbuf, errbufsz, "Default SE not set");
+                errno = EINVAL;
+                return (NULL);
+        }
+        return default_se;
+}

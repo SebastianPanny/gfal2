@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.21 $ $Date: 2005/12/07 11:11:46 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.22 $ $Date: 2005/12/08 13:08:23 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -98,6 +98,7 @@ int setfilesize (const char *, GFAL_LONG64, char *, int);
 
                 /* storage operation entry points */
 int deletesurl (const char *, char *, int, int);
+char *get_default_se(char *, char *, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int getfilemd (const char *, struct stat64 *, char *, int, int);
 #endif
