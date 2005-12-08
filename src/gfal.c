@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.22 $ $Date: 2005/12/08 13:08:23 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.23 $ $Date: 2005/12/08 15:00:23 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1598,7 +1598,7 @@ get_default_se(char *vo, char *errbuf, int errbufsz)
         }
         sprintf(se_env, "VO_%s_DEFAULT_SE", vo);
         for(i = 3; i < 3 + strlen(vo); ++i) {
-                if (se_env[i] == '.') 
+                if (se_env[i] == '.' || se_env[i] == '-') 
                         se_env[i] = '_';
                 else
                         se_env[i] = toupper(se_env[i]);
