@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.30 $ $Date: 2005/12/07 11:11:46 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.31 $ $Date: 2005/12/08 16:20:13 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -167,7 +167,7 @@ lfc_init (char *errbuf, int errbufsz) {
 char *
 lfc_get_catalog_endpoint(char *errbuf, int errbufsz) {
         if(lfc_init(errbuf, errbufsz) < 0)
-                return (-1);
+                return (NULL);
         return lfc_host;
 }
 
