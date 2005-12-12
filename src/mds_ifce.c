@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.22 $ $Date: 2005/12/08 16:10:13 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.23 $ $Date: 2005/12/12 10:17:41 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -429,12 +429,13 @@ notfound:	snprintf(error_str, ERROR_STR_LEN, "SA Root not found for host : %s", 
 
 /* Get from the BDII the SAPath */
 
-get_sa_path (const char *host, const char *vo, char **sa_path, char *errbuf, int errbufsz)
+get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, char *errbuf, int errbufsz)
 {
 	static char sa_path_atnm[] = "GlueSAPath";
+	static char sa_root_atnm[] = "GlueSARoot";
 	static char *template = "(&(GlueSALocalID=%s)(GlueChunkKey=GlueSEUniqueID=%s))";
 	char *attr;
-	static char *attrs[] = {sa_path_atnm, NULL};
+	static char *attrs[] = {sa_root_atnm, sa_path_atnm, NULL};
 	int bdii_port;
 	char bdii_server[75];
 	LDAPMessage *entry;
@@ -481,27 +482,45 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char *errbuf, int
 		}
 		return (-1);
 	}
-	entry = ldap_first_entry (ld, reply);
+        *sa_path = NULL;
+        *sa_root = NULL;
+        entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, sa_path_atnm);
-		if (value == NULL) 
-			goto notfound;
-                /* We deal with pre-LCG 2.7.0 where SA Path was incorrect and had vo: prefix */
-                if ((strncmp(value[0], vo, strlen(vo)) == 0) && (*(value[0] + strlen(vo)) == ':')) {
-                        if ((*sa_path = strdup (value[0] + strlen (vo) + 1)) == NULL)
+		if (value != NULL) {
+                        /* We deal with pre-LCG 2.7.0 where SA Path was incorrect and had vo: prefix */
+                        if ((strncmp(value[0], vo, strlen(vo)) == 0) && (*(value[0] + strlen(vo)) == ':')) {
+                                if ((*sa_path = strdup (value[0] + strlen (vo) + 1)) == NULL)
+                                        rc = -1;
+                        } else
+                                if ((*sa_path = strdup (value[0])) == NULL)
+                                        rc = -1;
+                }
+                ldap_value_free (value);
+                
+		value = ldap_get_values (ld, entry, sa_root_atnm);
+		if (value != NULL) {
+                        if ((*sa_root = strdup (value[0] + strlen (vo) + 1)) == NULL)
                                 rc = -1;
-                } else
-                        if ((*sa_path = strdup (value[0])) == NULL)
-                                rc = -1;
-		ldap_value_free (value);
+                }
+                ldap_value_free (value);
 
 	} else {
-notfound:	snprintf(error_str, ERROR_STR_LEN, "SA Path not found for host : %s", host);
+                snprintf(error_str, ERROR_STR_LEN, "No GlueSA information found for SE (vo) : %s (%s)", host, vo);
                 gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
 	}
-	ldap_msgfree (reply);
+        if (rc == 0)
+                if (*sa_path == NULL && *sa_root == NULL) {
+                        snprintf(error_str, ERROR_STR_LEN, 
+                                 "Both SAPath and SARoot not set for SE (vo) : %s (%s)", 
+                                 host, vo);
+                        gfal_errmsg (errbuf, errbufsz, error_str);
+                        errno = EINVAL;
+                        rc = -1;
+                }
+        ldap_msgfree (reply);
 	ldap_unbind (ld);
 	return (rc);
 }
