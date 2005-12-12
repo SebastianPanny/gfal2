@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.20 $ $Date: 2005/12/08 09:03:18 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.21 $ $Date: 2005/12/12 10:22:26 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following line to put the actual path
@@ -237,7 +237,7 @@ dist:
 rpm: dist GFAL.spec
 	mkdir -p SOURCES SPECS BUILD SRPMS RPMS/i386
 	cp $(distdir).src.tar.gz SOURCES
-	cp GFAL.spec SPECS
+	sed -e "s/@VERSION@/$(VERSION)/g" GFAL.spec > SPECS/GFAL.spec
 	if [ -x /usr/bin/rpmbuild ] ; \
 	then \
 	  rpmbuild --define "_topdir `pwd`" -ba SPECS/GFAL.spec ; \
