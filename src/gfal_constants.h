@@ -3,11 +3,13 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_constants.h,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_constants.h,v $ $Revision: 1.2 $ $Date: 2005/12/12 10:16:27 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_CONSTANTS_H
 #define _GFAL_CONSTANTS_H
 
 #define GFAL_OPEN_MAX 1024
+
+#define GFAL_DEFAULT_CATALOG_TYPE "lfc"
 #endif

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.24 $ $Date: 2005/12/08 16:10:13 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.25 $ $Date: 2005/12/12 10:16:27 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1154,8 +1154,7 @@ turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 
 get_cat_type (char **cat_type) {
 	char *cat_env;
-	/* JC FIXME no hardcoded strings */
-	char *default_cat = "edg";
+	char *default_cat = GFAL_DEFAULT_CATALOG_TYPE;
 
 	if((cat_env = getenv ("LCG_CATALOG_TYPE")) == NULL) {
 		/* default catalogs if no environment variable specified */
