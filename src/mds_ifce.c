@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.23 $ $Date: 2005/12/12 10:17:41 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.24 $ $Date: 2005/12/21 14:41:49 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -506,12 +506,16 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
                 ldap_value_free (value);
 
 	} else {
-                snprintf(error_str, ERROR_STR_LEN, "No GlueSA information found for SE (vo) : %s (%s)", host, vo);
-                gfal_errmsg (errbuf, errbufsz, error_str);
-		errno = EINVAL;
-		rc = -1;
+                /* try and get SA root via old method for pre-2.5 SEs */
+                if (get_sa_rootx (host, vo, sa_root, errbuf, errbufsz) < 0 ) {
+                        snprintf(error_str, ERROR_STR_LEN, "No GlueSA information found for SE (vo) : %s (%s)", host, vo);
+                        gfal_errmsg (errbuf, errbufsz, error_str);
+                        errno = EINVAL;
+                        rc = -1;               
+                } 
+                
 	}
-        if (rc == 0)
+        if (rc == 0) 
                 if (*sa_path == NULL && *sa_root == NULL) {
                         snprintf(error_str, ERROR_STR_LEN, 
                                  "Both SAPath and SARoot not set for SE (vo) : %s (%s)", 
