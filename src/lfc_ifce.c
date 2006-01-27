@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.31 $ $Date: 2005/12/08 16:20:13 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.32 $ $Date: 2006/01/27 17:24:25 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -287,7 +287,7 @@ char **
 lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 {
   lfc_list list;
-  struct lfc_filereplica* rp;
+ struct lfc_filereplica* rp;
   int flags;
   char **p, **pp;
   size_t size = ALLOC_BLOCK_SIZE;
@@ -312,7 +312,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
       return (NULL);
     }
     
-    if(i >= size) {
+    if(i == size) {
       size += ALLOC_BLOCK_SIZE;
       if((pp = (char**)realloc(p, size * sizeof(char*))) == NULL) {
 	(void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
@@ -324,13 +324,13 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
   } 
   (void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
 
-  i++;
   /* and trim */
-  if((pp = (char**)realloc(p, i * sizeof(char*))) == NULL) {
+  if((pp = (char**)realloc(p, (i+1) * sizeof(char*))) == NULL) {
     free(p);
     return (NULL);
   }
   
+  pp[i] = NULL;
   return (pp);
 }
 
@@ -342,7 +342,7 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
   char *result;
   
   if(lfc_init(errbuf, errbufsz) < 0)
-    return (NULL);
+   return (NULL);
 
   if((surls = lfc_surlsfromguid(guid, errbuf, errbufsz)) == NULL) {
     return (NULL);
@@ -436,7 +436,7 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
       return (NULL);
     }
     
-    if(i >= size) {
+    if(i == size) {
       size += ALLOC_BLOCK_SIZE;
       if((pp = (char**)realloc(p, size * sizeof(char*))) == NULL) {
 	(void) fcops.listlinks(NULL, guid, CNS_LIST_END, &list);
@@ -454,12 +454,11 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
     return (NULL);
   }
 
-  i++;
-  if((pp = (char**)realloc(p, i * sizeof(char*))) == NULL) {
+  if((pp = (char**)realloc(p, (i+1) * sizeof(char*))) == NULL) {
     free (p);
     return (NULL);
   }
-
+  pp[i] = NULL;
   return (pp);
 }
 
