@@ -3,47 +3,96 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.22 $ $Date: 2005/12/12 10:51:57 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.23 $ $Date: 2006/03/06 21:49:06 $ CERN Jean-Philippe Baud
 #
 
-# Edit the following line to put the actual path
+# global location defaults, which can be overidden by make parameters
+ifeq ($(SRCDIR), $(EMPTY))
+SRCDIR=.
+else
+VPATH=.:$(SRCDIR)
+endif
 
-GSOAP = /opt/gsoap-linux-2.6
+ifeq ($(GSOAP_LOCATION), $(EMPTY))
+GSOAP_LOCATION=/opt/gsoap-linux-2.6
+GSOAPINC=-I$(GSOAP_LOCATION)
+else
+GSOAPINC=-I$(GSOAP_LOCATION)/include
+endif
+
+ifeq ($(prefix), $(EMPTY))
+prefix=/opt/lcg
+endif
+
+ifeq ($(LFC_LOCATION), $(EMPTY))
+LFC_LOCATION=$(prefix)
+endif
+
+ifeq ($(DPM_LOCATION), $(EMPTY))
+DPM_LOCATION=$(prefix)
+endif
+
+ifeq ($(DCAP_LOCATION), $(EMPTY))
+DCAP_LOCATION=/opt/d-cache/dcap
+endif
+
+ifeq ($(GLOBUS_LOCATION), $(EMPTY))
+GLOBUS_LOCATION=/opt/globus
+endif
+ifeq ($(GLOBUS_FLAVOUR), $(EMPTY))
+GLOBUS_FLAVOUR = gcc32dbg
+endif
+ifeq ($(GLOBUS_FLAVOUR_PTHR), $(EMPTY))
+GLOBUS_FLAVOUR_PTHR = $(GLOBUS_FLAVOUR)pthr
+endif
+
+ifeq ($(CGSI_GSOAP_LOCATION), $(EMPTY))
+CGSI_GSOAP_LOCATION=/usr/local
+endif
+ifeq ($(CGSI_GSOAP_VERSION), $(EMPTY))
+CGSI_GSOAP_VERSION=gsoap_2.6
+endif
+
+
+ifeq ($(VERSION), $(EMPTY))
+include VERSION
+endif
+
 
 # To configure LFC integration
-LFCINC=-I$(prefix)/opt/lcg/include/lfc
+LFCINC=-I$(LFC_LOCATION)/include/lfc
 
 # To enable RFIO support, uncomment the next 2 lines
 RFIOFLG = -DGFAL_ENABLE_RFIO
-RFIOINC = -I/usr/include/shift -I/usr/local/include/shift -I$(prefix)/opt/lcg/include/dpm
+RFIOINC = -I/usr/include/shift -I/usr/local/include/shift -I$(DPM_LOCATION)/include/dpm
 
 # To enable DCAP support, uncomment the next 2 lines
 DCAPFLG = -DGFAL_ENABLE_DCAP
-DCAPINC = -I/opt/d-cache/dcap/include
+DCAPINC = -I$(DCAP_LOCATION)/include
 
 # To add support for a new protocol, define a new flag (and possibly a new
 # header path) and add it to PROTOFLG
 PROTOFLG = $(RFIOFLG) $(RFIOINC) $(DCAPFLG) $(DCAPINC)
 
-# To enable secure mode, uncomment the next 4 lines
+# To enable secure mode, uncomment the next 6 lines
 SECFLG = -DGFAL_SECURE
-GLOBUS_FLAVOUR=gcc32dbg
-GLOBUS_LIBS=-L/opt/globus/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR)
-GLOBUS_LIBS_PTHR=-L/opt/globus/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR)pthr -lglobus_gss_assist_$(GLOBUS_FLAVOUR)pthr
-SECLIB = -lcgsi_plugin_gsoap_2.6 $(GLOBUS_LIBS)
-SECLIB_PTHR = -lcgsi_plugin_gsoap_2.6 $(GLOBUS_LIBS_PTHR)
+GLOBUS_LIBS=-L$(GLOBUS_LOCATION)/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR)
+GLOBUS_LIBS_PTHR=-L$(GLOBUS_LOCATION)/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR_PTHR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR_PTHR)
+CGSI_GSOAP_LIBS=-L$(CGSI_GSOAP_LOCATION)/lib -lcgsi_plugin_$(CGSI_GSOAP_VERSION)
+SECLIB = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS)
+SECLIB_PTHR = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS_PTHR)
 
 
 # End of the part to be edited
 
-include VERSION
 PACKAGE = GFAL-client
 distdir = $(PACKAGE)-$(VERSION)
 
-CC = cc -g -fPIC -D_LARGEFILE64_SOURCE
+CC = cc -g -fPIC -D_LARGEFILE64_SOURCE -I$(SRCDIR) -I.
 SHLIBLDFLAGS = -shared
 
-GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm_ifce.o srmC.o srmClient.o stdsoap2.o lfc_ifce.o
+#GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm_ifce.o srmC.o srmClient.o stdsoap2.o lfc_ifce.o
+GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm_ifce.o srmC.o srmClient.o lfc_ifce.o
 
 all: libgfal.a libgfal.so libgfal_pthr.so gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
 
@@ -54,26 +103,26 @@ libgfal.so: $(GFAL_OBJS)
 libgfal_pthr.so: $(GFAL_OBJS)
 	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -luuid -lc -lldap -ldl
 
-checkprotolib.o: gfal.h checkprotolib.c
-	$(CC) -c $(PROTOFLG) checkprotolib.c
-gfal.o: gfal.h gfal_api.h gfal_constants.h gfal.c
-	$(CC) -c $(SECFLG) gfal.c
-lrc_ifce.o: lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap lrc_ifce.c
-	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL lrc_ifce.c
-rmc_ifce.o: rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap rmc_ifce.c
-	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL rmc_ifce.c
+checkprotolib.o: checkprotolib.c gfal.h 
+	$(CC) -c $(PROTOFLG) $<
+gfal.o: gfal.c gfal.h gfal_api.h gfal_constants.h
+	$(CC) -c $(SECFLG) $<
+lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap
+	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
+rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap
+	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
 lfc_ifce.o: lfc_ifce.c
-	$(CC) -c -DVERSION=\"GFAL-$(VERSION)\" $(LFCINC) $(SECFLG) lfc_ifce.c
-se_ifce.o: seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding+.nsmap
-	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL se_ifce.c
-srm_ifce.o: srmH.h srmStub.h ISRM.nsmap srm_ifce.c
-	$(CC) -c -I$(GSOAP) $(SECFLG) srm_ifce.c
+	$(CC) -c -DVERSION=\"GFAL-$(VERSION)\" $(LFCINC) $(SECFLG) $<
+se_ifce.o: se_ifce.c seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding+.nsmap
+	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
+srm_ifce.o: srm_ifce.c srmH.h srmStub.h ISRM.nsmap
+	$(CC) -c $(GSOAPINC) $(SECFLG) $<
 srmC.o: srmC.c
-	$(CC) -c -I$(GSOAP) srmC.c
+	$(CC) -c $(GSOAPINC) $<
 srmClient.o: srmClient.c
-	$(CC) -c -I$(GSOAP) srmClient.c
-stdsoap2.o: $(GSOAP)/stdsoap2.c
-	$(CC) -c -I$(GSOAP) $(GSOAP)/stdsoap2.c
+	$(CC) -c $(GSOAPINC) $<
+stdsoap2.o: $(GSOAP_LOCATION)/stdsoap2.c
+	$(CC) -c $(GSOAPINC) $(GSOAP_LOCATION)/stdsoap2.c
 
 edg_local_replica_catalogSoapBinding+.nsmap: edg_local_replica_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_lrc/' $? > $@
@@ -83,149 +132,150 @@ edg_se_webserviceSoapBinding+.nsmap: edg_se_webserviceSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_se/' $? > $@
 
 lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding.nsmap: edg-local-replica-catalog.h
-	$(GSOAP)/soapcpp2 -c -p lrc edg-local-replica-catalog.h
+	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p lrc edg-local-replica-catalog.h
 rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding.nsmap: edg-replica-metadata-catalog.h
-	$(GSOAP)/soapcpp2 -c -p rmc edg-replica-metadata-catalog.h
+	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p rmc edg-replica-metadata-catalog.h
 seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding.nsmap: edg-se-webservice.h
-	$(GSOAP)/soapcpp2 -c -p se edg-se-webservice.h
+	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p se edg-se-webservice.h
 srmH.h srmStub.h srmC.c srmClient.c ISRM.nsmap: srm.v1.1.h
-	$(GSOAP)/soapcpp2 -c -p srm srm.v1.1.h
+	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p srm srm.v1.1.h
 
 edg-local-replica-catalog.h: edg-local-replica-catalog.wsdl
-	$(GSOAP)/wsdl2h -c -t typemap.dat edg-local-replica-catalog.wsdl
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
 edg-replica-metadata-catalog.h: edg-replica-metadata-catalog.wsdl
-	$(GSOAP)/wsdl2h -c -t typemap.dat edg-replica-metadata-catalog.wsdl
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
 edg-se-webservice.h: edg-se-webservice.wsdl
-	$(GSOAP)/wsdl2h -c -t typemap.dat edg-se-webservice.wsdl
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
 srm.v1.1.h: srm.v1.1.wsdl
-	$(GSOAP)/wsdl2h -c -t typemap.dat srm.v1.1.wsdl
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
 
-gfal_testdir: gfal_api.h libgfal.so
-	$(CC) -o gfal_testdir gfal_testdir.c -L. -lgfal $(SECLIB) -luuid
-gfal_testget: gfal_api.h libgfal.so
-	$(CC) -o gfal_testget gfal_testget.c -L. -lgfal $(SECLIB) -luuid
-gfal_testread: gfal_api.h libgfal.so
-	$(CC) -o gfal_testread gfal_testread.c -L. -lgfal $(SECLIB) -luuid
-gfal_testrw: gfal_api.h libgfal.so
-	$(CC) -o gfal_testrw gfal_testrw.c -L. -lgfal $(SECLIB) -luuid
-gfal_teststat: gfal_api.h libgfal.so
-	$(CC) -o gfal_teststat gfal_teststat.c -L. -lgfal $(SECLIB) -luuid
-gfal_testunlink: gfal_api.h libgfal.so
-	$(CC) -o gfal_testunlink gfal_testunlink.c -L. -lgfal $(SECLIB) -luuid
+CLI_LIBS=-L. -lgfal $(SECLIB) -luuid -L$(GSOAP_LOCATION)/lib -lgsoap
+gfal_testdir: gfal_testdir.c gfal_api.h libgfal.so
+	$(CC) -o gfal_testdir $(CLI_LIBS) $<
+gfal_testget: gfal_testget.c gfal_api.h libgfal.so
+	$(CC) -o gfal_testget $(CLI_LIBS) $<
+gfal_testread: gfal_testread.c gfal_api.h libgfal.so
+	$(CC) -o gfal_testread $(CLI_LIBS) $<
+gfal_testrw: gfal_testrw.c  gfal_api.h libgfal.so
+	$(CC) -o gfal_testrw $(CLI_LIBS) $<
+gfal_teststat: gfal_teststat.c gfal_api.h libgfal.so
+	$(CC) -o gfal_teststat $(CLI_LIBS) $<
+gfal_testunlink: gfal_testunlink.c gfal_api.h libgfal.so
+	$(CC) -o gfal_testunlink $(CLI_LIBS) $<
 
-install: $(prefix)/opt/lcg/bin \
-	 $(prefix)/opt/lcg/bin/gfal_testdir \
-	 $(prefix)/opt/lcg/bin/gfal_testget \
-	 $(prefix)/opt/lcg/bin/gfal_testread \
-	 $(prefix)/opt/lcg/bin/gfal_testrw \
-	 $(prefix)/opt/lcg/bin/gfal_teststat \
-	 $(prefix)/opt/lcg/bin/gfal_testunlink \
-	 $(prefix)/opt/lcg/include $(prefix)/opt/lcg/include/gfal_api.h \
-	 $(prefix)/opt/lcg/include/gfal_constants.h \
-	 $(prefix)/opt/lcg/lib \
-	 $(prefix)/opt/lcg/lib/libgfal.a $(prefix)/opt/lcg/lib/libgfal.so \
-	 $(prefix)/opt/lcg/lib/libgfal_pthr.so
+install: $(prefix)/bin \
+	 $(prefix)/bin/gfal_testdir \
+	 $(prefix)/bin/gfal_testget \
+	 $(prefix)/bin/gfal_testread \
+	 $(prefix)/bin/gfal_testrw \
+	 $(prefix)/bin/gfal_teststat \
+	 $(prefix)/bin/gfal_testunlink \
+	 $(prefix)/include $(prefix)/include/gfal_api.h \
+	 $(prefix)/include/gfal_constants.h \
+	 $(prefix)/lib \
+	 $(prefix)/lib/libgfal.a $(prefix)/lib/libgfal.so \
+	 $(prefix)/lib/libgfal_pthr.so
 
-$(prefix)/opt/lcg/bin:
+$(prefix)/bin:
 	mkdir -p $@
 
-$(prefix)/opt/lcg/bin/gfal_testdir: gfal_testdir
-	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
+$(prefix)/bin/gfal_testdir: gfal_testdir
+	-mv $@ $(prefix)/bin/OLD$?
 	cp -p $? $@
-$(prefix)/opt/lcg/bin/gfal_testget: gfal_testget
-	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
+$(prefix)/bin/gfal_testget: gfal_testget
+	-mv $@ $(prefix)/bin/OLD$?
 	cp -p $? $@
-$(prefix)/opt/lcg/bin/gfal_testread: gfal_testread
-	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
+$(prefix)/bin/gfal_testread: gfal_testread
+	-mv $@ $(prefix)/bin/OLD$?
 	cp -p $? $@
-$(prefix)/opt/lcg/bin/gfal_testrw: gfal_testrw
-	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
+$(prefix)/bin/gfal_testrw: gfal_testrw
+	-mv $@ $(prefix)/bin/OLD$?
 	cp -p $? $@
-$(prefix)/opt/lcg/bin/gfal_teststat: gfal_teststat
-	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
+$(prefix)/bin/gfal_teststat: gfal_teststat
+	-mv $@ $(prefix)/bin/OLD$?
 	cp -p $? $@
-$(prefix)/opt/lcg/bin/gfal_testunlink: gfal_testunlink
-	-mv $@ $(prefix)/opt/lcg/bin/OLD$?
+$(prefix)/bin/gfal_testunlink: gfal_testunlink
+	-mv $@ $(prefix)/bin/OLD$?
 	cp -p $? $@
 
-$(prefix)/opt/lcg/include:
+$(prefix)/include:
 	mkdir -p $@
 
-$(prefix)/opt/lcg/include/gfal_api.h: gfal_api.h
-	-mv $@ $(prefix)/opt/lcg/include/OLD$?
+$(prefix)/include/gfal_api.h: gfal_api.h
+	-mv $@ $(prefix)/include/OLD$?
 	cp -p $? $@
-$(prefix)/opt/lcg/include/gfal_constants.h: gfal_constants.h
-	-mv $@ $(prefix)/opt/lcg/include/OLD$?
+$(prefix)/include/gfal_constants.h: gfal_constants.h
+	-mv $@ $(prefix)/include/OLD$?
 	cp -p $? $@
 
-$(prefix)/opt/lcg/lib:
+$(prefix)/lib:
 	mkdir -p $@
 
-$(prefix)/opt/lcg/lib/libgfal.a: libgfal.a
-	-mv $@ $(prefix)/opt/lcg/lib/OLD$?
+$(prefix)/lib/libgfal.a: libgfal.a
+	-mv $@ $(prefix)/lib/OLD$?
 	cp -p $? $@
-$(prefix)/opt/lcg/lib/libgfal.so: libgfal.so
-	-mv $@ $(prefix)/opt/lcg/lib/OLD$?
+$(prefix)/lib/libgfal.so: libgfal.so
+	-mv $@ $(prefix)/lib/OLD$?
 	cp -p $? $@
-$(prefix)/opt/lcg/lib/libgfal_pthr.so: libgfal_pthr.so
-	-mv $@ $(prefix)/opt/lcg/lib/OLD$?
+$(prefix)/lib/libgfal_pthr.so: libgfal_pthr.so
+	-mv $@ $(prefix)/lib/OLD$?
 	cp -p $? $@
 
-install.man: $(prefix)/opt/lcg/man/man3 \
-	     $(prefix)/opt/lcg/man/man3/gfal.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_access.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_chmod.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_close.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_closedir.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_creat.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_lseek.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_mkdir.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_open.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_opendir.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_read.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_readdir.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_rename.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_rmdir.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_stat.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_unlink.3 \
-	     $(prefix)/opt/lcg/man/man3/gfal_write.3
+install.man: $(prefix)/man/man3 \
+	     $(prefix)/man/man3/gfal.3 \
+	     $(prefix)/man/man3/gfal_access.3 \
+	     $(prefix)/man/man3/gfal_chmod.3 \
+	     $(prefix)/man/man3/gfal_close.3 \
+	     $(prefix)/man/man3/gfal_closedir.3 \
+	     $(prefix)/man/man3/gfal_creat.3 \
+	     $(prefix)/man/man3/gfal_lseek.3 \
+	     $(prefix)/man/man3/gfal_mkdir.3 \
+	     $(prefix)/man/man3/gfal_open.3 \
+	     $(prefix)/man/man3/gfal_opendir.3 \
+	     $(prefix)/man/man3/gfal_read.3 \
+	     $(prefix)/man/man3/gfal_readdir.3 \
+	     $(prefix)/man/man3/gfal_rename.3 \
+	     $(prefix)/man/man3/gfal_rmdir.3 \
+	     $(prefix)/man/man3/gfal_stat.3 \
+	     $(prefix)/man/man3/gfal_unlink.3 \
+	     $(prefix)/man/man3/gfal_write.3
 
-$(prefix)/opt/lcg/man/man3:
+$(prefix)/man/man3:
 	mkdir -p $@
 
-$(prefix)/opt/lcg/man/man3/gfal.3: gfal.man
+$(prefix)/man/man3/gfal.3: gfal.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_access.3: gfal_access.man
+$(prefix)/man/man3/gfal_access.3: gfal_access.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_chmod.3: gfal_chmod.man
+$(prefix)/man/man3/gfal_chmod.3: gfal_chmod.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_close.3: gfal_close.man
+$(prefix)/man/man3/gfal_close.3: gfal_close.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_closedir.3: gfal_closedir.man
+$(prefix)/man/man3/gfal_closedir.3: gfal_closedir.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_creat.3: gfal_creat.man
+$(prefix)/man/man3/gfal_creat.3: gfal_creat.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_lseek.3: gfal_lseek.man
+$(prefix)/man/man3/gfal_lseek.3: gfal_lseek.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_mkdir.3: gfal_mkdir.man
+$(prefix)/man/man3/gfal_mkdir.3: gfal_mkdir.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_open.3: gfal_open.man
+$(prefix)/man/man3/gfal_open.3: gfal_open.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_opendir.3: gfal_opendir.man
+$(prefix)/man/man3/gfal_opendir.3: gfal_opendir.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_read.3: gfal_read.man
+$(prefix)/man/man3/gfal_read.3: gfal_read.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_readdir.3: gfal_readdir.man
+$(prefix)/man/man3/gfal_readdir.3: gfal_readdir.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_rename.3: gfal_rename.man
+$(prefix)/man/man3/gfal_rename.3: gfal_rename.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_rmdir.3: gfal_rmdir.man
+$(prefix)/man/man3/gfal_rmdir.3: gfal_rmdir.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_stat.3: gfal_stat.man
+$(prefix)/man/man3/gfal_stat.3: gfal_stat.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_unlink.3: gfal_unlink.man
+$(prefix)/man/man3/gfal_unlink.3: gfal_unlink.man
 	cp -p $? $@
-$(prefix)/opt/lcg/man/man3/gfal_write.3: gfal_write.man
+$(prefix)/man/man3/gfal_write.3: gfal_write.man
 	cp -p $? $@
 
 dist:
@@ -251,3 +301,7 @@ clean:
 	rm -rf tmp SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Object.h *Proxy.h *Stub.h *C.c *Client.c *Lib.c *Server.c *.nsmap *.xml $(distdir) 
 clobber: clean
 	rm -f libgfal.a gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
+
+# glite compatibility rules
+#check: test
+check: 

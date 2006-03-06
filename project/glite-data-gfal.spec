@@ -1,7 +1,7 @@
 Summary: Grid File Access Library
 Name: GFAL-client
-Version: @VERSION@
-Release: 1
+Version: @MODULE.VERSION@
+Release: @MODULE.AGE@
 Source0: %{name}-%{version}.src.tar.gz
 License: GPL
 Group: Application/File
