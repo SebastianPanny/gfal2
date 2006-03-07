@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.24 $ $Date: 2006/03/07 09:46:19 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.25 $ $Date: 2006/03/07 10:24:04 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -82,6 +82,7 @@ SECFLG = -DGFAL_SECURE
 GLOBUS_LIBS=-L$(GLOBUS_LOCATION)/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR)
 GLOBUS_LIBS_PTHR=-L$(GLOBUS_LOCATION)/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR_PTHR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR_PTHR)
 CGSI_GSOAP_LIBS=-L$(CGSI_GSOAP_LOCATION)/lib -lcgsi_plugin_$(CGSI_GSOAP_VERSION)
+CGSI_GSOAP_INC=-I$(CGSI_GSOAP_LOCATION)/include
 SECLIB = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS)
 SECLIB_PTHR = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS_PTHR)
 
@@ -91,7 +92,7 @@ SECLIB_PTHR = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS_PTHR)
 PACKAGE = GFAL-client
 distdir = $(PACKAGE)-$(VERSION)
 
-CC = cc -g -fPIC -D_LARGEFILE64_SOURCE -I$(SRCDIR) -I.
+CC = cc -g -fPIC -D_LARGEFILE64_SOURCE -I$(SRCDIR) -I. $(CGSI_GSOAP_INC)
 SHLIBLDFLAGS = -shared
 
 #GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm_ifce.o srmC.o srmClient.o stdsoap2.o lfc_ifce.o
