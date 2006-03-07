@@ -8,7 +8,7 @@
 
     Authors: 
          Akos Frohner <Akos.Frohner@cern.ch>
-	Version info: $Id: build.xml,v 1.1 2006/03/06 21:49:06 szamsu Exp $
+	Version info: $Id: build.xml,v 1.2 2006/03/07 09:46:19 szamsu Exp $
 -->
 
 <project name="gfal" default="dist">
@@ -77,14 +77,30 @@
 	<target name="localinit"
 		description="Module specific initialization tasks">
         <copy file="${module.src.dir}/Makefile.${os.name}" tofile="${module.build.dir}/Makefile"/>
+        
+        <!-- this rule does not work in configure.xml -->
         <propertyregex property="ext.gsoap.version.simple" input="${ext.gsoap.version}"
             regexp="^(\d+)\.(\d+)\." select="\1.\2"/>
-        <property name="build.make.arguments"
-                      value="SRCDIR=${module.src.dir} GSOAP_LOCATION=${with.gsoap.prefix} GLOBUS_LOCATION=${with.globus.prefix} GLOBUS_FLAVOUR=${with.globus.dbg.nothr.flavor} GLOBUS_FLAVOUR_PTHR=${with.globus.dbg.thr.flavor} LFC_LOCATION=${stage.abs.dir} DCAP_LOCATION=${with.dcap.prefix} CGSI_GSOAP_LOCATION=${stage.abs.dir} CGSI_GSOAP_VERSION=gsoap_${ext.gsoap.version.simple} VERSION=${module.version}"/>
+
+        <!-- Configure include directories -->
+        <echo>Configuring makefile</echo>
+        <echo file="${module.build.dir}/Makefile.inc">
+SRCDIR=${module.src.dir}
+VERSION=${module.version}
+
+GSOAP_LOCATION=${with.gsoap.prefix}
+GLOBUS_LOCATION=${with.globus.prefix}
+GLOBUS_FLAVOUR=${with.globus.dbg.nothr.flavor}
+GLOBUS_FLAVOUR_PTHR=${with.globus.dbg.thr.flavor}
+LFC_LOCATION=${stage.abs.dir}
+DCAP_LOCATION=${with.dcap.prefix}
+CGSI_GSOAP_LOCATION=${stage.abs.dir}
+CGSI_GSOAP_VERSION=gsoap_${ext.gsoap.version.simple}
+        </echo>
         <!-- debugging aid -->
         <echo  file="${module.build.dir}/mymake">
             cp -u ${module.src.dir}/Makefile.${os.name} ${module.build.dir}/Makefile
-            make ${build.make.arguments} $*
+            make $*
         </echo>
         <chmod file="${module.build.dir}/mymake" perm="ugo+rx"/>
 	</target>
@@ -97,7 +113,56 @@
 		description="Module specific cleaning tasks">
 	</target>
 
+    <target name="stage" depends="doc">
+        <make target="install" dir="${module.build.dir}" failonerror="${failonerror}" args="prefix=${stage.abs.dir}"/>
+        <make target="install.man" dir="${module.build.dir}" failonerror="${failonerror}" args="prefix=${stage.abs.dir}"/>
+    </target>
+
+    <target name="distbin" depends="doc">
+        <!-- do a local install -->
+        <mkdir dir="${module.dir}/tempbuild"/>
+        <make target="install" dir="${module.build.dir}" failonerror="${failonerror}" args="prefix=${module.dir}/tempbuild"/>
+        <make target="install.man" dir="${module.build.dir}" failonerror="${failonerror}" args="prefix=${module.dir}/tempbuild"/>
+        
+        <!-- pack everything together -->
+		<if>
+			<isset property="isWindows"/>
+			<then>
+				<zip destfile="${module.dir}/${dist.dir}/${module.package.name}-${module.version}_bin.zip"
+					basedir="tempbuild"
+					includes="**/*"/>
+			</then>
+			<else>
+				<exec executable="tar" dir="tempbuild">
+					<arg line="-czf ${module.dir}/${dist.dir}/${module.package.name}-${module.version}_bin.tar.gz ." />
+				</exec>
+			</else>
+		</if>
 	
+		<!-- clean up: remove temporary directories -->
+		<delete dir="tempbuild" />
+    </target>
+
+    <target name="distsrc" depends="localinit">
+        <!-- Make tarball including all directories -->
+		<if>
+			<isset property="isWindows"/>
+			<then>
+				<zip destfile="${dist.dir}/${module.package.name}-${module.version}_src.zip"
+					basedir="${module.dir}"
+					includes="LICENSE RELEASE-NOTES src/**/*"
+                    excludes="CVS autogen"/>
+			</then>
+			<else>
+				<exec executable="tar">
+					<arg line="-czf ${dist.dir}/${module.package.name}-${module.version}_src.tar.gz --exclude=CVS --exclude=autogen LICENSE RELEASE-NOTES src" />
+				</exec>
+			</else>
+		</if>
+    </target>
+
+    <target name="dist" depends="stage, distsrc, distbin, package.spec, packager"/>
+
     <!-- https://savannah.cern.ch/bugs/?func=detailitem&item_id=14961 -->
 	<!-- Creates directories and prepares necessary environment for rpm building -->
 	<target name="rpm.init" depends="init.rpm.properties">

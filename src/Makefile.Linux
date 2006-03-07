@@ -3,8 +3,11 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.23 $ $Date: 2006/03/06 21:49:06 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.24 $ $Date: 2006/03/07 09:46:19 $ CERN Jean-Philippe Baud
 #
+
+# trying to include 'Makefile.inc', but do not fail if it is not there
+-include Makefile.inc
 
 # global location defaults, which can be overidden by make parameters
 ifeq ($(SRCDIR), $(EMPTY))
@@ -302,6 +305,8 @@ clean:
 clobber: clean
 	rm -f libgfal.a gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
 
-# glite compatibility rules
-#check: test
+# gLite compatibility rules
+
 check: 
+	@echo "No test defined yet ..."
+
