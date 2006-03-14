@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.25 $ $Date: 2006/03/07 10:24:04 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.26 $ $Date: 2006/03/14 08:48:58 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -79,12 +79,28 @@ PROTOFLG = $(RFIOFLG) $(RFIOINC) $(DCAPFLG) $(DCAPINC)
 
 # To enable secure mode, uncomment the next 6 lines
 SECFLG = -DGFAL_SECURE
-GLOBUS_LIBS=-L$(GLOBUS_LOCATION)/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR)
+GLOBUS_LIBS=-L$(GLOBUS_LOCATION)/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR) \
+		-lglobus_gsi_proxy_core_$(GLOBUS_FLAVOUR) \
+		-lglobus_gsi_credential_$(GLOBUS_FLAVOUR) \
+		-lglobus_gsi_callback_$(GLOBUS_FLAVOUR) \
+		-lglobus_oldgaa_$(GLOBUS_FLAVOUR) \
+		-lglobus_gsi_sysconfig_$(GLOBUS_FLAVOUR) \
+		-lglobus_gsi_cert_utils_$(GLOBUS_FLAVOUR) \
+		-lglobus_openssl_$(GLOBUS_FLAVOUR) \
+		-lglobus_proxy_ssl_$(GLOBUS_FLAVOUR) \
+		-lglobus_openssl_error_$(GLOBUS_FLAVOUR) \
+		-lssl_$(GLOBUS_FLAVOUR) \
+		-lcrypto_$(GLOBUS_FLAVOUR) \
+		-lglobus_common_$(GLOBUS_FLAVOUR) 
+
+
 GLOBUS_LIBS_PTHR=-L$(GLOBUS_LOCATION)/lib -lglobus_gssapi_gsi_$(GLOBUS_FLAVOUR_PTHR) -lglobus_gss_assist_$(GLOBUS_FLAVOUR_PTHR)
 CGSI_GSOAP_LIBS=-L$(CGSI_GSOAP_LOCATION)/lib -lcgsi_plugin_$(CGSI_GSOAP_VERSION)
 CGSI_GSOAP_INC=-I$(CGSI_GSOAP_LOCATION)/include
 SECLIB = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS)
 SECLIB_PTHR = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS_PTHR)
+
+
 
 
 # End of the part to be edited
