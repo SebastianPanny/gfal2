@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.19 $ $Date: 2005/12/06 16:24:51 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.20 $ $Date: 2006/03/31 15:53:11 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
