@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testget.c,v $ $Revision: 1.2 $ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_testget.c,v $ $Revision: 1.3 $ $Date: 2006/04/11 12:44:25 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -21,10 +21,11 @@ char **argv;
 	int nbfiles;
 	int nbprotocols;
 	int nbreplies;
-	static char *protocols[] = {"rfio"};
+	static char *protocols[] = {"rfio", "dcap", "gsiftp"};
 	int r = 0;
 	int reqid;
 	char **surls;
+	int num_done = 0;
 
 	if (argc < 2) {
 		fprintf (stderr, "usage: %s SURLs\n", argv[0]);
@@ -41,25 +42,25 @@ char **argv;
 		exit (1);
 	}
 
-	/* process files as soon as they are "ready" */
-
 	while (1) {
 		for (i = 0; i < nbreplies; i++) {
-			if ((filestatuses+i)->status == 1) {	/* file ready */
-				/* process it if not yet done */
+			if ((filestatuses+i)->status == 1) {	
+				/* file ready */
+				num_done++;
+				printf("SURL %s Ready - TURL: %s\n", (filestatuses+i)->surl, 
+								     (filestatuses+i)->turl);
+			} else if ((filestatuses+i)->status == 0) {
+				printf("SURL %s Pending\n", (filestatuses+i)->surl);
+			} else {
+				printf("SURL %s Failed\n", (filestatuses+i)->surl);
 			}
-			if ((filestatuses+i)->surl)
-				free ((filestatuses+i)->surl);
-			if ((filestatuses+i)->turl)
-				free ((filestatuses+i)->turl);
 		}
-		free (filestatuses);
 
-		/* if processing complete, break */ if (r) break;
+		/* if processing complete, break */ if (num_done == nbreplies) break;
 
 		sleep ((r++ == 0) ? 1 : DEFPOLLINT);
 		if ((nbreplies = srm_getstatus (nbfiles, surls, reqid, NULL,
-		    &filestatuses, 0)) < 0) {
+						&filestatuses, 0)) < 0) {
 			perror ("srm_getstatus");
 			exit (1);
 		}
