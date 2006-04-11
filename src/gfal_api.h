@@ -3,11 +3,18 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.24 $ $Date: 2006/03/31 15:52:38 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.25 $ $Date: 2006/04/11 12:45:33 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
 #define _GFAL_API_H
+
+/* enforce proper calling convention */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -197,4 +204,8 @@ int srm_getfilemd (const char *surl, struct stat64 *statbuf,
         char *errbuf, int errbufsz, int timeout);
 
 char *turlfromsfn (const char *, char **, char *, int);
+#ifdef __cplusplus
+}
+#endif
+
 #endif
