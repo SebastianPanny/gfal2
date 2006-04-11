@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.21 $ $Date: 2006/04/11 12:42:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.22 $ $Date: 2006/04/11 12:43:24 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -421,7 +421,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 				sav_errno = ECOMM;
 			}
 		} else  {
-		  gfal_errmsg(errbuf, errbufsz, "SRM Get request failed, but no errorMessage supplied");
+		  gfal_errmsg(errbuf, errbufsz, "SRM request failed, but no errorMessage supplied");
 		  sav_errno = ECOMM;
 		}
 		soap_end (&soap);
