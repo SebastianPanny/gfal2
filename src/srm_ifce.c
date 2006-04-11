@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.20 $ $Date: 2006/03/31 15:53:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.21 $ $Date: 2006/04/11 12:42:36 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -274,6 +274,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 	char **t;
+	time_t endtime;
 
 	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint),
 	    errbuf, errbufsz) < 0)
@@ -348,6 +349,9 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 
 	/* wait for file "ready" */
 
+	if (timeout > 0)
+		endtime = time(NULL) + timeout;
+	
 	while (strcmp (reqstatp->state, "pending") == 0 ||
 	    strcmp (reqstatp->state, "Pending") == 0) {
 		sleep ((r++ == 0) ? 1 : (reqstatp->retryDeltaTime > 0) ?
@@ -367,6 +371,32 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 			return (-1);
 		}
 		reqstatp = outq._Result;
+
+		/* check if user-supplied timeout has passed */
+		if (timeout > 0 && time(NULL) > endtime) {
+			for (i = 0; i < nbfiles-1; i++) {
+				struct ns5__setFileStatusResponse out;
+				if (ret = soap_call_ns5__setFileStatus (&soap, srm_endpoint,
+							"setFileStatus", *reqid, *fileids[i], "Done", &out)) {
+					if (soap.error == SOAP_EOF) {
+						gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
+						soap_end (&soap);
+						soap_done (&soap);
+						return (-1);
+					}
+					if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT)
+						gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+					soap_end (&soap);
+					soap_done (&soap);
+					return (-1);
+				}
+			}
+			gfal_errmsg(errbuf, errbufsz, "Waiting for Pending SRM request timed out\n");
+			soap_end(&soap);
+			soap_done(&soap);
+			return (-1);
+		}
+
 	}
 	if (strcmp (reqstatp->state, "failed") == 0 ||
 	    strcmp (reqstatp->state, "Failed") == 0) {
