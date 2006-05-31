@@ -8,7 +8,7 @@
 
     Authors: 
          Akos Frohner <Akos.Frohner@cern.ch>
-	Version info: $Id: build.xml,v 1.4 2006/04/12 09:12:56 szamsu Exp $
+	Version info: $Id: build.xml,v 1.5 2006/05/31 22:25:29 szamsu Exp $
 -->
 
 <project name="gfal" default="dist">
@@ -92,8 +92,8 @@ GSOAP_LOCATION=${with.gsoap.prefix}
 GLOBUS_LOCATION=${with.globus.prefix}
 GLOBUS_FLAVOUR=${with.globus.dbg.nothr.flavor}
 GLOBUS_FLAVOUR_PTHR=${with.globus.dbg.thr.flavor}
-LFC_LOCATION=${with.lfc-client.prefix}
-DPM_LOCATION=${with.dpm-client.prefix}
+LFC_LOCATION=${stage.abs.dir}
+DPM_LOCATION=${stage.abs.dir}
 DCAP_LOCATION=${with.dcap.prefix}
 CGSI_GSOAP_LOCATION=${stage.abs.dir}
 CGSI_GSOAP_VERSION=gsoap_${ext.gsoap.version.simple}
