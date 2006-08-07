@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.27 $ $Date: 2006/03/31 15:53:11 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.28 $ $Date: 2006/08/07 12:16:43 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -118,9 +118,9 @@ all: libgfal.a libgfal.so libgfal_pthr.so gfal_testdir gfal_testget gfal_testrea
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
 libgfal.so: $(GFAL_OBJS)
-	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) -luuid -lc -lldap -ldl
+	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap
 libgfal_pthr.so: $(GFAL_OBJS)
-	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -luuid -lc -lldap -ldl
+	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap
 
 checkprotolib.o: checkprotolib.c gfal.h 
 	$(CC) -c $(PROTOFLG) $<
@@ -179,7 +179,7 @@ srm.v1.1.h: srm.v1.1.wsdl
 srm.v2.1.2.h: srm.v2.1.2.wsdl
 	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
 
-CLI_LIBS=-L. -lgfal $(SECLIB) -luuid -L$(GSOAP_LOCATION)/lib -lgsoap
+CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
 gfal_testdir: gfal_testdir.c gfal_api.h libgfal.so
 	$(CC) -o gfal_testdir $(CLI_LIBS) $<
 gfal_testget: gfal_testget.c gfal_api.h libgfal.so
