@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.28 $ $Date: 2006/08/07 12:16:43 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.29 $ $Date: 2006/09/05 04:20:56 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -61,6 +61,13 @@ ifeq ($(VERSION), $(EMPTY))
 include VERSION
 endif
 
+_DEBUG=-D_DEBUG -g3 -gdwarf-2
+_DUMA=
+
+ifneq ($(_DUMA), $(EMPTY))
+DUMA_LIB=-lduma
+DUMA_INCLUDE=-I$(HOME)/duma
+endif
 
 # To configure LFC integration
 LFCINC=-I$(LFC_LOCATION)/include/lfc
@@ -108,23 +115,32 @@ SECLIB_PTHR = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS_PTHR)
 PACKAGE = GFAL-client
 distdir = $(PACKAGE)-$(VERSION)
 
-CC = cc -g -fPIC -D_LARGEFILE64_SOURCE -I$(SRCDIR) -I. $(CGSI_GSOAP_INC)
+CC = cc -g -fPIC -D_LARGEFILE64_SOURCE -I$(SRCDIR) -I. $(CGSI_GSOAP_INC) $(GSOAPINC) $(_DEBUG) $(DUMA_INCLUDE)
 SHLIBLDFLAGS = -shared
 
-GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm2_ifce.o srm_ifce.o srmC.o srmClient.o lfc_ifce.o
+GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm2_ifce.o srm_ifce.o srmC.o srmClient.o lfc_ifce.o  srm2_soap_conversion.o CuTest.o srm2_2_ifce.o srm2_2_conversion.o  
 
-all: libgfal.a libgfal.so libgfal_pthr.so gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
+all: libgfal.a libgfal.so libgfal_pthr.so gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink 
+
 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
 libgfal.so: $(GFAL_OBJS)
 	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap
+
 libgfal_pthr.so: $(GFAL_OBJS)
 	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap
 
+srm2_ifce.o: srm2_ifce.c srm2C.c srm2Client.c srm2H.h srm2Stub.h srmSoapBinding+.nsmap srm2_soap_conversion.h srm2_ifce.h 
+	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<	
+srm2_2_ifce.o: srm2_2_ifce.c srm2_2C.c srm2_2Client.c srm2_2H.h srm2_2Stub.h srm2_2SoapBinding+.nsmap srm2_2_ifce.h 
+	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<	
+
+
+
 checkprotolib.o: checkprotolib.c gfal.h 
 	$(CC) -c $(PROTOFLG) $<
-gfal.o: gfal.c gfal.h gfal_api.h gfal_constants.h
+gfal.o: gfal.c gfal.h gfal_api.h gfal_constants.h srm2_ifce.o
 	$(CC) -c $(SECFLG) $<
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
@@ -142,8 +158,7 @@ srmC.o: srmC.c
 srmClient.o: srmClient.c
 	$(CC) -c $(GSOAPINC) $<
 	
-srm2_ifce.o: srm2_ifce.c srm2H.h srm2Stub.h srm2C.c srm2Client.c srmSoapBinding+.nsmap
-	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
+
 
 stdsoap2.o: $(GSOAP_LOCATION)/stdsoap2.c
 	$(CC) -c $(GSOAPINC) $(GSOAP_LOCATION)/stdsoap2.c
@@ -156,6 +171,10 @@ edg_se_webserviceSoapBinding+.nsmap: edg_se_webserviceSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_se/' $? > $@
 srmSoapBinding+.nsmap: srmSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_srm/' $? > $@
+srm2_2SoapBinding+.nsmap: srm2_2SoapBinding.nsmap
+	sed 's/struct Namespace namespaces/struct Namespace namespaces_srm/' $? > $@
+
+	
 
 lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding.nsmap: edg-local-replica-catalog.h
 	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p lrc edg-local-replica-catalog.h
@@ -167,6 +186,10 @@ srmH.h srmStub.h srmC.c srmClient.c ISRM.nsmap: srm.v1.1.h
 	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p srm srm.v1.1.h
 srm2H.h srm2Stub.h srm2C.c srm2Client.c srmSoapBinding.nsmap: srm.v2.1.2.h
 	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p srm2 srm.v2.1.2.h
+srm2_2H.h srm2_2Stub.h srm2_2C.c srm2_2Client.c srm2_2SoapBinding.nsmap: srm.v2.2.h
+	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p srm2_2 srm.v2.2.h
+	mv srmSoapBinding.nsmap srm2_2SoapBinding.nsmap
+
 
 edg-local-replica-catalog.h: edg-local-replica-catalog.wsdl
 	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
@@ -178,8 +201,13 @@ srm.v1.1.h: srm.v1.1.wsdl
 	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
 srm.v2.1.2.h: srm.v2.1.2.wsdl
 	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
+srm.v2.2.h: srm.v2.2.wsdl
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap_srm2_2.dat $< -o $@
 
-CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
+
+
+CLI_LIBS=-L. -lgfal $(SECLIB) -luuid -L$(GSOAP_LOCATION)/lib -lgsoap $(DUMA_LIB)
+
 gfal_testdir: gfal_testdir.c gfal_api.h libgfal.so
 	$(CC) -o gfal_testdir $(CLI_LIBS) $<
 gfal_testget: gfal_testget.c gfal_api.h libgfal.so
@@ -192,6 +220,17 @@ gfal_teststat: gfal_teststat.c gfal_api.h libgfal.so
 	$(CC) -o gfal_teststat $(CLI_LIBS) $<
 gfal_testunlink: gfal_testunlink.c gfal_api.h libgfal.so
 	$(CC) -o gfal_testunlink $(CLI_LIBS) $<
+
+CuTest.o: CuTest.c CuTest.h
+	$(CC) -c $(GSOAPINC) $<
+	
+tests: 	libgfal.so gfal_ConvTest.o gfal_Tests.o
+	$(CC) -o tests $(CLI_LIBS) $^
+
+gfal_ConvTest.o: gfal_ConvTest.c srm2_soap_conversion.h gfal_api.h srm2Stub.h
+	$(CC) -c $(GSOAPINC) $<
+gfal_Tests.o: gfal_Tests.c 
+	$(CC) -c $(GSOAPINC) $<
 
 install: $(prefix)/bin \
 	 $(prefix)/bin/gfal_testdir \
