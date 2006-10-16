@@ -8,7 +8,7 @@
 
     first created by Timur Perelmutov, FNAL
 
-    on basis of the Storage Resource Manager Interface Specification
+    on basis of the Storage Resource Manager Interface Speciffacation
     published at http://sdm.lbl.gov/srm-wg
 
 
@@ -81,11 +81,9 @@
 
    <complexType name="TRequestToken">
      <wsdl:documentation>
-
          The requestToken assigned by SRM is unique and immutable
             (non-reusable).  For example, if the date:time is part
             of the requestToken it will be immutable.
-
      </wsdl:documentation>
     <sequence>
      <element name="value" minOccurs="1" maxOccurs="1" nillable="false" type="xsd:string"/>
@@ -186,7 +184,6 @@
 
    <complexType name="TSURL">
      <wsdl:documentation>
-
           The type definition SURL above is used for both site URL
             and the "Storage File Name" (stFN). This was done in
             order to simplify the notation.  Recall that stFN is
@@ -200,7 +197,6 @@
             location can be optionally specified as a stFN.  By
             considering the stFN a special case of an SURL, an srmCopy
             takes SURLs as both the source and target parameters.
-
      </wsdl:documentation>
 
     <sequence>
@@ -389,16 +385,11 @@
 
    <simpleType name="TStatusCode">
      <wsdl:documentation>
-
             Status codes represent errors, warnings and status.
-
             Status code      Explanation
-
             SRM_SUCCESS:    
-            SRM request was successful 
-
+                       SRM request was successful
             Errors:
-
             SRM_FAILURE	:	
             Requested operation failed for unspecified reason, and
             additional info is in the explanation string.

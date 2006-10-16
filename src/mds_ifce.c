@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.24 $ $Date: 2005/12/21 14:41:49 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.25 $ $Date: 2006/10/16 07:27:24 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -82,6 +82,7 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 		errno = ECONNREFUSED;
 	return (-1);
 	}
+	#warning get timeout from the environment
 	timeout.tv_sec = 15;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
@@ -738,7 +739,7 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 30;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {

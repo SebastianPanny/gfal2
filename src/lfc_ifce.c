@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.32 $ $Date: 2006/01/27 17:24:25 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.33 $ $Date: 2006/10/16 07:27:24 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -350,6 +350,8 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
     errno = ENOENT;
     return (NULL);
   }
+  
+  //always gets the 1st one, frees others
   result = getbestfile(surls, (sizeof(surls)/sizeof(char*)), errbuf, errbufsz);
 
   for(cp = surls; *cp != NULL; ++cp) {
