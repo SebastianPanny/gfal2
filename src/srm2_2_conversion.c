@@ -28,11 +28,11 @@ if(!res->_name) return NULL;
 
 // enum handling
 #define DEF_GFALCONVENUM_DEF(_name)	\
-enum srm22__ ## _name* convEnum2soap_srm22_ ## _name(struct soap* soap, int _res) \
-{ 	enum srm22__ ## _name* res;	\
+enum srm22__##_name* convEnum2soap_srm22_##_name(struct soap* soap, int _res) \
+{ 	enum srm22__##_name* res;	\
 res = soap_malloc(soap,sizeof(*res));	\
 if(!res) return NULL;	\
-*res =(enum srm22__ ## _name)_res;	\
+*res =(enum srm22__##_name)_res;	\
 return res;	\
 }
 
@@ -103,23 +103,23 @@ res->f = *(_elem->f);
     
     
 #define CONV2SOAP_OBJ(_type,_name)	\
-res->_name=conv2soap_##_type(soap,(_elem->_name));	
+res->_name=conv2soap_srm22_##_type(soap,(_elem->_name));	
 
 #define CONV2GFAL_OBJ(_type,_name)	\
-res->_name=conv2gfal_##_type(_elem->_name);	
+res->_name=conv2gfal_srm22_##_type(_elem->_name);	
 
 
 #define GEN_ARRAY_CONV2SOAP(_typeName,_sizeName,_arrName) 	\
 DEF_GFALCONV_HEADERS_IN(ArrayOf##_typeName){    \
 int i;	\
-struct srm22__ArrayOf ## _typeName* res;	\
+struct srm22__ArrayOf##_typeName* res;	\
 SOAP_MAIN_ALLOC;	\
 res->_sizeName=_elem->_sizeName;	\
 res->_arrName = soap_malloc(soap,res->_sizeName*sizeof(*(res->_arrName)));	\
 if(_elem->_sizeName && !res->_arrName) return NULL;	\
 for(i=0;i<_elem->_sizeName;i++)	\
 {	\
-res->_arrName[i]=conv2soap_##_typeName(soap,_elem->_arrName[i]);	\
+res->_arrName[i]=conv2soap_srm22_##_typeName(soap,_elem->_arrName[i]);	\
 if(!res->_arrName[i]) return NULL;	\
 };    \
 return res;} 
@@ -138,7 +138,7 @@ res->_arrName = soap_malloc(soap,res->_sizeName*sizeof(*(res->_arrName)));	\
 if(_elem->_sizeName && !res->_arrName) return NULL;	\
 for(i=0;i<_elem->_sizeName;i++)	\
 {	\
-res->_arrName[i]=conv2soap_##_subTypeName(soap,_elem->_arrName[i]);	\
+res->_arrName[i]=conv2soap_srm22_##_subTypeName(soap,_elem->_arrName[i]);	\
 if(!res->_arrName[i]) return NULL;	\
 };    \
 return res;} 
@@ -147,14 +147,14 @@ return res;}
 
 #define GEN_ARRAY_CONV2SOAP2(_typeName,_sizeName,_arrName) 	\
 int i;	\
-struct srm22__ArrayOf ## _typeName* res;	\
+struct srm22__ArrayOf##_typeName* res;	\
 SOAP_MAIN_ALLOC;	\
 res->_sizeName=_elem->_sizeName;	\
 res->_arrName = soap_malloc(soap,res->_sizeName*sizeof(*res->_arrName));	\
 if(_elem->_sizeName && !res->_arrName) return NULL;	\
 for(i=0;i<_elem->_sizeName;i++)	\
 {	\
-res->_arrName[i]=conv2soap_##_typeName(soap,(_typeName)&_elem[i]);	\
+res->_arrName[i]=conv2soap_srm22_##_typeName(soap,(_typeName)&_elem[i]);	\
 if(!res->_arrName[i]) return NULL;	\
 };
 
@@ -185,7 +185,7 @@ DEF_GFALCONV_HEADERS_OUT(ArrayOf##_typeName){            \
     if(!ret->_arrName[i])				\
     {									\
     ret->_sizeName = i+1;			\
-    freegfalArray_srm22_ArrayOf##_typeName(ret);	\
+    freeType_srm22_ArrayOf##_typeName(ret);	\
     return NULL;					\
     }									\
     } 										\
@@ -199,7 +199,7 @@ DEF_GFALCONV_HEADERS_OUT(ArrayOf##_typeName){            \
     ArrayOf##_typeName* ret;					\
     int i;										\
     if(!_elem) return NULL;						\
-    ret = malloc(sizeof(ArrayOf##_typeName));	\
+    ret = malloc(sizeof(srm22__ArrayOf##_typeName));	\
     ret->_arrName = malloc(_elem->_sizeNameIn*sizeof(*ret->_arrName));	\
     if ((_elem->_sizeNameIn && !ret) || !ret->_arrName)				\
     {											\
@@ -210,11 +210,11 @@ DEF_GFALCONV_HEADERS_OUT(ArrayOf##_typeName){            \
     {											\
         if(_elem->_arrNameIn[i])					\
         {										\
-        ret->_arrName[i] = conv2gfal_ ## _typeName ##_##_typeNameIn(_elem->_arrNameIn[i]);	\
+        ret->_arrName[i] = conv2gfal_ srm22_##_typeName##_##_typeNameIn(_elem->_arrNameIn[i]);	\
         if(!ret->_arrName[i])				\
         {									\
             ret->_sizeName = i+1;			\
-            freegfalArray_ArrayOf##_typeName(ret);	\
+            freeType_srm22_ArrayOf##_typeName(ret);	\
             return NULL;					\
         }									\
         } 										\
@@ -226,7 +226,7 @@ DEF_GFALCONV_HEADERS_OUT(ArrayOf##_typeName){            \
 	
 #define GEN_ARRAY_CONV2GFAL_SIMPLE(_typeName,_subTypeName,_sizeName,_arrName)	\
 DEF_GFALCONV_HEADERS_OUT(_typeName){            \
-    srm22__typeName* ret;					\
+    srm22_##_typeName* ret;					\
     int i;										\
     if(!_elem) return NULL;						\
         ret = malloc(sizeof(srm22_##_typeName));	\
@@ -244,7 +244,7 @@ DEF_GFALCONV_HEADERS_OUT(_typeName){            \
     if(!ret->_arrName[i])				\
     {									\
     ret->_sizeName = i+1;			\
-    freegfalArray_srm22_##_typeName(ret);	\
+    freeType_srm22_ArrayOf##_subTypeName(ret);	\
     return NULL;					\
     }									\
     } 										\
@@ -257,7 +257,7 @@ DEF_GFALCONV_HEADERS_OUT(_typeName){            \
 
 
 #define GFAL_FREEARRAY_TYPE_DEF(_typeName,_sizeName,_arrName)	\
-void freegfalArray_ArrayOf##_typeName(ArrayOf##_typeName* _elem) 			\
+void freeType_srm22_ArrayOf##_typeName(ArrayOf##_typeName* _elem) 			\
 {	int i;													\
     if(!_elem) return;										\
     for(i=0;i<_elem->_sizeName;i++)							\
@@ -271,16 +271,16 @@ void freegfalArray_ArrayOf##_typeName(ArrayOf##_typeName* _elem) 			\
 }
 
 #define GFAL_FREEARRAY(_name)					\
-void freeArray_##_name(int i, _name** ptrArr) 	\
+void freeArray_srm22_##_name(int i, _name** ptrArr) 	\
 {	    for(;i>0;i--){if(ptrArr[i-1]) 				\
     free(ptrArr[i-1]);};}	
 
-#define GFAL_FREEARRAY_CALL(_name,_i,_ptr)	freegfalArray_ArrayOf##_name(_ptr);
+#define GFAL_FREEARRAY_CALL(_name,_i,_ptr)	freeType_ArrayOf##_name(_ptr);
 
 #define CONSTRUCTOR_ARRAY_DEF(_n,_Name)	\
 CONSTRUCTOR_DEC(ArrayOf##_n,_n** _Name##Array ,int _size)	\
 {												\
-    ArrayOf##_n* tdata1;    					\
+    srm22__ArrayOf##_n* tdata1;    					\
     tdata1 = malloc(sizeof(*tdata1));			\
     GCuAssertPtrNotNull(tdata1);				\
     tdata1->_Name##Array = malloc(sizeof(_n*)*_size);	\
@@ -321,7 +321,7 @@ char*  conv2soap_srm22_String(struct soap *soap, char* _elem)
 //out
 ULONG64 conv2gfal_srm22_UnsignedLong(ULONG64* _elem)
 {
-	return _elem;
+	return *_elem;
 }	
 	
 char* conv2gfal_srm22_String(char* _elem)
@@ -366,18 +366,20 @@ TRetentionPolicyInfo
 is the 
 input/output type.
 */           
-DEF_GFALCONV_HEADERS_IN(TRetentionPolicyInfo)    
+struct srm22__TRetentionPolicyInfo * conv2soap_srm22_TRetentionPolicyInfo(struct soap *soap, const srm22_TRetentionPolicyInfo * _elem)
 {
 	struct  srm22__TRetentionPolicyInfo* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
-	ENUM_TO_SOAP_NOPTR(TRetentionPolicy,retentionPolicy);
-	ENUM_TO_SOAP(TAccessLatency,accessLatency);
+
+	res->retentionPolicy = *((enum srm22_TRetentionPolicy*)(convEnum2soap_srm22_TRetentionPolicy(soap,_elem->retentionPolicy)));
+	res->accessLatency=convEnum2soap_srm22_TAccessLatency(soap,_elem->accessLatency);	
 
 	return res;                
 }
 
-DEF_GFALCONV_HEADERS_OUT(TRetentionPolicyInfo)
+//DEF_GFALCONV_HEADERS_OUT(TRetentionPolicyInfo)
+srm22_TRetentionPolicyInfo * conv2gfal_srm22_TRetentionPolicyInfo(const struct srm22__TRetentionPolicyInfo* _elem)
 {
 	GFAL_DECL_ALLOC(TRetentionPolicyInfo);
 	ENUM_FROM_SOAP_NOPTR(retentionPolicy);  
@@ -391,18 +393,20 @@ TUserPermission
 is the 
 input/output type.
 */           
-DEF_GFALCONV_HEADERS_IN(TUserPermission)    
+struct srm22__TUserPermission * conv2soap_srm22_TUserPermission(struct soap *soap, const srm22_TUserPermission * _elem)
 {
 	struct  srm22__TUserPermission* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	STRING_TO_SOAP_EMB(userID);
-        	ENUM_TO_SOAP_NOPTR(TPermissionMode,mode);
+        
+	res->mode = *((enum srm22_TPermissionMode*)(convEnum2soap_srm22_TPermissionMode(soap,_elem->mode)));
 
 	return res;                
 }
 
-DEF_GFALCONV_HEADERS_OUT(TUserPermission)
+//DEF_GFALCONV_HEADERS_OUT(TUserPermission)
+srm22_TUserPermission * conv2gfal_srm22_TUserPermission(const struct srm22__TUserPermission* _elem)
 {
 	GFAL_DECL_ALLOC(TUserPermission);
 	STRING_FROM_SOAP_EMB(userID);
@@ -426,18 +430,20 @@ TGroupPermission
 is the 
 input/output type.
 */           
-DEF_GFALCONV_HEADERS_IN(TGroupPermission)    
+struct srm22__TGroupPermission * conv2soap_srm22_TGroupPermission(struct soap *soap, const srm22_TGroupPermission * _elem)
 {
 	struct  srm22__TGroupPermission* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	STRING_TO_SOAP_EMB(groupID);
-        	ENUM_TO_SOAP_NOPTR(TPermissionMode,mode);
+        
+	res->mode = *((enum srm22_TPermissionMode*)(convEnum2soap_srm22_TPermissionMode(soap,_elem->mode)));
 
 	return res;                
 }
 
-DEF_GFALCONV_HEADERS_OUT(TGroupPermission)
+//DEF_GFALCONV_HEADERS_OUT(TGroupPermission)
+srm22_TGroupPermission * conv2gfal_srm22_TGroupPermission(const struct srm22__TGroupPermission* _elem)
 {
 	GFAL_DECL_ALLOC(TGroupPermission);
 	STRING_FROM_SOAP_EMB(groupID);
@@ -463,7 +469,7 @@ GEN_ARRAY_CONV2GFAL(TGroupPermission,__sizegroupPermissionArray, groupPermission
     deep-input
 */
 
-GEN_ARRAY_CONV2SOAP_SIMPLE(ArrayOfUnsignedLong,ULONG64,__sizeunsignedLongArray, unsignedLongArray);
+GEN_ARRAY_CONV2SOAP_SIMPLE(ArrayOfUnsignedLong,unsignedLong,__sizeunsignedLongArray, unsignedLongArray);
 	
 /*
     Array handling for:
@@ -472,15 +478,16 @@ GEN_ARRAY_CONV2SOAP_SIMPLE(ArrayOfUnsignedLong,ULONG64,__sizeunsignedLongArray, 
     input/output
 */
 
-GEN_ARRAY_CONV2SOAP_SIMPLE(ArrayOfString,string,__sizestringArray, stringArray);
-GEN_ARRAY_CONV2GFAL_SIMPLE(ArrayOfString,string,__sizestringArray, stringArray);    
+GEN_ARRAY_CONV2SOAP_SIMPLE(ArrayOfString,String,__sizestringArray, stringArray);
+GEN_ARRAY_CONV2GFAL_SIMPLE(ArrayOfString,String,__sizestringArray, stringArray);    
 
 /*
 TReturnStatus    
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TReturnStatus)
+//DEF_GFALCONV_HEADERS_OUT(TReturnStatus)
+srm22_TReturnStatus * conv2gfal_srm22_TReturnStatus(const struct srm22__TReturnStatus* _elem)
 {
 	GFAL_DECL_ALLOC(TReturnStatus);
 	ENUM_FROM_SOAP_NOPTR(statusCode);  
@@ -494,7 +501,8 @@ TSURLReturnStatus
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TSURLReturnStatus)
+//DEF_GFALCONV_HEADERS_OUT(TSURLReturnStatus)
+srm22_TSURLReturnStatus * conv2gfal_srm22_TSURLReturnStatus(const struct srm22__TSURLReturnStatus* _elem)
 {
 	GFAL_DECL_ALLOC(TSURLReturnStatus);
 	STRING_FROM_SOAP_EMB(surl);
@@ -517,7 +525,8 @@ TSURLLifetimeReturnStatus
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TSURLLifetimeReturnStatus)
+//DEF_GFALCONV_HEADERS_OUT(TSURLLifetimeReturnStatus)
+srm22_TSURLLifetimeReturnStatus * conv2gfal_srm22_TSURLLifetimeReturnStatus(const struct srm22__TSURLLifetimeReturnStatus* _elem)
 {
 	GFAL_DECL_ALLOC(TSURLLifetimeReturnStatus);
 	STRING_FROM_SOAP_EMB(surl);
@@ -542,7 +551,8 @@ TMetaDataPathDetail
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TMetaDataPathDetail)
+//DEF_GFALCONV_HEADERS_OUT(TMetaDataPathDetail)
+srm22_TMetaDataPathDetail * conv2gfal_srm22_TMetaDataPathDetail(const struct srm22__TMetaDataPathDetail* _elem)
 {
 	GFAL_DECL_ALLOC(TMetaDataPathDetail);
 	STRING_FROM_SOAP_EMB(surl);
@@ -581,7 +591,8 @@ TMetaDataSpace
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TMetaDataSpace)
+//DEF_GFALCONV_HEADERS_OUT(TMetaDataSpace)
+srm22_TMetaDataSpace * conv2gfal_srm22_TMetaDataSpace(const struct srm22__TMetaDataSpace* _elem)
 {
 	GFAL_DECL_ALLOC(TMetaDataSpace);
 	STRING_FROM_SOAP_EMB(spaceToken);
@@ -611,12 +622,13 @@ TDirOption
 is the 
 deep-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(TDirOption)
+
+struct srm22__TDirOption * conv2soap_srm22_TDirOption(struct soap *soap, const srm22_TDirOption * _elem)
 {
 	struct  srm22__TDirOption* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
-    NUM_TO_SOAP(isSourceADirectory);                
+	NUM_TO_SOAP(isSourceADirectory);
 	SOAP_PTR_ALLOC(allLevelRecursive);
     	NUM_TO_SOAP_PTR(allLevelRecursive);                
 	SOAP_PTR_ALLOC(numOfLevels);
@@ -630,7 +642,7 @@ TExtraInfo
 is the 
 input/output type.
 */           
-DEF_GFALCONV_HEADERS_IN(TExtraInfo)    
+struct srm22__TExtraInfo * conv2soap_srm22_TExtraInfo(struct soap *soap, const srm22_TExtraInfo * _elem)
 {
 	struct  srm22__TExtraInfo* res;
 	SOAP_MAIN_ALLOC;
@@ -642,7 +654,8 @@ DEF_GFALCONV_HEADERS_IN(TExtraInfo)
 	return res;                
 }
 
-DEF_GFALCONV_HEADERS_OUT(TExtraInfo)
+//DEF_GFALCONV_HEADERS_OUT(TExtraInfo)
+srm22_TExtraInfo * conv2gfal_srm22_TExtraInfo(const struct srm22__TExtraInfo* _elem)
 {
 	GFAL_DECL_ALLOC(TExtraInfo);
 	STRING_FROM_SOAP_EMB(key);
@@ -665,24 +678,40 @@ GEN_ARRAY_CONV2GFAL(TExtraInfo,__sizeextraInfoArray, extraInfoArray);
     Array handling for:
     ArrayOfAnyURI    
     is the 
-    unknown
+    complex-conversion
 */
+srm22_ArrayOfString * conv2gfal_srm22__ArrayOfAnyURI_2_ArrayOfString(const struct srm22__ArrayOfAnyURI * _elem)
+{	
+	GFAL_DECL_ALLOC(ArrayOfString);
+	//conv	
+	return res;
+}
+	
+struct srm22__ArrayOfAnyURI * conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(struct soap *soap, srm22_ArrayOfString * _elem)
+{
+	struct  srm22__ArrayOfAnyURI* res;
+	SOAP_MAIN_ALLOC;
+	GCuAssertPtrNotNull(res);
+	//conv
+	return res;
+}
 
 /*
 TTransferParameters    
 is the 
 deep-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(TTransferParameters)
+
+struct srm22__TTransferParameters * conv2soap_srm22_TTransferParameters(struct soap *soap, const srm22_TTransferParameters * _elem)
 {
 	struct  srm22__TTransferParameters* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
-	ENUM_TO_SOAP(TAccessPattern,accessPattern);
-	ENUM_TO_SOAP(TConnectionType,connectionType);
-	CONV2SOAP_OBJ(ArrayOfString,arrayOfClientNetworks);
-        	CONV2SOAP_OBJ(ArrayOfString,arrayOfTransferProtocols);
-        
+	res->accessPattern=convEnum2soap_srm22_TAccessPattern(soap,_elem->accessPattern);	
+	res->connectionType=convEnum2soap_srm22_TConnectionType(soap,_elem->connectionType);	
+	res->arrayOfClientNetworks=conv2soap_srm22_ArrayOfString(soap,(_elem->arrayOfClientNetworks));
+	res->arrayOfTransferProtocols=conv2soap_srm22_ArrayOfString(soap,(_elem->arrayOfTransferProtocols));
+
 	return res;                
 }
 
@@ -691,14 +720,15 @@ TGetFileRequest
 is the 
 deep-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(TGetFileRequest)
+
+struct srm22__TGetFileRequest * conv2soap_srm22_TGetFileRequest(struct soap *soap, const srm22_TGetFileRequest * _elem)
 {
 	struct  srm22__TGetFileRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	STRING_TO_SOAP_EMB(sourceSURL);
-        	CONV2SOAP_OBJ(TDirOption,dirOption);
-        
+        	res->dirOption=conv2soap_srm22_TDirOption(soap,(_elem->dirOption));
+
 	return res;                
 }
 	
@@ -716,7 +746,8 @@ TPutFileRequest
 is the 
 deep-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(TPutFileRequest)
+
+struct srm22__TPutFileRequest * conv2soap_srm22_TPutFileRequest(struct soap *soap, const srm22_TPutFileRequest * _elem)
 {
 	struct  srm22__TPutFileRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -743,15 +774,16 @@ TCopyFileRequest
 is the 
 deep-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(TCopyFileRequest)
+
+struct srm22__TCopyFileRequest * conv2soap_srm22_TCopyFileRequest(struct soap *soap, const srm22_TCopyFileRequest * _elem)
 {
 	struct  srm22__TCopyFileRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	STRING_TO_SOAP_EMB(sourceSURL);
         	STRING_TO_SOAP_EMB(targetSURL);
-        	CONV2SOAP_OBJ(TDirOption,dirOption);
-        
+        	res->dirOption=conv2soap_srm22_TDirOption(soap,(_elem->dirOption));
+
 	return res;                
 }
 	
@@ -769,7 +801,8 @@ TGetRequestFileStatus
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TGetRequestFileStatus)
+//DEF_GFALCONV_HEADERS_OUT(TGetRequestFileStatus)
+srm22_TGetRequestFileStatus * conv2gfal_srm22_TGetRequestFileStatus(const struct srm22__TGetRequestFileStatus* _elem)
 {
 	GFAL_DECL_ALLOC(TGetRequestFileStatus);
 	STRING_FROM_SOAP_EMB(sourceSURL);
@@ -797,7 +830,8 @@ TBringOnlineRequestFileStatus
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TBringOnlineRequestFileStatus)
+//DEF_GFALCONV_HEADERS_OUT(TBringOnlineRequestFileStatus)
+srm22_TBringOnlineRequestFileStatus * conv2gfal_srm22_TBringOnlineRequestFileStatus(const struct srm22__TBringOnlineRequestFileStatus* _elem)
 {
 	GFAL_DECL_ALLOC(TBringOnlineRequestFileStatus);
 	STRING_FROM_SOAP_EMB(sourceSURL);
@@ -823,7 +857,8 @@ TPutRequestFileStatus
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TPutRequestFileStatus)
+//DEF_GFALCONV_HEADERS_OUT(TPutRequestFileStatus)
+srm22_TPutRequestFileStatus * conv2gfal_srm22_TPutRequestFileStatus(const struct srm22__TPutRequestFileStatus* _elem)
 {
 	GFAL_DECL_ALLOC(TPutRequestFileStatus);
 	STRING_FROM_SOAP_EMB(SURL);
@@ -852,7 +887,8 @@ TCopyRequestFileStatus
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TCopyRequestFileStatus)
+//DEF_GFALCONV_HEADERS_OUT(TCopyRequestFileStatus)
+srm22_TCopyRequestFileStatus * conv2gfal_srm22_TCopyRequestFileStatus(const struct srm22__TCopyRequestFileStatus* _elem)
 {
 	GFAL_DECL_ALLOC(TCopyRequestFileStatus);
 	STRING_FROM_SOAP_EMB(sourceSURL);
@@ -879,7 +915,8 @@ TRequestSummary
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TRequestSummary)
+//DEF_GFALCONV_HEADERS_OUT(TRequestSummary)
+srm22_TRequestSummary * conv2gfal_srm22_TRequestSummary(const struct srm22__TRequestSummary* _elem)
 {
 	GFAL_DECL_ALLOC(TRequestSummary);
 	STRING_FROM_SOAP_EMB(requestToken);
@@ -907,7 +944,8 @@ TSURLPermissionReturn
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TSURLPermissionReturn)
+//DEF_GFALCONV_HEADERS_OUT(TSURLPermissionReturn)
+srm22_TSURLPermissionReturn * conv2gfal_srm22_TSURLPermissionReturn(const struct srm22__TSURLPermissionReturn* _elem)
 {
 	GFAL_DECL_ALLOC(TSURLPermissionReturn);
 	STRING_FROM_SOAP_EMB(surl);
@@ -931,7 +969,8 @@ TPermissionReturn
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TPermissionReturn)
+//DEF_GFALCONV_HEADERS_OUT(TPermissionReturn)
+srm22_TPermissionReturn * conv2gfal_srm22_TPermissionReturn(const struct srm22__TPermissionReturn* _elem)
 {
 	GFAL_DECL_ALLOC(TPermissionReturn);
 	STRING_FROM_SOAP_EMB(surl);
@@ -959,7 +998,8 @@ TRequestTokenReturn
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TRequestTokenReturn)
+//DEF_GFALCONV_HEADERS_OUT(TRequestTokenReturn)
+srm22_TRequestTokenReturn * conv2gfal_srm22_TRequestTokenReturn(const struct srm22__TRequestTokenReturn* _elem)
 {
 	GFAL_DECL_ALLOC(TRequestTokenReturn);
 	STRING_FROM_SOAP_EMB(requestToken);
@@ -982,7 +1022,8 @@ TSupportedTransferProtocol
 is the 
 deep-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(TSupportedTransferProtocol)
+//DEF_GFALCONV_HEADERS_OUT(TSupportedTransferProtocol)
+srm22_TSupportedTransferProtocol * conv2gfal_srm22_TSupportedTransferProtocol(const struct srm22__TSupportedTransferProtocol* _elem)
 {
 	GFAL_DECL_ALLOC(TSupportedTransferProtocol);
 	STRING_FROM_SOAP_EMB(transferProtocol);
@@ -1005,7 +1046,8 @@ srmReserveSpaceRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmReserveSpaceRequest)
+
+struct srm22__srmReserveSpaceRequest * conv2soap_srm22_srmReserveSpaceRequest(struct soap *soap, const srm22_srmReserveSpaceRequest * _elem)
 {
 	struct  srm22__srmReserveSpaceRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1014,16 +1056,16 @@ DEF_GFALCONV_HEADERS_IN(srmReserveSpaceRequest)
     	STRING_TO_SOAP_EMB(authorizationID);
         	SOAP_PTR_ALLOC(userSpaceTokenDescription);
     	STRING_TO_SOAP_EMB(userSpaceTokenDescription);
-        	CONV2SOAP_OBJ(TRetentionPolicyInfo,retentionPolicyInfo);
-        	SOAP_PTR_ALLOC(desiredSizeOfTotalSpace);
+        	res->retentionPolicyInfo=conv2soap_srm22_TRetentionPolicyInfo(soap,(_elem->retentionPolicyInfo));
+	SOAP_PTR_ALLOC(desiredSizeOfTotalSpace);
     	NUM_TO_SOAP_PTR(desiredSizeOfTotalSpace);                
-    NUM_TO_SOAP(desiredSizeOfGuaranteedSpace);                
+	NUM_TO_SOAP(desiredSizeOfGuaranteedSpace);
 	SOAP_PTR_ALLOC(desiredLifetimeOfReservedSpace);
     	NUM_TO_SOAP_PTR(desiredLifetimeOfReservedSpace);                
-	CONV2SOAP_OBJ(ArrayOfUnsignedLong,arrayOfExpectedFileSizes);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        	CONV2SOAP_OBJ(TTransferParameters,transferParameters);
-        
+	res->arrayOfExpectedFileSizes=conv2soap_srm22_ArrayOfUnsignedLong(soap,(_elem->arrayOfExpectedFileSizes));
+	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+	res->transferParameters=conv2soap_srm22_TTransferParameters(soap,(_elem->transferParameters));
+
 	return res;                
 }
 
@@ -1032,7 +1074,8 @@ srmReserveSpaceResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmReserveSpaceResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmReserveSpaceResponse)
+srm22_srmReserveSpaceResponse * conv2gfal_srm22_srmReserveSpaceResponse(const struct srm22__srmReserveSpaceResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmReserveSpaceResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1052,7 +1095,8 @@ srmStatusOfReserveSpaceRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmStatusOfReserveSpaceRequestRequest)
+
+struct srm22__srmStatusOfReserveSpaceRequestRequest * conv2soap_srm22_srmStatusOfReserveSpaceRequestRequest(struct soap *soap, const srm22_srmStatusOfReserveSpaceRequestRequest * _elem)
 {
 	struct  srm22__srmStatusOfReserveSpaceRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1069,7 +1113,8 @@ srmStatusOfReserveSpaceRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmStatusOfReserveSpaceRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmStatusOfReserveSpaceRequestResponse)
+srm22_srmStatusOfReserveSpaceRequestResponse * conv2gfal_srm22_srmStatusOfReserveSpaceRequestResponse(const struct srm22__srmStatusOfReserveSpaceRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmStatusOfReserveSpaceRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1088,7 +1133,8 @@ srmReleaseSpaceRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmReleaseSpaceRequest)
+
+struct srm22__srmReleaseSpaceRequest * conv2soap_srm22_srmReleaseSpaceRequest(struct soap *soap, const srm22_srmReleaseSpaceRequest * _elem)
 {
 	struct  srm22__srmReleaseSpaceRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1096,8 +1142,8 @@ DEF_GFALCONV_HEADERS_IN(srmReleaseSpaceRequest)
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
         	STRING_TO_SOAP_EMB(spaceToken);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        	SOAP_PTR_ALLOC(forceFileRelease);
+        	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+	SOAP_PTR_ALLOC(forceFileRelease);
     	NUM_TO_SOAP_PTR(forceFileRelease);                
 
 	return res;                
@@ -1108,7 +1154,8 @@ srmReleaseSpaceResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmReleaseSpaceResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmReleaseSpaceResponse)
+srm22_srmReleaseSpaceResponse * conv2gfal_srm22_srmReleaseSpaceResponse(const struct srm22__srmReleaseSpaceResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmReleaseSpaceResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1121,7 +1168,8 @@ srmUpdateSpaceRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmUpdateSpaceRequest)
+
+struct srm22__srmUpdateSpaceRequest * conv2soap_srm22_srmUpdateSpaceRequest(struct soap *soap, const srm22_srmUpdateSpaceRequest * _elem)
 {
 	struct  srm22__srmUpdateSpaceRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1135,8 +1183,8 @@ DEF_GFALCONV_HEADERS_IN(srmUpdateSpaceRequest)
     	NUM_TO_SOAP_PTR(newSizeOfGuaranteedSpaceDesired);                
 	SOAP_PTR_ALLOC(newLifeTime);
     	NUM_TO_SOAP_PTR(newLifeTime);                
-	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        
+	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+
 	return res;                
 }
 
@@ -1145,7 +1193,8 @@ srmUpdateSpaceResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmUpdateSpaceResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmUpdateSpaceResponse)
+srm22_srmUpdateSpaceResponse * conv2gfal_srm22_srmUpdateSpaceResponse(const struct srm22__srmUpdateSpaceResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmUpdateSpaceResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1162,7 +1211,8 @@ srmStatusOfUpdateSpaceRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmStatusOfUpdateSpaceRequestRequest)
+
+struct srm22__srmStatusOfUpdateSpaceRequestRequest * conv2soap_srm22_srmStatusOfUpdateSpaceRequestRequest(struct soap *soap, const srm22_srmStatusOfUpdateSpaceRequestRequest * _elem)
 {
 	struct  srm22__srmStatusOfUpdateSpaceRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1179,7 +1229,8 @@ srmStatusOfUpdateSpaceRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmStatusOfUpdateSpaceRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmStatusOfUpdateSpaceRequestResponse)
+srm22_srmStatusOfUpdateSpaceRequestResponse * conv2gfal_srm22_srmStatusOfUpdateSpaceRequestResponse(const struct srm22__srmStatusOfUpdateSpaceRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmStatusOfUpdateSpaceRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1195,15 +1246,16 @@ srmGetSpaceMetaDataRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmGetSpaceMetaDataRequest)
+
+struct srm22__srmGetSpaceMetaDataRequest * conv2soap_srm22_srmGetSpaceMetaDataRequest(struct soap *soap, const srm22_srmGetSpaceMetaDataRequest * _elem)
 {
 	struct  srm22__srmGetSpaceMetaDataRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfString,arrayOfSpaceTokens);
-        
+        	res->arrayOfSpaceTokens=conv2soap_srm22_ArrayOfString(soap,(_elem->arrayOfSpaceTokens));
+
 	return res;                
 }
 
@@ -1212,7 +1264,8 @@ srmGetSpaceMetaDataResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmGetSpaceMetaDataResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmGetSpaceMetaDataResponse)
+srm22_srmGetSpaceMetaDataResponse * conv2gfal_srm22_srmGetSpaceMetaDataResponse(const struct srm22__srmGetSpaceMetaDataResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmGetSpaceMetaDataResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1226,17 +1279,18 @@ srmChangeSpaceForFilesRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmChangeSpaceForFilesRequest)
+
+struct srm22__srmChangeSpaceForFilesRequest * conv2soap_srm22_srmChangeSpaceForFilesRequest(struct soap *soap, const srm22_srmChangeSpaceForFilesRequest * _elem)
 {
 	struct  srm22__srmChangeSpaceForFilesRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	STRING_TO_SOAP_EMB(targetSpaceToken);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	STRING_TO_SOAP_EMB(targetSpaceToken);
+        	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+
 	return res;                
 }
 
@@ -1245,7 +1299,8 @@ srmChangeSpaceForFilesResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmChangeSpaceForFilesResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmChangeSpaceForFilesResponse)
+srm22_srmChangeSpaceForFilesResponse * conv2gfal_srm22_srmChangeSpaceForFilesResponse(const struct srm22__srmChangeSpaceForFilesResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmChangeSpaceForFilesResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1261,7 +1316,8 @@ srmStatusOfChangeSpaceForFilesRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmStatusOfChangeSpaceForFilesRequestRequest)
+
+struct srm22__srmStatusOfChangeSpaceForFilesRequestRequest * conv2soap_srm22_srmStatusOfChangeSpaceForFilesRequestRequest(struct soap *soap, const srm22_srmStatusOfChangeSpaceForFilesRequestRequest * _elem)
 {
 	struct  srm22__srmStatusOfChangeSpaceForFilesRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1278,7 +1334,8 @@ srmStatusOfChangeSpaceForFilesRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmStatusOfChangeSpaceForFilesRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmStatusOfChangeSpaceForFilesRequestResponse)
+srm22_srmStatusOfChangeSpaceForFilesRequestResponse * conv2gfal_srm22_srmStatusOfChangeSpaceForFilesRequestResponse(const struct srm22__srmStatusOfChangeSpaceForFilesRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmStatusOfChangeSpaceForFilesRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1293,7 +1350,8 @@ srmExtendFileLifeTimeInSpaceRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmExtendFileLifeTimeInSpaceRequest)
+
+struct srm22__srmExtendFileLifeTimeInSpaceRequest * conv2soap_srm22_srmExtendFileLifeTimeInSpaceRequest(struct soap *soap, const srm22_srmExtendFileLifeTimeInSpaceRequest * _elem)
 {
 	struct  srm22__srmExtendFileLifeTimeInSpaceRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1301,8 +1359,8 @@ DEF_GFALCONV_HEADERS_IN(srmExtendFileLifeTimeInSpaceRequest)
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
         	STRING_TO_SOAP_EMB(spaceToken);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	SOAP_PTR_ALLOC(newLifeTime);
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	SOAP_PTR_ALLOC(newLifeTime);
     	NUM_TO_SOAP_PTR(newLifeTime);                
 
 	return res;                
@@ -1313,7 +1371,8 @@ srmExtendFileLifeTimeInSpaceResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmExtendFileLifeTimeInSpaceResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmExtendFileLifeTimeInSpaceResponse)
+srm22_srmExtendFileLifeTimeInSpaceResponse * conv2gfal_srm22_srmExtendFileLifeTimeInSpaceResponse(const struct srm22__srmExtendFileLifeTimeInSpaceResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmExtendFileLifeTimeInSpaceResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1328,17 +1387,18 @@ srmPurgeFromSpaceRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmPurgeFromSpaceRequest)
+
+struct srm22__srmPurgeFromSpaceRequest * conv2soap_srm22_srmPurgeFromSpaceRequest(struct soap *soap, const srm22_srmPurgeFromSpaceRequest * _elem)
 {
 	struct  srm22__srmPurgeFromSpaceRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	STRING_TO_SOAP_EMB(spaceToken);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	STRING_TO_SOAP_EMB(spaceToken);
+        	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+
 	return res;                
 }
 
@@ -1347,7 +1407,8 @@ srmPurgeFromSpaceResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmPurgeFromSpaceResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmPurgeFromSpaceResponse)
+srm22_srmPurgeFromSpaceResponse * conv2gfal_srm22_srmPurgeFromSpaceResponse(const struct srm22__srmPurgeFromSpaceResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmPurgeFromSpaceResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1361,7 +1422,8 @@ srmGetSpaceTokensRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmGetSpaceTokensRequest)
+
+struct srm22__srmGetSpaceTokensRequest * conv2soap_srm22_srmGetSpaceTokensRequest(struct soap *soap, const srm22_srmGetSpaceTokensRequest * _elem)
 {
 	struct  srm22__srmGetSpaceTokensRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1379,7 +1441,8 @@ srmGetSpaceTokensResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmGetSpaceTokensResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmGetSpaceTokensResponse)
+srm22_srmGetSpaceTokensResponse * conv2gfal_srm22_srmGetSpaceTokensResponse(const struct srm22__srmGetSpaceTokensResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmGetSpaceTokensResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1393,7 +1456,8 @@ srmSetPermissionRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmSetPermissionRequest)
+
+struct srm22__srmSetPermissionRequest * conv2soap_srm22_srmSetPermissionRequest(struct soap *soap, const srm22_srmSetPermissionRequest * _elem)
 {
 	struct  srm22__srmSetPermissionRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1401,13 +1465,14 @@ DEF_GFALCONV_HEADERS_IN(srmSetPermissionRequest)
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
         	STRING_TO_SOAP_EMB(SURL);
-        	ENUM_TO_SOAP_NOPTR(TPermissionType,permissionType);
-	ENUM_TO_SOAP(TPermissionMode,ownerPermission);
-	CONV2SOAP_OBJ(ArrayOfTUserPermission,arrayOfUserPermissions);
-        	CONV2SOAP_OBJ(ArrayOfTGroupPermission,arrayOfGroupPermissions);
-        	ENUM_TO_SOAP(TPermissionMode,otherPermission);
-	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
         
+	res->permissionType = *((enum srm22_TPermissionType*)(convEnum2soap_srm22_TPermissionType(soap,_elem->permissionType)));
+	res->ownerPermission=convEnum2soap_srm22_TPermissionMode(soap,_elem->ownerPermission);	
+	res->arrayOfUserPermissions=conv2soap_srm22_ArrayOfTUserPermission(soap,(_elem->arrayOfUserPermissions));
+	res->arrayOfGroupPermissions=conv2soap_srm22_ArrayOfTGroupPermission(soap,(_elem->arrayOfGroupPermissions));
+	res->otherPermission=convEnum2soap_srm22_TPermissionMode(soap,_elem->otherPermission);	
+	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+
 	return res;                
 }
 
@@ -1416,7 +1481,8 @@ srmSetPermissionResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmSetPermissionResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmSetPermissionResponse)
+srm22_srmSetPermissionResponse * conv2gfal_srm22_srmSetPermissionResponse(const struct srm22__srmSetPermissionResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmSetPermissionResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1429,16 +1495,17 @@ srmCheckPermissionRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmCheckPermissionRequest)
+
+struct srm22__srmCheckPermissionRequest * conv2soap_srm22_srmCheckPermissionRequest(struct soap *soap, const srm22_srmCheckPermissionRequest * _elem)
 {
 	struct  srm22__srmCheckPermissionRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
-	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	SOAP_PTR_ALLOC(authorizationID);
+		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        
+        	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+
 	return res;                
 }
 
@@ -1447,7 +1514,8 @@ srmCheckPermissionResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmCheckPermissionResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmCheckPermissionResponse)
+srm22_srmCheckPermissionResponse * conv2gfal_srm22_srmCheckPermissionResponse(const struct srm22__srmCheckPermissionResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmCheckPermissionResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1461,16 +1529,17 @@ srmGetPermissionRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmGetPermissionRequest)
+
+struct srm22__srmGetPermissionRequest * conv2soap_srm22_srmGetPermissionRequest(struct soap *soap, const srm22_srmGetPermissionRequest * _elem)
 {
 	struct  srm22__srmGetPermissionRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+
 	return res;                
 }
 
@@ -1479,7 +1548,8 @@ srmGetPermissionResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmGetPermissionResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmGetPermissionResponse)
+srm22_srmGetPermissionResponse * conv2gfal_srm22_srmGetPermissionResponse(const struct srm22__srmGetPermissionResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmGetPermissionResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1493,7 +1563,8 @@ srmMkdirRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmMkdirRequest)
+
+struct srm22__srmMkdirRequest * conv2soap_srm22_srmMkdirRequest(struct soap *soap, const srm22_srmMkdirRequest * _elem)
 {
 	struct  srm22__srmMkdirRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1501,8 +1572,8 @@ DEF_GFALCONV_HEADERS_IN(srmMkdirRequest)
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
         	STRING_TO_SOAP_EMB(directoryPath);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        
+        	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+
 	return res;                
 }
 
@@ -1511,7 +1582,8 @@ srmMkdirResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmMkdirResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmMkdirResponse)
+srm22_srmMkdirResponse * conv2gfal_srm22_srmMkdirResponse(const struct srm22__srmMkdirResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmMkdirResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1524,7 +1596,8 @@ srmRmdirRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmRmdirRequest)
+
+struct srm22__srmRmdirRequest * conv2soap_srm22_srmRmdirRequest(struct soap *soap, const srm22_srmRmdirRequest * _elem)
 {
 	struct  srm22__srmRmdirRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1532,8 +1605,8 @@ DEF_GFALCONV_HEADERS_IN(srmRmdirRequest)
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
         	STRING_TO_SOAP_EMB(directoryPath);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        	SOAP_PTR_ALLOC(recursive);
+        	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+	SOAP_PTR_ALLOC(recursive);
     	NUM_TO_SOAP_PTR(recursive);                
 
 	return res;                
@@ -1544,7 +1617,8 @@ srmRmdirResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmRmdirResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmRmdirResponse)
+srm22_srmRmdirResponse * conv2gfal_srm22_srmRmdirResponse(const struct srm22__srmRmdirResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmRmdirResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1557,16 +1631,17 @@ srmRmRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmRmRequest)
+
+struct srm22__srmRmRequest * conv2soap_srm22_srmRmRequest(struct soap *soap, const srm22_srmRmRequest * _elem)
 {
 	struct  srm22__srmRmRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+
 	return res;                
 }
 
@@ -1575,7 +1650,8 @@ srmRmResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmRmResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmRmResponse)
+srm22_srmRmResponse * conv2gfal_srm22_srmRmResponse(const struct srm22__srmRmResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmRmResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1589,16 +1665,17 @@ srmLsRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmLsRequest)
+
+struct srm22__srmLsRequest * conv2soap_srm22_srmLsRequest(struct soap *soap, const srm22_srmLsRequest * _elem)
 {
 	struct  srm22__srmLsRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        	ENUM_TO_SOAP(TFileStorageType,fileStorageType);
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+	res->fileStorageType=convEnum2soap_srm22_TFileStorageType(soap,_elem->fileStorageType);	
 	SOAP_PTR_ALLOC(fullDetailedList);
     	NUM_TO_SOAP_PTR(fullDetailedList);                
 	SOAP_PTR_ALLOC(allLevelRecursive);
@@ -1618,7 +1695,8 @@ srmLsResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmLsResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmLsResponse)
+srm22_srmLsResponse * conv2gfal_srm22_srmLsResponse(const struct srm22__srmLsResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmLsResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1633,7 +1711,8 @@ srmStatusOfLsRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmStatusOfLsRequestRequest)
+
+struct srm22__srmStatusOfLsRequestRequest * conv2soap_srm22_srmStatusOfLsRequestRequest(struct soap *soap, const srm22_srmStatusOfLsRequestRequest * _elem)
 {
 	struct  srm22__srmStatusOfLsRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1641,7 +1720,8 @@ DEF_GFALCONV_HEADERS_IN(srmStatusOfLsRequestRequest)
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
         	STRING_TO_SOAP_EMB(requestToken);
-            NUM_TO_SOAP(offset);                
+        	SOAP_PTR_ALLOC(offset);
+    	NUM_TO_SOAP_PTR(offset);                
 	SOAP_PTR_ALLOC(count);
     	NUM_TO_SOAP_PTR(count);                
 
@@ -1653,7 +1733,8 @@ srmStatusOfLsRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmStatusOfLsRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmStatusOfLsRequestResponse)
+srm22_srmStatusOfLsRequestResponse * conv2gfal_srm22_srmStatusOfLsRequestResponse(const struct srm22__srmStatusOfLsRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmStatusOfLsRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1667,7 +1748,8 @@ srmMvRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmMvRequest)
+
+struct srm22__srmMvRequest * conv2soap_srm22_srmMvRequest(struct soap *soap, const srm22_srmMvRequest * _elem)
 {
 	struct  srm22__srmMvRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1676,8 +1758,8 @@ DEF_GFALCONV_HEADERS_IN(srmMvRequest)
     	STRING_TO_SOAP_EMB(authorizationID);
         	STRING_TO_SOAP_EMB(fromSURL);
         	STRING_TO_SOAP_EMB(toSURL);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        
+        	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+
 	return res;                
 }
 
@@ -1686,7 +1768,8 @@ srmMvResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmMvResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmMvResponse)
+srm22_srmMvResponse * conv2gfal_srm22_srmMvResponse(const struct srm22__srmMvResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmMvResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1699,27 +1782,28 @@ srmPrepareToGetRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmPrepareToGetRequest)
+
+struct srm22__srmPrepareToGetRequest * conv2soap_srm22_srmPrepareToGetRequest(struct soap *soap, const srm22_srmPrepareToGetRequest * _elem)
 {
 	struct  srm22__srmPrepareToGetRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfTGetFileRequest,arrayOfFileRequests);
-        	SOAP_PTR_ALLOC(userRequestDescription);
+        	res->arrayOfFileRequests=conv2soap_srm22_ArrayOfTGetFileRequest(soap,(_elem->arrayOfFileRequests));
+	SOAP_PTR_ALLOC(userRequestDescription);
     	STRING_TO_SOAP_EMB(userRequestDescription);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        	ENUM_TO_SOAP(TFileStorageType,desiredFileStorageType);
+        	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+	res->desiredFileStorageType=convEnum2soap_srm22_TFileStorageType(soap,_elem->desiredFileStorageType);	
 	SOAP_PTR_ALLOC(desiredTotalRequestTime);
     	NUM_TO_SOAP_PTR(desiredTotalRequestTime);                
 	SOAP_PTR_ALLOC(desiredPinLifeTime);
     	NUM_TO_SOAP_PTR(desiredPinLifeTime);                
 	SOAP_PTR_ALLOC(targetSpaceToken);
     	STRING_TO_SOAP_EMB(targetSpaceToken);
-        	CONV2SOAP_OBJ(TRetentionPolicyInfo,targetFileRetentionPolicyInfo);
-        	CONV2SOAP_OBJ(TTransferParameters,transferParameters);
-        
+        	res->targetFileRetentionPolicyInfo=conv2soap_srm22_TRetentionPolicyInfo(soap,(_elem->targetFileRetentionPolicyInfo));
+	res->transferParameters=conv2soap_srm22_TTransferParameters(soap,(_elem->transferParameters));
+
 	return res;                
 }
 
@@ -1728,7 +1812,8 @@ srmPrepareToGetResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmPrepareToGetResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmPrepareToGetResponse)
+srm22_srmPrepareToGetResponse * conv2gfal_srm22_srmPrepareToGetResponse(const struct srm22__srmPrepareToGetResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmPrepareToGetResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1744,7 +1829,8 @@ srmStatusOfGetRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmStatusOfGetRequestRequest)
+
+struct srm22__srmStatusOfGetRequestRequest * conv2soap_srm22_srmStatusOfGetRequestRequest(struct soap *soap, const srm22_srmStatusOfGetRequestRequest * _elem)
 {
 	struct  srm22__srmStatusOfGetRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1752,8 +1838,8 @@ DEF_GFALCONV_HEADERS_IN(srmStatusOfGetRequestRequest)
 	STRING_TO_SOAP_EMB(requestToken);
         	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSourceSURLs);
-        
+        		res->arrayOfSourceSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSourceSURLs);
+
 	return res;                
 }
 
@@ -1762,7 +1848,8 @@ srmStatusOfGetRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmStatusOfGetRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmStatusOfGetRequestResponse)
+srm22_srmStatusOfGetRequestResponse * conv2gfal_srm22_srmStatusOfGetRequestResponse(const struct srm22__srmStatusOfGetRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmStatusOfGetRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1777,27 +1864,28 @@ srmBringOnlineRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmBringOnlineRequest)
+
+struct srm22__srmBringOnlineRequest * conv2soap_srm22_srmBringOnlineRequest(struct soap *soap, const srm22_srmBringOnlineRequest * _elem)
 {
 	struct  srm22__srmBringOnlineRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfTGetFileRequest,arrayOfFileRequests);
-        	SOAP_PTR_ALLOC(userRequestDescription);
+        	res->arrayOfFileRequests=conv2soap_srm22_ArrayOfTGetFileRequest(soap,(_elem->arrayOfFileRequests));
+	SOAP_PTR_ALLOC(userRequestDescription);
     	STRING_TO_SOAP_EMB(userRequestDescription);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        	ENUM_TO_SOAP(TFileStorageType,desiredFileStorageType);
+        	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+	res->desiredFileStorageType=convEnum2soap_srm22_TFileStorageType(soap,_elem->desiredFileStorageType);	
 	SOAP_PTR_ALLOC(desiredTotalRequestTime);
     	NUM_TO_SOAP_PTR(desiredTotalRequestTime);                
 	SOAP_PTR_ALLOC(desiredLifeTime);
     	NUM_TO_SOAP_PTR(desiredLifeTime);                
 	SOAP_PTR_ALLOC(targetSpaceToken);
     	STRING_TO_SOAP_EMB(targetSpaceToken);
-        	CONV2SOAP_OBJ(TRetentionPolicyInfo,targetFileRetentionPolicyInfo);
-        	CONV2SOAP_OBJ(TTransferParameters,transferParameters);
-        	SOAP_PTR_ALLOC(deferredStartTime);
+        	res->targetFileRetentionPolicyInfo=conv2soap_srm22_TRetentionPolicyInfo(soap,(_elem->targetFileRetentionPolicyInfo));
+	res->transferParameters=conv2soap_srm22_TTransferParameters(soap,(_elem->transferParameters));
+	SOAP_PTR_ALLOC(deferredStartTime);
     	NUM_TO_SOAP_PTR(deferredStartTime);                
 
 	return res;                
@@ -1808,7 +1896,8 @@ srmBringOnlineResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmBringOnlineResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmBringOnlineResponse)
+srm22_srmBringOnlineResponse * conv2gfal_srm22_srmBringOnlineResponse(const struct srm22__srmBringOnlineResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmBringOnlineResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1825,7 +1914,8 @@ srmStatusOfBringOnlineRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmStatusOfBringOnlineRequestRequest)
+
+struct srm22__srmStatusOfBringOnlineRequestRequest * conv2soap_srm22_srmStatusOfBringOnlineRequestRequest(struct soap *soap, const srm22_srmStatusOfBringOnlineRequestRequest * _elem)
 {
 	struct  srm22__srmStatusOfBringOnlineRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1833,8 +1923,8 @@ DEF_GFALCONV_HEADERS_IN(srmStatusOfBringOnlineRequestRequest)
 	STRING_TO_SOAP_EMB(requestToken);
         	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSourceSURLs);
-        
+        		res->arrayOfSourceSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSourceSURLs);
+
 	return res;                
 }
 
@@ -1843,7 +1933,8 @@ srmStatusOfBringOnlineRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmStatusOfBringOnlineRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmStatusOfBringOnlineRequestResponse)
+srm22_srmStatusOfBringOnlineRequestResponse * conv2gfal_srm22_srmStatusOfBringOnlineRequestResponse(const struct srm22__srmStatusOfBringOnlineRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmStatusOfBringOnlineRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1859,30 +1950,31 @@ srmPrepareToPutRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmPrepareToPutRequest)
+
+struct srm22__srmPrepareToPutRequest * conv2soap_srm22_srmPrepareToPutRequest(struct soap *soap, const srm22_srmPrepareToPutRequest * _elem)
 {
 	struct  srm22__srmPrepareToPutRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfTPutFileRequest,arrayOfFileRequests);
-        	SOAP_PTR_ALLOC(userRequestDescription);
+        	res->arrayOfFileRequests=conv2soap_srm22_ArrayOfTPutFileRequest(soap,(_elem->arrayOfFileRequests));
+	SOAP_PTR_ALLOC(userRequestDescription);
     	STRING_TO_SOAP_EMB(userRequestDescription);
-        	ENUM_TO_SOAP(TOverwriteMode,overwriteOption);
-	CONV2SOAP_OBJ(ArrayOfTExtraInfo,storageSystemInfo);
-        	SOAP_PTR_ALLOC(desiredTotalRequestTime);
+        	res->overwriteOption=convEnum2soap_srm22_TOverwriteMode(soap,_elem->overwriteOption);	
+	res->storageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->storageSystemInfo));
+	SOAP_PTR_ALLOC(desiredTotalRequestTime);
     	NUM_TO_SOAP_PTR(desiredTotalRequestTime);                
 	SOAP_PTR_ALLOC(desiredPinLifeTime);
     	NUM_TO_SOAP_PTR(desiredPinLifeTime);                
 	SOAP_PTR_ALLOC(desiredFileLifeTime);
     	NUM_TO_SOAP_PTR(desiredFileLifeTime);                
-	ENUM_TO_SOAP(TFileStorageType,desiredFileStorageType);
+	res->desiredFileStorageType=convEnum2soap_srm22_TFileStorageType(soap,_elem->desiredFileStorageType);	
 	SOAP_PTR_ALLOC(targetSpaceToken);
     	STRING_TO_SOAP_EMB(targetSpaceToken);
-        	CONV2SOAP_OBJ(TRetentionPolicyInfo,targetFileRetentionPolicyInfo);
-        	CONV2SOAP_OBJ(TTransferParameters,transferParameters);
-        
+        	res->targetFileRetentionPolicyInfo=conv2soap_srm22_TRetentionPolicyInfo(soap,(_elem->targetFileRetentionPolicyInfo));
+	res->transferParameters=conv2soap_srm22_TTransferParameters(soap,(_elem->transferParameters));
+
 	return res;                
 }
 
@@ -1891,7 +1983,8 @@ srmPrepareToPutResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmPrepareToPutResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmPrepareToPutResponse)
+srm22_srmPrepareToPutResponse * conv2gfal_srm22_srmPrepareToPutResponse(const struct srm22__srmPrepareToPutResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmPrepareToPutResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1907,7 +2000,8 @@ srmStatusOfPutRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmStatusOfPutRequestRequest)
+
+struct srm22__srmStatusOfPutRequestRequest * conv2soap_srm22_srmStatusOfPutRequestRequest(struct soap *soap, const srm22_srmStatusOfPutRequestRequest * _elem)
 {
 	struct  srm22__srmStatusOfPutRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1915,8 +2009,8 @@ DEF_GFALCONV_HEADERS_IN(srmStatusOfPutRequestRequest)
 	STRING_TO_SOAP_EMB(requestToken);
         	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfTargetSURLs);
-        
+        		res->arrayOfTargetSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfTargetSURLs);
+
 	return res;                
 }
 
@@ -1925,7 +2019,8 @@ srmStatusOfPutRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmStatusOfPutRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmStatusOfPutRequestResponse)
+srm22_srmStatusOfPutRequestResponse * conv2gfal_srm22_srmStatusOfPutRequestResponse(const struct srm22__srmStatusOfPutRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmStatusOfPutRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1940,28 +2035,29 @@ srmCopyRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmCopyRequest)
+
+struct srm22__srmCopyRequest * conv2soap_srm22_srmCopyRequest(struct soap *soap, const srm22_srmCopyRequest * _elem)
 {
 	struct  srm22__srmCopyRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfTCopyFileRequest,arrayOfFileRequests);
-        	SOAP_PTR_ALLOC(userRequestDescription);
+        	res->arrayOfFileRequests=conv2soap_srm22_ArrayOfTCopyFileRequest(soap,(_elem->arrayOfFileRequests));
+	SOAP_PTR_ALLOC(userRequestDescription);
     	STRING_TO_SOAP_EMB(userRequestDescription);
-        	ENUM_TO_SOAP(TOverwriteMode,overwriteOption);
+        	res->overwriteOption=convEnum2soap_srm22_TOverwriteMode(soap,_elem->overwriteOption);	
 	SOAP_PTR_ALLOC(desiredTotalRequestTime);
     	NUM_TO_SOAP_PTR(desiredTotalRequestTime);                
 	SOAP_PTR_ALLOC(desiredTargetSURLLifeTime);
     	NUM_TO_SOAP_PTR(desiredTargetSURLLifeTime);                
-	ENUM_TO_SOAP(TFileStorageType,targetFileStorageType);
+	res->targetFileStorageType=convEnum2soap_srm22_TFileStorageType(soap,_elem->targetFileStorageType);	
 	SOAP_PTR_ALLOC(targetSpaceToken);
     	STRING_TO_SOAP_EMB(targetSpaceToken);
-        	CONV2SOAP_OBJ(TRetentionPolicyInfo,targetFileRetentionPolicyInfo);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,sourceStorageSystemInfo);
-        	CONV2SOAP_OBJ(ArrayOfTExtraInfo,targetStorageSystemInfo);
-        
+        	res->targetFileRetentionPolicyInfo=conv2soap_srm22_TRetentionPolicyInfo(soap,(_elem->targetFileRetentionPolicyInfo));
+	res->sourceStorageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->sourceStorageSystemInfo));
+	res->targetStorageSystemInfo=conv2soap_srm22_ArrayOfTExtraInfo(soap,(_elem->targetStorageSystemInfo));
+
 	return res;                
 }
 
@@ -1970,7 +2066,8 @@ srmCopyResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmCopyResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmCopyResponse)
+srm22_srmCopyResponse * conv2gfal_srm22_srmCopyResponse(const struct srm22__srmCopyResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmCopyResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -1986,7 +2083,8 @@ srmStatusOfCopyRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmStatusOfCopyRequestRequest)
+
+struct srm22__srmStatusOfCopyRequestRequest * conv2soap_srm22_srmStatusOfCopyRequestRequest(struct soap *soap, const srm22_srmStatusOfCopyRequestRequest * _elem)
 {
 	struct  srm22__srmStatusOfCopyRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -1994,9 +2092,9 @@ DEF_GFALCONV_HEADERS_IN(srmStatusOfCopyRequestRequest)
 	STRING_TO_SOAP_EMB(requestToken);
         	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSourceSURLs);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfTargetSURLs);
-        
+        		res->arrayOfSourceSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSourceSURLs);
+		res->arrayOfTargetSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfTargetSURLs);
+
 	return res;                
 }
 
@@ -2005,7 +2103,8 @@ srmStatusOfCopyRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmStatusOfCopyRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmStatusOfCopyRequestResponse)
+srm22_srmStatusOfCopyRequestResponse * conv2gfal_srm22_srmStatusOfCopyRequestResponse(const struct srm22__srmStatusOfCopyRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmStatusOfCopyRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2020,7 +2119,8 @@ srmReleaseFilesRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmReleaseFilesRequest)
+
+struct srm22__srmReleaseFilesRequest * conv2soap_srm22_srmReleaseFilesRequest(struct soap *soap, const srm22_srmReleaseFilesRequest * _elem)
 {
 	struct  srm22__srmReleaseFilesRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -2029,8 +2129,8 @@ DEF_GFALCONV_HEADERS_IN(srmReleaseFilesRequest)
     	STRING_TO_SOAP_EMB(requestToken);
         	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	SOAP_PTR_ALLOC(doRemove);
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	SOAP_PTR_ALLOC(doRemove);
     	NUM_TO_SOAP_PTR(doRemove);                
 
 	return res;                
@@ -2041,7 +2141,8 @@ srmReleaseFilesResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmReleaseFilesResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmReleaseFilesResponse)
+srm22_srmReleaseFilesResponse * conv2gfal_srm22_srmReleaseFilesResponse(const struct srm22__srmReleaseFilesResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmReleaseFilesResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2055,7 +2156,8 @@ srmPutDoneRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmPutDoneRequest)
+
+struct srm22__srmPutDoneRequest * conv2soap_srm22_srmPutDoneRequest(struct soap *soap, const srm22_srmPutDoneRequest * _elem)
 {
 	struct  srm22__srmPutDoneRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -2063,8 +2165,8 @@ DEF_GFALCONV_HEADERS_IN(srmPutDoneRequest)
 	STRING_TO_SOAP_EMB(requestToken);
         	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+
 	return res;                
 }
 
@@ -2073,7 +2175,8 @@ srmPutDoneResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmPutDoneResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmPutDoneResponse)
+srm22_srmPutDoneResponse * conv2gfal_srm22_srmPutDoneResponse(const struct srm22__srmPutDoneResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmPutDoneResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2087,7 +2190,8 @@ srmAbortRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmAbortRequestRequest)
+
+struct srm22__srmAbortRequestRequest * conv2soap_srm22_srmAbortRequestRequest(struct soap *soap, const srm22_srmAbortRequestRequest * _elem)
 {
 	struct  srm22__srmAbortRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -2104,7 +2208,8 @@ srmAbortRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmAbortRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmAbortRequestResponse)
+srm22_srmAbortRequestResponse * conv2gfal_srm22_srmAbortRequestResponse(const struct srm22__srmAbortRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmAbortRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2117,14 +2222,15 @@ srmAbortFilesRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmAbortFilesRequest)
+
+struct srm22__srmAbortFilesRequest * conv2soap_srm22_srmAbortFilesRequest(struct soap *soap, const srm22_srmAbortFilesRequest * _elem)
 {
 	struct  srm22__srmAbortFilesRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
 	STRING_TO_SOAP_EMB(requestToken);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	SOAP_PTR_ALLOC(authorizationID);
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
         
 	return res;                
@@ -2135,7 +2241,8 @@ srmAbortFilesResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmAbortFilesResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmAbortFilesResponse)
+srm22_srmAbortFilesResponse * conv2gfal_srm22_srmAbortFilesResponse(const struct srm22__srmAbortFilesResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmAbortFilesResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2149,7 +2256,8 @@ srmSuspendRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmSuspendRequestRequest)
+
+struct srm22__srmSuspendRequestRequest * conv2soap_srm22_srmSuspendRequestRequest(struct soap *soap, const srm22_srmSuspendRequestRequest * _elem)
 {
 	struct  srm22__srmSuspendRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -2166,7 +2274,8 @@ srmSuspendRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmSuspendRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmSuspendRequestResponse)
+srm22_srmSuspendRequestResponse * conv2gfal_srm22_srmSuspendRequestResponse(const struct srm22__srmSuspendRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmSuspendRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2179,7 +2288,8 @@ srmResumeRequestRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmResumeRequestRequest)
+
+struct srm22__srmResumeRequestRequest * conv2soap_srm22_srmResumeRequestRequest(struct soap *soap, const srm22_srmResumeRequestRequest * _elem)
 {
 	struct  srm22__srmResumeRequestRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -2196,7 +2306,8 @@ srmResumeRequestResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmResumeRequestResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmResumeRequestResponse)
+srm22_srmResumeRequestResponse * conv2gfal_srm22_srmResumeRequestResponse(const struct srm22__srmResumeRequestResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmResumeRequestResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2209,13 +2320,14 @@ srmGetRequestSummaryRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmGetRequestSummaryRequest)
+
+struct srm22__srmGetRequestSummaryRequest * conv2soap_srm22_srmGetRequestSummaryRequest(struct soap *soap, const srm22_srmGetRequestSummaryRequest * _elem)
 {
 	struct  srm22__srmGetRequestSummaryRequest* res;
 	SOAP_MAIN_ALLOC;
 	GCuAssertPtrNotNull(res);
-	CONV2SOAP_OBJ(ArrayOfString,arrayOfRequestTokens);
-        	SOAP_PTR_ALLOC(authorizationID);
+	res->arrayOfRequestTokens=conv2soap_srm22_ArrayOfString(soap,(_elem->arrayOfRequestTokens));
+	SOAP_PTR_ALLOC(authorizationID);
     	STRING_TO_SOAP_EMB(authorizationID);
         
 	return res;                
@@ -2226,7 +2338,8 @@ srmGetRequestSummaryResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmGetRequestSummaryResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmGetRequestSummaryResponse)
+srm22_srmGetRequestSummaryResponse * conv2gfal_srm22_srmGetRequestSummaryResponse(const struct srm22__srmGetRequestSummaryResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmGetRequestSummaryResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2240,7 +2353,8 @@ srmExtendFileLifeTimeRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmExtendFileLifeTimeRequest)
+
+struct srm22__srmExtendFileLifeTimeRequest * conv2soap_srm22_srmExtendFileLifeTimeRequest(struct soap *soap, const srm22_srmExtendFileLifeTimeRequest * _elem)
 {
 	struct  srm22__srmExtendFileLifeTimeRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -2249,8 +2363,8 @@ DEF_GFALCONV_HEADERS_IN(srmExtendFileLifeTimeRequest)
     	STRING_TO_SOAP_EMB(authorizationID);
         	SOAP_PTR_ALLOC(requestToken);
     	STRING_TO_SOAP_EMB(requestToken);
-        	CONV2SOAP_OBJ(ArrayOfAnyURI,arrayOfSURLs);
-        	SOAP_PTR_ALLOC(newFileLifeTime);
+        		res->arrayOfSURLs = conv2soap_srm22__ArrayOfAnyURI_2_ArrayOfString(soap,_elem->arrayOfSURLs);
+	SOAP_PTR_ALLOC(newFileLifeTime);
     	NUM_TO_SOAP_PTR(newFileLifeTime);                
 	SOAP_PTR_ALLOC(newPinLifeTime);
     	NUM_TO_SOAP_PTR(newPinLifeTime);                
@@ -2263,7 +2377,8 @@ srmExtendFileLifeTimeResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmExtendFileLifeTimeResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmExtendFileLifeTimeResponse)
+srm22_srmExtendFileLifeTimeResponse * conv2gfal_srm22_srmExtendFileLifeTimeResponse(const struct srm22__srmExtendFileLifeTimeResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmExtendFileLifeTimeResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2277,7 +2392,8 @@ srmGetRequestTokensRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmGetRequestTokensRequest)
+
+struct srm22__srmGetRequestTokensRequest * conv2soap_srm22_srmGetRequestTokensRequest(struct soap *soap, const srm22_srmGetRequestTokensRequest * _elem)
 {
 	struct  srm22__srmGetRequestTokensRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -2295,7 +2411,8 @@ srmGetRequestTokensResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmGetRequestTokensResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmGetRequestTokensResponse)
+srm22_srmGetRequestTokensResponse * conv2gfal_srm22_srmGetRequestTokensResponse(const struct srm22__srmGetRequestTokensResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmGetRequestTokensResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2309,7 +2426,8 @@ srmGetTransferProtocolsRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmGetTransferProtocolsRequest)
+
+struct srm22__srmGetTransferProtocolsRequest * conv2soap_srm22_srmGetTransferProtocolsRequest(struct soap *soap, const srm22_srmGetTransferProtocolsRequest * _elem)
 {
 	struct  srm22__srmGetTransferProtocolsRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -2325,7 +2443,8 @@ srmGetTransferProtocolsResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmGetTransferProtocolsResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmGetTransferProtocolsResponse)
+srm22_srmGetTransferProtocolsResponse * conv2gfal_srm22_srmGetTransferProtocolsResponse(const struct srm22__srmGetTransferProtocolsResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmGetTransferProtocolsResponse);
 	CONV2GFAL_OBJ(TReturnStatus,returnStatus);
@@ -2339,7 +2458,8 @@ srmPingRequest
 is the 
 main-input type.
 */           
-DEF_GFALCONV_HEADERS_IN(srmPingRequest)
+
+struct srm22__srmPingRequest * conv2soap_srm22_srmPingRequest(struct soap *soap, const srm22_srmPingRequest * _elem)
 {
 	struct  srm22__srmPingRequest* res;
 	SOAP_MAIN_ALLOC;
@@ -2355,7 +2475,8 @@ srmPingResponse
 is the 
 main-output type.
 */           
-DEF_GFALCONV_HEADERS_OUT(srmPingResponse)
+//DEF_GFALCONV_HEADERS_OUT(srmPingResponse)
+srm22_srmPingResponse * conv2gfal_srm22_srmPingResponse(const struct srm22__srmPingResponse* _elem)
 {
 	GFAL_DECL_ALLOC(srmPingResponse);
 	STRING_FROM_SOAP_EMB(versionInfo);

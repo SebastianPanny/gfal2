@@ -58,13 +58,13 @@ _arg=NULL;
 
 	
 #define GFAL_FREEARRAY_TYPE_DEF(_typeName,_sizeName,_arrName)	\
-void freegfalArray_ArrayOf##_typeName(srm22_ArrayOf##_typeName* _elem) 			\
+void freeType_srm22_ArrayOf##_typeName(srm22_ArrayOf##_typeName* _elem) 			\
 {	int i;													\
 if(!_elem) return;										\
 for(i=0;i<_elem->_sizeName;i++)							\
     {													\
     if(_elem->_arrName[i]) 								\
-    freeType_##_typeName(_elem->_arrName[i]);		\
+    freeType_srm22_##_typeName(_elem->_arrName[i]);		\
     };													\
     free((void*)_elem->_arrName);							\
     free((void*)_elem);										\
@@ -129,6 +129,23 @@ STANDARD_CLEANUP_RETURN(-1);
 
 #define CALL_SOAP(_call) soap_call_srm22__##_call(&soap,"_call", #_call, _req, &_res)
 
+//ArrayFsTring is predefined
+char* get_srm22_ArrayOfString_TSurl(srm22_ArrayOfString* _arg)    	
+{						
+	if(!_arg || (_arg->stringArray[0])) return NULL;
+	return /*get_srm22_String_TSurl*/(_arg->stringArray[0]);
+}
+
+CONSTRUCTOR_DEC(ArrayOfString,char** stringArray ,int _size)	
+{												
+	srm22_ArrayOfString* tdata1;    					
+	tdata1 = malloc(sizeof(*tdata1));			
+	GCuAssertPtrNotNull(tdata1);				
+	tdata1->stringArray = malloc(sizeof(char*)*_size);	
+	GCuAssertPtrNotNull(tdata1->stringArray);	
+	tdata1->__sizestringArray = _size;	
+	return tdata1;								
+}
 
         
         /*       
@@ -1467,7 +1484,7 @@ srmChangeSpaceForFilesRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -1491,7 +1508,7 @@ GFAL_FREE_TYPE_DEC(srmChangeSpaceForFilesRequest)
 {
 	if(!_arg)return;
 		FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 	FREE_SUB_OBJ(targetSpaceToken);
 	FREE_TYPE(ArrayOfTExtraInfo,storageSystemInfo);
 
@@ -1504,7 +1521,7 @@ GFAL_FREE_TYPE_DEC(srmChangeSpaceForFilesRequest)
 char* get_srm22_srmChangeSpaceForFilesRequest_TSurl(srm22_srmChangeSpaceForFilesRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -1584,7 +1601,7 @@ srmExtendFileLifeTimeInSpaceRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -1609,7 +1626,7 @@ GFAL_FREE_TYPE_DEC(srmExtendFileLifeTimeInSpaceRequest)
 	if(!_arg)return;
 		FREE_SUB_OBJ(authorizationID);
 	FREE_SUB_OBJ(spaceToken);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 
 	END_GFAL_FREE;	
 }
@@ -1620,7 +1637,7 @@ GFAL_FREE_TYPE_DEC(srmExtendFileLifeTimeInSpaceRequest)
 char* get_srm22_srmExtendFileLifeTimeInSpaceRequest_TSurl(srm22_srmExtendFileLifeTimeInSpaceRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -1649,7 +1666,7 @@ srmPurgeFromSpaceRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -1673,7 +1690,7 @@ GFAL_FREE_TYPE_DEC(srmPurgeFromSpaceRequest)
 {
 	if(!_arg)return;
 		FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 	FREE_SUB_OBJ(spaceToken);
 	FREE_TYPE(ArrayOfTExtraInfo,storageSystemInfo);
 
@@ -1686,7 +1703,7 @@ GFAL_FREE_TYPE_DEC(srmPurgeFromSpaceRequest)
 char* get_srm22_srmPurgeFromSpaceRequest_TSurl(srm22_srmPurgeFromSpaceRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -1839,7 +1856,7 @@ srmCheckPermissionRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -1860,7 +1877,7 @@ srm22_srmCheckPermissionRequest* tdata1;
 GFAL_FREE_TYPE_DEC(srmCheckPermissionRequest)
 {
 	if(!_arg)return;
-		FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+		FREE_TYPE(ArrayOfString,arrayOfSURLs);
 	FREE_SUB_OBJ(authorizationID);
 	FREE_TYPE(ArrayOfTExtraInfo,storageSystemInfo);
 
@@ -1873,7 +1890,7 @@ GFAL_FREE_TYPE_DEC(srmCheckPermissionRequest)
 char* get_srm22_srmCheckPermissionRequest_TSurl(srm22_srmCheckPermissionRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -1902,7 +1919,7 @@ srmGetPermissionRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -1924,7 +1941,7 @@ GFAL_FREE_TYPE_DEC(srmGetPermissionRequest)
 {
 	if(!_arg)return;
 		FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 	FREE_TYPE(ArrayOfTExtraInfo,storageSystemInfo);
 
 	END_GFAL_FREE;	
@@ -1936,7 +1953,7 @@ GFAL_FREE_TYPE_DEC(srmGetPermissionRequest)
 char* get_srm22_srmGetPermissionRequest_TSurl(srm22_srmGetPermissionRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -2071,7 +2088,7 @@ srmRmRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -2093,7 +2110,7 @@ GFAL_FREE_TYPE_DEC(srmRmRequest)
 {
 	if(!_arg)return;
 		FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 	FREE_TYPE(ArrayOfTExtraInfo,storageSystemInfo);
 
 	END_GFAL_FREE;	
@@ -2105,7 +2122,7 @@ GFAL_FREE_TYPE_DEC(srmRmRequest)
 char* get_srm22_srmRmRequest_TSurl(srm22_srmRmRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -2134,7 +2151,7 @@ srmLsRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -2168,7 +2185,7 @@ GFAL_FREE_TYPE_DEC(srmLsRequest)
 {
 	if(!_arg)return;
 		FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 	FREE_TYPE(ArrayOfTExtraInfo,storageSystemInfo);
 
 	END_GFAL_FREE;	
@@ -2180,7 +2197,7 @@ GFAL_FREE_TYPE_DEC(srmLsRequest)
 char* get_srm22_srmLsRequest_TSurl(srm22_srmLsRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -2411,7 +2428,7 @@ srmStatusOfGetRequestRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSourceSURLs:ArrayOfAnyURI! 
+    arrayOfSourceSURLs:ArrayOfString! 
 	
 */           
 
@@ -2434,7 +2451,7 @@ GFAL_FREE_TYPE_DEC(srmStatusOfGetRequestRequest)
 	if(!_arg)return;
 		FREE_SUB_OBJ(requestToken);
 	FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSourceSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSourceSURLs);
 
 	END_GFAL_FREE;	
 }
@@ -2445,7 +2462,7 @@ GFAL_FREE_TYPE_DEC(srmStatusOfGetRequestRequest)
 char* get_srm22_srmStatusOfGetRequestRequest_TSurl(srm22_srmStatusOfGetRequestRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSourceSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSourceSURLs);
 };
 
 
@@ -2558,7 +2575,7 @@ srmStatusOfBringOnlineRequestRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSourceSURLs:ArrayOfAnyURI! 
+    arrayOfSourceSURLs:ArrayOfString! 
 	
 */           
 
@@ -2581,7 +2598,7 @@ GFAL_FREE_TYPE_DEC(srmStatusOfBringOnlineRequestRequest)
 	if(!_arg)return;
 		FREE_SUB_OBJ(requestToken);
 	FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSourceSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSourceSURLs);
 
 	END_GFAL_FREE;	
 }
@@ -2592,7 +2609,7 @@ GFAL_FREE_TYPE_DEC(srmStatusOfBringOnlineRequestRequest)
 char* get_srm22_srmStatusOfBringOnlineRequestRequest_TSurl(srm22_srmStatusOfBringOnlineRequestRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSourceSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSourceSURLs);
 };
 
 
@@ -2707,7 +2724,7 @@ srmStatusOfPutRequestRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfTargetSURLs:ArrayOfAnyURI! 
+    arrayOfTargetSURLs:ArrayOfString! 
 	
 */           
 
@@ -2730,7 +2747,7 @@ GFAL_FREE_TYPE_DEC(srmStatusOfPutRequestRequest)
 	if(!_arg)return;
 		FREE_SUB_OBJ(requestToken);
 	FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfTargetSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfTargetSURLs);
 
 	END_GFAL_FREE;	
 }
@@ -2741,7 +2758,7 @@ GFAL_FREE_TYPE_DEC(srmStatusOfPutRequestRequest)
 char* get_srm22_srmStatusOfPutRequestRequest_TSurl(srm22_srmStatusOfPutRequestRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfTargetSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfTargetSURLs);
 };
 
 
@@ -2854,7 +2871,7 @@ srmStatusOfCopyRequestRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSourceSURLs:ArrayOfAnyURI! 
+    arrayOfSourceSURLs:ArrayOfString! 
 	
 */           
 
@@ -2879,8 +2896,8 @@ GFAL_FREE_TYPE_DEC(srmStatusOfCopyRequestRequest)
 	if(!_arg)return;
 		FREE_SUB_OBJ(requestToken);
 	FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSourceSURLs);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfTargetSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSourceSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfTargetSURLs);
 
 	END_GFAL_FREE;	
 }
@@ -2891,7 +2908,7 @@ GFAL_FREE_TYPE_DEC(srmStatusOfCopyRequestRequest)
 char* get_srm22_srmStatusOfCopyRequestRequest_TSurl(srm22_srmStatusOfCopyRequestRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSourceSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSourceSURLs);
 };
 
 
@@ -2920,7 +2937,7 @@ srmReleaseFilesRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -2945,7 +2962,7 @@ GFAL_FREE_TYPE_DEC(srmReleaseFilesRequest)
 	if(!_arg)return;
 		FREE_SUB_OBJ(requestToken);
 	FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 
 	END_GFAL_FREE;	
 }
@@ -2956,7 +2973,7 @@ GFAL_FREE_TYPE_DEC(srmReleaseFilesRequest)
 char* get_srm22_srmReleaseFilesRequest_TSurl(srm22_srmReleaseFilesRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -2985,7 +3002,7 @@ srmPutDoneRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -3008,7 +3025,7 @@ GFAL_FREE_TYPE_DEC(srmPutDoneRequest)
 	if(!_arg)return;
 		FREE_SUB_OBJ(requestToken);
 	FREE_SUB_OBJ(authorizationID);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 
 	END_GFAL_FREE;	
 }
@@ -3019,7 +3036,7 @@ GFAL_FREE_TYPE_DEC(srmPutDoneRequest)
 char* get_srm22_srmPutDoneRequest_TSurl(srm22_srmPutDoneRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -3097,7 +3114,7 @@ srmAbortFilesRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -3119,7 +3136,7 @@ GFAL_FREE_TYPE_DEC(srmAbortFilesRequest)
 {
 	if(!_arg)return;
 		FREE_SUB_OBJ(requestToken);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 	FREE_SUB_OBJ(authorizationID);
 
 	END_GFAL_FREE;	
@@ -3131,7 +3148,7 @@ GFAL_FREE_TYPE_DEC(srmAbortFilesRequest)
 char* get_srm22_srmAbortFilesRequest_TSurl(srm22_srmAbortFilesRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 
@@ -3308,7 +3325,7 @@ srmExtendFileLifeTimeRequest
 is the 
 main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 	
 */           
 
@@ -3335,7 +3352,7 @@ GFAL_FREE_TYPE_DEC(srmExtendFileLifeTimeRequest)
 	if(!_arg)return;
 		FREE_SUB_OBJ(authorizationID);
 	FREE_SUB_OBJ(requestToken);
-	FREE_TYPE(ArrayOfAnyURI,arrayOfSURLs);
+	FREE_TYPE(ArrayOfString,arrayOfSURLs);
 
 	END_GFAL_FREE;	
 }
@@ -3346,7 +3363,7 @@ GFAL_FREE_TYPE_DEC(srmExtendFileLifeTimeRequest)
 char* get_srm22_srmExtendFileLifeTimeRequest_TSurl(srm22_srmExtendFileLifeTimeRequest* _arg)
 {	
 	if(!_arg) return NULL;
-	return (char*)get_srm22_ArrayOfAnyURI_TSurl(_arg->arrayOfSURLs);
+	return (char*)get_srm22_ArrayOfString_TSurl(_arg->arrayOfSURLs);
 };
 
 

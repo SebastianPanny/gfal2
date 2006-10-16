@@ -61,10 +61,10 @@ CONSTRUCTOR_DEC(ArrayOf##_type,srm22_##_type** _Name ,int _size);
 
 // free dynamic objects' fields
 #define GFAL_FREEARRAY_TYPE_DEC(_typeName)	\
-void freegfalArray_srm22_##_typeName(srm22_##_typeName* _elem);
+void freeType_srm22_ArrayOf##_typeName(srm22_ArrayOf##_typeName* _elem);
 
 #define CALL_GFAL_FREEARRAY_TYPE(_typeName,ptrName);	\
-freegfalArray_srm22_##_typeName(ptrName);
+freeType_srm22_ArrayOf##_typeName(ptrName);
 
 #define GFAL_FREE_TYPE_DEC(_typeName) void freeType_srm22_##_typeName(srm22_##_typeName* _arg)
 
@@ -108,14 +108,17 @@ int __sizestringArray;
 char **stringArray;
 );   
 
-void freegfalArray_srm22_String(srm22_ArrayOfString* _elem);	
-CONSTRUCTOR_DEC(ArrayOfString,char** stringArray ,int _size);	
+void freeType_srm22_ArrayOfString(srm22_ArrayOfString* _elem);	
+CONSTRUCTOR_DEC(ArrayOfString,char** stringArray ,int _size);
+getSURL_DEC(ArrayOfString);	
+
+
 	
 STRUCT_DEC(ArrayOfUnsignedLong,	
 int __sizeunsignedLongArray;
 ULONG64 **unsignedLongArray;
 );
-void freegfalArray_srm22_UnsignedLong(srm22_ArrayOfUnsignedLong* _elem);	
+void freeType_srm22_ArrayOfUnsignedLong(srm22_ArrayOfUnsignedLong* _elem);	
 CONSTRUCTOR_DEC(ArrayOfUnsignedLong,ULONG64** unsignedLongArray ,int _size);	
 	
 /// typedefs
@@ -196,8 +199,7 @@ STRUCT_DEC_IN(
 
 DEF_GFAL_ARRAY(TUserPermission,userPermissionArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TUserPermission);			
-CONSTRUCTOR_DEC(ArrayOfTUserPermission,srm22_TUserPermission** userPermissionArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTUserPermission,srm22_TUserPermission** userPermissionArray,int _size);
     
 /*
     TGroupPermission    
@@ -219,8 +221,7 @@ STRUCT_DEC_IN(
 
 DEF_GFAL_ARRAY(TGroupPermission,groupPermissionArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TGroupPermission);			
-CONSTRUCTOR_DEC(ArrayOfTGroupPermission,srm22_TGroupPermission** groupPermissionArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTGroupPermission,srm22_TGroupPermission** groupPermissionArray,int _size);
     
 /*
     TReturnStatus    
@@ -253,8 +254,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TSURLReturnStatus,statusArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TSURLReturnStatus);			
-CONSTRUCTOR_DEC(ArrayOfTSURLReturnStatus,srm22_TSURLReturnStatus** statusArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTSURLReturnStatus,srm22_TSURLReturnStatus** statusArray,int _size);
     
 /*
     TSURLLifetimeReturnStatus    
@@ -278,8 +278,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TSURLLifetimeReturnStatus,statusArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TSURLLifetimeReturnStatus);			
-CONSTRUCTOR_DEC(ArrayOfTSURLLifetimeReturnStatus,srm22_TSURLLifetimeReturnStatus** statusArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTSURLLifetimeReturnStatus,srm22_TSURLLifetimeReturnStatus** statusArray,int _size);
     
 /*
     TMetaDataPathDetail    
@@ -305,7 +304,7 @@ STRUCT_DEC_OUT(
     srm22_TPermissionMode otherPermission;
     char*  checkSumType;
     char*  checkSumValue;
-    struct srm22_ArrayOfTMetaDataPathDetail*   arrayOfSubPaths;
+    struct _srm22_ArrayOfTMetaDataPathDetail*   arrayOfSubPaths;
 );
 
 /* 
@@ -317,8 +316,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TMetaDataPathDetail,pathDetailArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TMetaDataPathDetail);			
-CONSTRUCTOR_DEC(ArrayOfTMetaDataPathDetail,srm22_TMetaDataPathDetail** pathDetailArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTMetaDataPathDetail,srm22_TMetaDataPathDetail** pathDetailArray,int _size);
     
 /*
     TMetaDataSpace    
@@ -347,8 +345,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TMetaDataSpace,spaceDataArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TMetaDataSpace);			
-CONSTRUCTOR_DEC(ArrayOfTMetaDataSpace,srm22_TMetaDataSpace** spaceDataArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTMetaDataSpace,srm22_TMetaDataSpace** spaceDataArray,int _size);
     
 /*
     TDirOption    
@@ -382,8 +379,7 @@ STRUCT_DEC_IN(
 
 DEF_GFAL_ARRAY(TExtraInfo,extraInfoArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TExtraInfo);			
-CONSTRUCTOR_DEC(ArrayOfTExtraInfo,srm22_TExtraInfo** extraInfoArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTExtraInfo,srm22_TExtraInfo** extraInfoArray,int _size);
     
 /*
     TTransferParameters    
@@ -420,8 +416,7 @@ STRUCT_DEC_REQ(
 
 DEF_GFAL_ARRAY(TGetFileRequest,requestArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TGetFileRequest);			
-CONSTRUCTOR_DEC(ArrayOfTGetFileRequest,srm22_TGetFileRequest** requestArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTGetFileRequest,srm22_TGetFileRequest** requestArray,int _size);
     
 getSURL_DEC(ArrayOfTGetFileRequest);
     
@@ -447,8 +442,7 @@ STRUCT_DEC_REQ(
 
 DEF_GFAL_ARRAY(TPutFileRequest,requestArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TPutFileRequest);			
-CONSTRUCTOR_DEC(ArrayOfTPutFileRequest,srm22_TPutFileRequest** requestArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTPutFileRequest,srm22_TPutFileRequest** requestArray,int _size);
     
 getSURL_DEC(ArrayOfTPutFileRequest);
     
@@ -475,8 +469,7 @@ STRUCT_DEC_REQ(
 
 DEF_GFAL_ARRAY(TCopyFileRequest,requestArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TCopyFileRequest);			
-CONSTRUCTOR_DEC(ArrayOfTCopyFileRequest,srm22_TCopyFileRequest** requestArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTCopyFileRequest,srm22_TCopyFileRequest** requestArray,int _size);
     
 getSURL_DEC(ArrayOfTCopyFileRequest);
     
@@ -505,8 +498,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TGetRequestFileStatus,statusArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TGetRequestFileStatus);			
-CONSTRUCTOR_DEC(ArrayOfTGetRequestFileStatus,srm22_TGetRequestFileStatus** statusArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTGetRequestFileStatus,srm22_TGetRequestFileStatus** statusArray,int _size);
     
 /*
     TBringOnlineRequestFileStatus    
@@ -531,8 +523,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TBringOnlineRequestFileStatus,statusArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TBringOnlineRequestFileStatus);			
-CONSTRUCTOR_DEC(ArrayOfTBringOnlineRequestFileStatus,srm22_TBringOnlineRequestFileStatus** statusArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTBringOnlineRequestFileStatus,srm22_TBringOnlineRequestFileStatus** statusArray,int _size);
     
 /*
     TPutRequestFileStatus    
@@ -560,8 +551,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TPutRequestFileStatus,statusArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TPutRequestFileStatus);			
-CONSTRUCTOR_DEC(ArrayOfTPutRequestFileStatus,srm22_TPutRequestFileStatus** statusArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTPutRequestFileStatus,srm22_TPutRequestFileStatus** statusArray,int _size);
     
 /*
     TCopyRequestFileStatus    
@@ -587,8 +577,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TCopyRequestFileStatus,statusArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TCopyRequestFileStatus);			
-CONSTRUCTOR_DEC(ArrayOfTCopyRequestFileStatus,srm22_TCopyRequestFileStatus** statusArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTCopyRequestFileStatus,srm22_TCopyRequestFileStatus** statusArray,int _size);
     
 /*
     TRequestSummary    
@@ -615,8 +604,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TRequestSummary,summaryArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TRequestSummary);			
-CONSTRUCTOR_DEC(ArrayOfTRequestSummary,srm22_TRequestSummary** summaryArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTRequestSummary,srm22_TRequestSummary** summaryArray,int _size);
     
 /*
     TSURLPermissionReturn    
@@ -639,8 +627,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TSURLPermissionReturn,surlPermissionArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TSURLPermissionReturn);			
-CONSTRUCTOR_DEC(ArrayOfTSURLPermissionReturn,srm22_TSURLPermissionReturn** surlPermissionArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTSURLPermissionReturn,srm22_TSURLPermissionReturn** surlPermissionArray,int _size);
     
 /*
     TPermissionReturn    
@@ -667,8 +654,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TPermissionReturn,permissionArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TPermissionReturn);			
-CONSTRUCTOR_DEC(ArrayOfTPermissionReturn,srm22_TPermissionReturn** permissionArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTPermissionReturn,srm22_TPermissionReturn** permissionArray,int _size);
     
 /*
     TRequestTokenReturn    
@@ -690,8 +676,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TRequestTokenReturn,tokenArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TRequestTokenReturn);			
-CONSTRUCTOR_DEC(ArrayOfTRequestTokenReturn,srm22_TRequestTokenReturn** tokenArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTRequestTokenReturn,srm22_TRequestTokenReturn** tokenArray,int _size);
     
 /*
     TSupportedTransferProtocol    
@@ -713,8 +698,7 @@ STRUCT_DEC_OUT(
 
 DEF_GFAL_ARRAY(TSupportedTransferProtocol,protocolArray);		               
 GFAL_FREEARRAY_TYPE_DEC(TSupportedTransferProtocol);			
-CONSTRUCTOR_DEC(ArrayOfTSupportedTransferProtocol,srm22_TSupportedTransferProtocol** protocolArray,int _size);		
-
+CONSTRUCTOR_DEC(ArrayOfTSupportedTransferProtocol,srm22_TSupportedTransferProtocol** protocolArray,int _size);
     
 /*
     srmReserveSpaceRequest    
@@ -881,7 +865,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmChangeSpaceForFilesRequest,
@@ -932,7 +916,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmExtendFileLifeTimeInSpaceRequest,
@@ -959,7 +943,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmPurgeFromSpaceRequest,
@@ -1036,7 +1020,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmCheckPermissionRequest,
@@ -1061,7 +1045,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmGetPermissionRequest,
@@ -1131,7 +1115,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmRmRequest,
@@ -1156,7 +1140,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmLsRequest,
@@ -1271,7 +1255,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSourceSURLs:ArrayOfAnyURI! 
+    arrayOfSourceSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmStatusOfGetRequestRequest,
@@ -1333,7 +1317,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSourceSURLs:ArrayOfAnyURI! 
+    arrayOfSourceSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmStatusOfBringOnlineRequestRequest,
@@ -1396,7 +1380,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfTargetSURLs:ArrayOfAnyURI! 
+    arrayOfTargetSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmStatusOfPutRequestRequest,
@@ -1457,7 +1441,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSourceSURLs:ArrayOfAnyURI! 
+    arrayOfSourceSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmStatusOfCopyRequestRequest,
@@ -1484,7 +1468,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmReleaseFilesRequest,
@@ -1510,7 +1494,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmPutDoneRequest,
@@ -1556,7 +1540,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmAbortFilesRequest,
@@ -1645,7 +1629,7 @@ STRUCT_DEC_OUT(
     is the 
     main-input
     and getSurl is for:
-    arrayOfSURLs:ArrayOfAnyURI! 
+    arrayOfSURLs:ArrayOfString! 
 */    
 STRUCT_DEC_REQ(
         srmExtendFileLifeTimeRequest,
@@ -1743,15 +1727,15 @@ GFAL_WRAP_DEC(srmStatusOfUpdateSpaceRequest);
 
 GFAL_WRAP_DEC(srmGetSpaceMetaData);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmChangeSpaceForFiles);        
 
 GFAL_WRAP_DEC(srmStatusOfChangeSpaceForFilesRequest);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmExtendFileLifeTimeInSpace);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmPurgeFromSpace);        
 
 GFAL_WRAP_DEC(srmGetSpaceTokens);        
@@ -1759,20 +1743,20 @@ GFAL_WRAP_DEC(srmGetSpaceTokens);
 /* path to surl is: SURL:anyURI! */     
 GFAL_WRAP_DEC_SURL(srmSetPermission);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmCheckPermission);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmGetPermission);        
 
 GFAL_WRAP_DEC(srmMkdir);        
 
 GFAL_WRAP_DEC(srmRmdir);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmRm);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmLs);        
 
 GFAL_WRAP_DEC(srmStatusOfLsRequest);        
@@ -1783,36 +1767,36 @@ GFAL_WRAP_DEC_SURL(srmMv);
 /* path to surl is: sourceSURL:anyURI!requestArray:TGetFileRequest->arrayOfFileRequests:ArrayOfTGetFileRequest-> */     
 GFAL_WRAP_DEC_SURL(srmPrepareToGet);        
 
-/* path to surl is: arrayOfSourceSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSourceSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmStatusOfGetRequest);        
 
 /* path to surl is: sourceSURL:anyURI!requestArray:TGetFileRequest->arrayOfFileRequests:ArrayOfTGetFileRequest-> */     
 GFAL_WRAP_DEC_SURL(srmBringOnline);        
 
-/* path to surl is: arrayOfSourceSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSourceSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmStatusOfBringOnlineRequest);        
 
 /* path to surl is: targetSURL:anyURI!requestArray:TPutFileRequest->arrayOfFileRequests:ArrayOfTPutFileRequest-> */     
 GFAL_WRAP_DEC_SURL(srmPrepareToPut);        
 
-/* path to surl is: arrayOfTargetSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfTargetSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmStatusOfPutRequest);        
 
 /* path to surl is: sourceSURL:anyURI!requestArray:TCopyFileRequest->arrayOfFileRequests:ArrayOfTCopyFileRequest-> */     
 GFAL_WRAP_DEC_SURL(srmCopy);        
 
-/* path to surl is: arrayOfSourceSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSourceSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmStatusOfCopyRequest);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmReleaseFiles);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmPutDone);        
 
 GFAL_WRAP_DEC(srmAbortRequest);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmAbortFiles);        
 
 GFAL_WRAP_DEC(srmSuspendRequest);        
@@ -1821,7 +1805,7 @@ GFAL_WRAP_DEC(srmResumeRequest);
 
 GFAL_WRAP_DEC(srmGetRequestSummary);        
 
-/* path to surl is: arrayOfSURLs:ArrayOfAnyURI! */     
+/* path to surl is: arrayOfSURLs:ArrayOfString! */     
 GFAL_WRAP_DEC_SURL(srmExtendFileLifeTime);        
 
 GFAL_WRAP_DEC(srmGetRequestTokens);        
