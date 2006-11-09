@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.23 $ $Date: 2006/10/16 07:27:24 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.24 $ $Date: 2006/11/09 16:38:39 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -43,7 +43,7 @@ srm_init (struct soap *soap, const char *surl, char *srm_endpoint,
 srm_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
 {
 	struct ns5__advisoryDeleteResponse out;
-    int ret;
+        int ret;
 	struct soap soap;
 	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
@@ -106,7 +106,6 @@ srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols,
 	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	// single endpoint
 	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint),
 	    errbuf, errbufsz) < 0)
 		return (-1);
@@ -193,7 +192,7 @@ srm_getstatusx (int nbfiles, char **surls, int reqid, char *token,
 	char *p;
 	struct ns1__RequestStatus *reqstatp;
 	int ret;
-    int sav_errno;
+        int sav_errno;
 	struct soap soap;
 	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
@@ -407,18 +406,16 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 			else if (strstr (reqstatp->errorMessage, "does not exist") ||
 			    strstr (reqstatp->errorMessage, "GetStorageInfoFailed"))
 				sav_errno = ENOENT;
-            else if (strstr (reqstatp->errorMessage, "o such file or directory"))
+                        else if (strstr (reqstatp->errorMessage, "o such file or directory"))
 				sav_errno = ENOENT;
-            else if (strstr (reqstatp->errorMessage, "ermission denied"))
-                sav_errno = EACCES;
+                        else if (strstr (reqstatp->errorMessage, "ermission denied"))
+                                sav_errno = EACCES;
 			else if (strstr (reqstatp->errorMessage, "nvalid arg"))
 				sav_errno = EINVAL;
 			else if (strstr (reqstatp->errorMessage, "rotocol"))
 				sav_errno = EPROTONOSUPPORT;
 			else if (strstr (reqstatp->errorMessage, "o space left on device"))
 				sav_errno = ENOSPC;
-			else if (strstr (reqstatp->errorMessage, "s a directory"))
-				sav_errno = EISDIR;			
 			else {
 				gfal_errmsg(errbuf, errbufsz, reqstatp->errorMessage);
 				sav_errno = ECOMM;

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.6 $ $Date: 2006/10/16 07:27:24 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.7 $ $Date: 2006/11/09 16:38:36 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -11,7 +11,7 @@
 #include <dirent.h>
 #include <dlfcn.h>
 #include <fcntl.h>
-#include <sys/stat.h> 
+#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,12 +28,6 @@
 #include "serrno.h"
 #endif
 #include "gfal.h"
-
-/*tests conducted with memory checker usually*/
-#if _DUMA
-#include "duma.h"
-#endif
-
 
 #if GFAL_ENABLE_DCAP
 off_t

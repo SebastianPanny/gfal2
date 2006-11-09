@@ -1,10 +1,9 @@
-
 /*
  * Copyright (C) 2003-2005 by CERN
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.26 $ $Date: 2006/10/16 07:27:24 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.27 $ $Date: 2006/11/09 16:38:36 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -115,8 +114,6 @@ int set_xfer_running (const char *, int, int, char *, char *, int, int);
 char *turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
 char *turlfromsurlx (const char *, GFAL_LONG64, char **, int, int *, int *, char **, char *, int, int);
 
-
-
 		/* Internal functions */
 int deletepfn (const char *, const char *, char *, int);
 int get_bdii (char *, int, int *, char *, int);
@@ -181,44 +178,16 @@ int se_set_xfer_done (const char *, int, int, char *, int, char *, int, int);
 int se_set_xfer_running (const char *, int, int, char *, char *, int);
 char *se_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
 int setypefromsurl (const char *, char **, char *, int);
-
-
-/* srm v1 native mapping operations */
-int srm_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout);
-int srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols, 
-        int *reqid, char **token, struct srm_filestatus **filestatuses, int timeout);
-int srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols, 
-        int *reqid, char **token, struct srm_filestatus **filestatuses,
-        char *errbuf, int errbufsz, int timeout);
-int srm_getstatus (int nbfiles, char **surls, 
-        int reqid, char *token, struct srm_filestatus **filestatuses, int timeout);
-int srm_getstatusx (int nbfiles, char **surls, 
-        int reqid, char *token, struct srm_filestatus **filestatuses, 
-        char *errbuf, int errbufsz, int timeout);
-int srm_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag, 
-        char *errbuf, int errbufsz, int timeout);
-int srm_set_xfer_running (const char *surl, int reqid, int fileid, char *token, 
-        char *errbuf, int errbufsz, int timeout);
-char *srm_turlfromsurl (const char *surl, char **protocols, int oflag, 
-        int *reqid, int *fileid, char **token, 
-        char *errbuf, int errbufsz, int timeout);
-int srm_turlsfromsurls (int nbfiles, const char **surls, GFAL_LONG64 *filesizes, 
-        char **protocols, int oflag, int *reqid, int **fileids, char **token, char ***turls, 
-        char *errbuf, int errbufsz, int timeout);
-int srm_getfilemd (const char *surl, struct stat64 *statbuf, 
-        char *errbuf, int errbufsz, int timeout);
-
+int srm_deletesurl (const char *, char *, int, int);
+int srm_get (int, char **, int, char **, int *, char **, struct srm_filestatus **, int);
+int srm_getx (int, char **, int, char **, int *, char **, struct srm_filestatus **, char *, int, int);
+int srm_getstatus (int, char **, int, char *, struct srm_filestatus **, int );
+int srm_getstatusx (int, char **, int, char *, struct srm_filestatus **, char *, int, int);
+int srm_set_xfer_done (const char *, int, int, char *, int, char *, int, int);
+int srm_set_xfer_running (const char *, int, int, char *, char *, int, int);
+char *srm_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
+int srm_turlsfromsurls (int, const char **, GFAL_LONG64 *, char **, int, int *, int **, char **, char ***, char *, int, int);
 char *turlfromsfn (const char *, char **, char *, int);
-
-
-#include "srm2_ifce.h"
-#include "srm2_2_ifce.h"
-
-const char* get_gfal_version();
-const char* get_gfal_version_api();
-
-int *serrnop;
-
 #ifdef __cplusplus
 }
 #endif

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.26 $ $Date: 2006/10/16 07:27:24 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.27 $ $Date: 2006/11/09 16:38:36 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -19,37 +19,12 @@
 #include <io.h>
 #else
 #include <unistd.h>
-#include <dlfcn.h>
 #endif
 #include "gfal.h"
 #include "gfal_api.h"
 #if !defined(OFF_MAX)
 #define OFF_MAX 2147483647
 #endif
-
-/*tests conducted with memory checker usually*/
-#if _DUMA
-#include "duma.h"
-#endif
-
-#ifndef __GNUC__
-#define __attribute__(x)
-#endif
-
-void gfal_initLibrary(void)		__attribute__((__constructor__));
-void gfal_delLibrary(void)		__attribute__((__destructor__));
-
-void gfal_initLibrary(void)
-{
-	//bug# ggus8962 resolution
-	void *dlhandle;
-	dlhandle = dlopen ("liblfc.so", RTLD_LAZY);
-	serrnop = (int *) dlsym (dlhandle, "serrno");
-}
-void gfal_delLibrary(void)
-{
-	
-}
 
 static struct dir_info *di_array[GFAL_OPEN_MAX];
 static struct xfer_info *xi_array[GFAL_OPEN_MAX];
@@ -84,6 +59,7 @@ static struct dir_info *
 find_di (DIR *dir)
 {
 	int i;
+
 	for (i = 0; i < GFAL_OPEN_MAX; i++) {
 		if (di_array[i] && di_array[i]->dir == dir)
 			return (di_array[i]);
@@ -118,16 +94,6 @@ free_xi (int fd)
 	return (0);
 }
 
-
-
-
-int accessPerm(int amod, TPermissionMode srmMode)
-{
-	//except 0 is check for existence
-	return ((amod & srmMode)==amod)?0:-1;
-}
-	
-
 gfal_access (const char *path, int amode)
 {
 	char errbuf[256];
@@ -136,66 +102,13 @@ gfal_access (const char *path, int amode)
 	struct proto_ops *pops;
 	char protocol[64];
 
-    if( strncmp (path, "srm:", 4) == 0)
-    {
-    	//gen input
-    		/*srmv2 handling:
-	 * 	call srmCheckPermission for path
-	 * 
-	 * if not error return permOK
-	 *  gen_
-	 * 	
-	*/
-	#include "srm2_2_conversion.h"
-	/*srm22_srmCheckPermissionRequest:
-	 * srm22_ArrayOfString*  arrayOfSURLs;
-    char*  authorizationID;
-    srm22_ArrayOfTExtraInfo*   storageSystemInfo;*/
-	 
-	//preprare input single array
-	INIT_CTX_PTR; 
-	srm22_ArrayOfString* arrSurls[1];
-	//copies
-	arrSurls[0] = srm22_gen_ArrayOfString(&ctx,(TSURL)path,NULL);	
-	srm22_srmCheckPermissionRequest* req = gen_srm22_srmCheckPermissionRequest(&ctx,
-		gen_srm22_ArrayOfString(&ctx,arrSurls,1),
-		&ctx.user,
-		0);    	
-	int ret;   	
-	/* 
-	* no need for user id as it's fetched frm the ctx on the server side
-	* 
-	* 
-	* srmCheckPermissionResponse,
-    	srm22_TReturnStatus*   returnStatus;
-    	srm22_ArrayOfTSURLPermissionReturn*   arrayOfPermissions;
-	* 
-	*/
-	srm22_srmCheckPermissionResponse* res;
-	//call
-	if((ret = srm22_srmCheckPermission(req,res, &ctx))!=-1)
-		return ret;
-	if(res->returnStatus->statusCode!=0 || !res->arrayOfPermissions->__sizesurlPermissionArray ||
-	!res->arrayOfPermissions || !res->arrayOfPermissions->surlPermissionArray[0]) 
-	{
-		freeType_srm22_srmCheckPermissionRequest(req);
-		freeType_srm22_srmCheckPermissionResponse(res);
-		errno =  EPROTO;
-		return -1;
-	}		
-	ret = accessPerm(amode,res->arrayOfPermissions->surlPermissionArray[0]->permission);
-	freeType_srm22_srmCheckPermissionRequest(req);
-	freeType_srm22_srmCheckPermissionResponse(res);			
-	return ret;
-    }
-    else
 	if (strncmp (path, "lfn:", 4) == 0 ||
 	    strncmp (path, "guid:", 5) == 0 ||
+	    strncmp (path, "srm:", 4) == 0 ||
 	    strncmp (path, "sfn:", 4) == 0) {
 		errno = EPROTONOSUPPORT;
 		return (-1);
 	}
-	
 	if (parseturl (path, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, sizeof(errbuf)) < 0)
 		return (-1);
 	if ((pops = find_pops (protocol)) == NULL)
@@ -884,14 +797,6 @@ getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz,
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
 		return (srm_getfilemd (surl, statbuf, errbuf, errbufsz, timeout));
-	} else if (strcmp (se_type, "srm_v21") == 0) {
-		free (se_type);
-		return (srm21_getfilemd (surl, statbuf, errbuf, errbufsz, timeout));
-		
-	} else if (strcmp (se_type, "srm_v22") == 0) {
-		free (se_type);
-		return (srm22_getfilemd (surl, statbuf, errbuf, errbufsz, timeout));		
-				
 	} else if (strcmp (se_type, "edg-se") == 0) {
 		free (se_type);
 		return (se_getfilemd (surl, statbuf, errbuf, errbufsz, timeout));
@@ -925,9 +830,6 @@ mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 
 #define SRM_EP_PATH "/srm/managerv1"
 #define SRM_PORT 8443
-// checks and verifies SURLs headers, decomposes them into endpoint and file for single item
-// assumption that the enpoint is always the same for all surls passed.
-
 parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn,
 	char *errbuf, int errbufsz)
 {
@@ -1221,16 +1123,6 @@ turlfromsurlx (const char *surl, GFAL_LONG64 filesize, char **protocols,
 	if (strcmp (se_type, "srm_v1") == 0) {
 		free (se_type);
 		if (srm_turlsfromsurls (1, &surl, &filesize, protocols, oflag,
-		    reqid, &fileids, token, &turls, errbuf, errbufsz, timeout) <= 0)
-			return (NULL);
-		*fileid = fileids[0];
-	       p = turls[0];
-	       free (fileids);
-	       free (turls);
-	       return (p);
-	} else	if (strncmp (se_type, "srm_v2",6) == 0) {
-		free (se_type);
-		if (srm2_turlsfromsurls (se_type,1, &surl, &filesize, protocols, oflag,
 		    reqid, &fileids, token, &turls, errbuf, errbufsz, timeout) <= 0)
 			return (NULL);
 		*fileid = fileids[0];
@@ -1641,7 +1533,7 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
   *dname = '\0';
   (void) getdomainnm (dname, sizeof(dname));
 
-  /* and get the default SE, if there is one */
+  /* and get the default SE, it there is one */
   if((default_se = get_default_se(NULL, errbuf, errbufsz)) == NULL) 
           return (NULL);
 
@@ -1720,224 +1612,3 @@ get_default_se(char *vo, char *errbuf, int errbufsz)
         }
         return default_se;
 }
-
-/* versioning, could be derived from CVS tag for lib and api version */
-static const char _gfal_version_lib[]="1.8.1";
-static const char _gfal_version_api[]="2.1.0";
-
-const char* get_gfal_version_lib()
-{	 
-	return _gfal_version_lib;
-}
-
-const char* get_gfal_version_api()
-{	 
-	return _gfal_version_api;
-}
-
-
-
-srm2_turlsfromsurls (char* se_type, int nbfiles, const char **surls, LONG64 *filesizes, char **protocols, int oflag, int *reqid, 
-		    int **fileids, char **token, char ***turls, char *errbuf, int errbufsz, int timeout)
-{
-/*	int *f;
-	int i;
-	int n;
-	int nbproto = 0;
-	struct ns5__getResponse outg;
-	struct ns5__putResponse outp;
-	struct ns5__getRequestStatusResponse outq;
-	char *p;
-	struct ArrayOfboolean permarray;
-	struct ArrayOfstring protoarray;
-	int r = 0;
-	struct ns1__RequestStatus *reqstatp;
-	int ret;
-        int sav_errno;
-	struct ArrayOflong sizearray;
-	struct soap soap;
-	struct ArrayOfstring srcarray;
-	char srm_endpoint[256];
-	struct ArrayOfstring surlarray;
-	char **t;
-	time_t endtime;
-
-	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
-	soap.send_timeout = timeout ;
-        soap.recv_timeout = timeout ;
-
-
-	while (*protocols[nbproto]) nbproto++;
-
-	 issue "get" or the "put" request 
-
-	surlarray.__ptr = (char **)surls;
-	surlarray.__size = nbfiles;
-	protoarray.__ptr = protocols;
-	protoarray.__size = nbproto;
-
-	if ((oflag & O_ACCMODE) == 0) {
-		if (ret = soap_call_ns5__get (&soap, srm_endpoint, "get", &surlarray,
-		    &protoarray, &outg)) {
-			if (soap.error == SOAP_EOF) {
-	                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-        	                soap_end (&soap);
-                	        soap_done (&soap);
-                        	return (-1);
-			}
-                        if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT)
-                                gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
-		reqstatp = outg._Result;
-	} else {
-		srcarray.__ptr = (char **)surls;
-		srcarray.__size = nbfiles;
-		sizearray.__ptr = filesizes;
-		sizearray.__size = nbfiles;
-		if ((permarray.__ptr =
-		    soap_malloc (&soap, nbfiles * sizeof(enum xsd__boolean))) == NULL) {
-			soap_end (&soap);
-			soap_done (&soap);
-			errno = ENOMEM;
-			return (-1);
-		}
-		for (i = 0; i< nbfiles; i++)
-			permarray.__ptr[i] = true_;
-		permarray.__size = nbfiles;
-		if (ret = soap_call_ns5__put (&soap, srm_endpoint, "put", &srcarray,
-		    &surlarray, &sizearray, &permarray, &protoarray, &outp)) {
-			if (soap.error == SOAP_EOF) {
-	                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-        	                soap_end (&soap);
-                	        soap_done (&soap);
-                        	return (-1);
-			}
-                        if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT)
-                                gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
-		reqstatp = outp._Result;
-	}
-	if (reqstatp->fileStatuses == NULL) {
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = EPROTONOSUPPORT;
-		return (-1);
-	}
-	*reqid = reqstatp->requestId;
-
-	 wait for file "ready" 
-
-	if (timeout > 0)
-		endtime = time(NULL) + timeout;
-	
-	while (strcmp (reqstatp->state, "pending") == 0 ||
-	    strcmp (reqstatp->state, "Pending") == 0) {
-		sleep ((r++ == 0) ? 1 : (reqstatp->retryDeltaTime > 0) ?
-		    reqstatp->retryDeltaTime : DEFPOLLINT);
-		//check status 		    
-		if (ret = soap_call_ns5__getRequestStatus (&soap, srm_endpoint,
-		    "getRequestStatus", *reqid, &outq)) {
-			if (soap.error == SOAP_EOF) {
-	                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-        	                soap_end (&soap);
-                	        soap_done (&soap);
-                        	return (-1);
-			}
-                        if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT)
-                                gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
-		reqstatp = outq._Result;
-
-		 check if user-supplied timeout has passed 
-		if (timeout > 0 && time(NULL) > endtime) {
-			for (i = 0; i < nbfiles-1; i++) {
-				struct ns5__setFileStatusResponse out;
-				if (ret = soap_call_ns5__setFileStatus (&soap, srm_endpoint,
-							"setFileStatus", *reqid, *fileids[i], "Done", &out)) {
-					if (soap.error == SOAP_EOF) {
-						gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-						soap_end (&soap);
-						soap_done (&soap);
-						return (-1);
-					}
-					if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT)
-						gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-					soap_end (&soap);
-					soap_done (&soap);
-					return (-1);
-				}
-			}
-			gfal_errmsg(errbuf, errbufsz, "Waiting for Pending SRM request timed out\n");
-			soap_end(&soap);
-			soap_done(&soap);
-			return (-1);
-		}
-
-	}
-	if (strcmp (reqstatp->state, "failed") == 0 ||
-	    strcmp (reqstatp->state, "Failed") == 0) {
-		if (reqstatp->errorMessage) {
-			if (strstr (reqstatp->errorMessage, "ile exists"))
-				sav_errno = EEXIST;
-			else if (strstr (reqstatp->errorMessage, "does not exist") ||
-			    strstr (reqstatp->errorMessage, "GetStorageInfoFailed"))
-				sav_errno = ENOENT;
-                        else if (strstr (reqstatp->errorMessage, "o such file or directory"))
-				sav_errno = ENOENT;
-                        else if (strstr (reqstatp->errorMessage, "ermission denied"))
-                                sav_errno = EACCES;
-			else if (strstr (reqstatp->errorMessage, "nvalid arg"))
-				sav_errno = EINVAL;
-			else if (strstr (reqstatp->errorMessage, "rotocol"))
-				sav_errno = EPROTONOSUPPORT;
-			else if (strstr (reqstatp->errorMessage, "o space left on device"))
-				sav_errno = ENOSPC;
-			else {
-				gfal_errmsg(errbuf, errbufsz, reqstatp->errorMessage);
-				sav_errno = ECOMM;
-			}
-		} else  {
-		  gfal_errmsg(errbuf, errbufsz, "SRM request failed, but no errorMessage supplied");
-		  sav_errno = ECOMM;
-		}
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = sav_errno;
-		return (-1);
-	}
-	n = reqstatp->fileStatuses->__size;
-	if ((f = malloc (n * sizeof(int))) == NULL ||
-	    (t = malloc (n * sizeof(char *))) == NULL) {
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ENOMEM;
-		return (-1);
-	}
-	for (i = 0; i < n; i++) {
-		f[i] = (reqstatp->fileStatuses->__ptr[i])->fileId;
-		if (strcmp ((reqstatp->fileStatuses->__ptr[i])->state, "ready") &&
-		    strcmp ((reqstatp->fileStatuses->__ptr[i])->state, "Ready"))
-			t[i] = NULL;
-		else
-			t[i] = strdup ((reqstatp->fileStatuses->__ptr[i])->TURL);
-	}
-	*fileids = f;
-	*token = NULL;
-	*turls = t;
-	soap_end (&soap);
-	soap_done (&soap);
-	return (n);
-*/}
-
-
