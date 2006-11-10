@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.27 $ $Date: 2006/11/09 16:38:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.28 $ $Date: 2006/11/10 16:28:56 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -43,6 +43,13 @@ struct srm_filestatus {
 	char	*turl;
 	int	fileid;
 	int	status;
+};
+
+struct srmv2_filestatus {
+	char 	*surl;
+	char 	*turl;
+	int 	status;
+	char 	*explanation;
 };
 
 		/* User-callable entry points */
@@ -105,6 +112,7 @@ int setfilesize (const char *, GFAL_LONG64, char *, int);
 
                 /* storage operation entry points */
 int deletesurl (const char *, char *, int, int);
+int deletesurl2 (const char *, char *, char *, int, int);
 char *get_default_se(char *, char *, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int getfilemd (const char *, struct stat64 *, char *, int, int);
@@ -113,6 +121,7 @@ int set_xfer_done (const char *, int, int, char *, int, char *, int, int);
 int set_xfer_running (const char *, int, int, char *, char *, int, int);
 char *turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
 char *turlfromsurlx (const char *, GFAL_LONG64, char **, int, int *, int *, char **, char *, int, int);
+char *turlfromsurl2 (const char *, GFAL_LONG64, const char *, char **, int, int *, int *, char **, char *, int, int);
 
 		/* Internal functions */
 int deletepfn (const char *, const char *, char *, int);
@@ -134,6 +143,7 @@ int get_se_type (const char *, char **);
 int get_se_typex (const char *, char **, char *, int);
 int get_seap_info (const char *, char ***, int **);
 int get_seap_infox (const char *, char ***, int **, char *, int);
+int get_srm_types_and_endpoints (const char *, char ***, char ***, char *, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int se_getfilemd (const char *, struct stat64 *, char *, int, int);
 int srm_getfilemd (const char *, struct stat64 *, char *, int, int);
@@ -178,6 +188,7 @@ int se_set_xfer_done (const char *, int, int, char *, int, char *, int, int);
 int se_set_xfer_running (const char *, int, int, char *, char *, int);
 char *se_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
 int setypefromsurl (const char *, char **, char *, int);
+int setypesfromsurl (const char *, char ***, char *, int);
 int srm_deletesurl (const char *, char *, int, int);
 int srm_get (int, char **, int, char **, int *, char **, struct srm_filestatus **, int);
 int srm_getx (int, char **, int, char **, int *, char **, struct srm_filestatus **, char *, int, int);
@@ -187,7 +198,21 @@ int srm_set_xfer_done (const char *, int, int, char *, int, char *, int, int);
 int srm_set_xfer_running (const char *, int, int, char *, char *, int, int);
 char *srm_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
 int srm_turlsfromsurls (int, const char **, GFAL_LONG64 *, char **, int, int *, int **, char **, char ***, char *, int, int);
+int srmv2_deletesurl (const char *, const char *, char *, int, int);
+int srmv2_get (int, char **, char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
+char *srmv2_getspacetoken (const char *, const char *, char *, int, int);
+int srmv2_getstatus (int, char **, char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_makedirpt (const char *, const char *, char *, int, int);
+int srmv2_prestage (int, char **, char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_prestagestatus (int, char **, char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_set_xfer_done_get (const char *, char *, const char *, char *, int, int);
+int srmv2_set_xfer_done_put (const char *, char *, const char *, char *, int, int);
+int srmv2_set_xfer_running (const char *, char *, char *, int, int);
+char *srmv2_turlfromsurl (const char *, const char *, const char *, char **, int, char **, char *, int, int);
+int srmv2_turlsfromsurls_get (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, char ***, char ***, int **, char ***, char *, int, int);
+int srmv2_turlsfromsurls_put (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, char ***, char ***, int **, char ***, char *, int, int);
 char *turlfromsfn (const char *, char **, char *, int);
+
 #ifdef __cplusplus
 }
 #endif

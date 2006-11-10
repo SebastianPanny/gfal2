@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.26 $ $Date: 2006/11/09 16:38:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.27 $ $Date: 2006/11/10 16:28:56 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -145,6 +145,7 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
+	char *p;
 	int rc = 0;
 	LDAPMessage *reply;
 	char *service_type;
@@ -539,8 +540,14 @@ get_se_endpoint (const char *host, char **se_endpoint)
 
 get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbufsz)
 {
+	return (get_se_endpointxv (host, se_endpoint, NULL, errbuf, errbufsz));
+}
+
+get_se_endpointxv (const char *host, char **se_endpoint, const char *srm_version, char *errbuf, int errbufsz)
+{
 	static char se_ep_atnm[] = "GlueServiceURI";
 	static char *template = "(&(GlueServiceURI=*%s*)(GlueServiceType=srm_v1))";
+	static char *template1 = "(&(GlueServiceURI=*%s*)(GlueServiceType=srm)(GlueServiceVersion=%s))";
 	char *attr;
 	static char *attrs[] = {se_ep_atnm, NULL};
 	int bdii_port;
@@ -553,6 +560,7 @@ get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbuf
 	struct timeval timeout;
 	char **value;
 	char error_str[ERROR_STR_LEN];
+
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
@@ -560,7 +568,7 @@ get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbuf
 		errno = EINVAL;
 		return (-1);
 	}
-	sprintf (filter, template, host);
+	sprintf (filter, template, host, srm_version);
 
 	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
 		return (-1);
@@ -781,6 +789,130 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	}
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
+	return (rc);
+}
+
+/* get from the BDII the supported SRM types and endpoints */
+
+get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_endpoints, char *errbuf, int errbufsz)
+{
+	static char version[] = "GlueServiceVersion";
+	static char type[] = "GlueServiceType";
+	static char uri[] = "GlueServiceURI";
+	//static char *template = "(&(GlueServiceType=*)(GlueServiceUniqueID=*%s*))";
+	static char *template = "(&(GlueServiceType=*)(GlueServiceURI=*%s*))";
+	char **ap;
+	char *attr;
+	static char *attrs[] = {type, version, uri, NULL};
+	int bdii_port;
+	char bdii_server[75];
+	BerElement *ber;
+	LDAPMessage *entry;
+	char **ep;
+	char filter[128];
+	int i;
+	int j;
+	LDAP *ld;
+	int nbentries;
+	char **pn;
+	int rc = 0;
+	LDAPMessage *reply;
+	struct timeval timeout;
+	char **value;
+	char error_str[ERROR_STR_LEN];
+
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
+		return (-1);
+	if (strlen (template) + strlen (host) -1 >= sizeof(filter)) {
+		gfal_errmsg (errbuf, errbufsz, "host too long");
+		errno = EINVAL;
+		return (-1);
+	}
+	sprintf (filter, template, host);
+
+	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
+		return (-1);
+	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		snprintf(error_str, ERROR_STR_LEN, "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
+		gfal_errmsg(errbuf, errbufsz, error_str);
+		errno = ECONNREFUSED;
+		return (-1);
+	}
+	timeout.tv_sec = 15;
+	timeout.tv_usec = 0;
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0, &timeout, &reply)) != LDAP_SUCCESS) {
+		ldap_unbind (ld);
+		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
+			snprintf(error_str, ERROR_STR_LEN, "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
+			gfal_errmsg(errbuf, errbufsz, error_str);
+			errno = ETIMEDOUT;
+		} else {
+			snprintf(error_str, ERROR_STR_LEN, "BDII ERROR: %s:%d %s", bdii_server, bdii_port, ldap_err2string(rc));
+			gfal_errmsg(errbuf, errbufsz, error_str);
+			errno = EINVAL;
+		}
+		return (-1);
+	}
+	nbentries = ldap_count_entries (ld, reply);
+	nbentries++;
+	if ((ap = calloc (nbentries, sizeof(char *))) == NULL) {
+		ldap_unbind (ld);
+		return (-1);
+	}
+	if ((pn = calloc (nbentries, sizeof(char *))) == NULL) {
+		free (ap);
+		ldap_unbind (ld);
+		return (-1);
+	}
+	if ((ep = calloc (nbentries, sizeof(char *))) == NULL) {
+		free (ap);
+		ldap_unbind (ld);
+		return (-1);
+	}
+	for (entry = ldap_first_entry (ld, reply), i = 0;
+	     entry != NULL;
+	     entry = ldap_next_entry (ld, entry), i++) {
+		for (attr = ldap_first_attribute (ld, entry, &ber);
+		     attr != NULL;
+		     attr = ldap_next_attribute (ld, entry, ber)) {
+			value = ldap_get_values (ld, entry, attr);
+			if (value == NULL) {
+				rc = -1;
+				continue;
+			}
+			if (strcmp (attr, "GlueServiceType") == 0) {
+				ap[i] = strdup (value[0]);
+			} else if (strcmp (attr, "GlueServiceVersion") == 0) {
+				pn[i] = strdup (value[0]);
+			} else {	/* GlueServiceURI */
+				ep[i] = strdup (value[0]);
+			}
+			ldap_value_free (value);
+		}
+	}
+	ldap_msgfree (reply);
+	ldap_unbind (ld);
+	if (rc) {
+		for (j = 0; j < i; j++)
+			free (ap[i]);
+		free (ap);
+		free (pn);
+	} else {
+		for (j = 0; j < i; j++) {
+			if ((strcmp (ap[j], "srm_v1") == 0)) {
+				ap[j] = "srm_v1";
+			} else if ((strcmp (ap[j], "srm") == 0) && (strncmp (pn[j], "1.1", 3)) == 0) {
+				ap[j] = "srm_v1";
+			} else if ((strcmp (ap[j], "srm") == 0) && (strncmp (pn[j], "2.2", 3)) == 0) {
+				ap[j] = "srm_v2";
+			} else {	/* Classic SE */
+				ap[j] = "edg-se";
+			}
+		}
+		*srm_types = ap;
+		*srm_endpoints = ep; 
+	}
 	return (rc);
 }
 
