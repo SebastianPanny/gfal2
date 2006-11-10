@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Solaris,v $ $Revision: 1.7 $ $Date: 2004/10/24 10:50:18 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Solaris,v $ $Revision: 1.8 $ $Date: 2006/11/10 16:37:53 $ CERN Jean-Philippe Baud
 #
 
 # Edit the following 2 lines to put the actual path
@@ -40,7 +40,8 @@ CC = gcc -g -fPIC
 SHLIBLDFLAGS = -G
 
 CLASSPATH = $(GSOAP_IMP)/wsdlcpp:$(XERCES)/xmlParserAPIs.jar:$(XERCES)/xercesImpl.jar
-GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm_ifce.o srmC.o srmClient.o stdsoap2.o lfc_ifce.o
+GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm2_2_ifce.o srm_ifce.o srmC.o srmClient.o \
+		stdsoap2.o lfc_ifce.o
 
 all: libgfal.a libgfal.so gfal_testdir gfal_testget gfal_testread gfal_testrw gfal_teststat gfal_testunlink
 
@@ -61,12 +62,18 @@ lfc_ifce.o: lfc_ifce.c
 	$(CC) -c $(SECFLG) $(LFCINC) lfc_ifce.c
 se_ifce.o: seH.h seStub.h seC.c seClient.c soapEdgSeWebserviceService+.nsmap
 	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL se_ifce.c
+srm2_2_ifce.o: srmv2H.h srmv2Stub.h srmSoapBinding+.nsmap srm2_2_ifce.c
+	$(CC) -c -I$(GSOAP) $(SECFLG) -DWITH_NOGLOBAL srm2_2_ifce.c
 srm_ifce.o: srmH.h srmStub.h soapSRMServerV1.nsmap
 	$(CC) -c -I$(GSOAP) $(SECFLG) srm_ifce.c
 srmC.o:
 	$(CC) -c -I$(GSOAP) srmC.c
 srmClient.o:
 	$(CC) -c -I$(GSOAP) srmClient.c
+srmv2C.o:
+	$(CC) -c -I$(GSOAP) srmv2C.c
+srmv2Client.o:
+	$(CC) -c -I$(GSOAP) srmv2Client.c
 stdsoap2.o: $(GSOAP)/stdsoap2.c
 	$(CC) -c -I$(GSOAP) $(GSOAP)/stdsoap2.c
 
@@ -76,6 +83,8 @@ soapEdgReplicaMetadataCatalogService+.nsmap: soapEdgReplicaMetadataCatalogServic
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_rmc/' $? > $@
 soapEdgSeWebserviceService+.nsmap: soapEdgSeWebserviceService.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_se/' $? > $@
+srmSoapBinding+.nsmap: srmSoapBinding.nsmap
+	sed 's/struct Namespace namespaces/struct Namespace namespaces_srmv2/' $? > $@
 
 lrcH.h lrcStub.h lrcC.c lrcClient.c soapEdgLocalReplicaCatalogService.nsmap: edg-local-replica-catalog.h
 	$(GSOAP)/soapcpp2 -c -p lrc edg-local-replica-catalog.h
@@ -94,6 +103,8 @@ edg-se-webservice.h: edg-se-webservice.wsdl
 	java -classpath $(CLASSPATH) wsdlcpp -c edg-se-webservice.wsdl
 srm.v1.1.h: srm.v1.1.wsdl
 	java -classpath $(CLASSPATH) wsdlcpp -c srm.v1.1.wsdl
+srm.v2.2.h: srm.v2.2.wsdl
+	java -classpath $(CLASSPATH) wsdlcpp -c srm.v2.2.wsdl
 
 gfal_testdir: gfal_api.h libgfal.so
 	$(CC) -o gfal_testdir gfal_testdir.c -L. -lgfal $(SECLIB) $(LFCLIB) -lsocket -lnsl
