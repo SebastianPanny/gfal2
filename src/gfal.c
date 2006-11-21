@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.28 $ $Date: 2006/11/10 16:28:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.29 $ $Date: 2006/11/21 13:42:48 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -796,7 +796,7 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 	}
 
 	/* if spacetokendesc specified by user and/or SRM v2.2 supported */
-	if ((spacetokendesc != NULL) || (!srm_v1 && srm_v2)) {
+	if (((spacetokendesc != NULL) && (srm_v1 && srm_v2)) || (!srm_v1 && srm_v2)) {
 		i = 0;
 		while (se_types[i]) {
 			if ((strcmp (se_types[i], "srm_v2")) == 0) {
@@ -1038,7 +1038,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 	}
 
 	/* if token specified  or SRM v2,2 supported only */
-	if ((token != NULL) || (!srm_v1 && srm_v2)) {
+	if (((token != NULL) && (srm_v1 && srm_v2)) || (!srm_v1 && srm_v2)) {
 		i = 0;
 		while (se_types[i]) {
                         if ((strcmp (se_types[i], "srm_v2")) == 0) {
@@ -1098,7 +1098,8 @@ set_xfer_running (const char *surl, int reqid, int fileid, char *token,
                 i++;
         }
 
-	if ((token != NULL) || (!srm_v1 && srm_v2)) {
+	/* if token specified  or SRM v2,2 supported only */
+	if (((token != NULL) && (srm_v1 && srm_v2)) || (!srm_v1 && srm_v2)) {
 		free (se_types);
 		free (se_endpoints);
 		return (srmv2_set_xfer_running (surl, token,
@@ -1266,13 +1267,7 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 	}
 
 	/* if spacetokendesc specified by user and/or SRM v2.2 supported */
-	if ((spacetokendesc != NULL) || (!srm_v1 && srm_v2)) {
-		if (!srm_v2) {
-			gfal_errmsg (errbuf, errbufsz, "spacetokendesc specified but Storage Element doesn't publish SRM v2.2");
-			errno = EINVAL;
-			return NULL;
-		}
-
+	if (((spacetokendesc != NULL) && (srm_v1 && srm_v2)) || (!srm_v1 && srm_v2)) {
 		i = 0;
 		while (se_types[i]) {
 			if ((strcmp (se_types[i], "srm_v2")) == 0) {
