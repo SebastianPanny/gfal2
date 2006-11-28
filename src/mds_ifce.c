@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.27 $ $Date: 2006/11/10 16:28:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.28 $ $Date: 2006/11/28 09:03:56 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -80,9 +80,9 @@ get_ce_apx (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 		snprintf(error_str, ERROR_STR_LEN, "BDII Connection Refused: %s:%d", bdii_server, bdii_port);
 		gfal_errmsg(errbuf, errbufsz, error_str);
 		errno = ECONNREFUSED;
-	return (-1);
+		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
@@ -178,7 +178,7 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
@@ -292,7 +292,7 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply) != LDAP_SUCCESS) {
@@ -392,7 +392,7 @@ get_sa_rootx (const char *host, const char *vo, char **sa_root, char *errbuf, in
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
@@ -466,7 +466,7 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
@@ -579,7 +579,7 @@ get_se_endpointxv (const char *host, char **se_endpoint, const char *srm_version
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
@@ -663,7 +663,7 @@ get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
@@ -746,7 +746,7 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
@@ -839,7 +839,7 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0, &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
@@ -967,7 +967,7 @@ get_seap_infox (const char *host, char ***access_protocol, int **port, char *err
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 15;
+	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 	    &timeout, &reply)) != LDAP_SUCCESS) {
