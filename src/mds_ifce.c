@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.28 $ $Date: 2006/11/28 09:03:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.29 $ $Date: 2006/11/29 09:25:28 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -902,9 +902,9 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 		for (j = 0; j < i; j++) {
 			if ((strcmp (ap[j], "srm_v1") == 0)) {
 				ap[j] = "srm_v1";
-			} else if ((strcmp (ap[j], "srm") == 0) && (strncmp (pn[j], "1.1", 3)) == 0) {
+			} else if ((strcmp (ap[j], "SRM") == 0) && (strncmp (pn[j], "1.1", 3)) == 0) {
 				ap[j] = "srm_v1";
-			} else if ((strcmp (ap[j], "srm") == 0) && (strncmp (pn[j], "2.2", 3)) == 0) {
+			} else if ((strcmp (ap[j], "SRM") == 0) && (strncmp (pn[j], "2.2", 3)) == 0) {
 				ap[j] = "srm_v2";
 			} else {	/* Classic SE */
 				ap[j] = "edg-se";
