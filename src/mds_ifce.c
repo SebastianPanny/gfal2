@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.29 $ $Date: 2006/11/29 09:25:28 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.30 $ $Date: 2006/12/19 12:10:26 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -767,8 +767,6 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	if (entry) {
 		value = ldap_get_values (ld, entry, se_type_atnm);
 		if (value == NULL) {
-		  snprintf(error_str, ERROR_STR_LEN,  "SE type not found for host : %s", host);
-		  gfal_errmsg (errbuf, errbufsz, error_str);
 		  errno = EINVAL;
 		  rc = -1;
 
@@ -782,8 +780,6 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 		  ldap_value_free (value);
 		}
 	} else {
-	        snprintf(error_str, ERROR_STR_LEN,  "No information found for SE : %s", host);
-                gfal_errmsg (errbuf, errbufsz, error_str);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -792,16 +788,14 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	return (rc);
 }
 
-/* get from the BDII the supported SRM types and endpoints */
+/* get from the BDII the supported storage types and endpoints */
 
 get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_endpoints, char *errbuf, int errbufsz)
 {
 	static char version[] = "GlueServiceVersion";
 	static char type[] = "GlueServiceType";
 	static char uri[] = "GlueServiceURI";
-	//static char *template = "(&(GlueServiceType=*)(GlueServiceUniqueID=*%s*))";
-	static char *template = "(&(GlueServiceType=*)(GlueServiceURI=*%s*))";
-	char **ap;
+	static char *template = "(&(GlueServiceType=*)(GlueServiceURI=*://%s*))";
 	char *attr;
 	static char *attrs[] = {type, version, uri, NULL};
 	int bdii_port;
@@ -813,10 +807,12 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	int i;
 	int j;
 	LDAP *ld;
+	int n = 0;
 	int nbentries;
-	char **pn;
 	int rc = 0;
 	LDAPMessage *reply;
+	char **st;
+	char **sv;
 	struct timeval timeout;
 	char **value;
 	char error_str[ERROR_STR_LEN];
@@ -828,7 +824,7 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 		errno = EINVAL;
 		return (-1);
 	}
-	sprintf (filter, template, host);
+	sprintf (filter, template, host, host);
 
 	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
 		return (-1);
@@ -856,17 +852,33 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	}
 	nbentries = ldap_count_entries (ld, reply);
 	nbentries++;
-	if ((ap = calloc (nbentries, sizeof(char *))) == NULL) {
+	if ((st = calloc (nbentries, sizeof(char *))) == NULL) {
 		ldap_unbind (ld);
 		return (-1);
 	}
-	if ((pn = calloc (nbentries, sizeof(char *))) == NULL) {
-		free (ap);
+	if ((sv = calloc (nbentries, sizeof(char *))) == NULL) {
+		free (st);
 		ldap_unbind (ld);
 		return (-1);
 	}
 	if ((ep = calloc (nbentries, sizeof(char *))) == NULL) {
-		free (ap);
+		free (st);
+		free (sv);
+		ldap_unbind (ld);
+		return (-1);
+	}
+	if ((*srm_types = calloc (nbentries, sizeof(char *))) == NULL) {
+		free (st);
+		free (sv);
+		free (ep);
+		ldap_unbind (ld);
+		return (-1); 
+	}
+	if ((*srm_endpoints = calloc (nbentries, sizeof(char *))) == NULL) {
+		free (st);
+		free (sv);
+		free (ep);
+		free (*srm_types);
 		ldap_unbind (ld);
 		return (-1);
 	}
@@ -882,9 +894,9 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 				continue;
 			}
 			if (strcmp (attr, "GlueServiceType") == 0) {
-				ap[i] = strdup (value[0]);
+				st[i] = strdup (value[0]);
 			} else if (strcmp (attr, "GlueServiceVersion") == 0) {
-				pn[i] = strdup (value[0]);
+				sv[i] = strdup (value[0]);
 			} else {	/* GlueServiceURI */
 				ep[i] = strdup (value[0]);
 			}
@@ -894,25 +906,51 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
 	if (rc) {
-		for (j = 0; j < i; j++)
-			free (ap[i]);
-		free (ap);
-		free (pn);
+		for (j = 0; j < i; j++) {
+			free (st[i]);
+			free (sv[i]);
+			free (ep[i]);
+		}
+		free (st);
+		free (sv);
+		free (ep);
+		free (*srm_types);
+		free (*srm_endpoints);
+		*srm_types = NULL;
+		*srm_endpoints = NULL;
 	} else {
 		for (j = 0; j < i; j++) {
-			if ((strcmp (ap[j], "srm_v1") == 0)) {
-				ap[j] = "srm_v1";
-			} else if ((strcmp (ap[j], "SRM") == 0) && (strncmp (pn[j], "1.1", 3)) == 0) {
-				ap[j] = "srm_v1";
-			} else if ((strcmp (ap[j], "SRM") == 0) && (strncmp (pn[j], "2.2", 3)) == 0) {
-				ap[j] = "srm_v2";
-			} else {	/* Classic SE */
-				ap[j] = "edg-se";
+			if ((strcmp (st[j], "srm_v1") == 0 || strcmp (st[j], "srm_v2") == 0) && ep[j]) {
+				*srm_types[n] = strdup (st[j]);
+				*srm_endpoints[n] = strdup (ep[j]);
+				n++;
+			} else if ((strcasecmp (st[j], "SRM") == 0) && (strncmp (sv[j], "1.1", 3)) == 0 && ep[j]) {
+				*srm_types[n] = strdup ("srm_v1");
+				*srm_endpoints[n] = strdup (ep[j]);
+				n++;
+			} else if ((strcasecmp (st[j], "SRM") == 0) && (strncmp (sv[j], "2.2", 3)) == 0 && ep[j]) {
+				*srm_types[n] = strdup ("srm_v2");
+				*srm_endpoints[n] = strdup (ep[j]);
+				n++;
 			}
+			free (st[j]);
+			free (sv[j]);
+			free (ep[j]);
 		}
-		*srm_types = ap;
-		*srm_endpoints = ep; 
+		free (st);
+		free (sv);
+		free (ep);	
 	}
+
+	if (*srm_types[0] == NULL || *srm_endpoints[0] == NULL) {
+		free (*srm_types);
+		free (*srm_endpoints);
+		*srm_types = NULL;
+		*srm_endpoints = NULL;
+		errno = EINVAL;
+		rc = -1;
+	}
+
 	return (rc);
 }
 
