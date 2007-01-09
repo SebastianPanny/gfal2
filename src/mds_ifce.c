@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.30 $ $Date: 2006/12/19 12:10:26 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.31 $ $Date: 2007/01/09 10:37:48 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -811,7 +811,9 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	int nbentries;
 	int rc = 0;
 	LDAPMessage *reply;
+	char **sep;
 	char **st;
+	char **stp;
 	char **sv;
 	struct timeval timeout;
 	char **value;
@@ -867,14 +869,14 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 		ldap_unbind (ld);
 		return (-1);
 	}
-	if ((*srm_types = calloc (nbentries, sizeof(char *))) == NULL) {
+	if ((stp = calloc (nbentries, sizeof(char *))) == NULL) {
 		free (st);
 		free (sv);
 		free (ep);
 		ldap_unbind (ld);
 		return (-1); 
 	}
-	if ((*srm_endpoints = calloc (nbentries, sizeof(char *))) == NULL) {
+	if ((sep = calloc (nbentries, sizeof(char *))) == NULL) {
 		free (st);
 		free (sv);
 		free (ep);
@@ -919,18 +921,20 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 		*srm_types = NULL;
 		*srm_endpoints = NULL;
 	} else {
+		*srm_types = stp;
+		*srm_endpoints = sep;
 		for (j = 0; j < i; j++) {
 			if ((strcmp (st[j], "srm_v1") == 0 || strcmp (st[j], "srm_v2") == 0) && ep[j]) {
-				*srm_types[n] = strdup (st[j]);
-				*srm_endpoints[n] = strdup (ep[j]);
+				*(stp + n) = strdup (st[j]);
+				*(sep + n) = strdup (ep[j]); 
 				n++;
 			} else if ((strcasecmp (st[j], "SRM") == 0) && (strncmp (sv[j], "1.1", 3)) == 0 && ep[j]) {
-				*srm_types[n] = strdup ("srm_v1");
-				*srm_endpoints[n] = strdup (ep[j]);
+				*(stp + n) = strdup ("srm_v1");
+				*(sep + n) = strdup (ep[j]);
 				n++;
 			} else if ((strcasecmp (st[j], "SRM") == 0) && (strncmp (sv[j], "2.2", 3)) == 0 && ep[j]) {
-				*srm_types[n] = strdup ("srm_v2");
-				*srm_endpoints[n] = strdup (ep[j]);
+				*(stp + n) = strdup ("srm_v2");
+				*(sep + n) = strdup (ep[j]);
 				n++;
 			}
 			free (st[j]);
@@ -943,8 +947,8 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	}
 
 	if (*srm_types[0] == NULL || *srm_endpoints[0] == NULL) {
-		free (*srm_types);
-		free (*srm_endpoints);
+		free (stp);
+		free (sep);
 		*srm_types = NULL;
 		*srm_endpoints = NULL;
 		errno = EINVAL;
