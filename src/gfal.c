@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.31 $ $Date: 2007/01/09 10:33:35 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.32 $ $Date: 2007/01/09 13:32:51 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -800,7 +800,7 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 		i = 0;
 		while (se_types[i]) {
 			if ((strcmp (se_types[i], "srm_v2")) == 0) {
-				srm_endpoint = se_endpoints[i];
+				srm_endpoint = strdup (se_endpoints[i]);
 				break;
 			}
 			i++;
@@ -1396,14 +1396,14 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 		i = 0;
 		while (se_types[i]) {
 			if ((strcmp (se_types[i], "srm_v2")) == 0) {
-				srm_endpoint = se_endpoints[i];
+				srm_endpoint = strdup (se_endpoints[i]);
 				break;
 			}
 			i++;
 		}
 		i = 0;
 		while (se_types[i]) {
-			free (se_endpoints);
+			free (se_types[i]);
 			i++;
 		}
 		i = 0;
