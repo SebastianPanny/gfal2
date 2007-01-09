@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.4 $ $Date: 2006/11/10 16:14:53 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.5 $ $Date: 2007/01/09 10:28:06 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -472,7 +472,7 @@ srmv2_getspacetoken (const char *spacetokendesc, const char *srm_endpoint, char 
 
 	tknreq.userSpaceTokenDescription = (char *) spacetokendesc;
 
-	if (ret = soap_call_ns1__srmGetSpaceTokens (&soap, srm_endpoint, "GetSpaceToken", &tknreq, &tknrep)) {
+	if (ret = soap_call_ns1__srmGetSpaceTokens (&soap, srm_endpoint, "GetSpaceTokens", &tknreq, &tknrep)) {
 		if (soap.error == SOAP_EOF) {
 			gfal_errmsg(errbuf, errbufsz, "Connection fails or timeout");
 			soap_end (&soap);
