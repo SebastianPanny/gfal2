@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.h,v $ $Revision: 1.6 $ $Date: 2006/11/09 16:38:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.h,v $ $Revision: 1.7 $ $Date: 2007/01/17 13:56:01 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_H
@@ -51,6 +51,8 @@ struct proto_ops {
 struct xfer_info {
 	int	fd;
 	int	oflag;
+	int	size;
+	char	*lfn;
 	char	*surl;
 	int	reqid;
 	int	fileid;
@@ -62,7 +64,7 @@ static struct dir_info *alloc_di (DIR *);
 static struct xfer_info *alloc_xi (int);
 static struct dir_info *find_di (DIR *);
 static struct xfer_info *find_xi (int);
-static int free_di (struct dir_info *);
+static void free_di (struct dir_info *);
 static int free_xi (int);
 static int mdtomd32 (struct stat64 *, struct stat *);
 struct proto_ops *find_pops (const char *);

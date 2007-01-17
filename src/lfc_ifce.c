@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.34 $ $Date: 2006/11/09 16:38:36 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.35 $ $Date: 2007/01/17 13:56:01 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -34,11 +34,17 @@ struct fc_ops {
 	int	(*mkdirg)(const char *, const char *, mode_t);
 	int	(*seterrbuf)(char *, int);
 	int	(*setfsizeg)(const char *, u_signed64, const char *, char *);
+	int	(*setfsize)(const char *, struct lfc_fileid *, u_signed64);
 	int	(*starttrans)(const char *, const char *);
 	int	(*statg)(const char *, const char *, struct lfc_filestatg *);
 	int	(*statr)(const char *, struct lfc_filestatg *);
 	int	(*symlink)(const char *, const char *);
 	int	(*unlink)(const char *);
+	int	(*access)(const char *, int);
+	int	(*chmod)(const char *, mode_t);
+	int	(*rename)(const char *, const char *);
+	lfc_DIR *(*opendirg)(const char *, const char *);
+	int	(*rmdir)(const char *);
 };
 
 struct fc_ops fcops;
@@ -94,10 +100,6 @@ lfc_init (char *errbuf, int errbufsz) {
       if(get_lfc_endpoint (&lfc_endpoint, errbuf, errbufsz) < 0) {
 	return (-1);
       }
-      if ((lfc_port = strchr (lfc_endpoint, ':')) != NULL) {
-	*lfc_port = '\0';
-	lfc_port++;
-      }
 
       if (strncmp(lfc_endpoint, "lfc://", 6) == 0) {
 	if((lfc_host = strdup(lfc_endpoint + 6)) == NULL) {
@@ -106,6 +108,11 @@ lfc_init (char *errbuf, int errbufsz) {
 	}
       } else { /* just a plain hostname */
 	lfc_host = lfc_endpoint;
+      }
+
+      if ((lfc_port = strchr (lfc_host, ':')) != NULL) {
+	*lfc_port = '\0';
+	lfc_port++;
       }
     }
     if(strlen(lfc_host) == 0) {
@@ -153,11 +160,17 @@ lfc_init (char *errbuf, int errbufsz) {
       fcops.mkdirg = (int (*) (const char *, const char *, mode_t)) dlsym (dlhandle, "lfc_mkdirg");
       fcops.seterrbuf = (int (*) (char *, int)) dlsym (dlhandle, "lfc_seterrbuf");
       fcops.setfsizeg = (int (*) (const char *, u_signed64, const char *, char *)) dlsym (dlhandle, "lfc_setfsizeg");
+      fcops.setfsize = (int (*) (const char *, struct lfc_fileid *, u_signed64)) dlsym (dlhandle, "lfc_setfsize");
       fcops.starttrans = (int (*) (const char*, const char*)) dlsym (dlhandle, "lfc_starttrans");
       fcops.statg = (int (*) (const char *, const char *, struct lfc_filestatg *)) dlsym (dlhandle, "lfc_statg");
       fcops.statr = (int (*) (const char *, struct lfc_filestatg *)) dlsym (dlhandle, "lfc_statr");
       fcops.symlink = (int (*) (const char *, const char *)) dlsym (dlhandle, "lfc_symlink");
       fcops.unlink = (int (*) (const char *)) dlsym (dlhandle, "lfc_unlink");
+      fcops.access = (int (*) (const char *, int)) dlsym (dlhandle, "lfc_access");
+      fcops.chmod = (int (*) (const char *, mode_t)) dlsym (dlhandle, "lfc_chmod");
+      fcops.rename = (int (*) (const char *, const char *)) dlsym (dlhandle, "lfc_rename");
+      fcops.opendirg = (lfc_DIR * (*) (const char *, const char *)) dlsym (dlhandle, "lfc_opendirg");
+      fcops.rmdir = (int (*) (const char *)) dlsym (dlhandle, "lfc_rmdir");
     }
   }
   fcops.seterrbuf(errbuf, errbufsz);
@@ -206,6 +219,44 @@ lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep, char *errbuf, int errbufs
   }
   
   *sizep = (u_signed64) statg.filesize;
+  return (0);
+}
+
+int
+lfc_accessl (const char *path, int mode, char *errbuf, int errbufsz)
+{
+  if(lfc_init(errbuf, errbufsz) < 0)
+    return (-1);
+
+  if (fcops.access (path, mode) < 0) {
+    if (*fcops.serrno < 1000)
+      errno = *fcops.serrno;
+    else {
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
+      errno = ECOMM;
+    }
+    return (-1);
+  }
+  
+  return (0);
+}
+
+int
+lfc_chmodl (const char *path, mode_t mode, char *errbuf, int errbufsz)
+{
+  if(lfc_init(errbuf, errbufsz) < 0)
+    return (-1);
+
+  if (fcops.chmod (path, mode) < 0) {
+    if (*fcops.serrno < 1000)
+      errno = *fcops.serrno;
+    else {
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
+      errno = ECOMM;
+    }
+    return (-1);
+  }
+  
   return (0);
 }
 
@@ -463,13 +514,13 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 }
 
 int
-lfc_create_alias (const char *guid, const char *lfn, GFAL_LONG64 size, char *errbuf, int errbufsz)
+lfc_create_alias (const char *guid, const char *lfn, mode_t mode, GFAL_LONG64 size, char *errbuf, int errbufsz)
 {
   if(lfc_init(errbuf, errbufsz) < 0)
     return (-1);
 
   fcops.starttrans(NULL, gfal_version);
-  if(fcops.creatg(lfn, guid, 0666) < 0) {
+  if(fcops.creatg(lfn, guid, mode) < 0) {
     if(*fcops.serrno < 1000) 
       errno = *fcops.serrno;
     else {
@@ -591,7 +642,6 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
   int c;
   char *lastslash = NULL;
   char *p;
-  char *p1;
   char *q;
   char sav_path[CA_MAXPATHLEN+1];
   struct lfc_filestatg statbuf;
@@ -606,17 +656,19 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
     errno = ENAMETOOLONG;
     return (-1);
   }
+  if (path[0] != '/') {
+    gfal_errmsg (errbuf, errbufsz, "Invalid path");
+    errno = EINVAL;
+    return (-1);
+  }
   strcpy (sav_path, path);
-  p1 = strchr (sav_path, '/');
   p = strrchr (sav_path, '/');
-  while (p > p1) {
-    if (lastslash == NULL) lastslash = p;
+  lastslash = p;
+  while (p > sav_path) {
     *p = '\0';
     c = fcops.statg (sav_path, NULL, &statbuf);
-    if (c == 0) {
-      *p = '/';
+    if (c == 0)
       break;
-    }
     if (*fcops.serrno != ENOENT) {
       if(*fcops.serrno < 1000) 
 	errno = *fcops.serrno;
@@ -631,8 +683,10 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
     p = q;
   }
   c = 0;
-  while (c == 0 && (p = strchr (p + 1, '/')) && p <= lastslash) {
-    *p = '\0';
+  while (c == 0 && p) {
+    *p = '/';
+    if ((p = strchr (p + 1, '/')))
+      *p = '\0';
     uuid_generate(uuid);
     uuid_unparse(uuid, uuid_buf);
     c = fcops.mkdirg (sav_path, uuid_buf, mode);
@@ -644,8 +698,93 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
 	errno = ECOMM;
       }
     }
-    *p = '/';
   }
   return (c);
 }
-  
+
+int
+lfc_renamel (const char *old_name, const char *new_name, char *errbuf, int errbufsz)
+{
+  if(lfc_init(errbuf, errbufsz) < 0)
+    return (-1);
+
+  if (fcops.rename (old_name, new_name) < 0) {
+    if (*fcops.serrno < 1000)
+      errno = *fcops.serrno;
+    else {
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
+      errno = ECOMM;
+    }
+    return (-1);
+  }
+
+  return (0);
+}
+
+DIR *
+lfc_opendirlg (const char *dirname, const char *guid, char *errbuf, int errbufsz)
+{
+  lfc_DIR *dir;
+
+  if (lfc_init(errbuf, errbufsz) < 0)
+    return (NULL);
+
+  if ((dir = fcops.opendirg (dirname, guid)) == NULL) {
+    if (*fcops.serrno < 1000)
+      errno = *fcops.serrno;
+    else {
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
+      errno = ECOMM;
+    }
+    return (NULL);
+  }
+
+  return ((DIR *)dir);
+}
+
+int
+lfc_rmdirl (const char *dirname, char *errbuf, int errbufsz)
+{
+  if(lfc_init(errbuf, errbufsz) < 0)
+    return (-1);
+
+  if (fcops.rmdir (dirname) < 0) {
+    if (*fcops.serrno < 1000)
+      errno = *fcops.serrno;
+    else {
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
+      errno = ECOMM;
+    }
+    return (-1);
+  }
+
+  return (0);
+}
+
+int
+lfc_maperror (struct proto_ops *pops, int ioflag)
+{
+  if (*fcops.serrno < 1000)
+    return *fcops.serrno;
+  else
+    return ECOMM;
+}
+
+int
+lfc_setsize (const char *lfn, GFAL_LONG64 size, char *errbuf, int errbufsz)
+{
+  if(lfc_init(errbuf, errbufsz) < 0)
+    return (-1);
+
+  if (fcops.setfsize (lfn, NULL, size) < 0) {
+    if (*fcops.serrno < 1000)
+      errno = *fcops.serrno;
+    else {
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
+      errno = ECOMM;
+    }
+    return (-1);
+  }
+
+  return (0);
+}

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.28 $ $Date: 2006/11/10 16:28:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.29 $ $Date: 2007/01/17 13:56:01 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -52,6 +52,9 @@ struct srmv2_filestatus {
 	char 	*explanation;
 };
 
+/* to remove warnings concerning lfc_maperror and struct proto_ops */
+struct proto_ops;
+
 		/* User-callable entry points */
 
 int gfal_access (const char *, int);
@@ -60,7 +63,7 @@ int gfal_close (int);
 int gfal_closedir (DIR *);
 int gfal_creat (const char *, mode_t);
 int gfal_creat64 (const char *, mode_t);
-int gfal_errmsg (char *, int, const char *);
+void gfal_errmsg (char *, int, const char *);
 off_t gfal_lseek (int, off_t, int);
 int gfal_lstat (const char *, struct stat *);
 int gfal_mkdir (const char *, mode_t);
@@ -93,6 +96,7 @@ int gfal_stat64 (const char *, struct stat *);
 
                   /* catalog operation entry points */
 int create_alias (const char *, const char *, GFAL_LONG64, char *, int);
+int create_alias_m (const char *, const char *, mode_t, GFAL_LONG64, char *, int);
 char *getbestfile(char **, int size, char *, int);
 char *get_catalog_endpoint(char *, int);
 int getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
@@ -148,8 +152,15 @@ int get_srm_types_and_endpoints (const char *, char ***, char ***, char *, int);
 int se_getfilemd (const char *, struct stat64 *, char *, int, int);
 int srm_getfilemd (const char *, struct stat64 *, char *, int, int);
 #endif
+int lfc_maperror (struct proto_ops *, int);
 int lfc_getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
-int lfc_create_alias (const char *, const char *, GFAL_LONG64, char *, int);
+int lfc_setsize (const char *, GFAL_LONG64, char *, int);
+int lfc_accessl (const char *, int, char *, int);
+int lfc_chmodl (const char *, mode_t, char *, int);
+int lfc_renamel (const char *, const char *, char *, int);
+DIR *lfc_opendirlg (const char *, const char *, char *, int);
+int lfc_rmdirl (const char *, char *, int);
+int lfc_create_alias (const char *, const char *, mode_t, GFAL_LONG64, char *, int);
 int lfc_deletepfn (const char *, const char *, char *, int);
 int lfc_deletesurl (const char *, char *, int);
 char *lfc_get_catalog_endpoint(char *, int);
