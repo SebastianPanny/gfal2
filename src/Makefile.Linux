@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.35 $ $Date: 2007/01/19 14:09:24 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.36 $ $Date: 2007/01/19 16:16:11 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -195,30 +195,30 @@ $(prefix)/bin:
 	mkdir -p $@
 
 $(GFAL_INSTALL_TESTBIN):$(prefix)/bin/%: %
-	-mv $@ $(prefix)bin/OLD$?
+	-mv -f $@ $(prefix)/bin/OLD$?
 	cp -p $? $@
 
 $(prefix)/include:
 	mkdir -p $@
 
 $(prefix)/include/gfal_api.h: gfal_api.h
-	-mv $@ $(prefix)/include/OLD$?
+	-mv -f $@ $(prefix)/include/OLD$?
 	cp -p $? $@
 $(prefix)/include/gfal_constants.h: gfal_constants.h
-	-mv $@ $(prefix)/include/OLD$?
+	-mv -f $@ $(prefix)/include/OLD$?
 	cp -p $? $@
 
 $(prefix)/lib:
 	mkdir -p $@
 
 $(prefix)/lib/libgfal.a: libgfal.a
-	-mv $@ $(prefix)/lib/OLD$?
+	-mv -f $@ $(prefix)/lib/OLD$?
 	cp -p $? $@
 $(prefix)/lib/libgfal.so: libgfal.so
-	-mv $@ $(prefix)/lib/OLD$?
+	-mv -f $@ $(prefix)/lib/OLD$?
 	cp -p $? $@
 $(prefix)/lib/libgfal_pthr.so: libgfal_pthr.so
-	-mv $@ $(prefix)/lib/OLD$?
+	-mv -f $@ $(prefix)/lib/OLD$?
 	cp -p $? $@
 
 install.man: $(prefix)/man/man3 \
