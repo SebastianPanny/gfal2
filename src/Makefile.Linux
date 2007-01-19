@@ -3,18 +3,11 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.34 $ $Date: 2007/01/17 13:56:01 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.35 $ $Date: 2007/01/19 14:09:24 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
 -include Makefile.inc
-
-# my values
-GSOAP_LOCATION=/afs/cern.ch/user/r/rmollon/private/misc
-prefix=/opt/lcg
-DCAP_LOCATION=/opt/d-cache/dcap
-GLOBUS_LOCATION=/opt/globus
-CGSI_GSOAP_LOCATION=/opt/edg
 
 # global location defaults, which can be overidden by make parameters
 ifeq ($(SRCDIR), $(EMPTY))
