@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.31 $ $Date: 2007/01/09 10:37:48 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.32 $ $Date: 2007/02/06 14:46:28 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -909,9 +909,9 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	ldap_unbind (ld);
 	if (rc) {
 		for (j = 0; j < i; j++) {
-			free (st[i]);
-			free (sv[i]);
-			free (ep[i]);
+			if (st[i]) free (st[i]);
+			if (sv[i]) free (sv[i]);
+			if (ep[i]) free (ep[i]);
 		}
 		free (st);
 		free (sv);
@@ -923,19 +923,16 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	} else {
 		*srm_types = stp;
 		*srm_endpoints = sep;
-		for (j = 0; j < i; j++) {
+		for (j = 0; j < i; ++j, ++n) {
 			if ((strcmp (st[j], "srm_v1") == 0 || strcmp (st[j], "srm_v2") == 0) && ep[j]) {
 				*(stp + n) = strdup (st[j]);
 				*(sep + n) = strdup (ep[j]); 
-				n++;
 			} else if ((strcasecmp (st[j], "SRM") == 0) && (strncmp (sv[j], "1.1", 3)) == 0 && ep[j]) {
 				*(stp + n) = strdup ("srm_v1");
 				*(sep + n) = strdup (ep[j]);
-				n++;
 			} else if ((strcasecmp (st[j], "SRM") == 0) && (strncmp (sv[j], "2.2", 3)) == 0 && ep[j]) {
 				*(stp + n) = strdup ("srm_v2");
 				*(sep + n) = strdup (ep[j]);
-				n++;
 			}
 			free (st[j]);
 			free (sv[j]);
