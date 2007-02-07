@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.38 $ $Date: 2007/02/07 14:07:13 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.39 $ $Date: 2007/02/07 17:45:47 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -178,8 +178,7 @@ srm.v1.1.h: srm.v1.1.wsdl
 srm.v2.2.h: srm.v2.2.wsdl
 	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
 
-#CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
-CLI_LIBS=./libgfal.so $(SECLIB) -luuid
+CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
 $(GFAL_TESTBIN):%: %.c gfal_api.h libgfal.so
 	$(CC) -o $@ $(CLI_LIBS) $<
 
