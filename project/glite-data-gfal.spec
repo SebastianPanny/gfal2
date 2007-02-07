@@ -7,6 +7,9 @@ License: Open Source EGEE License
 Group: Application/File
 BuildRoot: %{_builddir}/%{name}-%{version}
 Prefix: /opt/lcg
+AutoReqProv: no
+Requires: CGSI_gSOAP_2.6 >= 1.1.15, vdt_globus_essentials, libdl.so.2, libldap.so.2, libuuid.so.1
+Provides: libgfal.so, libgfal_pthr.so
 %define __spec_install_post %{nil}
 %define debug_package %{nil}
 %description
