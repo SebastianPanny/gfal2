@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.35 $ $Date: 2007/02/09 14:39:38 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.36 $ $Date: 2007/02/09 14:44:55 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2373,7 +2373,6 @@ purify_surl (const char *surl, char *surl_cat, const int surl_cat_sz) {
 	strncpy (tmp, surl, 1104);
 	p = index (tmp+6, ':'); /* is port number specified ? */
 	if ((q = index (tmp+6, '/')) == NULL) {
-		gfal_errmsg(errbuf, errbufsz, "Invalid SURL syntax.");
 		errno = EINVAL;
 		return (-1);
 	}
