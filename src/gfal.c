@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.34 $ $Date: 2007/02/06 14:46:23 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.35 $ $Date: 2007/02/09 14:39:38 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1169,7 +1169,7 @@ deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
 deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz, int timeout)
 {
 	int edgse = 0;
-	int i = 0;
+	int rc, i = 0;
         int len;
         char *p;
 	char **se_endpoints;
@@ -1201,9 +1201,10 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
                         edgse = 1;
                 else if ((strcmp (se_type, "srm_v1")) == 0)
                         srm_v1 = 1;
-                else if ((strcmp (se_type, "srm_v2")) == 0)
+                else if ((strcmp (se_type, "srm_v2")) == 0) {
                         srm_v2 = 1;
-                srm_endpoint = strdup (server);
+                	srm_endpoint = strdup (server);
+		}
                 free (se_type);
 	} else {
 		while (se_types[i]) {
@@ -1213,7 +1214,7 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 				srm_v1 = 1;
 			else if ((strcmp (se_types[i], "srm_v2")) == 0) {
 				srm_v2 = 1;
-				srm_endpoint = strdup (se_endpoints[i]);
+				srm_endpoint = srm_endpoint == NULL ? strdup (se_endpoints[i]) : srm_endpoint;
 			}
 			free (se_types[i]);
 			free (se_endpoints[i]);
@@ -1225,10 +1226,13 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 	}
 
 	/* if spacetokendesc specified by user and/or SRM v2.2 supported */
-	if (((spacetokendesc != NULL) && srm_v2) || (!srm_v1 && srm_v2))
-		return (srmv2_deletesurl (surl, srm_endpoint, errbuf, errbufsz, timeout));
+	if (((spacetokendesc != NULL) && srm_v2) || (!srm_v1 && srm_v2)) {
+		rc = srmv2_deletesurl (surl, srm_endpoint, errbuf, errbufsz, timeout);
+		free (srm_endpoint);
+		return (rc);
+	}
 
-	free (srm_endpoint);
+	if (srm_endpoint == NULL) free (srm_endpoint);
 	if (srm_v1)
 		return (srm_deletesurl (surl, errbuf, errbufsz, timeout));
 	else if (edgse)
@@ -1388,20 +1392,35 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 	/* get protocol */
 
 	if ((p = strstr (turl, ":/")) == NULL) {
-		gfal_errmsg(errbuf, errbufsz, "Bad destination URL syntax.");
-		errno = EINVAL;
+		/* to enable 'file' protocol by default
+		if (4 > (protocolsz - 1)) {
+			gfal_errmsg(errbuf, errbufsz, "Destination URL too long.");
+			errno = ENAMETOOLONG;
+			return (-1);
+		}
+		sprintf (protocol, "file");
+		*/
+		gfal_errmsg(errbuf, errbufsz, "Invalid URL.");
+		errno = ENAMETOOLONG;
 		return (-1);
-	}
-	if ((len = p - turl) > (protocolsz - 1)) {
+	} else if ((len = p - turl) > (protocolsz - 1)) {
 		gfal_errmsg(errbuf, errbufsz, "Destination URL too long.");
 		errno = ENAMETOOLONG;
 		return (-1);
+	} else {
+		strncpy (protocol, turl, len);
+		*(protocol + len) = '\0';
 	}
-	strncpy (protocol, turl, len);
-	*(protocol + len) = '\0';
 
 	if (strcmp (protocol, "file") == 0) {
-		*pfn = p + 1;
+		if (p == NULL)
+			strcpy (pathbuf, turl);
+		else {
+			++p;
+			while (*(p + 1) == '/') ++p;
+			strcpy (pathbuf, p);
+		}
+		*pfn = pathbuf;
 	} else if (strcmp (protocol, "rfio") == 0) {
 		p += 2;
 		if (*p != '/') {
@@ -1431,7 +1450,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 	char *errbuf, int errbufsz, int timeout)
 {
-	int i = 0;
+	int rc, i = 0;
 	int edgse = 0;
 	int len;
 	char *p;
@@ -1476,7 +1495,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 				srm_v1 = 1;
 			else if ((strcmp (se_types[i], "srm_v2")) == 0) {
 				srm_v2 = 1;
-				srm_endpoint = strdup (se_endpoints[i]);
+				srm_endpoint = srm_endpoint == NULL ? strdup (se_endpoints[i]) : srm_endpoint;
 			}
 			free (se_types[i]);
 			free (se_endpoints[i]);
@@ -1488,13 +1507,15 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 
 	/* if token specified  or SRM v2,2 supported only */
 	if (((token != NULL) && srm_v2) || (!srm_v1 && srm_v2)) {
-		if ((oflag & O_ACCMODE) == 0) {
-			return (srmv2_set_xfer_done_get (surl, token, srm_endpoint, errbuf, errbufsz, timeout));
-		} else {
-			return (srmv2_set_xfer_done_put (surl, token, srm_endpoint, errbuf, errbufsz, timeout));
-		}
+		if ((oflag & O_ACCMODE) == 0)
+			rc = srmv2_set_xfer_done_get (surl, token, srm_endpoint, errbuf, errbufsz, timeout);
+		else
+			rc = srmv2_set_xfer_done_put (surl, token, srm_endpoint, errbuf, errbufsz, timeout);
+
+		free (srm_endpoint);
+		return (rc);
 	}
-	free (srm_endpoint);
+	if (srm_endpoint == NULL) free (srm_endpoint);
 
 	if (srm_v1) {
 		return (srm_set_xfer_done (surl, reqid, fileid, token, oflag,
@@ -1774,9 +1795,10 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 			edgse = 1;
 		else if ((strcmp (se_type, "srm_v1")) == 0)
 			srm_v1 = 1;
-		else if ((strcmp (se_type, "srm_v2")) == 0)
+		else if ((strcmp (se_type, "srm_v2")) == 0) {
 			srm_v2 = 1;
-		srm_endpoint = strdup (server);
+			srm_endpoint = strdup (server);
+		}
 		free (se_type);
 	} else {
 		while (se_types[i]) {
@@ -1786,7 +1808,7 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 				srm_v1 = 1;
 			else if ((strcmp (se_types[i], "srm_v2")) == 0) {
 				srm_v2 = 1;
-				srm_endpoint = strdup (se_endpoints[i]);
+				srm_endpoint = srm_endpoint == NULL ? strdup (se_endpoints[i]) : srm_endpoint;
 			}
 			free (se_types[i]);
 			free (se_endpoints[i]);
@@ -1823,7 +1845,7 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 		free (explanations);
 		return (p);
 	} 
-	free (srm_endpoint);
+	if (srm_endpoint == NULL) free (srm_endpoint);
 
 	/* if SRM v1.1 supported */
 	if (srm_v1) {
@@ -2330,4 +2352,54 @@ get_default_se(char *vo, char *errbuf, int errbufsz)
 		return (NULL);
 	}
 	return default_se;
+}
+
+int
+purify_surl (const char *surl, char *surl_cat, const int surl_cat_sz) {
+	char *p,*q,*r;
+	char tmp[1104];
+	int l;
+
+	if (surl == NULL || surl_cat == NULL || surl_cat_sz < strlen (surl)) {
+		errno = EINVAL;
+		return (-1);
+	}
+	if (strncmp (surl, "srm://", 6)) {
+		/* Only SRM SURL need to be purify */
+		strncpy (surl_cat, surl, surl_cat_sz);
+		return (0);
+	}
+
+	strncpy (tmp, surl, 1104);
+	p = index (tmp+6, ':'); /* is port number specified ? */
+	if ((q = index (tmp+6, '/')) == NULL) {
+		gfal_errmsg(errbuf, errbufsz, "Invalid SURL syntax.");
+		errno = EINVAL;
+		return (-1);
+	}
+
+	if ((r = strstr (tmp+6, "?SFN=")) == NULL) {
+		/* no full SURL */
+		if (p == NULL)
+			/* no full SURL and no port number : nothing to remove */
+			strncpy (surl_cat, tmp, surl_cat_sz);
+		else {
+			/* port number must be removed */
+			*p = 0;
+			snprintf (surl_cat, surl_cat_sz, "%s%s", tmp, q);
+		}
+	} else {
+		/* full SURL */
+		if (p == NULL) {
+			/* no port number */
+			if (q < r)
+				*q = 0;
+			else
+				*r = 0;
+		} else
+			*p = 0;
+		snprintf (surl_cat, surl_cat_sz, "%s%s", tmp, r+5);
+	}
+
+	return (0);
 }

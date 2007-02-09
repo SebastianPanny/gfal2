@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.29 $ $Date: 2007/01/17 13:56:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.30 $ $Date: 2007/02/09 14:39:38 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -128,6 +128,7 @@ char *turlfromsurlx (const char *, GFAL_LONG64, char **, int, int *, int *, char
 char *turlfromsurl2 (const char *, GFAL_LONG64, const char *, char **, int, int *, int *, char **, char *, int, int);
 
 		/* Internal functions */
+int purify_surl (const char *, char *, const int);
 int deletepfn (const char *, const char *, char *, int);
 int get_bdii (char *, int, int *, char *, int);
 int get_cat_type(char **);
