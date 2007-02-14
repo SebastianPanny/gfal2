@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.32 $ $Date: 2007/02/06 14:46:28 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.33 $ $Date: 2007/02/14 15:16:34 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -249,20 +249,15 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 {
 	static char ep[] = "GlueServiceAccessPointURL";
-	static char type[] = "GlueServiceType";
-	static char *template = "(&(GlueServiceType=*)(GlueServiceAccessControlRule=%s))";
-	char *attr;
-	static char *attrs[] = {type, ep, NULL};
+	static char *template = "(&(GlueServiceType=lcg-file-catalog)(GlueServiceAccessControlRule=%s))";
+	static char *attrs[] = {ep, NULL};
 	int bdii_port;
 	char bdii_server[75];
-	BerElement *ber;
 	LDAPMessage *entry;
 	char filter[128];
 	LDAP *ld;
 	int rc = 0;
 	LDAPMessage *reply;
-	char *service_type;
-	char *service_url;
 	struct timeval timeout;
 	char **value;
 	char *vo;
@@ -312,41 +307,23 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	for (entry = ldap_first_entry (ld, reply);
 	     entry != NULL;
 	     entry = ldap_next_entry (ld, entry)) {
-		service_type = NULL;
-		service_url = NULL;
-		for (attr = ldap_first_attribute (ld, entry, &ber);
-		     attr != NULL;
-		     attr = ldap_next_attribute (ld, entry, ber)) {
-			value = ldap_get_values (ld, entry, attr);
-			if (value == NULL) {
-				rc = -1;
-				continue;
-			}
-			if (strcmp (attr, "GlueServiceType") == 0) {
-				if((service_type = strdup (value[0])) == NULL)
-					rc = -1;
-			} else {	/* GlueServiceAccessPointURL */
-				if((service_url = strdup (value[0])) == NULL)
-					rc = -1;
-			}
-			ldap_value_free (value);
-		}
-		if (rc == 0) {
-			if (strcmp (service_type, "lcg-file-catalog") == 0) {
-			  if ((*lfc_endpoint = strdup (service_url)) == NULL)
-			    rc = -1;
-			}
-		}
-		free (service_type);
-		free (service_url);
+                if ((value = ldap_get_values (ld, entry, ep)) == NULL || *value == NULL)
+                        continue;
+                if ((*lfc_endpoint = strdup (*value)) == NULL) {
+                        errno = ENOMEM;
+                        rc = -1;
+                }
+                ldap_value_free (value);
+                break;
 	}
-	if (*lfc_endpoint == NULL) {
+	ldap_msgfree (reply);
+	ldap_unbind (ld);
+
+	if (rc == 0 && *lfc_endpoint == NULL) {
 		gfal_errmsg (errbuf, errbufsz, "LFC endpoint not found");
 		errno = EINVAL;
 		rc = -1;
 	}
-	ldap_msgfree (reply);
-	ldap_unbind (ld);
 	return (rc);
 }
 
