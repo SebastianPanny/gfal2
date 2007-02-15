@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.5 $ $Date: 2007/01/09 10:28:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.6 $ $Date: 2007/02/15 11:04:02 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -59,7 +59,7 @@ srmv2_deletesurl (const char *surl, const char *srm_endpoint, char *errbuf, int 
         struct soap soap;
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -157,7 +157,7 @@ srmv2_get (int nbfiles, char **surls, char *spacetokendesc, int nbprotocols, cha
 retry:
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -351,7 +351,7 @@ srmv2_getstatus (int nbfiles, char **surls, char *reqtoken, struct srmv2_filesta
 retry:
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -458,7 +458,7 @@ srmv2_getspacetoken (const char *spacetokendesc, const char *srm_endpoint, char 
         struct ns1__ArrayOfString *tknrepp;
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -544,7 +544,7 @@ srmv2_makedirpt (const char *dest_file, const char *srm_endpoint, char *errbuf, 
  
 		/* try to create directory */
 		soap_init (&soap);
-		(&soap)->namespaces = namespaces_srmv2;
+		soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 		flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -621,7 +621,7 @@ srmv2_prestage (int nbfiles, char **surls, char *spacetokendesc, int nbprotocols
 retry:
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -812,7 +812,7 @@ srmv2_prestagestatus (int nbfiles, char **surls, char *reqtoken, struct srmv2_fi
 retry:
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -917,7 +917,7 @@ srmv2_set_xfer_done_get (const char *surl, char *reqtoken, const char *srm_endpo
 	struct soap soap;
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -997,7 +997,7 @@ srmv2_set_xfer_done_put (const char *surl, char *reqtoken, const char *srm_endpo
 	struct soap soap;
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -1062,7 +1062,7 @@ srmv2_set_xfer_done_put (const char *surl, char *reqtoken, const char *srm_endpo
 	return (0);
 }
 
-srmv2_set_xfer_running (const char *surl, char *reqtoken, char *errbuf, int errbufsz, int timeout)
+srmv2_set_xfer_running (const char *surl, const char *srm_endpoint, char *reqtoken, char *errbuf, int errbufsz, int timeout)
 {
 	return (0);
 }
@@ -1099,7 +1099,7 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 retry:
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -1383,7 +1383,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 retry:
 
 	soap_init (&soap);
-	(&soap)->namespaces = namespaces_srmv2;
+	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
 	flags = CGSI_OPT_DISABLE_NAME_CHECK;
@@ -1691,6 +1691,111 @@ srmv2_turlfromsurl (const char *surl, const char *srm_endpoint, const char *spac
 	free (statuses);
 	free (explanations);
         return (t);
+}
+
+srmv2_getfilemd (const char *surl, const char *srm_endpoint, struct stat64 *statbuf,
+                 char **reqtoken, char *errbuf, int errbufsz, int timeout)
+{
+        int flags;
+        int ret;
+        int sav_errno;
+        struct soap soap;
+	enum xsd__boolean trueoption = true_;
+	int numlevels = 0;
+        struct ns1__srmLsRequest req;
+        struct ns1__srmLsResponse_ rep;
+        struct ns1__ArrayOfTMetaDataPathDetail *repfs;
+        struct ns1__TSURLInfo *reqfilep;
+        struct ns1__TReturnStatus *reqstatp;
+
+
+        soap_init (&soap);
+	soap.namespaces = namespaces_srmv2;
+
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
+        soap.send_timeout = timeout ;
+        soap.recv_timeout = timeout ;
+
+	memset (&req, 0, sizeof(req));
+
+	/* NOTE: only one file in the array */
+        if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL || 
+            (req.arrayOfSURLs->urlArray = soap_malloc (&soap, sizeof(char *))) == NULL) {
+                gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
+                errno = ENOMEM;
+                soap_end (&soap);
+                soap_done (&soap);
+                return (-1);
+        }
+
+        req.arrayOfSURLs->__sizeurlArray = 1;
+        req.arrayOfSURLs->urlArray[0] = (char *) surl;
+	req.fullDetailedList = &trueoption;
+	req.numOfLevels = &numlevels;
+
+        /* issue "srmLs" request */
+
+        if ((ret = soap_call_ns1__srmLs (&soap, srm_endpoint, "Ls", &req, &rep))) {
+                if (soap.error == SOAP_EOF) {
+                        gfal_errmsg(errbuf, errbufsz, "Connection fails or timeout");
+                        soap_end (&soap);
+                        soap_done (&soap);
+                        return (-1);
+                }
+                if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT)
+                        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+                soap_end (&soap);
+                soap_done (&soap);
+                return (0);
+        }
+
+	reqstatp = rep.srmLsResponse->returnStatus;
+        if (reqstatp->statusCode != SRM_USCORESUCCESS &&
+            reqstatp->statusCode != SRM_USCOREDONE) {
+                if (reqstatp->explanation)
+                        gfal_errmsg(errbuf, errbufsz, reqstatp->explanation);
+                soap_end (&soap);
+		errno = statuscode2errno (reqstatp->statusCode);
+                return (-1);
+        }
+
+	if (reqtoken && rep.srmLsResponse->requestToken)
+		*reqtoken = strdup(rep.srmLsResponse->requestToken);
+
+        repfs = rep.srmLsResponse->details;
+        if (!repfs || repfs->__sizepathDetailArray <= 0 || repfs->pathDetailArray[0] == NULL) {
+                soap_end (&soap);
+                soap_done (&soap);
+                return (-1);
+        }
+
+        memset (statbuf, 0, sizeof(struct stat64));
+        statbuf->st_size = *(repfs->pathDetailArray[0]->size);
+	statbuf->st_uid = 2;
+	statbuf->st_gid = 2;
+        statbuf->st_mode = *(repfs->pathDetailArray[0]->otherPermission);
+        statbuf->st_mode |= repfs->pathDetailArray[0]->groupPermission->mode << 3;
+        statbuf->st_mode |= repfs->pathDetailArray[0]->ownerPermission->mode << 6;
+	switch (*(repfs->pathDetailArray[0]->type)) {
+		case FILE_:
+			statbuf->st_mode |= S_IFREG;
+			break;
+		case DIRECTORY:
+			statbuf->st_mode |= S_IFDIR;
+			break;
+		case LINK:
+			statbuf->st_mode |= S_IFLNK;
+			break;
+	}
+
+        statbuf->st_nlink = 1;
+        soap_end (&soap);
+        soap_done (&soap);
+        return (0);
 }
 
 statuscode2errno (int statuscode)
