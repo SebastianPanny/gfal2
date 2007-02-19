@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.6 $ $Date: 2007/02/15 11:04:02 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.7 $ $Date: 2007/02/19 16:18:40 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -968,6 +968,9 @@ srmv2_set_xfer_done_get (const char *surl, char *reqtoken, const char *srm_endpo
                 errno = statuscode2errno(reqstatp->statusCode);
                 if (reqstatp->explanation)
                         gfal_errmsg(errbuf, errbufsz, reqstatp->explanation);
+                soap_end (&soap);
+                soap_done (&soap);
+                return (-1);
         }
 
         if (! repfs) {

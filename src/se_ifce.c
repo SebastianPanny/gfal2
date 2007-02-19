@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.9 $ $Date: 2005/12/06 14:21:32 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.10 $ $Date: 2007/02/19 16:18:40 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -46,13 +46,28 @@ se_init (struct soap *soap, const char *surl, char *srm_endpoint,
 
 se_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
 {
+	char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+	return (se_deletesurle (surl, srm_endpoint, errbuf, errbufsz, timeout));
+}
+
+se_deletesurle (const char *surl, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	struct ns1__deleteResponse out;
 	struct soap soap;
-	char srm_endpoint[256];
 
-	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+        soap_init (&soap);
+        soap.namespaces = namespaces_se;
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 
@@ -78,15 +93,30 @@ se_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
 
 se_mkdir (const char *dir, char *errbuf, int errbufsz, int timeout)
 {
+        char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (dir, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+	return (se_mkdire (dir, srm_endpoint, errbuf, errbufsz, timeout));
+}
+
+se_mkdire (const char *dir, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	struct ns1__mkdirResponse out;
 	int ret;
 	int sav_errno;
 	struct soap soap;
-	char srm_endpoint[256];
 
-	if (se_init (&soap, dir, srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+        soap_init (&soap);
+        soap.namespaces = namespaces_se;
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 	
@@ -162,9 +192,10 @@ se_makedirp (const char *surl, char *errbuf, int errbufsz, int timeout)
 }
 
 char *
-se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
-	int *fileid, char **token, char *errbuf, int errbufsz, int timeout)
+se_turlfromsurle (const char *surl, const char *srm_endpoint, char **protocols, int oflag,
+		  int *reqid, int *fileid, char **token, char *errbuf, int errbufsz, int timeout)
 {
+	int flags;
 	int nbproto = 0;
 	struct ns1__cacheResponse outg;
 	struct ns1__createResponse outp;
@@ -174,12 +205,15 @@ se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
 	int ret;
 	int sav_errno;
 	struct soap soap;
-	char srm_endpoint[256];
 	LONG64 zero = 0;
 
-	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (NULL);
+        soap_init (&soap);
+        soap.namespaces = namespaces_se;
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 
@@ -274,8 +308,34 @@ retry:
 	return (p);
 }
 
+char *
+se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
+	int *fileid, char **token, char *errbuf, int errbufsz, int timeout)
+{
+        char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (NULL);
+
+	return (se_turlfromsurle (surl, srm_endpoint, protocols, oflag, reqid,
+		fileid, token, errbuf, errbufsz, timeout));
+}
+
 se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz, int timeout)
 {
+        char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+	return (se_getfilemde (surl, srm_endpoint, statbuf, errbuf, errbufsz, timeout));
+}
+
+se_getfilemde (const char *surl, const char *srm_endpoint, struct stat64 *statbuf, char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	char *dp;
 	struct group *gr;
 	int i;
@@ -286,11 +346,14 @@ se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbuf
 	int ret;
 	int sav_errno;
 	struct soap soap;
-	char srm_endpoint[256];
 
-	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+        soap_init (&soap);
+        soap.namespaces = namespaces_se;
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout;
         soap.recv_timeout = timeout;
 
@@ -348,14 +411,31 @@ se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbuf
 se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
 	int oflag, char *errbuf, int errbufsz, int timeout)
 {
+        char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+	return (se_set_xfer_donee (surl, srm_endpoint, reqid, fileid, token,
+		oflag, errbuf, errbufsz, timeout));
+}
+
+se_set_xfer_donee (const char *surl, const char *srm_endpoint, int reqid, int fileid,
+		   char *token,	int oflag, char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	struct ns1__abandonResponse outa;
 	struct ns1__commitResponse outc;
 	struct soap soap;
-	char srm_endpoint[256];
 
-	if (se_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+        soap_init (&soap);
+        soap.namespaces = namespaces_se;
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 

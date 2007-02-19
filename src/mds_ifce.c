@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.33 $ $Date: 2007/02/14 15:16:34 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.34 $ $Date: 2007/02/19 16:18:40 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -512,7 +512,7 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 
 get_se_endpoint (const char *host, char **se_endpoint)
 {
-	return (get_se_endpointx (host, se_endpoint, NULL, 0));
+	return (get_se_endpointxv (host, se_endpoint, NULL, NULL, 0));
 }
 
 get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbufsz)
@@ -545,7 +545,11 @@ get_se_endpointxv (const char *host, char **se_endpoint, const char *srm_version
 		errno = EINVAL;
 		return (-1);
 	}
-	sprintf (filter, template, host, srm_version);
+
+	if (srm_version)
+		sprintf (filter, template1, host, srm_version);
+	else
+		sprintf (filter, template, host);
 
 	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
 		return (-1);
@@ -684,19 +688,30 @@ get_se_portx (const char *host, int *se_port, char *errbuf, int errbufsz)
 
 get_se_type (const char *host, char **se_type)
 {
-	return (get_se_typex (host, se_type, NULL, 0));
+	return (get_se_typeandendpoint (host, se_type, NULL, NULL, 0));
 }
 
 get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 {
+	return (get_se_typeandendpoint (host, se_type, NULL, errbuf, errbufsz));
+}
+
+get_se_typeandendpoint (const char *host, char **se_type, char **endpoint, char *errbuf, int errbufsz)
+{
 	static char se_type_atnm[] = "GlueSEName";
+	static char se_type_atpt[] = "GlueSEPort";
+	static char se_type_atvm[] = "GlueSchemaVersionMajor";
 	static char *template = "(GlueSEUniqueID=%s)";
+	static char *template1 = "(&(GlueSEUniqueID=%s)(GlueSEPort=%s))";
+	char host_tmp[256];
+	int len_tmp;
+	char *port;
 	char *attr;
-	static char *attrs[] = {se_type_atnm, NULL};
+	static char *attrs[] = {se_type_atnm, se_type_atpt, se_type_atvm, NULL};
 	int bdii_port;
 	char bdii_server[75];
 	LDAPMessage *entry;
-	char filter[128];
+	char filter[300];
 	LDAP *ld;
 	char *p;
 	int rc = 0;
@@ -705,15 +720,29 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	char **value;
 	char error_str[ERROR_STR_LEN];
 
-	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
+	if (se_type == NULL) {
+		errno = EINVAL;
 		return (-1);
-	if (strlen (template) + strlen (host) - 2 >= sizeof(filter)) {
+	}
+
+	len_tmp = strlen (host);
+	if (strlen (template) + len_tmp - 2 >= sizeof(filter)) {
 		gfal_errmsg (errbuf, errbufsz, "host too long");
 		errno = EINVAL;
 		return (-1);
 	}
-	sprintf (filter, template, host);
+	strncpy (host_tmp, host, sizeof (host_tmp));
+	if ((port = strchr (host_tmp, ':')) == NULL) {
+		sprintf (filter, template, host_tmp);
+		port = host_tmp + len_tmp;
+		*port = 0;
+	} else {
+		*port = 0;
+		sprintf (filter, template1, host_tmp, port + 1);
+	}
 
+	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
+		return (-1);
 	if ((ld = ldap_init (bdii_server, bdii_port)) == NULL)
 		return (-1);
 	if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
@@ -743,10 +772,9 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 	entry = ldap_first_entry (ld, reply);
 	if (entry) {
 		value = ldap_get_values (ld, entry, se_type_atnm);
-		if (value == NULL) {
+		if (value == NULL || *value == NULL) {
 		  errno = EINVAL;
 		  rc = -1;
-
 		} else { 
  		  if ((p = strchr (value[0], ':')))
 		    p++;
@@ -756,12 +784,33 @@ get_se_typex (const char *host, char **se_type, char *errbuf, int errbufsz)
 		    rc = -1;
 		  ldap_value_free (value);
 		}
+
+		if (port == NULL) {
+			value = ldap_get_values (ld, entry, se_type_atpt);
+			if (value == NULL || value[0]) {
+			  errno = EINVAL;
+			  rc = -1;
+			} else if (len_tmp + strlen (value[0]) < sizeof (host_tmp)) {
+				strcpy (port + 1, value[0]);
+			} else {
+				gfal_errmsg (errbuf, errbufsz, "host too long");
+				errno = EINVAL;
+				rc = -1;
+			}
+			ldap_value_free (value);
+		}
 	} else {
 		errno = EINVAL;
 		rc = -1;
 	}
 	ldap_msgfree (reply);
 	ldap_unbind (ld);
+
+	if (endpoint) {
+		*port = '/';
+		if ((*endpoint = strdup (host_tmp)) == NULL)
+			rc = -1;
+	}
 	return (rc);
 }
 

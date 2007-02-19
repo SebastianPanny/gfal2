@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.24 $ $Date: 2006/11/09 16:38:39 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.25 $ $Date: 2007/02/19 16:18:40 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -42,16 +42,30 @@ srm_init (struct soap *soap, const char *surl, char *srm_endpoint,
 
 srm_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
 {
+	char srm_endpoint[256];
+	char *sfn;
+
+	if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+		return (-1);
+
+	return (srm_deletesurle (surl, srm_endpoint, errbuf, errbufsz, timeout));
+}
+
+srm_deletesurle (const char *surl, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
+{
 	struct ns5__advisoryDeleteResponse out;
         int ret;
+	int flags;
 	struct soap soap;
-	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
+        soap_init (&soap);
 
-	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 
@@ -83,14 +97,35 @@ srm_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
 srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols,
 	int *reqid, char **token, struct srm_filestatus **filestatuses, int timeout)
 {
-	return (srm_getx (nbfiles, surls, nbprotocols, protocols, reqid, token,
-                          filestatuses, NULL, 0, timeout));
+	char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surls[0], srm_endpoint, 256, &sfn, NULL, 0) < 0)
+                return (-1);
+
+	return (srm_getxe (nbfiles, surls, nbprotocols, protocols, reqid, token,
+                          filestatuses, srm_endpoint, NULL, 0, timeout));
 }
 
 srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols,
 	int *reqid, char **token, struct srm_filestatus **filestatuses,
 	char *errbuf, int errbufsz, int timeout)
 {
+	char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surls[0], srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+	return (srm_getxe (nbfiles, surls, nbprotocols, protocols, reqid, token,
+                          filestatuses, srm_endpoint, errbuf, errbufsz, timeout));
+}
+
+srm_getxe (int nbfiles, char **surls, int nbprotocols, char **protocols,
+	int *reqid, char **token, struct srm_filestatus **filestatuses,
+	const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	int errflag = 0;
 	struct ns1__RequestFileStatus *f;
 	struct srm_filestatus *fs;
@@ -103,12 +138,15 @@ srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols,
         int ret;
 	int sav_errno;
 	struct soap soap;
-	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+	soap_init (&soap);
+        
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 
@@ -176,13 +214,34 @@ srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols,
 srm_getstatus (int nbfiles, char **surls, int reqid, char *token,
 	struct srm_filestatus **filestatuses, int timeout)
 {
-	return (srm_getstatusx (nbfiles, surls, reqid, token, filestatuses,
-	    NULL, 0, timeout));
+	char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surls[0], srm_endpoint, 256, &sfn, NULL, 0) < 0)
+                return (-1);
+
+	return (srm_getstatusxe (nbfiles, surls, reqid, token, filestatuses,
+	    srm_endpoint, NULL, 0, timeout));
 }
 
 srm_getstatusx (int nbfiles, char **surls, int reqid, char *token,
         struct srm_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
+	char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surls[0], srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+	return (srm_getstatusxe (nbfiles, surls, reqid, token, filestatuses,
+	    srm_endpoint, errbuf, errbufsz, timeout));
+}
+
+srm_getstatusxe (int nbfiles, char **surls, int reqid, char *token,
+        struct srm_filestatus **filestatuses, const char *srm_endpoint,
+	char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	int errflag = 0;
 	struct ns1__RequestFileStatus *f;
 	struct srm_filestatus *fs;
@@ -194,12 +253,15 @@ srm_getstatusx (int nbfiles, char **surls, int reqid, char *token,
 	int ret;
         int sav_errno;
 	struct soap soap;
-	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+        soap_init (&soap);
+        
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout;
         soap.recv_timeout = timeout;
 
@@ -254,6 +316,20 @@ srm_getstatusx (int nbfiles, char **surls, int reqid, char *token,
 srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **protocols, int oflag, int *reqid, 
 		    int **fileids, char **token, char ***turls, char *errbuf, int errbufsz, int timeout)
 {
+        char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surls[0], srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+        return (srm_turlsfromsurlse (nbfiles, surls, srm_endpoint, filesizes, protocols, oflag, reqid,
+                    fileids, token, turls, errbuf, errbufsz, timeout));
+}
+
+srm_turlsfromsurlse (int nbfiles, const char **surls, const char *srm_endpoint, LONG64 *filesizes, char **protocols,
+		    int oflag, int *reqid, int **fileids, char **token, char ***turls, char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	int *f;
 	int i;
 	int n;
@@ -271,14 +347,17 @@ srm_turlsfromsurls (int nbfiles, const char **surls, LONG64 *filesizes, char **p
 	struct ArrayOflong sizearray;
 	struct soap soap;
 	struct ArrayOfstring srcarray;
-	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 	char **t;
 	time_t endtime;
 
-	if (srm_init (&soap, surls[0], srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+	soap_init (&soap);
+        
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
 	soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 
@@ -474,18 +553,34 @@ srm_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid, int
 
 srm_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz, int timeout)
 {
+        char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+	return (srm_getfilemde (surl, srm_endpoint, statbuf, errbuf, errbufsz, timeout));
+}
+
+srm_getfilemde (const char *surl, const char *srm_endpoint, struct stat64 *statbuf,
+		char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	struct group *gr;
 	struct ns5__getFileMetaDataResponse out;
 	struct passwd *pw;
 	int ret;
 	int sav_errno;
 	struct soap soap;
-	char srm_endpoint[256];
 	struct ArrayOfstring surlarray;
 
-	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+        soap_init (&soap);
+        
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 
@@ -547,14 +642,30 @@ srm_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbu
 
 srm_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag, char *errbuf, int errbufsz, int timeout)
 {
+        char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+	return (srm_set_xfer_donee (surl, srm_endpoint, reqid, fileid, token, oflag, errbuf, errbufsz, timeout));
+}
+
+srm_set_xfer_donee (const char *surl, const char *srm_endpoint, int reqid, int fileid, char *token, int oflag,
+		    char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	struct ns5__setFileStatusResponse out;
         int ret;
 	struct soap soap;
-	char srm_endpoint[256];
 
-	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+        soap_init (&soap);
+
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 
@@ -580,14 +691,30 @@ srm_set_xfer_done (const char *surl, int reqid, int fileid, char *token, int ofl
 
 srm_set_xfer_running (const char *surl, int reqid, int fileid, char *token, char *errbuf, int errbufsz, int timeout)
 {
+        char srm_endpoint[256];
+        char *sfn;
+
+        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
+                return (-1);
+
+	return (srm_set_xfer_runninge (surl, srm_endpoint, reqid, fileid, token, errbuf, errbufsz, timeout));
+}
+
+srm_set_xfer_runninge (const char *surl, const char *srm_endpoint, int reqid, int fileid, char *token,
+			char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
 	struct ns5__setFileStatusResponse out;
         int ret;
 	struct soap soap;
-	char srm_endpoint[256];
 
-	if (srm_init (&soap, surl, srm_endpoint, sizeof(srm_endpoint),
-	    errbuf, errbufsz) < 0)
-		return (-1);
+        soap_init (&soap);
+        
+#ifdef GFAL_SECURE
+        flags = CGSI_OPT_DISABLE_NAME_CHECK;
+        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
         soap.send_timeout = timeout ;
         soap.recv_timeout = timeout ;
 
