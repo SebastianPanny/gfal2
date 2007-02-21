@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.34 $ $Date: 2007/02/19 16:18:40 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.35 $ $Date: 2007/02/21 15:05:33 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -807,7 +807,7 @@ get_se_typeandendpoint (const char *host, char **se_type, char **endpoint, char 
 	ldap_unbind (ld);
 
 	if (endpoint) {
-		*port = '/';
+		*port = ':';
 		if ((*endpoint = strdup (host_tmp)) == NULL)
 			rc = -1;
 	}
