@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.8 $ $Date: 2007/03/01 15:13:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.9 $ $Date: 2007/03/01 16:10:08 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1862,6 +1862,8 @@ statuscode2errno (int statuscode)
 		case SRM_USCOREINTERNAL_USCOREERROR:
 			return (ECOMM);
 		case SRM_USCORESUCCESS:
+		case SRM_USCOREFILE_USCOREPINNED:
+		case SRM_USCORESPACE_USCOREAVAILABLE:
 			return (0);
 		default:
 			return (EINVAL);

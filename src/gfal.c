@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.38 $ $Date: 2007/03/01 15:13:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.39 $ $Date: 2007/03/01 16:10:08 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1782,13 +1782,13 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 	if (((spacetokendesc != NULL) && srm_v2) || (!srm_v1 && srm_v2)) {
 		if ((oflag & O_ACCMODE) == 0) {
 			if (srmv2_turlsfromsurls_get (1, &surl, srmv2_endpoint, &filesize, spacetokendesc, protocols,
-			    token, &sourcesurls, &turls, &statuses, &explanations, errbuf, errbufsz, timeout) <= 0 || !statuses || !statuses[0]) {
+			    token, &sourcesurls, &turls, &statuses, &explanations, errbuf, errbufsz, timeout) <= 0 || !statuses) {
 				free (srm_endpoint);
 				return NULL;
 			}
 		} else {
 			if ((srmv2_turlsfromsurls_put (1, &surl, srmv2_endpoint, &filesize, spacetokendesc, protocols,
-			     token, &sourcesurls, &turls, &statuses, &explanations, errbuf, errbufsz, timeout)) <=0 || !statuses || !statuses[0]) {
+			     token, &sourcesurls, &turls, &statuses, &explanations, errbuf, errbufsz, timeout)) <=0 || !statuses) {
 				free (srm_endpoint);
 				return NULL;
 			}
