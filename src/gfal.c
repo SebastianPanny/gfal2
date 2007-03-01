@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.37 $ $Date: 2007/02/19 16:18:40 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.38 $ $Date: 2007/03/01 15:13:10 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1753,9 +1753,9 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 	int edgse = 0;
 	int srm_v1 = 0;
 	int srm_v2 = 0;
-	int *statuses;
-	char **turls;
-	char **sourcesurls;
+	int *statuses = NULL;
+	char **turls = NULL;
+	char **sourcesurls = NULL;
 
 	if (setypesandendpointsfromsurl (surl, &se_types, &se_endpoints, errbuf, errbufsz) < 0)
 		return (NULL);
@@ -1782,17 +1782,29 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 	if (((spacetokendesc != NULL) && srm_v2) || (!srm_v1 && srm_v2)) {
 		if ((oflag & O_ACCMODE) == 0) {
 			if (srmv2_turlsfromsurls_get (1, &surl, srmv2_endpoint, &filesize, spacetokendesc, protocols,
-			    token, &sourcesurls, &turls, &statuses, &explanations, errbuf, errbufsz, timeout) <= 0) {
+			    token, &sourcesurls, &turls, &statuses, &explanations, errbuf, errbufsz, timeout) <= 0 || !statuses || !statuses[0]) {
 				free (srm_endpoint);
 				return NULL;
 			}
 		} else {
 			if ((srmv2_turlsfromsurls_put (1, &surl, srmv2_endpoint, &filesize, spacetokendesc, protocols,
-			     token, &sourcesurls, &turls, &statuses, &explanations, errbuf, errbufsz, timeout)) <=0) {
+			     token, &sourcesurls, &turls, &statuses, &explanations, errbuf, errbufsz, timeout)) <=0 || !statuses || !statuses[0]) {
 				free (srm_endpoint);
 				return NULL;
 			}
 		}
+		if (statuses[0]) {
+			errno = statuses[0];
+			if (explanations && explanations[0]) {
+				gfal_errmsg (errbuf, errbufsz, explanations[0]);
+				free (explanations[0]);
+			}
+			free (statuses);
+			free (explanations);
+			free (turls);
+			return (NULL);
+		} 
+
 		p = turls[0];
 		if (explanations[0]) {
 			gfal_errmsg (errbuf, errbufsz, explanations[0]);
@@ -2233,8 +2245,7 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
   (void) getdomainnm (dname, sizeof(dname));
 
   /* and get the default SE, it there is one */
-  if((default_se = get_default_se(NULL, errbuf, errbufsz)) == NULL) 
-	  return (NULL);
+  default_se = get_default_se(NULL, errbuf, errbufsz);
 
   for (i = 0; i < size; i++) {
     p = surls[i];
@@ -2303,12 +2314,6 @@ get_default_se(char *vo, char *errbuf, int errbufsz)
 			se_env[i] = toupper(se_env[i]);
 	} 
 	default_se = getenv(se_env);
-	if(default_se == NULL) {
-		snprintf(error_str, 128, "No Default SE: %s not set", se_env);
-		gfal_errmsg(errbuf, errbufsz, error_str);
-		errno = EINVAL;
-		return (NULL);
-	}
 	return default_se;
 }
 
