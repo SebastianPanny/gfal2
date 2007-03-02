@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.35 $ $Date: 2007/01/17 13:56:01 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.36 $ $Date: 2007/03/02 09:27:47 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -373,6 +373,18 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
       p = pp;
     }
   } 
+
+  if (*fcops.serrno) {
+    if(*fcops.serrno < 1000)
+      errno = *fcops.serrno;
+    else {
+      gfal_errmsg(errbuf, errbufsz, fcops.sstrerror(*fcops.serrno));
+      errno = ECOMM;
+    }
+    free (p);
+    return (NULL);
+  }
+
   (void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
 
   /* and trim */
