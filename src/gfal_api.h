@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.31 $ $Date: 2007/02/19 16:18:40 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.32 $ $Date: 2007/03/02 10:33:58 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -154,6 +154,7 @@ int se_getfilemd (const char *, struct stat64 *, char *, int, int);
 int se_getfilemde (const char *, const char *, struct stat64 *, char *, int, int);
 int srm_getfilemd (const char *, struct stat64 *, char *, int, int);
 int srm_getfilemde (const char *, const char *, struct stat64 *, char *, int, int);
+int srmv2_getfilemd (const char *, const char *, struct stat64 *, char **, char *, int, int);
 #endif
 int lfc_maperror (struct proto_ops *, int);
 int lfc_getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
@@ -234,7 +235,6 @@ int srmv2_set_xfer_running (const char *, const char *, char *, char *, int, int
 char *srmv2_turlfromsurl (const char *, const char *, const char *, char **, int, char **, char *, int, int);
 int srmv2_turlsfromsurls_get (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, char ***, char ***, int **, char ***, char *, int, int);
 int srmv2_turlsfromsurls_put (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, char ***, char ***, int **, char ***, char *, int, int);
-int srmv2_getfilemd (const char *, const char *, struct stat64 *, char **, char *, int, int);
 char *turlfromsfn (const char *, char **, char *, int);
 
 #ifdef __cplusplus
