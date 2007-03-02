@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.39 $ $Date: 2007/03/01 16:10:08 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.40 $ $Date: 2007/03/02 08:31:20 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1400,7 +1400,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 	if ((p = strstr (turl, ":/")) == NULL) {
 		/* to enable 'file' protocol by default
 		if (4 > (protocolsz - 1)) {
-			gfal_errmsg(errbuf, errbufsz, "Destination URL too long.");
+			gfal_errmsg(errbuf, errbufsz, "URL too long.");
 			errno = ENAMETOOLONG;
 			return (-1);
 		}
@@ -1410,7 +1410,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 		errno = ENAMETOOLONG;
 		return (-1);
 	} else if ((len = p - turl) > (protocolsz - 1)) {
-		gfal_errmsg(errbuf, errbufsz, "Destination URL too long.");
+		gfal_errmsg(errbuf, errbufsz, "URL too long.");
 		errno = ENAMETOOLONG;
 		return (-1);
 	} else {
@@ -1423,14 +1423,19 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 			strcpy (pathbuf, turl);
 		else {
 			++p;
-			while (*(p + 1) == '/') ++p;
+			//while (*(p + 1) == '/') ++p;
+			if (*(p + 1) == '/' && (*(p + 2) != '/' || *(p + 3) == '/')) {
+				gfal_errmsg(errbuf, errbufsz, "Bad URL syntax.");
+				errno = EINVAL;
+				return (-1);
+			}
 			strcpy (pathbuf, p);
 		}
 		*pfn = pathbuf;
 	} else if (strcmp (protocol, "rfio") == 0) {
 		p += 2;
 		if (*p != '/') {
-			gfal_errmsg(errbuf, errbufsz, "Bad destination URL syntax.");
+			gfal_errmsg(errbuf, errbufsz, "Bad URL syntax.");
 			errno = EINVAL;
 			return (-1);
 		}
@@ -1439,7 +1444,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 			*pfn = p + 1;
 		} else {
 			if (strlen (p) > pathbufsz) {
-				gfal_errmsg(errbuf, errbufsz, "Destination URL too long.");
+				gfal_errmsg(errbuf, errbufsz, "URL too long.");
 				errno = ENAMETOOLONG;
 				return (-1);
 			}
