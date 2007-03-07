@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.25 $ $Date: 2007/02/19 16:18:40 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.26 $ $Date: 2007/03/07 11:19:20 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -362,7 +362,8 @@ srm_turlsfromsurlse (int nbfiles, const char **surls, const char *srm_endpoint, 
         soap.recv_timeout = timeout ;
 
 
-	while (*protocols[nbproto]) nbproto++;
+	while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+	if (!protocols[nbproto]) protocols[nbproto] = "";
 
 	/* issue "get" or the "put" request */
 
