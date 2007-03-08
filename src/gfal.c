@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.40 $ $Date: 2007/03/02 08:31:20 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.41 $ $Date: 2007/03/08 16:16:16 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1848,7 +1848,7 @@ turlfromsurlx (const char *surl, GFAL_LONG64 filesize, char **protocols, int ofl
 {
 	GFAL_LONG64 zero = 0;
 
-	return (turlfromsurl2 (surl, zero, NULL, protocols, oflag, reqid, fileid, 
+	return (turlfromsurl2 (surl, filesize, NULL, protocols, oflag, reqid, fileid, 
 		token, errbuf, errbufsz, timeout));
 }
 
