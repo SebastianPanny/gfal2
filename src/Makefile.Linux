@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.39 $ $Date: 2007/02/07 17:45:47 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.40 $ $Date: 2007/03/12 08:54:05 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -56,6 +56,18 @@ ifeq ($(CGSI_GSOAP_VERSION), $(EMPTY))
 CGSI_GSOAP_VERSION=gsoap_2.6
 endif
 
+ifeq ($(SWIG_LOCATION), $(EMPTY))
+SWIG_LOCATION=/usr
+endif
+SWIG_LIB=$(shell dirname $(SWIG_LOCATION)/lib/swig*/perl5/perl5.swg)/..
+SWIG = SWIG_LIB=$(SWIG_LIB) $(SWIG_LOCATION)/bin/swig
+
+ifeq ($(PYTHON_VERSION), $(EMPTY))
+PYTHON_VERSION=$(shell python -c "import sys; print sys.version[:3]")
+PYTHON_PREFIX=$(shell python -c "import os; import sys; print os.path.normpath(sys.prefix)")
+PYTHON_INC=$(shell python -c "from distutils import sysconfig; print sysconfig.get_python_inc(0,prefix='${PYTHON_PREFIX}')")
+PYTHON_LIB=$(shell python -c "from distutils import sysconfig; print sysconfig.get_python_lib(0,1,prefix='${PYTHON_PREFIX}')")
+endif
 
 ifeq ($(VERSION), $(EMPTY))
 include VERSION
@@ -106,12 +118,14 @@ distdir = $(PACKAGE)-$(VERSION)
 CC = cc -g -fPIC -D_LARGEFILE64_SOURCE -I$(SRCDIR) -I. $(CGSI_GSOAP_INC)
 SHLIBLDFLAGS = -shared
 
+INCLUDE_PYTHON=-I$(PYTHON_INC) -I$(PYTHON_LIB)
+
 GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm2_2_ifce.o srm_ifce.o srmC.o srmClient.o lfc_ifce.o
 GFAL_TESTSRC = gfal_testchmod.c gfal_testget.c gfal_teststat.c gfal_testcreatdir.c gfal_testread.c gfal_testunlink.c gfal_testdir.c gfal_testrw.c
 GFAL_TESTBIN = $(GFAL_TESTSRC:.c=)
 GFAL_INSTALL_TESTBIN = $(patsubst %,$(prefix)/bin/%, $(GFAL_TESTBIN))
 
-all: libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN)
+all: libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal.so gfal.py
 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
@@ -182,13 +196,21 @@ CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
 $(GFAL_TESTBIN):%: %.c gfal_api.h libgfal.so
 	$(CC) -o $@ $(CLI_LIBS) $<
 
+_gfal.so gfal.py : gfal.i
+	$(SWIG) -python -o gfal_wrap.c $<
+	$(CC)  -D bool=char -D_GNU_SOURCE -c $(INCLUDE_PYTHON) gfal_wrap.c
+	$(LD) $(SHLIBLDFLAGS) -o _gfal.so gfal_wrap.o $(CLI_LIBS) -luuid
+
 install: $(prefix)/bin \
 	 $(GFAL_INSTALL_TESTBIN) \
 	 $(prefix)/include $(prefix)/include/gfal_api.h \
 	 $(prefix)/include/gfal_constants.h \
 	 $(prefix)/lib \
 	 $(prefix)/lib/libgfal.a $(prefix)/lib/libgfal.so \
-	 $(prefix)/lib/libgfal_pthr.so
+	 $(prefix)/lib/libgfal_pthr.so \
+	 $(prefix)/lib/python \
+	 $(prefix)/lib/python/_gfal.so \
+	 $(prefix)/lib/python/gfal.py \
 
 $(prefix)/bin:
 	mkdir -p $@
@@ -218,6 +240,14 @@ $(prefix)/lib/libgfal.so: libgfal.so
 	cp -p $? $@
 $(prefix)/lib/libgfal_pthr.so: libgfal_pthr.so
 	-mv -f $@ $(prefix)/lib/OLD$?
+	cp -p $? $@
+$(prefix)/lib/python:
+	mkdir -p $@
+$(prefix)/lib/python/_gfal.so: _gfal.so
+	-mv $@ $(prefix)/lib/python/OLD$?
+	cp -p $? $@
+$(prefix)/lib/python/gfal.py: gfal.py
+	-mv $@ $(prefix)/lib/python/OLD$?
 	cp -p $? $@
 
 install.man: $(prefix)/man/man3 \
