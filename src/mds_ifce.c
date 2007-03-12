@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.35 $ $Date: 2007/02/21 15:05:33 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.36 $ $Date: 2007/03/12 10:34:51 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -289,8 +289,8 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	}
 	timeout.tv_sec = 60;
 	timeout.tv_usec = 0;
-	if (ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
-	    &timeout, &reply) != LDAP_SUCCESS) {
+	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
+	    &timeout, &reply)) != LDAP_SUCCESS) {
 		ldap_unbind (ld);
 		if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
   		        snprintf(error_str, ERROR_STR_LEN, "BDII Connection Timeout: %s:%d", bdii_server, bdii_port);
