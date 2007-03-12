@@ -8,7 +8,7 @@
 
     Authors: 
          Akos Frohner <Akos.Frohner@cern.ch>
-	Version info: $Id: build.xml,v 1.5 2006/05/31 22:25:29 szamsu Exp $
+	Version info: $Id: build.xml,v 1.6 2007/03/12 10:18:46 szamsu Exp $
 -->
 
 <project name="gfal" default="dist">
@@ -97,6 +97,7 @@ DPM_LOCATION=${stage.abs.dir}
 DCAP_LOCATION=${with.dcap.prefix}
 CGSI_GSOAP_LOCATION=${stage.abs.dir}
 CGSI_GSOAP_VERSION=gsoap_${ext.gsoap.version.simple}
+SWIG_LOCATION=${with.swig.prefix}
         </echo>
         <!-- debugging aid -->
         <echo  file="${module.build.dir}/mymake">
