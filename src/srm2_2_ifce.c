@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.9 $ $Date: 2007/03/01 16:10:08 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.10 $ $Date: 2007/03/22 15:41:09 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1323,7 +1323,7 @@ retry:
                 if (reqstatp->statusCode != SRM_USCORESUCCESS &&
                     reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-                        errno = statuscode2errno(repfs->statusArray[0]->status->statusCode);
+                        errno = statuscode2errno(reqstatp->statusCode);
                         if (reqstatp->explanation) {
                                 gfal_errmsg(errbuf, errbufsz, reqstatp->explanation);
                         }
@@ -1615,7 +1615,7 @@ retry:
 		goto retry;
 	} 
 	if (reqstatp->statusCode == SRM_USCORESPACE_USCORELIFETIME_USCOREEXPIRED) {
-               	errno = statuscode2errno(repfs->statusArray[0]->status->statusCode);
+               	errno = statuscode2errno(reqstatp->statusCode);
 		gfal_errmsg(errbuf, errbufsz, "Space lifetime expired");
                 soap_end (&soap);
                 soap_done (&soap);
@@ -1626,7 +1626,7 @@ retry:
                 if (reqstatp->statusCode != SRM_USCORESUCCESS &&
                     reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-               		errno = statuscode2errno(repfs->statusArray[0]->status->statusCode);
+               		errno = statuscode2errno(reqstatp->statusCode);
 			if (reqstatp->explanation) {
 				gfal_errmsg(errbuf, errbufsz, reqstatp->explanation);
 			}
