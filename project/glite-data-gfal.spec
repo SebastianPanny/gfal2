@@ -31,6 +31,5 @@ dcap...
 %{prefix}/bin/gfal_test*
 %{prefix}/include/gfal*.h
 %{prefix}/lib/libgfal*
-%{prefix}/lib/python/gfal.py
-%{prefix}/lib/python/_gfal.so
+%{prefix}/lib/python/*
 %doc %{prefix}/man/man3/gfal*.3
