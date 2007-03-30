@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.36 $ $Date: 2007/03/12 10:34:51 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.37 $ $Date: 2007/03/30 09:51:06 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -158,7 +158,7 @@ get_rls_endpointsx (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int 
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO not set");
+		gfal_errmsg (errbuf, errbufsz, "No VO specified, LCG_GFAL_VO not set");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -267,7 +267,7 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	if (get_bdii (bdii_server, sizeof(bdii_server), &bdii_port, errbuf, errbufsz) < 0)
 		return (-1);
 	if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO not set");
+		gfal_errmsg (errbuf, errbufsz, "No VO specified, LCG_GFAL_VO not set");
 		errno = EINVAL;
 		return (-1);
 	}

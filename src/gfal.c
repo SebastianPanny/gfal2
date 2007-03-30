@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.41 $ $Date: 2007/03/08 16:16:16 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.42 $ $Date: 2007/03/30 09:51:06 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2295,16 +2295,11 @@ get_default_se(char *vo, char *errbuf, int errbufsz)
 	char *default_se;
 	int i;
 	char se_env[64];
-	char *vo_env;
 	char error_str[128];
 
 	if(vo == NULL) {
-		if ((vo_env = getenv ("LCG_GFAL_VO")) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_VO not set");
-			errno = EINVAL;
+		if ((vo = getenv ("LCG_GFAL_VO")) == NULL)
 			return (NULL);
-		}
-		vo = vo_env;
 	}
 	if(strlen(vo) + 15 >= 64) {
 		errno = ENAMETOOLONG;

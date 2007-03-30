@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.36 $ $Date: 2007/03/02 09:27:47 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.37 $ $Date: 2007/03/30 09:51:06 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -404,9 +404,6 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
   char **cp;
   char *result;
   
-  if(lfc_init(errbuf, errbufsz) < 0)
-   return (NULL);
-
   if((surls = lfc_surlsfromguid(guid, errbuf, errbufsz)) == NULL) {
     return (NULL);
   } else if (*surls == NULL) {
@@ -433,9 +430,6 @@ lfc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
     return (-1);
   
   if(fcops.delreplica(guid, NULL, pfn) < 0) {
-    if(*fcops.serrno == ENOENT) {
-      return (0);
-    }
     if(*fcops.serrno < 1000) 
       errno = *fcops.serrno;
     else {
