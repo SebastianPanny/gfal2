@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.37 $ $Date: 2007/03/30 09:51:06 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.38 $ $Date: 2007/04/03 07:56:13 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -403,6 +403,7 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
   char **surls;
   char **cp;
   char *result;
+  int size = 0;
   
   if((surls = lfc_surlsfromguid(guid, errbuf, errbufsz)) == NULL) {
     return (NULL);
@@ -410,7 +411,9 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
     errno = ENOENT;
     return (NULL);
   }
-  result = getbestfile(surls, (sizeof(surls)/sizeof(char*)), errbuf, errbufsz);
+
+  while (surls[size] != NULL) ++size;
+  result = getbestfile(surls, size, errbuf, errbufsz);
 
   for(cp = surls; *cp != NULL; ++cp) {
     if(*cp != result) {
