@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+# Copyright (c) Members of the EGEE Collaboration. 2006.
+# See http://public.eu-egee.org/partners/ for details on
+# the copyright holders.
+# For license conditions see the license file or
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Authors:
+#      Akos Frohner <Akos.Frohner@cern.ch>
+#
+# Poor man's adapter to work around ETICS newline and backslash handling problems.
+
+mkdir -p build
+
+echo >build/Makefile <<EOF
+SRCDIR=${SRCDIR}
+VERSION=${VERSION}
+
+GSOAP_LOCATION=${GSOAP_LOCATION}
+GLOBUS_LOCATION=${GLOBUS_LOCATION}
+GLOBUS_FLAVOUR=${GLOBUS_FLAVOUR}
+GLOBUS_FLAVOUR_PTHR=${GLOBUS_FLAVOUR_PTHR}
+LFC_LOCATION=${LFC_LOCATION}
+DPM_LOCATION=${DPM_LOCATION}
+DCAP_LOCATION=${DCAP_LOCATION}
+CGSI_GSOAP_LOCATION=${CGSI_GSOAP_LOCATION}
+CGSI_GSOAP_VERSION=${CGSI_GSOAP_VERSION}
+SWIG_LOCATION=${SWIG_LOCATION}
+
+include \$(SRCDIR)/Makefile.Linux
+EOF
+
