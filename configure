@@ -95,7 +95,8 @@ while true; do
     esac
 done
 
-CGSI_GSOAP_VERSION="gsoap_"$(echo ${GSOAP_VERSION} | cut -d . -f1,2)
+
+GSOAP_MAJOR_MINOR_VERSION=$(echo ${GSOAP_VERSION} | cut -d . -f1,2)
 
 cat >Makefile <<EOF
 SRCDIR=${basedir}/src
@@ -109,7 +110,7 @@ LFC_LOCATION=${LFC_LOCATION}
 DPM_LOCATION=${DPM_LOCATION}
 DCAP_LOCATION=${DCAP_LOCATION}
 CGSI_GSOAP_LOCATION=${CGSI_GSOAP_LOCATION}
-CGSI_GSOAP_VERSION=${CGSI_GSOAP_VERSION}
+CGSI_GSOAP_VERSION=gsoap_${GSOAP_MAJOR_MINOR_VERSION}
 SWIG_LOCATION=${SWIG_LOCATION}
 
 include \$(SRCDIR)/Makefile.Linux
@@ -117,8 +118,8 @@ EOF
 
 sed -e "s/@MODULE.VERSION@/${VERSION}/g" \
     -e "s/@MODULE.BUILD@/${RELEASE}/g" \
-    -e "s/@GSOAP.VERSION@/${GSOAP_VERSION}/g" \
+    -e "s/@GSOAP.VERSION@/${GSOAP_MAJOR_MINOR_VERSION}/g" \
     -e "s/@GLOBUS.DBG.NOTHR.FLAVOUR/${GLOBUS_FLAVOUR}/g" \
     -e "s/@GLOBUS.DBG.THR.FLAVOUR@/${GLOBUS_FLAVOUR_PTHR}/g" \
-    ${basedir}/project/glite-data-gfal.spec >glite-data-gfal.spec
+    ${basedir}/project/glite-data-gfal.spec.template >glite-data-gfal.spec
 
