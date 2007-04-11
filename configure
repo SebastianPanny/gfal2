@@ -1,0 +1,124 @@
+#!/bin/bash
+#
+# Copyright (c) Members of the EGEE Collaboration. 2006-2007.
+# See http://public.eu-egee.org/partners/ for details on
+# the copyright holders.
+# For license conditions see the license file or
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Authors:
+#      Akos Frohner <Akos.Frohner@cern.ch>
+#
+# Poor man's adapter to work around ETICS newline and backslash handling problems.
+
+basedir=$(cd $(dirname $0); echo $PWD)
+
+USAGE="configure --with-version=...  --with-release=... --with-globus-prefix=...  --with-globus-thr-flavor=...  --with-globus-nothr-flavor=...  --with-gsoap-location=...  --with-gsoap-version=...  --with-cgsi-gsoap-location=...  --with-swig-location=...  --with-lfc-location=...  --with-dpm-location=...  --with-dcap-location=...  "
+
+TEMP=$(getopt -o h --long help,with-version:,with-release:,with-globus-prefix:,with-globus-thr-flavor:,with-globus-nothr-flavor:,with-gsoap-location:,with-gsoap-version:,with-cgsi-gsoap-location:,with-swig-location:,with-lfc-location:,with-dpm-location:,with-dcap-location: -- "$@")
+eval set -- "$TEMP"
+
+while true; do
+    case "$1" in
+        -h|--help)
+            echo $USAGE
+            exit
+            ;;
+        --with-version)
+            shift
+            VERSION="$1"
+            shift
+            ;;  
+        --with-release)
+            shift
+            RELEASE="$1"
+            shift
+            ;;  
+        --with-globus-prefix)
+            shift
+            GLOBUS_LOCATION="$1"
+            shift
+            ;;  
+        --with-globus-thr-flavor)
+            shift
+            GLOBUS_FLAVOUR_PTHR="$1"
+            shift
+            ;;  
+        --with-globus-nothr-flavor)
+            shift
+            GLOBUS_FLAVOUR="$1"
+            shift
+            ;; 
+        --with-gsoap-location)
+            shift
+            GSOAP_LOCATION="$1"
+            shift
+            ;;
+        --with-gsoap-version)
+            shift
+            GSOAP_VERSION="$1"
+            shift
+            ;;  
+        --with-cgsi-gsoap-location)
+            shift
+            CGSI_GSOAP_LOCATION="$1"
+            shift
+            ;;  
+        --with-swig-location)
+            shift
+            SWIG_LOCATION="$1"
+            shift
+            ;;  
+        --with-lfc-location)
+            shift
+            LFC_LOCATION="$1"
+            shift
+            ;;  
+        --with-dpm-location)
+            shift
+            DPM_LOCATION="$1"
+            shift
+            ;;  
+        --with-dcap-location)
+            shift
+            DCAP_LOCATION="$1"
+            shift
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "Unknown option '$1'"
+            exit 2
+            ;;
+    esac
+done
+
+CGSI_GSOAP_VERSION="gsoap_"$(echo ${GSOAP_VERSION} | cut -d . -f1,2)
+
+cat >Makefile <<EOF
+SRCDIR=${basedir}/src
+VERSION=${VERSION}
+
+GSOAP_LOCATION=${GSOAP_LOCATION}
+GLOBUS_LOCATION=${GLOBUS_LOCATION}
+GLOBUS_FLAVOUR=${GLOBUS_FLAVOUR}
+GLOBUS_FLAVOUR_PTHR=${GLOBUS_FLAVOUR_PTHR}
+LFC_LOCATION=${LFC_LOCATION}
+DPM_LOCATION=${DPM_LOCATION}
+DCAP_LOCATION=${DCAP_LOCATION}
+CGSI_GSOAP_LOCATION=${CGSI_GSOAP_LOCATION}
+CGSI_GSOAP_VERSION=${CGSI_GSOAP_VERSION}
+SWIG_LOCATION=${SWIG_LOCATION}
+
+include \$(SRCDIR)/Makefile.Linux
+EOF
+
+sed -e "s/@MODULE.VERSION@/${VERSION}/g" \
+    -e "s/@MODULE.BUILD@/${RELEASE}/g" \
+    -e "s/@GSOAP.VERSION@/${GSOAP_VERSION}/g" \
+    -e "s/@GLOBUS.DBG.NOTHR.FLAVOUR/${GLOBUS_FLAVOUR}/g" \
+    -e "s/@GLOBUS.DBG.THR.FLAVOUR@/${GLOBUS_FLAVOUR_PTHR}/g" \
+    ${basedir}/project/glite-data-gfal.spec >glite-data-gfal.spec
+
