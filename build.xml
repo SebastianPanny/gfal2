@@ -8,7 +8,7 @@
 
     Authors: 
          Akos Frohner <Akos.Frohner@cern.ch>
-	Version info: $Id: build.xml,v 1.6 2007/03/12 10:18:46 szamsu Exp $
+	Version info: $Id: build.xml,v 1.7 2007/04/11 08:22:58 szamsu Exp $
 -->
 
 <project name="gfal" default="dist">
@@ -76,7 +76,6 @@
 	
 	<target name="localinit"
 		description="Module specific initialization tasks">
-        <copy file="${module.src.dir}/Makefile.${os.name}" tofile="${module.build.dir}/Makefile"/>
         
         <!-- this rule does not work in configure.xml -->
         <propertyregex property="ext.gsoap.version.simple" input="${ext.gsoap.version}"
@@ -84,7 +83,7 @@
 
         <!-- Configure include directories -->
         <echo>Configuring makefile</echo>
-        <echo file="${module.build.dir}/Makefile.inc">
+        <echo file="${module.build.dir}/Makefile">
 SRCDIR=${module.src.dir}
 VERSION=${module.version}
 
@@ -98,13 +97,9 @@ DCAP_LOCATION=${with.dcap.prefix}
 CGSI_GSOAP_LOCATION=${stage.abs.dir}
 CGSI_GSOAP_VERSION=gsoap_${ext.gsoap.version.simple}
 SWIG_LOCATION=${with.swig.prefix}
+
+include ${module.src.dir}/Makefile.${os.name}
         </echo>
-        <!-- debugging aid -->
-        <echo  file="${module.build.dir}/mymake">
-            cp -u ${module.src.dir}/Makefile.${os.name} ${module.build.dir}/Makefile
-            make $*
-        </echo>
-        <chmod file="${module.build.dir}/mymake" perm="ugo+rx"/>
 	</target>
 	
 	<target name="localcompile" depends="localinit"
