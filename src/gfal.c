@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.42 $ $Date: 2007/03/30 09:51:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.43 $ $Date: 2007/04/17 13:51:19 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -525,10 +525,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		newfile = 1;
 
 		/* we get the VO name from the corresponding environment variable */
-		if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
-			errno = EINVAL;
-			goto err;
-		}
+		vo = getenv ("LCG_GFAL_VO");
 	}
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
@@ -587,6 +584,13 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		fn = (char *)filename;
 
 	if (newfile && !fn) {
+		/* we need a vo name to generate a valid SURL */
+		if (vo == NULL) {
+			gfal_errmsg(errbuf, sizeof(errbuf), "No VO specified, LCG_GFAL_VO not set");
+			errno = EINVAL;
+			goto err;
+		}
+
 		/* We get the default se (for the VO), its type and its info */
 		if ((default_se = get_default_se(vo, errbuf, sizeof(errbuf))) == NULL)
 			goto err;
@@ -1393,7 +1397,7 @@ parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn,
 parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int pathbufsz, char **pfn, char* errbuf, int errbufsz)
 {
 	int len;
-	char *p;
+	char *p,*p2;
 
 	/* get protocol */
 
@@ -1423,7 +1427,6 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 			strcpy (pathbuf, turl);
 		else {
 			++p;
-			//while (*(p + 1) == '/') ++p;
 			if (*(p + 1) == '/' && (*(p + 2) != '/' || *(p + 3) == '/')) {
 				gfal_errmsg(errbuf, errbufsz, "Bad URL syntax.");
 				errno = EINVAL;
@@ -1448,9 +1451,22 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 				errno = ENAMETOOLONG;
 				return (-1);
 			}
+
 			strcpy (pathbuf, p);
-			if (p = strstr (pathbuf, "//"))
+
+			if ((p = strstr (pathbuf, "/?"))) {
+				/* Castor2-like RFIO TURL */
+				if ((p2 = strstr (p + 2, "//")) == NULL) {
+					gfal_errmsg(errbuf, errbufsz, "Bad URL syntax.");
+					errno = EINVAL;
+					return (-1);
+				}
+				*(p++) = ':';
+				++p2;
+				memmove (p, p2, strlen (p2) + 1);
+			} else if ((p = strstr (pathbuf, "//")))
 				*p = ':';
+
 			*pfn = pathbuf;
 		}
 	} else 
