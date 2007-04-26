@@ -1,4 +1,4 @@
-%module gfal
+%module gfal_python
 
 %{
 #include "gfal_api.h"

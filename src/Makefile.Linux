@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.41 $ $Date: 2007/03/22 16:32:01 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.42 $ $Date: 2007/04/26 10:10:11 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -125,7 +125,7 @@ GFAL_TESTSRC = gfal_testchmod.c gfal_testget.c gfal_teststat.c gfal_testcreatdir
 GFAL_TESTBIN = $(GFAL_TESTSRC:.c=)
 GFAL_INSTALL_TESTBIN = $(patsubst %,$(prefix)/bin/%, $(GFAL_TESTBIN))
 
-all: libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal_python.so gfal.py
+all: libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal_python.so gfal_python.py
 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
@@ -196,7 +196,7 @@ CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
 $(GFAL_TESTBIN):%: %.c gfal_api.h libgfal.so
 	$(CC) -o $@ $(CLI_LIBS) $<
 
-_gfal_python.so gfal.py : gfal.python.i lcg-typemaps.python.i
+_gfal_python.so gfal_python.py : gfal.python.i lcg-typemaps.python.i
 	$(SWIG) -python -o gfal_python_wrap.c $<
 	$(CC)  -D bool=char -D_GNU_SOURCE -c $(INCLUDE_PYTHON) gfal_python_wrap.c
 	$(LD) $(SHLIBLDFLAGS) -o _gfal_python.so gfal_python_wrap.o $(CLI_LIBS) -luuid
@@ -210,7 +210,7 @@ install: $(prefix)/bin \
 	 $(prefix)/lib/libgfal_pthr.so \
 	 $(prefix)/lib/python \
 	 $(prefix)/lib/python/_gfal_python.so \
-	 $(prefix)/lib/python/gfal.py \
+	 $(prefix)/lib/python/gfal_python.py \
 
 $(prefix)/bin:
 	mkdir -p $@
@@ -246,7 +246,7 @@ $(prefix)/lib/python:
 $(prefix)/lib/python/_gfal_python.so: _gfal_python.so
 	-mv $@ $(prefix)/lib/python/OLD$?
 	cp -p $? $@
-$(prefix)/lib/python/gfal.py: gfal.py
+$(prefix)/lib/python/gfal_python.py: gfal_python.py
 	-mv $@ $(prefix)/lib/python/OLD$?
 	cp -p $? $@
 
@@ -331,7 +331,7 @@ clean:
 	rm -rf tmp SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Object.h *Proxy.h *Stub.h *C.c *Client.c *Lib.c *Server.c *.nsmap *.xml $(distdir) edg-local-replica-catalog.h edg-replica-metadata-catalog.h edg-se-webservice.h srm.v1.1.h srm.v2.2.h gfal_python_wrap.c
 
 clobber: clean
-	rm -f libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal_python.so gfal.py
+	rm -f libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal_python.so gfal_python.py
 
 # gLite compatibility rules
 
