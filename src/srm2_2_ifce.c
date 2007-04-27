@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.10 $ $Date: 2007/03/22 15:41:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.11 $ $Date: 2007/04/27 13:17:12 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -143,7 +143,6 @@ srmv2_get (int nbfiles, char **surls, char *spacetokendesc, int nbprotocols, cha
 {
 	int flags;
 	struct srmv2_filestatus *fs;
-	int i = 0;
 	int n;
 	int rc;
 	int ret;
@@ -154,10 +153,10 @@ srmv2_get (int nbfiles, char **surls, char *spacetokendesc, int nbprotocols, cha
 	struct ns1__TReturnStatus *reqstatp;
 	struct soap soap;
 	static enum ns1__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
+	int i = 0;
 	char **se_types;
 	char **se_endpoints;
-	char *srm_endpoint;
-	int srm_v2;
+	char *srm_endpoint = NULL;
 	char *targetspacetoken;
 	
 retry:
@@ -174,18 +173,19 @@ retry:
 		return (-1);
 
 	while (se_types[i]) {
-		if ((strcmp (se_types[i], "srm_v2")) == 0) {
-			srm_v2 = 1;
+		if ((strcmp (se_types[i], "srm_v2")) == 0)
 			srm_endpoint = se_endpoints[i];
-		}
 		i++;
 	}
 
 	free (se_types);
 	free (se_endpoints);
 
-	if (! srm_v2) {
-		gfal_errmsg (errbuf, errbufsz, "Storage Element doesn't publish SRM v2.2");
+	if (! srm_endpoint) {
+		char error_str[255];
+		snprintf (error_str, 255, "No matching SRMv2.2-compliant SE with '%s'", surls[0]);
+		gfal_errmsg (errbuf, errbufsz, error_str);
+		errno = EINVAL;
 		return (-1);
 	}
 
@@ -1843,6 +1843,130 @@ srmv2_getfilemd (const char *surl, const char *srm_endpoint, struct stat64 *stat
 	soap_end (&soap);
 	soap_done (&soap);
 	return (0);
+}
+
+srmv2_pin (int nbfiles, char **surls, char *reqtoken, int pintime,
+	   struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
+	struct srmv2_filestatus *fs;
+	int n;
+	int rc;
+	int ret;
+	struct ns1__ArrayOfTSURLLifetimeReturnStatus *repfs;
+	struct ns1__srmExtendFileLifeTimeResponse_ rep;
+	struct ns1__srmExtendFileLifeTimeRequest req;
+	struct ns1__TReturnStatus *reqstatp;
+	struct soap soap;
+	int i = 0;
+	char **se_types;
+	char **se_endpoints;
+	char *srm_endpoint = NULL;
+	char *targetspacetoken;
+	
+retry:
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_srmv2;
+
+#ifdef GFAL_SECURE
+	flags = CGSI_OPT_DISABLE_NAME_CHECK;
+	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
+	if (setypesandendpointsfromsurl (surls[0], &se_types, &se_endpoints, errbuf, errbufsz) < 0)
+		return (-1);
+
+	while (se_types[i]) {
+		if ((strcmp (se_types[i], "srm_v2")) == 0)
+			srm_endpoint = se_endpoints[i];
+		i++;
+	}
+
+	free (se_types);
+	free (se_endpoints);
+
+	if (! srm_endpoint) {
+		char error_str[255];
+		snprintf (error_str, 255, "No matching SRMv2.2-compliant SE with '%s'", surls[0]);
+		gfal_errmsg (errbuf, errbufsz, error_str);
+		errno = EINVAL;
+		return (-1);
+	}
+
+	soap.send_timeout = timeout;
+	soap.recv_timeout = timeout;
+
+	/* issue "extendfilelifetime" request */
+
+	memset (&req, 0, sizeof(req));
+
+	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL ||
+	    (req.arrayOfSURLs->urlArray = soap_malloc (&soap, nbfiles * sizeof(char *))) == NULL) {
+
+		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
+		errno = ENOMEM;
+		soap_end (&soap);
+		soap_done (&soap);
+		return (-1);
+	}
+
+	req.authorizationID = NULL;
+	req.requestToken = reqtoken;
+	req.newFileLifeTime = NULL;
+	req.newPinLifeTime = &pintime;
+
+	for (i = 0; i < nbfiles; i++) 
+		req.arrayOfSURLs->urlArray[i] = surls[i];
+
+	req.arrayOfSURLs->__sizeurlArray = nbfiles;
+
+	if (ret = soap_call_ns1__srmExtendFileLifeTime (&soap, srm_endpoint, "ExtendFileLifeTime", &req, &rep)) {
+		if (soap.error == SOAP_EOF) {
+			gfal_errmsg(errbuf, errbufsz, "Connection fails or timeout");
+			soap_end (&soap);
+			soap_done (&soap);
+			return (-1);
+		}
+		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT)
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+		soap_end (&soap);
+		soap_done (&soap);
+		return (-1);
+	}
+
+	/* return file statuses */
+	reqstatp = rep.srmExtendFileLifeTimeResponse->returnStatus;
+	repfs = rep.srmExtendFileLifeTimeResponse->arrayOfFileStatuses;
+
+	if (! repfs) {
+		filestatuses = NULL;
+		soap_end (&soap);
+		soap_done (&soap);
+		return (-1);
+	}
+
+	n = repfs->__sizestatusArray;
+
+	if ((*filestatuses = malloc (n * sizeof(struct srmv2_filestatus))) == NULL) {
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ENOMEM;
+		return (-1);
+	}
+
+	fs = *filestatuses;
+
+	for (i = 0; i < n; i++) {
+		bzero (fs, sizeof (struct srmv2_filestatus));
+		fs->surl = strdup ((repfs->statusArray[i])->surl);
+		fs->status = filestatus2returncode ((repfs->statusArray[i])->status->statusCode);
+		fs++;
+	}
+
+	soap_end (&soap);
+	soap_done (&soap);
+	return (n);	
 }
 
 statuscode2errno (int statuscode)

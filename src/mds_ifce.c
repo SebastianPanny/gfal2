@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.37 $ $Date: 2007/03/30 09:51:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.38 $ $Date: 2007/04/27 13:17:12 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -523,7 +523,7 @@ get_se_endpointx (const char *host, char **se_endpoint, char *errbuf, int errbuf
 get_se_endpointxv (const char *host, char **se_endpoint, const char *srm_version, char *errbuf, int errbufsz)
 {
 	static char se_ep_atnm[] = "GlueServiceURI";
-	static char *template = "(&(GlueServiceURI=*%s*)(GlueServiceType=srm_v1))";
+	static char *template = "(&(GlueServiceURI=*%s*)(GlueServiceType=srm*))";
 	static char *template1 = "(&(GlueServiceURI=*%s*)(GlueServiceType=srm)(GlueServiceVersion=%s))";
 	char *attr;
 	static char *attrs[] = {se_ep_atnm, NULL};
@@ -821,7 +821,7 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	static char version[] = "GlueServiceVersion";
 	static char type[] = "GlueServiceType";
 	static char uri[] = "GlueServiceURI";
-	static char *template = "(&(GlueServiceType=*)(GlueServiceURI=*://%s*))";
+	static char *template = "(&(GlueServiceType=srm*)(GlueServiceURI=*://%s*))";
 	char *attr;
 	static char *attrs[] = {type, version, uri, NULL};
 	int bdii_port;

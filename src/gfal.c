@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.43 $ $Date: 2007/04/17 13:51:19 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.44 $ $Date: 2007/04/27 13:17:12 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1295,102 +1295,86 @@ mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 	return (0);
 }
 
-#define SRM_EP_PATH "/srm/managerv1"
-#define SRM_PORT 8443
 parsesurl (const char *surl, char *endpoint, int srm_endpointsz, char **sfn,
 	char *errbuf, int errbufsz)
 {
+	int i = 0;
+	char **se_endpoints;
+	char **se_types;
+	char *srm_endpoint = NULL;
+	char *srmv1_endpoint = NULL;
+	char *srmv2_endpoint = NULL;
+	int edgse = 0;
+	int srm_v1 = 0;
+	int srm_v2 = 0;
 	int len;
-	int len1;
-	int lenp;
 	char *p;
-	char *p1, *p2;
-	char *se_endpoint;
-	int se_port;
+	char endpoint_tmp[256];
 
-	if (strncmp (surl, "srm://", 6)) {
-		gfal_errmsg(errbuf, errbufsz, "Source URL doesn't start with \"srm://\".");
+	if (strncmp (surl, "srm://", 6) && strncmp (surl, "sfn://", 6)) {
+		gfal_errmsg(errbuf, errbufsz, "Source URL starts neither with \"srm://\" nor \"sfn://\".");
 		errno = EINVAL;
 		return (-1);
 	}
-	if (p = strstr (surl + 6, "?SFN=")) {
-		*sfn = p + 5;
-		for (p1 = (char *)surl + 6; p1 < p; p1++)
-			if (*p1 == '/') break;
-	} else if (p = strchr (surl + 6, '/')) {
+
+	p = strstr (surl + 6, "?SFN=");
+	if (p == NULL) {
+		p = strchr (surl + 6, '/');
+		if (p == NULL) {
+			gfal_errmsg(errbuf, errbufsz, "Bad Source URL syntax.");
+			errno = EINVAL;
+			return (-1);
+		}
 		*sfn = p;
-		p1 = p;
-	} else {
-		gfal_errmsg(errbuf, errbufsz, "Bad Source URL syntax.");
-		errno = EINVAL;
-		return (-1);
-	}
-#ifdef GFAL_SECURE
-	strcpy (endpoint, "https://");
-	lenp = 8;
-#else
-	strcpy (endpoint, "http://");
-	lenp = 7;
-#endif
-	/* copy hostname */
+	} else	*sfn = p + 5;
 
-	len = p1 - surl - 6;
-	if (lenp + len >= srm_endpointsz) {
+	if ((len = p - surl - 6) >= sizeof (endpoint_tmp)) {
 		gfal_errmsg(errbuf, errbufsz, "Source URL too long.");
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
-	strncpy (endpoint + lenp, surl + 6, len);
-	*(endpoint + lenp + len) = '\0';
+	strncpy (endpoint_tmp, surl + 6, len);
+	endpoint_tmp[len] = 0;
 
-	if (p1 == p) {	/* no user specified endpoint */
+	if (setypesandendpoints (endpoint_tmp, &se_types, &se_endpoints, errbuf, errbufsz) < 0)
+		return (-1);
 
-		/* try to get endpoint from Information Service */
+	while (se_types[i]) {
+		if ((strcmp (se_types[i], "edg-se")) == 0) {
+			edgse = 1;
+			srm_endpoint = srm_endpoint == NULL ? strdup (se_endpoints[i]) : srm_endpoint;
+		} else if ((strcmp (se_types[i], "srm_v1")) == 0) {
+			srm_v1 = 1;
+			srmv1_endpoint = srmv1_endpoint == NULL ? strdup (se_endpoints[i]) : srmv1_endpoint;
+		} else if ((strcmp (se_types[i], "srm_v2")) == 0) {
+			srm_v2 = 1;
+			srmv2_endpoint = srmv2_endpoint == NULL ? strdup (se_endpoints[i]) : srmv2_endpoint;
+		}
+		free (se_types[i]);
+		free (se_endpoints[i]);
+		i++;
+	}
+	free (se_types);
+	free (se_endpoints);
 
-		if ((p2 = strchr (endpoint + lenp, ':')))
-			*p2 = '\0';
-		if (get_se_endpoint (endpoint + lenp, &se_endpoint) == 0) {
-			strcpy (endpoint, se_endpoint);
-			free (se_endpoint);
-			return (0);
-		} else
-			if (p2)
-				*p2 = ':';
+	if (srm_v1)
+		strncpy (endpoint, srmv1_endpoint, srm_endpointsz);
+	else if (srm_v2)
+		strncpy (endpoint, srmv2_endpoint, srm_endpointsz);
+	else if (edgse)
+		strncpy (endpoint, srm_endpoint, srm_endpointsz);
+	else {
+		char error_str[255];
+		snprintf (error_str, 255, "No SE (SRM) service matching SURL : %s", surl);
+		gfal_errmsg (errbuf, errbufsz, error_str);
+		errno = EINVAL;
+		return (-1);
 	}
 
-	/* set port number if not specified by user */
+	if (srm_endpoint) free (srm_endpoint);
+	if (srmv1_endpoint) free (srmv1_endpoint);
+	if (srmv2_endpoint) free (srmv2_endpoint);
 
-	if ((p2 = strchr (endpoint + lenp, ':')) == NULL) {	/* no port specified */
-		if (get_se_port (endpoint + lenp, &se_port) < 0)
-			se_port = SRM_PORT;
-		if (lenp + len + 6 >= srm_endpointsz) {
-			gfal_errmsg(errbuf, errbufsz, "Source URL too long");
-			errno = ENAMETOOLONG;
-			return (-1);
-		}
-		len1 = sprintf (endpoint + lenp + len, ":%d", se_port);
-	} else
-		len1 = 0;
-	len1 += lenp + len;
-
-	/* copy endpoint */
-
-	if (p1 != p) {	/* user specified endpoint */
-		if (len1 + (p - p1) >= srm_endpointsz) {
-			gfal_errmsg(errbuf, errbufsz, "Source URL too long.");
-			errno = ENAMETOOLONG;
-			return (-1);
-		}
-		strncpy (endpoint + len1, p1, p - p1);
-		*(endpoint + len1 + (p - p1)) = '\0';
-	} else {
-		if (len1 + strlen (SRM_EP_PATH) >= srm_endpointsz) {
-			gfal_errmsg(errbuf, errbufsz, "Source URL too long.");
-			errno = ENAMETOOLONG;
-			return (-1);
-		}
-		strcpy (endpoint + len1, SRM_EP_PATH);
-	}
 	return (0);
 }
 
@@ -1404,17 +1388,17 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 	if ((p = strstr (turl, ":/")) == NULL) {
 		/* to enable 'file' protocol by default
 		if (4 > (protocolsz - 1)) {
-			gfal_errmsg(errbuf, errbufsz, "URL too long.");
+			gfal_errmsg(errbuf, errbufsz, "TURL too long.");
 			errno = ENAMETOOLONG;
 			return (-1);
 		}
 		sprintf (protocol, "file");
 		*/
-		gfal_errmsg(errbuf, errbufsz, "Invalid URL.");
+		gfal_errmsg(errbuf, errbufsz, "Invalid TURL.");
 		errno = ENAMETOOLONG;
 		return (-1);
 	} else if ((len = p - turl) > (protocolsz - 1)) {
-		gfal_errmsg(errbuf, errbufsz, "URL too long.");
+		gfal_errmsg(errbuf, errbufsz, "TURL too long.");
 		errno = ENAMETOOLONG;
 		return (-1);
 	} else {
@@ -1428,7 +1412,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 		else {
 			++p;
 			if (*(p + 1) == '/' && (*(p + 2) != '/' || *(p + 3) == '/')) {
-				gfal_errmsg(errbuf, errbufsz, "Bad URL syntax.");
+				gfal_errmsg(errbuf, errbufsz, "Bad TURL syntax.");
 				errno = EINVAL;
 				return (-1);
 			}
@@ -1443,32 +1427,30 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 			return (-1);
 		}
 		p++;
-		if (*p == '/' && *(p + 1) == '/') {	/* no hostname */
+		if (*p == '/' && *(p + 1) == '/') {	// no hostname
 			*pfn = p + 1;
+		} else if ((p2 = strstr (turl, "?svcClass="))) {
+			// Castor2-like RFIO TURL
+			if (strlen (turl) > pathbufsz) {
+				gfal_errmsg(errbuf, errbufsz, "TURL too long.");
+				errno = ENAMETOOLONG;
+				return (-1);
+			}
+
+			strcpy (pathbuf, turl);
 		} else {
 			if (strlen (p) > pathbufsz) {
-				gfal_errmsg(errbuf, errbufsz, "URL too long.");
+				gfal_errmsg(errbuf, errbufsz, "TURL too long.");
 				errno = ENAMETOOLONG;
 				return (-1);
 			}
 
 			strcpy (pathbuf, p);
-
-			if ((p = strstr (pathbuf, "/?"))) {
-				/* Castor2-like RFIO TURL */
-				if ((p2 = strstr (p + 2, "//")) == NULL) {
-					gfal_errmsg(errbuf, errbufsz, "Bad URL syntax.");
-					errno = EINVAL;
-					return (-1);
-				}
-				*(p++) = ':';
-				++p2;
-				memmove (p, p2, strlen (p2) + 1);
-			} else if ((p = strstr (pathbuf, "//")))
+			if ((p = strstr (pathbuf, "//")))
 				*p = ':';
-
-			*pfn = pathbuf;
 		}
+
+		*pfn = pathbuf;
 	} else 
 		*pfn = (char *) turl;
 	return (0);

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.32 $ $Date: 2007/03/02 10:33:58 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.33 $ $Date: 2007/04/27 13:17:12 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -235,6 +235,7 @@ int srmv2_set_xfer_running (const char *, const char *, char *, char *, int, int
 char *srmv2_turlfromsurl (const char *, const char *, const char *, char **, int, char **, char *, int, int);
 int srmv2_turlsfromsurls_get (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, char ***, char ***, int **, char ***, char *, int, int);
 int srmv2_turlsfromsurls_put (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, char ***, char ***, int **, char ***, char *, int, int);
+int srmv2_pin (int, char **, char *, int, struct srmv2_filestatus **, char *, int, int);
 char *turlfromsfn (const char *, char **, char *, int);
 
 #ifdef __cplusplus

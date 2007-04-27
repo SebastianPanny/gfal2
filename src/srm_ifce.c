@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.27 $ $Date: 2007/03/22 15:36:28 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.28 $ $Date: 2007/04/27 13:17:13 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -99,25 +99,38 @@ srm_deletesurle (const char *surl, const char *srm_endpoint, char *errbuf, int e
 srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols,
 	int *reqid, char **token, struct srm_filestatus **filestatuses, int timeout)
 {
-	char srm_endpoint[256];
-	char *sfn;
-
-	if (parsesurl (surls[0], srm_endpoint, 256, &sfn, NULL, 0) < 0)
-		return (-1);
-
-	return (srm_getxe (nbfiles, surls, nbprotocols, protocols, reqid, token,
-			  filestatuses, srm_endpoint, NULL, 0, timeout));
+	return (srm_getx (nbfiles, surls, nbprotocols, protocols, reqid, token,
+			  filestatuses, NULL, 0, timeout));
 }
 
 srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols,
 	int *reqid, char **token, struct srm_filestatus **filestatuses,
 	char *errbuf, int errbufsz, int timeout)
 {
-	char srm_endpoint[256];
-	char *sfn;
+        int i = 0;
+        char **se_types;
+        char **se_endpoints;
+        char *srm_endpoint = NULL;
 
-	if (parsesurl (surls[0], srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
-		return (-1);
+        if (setypesandendpointsfromsurl (surls[0], &se_types, &se_endpoints, errbuf, errbufsz) < 0)
+                return (-1);
+
+        while (se_types[i]) {
+                if ((strcmp (se_types[i], "srm_v1")) == 0) 
+                        srm_endpoint = se_endpoints[i];
+                i++;
+        }
+
+        free (se_types);
+        free (se_endpoints);
+
+        if (! srm_endpoint) {
+                char error_str[255];
+                snprintf (error_str, 255, "No matching SRMv1-compliant SE with '%s'", surls[0]);
+                gfal_errmsg (errbuf, errbufsz, error_str);
+		errno = EINVAL;
+                return (-1);
+        }
 
 	return (srm_getxe (nbfiles, surls, nbprotocols, protocols, reqid, token,
 			  filestatuses, srm_endpoint, errbuf, errbufsz, timeout));
