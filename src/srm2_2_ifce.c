@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.11 $ $Date: 2007/04/27 13:17:12 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.12 $ $Date: 2007/05/02 08:20:02 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1846,10 +1846,10 @@ srmv2_getfilemd (const char *surl, const char *srm_endpoint, struct stat64 *stat
 }
 
 srmv2_pin (int nbfiles, char **surls, char *reqtoken, int pintime,
-	   struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+	   struct srmv2_pinfilestatus **pinfilestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
-	struct srmv2_filestatus *fs;
+	struct srmv2_pinfilestatus *fs;
 	int n;
 	int rc;
 	int ret;
@@ -1940,7 +1940,7 @@ retry:
 	repfs = rep.srmExtendFileLifeTimeResponse->arrayOfFileStatuses;
 
 	if (! repfs) {
-		filestatuses = NULL;
+		pinfilestatuses = NULL;
 		soap_end (&soap);
 		soap_done (&soap);
 		return (-1);
@@ -1948,19 +1948,20 @@ retry:
 
 	n = repfs->__sizestatusArray;
 
-	if ((*filestatuses = malloc (n * sizeof(struct srmv2_filestatus))) == NULL) {
+	if ((*pinfilestatuses = malloc (n * sizeof(struct srmv2_pinfilestatus))) == NULL) {
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ENOMEM;
 		return (-1);
 	}
 
-	fs = *filestatuses;
+	fs = *pinfilestatuses;
 
 	for (i = 0; i < n; i++) {
-		bzero (fs, sizeof (struct srmv2_filestatus));
-		fs->surl = strdup ((repfs->statusArray[i])->surl);
-		fs->status = filestatus2returncode ((repfs->statusArray[i])->status->statusCode);
+		bzero (fs, sizeof (struct srmv2_pinfilestatus));
+		fs->surl = strdup (repfs->statusArray[i]->surl);
+		fs->pinlifetime = *(repfs->statusArray[i]->pinLifetime);
+		fs->status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
 		fs++;
 	}
 
