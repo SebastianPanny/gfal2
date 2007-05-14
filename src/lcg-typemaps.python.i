@@ -26,7 +26,7 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 %include "typemaps.i"
 
 // in python, Long are 64bits
-%typemap(in) GFAL_LONG64 {
+%typemap(python, in) GFAL_LONG64 {
 	if ($input == Py_None)
 		$1 = 0;
 	else
@@ -34,7 +34,7 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 }
 
 // if the string is empty, it is replaced by NULL
-%typemap(in) char * {
+%typemap(python, in) char * {
 	if ($input == Py_None) {
 		$1 = NULL;
 	} else {
@@ -44,7 +44,7 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 }
 
 // convert python list into C string list (char**)
-%typemap(in) char **protocols {
+%typemap(python, in) char **protocols {
 	int i,len;
 
 	if ($input == Py_None || (len = PyList_Size ($input)) < 1) {
@@ -66,7 +66,7 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 }
 
 // Feed list length and C-style list from python list
-%typemap(in) (int LEN, char **LIST) {
+%typemap(python, in) (int LEN, char **LIST) {
 	int i;
 
 	if ($input == Py_None || ($1 = PyList_Size ($input)) < 1) {
@@ -87,23 +87,23 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 	$2[i] = NULL;
 }
 
-%typemap(in, numinputs=0) (int *OUTPUT)(int tmp) {
+%typemap(python, in, numinputs=0) (int *OUTPUT)(int tmp) {
 	tmp = 0;
 	$1 = &tmp;
 }
 
-%typemap(argout) (int *OUTPUT){
+%typemap(python, argout) (int *OUTPUT){
 	PyObject *o = PyInt_FromLong((long) (*$1));
 	resultobj = my_t_output_helper(resultobj,o);
 }//end of typemap
 
-%typemap(in, numinputs=0) (char *errbuf, int errbufsz)(char err[256]) {
+%typemap(python, in, numinputs=0) (char *errbuf, int errbufsz)(char err[256]) {
 	err[0] = 0;
 	$1 = err;
 	$2 = 256;
 }
 
-%typemap(argout) (char *errbuf){
+%typemap(python, argout) (char *errbuf){
 	PyObject *o;
 
 	if (!$1[0] && errno) {
@@ -118,23 +118,23 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
-%typemap(in, numinputs=0) (char *GUIDOUT)(char tmp_guid[40]) {
+%typemap(python, in, numinputs=0) (char *GUIDOUT)(char tmp_guid[40]) {
 	tmp_guid[0] = 0;
 	$1 = tmp_guid;
 }
 
-%typemap(argout) (char *GUIDOUT){
+%typemap(python, argout) (char *GUIDOUT){
 	PyObject *o = PyString_FromString ($1);
 	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
-%typemap(in, numinputs=0) (char **OUTPUT)(char *tmp_char) {
+%typemap(python, in, numinputs=0) (char **OUTPUT)(char *tmp_char) {
 	tmp_char = NULL;
 	$1 = &tmp_char;
 }
 
 // convert output C string into python string
-%typemap(argout) (char **OUTPUT){
+%typemap(python, argout) (char **OUTPUT){
 	PyObject *o = Py_None;
 
 	if (*$1) {
@@ -143,13 +143,13 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
-%typemap(in, numinputs=0) (char ***OUTPUT)(char **tmp_tabchar) {
+%typemap(python, in, numinputs=0) (char ***OUTPUT)(char **tmp_tabchar) {
 	tmp_tabchar = NULL;
 	$1 = &tmp_tabchar;
 }
 
 // convert output C string list into python list
-%typemap(argout) (char ***OUTPUT){
+%typemap(python, argout) (char ***OUTPUT){
 	PyObject *o = Py_None;
 	int i;
 
@@ -163,13 +163,13 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
-%typemap(in, numinputs=0) (struct srm_filestatus **filestatuses)(struct srm_filestatus *filestatus_tmp) {
+%typemap(python, in, numinputs=0) (struct srm_filestatus **filestatuses)(struct srm_filestatus *filestatus_tmp) {
 	filestatus_tmp = NULL;
 	$1 = &filestatus_tmp;
 }
 
 // convert output C 'struct srm_filestatus' list into python dictionnary
-%typemap(argout) (struct srm_filestatus **filestatuses){
+%typemap(python, argout) (struct srm_filestatus **filestatuses){
 	PyObject *list = Py_None, *dict = Py_None;
 	int i;
 
@@ -188,13 +188,13 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 	$result = my_t_output_helper ($result, list);
 }//end of typemap
 
-%typemap(in, numinputs=0) (struct srmv2_filestatus **filestatuses)(struct srmv2_filestatus *filestatus_tmp) {
+%typemap(python, in, numinputs=0) (struct srmv2_filestatus **filestatuses)(struct srmv2_filestatus *filestatus_tmp) {
 	filestatus_tmp = NULL;
 	$1 = &filestatus_tmp;
 }
 
 // convert output C 'struct srmv2_filestatus' list into python dictionnary
-%typemap(argout) (struct srmv2_filestatus **filestatuses){
+%typemap(python, argout) (struct srmv2_filestatus **filestatuses){
 	PyObject *list = Py_None, *dict = Py_None;
 	int i;
 
@@ -213,13 +213,13 @@ static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 	$result = my_t_output_helper ($result, list);
 }//end of typemap
 
-%typemap(in, numinputs=0) (struct stat64 *)(struct stat64 statbuf) {
+%typemap(python, in, numinputs=0) (struct stat64 *)(struct stat64 statbuf) {
 	$1 = &statbuf;
 	bzero ($1, sizeof (struct stat64));
 }
 
 // convert output C 'struct stat64' into a python list exactly (in the same order) as the system os.stat() function
-%typemap(argout) (struct stat64 *){
+%typemap(python, argout) (struct stat64 *){
 	PyObject *statlist = Py_None;
 
 	if ($1) {

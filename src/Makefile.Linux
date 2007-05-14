@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.42 $ $Date: 2007/04/26 10:10:11 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.43 $ $Date: 2007/05/14 09:33:03 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -125,7 +125,7 @@ GFAL_TESTSRC = gfal_testchmod.c gfal_testget.c gfal_teststat.c gfal_testcreatdir
 GFAL_TESTBIN = $(GFAL_TESTSRC:.c=)
 GFAL_INSTALL_TESTBIN = $(patsubst %,$(prefix)/bin/%, $(GFAL_TESTBIN))
 
-all: libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal_python.so gfal_python.py
+all: libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal.so gfal.py
 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
@@ -196,10 +196,10 @@ CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
 $(GFAL_TESTBIN):%: %.c gfal_api.h libgfal.so
 	$(CC) -o $@ $(CLI_LIBS) $<
 
-_gfal_python.so gfal_python.py : gfal.python.i lcg-typemaps.python.i
-	$(SWIG) -python -o gfal_python_wrap.c $<
-	$(CC)  -D bool=char -D_GNU_SOURCE -c $(INCLUDE_PYTHON) gfal_python_wrap.c
-	$(LD) $(SHLIBLDFLAGS) -o _gfal_python.so gfal_python_wrap.o $(CLI_LIBS) -luuid
+_gfal.so gfal.py : gfal.i lcg-typemaps.python.i
+	$(SWIG) -python -o gfal_wrap.c $<
+	$(CC)  -D bool=char -D_GNU_SOURCE -c $(INCLUDE_PYTHON) gfal_wrap.c
+	$(LD) $(SHLIBLDFLAGS) -o _gfal.so gfal_wrap.o $(CLI_LIBS) -luuid
 
 install: $(prefix)/bin \
 	 $(GFAL_INSTALL_TESTBIN) \
@@ -209,8 +209,8 @@ install: $(prefix)/bin \
 	 $(prefix)/lib/libgfal.a $(prefix)/lib/libgfal.so \
 	 $(prefix)/lib/libgfal_pthr.so \
 	 $(prefix)/lib/python \
-	 $(prefix)/lib/python/_gfal_python.so \
-	 $(prefix)/lib/python/gfal_python.py \
+	 $(prefix)/lib/python/_gfal.so \
+	 $(prefix)/lib/python/gfal.py \
 
 $(prefix)/bin:
 	mkdir -p $@
@@ -243,10 +243,10 @@ $(prefix)/lib/libgfal_pthr.so: libgfal_pthr.so
 	cp -p $? $@
 $(prefix)/lib/python:
 	mkdir -p $@
-$(prefix)/lib/python/_gfal_python.so: _gfal_python.so
+$(prefix)/lib/python/_gfal.so: _gfal.so
 	-mv $@ $(prefix)/lib/python/OLD$?
 	cp -p $? $@
-$(prefix)/lib/python/gfal_python.py: gfal_python.py
+$(prefix)/lib/python/gfal.py: gfal.py
 	-mv $@ $(prefix)/lib/python/OLD$?
 	cp -p $? $@
 
@@ -328,10 +328,10 @@ test: all
 	cd test && make test
 
 clean:
-	rm -rf tmp SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Object.h *Proxy.h *Stub.h *C.c *Client.c *Lib.c *Server.c *.nsmap *.xml $(distdir) edg-local-replica-catalog.h edg-replica-metadata-catalog.h edg-se-webservice.h srm.v1.1.h srm.v2.2.h gfal_python_wrap.c
+	rm -rf tmp SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Object.h *Proxy.h *Stub.h *C.c *Client.c *Lib.c *Server.c *.nsmap *.xml $(distdir) edg-local-replica-catalog.h edg-replica-metadata-catalog.h edg-se-webservice.h srm.v1.1.h srm.v2.2.h gfal_wrap.c
 
 clobber: clean
-	rm -f libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal_python.so gfal_python.py
+	rm -f libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal.so gfal.py
 
 # gLite compatibility rules
 
