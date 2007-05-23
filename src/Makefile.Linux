@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.43 $ $Date: 2007/05/14 09:33:03 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.44 $ $Date: 2007/05/23 11:46:14 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -59,7 +59,7 @@ endif
 ifeq ($(SWIG_LOCATION), $(EMPTY))
 SWIG_LOCATION=/usr
 endif
-SWIG_LIB=$(shell dirname $(SWIG_LOCATION)/lib/swig*/perl5/perl5.swg)/..
+SWIG_LIB=$(shell dirname $(SWIG_LOCATION)/lib*/swig*/perl5/perl5.swg)/..
 SWIG = SWIG_LIB=$(SWIG_LIB) $(SWIG_LOCATION)/bin/swig
 
 ifeq ($(PYTHON_VERSION), $(EMPTY))
@@ -71,6 +71,12 @@ endif
 
 ifeq ($(VERSION), $(EMPTY))
 include VERSION
+endif
+
+# handling x86_64's lib64 directory
+lib_m=lib
+ifeq ($(shell uname -m), x86_64)
+lib_m=lib64
 endif
 
 
@@ -205,12 +211,13 @@ install: $(prefix)/bin \
 	 $(GFAL_INSTALL_TESTBIN) \
 	 $(prefix)/include $(prefix)/include/gfal_api.h \
 	 $(prefix)/include/gfal_constants.h \
-	 $(prefix)/lib \
-	 $(prefix)/lib/libgfal.a $(prefix)/lib/libgfal.so \
-	 $(prefix)/lib/libgfal_pthr.so \
-	 $(prefix)/lib/python \
-	 $(prefix)/lib/python/_gfal.so \
-	 $(prefix)/lib/python/gfal.py \
+	 $(prefix)/$(lib_m) \
+	 $(prefix)/$(lib_m)/libgfal.a \
+	 $(prefix)/$(lib_m)/libgfal.so \
+	 $(prefix)/$(lib_m)/libgfal_pthr.so \
+	 $(prefix)/$(lib_m)/python \
+	 $(prefix)/$(lib_m)/python/_gfal.so \
+	 $(prefix)/$(lib_m)/python/gfal.py \
 
 $(prefix)/bin:
 	mkdir -p $@
@@ -229,25 +236,25 @@ $(prefix)/include/gfal_constants.h: gfal_constants.h
 	-mv -f $@ $(prefix)/include/OLD$?
 	cp -p $? $@
 
-$(prefix)/lib:
+$(prefix)/$(lib_m):
 	mkdir -p $@
 
-$(prefix)/lib/libgfal.a: libgfal.a
-	-mv -f $@ $(prefix)/lib/OLD$?
+$(prefix)/$(lib_m)/libgfal.a: libgfal.a
+	-mv -f $@ $(prefix)/$(lib_m)/OLD$?
 	cp -p $? $@
-$(prefix)/lib/libgfal.so: libgfal.so
-	-mv -f $@ $(prefix)/lib/OLD$?
+$(prefix)/$(lib_m)/libgfal.so: libgfal.so
+	-mv -f $@ $(prefix)/$(lib_m)/OLD$?
 	cp -p $? $@
-$(prefix)/lib/libgfal_pthr.so: libgfal_pthr.so
-	-mv -f $@ $(prefix)/lib/OLD$?
+$(prefix)/$(lib_m)/libgfal_pthr.so: libgfal_pthr.so
+	-mv -f $@ $(prefix)/$(lib_m)/OLD$?
 	cp -p $? $@
-$(prefix)/lib/python:
+$(prefix)/$(lib_m)/python:
 	mkdir -p $@
-$(prefix)/lib/python/_gfal.so: _gfal.so
-	-mv $@ $(prefix)/lib/python/OLD$?
+$(prefix)/$(lib_m)/python/_gfal.so: _gfal.so
+	-mv $@ $(prefix)/$(lib_m)/python/OLD$?
 	cp -p $? $@
-$(prefix)/lib/python/gfal.py: gfal.py
-	-mv $@ $(prefix)/lib/python/OLD$?
+$(prefix)/$(lib_m)/python/gfal.py: gfal.py
+	-mv $@ $(prefix)/$(lib_m)/python/OLD$?
 	cp -p $? $@
 
 install.man: $(prefix)/man/man3 \
