@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.34 $ $Date: 2007/05/02 08:20:02 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.35 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -38,11 +38,20 @@ extern "C"
 #endif
 #endif
 
+#define ERRMSG_LEN 256
+
+struct se_filestatus {
+	char *surl;
+	char *turl;
+	char *token;
+	int status;
+};
+
 struct srm_filestatus {
 	char	*surl;
 	char	*turl;
-	int	fileid;
-	int	status;
+	int		fileid;
+	int		status;
 };
 
 struct srmv2_filestatus {
@@ -56,7 +65,30 @@ struct srmv2_pinfilestatus {
 	char 	*surl;
 	int 	pinlifetime;
 	int 	status;
+	char 	*explanation;
 };
+
+#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
+struct se_mdfilestatus {
+	char 	*surl;
+	struct stat64	stat;
+	int 	status;
+};
+
+struct srm_mdfilestatus {
+	char 	*surl;
+	struct stat64	stat;
+	int		fileid;
+	int 	status;
+};
+
+struct srmv2_mdfilestatus {
+	char 	*surl;
+	struct stat64	stat;
+	int 	status;
+	char 	*explanation;
+};
+#endif
 
 /* to remove warnings concerning lfc_maperror and struct proto_ops */
 struct proto_ops;
@@ -138,29 +170,18 @@ int purify_surl (const char *, char *, const int);
 int deletepfn (const char *, const char *, char *, int);
 int get_bdii (char *, int, int *, char *, int);
 int get_cat_type(char **);
-int get_ce_ap (const char *, char **);
-int get_ce_apx (const char *, char **, char *, int);
+int get_ce_ap (const char *, char **, char *, int);
 int get_lfc_endpoint (char **, char *, int);
-int get_rls_endpoints (char **, char **);
-int get_rls_endpointsx (char **, char **, char *, int);
-int get_sa_root (const char *, const char *, char **);
-int get_sa_rootx (const char *, const char *, char **, char *, int);
-int get_se_endpoint (const char *, char **);
-int get_se_endpointx (const char *, char **, char *, int);
+int get_rls_endpoints (char **, char **, char *, int);
+int get_sa_root (const char *, const char *, char **, char *, int);
 int get_sa_path (const char *, const char *, char **, char **, char *, int);
-int get_se_port (const char *, int *);
-int get_se_portx (const char *, int *, char *, int);
-int get_se_type (const char *, char **);
-int get_se_typex (const char *, char **, char *, int);
-int get_seap_info (const char *, char ***, int **);
-int get_seap_infox (const char *, char ***, int **, char *, int);
+int get_se_typeandendpoint (const char *, char **, char **, char *, int);
+int get_seap_info (const char *, char ***, int **, char *, int);
 int get_srm_types_and_endpoints (const char *, char ***, char ***, char *, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
-int se_getfilemd (const char *, struct stat64 *, char *, int, int);
-int se_getfilemde (const char *, const char *, struct stat64 *, char *, int, int);
-int srm_getfilemd (const char *, struct stat64 *, char *, int, int);
-int srm_getfilemde (const char *, const char *, struct stat64 *, char *, int, int);
-int srmv2_getfilemd (const char *, const char *, struct stat64 *, char **, char *, int, int);
+int se_getfilemd (int, const char **, const char *, struct se_mdfilestatus **, char *, int, int);
+int srm_getfilemd (int, const char **, const char *, struct srm_mdfilestatus **, char *, int, int);
+int srmv2_getfilemd (int, const char **, const char *, struct srmv2_mdfilestatus **, char **, char *, int, int);
 #endif
 int lfc_maperror (struct proto_ops *, int);
 int lfc_getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
@@ -204,44 +225,38 @@ int rmc_register_alias (const char *, const char *, char *, int);
 int rmc_register_pfn (const char *, const char *, char *, int);
 int rmc_unregister_alias (const char *, const char *, char *, int);
 int rmc_unregister_pfn (const char *, const char *, char *, int);
-char *se_turlfromsurle (const char *, const char *, char **, int, int *, int *, char **, char *, int, int);
-int se_deletesurl (const char*, char *, int, int);
-int se_deletesurle (const char *, const char*, char *, int, int);
-int se_set_xfer_done (const char *, int, int, char *, int, char *, int, int);
-int se_set_xfer_donee (const char *, const char *, int, int, char *, int, char *, int, int);
-int se_set_xfer_running (const char *, int, int, char *, char *, int);
-char *se_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
-int setypefromsurl (const char *, char **, char *, int);
-int setypesfromsurl (const char *, char ***, char *, int);
-int srm_deletesurl (const char *, char *, int, int);
-int srm_deletesurle (const char *, const char *, char *, int, int);
+int se_deletesurls (int, const char **, const char*, struct se_filestatus **, char *, int, int);
+int se_mkdir (const char *, const char *, char *, int, int);
+int se_turlsfromsurls (int, const char **, const char *, char **, int, struct se_filestatus **, char *, int, int);
+int se_set_xfer_done (const char *, const char *, int, char *, int, int);
+int se_set_xfer_running (const char *, const char *, char *, int, int);
+int srm_deletesurls (int, const char **, const char *, char *, int, int);
 int srm_get (int, char **, int, char **, int *, char **, struct srm_filestatus **, int);
 int srm_getx (int, char **, int, char **, int *, char **, struct srm_filestatus **, char *, int, int);
 int srm_getxe (int, char **, int, char **, int *, char **, struct srm_filestatus **, const char *, char *, int, int);
 int srm_getstatus (int, char **, int, char *, struct srm_filestatus **, int );
 int srm_getstatusx (int, char **, int, char *, struct srm_filestatus **, char *, int, int);
 int srm_getstatusxe (int, char **, int, char *, struct srm_filestatus **, const char *, char *, int, int);
-int srm_set_xfer_done (const char *, int, int, char *, int, char *, int, int);
-int srm_set_xfer_donee (const char *, const char *, int, int, char *, int, char *, int, int);
-int srm_set_xfer_running (const char *, int, int, char *, char *, int, int);
-int srm_set_xfer_runninge (const char *, const char *, int, int, char *, char *, int, int);
-char *srm_turlfromsurl (const char *, char **, int, int *, int *, char **, char *, int, int);
-int srm_turlsfromsurls (int, const char **, GFAL_LONG64 *, char **, int, int *, int **, char **, char ***, char *, int, int);
-int srm_turlsfromsurlse (int, const char **, const char *, GFAL_LONG64 *, char **, int, int *, int **, char **, char ***, char *, int, int);
-int srmv2_deletesurl (const char *, const char *, char *, int, int);
-int srmv2_get (int, char **, char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srm_set_xfer_done (const char *, int, int, char *, int, int);
+int srm_set_xfer_running (const char *, int, int, char *, int, int);
+int srm_turlsfromsurls (int, const char **, const char *, GFAL_LONG64 *, char **, int, int *, char **, struct srm_filestatus **, char *, int, int);
+int srmv2_deletesurls (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_get (int, const char **, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_gete (int, const char **, const char *, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
 char *srmv2_getspacetoken (const char *, const char *, char *, int, int);
-int srmv2_getstatus (int, char **, char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_makedirpt (const char *, const char *, char *, int, int);
-int srmv2_prestage (int, char **, char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
-int srmv2_prestagestatus (int, char **, char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_set_xfer_done_get (const char *, char *, const char *, char *, int, int);
-int srmv2_set_xfer_done_put (const char *, char *, const char *, char *, int, int);
-int srmv2_set_xfer_running (const char *, const char *, char *, char *, int, int);
-char *srmv2_turlfromsurl (const char *, const char *, const char *, char **, int, char **, char *, int, int);
-int srmv2_turlsfromsurls_get (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, char ***, char ***, int **, char ***, char *, int, int);
-int srmv2_turlsfromsurls_put (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, char ***, char ***, int **, char ***, char *, int, int);
-int srmv2_pin (int, char **, char *, int, struct srmv2_pinfilestatus **, char *, int, int);
+int srmv2_getstatus (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_getstatuse (const char *, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_prestage (int, const char **, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_prestagee (int, const char **, const char *, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_prestagestatus (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_prestagestatuse (const char *, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_set_xfer_done_get (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_set_xfer_done_put (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_set_xfer_running (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_turlsfromsurls_get (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_turlsfromsurls_put (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_pin (int, const char **, const char *, const char *, int, struct srmv2_pinfilestatus **, char *, int, int);
+int srmv2_release (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
 char *turlfromsfn (const char *, char **, char *, int);
 
 #ifdef __cplusplus

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.15 $ $Date: 2005/12/07 11:11:46 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.16 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -35,7 +35,7 @@ lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 
 	if (lrc_endpoint == NULL &&
 	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpointsx (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz)) {
+	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz)) {
 		errno = EINVAL;
 		return (-1);
 	}

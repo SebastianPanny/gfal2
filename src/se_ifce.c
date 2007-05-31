@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.10 $ $Date: 2007/02/19 16:18:40 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: se_ifce.c,v $ $Revision: 1.11 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -25,84 +25,62 @@
 #include "seC.c"
 #include "seClient.c"
 
-static int
-se_init (struct soap *soap, const char *surl, char *srm_endpoint,
-	int srm_endpointsz, char *errbuf, int errbufsz)
+static int errorstring2errno (const char *);
+
+se_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
+		struct se_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
-	int flags;
-	char *sfn;
-
-	if (parsesurl (surl, srm_endpoint, srm_endpointsz, &sfn, errbuf, errbufsz) < 0)
-		return (-1);
-
-	soap_init (soap);
-	soap->namespaces = namespaces_se;
-#ifdef GFAL_SECURE
-	flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
-	soap_register_plugin_arg (soap, client_cgsi_plugin, &flags);
-#endif
-	return (0);
-}
-
-se_deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout)
-{
-	char srm_endpoint[256];
-        char *sfn;
-
-        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
-                return (-1);
-
-	return (se_deletesurle (surl, srm_endpoint, errbuf, errbufsz, timeout));
-}
-
-se_deletesurle (const char *surl, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
-{
+	int ret;
 	int flags;
 	struct ns1__deleteResponse out;
 	struct soap soap;
+	int i;
 
-        soap_init (&soap);
-        soap.namespaces = namespaces_se;
+	if ((*filestatuses = (struct se_filestatus *) calloc (nbfiles, sizeof (struct se_filestatus))) == NULL) {
+		errno = ENOMEM;
+		return (-1);
+	}
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_se;
 #ifdef GFAL_SECURE
-        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
-        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-        soap.send_timeout = timeout ;
-        soap.recv_timeout = timeout ;
+	soap.send_timeout = timeout ;
+	soap.recv_timeout = timeout ;
 
-	/* issue "delete" request */
+	/* issue "delete" requests */
 
-	if (soap_call_ns1__delete (&soap, srm_endpoint,
-	    "delete", (char *)surl + 6, &out)) {
-                if (soap.error == SOAP_EOF) {
-                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-                        soap_end (&soap);
-                        soap_done (&soap);
-                        return (-1);
-                }
-		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-		soap_end (&soap);
-		soap_done (&soap);
-		return (-1);
+	for (i = 0; i < nbfiles; ++i) {
+		bzero (*filestatuses + i, sizeof (struct se_filestatus));
+		(*filestatuses)[i].surl = strdup (surls[i]);
+
+		if ((ret = soap_call_ns1__delete (&soap, srm_endpoint,
+					"delete", (char *)(surls[i] + 6), &out))) {
+			char errmsg[ERRMSG_LEN];
+			if (soap.error == SOAP_EOF) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				(*filestatuses)[i].status = ECOMM;
+			} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				(*filestatuses)[i].status = errorstring2errno (soap.fault->faultstring);
+			} else {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown error", srm_endpoint);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				(*filestatuses)[i].status = ECOMM;
+			}
+		}
 	}
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);
+	return (nbfiles);
 }
 
-se_mkdir (const char *dir, char *errbuf, int errbufsz, int timeout)
-{
-        char srm_endpoint[256];
-        char *sfn;
-
-        if (parsesurl (dir, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
-                return (-1);
-
-	return (se_mkdire (dir, srm_endpoint, errbuf, errbufsz, timeout));
-}
-
-se_mkdire (const char *dir, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
+se_mkdir (const char *dir, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
 	struct ns1__mkdirResponse out;
@@ -110,35 +88,33 @@ se_mkdire (const char *dir, const char *srm_endpoint, char *errbuf, int errbufsz
 	int sav_errno;
 	struct soap soap;
 
-        soap_init (&soap);
-        soap.namespaces = namespaces_se;
+	soap_init (&soap);
+	soap.namespaces = namespaces_se;
 #ifdef GFAL_SECURE
-        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
-        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-        soap.send_timeout = timeout ;
-        soap.recv_timeout = timeout ;
-	
+	soap.send_timeout = timeout ;
+	soap.recv_timeout = timeout ;
+
 	/* issue "mkdir" request */
 	if ((ret = soap_call_ns1__mkdir (&soap, srm_endpoint,
-	    "mkdir", (char *)dir + 6, &out))) {
-                if (soap.error == SOAP_EOF) {
-                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-                        soap_end (&soap);
-                        soap_done (&soap);
-                        return (-1);
-                }
-
-		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
-			if (strstr (soap.fault->faultstring, "does not exist"))
-				sav_errno = ENOENT;
-			else
-				sav_errno = ECOMM;
-		} else
+					"mkdir", (char *)dir + 6, &out))) {
+		char errmsg[ERRMSG_LEN];
+		if (soap.error == SOAP_EOF) {
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
+			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
-		if (sav_errno == ECOMM) 
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+		} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, errmsg);
+			sav_errno = errorstring2errno (soap.fault->faultstring);
+		} else {
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown error", srm_endpoint);
+			gfal_errmsg(errbuf, errbufsz, errmsg);
+			sav_errno = ECOMM;
+		}
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -149,8 +125,8 @@ se_mkdire (const char *dir, const char *srm_endpoint, char *errbuf, int errbufsz
 	return (0);
 }
 
-int
-se_makedirp (const char *surl, char *errbuf, int errbufsz, int timeout)
+static int
+se_makedirp (const char *surl, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
 {
 	int c;
 	char *lastslash = NULL;
@@ -158,10 +134,12 @@ se_makedirp (const char *surl, char *errbuf, int errbufsz, int timeout)
 	char *p1;
 	char *q;
 	char sav_surl[1104];
-	struct stat64 statbuf;
+	struct se_mdfilestatus *mdstatuses;
 
 	if (strlen (surl) >= sizeof(sav_surl)) {
-		gfal_errmsg(errbuf, errbufsz, "Source URL too long.");
+		char errmsg[ERRMSG_LEN];
+		snprintf (errmsg, ERRMSG_LEN - 1, "%s: SURL too long", surl);
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
@@ -171,13 +149,18 @@ se_makedirp (const char *surl, char *errbuf, int errbufsz, int timeout)
 	while (p > p1) {
 		if (lastslash == NULL) lastslash = p;
 		*p = '\0';
-		c = se_getfilemd (sav_surl, &statbuf, errbuf, errbufsz, timeout);
+		c = se_getfilemd (1, (const char **) &sav_surl, srm_endpoint, &mdstatuses, errbuf, errbufsz, timeout);
+		if (mdstatuses[0].surl) free (mdstatuses[0].surl);
+		if (mdstatuses[0].status != ENOENT) {
+			errno = mdstatuses[0].status;
+			free (mdstatuses);
+			return (c);
+		}
+		free (mdstatuses);
 		if (c == 0) {
 			*p = '/';
 			break;
 		}
-		if (errno != ENOENT)
-			return (c);
 		q = strrchr (sav_surl, '/');
 		*p = '/';
 		p = q;
@@ -185,15 +168,14 @@ se_makedirp (const char *surl, char *errbuf, int errbufsz, int timeout)
 	c = 0;
 	while (c == 0 && (p = strchr (p + 1, '/')) && p <= lastslash) {
 		*p = '\0';
-		c = se_mkdir (sav_surl, errbuf, errbufsz, timeout);
+		c = se_mkdir (sav_surl, srm_endpoint, errbuf, errbufsz, timeout);
 		*p = '/';
 	}
 	return (c);
 }
 
-char *
-se_turlfromsurle (const char *surl, const char *srm_endpoint, char **protocols, int oflag,
-		  int *reqid, int *fileid, char **token, char *errbuf, int errbufsz, int timeout)
+se_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, char **protocols, int oflag,
+		struct se_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
 	int nbproto = 0;
@@ -202,20 +184,25 @@ se_turlfromsurle (const char *surl, const char *srm_endpoint, char **protocols, 
 	struct ns1__getTurlResponse outq;
 	char *p;
 	struct ArrayOf_USCORExsd_USCOREstring protoarray;
-	int ret;
+	int ret, i;
 	int sav_errno;
 	struct soap soap;
 	LONG64 zero = 0;
 
-        soap_init (&soap);
-        soap.namespaces = namespaces_se;
+	if ((*filestatuses = (struct se_filestatus *) calloc (nbfiles, sizeof (struct se_filestatus))) == NULL) {
+		errno = ENOMEM;
+		return (-1);
+	}
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_se;
 #ifdef GFAL_SECURE
-        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
-        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-        soap.send_timeout = timeout ;
-        soap.recv_timeout = timeout ;
+	soap.send_timeout = timeout ;
+	soap.recv_timeout = timeout ;
 
 	while (*protocols[nbproto]) nbproto++;
 
@@ -224,183 +211,162 @@ se_turlfromsurle (const char *surl, const char *srm_endpoint, char **protocols, 
 	protoarray.__ptr = protocols;
 	protoarray.__size = nbproto;
 
-	if ((oflag & O_ACCMODE) == 0) {
-		if ((ret = soap_call_ns1__cache (&soap, srm_endpoint, "cache",
-		    (char *)surl + 6, "read", 36000, &outg))) {
-	                if (soap.error == SOAP_EOF) {
-        	                gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-                	        soap_end (&soap);
-                        	soap_done (&soap);
-                        	return (NULL);
-                	}
+	for (i = 0; i < nbfiles; ++i) {
+		bzero (*filestatuses + i, sizeof (struct se_filestatus));
+		(*filestatuses)[i].surl = strdup (surls[i]);
 
-			if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
-				if (strstr (soap.fault->faultstring, "STFN not found"))
-					sav_errno = ENOENT;
-				else
-					sav_errno = ECOMM;
-			} else
-				sav_errno = ECOMM;
-			if (errno == ECOMM)
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-			soap_end (&soap);
-			soap_done (&soap);
-			errno = sav_errno;
-			return (NULL);
+		if ((oflag & O_ACCMODE) == 0) {
+			if ((ret = soap_call_ns1__cache (&soap, srm_endpoint, "cache",
+							(char *)(surls[i] + 6), "read", 36000, &outg))) {
+				char errmsg[ERRMSG_LEN];
+				if (soap.error == SOAP_EOF) {
+					snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
+					gfal_errmsg(errbuf, errbufsz, errmsg);
+					(*filestatuses)[i].status = ECOMM;
+				} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+					snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
+					gfal_errmsg(errbuf, errbufsz, errmsg);
+					(*filestatuses)[i].status = errorstring2errno (soap.fault->faultstring);
+				} else {
+					snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown error", srm_endpoint);
+					gfal_errmsg(errbuf, errbufsz, errmsg);
+					(*filestatuses)[i].status = ECOMM;
+				}
+				continue;
+			}
+
+			if (((*filestatuses)[i].token = strdup (outg._cacheReturn)) == NULL) {
+				(*filestatuses)[i].status = ENOMEM;
+				continue;
+			}
+		} else {
+			if (se_makedirp (surls[i], srm_endpoint, errbuf, errbufsz, timeout) == 0) {
+				(*filestatuses)[i].status = errno;
+				errno = 0;
+				continue;
+			}
+			if ((ret = soap_call_ns1__create (&soap, srm_endpoint, "create",
+							(char *)(surls[i] + 6), zero, "x", 36000, &outp))) {
+				char errmsg[ERRMSG_LEN];
+				if (soap.error == SOAP_EOF) {
+					snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
+					gfal_errmsg(errbuf, errbufsz, errmsg);
+					(*filestatuses)[i].status = ECOMM;
+				} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+					snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
+					gfal_errmsg(errbuf, errbufsz, errmsg);
+					(*filestatuses)[i].status = errorstring2errno (soap.fault->faultstring);
+				} else {
+					snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown error", srm_endpoint);
+					gfal_errmsg(errbuf, errbufsz, errmsg);
+					(*filestatuses)[i].status = ECOMM;
+				}
+				continue;
+			}
+			if (((*filestatuses)[i].token = strdup (outp._createReturn)) == NULL) {
+				(*filestatuses)[i].status = ENOMEM;
+				continue;
+			}
 		}
-		if ((*token = strdup (outg._cacheReturn)) == NULL) {
-			soap_end (&soap);
-			soap_done (&soap);
-			return (NULL);
+
+		if ((ret = soap_call_ns1__getTurl (&soap, srm_endpoint, "getTurl", (*filestatuses)[i].token,
+						&protoarray, &outq))) {
+			char errmsg[ERRMSG_LEN];
+			if (soap.error == SOAP_EOF) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				(*filestatuses)[i].status = ECOMM;
+			} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				(*filestatuses)[i].status = errorstring2errno (soap.fault->faultstring);
+			} else {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown error", srm_endpoint);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				(*filestatuses)[i].status = ECOMM;
+			}
+			continue;
 		}
-	} else {
-retry:
-		if ((ret = soap_call_ns1__create (&soap, srm_endpoint, "create",
-		    (char *)surl + 6, zero, "x", 36000, &outp))) {
-	                if (soap.error == SOAP_EOF) {
-        	                gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-                	        soap_end (&soap);
-                        	soap_done (&soap);
-                        	return (NULL);
-                	}
-			if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
-				if (strstr (soap.fault->faultstring, "o such file"))
-					sav_errno = ENOENT;
-					if (se_makedirp (surl, errbuf, errbufsz, timeout) == 0)
-						goto retry;
-				else if (strstr (soap.fault->faultstring, "File exists"))
-					sav_errno = EEXIST;
-				else
-					sav_errno = ECOMM;
-			} else
-				sav_errno = ECOMM;
-			if (errno == ECOMM)
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-			soap_end (&soap);
-			soap_done (&soap);
-			errno = sav_errno;
-			return (NULL);
-		}
-		if ((*token = strdup (outp._createReturn)) == NULL) {
-			soap_end (&soap);
-			soap_done (&soap);
-			return (NULL);
-		}
+
+		(*filestatuses)[i].turl = strdup (outq._getTurlReturn);
 	}
-	if (soap_call_ns1__getTurl (&soap, srm_endpoint, "getTurl", *token,
-	    &protoarray, &outq)) {
-                if (soap.error == SOAP_EOF) {
-                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-                        soap_end (&soap);
-                        soap_done (&soap);
-                        return (NULL);
-                }
-		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-		soap_end (&soap);
-		soap_done (&soap);
-		return (NULL);
-	}
-	*reqid = 0;
-	*fileid = 0;
-	p = strdup (outq._getTurlReturn);
+
 	soap_end (&soap);
 	soap_done (&soap);
-	return (p);
+	return (nbfiles);
 }
 
-char *
-se_turlfromsurl (const char *surl, char **protocols, int oflag, int *reqid,
-	int *fileid, char **token, char *errbuf, int errbufsz, int timeout)
-{
-        char srm_endpoint[256];
-        char *sfn;
-
-        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
-                return (NULL);
-
-	return (se_turlfromsurle (surl, srm_endpoint, protocols, oflag, reqid,
-		fileid, token, errbuf, errbufsz, timeout));
-}
-
-se_getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz, int timeout)
-{
-        char srm_endpoint[256];
-        char *sfn;
-
-        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
-                return (-1);
-
-	return (se_getfilemde (surl, srm_endpoint, statbuf, errbuf, errbufsz, timeout));
-}
-
-se_getfilemde (const char *surl, const char *srm_endpoint, struct stat64 *statbuf, char *errbuf, int errbufsz, int timeout)
+se_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint,
+		struct se_mdfilestatus **mdstatuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
 	char *dp;
 	struct group *gr;
-	int i;
+	int i, j;
 	struct ns1__getMetadataResponse out;
 	char *p;
 	struct passwd *pw;
 	char *q;
 	int ret;
-	int sav_errno;
 	struct soap soap;
 
-        soap_init (&soap);
-        soap.namespaces = namespaces_se;
+	if ((*mdstatuses = (struct se_mdfilestatus *) calloc (nbfiles, sizeof (struct se_mdfilestatus))) == NULL) {
+		errno = ENOMEM;
+		return (-1);
+	}
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_se;
 #ifdef GFAL_SECURE
-        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
-        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-        soap.send_timeout = timeout;
-        soap.recv_timeout = timeout;
+	soap.send_timeout = timeout;
+	soap.recv_timeout = timeout;
 
 	/* issue "getMetadata" request */
 
-	if ((ret = soap_call_ns1__getMetadata (&soap, srm_endpoint,
-	    "getMetadata", (char *)surl + 6, &out))) {
-                if (soap.error == SOAP_EOF) {
-                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-                        soap_end (&soap);
-                        soap_done (&soap);
-                        return (-1);
-                }
+	for (i = 0; i < nbfiles; ++i) {
+		bzero (*mdstatuses + i, sizeof (struct se_mdfilestatus));
+		(*mdstatuses)[i].surl = strdup (surls[i]);
 
-		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
-			if (strstr (soap.fault->faultstring, "does not exist"))
-				sav_errno = ENOENT;
-			else if (strstr (soap.fault->faultstring, "expired")) {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-				sav_errno = EACCES;
-			} else
-				sav_errno = ECOMM;
-		} else
-			sav_errno = ECOMM;
-		if (sav_errno == ECOMM)
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = sav_errno;
-		return (-1);
-	}
-	memset (statbuf, 0, sizeof(struct stat64));
-	statbuf->st_nlink = 1;
-	statbuf->st_uid = 2;
-	statbuf->st_gid = 2;
-	for (i = 0; i < out._getMetadataReturn->__size; i++) {
-		p = out._getMetadataReturn->__ptr[i];
-		if ((q = strchr (p, ':'))) {
-			*q = '\0';
-			if (strcmp (p, "filesize") == 0)
-				statbuf->st_size = strtoll (q + 1, &dp, 10);
-			else if (strcmp (p, "atime") == 0)
-				statbuf->st_atime = strtol (q + 1, &dp, 10);
-			else if (strcmp (p, "mtime") == 0)
-				statbuf->st_mtime = strtol (q + 1, &dp, 10);
-			else if (strcmp (p, "ctime") == 0)
-				statbuf->st_ctime = strtol (q + 1, &dp, 10);
+		if ((ret = soap_call_ns1__getMetadata (&soap, srm_endpoint,
+						"getMetadata", (char *)(surls[i] + 6), &out))) {
+			char errmsg[ERRMSG_LEN];
+			if (soap.error == SOAP_EOF) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				(*mdstatuses)[i].status = ECOMM;
+			} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				(*mdstatuses)[i].status = errorstring2errno (soap.fault->faultstring);
+			} else {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown error", srm_endpoint);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				(*mdstatuses)[i].status = ECOMM;
+			}
+			continue;
+		}
+
+		(*mdstatuses)[i].stat.st_nlink = 1;
+		(*mdstatuses)[i].stat.st_uid = 2;
+		(*mdstatuses)[i].stat.st_gid = 2;
+		(*mdstatuses)[i].stat.st_mode = 0666;
+		for (j = 0; j < out._getMetadataReturn->__size; j++) {
+			p = out._getMetadataReturn->__ptr[j];
+			if ((q = strchr (p, ':'))) {
+				*q = '\0';
+				if (strcmp (p, "filesize") == 0)
+					(*mdstatuses)[i].stat.st_size = strtoll (q + 1, &dp, 10);
+				else if (strcmp (p, "atime") == 0)
+					(*mdstatuses)[i].stat.st_atime = strtol (q + 1, &dp, 10);
+				else if (strcmp (p, "mtime") == 0)
+					(*mdstatuses)[i].stat.st_mtime = strtol (q + 1, &dp, 10);
+				else if (strcmp (p, "ctime") == 0)
+					(*mdstatuses)[i].stat.st_ctime = strtol (q + 1, &dp, 10);
+			}
 		}
 	}
 	soap_end (&soap);
@@ -408,60 +374,59 @@ se_getfilemde (const char *surl, const char *srm_endpoint, struct stat64 *statbu
 	return (0);
 }
 
-se_set_xfer_done (const char *surl, int reqid, int fileid, char *token,
-	int oflag, char *errbuf, int errbufsz, int timeout)
-{
-        char srm_endpoint[256];
-        char *sfn;
-
-        if (parsesurl (surl, srm_endpoint, 256, &sfn, errbuf, errbufsz) < 0)
-                return (-1);
-
-	return (se_set_xfer_donee (surl, srm_endpoint, reqid, fileid, token,
-		oflag, errbuf, errbufsz, timeout));
-}
-
-se_set_xfer_donee (const char *surl, const char *srm_endpoint, int reqid, int fileid,
-		   char *token,	int oflag, char *errbuf, int errbufsz, int timeout)
+se_set_xfer_done (const char *srm_endpoint, const char *token,
+		int oflag, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
-	struct ns1__abandonResponse outa;
-	struct ns1__commitResponse outc;
+	int ret;
 	struct soap soap;
+	int sav_errno;
 
-        soap_init (&soap);
-        soap.namespaces = namespaces_se;
+	soap_init (&soap);
+	soap.namespaces = namespaces_se;
 #ifdef GFAL_SECURE
-        flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
-        soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+	flags = CGSI_OPT_DISABLE_NAME_CHECK | CGSI_OPT_SSL_COMPATIBLE;
+	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-        soap.send_timeout = timeout ;
-        soap.recv_timeout = timeout ;
+	soap.send_timeout = timeout ;
+	soap.recv_timeout = timeout ;
 
 
 	if ((oflag & O_ACCMODE) == 0) {
-/*		not implemented yet 
+		/*	not implemented yet 
+		struct ns1__abandonResponse outa;
+
 		if (soap_call_ns1__abandon (&soap, srm_endpoint,
-		    "abandon", token, &outa)) {
+					"abandon", token, &outa)) {
 			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			soap_end (&soap);
 			soap_done (&soap);
 			return (-1);
 		}
-*/
+		*/
 	} else {
-		if (soap_call_ns1__commit (&soap, srm_endpoint,
-		    "commit", token, &outc)) {
-                       if (soap.error == SOAP_EOF) {
-	                        gfal_errmsg(errbuf, errbufsz, "connection fails or timeout");
-        	                soap_end (&soap);
-                	        soap_done (&soap);
-                        	return (-1);
+		struct ns1__commitResponse outc;
+
+		if ((ret = soap_call_ns1__commit (&soap, srm_endpoint,
+					"commit", (char *) token, &outc))) {
+			char errmsg[ERRMSG_LEN];
+			if (soap.error == SOAP_EOF) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				sav_errno = ECOMM;
+			} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				sav_errno = errorstring2errno (soap.fault->faultstring);
+			} else {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown error", srm_endpoint);
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				sav_errno = ECOMM;
 			}
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			soap_end (&soap);
 			soap_done (&soap);
+			errno = sav_errno;
 			return (-1);
 		}
 	}
@@ -470,8 +435,33 @@ se_set_xfer_donee (const char *surl, const char *srm_endpoint, int reqid, int fi
 	return (0);
 }
 
-se_set_xfer_running (const char *surl, int reqid, int fileid, char *token,
-	char *errbuf, int errbufsz)
+se_set_xfer_running (const char *srm_endpoint, const char *token,
+		char *errbuf, int errbufsz, int timeout)
 {
 	return (0);
+}
+
+static int
+errorstring2errno (const char *errstr)
+{
+	if (!errstr)
+		return (ECOMM);
+	else if (strstr (errstr, "ile exists"))
+		return (EEXIST);
+	else if (strstr (errstr, "does not exist") ||
+			strstr (errstr, "o such file") ||
+			strstr (errstr, "not found") ||
+			strstr (errstr, "could not get storage info by path"))
+		return (ENOENT);
+	else if (strstr (errstr, "ermission denied") ||
+			strstr (errstr, "expired"))
+		return (EACCES);
+	else if (strstr (errstr, "nvalid arg"))
+		return (EINVAL);
+	else if (strstr (errstr, "rotocol"))
+		return (EPROTONOSUPPORT);
+	else if (strstr (errstr, "o space left on device"))
+		return (ENOSPC);
+	else
+		return (ECOMM);
 }
