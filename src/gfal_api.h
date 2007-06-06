@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.35 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.36 $ $Date: 2007/06/06 12:17:14 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -38,6 +38,7 @@ extern "C"
 #endif
 #endif
 
+#define VO_MAXLEN  32
 #define ERRMSG_LEN 256
 
 struct se_filestatus {

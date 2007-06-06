@@ -1,4 +1,4 @@
-%module gfal_python
+%module gfal
 
 %{
 #include "gfal_api.h"
@@ -40,9 +40,8 @@ extern int srm_getstatusx (int LEN, char **LIST, int reqid, char *token,
 			struct srm_filestatus **filestatuses, char *errbuf, int errbufsz,
 			int timeout);
 
-extern int srmv2_prestage (int LEN, char **LIST, char *spacetokendesc, int LEN,	char **LIST,
-			char **OUTPUT, struct srmv2_filestatus **filestatuses,
-			char *errbuf, int errbufsz, int timeout);
-extern int srmv2_prestagestatus (int LEN, char **LIST, char *reqtoken,
-			struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz,
-			int timeout);
+extern int srmv2_prestage (int LEN, const char **LIST, const char *spacetokendesc, int LEN,
+            char **LIST, char **OUTPUT, struct srmv2_filestatus **filestatuses,
+            char *errbuf, int errbufsz, int timeout);
+extern int srmv2_prestagestatus (int LEN, const char **LIST, const char *reqtoken,
+            struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout);
