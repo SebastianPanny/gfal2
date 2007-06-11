@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.29 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.30 $ $Date: 2007/06/11 08:24:30 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -349,7 +349,7 @@ srm_getstatusxe (int nbfiles, char **surls, int reqid, char *token,
 	return (n);
 }
 
-srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, LONG64 *filesizes, char **protocols,
+srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, GFAL_LONG64 *filesizes, char **protocols,
 		int oflag, int *reqid, char **token, struct srm_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
