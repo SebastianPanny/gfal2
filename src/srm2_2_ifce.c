@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.14 $ $Date: 2007/06/11 08:16:12 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.15 $ $Date: 2007/06/11 15:12:59 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1941,7 +1941,7 @@ retry:
 		if (repfs->statusArray[i]->status) {
 			(*pinfilestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation)
-				(*pinfilestatuses)[i].explanation = repfs->statusArray[i]->status->explanation;
+				(*pinfilestatuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
 		}
 	}
 
@@ -2048,7 +2048,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 		if (repfs->statusArray[i]->status) {
 			(*statuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation)
-				(*statuses)[i].explanation = repfs->statusArray[i]->status->explanation;
+				(*statuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
 		}
 	}
 

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.30 $ $Date: 2007/06/11 08:24:30 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.31 $ $Date: 2007/06/11 15:12:59 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -543,7 +543,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	for (i = 0; i < n; i++) {
 		bzero (*statuses + i, sizeof (struct srm_filestatus));
 		if (reqstatp->fileStatuses->__ptr[i]->SURL)
-			(*statuses)[i].surl = reqstatp->fileStatuses->__ptr[i]->SURL;
+			(*statuses)[i].surl = strdup (reqstatp->fileStatuses->__ptr[i]->SURL);
 		(*statuses)[i].fileid = reqstatp->fileStatuses->__ptr[i]->fileId;
 		if (!strcasecmp ((reqstatp->fileStatuses->__ptr[i])->state, "ready") &&
 				reqstatp->fileStatuses->__ptr[i]->TURL) {
