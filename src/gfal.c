@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.45 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.46 $ $Date: 2007/06/11 08:16:12 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1203,7 +1203,7 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 
 		rc = srmv2_deletesurls (1, &surl, srmv2_endpoint, &statuses, errbuf, errbufsz, timeout);
 
-		if (rc > 0) {
+		if (rc == 0) {
 			rc = statuses[0].status == 0 ? 0 : -1;
 			if (statuses[0].explanation) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", surl, statuses[0].explanation);
@@ -1220,7 +1220,7 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 
 		rc = se_deletesurls (1, &surl, srm_endpoint, &statuses, errbuf, errbufsz, timeout);
 
-		if (rc > 0) {
+		if (rc == 0) {
 			rc = statuses[0].status == 0 ? 0 : -1;
 			if (statuses[0].surl) free (statuses[0].surl);
 			free (statuses);
@@ -1557,8 +1557,8 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 		if ((oflag & O_ACCMODE) == 0) {
 			rc = srmv2_set_xfer_done_get (1, &surl, srmv2_endpoint, token, &statuses, errbuf, errbufsz, timeout);
 
-			if (rc > 0) {
-				rc = statuses[0].status;
+			if (rc == 0) {
+				rc = statuses[0].status == 1 ? 0 : -1;
 				if (statuses[0].explanation) {
 					gfal_errmsg(errbuf, errbufsz, statuses[0].explanation);
 					free (statuses[0].explanation);
@@ -1568,8 +1568,8 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 		} else {
 			rc = srmv2_set_xfer_done_put (1, &surl, srmv2_endpoint, token, &statuses, errbuf, errbufsz, timeout);
 
-			if (rc > 0) {
-				rc = statuses[0].status;
+			if (rc == 0) {
+				rc = statuses[0].status == 1 ? 0 : -1;
 				if (statuses[0].explanation) {
 					snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", surl, statuses[0].explanation);
 					gfal_errmsg(errbuf, errbufsz, errmsg);
@@ -1636,7 +1636,7 @@ set_xfer_running (const char *surl, int reqid, int fileid, char *token,
 			return (-1);
 		}
 
-		rc = filestatuses[0].status;
+		rc = filestatuses[0].status == 1 ? 0 : -1;
 		free (filestatuses[0].surl);
 		free (filestatuses);
 	} else if (srmv1_endpoint) {
@@ -1853,7 +1853,7 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 
 		if ((oflag & O_ACCMODE) == 0) {
 			if (srmv2_turlsfromsurls_get (1, &surl, srmv2_endpoint, &filesize, spacetokendesc, protocols,
-			    token, &filestatuses, errbuf, errbufsz, timeout) <= 0 || !filestatuses) {
+			    token, &filestatuses, errbuf, errbufsz, timeout) < 0 || !filestatuses) {
 				if (srm_endpoint != NULL) free (srm_endpoint);
 				if (srmv1_endpoint != NULL) free (srmv1_endpoint);
 				free (srmv2_endpoint);
@@ -1861,13 +1861,14 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 			}
 		} else {
 			if ((srmv2_turlsfromsurls_put (1, &surl, srmv2_endpoint, &filesize, spacetokendesc, protocols,
-		  	     token, &filestatuses, errbuf, errbufsz, timeout)) <=0 || !filestatuses) {
+		  	     token, &filestatuses, errbuf, errbufsz, timeout)) < 0 || !filestatuses) {
 				if (srm_endpoint != NULL) free (srm_endpoint);
 				if (srmv1_endpoint != NULL) free (srmv1_endpoint);
 				free (srmv2_endpoint);
 				return NULL;
 			}
 		}
+		if (filestatuses[0].surl) free (filestatuses[0].surl);
 		if (filestatuses[0].status) {
 			errno = filestatuses[0].status;
 			if (filestatuses[0].explanation) {
@@ -1875,7 +1876,6 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 				free (filestatuses[0].explanation);
 			}
-			if (filestatuses[0].surl) free (filestatuses[0].surl);
 			free (filestatuses);
 			if (srm_endpoint != NULL) free (srm_endpoint);
 			if (srmv1_endpoint != NULL) free (srmv1_endpoint);
@@ -1900,9 +1900,9 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 			return (NULL);
 		}
 
+		if (filestatuses[0].surl) free (filestatuses[0].surl);
 		if (filestatuses[0].status) {
 			errno = filestatuses[0].status;
-			if (filestatuses[0].surl) free (filestatuses[0].surl);
 			free (filestatuses);
 			if (srm_endpoint != NULL) free (srm_endpoint);
 			free (srmv1_endpoint);
@@ -1922,9 +1922,9 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 			return (NULL);
 		}
 
+		if (filestatuses[0].surl) free (filestatuses[0].surl);
 		if (filestatuses[0].status) {
 			errno = filestatuses[0].status;
-			if (filestatuses[0].surl) free (filestatuses[0].surl);
 			if (filestatuses[0].token) free (filestatuses[0].token);
 			free (filestatuses);
 			free (srm_endpoint);

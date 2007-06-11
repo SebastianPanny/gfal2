@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.13 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.14 $ $Date: 2007/06/11 08:16:12 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -25,6 +25,8 @@
 #define DEFPOLLINT 10
 #include "srmv2C.c"
 #include "srmv2Client.c"
+
+static char lastcreated_dir[1024] = "";
 
 srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 		struct srmv2_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
@@ -334,7 +336,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);	
+	return (0);	
 }
 
 srmv2_getstatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_filestatus **filestatuses, 
@@ -455,7 +457,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);
+	return (0);
 }
 
 /* returns first (!) space token in ArrayOfSpaceTokens */
@@ -539,22 +541,88 @@ srmv2_getspacetoken (const char *spacetokendesc, const char *srm_endpoint, char 
 srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
 {
 	int c = 0;
-	char *file;
+	char file[1024];
 	int flags;
 	int nbslash = 0;
+	int sav_errno = 0;
 	char *p;
 	struct ns1__srmMkdirResponse_ rep;
 	struct ns1__srmMkdirRequest req;
 	struct ns1__TReturnStatus *repstatp;
-	int ret;
+	int ret = 0;
 	struct soap soap;
+	char errmsg[ERRMSG_LEN];
 
-	file = strdup (dest_file);
+	if (!strncmp (lastcreated_dir, dest_file, 1024))
+		/* this is exactly the same directory as the previous one, so nothing to do */
+		return (0);
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_srmv2;
+
+#ifdef GFAL_SECURE
+	flags = CGSI_OPT_DISABLE_NAME_CHECK;
+	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
+	soap.send_timeout = timeout;
+	soap.recv_timeout = timeout;
+
+	strncpy (file, dest_file, 1023);
+
+	/* First of all, check if there is nothing to do (if last sub-directory exists or not) */
+	if ((p = strrchr (file, '/')) == NULL) {
+		snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid SURL", dest_file);
+		gfal_errmsg (errbuf, errbufsz, errmsg);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = EINVAL;
+		return (-1);
+	}
+	*p = 0;
+	req.SURL = file;
+
+	if ((ret = soap_call_ns1__srmMkdir (&soap, srm_endpoint, "Mkdir", &req, &rep))) {
+		if (soap.error == SOAP_EOF) {
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
+			gfal_errmsg(errbuf, errbufsz, errmsg);
+		} else if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, errmsg);
+		}
+		errno = ECOMM;
+		soap_end (&soap);
+		soap_done (&soap);
+		return (-1);
+	}
+
+	repstatp = rep.srmMkdirResponse->returnStatus;
+
+	if (repstatp->statusCode != SRM_USCORESUCCESS) {
+		sav_errno = statuscode2errno(repstatp->statusCode);
+		if (sav_errno == EEXIST) {
+			/* The directory already exists, notinhg to do */
+			return (0);
+		} else if (sav_errno != ENOENT) {
+			if (repstatp->explanation)
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", dest_file, repstatp->explanation);
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", dest_file, strerror (sav_errno));
+			gfal_errmsg(errbuf, errbufsz, errmsg);
+			errno = sav_errno;
+			ret = -1;
+		}
+	} else {
+		/* The directory was successfuly created */
+		return (0);
+	}
+
+	*p = '/';
 	p = file;
 
-	while (p = strchr (p, '/')) {
+	while (!ret && (p = strchr (p, '/'))) {
 		*p = '\0';
-		if (nbslash < 2) {	/* skip first 3 slashes */
+		if (nbslash < 2) {	/* skip first 2 slashes */
 			nbslash++;
 			*p++ = '/';
 			while (*p == '/')
@@ -563,23 +631,10 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 		}
 
 		/* try to create directory */
-		soap_init (&soap);
-		soap.namespaces = namespaces_srmv2;
-
-#ifdef GFAL_SECURE
-		flags = CGSI_OPT_DISABLE_NAME_CHECK;
-		soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
-#endif
-
-		soap.send_timeout = timeout;
-		soap.recv_timeout = timeout;
-
 		memset (&req, 0, sizeof(req));
-
-		req.directoryPath = (char *) file;
+		req.SURL = (char *) file;
 
 		if (ret = soap_call_ns1__srmMkdir (&soap, srm_endpoint, "Mkdir", &req, &rep)) {
-			char errmsg[ERRMSG_LEN];
 			if (soap.error == SOAP_EOF) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
@@ -587,32 +642,47 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 			}
-			free (file);
+			errno = ECOMM;
 			soap_end (&soap);
 			soap_done (&soap);
-			return (0);
+			return (-1);
 		}
 
 		repstatp = rep.srmMkdirResponse->returnStatus;
+		ret = sav_errno = 0;
 
 		if (repstatp->statusCode != SRM_USCORESUCCESS) {
-			errno = statuscode2errno(repstatp->statusCode);
-			if (errno == EEXIST) {
-				goto ret;
-			} 
+			sav_errno = statuscode2errno(repstatp->statusCode);
+			if (sav_errno != EEXIST && sav_errno != EACCES) {
+				if (repstatp->explanation)
+					snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", file, repstatp->explanation);
+				else
+					snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", file, strerror (sav_errno));
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+				errno = sav_errno;
+				ret = -1;
+			}
 		}
 
-ret:
 		*p++ = '/';	/* restore slash */
-		while (*p == '/')
+		while (!ret && *p == '/')
 			p++;
-
-		soap_end (&soap);
-		soap_done (&soap);
 	}
 
-	free (file);
-	return (0);
+	if  (!sav_errno) {
+		if (repstatp->explanation)
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", dest_file, repstatp->explanation);
+		else
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", dest_file, strerror (sav_errno));
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		errno = sav_errno;
+		ret = -1;
+	}
+
+	soap_end (&soap);
+	soap_done (&soap);
+	strncpy (lastcreated_dir, dest_file, 1024);
+	return (ret);
 }
 
 srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int nbprotocols, char **protocols, char **reqtoken, 
@@ -816,7 +886,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);	
+	return (0);	
 }
 
 srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_filestatus **filestatuses, 
@@ -940,7 +1010,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);	
+	return (0);	
 }
 
 srmv2_set_xfer_done_get (int nbfiles, const char **surls, const char *srm_endpoint, const char *reqtoken,
@@ -1053,7 +1123,7 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);
+	return (0);
 }
 
 srmv2_set_xfer_running (int nbfiles, const char **surls, const char *srm_endpoint, const char *reqtoken, struct srmv2_filestatus **filestatuses,
@@ -1069,7 +1139,7 @@ srmv2_set_xfer_running (int nbfiles, const char **surls, const char *srm_endpoin
 	for (i = 0; i < nbfiles; ++i) {
 		bzero (*filestatuses + i, sizeof (struct srmv2_filestatus));
 		(*filestatuses)[i].surl = strdup (surls[i]);
-		(*filestatuses)[i].status = 0;
+		(*filestatuses)[i].status = 1;
 	}
 
 	return (nbfiles);
@@ -1345,7 +1415,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);
+	return (0);
 }
 
 srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpoint, GFAL_LONG64 *filesizes, const char *spacetokendesc, 
@@ -1372,8 +1442,16 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	struct ns1__srmStatusOfPutRequestRequest sreq;
 	static enum ns1__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
 	char *targetspacetoken;
+	char errmsg[ERRMSG_LEN];
 
-retry:
+	/* Create sub-directories of SURLs before doing anything else */
+	for (i = 0; i < nbfiles; ++i) {
+		if (srmv2_makedirp (surls[i], srm_endpoint, errbuf, errbufsz, timeout) < 0) {
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Fail to create sub-directories", surls[i]);
+			gfal_errmsg (errbuf, errbufsz, errmsg);
+			return (-1);
+		}
+	}
 
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
@@ -1409,7 +1487,6 @@ retry:
 	if (!spacetokendesc) {
 		req.targetSpaceToken = NULL;
 	} else if ((targetspacetoken = srmv2_getspacetoken (spacetokendesc, srm_endpoint, errbuf, errbufsz, timeout)) == NULL) {
-		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid space token description", spacetokendesc);
 		gfal_errmsg (errbuf, errbufsz, errmsg);
 		errno = EINVAL;
@@ -1475,8 +1552,9 @@ retry:
 	req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
 	req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 
+retry:
+
 	if (ret = soap_call_ns1__srmPrepareToPut (&soap, srm_endpoint, "PrepareToPut", &req, &rep)) {
-		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
@@ -1506,7 +1584,6 @@ retry:
 	while (reqstatp->statusCode == SRM_USCOREFAILURE) {
 
 		if (timeout > 0 && time(NULL) > endtime) {
-			char errmsg[ERRMSG_LEN];
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: User timeout over", srm_endpoint);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			errno = ETIMEDOUT;
@@ -1528,7 +1605,6 @@ retry:
 		sleep ((r++ == 0) ? 1 : DEFPOLLINT);
 
 		if (ret = soap_call_ns1__srmStatusOfPutRequest (&soap, srm_endpoint, "StatusOfPutRequest", &sreq, &srep)) {
-			char errmsg[ERRMSG_LEN];
 			if (soap.error == SOAP_EOF) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 				gfal_errmsg (errbuf, errbufsz, errmsg);
@@ -1547,7 +1623,6 @@ retry:
 
 		/* if user timeout has passed, abort the request */
 		if (timeout > 0 && time(NULL) > endtime) {
-			char errmsg[ERRMSG_LEN];
 			abortreq.requestToken = r_token;
 
 			if (ret = soap_call_ns1__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep)) {
@@ -1573,18 +1648,7 @@ retry:
 		}
 	}
 
-	if (nbretry == 0 && reqstatp->statusCode == SRM_USCOREINVALID_USCOREPATH) {
-		/* try to create the possible missing directories */
-		soap_end (&soap);
-		soap_done (&soap);
-		for (i = 0; i < nbfiles; i++) {
-			srmv2_makedirp (surls[i], srm_endpoint, errbuf, errbufsz, timeout);
-		}
-		++nbretry;
-		goto retry;
-	} 
 	if (reqstatp->statusCode == SRM_USCORESPACE_USCORELIFETIME_USCOREEXPIRED) {
-		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: Space lifetime expired", srm_endpoint);
 		gfal_errmsg (errbuf, errbufsz, errmsg);
 		errno = statuscode2errno(reqstatp->statusCode);
@@ -1593,8 +1657,6 @@ retry:
 		return (-1);
 	}
 	if (!repfs || repfs->__sizestatusArray < nbfiles || !repfs->statusArray) {
-
-		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
@@ -1626,13 +1688,13 @@ retry:
 	for (i = 0; i < n; i++) {
 		bzero (*filestatuses + i, sizeof (struct srmv2_filestatus));
 		if (repfs->statusArray[i]->SURL)
-			(*filestatuses)[i].surl = strdup ((repfs->statusArray[i])->SURL);
+			(*filestatuses)[i].surl = strdup (repfs->statusArray[i]->SURL);
 		if (repfs->statusArray[i]->transferURL)
-			(*filestatuses)[i].turl = strdup ((repfs->statusArray[i])->transferURL);
+			(*filestatuses)[i].turl = strdup (repfs->statusArray[i]->transferURL);
 		if (repfs->statusArray[i]->status) {
-			(*filestatuses)[i].status = statuscode2errno ((repfs->statusArray[i])->status->statusCode);
+			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation)
-				(*filestatuses)[i].explanation = strdup ((repfs->statusArray[i])->status->explanation);
+				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
 		}
 	}
 
@@ -1646,7 +1708,7 @@ retry:
 	soap_end (&soap);
 	soap_done (&soap);
 
-	return (n);
+	return (0);
 }
 
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
@@ -1748,8 +1810,8 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, stru
 
 	for (i = 0; i < n; ++i) {
 		bzero (*statuses + i, sizeof(struct srmv2_mdfilestatus));
-		if (repfs->pathDetailArray[i]->surl)
-			(*statuses)[i].surl = strdup (repfs->pathDetailArray[i]->surl);
+		if (repfs->pathDetailArray[i]->path)
+			(*statuses)[i].surl = strdup (repfs->pathDetailArray[i]->path);
 		if (repfs->pathDetailArray[i]->status)
 			(*statuses)[i].status = statuscode2errno(repfs->pathDetailArray[i]->status->statusCode);
 		if ((*statuses)[i].status) {
@@ -1780,7 +1842,7 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, stru
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);
+	return (0);
 }
 #endif
 
@@ -1885,7 +1947,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);	
+	return (0);	
 }
 
 srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const char *reqtoken,
@@ -1992,7 +2054,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);
+	return (0);
 
 }
 
