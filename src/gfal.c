@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.46 $ $Date: 2007/06/11 08:16:12 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.47 $ $Date: 2007/06/15 12:47:04 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1441,9 +1441,17 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 	char *p,*p2;
 	char errmsg[ERRMSG_LEN];
 
+	if (strlen (turl) > pathbufsz - 1) {
+		snprintf (errmsg, ERRMSG_LEN - 1, "%s: TURL too long", turl);
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		errno = ENAMETOOLONG;
+		return (-1);
+	}
+	strcpy (pathbuf, turl);
+
 	/* get protocol */
 
-	if ((p = strstr (turl, ":/")) == NULL) {
+	if ((p = strstr (pathbuf, ":/")) == NULL) {
 		/* to enable 'file' protocol by default
 		if (4 > (protocolsz - 1)) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: TURL too long", turl);
@@ -1458,20 +1466,18 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = EINVAL;
 		return (-1);
-	} else if ((len = p - turl) > (protocolsz - 1)) {
+	} else if ((len = p - pathbuf) > (protocolsz - 1)) {
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: TURL too long", turl);
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = ENAMETOOLONG;
 		return (-1);
 	} else {
-		strncpy (protocol, turl, len);
+		strncpy (protocol, pathbuf, len);
 		*(protocol + len) = '\0';
 	}
 
 	if (strcmp (protocol, "file") == 0) {
-		if (p == NULL)
-			strcpy (pathbuf, turl);
-		else {
+		if (p != NULL) {
 			++p;
 			if (*(p + 1) == '/' && (*(p + 2) != '/' || *(p + 3) == '/')) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid TURL", turl);
@@ -1479,46 +1485,40 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 				errno = EINVAL;
 				return (-1);
 			}
-			strcpy (pathbuf, p);
+			while (*(p + 1) == '/') ++p;
+			memmove (pathbuf, p, strlen (p) + 1);
 		}
-		*pfn = pathbuf;
 	} else if (strcmp (protocol, "rfio") == 0) {
 		p += 2;
-		if (*p != '/') {
+		if (*p != '/' || (*(p + 1) == '/' && *(p + 2) != '/')) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid TURL", turl);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			errno = EINVAL;
 			return (-1);
 		}
 		p++;
-		if (*p == '/' && *(p + 1) == '/') {	// no hostname
-			*pfn = p + 1;
-		} else if ((p2 = strstr (turl, "?svcClass="))) {
-			// Castor2-like RFIO TURL
-			if (strlen (turl) > pathbufsz) {
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: TURL too long", turl);
+		if (*p == '/') {	// no hostname ; *(p + 1) = '/' due to the previous test
+			memmove (pathbuf, p + 1, strlen (p + 1) + 1);
+		} else if (strstr (pathbuf, "?") == NULL) {
+			// For Castor2-like RFIO TURL (eg. with "?svcClass=..."), pfn is the TURL, nothing to do
+			// For other case, we want hostname:/filename
+			memmove (pathbuf, p, strlen (p) + 1);
+			if ((p = strchr (pathbuf, '/')) == NULL) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid TURL", turl);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
-				errno = ENAMETOOLONG;
+				errno = EINVAL;
 				return (-1);
 			}
+			// p is pointing on the slash just after the hostname
+			if (*(p + 1) != '/')
+				memmove (p + 1, p, strlen (p) + 1);
 
-			strcpy (pathbuf, turl);
-		} else {
-			if (strlen (p) > pathbufsz) {
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: TURL too long", turl);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-				errno = ENAMETOOLONG;
-				return (-1);
-			}
-
-			strcpy (pathbuf, p);
-			if ((p = strstr (pathbuf, "//")))
-				*p = ':';
+			*p = ':';
 		}
+		// For other cases (Castor2-like RFIO TURL), the entore turl is returned as pfn
+	} 
 
-		*pfn = pathbuf;
-	} else 
-		*pfn = (char *) turl;
+	*pfn = pathbuf;
 	return (0);
 }
 
