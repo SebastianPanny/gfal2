@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.15 $ $Date: 2007/06/11 15:12:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.16 $ $Date: 2007/06/26 10:46:34 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -600,8 +600,9 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 
 	if (repstatp->statusCode != SRM_USCORESUCCESS) {
 		sav_errno = statuscode2errno(repstatp->statusCode);
-		if (sav_errno == EEXIST) {
-			/* The directory already exists, notinhg to do */
+		if (sav_errno == EEXIST || sav_errno == EACCES) {
+			/* EEXIST - dir already exists, notinhg to do
+			 * EACCES - dir *may* already exists, but no authZ on parent */
 			return (0);
 		} else if (sav_errno != ENOENT) {
 			if (repstatp->explanation)
