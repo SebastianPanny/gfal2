@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.7 $ $Date: 2006/11/09 16:38:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.8 $ $Date: 2007/06/27 12:54:45 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -30,42 +30,6 @@
 #include "gfal.h"
 
 #if GFAL_ENABLE_DCAP
-off_t
-dc_lseek32 (int fildes, off_t offset, int whence)
-{
-	off64_t off64in;
-	off64_t off64out;
-	struct proto_ops *pops;
-
-	if ((pops = find_pops ("dcap")) == NULL)
-		return (-1);
-	off64in = offset;
-	off64out = pops->lseek64 (fildes, off64in, whence);
-	if (off64out > (off64_t)2147483647 ) {
-		errno = EFBIG;
-		return (-1);
-	}
-	return ((off_t) off64out);
-}
-
-off64_t
-dc_lseek64 (int fildes, off64_t offset, int whence)
-{
-	off_t off32in;
-	off_t off32out;
-	struct proto_ops *pops;
-
-	if (offset > (off64_t)2147483647 ) {
-		errno = EFBIG;
-		return ((off64_t) -1);
-	}
-	if ((pops = find_pops ("dcap")) == NULL)
-		return ((off64_t) -1);
-	off32in = offset;
-	off32out = pops->lseek (fildes, off32in, whence);
-	return ((off64_t) off32out);
-}
-
 checkdcaplib (struct proto_ops *pops)
 {
 	void *dlhandle;
@@ -80,8 +44,8 @@ checkdcaplib (struct proto_ops *pops)
 	pops->chmod = (int (*) (const char *, mode_t)) dlsym (dlhandle, "dc_chmod");
 	pops->close = (int (*) (int)) dlsym (dlhandle, "dc_close");
 	pops->closedir = (int (*) (DIR *)) dlsym (dlhandle, "dc_closedir");
-	pops->lseek = (off_t (*) (int, off_t, int)) &dc_lseek32;
-	pops->lseek64 = (off64_t (*) (int, off64_t, int)) dlsym (dlhandle, "dc_lseek");
+	pops->lseek = (off_t (*) (int, off_t, int)) dlsym (dlhandle, "dc_lseek");
+	pops->lseek64 = (off64_t (*) (int, off64_t, int)) dlsym (dlhandle, "dc_lseek64");
 	pops->lstat = (int (*) (const char *, struct stat *)) dlsym (dlhandle, "dc_lstat");
 	pops->lstat64 = (int (*) (const char *, struct stat64 *)) dlsym (dlhandle, "dc_lstat64");
 	pops->mkdir = (int (*) (const char *, mode_t)) dlsym (dlhandle, "dc_mkdir");
