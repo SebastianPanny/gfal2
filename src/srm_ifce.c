@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.31 $ $Date: 2007/06/11 15:12:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.32 $ $Date: 2007/06/29 14:28:10 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -73,7 +73,7 @@ srm_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	}
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);
+	return (nbfiles);
 }
 
 srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols,

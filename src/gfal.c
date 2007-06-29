@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.47 $ $Date: 2007/06/15 12:47:04 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.48 $ $Date: 2007/06/29 14:28:10 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -113,7 +113,7 @@ gfal_access (const char *path, int amode)
 
 	strncpy (pathbuf, path, 1024);
 
-	if (strncmp (path, "lfn:", 4) == 0) {
+	if (strncmp (pathbuf, "lfn:", 4) == 0) {
 		char *cat_type;
 		int islfc;
 		if (get_cat_type (&cat_type) < 0)
@@ -122,12 +122,12 @@ gfal_access (const char *path, int amode)
 		free (cat_type);
 
 		if (islfc)
-			return lfc_accessl (path + 4, amode, errbuf, ERRMSG_LEN);
+			return lfc_accessl (pathbuf + 4, amode, errbuf, ERRMSG_LEN);
 
-		if ((guid = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) == NULL)
+		if ((guid = guidfromlfn (pathbuf + 4, errbuf, ERRMSG_LEN)) == NULL)
 			return (-1);
 	}
-	if (guid || (strncmp (path, "guid:", 5) == 0 && (guid = pathbuf + 5))) {
+	if (guid || (strncmp (pathbuf, "guid:", 5) == 0 && (guid = pathbuf + 5))) {
 		if ((surl = surlfromguid (guid, errbuf, ERRMSG_LEN)) == NULL)
 			return (-1);
 		if (guid != pathbuf) free (guid);
@@ -135,10 +135,12 @@ gfal_access (const char *path, int amode)
 	if ((surl || (surl = pathbuf)) && strncmp (surl, "srm:", 4) == 0) {
 		supported_protocols = get_sup_proto ();
 
-		if ((turl = turlfromsurl (surl, supported_protocols, R_OK,
-		    &reqid, &fileid, &token, errbuf, ERRMSG_LEN, 0)) == NULL)
+		turl = turlfromsurl (surl, supported_protocols, R_OK,
+		    &reqid, &fileid, &token, errbuf, ERRMSG_LEN, 0);
+
+		if (surl != pathbuf) free (surl);
+		if (turl == NULL)
 			return (-1);
-		if (surl != path) free (surl);
 	} else if (strncmp (surl, "sfn:", 4) == 0) {
 		supported_protocols = get_sup_proto ();
 
@@ -180,23 +182,48 @@ gfal_chmod (const char *path, mode_t mode)
 	char **supported_protocols;
 	int reqid, fileid;
 	char *token = NULL;
+	char *cat_type = NULL;
+	int islfc;
 
 	strncpy (pathbuf, path, 1024);
 
 	if (strncmp (path, "lfn:", 4) == 0) {
-		char *cat_type;
-		int islfc;
 		if (get_cat_type (&cat_type) < 0)
 			return (-1);
 		islfc = strcmp (cat_type, "lfc") == 0;
-		free (cat_type);
-		if (islfc)
+		if (islfc) {
+			free (cat_type);
 			return (lfc_chmodl (path + 4, mode, errbuf, ERRMSG_LEN) < 0);
+		}
 		if ((guid = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) == NULL)
 			return (-1);
 
 	}
 	if (guid || (strncmp (path, "guid:", 5) == 0 && (guid = pathbuf + 5))) {
+		int i, rc = 0;
+		char **lfns;
+
+		if (cat_type == NULL) {
+			if (get_cat_type (&cat_type) < 0)
+				return (-1);
+			islfc = strcmp (cat_type, "lfc") == 0;
+		}
+		free (cat_type);
+	   
+		if (islfc) {
+			if ((lfns = lfnsforguid (path + 5, errbuf, ERRMSG_LEN)) == NULL)
+				return (-1);
+
+			for (i = 0; lfns[i] != NULL; ++i) {
+				if (!rc)
+					rc = lfc_chmodl (lfns[i] + 4, mode, errbuf, ERRMSG_LEN);
+				free (lfns[i]);
+			}
+			free (lfns);
+			return (rc);
+		}
+
+		/* catalog is not lfc */
 		if ((surl = surlfromguid (guid, errbuf, ERRMSG_LEN)) == NULL)
 			return (-1);
 		if (guid != pathbuf + 5) free (guid);
@@ -1203,7 +1230,7 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 
 		rc = srmv2_deletesurls (1, &surl, srmv2_endpoint, &statuses, errbuf, errbufsz, timeout);
 
-		if (rc == 0) {
+		if (rc > 0) {
 			rc = statuses[0].status == 0 ? 0 : -1;
 			if (statuses[0].explanation) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", surl, statuses[0].explanation);
@@ -1215,12 +1242,13 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 		}
 	} else if (srmv1_endpoint) {
 		rc = srm_deletesurls (1, &surl, srmv1_endpoint, errbuf, errbufsz, timeout);
+		rc = rc > 0 ? 0 : -1;
 	} else if (srm_endpoint) {
 		struct se_filestatus *statuses;
 
 		rc = se_deletesurls (1, &surl, srm_endpoint, &statuses, errbuf, errbufsz, timeout);
 
-		if (rc == 0) {
+		if (rc > 0) {
 			rc = statuses[0].status == 0 ? 0 : -1;
 			if (statuses[0].surl) free (statuses[0].surl);
 			free (statuses);
@@ -1309,7 +1337,11 @@ getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz,
 	} else if (srm_endpoint) {
 		struct se_mdfilestatus *mdstatuses = NULL;
 
-		rc = se_getfilemd (1, &surl, srm_endpoint, &mdstatuses, errbuf, errbufsz, timeout);
+		if (se_getfilemd (1, &surl, srm_endpoint, &mdstatuses, errbuf, errbufsz, timeout) < 1 ||
+				!mdstatuses) {
+			free (srm_endpoint);
+			return (-1);
+		}
 
 		if (mdstatuses[0].status) {
 			errno = mdstatuses[0].status;
@@ -1557,7 +1589,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 		if ((oflag & O_ACCMODE) == 0) {
 			rc = srmv2_set_xfer_done_get (1, &surl, srmv2_endpoint, token, &statuses, errbuf, errbufsz, timeout);
 
-			if (rc == 0) {
+			if (rc > 0) {
 				rc = statuses[0].status == 1 ? 0 : -1;
 				if (statuses[0].explanation) {
 					gfal_errmsg(errbuf, errbufsz, statuses[0].explanation);
@@ -1568,7 +1600,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 		} else {
 			rc = srmv2_set_xfer_done_put (1, &surl, srmv2_endpoint, token, &statuses, errbuf, errbufsz, timeout);
 
-			if (rc == 0) {
+			if (rc > 0) {
 				rc = statuses[0].status == 1 ? 0 : -1;
 				if (statuses[0].explanation) {
 					snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", surl, statuses[0].explanation);
@@ -1853,7 +1885,7 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 
 		if ((oflag & O_ACCMODE) == 0) {
 			if (srmv2_turlsfromsurls_get (1, &surl, srmv2_endpoint, &filesize, spacetokendesc, protocols,
-			    token, &filestatuses, errbuf, errbufsz, timeout) < 0 || !filestatuses) {
+			    token, &filestatuses, errbuf, errbufsz, timeout) < 1 || !filestatuses) {
 				if (srm_endpoint != NULL) free (srm_endpoint);
 				if (srmv1_endpoint != NULL) free (srmv1_endpoint);
 				free (srmv2_endpoint);
@@ -1861,7 +1893,7 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 			}
 		} else {
 			if ((srmv2_turlsfromsurls_put (1, &surl, srmv2_endpoint, &filesize, spacetokendesc, protocols,
-		  	     token, &filestatuses, errbuf, errbufsz, timeout)) < 0 || !filestatuses) {
+		  	     token, &filestatuses, errbuf, errbufsz, timeout)) < 1 || !filestatuses) {
 				if (srm_endpoint != NULL) free (srm_endpoint);
 				if (srmv1_endpoint != NULL) free (srmv1_endpoint);
 				free (srmv2_endpoint);
@@ -1893,7 +1925,7 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 		struct srm_filestatus *filestatuses = NULL;
 
 		if (srm_turlsfromsurls (1, &surl, srmv1_endpoint, &filesize, protocols, oflag,
-		    reqid, token, &filestatuses, errbuf, errbufsz, timeout) <= 0) {
+		    reqid, token, &filestatuses, errbuf, errbufsz, timeout) < 1) {
 			if (srm_endpoint != NULL) free (srm_endpoint);
 			free (srmv1_endpoint);
 			if (srmv2_endpoint != NULL) free (srmv2_endpoint);
@@ -2193,6 +2225,7 @@ lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 {
 	char *cat_type;
 	if (get_cat_type (&cat_type) < 0) {
+		gfal_errmsg (errbuf, errbufsz, "Unable to determine the catalog type");
 		return (NULL);
 	}
 	if (strcmp (cat_type, "edg") == 0) {

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.16 $ $Date: 2007/06/26 10:46:34 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.17 $ $Date: 2007/06/29 14:28:10 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -132,7 +132,7 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (i);
+	return (n);
 }
 
 srmv2_get (int nbfiles, const char **surls, const char *spacetokendesc, int nbprotocols, char **protocols,
@@ -146,6 +146,7 @@ srmv2_get (int nbfiles, const char **surls, const char *spacetokendesc, int nbpr
 	if (setypesandendpointsfromsurl (surls[0], &se_types, &se_endpoints, errbuf, errbufsz) < 0)
 		return (-1);
 
+	i = 0;
 	while (se_types[i]) {
 		if ((strcmp (se_types[i], "srm_v2")) == 0)
 			srm_endpoint = se_endpoints[i];
@@ -336,7 +337,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);	
+	return (n);	
 }
 
 srmv2_getstatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_filestatus **filestatuses, 
@@ -350,6 +351,7 @@ srmv2_getstatus (int nbfiles, const char **surls, const char *reqtoken, struct s
 	if (setypesandendpointsfromsurl (surls[0], &se_types, &se_endpoints, errbuf, errbufsz) < 0)
 		return (-1);
 
+	i = 0;
 	while (se_types[i]) {
 		if ((strcmp (se_types[i], "srm_v2")) == 0) {
 			srm_endpoint = se_endpoints[i];
@@ -457,7 +459,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);
+	return (n);
 }
 
 /* returns first (!) space token in ArrayOfSpaceTokens */
@@ -567,6 +569,8 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 
 	soap.send_timeout = timeout;
 	soap.recv_timeout = timeout;
+
+	memset (&req, 0, sizeof (struct ns1__srmMkdirRequest));
 
 	strncpy (file, dest_file, 1023);
 
@@ -697,6 +701,7 @@ srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int
 	if (setypesandendpointsfromsurl (surls[0], &se_types, &se_endpoints, errbuf, errbufsz) < 0)
 		return (-1);
 
+	i = 0;
 	while (se_types[i]) {
 		if ((strcmp (se_types[i], "srm_v2")) == 0)
 			srm_endpoint = se_endpoints[i];
@@ -887,7 +892,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);	
+	return (n);	
 }
 
 srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_filestatus **filestatuses, 
@@ -901,6 +906,7 @@ srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, str
 	if (setypesandendpointsfromsurl (surls[0], &se_types, &se_endpoints, errbuf, errbufsz) < 0)
 		return (-1);
 
+	i = 0;
 	while (se_types[i]) {
 		if ((strcmp (se_types[i], "srm_v2")) == 0)
 			srm_endpoint = se_endpoints[i];
@@ -1011,7 +1017,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);	
+	return (n);	
 }
 
 srmv2_set_xfer_done_get (int nbfiles, const char **surls, const char *srm_endpoint, const char *reqtoken,
@@ -1124,7 +1130,7 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);
+	return (n);
 }
 
 srmv2_set_xfer_running (int nbfiles, const char **surls, const char *srm_endpoint, const char *reqtoken, struct srmv2_filestatus **filestatuses,
@@ -1416,7 +1422,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);
+	return (n);
 }
 
 srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpoint, GFAL_LONG64 *filesizes, const char *spacetokendesc, 
@@ -1709,7 +1715,7 @@ retry:
 	soap_end (&soap);
 	soap_done (&soap);
 
-	return (0);
+	return (n);
 }
 
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
@@ -1843,7 +1849,7 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, stru
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);
+	return (n);
 }
 #endif
 
@@ -1948,7 +1954,7 @@ retry:
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);	
+	return (n);	
 }
 
 srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const char *reqtoken,
@@ -2055,7 +2061,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (0);
+	return (n);
 
 }
 
