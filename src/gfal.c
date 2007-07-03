@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.48 $ $Date: 2007/06/29 14:28:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.49 $ $Date: 2007/07/03 08:23:10 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -175,95 +175,35 @@ gfal_access (const char *path, int amode)
 gfal_chmod (const char *path, mode_t mode)
 {
 	char errbuf[ERRMSG_LEN];
-	char pathbuf[1024];
-	char *guid = NULL, *surl = NULL, *turl = NULL, *pfn = NULL;
-	struct proto_ops *pops;
-	char protocol[64];
-	char **supported_protocols;
-	int reqid, fileid;
-	char *token = NULL;
 	char *cat_type = NULL;
 	int islfc;
 
-	strncpy (pathbuf, path, 1024);
+	if (get_cat_type (&cat_type) < 0)
+		return (-1);
+	islfc = strcmp (cat_type, "lfc") == 0;
+	free (cat_type);
 
-	if (strncmp (path, "lfn:", 4) == 0) {
-		if (get_cat_type (&cat_type) < 0)
-			return (-1);
-		islfc = strcmp (cat_type, "lfc") == 0;
-		if (islfc) {
-			free (cat_type);
-			return (lfc_chmodl (path + 4, mode, errbuf, ERRMSG_LEN) < 0);
-		}
-		if ((guid = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) == NULL)
-			return (-1);
-
-	}
-	if (guid || (strncmp (path, "guid:", 5) == 0 && (guid = pathbuf + 5))) {
+	if (islfc && strncmp (path, "lfn:", 4) == 0) {
+		return (lfc_chmodl (path + 4, mode, errbuf, ERRMSG_LEN) < 0);
+	} else if (islfc && strncmp (path, "guid:", 5) == 0) {
 		int i, rc = 0;
 		char **lfns;
-
-		if (cat_type == NULL) {
-			if (get_cat_type (&cat_type) < 0)
-				return (-1);
-			islfc = strcmp (cat_type, "lfc") == 0;
-		}
-		free (cat_type);
 	   
-		if (islfc) {
-			if ((lfns = lfnsforguid (path + 5, errbuf, ERRMSG_LEN)) == NULL)
-				return (-1);
-
-			for (i = 0; lfns[i] != NULL; ++i) {
-				if (!rc)
-					rc = lfc_chmodl (lfns[i] + 4, mode, errbuf, ERRMSG_LEN);
-				free (lfns[i]);
-			}
-			free (lfns);
-			return (rc);
-		}
-
-		/* catalog is not lfc */
-		if ((surl = surlfromguid (guid, errbuf, ERRMSG_LEN)) == NULL)
+		if ((lfns = lfnsforguid (path + 5, errbuf, ERRMSG_LEN)) == NULL)
 			return (-1);
-		if (guid != pathbuf + 5) free (guid);
-	}
-	if ((surl || (surl = pathbuf)) && strncmp (surl, "srm:", 4) == 0) {
-		supported_protocols = get_sup_proto ();
 
-		if ((turl = turlfromsurl (surl, supported_protocols, R_OK,
-		    &reqid, &fileid, &token, errbuf, ERRMSG_LEN, 0)) == NULL)
-			return (-1);
-		if (surl != pathbuf) free (surl);
-	} else if (strncmp (surl, "sfn:", 4) == 0) {
-		supported_protocols = get_sup_proto ();
+		if (lfns[0] != NULL)
+			rc = lfc_chmodl (lfns[0] + 4, mode, errbuf, ERRMSG_LEN);
 
-		if ((turl = turlfromsfn (surl, supported_protocols, errbuf, ERRMSG_LEN)) == NULL)
-			return (-1);
-		if (surl != pathbuf) free (surl);
-	}
-	if (turl == NULL && (turl = strdup (path)) == NULL) {
-		errno = ENOMEM;
-		return (-1);
+		for (i = 0; lfns[i] != NULL; ++i)
+			free (lfns[i]);
+		free (lfns);
+		return (rc);
 	}
 
-	if (parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, ERRMSG_LEN) < 0) {
-		free (turl);
-		return (-1);
-	}
-	if ((pops = find_pops (protocol)) == NULL) {
-		free (turl);
-		return (-1);
-	}
-	if (pops->chmod (pfn, mode) < 0) {
-		free (turl);
-		errno = pops->maperror (pops, 0);
-		return (-1);
-	}
-
-	free (turl);
-	errno = 0;
-	return (0);
+	/* gfal_chmod is only supported with LFC */
+	errno = EPROTONOSUPPORT;
+	return (-1);
 }
 
 gfal_close (int fd)
