@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.44 $ $Date: 2007/05/23 11:46:14 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.45 $ $Date: 2007/07/11 12:52:52 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -17,7 +17,7 @@ VPATH=.:$(SRCDIR)
 endif
 
 ifeq ($(GSOAP_LOCATION), $(EMPTY))
-GSOAP_LOCATION=/opt/gsoap-linux-2.6
+GSOAP_LOCATION=/opt/gsoap-linux-2.7
 GSOAPINC=-I$(GSOAP_LOCATION)
 else
 GSOAPINC=-I$(GSOAP_LOCATION)/include
@@ -53,7 +53,7 @@ ifeq ($(CGSI_GSOAP_LOCATION), $(EMPTY))
 CGSI_GSOAP_LOCATION=/usr/local
 endif
 ifeq ($(CGSI_GSOAP_VERSION), $(EMPTY))
-CGSI_GSOAP_VERSION=gsoap_2.6
+CGSI_GSOAP_VERSION=gsoap_2.7
 endif
 
 ifeq ($(SWIG_LOCATION), $(EMPTY))
@@ -188,15 +188,15 @@ srmv2H.h srmv2Stub.h srmv2C.c srmv2Client.c srmSoapBinding.nsmap: srm.v2.2.h
 	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p srmv2 srm.v2.2.h
 
 edg-local-replica-catalog.h: edg-local-replica-catalog.wsdl
-	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -w -y -t $(SRCDIR)/typemap-lrc.dat $< -o $@
 edg-replica-metadata-catalog.h: edg-replica-metadata-catalog.wsdl
-	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -w -y -t $(SRCDIR)/typemap-rmc.dat $< -o $@
 edg-se-webservice.h: edg-se-webservice.wsdl
-	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -w -y -t $(SRCDIR)/typemap-se.dat $< -o $@
 srm.v1.1.h: srm.v1.1.wsdl
-	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -w -y -t $(SRCDIR)/typemap-srmv1.dat $< -o $@
 srm.v2.2.h: srm.v2.2.wsdl
-	$(GSOAP_LOCATION)/bin/wsdl2h -c -t $(SRCDIR)/typemap.dat $< -o $@
+	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -y -t $(SRCDIR)/typemap-srmv2.dat $< -o $@
 
 CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
 $(GFAL_TESTBIN):%: %.c gfal_api.h libgfal.so
