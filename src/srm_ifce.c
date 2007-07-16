@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.32 $ $Date: 2007/06/29 14:28:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.33 $ $Date: 2007/07/16 15:11:21 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -57,7 +57,7 @@ srm_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
-		} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+		} else if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = errorstring2errno (soap.fault->faultstring);
@@ -156,7 +156,7 @@ srm_getxe (int nbfiles, char **surls, int nbprotocols, char **protocols,
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
-		} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+		} else if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			sav_errno = errorstring2errno (soap.fault->faultstring);
@@ -294,7 +294,7 @@ srm_getstatusxe (int nbfiles, char **surls, int reqid, char *token,
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
-		} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+		} else if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			sav_errno = errorstring2errno (soap.fault->faultstring);
@@ -400,7 +400,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				sav_errno = ECOMM;
-			} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+			} else if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				sav_errno = errorstring2errno (soap.fault->faultstring);
@@ -437,7 +437,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				sav_errno = ECOMM;
-			} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+			} else if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				sav_errno = errorstring2errno (soap.fault->faultstring);
@@ -480,7 +480,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				sav_errno = ECOMM;
-			} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+			} else if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				sav_errno = errorstring2errno (soap.fault->faultstring);
@@ -596,7 +596,7 @@ srm_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint,
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
-		} else if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+		} else if (soap.fault != NULL && soap.fault->faultstring != NULL) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = errorstring2errno (soap.fault->faultstring);
@@ -690,7 +690,7 @@ srm_set_xfer_status (const char *status, const char *srm_endpoint, int reqid, in
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Connection fails or timeout", srm_endpoint);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
-		} else if(ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+		} else if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = errorstring2errno (soap.fault->faultstring);
