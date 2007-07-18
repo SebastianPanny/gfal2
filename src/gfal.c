@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.49 $ $Date: 2007/07/03 08:23:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.50 $ $Date: 2007/07/18 13:31:48 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2311,20 +2311,22 @@ char *
 getbestfile(char **surls, int size, char *errbuf, int errbufsz)
 {
   char dname[64];
-  int first;
   int i;
-  char  *p1, *p2;
-  char *p;
+  char  *p, *p1, *p2, *p3;
   int ret;
   char *default_se;
-  int  localsurl, default_match;
+  int  localsurl, default_match, selected, nblocalsurl, nbselected;
+
+  srand ((unsigned) time (NULL));
 
   /* skip entries not in the form srm: or sfn:
    * take entry on same domain if it exists else
    * take the first supported entry
    */
-  first = -1;
   localsurl = -1;
+  selected = -1;
+  nblocalsurl = 0;
+  nbselected = 0;
   *dname = '\0';
   (void) getdomainnm (dname, sizeof(dname));
 
@@ -2336,33 +2338,36 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
     if (strncmp (p, "srm://", 6) && strncmp (p, "sfn://", 6))
       continue;
     if ((p1 = strchr (p + 6, '/')) == NULL) continue;
+    if ((p2 = strchr (p + 6, '.')) == NULL) continue;
     *p1 = '\0';
-    if ((p2 = strchr (p + 6, ':')))
-      *p2 = '\0';
-    if (first < 0) first = i;
+    if ((p3 = strchr (p + 6, ':')))
+      *p3 = '\0';
     default_match = -1;
     if(default_se != NULL) {
       default_match = strcmp(p + 6, default_se);
     }
-    if ((p = strchr (p + 6, '.')) == NULL) continue;
-    ret = strcmp (p + 1, dname);
+    ret = strcmp (p2 + 1, dname);
     *p1 = '/';
-    if (p2) *p2 = ':';
+    if (p3) *p3 = ':';
     if (default_match == 0) break; /* default se match => replica on default SE */
-    if (ret == 0) localsurl = i;	/* domains match ==> local replica */
+    if (ret == 0) {
+		/* domains match ==> local replica */
+		++nblocalsurl;
+		localsurl = (rand() % nblocalsurl) == 0 ? i : localsurl;
+	} else if (localsurl == -1) {
+		++nbselected;
+		selected = (rand() % nbselected) == 0 ? i : selected;
+	}
   }
   if (i == size) {	/* no default SE entry */
-    if (first < 0) {	/* only non suported entries */
+    if (selected == -1 && localsurl == -1) {	/* only non suported entries */
       gfal_errmsg(errbuf, errbufsz, "Only non supported entries. No replica entry starting with \"srm://\" or \"sfn://\".");
       errno = EINVAL;
       return (NULL);
-    } else if(localsurl >= 0) {
+    } else if(localsurl >= 0)
       i = localsurl;
-    } else {
-      /* seed with current time */
-      srand( (unsigned)time( NULL ) );
-      i = (int)((double)size * rand()/(RAND_MAX));
-    }
+    else
+      i = selected;
   }
   return surls[i];
 }
