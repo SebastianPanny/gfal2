@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.39 $ $Date: 2007/05/31 14:02:59 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.40 $ $Date: 2007/07/20 11:54:49 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -94,6 +94,7 @@ lfc_init (char *errbuf, int errbufsz) {
 	char *lfc_endpoint = NULL;
 	char *p;
 	char *lfc_port = NULL;
+	char errmsg[ERRMSG_LEN];
 
 	if (lfc_host == NULL) {
 		/* Try first from env */
@@ -120,14 +121,17 @@ lfc_init (char *errbuf, int errbufsz) {
 		}
 		if(strlen(lfc_host) == 0) {
 			gfal_errmsg(errbuf, errbufsz, "LFC host is set to empty string");
+			free(lfc_endpoint);
+			lfc_host = NULL;
 			errno = EINVAL;
 			return (-1);
 		}
 
-		if( 10 + strlen(lfc_host) + 6 > 128) {
-			char errmsg[ERRMSG_LEN];
+		if (10 + strlen(lfc_host) + 6 > 128) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Host name too long", lfc_host);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
+			free(lfc_endpoint);
+			lfc_host = NULL;
 			errno = ENAMETOOLONG;
 			return (-1);
 		}
@@ -137,14 +141,19 @@ lfc_init (char *errbuf, int errbufsz) {
 
 		if(lfc_port && *lfc_port != '\0') {
 			if(strlen(lfc_port) > 5) {
-				char errmsg[ERRMSG_LEN];
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid LFC port number", lfc_port);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
+				free(lfc_endpoint);
+				lfc_host = NULL;
 				errno = EINVAL;
 				return (-1);
 			}
 			sprintf(lfc_penv, "LFC_PORT=%s", lfc_port);
 			if(putenv(lfc_penv) < 0) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Host name too long");
+				gfal_errmsg(errbuf, errbufsz, "Cannot set environment variable LFC_HOST");
+				free(lfc_endpoint);
+				lfc_host = NULL;
 				return (-1);
 			}
 		}
@@ -152,9 +161,10 @@ lfc_init (char *errbuf, int errbufsz) {
 			void *dlhandle;
 
 			if ((dlhandle = dlopen ("liblfc.so", RTLD_LAZY)) == NULL) {
-				char errmsg[ERRMSG_LEN];
 				snprintf (errmsg, ERRMSG_LEN - 1, "liblfc.so: %s", dlerror ());
 				gfal_errmsg(errbuf, errbufsz, errmsg);
+				if (lfc_endpoint) free(lfc_endpoint);
+				lfc_host = NULL;
 				return (-1);
 			}
 
