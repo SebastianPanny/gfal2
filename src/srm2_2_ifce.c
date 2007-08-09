@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.19 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.20 $ $Date: 2007/08/09 09:48:11 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1867,11 +1867,6 @@ copy_md (struct ns1__TReturnStatus *reqstatp, struct ns1__ArrayOfTMetaDataPathDe
 				(*statuses)[i].explanation = strdup (reqstatp->explanation);
 			continue;
 		} 
-
-		// for test purposes
-		printf ("%s: %s %s\n", repfs->pathDetailArray[i]->path,
-				repfs->pathDetailArray[i]->ownerPermission->userID,
-				repfs->pathDetailArray[i]->groupPermission->groupID);
 
 		(*statuses)[i].stat.st_size = *(repfs->pathDetailArray[i]->size);
 		(*statuses)[i].stat.st_uid = 2;
