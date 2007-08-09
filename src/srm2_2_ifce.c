@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.20 $ $Date: 2007/08/09 09:48:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.21 $ $Date: 2007/08/09 17:20:09 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1592,6 +1592,22 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 
 	memset (&req, 0, sizeof(req));
 
+	if ((req.arrayOfFileRequests =
+				soap_malloc (&soap, sizeof(struct ns1__ArrayOfTPutFileRequest))) == NULL ||
+			(req.arrayOfFileRequests->requestArray =
+			 soap_malloc (&soap, nbfiles * sizeof(struct ns1__TPutFileRequest *))) == NULL ||
+			(req.transferParameters =
+			 soap_malloc (&soap, sizeof(struct ns1__TTransferParameters))) == NULL ||
+			(req.targetSpaceToken =
+			 soap_malloc (&soap, sizeof(char *))) == NULL) {
+
+		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
+		errno = ENOMEM;
+		soap_end (&soap);
+		soap_done (&soap);
+		return (-1);
+	}
+
 	if (!spacetokendesc) {
 		req.targetSpaceToken = NULL;
 	} else if ((targetspacetoken = srmv2_getspacetoken (spacetokendesc, srm_endpoint, errbuf, errbufsz, timeout)) == NULL) {
@@ -1610,22 +1626,6 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			return (-1);
 		}
-	}
-
-	if ((req.arrayOfFileRequests =
-				soap_malloc (&soap, sizeof(struct ns1__ArrayOfTPutFileRequest))) == NULL ||
-			(req.arrayOfFileRequests->requestArray =
-			 soap_malloc (&soap, nbfiles * sizeof(struct ns1__TPutFileRequest *))) == NULL ||
-			(req.transferParameters =
-			 soap_malloc (&soap, sizeof(struct ns1__TTransferParameters))) == NULL ||
-			(req.targetSpaceToken =
-			 soap_malloc (&soap, sizeof(char *))) == NULL) {
-
-		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
-		errno = ENOMEM;
-		soap_end (&soap);
-		soap_done (&soap);
-		return (-1);
 	}
 
 	if (desiredpintime > 0)
