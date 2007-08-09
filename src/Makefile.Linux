@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.46 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.47 $ $Date: 2007/08/09 17:47:35 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -150,8 +150,6 @@ rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
 lfc_ifce.o: lfc_ifce.c gfal_api.h
 	$(CC) -c -DVERSION=\"GFAL-$(VERSION)\" $(LFCINC) $(SECFLG) $<
-#se_ifce.o: se_ifce.c seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding+.nsmap
-#	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
 sfn_ifce.o: sfn_ifce.c gfal.h gfal_api.h gfal_constants.h
 	$(CC) -c $(SECFLG) $<
 srm2_2_ifce.o: srm2_2_ifce.c srmv2H.h srmv2Stub.h srmSoapBinding+.nsmap gfal_api.h
@@ -276,7 +274,36 @@ install.man: $(prefix)/man/man3 \
 	     $(prefix)/man/man3/gfal_rmdir.3 \
 	     $(prefix)/man/man3/gfal_stat.3 \
 	     $(prefix)/man/man3/gfal_unlink.3 \
-	     $(prefix)/man/man3/gfal_write.3
+	     $(prefix)/man/man3/gfal_write.3 \
+	     $(prefix)/man/man3/gfal_python.3 \
+	     $(prefix)/man/man3/gfal_init.3 \
+	     $(prefix)/man/man3/gfal_init_python.3 \
+	     $(prefix)/man/man3/gfal_request_new.3 \
+	     $(prefix)/man/man3/gfal_internal_free.3 \
+	     $(prefix)/man/man3/gfal_get_results.3 \
+	     $(prefix)/man/man3/gfal_get_results_python.3 \
+	     $(prefix)/man/man3/gfal_deletesurls.3 \
+	     $(prefix)/man/man3/gfal_deletesurls_python.3 \
+	     $(prefix)/man/man3/gfal_turlsfromsurls.3 \
+	     $(prefix)/man/man3/gfal_turlsfromsurls_python.3 \
+	     $(prefix)/man/man3/gfal_ls.3 \
+	     $(prefix)/man/man3/gfal_ls_python.3 \
+	     $(prefix)/man/man3/gfal_pin.3 \
+	     $(prefix)/man/man3/gfal_pin_python.3 \
+	     $(prefix)/man/man3/gfal_release.3 \
+	     $(prefix)/man/man3/gfal_release_python.3 \
+	     $(prefix)/man/man3/gfal_get.3 \
+	     $(prefix)/man/man3/gfal_get_python.3 \
+	     $(prefix)/man/man3/gfal_getstatus.3 \
+	     $(prefix)/man/man3/gfal_getstatus_python.3 \
+	     $(prefix)/man/man3/gfal_prestage.3 \
+	     $(prefix)/man/man3/gfal_prestage_python.3 \
+	     $(prefix)/man/man3/gfal_prestagestatus.3 \
+	     $(prefix)/man/man3/gfal_prestagestatus_python.3 \
+	     $(prefix)/man/man3/gfal_set_xfer_done.3 \
+	     $(prefix)/man/man3/gfal_set_xfer_done_python.3 \
+	     $(prefix)/man/man3/gfal_set_xfer_running.3 \
+	     $(prefix)/man/man3/gfal_set_xfer_running_python.3
 
 $(prefix)/man/man3:
 	mkdir -p $@
@@ -314,6 +341,66 @@ $(prefix)/man/man3/gfal_stat.3: gfal_stat.man
 $(prefix)/man/man3/gfal_unlink.3: gfal_unlink.man
 	cp -p $? $@
 $(prefix)/man/man3/gfal_write.3: gfal_write.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_python.3: gfal_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_init.3: gfal_init.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_init_python.3: gfal_init_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_request_new.3: gfal_request_new.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_internal_free.3: gfal_internal_free.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_internal_free_python.3: gfal_internal_free_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_get_results.3: gfal_get_results.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_get_results_python.3: gfal_get_results_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_deletesurls.3: gfal_deletesurls.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_deletesurls_python.3: gfal_deletesurls_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_turlsfromsurls.3: gfal_turlsfromsurls.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_turlsfromsurls_python.3: gfal_turlsfromsurls_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_ls.3: gfal_ls.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_ls_python.3: gfal_ls_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_pin.3: gfal_pin.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_pin_python.3: gfal_pin_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_release.3: gfal_release.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_release_python.3: gfal_release_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_get.3: gfal_get.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_get_python.3: gfal_get_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_getstatus.3: gfal_getstatus.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_getstatus_python.3: gfal_getstatus_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_prestage.3: gfal_prestage.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_prestage_python.3: gfal_prestage_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_prestagestatus.3: gfal_prestagestatus.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_prestagestatus_python.3: gfal_prestagestatus_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_set_xfer_done.3: gfal_set_xfer_done.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_set_xfer_done_python.3: gfal_set_xfer_done_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_set_xfer_running.3: gfal_set_xfer_running.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_set_xfer_running_python.3: gfal_set_xfer_running_python.man
 	cp -p $? $@
 
 dist:
