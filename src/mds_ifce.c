@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.39 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.40 $ $Date: 2007/08/09 09:09:50 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -628,8 +628,8 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 {
 	static char version[] = "GlueServiceVersion";
 	static char type[] = "GlueServiceType";
-	static char uri[] = "GlueServiceURI";
-	static char *template = "(&(GlueServiceType=srm*)(GlueServiceURI=*://%s*))";
+	static char uri[] = "GlueServiceEndpoint";
+	static char *template = "(&(GlueServiceType=srm*)(GlueServiceEndpoint=*://%s*))";
 	char *attr;
 	static char *attrs[] = {type, version, uri, NULL};
 	int bdii_port;
@@ -717,7 +717,7 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 				st[i] = strdup (value[0]);
 			} else if (strcmp (attr, "GlueServiceVersion") == 0) {
 				sv[i] = strdup (value[0]);
-			} else {	/* GlueServiceURI */
+			} else {	/* GlueServiceEndpoint */
 				ep[i] = strdup (value[0]);
 			}
 			ldap_value_free (value);
