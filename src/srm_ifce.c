@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.33 $ $Date: 2007/07/16 15:11:21 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.34 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -25,11 +25,11 @@ static int errorstring2errno (const char *);
 
 
 srm_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
-		char *errbuf, int errbufsz, int timeout)
+		struct srm_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	struct ns5__advisoryDeleteResponse out;
-	int ret;
-	int sav_errno;
+	int i, ret;
+	int sav_errno = 0;
 	int flags;
 	struct soap soap;
 	struct ArrayOfstring surlarray;
@@ -73,18 +73,27 @@ srm_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	}
 	soap_end (&soap);
 	soap_done (&soap);
+
+	if ((*filestatuses = (struct srm_filestatus *) calloc (nbfiles, sizeof (struct srm_filestatus))) == NULL) {
+		errno = ENOMEM;
+		return (-1);
+	}
+	for (i = 0; i < nbfiles; ++i) {
+		memset (*filestatuses + i, 0, sizeof (struct srm_filestatus));
+		(*filestatuses)[i].surl = strdup (surls[i]);
+	}
 	return (nbfiles);
 }
 
-srm_get (int nbfiles, char **surls, int nbprotocols, char **protocols,
+srm_get (int nbfiles, const char **surls, int nbprotocols, char **protocols,
 		int *reqid, char **token, struct srm_filestatus **filestatuses, int timeout)
 {
-	return (srm_getx (nbfiles, surls, nbprotocols, protocols, reqid, token,
+	return (srm_getx (nbfiles, surls, nbprotocols, protocols, reqid,
 				filestatuses, NULL, 0, timeout));
 }
 
-srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols,
-		int *reqid, char **token, struct srm_filestatus **filestatuses,
+srm_getx (int nbfiles, const char **surls, int nbprotocols, char **protocols,
+		int *reqid, struct srm_filestatus **filestatuses,
 		char *errbuf, int errbufsz, int timeout)
 {
 	int i = 0;
@@ -112,25 +121,25 @@ srm_getx (int nbfiles, char **surls, int nbprotocols, char **protocols,
 		return (-1);
 	}
 
-	return (srm_getxe (nbfiles, surls, nbprotocols, protocols, reqid, token,
-				filestatuses, srm_endpoint, errbuf, errbufsz, timeout));
+	return (srm_getxe (nbfiles, surls, srm_endpoint, protocols, reqid,
+				filestatuses, errbuf, errbufsz, timeout));
 }
 
-srm_getxe (int nbfiles, char **surls, int nbprotocols, char **protocols,
-		int *reqid, char **token, struct srm_filestatus **filestatuses,
-		const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
+srm_getxe (int nbfiles, const char **surls, const char *srm_endpoint,
+		char **protocols, int *reqid, struct srm_filestatus **filestatuses,
+		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
 	int errflag = 0;
 	struct ns1__RequestFileStatus *f;
-	int i;
-	int n;
+	int i, n;
+	int nbproto = 0;
 	struct ns5__getResponse outg;
 	char *p;
 	struct ArrayOfstring protoarray;
 	struct ns1__RequestStatus *reqstatp;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 	struct ArrayOfstring surlarray;
 
@@ -144,10 +153,13 @@ srm_getxe (int nbfiles, char **surls, int nbprotocols, char **protocols,
 	soap.send_timeout = timeout ;
 	soap.recv_timeout = timeout ;
 
+	while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+	if (!protocols[nbproto]) protocols[nbproto] = "";
+
 	surlarray.__ptr = (char **)surls;
 	surlarray.__size = nbfiles;
 	protoarray.__ptr = protocols;
-	protoarray.__size = nbprotocols;
+	protoarray.__size = nbproto;
 
 	if (ret = soap_call_ns5__get (&soap, srm_endpoint, "get", &surlarray,
 				&protoarray, &outg)) {
@@ -181,8 +193,6 @@ srm_getxe (int nbfiles, char **surls, int nbprotocols, char **protocols,
 		return (-1);
 	}
 	*reqid = reqstatp->requestId;
-	if (token)
-		*token = NULL;
 
 	n = reqstatp->fileStatuses->__size;
 
@@ -214,21 +224,14 @@ srm_getxe (int nbfiles, char **surls, int nbprotocols, char **protocols,
 	return (n);
 }
 
-srm_getstatus (int nbfiles, char **surls, int reqid, char *token,
+srm_getstatus (int nbfiles, const char **surls, int reqid, char *token,
 		struct srm_filestatus **filestatuses, int timeout)
 {
-	char srm_endpoint[256];
-	char *sfn;
-
-	if (parsesurl (surls[0], srm_endpoint, 256, &sfn, NULL, 0) < 0)
-		return (-1);
-
-	return (srm_getstatusxe (nbfiles, surls, reqid, token, filestatuses,
-				srm_endpoint, NULL, 0, timeout));
+	return (srm_getstatusx (nbfiles, surls, reqid, filestatuses, NULL, 0, timeout));
 }
 
-srm_getstatusx (int nbfiles, char **surls, int reqid, char *token,
-		struct srm_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+srm_getstatusx (int nbfiles, const char **surls, int reqid, struct srm_filestatus **filestatuses,
+		char *errbuf, int errbufsz, int timeout)
 {
 	int i = 0;
 	char **se_types;
@@ -255,12 +258,10 @@ srm_getstatusx (int nbfiles, char **surls, int reqid, char *token,
 		return (-1);
 	}
 
-	return (srm_getstatusxe (nbfiles, surls, reqid, token, filestatuses,
-				srm_endpoint, errbuf, errbufsz, timeout));
+	return (srm_getstatusxe (reqid, srm_endpoint, filestatuses, errbuf, errbufsz, timeout));
 }
 
-srm_getstatusxe (int nbfiles, char **surls, int reqid, char *token,
-		struct srm_filestatus **filestatuses, const char *srm_endpoint,
+srm_getstatusxe (int reqid, const char *srm_endpoint, struct srm_filestatus **filestatuses,
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
@@ -272,7 +273,7 @@ srm_getstatusxe (int nbfiles, char **surls, int reqid, char *token,
 	char *p;
 	struct ns1__RequestStatus *reqstatp;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 	struct ArrayOfstring surlarray;
 
@@ -350,7 +351,7 @@ srm_getstatusxe (int nbfiles, char **surls, int reqid, char *token,
 }
 
 srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, GFAL_LONG64 *filesizes, char **protocols,
-		int oflag, int *reqid, char **token, struct srm_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
+		int oflag, int *reqid, struct srm_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
 	int i, n;
@@ -364,7 +365,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	int r = 0;
 	struct ns1__RequestStatus *reqstatp;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct ArrayOflong sizearray;
 	struct soap soap;
 	struct ArrayOfstring srcarray;
@@ -541,19 +542,18 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	}
 
 	for (i = 0; i < n; i++) {
-		bzero (*statuses + i, sizeof (struct srm_filestatus));
+		memset (*statuses + i, 0, sizeof (struct srm_filestatus));
 		if (reqstatp->fileStatuses->__ptr[i]->SURL)
 			(*statuses)[i].surl = strdup (reqstatp->fileStatuses->__ptr[i]->SURL);
 		(*statuses)[i].fileid = reqstatp->fileStatuses->__ptr[i]->fileId;
-		if (!strcasecmp ((reqstatp->fileStatuses->__ptr[i])->state, "ready") &&
+		if (!strcasecmp (reqstatp->fileStatuses->__ptr[i]->state, "ready") &&
 				reqstatp->fileStatuses->__ptr[i]->TURL) {
-			(*statuses)[i].turl = strdup ((reqstatp->fileStatuses->__ptr[i])->TURL);
+			(*statuses)[i].turl = strdup (reqstatp->fileStatuses->__ptr[i]->TURL);
 			(*statuses)[i].status = 0;
 		} else {
 			(*statuses)[i].status = ENOENT;
 		}
 	}
-	*token = NULL;
 	soap_end (&soap);
 	soap_done (&soap);
 	return (n);
@@ -568,7 +568,7 @@ srm_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint,
 	struct ns5__getFileMetaDataResponse out;
 	struct passwd *pw;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 	struct ArrayOfstring surlarray;
 	int i, n;
@@ -630,18 +630,20 @@ srm_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint,
 	}
 
 	for (i = 0; i < n; ++i) {
-		(*mdstatuses)[i].stat.st_mode = out._Result->__ptr[0]->permMode;
+		if (out._Result->__ptr[i]->SURL)
+			(*mdstatuses)[i].surl = strdup (out._Result->__ptr[i]->SURL);
+		(*mdstatuses)[i].stat.st_mode = out._Result->__ptr[i]->permMode;
 		if (((*mdstatuses)[i].stat.st_mode & S_IFMT) == 0)
 			(*mdstatuses)[i].stat.st_mode |= S_IFREG;
-		if (out._Result->__ptr[0]->owner && (pw = getpwnam (out._Result->__ptr[0]->owner)))
+		if (out._Result->__ptr[i]->owner && (pw = getpwnam (out._Result->__ptr[i]->owner)))
 			(*mdstatuses)[i].stat.st_uid = pw->pw_uid;
 		else
 			(*mdstatuses)[i].stat.st_uid = 2;
-		if (out._Result->__ptr[0]->group && (gr = getgrnam (out._Result->__ptr[0]->group)))
+		if (out._Result->__ptr[i]->group && (gr = getgrnam (out._Result->__ptr[i]->group)))
 			(*mdstatuses)[i].stat.st_gid = gr->gr_gid;
 		else
 			(*mdstatuses)[i].stat.st_gid = 2;
-		(*mdstatuses)[i].stat.st_size = out._Result->__ptr[0]->size;
+		(*mdstatuses)[i].stat.st_size = out._Result->__ptr[i]->size;
 		(*mdstatuses)[i].stat.st_nlink = 1;
 	}
 
@@ -666,7 +668,7 @@ srm_set_xfer_status (const char *status, const char *srm_endpoint, int reqid, in
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
-	int sav_errno;
+	int sav_errno = 0;
 	struct ns5__setFileStatusResponse out;
 	struct ns1__RequestStatus *reqstat;
 	int ret;

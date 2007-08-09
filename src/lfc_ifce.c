@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.40 $ $Date: 2007/07/20 11:54:49 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.41 $ $Date: 2007/08/09 09:08:57 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -790,6 +790,36 @@ lfc_setsize (const char *lfn, GFAL_LONG64 size, char *errbuf, int errbufsz)
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
+
+	return (0);
+}
+
+int
+lfc_statl (const char *lfn, const char *guid, struct stat *buf, char *errbuf, int errbufsz)
+{
+	struct lfc_filestatg statbuf;
+
+	if (lfc_init(errbuf, errbufsz) < 0)
+		return (-1);
+
+	if (fcops.statg (lfn, guid, &statbuf) < 0) {
+		char errmsg[ERRMSG_LEN];
+		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s",
+				lfn != NULL ? lfn : guid,
+				fcops.sstrerror(*fcops.serrno));
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+		return (-1);
+	}
+
+	buf->st_mode = statbuf.filemode;
+	buf->st_nlink = statbuf.nlink;
+	buf->st_uid = statbuf.uid;
+	buf->st_gid = statbuf.gid;
+	buf->st_size = statbuf.filesize;
+	buf->st_atime = statbuf.atime;
+	buf->st_ctime = statbuf.ctime;
+	buf->st_mtime = statbuf.mtime;
 
 	return (0);
 }

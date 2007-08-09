@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.37 $ $Date: 2007/06/06 14:35:17 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.38 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -41,10 +41,131 @@ extern "C"
 #define VO_MAXLEN  255
 #define ERRMSG_LEN 256
 
-struct se_filestatus {
+enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
+
+typedef struct gfal_filestatus {
 	char *surl;
 	char *turl;
-	char *token;
+	int status;
+	char *explanation;
+	int	pinlifetime;
+#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
+	struct stat64 stat;
+#endif
+	struct gfal_filestatus *subpaths;
+	int nbsubpaths;
+} gfal_filestatus;
+
+typedef struct gfal_request {
+	/* [optional]
+	 * if set to 1, 'surls' to NULL, and endpoint specified,
+	 * 'nbfiles' SURLs will be generated */
+	int							generatesurls;
+
+	/* [optional]
+	 * only used to generate SURLs, if specified */
+	char *						relative_path;
+
+	/* [required]
+	 * number of files in 'surls' */
+	int							nbfiles;
+
+	/* [required]
+	 * list of surls */
+	char **						surls;
+
+	/* [optional]
+	 * endpoint */
+	char *						endpoint;
+	
+	/* [required by gfal_turlsfromsurls]
+	 * 0 for get request, 1 for put request */
+	int							oflag;
+	
+	/* [optional]
+	 * list of file sizes
+	 * can be useful for gfal_turlsfromsurls with put request */
+	GFAL_LONG64 *				filesizes;
+	
+	/* [optional]
+	 * SE type to use *by default* */
+	enum se_type				defaultsetype;
+	
+	/* [optional]
+	 * SE type to use - will fail if this type cannot be used */
+	enum se_type				setype;
+	
+	/* [optional]
+	 * if set to 1, no bdii call will be done
+	 * endpoint must be set up for SRM-compliant SE */
+	int							no_bdii_check;
+
+	/* [optional]
+	 * timeout */
+	int							timeout;
+
+	/* [optional]
+	 * list of protocols to use */
+	char **						protocols;
+
+	/* [optional] only used with SRMv2 */
+	char *						srmv2_spacetokendesc;
+	int							srmv2_desiredpintime;
+	int							srmv2_lslevels;
+	int							srmv2_lsoffset;
+	int							srmv2_lscount;
+} *gfal_request;
+
+typedef struct gfal_internal {
+	// INPUTS
+
+	int							generatesurls;
+	char *						relative_path;
+	int							nbfiles;
+	char **						surls;
+	char *						endpoint;
+	int							oflag;
+	GFAL_LONG64 *				filesizes;
+	enum se_type				defaultsetype;
+	enum se_type				setype;
+	int							no_bdii_check;
+	int							timeout;
+	char **						protocols;
+
+	// Only used with SRMv2
+	char *						srmv2_spacetokendesc;
+	int							srmv2_desiredpintime;
+	int							srmv2_lslevels;
+	int							srmv2_lsoffset;
+	int							srmv2_lscount;
+
+	// OUTPUTS
+
+	// For Classic SEs
+	struct sfn_filestatus *		sfn_statuses;
+
+	// For SRMv1 SEs
+	int							srm_reqid;
+	struct srm_filestatus *		srm_statuses;
+	struct srm_mdfilestatus *	srm_mdstatuses;
+
+	// For SRMv2.2 SEs
+	char *						srmv2_token;
+	struct srmv2_filestatus *	srmv2_statuses;
+	struct srmv2_pinfilestatus *srmv2_pinstatuses;
+	struct srmv2_mdfilestatus *	srmv2_mdstatuses;
+
+	int free_endpoint;
+
+	// Common results
+	int returncode; // size of the new results
+	int results_size; // size of the old results
+	gfal_filestatus *results;
+} *gfal_internal;
+
+struct sfn_filestatus {
+	char *surl;
+	char *turl;
 	int status;
 };
 
@@ -64,18 +185,13 @@ struct srmv2_filestatus {
 
 struct srmv2_pinfilestatus {
 	char 	*surl;
-	int 	pinlifetime;
+	char 	*turl;
 	int 	status;
 	char 	*explanation;
+	int 	pinlifetime;
 };
 
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
-struct se_mdfilestatus {
-	char 	*surl;
-	struct stat64	stat;
-	int 	status;
-};
-
 struct srm_mdfilestatus {
 	char 	*surl;
 	struct stat64	stat;
@@ -88,6 +204,8 @@ struct srmv2_mdfilestatus {
 	struct stat64	stat;
 	int 	status;
 	char 	*explanation;
+	struct srmv2_mdfilestatus *subpaths;
+	int nbsubpaths;
 };
 #endif
 
@@ -132,6 +250,22 @@ struct dirent *gfal_readdir64 (DIR *);
 int gfal_stat64 (const char *, struct stat *);
 #endif
 #endif
+
+int gfal_deletesurls (gfal_internal, char *, int);
+int gfal_turlsfromsurls (gfal_internal, char *, int);
+int gfal_ls (gfal_internal, char *, int);
+int gfal_get (gfal_internal, char *, int);
+int gfal_getstatus (gfal_internal, char *, int);
+int gfal_prestage (gfal_internal, char *, int);
+int gfal_prestagestatus (gfal_internal, char *, int);
+int gfal_pin (gfal_internal, char *, int);
+int gfal_release (gfal_internal, char *, int);
+int gfal_set_xfer_done (gfal_internal, char *, int);
+int gfal_set_xfer_running (gfal_internal, char *, int);
+gfal_request gfal_request_new ();
+int gfal_init (gfal_request, gfal_internal *, char *, int);
+int gfal_get_results (gfal_internal, gfal_filestatus **);
+void gfal_internal_free (gfal_internal);
 
                   /* catalog operation entry points */
 int create_alias (const char *, const char *, GFAL_LONG64, char *, int);
@@ -180,9 +314,8 @@ int get_se_typeandendpoint (const char *, char **, char **, char *, int);
 int get_seap_info (const char *, char ***, int **, char *, int);
 int get_srm_types_and_endpoints (const char *, char ***, char ***, char *, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
-int se_getfilemd (int, const char **, const char *, struct se_mdfilestatus **, char *, int, int);
 int srm_getfilemd (int, const char **, const char *, struct srm_mdfilestatus **, char *, int, int);
-int srmv2_getfilemd (int, const char **, const char *, struct srmv2_mdfilestatus **, char **, char *, int, int);
+int srmv2_getfilemd (int, const char **, const char *, int, int, int, struct srmv2_mdfilestatus **, char **, char *, int, int);
 #endif
 int lfc_maperror (struct proto_ops *, int);
 int lfc_getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
@@ -190,6 +323,7 @@ int lfc_setsize (const char *, GFAL_LONG64, char *, int);
 int lfc_accessl (const char *, int, char *, int);
 int lfc_chmodl (const char *, mode_t, char *, int);
 int lfc_renamel (const char *, const char *, char *, int);
+int lfc_statl (const char *, const char *, struct stat *, char *, int);
 DIR *lfc_opendirlg (const char *, const char *, char *, int);
 int lfc_rmdirl (const char *, char *, int);
 int lfc_create_alias (const char *, const char *, mode_t, GFAL_LONG64, char *, int);
@@ -226,38 +360,37 @@ int rmc_register_alias (const char *, const char *, char *, int);
 int rmc_register_pfn (const char *, const char *, char *, int);
 int rmc_unregister_alias (const char *, const char *, char *, int);
 int rmc_unregister_pfn (const char *, const char *, char *, int);
-int se_deletesurls (int, const char **, const char*, struct se_filestatus **, char *, int, int);
-int se_mkdir (const char *, const char *, char *, int, int);
-int se_turlsfromsurls (int, const char **, const char *, char **, int, struct se_filestatus **, char *, int, int);
-int se_set_xfer_done (const char *, const char *, int, char *, int, int);
-int se_set_xfer_running (const char *, const char *, char *, int, int);
-int srm_deletesurls (int, const char **, const char *, char *, int, int);
-int srm_get (int, char **, int, char **, int *, char **, struct srm_filestatus **, int);
-int srm_getx (int, char **, int, char **, int *, char **, struct srm_filestatus **, char *, int, int);
-int srm_getxe (int, char **, int, char **, int *, char **, struct srm_filestatus **, const char *, char *, int, int);
-int srm_getstatus (int, char **, int, char *, struct srm_filestatus **, int );
-int srm_getstatusx (int, char **, int, char *, struct srm_filestatus **, char *, int, int);
-int srm_getstatusxe (int, char **, int, char *, struct srm_filestatus **, const char *, char *, int, int);
+int sfn_deletesurls (int, const char **, struct sfn_filestatus **, char *, int);
+int sfn_turlsfromsurls (int, const char **, char **, struct sfn_filestatus **, char *, int);
+int srm_deletesurls (int, const char **, const char *, struct srm_filestatus **, char *, int, int);
+int srm_get (int, const char **, int, char **, int *, char **, struct srm_filestatus **, int);
+int srm_getx (int, const char **, int, char **, int *, struct srm_filestatus **, char *, int, int);
+int srm_getxe (int, const char **, const char *, char **, int *, struct srm_filestatus **, char *, int, int);
+int srm_getstatus (int, const char **, int, char *, struct srm_filestatus **, int );
+int srm_getstatusx (int, const char **, int, struct srm_filestatus **, char *, int, int);
+int srm_getstatusxe (int, const char *, struct srm_filestatus **, char *, int, int);
 int srm_set_xfer_done (const char *, int, int, char *, int, int);
 int srm_set_xfer_running (const char *, int, int, char *, int, int);
-int srm_turlsfromsurls (int, const char **, const char *, GFAL_LONG64 *, char **, int, int *, char **, struct srm_filestatus **, char *, int, int);
+int srm_turlsfromsurls (int, const char **, const char *, GFAL_LONG64 *, char **, int, int *, struct srm_filestatus **, char *, int, int);
 int srmv2_deletesurls (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_get (int, const char **, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
-int srmv2_gete (int, const char **, const char *, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
-char *srmv2_getspacetoken (const char *, const char *, char *, int, int);
+int srmv2_gete (int, const char **, const char *, const char *, int, char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_getstatus (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_getstatuse (const char *, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_getstatuse (const char *, const char *, struct srmv2_pinfilestatus **, char *, int, int);
+char *srmv2_getspacetoken (const char *, const char *, char *, int, int);
+int srmv2_makedirp (const char *, const char *, char *, int, int);
 int srmv2_prestage (int, const char **, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
-int srmv2_prestagee (int, const char **, const char *, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_prestagee (int, const char **, const char *, const char *, char **, char **, struct srmv2_filestatus **, char *, int, int);
 int srmv2_prestagestatus (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_prestagestatuse (const char *, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_set_xfer_done_get (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_set_xfer_done_put (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_set_xfer_running (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_turlsfromsurls_get (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, struct srmv2_filestatus **, char *, int, int);
-int srmv2_turlsfromsurls_put (int, const char **, const char *, GFAL_LONG64 *, const char *, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_turlsfromsurls_get (int, const char **, const char *, int, const char *, char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
+int srmv2_turlsfromsurls_put (int, const char **, const char *, GFAL_LONG64 *, int, const char *, char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_pin (int, const char **, const char *, const char *, int, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_release (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_access (int, const char **, const char *, int, struct srmv2_filestatus **, char *, int, int);
 char *turlfromsfn (const char *, char **, char *, int);
 
 #ifdef __cplusplus

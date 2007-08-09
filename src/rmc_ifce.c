@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.10 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.11 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -24,7 +24,7 @@
 extern char *lrc_endpoint;
 char *rmc_endpoint;
 
-static int
+	static int
 rmc_init (struct soap *soap, char *errbuf, int errbufsz)
 {
 	int flags;
@@ -33,8 +33,8 @@ rmc_init (struct soap *soap, char *errbuf, int errbufsz)
 	soap->namespaces = namespaces_rmc;
 
 	if (rmc_endpoint == NULL &&
-	    (rmc_endpoint = getenv ("RMC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz)) {
+			(rmc_endpoint = getenv ("RMC_ENDPOINT")) == NULL &&
+			get_rls_endpoints (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz)) {
 		errno = EINVAL;
 		return (-1);
 	}
@@ -48,29 +48,29 @@ rmc_init (struct soap *soap, char *errbuf, int errbufsz)
 	return (0);
 }
 
-char *
+	char *
 rmc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 {
 	struct ns3__guidForAliasResponse out;
 	char *p;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
 	if (ret = soap_call_ns3__guidForAlias (&soap, rmc_endpoint, "",
-	    (char *) lfn, &out)) {
+				(char *) lfn, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHALIAS"))
 				sav_errno = ENOENT;
 			else {
-		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
 			}
 		} else {
-		        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -85,7 +85,7 @@ rmc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 	}
 }
 
-char **
+	char **
 rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 {
 	int i;
@@ -94,23 +94,23 @@ rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 	struct ns3__getAliasesResponse out;
 	char *p;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
 	if (ret = soap_call_ns3__getAliases (&soap, rmc_endpoint, "",
-	    (char *) guid, &out)) {
+				(char *) guid, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
 			else {
-			  gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
 			}
 		} else {
-		        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -142,25 +142,25 @@ rmc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 {
 	struct ns3__addAliasResponse out;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (ret = soap_call_ns3__addAlias (&soap, rmc_endpoint, "",
-	    (char *) guid, (char *) lfn, &out)) {
+				(char *) guid, (char *) lfn, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "ALIASEXISTS"))
 				sav_errno = EEXIST;
 			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
 				sav_errno = ENAMETOOLONG;
 			else {
-		        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
 			}
 		} else {
-		        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -183,8 +183,8 @@ rmc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 		return (-1);
 
 	if (ret = soap_call_ns3__removeAlias (&soap, rmc_endpoint, "",
-	    (char *) guid, (char *) lfn, &out)) {
-	        gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				(char *) guid, (char *) lfn, &out)) {
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;

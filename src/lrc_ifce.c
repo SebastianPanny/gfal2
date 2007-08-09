@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.16 $ $Date: 2007/05/31 14:02:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.17 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -25,7 +25,7 @@ extern char *rmc_endpoint;
 
 #include "gfal_api.h"
 
-static int
+	static int
 lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 {
 	int flags;
@@ -34,8 +34,8 @@ lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 	soap->namespaces = namespaces_lrc;
 
 	if (lrc_endpoint == NULL &&
-	    (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-	    get_rls_endpoints (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz)) {
+			(lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
+			get_rls_endpoints (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz)) {
 		errno = EINVAL;
 		return (-1);
 	}
@@ -52,43 +52,43 @@ lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 
 char *
 lrc_get_catalog_endpoint(char *errbuf, int errbufsz) {
-        struct soap soap;
-        if(lrc_init(&soap, errbuf, errbufsz) < 0)
-                return (NULL);
-        return lrc_endpoint;
+	struct soap soap;
+	if(lrc_init(&soap, errbuf, errbufsz) < 0)
+		return (NULL);
+	return lrc_endpoint;
 }
 
-int
+	int
 lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
 {
 	struct ns3__getPfnsResponse out;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 	char **surlarray;
 
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_ns3__getPfns (&soap, lrc_endpoint, "",
-	    (char *) guid, &out)) {
+	if ((ret = soap_call_ns3__getPfns (&soap, lrc_endpoint, "",
+					(char *) guid, &out))) {
 		if (ret == SOAP_FAULT) {
-		  if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
+			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = 0;
-		  else {
-		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			else {
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
-		  }
+			}
 		} else {
-		  gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
 		soap_done (&soap);
 		// return 'false' if guid does not exist in LRC
 		if(sav_errno == 0)
-		  return (0);
-		
+			return (0);
+
 		errno = sav_errno;
 		return (-1);
 	}
@@ -97,25 +97,25 @@ lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
 	return (out._getPfnsReturn->__size==0?0:1);
 }
 
-char *
+	char *
 lrc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 {
 	struct ns3__guidForPfnResponse out;
 	char *p;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
 	if (ret = soap_call_ns3__guidForPfn (&soap, lrc_endpoint, "",
-	    (char *) pfn, &out)) {
+				(char *) pfn, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
 				sav_errno = ENOENT;
 			else {
-			  gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
 			}
 		} else {
@@ -143,7 +143,7 @@ lrc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 		return (-1);
 
 	if (ret = soap_call_ns3__guidExists (&soap, lrc_endpoint, "",
-	    (char *) guid, &out)) {
+				(char *) guid, &out)) {
 		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);	
@@ -160,21 +160,21 @@ lrc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
 	struct ns3__addMappingResponse out;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (ret = soap_call_ns3__addMapping (&soap, lrc_endpoint, "",
-	    (char *) guid, (char *) pfn, &out)) {
+				(char *) guid, (char *) pfn, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "PFNEXISTS"))
 				sav_errno = EEXIST;
 			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
 				sav_errno = ENAMETOOLONG;
 			else {
-			  gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
 			}
 		} else {
@@ -195,7 +195,7 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 {
 	struct ns3__setStringPfnAttributeResponse out;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 	char tmpbuf[21];
 
@@ -204,12 +204,12 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 
 	sprintf (tmpbuf, GFAL_LONG64_FORMAT, filesize);
 	if (ret = soap_call_ns3__setStringPfnAttribute (&soap, lrc_endpoint,
-	    "", (char *) pfn, "size", tmpbuf, &out)) {
+				"", (char *) pfn, "size", tmpbuf, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
 				sav_errno = ENOENT;
 			else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
 			}
 		} else {
@@ -226,13 +226,13 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 	return (0);
 }
 
-char *
+	char *
 lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 {
 	struct ns3__getPfnsResponse out;
 	char *p, *result;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 	char **surls;
 
@@ -240,12 +240,12 @@ lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (NULL);
 
 	if (ret = soap_call_ns3__getPfns (&soap, lrc_endpoint, "",
-	    (char *) guid, &out)) {
+				(char *) guid, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
 			else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
 			}
 		} else {
@@ -257,30 +257,30 @@ lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 		errno = sav_errno;
 		return (NULL);
 	} else {
-	  result = getbestfile (out._getPfnsReturn->__ptr, 
+		result = getbestfile (out._getPfnsReturn->__ptr, 
 				out._getPfnsReturn->__size, errbuf, errbufsz);
-	  if(result == NULL) {
-	    soap_end (&soap);
-	    soap_done (&soap);
-	    errno = EPROTONOSUPPORT;
-	    return (NULL);
-	  }
-	  p = strdup (result);
-	  soap_end (&soap);
-	  soap_done (&soap);
-	  return (p);
+		if(result == NULL) {
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = EPROTONOSUPPORT;
+			return (NULL);
+		}
+		p = strdup (result);
+		soap_end (&soap);
+		soap_done (&soap);
+		return (p);
 	}
-	  
+
 }
 
-char **
+	char **
 lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 {
 	int i;
 	int j;
 	struct ns3__getPfnsResponse out;
 	int ret;
-	int sav_errno;
+	int sav_errno = 0;
 	struct soap soap;
 	char **surlarray;
 
@@ -288,12 +288,12 @@ lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (NULL);
 
 	if (ret = soap_call_ns3__getPfns (&soap, lrc_endpoint, "",
-	    (char *) guid, &out)) {
+				(char *) guid, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
 			else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 				sav_errno = ECOMM;
 			}
 		} else {
@@ -337,7 +337,7 @@ lrc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
 		return (-1);
 
 	if (ret = soap_call_ns3__removeMapping (&soap, lrc_endpoint, "",
-	    (char *) guid, (char *) pfn, &out)) {
+				(char *) guid, (char *) pfn, &out)) {
 		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);

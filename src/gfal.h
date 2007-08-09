@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.h,v $ $Revision: 1.7 $ $Date: 2007/01/17 13:56:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.h,v $ $Revision: 1.8 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_H
@@ -67,7 +67,7 @@ static struct xfer_info *find_xi (int);
 static void free_di (struct dir_info *);
 static int free_xi (int);
 static int mdtomd32 (struct stat64 *, struct stat *);
-struct proto_ops *find_pops (const char *);
 char **get_sup_proto ();
+struct proto_ops *find_pops (const char *);
 int mapposixerror (struct proto_ops *, int);
 #endif

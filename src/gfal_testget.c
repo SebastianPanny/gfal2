@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testget.c,v $ $Revision: 1.3 $ $Date: 2006/04/11 12:44:25 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_testget.c,v $ $Revision: 1.4 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -36,7 +36,7 @@ char **argv;
 
 	nbprotocols = sizeof(protocols) / sizeof(char *);
 
-	if ((nbreplies = srm_get (nbfiles, surls, nbprotocols, protocols,
+	if ((nbreplies = srm_get (nbfiles, (const char **) surls, nbprotocols, protocols,
 	    &reqid, NULL, &filestatuses, 0)) < 0) {
 		perror ("srm_get");
 		exit (1);
@@ -59,7 +59,7 @@ char **argv;
 		/* if processing complete, break */ if (num_done == nbreplies) break;
 
 		sleep ((r++ == 0) ? 1 : DEFPOLLINT);
-		if ((nbreplies = srm_getstatus (nbfiles, surls, reqid, NULL,
+		if ((nbreplies = srm_getstatus (nbfiles, (const char **) surls, reqid, NULL,
 						&filestatuses, 0)) < 0) {
 			perror ("srm_getstatus");
 			exit (1);

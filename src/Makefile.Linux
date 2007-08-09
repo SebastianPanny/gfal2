@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.45 $ $Date: 2007/07/11 12:52:52 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.46 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -126,7 +126,7 @@ SHLIBLDFLAGS = -shared
 
 INCLUDE_PYTHON=-I$(PYTHON_INC) -I$(PYTHON_LIB)
 
-GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o se_ifce.o srm2_2_ifce.o srm_ifce.o srmC.o srmClient.o lfc_ifce.o
+GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o sfn_ifce.o srm2_2_ifce.o srm_ifce.o srmC.o srmClient.o lfc_ifce.o
 GFAL_TESTSRC = gfal_testchmod.c gfal_testget.c gfal_teststat.c gfal_testcreatdir.c gfal_testread.c gfal_testunlink.c gfal_testdir.c gfal_testrw.c
 GFAL_TESTBIN = $(GFAL_TESTSRC:.c=)
 GFAL_INSTALL_TESTBIN = $(patsubst %,$(prefix)/bin/%, $(GFAL_TESTBIN))
@@ -144,17 +144,19 @@ checkprotolib.o: checkprotolib.c gfal.h
 	$(CC) -c $(PROTOFLG) $<
 gfal.o: gfal.c gfal.h gfal_api.h gfal_constants.h
 	$(CC) -c $(SECFLG) $<
-lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap
+lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
-rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap
+rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
-lfc_ifce.o: lfc_ifce.c
+lfc_ifce.o: lfc_ifce.c gfal_api.h
 	$(CC) -c -DVERSION=\"GFAL-$(VERSION)\" $(LFCINC) $(SECFLG) $<
-se_ifce.o: se_ifce.c seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding+.nsmap
+#se_ifce.o: se_ifce.c seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding+.nsmap
+#	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
+sfn_ifce.o: sfn_ifce.c gfal.h gfal_api.h gfal_constants.h
+	$(CC) -c $(SECFLG) $<
+srm2_2_ifce.o: srm2_2_ifce.c srmv2H.h srmv2Stub.h srmSoapBinding+.nsmap gfal_api.h
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
-srm2_2_ifce.o: srm2_2_ifce.c srmv2H.h srmv2Stub.h srmSoapBinding+.nsmap
-	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
-srm_ifce.o: srm_ifce.c srmH.h srmStub.h ISRM.nsmap
+srm_ifce.o: srm_ifce.c srmH.h srmStub.h ISRM.nsmap gfal_api.h
 	$(CC) -c $(GSOAPINC) $(SECFLG) $<
 srmC.o: srmC.c
 	$(CC) -c $(GSOAPINC) $<
@@ -180,8 +182,8 @@ lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding.nsmap: 
 	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p lrc edg-local-replica-catalog.h
 rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding.nsmap: edg-replica-metadata-catalog.h
 	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p rmc edg-replica-metadata-catalog.h
-seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding.nsmap: edg-se-webservice.h
-	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p se edg-se-webservice.h
+#seH.h seStub.h seC.c seClient.c edg_se_webserviceSoapBinding.nsmap: edg-se-webservice.h
+#	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p se edg-se-webservice.h
 srmH.h srmStub.h srmC.c srmClient.c ISRM.nsmap: srm.v1.1.h
 	$(GSOAP_LOCATION)/bin/soapcpp2 -c -p srm srm.v1.1.h
 srmv2H.h srmv2Stub.h srmv2C.c srmv2Client.c srmSoapBinding.nsmap: srm.v2.2.h
@@ -191,8 +193,8 @@ edg-local-replica-catalog.h: edg-local-replica-catalog.wsdl
 	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -w -y -t $(SRCDIR)/typemap-lrc.dat $< -o $@
 edg-replica-metadata-catalog.h: edg-replica-metadata-catalog.wsdl
 	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -w -y -t $(SRCDIR)/typemap-rmc.dat $< -o $@
-edg-se-webservice.h: edg-se-webservice.wsdl
-	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -w -y -t $(SRCDIR)/typemap-se.dat $< -o $@
+#edg-se-webservice.h: edg-se-webservice.wsdl
+#	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -w -y -t $(SRCDIR)/typemap-se.dat $< -o $@
 srm.v1.1.h: srm.v1.1.wsdl
 	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -w -y -t $(SRCDIR)/typemap-srmv1.dat $< -o $@
 srm.v2.2.h: srm.v2.2.wsdl

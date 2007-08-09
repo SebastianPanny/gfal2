@@ -6,6 +6,20 @@
 
 %include "lcg-typemaps.python.i"
 
+extern int gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz);
+extern int gfal_get_results (gfal_internal req, gfal_filestatus **statuses);
+extern void gfal_internal_free (gfal_internal req);
+extern int gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_ls (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_get (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_prestage (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_pin (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_release (gfal_internal req, char *errbuf, int errbufsz);
+
+/*
 extern int deletesurl (const char *surl, char *errbuf, int errbufsz, int timeout);
 extern int deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf,
 			int errbufsz, int timeout);
@@ -45,3 +59,4 @@ extern int srmv2_prestage (int LEN, const char **LIST, const char *spacetokendes
             char *errbuf, int errbufsz, int timeout);
 extern int srmv2_prestagestatus (int LEN, const char **LIST, const char *reqtoken,
             struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout);
+*/
