@@ -1,10 +1,136 @@
-.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.6 $ $Date: 2007/04/18 13:49:44 $ CERN Jean-Philippe Baud
+.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.7 $ $Date: 2007/08/09 17:20:40 $ CERN Jean-Philippe Baud
 .\" Copyright (C) 2003-2004 by CERN/IT/PDP/DM
 .\" All rights reserved
 .\"
-.TH GFAL 3 "$Date: 2007/04/18 13:49:44 $" GFAL "Library Functions"
+.TH GFAL 3 "$Date: 2007/08/09 17:20:40 $" GFAL "Library Functions"
 .SH NAME
 gfal - Grid File Access Library
+
+.SH SYNOPSIS
+ enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
+
+ typedef struct gfal_filestatus {
+    char *surl;
+    char *turl;
+    int status;
+    char *explanation;
+    int    pinlifetime;
+    struct stat64 stat;
+    struct gfal_filestatus *subpaths;
+    int nbsubpaths;
+ } gfal_filestatus;
+
+ typedef struct gfal_request {
+    /* [optional]
+     * if set to 1, 'surls' to NULL, and endpoint specified,
+     * 'nbfiles' SURLs will be generated */
+    int generatesurls;
+
+    /* [optional]
+     * only used to generate SURLs, if specified */
+    char *relative_path;
+
+    /* [required]
+     * number of files in 'surls' */
+    int nbfiles;
+
+    /* [required]
+     * list of surls */
+    char **surls;
+
+    /* [optional]
+     * endpoint */
+    char *endpoint;
+    
+    /* [required by gfal_turlsfromsurls]
+     * 0 for get request, 1 for put request */
+    int oflag;
+    
+    /* [optional]
+     * list of file sizes
+     * can be useful for gfal_turlsfromsurls with put request */
+    GFAL_LONG64 *filesizes;
+    
+    /* [optional]
+     * SE type to use *by default* */
+    enum se_type defaultsetype;
+    
+    /* [optional]
+     * SE type to use - will fail if this type cannot be used */
+    enum se_type setype;
+    
+    /* [optional]
+     * if set to 1, no bdii call will be done
+     * endpoint must be set up for SRM-compliant SE */
+    int no_bdii_check;
+
+    /* [optional]
+     * timeout */
+    int timeout;
+
+    /* [optional]
+     * list of protocols to use */
+    char **protocols;
+
+    /* [optional] only used with SRMv2 */
+    char *srmv2_spacetokendesc;
+    int srmv2_desiredpintime;
+    int srmv2_lslevels;
+    int srmv2_lsoffset;
+    int srmv2_lscount;
+ } *gfal_request;
+
+
+ /* POSIX GFAL functions */
+
+ int gfal_access (const char *, int);
+ int gfal_chmod (const char *, mode_t);
+ int gfal_close (int);
+ int gfal_closedir (DIR *);
+ int gfal_creat (const char *, mode_t);
+ int gfal_creat64 (const char *, mode_t);
+ void gfal_errmsg (char *, int, const char *);
+ off_t gfal_lseek (int, off_t, int);
+ int gfal_lstat (const char *, struct stat *);
+ int gfal_mkdir (const char *, mode_t);
+ int gfal_open (const char *, int, mode_t);
+ int gfal_open64 (const char *, int, mode_t);
+ DIR *gfal_opendir (const char *);
+ ssize_t gfal_read (int, void *, size_t);
+ struct dirent *gfal_readdir (DIR *);
+ int gfal_rename (const char *, const char *);
+ int gfal_rmdir (const char *);
+ ssize_t gfal_setfilchg (int, const void *, size_t);
+ int gfal_stat (const char *, struct stat *);
+ int gfal_unlink (const char *);
+ ssize_t gfal_write (int, const void *, size_t);
+ off64_t gfal_lseek64 (int, off64_t, int);
+ int gfal_lstat64 (const char *, struct stat64 *);
+ struct dirent64 *gfal_readdir64 (DIR *);
+ int gfal_stat64 (const char *, struct stat64 *);
+ off_t gfal_lseek64 (int, off_t, int);
+ int gfal_lstat64 (const char *, struct stat *);
+ struct dirent *gfal_readdir64 (DIR *);
+ int gfal_stat64 (const char *, struct stat *);
+
+ /* Other GFAL functions */
+
+ gfal_request gfal_request_new ();
+ int gfal_init (gfal_request, gfal_internal *, char *, int);
+ int gfal_deletesurls (gfal_internal, char *, int);
+ int gfal_turlsfromsurls (gfal_internal, char *, int);
+ int gfal_ls (gfal_internal, char *, int);
+ int gfal_get (gfal_internal, char *, int);
+ int gfal_getstatus (gfal_internal, char *, int);
+ int gfal_prestage (gfal_internal, char *, int);
+ int gfal_prestagestatus (gfal_internal, char *, int);
+ int gfal_pin (gfal_internal, char *, int);
+ int gfal_release (gfal_internal, char *, int);
+ int gfal_set_xfer_done (gfal_internal, char *, int);
+ int gfal_set_xfer_running (gfal_internal, char *, int);
+ int gfal_get_results (gfal_internal, gfal_filestatus **);
+ void gfal_internal_free (gfal_internal);
+
 .SH DESCRIPTION
 Grid storage interactions today require using several existing software
 components:
@@ -99,14 +225,14 @@ A BDII stores a lot of data concerning, like SE type (SRMv1, SRMv2.2, Classic SE
 default endpoints for VOs (LFC, RLS, ...). So, one must specify the BDII to use with the
 environment variable LCG_GFAL_INFOSYS. For example :
 .sp
-	setenv LCG_GFAL_INFOSYS lcg-bdii.cern.ch:2170
+    setenv LCG_GFAL_INFOSYS lcg-bdii.cern.ch:2170
 .TP
 .B Virtual Organization - VO
 To be able to get endpoints from BDII (in case they are not specified elsewhere, see below),
 or to select the rigth default SE from environment variables (see below), one must specify the
 environment variable LCG_GFAL_VO. For example :
 .sp
-	setenv LCG_GFAL_VO dteam
+    setenv LCG_GFAL_VO dteam
 .TP
 .B EDG Replica Catalogs endpoints
 To avoid GFAL to get them from BDII (slower), one can specify the servers endpoints with
@@ -114,13 +240,13 @@ environment variables RMC_ENDPOINT and LRC_ENDPOINT. If they aren't specified, a
 value will be get from BDII. To use such File Catalog, one must set the LCG_CATALOG_TYPE
 variable to "edg". For example :
 .sp
-	setenv RMC_ENDPOINT \\
+    setenv RMC_ENDPOINT \\
 .br
-	http://rlscert01.cern.ch:7777/dteam/edg-replica-metadata-catalog/services/edg-replica-metadata-catalog
+    http://rlscert01.cern.ch:7777/dteam/edg-replica-metadata-catalog/services/edg-replica-metadata-catalog
 .br
-	setenv LRC_ENDPOINT \\
+    setenv LRC_ENDPOINT \\
 .br
-	http://rlscert01.cern.ch:7777/dteam/edg-local-replica-catalog/services/edg-local-replica-catalog
+    http://rlscert01.cern.ch:7777/dteam/edg-local-replica-catalog/services/edg-local-replica-catalog
 .TP
 .B LCG File Catalog - LFC
 An alternative to the EDG Replica Catalogs is to use the LCG File Catalog (LFC)
@@ -128,11 +254,11 @@ instead.  In order to use the LFC, one must set the LCG_CATALOG_TYPE variable to
 LFC_HOST to specify which host to contact. If it is not specified, a default value will be get from BDII.
 For example:
 .sp
-	setenv LCG_CATALOG_TYPE lfc
+    setenv LCG_CATALOG_TYPE lfc
 .br
 and optionally
 .br
-	setenv LFC_HOST lfc-shared.cern.ch
+    setenv LFC_HOST lfc-shared.cern.ch
 .br
 .TP
 .B RFIO protocol
@@ -140,7 +266,7 @@ For the moment there are 2 different versions of RFIO protocol : Castor and DPM.
 into a single common version, but it isn't available yet. By default, the Castor version is used. So, if you
 want to use the DPM version, one must set LCG_RFIO_TYPE variable to "dpm". For example :
 .sp
-	setenv LCG_RFIO_TYPE dpm
+    setenv LCG_RFIO_TYPE dpm
 .TP
 .B Security
 The SRMs can only be accessed in secure mode, i.e. require a valid Grid
@@ -150,10 +276,69 @@ The Replica catalogs can be accessed in secure or insecure mode depending on the
 endpoint provided: if it starts with
 .B https:
 the secure mode is used.
+
+.SH USAGE
+Posix GFAL function usage is standard, so we won't spend time to explain it. To have more details on a specific function,
+please se the corresponding man page.
+Due to the 'gfal_internal' object use by most of other GFAL functions, to use them requires to follow a few steps.
+
+First of all, you have to create a 'gfal_request' object, in which you will be able to set your parameters :
+
+    gfal_request req;
+    ...
+    if ((req = gfal_request_new ()) == NULL) {
+        // ERROR ...
+    }
+    req->surls = ...
+    req->nbfiles = ...
+    ...
+
+To see the meaning of each parameter, have a look to the documentation of
+.BR gfal_init() .
+Once, you have set all the desired parameters in this request, you have to the internal gfal object like this :
+
+    gfal_internal gfal;
+    ....
+    if (gfal_init (req, &gfal, errbuf, errbufsz) < 0) {
+        // ERROR ...
+    }
+
+.B DO NOT MODIFY
+this object by hand. If you need other parameters, just make a new request and run gfal_init again on it.
+Moreover, do not free any members of
+.B req
+while you are using the internal object, because it uses them !
+
+Then, you just have to pass this internal object
+.B gfal
+to gfal functions :
+
+    if (gfal_turlsfromsurls (gfal, errbuf, errbufsz) < 0) {
+        // ERROR ...
+    }
+
+Finally, you have to call a specific function to get the results :
+
+    gfal_filestatus *filestatuses;
+    ...
+    if (gfal_get_results (gfal, &filestatuses) < 0) {
+        // ERROR ...
+    }
+
+It is recommended to keep the same 'gfal_internal' object (one per thread) for making requests on same SURLs.
+
+Once the 'gfal_internal' object is not needed anymore, it must be freed:
+
+    gfal_internal_free (gfal);
+
+But, it won't free the arguments which were in your initial request (eg. list of SURLs), you have to free them
+by hand if needed, in addition to the request ('gfal_request' object).
+
 .SH RETURN VALUE
-The variable
+All function return 0 on success, and -1 on failure. The variable
 .B errno
 is set to the Posix error codes in the case of failure.
+
 .SH EXAMPLES
 A program writing a file, reading it back and checking the content of the file
 is shown below:
@@ -166,86 +351,100 @@ is shown below:
 
 main(int argc, char **argv)
 {
-	int fd;
-	int i;
-	char ibuf[BLKLEN];
-	char obuf[BLKLEN];
-	int rc;
+    int fd;
+    int i;
+    char ibuf[BLKLEN];
+    char obuf[BLKLEN];
+    int rc;
 
-	if (argc != 2) {
-		fprintf (stderr, "usage: %s filename\\n", argv[0]);
-		exit (1);
-	}
+    if (argc != 2) {
+        fprintf (stderr, "usage: %s filename\\n", argv[0]);
+        exit (1);
+    }
 
-	for (i = 0; i < BLKLEN; i++)
-		obuf[i] = i;
+    for (i = 0; i < BLKLEN; i++)
+        obuf[i] = i;
 
-	printf ("creating file %s\\n", argv[1]);
-	if ((fd = gfal_open (argv[1], O_WRONLY|O_CREAT, 0644)) < 0) {
-		perror ("gfal_open");
-		exit (1);
-	}
-	printf ("open successful, fd = %d\\n", fd);
+    printf ("creating file %s\\n", argv[1]);
+    if ((fd = gfal_open (argv[1], O_WRONLY|O_CREAT, 0644)) < 0) {
+        perror ("gfal_open");
+        exit (1);
+    }
+    printf ("open successful, fd = %d\\n", fd);
 
-	if ((rc = gfal_write (fd, obuf, BLKLEN)) != BLKLEN) {
-		if (rc < 0)
-			perror ("gfal_write");
-		else
-			fprintf (stderr, "gfal_write returns %d\\n", rc);
-		(void) gfal_close (fd);
-		exit (1);
-	}
-	printf ("write successful\\n");
+    if ((rc = gfal_write (fd, obuf, BLKLEN)) != BLKLEN) {
+        if (rc < 0)
+            perror ("gfal_write");
+        else
+            fprintf (stderr, "gfal_write returns %d\\n", rc);
+        (void) gfal_close (fd);
+        exit (1);
+    }
+    printf ("write successful\\n");
 
-	if ((rc = gfal_close (fd)) < 0) {
-		perror ("gfal_close");
-		exit (1);
-	}
-	printf ("close successful\\n");
+    if ((rc = gfal_close (fd)) < 0) {
+        perror ("gfal_close");
+        exit (1);
+    }
+    printf ("close successful\\n");
 
-	printf ("reading back %s\\n", argv[1]);
-	if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
-		perror ("gfal_open");
-		exit (1);
-	}
-	printf ("open successful, fd = %d\\n", fd);
+    printf ("reading back %s\\n", argv[1]);
+    if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
+        perror ("gfal_open");
+        exit (1);
+    }
+    printf ("open successful, fd = %d\\n", fd);
 
-	if ((rc = gfal_read (fd, ibuf, BLKLEN)) != BLKLEN) {
-		if (rc < 0)
-			perror ("gfal_read");
-		else
-			fprintf (stderr, "gfal_read returns %d\\n", rc);
-		(void) gfal_close (fd);
-		exit (1);
-	}
-	printf ("read successful\\n");
+    if ((rc = gfal_read (fd, ibuf, BLKLEN)) != BLKLEN) {
+        if (rc < 0)
+            perror ("gfal_read");
+        else
+            fprintf (stderr, "gfal_read returns %d\\n", rc);
+        (void) gfal_close (fd);
+        exit (1);
+    }
+    printf ("read successful\\n");
 
-	if ((rc = gfal_close (fd)) < 0) {
-		perror ("gfal_close");
-		exit (1);
-	}
-	printf ("close successful\\n");
+    if ((rc = gfal_close (fd)) < 0) {
+        perror ("gfal_close");
+        exit (1);
+    }
+    printf ("close successful\\n");
 
-	for (i = 0; i < BLKLEN; i++) {
-		if (ibuf[i] != obuf[i]) {
-			fprintf (stderr, "compare failed at offset %d\\n", i);
-			exit (1);
-		}
-	}
-	printf ("compare successful\\n");
-	exit (0);
+    for (i = 0; i < BLKLEN; i++) {
+        if (ibuf[i] != obuf[i]) {
+            fprintf (stderr, "compare failed at offset %d\\n", i);
+            exit (1);
+        }
+    }
+    printf ("compare successful\\n");
+    exit (0);
 }
 .ft
 .fi
+
 .SH FILES
 .B /opt/lcg/include/gfal_api.h
 .TP
 .B /opt/lcg/lib/libgfal.so
 .TP
-.B /usr/local/lib/libcgsi_plugin_gsoap_2.3.so
-.TP
-.B /opt/globus/lib/libglobus_gssapi_gsi_gcc32dbg.so
-.TP
-.B /opt/globus/lib/libglobus_gss_assist_gcc32dbg.so
-.SH AUTHOR
-Jean-Philippe Baud
+.B /opt/lcg/lib/python/gfal.py
+
+.SH AUTHORS
+Jean-Philippe Baud, Remi Mollon
+
+.SH SEE ALSO
+.BR  gfal_request_new(3) ,
+.BR  gfal_internal_free(3) ,
+.BR  gfal_deletesurls(3) ,
+.BR  gfal_turlsfromsurls(3) ,
+.BR  gfal_ls(3) ,
+.BR  gfal_get(3) ,
+.BR  gfal_getstatus(3) ,
+.BR  gfal_prestage(3) ,
+.BR  gfal_prestagestatus(3) ,
+.BR  gfal_pin(3) ,
+.BR  gfal_release(3) ,
+.BR  gfal_set_xfer_done(3) ,
+.BR  gfal_set_xfer_running(3) ,
+.B gfal_get_results(3)

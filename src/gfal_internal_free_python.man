@@ -1,0 +1,41 @@
+.\" @(#)$RCSfile: gfal_internal_free_python.man,v $ $Revision: 1.1 $ $Date: 2007/08/09 17:20:41 $ CERN Remi Mollon
+.\" Copyright (C) 2007 by CERN
+.\" All rights reserved
+.\"
+.TH GFAL_INTERNAL_FREE 3 "$Date: 2007/08/09 17:20:41 $" GFAL "Library Functions"
+.SH NAME
+gfal_internal_free \- frees gfal_internal objects
+.SH SYNOPSIS
+\fBimport gfal_internal_free\fR
+.sp
+.BI "void gfal_internal_free (gfal_internal gfal);
+.SH DESCRIPTION
+.B gfal_internal_free
+frees 
+.B gfal_internal
+objects with all results which are included. But it
+.B DOESN'T FREE
+parts of the initial 
+.B gfal_request
+object which are used in it.
+.TP
+.I gfal
+.B gfal_internal
+object to free.
+
+.SH SEE ALSO
+.BR gfal_python(3) ,
+.BR  gfal_request_new_python(3) ,
+.BR  gfal_init_python(3) ,
+.BR  gfal_deletesurls_python(3) ,
+.BR  gfal_turlsfromsurls_python(3) ,
+.BR  gfal_ls_python(3) ,
+.BR  gfal_get_python(3) ,
+.BR  gfal_getstatus_python(3) ,
+.BR  gfal_prestage_python(3) ,
+.BR  gfal_prestagestatus_python(3) ,
+.BR  gfal_pin_python(3) ,
+.BR  gfal_release_python(3) ,
+.BR  gfal_set_xfer_done_python(3) ,
+.BR  gfal_set_xfer_running_python(3) ,
+.B gfal_get_results_python(3)
