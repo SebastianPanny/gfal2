@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.52 $ $Date: 2007/08/21 13:48:35 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.53 $ $Date: 2007/08/21 14:32:27 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1812,6 +1812,7 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz)
 	int len;
 	char *p, *endpoint;
 	char errmsg[ERRMSG_LEN];
+	int endpoint_offset=0;
 
 	if (strncmp (surl, "srm://", 6) && strncmp (surl, "sfn://", 6)) {
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid SURL (must start with either 'srm://' or 'sfn://')", surl);
@@ -1837,12 +1838,13 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz)
 		return (NULL);
 	}//hack to ensure proper endpoint prefixing (httpg://)
 	
-	if(strncmp (surl+6, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN))
+	if(strncmp (surl+6, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN) && (len>0))
 	{
 		strcpy(endpoint,ENDPOINT_DEFAULT_PREFIX);
+		endpoint_offset=ENDPOINT_DEFAULT_PREFIX_LEN;
 	}
-	strncpy (endpoint + ENDPOINT_DEFAULT_PREFIX_LEN, surl+6, len);
-	endpoint[len + ENDPOINT_DEFAULT_PREFIX_LEN] = 0;
+	strncpy (endpoint + endpoint_offset, surl+6, len);
+	endpoint[len + endpoint_offset] = 0;
 	return (endpoint);
 }
 
@@ -2953,6 +2955,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	char *srmv2_endpoint = NULL;
 	int isclassicse = 0;
 	char errmsg[ERRMSG_LEN];
+	int endpoint_offset=0;
 
 	if (req == NULL || req->nbfiles < 1 || (!req->generatesurls && req->surls == NULL)) {
 		gfal_errmsg (errbuf, errbufsz, "Invalid request: No SURLs specified");
@@ -2992,8 +2995,12 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 				return (-1);
 			} else {
 				/* Check if the endpoint is full or not */
-				const char *s = strchr ((*gfal)->endpoint, '/');
-				const char *p = strchr ((*gfal)->endpoint, ':');
+				if(strncmp ((*gfal)->endpoint, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN)==0)
+					endpoint_offset=ENDPOINT_DEFAULT_PREFIX_LEN; 
+				else
+					endpoint_offset=0;
+				const char *s = strchr ((*gfal)->endpoint+endpoint_offset, '/');
+				const char *p = strchr ((*gfal)->endpoint+endpoint_offset, ':');
 
 				if (((*gfal)->setype == TYPE_SRMv2 && s == NULL) || p == NULL || (s != NULL && s < p)) {
 					gfal_internal_free (*gfal);
