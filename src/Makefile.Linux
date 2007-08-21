@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.47 $ $Date: 2007/08/09 17:47:35 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.48 $ $Date: 2007/08/21 13:48:35 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -24,7 +24,7 @@ GSOAPINC=-I$(GSOAP_LOCATION)/include
 endif
 
 ifeq ($(prefix), $(EMPTY))
-prefix=/opt/lcg
+prefix=/egee/ws/stage
 endif
 
 ifeq ($(LFC_LOCATION), $(EMPTY))

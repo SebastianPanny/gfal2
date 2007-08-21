@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.38 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.39 $ $Date: 2007/08/21 13:48:35 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -43,6 +43,19 @@ extern "C"
 
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
 
+enum TFileLocality_
+{
+	GFAL_LOCALITY_ONLINE_,	///< xs:string value="ONLINE"
+	GFAL_LOCALITY_NEARLINE_,	///< xs:string value="NEARLINE"
+	GFAL_LOCALITY_ONLINE_USCOREAND_USCORENEARLINE,	///< xs:string value="ONLINE_AND_NEARLINE"
+	GFAL_LOCALITY_LOST,	///< xs:string value="LOST"
+	GFAL_LOCALITY_NONE_,	///< xs:string value="NONE"
+	GFAL_LOCALITY_UNAVAILABLE,	///< xs:string value="UNAVAILABLE"
+};
+/// Typedef synonym for enum ns1__TFileLocality.
+typedef enum TFileLocality_ TFileLocality;
+
+
 typedef struct gfal_filestatus {
 	char *surl;
 	char *turl;
@@ -54,6 +67,7 @@ typedef struct gfal_filestatus {
 #endif
 	struct gfal_filestatus *subpaths;
 	int nbsubpaths;
+	TFileLocality locality;
 } gfal_filestatus;
 
 typedef struct gfal_request {
@@ -206,6 +220,7 @@ struct srmv2_mdfilestatus {
 	char 	*explanation;
 	struct srmv2_mdfilestatus *subpaths;
 	int nbsubpaths;
+	TFileLocality locality;
 };
 #endif
 

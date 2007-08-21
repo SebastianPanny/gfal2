@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.51 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.52 $ $Date: 2007/08/21 13:48:35 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1803,7 +1803,9 @@ mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 	statbuf->st_size = (off_t) statb64->st_size;
 	return (0);
 }
-
+#define ENDPOINT_DEFAULT_PREFIX "httpg://"
+#define ENDPOINT_DEFAULT_PREFIX_LEN strlen("httpg://")
+	
 	static char *
 endpointfromsurl (const char *surl, char *errbuf, int errbufsz)
 {
@@ -1830,12 +1832,17 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz)
 	}
 
 	len = p - surl - 6;
-	if ((endpoint = (char *) calloc (len + 1, sizeof (char*))) == NULL) {
+	if ((endpoint = (char *) calloc (len + 1+ strlen(ENDPOINT_DEFAULT_PREFIX), sizeof (char*))) == NULL) {
 		errno = ENOMEM;
 		return (NULL);
+	}//hack to ensure proper endpoint prefixing (httpg://)
+	
+	if(strncmp (surl+6, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN))
+	{
+		strcpy(endpoint,ENDPOINT_DEFAULT_PREFIX);
 	}
-	strncpy (endpoint, surl + 6, len);
-	endpoint[len] = 0;
+	strncpy (endpoint + ENDPOINT_DEFAULT_PREFIX_LEN, surl+6, len);
+	endpoint[len + ENDPOINT_DEFAULT_PREFIX_LEN] = 0;
 	return (endpoint);
 }
 
@@ -3145,6 +3152,8 @@ copy_gfal_mdresults (struct srmv2_mdfilestatus srmv2, gfal_filestatus *gfal)
 	gfal->status = srmv2.status;
 	gfal->explanation = srmv2.explanation;
 	gfal->nbsubpaths = srmv2.nbsubpaths;
+	gfal->locality = srmv2.locality;
+	
 
 	if (gfal->nbsubpaths > 0) {
 		if ((gfal->subpaths = (gfal_filestatus *) calloc (gfal->nbsubpaths, sizeof (gfal_filestatus))) == NULL) {
