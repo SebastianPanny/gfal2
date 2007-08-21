@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.53 $ $Date: 2007/08/21 14:32:27 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.54 $ $Date: 2007/08/21 16:02:16 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1807,7 +1807,7 @@ mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 #define ENDPOINT_DEFAULT_PREFIX_LEN strlen("httpg://")
 	
 	static char *
-endpointfromsurl (const char *surl, char *errbuf, int errbufsz)
+endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_on)
 {
 	int len;
 	char *p, *endpoint;
@@ -1838,7 +1838,7 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz)
 		return (NULL);
 	}//hack to ensure proper endpoint prefixing (httpg://)
 	
-	if(strncmp (surl+6, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN) && (len>0))
+	if(_prefixing_on && strncmp (surl+6, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN) && (len>0))
 	{
 		strcpy(endpoint,ENDPOINT_DEFAULT_PREFIX);
 		endpoint_offset=ENDPOINT_DEFAULT_PREFIX_LEN;
@@ -2196,7 +2196,7 @@ setypesandendpointsfromsurl (const char *surl, char ***se_types, char ***se_endp
 	char *endpoint_tmp;
 	char errmsg[ERRMSG_LEN];
 
-	if ((endpoint_tmp = endpointfromsurl (surl, errbuf, errbufsz)) == NULL)
+	if ((endpoint_tmp = endpointfromsurl (surl, errbuf, errbufsz,0)) == NULL)
 		return (-1);
 
 	return (setypesandendpoints (endpoint_tmp, se_types, se_endpoints, errbuf, errbufsz));
@@ -2989,7 +2989,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		if ((*gfal)->surls != NULL && ((*gfal)->setype != TYPE_NONE ||
 					((*gfal)->setype = (*gfal)->defaultsetype) != TYPE_NONE)) {
 			if ((*gfal)->setype != TYPE_SE && (*gfal)->endpoint == NULL && ((*gfal)->free_endpoint = 1) &&
-						((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz)) == NULL) {
+						((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,1)) == NULL) {
 				gfal_internal_free (*gfal);
 				*gfal = NULL;
 				return (-1);
@@ -3023,7 +3023,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 
 	if ((*gfal)->endpoint == NULL) {
 		if ((*gfal)->surls != NULL) {
-			if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz)) == NULL)
+			if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,0)) == NULL)
                 return (-1);
 			(*gfal)->free_endpoint = 1;
 		} else {

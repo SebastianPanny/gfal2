@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.22 $ $Date: 2007/08/21 13:48:35 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.23 $ $Date: 2007/08/21 16:02:27 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -1870,7 +1870,7 @@ copy_md (struct ns1__TReturnStatus *reqstatp, struct ns1__ArrayOfTMetaDataPathDe
 
 		(*statuses)[i].stat.st_size = *(repfs->pathDetailArray[i]->size);
 		(*statuses)[i].locality = (repfs->pathDetailArray[i]->fileLocality)?(*(repfs->pathDetailArray[i]->fileLocality)):GFAL_LOCALITY_NONE_;
-		(*statuses)[i].stat.st_uid = 2;
+		(*statuses)[i].stat.st_uid = 2;//TODO: create haseh placeholder for string<->uid/gid mapping
 		(*statuses)[i].stat.st_gid = 2;
 		(*statuses)[i].stat.st_nlink = 1;
 		(*statuses)[i].stat.st_mode = *(repfs->pathDetailArray[i]->otherPermission);
