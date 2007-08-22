@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.39 $ $Date: 2007/08/21 13:48:35 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.40 $ $Date: 2007/08/22 09:05:38 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -51,6 +51,7 @@ enum TFileLocality_
 	GFAL_LOCALITY_LOST,	///< xs:string value="LOST"
 	GFAL_LOCALITY_NONE_,	///< xs:string value="NONE"
 	GFAL_LOCALITY_UNAVAILABLE,	///< xs:string value="UNAVAILABLE"
+	GFAL_LOCALITY_UNKNOWN
 };
 /// Typedef synonym for enum ns1__TFileLocality.
 typedef enum TFileLocality_ TFileLocality;
