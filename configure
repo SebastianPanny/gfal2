@@ -18,6 +18,21 @@ USAGE="configure --with-version=...  --with-release=... --with-globus-prefix=...
 TEMP=$(getopt -o h --long help,with-version:,with-release:,with-globus-prefix:,with-globus-thr-flavor:,with-globus-nothr-flavor:,with-gsoap-location:,with-gsoap-version:,with-cgsi-gsoap-location:,with-swig-location:,with-lfc-location:,with-dpm-location:,with-dcap-location: -- "$@")
 eval set -- "$TEMP"
 
+echo "$@" >${basedir}/config.status
+
+# some sensible defaults
+if [ $(uname -m) = 'x86_64' ]; then
+    GLOBUS_FLAVOUR=gcc64dbg
+    GLOBUS_FLAVOUR_PTHR=gcc64dbgpthr
+else
+    GLOBUS_FLAVOUR=gcc32dbg
+    GLOBUS_FLAVOUR_PTHR=gcc32dbgpthr
+fi
+GSOAP_VERSION=2.7.6b
+VERSION=$(awk -F'[ \t=]+' '/module.version/ { print $2 }' ${basedir}/project/version.properties)
+RELEASE=$(awk -F'[ \t=]+' '/module.age/ { print $2 }' ${basedir}/project/version.properties)
+RELEASE_SUFFIX=$(${basedir}/get-platform-os)
+
 while true; do
     case "$1" in
         -h|--help)
@@ -102,22 +117,22 @@ cat >Makefile <<EOF
 SRCDIR=${basedir}/src
 VERSION=${VERSION}
 
-GSOAP_LOCATION=${GSOAP_LOCATION}
-GLOBUS_LOCATION=${GLOBUS_LOCATION}
+GSOAP_LOCATION=${GSOAP_LOCATION:-/usr/local}
+GLOBUS_LOCATION=${GLOBUS_LOCATION:-/opt/globus}
 GLOBUS_FLAVOUR=${GLOBUS_FLAVOUR}
 GLOBUS_FLAVOUR_PTHR=${GLOBUS_FLAVOUR_PTHR}
-LFC_LOCATION=${LFC_LOCATION}
-DPM_LOCATION=${DPM_LOCATION}
-DCAP_LOCATION=${DCAP_LOCATION}
-CGSI_GSOAP_LOCATION=${CGSI_GSOAP_LOCATION}
+LFC_LOCATION=${LFC_LOCATION:-/opt/lcg}
+DPM_LOCATION=${DPM_LOCATION:-/opt/lcg}
+DCAP_LOCATION=${DCAP_LOCATION:-/opt/d-cache}
+CGSI_GSOAP_LOCATION=${CGSI_GSOAP_LOCATION:-/opt/glite}
 CGSI_GSOAP_VERSION=gsoap_${GSOAP_MAJOR_MINOR_VERSION}
-SWIG_LOCATION=${SWIG_LOCATION}
+SWIG_LOCATION=${SWIG_LOCATION:-/usr}
 
 include \$(SRCDIR)/Makefile.Linux
 EOF
 
 sed -e "s/@MODULE.VERSION@/${VERSION}/g" \
-    -e "s/@MODULE.BUILD@/${RELEASE}/g" \
+    -e "s/@MODULE.BUILD@/${RELEASE}.${RELEASE_SUFFIX}/g" \
     -e "s/@GSOAP.VERSION@/${GSOAP_MAJOR_MINOR_VERSION}/g" \
     -e "s/@GLOBUS.DBG.NOTHR.FLAVOUR/${GLOBUS_FLAVOUR}/g" \
     -e "s/@GLOBUS.DBG.THR.FLAVOUR@/${GLOBUS_FLAVOUR_PTHR}/g" \
