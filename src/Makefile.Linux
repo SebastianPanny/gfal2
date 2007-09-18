@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.48 $ $Date: 2007/08/21 13:48:35 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.49 $ $Date: 2007/09/18 10:05:15 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -14,6 +14,10 @@ ifeq ($(SRCDIR), $(EMPTY))
 SRCDIR=.
 else
 VPATH=.:$(SRCDIR)
+endif
+
+ifeq ($(TOP_SRC_DIR), $(EMPTY))
+TOP_SRC_DIR=..
 endif
 
 ifeq ($(GSOAP_LOCATION), $(EMPTY))
@@ -257,7 +261,14 @@ $(prefix)/$(lib_m)/python/gfal.py: gfal.py
 	-mv $@ $(prefix)/$(lib_m)/python/OLD$?
 	cp -p $? $@
 
-install.man: $(prefix)/man/man3 \
+install.doc:
+	install -d $(prefix)/share/doc/GFAL
+	install $(TOP_SRC_DIR)/RELEASE-NOTES $(prefix)/share/doc/GFAL/
+	install $(TOP_SRC_DIR)/LICENSE $(prefix)/share/doc/GFAL/
+	echo "$(VERSION)" >$(prefix)/share/doc/GFAL/VERSION
+
+install.man: install.doc \
+		 $(prefix)/man/man3 \
 	     $(prefix)/man/man3/gfal.3 \
 	     $(prefix)/man/man3/gfal_access.3 \
 	     $(prefix)/man/man3/gfal_chmod.3 \

@@ -1,8 +1,8 @@
 Summary: Grid File Access Library
 Name: GFAL-client
-Version: @MODULE.VERSION@
-Release: @MODULE.BUILD@
-Source0: %{name}-%{version}-%{release}.tar.gz
+Version: @VERSION@
+Release: @RELEASE@@RELEASE.SUFFIX@
+Source0: %{name}-%{version}-@RELEASE@.tar.gz
 License: Open Source EGEE License
 Group: Application/File
 BuildRoot: %{_builddir}/%{name}-%{version}
@@ -33,3 +33,4 @@ dcap...
 %{prefix}/%{_lib}/libgfal*
 %{prefix}/%{_lib}/python/*
 %doc %{prefix}/man/man3/gfal*.3
+%doc %{prefix}/share/doc/GFAL/*

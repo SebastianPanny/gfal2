@@ -31,7 +31,7 @@ fi
 GSOAP_VERSION=2.7.6b
 VERSION=$(awk -F'[ \t=]+' '/module.version/ { print $2 }' ${basedir}/project/version.properties)
 RELEASE=$(awk -F'[ \t=]+' '/module.age/ { print $2 }' ${basedir}/project/version.properties)
-RELEASE_SUFFIX=$(${basedir}/get-platform-os)
+RELEASE_SUFFIX='.'$(${basedir}/get-platform-os)
 
 while true; do
     case "$1" in
@@ -114,6 +114,7 @@ done
 GSOAP_MAJOR_MINOR_VERSION=$(echo ${GSOAP_VERSION} | cut -d . -f1,2)
 
 cat >Makefile <<EOF
+TOP_SRC_DIR=${basedir}
 SRCDIR=${basedir}/src
 VERSION=${VERSION}
 
@@ -131,8 +132,9 @@ SWIG_LOCATION=${SWIG_LOCATION:-/usr}
 include \$(SRCDIR)/Makefile.Linux
 EOF
 
-sed -e "s/@MODULE.VERSION@/${VERSION}/g" \
-    -e "s/@MODULE.BUILD@/${RELEASE}.${RELEASE_SUFFIX}/g" \
+sed -e "s/@VERSION@/${VERSION}/g" \
+    -e "s/@RELEASE@/${RELEASE}/g" \
+    -e "s/@RELEASE.SUFFIX@/${RELEASE_SUFFIX}/g" \
     -e "s/@GSOAP.VERSION@/${GSOAP_MAJOR_MINOR_VERSION}/g" \
     -e "s/@GLOBUS.DBG.NOTHR.FLAVOUR/${GLOBUS_FLAVOUR}/g" \
     -e "s/@GLOBUS.DBG.THR.FLAVOUR@/${GLOBUS_FLAVOUR_PTHR}/g" \
