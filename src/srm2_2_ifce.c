@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.25 $ $Date: 2007/08/22 09:06:25 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.26 $ $Date: 2007/09/21 13:55:09 $
  */
 
 #include <sys/types.h>
@@ -642,6 +642,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	int ret = 0;
 	struct soap soap;
 	char errmsg[ERRMSG_LEN];
+	int slashes_to_ignore;
 
 	if (!strncmp (lastcreated_dir, dest_file, 1024))
 		/* this is exactly the same directory as the previous one, so nothing to do */
@@ -711,17 +712,24 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	}
 
 	*p = '/';
-	p = file;
+	if ((p = strchr (file, '?')) == NULL) {
+		p = file;
+		slashes_to_ignore = 5;
+	} else {
+		++p;
+		slashes_to_ignore = 4;
+	}
 
 	while (!ret && (p = strchr (p, '/'))) {
-		*p = '\0';
-		if (nbslash < 2) {	/* skip first 2 slashes */
-			nbslash++;
-			*p++ = '/';
-			while (*p == '/')
-				p++;
+		if (nbslash < slashes_to_ignore) {	/* skip first slashes */
+			++nbslash;
+			do
+				++p;
+			while (*p == '/');
 			continue;
 		}
+
+		*p = '\0';
 
 		/* try to create directory */
 		memset (&req, 0, sizeof(req));
@@ -762,7 +770,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 			p++;
 	}
 
-	if  (!sav_errno) {
+	if  (sav_errno) {
 		if (repstatp->explanation)
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", dest_file, repstatp->explanation);
 		else
@@ -1867,18 +1875,40 @@ copy_md (struct ns1__TReturnStatus *reqstatp, struct ns1__ArrayOfTMetaDataPathDe
 				(*statuses)[i].explanation = strdup (reqstatp->explanation);
 			continue;
 		} 
-
 		(*statuses)[i].stat.st_size = *(repfs->pathDetailArray[i]->size);
-		(*statuses)[i].locality = (repfs->pathDetailArray[i]->fileLocality)?
-				((*(repfs->pathDetailArray[i]->fileLocality)<ONLINE_ || *(repfs->pathDetailArray[i]->fileLocality) > UNAVAILABLE )?
-				GFAL_LOCALITY_UNKNOWN:(*(repfs->pathDetailArray[i]->fileLocality))):
-				GFAL_LOCALITY_NONE_;
+		if (repfs->pathDetailArray[i]->fileLocality) {
+            switch (*(repfs->pathDetailArray[i]->fileLocality)) {
+                case ONLINE_:
+                    (*statuses)[i].locality = GFAL_LOCALITY_ONLINE_;
+                    break;
+                case NEARLINE_:
+                    (*statuses)[i].locality = GFAL_LOCALITY_NEARLINE_;
+                    break;
+                case ONLINE_USCOREAND_USCORENEARLINE:
+                    (*statuses)[i].locality = GFAL_LOCALITY_ONLINE_USCOREAND_USCORENEARLINE;
+                    break;
+                case LOST:
+                    (*statuses)[i].locality = GFAL_LOCALITY_LOST;
+                    break;
+                case NONE_:
+                    (*statuses)[i].locality = GFAL_LOCALITY_NONE_;
+                    break;
+                case UNAVAILABLE:
+                    (*statuses)[i].locality = GFAL_LOCALITY_UNAVAILABLE;
+                    break;
+                default:
+                    (*statuses)[i].locality = GFAL_LOCALITY_UNKNOWN;
+            }
+        }
 		(*statuses)[i].stat.st_uid = 2;//TODO: create haseh placeholder for string<->uid/gid mapping
 		(*statuses)[i].stat.st_gid = 2;
 		(*statuses)[i].stat.st_nlink = 1;
-		(*statuses)[i].stat.st_mode = *(repfs->pathDetailArray[i]->otherPermission);
-		(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i]->groupPermission->mode << 3;
-		(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i]->ownerPermission->mode << 6;
+		if (repfs->pathDetailArray[i]->otherPermission)
+			(*statuses)[i].stat.st_mode = *(repfs->pathDetailArray[i]->otherPermission);
+		if (repfs->pathDetailArray[i]->groupPermission)
+			(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i]->groupPermission->mode << 3;
+		if (repfs->pathDetailArray[i]->ownerPermission)
+			(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i]->ownerPermission->mode << 6;
 		switch (*(repfs->pathDetailArray[i]->type)) {
 			case FILE_:
 				(*statuses)[i].stat.st_mode |= S_IFREG;

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.40 $ $Date: 2007/08/22 09:05:38 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.41 $ $Date: 2007/09/21 13:55:09 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -45,19 +45,19 @@ enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
 
 enum TFileLocality_
 {
+	GFAL_LOCALITY_UNKNOWN = 0,
 	GFAL_LOCALITY_ONLINE_,	///< xs:string value="ONLINE"
 	GFAL_LOCALITY_NEARLINE_,	///< xs:string value="NEARLINE"
 	GFAL_LOCALITY_ONLINE_USCOREAND_USCORENEARLINE,	///< xs:string value="ONLINE_AND_NEARLINE"
 	GFAL_LOCALITY_LOST,	///< xs:string value="LOST"
 	GFAL_LOCALITY_NONE_,	///< xs:string value="NONE"
-	GFAL_LOCALITY_UNAVAILABLE,	///< xs:string value="UNAVAILABLE"
-	GFAL_LOCALITY_UNKNOWN
+	GFAL_LOCALITY_UNAVAILABLE	///< xs:string value="UNAVAILABLE"
 };
 /// Typedef synonym for enum ns1__TFileLocality.
 typedef enum TFileLocality_ TFileLocality;
 
 
-typedef struct gfal_filestatus {
+typedef struct gfal_filestatus_ {
 	char *surl;
 	char *turl;
 	int status;
@@ -66,12 +66,12 @@ typedef struct gfal_filestatus {
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 	struct stat64 stat;
 #endif
-	struct gfal_filestatus *subpaths;
+	struct gfal_filestatus_ *subpaths;
 	int nbsubpaths;
 	TFileLocality locality;
 } gfal_filestatus;
 
-typedef struct gfal_request {
+typedef struct gfal_request_ {
 	/* [optional]
 	 * if set to 1, 'surls' to NULL, and endpoint specified,
 	 * 'nbfiles' SURLs will be generated */
@@ -131,7 +131,7 @@ typedef struct gfal_request {
 	int							srmv2_lscount;
 } *gfal_request;
 
-typedef struct gfal_internal {
+typedef struct gfal_internal_ {
 	// INPUTS
 
 	int							generatesurls;

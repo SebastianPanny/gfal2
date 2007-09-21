@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.40 $ $Date: 2007/08/09 09:09:50 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.41 $ $Date: 2007/09/21 13:55:09 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -277,7 +277,7 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 		errno = ECONNREFUSED;
 		return (-1);
 	}
-	timeout.tv_sec = 60;
+	timeout.tv_sec = 180;
 	timeout.tv_usec = 0;
 	if ((rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0,
 					&timeout, &reply)) != LDAP_SUCCESS) {

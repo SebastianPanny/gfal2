@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.54 $ $Date: 2007/08/21 16:02:16 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.55 $ $Date: 2007/09/21 13:55:09 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -555,7 +555,8 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
 	supported_protocols = get_sup_proto ();
 
-	if ((flags & (O_WRONLY | O_CREAT)) == (O_WRONLY | O_CREAT)) {
+	if ((flags & (O_WRONLY | O_CREAT)) == (O_WRONLY | O_CREAT) ||
+			(flags & (O_RDWR | O_CREAT)) == (O_RDWR | O_CREAT)) {
 		/* writing in a file, so a new file */
 		newfile = 1;
 
@@ -1987,7 +1988,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 		p++;
 		if (*p == '/') {	// no hostname ; *(p + 1) = '/' due to the previous test
 			memmove (pathbuf, p + 1, strlen (p + 1) + 1);
-		} else if (strstr (pathbuf, "?") == NULL) {
+		} else if (strchr (p, '?') == NULL && strchr (p, ':') == NULL) {
 			// For Castor2-like RFIO TURL (eg. with "?svcClass=..."), pfn is the TURL, nothing to do
 			// For other case, we want hostname:/filename
 			memmove (pathbuf, p, strlen (p) + 1);
@@ -2937,12 +2938,12 @@ gfal_request_new ()
 {
 	gfal_request req;
 
-	if ((req = (gfal_request) malloc (sizeof (struct gfal_request))) == NULL) {
+	if ((req = (gfal_request) malloc (sizeof (struct gfal_request_))) == NULL) {
 		errno = ENOMEM;
 		return (NULL);
 	}
 
-	memset (req, 0, sizeof (struct gfal_request));
+	memset (req, 0, sizeof (struct gfal_request_));
 	return (req);
 }
 
@@ -2973,13 +2974,13 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		return (-1);
 	}
 
-	if ((*gfal = (gfal_internal) malloc (sizeof (struct gfal_internal))) == NULL) {
+	if ((*gfal = (gfal_internal) malloc (sizeof (struct gfal_internal_))) == NULL) {
 		errno = ENOMEM;
 		return (-1);
 	}
 
-	memset (*gfal, 0, sizeof (struct gfal_internal));
-	memcpy (*gfal, req, sizeof (struct gfal_request));
+	memset (*gfal, 0, sizeof (struct gfal_internal_));
+	memcpy (*gfal, req, sizeof (struct gfal_request_));
 
 	/* if no protocols, get the list of supported ones */
 	if (!(*gfal)->protocols)
@@ -3197,22 +3198,15 @@ copy_gfal_results (gfal_internal req, enum status_type stype)
 	}
 
 	for (i = 0; i < req->results_size; ++i) {
-		if (req->results[i].surl) {
+		if (req->results[i].surl)
 			free (req->results[i].surl);
-			req->results[i].surl = NULL;
-		}
-		if (req->results[i].turl) {
+		if (req->results[i].turl)
 			free (req->results[i].turl);
-			req->results[i].turl = NULL;
-		}
-		if (req->results[i].explanation) {
+		if (req->results[i].explanation)
 			free (req->results[i].explanation);
-			req->results[i].explanation = NULL;
-		}
-		if (req->results[i].subpaths) {
+		if (req->results[i].subpaths)
 			free_gfal_results (req->results[i].subpaths, req->results[i].nbsubpaths);
-			req->results[i].subpaths = NULL;
-		}
+		memset (req->results + i, 0, sizeof (gfal_filestatus));
 
 		if (req->setype == TYPE_SRMv2) {
 			if (stype == DEFAULT_STATUS) {

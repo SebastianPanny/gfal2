@@ -36,6 +36,30 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 			PyDict_SetItemString (dict, "explanation", filestatuses[i].explanation ? PyString_FromString (filestatuses[i].explanation) : Py_None);
 			if (filestatuses[i].pinlifetime > 0)
 				PyDict_SetItemString (dict, "pinlifetime", PyInt_FromLong ((long)(filestatuses[i].pinlifetime)));
+			if (filestatuses[i].locality > 0) {
+				switch (filestatuses[i].locality) {
+					case GFAL_LOCALITY_ONLINE_:
+						PyDict_SetItemString (dict, "locality", PyString_FromString ("ONLINE"));
+						break;
+					case GFAL_LOCALITY_NEARLINE_:
+						PyDict_SetItemString (dict, "locality", PyString_FromString ("NEARLINE"));
+						break;
+					case GFAL_LOCALITY_ONLINE_USCOREAND_USCORENEARLINE:
+						PyDict_SetItemString (dict, "locality", PyString_FromString ("ONLINE_AND_NEARLINE"));
+						break;
+					case GFAL_LOCALITY_LOST:
+						PyDict_SetItemString (dict, "locality", PyString_FromString ("LOST"));
+						break;
+					case GFAL_LOCALITY_NONE_:
+						PyDict_SetItemString (dict, "locality", PyString_FromString ("NONE"));
+						break;
+					case GFAL_LOCALITY_UNAVAILABLE:
+						PyDict_SetItemString (dict, "locality", PyString_FromString ("UNAVAILABLE"));
+						break;
+					default:
+						PyDict_SetItemString (dict, "locality", PyString_FromString ("UNKNOWN"));
+				}
+			}
 			if (filestatuses[i].stat.st_mode > 0) {
 				PyObject *statlist = PyList_New (10);
 				PyList_SetItem (statlist, 0, PyInt_FromLong ((long)(filestatuses[i].stat.st_mode)));
@@ -252,15 +276,13 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 			$1->relative_path = NULL;
 	}
 
-	if ((item = PyDict_GetItem ($input, PyString_FromString ("nbfiles"))) != NULL)
-		$1->nbfiles = (int) PyInt_AsLong (item);
-
 	if ((item = PyDict_GetItem ($input, PyString_FromString ("surls"))) != NULL) {
 		if (!PyList_Check (item) || (len = PyList_Size (item)) < 1) {
 			PyErr_SetString (PyExc_MemoryError, "Invalid value in 'surls' field");
 			errno = EINVAL;
 			return (NULL);
 		}
+		$1->nbfiles = len;
 		$1->surls = (char**) calloc (len + 1, sizeof (char*));
 		if ($1->surls == NULL) {
 			PyErr_SetString (PyExc_MemoryError, "No enough memory");
