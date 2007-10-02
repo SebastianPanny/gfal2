@@ -33,3 +33,4 @@ dcap...
 %{prefix}/%{_lib}/libgfal*
 %{prefix}/%{_lib}/python/*
 %doc %{prefix}/man/man3/gfal*.3
+%doc %{prefix}/share/doc/GFAL/*
