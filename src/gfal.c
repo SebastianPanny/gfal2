@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.55 $ $Date: 2007/09/21 13:55:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.56 $ $Date: 2007/10/10 12:48:31 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1190,10 +1190,12 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 
 	if (req->setype == TYPE_SRMv2) {
 		if (req->srmv2_statuses) {
-			free (req->srmv2_token);
-			req->srmv2_token = NULL;
 			free (req->srmv2_statuses);
 			req->srmv2_statuses = NULL;
+		}
+		if (req->srmv2_token) {
+			free (req->srmv2_token);
+			req->srmv2_token = NULL;
 		}
 		ret = srmv2_deletesurls (req->nbfiles, (const char **) req->surls, req->endpoint,
 				&(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
@@ -1225,11 +1227,13 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
-		if (req->srmv2_statuses) {
+		if (req->srmv2_pinstatuses) {
+			free (req->srmv2_pinstatuses);
+			req->srmv2_pinstatuses = NULL;
+		}
+		if (req->srmv2_token) {
 			free (req->srmv2_token);
 			req->srmv2_token = NULL;
-			free (req->srmv2_statuses);
-			req->srmv2_statuses = NULL;
 		}
 		if ((req->oflag & O_ACCMODE) == 0)
 			ret = srmv2_turlsfromsurls_get (req->nbfiles, (const char **) req->surls, req->endpoint,
@@ -1268,19 +1272,21 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
-		if (req->srmv2_statuses) {
+		if (req->srmv2_mdstatuses) {
+			free (req->srmv2_mdstatuses);
+			req->srmv2_mdstatuses = NULL;
+		}
+		if (req->srmv2_token) {
 			free (req->srmv2_token);
 			req->srmv2_token = NULL;
-			free (req->srmv2_statuses);
-			req->srmv2_statuses = NULL;
 		}
 		ret = srmv2_getfilemd (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_lslevels,
 				req->srmv2_lsoffset, req->srmv2_lscount, &(req->srmv2_mdstatuses), &(req->srmv2_token),
 				errbuf, errbufsz, req->timeout);
 	} else if (req->setype == TYPE_SRM) {
-		if (req->srm_statuses) {
-			free (req->srm_statuses);
-			req->srm_statuses = NULL;
+		if (req->srm_mdstatuses) {
+			free (req->srm_mdstatuses);
+			req->srm_mdstatuses = NULL;
 		}
 		ret = srm_getfilemd (req->nbfiles, (const char **) req->surls, req->endpoint,
 				&(req->srm_mdstatuses), errbuf, errbufsz, req->timeout);
@@ -1304,11 +1310,13 @@ gfal_get (gfal_internal req, char *errbuf, int errbufsz)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
-		if (req->srmv2_statuses) {
+		if (req->srmv2_pinstatuses) {
+			free (req->srmv2_pinstatuses);
+			req->srmv2_pinstatuses = NULL;
+		}
+		if (req->srmv2_token) {
 			free (req->srmv2_token);
 			req->srmv2_token = NULL;
-			free (req->srmv2_statuses);
-			req->srmv2_statuses = NULL;
 		}
 		ret = srmv2_gete (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_spacetokendesc,
 				req->srmv2_desiredpintime, req->protocols, &(req->srmv2_token),
@@ -1340,9 +1348,9 @@ gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
-		if (req->srmv2_statuses) {
-			free (req->srmv2_statuses);
-			req->srmv2_statuses = NULL;
+		if (req->srmv2_pinstatuses) {
+			free (req->srmv2_pinstatuses);
+			req->srmv2_pinstatuses = NULL;
 		}
 		ret = srmv2_getstatuse (req->srmv2_token, req->endpoint, &(req->srmv2_pinstatuses),
 				errbuf, errbufsz, req->timeout);
@@ -1374,10 +1382,12 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
 
 	if (req->setype == TYPE_SRMv2) {
 		if (req->srmv2_statuses) {
-			free (req->srmv2_token);
-			req->srmv2_token = NULL;
 			free (req->srmv2_statuses);
 			req->srmv2_statuses = NULL;
+		}
+		if (req->srmv2_token) {
+			free (req->srmv2_token);
+			req->srmv2_token = NULL;
 		}
 		ret = srmv2_prestagee (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_spacetokendesc,
 				req->protocols, &(req->srmv2_token), &(req->srmv2_statuses),
@@ -1428,9 +1438,9 @@ gfal_pin (gfal_internal req, char *errbuf, int errbufsz)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
-		if (req->srmv2_statuses) {
-			free (req->srmv2_statuses);
-			req->srmv2_statuses = NULL;
+		if (req->srmv2_pinstatuses) {
+			free (req->srmv2_pinstatuses);
+			req->srmv2_pinstatuses = NULL;
 		}
 		ret = srmv2_pin (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
 				req->srmv2_desiredpintime, &(req->srmv2_pinstatuses),
@@ -3036,7 +3046,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 			return (-1);
 		}
 	}
-	if ((strchr ((*gfal)->endpoint, '.') == NULL) || (strchr ((*gfal)->endpoint, '.') == strrchr ((*gfal)->endpoint, '.'))) {
+	if ((strchr ((*gfal)->endpoint, '.') == NULL)) {
 		gfal_errmsg(errbuf, errbufsz, "No domain name specified for storage element endpoint");
 		errno = EINVAL;
 		return (-1);
