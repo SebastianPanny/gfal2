@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.41 $ $Date: 2007/09/21 13:55:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.42 $ $Date: 2007/10/10 14:26:44 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -230,6 +230,7 @@ struct proto_ops;
 
 		/* User-callable entry points */
 
+const char *gfal_version ();
 int gfal_access (const char *, int);
 int gfal_chmod (const char *, mode_t);
 int gfal_close (int);

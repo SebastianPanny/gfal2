@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.56 $ $Date: 2007/10/10 12:48:31 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.57 $ $Date: 2007/10/10 14:26:44 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -39,6 +39,9 @@ enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
 static int copy_gfal_results (gfal_internal, enum status_type);
 static int check_gfal_internal (gfal_internal, char *, int);
+
+/* the version should be set by a "define" at the makefile level */
+static const char gfalversion[] = GFALVERSION;
 
 	static struct dir_info *
 alloc_di (DIR *dir)
@@ -1816,7 +1819,7 @@ mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 }
 #define ENDPOINT_DEFAULT_PREFIX "httpg://"
 #define ENDPOINT_DEFAULT_PREFIX_LEN strlen("httpg://")
-	
+
 	static char *
 endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_on)
 {
@@ -1848,7 +1851,7 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_o
 		errno = ENOMEM;
 		return (NULL);
 	}//hack to ensure proper endpoint prefixing (httpg://)
-	
+
 	if(_prefixing_on && strncmp (surl+6, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN) && (len>0))
 	{
 		strcpy(endpoint,ENDPOINT_DEFAULT_PREFIX);
@@ -3000,7 +3003,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		if ((*gfal)->surls != NULL && ((*gfal)->setype != TYPE_NONE ||
 					((*gfal)->setype = (*gfal)->defaultsetype) != TYPE_NONE)) {
 			if ((*gfal)->setype != TYPE_SE && (*gfal)->endpoint == NULL && ((*gfal)->free_endpoint = 1) &&
-						((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,1)) == NULL) {
+					((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,1)) == NULL) {
 				gfal_internal_free (*gfal);
 				*gfal = NULL;
 				return (-1);
@@ -3035,7 +3038,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	if ((*gfal)->endpoint == NULL) {
 		if ((*gfal)->surls != NULL) {
 			if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,0)) == NULL)
-                return (-1);
+				return (-1);
 			(*gfal)->free_endpoint = 1;
 		} else {
 			/* surls == NULL means that generatesurls == 1 */
@@ -3171,7 +3174,7 @@ copy_gfal_mdresults (struct srmv2_mdfilestatus srmv2, gfal_filestatus *gfal)
 	gfal->explanation = srmv2.explanation;
 	gfal->nbsubpaths = srmv2.nbsubpaths;
 	gfal->locality = srmv2.locality;
-	
+
 
 	if (gfal->nbsubpaths > 0) {
 		if ((gfal->subpaths = (gfal_filestatus *) calloc (gfal->nbsubpaths, sizeof (gfal_filestatus))) == NULL) {
@@ -3307,4 +3310,9 @@ gfal_internal_free (gfal_internal req)
 
 	free (req);
 	return;
+}
+
+const char *
+gfal_version () {
+	return gfalversion;
 }
