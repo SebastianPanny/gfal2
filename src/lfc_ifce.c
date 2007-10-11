@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.41 $ $Date: 2007/08/09 09:08:57 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.42 $ $Date: 2007/10/11 12:02:13 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -52,7 +52,6 @@ char *lfc_host = NULL;
 
 static char lfc_env[128];
 static char lfc_penv[128];
-static char *gfal_version = VERSION;
 
 /** extract a hostname from a SURL.  We search for "://" to get the start of
   the hostname.  Then we keep going to the next slash, colon or end of the
@@ -547,7 +546,7 @@ lfc_create_alias (const char *guid, const char *lfn, mode_t mode, GFAL_LONG64 si
 	if(lfc_init(errbuf, errbufsz) < 0)
 		return (-1);
 
-	fcops.starttrans(NULL, gfal_version);
+	fcops.starttrans(NULL, (char*) gfal_version ());
 	if(fcops.creatg(lfn, guid, mode) < 0) {
 		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
@@ -575,7 +574,7 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 	if(lfc_init(errbuf, errbufsz) < 0)
 		return (-1);
 
-	fcops.starttrans(NULL, gfal_version);
+	fcops.starttrans(NULL, (char*) gfal_version ());
 	if(fcops.statg(NULL, guid, &statg) < 0) {
 		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
@@ -613,7 +612,7 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 	if(lfc_init(errbuf, errbufsz) < 0)
 		return (-1);
 
-	fcops.starttrans(NULL, gfal_version);
+	fcops.starttrans(NULL, (char*) gfal_version ());
 	/*  In the case of the master lfn being unlinked already, statg will
 		return ENOENT.  We then check lstat in case it's a hanging link ?  */
 	if(fcops.statg(lfn, guid, &statg) < 0 ) {

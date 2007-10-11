@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.51 $ $Date: 2007/10/11 10:19:37 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.52 $ $Date: 2007/10/11 12:02:13 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -155,7 +155,7 @@ lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_cat
 rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
 lfc_ifce.o: lfc_ifce.c gfal_api.h
-	$(CC) -c -DVERSION=\"GFAL-$(VERSION)\" $(LFCINC) $(SECFLG) $<
+	$(CC) -c $(LFCINC) $(SECFLG) $<
 sfn_ifce.o: sfn_ifce.c gfal.h gfal_api.h gfal_constants.h
 	$(CC) -c $(SECFLG) $<
 srm2_2_ifce.o: srm2_2_ifce.c srmv2H.h srmv2Stub.h srmSoapBinding+.nsmap gfal_api.h
