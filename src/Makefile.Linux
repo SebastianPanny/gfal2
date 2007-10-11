@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.52 $ $Date: 2007/10/11 12:02:13 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.53 $ $Date: 2007/10/11 12:04:19 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -148,7 +148,7 @@ gfal_version: gfal_version.c libgfal.so
 
 checkprotolib.o: checkprotolib.c gfal.h 
 	$(CC) -c $(PROTOFLG) $<
-gfal.o: gfal.c gfal.h gfal_api.h gfal_constants.h $(TOP_SRC_DIR)/project/version.properties
+gfal.o: gfal.c gfal.h gfal_api.h gfal_constants.h VERSION
 	$(CC) -c -DVERSION=\"$(VERSION)\" $(SECFLG) $<
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
