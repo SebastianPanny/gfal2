@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.57 $ $Date: 2007/10/10 14:26:44 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.58 $ $Date: 2007/10/11 10:19:37 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -41,7 +41,7 @@ static int copy_gfal_results (gfal_internal, enum status_type);
 static int check_gfal_internal (gfal_internal, char *, int);
 
 /* the version should be set by a "define" at the makefile level */
-static const char gfalversion[] = GFALVERSION;
+static const char gfalversion[] = VERSION;
 
 	static struct dir_info *
 alloc_di (DIR *dir)
