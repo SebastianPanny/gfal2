@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.42 $ $Date: 2007/10/11 12:02:13 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.43 $ $Date: 2007/10/30 10:38:32 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -159,17 +159,30 @@ lfc_init (char *errbuf, int errbufsz) {
 		{
 			void *dlhandle;
 
-			if ((dlhandle = dlopen ("liblfc.so", RTLD_LAZY)) == NULL) {
-				snprintf (errmsg, ERRMSG_LEN - 1, "liblfc.so: %s", dlerror ());
+			if ((dlhandle = dlopen (NULL, RTLD_LAZY)) == NULL) {
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s", dlerror ());
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 				if (lfc_endpoint) free(lfc_endpoint);
 				lfc_host = NULL;
 				return (-1);
 			}
+			
+			fcops.addreplica = (int (*) (const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *)) dlsym (dlhandle, "lfc_addreplica");
+
+			if (fcops.addreplica == NULL) {
+				if ((dlhandle = dlopen ("liblfc.so", RTLD_LAZY)) == NULL) {
+					snprintf (errmsg, ERRMSG_LEN - 1, "liblfc.so: %s", dlerror ());
+					gfal_errmsg(errbuf, errbufsz, errmsg);
+					if (lfc_endpoint) free(lfc_endpoint);
+					lfc_host = NULL;
+					return (-1);
+				}
+
+				fcops.addreplica = (int (*) (const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *)) dlsym (dlhandle, "lfc_addreplica");
+			}
 
 			fcops.serrno = (int *) dlsym (dlhandle, "serrno");
 			fcops.sstrerror = (char * (*) (int)) dlsym (dlhandle, "sstrerror");
-			fcops.addreplica = (int (*) (const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *)) dlsym (dlhandle, "lfc_addreplica");
 			fcops.creatg = (int (*) (const char *, const char *, mode_t)) dlsym (dlhandle, "lfc_creatg");
 			fcops.delreplica = (int (*) (const char *, struct lfc_fileid *, const char *)) dlsym (dlhandle, "lfc_delreplica");
 			fcops.endtrans = (int (*) ()) dlsym (dlhandle, "lfc_endtrans");
