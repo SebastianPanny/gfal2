@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.41 $ $Date: 2007/09/21 13:55:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.42 $ $Date: 2007/10/30 12:47:20 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -590,7 +590,7 @@ get_se_typeandendpoint (const char *host, char **se_type, char **endpoint, char 
 
 		if (port == NULL) {
 			value = ldap_get_values (ld, entry, se_type_atpt);
-			if (value == NULL || *value) {
+			if (value == NULL || *value == NULL) {
 				errno = ENOMEM;
 				return (-1);
 			} else if (len_tmp + strlen (value[0]) < sizeof (host_tmp)) {

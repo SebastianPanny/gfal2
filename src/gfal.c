@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.58 $ $Date: 2007/10/11 10:19:37 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.59 $ $Date: 2007/10/30 12:47:20 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -538,7 +538,6 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	char *vo;
 	char *default_se;
 	char *se_type = NULL;
-	int se_isdisk;
 	char **ap;
 	int *pn;
 	int port;
@@ -623,6 +622,11 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		fn = (char *)filename;
 
 	if (newfile && !fn) {
+		char **se_types;
+		char **se_endpoints;
+		int isdisk = 0, issrmv1 = 0, issrmv2 = 0;
+		int j = 0;
+
 		/* we need a vo name to generate a valid SURL */
 		if (vo == NULL) {
 			gfal_errmsg(errbuf, ERRMSG_LEN, "No VO specified, LCG_GFAL_VO not set");
@@ -633,14 +637,27 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		/* We get the default se (for the VO), its type and its info */
 		if ((default_se = get_default_se(vo, errbuf, ERRMSG_LEN)) == NULL)
 			goto err;
-		if (get_se_typeandendpoint (default_se, &se_type, NULL, errbuf, ERRMSG_LEN) < 0)
-			goto err;
+		if (setypesandendpoints (default_se, &se_types, &se_endpoints, errbuf, ERRMSG_LEN) < 0)
+			return (-1);
 
-		se_isdisk = strcmp (se_type, "disk") == 0;
-		if (!se_isdisk && strcmp (se_type, "srm_v1") && strcmp (se_type, "srm_v2") &&
-				strcmp (se_type, "edg-se")) {
+		while (se_types[j]) {
+			if (issrmv1 == 0 && strcmp (se_types[j], "srm_v1") == 0)
+				issrmv1 = 1;
+			else if (issrmv2 == 0 && strcmp (se_types[j], "srm_v2") == 0)
+				issrmv2 = 1;
+			else if (isdisk == 0 && strcmp (se_types[j], "disk") == 0)
+				isdisk = 1;
+
+			free (se_endpoints[j]);
+			free (se_types[j]);
+			++j;
+		}
+		free (se_types);
+		free (se_endpoints);
+
+		if (!isdisk && !issrmv1 && !issrmv2) {
 			free (se_type);
-			gfal_errmsg(errbuf, ERRMSG_LEN, "The Storage Element type is neither 'disk', 'srm_v1', 'srm_v2' nor 'edg-se'.");
+			gfal_errmsg(errbuf, ERRMSG_LEN, "The Storage Element type is neither 'disk', 'srm_v1' nor 'srm_v2'.");
 			errno = EINVAL;
 			goto err;
 		}
@@ -667,12 +684,12 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		if(get_sa_path (default_se, vo, &sa_path, &sa_root, errbuf, ERRMSG_LEN) < 0) 
 			goto err;
 		if(sa_path != NULL) {
-			if (se_isdisk)
+			if (isdisk)
 				sprintf (dir_path, "sfn://%s%s%s", default_se, *sa_path=='/'?"":"/", sa_path);
 			else
 				sprintf (dir_path, "srm://%s%s%s", default_se, *sa_path=='/'?"":"/", sa_path);
 		} else {  /* sa_root != NULL */
-			if (se_isdisk) {
+			if (isdisk) {
 				if (get_ce_ap (default_se, &ce_ap, errbuf, ERRMSG_LEN) < 0)
 					goto err;
 
