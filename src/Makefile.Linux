@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.53 $ $Date: 2007/10/11 12:04:19 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.54 $ $Date: 2007/11/05 10:40:16 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -113,6 +113,9 @@ GLOBUS_LIBS_PTHR += $(shell $(SRCDIR)/libtool $(GLOBUS_LOCATION)/lib/libglobus_g
 GLOBUS_LIBS_PTHR += $(shell $(SRCDIR)/libtool $(GLOBUS_LOCATION)/lib/libglobus_gss_assist_$(GLOBUS_FLAVOUR_PTHR).la)
 
 CGSI_GSOAP_LIBS=-L$(CGSI_GSOAP_LOCATION)/lib -lcgsi_plugin_$(CGSI_GSOAP_VERSION)
+ifeq ($(shell uname -m), x86_64)
+CGSI_GSOAP_LIBS+=-L$(CGSI_GSOAP_LOCATION)/lib64
+endif
 CGSI_GSOAP_INC=-I$(CGSI_GSOAP_LOCATION)/include
 SECLIB = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS)
 SECLIB_PTHR = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS_PTHR)
