@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.26 $ $Date: 2007/09/21 13:55:09 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.27 $ $Date: 2007/11/06 09:48:55 $
  */
 
 #include <sys/types.h>
@@ -1864,6 +1864,7 @@ copy_md (struct ns1__TReturnStatus *reqstatp, struct ns1__ArrayOfTMetaDataPathDe
 
 	for (i = 0; i < n; ++i) {
 		memset (*statuses + i, 0, sizeof(struct srmv2_mdfilestatus));
+		if (!repfs->pathDetailArray[i]) continue;
 		if (repfs->pathDetailArray[i]->path)
 			(*statuses)[i].surl = strdup (repfs->pathDetailArray[i]->path);
 		if (repfs->pathDetailArray[i]->status)
@@ -1962,7 +1963,6 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 
 	memset (&req, 0, sizeof(req));
 
-	/* NOTE: only one file in the array */
 	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL) {
 		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 		errno = ENOMEM;
