@@ -28,7 +28,7 @@ dcap...
 
 %files
 %defattr(-,root,root)
-%{prefix}/bin/gfal_test*
+%{prefix}/bin/gfal_*
 %{prefix}/include/gfal*.h
 %{prefix}/%{_lib}/libgfal*
 %{prefix}/%{_lib}/python/*
