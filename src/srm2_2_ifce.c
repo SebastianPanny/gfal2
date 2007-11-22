@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.27 $ $Date: 2007/11/06 09:48:55 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.28 $ $Date: 2007/11/22 15:26:13 $
  */
 
 #include <sys/types.h>
@@ -1546,12 +1546,13 @@ retry:
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
 	}
 
-	if ((*reqtoken = strdup (sreq.requestToken)) == NULL) {
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ENOMEM;
-		return (-1);
-	}
+	if (sreq.requestToken)
+		if ((*reqtoken = strdup (sreq.requestToken)) == NULL) {
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ENOMEM;
+			return (-1);
+		}
 
 	soap_end (&soap);
 	soap_done (&soap);
@@ -1835,12 +1836,13 @@ retry:
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinLifetime);
 	}
 
-	if ((*reqtoken = strdup (sreq.requestToken)) == NULL) {
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ENOMEM;
-		return (-1);
-	}
+	if (sreq.requestToken)
+		if ((*reqtoken = strdup (sreq.requestToken)) == NULL) {
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ENOMEM;
+			return (-1);
+		}
 
 	soap_end (&soap);
 	soap_done (&soap);
