@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.59 $ $Date: 2007/10/30 12:47:20 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.60 $ $Date: 2007/11/22 12:20:30 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2939,7 +2939,9 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
 
 	if (q) *q = ':';
 
-	if (gfal->relative_path == NULL) {
+	if (gfal->relative_path && gfal->nbfiles == 1) {
+		asprintf (gfal->surls, "%s%s", dir_path, gfal->relative_path);
+	} else if (gfal->relative_path == NULL) {
 		time_t current_time;
 		struct tm *tm;
 		char timestr[11];
@@ -2950,14 +2952,16 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
 		strftime (timestr, 11, "%F", tm);
 		snprintf (tmp, 24, "generated/%s", timestr);
 		strncat (dir_path, tmp, 1103);
-	} else {
-		strncat (dir_path, gfal->relative_path, 1103);
-	}
 
-	for (i = 0; i < gfal->nbfiles; ++i) {
-		uuid_generate (uuid);
-		uuid_unparse (uuid, guid);
-		asprintf (gfal->surls + i, "%s/file%s", dir_path, guid);
+		for (i = 0; i < gfal->nbfiles; ++i) {
+			uuid_generate (uuid);
+			uuid_unparse (uuid, guid);
+			asprintf (gfal->surls + i, "%s/file%s", dir_path, guid);
+		}
+	} else { /* gfal->relative_path && gfal->nbfiles > 1 */
+		gfal_errmsg(errbuf, errbufsz, "'relative_path' is not compatible with multiple files");
+		errno = EINVAL;
+		return (-1);
 	}
 
 	return (0);
