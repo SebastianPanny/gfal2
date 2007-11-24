@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.60 $ $Date: 2007/11/22 12:20:30 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.61 $ $Date: 2007/11/24 14:02:32 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1194,8 +1194,10 @@ gfal_write (int fd, const void *buf, size_t size)
 
 	if ((xi = find_xi (fd)) == NULL)
 		return (-1);
-	if ((rc = xi->pops->write (fd, buf, size)) < 0)
+	if ((rc = xi->pops->write (fd, buf, size)) < 0) {
 		errno = xi->pops->maperror (xi->pops, 1);
+		return (rc);
+	}
 	if (xi->size >= 0) xi->size += rc;
 	errno = 0;
 	return (rc);
@@ -2076,7 +2078,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 			rc = srmv2_set_xfer_done_get (1, &surl, srmv2_endpoint, token, &statuses, errbuf, errbufsz, timeout);
 
 			if (rc > 0) {
-				rc = statuses[0].status == 0 ? 0 : -1;
+				rc = statuses[0].status == 1 ? 0 : -1;
 				if (statuses[0].explanation) {
 					gfal_errmsg(errbuf, errbufsz, statuses[0].explanation);
 					free (statuses[0].explanation);
