@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.28 $ $Date: 2007/11/22 15:26:13 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.29 $ $Date: 2007/12/03 14:25:29 $
  */
 
 #include <sys/types.h>
@@ -319,7 +319,13 @@ retry:
 	}
 
 	/* return request token */
-	*reqtoken = strdup(rep.srmPrepareToGetResponse->requestToken);
+	if (reqtoken && rep.srmPrepareToGetResponse->requestToken)
+		if ((*reqtoken = strdup (rep.srmPrepareToGetResponse->requestToken)) == NULL) {
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ENOMEM;
+			return (-1);
+		}
 
 	/* return file statuses */
 	reqstatp = rep.srmPrepareToGetResponse->returnStatus;
@@ -953,7 +959,13 @@ retry:
 	}
 
 	/* return request token */
-	*reqtoken = strdup(rep.srmBringOnlineResponse->requestToken);
+	if (reqtoken && rep.srmBringOnlineResponse->requestToken)
+		if ((*reqtoken = strdup (rep.srmBringOnlineResponse->requestToken)) == NULL) {
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ENOMEM;
+			return (-1);
+		}
 
 	/* return file statuses */
 	reqstatp = rep.srmBringOnlineResponse->returnStatus;
@@ -1546,7 +1558,7 @@ retry:
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
 	}
 
-	if (sreq.requestToken)
+	if (reqtoken && sreq.requestToken)
 		if ((*reqtoken = strdup (sreq.requestToken)) == NULL) {
 			soap_end (&soap);
 			soap_done (&soap);
@@ -1836,7 +1848,7 @@ retry:
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinLifetime);
 	}
 
-	if (sreq.requestToken)
+	if (reqtoken && sreq.requestToken)
 		if ((*reqtoken = strdup (sreq.requestToken)) == NULL) {
 			soap_end (&soap);
 			soap_done (&soap);
@@ -2002,7 +2014,12 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 	repfs = rep.srmLsResponse->details;
 
 	if (reqtoken && rep.srmLsResponse->requestToken)
-		*reqtoken = strdup(rep.srmLsResponse->requestToken);
+		if ((*reqtoken = strdup (rep.srmLsResponse->requestToken)) == NULL) {
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ENOMEM;
+			return (-1);
+		}
 
 	if (!repfs || repfs->__sizepathDetailArray <= 0 || !repfs->pathDetailArray) {
 		char errmsg[ERRMSG_LEN];
