@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.43 $ $Date: 2007/10/30 10:38:32 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.44 $ $Date: 2007/12/04 09:44:08 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -28,8 +28,8 @@ struct fc_ops {
 	int	(*delreplica)(const char *, struct lfc_fileid *, const char *);
 	int	(*endtrans)();
 	int	(*getpath)(char *, u_signed64, char *);
-	struct lfc_linkinfo *(*listlinks)(const char *, const char *, int, lfc_list *);
-	struct lfc_filereplica *(*listreplica)(const char *, const char *, int, lfc_list *);
+	int (*getlinks)(const char *, const char *, int *, struct lfc_linkinfo **);
+	int (*getreplica)(const char *, const char *, const char *, int *, struct lfc_filereplica **);
 	int	(*lstat)(const char *, struct lfc_filestat *);
 	int	(*mkdirg)(const char *, const char *, mode_t);
 	int	(*seterrbuf)(char *, int);
@@ -187,8 +187,8 @@ lfc_init (char *errbuf, int errbufsz) {
 			fcops.delreplica = (int (*) (const char *, struct lfc_fileid *, const char *)) dlsym (dlhandle, "lfc_delreplica");
 			fcops.endtrans = (int (*) ()) dlsym (dlhandle, "lfc_endtrans");
 			fcops.getpath = (int (*) (char *, u_signed64, char *)) dlsym (dlhandle, "lfc_getpath");
-			fcops.listlinks = (struct lfc_linkinfo * (*) (const char *, const char *, int, lfc_list *)) dlsym (dlhandle, "lfc_listlinks");
-			fcops.listreplica = (struct lfc_filereplica * (*) (const char *, const char *, int, lfc_list *)) dlsym (dlhandle, "lfc_listreplica");
+			fcops.getlinks = (int (*) (const char *, const char *, int *, struct lfc_linkinfo **)) dlsym (dlhandle, "lfc_getlinks");
+			fcops.getreplica = (int (*) (const char *, const char *, const char *, int *, struct lfc_filereplica **)) dlsym (dlhandle, "lfc_getreplica");
 			fcops.lstat = (int (*) (const char *, struct lfc_filestat *)) dlsym (dlhandle, "lfc_lstat");
 			fcops.mkdirg = (int (*) (const char *, const char *, mode_t)) dlsym (dlhandle, "lfc_mkdirg");
 			fcops.seterrbuf = (int (*) (char *, int)) dlsym (dlhandle, "lfc_seterrbuf");
@@ -219,18 +219,21 @@ lfc_get_catalog_endpoint(char *errbuf, int errbufsz) {
 
 int
 lfc_replica_exists(const char *guid, char *errbuf, int errbufsz) {
-	lfc_list list;
-	struct lfc_filereplica* rp;
+	int size = 0;
+	struct lfc_filereplica* replicas = NULL;
 
 	if(lfc_init(errbuf, errbufsz) < 0)
 		return (-1);
-	if((rp = fcops.listreplica(NULL, guid, CNS_LIST_BEGIN, &list)) == NULL) {
-		(void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
-		return (0);
-	} else { 
-		(void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
-		return (1);
+	if (fcops.getreplica (NULL, guid, NULL, &size, &replicas) < 0) {
+		char errmsg[ERRMSG_LEN];
+		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+		return (-1);
 	}
+
+	free (replicas);
+	return (size > 0 ? 1 : 0);
 }
 
 int
@@ -360,66 +363,46 @@ lfc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 char **
 lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 {
-	lfc_list list;
-	struct lfc_filereplica* rp;
-	int flags;
-	char **p, **pp;
-	size_t size = ALLOC_BLOCK_SIZE;
-	size_t i = 0;
+	int i, size = 0;
+	struct lfc_filereplica* list = NULL;
+	char **replicas = NULL;
 
 	if(lfc_init(errbuf, errbufsz) < 0)
 		return (NULL);
 
-	/* allocate some memory for the pointers */
-	if((p = (char**)calloc(size, sizeof(char*))) == NULL) {
-		errno = ENOMEM;
-		return (NULL);
-	}
-
-	flags = CNS_LIST_BEGIN;
-	while((rp = fcops.listreplica(NULL, guid, flags, &list)) != NULL) {
-		if(flags == CNS_LIST_BEGIN) 
-			flags = CNS_LIST_CONTINUE;
-
-		if((p[i++] = strdup(rp->sfn)) == NULL) {
-			(void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
-			free(p);
-			errno = ENOMEM;
-			return (NULL);
-		}
-
-		if(i == size) {
-			size += ALLOC_BLOCK_SIZE;
-			if((pp = (char**)realloc(p, size * sizeof(char*))) == NULL) {
-				(void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
-				free(p);
-				errno = ENOMEM;
-				return (NULL);
-			}
-			p = pp;
-		}
-	} 
-
-	if (*fcops.serrno) {
+	if (fcops.getreplica (NULL, guid, NULL, &size, &list) < 0) {
 		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
-		free (p);
 		return (NULL);
 	}
-
-	(void) fcops.listreplica(NULL, guid, CNS_LIST_END, &list);
-
-	/* and trim */
-	if((pp = (char**)realloc(p, (i+1) * sizeof(char*))) == NULL) {
-		free(p);
+	/* no results */
+	if (size <= 0) {
+		char errmsg[ERRMSG_LEN];
+		snprintf (errmsg, ERRMSG_LEN, "%s: No such GUID", guid);
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		errno = ENOENT;
+		if (list) free (list);
+		return (NULL);
+	} else if (list == NULL) {
 		errno = ENOMEM;
 		return (NULL);
 	}
 
-	pp[i] = NULL;
-	return (pp);
+	replicas = (char **) calloc (size, sizeof (char *));
+	if (replicas == NULL) {
+		free (list);
+		return (NULL);
+	}
+
+	for (i = 0; i < size; ++i) {
+		if (list[i].sfn)
+			replicas[i] = strdup (list[i].sfn);
+	}
+	free (list);
+
+	return (replicas);
 }
 
 char *
@@ -494,63 +477,46 @@ lfc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 char **
 lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 {
-	lfc_list list;
-	struct lfc_linkinfo* lp;
-	int flags;
-	char **p, **pp;
-	size_t size = ALLOC_BLOCK_SIZE;
-	size_t i = 0;
+	struct lfc_linkinfo* list = NULL;
+	int i, size = 0;
+	char **lfns = NULL;
 
-	if(lfc_init(errbuf, errbufsz) < 0)
+	if (lfc_init (errbuf, errbufsz) < 0)
 		return (NULL);
 
-	/* allocate some memory for the pointers */
-	if((p = (char**)calloc(size, sizeof(char*))) == NULL) {
-		errno = ENOMEM;
+	if (fcops.getlinks (NULL, guid, &size, &list) < 0) {
+		char errmsg[ERRMSG_LEN];
+		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
 	}
-
-	flags = CNS_LIST_BEGIN;
-	while((lp = fcops.listlinks(NULL, guid, flags, &list)) != NULL) {
-		if(flags == CNS_LIST_BEGIN) 
-			flags = CNS_LIST_CONTINUE;
-
-		if((p[i++] = strdup(lp->path)) == NULL) {
-			(void) fcops.listlinks(NULL, guid, CNS_LIST_END, &list);
-			free (p);
-			errno = ENOMEM;
-			return (NULL);
-		}
-
-		if(i == size) {
-			size += ALLOC_BLOCK_SIZE;
-			if((pp = (char**)realloc(p, size * sizeof(char*))) == NULL) {
-				(void) fcops.listlinks(NULL, guid, CNS_LIST_END, &list);
-				free (p);
-				errno = ENOMEM;
-				return (NULL);
-			}
-			p = pp;
-		}
-	} 
-	(void) fcops.listlinks(NULL, guid, CNS_LIST_END, &list);
 	/* no results */
-	if( i== 0) {
+	if (size <= 0) {
 		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN, "%s: No such GUID", guid);
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = ENOENT;
-		free (p);
+		if (list) free (list);
 		return (NULL);
-	}
-
-	if((pp = (char**)realloc(p, (i+1) * sizeof(char*))) == NULL) {
-		free (p);
+	} else if (list == NULL) {
 		errno = ENOMEM;
 		return (NULL);
 	}
-	pp[i] = NULL;
-	return (pp);
+
+	lfns = (char **) calloc (size, sizeof (char *));
+	if (lfns == NULL) {
+		free (list);
+		return (NULL);
+	}
+
+	for (i = 0; i < size; ++i) {
+		if (list[i].path)
+			lfns[i] = strdup (list[i].path);
+	}
+	free (list);
+
+	return (lfns);
 }
 
 int
