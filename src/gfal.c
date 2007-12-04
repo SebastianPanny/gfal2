@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.62 $ $Date: 2007/12/04 14:28:19 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.63 $ $Date: 2007/12/04 14:57:00 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2287,13 +2287,14 @@ turlfromsfn (const char *sfn, char **protocols, char *errbuf, int errbufsz) {
 	if (sfn_turlsfromsurls (1, &sfn, protocols, &statuses, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (statuses == NULL || statuses[0].turl == NULL) {
+	if (statuses == NULL) {
 		errno = ENOMEM;
 		return (NULL);
 	}
 
 	turl = statuses[0].turl;
 	if (statuses[0].surl) free (statuses[0].surl);
+	errno = statuses[0].status;
 	free (statuses);
 	return (turl);
 }
