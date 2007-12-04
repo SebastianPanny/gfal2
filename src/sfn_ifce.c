@@ -84,6 +84,13 @@ sfn_turlsfromsurls (int nbfiles, const char **sfns, char **protocols, struct sfn
 	for (i = 0; i < nbfiles; ++i) {
 		memset (*statuses + i, 0, sizeof (struct sfn_filestatus));
 
+		if (sfns[i] == NULL) {
+			(*statuses)[i].status = EINVAL;
+			continue;
+		}
+
+		(*statuses)[i].surl = strdup (sfns[i]);
+
 		if ((p = strchr (sfns[i] + 6, '/')) == NULL ||
 				(len = p - (sfns[i] + 6)) > sizeof(server)) {
 			(*statuses)[i].status = ENAMETOOLONG;
