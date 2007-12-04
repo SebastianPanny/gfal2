@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.55 $ $Date: 2007/11/06 08:44:23 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.56 $ $Date: 2007/12/04 14:28:19 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -52,6 +52,12 @@ endif
 ifeq ($(GLOBUS_FLAVOUR_PTHR), $(EMPTY))
 GLOBUS_FLAVOUR_PTHR = $(GLOBUS_FLAVOUR)pthr
 endif
+
+ifeq ($(VOMS_LOCATION), $(EMPTY))
+VOMSAPI_LOCATION=/opt/glite
+endif
+VOMSAPIINC=-I$(VOMSAPI_LOCATION)/include/glite/security/voms -I$(GLOBUS_LOCATION)/include/$(GLOBUS_FLAVOUR)
+VOMSAPILIB=-L$(VOMSAPI_LOCATION)/lib -lvomsapi
 
 ifeq ($(CGSI_GSOAP_LOCATION), $(EMPTY))
 CGSI_GSOAP_LOCATION=/usr/local
@@ -143,7 +149,7 @@ all: libgfal.a libgfal.so libgfal_pthr.so gfal_version $(GFAL_TESTBIN) _gfal.so 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
 libgfal.so: $(GFAL_OBJS)
-	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap
+	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap $(VOMSAPILIB)
 libgfal_pthr.so: $(GFAL_OBJS)
 	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap
 gfal_version: gfal_version.c libgfal.so
@@ -152,7 +158,7 @@ gfal_version: gfal_version.c libgfal.so
 checkprotolib.o: checkprotolib.c gfal.h 
 	$(CC) -c $(PROTOFLG) $<
 gfal.o: gfal.c gfal.h gfal_api.h gfal_constants.h VERSION
-	$(CC) -c -DVERSION=\"$(VERSION)\" $(SECFLG) $<
+	$(CC) -c -DVERSION=\"$(VERSION)\" $(SECFLG) $(VOMSAPIINC) $<
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
 rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h

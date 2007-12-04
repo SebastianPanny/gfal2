@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.61 $ $Date: 2007/11/24 14:02:32 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.62 $ $Date: 2007/12/04 14:28:19 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -22,6 +22,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <uuid/uuid.h>
+#include <voms_apic.h>
 #include "gfal.h"
 #include "gfal_api.h"
 #if !defined(OFF_MAX)
@@ -34,6 +35,7 @@
 
 static struct dir_info *di_array[GFAL_OPEN_MAX];
 static struct xfer_info *xi_array[GFAL_OPEN_MAX];
+static char *gfal_vo = NULL;
 
 enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
@@ -42,6 +44,47 @@ static int check_gfal_internal (gfal_internal, char *, int);
 
 /* the version should be set by a "define" at the makefile level */
 static const char gfalversion[] = VERSION;
+
+int
+gfal_set_vo (const char *vo)
+{
+	if ((gfal_vo = strdup (vo)) == NULL)
+		return (-1);
+	
+	return (0);
+}
+
+char *
+gfal_get_vo (char *errbuf, int errbufsz)
+{
+	if (gfal_vo == NULL && (gfal_vo = getenv ("LCG_GFAL_VO")) == NULL) {
+		struct vomsdata *vd;
+		int error;
+		char errmsg[ERRMSG_LEN];
+
+		if ((vd = VOMS_Init ("", "")) == NULL) {
+			VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
+			gfal_errmsg (errbuf, errbufsz, errmsg);
+		}
+		else if (!VOMS_SetVerificationType (VERIFY_NONE, vd, &error)) {
+			VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
+			gfal_errmsg (errbuf, errbufsz, errmsg);
+		}
+		else if (!VOMS_RetrieveFromProxy (RECURSE_CHAIN, vd, &error)) {
+			VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
+			gfal_errmsg (errbuf, errbufsz, errmsg);
+		}
+		else if (vd->data && vd->data[0]) {
+			if ((gfal_vo = strdup (vd->data[0]->voname)) == NULL)
+				return (NULL);
+		}
+	}
+
+	if (gfal_vo == NULL)
+		gfal_errmsg (errbuf, errbufsz, "Unable to get the VO name neither from environment (LCG_GFAL_VO) nor from the proxy");
+
+	return (gfal_vo);
+}
 
 	static struct dir_info *
 alloc_di (DIR *dir)
@@ -561,9 +604,6 @@ gfal_open (const char *filename, int flags, mode_t mode)
 			(flags & (O_RDWR | O_CREAT)) == (O_RDWR | O_CREAT)) {
 		/* writing in a file, so a new file */
 		newfile = 1;
-
-		/* we get the VO name from the corresponding environment variable */
-		vo = getenv ("LCG_GFAL_VO");
 	}
 
 	if (strncmp (filename, "lfn:", 4) == 0) {
@@ -603,6 +643,11 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
 			strncpy (guid_file, filename + 5, 37);
 
+			if ((vo = gfal_get_vo (errbuf, ERRMSG_LEN)) == NULL) {
+				errno = EINVAL;
+				goto err;
+			}
+
 			/* We generate a new LFN for the file */
 			uuid_generate (uuid);
 			uuid_unparse (uuid, guid_lfn);
@@ -628,14 +673,13 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		int j = 0;
 
 		/* we need a vo name to generate a valid SURL */
-		if (vo == NULL) {
-			gfal_errmsg(errbuf, ERRMSG_LEN, "No VO specified, LCG_GFAL_VO not set");
+		if ((vo = gfal_get_vo (errbuf, ERRMSG_LEN)) == NULL) {
 			errno = EINVAL;
 			goto err;
 		}
 
 		/* We get the default se (for the VO), its type and its info */
-		if ((default_se = get_default_se(vo, errbuf, ERRMSG_LEN)) == NULL)
+		if ((default_se = get_default_se(errbuf, ERRMSG_LEN)) == NULL)
 			goto err;
 		if (setypesandendpoints (default_se, &se_types, &se_endpoints, errbuf, ERRMSG_LEN) < 0)
 			return (-1);
@@ -2769,7 +2813,7 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
 	(void) getdomainnm (dname, sizeof(dname));
 
 	/* and get the default SE, it there is one */
-	default_se = get_default_se(NULL, errbuf, errbufsz);
+	default_se = get_default_se(errbuf, errbufsz);
 
 	for (i = 0; i < size; i++) {
 		p = surls[i];
@@ -2812,16 +2856,17 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
 
 
 	char *
-get_default_se(char *vo, char *errbuf, int errbufsz) 
+get_default_se(char *errbuf, int errbufsz) 
 {
+	char *vo;
 	char *default_se;
 	int i;
 	char se_env[64];
 	char errmsg[ERRMSG_LEN];
 
-	if(vo == NULL) {
-		if ((vo = getenv ("LCG_GFAL_VO")) == NULL)
-			return (NULL);
+	if((vo = gfal_get_vo (errbuf, errbufsz)) == NULL) {
+		errno = EINVAL;
+		return (NULL);
 	}
 	if(strlen(vo) + 15 >= 64) {
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: VO name too long", vo);
@@ -2905,8 +2950,7 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
 		return (-1);
 	}
 
-	if ((vo = getenv ("LCG_GFAL_VO")) == NULL) {
-		gfal_errmsg(errbuf, errbufsz, "No VO specified, LCG_GFAL_VO not set");
+	if ((vo = gfal_get_vo (errbuf, errbufsz)) == NULL) {
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3030,7 +3074,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 				gfal_internal_free (*gfal);
 				*gfal = NULL;
 				return (-1);
-			} else {
+			} else if ((*gfal)->setype != TYPE_SE) {
 				/* Check if the endpoint is full or not */
 				if(strncmp ((*gfal)->endpoint, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN)==0)
 					endpoint_offset=ENDPOINT_DEFAULT_PREFIX_LEN; 
@@ -3046,9 +3090,10 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 					errno = EINVAL;
 					return (-1);
 				}
-
-				return (0);
 			}
+
+			return (0);
+
 		} else {
 			gfal_internal_free (*gfal);
 			*gfal = NULL;
@@ -3161,7 +3206,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 check_gfal_internal (gfal_internal req, char *errbuf, int errbufsz)
 {
 	if (req == NULL || req->setype == TYPE_NONE || req->surls == NULL ||
-			req->endpoint == NULL) {
+			(req->setype != TYPE_SE && req->endpoint == NULL)) {
 		gfal_errmsg (errbuf, errbufsz, "Invalid gfal_internal argument");
 		errno = EINVAL;
 		return (-1);
