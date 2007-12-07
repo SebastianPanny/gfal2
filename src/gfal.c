@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.63 $ $Date: 2007/12/04 14:57:00 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.64 $ $Date: 2007/12/07 14:28:01 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -3070,12 +3070,20 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	if ((*gfal)->no_bdii_check) {
 		if ((*gfal)->surls != NULL && ((*gfal)->setype != TYPE_NONE ||
 					((*gfal)->setype = (*gfal)->defaultsetype) != TYPE_NONE)) {
-			if ((*gfal)->setype != TYPE_SE && (*gfal)->endpoint == NULL && ((*gfal)->free_endpoint = 1) &&
+			if ((*gfal)->setype == TYPE_SE) {
+				gfal_internal_free (*gfal);
+				*gfal = NULL;
+				gfal_errmsg (errbuf, errbufsz, "Invalid request: Disabling BDII checks is not compatible with Classic SEs");
+				errno = EINVAL;
+				return (-1);
+			}
+			else if ((*gfal)->setype != TYPE_SE && (*gfal)->endpoint == NULL && ((*gfal)->free_endpoint = 1) &&
 					((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,1)) == NULL) {
 				gfal_internal_free (*gfal);
 				*gfal = NULL;
 				return (-1);
-			} else if ((*gfal)->setype != TYPE_SE) {
+			}
+			else {
 				/* Check if the endpoint is full or not */
 				if(strncmp ((*gfal)->endpoint, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN)==0)
 					endpoint_offset=ENDPOINT_DEFAULT_PREFIX_LEN; 
@@ -3091,9 +3099,9 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 					errno = EINVAL;
 					return (-1);
 				}
-			}
 
-			return (0);
+				return (0);
+			}
 
 		} else {
 			gfal_internal_free (*gfal);
