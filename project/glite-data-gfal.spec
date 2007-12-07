@@ -8,7 +8,7 @@ Group: Application/File
 BuildRoot: %{_builddir}/%{name}-%{version}
 Prefix: /opt/lcg
 AutoReqProv: no
-Requires: CGSI_gSOAP_2.7 >= 1.2.0-1, vdt_globus_essentials, openldap, libdl.so.2, libuuid.so.1
+Requires: CGSI_gSOAP_2.7 >= 1.2.0-1, vdt_globus_essentials, openldap, libdl.so.2, libuuid.so.1, glite-security-voms-api-cpp, glite-security-voms-api-c, glite-security-voms-api
 Provides: libgfal.so, libgfal_pthr.so
 %define __spec_install_post %{nil}
 %define debug_package %{nil}
