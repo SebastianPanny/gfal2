@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.64 $ $Date: 2007/12/07 14:28:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.65 $ $Date: 2007/12/07 14:38:21 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1670,7 +1670,7 @@ gfal_set_xfer_running (gfal_internal req, char *errbuf, int errbufsz)
 			return (-1);
 		}
 		for (i = 0; i < req->nbfiles; ++i) {
-			memset (req->sfn_statuses + i, 0, sizeof (struct srmv2_filestatus));
+			memset (req->sfn_statuses + i, 0, sizeof (struct sfn_filestatus));
 			req->sfn_statuses[i].surl = strdup (req->surls[i]);
 			req->sfn_statuses[i].status = 0;
 		}
