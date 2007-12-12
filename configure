@@ -13,9 +13,9 @@
 
 basedir=$(cd $(dirname $0); echo $PWD)
 
-USAGE="configure --with-version=...  --with-release=... --with-globus-prefix=...  --with-globus-thr-flavor=...  --with-globus-nothr-flavor=...  --with-gsoap-location=...  --with-gsoap-version=...  --with-cgsi-gsoap-location=...  --with-swig-location=...  --with-lfc-location=...  --with-dpm-location=...  --with-dcap-location=...  "
+USAGE="configure --with-version=...  --with-release=... --with-globus-prefix=...  --with-globus-thr-flavor=...  --with-globus-nothr-flavor=...  --with-gsoap-location=...  --with-gsoap-version=...  --with-cgsi-gsoap-location=...  --with-swig-location=...  --with-lfc-location=...  --with-dpm-location=...  --with-dcap-location=...  --with-voms-location=..."
 
-TEMP=$(getopt -o h --long help,with-version:,with-release:,with-globus-prefix:,with-globus-thr-flavor:,with-globus-nothr-flavor:,with-gsoap-location:,with-gsoap-version:,with-cgsi-gsoap-location:,with-swig-location:,with-lfc-location:,with-dpm-location:,with-dcap-location: -- "$@")
+TEMP=$(getopt -o h --long help,with-version:,with-release:,with-globus-prefix:,with-globus-thr-flavor:,with-globus-nothr-flavor:,with-gsoap-location:,with-gsoap-version:,with-cgsi-gsoap-location:,with-swig-location:,with-lfc-location:,with-dpm-location:,with-dcap-location:,with-voms-location: -- "$@")
 eval set -- "$TEMP"
 
 echo "$@" >${basedir}/config.status
@@ -99,6 +99,11 @@ while true; do
             DCAP_LOCATION="$1"
             shift
             ;;
+        --with-voms-location)
+            shift
+            VOMS_LOCATION="$1"
+            shift
+            ;;
         --)
             shift
             break
@@ -127,6 +132,7 @@ DPM_LOCATION=${DPM_LOCATION:-/opt/lcg}
 DCAP_LOCATION=${DCAP_LOCATION:-/opt/d-cache}
 CGSI_GSOAP_LOCATION=${CGSI_GSOAP_LOCATION:-/opt/glite}
 CGSI_GSOAP_VERSION=gsoap_${GSOAP_MAJOR_MINOR_VERSION}
+VOMS_LOCATION=${VOMS_LOCATION:-/opt/glite}
 SWIG_LOCATION=${SWIG_LOCATION:-/usr}
 
 include \$(SRCDIR)/Makefile.Linux
