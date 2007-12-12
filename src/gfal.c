@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.65 $ $Date: 2007/12/07 14:38:21 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.66 $ $Date: 2007/12/12 08:43:17 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -22,7 +22,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <uuid/uuid.h>
-#include <voms_apic.h>
+#include <glite/security/voms/voms_apic.h>
 #include "gfal.h"
 #include "gfal_api.h"
 #if !defined(OFF_MAX)

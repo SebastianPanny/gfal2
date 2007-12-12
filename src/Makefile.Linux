@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.56 $ $Date: 2007/12/04 14:28:19 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.57 $ $Date: 2007/12/12 08:43:17 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -54,10 +54,8 @@ GLOBUS_FLAVOUR_PTHR = $(GLOBUS_FLAVOUR)pthr
 endif
 
 ifeq ($(VOMS_LOCATION), $(EMPTY))
-VOMSAPI_LOCATION=/opt/glite
+VOMS_LOCATION=/opt/glite
 endif
-VOMSAPIINC=-I$(VOMSAPI_LOCATION)/include/glite/security/voms -I$(GLOBUS_LOCATION)/include/$(GLOBUS_FLAVOUR)
-VOMSAPILIB=-L$(VOMSAPI_LOCATION)/lib -lvomsapi
 
 ifeq ($(CGSI_GSOAP_LOCATION), $(EMPTY))
 CGSI_GSOAP_LOCATION=/usr/local
@@ -126,7 +124,8 @@ CGSI_GSOAP_INC=-I$(CGSI_GSOAP_LOCATION)/include
 SECLIB = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS)
 SECLIB_PTHR = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS_PTHR)
 
-
+VOMSINC=-I$(VOMS_LOCATION)/include
+VOMSLIB=-L$(VOMS_LOCATION)/$(lib_m) -lvomsc_$(GLOBUS_FLAVOUR)
 
 
 # End of the part to be edited
@@ -149,16 +148,16 @@ all: libgfal.a libgfal.so libgfal_pthr.so gfal_version $(GFAL_TESTBIN) _gfal.so 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
 libgfal.so: $(GFAL_OBJS)
-	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap $(VOMSAPILIB)
+	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap $(VOMSLIB)
 libgfal_pthr.so: $(GFAL_OBJS)
-	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap
+	ld $(SHLIBLDFLAGS) -o $@ $(GFAL_OBJS) $(SECLIB_PTHR) -luuid -lc -lldap -ldl -L$(GSOAP_LOCATION)/lib -lgsoap -L$(VOMS_LOCATION)/$(lib_m) -lvomsc_$(GLOBUS_FLAVOUR_PTHR)
 gfal_version: gfal_version.c libgfal.so
-	$(CC) -o $@ $(CLI_LIBS) $<
+	$(CC) -o $@ $(CLI_LIBS) $(VOMSLIB) $<
 
 checkprotolib.o: checkprotolib.c gfal.h 
 	$(CC) -c $(PROTOFLG) $<
 gfal.o: gfal.c gfal.h gfal_api.h gfal_constants.h VERSION
-	$(CC) -c -DVERSION=\"$(VERSION)\" $(SECFLG) $(VOMSAPIINC) $<
+	$(CC) -c -DVERSION=\"$(VERSION)\" $(SECFLG) $(VOMSINC) $<
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
 rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h
@@ -215,7 +214,7 @@ srm.v2.2.h: srm.v2.2.wsdl
 
 CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
 $(GFAL_TESTBIN):%: %.c gfal_api.h libgfal.so
-	$(CC) -o $@ $(CLI_LIBS) $<
+	$(CC) -o $@ $(CLI_LIBS) $(VOMSLIB) $<
 
 _gfal.so gfal.py : gfal.i lcg-typemaps.python.i
 	$(SWIG) -python -o gfal_wrap.c $<
