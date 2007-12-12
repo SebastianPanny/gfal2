@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.57 $ $Date: 2007/12/12 08:43:17 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.58 $ $Date: 2007/12/12 08:45:33 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -124,7 +124,7 @@ CGSI_GSOAP_INC=-I$(CGSI_GSOAP_LOCATION)/include
 SECLIB = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS)
 SECLIB_PTHR = $(CGSI_GSOAP_LIBS) $(GLOBUS_LIBS_PTHR)
 
-VOMSINC=-I$(VOMS_LOCATION)/include
+VOMSINC=-I$(VOMS_LOCATION)/include -I$(GLOBUS_LOCATION)/include/$(GLOBUS_FLAVOUR)
 VOMSLIB=-L$(VOMS_LOCATION)/$(lib_m) -lvomsc_$(GLOBUS_FLAVOUR)
 
 
