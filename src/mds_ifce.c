@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.43 $ $Date: 2007/12/04 14:28:19 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.44 $ $Date: 2007/12/13 09:53:36 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -621,7 +621,7 @@ get_se_typeandendpoint (const char *host, char **se_type, char **endpoint, char 
 	static char se_type_atvm[] = "GlueSchemaVersionMajor";
 	static char *template = " (GlueSEUniqueID=%s)";
 	static char *template1 = " (& (GlueSEUniqueID=%s) (GlueSEPort=%s))";
-	char host_tmp[256];
+	char host_tmp[HOSTNAME_MAXLEN];
 	int len_tmp;
 	char *port;
 	char *attr;
@@ -629,7 +629,7 @@ get_se_typeandendpoint (const char *host, char **se_type, char **endpoint, char 
 	int bdii_port;
 	const char *bdii_server;
 	LDAPMessage *entry;
-	char filter[300];
+	char filter[HOSTNAME_MAXLEN + 50];
 	LDAP *ld;
 	char *p;
 	int rc = 0;
@@ -644,7 +644,7 @@ get_se_typeandendpoint (const char *host, char **se_type, char **endpoint, char 
 	}
 
 	len_tmp = strlen (host);
-	if (strlen (template) + len_tmp - 2 >= sizeof (filter)) {
+	if (len_tmp > HOSTNAME_MAXLEN) {
 		snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
 		gfal_errmsg (errbuf, errbufsz, errmsg);
 		errno = EINVAL;
@@ -687,7 +687,7 @@ get_se_typeandendpoint (const char *host, char **se_type, char **endpoint, char 
 			if (value == NULL || *value == NULL) {
 				errno = ENOMEM;
 				return (-1);
-			} else if (len_tmp + strlen (value[0]) < sizeof (host_tmp)) {
+			} else if (len_tmp + strlen (value[0]) < HOSTNAME_MAXLEN) {
 				strcpy (port + 1, value[0]);
 			} else {
 				snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
@@ -730,7 +730,7 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	BerElement *ber;
 	LDAPMessage *entry;
 	char **ep;
-	char filter[128];
+	char filter[HOSTNAME_MAXLEN + 60];
 	int i;
 	int j;
 	LDAP *ld;
@@ -746,7 +746,7 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 	char **value;
 	char errmsg[ERRMSG_LEN];
 
-	if (strlen (template) + strlen (host) -1 >= sizeof (filter)) {
+	if (strlen (host) > HOSTNAME_MAXLEN) {
 		snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
 		gfal_errmsg (errbuf, errbufsz, errmsg);
 		errno = ENAMETOOLONG;

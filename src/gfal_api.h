@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.43 $ $Date: 2007/12/04 14:28:19 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.44 $ $Date: 2007/12/13 09:53:36 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -46,8 +46,9 @@ extern "C"
 #define GFAL_DEBUG(format, ...)
 #endif
 
-#define VO_MAXLEN  255
-#define ERRMSG_LEN 256
+#define VO_MAXLEN            255
+#define HOSTNAME_MAXLEN      255
+#define ERRMSG_LEN           256
 #define DEFAULT_BDII_TIMEOUT 60
 
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};

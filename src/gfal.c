@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.66 $ $Date: 2007/12/12 08:43:17 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.67 $ $Date: 2007/12/13 09:53:36 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -3179,7 +3179,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		(*gfal)->setype = TYPE_SE;
 	} else {
 		if (!srmv1_endpoint && !srmv2_endpoint && !isclassicse)
-			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown SE in BDII", (*gfal)->surls[0]);
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown SE in BDII", (*gfal)->endpoint);
 		else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "Invalid request: Desired SE type doesn't match request parameters or SE");
 			if (srmv1_endpoint) free (srmv1_endpoint);
