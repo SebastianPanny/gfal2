@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.44 $ $Date: 2007/12/13 09:53:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.45 $ $Date: 2007/12/14 15:41:33 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -294,6 +294,7 @@ int gfal_set_xfer_running (gfal_internal, char *, int);
 gfal_request gfal_request_new ();
 int gfal_init (gfal_request, gfal_internal *, char *, int);
 int gfal_get_results (gfal_internal, gfal_filestatus **);
+int gfal_get_ids (gfal_internal, int *, int **, char **);
 void gfal_internal_free (gfal_internal);
 
                   /* catalog operation entry points */

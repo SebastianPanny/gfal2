@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.67 $ $Date: 2007/12/13 09:53:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.68 $ $Date: 2007/12/14 15:41:33 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2122,7 +2122,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 			rc = srmv2_set_xfer_done_get (1, &surl, srmv2_endpoint, token, &statuses, errbuf, errbufsz, timeout);
 
 			if (rc > 0) {
-				rc = statuses[0].status == 1 ? 0 : -1;
+				rc = statuses[0].status == 0 ? 0 : -1;
 				if (statuses[0].explanation) {
 					gfal_errmsg(errbuf, errbufsz, statuses[0].explanation);
 					free (statuses[0].explanation);
@@ -2133,7 +2133,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 			rc = srmv2_set_xfer_done_put (1, &surl, srmv2_endpoint, token, &statuses, errbuf, errbufsz, timeout);
 
 			if (rc > 0) {
-				rc = statuses[0].status == 1 ? 0 : -1;
+				rc = statuses[0].status == 0 ? 0 : -1;
 				if (statuses[0].explanation) {
 					snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", surl, statuses[0].explanation);
 					gfal_errmsg(errbuf, errbufsz, errmsg);
@@ -3347,6 +3347,34 @@ gfal_get_results (gfal_internal req, gfal_filestatus **results)
 	return (req->results_size);
 }
 
+	int
+gfal_get_ids (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2_reqtoken)
+{
+	*srm_reqid = -1;
+	*srm_fileids = NULL;
+	*srmv2_reqtoken = NULL;
+
+	if (req == NULL || req->results_size < 1)
+		return (-1);
+
+	if (req->srm_statuses) { // SRMv1
+		int i;
+
+		if ((*srm_fileids = (int *) calloc (req->results_size, sizeof (int))) == NULL)
+			return (-1);
+
+		*srm_reqid = req->srm_reqid;
+
+		for (i = 0; i < req->results_size; ++i)
+			(*srm_fileids)[i] = req->srm_statuses[i].fileid;
+	}
+	else if (req->srmv2_token) { // SRMv2
+		*srmv2_reqtoken = strdup (req->srmv2_token);
+	}
+
+	return (req->results_size);
+}
+
 	void
 gfal_internal_free (gfal_internal req)
 {
@@ -3362,6 +3390,8 @@ gfal_internal_free (gfal_internal req)
 		free (req->srm_statuses);
 	if (req->srm_mdstatuses)
 		free (req->srm_mdstatuses);
+	if (req->srmv2_token)
+		free (req->srmv2_token);
 	if (req->srmv2_statuses)
 		free (req->srmv2_statuses);
 	if (req->srmv2_pinstatuses)
