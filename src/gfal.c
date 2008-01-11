@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.68 $ $Date: 2007/12/14 15:41:33 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.69 $ $Date: 2008/01/11 09:54:12 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2242,28 +2242,7 @@ setypesandendpoints (const char *endpoint, char ***se_types, char ***se_endpoint
 		endpoint_tmp[sizeof (endpoint_tmp) - 1] = 0;
 	}
 
-	if (get_srm_types_and_endpoints (endpoint_tmp, se_types, se_endpoints, errbuf, errbufsz) == 0)
-		return (0);
-
-	/* Maybe BDII uses old Glue Schema... */
-	if ((p1 = strchr (endpoint_tmp, '/')) != NULL)
-		*p1 = 0;
-
-	if ((*se_types = (char**) calloc (2, sizeof (char*))) == NULL) {
-		errno = ENOMEM;
-		return (-1);
-	}
-	(*se_types)[1] = NULL;
-	if (se_endpoints) {
-		if ((*se_endpoints = (char**) calloc (2, sizeof (char*))) == NULL) {
-			errno = ENOMEM;
-			return (-1);
-		}
-		(*se_endpoints)[1] = NULL;
-		return (get_se_typeandendpoint (endpoint_tmp, *se_types, *se_endpoints, errbuf, errbufsz));
-	} else {
-		return (get_se_typeandendpoint (endpoint_tmp, *se_types, NULL, errbuf, errbufsz));
-	}
+	return (get_se_types_and_endpoints (endpoint_tmp, se_types, se_endpoints, errbuf, errbufsz));
 }
 
 setypesandendpointsfromsurl (const char *surl, char ***se_types, char ***se_endpoints, char *errbuf, int errbufsz)

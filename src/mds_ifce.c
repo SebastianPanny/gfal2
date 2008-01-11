@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.44 $ $Date: 2007/12/13 09:53:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.45 $ $Date: 2008/01/11 09:54:12 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -341,7 +341,7 @@ get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 
 get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int errbufsz)
 {
-	static char rls_ep[] = "GlueServiceAccessPointURL";
+	static char rls_ep[] = "GlueServiceEndpoint";
 	static char rls_type[] = "GlueServiceType";
 	static char *template = " (& (GlueServiceType=*) (GlueServiceAccessControlRule=%s))";
 	char *attr;
@@ -390,7 +390,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 				if (strcmp (attr, "GlueServiceType") == 0) {
 					if ((service_type = strdup (value[0])) == NULL)
 						rc = -1;
-				} else {	/* GlueServiceAccessPointURL */
+				} else {	/* GlueServiceEndpoint */
 					if ((service_url = strdup (value[0])) == NULL)
 						rc = -1;
 				}
@@ -431,7 +431,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 
 get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 {
-	static char ep[] = "GlueServiceAccessPointURL";
+	static char ep[] = "GlueServiceEndpoint";
 	static char *template = " (& (GlueServiceType=lcg-file-catalog) (GlueServiceAccessControlRule=%s))";
 	static char *attrs[] = {ep, NULL};
 	LDAPMessage *entry;
@@ -614,150 +614,52 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 
 /* get from the BDII the SE type (disk, srm_v1) */
 
-get_se_typeandendpoint (const char *host, char **se_type, char **endpoint, char *errbuf, int errbufsz)
+get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpoints, char *errbuf, int errbufsz)
 {
-	static char se_type_atnm[] = "GlueSEName";
 	static char se_type_atpt[] = "GlueSEPort";
-	static char se_type_atvm[] = "GlueSchemaVersionMajor";
-	static char *template = " (GlueSEUniqueID=%s)";
-	static char *template1 = " (& (GlueSEUniqueID=%s) (GlueSEPort=%s))";
+	static char se_type_atst[] = "GlueSEStatus";
+	static char se_type_atve[] = "GlueServiceVersion";
+	static char se_type_atty[] = "GlueServiceType";
+	static char se_type_atep[] = "GlueServiceEndpoint";
+	static char *template = " (| (GlueSEUniqueID=%s) (& (GlueServiceType=srm*) (GlueServiceEndpoint=*://%s*)))";
+	static char *attrs[] = {se_type_atpt, se_type_atst, se_type_atve, se_type_atty, se_type_atep, NULL};
 	char host_tmp[HOSTNAME_MAXLEN];
 	int len_tmp;
 	char *port;
-	char *attr;
-	static char *attrs[] = {se_type_atnm, se_type_atpt, se_type_atvm, NULL};
-	int bdii_port;
-	const char *bdii_server;
-	LDAPMessage *entry;
-	char filter[HOSTNAME_MAXLEN + 50];
-	LDAP *ld;
-	char *p;
-	int rc = 0;
-	LDAPMessage *reply;
-	struct timeval timeout;
-	char **value;
-	char errmsg[ERRMSG_LEN];
-
-	if (se_type == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
-
-	len_tmp = strlen (host);
-	if (len_tmp > HOSTNAME_MAXLEN) {
-		snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
-		errno = EINVAL;
-		return (-1);
-	}
-	strncpy (host_tmp, host, sizeof (host_tmp));
-	if ( (port = strchr (host_tmp, ':')) == NULL) {
-		sprintf (filter, template, host_tmp);
-		port = host_tmp + len_tmp;
-		*port = 0;
-	} else {
-		*port = 0;
-		sprintf (filter, template1, host_tmp, port + 1);
-	}
-
-	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
-	if (rc < 0) return rc;
-	GFAL_DEBUG ("DEBUG: get_se_typeandendpoint used server %s:%d\n", bdii_server, bdii_port);
-
-	entry = ldap_first_entry (ld, reply);
-	if (entry) {
-		value = ldap_get_values (ld, entry, se_type_atnm);
-		if (value == NULL || *value == NULL) {
-			errno = ENOMEM;
-			return (-1);
-		} else { 
-			if ( (p = strchr (value[0], ':')))
-				p++;
-			else
-				p = value[0];
-			if ( (*se_type = strdup (p)) == NULL) {
-				errno = ENOMEM;
-				return (-1);
-			}
-			ldap_value_free (value);
-		}
-
-		if (port == NULL) {
-			value = ldap_get_values (ld, entry, se_type_atpt);
-			if (value == NULL || *value == NULL) {
-				errno = ENOMEM;
-				return (-1);
-			} else if (len_tmp + strlen (value[0]) < HOSTNAME_MAXLEN) {
-				strcpy (port + 1, value[0]);
-			} else {
-				snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
-				errno = ENAMETOOLONG;
-				return (-1);
-			}
-			ldap_value_free (value);
-		}
-	} else {
-		snprintf (errmsg, ERRMSG_LEN, "%s:%d: No GlueSEName found for %s", bdii_server, bdii_port, host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
-		errno = EINVAL;
-		return (-1);
-	}
-	bdii_query_free (&ld, &reply);
-
-	if (endpoint) {
-		*port = ':';
-		if ( (*endpoint = strdup (host_tmp)) == NULL) {
-			errno = ENOMEM;
-			rc = -1;
-		}
-	}
-	return (rc);
-}
-
-/* get from the BDII the supported storage types and endpoints */
-
-get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_endpoints, char *errbuf, int errbufsz)
-{
-	static char version[] = "GlueServiceVersion";
-	static char type[] = "GlueServiceType";
-	static char uri[] = "GlueServiceEndpoint";
-	static char *template = " (& (GlueServiceType=srm*) (GlueServiceEndpoint=*://%s*))";
-	char *attr;
-	static char *attrs[] = {type, version, uri, NULL};
 	int bdii_port;
 	const char *bdii_server;
 	BerElement *ber;
 	LDAPMessage *entry;
-	char **ep;
-	char filter[HOSTNAME_MAXLEN + 60];
-	int i;
-	int j;
+	char filter[2 * HOSTNAME_MAXLEN + 110];
+	int i, nbentries, n, rc = 0;
 	LDAP *ld;
-	int n = 0;
-	int nbentries;
-	int rc = 0;
 	LDAPMessage *reply;
-	char **sep;
-	char **st;
-	char **stp;
-	char **sv;
+	char **sep, **stp, **st, **sv, **ep, **value;
 	struct timeval timeout;
-	char **value;
 	char errmsg[ERRMSG_LEN];
 
-	if (strlen (host) > HOSTNAME_MAXLEN) {
+	*se_types = NULL;
+	*se_endpoints = NULL;
+	len_tmp = strlen (host);
+
+	if (len_tmp >= HOSTNAME_MAXLEN) {
 		snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
 		gfal_errmsg (errbuf, errbufsz, errmsg);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
+
+	strncpy (host_tmp, host, HOSTNAME_MAXLEN);
+	if ((port = strchr (host_tmp, ':')) != NULL)
+		*port = 0;
+
 	sprintf (filter, template, host, host);
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
-	if (rc < 0) return -1;
-	GFAL_DEBUG ("DEBUG: get_srm_types_and_endpoints used server %s:%d\n", bdii_server, bdii_port);
+	if (rc < 0) return (-1);
+	GFAL_DEBUG ("DEBUG: get_se_types_and_endpoints used server %s:%d\n", bdii_server, bdii_port);
 
+	rc = 0;
 	nbentries = ldap_count_entries (ld, reply);
 	nbentries++;
 	if ( (st = calloc (nbentries, sizeof (char *))) == NULL ||
@@ -774,29 +676,73 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 		return (-1);
 	}
 
-	for (entry = ldap_first_entry (ld, reply), i = 0;
-			entry != NULL;
-			entry = ldap_next_entry (ld, entry), i++) {
-		for (attr = ldap_first_attribute (ld, entry, &ber);
-				attr != NULL;
-				attr = ldap_next_attribute (ld, entry, ber)) {
-			value = ldap_get_values (ld, entry, attr);
-			if (value == NULL) {
+	for (entry = ldap_first_entry (ld, reply), n = 0;
+			entry != NULL && rc == 0;
+			entry = ldap_next_entry (ld, entry)) {
+
+		if ((value = ldap_get_values (ld, entry, se_type_atep)) != NULL) {
+			// GlueService entry
+
+			ep[n] = strdup (value[0]);
+			ldap_value_free (value);
+
+			if ((value = ldap_get_values (ld, entry, se_type_atty)) == NULL) {
+				ldap_value_free (value);
+				free (ep[n]);
 				continue;
 			}
-			if (strcmp (attr, "GlueServiceType") == 0) {
-				st[i] = strdup (value[0]);
-			} else if (strcmp (attr, "GlueServiceVersion") == 0) {
-				sv[i] = strdup (value[0]);
-			} else {	/* GlueServiceEndpoint */
-				ep[i] = strdup (value[0]);
-			}
+			st[n] = strdup (value[0]);
 			ldap_value_free (value);
+
+			if ((value = ldap_get_values (ld, entry, se_type_atve)) == NULL) {
+				ldap_value_free (value);
+				free (ep[n]);
+				free (st[n]);
+				continue;
+			}
+			sv[n] = strdup (value[0]);
+			ldap_value_free (value);
+			++n;
+
+		} else {
+			// GlueSE entry
+			// NB: there is only one GlueSE entry per SE!
+			// (even if there are several interfaces, like srm_v1 and srm_v2)
+
+			if ((value = ldap_get_values (ld, entry, se_type_atst)) != NULL &&
+					strcasecmp (value[0], "production") != 0) {
+				snprintf (errmsg, ERRMSG_LEN, "%s: is not in 'production' status in BDII ('%s')", host, value);
+				gfal_errmsg (errbuf, errbufsz, errmsg);
+				ldap_unbind (ld);
+				errno = EINVAL;
+				rc = -1;
+			}
+
+			if (port == NULL) {
+				// If port is not yet defined in host_tmp, and is available
+				// it is copied to host_tmp buffer
+				// ... But it will only be used if there is no GlueService entry
+				port = host_tmp + len_tmp;
+				value = ldap_get_values (ld, entry, se_type_atpt);
+				if (value == NULL) {
+					continue;
+				} else if (len_tmp + strlen (value[0]) + 1 < HOSTNAME_MAXLEN) {
+					strcpy (port + 1, value[0]);
+				} else {
+					snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
+					gfal_errmsg (errbuf, errbufsz, errmsg);
+					ldap_unbind (ld);
+					errno = ENAMETOOLONG;
+					return (-1);
+				}
+				ldap_value_free (value);
+			}
 		}
 	}
 	bdii_query_free (&ld, &reply);
-	if (rc) {
-		for (j = 0; j < i; j++) {
+
+	if (rc < 0) {
+		for (i = 0; i < n; i++) {
 			if (st[i]) free (st[i]);
 			if (sv[i]) free (sv[i]);
 			if (ep[i]) free (ep[i]);
@@ -806,38 +752,44 @@ get_srm_types_and_endpoints (const char *host, char ***srm_types, char ***srm_en
 		free (ep);
 		free (stp);
 		free (sep);
-		*srm_types = NULL;
-		*srm_endpoints = NULL;
 	} else {
-		*srm_types = stp;
-		*srm_endpoints = sep;
-		for (j = 0; j < i; ++j, ++n) {
-			if ( (strcmp (st[j], "srm_v1") == 0 || strcmp (st[j], "srm_v2") == 0) && ep[j]) {
-				* (stp + n) = strdup (st[j]);
-				* (sep + n) = strdup (ep[j]); 
-			} else if ( (strcasecmp (st[j], "SRM") == 0) && (strncmp (sv[j], "1.1", 3)) == 0 && ep[j]) {
-				* (stp + n) = strdup ("srm_v1");
-				* (sep + n) = strdup (ep[j]);
-			} else if ( (strcasecmp (st[j], "SRM") == 0) && (strncmp (sv[j], "2.2", 3)) == 0 && ep[j]) {
-				* (stp + n) = strdup ("srm_v2");
-				* (sep + n) = strdup (ep[j]);
+		if (n > 0) {
+			// If there are GlueServices entries...
+			for (i = 0; i < n; ++i) {
+				if ((strcmp (st[i], "srm_v1") == 0 || strcmp (st[i], "srm_v2") == 0) && ep[i]) {
+					stp[i] = strdup (st[i]);
+					sep[i] = strdup (ep[i]); 
+				} else if ((strcasecmp (st[i], "SRM") == 0) && (strncmp (sv[i], "1.", 2)) == 0 && ep[i]) {
+					stp[i] = strdup ("srm_v1");
+					sep[i] = strdup (ep[i]);
+				} else if ((strcasecmp (st[i], "SRM") == 0) && (strncmp (sv[i], "2.2", 3)) == 0 && ep[i]) {
+					stp[i] = strdup ("srm_v2");
+					sep[i] = strdup (ep[i]);
+				}
+				free (st[i]);
+				free (sv[i]);
+				free (ep[i]);
 			}
-			free (st[j]);
-			free (sv[j]);
-			free (ep[j]);
+			free (st);
+			free (sv);
+			free (ep);
+		} else if (n == 0) {
+			// There were no GlueService entry...
+			// ... so endpoint is hostname:port, and type is disk
+			*port = ':';
+			stp[0] = strdup ("disk");
+			sep[0] = strdup (host_tmp);
+		} else {
+			free (stp);
+			free (sep);
+			errno = EINVAL;
+			rc = -1;
 		}
-		free (st);
-		free (sv);
-		free (ep);	
-	}
 
-	if (*srm_types[0] == NULL || *srm_endpoints[0] == NULL) {
-		free (stp);
-		free (sep);
-		*srm_types = NULL;
-		*srm_endpoints = NULL;
-		errno = ENOMEM;
-		rc = -1;
+		if (rc == 0) {
+			*se_types = stp;
+			*se_endpoints = sep;
+		}
 	}
 
 	return (rc);
