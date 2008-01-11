@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.46 $ $Date: 2008/01/11 10:03:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.47 $ $Date: 2008/01/11 10:42:01 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -343,7 +343,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 {
 	static char rls_ep[] = "GlueServiceEndpoint";
 	static char rls_type[] = "GlueServiceType";
-	static char *template = " (& (GlueServiceType=*) (GlueServiceAccessControlRule=%s))";
+	static char *template = " (& (GlueServiceType=*) (| (GlueServiceAccessControlBaseRule=%s) (GlueServiceAccessControlRule=%s)))";
 	char *attr;
 	static char *attrs[] = {rls_type, rls_ep, NULL};
 	int bdii_port;
@@ -371,7 +371,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
-	sprintf (filter, template, vo);
+	sprintf (filter, template, vo, vo);
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
 	if (rc < 0) return rc;
@@ -432,7 +432,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 {
 	static char ep[] = "GlueServiceEndpoint";
-	static char *template = " (& (GlueServiceType=lcg-file-catalog) (GlueServiceAccessControlRule=%s))";
+	static char *template = " (& (GlueServiceType=lcg-file-catalog) (| (GlueServiceAccessControlBaseRule=%s) (GlueServiceAccessControlRule=%s)))";
 	static char *attrs[] = {ep, NULL};
 	LDAPMessage *entry;
 	char filter[128];
@@ -455,7 +455,7 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 		errno = EINVAL;
 		return (-1);
 	}
-	sprintf (filter, template, vo);
+	sprintf (filter, template, vo, vo);
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
 	if (rc < 0) return -1;
