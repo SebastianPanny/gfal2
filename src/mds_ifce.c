@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.45 $ $Date: 2008/01/11 09:54:12 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.46 $ $Date: 2008/01/11 10:03:06 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -717,11 +717,11 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 				errno = EINVAL;
 				rc = -1;
 			}
-
-			if (port == NULL) {
+			else if (port == NULL) {
 				// If port is not yet defined in host_tmp, and is available
 				// it is copied to host_tmp buffer
 				// ... But it will only be used if there is no GlueService entry
+				ldap_value_free (value);
 				port = host_tmp + len_tmp;
 				value = ldap_get_values (ld, entry, se_type_atpt);
 				if (value == NULL) {
@@ -733,10 +733,11 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 					gfal_errmsg (errbuf, errbufsz, errmsg);
 					ldap_unbind (ld);
 					errno = ENAMETOOLONG;
-					return (-1);
+					rc = -1;
 				}
-				ldap_value_free (value);
 			}
+
+			ldap_value_free (value);
 		}
 	}
 	bdii_query_free (&ld, &reply);
