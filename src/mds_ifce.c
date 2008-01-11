@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.47 $ $Date: 2008/01/11 10:42:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.48 $ $Date: 2008/01/11 13:27:28 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -486,67 +486,20 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	return (rc);
 }
 
-/* get from the BDII the root pathname to store data for a specific vo */
-
-get_sa_root (const char *host, const char *vo, char **sa_root, char *errbuf, int errbufsz)
-{
-	static char sa_root_atnm[] = "GlueSARoot";
-	static char *template = " (& (GlueSARoot=%s:*) (GlueChunkKey=GlueSEUniqueID=%s))";
-	char *attr;
-	static char *attrs[] = {sa_root_atnm, NULL};
-	int bdii_port;
-	const char *bdii_server;
-	LDAPMessage *entry;
-	char filter[128];
-	LDAP *ld;
-	int rc = 0;
-	LDAPMessage *reply;
-	struct timeval timeout;
-	char **value;
-	char errmsg[ERRMSG_LEN];
-
-	if (strlen (template) + strlen (vo) + strlen (host) - 4 >= sizeof (filter)) {
-		gfal_errmsg (errbuf, errbufsz, "VO or SE hostname too long");
-		errno = ENAMETOOLONG;
-		return (-1);
-	}
-	sprintf (filter, template, vo, host);
-
-	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
-	if (rc < 0) return rc;
-	GFAL_DEBUG ("DEBUG: get_sa_root used server %s:%d\n", bdii_server, bdii_port);
-
-	entry = ldap_first_entry (ld, reply);
-	if (entry) {
-		value = ldap_get_values (ld, entry, sa_root_atnm);
-		if (value == NULL) 
-			goto notfound;
-		if ( (*sa_root = strdup (value[0] + strlen (vo) + 1)) == NULL)
-			rc = -1;
-		ldap_value_free (value);
-	} else {
-notfound:	snprintf (errmsg, ERRMSG_LEN, "%s:%d: SA Root not found for host : %s", bdii_server, bdii_port, host);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-			errno = EINVAL;
-			rc = -1;
-	}
-	bdii_query_free (&ld, &reply);
-	return (rc);
-}
-
 /* Get from the BDII the SAPath */
 
 get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, char *errbuf, int errbufsz)
 {
 	static char sa_path_atnm[] = "GlueSAPath";
 	static char sa_root_atnm[] = "GlueSARoot";
-	static char *template = " (& (GlueSALocalID=%s) (GlueChunkKey=GlueSEUniqueID=%s))";
+	static char *template =
+		"(& (| (GlueSAAccessControlBaseRule=VO:%s) (GlueSAAccessControlBaseRule=%s) (GlueSARoot=%s:*)) (GlueChunkKey=GlueSEUniqueID=%s))";
 	char *attr;
 	static char *attrs[] = {sa_root_atnm, sa_path_atnm, NULL};
 	int bdii_port;
 	const char *bdii_server;
 	LDAPMessage *entry;
-	char filter[128];
+	char filter[HOSTNAME_MAXLEN + 3 * VO_MAXLEN + 128];
 	LDAP *ld;
 	int rc = 0;
 	LDAPMessage *reply;
@@ -554,59 +507,55 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 	char **value;
 	char errmsg[ERRMSG_LEN];
 
-	if (strlen (template) + strlen (vo) + strlen (host) - 4 >= sizeof (filter)) {
-		gfal_errmsg (errbuf, errbufsz, "VO or SE hostname too long");
+	if (strlen (host) > HOSTNAME_MAXLEN) {
+		gfal_errmsg (errbuf, errbufsz, "Hostname too long");
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
-	sprintf (filter, template, vo, host);
+	if (strlen (vo) > VO_MAXLEN) {
+		gfal_errmsg (errbuf, errbufsz, "VO name too long");
+		errno = ENAMETOOLONG;
+		return (-1);
+	}
+	sprintf (filter, template, vo, vo, vo, host);
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
 	if (rc < 0) return rc;
 	GFAL_DEBUG ("DEBUG: get_sa_path used server %s:%d\n", bdii_server, bdii_port);
 
 	*sa_path = NULL;
-	*sa_root = NULL;
 	entry = ldap_first_entry (ld, reply);
+
 	if (entry) {
-		value = ldap_get_values (ld, entry, sa_path_atnm);
-		if (value != NULL) {
+		if ((value = ldap_get_values (ld, entry, sa_path_atnm)) != NULL) {
 			/* We deal with pre-LCG 2.7.0 where SA Path was incorrect and had vo: prefix */
-			if ( (strncmp (value[0], vo, strlen (vo)) == 0) && (* (value[0] + strlen (vo)) == ':')) {
+			if ((strncmp (value[0], vo, strlen (vo)) == 0) && (* (value[0] + strlen (vo)) == ':')) {
 				if ( (*sa_path = strdup (value[0] + strlen (vo) + 1)) == NULL)
 					rc = -1;
-			} else
-				if ( (*sa_path = strdup (value[0])) == NULL)
+			} else if ( (*sa_path = strdup (value[0])) == NULL)
 					rc = -1;
+			ldap_value_free (value);
 		}
-		ldap_value_free (value);
-
-		value = ldap_get_values (ld, entry, sa_root_atnm);
-		if (value != NULL) {
-			if ( (*sa_root = strdup (value[0] + strlen (vo) + 1)) == NULL)
+		else if ((value = ldap_get_values (ld, entry, sa_root_atnm)) != NULL) {
+			if ((*sa_root = strdup (value[0] + strlen (vo) + 1)) == NULL)
 				rc = -1;
-		}
-		ldap_value_free (value);
-
-	} else {
-		/* try and get SA root via old method for pre-2.5 SEs */
-		if (get_sa_root (host, vo, sa_root, errbuf, errbufsz) < 0 ) {
-			snprintf (errmsg, ERRMSG_LEN, "%s:%d: No GlueSA information found for SE (vo) : %s (%s)",
-					bdii_server, bdii_port, host, vo);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-			errno = EINVAL;
-			rc = -1;               
-		} 
-
-	}
-	if (rc == 0) 
-		if (*sa_path == NULL && *sa_root == NULL) {
-			snprintf (errmsg, ERRMSG_LEN, "%s:%d: Both SAPath and SARoot not set for SE (vo) : %s (%s)", 
-					bdii_server, bdii_port, host, vo);
+			ldap_value_free (value);
+		} else {
+			snprintf (errmsg, ERRMSG_LEN, "%s:%d: Both SAPath and SARoot are not set about %s VO and SE : %s", 
+					bdii_server, bdii_port, vo, host);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			errno = EINVAL;
 			rc = -1;
 		}
+
+	} else {
+		snprintf (errmsg, ERRMSG_LEN, "%s:%d: No GlueSA information found about %s VO and SE %s",
+				bdii_server, bdii_port, vo, host);
+		gfal_errmsg (errbuf, errbufsz, errmsg);
+		errno = EINVAL;
+		rc = -1;               
+	}
+
 	bdii_query_free (&ld, &reply);
 	return (rc);
 }
@@ -653,14 +602,21 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 	if ((port = strchr (host_tmp, ':')) != NULL)
 		*port = 0;
 
-	sprintf (filter, template, host, host);
+	sprintf (filter, template, host_tmp, host);
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
 	if (rc < 0) return (-1);
 	GFAL_DEBUG ("DEBUG: get_se_types_and_endpoints used server %s:%d\n", bdii_server, bdii_port);
 
 	rc = 0;
-	nbentries = ldap_count_entries (ld, reply);
+	
+	if ((nbentries = ldap_count_entries (ld, reply)) < 1) {
+		snprintf (errmsg, ERRMSG_LEN, "%s: No entries for host: %s", bdii_server, host);
+		gfal_errmsg (errbuf, errbufsz, errmsg);
+		errno = EINVAL;
+		return (-1);
+	}
+
 	nbentries++;
 	if ( (st = calloc (nbentries, sizeof (char *))) == NULL ||
 			(sv = calloc (nbentries, sizeof (char *))) == NULL ||
