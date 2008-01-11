@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.45 $ $Date: 2007/12/14 15:41:33 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.46 $ $Date: 2008/01/11 13:27:28 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -338,11 +338,9 @@ int get_cat_type(char **);
 int get_ce_ap (const char *, char **, char *, int);
 int get_lfc_endpoint (char **, char *, int);
 int get_rls_endpoints (char **, char **, char *, int);
-int get_sa_root (const char *, const char *, char **, char *, int);
 int get_sa_path (const char *, const char *, char **, char **, char *, int);
-int get_se_typeandendpoint (const char *, char **, char **, char *, int);
 int get_seap_info (const char *, char ***, int **, char *, int);
-int get_srm_types_and_endpoints (const char *, char ***, char ***, char *, int);
+int get_se_types_and_endpoints (const char *, char ***, char ***, char *, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int srm_getfilemd (int, const char **, const char *, struct srm_mdfilestatus **, char *, int, int);
 int srmv2_getfilemd (int, const char **, const char *, int, int, int, struct srmv2_mdfilestatus **, char **, char *, int, int);
