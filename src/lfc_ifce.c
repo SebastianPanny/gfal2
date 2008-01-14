@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.44 $ $Date: 2007/12/04 09:44:08 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.45 $ $Date: 2008/01/14 15:38:57 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -390,7 +390,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (NULL);
 	}
 
-	replicas = (char **) calloc (size, sizeof (char *));
+	replicas = (char **) calloc (size + 1, sizeof (char *));
 	if (replicas == NULL) {
 		free (list);
 		return (NULL);
@@ -401,6 +401,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 			replicas[i] = strdup (list[i].sfn);
 	}
 	free (list);
+	replicas[i] = NULL;
 
 	return (replicas);
 }
