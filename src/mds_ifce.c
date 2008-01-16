@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.48 $ $Date: 2008/01/11 13:27:28 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.49 $ $Date: 2008/01/16 14:19:04 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -667,7 +667,7 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 
 			if ((value = ldap_get_values (ld, entry, se_type_atst)) != NULL &&
 					strcasecmp (value[0], "production") != 0) {
-				snprintf (errmsg, ERRMSG_LEN, "%s: is not in 'production' status in BDII ('%s')", host, value);
+				snprintf (errmsg, ERRMSG_LEN, "%s: is not in 'production' status in BDII ('%s')", host, value[0]);
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				ldap_unbind (ld);
 				errno = EINVAL;
