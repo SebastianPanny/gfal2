@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.49 $ $Date: 2008/01/16 14:19:04 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.50 $ $Date: 2008/01/16 14:28:18 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -614,6 +614,7 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 		snprintf (errmsg, ERRMSG_LEN, "%s: No entries for host: %s", bdii_server, host);
 		gfal_errmsg (errbuf, errbufsz, errmsg);
 		errno = EINVAL;
+		bdii_query_free (&ld, &reply);
 		return (-1);
 	}
 
@@ -628,7 +629,7 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 		if (sv) free (sv);
 		if (ep) free (ep);
 		if (stp) free (stp);
-		ldap_unbind (ld);
+		bdii_query_free (&ld, &reply);
 		return (-1);
 	}
 
@@ -669,9 +670,10 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 					strcasecmp (value[0], "production") != 0) {
 				snprintf (errmsg, ERRMSG_LEN, "%s: is not in 'production' status in BDII ('%s')", host, value[0]);
 				gfal_errmsg (errbuf, errbufsz, errmsg);
-				ldap_unbind (ld);
+				ldap_value_free (value);
 				errno = EINVAL;
 				rc = -1;
+				break;
 			}
 			else if (port == NULL) {
 				// If port is not yet defined in host_tmp, and is available
@@ -687,9 +689,10 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 				} else {
 					snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
 					gfal_errmsg (errbuf, errbufsz, errmsg);
-					ldap_unbind (ld);
+					ldap_value_free (value);
 					errno = ENAMETOOLONG;
 					rc = -1;
+					break;
 				}
 			}
 
