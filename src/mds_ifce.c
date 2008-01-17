@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.50 $ $Date: 2008/01/16 14:28:18 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.51 $ $Date: 2008/01/17 10:31:42 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -40,6 +40,21 @@ strchrscan (const char* str, int c)
 
 	return n;
 }	     
+
+/* Convert LDAP error into errno */
+static int
+ldaperr2errno (int err) {
+	int res;
+
+	switch (err) {
+		case LDAP_SERVER_DOWN:
+			res = EHOSTDOWN; break;
+		default:
+			res = ECONNREFUSED;
+	}
+
+	return res;
+}
 
 /*
    Parse the LCG_GFAL_INFOSYS environment variable and fill out the
@@ -185,7 +200,7 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 	LDAP *ld;
 	char errmsg[ERRMSG_LEN];
 	struct timeval timeout;
-	int rc = 0;
+	int err = 0, rc = 0;
 
 	/* Parse the environment, if required. */
 	if (bdii_servers_count == 0) {
@@ -206,11 +221,11 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 		if (ld == NULL) continue;
 
 		ldap_set_option (ld, LDAP_OPT_NETWORK_TIMEOUT, &bdii_timeout);
-		if (ldap_simple_bind_s (ld, "", "") != LDAP_SUCCESS) {
+		if ((err = ldap_simple_bind_s (ld, "", "")) != LDAP_SUCCESS) {
 			ldap_unbind (ld);
-			snprintf (errmsg, ERRMSG_LEN, "%s:%d: BDII Connection Refused", bdii_server, bdii_port);
+			snprintf (errmsg, ERRMSG_LEN, "%s:%d: %s", bdii_server, bdii_port, ldap_err2string (err));
 			gfal_errmsg (errbuf, errbufsz, errmsg);
-			errno = ECONNREFUSED;
+			errno = ldaperr2errno (err);
 			GFAL_DEBUG ("DEBUG: %s\n", errmsg);
 			continue;
 		}
