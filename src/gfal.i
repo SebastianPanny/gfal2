@@ -10,6 +10,7 @@ extern const char *gfal_version ();
 
 extern int gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz);
 extern int gfal_get_results (gfal_internal req, gfal_filestatus **statuses);
+extern int gfal_get_ids (gfal_internal req, int *OUTPUT, int **OUTPUT, char **OUTPUT);
 extern void gfal_internal_free (gfal_internal req);
 extern int gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz);

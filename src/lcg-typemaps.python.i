@@ -149,13 +149,33 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }
 
 %typemap(python, in, numinputs=0) (int *OUTPUT)(int tmp) {
-	tmp = 0;
+	tmp = -1;
 	$1 = &tmp;
 }
 
 %typemap(python, argout) (int *OUTPUT){
 	PyObject *o = PyInt_FromLong((long) (*$1));
 	resultobj = my_t_output_helper(resultobj,o);
+}//end of typemap
+
+%typemap(python, in, numinputs=0) (int **OUTPUT)(int *tmp_tabint) {
+	tmp_tabint = NULL;
+	$1 = &tmp_tabint;
+}
+
+// convert output C string list into python list
+%typemap(python, argout) (int **OUTPUT){
+	PyObject *o = Py_None;
+	int i;
+
+	if (*$1) {
+		o = PyList_New (0);
+		for (i = 0; i < result; ++i) {
+			PyList_Append (o, PyInt_FromLong ((long) (*$1)[i]));
+		}
+	}
+
+	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
 %typemap(python, in, numinputs=0) (char *errbuf, int errbufsz)(char err[256]) {
