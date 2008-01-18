@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.69 $ $Date: 2008/01/11 09:54:12 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.70 $ $Date: 2008/01/18 16:15:11 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -3351,7 +3351,7 @@ gfal_get_ids (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2
 		*srmv2_reqtoken = strdup (req->srmv2_token);
 	}
 
-	return (req->results_size);
+	return (0);
 }
 
 	void
