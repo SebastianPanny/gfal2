@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.51 $ $Date: 2008/01/17 10:31:42 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.52 $ $Date: 2008/01/21 13:48:06 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -681,6 +681,8 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 			// NB: there is only one GlueSE entry per SE!
 			// (even if there are several interfaces, like srm_v1 and srm_v2)
 
+			/* Due to some unofficial values, it has been disabled !!
+			 *
 			if ((value = ldap_get_values (ld, entry, se_type_atst)) != NULL &&
 					strcasecmp (value[0], "production") != 0) {
 				snprintf (errmsg, ERRMSG_LEN, "%s: is not in 'production' status in BDII ('%s')", host, value[0]);
@@ -690,7 +692,10 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 				rc = -1;
 				break;
 			}
-			else if (port == NULL) {
+			else ; 
+			*/
+
+			if (port == NULL) {
 				// If port is not yet defined in host_tmp, and is available
 				// it is copied to host_tmp buffer
 				// ... But it will only be used if there is no GlueService entry
