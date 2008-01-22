@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testread.c,v $ $Revision: 1.2 $ $Date: 2007/01/17 13:56:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_testread.c,v $ $Revision: 1.3 $ $Date: 2008/01/22 16:07:10 $ CERN Jean-Philippe Baud
  */
 
 #include <fcntl.h>
@@ -31,11 +31,8 @@ main(int argc, char **argv)
 	}
 	printf ("open successful, fd = %d (errno = %d)\n", fd, errno);
 
-	if ((rc = gfal_read (fd, ibuf, BLKLEN)) != BLKLEN) {
-		if (rc < 0)
-			perror ("gfal_read");
-		else
-			fprintf (stderr, "gfal_read returns %d (errno = %d)\n", rc, errno);
+	if ((rc = gfal_read (fd, ibuf, BLKLEN)) < 0) {
+		perror ("gfal_read");
 		(void) gfal_close (fd);
 		exit (1);
 	}
