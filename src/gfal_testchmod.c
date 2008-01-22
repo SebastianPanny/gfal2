@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testchmod.c,v $ $Revision: 1.1 $ $Date: 2007/01/17 13:56:01 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_testchmod.c,v $ $Revision: 1.2 $ $Date: 2008/01/22 16:14:56 $ CERN Remi Mollon
  */
 
 #include <stdio.h>
@@ -13,7 +13,7 @@
 
 main(int argc, char **argv)
 {
-	int rc, mode, error;
+	int rc, mode, error = 0;
 	char *file;
 
 	if (argc != 3) {
