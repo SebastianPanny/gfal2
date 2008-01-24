@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.72 $ $Date: 2008/01/24 16:11:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.73 $ $Date: 2008/01/24 16:54:01 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -60,8 +60,10 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 		if ((vd = VOMS_Init ("", "")) == NULL ||
 				!VOMS_SetVerificationType (VERIFY_NONE, vd, &error) ||
 				!VOMS_RetrieveFromProxy (RECURSE_CHAIN, vd, &error)) {
-			VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
+			if (error != 5) { /* error is not "VOMS extension not found!" */
+				VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
+				gfal_errmsg (errbuf, errbufsz, errmsg);
+			}
 			return (-1);
 		}
 		else if (!vd->data || !vd->data[0]) {
