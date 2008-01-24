@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.52 $ $Date: 2008/01/21 13:48:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.53 $ $Date: 2008/01/24 16:11:57 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -297,6 +297,36 @@ get_bdii (char *bdii_server, int buflen, int *bdii_port, char *errbuf, int errbu
 	return (0);
 }
 
+/* generates part of bdii filter with accesscontrolbaserule */
+static char *
+generate_acbr (const char *glueobject, char *errbuf, int errbufsz) {
+	char tmp[40 + FQAN_MAXLEN];
+	char *filter = NULL, *vo = NULL, **fqan = NULL;
+	int nb_fqan, filterlen, i;
+	char errmsg[ERRMSG_LEN];
+
+	if ((vo = gfal_get_vo (errbuf, errbufsz)) == NULL)
+		return (NULL);
+
+	nb_fqan = gfal_get_fqan (&fqan, errbuf, errbufsz);
+	filterlen = nb_fqan * (64 + FQAN_MAXLEN) + 3 * (64 + VO_MAXLEN);
+	
+	if ((filter = (char *) calloc (filterlen, sizeof (char))) == NULL)
+		return (NULL);
+
+	snprintf (filter, filterlen,
+			"(| (%sAccessControlBaseRule=VO:%s) (%sAccessControlBaseRule=%s) (%sAccessControlRule=%s)",
+			glueobject, vo, glueobject, vo, glueobject, vo);
+
+	for (i = 0; i < nb_fqan; ++i) {
+		snprintf (tmp, 64 + FQAN_MAXLEN, " (%sAccessControlBaseRule=VOMS:%s)", glueobject, fqan[i]);
+		strcat (filter, tmp);
+	}
+
+	strcat (filter, ")");
+	return (filter);
+}
+
 /* get from the BDII the CE Accesspoint for a given SE */
 
 get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
@@ -447,32 +477,30 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 {
 	static char ep[] = "GlueServiceEndpoint";
-	static char *template = " (& (GlueServiceType=lcg-file-catalog) (| (GlueServiceAccessControlBaseRule=%s) (GlueServiceAccessControlRule=%s)))";
+	static char *template = " (& (GlueServiceType=lcg-file-catalog) %s)";
 	static char *attrs[] = {ep, NULL};
 	LDAPMessage *entry;
-	char filter[128];
+	char *filter, *filter_tmp;
 	LDAP *ld;
 	int rc = 0;
 	LDAPMessage *reply;
 	char **value;
-	char *vo;
 	char errmsg[ERRMSG_LEN];
 	const char *bdii_server;
 	int bdii_port;
 
 	*lfc_endpoint = NULL;
-	if ((vo = gfal_get_vo (errbuf, errbufsz)) == NULL) {
-		errno = EINVAL;
+	
+	if ((filter_tmp = generate_acbr ("GlueService", errbuf, errbufsz)) == NULL)
 		return (-1);
-	}
-	if (strlen (template) + strlen (vo) - 2 >= sizeof (filter)) {
-		gfal_errmsg (errbuf, errbufsz, "VO name too long");
-		errno = EINVAL;
-		return (-1);
-	}
-	sprintf (filter, template, vo, vo);
+
+	rc = asprintf (&filter, template, filter_tmp);
+	free (filter_tmp);
+	if (rc < 0) return (-1);
+
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
+	free (filter);
 	if (rc < 0) return -1;
 	GFAL_DEBUG ("DEBUG: get_lfc_endpoint used server %s:%d\n", bdii_server, bdii_port);
 
@@ -508,13 +536,13 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 	static char sa_path_atnm[] = "GlueSAPath";
 	static char sa_root_atnm[] = "GlueSARoot";
 	static char *template =
-		"(& (| (GlueSAAccessControlBaseRule=VO:%s) (GlueSAAccessControlBaseRule=%s) (GlueSARoot=%s:*)) (GlueChunkKey=GlueSEUniqueID=%s))";
+		"(& (| %s (GlueSARoot=%s:*)) (GlueChunkKey=GlueSEUniqueID=%s))";
 	char *attr;
 	static char *attrs[] = {sa_root_atnm, sa_path_atnm, NULL};
 	int bdii_port;
 	const char *bdii_server;
 	LDAPMessage *entry;
-	char filter[HOSTNAME_MAXLEN + 3 * VO_MAXLEN + 128];
+	char *filter, *filter_tmp;
 	LDAP *ld;
 	int rc = 0;
 	LDAPMessage *reply;
@@ -532,9 +560,16 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
-	sprintf (filter, template, vo, vo, vo, host);
+	
+	if ((filter_tmp = generate_acbr ("GlueSA", errbuf, errbufsz)) == NULL)
+		return (-1);
+
+	rc = asprintf (&filter, template, filter_tmp, vo, host);
+	free (filter_tmp);
+	if (rc < 0) return (-1);
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
+	free (filter);
 	if (rc < 0) return rc;
 	GFAL_DEBUG ("DEBUG: get_sa_path used server %s:%d\n", bdii_server, bdii_port);
 

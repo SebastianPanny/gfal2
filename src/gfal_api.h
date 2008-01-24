@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.46 $ $Date: 2008/01/11 13:27:28 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.47 $ $Date: 2008/01/24 16:11:56 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -47,6 +47,7 @@ extern "C"
 #endif
 
 #define VO_MAXLEN            255
+#define FQAN_MAXLEN          511
 #define HOSTNAME_MAXLEN      255
 #define ERRMSG_LEN           256
 #define DEFAULT_BDII_TIMEOUT 60
@@ -242,6 +243,7 @@ struct proto_ops;
 
 int gfal_set_vo (const char *vo);
 char *gfal_get_vo (char *errbuf, int errbufsz);
+int gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz);
 const char *gfal_version ();
 int gfal_access (const char *, int);
 int gfal_chmod (const char *, mode_t);

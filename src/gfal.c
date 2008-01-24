@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.71 $ $Date: 2008/01/18 16:37:49 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.72 $ $Date: 2008/01/24 16:11:56 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -36,6 +36,9 @@
 static struct dir_info *di_array[GFAL_OPEN_MAX];
 static struct xfer_info *xi_array[GFAL_OPEN_MAX];
 static char *gfal_vo = NULL;
+static char *gfal_fqan[GFAL_FQAN_MAX];
+static int gfal_nb_fqan = 0;
+static int vomsdataparsed = 0;
 
 enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
@@ -44,6 +47,70 @@ static int check_gfal_internal (gfal_internal, char *, int);
 
 /* the version should be set by a "define" at the makefile level */
 static const char gfalversion[] = VERSION;
+
+int
+gfal_parse_vomsdata (char *errbuf, int errbufsz)
+{
+	if (!vomsdataparsed) {
+		struct vomsdata *vd;
+		int i, len, error;
+		char *pos, *p1, *p2;
+		char errmsg[ERRMSG_LEN];
+
+		if ((vd = VOMS_Init ("", "")) == NULL ||
+				!VOMS_SetVerificationType (VERIFY_NONE, vd, &error) ||
+				!VOMS_RetrieveFromProxy (RECURSE_CHAIN, vd, &error)) {
+			VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
+			gfal_errmsg (errbuf, errbufsz, errmsg);
+			return (-1);
+		}
+		else if (!vd->data || !vd->data[0]) {
+			gfal_errmsg (errbuf, errbufsz, "Unable to get VOMS info from the proxy (Memory problem?)");
+			return (-1);
+		}
+
+		gfal_vo = gfal_vo == NULL ? vd->data[0]->voname : gfal_vo;
+
+		for (i = 0; vd->data[0]->fqan[i] != NULL; ++i) {
+			if ((gfal_fqan[i] = strdup (vd->data[0]->fqan[i])) == NULL)
+				return (-1);
+
+			pos = p1 = gfal_fqan[i];
+			if (*p1 != '/') {
+				snprintf (errmsg, ERRMSG_LEN, "Invalid FQAN: %s", gfal_fqan[i]);
+				gfal_errmsg (errbuf, errbufsz, errmsg);
+				return (-1);
+			}
+
+			/* 'Role=NULL' and 'Capability=NULL' are removed from the fqan */
+			while (p1 != NULL) {
+				p2 = strchr (p1 + 1, '/');
+				if (p2) *p2 = '\0';
+
+				if (!strstr (p1, "=NULL")) {
+					if (pos == p1)
+						pos = p2;
+					else {
+						len = strlen (p1);
+						memmove (pos, p1, len + 1);
+						pos += len;
+					}
+				}
+
+				p1 = p2;
+				if (p1) *p1 = '/';
+			}
+
+			if (pos) *pos = '\0';
+		}
+
+		gfal_fqan[i] = NULL;
+		gfal_nb_fqan = i;
+		vomsdataparsed = 1;
+	}
+
+	return (0);
+}
 
 int
 gfal_set_vo (const char *vo)
@@ -57,33 +124,25 @@ gfal_set_vo (const char *vo)
 char *
 gfal_get_vo (char *errbuf, int errbufsz)
 {
-	if (gfal_vo == NULL && (gfal_vo = getenv ("LCG_GFAL_VO")) == NULL) {
-		struct vomsdata *vd;
-		int error;
-		char errmsg[ERRMSG_LEN];
-
-		if ((vd = VOMS_Init ("", "")) == NULL) {
-			VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		}
-		else if (!VOMS_SetVerificationType (VERIFY_NONE, vd, &error)) {
-			VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		}
-		else if (!VOMS_RetrieveFromProxy (RECURSE_CHAIN, vd, &error)) {
-			VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		}
-		else if (vd->data && vd->data[0]) {
-			if ((gfal_vo = strdup (vd->data[0]->voname)) == NULL)
-				return (NULL);
-		}
-	}
+	if (gfal_vo == NULL && (gfal_vo = getenv ("LCG_GFAL_VO")) == NULL)
+		gfal_parse_vomsdata (errbuf, errbufsz);
 
 	if (gfal_vo == NULL)
 		gfal_errmsg (errbuf, errbufsz, "Unable to get the VO name neither from environment (LCG_GFAL_VO) nor from the proxy");
 
 	return (gfal_vo);
+}
+
+int
+gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz)
+{
+	if (fqan == NULL) return (-1);
+
+	if (gfal_nb_fqan == 0)
+		gfal_parse_vomsdata (errbuf, errbufsz);
+
+	*fqan = gfal_fqan;
+	return (gfal_nb_fqan);
 }
 
 	static struct dir_info *
