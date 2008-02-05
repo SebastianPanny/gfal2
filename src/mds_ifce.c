@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.53 $ $Date: 2008/01/24 16:11:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.54 $ $Date: 2008/02/05 17:04:45 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -395,7 +395,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 	const char *bdii_server;
 	BerElement *ber;
 	LDAPMessage *entry;
-	char filter[128];
+	char filter[100 + 2 * VO_MAXLEN];
 	LDAP *ld;
 	char *p;
 	int rc = 0;
@@ -411,7 +411,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 		errno = EINVAL;
 		return (-1);
 	}
-	if (strlen (template) + strlen (vo) - 2 >= sizeof (filter)) {
+	if (strlen (vo) > VO_MAXLEN) {
 		gfal_errmsg (errbuf, errbufsz, "VO name too long");
 		errno = ENAMETOOLONG;
 		return (-1);
@@ -497,7 +497,6 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	rc = asprintf (&filter, template, filter_tmp);
 	free (filter_tmp);
 	if (rc < 0) return (-1);
-
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
 	free (filter);
