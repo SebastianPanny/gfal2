@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.73 $ $Date: 2008/01/24 16:54:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.74 $ $Date: 2008/02/06 10:02:02 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -922,6 +922,7 @@ gfal_opendir (const char *dirname)
 		if (islfn) dir = (DIR *) lfc_opendirlg (dirname + 4, NULL, errbuf, ERRMSG_LEN);
 		else	   dir = (DIR *) lfc_opendirlg (NULL, dirname, errbuf, ERRMSG_LEN);
 
+		if (dir == NULL) return (NULL);
 		if ((di = alloc_di (dir)) == NULL)
 			return (NULL);
 		if ((pops = (struct proto_ops *) malloc (sizeof(struct proto_ops))) == NULL) {
