@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.29 $ $Date: 2007/12/03 14:25:29 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.30 $ $Date: 2008/02/06 09:41:46 $
  */
 
 #include <sys/types.h>
@@ -720,10 +720,10 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	*p = '/';
 	if ((p = strchr (file, '?')) == NULL) {
 		p = file;
-		slashes_to_ignore = 5;
+		slashes_to_ignore = 3;
 	} else {
 		++p;
-		slashes_to_ignore = 4;
+		slashes_to_ignore = 2;
 	}
 
 	while (!ret && (p = strchr (p, '/'))) {
