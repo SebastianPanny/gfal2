@@ -64,12 +64,7 @@ sfn_turlsfromsurls (int nbfiles, const char **sfns, char **protocols, struct sfn
 	char errmsg[ERRMSG_LEN];
 
 	/* check that there is at least one protocol */
-	if (protocols == NULL) {
-		protoarray = get_sup_proto ();
-	} else
-		protoarray = protocols;
-
-	if (protoarray == NULL || protoarray[0] == NULL || protoarray[0][0] == '\0') {
+	if (protocols == NULL || protocols[0] == NULL || protocols[0][0] == '\0') {
 		snprintf (errmsg, ERRMSG_LEN - 1, "You must specified at least one protocol");
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = EPROTONOSUPPORT;
@@ -106,10 +101,10 @@ sfn_turlsfromsurls (int nbfiles, const char **sfns, char **protocols, struct sfn
 			continue;
 		}
 
-		for (j = 0; protoarray[j][0] != '\0' && proto == NULL; ++j) {
+		for (j = 0; protocols[j][0] != '\0' && proto == NULL; ++j) {
 			for (k = 0; ap[k] && proto == NULL; ++k) {
-				if (strcmp (ap[k], protoarray[j]) == 0)
-					proto = protoarray[j];
+				if (strcmp (ap[k], protocols[j]) == 0)
+					proto = protocols[j];
 			}
 		}
 		for (k = 0; ap[k]; ++k)

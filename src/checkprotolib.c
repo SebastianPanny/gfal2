@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.8 $ $Date: 2007/06/27 12:54:45 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.9 $ $Date: 2008/02/12 10:56:16 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -253,7 +253,7 @@ get_sup_proto ()
 {
 	int i = 0;
 	struct proto_ops *pops;
-	static char *supported_protocols[sizeof(pops_array)/sizeof(struct proto_ops)];
+	static char *supported_protocols[sizeof(pops_array)/sizeof(struct proto_ops)+1];
 	struct proto_ops *tmp;
 
 	for (pops = pops_array;; pops++) {

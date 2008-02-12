@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.74 $ $Date: 2008/02/06 10:02:02 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.75 $ $Date: 2008/02/12 10:56:17 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1350,6 +1350,7 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
+	char **protocols = req->protocols == NULL ? get_sup_proto () : req->protocols;
 
 	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
 		return (-1);
@@ -1365,11 +1366,11 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
 		}
 		if ((req->oflag & O_ACCMODE) == 0)
 			ret = srmv2_turlsfromsurls_get (req->nbfiles, (const char **) req->surls, req->endpoint,
-					req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+					req->srmv2_desiredpintime, req->srmv2_spacetokendesc, protocols,
 					&(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
 		else
 			ret = srmv2_turlsfromsurls_put (req->nbfiles, (const char **) req->surls, req->endpoint,
-					req->filesizes, req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+					req->filesizes, req->srmv2_desiredpintime, req->srmv2_spacetokendesc, protocols,
 					&(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
 	} else if (req->setype == TYPE_SRM) {
 		if (req->srm_statuses) {
@@ -1377,14 +1378,14 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
 			req->srm_statuses = NULL;
 		}
 		ret = srm_turlsfromsurls (req->nbfiles, (const char **) req->surls, req->endpoint,
-				req->filesizes, req->protocols, req->oflag, &(req->srm_reqid),
+				req->filesizes, protocols, req->oflag, &(req->srm_reqid),
 				&(req->srm_statuses), errbuf, errbufsz, req->timeout);
 	} else { // req->setype == TYPE_SE
 		if (req->sfn_statuses) {
 			free (req->sfn_statuses);
 			req->sfn_statuses = NULL;
 		}
-		ret = sfn_turlsfromsurls (req->nbfiles, (const char **) req->surls, req->protocols,
+		ret = sfn_turlsfromsurls (req->nbfiles, (const char **) req->surls, protocols,
 				&(req->sfn_statuses), errbuf, errbufsz);
 	}
 
@@ -1433,6 +1434,17 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 gfal_get (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
+	char **protocols = req->protocols;
+   
+	if (protocols == NULL) {
+		int i;
+
+		protocols = get_sup_proto ();
+		for (i = 0; protocols[i][0] != '\0'; ++i) ;
+		protocols[i++] = "gsiftp";
+		protocols[i] = "";
+		/* Not that the list returned by get_sup_proto has one extra place for that! */
+	}
 
 	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
 		return (-1);
@@ -1447,14 +1459,14 @@ gfal_get (gfal_internal req, char *errbuf, int errbufsz)
 			req->srmv2_token = NULL;
 		}
 		ret = srmv2_gete (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_spacetokendesc,
-				req->srmv2_desiredpintime, req->protocols, &(req->srmv2_token),
+				req->srmv2_desiredpintime, protocols, &(req->srmv2_token),
 				&(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
 	} else if (req->setype == TYPE_SRM) {
 		if (req->srm_statuses) {
 			free (req->srm_statuses);
 			req->srm_statuses = NULL;
 		}
-		ret = srm_getxe (req->nbfiles, (const char **) req->surls, req->endpoint, req->protocols,
+		ret = srm_getxe (req->nbfiles, (const char **) req->surls, req->endpoint, protocols,
 				&(req->srm_reqid), &(req->srm_statuses), errbuf, errbufsz, req->timeout);
 	} else { // req->setype == TYPE_SE
 		char errmsg[ERRMSG_LEN];
@@ -3103,10 +3115,6 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 
 	memset (*gfal, 0, sizeof (struct gfal_internal_));
 	memcpy (*gfal, req, sizeof (struct gfal_request_));
-
-	/* if no protocols, get the list of supported ones */
-	if (!(*gfal)->protocols)
-		(*gfal)->protocols = get_sup_proto ();
 
 	if ((*gfal)->no_bdii_check) {
 		if ((*gfal)->surls != NULL && ((*gfal)->setype != TYPE_NONE ||
