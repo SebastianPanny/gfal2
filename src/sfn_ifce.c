@@ -116,7 +116,8 @@ sfn_turlsfromsurls (int nbfiles, const char **sfns, char **protocols, struct sfn
 			continue;
 		}
 
-		asprintf (&((*statuses)[i].turl), "%s%s", proto, sfns[i] + 3);
+		/* Replace 'sfn' by the protocol, and add an extra '/' after the host name */
+		asprintf (&((*statuses)[i].turl), "%s://%s/%s", proto, server, p);
 		if ((*statuses)[i].turl == NULL)
 			(*statuses)[i].status = ENOMEM;
 	}
