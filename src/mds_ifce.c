@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.54 $ $Date: 2008/02/05 17:04:45 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.55 $ $Date: 2008/02/14 15:18:29 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -572,7 +572,7 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 	if (rc < 0) return rc;
 	GFAL_DEBUG ("DEBUG: get_sa_path used server %s:%d\n", bdii_server, bdii_port);
 
-	*sa_path = NULL;
+	*sa_path = *sa_root = NULL;
 	entry = ldap_first_entry (ld, reply);
 
 	if (entry) {

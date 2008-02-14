@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.75 $ $Date: 2008/02/12 10:56:17 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.76 $ $Date: 2008/02/14 15:18:29 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -3034,8 +3034,8 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
 			snprintf (dir_path, 1103, "srm://%s%s%s/", simple_ep, *sa_root=='/'?"":"/", sa_root);
 		}
 	}
-	free (sa_path);
-	free (sa_root);
+	if (sa_path) free (sa_path);
+	if (sa_root) free (sa_root);
 
 	if (q) *q = ':';
 
