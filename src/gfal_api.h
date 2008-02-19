@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.48 $ $Date: 2008/02/15 14:48:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.49 $ $Date: 2008/02/19 15:08:20 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -361,6 +361,7 @@ int lfc_deletepfn (const char *, const char *, char *, int);
 int lfc_deletesurl (const char *, char *, int);
 char *lfc_get_catalog_endpoint(char *, int);
 char *lfc_guidforpfn (const char *, char *, int);
+int lfc_guidsforpfns (int, const char **, char ***, char *, int);
 char *lfc_guidfromlfn (const char *, char *, int);
 int lfc_guid_exists (const char *, char *, int);
 char **lfc_lfnsforguid (const char *, char *, int);
@@ -372,6 +373,7 @@ char *lfc_surlfromguid (const char *, char *, int);
 char **lfc_surlsfromguid (const char *, char *, int);
 int lfc_unregister_alias (const char *, const char *, char *, int);
 int lfc_unregister_pfn (const char *, const char *, char *, int);
+int lfc_unregister_pfns (int, const char **, const char **, int **, char *, int);
 int lrc_deletepfn (const char *, const char *, char *, int);
 int lrc_deletesurl (const char *, char *, int);
 char *lrc_get_catalog_endpoint(char *, int);
@@ -381,7 +383,7 @@ int lrc_replica_exists(const char* ,char*, int);
 int lrc_setfilesize (const char *, GFAL_LONG64, char *, int);
 char *lrc_surlfromguid (const char *, char *, int);
 char **lrc_surlsfromguid (const char *, char *, int);
-int canonical_url (char *, char *, int, char *, int);
+int canonical_url (const char *, char *, int, char *, int);
 int parseturl (const char *, char *, int, char *, int, char **, char*, int);
 int replica_exists(const char*, char*, int);
 char *rmc_guidfromlfn (const char *, char *, int);

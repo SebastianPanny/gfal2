@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.45 $ $Date: 2008/01/14 15:38:57 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.46 $ $Date: 2008/02/19 15:08:20 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -45,6 +45,8 @@ struct fc_ops {
 	int	(*rename)(const char *, const char *);
 	lfc_DIR *(*opendirg)(const char *, const char *);
 	int	(*rmdir)(const char *);
+	int (*startsess) (char *, char *); 
+	int (*endsess) ();
 };
 
 struct fc_ops fcops;
@@ -204,6 +206,8 @@ lfc_init (char *errbuf, int errbufsz) {
 			fcops.rename = (int (*) (const char *, const char *)) dlsym (dlhandle, "lfc_rename");
 			fcops.opendirg = (lfc_DIR * (*) (const char *, const char *)) dlsym (dlhandle, "lfc_opendirg");
 			fcops.rmdir = (int (*) (const char *)) dlsym (dlhandle, "lfc_rmdir");
+			fcops.startsess = (int (*) (char *, char *)) dlsym (dlhandle, "lfc_startsess");
+			fcops.endsess = (int (*) ()) dlsym (dlhandle, "lfc_endsess");
 		}
 	}
 	fcops.seterrbuf(errbuf, errbufsz);
@@ -313,6 +317,61 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 		return (NULL);
 	}
 	return (p);
+}
+
+/** lfc_guidsforpfns : Get the guid for a replica.  If the replica does not
+  exist, fail with ENOENT */
+lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, char *errbuf, int errbufsz)
+{
+	int i;
+	char *p;
+	struct lfc_filestatg statg;
+	char errmsg[ERRMSG_LEN];
+
+	*guids = NULL;
+
+	if (nbfiles < 1 || pfns == NULL || guids == NULL) {
+		gfal_errmsg(errbuf, errbufsz, "Function 'lfc_guidsforpfns': invalid arguments");
+		errno = EINVAL;
+		return (-1);
+	}
+
+	if(lfc_init(errbuf, errbufsz) < 0)
+		return (-1);
+
+	if ((*guids = (char **) calloc (nbfiles + 1, sizeof (char *))) == NULL)
+		return (-1);
+
+	if (fcops.startsess (lfc_host, "") < 0) {
+		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+		free (guids);
+		*guids = NULL;
+		return (-1);
+	}
+
+	for (i = 0; i < nbfiles; ++i) {
+		if(fcops.statr(pfns[i], &statg) < 0) {
+			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", pfns[i], lfc_host, fcops.sstrerror(*fcops.serrno));
+			gfal_errmsg(errbuf, errbufsz, errmsg);
+			(*guids)[i] = NULL;
+		}
+		else if(((*guids)[i] = strdup(statg.guid)) == NULL) {
+			int j;
+			for (j = 0; j < i; ++j)
+				if ((*guids)[j]) free ((*guids)[j]);
+			free (*guids);
+			errno = ENOMEM;
+			return (-1);
+		}
+	}
+
+	if (fcops.endsess () < 0) {
+		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+	}
+	return (0);
 }
 
 int
@@ -436,8 +495,7 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 	return (result);
 }
 
-/** lfc_unregister_pfn : We unregister a pfn from a guid, but only if it a
-  replica for that guid */
+/** lfc_unregister_pfn : We unregister a pfn from a guid */
 	int
 lfc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 {
@@ -451,6 +509,50 @@ lfc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
+	return (0);
+}
+
+/** lfc_unregister_pfn : We unregister a pfn from a guid */
+	int
+lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **results, char *errbuf, int errbufsz)
+{
+	int i;
+	char errmsg[ERRMSG_LEN];
+
+	if (nbguids < 1 || guids == NULL || pfns == NULL || results == NULL) {
+		gfal_errmsg(errbuf, errbufsz, "Function 'lfc_unregister_pfns': invalid arguments");
+		errno = EINVAL;
+		return (-1);
+	}
+
+	if(lfc_init(errbuf, errbufsz) < 0)
+		return (-1);
+
+	if ((*results = (int *) calloc (nbguids + 1, sizeof (int))) == NULL)
+			return (-1);
+
+	if (fcops.startsess (lfc_host, "") < 0) {
+		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		free (*results);
+		*results = NULL;
+		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+		return (-1);
+	}
+
+	for (i = 0; i < nbguids; ++i) {
+		if(fcops.delreplica(guids[i], NULL, pfns[i]) < 0) {
+			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", pfns[i], lfc_host, fcops.sstrerror(*fcops.serrno));
+			gfal_errmsg(errbuf, errbufsz, errmsg);
+			(*results[i]) = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+		}
+	}
+
+	if (fcops.endsess () < 0) {
+		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+	}
+
 	return (0);
 }
 
