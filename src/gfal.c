@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.77 $ $Date: 2008/02/15 14:48:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.78 $ $Date: 2008/02/19 15:06:43 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -924,7 +924,7 @@ gfal_opendir (const char *dirname)
 	int islfn = 0;
 
 	if (canonical_url (dirname, path, 1104, errbuf, ERRMSG_LEN) < 0)
-		return (-1);
+		return (NULL);
 
 	if ((strncmp (path, "lfn:", 4) == 0 && (islfn = 1)) ||
 			strncmp (path, "guid:", 5) == 0) {
@@ -2037,9 +2037,11 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_o
 	return (endpoint);
 }
 
-canonical_url (char *url, char *newurl, int newurlsz, char *errbuf, int errbufsz) {
-	char *pwd, *p_url, *p_newurl;
+canonical_url (const char *url, char *newurl, int newurlsz, char *errbuf, int errbufsz) {
+	char *pwd, *lfc_home, *p_url, *p_newurl;
 	int len;
+	char *cat_type;
+	int islfc = 0;
 	char errmsg[ERRMSG_LEN];
 
 	if (url == NULL || newurl == NULL || newurlsz < 10) {
@@ -2054,6 +2056,13 @@ canonical_url (char *url, char *newurl, int newurlsz, char *errbuf, int errbufsz
 		return (-1);
 	}
 
+	if(get_cat_type (&cat_type) < 0)
+		return (-1);
+	islfc = strcmp (cat_type, "lfc") == 0;
+	free (cat_type);
+
+	pwd = lfc_home = NULL;
+
 	/* get protocol */
 	if ((p_url = strstr (url, ":")) == NULL) {
 		/* 'file' protocol is the default URL protocol */
@@ -2066,7 +2075,7 @@ canonical_url (char *url, char *newurl, int newurlsz, char *errbuf, int errbufsz
 		sprintf (newurl, "file:");
 		len = 5;
 		p_newurl = newurl + len;
-		p_url = url;
+		p_url = (char *) url;
 	} else {
 		/* include ':' */
 		len = (p_url - url) + 1;
@@ -2080,21 +2089,21 @@ canonical_url (char *url, char *newurl, int newurlsz, char *errbuf, int errbufsz
 
 	if (strcmp (newurl, "lfn:") == 0) {
 		if (*p_url != '/') {
-			if ((pwd = getenv ("LFC_HOME")) == NULL) {
+			if (islfc && lfc_home == NULL && (lfc_home = getenv ("LFC_HOME")) == NULL) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Relative path, but LFC_HOME not defined", url);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 				errno = EINVAL;
 				return (-1);
 			}
 
-			snprintf (p_newurl, newurlsz - len, "%s/%s", pwd, p_url);
+			snprintf (p_newurl, newurlsz - len, "%s/%s", lfc_home, p_url);
 		} else {
 			while (*(p_url + 1) == '/') ++p_url;
 			snprintf (p_newurl, newurlsz - len, "%s", p_url);
 		}
 	} else if (strcmp (newurl, "file:") == 0) {
 		if (*p_url != '/') {
-			if ((pwd = getenv ("PWD")) == NULL) {
+			if (pwd == NULL && (pwd = getenv ("PWD")) == NULL) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Can't determine current directory", url);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 				errno = EINVAL;
