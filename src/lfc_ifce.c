@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.46 $ $Date: 2008/02/19 15:08:20 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.47 $ $Date: 2008/02/22 10:06:35 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -886,6 +886,7 @@ lfc_statl (const char *lfn, const char *guid, struct stat *buf, char *errbuf, in
 	if (fcops.statg (lfn, guid, &statbuf) < 0) {
 		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s",
+				lfc_host,
 				lfn != NULL ? lfn : guid,
 				fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
