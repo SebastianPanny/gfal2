@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.78 $ $Date: 2008/02/19 15:06:43 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.79 $ $Date: 2008/02/25 10:42:49 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1664,7 +1664,7 @@ gfal_release (gfal_internal req, char *errbuf, int errbufsz)
 			else
 				req->srm_statuses[i].status = 0;
 		}
-		ret = 0;
+		ret = req->nbfiles;
 	} else { // req->setype == TYPE_SE
 		int i;
 
@@ -1674,12 +1674,12 @@ gfal_release (gfal_internal req, char *errbuf, int errbufsz)
 			errno = ENOMEM;
 			return (-1);
 		}
-		memset (req->sfn_statuses + i, 0, sizeof (struct srmv2_filestatus));
+		memset (req->sfn_statuses + i, 0, sizeof (struct sfn_filestatus));
 		for (i = 0; i < req->nbfiles; ++i) {
 			req->sfn_statuses[i].surl = strdup (req->surls[i]);
 			req->sfn_statuses[i].status = 0;
 		}
-		ret = 0;
+		ret = req->nbfiles;
 	}
 
 	req->returncode = ret;
@@ -1719,7 +1719,7 @@ gfal_set_xfer_done (gfal_internal req, char *errbuf, int errbufsz)
 			else
 				req->srm_statuses[i].status = 0;
 		}
-		ret = 0;
+		ret = req->nbfiles;
 	} else { // req->setype == TYPE_SE
 		int i;
 
@@ -1730,11 +1730,11 @@ gfal_set_xfer_done (gfal_internal req, char *errbuf, int errbufsz)
 			return (-1);
 		}
 		for (i = 0; i < req->nbfiles; ++i) {
-			memset (req->sfn_statuses + i, 0, sizeof (struct srmv2_filestatus));
+			memset (req->sfn_statuses + i, 0, sizeof (struct sfn_filestatus));
 			req->sfn_statuses[i].surl = strdup (req->surls[i]);
 			req->sfn_statuses[i].status = 0;
 		}
-		ret = 0;
+		ret = req->nbfiles;
 	}
 
 	errno = 0;
@@ -1771,7 +1771,7 @@ gfal_set_xfer_running (gfal_internal req, char *errbuf, int errbufsz)
 			else
 				req->srm_statuses[i].status = 0;
 		}
-		ret = 0;
+		ret = req->nbfiles;
 	} else { // req->setype == TYPE_SE
 		int i;
 
@@ -1786,7 +1786,7 @@ gfal_set_xfer_running (gfal_internal req, char *errbuf, int errbufsz)
 			req->sfn_statuses[i].surl = strdup (req->surls[i]);
 			req->sfn_statuses[i].status = 0;
 		}
-		ret = 0;
+		ret = req->nbfiles;
 	}
 
 	errno = 0;
