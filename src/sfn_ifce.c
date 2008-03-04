@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: sfn_ifce.c,v $ $Revision $ $Date $ CERN Remi Mollon
+ * @(#)$RCSfile: sfn_ifce.c,v $ $Revision: 1.5 $ $Date: 2008/03/04 12:52:47 $ CERN Remi Mollon
  */
 
 #include <sys/types.h>
@@ -18,15 +18,13 @@
 
 
 
-sfn_deletesurls (int nbfiles, const char **surls, struct sfn_filestatus **statuses, char *errbuf, int errbufsz)
+sfn_deletesurls (int nbfiles, const char **surls, struct sfn_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
 {
 	int i;
-	struct proto_ops *pops = NULL;
-	char *pfn;
+	char *protocols[] = {"gsiftp", ""};
 	char protocol[64];
-	char pathbuf[1024];
 
-	if (sfn_turlsfromsurls (nbfiles, surls, NULL, statuses, errbuf, errbufsz) < 0)
+	if (sfn_turlsfromsurls (nbfiles, surls, protocols, statuses, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (*statuses == NULL) {
@@ -35,16 +33,78 @@ sfn_deletesurls (int nbfiles, const char **surls, struct sfn_filestatus **status
 	}
 
 	for (i = 0; i < nbfiles; ++i) {
-		if ((*statuses)[i].status != 0 || (*statuses)[i].turl == NULL)
+		if ((*statuses)[i].turl == NULL && (*statuses)[i].status == 0)
+			(*statuses)[i].status = EFAULT;
+		if ((*statuses)[i].status != 0)
 			continue;
-		if (parseturl ((*statuses)[i].turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, errbufsz) == 0) {
-			if (pops == NULL && (pops = find_pops (protocol)) == NULL) {
-				(*statuses)[i].status = EPROTONOSUPPORT;
-				continue;
-			}
-			if (pops->unlink (pfn) < 0)
-				(*statuses)[i].status = pops->maperror (pops, 0);
+
+		if (gridftp_delete ((*statuses)[i].turl, errbuf, errbufsz, timeout) < 0)
+			(*statuses)[i].status = errno;
+	}
+
+	return (nbfiles);
+}
+
+sfn_getfilemd (int nbfiles, const char **surls, struct srmv2_mdfilestatus **statuses, char *errbuf, int errbufsz, int timeout)
+{
+	int i, j;
+	struct sfn_filestatus *turlstatuses;
+	char *protocols[] = {"gsiftp", ""};
+	char protocol[64];
+	int nbresults;
+	char **filenames;
+	struct stat64 *statbufs;
+
+	*statuses = NULL;
+
+	if (sfn_turlsfromsurls (nbfiles, surls, protocols, &turlstatuses, errbuf, errbufsz) < 0)
+		return (-1);
+
+	if (turlstatuses == NULL) {
+		errno = ENOMEM;
+		return (-1);
+	}
+
+	if ((*statuses = (struct srmv2_mdfilestatus *) calloc (nbfiles, sizeof (struct srmv2_mdfilestatus))) == NULL)
+		return (-1);
+
+	for (i = 0; i < nbfiles; ++i) {
+		if (turlstatuses[i].turl == NULL && turlstatuses[i].status == 0)
+			turlstatuses[i].status = EFAULT;
+		if (turlstatuses[i].status != 0)
+			continue;
+
+		(*statuses)[i].surl = turlstatuses[i].surl;
+		filenames = NULL;
+		statbufs = NULL;
+
+		if (gridftp_ls (turlstatuses[i].turl, &nbresults, &filenames, &statbufs, errbuf, errbufsz, timeout) < 0 ||
+				nbresults < 1 || filenames == NULL || statbufs == NULL) {
+			if (filenames) free (filenames);
+			if (statbufs) free (statbufs);
+			(*statuses)[i].status = errno;
+			continue;
 		}
+
+		if (nbresults > 1) {
+			(*statuses)[i].nbsubpaths = nbresults;
+			if (((*statuses)[i].subpaths = (struct srmv2_mdfilestatus *) calloc (nbresults, sizeof (struct srmv2_mdfilestatus))) == NULL) {
+				free (filenames);
+				free (statbufs);
+				return (-1);
+			}
+
+			for (j = 0; j < nbresults; ++j) {
+				(*statuses)[i].subpaths[j].surl = filenames[j];
+				(*statuses)[i].subpaths[j].stat = statbufs[j];
+			}
+		} else {
+			if (filenames[0]) free (filenames[0]);
+			(*statuses)[i].stat = statbufs[0];
+		}
+
+		free (filenames);
+		free (statbufs);
 	}
 
 	return (nbfiles);
