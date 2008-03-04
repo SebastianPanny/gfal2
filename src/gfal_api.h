@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.49 $ $Date: 2008/02/19 15:08:20 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.50 $ $Date: 2008/03/04 14:57:15 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -306,13 +306,14 @@ char *getbestfile(char **, int size, char *, int);
 char *get_catalog_endpoint(char *, int);
 int getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
 int guid_exists (const char *, char *, int);
+int gfal_guidsforpfns (int, const char **, char ***, char *, int);
 char *guidforpfn (const char *, char *, int);
 char *guidfromlfn (const char *, char *, int);
 char **lfnsforguid (const char *, char *, int);
 int register_alias (const char *, const char *, char *, int);
 int register_pfn (const char *, const char *, char *, int);
 int unregister_alias (const char *, const char *, char *, int);
-int unregister_pfn (const char *, const char *, char *, int);
+int gfal_unregister_pfns (int, const char **, const char **, int, int **, char *, int);
 char *surlfromguid (const char *, char *, int);
 char **surlsfromguid (const char *, char *, int);
 
@@ -372,8 +373,7 @@ int lfc_replica_exists(const char*, char*, int);
 char *lfc_surlfromguid (const char *, char *, int);
 char **lfc_surlsfromguid (const char *, char *, int);
 int lfc_unregister_alias (const char *, const char *, char *, int);
-int lfc_unregister_pfn (const char *, const char *, char *, int);
-int lfc_unregister_pfns (int, const char **, const char **, int **, char *, int);
+int lfc_unregister_pfns (int, const char **, const char **, int, int **, char *, int);
 int lrc_deletepfn (const char *, const char *, char *, int);
 int lrc_deletesurl (const char *, char *, int);
 char *lrc_get_catalog_endpoint(char *, int);
@@ -381,9 +381,10 @@ char *lrc_guidforpfn (const char *, char *, int);
 int lrc_guid_exists (const char *, char *, int);
 int lrc_replica_exists(const char* ,char*, int);
 int lrc_setfilesize (const char *, GFAL_LONG64, char *, int);
+int lrc_unregister_pfn (const char *, const char *, char *, int);
 char *lrc_surlfromguid (const char *, char *, int);
 char **lrc_surlsfromguid (const char *, char *, int);
-int canonical_url (const char *, char *, int, char *, int);
+int canonical_url (const char *, const char *, char *, int, char *, int);
 int parseturl (const char *, char *, int, char *, int, char **, char*, int);
 int replica_exists(const char*, char*, int);
 char *rmc_guidfromlfn (const char *, char *, int);
@@ -391,8 +392,10 @@ char **rmc_lfnsforguid (const char *, char *, int);
 int rmc_register_alias (const char *, const char *, char *, int);
 int rmc_register_pfn (const char *, const char *, char *, int);
 int rmc_unregister_alias (const char *, const char *, char *, int);
-int rmc_unregister_pfn (const char *, const char *, char *, int);
-int sfn_deletesurls (int, const char **, struct sfn_filestatus **, char *, int);
+int gridftp_delete (char *, char *, int, int);
+int gridftp_ls (char *, int *, char ***, struct stat64 **, char *, int, int);
+int sfn_deletesurls (int, const char **, struct sfn_filestatus **, char *, int, int);
+int sfn_getfilemd (int, const char **, struct srmv2_mdfilestatus **, char *, int, int);
 int sfn_turlsfromsurls (int, const char **, char **, struct sfn_filestatus **, char *, int);
 int srm_deletesurls (int, const char **, const char *, struct srm_filestatus **, char *, int, int);
 int srm_get (int, const char **, int, char **, int *, char **, struct srm_filestatus **, int);
