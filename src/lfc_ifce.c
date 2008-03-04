@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.47 $ $Date: 2008/02/22 10:06:35 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.48 $ $Date: 2008/03/04 12:49:03 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -328,13 +328,13 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, char *errbuf, i
 	struct lfc_filestatg statg;
 	char errmsg[ERRMSG_LEN];
 
-	*guids = NULL;
-
 	if (nbfiles < 1 || pfns == NULL || guids == NULL) {
 		gfal_errmsg(errbuf, errbufsz, "Function 'lfc_guidsforpfns': invalid arguments");
 		errno = EINVAL;
 		return (-1);
 	}
+
+	*guids = NULL;
 
 	if(lfc_init(errbuf, errbufsz) < 0)
 		return (-1);
@@ -342,12 +342,12 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, char *errbuf, i
 	if ((*guids = (char **) calloc (nbfiles + 1, sizeof (char *))) == NULL)
 		return (-1);
 
-	if (fcops.startsess (lfc_host, "") < 0) {
+	if (fcops.startsess (lfc_host, (char*) gfal_version ()) < 0) {
 		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
-		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		free (guids);
 		*guids = NULL;
+		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
 
@@ -495,28 +495,15 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 	return (result);
 }
 
-/** lfc_unregister_pfn : We unregister a pfn from a guid */
+/* Unregister replicas (SURLs) from a GUIDs, and remove all links to a GUID
+ * if there are no more replicas */
 	int
-lfc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
+lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int verbose, int **results, char *errbuf, int errbufsz)
 {
-	if(lfc_init(errbuf, errbufsz) < 0)
-		return (-1);
-
-	if(fcops.delreplica(guid, NULL, pfn) < 0) {
-		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
-		gfal_errmsg(errbuf, errbufsz, errmsg);
-		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
-		return (-1);
-	}
-	return (0);
-}
-
-/** lfc_unregister_pfn : We unregister a pfn from a guid */
-	int
-lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **results, char *errbuf, int errbufsz)
-{
-	int i;
+	int i, j, size;
+	struct lfc_filereplica* replist;
+	struct lfc_linkinfo* linklist;
+	char *lfn;
 	char errmsg[ERRMSG_LEN];
 
 	if (nbguids < 1 || guids == NULL || pfns == NULL || results == NULL) {
@@ -528,7 +515,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **r
 	if(lfc_init(errbuf, errbufsz) < 0)
 		return (-1);
 
-	if ((*results = (int *) calloc (nbguids + 1, sizeof (int))) == NULL)
+	if ((*results = (int *) calloc (nbguids, sizeof (int))) == NULL)
 			return (-1);
 
 	if (fcops.startsess (lfc_host, "") < 0) {
@@ -544,8 +531,53 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **r
 		if(fcops.delreplica(guids[i], NULL, pfns[i]) < 0) {
 			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", pfns[i], lfc_host, fcops.sstrerror(*fcops.serrno));
 			gfal_errmsg(errbuf, errbufsz, errmsg);
-			(*results[i]) = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+			(*results)[i] = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+		} else {
+			(*results)[i] = 0;
+			if (verbose)
+				printf ("[guid:%s] %s - UNREGISTERED\n", guids[i], pfns[i]);
 		}
+
+		/* Let's check if there are more replicas */
+		size = 0;
+		replist = NULL;
+
+		if (fcops.getreplica (NULL, guids[i], NULL, &size, &replist) < 0) {
+			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", guids[i], lfc_host, fcops.sstrerror(*fcops.serrno));
+			gfal_errmsg(errbuf, errbufsz, errmsg);
+			continue;
+		}
+		if (replist) free (replist);
+		if (size > 0)
+			/* there are still some replicas, we don't need to do anything else */
+			continue;
+
+		/* at that stage, we know that guids[i] has no replicas */
+		size = 0;
+		linklist = NULL;
+
+		if (fcops.getlinks (NULL, guids[i], &size, &linklist) < 0) {
+			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", guids[i], lfc_host, fcops.sstrerror(*fcops.serrno));
+			gfal_errmsg(errbuf, errbufsz, errmsg);
+			continue;
+		}
+		if (size <= 0 || linklist == NULL)
+			/* there are no aliases to unregister!? */
+			continue;
+
+		for (j = 0; j < size; ++j) {
+			lfn = linklist[j].path;
+			if (!lfn) continue;
+
+			if(fcops.unlink(lfn) < 0) {
+				snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfn, lfc_host, fcops.sstrerror(*fcops.serrno));
+				gfal_errmsg(errbuf, errbufsz, errmsg);
+			}
+
+			if (verbose)
+				printf ("[guid:%s] lfn:%s - UNREGISTERED\n", guids[i], lfn);
+		}
+		free (linklist);
 	}
 
 	if (fcops.endsess () < 0) {
