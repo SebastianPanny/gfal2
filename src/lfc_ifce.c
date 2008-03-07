@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.48 $ $Date: 2008/03/04 12:49:03 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.49 $ $Date: 2008/03/07 12:52:45 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -321,7 +321,7 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 
 /** lfc_guidsforpfns : Get the guid for a replica.  If the replica does not
   exist, fail with ENOENT */
-lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, char *errbuf, int errbufsz)
+lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses, char *errbuf, int errbufsz)
 {
 	int i;
 	char *p;
@@ -339,7 +339,8 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, char *errbuf, i
 	if(lfc_init(errbuf, errbufsz) < 0)
 		return (-1);
 
-	if ((*guids = (char **) calloc (nbfiles + 1, sizeof (char *))) == NULL)
+	if ((*guids = (char **) calloc (nbfiles + 1, sizeof (char *))) == NULL ||
+			(*statuses = (int *) calloc (nbfiles, sizeof (int))) == NULL)
 		return (-1);
 
 	if (fcops.startsess (lfc_host, (char*) gfal_version ()) < 0) {
@@ -347,14 +348,15 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, char *errbuf, i
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		free (guids);
 		*guids = NULL;
+		free (*statuses);
+		*statuses = NULL;
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
 
 	for (i = 0; i < nbfiles; ++i) {
 		if(fcops.statr(pfns[i], &statg) < 0) {
-			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", pfns[i], lfc_host, fcops.sstrerror(*fcops.serrno));
-			gfal_errmsg(errbuf, errbufsz, errmsg);
+			(*statuses)[i] = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			(*guids)[i] = NULL;
 		}
 		else if(((*guids)[i] = strdup(statg.guid)) == NULL) {
@@ -362,6 +364,9 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, char *errbuf, i
 			for (j = 0; j < i; ++j)
 				if ((*guids)[j]) free ((*guids)[j]);
 			free (*guids);
+			*guids = NULL;
+			free (*statuses);
+			*statuses = NULL;
 			errno = ENOMEM;
 			return (-1);
 		}

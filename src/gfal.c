@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.80 $ $Date: 2008/03/04 14:56:05 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.81 $ $Date: 2008/03/07 12:52:45 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2616,7 +2616,7 @@ guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 	}
 }
 
-gfal_guidsforpfns (int nbfiles, const char **pfns, char ***guids, char *errbuf, int errbufsz)
+gfal_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses, char *errbuf, int errbufsz)
 {
 	char *cat_type;
 	if (get_cat_type (&cat_type) < 0)
@@ -2624,20 +2624,23 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, char ***guids, char *errbuf, 
 
 	if (strcmp (cat_type, "edg") == 0) {
 		int i;
+		char errmsg[ERRMSG_LEN];
 
 		free (cat_type);
 
-		if ((*guids = (char **) calloc (nbfiles + 1, sizeof (char *))) == NULL)
+		if ((*guids = (char **) calloc (nbfiles + 1, sizeof (char *))) == NULL ||
+				(*statuses = (int *) calloc (nbfiles, sizeof (int))) == NULL)
 			return (-1);
 
 		for (i = 0; i < nbfiles; ++i) {
-			(*guids)[i] = lrc_guidforpfn (pfns[i], errbuf, errbufsz);
+			(*guids)[i] = lrc_guidforpfn (pfns[i], errmsg, ERRMSG_LEN);
+			(*statuses)[i] = errno;
 		}
 		errno = 0;
 		return (0);
 	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_guidsforpfns (nbfiles, pfns, guids, errbuf, errbufsz));
+		return (lfc_guidsforpfns (nbfiles, pfns, guids, statuses, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.50 $ $Date: 2008/03/04 14:57:15 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.51 $ $Date: 2008/03/07 12:52:45 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -306,7 +306,7 @@ char *getbestfile(char **, int size, char *, int);
 char *get_catalog_endpoint(char *, int);
 int getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
 int guid_exists (const char *, char *, int);
-int gfal_guidsforpfns (int, const char **, char ***, char *, int);
+int gfal_guidsforpfns (int, const char **, char ***, int **, char *, int);
 char *guidforpfn (const char *, char *, int);
 char *guidfromlfn (const char *, char *, int);
 char **lfnsforguid (const char *, char *, int);
@@ -362,7 +362,7 @@ int lfc_deletepfn (const char *, const char *, char *, int);
 int lfc_deletesurl (const char *, char *, int);
 char *lfc_get_catalog_endpoint(char *, int);
 char *lfc_guidforpfn (const char *, char *, int);
-int lfc_guidsforpfns (int, const char **, char ***, char *, int);
+int lfc_guidsforpfns (int, const char **, char ***, int **, char *, int);
 char *lfc_guidfromlfn (const char *, char *, int);
 int lfc_guid_exists (const char *, char *, int);
 char **lfc_lfnsforguid (const char *, char *, int);
