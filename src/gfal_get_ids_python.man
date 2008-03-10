@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_get_ids_python.man,v $ $Revision: 1.1 $ $Date: 2008/01/18 16:38:30 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_get_ids_python.man,v $ $Revision: 1.2 $ $Date: 2008/03/10 15:29:17 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_GET_IDS 3 "$Date: 2008/01/18 16:38:30 $" GFAL "Library Functions"
+.TH GFAL_GET_IDS 3 "$Date: 2008/03/10 15:29:17 $" GFAL "Library Functions"
 .SH NAME
 gfal_get_ids \- Extracts the SRM file/request ids from the 'gfal_internal' object
 .SH SYNOPSIS
@@ -12,8 +12,9 @@ gfal_get_ids \- Extracts the SRM file/request ids from the 'gfal_internal' objec
 .BI "gfal_internal " gfal ,
 .BI "int " srm_reqid ,
 .BI "listOfInt " srm_fileids ,
-.BI "string " srmv2_reqtoken ,
-.BI ") gfal_get_results (gfal_internal gfal);
+.BI "string " srmv2_reqtoken
+.BI ") gfal_get_ids (gfal_internal " gfal
+.B );
 
 .SH DESCRIPTION
 .B gfal_get_ids
@@ -40,18 +41,19 @@ This routine returns the number of files (useful if srm_fileids is not NULL) on 
 or -1 in case of error.
 
 .SH SEE ALSO
-.BR gfal_python(3) ,
-.BR  gfal_request_new_python(3) ,
-.BR  gfal_internal_free_python(3) ,
-.BR  gfal_init_python(3) ,
-.BR  gfal_deletesurls_python(3) ,
-.BR  gfal_turlsfromsurls_python(3) ,
-.BR  gfal_ls_python(3) ,
-.BR  gfal_get_python(3) ,
-.BR  gfal_getstatus_python(3) ,
-.BR  gfal_prestage_python(3) ,
-.BR  gfal_prestagestatus_python(3) ,
-.BR  gfal_pin_python(3) ,
-.BR  gfal_release_python(3) ,
-.BR  gfal_set_xfer_done_python(3) ,
-.B  gfal_set_xfer_running_python(3)
+.BR gfal_python (3) ,
+.BR gfal_init_python (3) ,
+.BR gfal_get_ids_python (3) ,
+.BR gfal_get_results_python (3) ,
+.BR gfal_internal_free_python (3) ,
+.BR gfal_deletesurls_python (3) ,
+.BR gfal_get_python (3) ,
+.BR gfal_getstatus_python (3) ,
+.BR gfal_ls_python (3) ,
+.BR gfal_pin_python (3) ,
+.BR gfal_prestage_python (3) ,
+.BR gfal_prestagestatus_python (3) ,
+.BR gfal_release_python (3) ,
+.BR gfal_set_xfer_done_python (3) ,
+.BR gfal_set_xfer_running_python (3) ,
+.BR gfal_turlsfromsurls_python (3) ,

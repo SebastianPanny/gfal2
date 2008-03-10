@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_deletesurls_python.man,v $ $Revision: 1.1 $ $Date: 2007/08/09 17:20:40 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_deletesurls_python.man,v $ $Revision: 1.2 $ $Date: 2008/03/10 15:29:17 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_DELESURLS 3 "$Date: 2007/08/09 17:20:40 $" GFAL "Library Functions"
+.TH GFAL_DELESURLS 3 "$Date: 2008/03/10 15:29:17 $" GFAL "Library Functions"
 .SH NAME
 gfal_deletesurls \- delete a list of SURLs from a SE
 .SH SYNOPSIS
@@ -11,7 +11,8 @@ gfal_deletesurls \- delete a list of SURLs from a SE
 .BI "(int " returncode ,
 .BI "gfal_internal " gfal ,
 .BI "string " errmsg
-.BI ") gfal_deletesurls (gfal_internal gfal);
+.BI ") gfal_deletesurls (gfal_internal " gfal
+.B );
 .SH DESCRIPTION
 .B gfal_deletesurls
 delete a list of SURLs from a SE.
@@ -47,18 +48,19 @@ You try to make an action with a protocol which is not supported by the system.
 .B ENOMEM
 Not enough free memory.
 .SH SEE ALSO
-.BR gfal_python(3) ,
-.BR  gfal_request_new_python(3) ,
-.BR  gfal_internal_free_python(3) ,
-.BR  gfal_init_python(3) ,
-.BR  gfal_turlsfromsurls_python(3) ,
-.BR  gfal_ls_python(3) ,
-.BR  gfal_get_python(3) ,
-.BR  gfal_getstatus_python(3) ,
-.BR  gfal_prestage_python(3) ,
-.BR  gfal_prestagestatus_python(3) ,
-.BR  gfal_pin_python(3) ,
-.BR  gfal_release_python(3) ,
-.BR  gfal_set_xfer_done_python(3) ,
-.BR  gfal_set_xfer_running_python(3) ,
-.B gfal_get_results_python(3)
+.BR gfal_python (3) ,
+.BR gfal_init_python (3) ,
+.BR gfal_get_ids_python (3) ,
+.BR gfal_get_results_python (3) ,
+.BR gfal_internal_free_python (3) ,
+.BR gfal_deletesurls_python (3) ,
+.BR gfal_get_python (3) ,
+.BR gfal_getstatus_python (3) ,
+.BR gfal_ls_python (3) ,
+.BR gfal_pin_python (3) ,
+.BR gfal_prestage_python (3) ,
+.BR gfal_prestagestatus_python (3) ,
+.BR gfal_release_python (3) ,
+.BR gfal_set_xfer_done_python (3) ,
+.BR gfal_set_xfer_running_python (3) ,
+.BR gfal_turlsfromsurls_python (3) ,
