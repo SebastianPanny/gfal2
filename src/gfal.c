@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.81 $ $Date: 2008/03/07 12:52:45 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.82 $ $Date: 2008/03/20 10:42:06 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2384,15 +2384,16 @@ setypesandendpoints (const char *endpoint, char ***se_types, char ***se_endpoint
 
 setypesandendpointsfromsurl (const char *surl, char ***se_types, char ***se_endpoints, char *errbuf, int errbufsz)
 {
-	int len;
-	char *p;
+	int rc;
 	char *endpoint_tmp;
-	char errmsg[ERRMSG_LEN];
 
-	if ((endpoint_tmp = endpointfromsurl (surl, errbuf, errbufsz,0)) == NULL)
+	if ((endpoint_tmp = endpointfromsurl (surl, errbuf, errbufsz, 0)) == NULL)
 		return (-1);
 
-	return (setypesandendpoints (endpoint_tmp, se_types, se_endpoints, errbuf, errbufsz));
+	rc = setypesandendpoints (endpoint_tmp, se_types, se_endpoints, errbuf, errbufsz);
+
+	free (endpoint_tmp);
+	return (rc);
 }
 
 char *
