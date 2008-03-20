@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.61 $ $Date: 2008/03/04 12:51:08 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.62 $ $Date: 2008/03/20 10:47:35 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -139,6 +139,7 @@ distdir = $(PACKAGE)-$(VERSION)
 
 CC = cc -g -fPIC -D_LARGEFILE64_SOURCE -I$(SRCDIR) -I. $(CGSI_GSOAP_INC)
 SHLIBLDFLAGS = -shared
+MTCCFLAGS = -pthread -DCTHREAD_LINUX -D_THREAD_SAFE -D_REENTRANT
 
 INCLUDE_PYTHON=-I$(PYTHON_INC) -I$(PYTHON_LIB)
 
@@ -147,7 +148,7 @@ GFAL_TESTSRC = gfal_testchmod.c gfal_testget.c gfal_teststat.c gfal_testcreatdir
 GFAL_TESTBIN = $(GFAL_TESTSRC:.c=)
 GFAL_INSTALL_TESTBIN = $(patsubst %,$(prefix)/bin/%, $(GFAL_TESTBIN))
 
-all: libgfal.a libgfal.so libgfal_pthr.so gfal_version $(GFAL_TESTBIN) _gfal.so gfal.py
+all: libgfal.a libgfal.so libgfal_pthr.so gfal_version $(GFAL_TESTBIN) _gfal.so gfal.py _gfalthr.so gfalthr.py
 
 libgfal.a: $(GFAL_OBJS)
 	ar rv $@ $?
@@ -227,6 +228,11 @@ _gfal.so gfal.py : gfal.i lcg-typemaps.python.i
 	$(CC)  -D bool=char -D_GNU_SOURCE -c $(INCLUDE_PYTHON) gfal_wrap.c
 	$(LD) $(SHLIBLDFLAGS) -o _gfal.so gfal_wrap.o $(CLI_LIBS) -luuid
 
+_gfalthr.so gfalthr.py : gfalthr.i lcg-typemaps.python.i
+	$(SWIG) -python -o gfalthr_wrap.c $<
+	$(CC)  -D bool=char -D_GNU_SOURCE -c $(INCLUDE_PYTHON) gfalthr_wrap.c
+	$(LD) $(SHLIBLDFLAGS) -o _gfalthr.so gfalthr_wrap.o $(CLI_LIBS) -luuid
+
 install: $(prefix)/bin \
 	 $(prefix)/include \
 	 $(prefix)/$(lib_m) \
@@ -240,6 +246,8 @@ install: $(prefix)/bin \
 	 $(prefix)/$(lib_m)/python \
 	 $(prefix)/$(lib_m)/python/_gfal.so \
 	 $(prefix)/$(lib_m)/python/gfal.py \
+	 $(prefix)/$(lib_m)/python/_gfalthr.so \
+	 $(prefix)/$(lib_m)/python/gfalthr.py \
 
 $(prefix)/bin:
 	mkdir -p $@
@@ -276,6 +284,12 @@ $(prefix)/$(lib_m)/python/_gfal.so: _gfal.so
 	-mv $@ $(prefix)/$(lib_m)/python/OLD$?
 	cp -p $? $@
 $(prefix)/$(lib_m)/python/gfal.py: gfal.py
+	-mv $@ $(prefix)/$(lib_m)/python/OLD$?
+	cp -p $? $@
+$(prefix)/$(lib_m)/python/_gfalthr.so: _gfalthr.so
+	-mv $@ $(prefix)/$(lib_m)/python/OLD$?
+	cp -p $? $@
+$(prefix)/$(lib_m)/python/gfalthr.py: gfalthr.py
 	-mv $@ $(prefix)/$(lib_m)/python/OLD$?
 	cp -p $? $@
 
@@ -462,7 +476,7 @@ clean:
 	rm -rf tmp SOURCES SPECS BUILD RPMS SRPMS *.tar.gz *.o *H.h *Object.h *Proxy.h *Stub.h *C.c *Client.c *Lib.c *Server.c *.nsmap *.xml $(distdir) edg-local-replica-catalog.h edg-replica-metadata-catalog.h edg-se-webservice.h srm.v1.1.h srm.v2.2.h gfal_wrap.c
 
 clobber: clean
-	rm -f libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal.so gfal.py
+	rm -f libgfal.a libgfal.so libgfal_pthr.so $(GFAL_TESTBIN) _gfal.so gfal.py _gfalthr.so gfalthr.py
 
 # gLite compatibility rules
 
