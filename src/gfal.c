@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.82 $ $Date: 2008/03/20 10:42:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.83 $ $Date: 2008/03/20 14:01:15 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -3339,6 +3339,13 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 
 	free (se_types);
 	free (se_endpoints);
+
+	if ((*gfal)->surls != NULL && strncmp ((*gfal)->surls[0], "sfn:", 4) == 0 &&
+			(isclassicse || srmv1_endpoint || srmv2_endpoint)) {
+		/* if surls start with sfn:, we force the SE type to classic SE */
+		(*gfal)->setype = TYPE_SE;
+		return (0);
+	}
 
 	/* Set SE type to the default one if possible */
 	if ((*gfal)->defaultsetype == TYPE_SRM && !(*gfal)->srmv2_spacetokendesc &&
