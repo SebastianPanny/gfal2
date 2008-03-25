@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.30 $ $Date: 2008/02/06 09:41:46 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.31 $ $Date: 2008/03/25 08:59:55 $
  */
 
 #include <sys/types.h>
@@ -1890,7 +1890,10 @@ copy_md (struct ns1__TReturnStatus *reqstatp, struct ns1__ArrayOfTMetaDataPathDe
 				(*statuses)[i].explanation = strdup (reqstatp->explanation);
 			continue;
 		} 
-		(*statuses)[i].stat.st_size = *(repfs->pathDetailArray[i]->size);
+		if (repfs->pathDetailArray[i]->size)
+			(*statuses)[i].stat.st_size = *(repfs->pathDetailArray[i]->size);
+		else
+			(*statuses)[i].stat.st_size = 0;
 		if (repfs->pathDetailArray[i]->fileLocality) {
             switch (*(repfs->pathDetailArray[i]->fileLocality)) {
                 case ONLINE_:
