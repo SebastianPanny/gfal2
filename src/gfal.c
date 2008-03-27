@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.83 $ $Date: 2008/03/20 14:01:15 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.84 $ $Date: 2008/03/27 10:51:56 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1724,7 +1724,7 @@ gfal_set_xfer_done (gfal_internal req, char *errbuf, int errbufsz)
 		int i;
 
 		if (req->srm_statuses == NULL) {
-			gfal_errmsg (errbuf, errbufsz, "gfal_release: no SRMv1 file ids");
+			gfal_errmsg (errbuf, errbufsz, "gfal_set_xfer_done: no SRMv1 file ids");
 			errno = EINVAL;
 			return (-1);
 		}
@@ -2252,7 +2252,9 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 	free (se_endpoints);
 
 	/* if token specified  or SRM v2,2 supported only */
-	if (((token != NULL) || !srmv1_endpoint) && srmv2_endpoint) {
+	if (srmv1_endpoint && !token) {
+		rc = srm_set_xfer_done (srmv1_endpoint, reqid, fileid, errbuf, errbufsz, timeout);
+	} else if (srmv2_endpoint && token) {
 		struct srmv2_filestatus *statuses;
 
 		if ((oflag & O_ACCMODE) == 0) {
@@ -2279,10 +2281,8 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 				free (statuses);
 			}
 		}
-	} else if (srmv1_endpoint) {
-		rc = srm_set_xfer_done (srmv1_endpoint, reqid, fileid, errbuf, errbufsz, timeout);
 	} else {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: SE not published as ClassicSE nor SRMv1 nor SRMv2.2", surl);
+		snprintf (errmsg, ERRMSG_LEN - 1, "%s: SE not published as SRMv1 nor SRMv2.2", surl);
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = EINVAL;
 		rc = -1;
@@ -3570,6 +3570,45 @@ gfal_get_ids (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2
 	}
 
 	return (req->results_size);
+}
+
+	int
+gfal_set_ids (gfal_internal req, int nbfileids, int srm_reqid, const int *srm_fileids, const char *srmv2_reqtoken,
+		char *errbuf, int errbufsz)
+{
+	if (req == NULL || req->nbfiles < 1 || (srm_fileids == NULL && srmv2_reqtoken == NULL)) {
+		gfal_errmsg (errbuf, errbufsz, "gfal_set_ids: invalid arguments");
+		errno = EINVAL;
+		return (-1);
+	}
+
+	if (srm_fileids) {
+		int i;
+
+		if (nbfileids != req->nbfiles) {
+			gfal_errmsg (errbuf, errbufsz, "gfal_set_ids: mismatch between number of fileids and number of files");
+			errno = EINVAL;
+			return (-1);
+		}
+
+		if (!req->srm_statuses) {
+			req->srm_statuses = (struct srm_filestatus *) calloc (req->nbfiles, sizeof (struct srm_filestatus));
+			if (!req->srm_statuses)
+				return (-1);
+		}
+
+		req->srm_reqid = srm_reqid;
+		for (i = 0; i < req->nbfiles; ++i)
+			req->srm_statuses[i].fileid = srm_fileids[i];
+	}
+
+	if (srmv2_reqtoken) {
+		req->srmv2_token = strdup (srmv2_reqtoken);
+		if (!req->srmv2_token)
+			return (-1);
+	}
+
+	return (0);
 }
 
 	void
