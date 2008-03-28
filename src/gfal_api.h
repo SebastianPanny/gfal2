@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.53 $ $Date: 2008/03/27 10:51:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.54 $ $Date: 2008/03/28 16:33:39 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -293,11 +293,13 @@ int gfal_pin (gfal_internal, char *, int);
 int gfal_release (gfal_internal, char *, int);
 int gfal_set_xfer_done (gfal_internal, char *, int);
 int gfal_set_xfer_running (gfal_internal, char *, int);
+int gfal_abortrequest (gfal_internal, char *, int);
+int gfal_abortfiles (gfal_internal, char *, int);
 gfal_request gfal_request_new ();
 int gfal_init (gfal_request, gfal_internal *, char *, int);
 int gfal_get_results (gfal_internal, gfal_filestatus **);
 int gfal_get_ids (gfal_internal, int *, int **, char **);
-int gfal_set_ids (gfal_internal, int, int, const int *, const char *, char *, int);
+int gfal_set_ids (gfal_internal, int, const int *, int, const char *, char *, int);
 void gfal_internal_free (gfal_internal);
 
                   /* catalog operation entry points */
@@ -426,6 +428,8 @@ int srmv2_turlsfromsurls_get (int, const char **, const char *, int, const char 
 int srmv2_turlsfromsurls_put (int, const char **, const char *, GFAL_LONG64 *, int, const char *, char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_pin (int, const char **, const char *, const char *, int, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_release (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_abortrequest (const char *, const char *, char *, int, int);
+int srmv2_abortfiles (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_access (int, const char **, const char *, int, struct srmv2_filestatus **, char *, int, int);
 char *turlfromsfn (const char *, char **, char *, int);
 

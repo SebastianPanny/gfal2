@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.84 $ $Date: 2008/03/27 10:51:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.85 $ $Date: 2008/03/28 16:33:39 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -43,7 +43,7 @@ static int vomsdataparsed = 0;
 enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
 static int copy_gfal_results (gfal_internal, enum status_type);
-static int check_gfal_internal (gfal_internal, char *, int);
+static int check_gfal_internal (gfal_internal, int, char *, int);
 
 /* the version should be set by a "define" at the makefile level */
 static const char gfalversion[] = VERSION;
@@ -1355,7 +1355,7 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1394,7 +1394,7 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
 	int ret;
 	char **protocols = req->protocols == NULL ? get_sup_proto () : req->protocols;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1439,7 +1439,7 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1494,7 +1494,7 @@ gfal_get (gfal_internal req, char *errbuf, int errbufsz)
 		/* Not that the list returned by get_sup_proto has one extra place for that! */
 	}
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1532,7 +1532,7 @@ gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1565,7 +1565,7 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1596,7 +1596,7 @@ gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1622,7 +1622,7 @@ gfal_pin (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1649,7 +1649,7 @@ gfal_release (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1706,7 +1706,7 @@ gfal_set_xfer_done (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1768,7 +1768,7 @@ gfal_set_xfer_running (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
 
-	if (check_gfal_internal (req, errbuf, errbufsz) < 0)
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
@@ -1818,6 +1818,53 @@ gfal_set_xfer_running (gfal_internal req, char *errbuf, int errbufsz)
 	}
 
 	errno = 0;
+	req->returncode = ret;
+	return (copy_gfal_results (req, DEFAULT_STATUS));
+}
+
+gfal_abortrequest (gfal_internal req, char *errbuf, int errbufsz)
+{
+	int ret;
+
+	if (check_gfal_internal (req, 1, errbuf, errbufsz) < 0)
+		return (-1);
+
+	if (req->setype == TYPE_SRMv2) {
+		if (req->srmv2_statuses) {
+			free (req->srmv2_statuses);
+			req->srmv2_statuses = NULL;
+		}
+		ret = srmv2_abortrequest (req->endpoint, req->srmv2_token, errbuf, errbufsz, req->timeout);
+	} else {
+		gfal_errmsg (errbuf, errbufsz, "gfal_abortrequest: only SRMv2 is supported");
+		errno = EPROTONOSUPPORT;
+		return (-1);;
+	}
+
+	req->returncode = ret;
+	return (copy_gfal_results (req, DEFAULT_STATUS));
+}
+
+gfal_abortfiles (gfal_internal req, char *errbuf, int errbufsz)
+{
+	int ret;
+
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
+		return (-1);
+
+	if (req->setype == TYPE_SRMv2) {
+		if (req->srmv2_statuses) {
+			free (req->srmv2_statuses);
+			req->srmv2_statuses = NULL;
+		}
+		ret = srmv2_abortfiles (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
+				&(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
+	} else {
+		gfal_errmsg (errbuf, errbufsz, "gfal_abortfiles: only SRMv2 is supported");
+		errno = EPROTONOSUPPORT;
+		return (-1);;
+	}
+
 	req->returncode = ret;
 	return (copy_gfal_results (req, DEFAULT_STATUS));
 }
@@ -3228,8 +3275,8 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	char errmsg[ERRMSG_LEN];
 	int endpoint_offset=0;
 
-	if (req == NULL || req->nbfiles < 1 || (!req->generatesurls && req->surls == NULL)) {
-		gfal_errmsg (errbuf, errbufsz, "Invalid request: No SURLs specified");
+	if (req == NULL || req->nbfiles < 0 || (req->endpoint == NULL && req->surls == NULL)) {
+		gfal_errmsg (errbuf, errbufsz, "Invalid request: Endpoint or SURLs must be specified");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3298,18 +3345,10 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	}
 
 	if ((*gfal)->endpoint == NULL) {
-		if ((*gfal)->surls != NULL) {
-			if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,0)) == NULL)
-				return (-1);
-			(*gfal)->free_endpoint = 1;
-		} else {
-			/* surls == NULL means that generatesurls == 1 */
-			gfal_internal_free (*gfal);
-			*gfal = NULL;
-			gfal_errmsg (errbuf, errbufsz, "Invalid request: endpoint must be specified with 'generatesurls' activated");
-			errno = EINVAL;
+		/* (*gfal)->surls != NULL */
+		if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,0)) == NULL)
 			return (-1);
-		}
+		(*gfal)->free_endpoint = 1;
 	}
 	if ((strchr ((*gfal)->endpoint, '.') == NULL)) {
 		gfal_errmsg(errbuf, errbufsz, "No domain name specified for storage element endpoint");
@@ -3404,9 +3443,9 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 }
 
 	static int
-check_gfal_internal (gfal_internal req, char *errbuf, int errbufsz)
+check_gfal_internal (gfal_internal req, int allow_null_surls, char *errbuf, int errbufsz)
 {
-	if (req == NULL || req->setype == TYPE_NONE || req->surls == NULL ||
+	if (req == NULL || req->setype == TYPE_NONE || (!allow_null_surls && req->surls == NULL) ||
 			(req->setype != TYPE_SE && req->endpoint == NULL)) {
 		gfal_errmsg (errbuf, errbufsz, "Invalid gfal_internal argument");
 		errno = EINVAL;
@@ -3471,7 +3510,7 @@ copy_gfal_results (gfal_internal req, enum status_type stype)
 		req->results = NULL;
 		req->results_size = 0;
 	}
-	if (!req->results) {
+	if (!req->results && req->returncode > 0) {
 		req->results_size = req->returncode;
 		if ((req->results = (gfal_filestatus *) calloc (req->results_size, sizeof (gfal_filestatus))) == NULL) {
 			errno = ENOMEM;
@@ -3573,16 +3612,16 @@ gfal_get_ids (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2
 }
 
 	int
-gfal_set_ids (gfal_internal req, int nbfileids, int srm_reqid, const int *srm_fileids, const char *srmv2_reqtoken,
+gfal_set_ids (gfal_internal req, int nbfileids, const int *srm_fileids, int srm_reqid, const char *srmv2_reqtoken,
 		char *errbuf, int errbufsz)
 {
-	if (req == NULL || req->nbfiles < 1 || (srm_fileids == NULL && srmv2_reqtoken == NULL)) {
+	if (req == NULL || req->nbfiles < 0 || (srm_fileids == NULL && srmv2_reqtoken == NULL)) {
 		gfal_errmsg (errbuf, errbufsz, "gfal_set_ids: invalid arguments");
 		errno = EINVAL;
 		return (-1);
 	}
 
-	if (srm_fileids) {
+	if (nbfileids > 0 && srm_fileids) {
 		int i;
 
 		if (nbfileids != req->nbfiles) {
