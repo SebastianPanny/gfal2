@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_ls.man,v $ $Revision: 1.1 $ $Date: 2007/08/09 17:20:41 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_ls.man,v $ $Revision: 1.2 $ $Date: 2008/03/28 16:30:02 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_LS 3 "$Date: 2007/08/09 17:20:41 $" GFAL "Library Functions"
+.TH GFAL_LS 3 "$Date: 2008/03/28 16:30:02 $" GFAL "Library Functions"
 .SH NAME
 gfal_ls \- List SE directory contents (not supported by classic SE)
 .SH SYNOPSIS
@@ -39,6 +39,7 @@ This routine returns 0 on a success, or -1 in case of error. In the latter case,
 is set appropriately. Moreover, you can get an error message from
 .I errbuf
 , if specified.
+
 .SH ERRORS
 .B errno
 indicates the type of error, but for detailled error message, you have to look into
@@ -54,19 +55,25 @@ You try to make an action with a protocol which is not supported by the system.
 .TP
 .B ENOMEM
 Not enough free memory.
+
 .SH SEE ALSO
-.BR gfal(3) ,
-.BR  gfal_request_new(3) ,
-.BR  gfal_internal_free(3) ,
-.BR  gfal_init(3) ,
-.BR  gfal_deletesurls(3) ,
-.BR  gfal_turlsfromsurls(3) ,
-.BR  gfal_get(3) ,
-.BR  gfal_getstatus(3) ,
-.BR  gfal_prestage(3) ,
-.BR  gfal_prestagestatus(3) ,
-.BR  gfal_pin(3) ,
-.BR  gfal_release(3) ,
-.BR  gfal_set_xfer_done(3) ,
-.BR  gfal_set_xfer_running(3) ,
-.B gfal_get_results(3)
+.BR gfal (3),
+.BR gfal_request_new (3),
+.BR gfal_internal_free (3),
+.BR gfal_init (3),
+.BR gfal_deletesurls (3),
+.BR gfal_turlsfromsurls (3),
+.BR gfal_ls (3),
+.BR gfal_get (3),
+.BR gfal_getstatus (3),
+.BR gfal_prestage (3),
+.BR gfal_prestagestatus (3),
+.BR gfal_pin (3),
+.BR gfal_release (3),
+.BR gfal_abortrequest (3),
+.BR gfal_abortfiles (3),
+.BR gfal_set_xfer_done (3),
+.BR gfal_set_xfer_running (3),
+.BR gfal_get_ids (3),
+.BR gfal_set_ids (3),
+.BR gfal_get_results (3),

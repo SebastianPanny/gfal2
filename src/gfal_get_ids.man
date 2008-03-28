@@ -1,14 +1,17 @@
-.\" @(#)$RCSfile: gfal_get_ids.man,v $ $Revision: 1.1 $ $Date: 2008/01/18 16:38:30 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_get_ids.man,v $ $Revision: 1.2 $ $Date: 2008/03/28 16:30:02 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_GET_IDS 3 "$Date: 2008/01/18 16:38:30 $" GFAL "Library Functions"
+.TH GFAL_GET_IDS 3 "$Date: 2008/03/28 16:30:02 $" GFAL "Library Functions"
 .SH NAME
 gfal_get_ids \- Extracts the SRM file/request ids from the 'gfal_internal' object
 .SH SYNOPSIS
 \fB#include "gfal_api.h"\fR
 .sp
-.BI "int gfal_get_ids (gfal_internal gfal, int *srm_reqid, int **srm_fileids, char **srmv2_reqtoken);
+.BI "int gfal_get_ids (gfal_internal " gfal ,
+.BI "int *" srm_reqid ,
+.BI "int **" srm_fileids ,
+.BI "char **" srmv2_reqtoken );
 .SH DESCRIPTION
 .B gfal_get_ids
 Extracts the SRM file/request ids of the last called GFAL function from the 
@@ -41,18 +44,23 @@ This routine returns the number of files (useful if srm_fileids is not NULL) on 
 or -1 in case of error.
 
 .SH SEE ALSO
-.BR gfal(3) ,
-.BR  gfal_request_new(3) ,
-.BR  gfal_internal_free(3) ,
-.BR  gfal_init(3) ,
-.BR  gfal_deletesurls(3) ,
-.BR  gfal_turlsfromsurls(3) ,
-.BR  gfal_ls(3) ,
-.BR  gfal_get(3) ,
-.BR  gfal_getstatus(3) ,
-.BR  gfal_prestage(3) ,
-.BR  gfal_prestagestatus(3) ,
-.BR  gfal_pin(3) ,
-.BR  gfal_release(3) ,
-.BR  gfal_set_xfer_done(3) ,
-.B  gfal_set_xfer_running(3)
+.BR gfal (3),
+.BR gfal_request_new (3),
+.BR gfal_internal_free (3),
+.BR gfal_init (3),
+.BR gfal_deletesurls (3),
+.BR gfal_turlsfromsurls (3),
+.BR gfal_ls (3),
+.BR gfal_get (3),
+.BR gfal_getstatus (3),
+.BR gfal_prestage (3),
+.BR gfal_prestagestatus (3),
+.BR gfal_pin (3),
+.BR gfal_release (3),
+.BR gfal_abortrequest (3),
+.BR gfal_abortfiles (3),
+.BR gfal_set_xfer_done (3),
+.BR gfal_set_xfer_running (3),
+.BR gfal_get_ids (3),
+.BR gfal_set_ids (3),
+.BR gfal_get_results (3),

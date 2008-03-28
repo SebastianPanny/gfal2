@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_deletesurls.man,v $ $Revision: 1.1 $ $Date: 2007/08/09 17:20:40 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_deletesurls.man,v $ $Revision: 1.2 $ $Date: 2008/03/28 16:30:02 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_DELESURLS 3 "$Date: 2007/08/09 17:20:40 $" GFAL "Library Functions"
+.TH GFAL_DELESURLS 3 "$Date: 2008/03/28 16:30:02 $" GFAL "Library Functions"
 .SH NAME
 gfal_deletesurls \- delete a list of SURLs from a SE
 .SH SYNOPSIS
@@ -53,18 +53,23 @@ You try to make an action with a protocol which is not supported by the system.
 .B ENOMEM
 Not enough free memory.
 .SH SEE ALSO
-.BR gfal(3) ,
-.BR  gfal_request_new(3) ,
-.BR  gfal_internal_free(3) ,
-.BR  gfal_init(3) ,
-.BR  gfal_turlsfromsurls(3) ,
-.BR  gfal_ls(3) ,
-.BR  gfal_get(3) ,
-.BR  gfal_getstatus(3) ,
-.BR  gfal_prestage(3) ,
-.BR  gfal_prestagestatus(3) ,
-.BR  gfal_pin(3) ,
-.BR  gfal_release(3) ,
-.BR  gfal_set_xfer_done(3) ,
-.BR  gfal_set_xfer_running(3) ,
-.B gfal_get_results(3)
+.BR gfal (3),
+.BR gfal_request_new (3),
+.BR gfal_internal_free (3),
+.BR gfal_init (3),
+.BR gfal_deletesurls (3),
+.BR gfal_turlsfromsurls (3),
+.BR gfal_ls (3),
+.BR gfal_get (3),
+.BR gfal_getstatus (3),
+.BR gfal_prestage (3),
+.BR gfal_prestagestatus (3),
+.BR gfal_pin (3),
+.BR gfal_release (3),
+.BR gfal_abortrequest (3),
+.BR gfal_abortfiles (3),
+.BR gfal_set_xfer_done (3),
+.BR gfal_set_xfer_running (3),
+.BR gfal_get_ids (3),
+.BR gfal_set_ids (3),
+.BR gfal_get_results (3),
