@@ -1,3 +1,6 @@
+
+#ifdef SWIGPYTHON
+
 %{
 static PyObject* my_t_output_helper(PyObject* target, PyObject* o) {
 	PyObject*   o2;
@@ -87,7 +90,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 %include "typemaps.i"
 
 // in python, Long are 64bits
-%typemap(python, in) GFAL_LONG64 {
+%typemap(in) GFAL_LONG64 {
 	if ($input == Py_None)
 		$1 = 0;
 	else
@@ -95,7 +98,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }
 
 // if the string is empty, it is replaced by NULL
-%typemap(python, in) char * {
+%typemap(in) char * {
 	if ($input == Py_None) {
 		$1 = NULL;
 	} else {
@@ -104,8 +107,33 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 	}
 }
 
+// convert python list into C integer list (int*)
+%typemap(in) (int LEN, const int *LIST) {
+	int i;
+
+	if ($input == Py_None || ($1 = PyList_Size ($input)) < 1) {
+		$1 = 0;
+		$2 = NULL;
+	} else {
+		$2 = (int*) calloc ($1, sizeof (int));
+		if ($2 == NULL) {
+			errno = ENOMEM;
+			return NULL;
+		}
+
+		for (i = 0; i < $1; ++i) {
+			$2[i] = PyInt_AsLong (PyList_GetItem ($input, i));
+		}
+	}
+}
+
+// Free the int* used as input for the C function, if that is not used to build the return value
+%typemap(freearg) (int LEN, const int *LIST) {
+	if ($2) free ($2);
+}
+
 // convert python list into C string list (char**)
-%typemap(python, in) char **protocols {
+%typemap(in) char **protocols {
 	int i,len;
 
 	if ($input == Py_None || (len = PyList_Size ($input)) < 1) {
@@ -126,12 +154,16 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 	$1[i] = NULL;
 }
 
+// Free the char** used as input for the C function, if that is not used to build the return value
+%typemap(freearg) (char **protocols) {
+	if ($1) free ($1);
+}
+
 // Feed list length and C-style list from python list
-%typemap(python, in) (int LEN, char **LIST) {
+%typemap(in) (int LEN, char **LIST) {
 	int i;
 
 	if ($input == Py_None || ($1 = PyList_Size ($input)) < 1) {
-		errno = EINVAL;
 		errno = EINVAL;
 		return (NULL);
 	}
@@ -148,23 +180,28 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 	$2[i] = NULL;
 }
 
-%typemap(python, in, numinputs=0) (int *OUTPUT)(int tmp) {
+// Free the char** used as input for the C function, if that is not used to build the return value
+%typemap(freearg) (int LEN, char **LIST) {
+	if ($2) free ($2);
+}
+
+%typemap(in, numinputs=0) (int *OUTPUT)(int tmp) {
 	tmp = -1;
 	$1 = &tmp;
 }
 
-%typemap(python, argout) (int *OUTPUT){
+%typemap(argout) (int *OUTPUT){
 	PyObject *o = PyInt_FromLong((long) (*$1));
 	resultobj = my_t_output_helper(resultobj,o);
 }//end of typemap
 
-%typemap(python, in, numinputs=0) (int **OUTPUT)(int *tmp_tabint) {
+%typemap(in, numinputs=0) (int **OUTPUT)(int *tmp_tabint) {
 	tmp_tabint = NULL;
 	$1 = &tmp_tabint;
 }
 
 // convert output C string list into python list
-%typemap(python, argout) (int **OUTPUT){
+%typemap(argout) (int **OUTPUT){
 	PyObject *o = Py_None;
 	int i;
 
@@ -178,13 +215,13 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
-%typemap(python, in, numinputs=0) (char *errbuf, int errbufsz)(char err[256]) {
+%typemap(in, numinputs=0) (char *errbuf, int errbufsz)(char err[256]) {
 	err[0] = 0;
 	$1 = err;
 	$2 = 256;
 }
 
-%typemap(python, argout) (char *errbuf){
+%typemap(argout) (char *errbuf){
 	PyObject *o;
 
 	if (!$1[0] && errno) {
@@ -199,23 +236,23 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
-%typemap(python, in, numinputs=0) (char *GUIDOUT)(char tmp_guid[40]) {
+%typemap(in, numinputs=0) (char *GUIDOUT)(char tmp_guid[40]) {
 	tmp_guid[0] = 0;
 	$1 = tmp_guid;
 }
 
-%typemap(python, argout) (char *GUIDOUT){
+%typemap(argout) (char *GUIDOUT){
 	PyObject *o = PyString_FromString ($1);
 	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
-%typemap(python, in, numinputs=0) (char **OUTPUT)(char *tmp_char) {
+%typemap(in, numinputs=0) (char **OUTPUT)(char *tmp_char) {
 	tmp_char = NULL;
 	$1 = &tmp_char;
 }
 
 // convert output C string into python string
-%typemap(python, argout) (char **OUTPUT){
+%typemap(argout) (char **OUTPUT){
 	PyObject *o = Py_None;
 
 	if (*$1) {
@@ -224,13 +261,13 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
-%typemap(python, in, numinputs=0) (char ***OUTPUT)(char **tmp_tabchar) {
+%typemap(in, numinputs=0) (char ***OUTPUT)(char **tmp_tabchar) {
 	tmp_tabchar = NULL;
 	$1 = &tmp_tabchar;
 }
 
 // convert output C string list into python list
-%typemap(python, argout) (char ***OUTPUT){
+%typemap(argout) (char ***OUTPUT){
 	PyObject *o = Py_None;
 	int i;
 
@@ -244,13 +281,13 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 	$result = my_t_output_helper ($result, o);
 }//end of typemap
 
-%typemap(python, in, numinputs=0) (struct stat64 *)(struct stat64 statbuf) {
+%typemap(in, numinputs=0) (struct stat64 *)(struct stat64 statbuf) {
 	$1 = &statbuf;
 	memset ($1, 0, sizeof (struct stat64));
 }
 
 // convert output C 'struct stat64' into a python list exactly (in the same order) as the system os.stat() function
-%typemap(python, argout) (struct stat64 *){
+%typemap(argout) (struct stat64 *){
 	PyObject *statlist = Py_None;
 
 	if ($1) {
@@ -271,7 +308,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }//end of typemap
 
 // convert python dictionnary into C gfal request structure (gfal_request)
-%typemap(python, in) gfal_request {
+%typemap(in) gfal_request {
 	int i,len;
 	PyObject *item;
 
@@ -314,6 +351,8 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 		}
 		$1->surls[i] = NULL;
 	}
+	else if ((item = PyDict_GetItem ($input, PyString_FromString ("nbfiles"))) != NULL)
+		$1->nbfiles = (int) PyInt_AsLong (item);
 
 	if ((item = PyDict_GetItem ($input, PyString_FromString ("endpoint"))) != NULL) {
 		$1->endpoint = PyString_AsString (item);
@@ -422,12 +461,12 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 		$1->srmv2_lscount = (int) PyInt_AsLong (item);
 }
 
-%typemap(python, in, numinputs=0) (gfal_internal *)(gfal_internal gfal) {
+%typemap(in, numinputs=0) (gfal_internal *)(gfal_internal gfal) {
 	$1 = &gfal;
 }
 
 // convert C gfal_internal into Python object
-%typemap(python, argout) gfal_internal * {
+%typemap(argout) gfal_internal * {
 	PyObject *o;
 
 	if ($1 == NULL || *$1 == NULL)
@@ -439,13 +478,13 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }
 
 // convert python object into C gfal_internal
-%typemap(python, in) gfal_internal {
+%typemap(in) gfal_internal {
 	if ((SWIG_ConvertPtr($input,(void **) &$1, $1_descriptor,SWIG_POINTER_EXCEPTION)) < 0)
 		return (NULL);
 }
 
 // convert C gfal_internal into Python object
-%typemap(python, argout) gfal_internal {
+%typemap(argout) gfal_internal {
 	PyObject *o;
 
 	if ($1 == NULL)
@@ -456,13 +495,39 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 	$result = my_t_output_helper ($result, o);
 }
 
-%typemap(python, in, numinputs=0) (gfal_filestatus **)(gfal_filestatus *filestatus_tmp) {
+%typemap(in, numinputs=0) (lcg_filestatus **OUTPUT)(lcg_filestatus *filestatus_tmp) {
+	filestatus_tmp = NULL;
+	$1 = &filestatus_tmp;
+}
+
+// convert output C 'lcg_filestatus' list into python dictionnary
+%typemap(argout) (lcg_filestatus **OUTPUT){
+	PyObject *list = Py_None, *dict = Py_None;
+	int i;
+
+	if (*$1) {
+		list = PyList_New (0);
+		for (i = 0; i < arg1; ++i) {
+			dict = PyDict_New ();
+			PyDict_SetItemString (dict, "file", (*$1)[i].file ? PyString_FromString ((*$1)[i].file) : Py_None);
+			PyDict_SetItemString (dict, "status", PyInt_FromLong ((long)((*$1)[i].status)));
+			PyDict_SetItemString (dict, "explanation", (*$1)[i].explanation ? PyString_FromString ((*$1)[i].explanation) : Py_None);
+			PyList_Append (list, dict);
+		}
+	}
+
+	$result = my_t_output_helper ($result, list);
+}//end of typemap
+
+%typemap(in, numinputs=0) (gfal_filestatus **)(gfal_filestatus *filestatus_tmp) {
 	filestatus_tmp = NULL;
 	$1 = &filestatus_tmp;
 }
 
 // convert output C 'gfal_filestatus' list into python dictionnary
-%typemap(python, argout) (gfal_filestatus **){
+%typemap(argout) (gfal_filestatus **){
 	PyObject *list = $1 != NULL ? gfalresults_2_python (*$1, result) : Py_None;
 	$result = my_t_output_helper ($result, list);
 }//end of typemap
+
+#endif
