@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.85 $ $Date: 2008/03/28 16:33:39 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.86 $ $Date: 2008/04/03 07:01:49 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1581,9 +1581,7 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
 				req->protocols, &(req->srmv2_token), &(req->srmv2_statuses),
 				errbuf, errbufsz, req->timeout);
 	} else {
-		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN - 1, "gfal_prestage: Only SRMv2-compliant SEs are supported");
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		gfal_errmsg (errbuf, errbufsz, "gfal_prestage: Only SRMv2-compliant SEs are supported");
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1607,9 +1605,7 @@ gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
 		ret = srmv2_prestagestatuse (req->srmv2_token, req->endpoint, &(req->srmv2_statuses),
 				errbuf, errbufsz, req->timeout);
 	} else {
-		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN - 1, "gfal_prestagestatus: Only SRMv2-compliant SEs are supported");
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		gfal_errmsg (errbuf, errbufsz, "gfal_prestagestatus: Only SRMv2-compliant SEs are supported");
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1634,9 +1630,7 @@ gfal_pin (gfal_internal req, char *errbuf, int errbufsz)
 				req->srmv2_desiredpintime, &(req->srmv2_pinstatuses),
 				errbuf, errbufsz, req->timeout);
 	} else {
-		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN - 1, "gfal_prestage: Only SRMv2-compliant SEs are supported");
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		gfal_errmsg (errbuf, errbufsz, "gfal_pin: Only SRMv2-compliant SEs are supported");
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1836,7 +1830,7 @@ gfal_abortrequest (gfal_internal req, char *errbuf, int errbufsz)
 		}
 		ret = srmv2_abortrequest (req->endpoint, req->srmv2_token, errbuf, errbufsz, req->timeout);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "gfal_abortrequest: only SRMv2 is supported");
+		gfal_errmsg (errbuf, errbufsz, "gfal_abortrequest: Only SRMv2-compliant SEs are supported");
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1860,7 +1854,7 @@ gfal_abortfiles (gfal_internal req, char *errbuf, int errbufsz)
 		ret = srmv2_abortfiles (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
 				&(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "gfal_abortfiles: only SRMv2 is supported");
+		gfal_errmsg (errbuf, errbufsz, "gfal_abortfiles: Only SRMv2-compliant SEs are supported");
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -3108,7 +3102,7 @@ get_default_se(char *errbuf, int errbufsz)
 	if(strlen(vo) + 15 >= 64) {
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: VO name too long", vo);
 		gfal_errmsg(errbuf, errbufsz, errmsg);
-		errno = ENAMETOOLONG;
+		errno = EINVAL;
 		return (NULL);
 	}
 	sprintf(se_env, "VO_%s_DEFAULT_SE", vo);
@@ -3119,6 +3113,7 @@ get_default_se(char *errbuf, int errbufsz)
 			se_env[i] = toupper(se_env[i]);
 	} 
 	default_se = getenv(se_env);
+	errno = 0;
 	return default_se;
 }
 
