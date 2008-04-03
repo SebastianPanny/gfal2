@@ -12,12 +12,3 @@
 }
 
 %include "gfal.i"
-int init();
-
-%{
-#include "Python.h"
-
-int init(){
-    return Cthread_init();
-}
-%}
