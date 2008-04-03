@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.62 $ $Date: 2008/03/20 10:47:35 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.63 $ $Date: 2008/04/03 07:09:16 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -139,7 +139,6 @@ distdir = $(PACKAGE)-$(VERSION)
 
 CC = cc -g -fPIC -D_LARGEFILE64_SOURCE -I$(SRCDIR) -I. $(CGSI_GSOAP_INC)
 SHLIBLDFLAGS = -shared
-MTCCFLAGS = -pthread -DCTHREAD_LINUX -D_THREAD_SAFE -D_REENTRANT
 
 INCLUDE_PYTHON=-I$(PYTHON_INC) -I$(PYTHON_LIB)
 
@@ -147,6 +146,9 @@ GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o gridftp_ifce
 GFAL_TESTSRC = gfal_testchmod.c gfal_testget.c gfal_teststat.c gfal_testcreatdir.c gfal_testread.c gfal_testunlink.c gfal_testdir.c gfal_testrw.c
 GFAL_TESTBIN = $(GFAL_TESTSRC:.c=)
 GFAL_INSTALL_TESTBIN = $(patsubst %,$(prefix)/bin/%, $(GFAL_TESTBIN))
+
+CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
+CLI_LIBS_PTHR=-L. -lgfal_pthr $(SECLIB_PTHR) -luuid
 
 all: libgfal.a libgfal.so libgfal_pthr.so gfal_version $(GFAL_TESTBIN) _gfal.so gfal.py _gfalthr.so gfalthr.py
 
@@ -219,7 +221,6 @@ srm.v1.1.h: srm.v1.1.wsdl
 srm.v2.2.h: srm.v2.2.wsdl
 	$(GSOAP_LOCATION)/bin/wsdl2h -c -e -y -t $(SRCDIR)/typemap-srmv2.dat $< -o $@
 
-CLI_LIBS=-L. -lgfal $(SECLIB) -luuid
 $(GFAL_TESTBIN):%: %.c gfal_api.h libgfal.so
 	$(CC) -o $@ $(CLI_LIBS) $(VOMSLIB) $<
 
@@ -230,8 +231,8 @@ _gfal.so gfal.py : gfal.i lcg-typemaps.python.i
 
 _gfalthr.so gfalthr.py : gfalthr.i lcg-typemaps.python.i
 	$(SWIG) -python -o gfalthr_wrap.c $<
-	$(CC)  -D bool=char -D_GNU_SOURCE -c $(INCLUDE_PYTHON) gfalthr_wrap.c
-	$(LD) $(SHLIBLDFLAGS) -o _gfalthr.so gfalthr_wrap.o $(CLI_LIBS) -luuid
+	$(CC) -D bool=char -D_GNU_SOURCE -c $(INCLUDE_PYTHON) gfalthr_wrap.c
+	$(LD) $(SHLIBLDFLAGS) -o _gfalthr.so gfalthr_wrap.o $(CLI_LIBS_PTHR) -luuid
 
 install: $(prefix)/bin \
 	 $(prefix)/include \
@@ -327,6 +328,8 @@ install.man: install.doc \
 	     $(prefix)/man/man3/gfal_get_results_python.3 \
 	     $(prefix)/man/man3/gfal_get_ids.3 \
 	     $(prefix)/man/man3/gfal_get_ids_python.3 \
+	     $(prefix)/man/man3/gfal_set_ids.3 \
+	     $(prefix)/man/man3/gfal_set_ids_python.3 \
 	     $(prefix)/man/man3/gfal_deletesurls.3 \
 	     $(prefix)/man/man3/gfal_deletesurls_python.3 \
 	     $(prefix)/man/man3/gfal_turlsfromsurls.3 \
@@ -337,6 +340,10 @@ install.man: install.doc \
 	     $(prefix)/man/man3/gfal_pin_python.3 \
 	     $(prefix)/man/man3/gfal_release.3 \
 	     $(prefix)/man/man3/gfal_release_python.3 \
+	     $(prefix)/man/man3/gfal_abortrequest.3 \
+	     $(prefix)/man/man3/gfal_abortrequest_python.3 \
+	     $(prefix)/man/man3/gfal_abortfiles.3 \
+	     $(prefix)/man/man3/gfal_abortfiles_python.3 \
 	     $(prefix)/man/man3/gfal_get.3 \
 	     $(prefix)/man/man3/gfal_get_python.3 \
 	     $(prefix)/man/man3/gfal_getstatus.3 \
