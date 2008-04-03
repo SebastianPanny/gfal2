@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.63 $ $Date: 2008/04/03 07:09:16 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.64 $ $Date: 2008/04/03 08:22:27 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -414,6 +414,10 @@ $(prefix)/man/man3/gfal_get_ids.3: gfal_get_ids.man
 	cp -p $? $@
 $(prefix)/man/man3/gfal_get_ids_python.3: gfal_get_ids_python.man
 	cp -p $? $@
+$(prefix)/man/man3/gfal_set_ids.3: gfal_set_ids.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_set_ids_python.3: gfal_set_ids_python.man
+	cp -p $? $@
 $(prefix)/man/man3/gfal_deletesurls.3: gfal_deletesurls.man
 	cp -p $? $@
 $(prefix)/man/man3/gfal_deletesurls_python.3: gfal_deletesurls_python.man
@@ -433,6 +437,14 @@ $(prefix)/man/man3/gfal_pin_python.3: gfal_pin_python.man
 $(prefix)/man/man3/gfal_release.3: gfal_release.man
 	cp -p $? $@
 $(prefix)/man/man3/gfal_release_python.3: gfal_release_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_abortrequest.3: gfal_abortrequest.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_abortrequest_python.3: gfal_abortrequest_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_abortfiles.3: gfal_abortfiles.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_abortfiles_python.3: gfal_abortfiles_python.man
 	cp -p $? $@
 $(prefix)/man/man3/gfal_get.3: gfal_get.man
 	cp -p $? $@
