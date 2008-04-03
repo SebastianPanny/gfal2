@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.34 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.35 $ $Date: 2008/04/03 07:03:41 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -182,8 +182,8 @@ srm_getxe (int nbfiles, const char **surls, const char *srm_endpoint,
 		errno = sav_errno;
 		return (-1);
 	}
-	reqstatp = outg._Result;
-	if (reqstatp->fileStatuses == NULL) {
+
+	if ((reqstatp = outg._Result) == NULL || reqstatp->fileStatuses == NULL) {
 		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: <empty response>", srm_endpoint);
 		gfal_errmsg (errbuf, errbufsz, errmsg);
@@ -309,7 +309,7 @@ srm_getstatusxe (int reqid, const char *srm_endpoint, struct srm_filestatus **fi
 		errno = sav_errno;
 		return (-1);
 	}
-	reqstatp = outq._Result;
+
 	if ((reqstatp = outq._Result) == NULL || reqstatp->fileStatuses == NULL) {
 		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: <empty response>", srm_endpoint);
@@ -454,7 +454,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 		}
 		reqstatp = outp._Result;
 	}
-	if (reqstatp->fileStatuses == NULL) {
+	if (reqstatp == NULL || reqstatp->fileStatuses == NULL) {
 		char errmsg[ERRMSG_LEN];
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: <empty response>", srm_endpoint);
 		gfal_errmsg (errbuf, errbufsz, errmsg);
@@ -470,7 +470,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	if (timeout > 0)
 		endtime = time(NULL) + timeout;
 
-	while (strcmp (reqstatp->state, "pending") == 0 ||
+	while (reqstatp && strcmp (reqstatp->state, "pending") == 0 ||
 			strcmp (reqstatp->state, "Pending") == 0) {
 		sleep ((r++ == 0) ? 1 : (reqstatp->retryDeltaTime > 0) ?
 				reqstatp->retryDeltaTime : DEFPOLLINT);
@@ -504,7 +504,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 			soap_end(&soap);
 			soap_done(&soap);
 
-			if (reqstatp->fileStatuses != NULL && reqstatp->fileStatuses->__ptr != NULL)
+			if (reqstatp == NULL || reqstatp->fileStatuses != NULL && reqstatp->fileStatuses->__ptr != NULL)
 				for (i = 0; i < reqstatp->fileStatuses->__size; ++i)
 					srm_set_xfer_done (srm_endpoint, *reqid, reqstatp->fileStatuses->__ptr[i]->fileId,
 							errbuf, errbufsz, timeout);
@@ -515,7 +515,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 		}
 
 	}
-	if (strcasecmp (reqstatp->state, "failed") == 0) {
+	if (reqstatp == NULL || reqstatp->state == NULL || strcasecmp (reqstatp->state, "failed") == 0) {
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->errorMessage) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, reqstatp->errorMessage);
@@ -707,8 +707,7 @@ srm_set_xfer_status (const char *status, const char *srm_endpoint, int reqid, in
 		return (-1);
 	}
 
-	reqstat = out._Result;
-	if (strcasecmp (reqstat->state, "failed") == 0) {
+	if ((reqstat = out._Result) == NULL || reqstat->state == NULL || strcasecmp (reqstat->state, "failed") == 0) {
 		char errmsg[ERRMSG_LEN];
 		if (reqstat->errorMessage) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, reqstat->errorMessage);
@@ -743,7 +742,8 @@ errorstring2errno (const char *errstr)
 		return (ENOENT);
 	else if (strstr (errstr, "ermission denied"))
 		return (EACCES);
-	else if (strstr (errstr, "nvalid arg"))
+	else if (strstr (errstr, "nvalid arg") ||
+			strstr (errstr, "nknown"))
 		return (EINVAL);
 	else if (strstr (errstr, "rotocol"))
 		return (EPROTONOSUPPORT);
