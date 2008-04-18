@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.33 $ $Date: 2008/04/18 10:09:49 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.34 $ $Date: 2008/04/18 14:39:10 $
  */
 
 #include <sys/types.h>
@@ -766,19 +766,19 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 			return (-1);
 		}
 		(*spaces)[i].spacetoken = strdup (tknrepp->spaceDataArray[i]->spaceToken);
-		if (!tknrepp->spaceDataArray[i]->owner)
+		if (tknrepp->spaceDataArray[i]->owner)
 			(*spaces)[i].owner = strdup (tknrepp->spaceDataArray[i]->owner);
-		if (!tknrepp->spaceDataArray[i]->totalSize)
+		if (tknrepp->spaceDataArray[i]->totalSize)
 			(*spaces)[i].totalsize = (GFAL_LONG64) *(tknrepp->spaceDataArray[i]->totalSize);
-		if (!tknrepp->spaceDataArray[i]->guaranteedSize)
+		if (tknrepp->spaceDataArray[i]->guaranteedSize)
 			(*spaces)[i].guaranteedsize = (GFAL_LONG64) *(tknrepp->spaceDataArray[i]->guaranteedSize);
-		if (!tknrepp->spaceDataArray[i]->unusedSize)
+		if (tknrepp->spaceDataArray[i]->unusedSize)
 			(*spaces)[i].unusedsize = (GFAL_LONG64) *(tknrepp->spaceDataArray[i]->unusedSize);
-		if (!tknrepp->spaceDataArray[i]->lifetimeAssigned)
+		if (tknrepp->spaceDataArray[i]->lifetimeAssigned)
 			(*spaces)[i].lifetimeassigned = *(tknrepp->spaceDataArray[i]->lifetimeAssigned);
-		if (!tknrepp->spaceDataArray[i]->lifetimeLeft)
+		if (tknrepp->spaceDataArray[i]->lifetimeLeft)
 			(*spaces)[i].lifetimeleft = *(tknrepp->spaceDataArray[i]->lifetimeLeft);
-		if (!tknrepp->spaceDataArray[i]->retentionPolicyInfo) {
+		if (tknrepp->spaceDataArray[i]->retentionPolicyInfo) {
 			switch (tknrepp->spaceDataArray[i]->retentionPolicyInfo->retentionPolicy) {
 				case REPLICA:
 					(*spaces)[i].retentionpolicy = GFAL_POLICY_REPLICA;
@@ -793,7 +793,7 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 					(*spaces)[i].retentionpolicy = GFAL_POLICY_UNKNOWN;
 			}
 
-			if (!tknrepp->spaceDataArray[i]->retentionPolicyInfo->accessLatency) {
+			if (tknrepp->spaceDataArray[i]->retentionPolicyInfo->accessLatency) {
 				switch (*(tknrepp->spaceDataArray[i]->retentionPolicyInfo->accessLatency)) {
 					case ONLINE:
 						(*spaces)[i].accesslatency = GFAL_LATENCY_ONLINE;
