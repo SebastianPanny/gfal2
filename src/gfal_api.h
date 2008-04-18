@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.54 $ $Date: 2008/03/28 16:33:39 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.55 $ $Date: 2008/04/18 10:09:49 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -51,6 +51,7 @@ extern "C"
 #define HOSTNAME_MAXLEN      255
 #define ERRMSG_LEN           1024
 #define DEFAULT_BDII_TIMEOUT 60
+#define GFAL_SIZE_MARGIN     1048576     // 1MB
 
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
 
@@ -67,6 +68,24 @@ enum TFileLocality_
 /// Typedef synonym for enum ns1__TFileLocality.
 typedef enum TFileLocality_ TFileLocality;
 
+enum TRetentionPolicy_
+{
+	GFAL_POLICY_UNKNOWN = 0,
+	GFAL_POLICY_REPLICA,
+	GFAL_POLICY_OUTPUT,
+	GFAL_POLICY_CUSTODIAL
+};
+/// Typedef synonym for enum ns1__TRetentionPolicy.
+typedef enum TRetentionPolicy_ TRetentionPolicy;
+
+enum TAccessLatency_
+{
+	GFAL_LATENCY_UNKNOWN = 0,
+	GFAL_LATENCY_ONLINE,
+	GFAL_LATENCY_NEARLINE
+};
+/// Typedef synonym for enum ns1__TAccessLatency.
+typedef enum TAccessLatency_ TAccessLatency;
 
 typedef struct gfal_filestatus_ {
 	char *surl;
@@ -235,6 +254,18 @@ struct srmv2_mdfilestatus {
 	TFileLocality locality;
 };
 #endif
+
+typedef struct {
+	char *spacetoken;
+	char *owner;
+	GFAL_LONG64 totalsize;
+	GFAL_LONG64 guaranteedsize;
+	GFAL_LONG64 unusedsize;
+	int lifetimeassigned;
+	int lifetimeleft;
+	TRetentionPolicy retentionpolicy;
+	TAccessLatency accesslatency;
+} gfal_spacemd;
 
 /* to remove warnings concerning lfc_maperror and struct proto_ops */
 struct proto_ops;
@@ -415,7 +446,9 @@ int srmv2_get (int, const char **, const char *, int, char **, char **, struct s
 int srmv2_gete (int, const char **, const char *, const char *, int, char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_getstatus (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_getstatuse (const char *, const char *, struct srmv2_pinfilestatus **, char *, int, int);
-char *srmv2_getspacetoken (const char *, const char *, char *, int, int);
+int srmv2_getspacetokens (const char *, const char *, int *, char ***, char *, int, int);
+int srmv2_getspacemd (int, const char **, const char *, gfal_spacemd **, char *, int, int);
+char *srmv2_getbestspacetoken (const char *, const char *, GFAL_LONG64, char *, int, int);
 int srmv2_makedirp (const char *, const char *, char *, int, int);
 int srmv2_prestage (int, const char **, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
 int srmv2_prestagee (int, const char **, const char *, const char *, char **, char **, struct srmv2_filestatus **, char *, int, int);

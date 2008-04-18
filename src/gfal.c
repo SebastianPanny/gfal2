@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.86 $ $Date: 2008/04/03 07:01:49 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.87 $ $Date: 2008/04/18 10:09:49 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -2068,7 +2068,7 @@ mdtomd32 (struct stat64 *statb64, struct stat *statbuf)
 endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_on)
 {
 	int len;
-	char *p, *endpoint;
+	char *p, *endpoint = NULL;
 	char errmsg[ERRMSG_LEN];
 	int endpoint_offset=0;
 
@@ -2091,17 +2091,17 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_o
 	}
 
 	len = p - surl - 6;
-	if ((endpoint = (char *) calloc (len + 1+ strlen(ENDPOINT_DEFAULT_PREFIX), sizeof (char*))) == NULL) {
+	if ((endpoint = (char *) calloc (len + 1 + strlen (ENDPOINT_DEFAULT_PREFIX), sizeof (char*))) == NULL) {
 		errno = ENOMEM;
 		return (NULL);
 	}//hack to ensure proper endpoint prefixing (httpg://)
 
-	if(_prefixing_on && strncmp (surl+6, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN) && (len>0))
-	{
-		strcpy(endpoint,ENDPOINT_DEFAULT_PREFIX);
-		endpoint_offset=ENDPOINT_DEFAULT_PREFIX_LEN;
+	if(_prefixing_on && len > 0) {
+		strcpy (endpoint, ENDPOINT_DEFAULT_PREFIX);
+		endpoint_offset = ENDPOINT_DEFAULT_PREFIX_LEN;
 	}
-	strncpy (endpoint + endpoint_offset, surl+6, len);
+
+	strncpy (endpoint + endpoint_offset, surl + 6, len);
 	endpoint[len + endpoint_offset] = 0;
 	return (endpoint);
 }
@@ -3305,19 +3305,19 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 				return (-1);
 			}
 			else if ((*gfal)->setype != TYPE_SE && (*gfal)->endpoint == NULL && ((*gfal)->free_endpoint = 1) &&
-					((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,1)) == NULL) {
+					((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz, 1)) == NULL) {
 				gfal_internal_free (*gfal);
 				*gfal = NULL;
 				return (-1);
 			}
 			else {
 				/* Check if the endpoint is full or not */
-				if(strncmp ((*gfal)->endpoint, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN)==0)
-					endpoint_offset=ENDPOINT_DEFAULT_PREFIX_LEN; 
+				if(strncmp ((*gfal)->endpoint, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN) == 0)
+					endpoint_offset = ENDPOINT_DEFAULT_PREFIX_LEN; 
 				else
-					endpoint_offset=0;
-				const char *s = strchr ((*gfal)->endpoint+endpoint_offset, '/');
-				const char *p = strchr ((*gfal)->endpoint+endpoint_offset, ':');
+					endpoint_offset = 0;
+				const char *s = strchr ((*gfal)->endpoint + endpoint_offset, '/');
+				const char *p = strchr ((*gfal)->endpoint + endpoint_offset, ':');
 
 				if (((*gfal)->setype == TYPE_SRMv2 && s == NULL) || p == NULL || (s != NULL && s < p)) {
 					gfal_internal_free (*gfal);
@@ -3687,6 +3687,22 @@ gfal_internal_free (gfal_internal req)
 
 	free (req);
 	return;
+}
+
+	void
+gfal_spacemd_free (int nbtokens, gfal_spacemd *smd)
+{
+	int i;
+
+	if (smd == NULL)
+		return;
+
+	for (i = 0; i < nbtokens; ++i) {
+		if (smd[i].spacetoken) free (smd[i].spacetoken);
+		if (smd[i].owner) free (smd[i].owner);
+	}
+
+	free (smd);
 }
 
 const char *
