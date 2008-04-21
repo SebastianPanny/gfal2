@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.34 $ $Date: 2008/04/18 14:39:10 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.35 $ $Date: 2008/04/21 12:48:59 $
  */
 
 #include <sys/types.h>
@@ -2155,16 +2155,18 @@ copy_md (struct ns1__TReturnStatus *reqstatp, struct ns1__ArrayOfTMetaDataPathDe
 			(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i]->groupPermission->mode << 3;
 		if (repfs->pathDetailArray[i]->ownerPermission)
 			(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i]->ownerPermission->mode << 6;
-		switch (*(repfs->pathDetailArray[i]->type)) {
-			case FILE_:
-				(*statuses)[i].stat.st_mode |= S_IFREG;
-				break;
-			case DIRECTORY:
-				(*statuses)[i].stat.st_mode |= S_IFDIR;
-				break;
-			case LINK:
-				(*statuses)[i].stat.st_mode |= S_IFLNK;
-				break;
+		if (repfs->pathDetailArray[i]->type) {
+			switch (*(repfs->pathDetailArray[i]->type)) {
+				case FILE_:
+					(*statuses)[i].stat.st_mode |= S_IFREG;
+					break;
+				case DIRECTORY:
+					(*statuses)[i].stat.st_mode |= S_IFDIR;
+					break;
+				case LINK:
+					(*statuses)[i].stat.st_mode |= S_IFLNK;
+					break;
+			}
 		}
 
 		if (repfs->pathDetailArray[i]->arrayOfSubPaths) {
