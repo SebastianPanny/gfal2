@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.49 $ $Date: 2008/03/07 12:52:45 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.50 $ $Date: 2008/04/22 15:54:02 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -17,6 +17,8 @@
 #include "lfc_api.h"
 #include "gfal_api.h"
 #include "serrno.h"
+
+static const char gfal_remote_type[] = "LFC";
 
 #define ALLOC_BLOCK_SIZE 16 /* the block size to allocate new pointers in */
 
@@ -230,7 +232,7 @@ lfc_replica_exists(const char *guid, char *errbuf, int errbufsz) {
 		return (-1);
 	if (fcops.getreplica (NULL, guid, NULL, &size, &replicas) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, guid, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -250,7 +252,7 @@ lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep, char *errbuf, int errbufs
 
 	if(fcops.statg(NULL, guid, &statg) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, guid, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -268,7 +270,7 @@ lfc_accessl (const char *path, int mode, char *errbuf, int errbufsz)
 
 	if (fcops.access (path, mode) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, path, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, path, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -285,7 +287,7 @@ lfc_chmodl (const char *path, mode_t mode, char *errbuf, int errbufsz)
 
 	if (fcops.chmod (path, mode) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, path, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, path, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -307,7 +309,7 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 
 	if(fcops.statr(pfn, &statg) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, pfn, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, pfn, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
@@ -344,7 +346,7 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses,
 		return (-1);
 
 	if (fcops.startsess (lfc_host, (char*) gfal_version ()) < 0) {
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_host, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		free (guids);
 		*guids = NULL;
@@ -373,7 +375,7 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses,
 	}
 
 	if (fcops.endsess () < 0) {
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_host, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 	}
 	return (0);
@@ -392,7 +394,7 @@ lfc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 			return (0);
 
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, guid, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -414,7 +416,7 @@ lfc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 	/* We always have available permanent files at the minute */
 	if(fcops.addreplica(guid, NULL, hostname, pfn, '-', '\0', NULL, NULL) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_host, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		free(hostname);
@@ -436,7 +438,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 
 	if (fcops.getreplica (NULL, guid, NULL, &size, &list) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, guid, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
@@ -444,7 +446,7 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 	/* no results */
 	if (size <= 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: No such GUID", guid);
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: No such GUID", gfal_remote_type, lfc_host, guid);
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = ENOENT;
 		if (list) free (list);
@@ -482,7 +484,7 @@ lfc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (NULL);
 	} else if (*surls == NULL) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: No such GUID", guid);
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: No such GUID", gfal_remote_type, lfc_host, guid);
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = ENOENT;
 		return (NULL);
@@ -524,7 +526,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int ver
 			return (-1);
 
 	if (fcops.startsess (lfc_host, "") < 0) {
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_host, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		free (*results);
 		*results = NULL;
@@ -534,7 +536,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int ver
 
 	for (i = 0; i < nbguids; ++i) {
 		if(fcops.delreplica(guids[i], NULL, pfns[i]) < 0) {
-			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", pfns[i], lfc_host, fcops.sstrerror(*fcops.serrno));
+			snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, pfns[i], lfc_host, fcops.sstrerror(*fcops.serrno));
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			(*results)[i] = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		} else {
@@ -548,7 +550,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int ver
 		replist = NULL;
 
 		if (fcops.getreplica (NULL, guids[i], NULL, &size, &replist) < 0) {
-			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", guids[i], lfc_host, fcops.sstrerror(*fcops.serrno));
+			snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, guids[i], lfc_host, fcops.sstrerror(*fcops.serrno));
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			continue;
 		}
@@ -562,7 +564,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int ver
 		linklist = NULL;
 
 		if (fcops.getlinks (NULL, guids[i], &size, &linklist) < 0) {
-			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", guids[i], lfc_host, fcops.sstrerror(*fcops.serrno));
+			snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, guids[i], lfc_host, fcops.sstrerror(*fcops.serrno));
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			continue;
 		}
@@ -575,7 +577,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int ver
 			if (!lfn) continue;
 
 			if(fcops.unlink(lfn) < 0) {
-				snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfn, lfc_host, fcops.sstrerror(*fcops.serrno));
+				snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfn, lfc_host, fcops.sstrerror(*fcops.serrno));
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 			}
 
@@ -586,7 +588,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int ver
 	}
 
 	if (fcops.endsess () < 0) {
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_host, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 	}
 
@@ -604,7 +606,7 @@ lfc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 
 	if(fcops.statg(lfn, NULL, &statg) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
@@ -626,7 +628,7 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 
 	if (fcops.getlinks (NULL, guid, &size, &list) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, guid, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
@@ -634,7 +636,7 @@ lfc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 	/* no results */
 	if (size <= 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: No such GUID", guid);
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: No such GUID", gfal_remote_type, lfc_host, guid);
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = ENOENT;
 		if (list) free (list);
@@ -668,14 +670,14 @@ lfc_create_alias (const char *guid, const char *lfn, mode_t mode, GFAL_LONG64 si
 	fcops.starttrans(NULL, (char*) gfal_version ());
 	if(fcops.creatg(lfn, guid, mode) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
 	if(fcops.setfsizeg(guid, size, NULL, NULL) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: :%s: %s", lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: :%s: %s", gfal_remote_type, lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -696,7 +698,7 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 	fcops.starttrans(NULL, (char*) gfal_version ());
 	if(fcops.statg(NULL, guid, &statg) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, guid, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -704,7 +706,7 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 	/* now we do a getpath() to get the master lfn */
 	if (fcops.getpath(lfc_host, statg.fileid, master_lfn) <0 ) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, guid, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, guid, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -713,7 +715,7 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 	/* and finally register */
 	if(fcops.symlink(master_lfn, lfn) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -738,7 +740,7 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 		if (*fcops.serrno == ENOENT) {
 			if(fcops.lstat(lfn, &stat) < 0 ) {
 				char errmsg[ERRMSG_LEN];
-				snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
+				snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 				errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 				return (-1);
@@ -747,7 +749,7 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 			}
 		} else {
 			char errmsg[ERRMSG_LEN];
-			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
+			snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			return (-1);
@@ -757,7 +759,7 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 	/* lfn maps to the guid - unlink it */
 	if(fcops.unlink(lfn) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -809,7 +811,7 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
 			break;
 		if (*fcops.serrno != ENOENT) {
 			char errmsg[ERRMSG_LEN];
-			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, sav_path, fcops.sstrerror(*fcops.serrno));
+			snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, sav_path, fcops.sstrerror(*fcops.serrno));
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			return (c);
@@ -828,7 +830,7 @@ lfc_mkdirp(const char *path, mode_t mode, char *errbuf, int errbufsz)
 		c = fcops.mkdirg (sav_path, uuid_buf, mode);
 		if(c != 0) {
 			char errmsg[ERRMSG_LEN];
-			snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, sav_path, fcops.sstrerror(*fcops.serrno));
+			snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, sav_path, fcops.sstrerror(*fcops.serrno));
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		}
@@ -844,7 +846,7 @@ lfc_renamel (const char *old_name, const char *new_name, char *errbuf, int errbu
 
 	if (fcops.rename (old_name, new_name) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s", lfc_host, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_host, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -863,7 +865,7 @@ lfc_opendirlg (const char *dirname, const char *guid, char *errbuf, int errbufsz
 
 	if ((dir = fcops.opendirg (dirname, guid)) == NULL) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, dirname, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, dirname, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
@@ -880,7 +882,7 @@ lfc_rmdirl (const char *dirname, char *errbuf, int errbufsz)
 
 	if (fcops.rmdir (dirname) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, dirname, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, dirname, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -903,7 +905,7 @@ lfc_setsize (const char *lfn, GFAL_LONG64 size, char *errbuf, int errbufsz)
 
 	if (fcops.setfsize (lfn, NULL, size) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s", lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, lfn, fcops.sstrerror(*fcops.serrno));
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
@@ -922,7 +924,8 @@ lfc_statl (const char *lfn, const char *guid, struct stat *buf, char *errbuf, in
 
 	if (fcops.statg (lfn, guid, &statbuf) < 0) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "%s: %s: %s",
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: %s",
+				gfal_remote_type,
 				lfc_host,
 				lfn != NULL ? lfn : guid,
 				fcops.sstrerror(*fcops.serrno));
