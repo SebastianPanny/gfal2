@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.87 $ $Date: 2008/04/18 10:09:49 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.88 $ $Date: 2008/04/23 07:53:47 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -1491,7 +1491,7 @@ gfal_get (gfal_internal req, char *errbuf, int errbufsz)
 		for (i = 0; protocols[i][0] != '\0'; ++i) ;
 		protocols[i++] = "gsiftp";
 		protocols[i] = "";
-		/* Not that the list returned by get_sup_proto has one extra place for that! */
+		/* Note that the list returned by get_sup_proto has one extra place for that! */
 	}
 
 	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
