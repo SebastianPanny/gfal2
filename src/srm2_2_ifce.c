@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.36 $ $Date: 2008/04/22 15:54:02 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.37 $ $Date: 2008/04/23 07:54:47 $
  */
 
 #include <sys/types.h>
@@ -226,9 +226,6 @@ retry:
 	soap.send_timeout = timeout;
 	soap.recv_timeout = timeout;
 
-	while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-	if (!protocols[nbproto]) protocols[nbproto] = "";
-
 	/* issue "get" request */
 
 	memset (&req, 0, sizeof(req));
@@ -290,18 +287,24 @@ retry:
 	req.transferParameters->accessPattern = NULL;
 	req.transferParameters->connectionType = NULL;
 	req.transferParameters->arrayOfClientNetworks = NULL;
+	req.transferParameters->arrayOfTransferProtocols = NULL;
 
-	if ((req.transferParameters->arrayOfTransferProtocols =
-				soap_malloc (&soap, nbproto * sizeof(struct ns1__ArrayOfString))) == NULL) {
-		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
-		errno = ENOMEM;
-		soap_end (&soap);
-		soap_done (&soap);
-		return (-1);
+	if (protocols) {
+		if ((req.transferParameters->arrayOfTransferProtocols =
+					soap_malloc (&soap, sizeof(struct ns1__ArrayOfString))) == NULL) {
+			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
+			errno = ENOMEM;
+			soap_end (&soap);
+			soap_done (&soap);
+			return (-1);
+		}
+
+		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+		if (!protocols[nbproto]) protocols[nbproto] = "";
+
+		req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
+		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 	}
-
-	req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
-	req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 
 	if (ret = soap_call_ns1__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
@@ -1102,9 +1105,6 @@ retry:
 	soap.send_timeout = timeout;
 	soap.recv_timeout = timeout;
 
-	while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-	if (!protocols[nbproto]) protocols[nbproto] = "";
-
 	/* issue "bringonline" request */
 
 	memset (&req, 0, sizeof(req));
@@ -1170,18 +1170,24 @@ retry:
 	req.transferParameters->accessPattern = NULL;
 	req.transferParameters->connectionType = NULL;
 	req.transferParameters->arrayOfClientNetworks = NULL;
+	req.transferParameters->arrayOfTransferProtocols = NULL;
 
-	if ((req.transferParameters->arrayOfTransferProtocols =
-				soap_malloc (&soap, nbproto * sizeof(struct ns1__ArrayOfString))) == NULL) {
-		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
-		errno = ENOMEM;
-		soap_end (&soap);
-		soap_done (&soap);
-		return (-1);
+	if (protocols) {
+		if ((req.transferParameters->arrayOfTransferProtocols =
+					soap_malloc (&soap, sizeof(struct ns1__ArrayOfString))) == NULL) {
+			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
+			errno = ENOMEM;
+			soap_end (&soap);
+			soap_done (&soap);
+			return (-1);
+		}
+
+		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+		if (!protocols[nbproto]) protocols[nbproto] = "";
+
+		req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
+		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 	}
-
-	req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
-	req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 
 	if (ret = soap_call_ns1__srmBringOnline (&soap, srm_endpoint, "BringOnline", &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
@@ -1577,8 +1583,6 @@ retry:
 	soap.send_timeout = timeout;
 	soap.recv_timeout = timeout;
 
-	while (*protocols[nbproto]) nbproto++;
-
 	/* issue "get" request */
 
 	memset (&req, 0, sizeof(req));
@@ -1640,18 +1644,24 @@ retry:
 	req.transferParameters->accessPattern = NULL;
 	req.transferParameters->connectionType = NULL;
 	req.transferParameters->arrayOfClientNetworks = NULL;
+	req.transferParameters->arrayOfTransferProtocols = NULL;
 
-	if ((req.transferParameters->arrayOfTransferProtocols =
-				soap_malloc (&soap, nbproto * sizeof(struct ns1__ArrayOfString))) == NULL) {
-		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
-		errno = ENOMEM;
-		soap_end (&soap);
-		soap_done (&soap);
-		return (-1);
+	if (protocols) {
+		if ((req.transferParameters->arrayOfTransferProtocols =
+					soap_malloc (&soap, sizeof(struct ns1__ArrayOfString))) == NULL) {
+			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
+			errno = ENOMEM;
+			soap_end (&soap);
+			soap_done (&soap);
+			return (-1);
+		}
+
+		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+		if (!protocols[nbproto]) protocols[nbproto] = "";
+
+		req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
+		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 	}
-
-	req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
-	req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 
 	if (ret = soap_call_ns1__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
@@ -1860,8 +1870,6 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	soap.send_timeout = timeout;
 	soap.recv_timeout = timeout;
 
-	while (*protocols[nbproto]) nbproto++;
-
 	memset (&req, 0, sizeof(req));
 
 	if ((req.arrayOfFileRequests =
@@ -1917,18 +1925,24 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	req.transferParameters->accessPattern = NULL;
 	req.transferParameters->connectionType = NULL;
 	req.transferParameters->arrayOfClientNetworks = NULL;
+	req.transferParameters->arrayOfTransferProtocols = NULL;
 
-	if ((req.transferParameters->arrayOfTransferProtocols =
-				soap_malloc (&soap, nbproto * sizeof(struct ns1__ArrayOfString))) == NULL) {
-		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
-		errno = ENOMEM;
-		soap_end (&soap);
-		soap_done (&soap);
-		return (-1);
+	if (protocols) {
+		if ((req.transferParameters->arrayOfTransferProtocols =
+					soap_malloc (&soap, sizeof(struct ns1__ArrayOfString))) == NULL) {
+			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
+			errno = ENOMEM;
+			soap_end (&soap);
+			soap_done (&soap);
+			return (-1);
+		}
+
+		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+		if (!protocols[nbproto]) protocols[nbproto] = "";
+
+		req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
+		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 	}
-
-	req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
-	req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 
 	if (!spacetokendesc) {
 		req.targetSpaceToken = NULL;

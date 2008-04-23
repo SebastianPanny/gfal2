@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.36 $ $Date: 2008/04/22 15:54:02 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.37 $ $Date: 2008/04/23 07:54:47 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -157,8 +157,10 @@ srm_getxe (int nbfiles, const char **surls, const char *srm_endpoint,
 	soap.send_timeout = timeout ;
 	soap.recv_timeout = timeout ;
 
-	while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-	if (!protocols[nbproto]) protocols[nbproto] = "";
+	if (protocols) {
+		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+		if (!protocols[nbproto]) protocols[nbproto] = "";
+	}
 
 	surlarray.__ptr = (char **)surls;
 	surlarray.__size = nbfiles;
@@ -392,8 +394,10 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	soap.recv_timeout = timeout ;
 
 
-	while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-	if (!protocols[nbproto]) protocols[nbproto] = "";
+	if (protocols) {
+		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+		if (!protocols[nbproto]) protocols[nbproto] = "";
+	}
 
 	/* issue "get" or the "put" request */
 
