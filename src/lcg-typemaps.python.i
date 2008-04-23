@@ -530,4 +530,60 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 	$result = my_t_output_helper ($result, list);
 }//end of typemap
 
+%typemap(in, numinputs=0) (int *LEN, gfal_spacemd **LISTOUT)(int len_tmp, gfal_spacemd *spacemd_tmp) {
+    len_tmp = 0;
+	spacemd_tmp = NULL;
+	$1 = &len_tmp;
+	$2 = &spacemd_tmp;
+}
+
+// convert output C 'gfal_spacemd' list into python dictionnary
+%typemap(argout) (int *LEN, gfal_spacemd **LISTOUT){
+	PyObject *list = Py_None, *dict = Py_None;
+	int i;
+
+	if (*$2) {
+		list = PyList_New (0);
+		for (i = 0; i < *$1; ++i) {
+			dict = PyDict_New ();
+			PyDict_SetItemString (dict, "spacetoken", (*$2)[i].spacetoken ? PyString_FromString ((*$2)[i].spacetoken) : Py_None);
+			PyDict_SetItemString (dict, "owner", (*$2)[i].owner ? PyString_FromString ((*$2)[i].owner) : Py_None);
+			PyDict_SetItemString (dict, "totalsize", PyLong_FromLongLong ((long long) ((*$2)[i].totalsize)));
+			PyDict_SetItemString (dict, "guaranteedsize", PyLong_FromLongLong ((long long) ((*$2)[i].guaranteedsize)));
+			PyDict_SetItemString (dict, "unusedsize", PyLong_FromLongLong ((long long) ((*$2)[i].unusedsize)));
+			PyDict_SetItemString (dict, "lifetimeassigned", PyInt_FromLong ((long)((*$2)[i].lifetimeassigned)));
+			PyDict_SetItemString (dict, "lifetimeleft", PyInt_FromLong ((long)((*$2)[i].lifetimeleft)));
+
+			switch ((*$2)[i].retentionpolicy) {
+				case GFAL_POLICY_REPLICA:
+					PyDict_SetItemString (dict, "retentionpolicy", PyString_FromString ("replica"));
+					break;
+				case GFAL_POLICY_OUTPUT:
+					PyDict_SetItemString (dict, "retentionpolicy", PyString_FromString ("output"));
+					break;
+				case GFAL_POLICY_CUSTODIAL:
+					PyDict_SetItemString (dict, "retentionpolicy", PyString_FromString ("custodial"));
+					break;
+				default:
+					PyDict_SetItemString (dict, "retentionpolicy", PyString_FromString ("unknown"));
+			}
+
+			switch ((*$2)[i].accesslatency) {
+				case GFAL_LATENCY_ONLINE:
+					PyDict_SetItemString (dict, "accesslatency", PyString_FromString ("online"));
+					break;
+				case GFAL_LATENCY_NEARLINE:
+					PyDict_SetItemString (dict, "accesslatency", PyString_FromString ("nearline"));
+					break;
+				default:
+					PyDict_SetItemString (dict, "accesslatency", PyString_FromString ("unknown"));
+			}
+
+			PyList_Append (list, dict);
+		}
+	}
+
+	$result = my_t_output_helper ($result, list);
+}//end of typemap
+
 #endif
