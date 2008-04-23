@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: sfn_ifce.c,v $ $Revision: 1.5 $ $Date: 2008/03/04 12:52:47 $ CERN Remi Mollon
+ * @(#)$RCSfile: sfn_ifce.c,v $ $Revision: 1.6 $ $Date: 2008/04/23 08:57:28 $ CERN Remi Mollon
  */
 
 #include <sys/types.h>
@@ -122,14 +122,9 @@ sfn_turlsfromsurls (int nbfiles, const char **sfns, char **protocols, struct sfn
 	char server[64];
 	char *turl;
 	char errmsg[ERRMSG_LEN];
-
-	/* check that there is at least one protocol */
-	if (protocols == NULL || protocols[0] == NULL || protocols[0][0] == '\0') {
-		snprintf (errmsg, ERRMSG_LEN - 1, "You must specified at least one protocol");
-		gfal_errmsg(errbuf, errbufsz, errmsg);
-		errno = EPROTONOSUPPORT;
-		return (-1);
-	}
+   
+	if (!protocols)
+		protocols = get_sup_proto ();
 
 	if ((*statuses = (struct sfn_filestatus *) calloc (nbfiles, sizeof (struct sfn_filestatus))) == NULL) {
 		errno = ENOMEM;

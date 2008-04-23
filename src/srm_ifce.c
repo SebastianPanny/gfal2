@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.37 $ $Date: 2008/04/23 07:54:47 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.38 $ $Date: 2008/04/23 08:57:28 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -156,8 +156,16 @@ srm_getxe (int nbfiles, const char **surls, const char *srm_endpoint,
 
 	soap.send_timeout = timeout ;
 	soap.recv_timeout = timeout ;
-
-	if (protocols) {
+   
+	if (!protocols) {
+		protocols = get_sup_proto ();
+		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+		/* gsiftp is not included in the supported protocol list, but has to be in the default
+		 * list for 'get' operation
+		 * Note that the list returned by get_sup_proto has one extra place for that! */
+		protocols[nbproto++] = "gsiftp";
+		protocols[nbproto] = "";
+	} else {
 		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
 		if (!protocols[nbproto]) protocols[nbproto] = "";
 	}
@@ -392,12 +400,12 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 
 	soap.send_timeout = timeout ;
 	soap.recv_timeout = timeout ;
+   
+	if (!protocols)
+		protocols = get_sup_proto ();
 
-
-	if (protocols) {
-		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-		if (!protocols[nbproto]) protocols[nbproto] = "";
-	}
+	while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
+	if (!protocols[nbproto]) protocols[nbproto] = "";
 
 	/* issue "get" or the "put" request */
 
