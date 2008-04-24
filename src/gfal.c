@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.89 $ $Date: 2008/04/23 08:57:28 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.90 $ $Date: 2008/04/24 13:21:14 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -3569,9 +3569,9 @@ gfal_get_results (gfal_internal req, gfal_filestatus **results)
 	int
 gfal_get_ids (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2_reqtoken)
 {
-	*srm_reqid = -1;
-	*srm_fileids = NULL;
-	*srmv2_reqtoken = NULL;
+	if (srm_reqid) *srm_reqid = -1;
+	if (srm_fileids) *srm_fileids = NULL;
+	if (srmv2_token) *srmv2_reqtoken = NULL;
 
 	if (req == NULL || req->results_size < 1)
 		return (-1);
@@ -3579,15 +3579,17 @@ gfal_get_ids (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2
 	if (req->srm_statuses) { // SRMv1
 		int i;
 
-		if ((*srm_fileids = (int *) calloc (req->results_size, sizeof (int))) == NULL)
-			return (-1);
+		if (srm_reqid) *srm_reqid = req->srm_reqid;
 
-		*srm_reqid = req->srm_reqid;
+		if (srm_fileids)  {
+			if ((*srm_fileids = (int *) calloc (req->results_size, sizeof (int))) == NULL)
+				return (-1);
 
-		for (i = 0; i < req->results_size; ++i)
-			(*srm_fileids)[i] = req->srm_statuses[i].fileid;
+			for (i = 0; i < req->results_size; ++i)
+				(*srm_fileids)[i] = req->srm_statuses[i].fileid;
+		}
 	}
-	else if (req->srmv2_token) { // SRMv2
+	else if (req->srmv2_token && srmv2_token) { // SRMv2
 		*srmv2_reqtoken = strdup (req->srmv2_token);
 	}
 
