@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.12 $ $Date: 2008/04/25 13:06:37 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.13 $ $Date: 2008/04/25 15:29:42 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -57,7 +57,7 @@ rmc_init (struct soap *soap, char *errbuf, int errbufsz)
 	char *
 rmc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 {
-	struct ns3__guidForAliasResponse out;
+	struct rmc__guidForAliasResponse out;
 	char *p;
 	int ret;
 	int sav_errno = 0;
@@ -66,7 +66,7 @@ rmc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_ns3__guidForAlias (&soap, rmc_endpoint, "",
+	if (ret = soap_call_rmc__guidForAlias (&soap, rmc_endpoint, "",
 				(char *) lfn, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHALIAS"))
@@ -97,7 +97,7 @@ rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 	int i;
 	int j;
 	char **lfnarray;
-	struct ns3__getAliasesResponse out;
+	struct rmc__getAliasesResponse out;
 	char *p;
 	int ret;
 	int sav_errno = 0;
@@ -106,7 +106,7 @@ rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_ns3__getAliases (&soap, rmc_endpoint, "",
+	if (ret = soap_call_rmc__getAliases (&soap, rmc_endpoint, "",
 				(char *) guid, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
@@ -146,7 +146,7 @@ rmc_create_alias(const char *guid, const char* lfn, char *errbuf, int errbufsz)
 
 rmc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
-	struct ns3__addAliasResponse out;
+	struct rmc__addAliasResponse out;
 	int ret;
 	int sav_errno = 0;
 	struct soap soap;
@@ -154,7 +154,7 @@ rmc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_ns3__addAlias (&soap, rmc_endpoint, "",
+	if (ret = soap_call_rmc__addAlias (&soap, rmc_endpoint, "",
 				(char *) guid, (char *) lfn, &out)) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "ALIASEXISTS"))
@@ -181,14 +181,14 @@ rmc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 
 rmc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
-	struct ns3__removeAliasResponse out;
+	struct rmc__removeAliasResponse out;
 	int ret;
 	struct soap soap;
 
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_ns3__removeAlias (&soap, rmc_endpoint, "",
+	if (ret = soap_call_rmc__removeAlias (&soap, rmc_endpoint, "",
 				(char *) guid, (char *) lfn, &out)) {
 		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);

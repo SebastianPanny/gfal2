@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.37 $ $Date: 2008/04/23 07:54:47 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.38 $ $Date: 2008/04/25 15:29:42 $
  */
 
 #include <sys/types.h>
@@ -34,10 +34,10 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 {
 	int flags;
 	int ret;
-	struct ns1__srmRmResponse_ rep;
-	struct ns1__ArrayOfTSURLReturnStatus *repfs;
-	struct ns1__srmRmRequest req;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmRmResponse_ rep;
+	struct srm2__ArrayOfTSURLReturnStatus *repfs;
+	struct srm2__srmRmRequest req;
+	struct srm2__TReturnStatus *reqstatp;
 	int s, i, n;
 	struct soap soap;
 	const char srmfunc[] = "srmRm";
@@ -56,7 +56,7 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	memset (&req, 0, sizeof(req));
 
 	/* NOTE: only one file in the array */
-	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL) {
+	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
 
 		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 		errno = ENOMEM;
@@ -70,7 +70,7 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 
 	/* issue "srmRm" request */
 
-	if (ret = soap_call_ns1__srmRm (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+	if (ret = soap_call_srm2__srmRm (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 
 		if (soap.error == SOAP_EOF) {
@@ -202,13 +202,13 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 	int rc;
 	int ret;
 	int nbproto = 0;
-	struct ns1__srmPrepareToGetResponse_ rep;
-	struct ns1__ArrayOfTGetRequestFileStatus *repfs;
-	struct ns1__srmPrepareToGetRequest req;
-	struct ns1__TGetFileRequest *reqfilep;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmPrepareToGetResponse_ rep;
+	struct srm2__ArrayOfTGetRequestFileStatus *repfs;
+	struct srm2__srmPrepareToGetRequest req;
+	struct srm2__TGetFileRequest *reqfilep;
+	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
-	static enum ns1__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
+	static enum srm2__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
 	int i = 0;
 	char *targetspacetoken;
 	const char srmfunc[] = "PrepareToGet";
@@ -231,11 +231,11 @@ retry:
 	memset (&req, 0, sizeof(req));
 
 	if ((req.arrayOfFileRequests = 
-				soap_malloc (&soap, sizeof(struct ns1__ArrayOfTGetFileRequest))) == NULL || 
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL || 
 			(req.arrayOfFileRequests->requestArray = 
-			 soap_malloc (&soap, nbfiles * sizeof(struct ns1__TGetFileRequest *))) == NULL ||
+			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest *))) == NULL ||
 			(req.transferParameters = 
-			 soap_malloc (&soap, sizeof(struct ns1__TTransferParameters))) == NULL || 
+			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL || 
 			(req.targetSpaceToken = 
 			 soap_malloc (&soap, sizeof(char *))) == NULL) { 
 
@@ -266,7 +266,7 @@ retry:
 
 	for (i = 0; i < nbfiles; i++) {
 		if ((req.arrayOfFileRequests->requestArray[i] = 
-					soap_malloc (&soap, sizeof(struct ns1__TGetFileRequest))) == NULL) {
+					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
 			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 			errno = ENOMEM;
 			soap_end (&soap);
@@ -291,7 +291,7 @@ retry:
 
 	if (protocols) {
 		if ((req.transferParameters->arrayOfTransferProtocols =
-					soap_malloc (&soap, sizeof(struct ns1__ArrayOfString))) == NULL) {
+					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
 			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 			errno = ENOMEM;
 			soap_end (&soap);
@@ -306,7 +306,7 @@ retry:
 		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 	}
 
-	if (ret = soap_call_ns1__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+	if (ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
@@ -451,11 +451,11 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 	int n;
 	int rc;
 	int ret;
-	struct ns1__ArrayOfTGetRequestFileStatus *repfs;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__ArrayOfTGetRequestFileStatus *repfs;
+	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
-	struct ns1__srmStatusOfGetRequestResponse_ srep;
-	struct ns1__srmStatusOfGetRequestRequest sreq;
+	struct srm2__srmStatusOfGetRequestResponse_ srep;
+	struct srm2__srmStatusOfGetRequestRequest sreq;
 	const char srmfunc[] = "StatusOfGetRequest";
 
 retry:
@@ -474,7 +474,7 @@ retry:
 	memset (&sreq, 0, sizeof(sreq));
 	sreq.requestToken = (char *) reqtoken;
 
-	if (ret = soap_call_ns1__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc, &sreq, &srep)) {
+	if (ret = soap_call_srm2__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc, &sreq, &srep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
@@ -556,10 +556,10 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 	int i, ret;
 	struct soap soap;
 	char *spacetoken;
-	struct ns1__srmGetSpaceTokensResponse_ tknrep;
-	struct ns1__srmGetSpaceTokensRequest tknreq;
-	struct ns1__TReturnStatus *tknrepstatp;
-	struct ns1__ArrayOfString *tknrepp;
+	struct srm2__srmGetSpaceTokensResponse_ tknrep;
+	struct srm2__srmGetSpaceTokensRequest tknreq;
+	struct srm2__TReturnStatus *tknrepstatp;
+	struct srm2__ArrayOfString *tknrepp;
 	char errmsg[ERRMSG_LEN];
 	const char srmfunc[] = "GetSpaceTokens";
 
@@ -586,7 +586,7 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 
 	tknreq.userSpaceTokenDescription = (char *) spacetokendesc;
 
-	if (ret = soap_call_ns1__srmGetSpaceTokens (&soap, srm_endpoint, srmfunc, &tknreq, &tknrep)) {
+	if (ret = soap_call_srm2__srmGetSpaceTokens (&soap, srm_endpoint, srmfunc, &tknreq, &tknrep)) {
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
@@ -659,10 +659,10 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 	int flags;
 	int i, ret;
 	struct soap soap;
-	struct ns1__srmGetSpaceMetaDataResponse_ tknrep;
-	struct ns1__srmGetSpaceMetaDataRequest tknreq;
-	struct ns1__TReturnStatus *tknrepstatp;
-	struct ns1__ArrayOfTMetaDataSpace *tknrepp;
+	struct srm2__srmGetSpaceMetaDataResponse_ tknrep;
+	struct srm2__srmGetSpaceMetaDataRequest tknreq;
+	struct srm2__TReturnStatus *tknrepstatp;
+	struct srm2__ArrayOfTMetaDataSpace *tknrepp;
 	char errmsg[ERRMSG_LEN];
 	const char srmfunc[] = "GetSpaceMetaData";
 
@@ -692,7 +692,7 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 	memset (&tknreq, 0, sizeof(tknreq));
 
 	if ((tknreq.arrayOfSpaceTokens =
-				soap_malloc (&soap, nbtokens * sizeof(struct ns1__ArrayOfString))) == NULL) {
+				soap_malloc (&soap, nbtokens * sizeof(struct srm2__ArrayOfString))) == NULL) {
 		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 		errno = ENOMEM;
 		soap_end (&soap);
@@ -703,7 +703,7 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 	tknreq.arrayOfSpaceTokens->__sizestringArray = nbtokens;
 	tknreq.arrayOfSpaceTokens->stringArray = (char **) spacetokens;
 
-	if (ret = soap_call_ns1__srmGetSpaceMetaData (&soap, srm_endpoint, srmfunc, &tknreq, &tknrep)) {
+	if (ret = soap_call_srm2__srmGetSpaceMetaData (&soap, srm_endpoint, srmfunc, &tknreq, &tknrep)) {
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
@@ -884,9 +884,9 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	int nbslash = 0;
 	int sav_errno = 0;
 	char *p;
-	struct ns1__srmMkdirResponse_ rep;
-	struct ns1__srmMkdirRequest req;
-	struct ns1__TReturnStatus *repstatp;
+	struct srm2__srmMkdirResponse_ rep;
+	struct srm2__srmMkdirRequest req;
+	struct srm2__TReturnStatus *repstatp;
 	int ret = 0;
 	struct soap soap;
 	char errmsg[ERRMSG_LEN];
@@ -908,7 +908,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	soap.send_timeout = timeout;
 	soap.recv_timeout = timeout;
 
-	memset (&req, 0, sizeof (struct ns1__srmMkdirRequest));
+	memset (&req, 0, sizeof (struct srm2__srmMkdirRequest));
 
 	strncpy (file, dest_file, 1023);
 
@@ -924,7 +924,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	*p = 0;
 	req.SURL = file;
 
-	if ((ret = soap_call_ns1__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+	if ((ret = soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
@@ -986,7 +986,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 		memset (&req, 0, sizeof(req));
 		req.SURL = (char *) file;
 
-		if (ret = soap_call_ns1__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+		if (ret = soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 			if (soap.error == SOAP_EOF) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
@@ -1081,13 +1081,13 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	int n;
 	int rc;
 	int ret;
-	struct ns1__srmBringOnlineResponse_ rep;
-	struct ns1__ArrayOfTBringOnlineRequestFileStatus *repfs;
-	struct ns1__srmBringOnlineRequest req;
-	struct ns1__TGetFileRequest *reqfilep;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmBringOnlineResponse_ rep;
+	struct srm2__ArrayOfTBringOnlineRequestFileStatus *repfs;
+	struct srm2__srmBringOnlineRequest req;
+	struct srm2__TGetFileRequest *reqfilep;
+	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
-	static enum ns1__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
+	static enum srm2__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
 	char *targetspacetoken;
 	int nbproto = 0;
 	const char srmfunc[] = "BringOnline";
@@ -1110,11 +1110,11 @@ retry:
 	memset (&req, 0, sizeof(req));
 
 	if ((req.arrayOfFileRequests = 
-				soap_malloc (&soap, sizeof(struct ns1__ArrayOfTGetFileRequest))) == NULL || 
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL || 
 			(req.arrayOfFileRequests->requestArray = 
-			 soap_malloc (&soap, nbfiles * sizeof(struct ns1__TGetFileRequest *))) == NULL ||
+			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest *))) == NULL ||
 			(req.transferParameters = 
-			 soap_malloc (&soap, sizeof(struct ns1__TTransferParameters))) == NULL || 
+			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL || 
 			(req.targetSpaceToken = 
 			 soap_malloc (&soap, sizeof(char *))) == NULL) { 
 
@@ -1149,7 +1149,7 @@ retry:
 
 	for (i = 0; i < nbfiles; i++) {
 		if ((req.arrayOfFileRequests->requestArray[i] = 
-					soap_malloc (&soap, sizeof(struct ns1__TGetFileRequest))) == NULL) {
+					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
 			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 			errno = ENOMEM;
 			soap_end (&soap);
@@ -1174,7 +1174,7 @@ retry:
 
 	if (protocols) {
 		if ((req.transferParameters->arrayOfTransferProtocols =
-					soap_malloc (&soap, sizeof(struct ns1__ArrayOfString))) == NULL) {
+					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
 			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 			errno = ENOMEM;
 			soap_end (&soap);
@@ -1189,7 +1189,7 @@ retry:
 		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 	}
 
-	if (ret = soap_call_ns1__srmBringOnline (&soap, srm_endpoint, "BringOnline", &req, &rep)) {
+	if (ret = soap_call_srm2__srmBringOnline (&soap, srm_endpoint, "BringOnline", &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
@@ -1312,11 +1312,11 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 	int r = 0;
 	int rc;
 	int ret;
-	struct ns1__ArrayOfTBringOnlineRequestFileStatus *repfs;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__ArrayOfTBringOnlineRequestFileStatus *repfs;
+	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
-	struct ns1__srmStatusOfBringOnlineRequestResponse_ srep;
-	struct ns1__srmStatusOfBringOnlineRequestRequest sreq;
+	struct srm2__srmStatusOfBringOnlineRequestResponse_ srep;
+	struct srm2__srmStatusOfBringOnlineRequestRequest sreq;
 	char *targetspacetoken;
 	const char srmfunc[] = "StatusOfBringOnlineRequest";
 
@@ -1336,7 +1336,7 @@ retry:
 	memset (&sreq, 0, sizeof(sreq));
 	sreq.requestToken = (char *) reqtoken;
 
-	if (ret = soap_call_ns1__srmStatusOfBringOnlineRequest (&soap, srm_endpoint, srmfunc, &sreq, &srep)) {
+	if (ret = soap_call_srm2__srmStatusOfBringOnlineRequest (&soap, srm_endpoint, srmfunc, &sreq, &srep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
@@ -1420,11 +1420,11 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 {
 	int flags;
 	int ret;
-	struct ns1__srmPutDoneResponse_ rep;
-	struct ns1__ArrayOfTSURLReturnStatus *repfs;
-	struct ns1__srmPutDoneRequest req;
-	struct ns1__TSURL *reqfilep;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmPutDoneResponse_ rep;
+	struct srm2__ArrayOfTSURLReturnStatus *repfs;
+	struct srm2__srmPutDoneRequest req;
+	struct srm2__TSURL *reqfilep;
+	struct srm2__TReturnStatus *reqstatp;
 	int s, i, n;
 	struct soap soap;
 	const char srmfunc[] = "PutDone";
@@ -1446,7 +1446,7 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 
 	/* NOTE: only one SURL in the array */
 	if ((req.arrayOfSURLs = 
-				soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL) {
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
 		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 		errno = ENOMEM;
 		soap_end (&soap);
@@ -1457,7 +1457,7 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 	req.arrayOfSURLs->__sizeurlArray = nbfiles;
 	req.arrayOfSURLs->urlArray = (char **) surls;
 
-	if (ret = soap_call_ns1__srmPutDone (&soap, srm_endpoint, srmfunc , &req, &rep)) {
+	if (ret = soap_call_srm2__srmPutDone (&soap, srm_endpoint, srmfunc , &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
@@ -1547,8 +1547,8 @@ srmv2_set_xfer_running (int nbfiles, const char **surls, const char *srm_endpoin
 srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpoint, int desiredpintime, const char *spacetokendesc, 
 		char **protocols, char **reqtoken, struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
-	struct ns1__srmAbortRequestRequest abortreq;
-	struct ns1__srmAbortRequestResponse_ abortrep;
+	struct srm2__srmAbortRequestRequest abortreq;
+	struct srm2__srmAbortRequestResponse_ abortrep;
 	time_t endtime;
 	int flags;
 	int i;
@@ -1557,15 +1557,15 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	int r = 0;
 	char *r_token;
 	int ret;
-	struct ns1__srmPrepareToGetResponse_ rep;
-	struct ns1__ArrayOfTGetRequestFileStatus *repfs;
-	struct ns1__srmPrepareToGetRequest req;
-	struct ns1__TGetFileRequest *reqfilep;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmPrepareToGetResponse_ rep;
+	struct srm2__ArrayOfTGetRequestFileStatus *repfs;
+	struct srm2__srmPrepareToGetRequest req;
+	struct srm2__TGetFileRequest *reqfilep;
+	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
-	struct ns1__srmStatusOfGetRequestResponse_ srep;
-	struct ns1__srmStatusOfGetRequestRequest sreq;
-	static enum ns1__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
+	struct srm2__srmStatusOfGetRequestResponse_ srep;
+	struct srm2__srmStatusOfGetRequestRequest sreq;
+	static enum srm2__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
 	char *targetspacetoken;
 	const char srmfunc[] = "PrepareToGet";
 	const char srmfunc_status[] = "StatusOfGetRequest";
@@ -1588,11 +1588,11 @@ retry:
 	memset (&req, 0, sizeof(req));
 
 	if ((req.arrayOfFileRequests = 
-				soap_malloc (&soap, sizeof(struct ns1__ArrayOfTGetFileRequest))) == NULL || 
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL || 
 			(req.arrayOfFileRequests->requestArray = 
-			 soap_malloc (&soap, nbfiles * sizeof(struct ns1__TGetFileRequest *))) == NULL ||
+			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest *))) == NULL ||
 			(req.transferParameters = 
-			 soap_malloc (&soap, sizeof(struct ns1__TTransferParameters))) == NULL || 
+			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL || 
 			(req.targetSpaceToken = 
 			 soap_malloc (&soap, sizeof(char *))) == NULL) { 
 
@@ -1623,7 +1623,7 @@ retry:
 
 	for (i = 0; i < nbfiles; i++) {
 		if ((req.arrayOfFileRequests->requestArray[i] = 
-					soap_malloc (&soap, sizeof(struct ns1__TGetFileRequest))) == NULL) {
+					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
 			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 			errno = ENOMEM;
 			soap_end (&soap);
@@ -1648,7 +1648,7 @@ retry:
 
 	if (protocols) {
 		if ((req.transferParameters->arrayOfTransferProtocols =
-					soap_malloc (&soap, sizeof(struct ns1__ArrayOfString))) == NULL) {
+					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
 			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 			errno = ENOMEM;
 			soap_end (&soap);
@@ -1663,7 +1663,7 @@ retry:
 		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 	}
 
-	if (ret = soap_call_ns1__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+	if (ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
@@ -1715,7 +1715,7 @@ retry:
 
 		sleep ((r++ == 0) ? 1 : DEFPOLLINT);
 
-		if (ret = soap_call_ns1__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep)) {
+		if (ret = soap_call_srm2__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep)) {
 			char errmsg[ERRMSG_LEN];
 			if (soap.error == SOAP_EOF) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
@@ -1740,7 +1740,7 @@ retry:
 			char errmsg[ERRMSG_LEN];
 			abortreq.requestToken = r_token;
 
-			if (ret = soap_call_ns1__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep)) {
+			if (ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep)) {
 				if (soap.error == SOAP_EOF) {
 					snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 							gfal_remote_type, srmfunc_status, srm_endpoint);
@@ -1833,8 +1833,8 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 		int desiredpintime, const char *spacetokendesc, char **protocols, char **reqtoken,
 		struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
-	struct ns1__srmAbortRequestRequest abortreq;
-	struct ns1__srmAbortRequestResponse_ abortrep;
+	struct srm2__srmAbortRequestRequest abortreq;
+	struct srm2__srmAbortRequestResponse_ abortrep;
 	time_t endtime;
 	int flags;
 	int i;
@@ -1844,15 +1844,15 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	int r = 0;
 	char *r_token;
 	int ret;
-	struct ns1__srmPrepareToPutResponse_ rep;
-	struct ns1__ArrayOfTPutRequestFileStatus *repfs;
-	struct ns1__srmPrepareToPutRequest req;
-	struct ns1__TPutFileRequest *reqfilep;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmPrepareToPutResponse_ rep;
+	struct srm2__ArrayOfTPutRequestFileStatus *repfs;
+	struct srm2__srmPrepareToPutRequest req;
+	struct srm2__TPutFileRequest *reqfilep;
+	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
-	struct ns1__srmStatusOfPutRequestResponse_ srep;
-	struct ns1__srmStatusOfPutRequestRequest sreq;
-	static enum ns1__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
+	struct srm2__srmStatusOfPutRequestResponse_ srep;
+	struct srm2__srmStatusOfPutRequestRequest sreq;
+	static enum srm2__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
 	char *targetspacetoken;
 	GFAL_LONG64 totalsize = 0;
 	char errmsg[ERRMSG_LEN];
@@ -1873,11 +1873,11 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	memset (&req, 0, sizeof(req));
 
 	if ((req.arrayOfFileRequests =
-				soap_malloc (&soap, sizeof(struct ns1__ArrayOfTPutFileRequest))) == NULL ||
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTPutFileRequest))) == NULL ||
 			(req.arrayOfFileRequests->requestArray =
-			 soap_malloc (&soap, nbfiles * sizeof(struct ns1__TPutFileRequest *))) == NULL ||
+			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TPutFileRequest *))) == NULL ||
 			(req.transferParameters =
-			 soap_malloc (&soap, sizeof(struct ns1__TTransferParameters))) == NULL ||
+			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL ||
 			(req.targetSpaceToken =
 			 soap_malloc (&soap, sizeof(char *))) == NULL) {
 
@@ -1895,7 +1895,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 
 	for (i = 0; i < nbfiles; i++) {
 		if ((req.arrayOfFileRequests->requestArray[i] =
-					soap_malloc (&soap, sizeof(struct ns1__TPutFileRequest))) == NULL) {
+					soap_malloc (&soap, sizeof(struct srm2__TPutFileRequest))) == NULL) {
 			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 			errno = ENOMEM;
 			soap_end (&soap);
@@ -1929,7 +1929,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 
 	if (protocols) {
 		if ((req.transferParameters->arrayOfTransferProtocols =
-					soap_malloc (&soap, sizeof(struct ns1__ArrayOfString))) == NULL) {
+					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
 			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 			errno = ENOMEM;
 			soap_end (&soap);
@@ -1965,7 +1965,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 
 retry:
 
-	if (ret = soap_call_ns1__srmPrepareToPut (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+	if (ret = soap_call_srm2__srmPrepareToPut (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
@@ -2018,7 +2018,7 @@ retry:
 
 		sleep ((r++ == 0) ? 1 : DEFPOLLINT);
 
-		if (ret = soap_call_ns1__srmStatusOfPutRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep)) {
+		if (ret = soap_call_srm2__srmStatusOfPutRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep)) {
 			if (soap.error == SOAP_EOF) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 						gfal_remote_type, srmfunc_status, srm_endpoint);
@@ -2042,7 +2042,7 @@ retry:
 			const char srmfunc_abort[] = "AbortRequest";
 			abortreq.requestToken = r_token;
 
-			if (ret = soap_call_ns1__srmAbortRequest (&soap, srm_endpoint, srmfunc_abort, &abortreq, &abortrep)) {
+			if (ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, srmfunc_abort, &abortreq, &abortrep)) {
 				if (soap.error == SOAP_EOF) {
 					snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 							gfal_remote_type, srmfunc_abort, srm_endpoint);
@@ -2141,7 +2141,7 @@ retry:
 
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 static int
-copy_md (struct ns1__TReturnStatus *reqstatp, struct ns1__ArrayOfTMetaDataPathDetail *repfs,
+copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPathDetail *repfs,
 		struct srmv2_mdfilestatus **statuses)
 {
 	int i, n, r;
@@ -2238,11 +2238,11 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 	int ret;
 	struct soap soap;
 	enum xsd__boolean trueoption = true_;
-	struct ns1__srmLsRequest req;
-	struct ns1__srmLsResponse_ rep;
-	struct ns1__TSURLInfo *reqfilep;
-	struct ns1__TReturnStatus *reqstatp;
-	struct ns1__ArrayOfTMetaDataPathDetail *repfs;
+	struct srm2__srmLsRequest req;
+	struct srm2__srmLsResponse_ rep;
+	struct srm2__TSURLInfo *reqfilep;
+	struct srm2__TReturnStatus *reqstatp;
+	struct srm2__ArrayOfTMetaDataPathDetail *repfs;
 	int i, n;
 	const char srmfunc[] = "Ls";
 
@@ -2260,7 +2260,7 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 
 	memset (&req, 0, sizeof(req));
 
-	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL) {
+	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
 		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 		errno = ENOMEM;
 		soap_end (&soap);
@@ -2277,7 +2277,7 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 
 	/* issue "srmLs" request */
 
-	if ((ret = soap_call_ns1__srmLs (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+	if ((ret = soap_call_srm2__srmLs (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
@@ -2342,10 +2342,10 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 	int n;
 	int rc;
 	int ret;
-	struct ns1__ArrayOfTSURLLifetimeReturnStatus *repfs;
-	struct ns1__srmExtendFileLifeTimeResponse_ rep;
-	struct ns1__srmExtendFileLifeTimeRequest req;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__ArrayOfTSURLLifetimeReturnStatus *repfs;
+	struct srm2__srmExtendFileLifeTimeResponse_ rep;
+	struct srm2__srmExtendFileLifeTimeRequest req;
+	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
 	int i = 0;
 	char *targetspacetoken;
@@ -2368,7 +2368,7 @@ retry:
 
 	memset (&req, 0, sizeof(req));
 
-	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL) {
+	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
 
 		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 		errno = ENOMEM;
@@ -2384,7 +2384,7 @@ retry:
 	req.arrayOfSURLs->__sizeurlArray = nbfiles;
 	req.arrayOfSURLs->urlArray = (char **) surls;
 
-	if (ret = soap_call_ns1__srmExtendFileLifeTime (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+	if (ret = soap_call_srm2__srmExtendFileLifeTime (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
@@ -2465,11 +2465,11 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 {
 	int flags;
 	int ret;
-	struct ns1__srmReleaseFilesResponse_ rep;
-	struct ns1__ArrayOfTSURLReturnStatus *repfs;
-	struct ns1__srmReleaseFilesRequest req;
-	struct ns1__TSURL *reqfilep;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmReleaseFilesResponse_ rep;
+	struct srm2__ArrayOfTSURLReturnStatus *repfs;
+	struct srm2__srmReleaseFilesRequest req;
+	struct srm2__TSURL *reqfilep;
+	struct srm2__TReturnStatus *reqstatp;
 	int s, i, n;
 	struct soap soap;
 	const char srmfunc[] = "ReleaseFiles";
@@ -2491,7 +2491,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 
 	/* NOTE: only one SURL in the array */
 	if ((req.arrayOfSURLs =
-				soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL) {
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
 		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 		errno = ENOMEM;
 		soap_end (&soap);
@@ -2502,7 +2502,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 	req.arrayOfSURLs->__sizeurlArray = nbfiles;
 	req.arrayOfSURLs->urlArray = (char **) surls;
 
-	if (ret = soap_call_ns1__srmReleaseFiles (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+	if (ret = soap_call_srm2__srmReleaseFiles (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
@@ -2578,9 +2578,9 @@ srmv2_abortrequest (const char *srm_endpoint, const char *reqtoken, char *errbuf
 {
 	int flags;
 	int ret;
-	struct ns1__srmAbortRequestResponse_ rep;
-	struct ns1__srmAbortRequestRequest req;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmAbortRequestResponse_ rep;
+	struct srm2__srmAbortRequestRequest req;
+	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
     char errmsg[ERRMSG_LEN];
 	const char srmfunc[] = "AbortRequest";
@@ -2600,7 +2600,7 @@ srmv2_abortrequest (const char *srm_endpoint, const char *reqtoken, char *errbuf
 
 	req.requestToken = (char *) reqtoken;
 
-	if (ret = soap_call_ns1__srmAbortRequest (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+	if (ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
@@ -2642,11 +2642,11 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 {
 	int flags;
 	int ret;
-	struct ns1__srmAbortFilesResponse_ rep;
-	struct ns1__ArrayOfTSURLReturnStatus *repfs;
-	struct ns1__srmAbortFilesRequest req;
-	struct ns1__TSURL *reqfilep;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmAbortFilesResponse_ rep;
+	struct srm2__ArrayOfTSURLReturnStatus *repfs;
+	struct srm2__srmAbortFilesRequest req;
+	struct srm2__TSURL *reqfilep;
+	struct srm2__TReturnStatus *reqstatp;
 	int s, i, n;
 	struct soap soap;
 	const char srmfunc[] = "AbortFiles";
@@ -2668,7 +2668,7 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 
 	/* NOTE: only one SURL in the array */
 	if ((req.arrayOfSURLs =
-				soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL) {
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
 		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 		errno = ENOMEM;
 		soap_end (&soap);
@@ -2679,7 +2679,7 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 	req.arrayOfSURLs->__sizeurlArray = nbfiles;
 	req.arrayOfSURLs->urlArray = (char **) surls;
 
-	if (ret = soap_call_ns1__srmAbortFiles (&soap, srm_endpoint, "AbortFiles", &req, &rep)) {
+	if (ret = soap_call_srm2__srmAbortFiles (&soap, srm_endpoint, "AbortFiles", &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
@@ -2757,10 +2757,10 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 {
 	int flags;
 	int ret;
-	struct ns1__srmCheckPermissionResponse_ rep;
-	struct ns1__ArrayOfTSURLPermissionReturn *repfs;
-	struct ns1__srmCheckPermissionRequest req;
-	struct ns1__TReturnStatus *reqstatp;
+	struct srm2__srmCheckPermissionResponse_ rep;
+	struct srm2__ArrayOfTSURLPermissionReturn *repfs;
+	struct srm2__srmCheckPermissionRequest req;
+	struct srm2__TReturnStatus *reqstatp;
 	int s, i, n;
 	struct soap soap;
 	const char srmfunc[] = "CheckPermission";
@@ -2780,7 +2780,7 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 
 	/* NOTE: only one SURL in the array */
 	if ((req.arrayOfSURLs =
-				soap_malloc (&soap, sizeof(struct ns1__ArrayOfAnyURI))) == NULL) {
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
 		gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 		errno = ENOMEM;
 		soap_end (&soap);
@@ -2791,7 +2791,7 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 	req.arrayOfSURLs->__sizeurlArray = nbfiles;
 	req.arrayOfSURLs->urlArray = (char **) surls;
 
-	if (ret = soap_call_ns1__srmCheckPermission (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+	if (ret = soap_call_srm2__srmCheckPermission (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 		char errmsg[ERRMSG_LEN];
 		if (soap.error == SOAP_EOF) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
@@ -2857,7 +2857,7 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 		} else
 			(*statuses)[i].status = ENOMEM;
         if ((*statuses)[i].status == 0) {
-			enum ns1__TPermissionMode perm = *(repfs->surlPermissionArray[i]->permission);
+			enum srm2__TPermissionMode perm = *(repfs->surlPermissionArray[i]->permission);
 
 			if ((amode == R_OK && (perm == NONE || perm == X || perm == W || perm == WX)) ||
 					(amode == W_OK && (perm == NONE || perm == X || perm == R || perm == RX)) ||
