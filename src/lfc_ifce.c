@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.50 $ $Date: 2008/04/22 15:54:02 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.51 $ $Date: 2008/04/25 13:06:37 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -103,7 +103,7 @@ lfc_init (char *errbuf, int errbufsz) {
 		/* Try first from env */
 		if((lfc_host = getenv("LFC_HOST")) != NULL) {
 			lfc_port = getenv("LFC_PORT");
-		} else { /* get endpoint from MDS */
+		} else if (!gfal_is_nobdii ()) { /* get endpoint from MDS */
 			if(get_lfc_endpoint (&lfc_endpoint, errbuf, errbufsz) < 0)
 				return (-1);
 
@@ -121,6 +121,11 @@ lfc_init (char *errbuf, int errbufsz) {
 				*lfc_port = '\0';
 				lfc_port++;
 			}
+		} else {
+			gfal_errmsg(errbuf, errbufsz, "You have to define 'LFC_HOST' environment variable, when BDII calls are disabled");
+			lfc_host = NULL;
+			errno = EINVAL;
+			return (-1);
 		}
 		if(strlen(lfc_host) == 0) {
 			gfal_errmsg(errbuf, errbufsz, "LFC host is set to empty string");

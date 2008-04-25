@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.90 $ $Date: 2008/04/24 13:21:14 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.91 $ $Date: 2008/04/25 13:06:36 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
@@ -39,6 +39,7 @@ static char *gfal_vo = NULL;
 static char *gfal_fqan[GFAL_FQAN_MAX];
 static int gfal_nb_fqan = 0;
 static int vomsdataparsed = 0;
+static int nobdii = 0;
 
 enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
@@ -3080,20 +3081,20 @@ get_default_se(char *errbuf, int errbufsz)
 	char *vo;
 	char *default_se;
 	int i;
-	char se_env[64];
+	char se_env[15 + VO_MAXLEN];
 	char errmsg[ERRMSG_LEN];
 
 	if((vo = gfal_get_vo (errbuf, errbufsz)) == NULL) {
 		errno = EINVAL;
 		return (NULL);
 	}
-	if(strlen(vo) + 15 >= 64) {
+	if(strlen(vo) >= VO_MAXLEN) {
 		snprintf (errmsg, ERRMSG_LEN - 1, "%s: VO name too long", vo);
 		gfal_errmsg(errbuf, errbufsz, errmsg);
 		errno = EINVAL;
 		return (NULL);
 	}
-	sprintf(se_env, "VO_%s_DEFAULT_SE", vo);
+	snprintf(se_env, 15 + VO_MAXLEN, "VO_%s_DEFAULT_SE", vo);
 	for(i = 3; i < 3 + strlen(vo); ++i) {
 		if (se_env[i] == '.' || se_env[i] == '-') 
 			se_env[i] = '_';
@@ -3571,7 +3572,7 @@ gfal_get_ids (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2
 {
 	if (srm_reqid) *srm_reqid = -1;
 	if (srm_fileids) *srm_fileids = NULL;
-	if (srmv2_token) *srmv2_reqtoken = NULL;
+	if (srmv2_reqtoken) *srmv2_reqtoken = NULL;
 
 	if (req == NULL || req->results_size < 1)
 		return (-1);
@@ -3589,7 +3590,7 @@ gfal_get_ids (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2
 				(*srm_fileids)[i] = req->srm_statuses[i].fileid;
 		}
 	}
-	else if (req->srmv2_token && srmv2_token) { // SRMv2
+	else if (req->srmv2_token && srmv2_reqtoken) { // SRMv2
 		*srmv2_reqtoken = strdup (req->srmv2_token);
 	}
 
@@ -3696,6 +3697,18 @@ gfal_spacemd_free (int nbtokens, gfal_spacemd *smd)
 }
 
 const char *
-gfal_version () {
+gfal_version ()
+{
 	return gfalversion;
+}
+
+void
+gfal_set_nobdii (int value)
+{
+	nobdii = value;
+}
+
+gfal_is_nobdii ()
+{
+	return (nobdii);
 }

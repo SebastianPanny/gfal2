@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.55 $ $Date: 2008/04/18 10:09:49 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.56 $ $Date: 2008/04/25 13:06:37 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -276,6 +276,8 @@ int gfal_set_vo (const char *vo);
 char *gfal_get_vo (char *errbuf, int errbufsz);
 int gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz);
 const char *gfal_version ();
+void gfal_set_nobdii (int);
+int gfal_is_nobdii ();
 int gfal_access (const char *, int);
 int gfal_chmod (const char *, mode_t);
 int gfal_close (int);

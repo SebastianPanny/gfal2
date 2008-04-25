@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.56 $ $Date: 2008/04/22 15:54:02 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.57 $ $Date: 2008/04/25 13:06:37 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -203,6 +203,12 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 	char errmsg[ERRMSG_LEN];
 	struct timeval timeout;
 	int err = 0, rc = 0;
+
+	if (gfal_is_nobdii ()) {
+		gfal_errmsg (errbuf, errbufsz, "BDII calls are needed, but disabled!");
+		errno = EINVAL;
+		return (-1);
+	}
 
 	/* Parse the environment, if required. */
 	if (bdii_servers_count == 0) {

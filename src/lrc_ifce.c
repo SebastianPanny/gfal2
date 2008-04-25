@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.17 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.18 $ $Date: 2008/04/25 13:06:37 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -33,11 +33,17 @@ lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 	soap_init (soap);
 	soap->namespaces = namespaces_lrc;
 
-	if (lrc_endpoint == NULL &&
-			(lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL &&
-			get_rls_endpoints (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz)) {
-		errno = EINVAL;
-		return (-1);
+	if (lrc_endpoint == NULL && (lrc_endpoint = getenv ("LRC_ENDPOINT")) == NULL) {
+		if (!gfal_is_nobdii ()) {
+			if (get_rls_endpoints (&lrc_endpoint, &rmc_endpoint, errbuf, errbufsz) != 0) {
+				errno = EINVAL;
+				return (-1);
+			}
+		} else {
+			gfal_errmsg(errbuf, errbufsz, "You have to define 'RMC_ENDPOINT' and 'LRC_ENDPOINT' environment variables, when BDII calls are disabled");
+			errno = EINVAL;
+			return (-1);
+		}
 	}
 
 #ifdef GFAL_SECURE
