@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.40 $ $Date: 2008/04/28 09:52:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.41 $ $Date: 2008/04/28 11:42:33 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include "gfal_api.h"
+#include "gfal.h"
 #include "srmH.h"
 #include "ISRM.nsmap"
 #ifdef GFAL_SECURE
