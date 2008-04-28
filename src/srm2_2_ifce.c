@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.38 $ $Date: 2008/04/25 15:29:42 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.39 $ $Date: 2008/04/28 14:51:34 $
  */
 
 #include <sys/types.h>
@@ -89,8 +89,7 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	reqstatp = rep.srmRmResponse->returnStatus;
 	repfs = rep.srmRmResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray ||
-			!repfs->statusArray[0] || !repfs->statusArray[0]->status) {
+	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
 
 		char errmsg[ERRMSG_LEN];
 
@@ -123,12 +122,12 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	}
 
 	for (i = 0; i < n; ++i) {
-		if (repfs->statusArray[0]->surl)
-			(*statuses)[i].surl = strdup (repfs->statusArray[i]->surl);
-		if (repfs->statusArray[0]->status) {
-			(*statuses)[i].status = statuscode2errno(repfs->statusArray[0]->status->statusCode);
-			if (repfs->statusArray[0]->status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->statusArray[0]->status->explanation);
+		if (repfs->statusArray[i].surl)
+			(*statuses)[i].surl = strdup (repfs->statusArray[i].surl);
+		if (repfs->statusArray[i].status) {
+			(*statuses)[i].status = statuscode2errno(repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*statuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*statuses)[i].explanation = strdup (reqstatp->explanation);
 		}
@@ -205,7 +204,6 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 	struct srm2__srmPrepareToGetResponse_ rep;
 	struct srm2__ArrayOfTGetRequestFileStatus *repfs;
 	struct srm2__srmPrepareToGetRequest req;
-	struct srm2__TGetFileRequest *reqfilep;
 	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
 	static enum srm2__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
@@ -233,7 +231,7 @@ retry:
 	if ((req.arrayOfFileRequests = 
 				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL || 
 			(req.arrayOfFileRequests->requestArray = 
-			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest *))) == NULL ||
+			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest))) == NULL ||
 			(req.transferParameters = 
 			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL || 
 			(req.targetSpaceToken = 
@@ -263,25 +261,12 @@ retry:
 		req.desiredPinLifeTime = &desiredpintime;
 
 	req.desiredFileStorageType = &s_types[PERMANENT];
-
-	for (i = 0; i < nbfiles; i++) {
-		if ((req.arrayOfFileRequests->requestArray[i] = 
-					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
-			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
-			errno = ENOMEM;
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
-	}
-
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
+	memset (req.arrayOfFileRequests->requestArray, 0, nbfiles * sizeof(struct srm2__TGetFileRequest));
 
 	for (i = 0; i < nbfiles; i++) {
-		reqfilep = req.arrayOfFileRequests->requestArray[i];
-		memset (reqfilep, 0, sizeof(*reqfilep));
-		reqfilep->sourceSURL = (char *) surls[i];
-		reqfilep->dirOption = NULL;
+		req.arrayOfFileRequests->requestArray[i].sourceSURL = (char *) surls[i];
+		req.arrayOfFileRequests->requestArray[i].dirOption = NULL;
 	}
 
 	req.transferParameters->accessPattern = NULL;
@@ -334,8 +319,7 @@ retry:
 	reqstatp = rep.srmPrepareToGetResponse->returnStatus;
 	repfs = rep.srmPrepareToGetResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray ||
-			!repfs->statusArray[0] || !repfs->statusArray[0]->status) {
+	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
 
 		char errmsg[ERRMSG_LEN];
 
@@ -369,19 +353,19 @@ retry:
 
 	for (i = 0; i < n; i++) {
 		memset (*filestatuses + i, 0, sizeof (struct srmv2_filestatus));
-		if (repfs->statusArray[0]->sourceSURL)
-			(*filestatuses)[i].surl = strdup (repfs->statusArray[i]->sourceSURL);
-		if (repfs->statusArray[i]->transferURL)
-			(*filestatuses)[i].turl = strdup (repfs->statusArray[i]->transferURL);
-		if (repfs->statusArray[i]->status) {
-			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
+		if (repfs->statusArray[i].sourceSURL)
+			(*filestatuses)[i].surl = strdup (repfs->statusArray[i].sourceSURL);
+		if (repfs->statusArray[i].transferURL)
+			(*filestatuses)[i].turl = strdup (repfs->statusArray[i].transferURL);
+		if (repfs->statusArray[i].status) {
+			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
 		}
-		if (repfs->statusArray[i]->remainingPinTime)
-			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
+		if (repfs->statusArray[i].remainingPinTime)
+			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i].remainingPinTime);
 
 	}
 
@@ -493,8 +477,7 @@ retry:
 	reqstatp = srep.srmStatusOfGetRequestResponse->returnStatus;
 	repfs = srep.srmStatusOfGetRequestResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray ||
-			!repfs->statusArray[0] || !repfs->statusArray[0]->status) {
+	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
 
 		char errmsg[ERRMSG_LEN];
 
@@ -528,19 +511,19 @@ retry:
 
 	for (i = 0; i < n; i++) {
 		memset (*filestatuses + i, 0, sizeof (struct srmv2_filestatus));
-		if (repfs->statusArray[0]->sourceSURL)
-			(*filestatuses)[i].surl = strdup (repfs->statusArray[i]->sourceSURL);
-		if (repfs->statusArray[i]->transferURL)
-			(*filestatuses)[i].turl = strdup (repfs->statusArray[i]->transferURL);
-		if (repfs->statusArray[i]->status) {
-			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
+		if (repfs->statusArray[i].sourceSURL)
+			(*filestatuses)[i].surl = strdup (repfs->statusArray[i].sourceSURL);
+		if (repfs->statusArray[i].transferURL)
+			(*filestatuses)[i].turl = strdup (repfs->statusArray[i].transferURL);
+		if (repfs->statusArray[i].status) {
+			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
 		}
-		if (repfs->statusArray[i]->remainingPinTime)
-			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
+		if (repfs->statusArray[i].remainingPinTime)
+			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i].remainingPinTime);
 	}
 
 	soap_end (&soap);
@@ -762,13 +745,13 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 	}
 
 	for (i = 0; i < nbtokens; i++) {
-		if (!tknrepp->spaceDataArray[i] || !tknrepp->spaceDataArray[i]->spaceToken)
+		if (!tknrepp->spaceDataArray[i].spaceToken)
 			continue;
-		if (tknrepp->spaceDataArray[i]->status &&
-				tknrepp->spaceDataArray[i]->status->statusCode != SRM_USCORESUCCESS) {
-			int sav_errno = statuscode2errno(tknrepp->spaceDataArray[i]->status->statusCode);
-			if (tknrepp->spaceDataArray[i]->status->explanation)
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, tknrepp->spaceDataArray[i]->status->explanation);
+		if (tknrepp->spaceDataArray[i].status &&
+				tknrepp->spaceDataArray[i].status->statusCode != SRM_USCORESUCCESS) {
+			int sav_errno = statuscode2errno(tknrepp->spaceDataArray[i].status->statusCode);
+			if (tknrepp->spaceDataArray[i].status->explanation)
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, tknrepp->spaceDataArray[i].status->explanation);
 			else
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, strerror (sav_errno));
 			gfal_errmsg (errbuf, errbufsz, errmsg);
@@ -777,21 +760,21 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 			errno = sav_errno;
 			return (-1);
 		}
-		(*spaces)[i].spacetoken = strdup (tknrepp->spaceDataArray[i]->spaceToken);
-		if (tknrepp->spaceDataArray[i]->owner)
-			(*spaces)[i].owner = strdup (tknrepp->spaceDataArray[i]->owner);
-		if (tknrepp->spaceDataArray[i]->totalSize)
-			(*spaces)[i].totalsize = (GFAL_LONG64) *(tknrepp->spaceDataArray[i]->totalSize);
-		if (tknrepp->spaceDataArray[i]->guaranteedSize)
-			(*spaces)[i].guaranteedsize = (GFAL_LONG64) *(tknrepp->spaceDataArray[i]->guaranteedSize);
-		if (tknrepp->spaceDataArray[i]->unusedSize)
-			(*spaces)[i].unusedsize = (GFAL_LONG64) *(tknrepp->spaceDataArray[i]->unusedSize);
-		if (tknrepp->spaceDataArray[i]->lifetimeAssigned)
-			(*spaces)[i].lifetimeassigned = *(tknrepp->spaceDataArray[i]->lifetimeAssigned);
-		if (tknrepp->spaceDataArray[i]->lifetimeLeft)
-			(*spaces)[i].lifetimeleft = *(tknrepp->spaceDataArray[i]->lifetimeLeft);
-		if (tknrepp->spaceDataArray[i]->retentionPolicyInfo) {
-			switch (tknrepp->spaceDataArray[i]->retentionPolicyInfo->retentionPolicy) {
+		(*spaces)[i].spacetoken = strdup (tknrepp->spaceDataArray[i].spaceToken);
+		if (tknrepp->spaceDataArray[i].owner)
+			(*spaces)[i].owner = strdup (tknrepp->spaceDataArray[i].owner);
+		if (tknrepp->spaceDataArray[i].totalSize)
+			(*spaces)[i].totalsize = (GFAL_LONG64) *(tknrepp->spaceDataArray[i].totalSize);
+		if (tknrepp->spaceDataArray[i].guaranteedSize)
+			(*spaces)[i].guaranteedsize = (GFAL_LONG64) *(tknrepp->spaceDataArray[i].guaranteedSize);
+		if (tknrepp->spaceDataArray[i].unusedSize)
+			(*spaces)[i].unusedsize = (GFAL_LONG64) *(tknrepp->spaceDataArray[i].unusedSize);
+		if (tknrepp->spaceDataArray[i].lifetimeAssigned)
+			(*spaces)[i].lifetimeassigned = *(tknrepp->spaceDataArray[i].lifetimeAssigned);
+		if (tknrepp->spaceDataArray[i].lifetimeLeft)
+			(*spaces)[i].lifetimeleft = *(tknrepp->spaceDataArray[i].lifetimeLeft);
+		if (tknrepp->spaceDataArray[i].retentionPolicyInfo) {
+			switch (tknrepp->spaceDataArray[i].retentionPolicyInfo->retentionPolicy) {
 				case REPLICA:
 					(*spaces)[i].retentionpolicy = GFAL_POLICY_REPLICA;
 					break;
@@ -805,8 +788,8 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 					(*spaces)[i].retentionpolicy = GFAL_POLICY_UNKNOWN;
 			}
 
-			if (tknrepp->spaceDataArray[i]->retentionPolicyInfo->accessLatency) {
-				switch (*(tknrepp->spaceDataArray[i]->retentionPolicyInfo->accessLatency)) {
+			if (tknrepp->spaceDataArray[i].retentionPolicyInfo->accessLatency) {
+				switch (*(tknrepp->spaceDataArray[i].retentionPolicyInfo->accessLatency)) {
 					case ONLINE:
 						(*spaces)[i].accesslatency = GFAL_LATENCY_ONLINE;
 						break;
@@ -1084,7 +1067,6 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	struct srm2__srmBringOnlineResponse_ rep;
 	struct srm2__ArrayOfTBringOnlineRequestFileStatus *repfs;
 	struct srm2__srmBringOnlineRequest req;
-	struct srm2__TGetFileRequest *reqfilep;
 	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
 	static enum srm2__TFileStorageType s_types[] = {VOLATILE, DURABLE, PERMANENT};
@@ -1112,7 +1094,7 @@ retry:
 	if ((req.arrayOfFileRequests = 
 				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL || 
 			(req.arrayOfFileRequests->requestArray = 
-			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest *))) == NULL ||
+			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest))) == NULL ||
 			(req.transferParameters = 
 			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL || 
 			(req.targetSpaceToken = 
@@ -1147,24 +1129,12 @@ retry:
 	req.targetFileRetentionPolicyInfo = NULL;
 	req.deferredStartTime = NULL;
 
-	for (i = 0; i < nbfiles; i++) {
-		if ((req.arrayOfFileRequests->requestArray[i] = 
-					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
-			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
-			errno = ENOMEM;
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
-	}
-
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
+	memset (req.arrayOfFileRequests->requestArray, 0, nbfiles * sizeof(struct srm2__TGetFileRequest));
 
 	for (i = 0; i < nbfiles; i++) {
-		reqfilep = req.arrayOfFileRequests->requestArray[i];
-		memset (reqfilep, 0, sizeof(*reqfilep));
-		reqfilep->sourceSURL = (char *) surls[i];
-		reqfilep->dirOption = NULL;
+		req.arrayOfFileRequests->requestArray[i].sourceSURL = (char *) surls[i];
+		req.arrayOfFileRequests->requestArray[i].dirOption = NULL;
 	}
 
 	req.transferParameters->accessPattern = NULL;
@@ -1217,8 +1187,7 @@ retry:
 	reqstatp = rep.srmBringOnlineResponse->returnStatus;
 	repfs = rep.srmBringOnlineResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray ||
-			!repfs->statusArray[0] || !repfs->statusArray[0]->status) {
+	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
 
 		char errmsg[ERRMSG_LEN];
 
@@ -1252,12 +1221,12 @@ retry:
 
 	for (i = 0; i < n; i++) {
 		memset (*filestatuses + i, 0, sizeof (struct srmv2_filestatus));
-		if (repfs->statusArray[i]->sourceSURL)
-			(*filestatuses)[i].surl = strdup ((repfs->statusArray[i])->sourceSURL);
-		if (repfs->statusArray[i]->status) {
-			(*filestatuses)[i].status = filestatus2returncode ((repfs->statusArray[i])->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*filestatuses)[i].explanation = strdup ((repfs->statusArray[i])->status->explanation);
+		if (repfs->statusArray[i].sourceSURL)
+			(*filestatuses)[i].surl = strdup (repfs->statusArray[i].sourceSURL);
+		if (repfs->statusArray[i].status) {
+			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
 		}
@@ -1358,8 +1327,7 @@ retry:
 	reqstatp = srep.srmStatusOfBringOnlineRequestResponse->returnStatus;
 	repfs = srep.srmStatusOfBringOnlineRequestResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray ||
-			!repfs->statusArray[0] || !repfs->statusArray[0]->status) {
+	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
 
 		char errmsg[ERRMSG_LEN];
 
@@ -1393,12 +1361,12 @@ retry:
 
 	for (i = 0; i < n; i++) {
 		memset (*filestatuses + i, 0, sizeof (struct srmv2_filestatus));
-		if (repfs->statusArray[i]->sourceSURL)
-			(*filestatuses)[i].surl = strdup ((repfs->statusArray[i])->sourceSURL);
-		if (repfs->statusArray[i]->status) {
-			(*filestatuses)[i].status = filestatus2returncode ((repfs->statusArray[i])->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*filestatuses)[i].explanation = strdup ((repfs->statusArray[i])->status->explanation);
+		if (repfs->statusArray[i].sourceSURL)
+			(*filestatuses)[i].surl = strdup (repfs->statusArray[i].sourceSURL);
+		if (repfs->statusArray[i].status) {
+			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
 		}
@@ -1475,8 +1443,7 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 	reqstatp = rep.srmPutDoneResponse->returnStatus;
 	repfs = rep.srmPutDoneResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray ||
-			!repfs->statusArray[0] || !repfs->statusArray[0]->status) {
+	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
 
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
@@ -1509,12 +1476,12 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 
 	for (i = 0; i < n; i++) {
 		memset (*statuses + i, 0, sizeof (struct srmv2_filestatus));
-		if (repfs->statusArray[i]->surl)
-			(*statuses)[i].surl = strdup (repfs->statusArray[i]->surl);
-		if (repfs->statusArray[i]->status) {
-			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
+		if (repfs->statusArray[i].surl)
+			(*statuses)[i].surl = strdup (repfs->statusArray[i].surl);
+		if (repfs->statusArray[i].status) {
+			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*statuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*statuses)[i].explanation = strdup (reqstatp->explanation);
 		}
@@ -1560,7 +1527,6 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	struct srm2__srmPrepareToGetResponse_ rep;
 	struct srm2__ArrayOfTGetRequestFileStatus *repfs;
 	struct srm2__srmPrepareToGetRequest req;
-	struct srm2__TGetFileRequest *reqfilep;
 	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
 	struct srm2__srmStatusOfGetRequestResponse_ srep;
@@ -1590,7 +1556,7 @@ retry:
 	if ((req.arrayOfFileRequests = 
 				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL || 
 			(req.arrayOfFileRequests->requestArray = 
-			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest *))) == NULL ||
+			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest))) == NULL ||
 			(req.transferParameters = 
 			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL || 
 			(req.targetSpaceToken = 
@@ -1620,25 +1586,12 @@ retry:
 		req.desiredPinLifeTime = &desiredpintime;
 
 	req.desiredFileStorageType = &s_types[PERMANENT];
-
-	for (i = 0; i < nbfiles; i++) {
-		if ((req.arrayOfFileRequests->requestArray[i] = 
-					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
-			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
-			errno = ENOMEM;
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
-	}
-
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
+	memset (req.arrayOfFileRequests->requestArray, 0, nbfiles * sizeof(struct srm2__TGetFileRequest));
 
 	for (i = 0; i < nbfiles; i++) {
-		reqfilep = req.arrayOfFileRequests->requestArray[i];
-		memset (reqfilep, 0, sizeof(*reqfilep));
-		reqfilep->sourceSURL = (char *) surls[i];
-		reqfilep->dirOption = NULL;
+		req.arrayOfFileRequests->requestArray[i].sourceSURL = (char *) surls[i];
+		req.arrayOfFileRequests->requestArray[i].dirOption = NULL;
 	}
 
 	req.transferParameters->accessPattern = NULL;
@@ -1801,19 +1754,19 @@ retry:
 
 	for (i = 0; i < n; i++) {
 		memset (*filestatuses + i, 0, sizeof (struct srmv2_filestatus));
-		if (repfs->statusArray[i]->sourceSURL)
-			(*filestatuses)[i].surl = strdup ((repfs->statusArray[i])->sourceSURL);
-		if (repfs->statusArray[i]->transferURL)
-			(*filestatuses)[i].turl = strdup ((repfs->statusArray[i])->transferURL);
-		if (repfs->statusArray[i]->status) {
-			(*filestatuses)[i].status = statuscode2errno ((repfs->statusArray[i])->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*filestatuses)[i].explanation = strdup ((repfs->statusArray[i])->status->explanation);
+		if (repfs->statusArray[i].sourceSURL)
+			(*filestatuses)[i].surl = strdup (repfs->statusArray[i].sourceSURL);
+		if (repfs->statusArray[i].transferURL)
+			(*filestatuses)[i].turl = strdup (repfs->statusArray[i].transferURL);
+		if (repfs->statusArray[i].status) {
+			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
 		}
-		if (repfs->statusArray[i]->remainingPinTime)
-			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
+		if (repfs->statusArray[i].remainingPinTime)
+			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i].remainingPinTime);
 	}
 
 	if (reqtoken && sreq.requestToken)
@@ -1847,7 +1800,6 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	struct srm2__srmPrepareToPutResponse_ rep;
 	struct srm2__ArrayOfTPutRequestFileStatus *repfs;
 	struct srm2__srmPrepareToPutRequest req;
-	struct srm2__TPutFileRequest *reqfilep;
 	struct srm2__TReturnStatus *reqstatp;
 	struct soap soap;
 	struct srm2__srmStatusOfPutRequestResponse_ srep;
@@ -1875,7 +1827,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	if ((req.arrayOfFileRequests =
 				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTPutFileRequest))) == NULL ||
 			(req.arrayOfFileRequests->requestArray =
-			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TPutFileRequest *))) == NULL ||
+			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TPutFileRequest))) == NULL ||
 			(req.transferParameters =
 			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL ||
 			(req.targetSpaceToken =
@@ -1892,33 +1844,20 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 		req.desiredPinLifeTime = &desiredpintime;
 
 	req.desiredFileStorageType = &s_types[PERMANENT];
-
-	for (i = 0; i < nbfiles; i++) {
-		if ((req.arrayOfFileRequests->requestArray[i] =
-					soap_malloc (&soap, sizeof(struct srm2__TPutFileRequest))) == NULL) {
-			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
-			errno = ENOMEM;
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
-	}
-
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
+	memset (req.arrayOfFileRequests->requestArray, 0, nbfiles * sizeof(struct srm2__TPutFileRequest));
 
 	for (i = 0; i < nbfiles; i++) {
-		reqfilep = req.arrayOfFileRequests->requestArray[i];
-		memset (reqfilep, 0, sizeof(*reqfilep));
-		reqfilep->targetSURL = (char *) surls[i];
+		req.arrayOfFileRequests->requestArray[i].targetSURL = (char *) surls[i];
 
-		if ((reqfilep->expectedFileSize = soap_malloc (&soap, sizeof(ULONG64))) == NULL) {
+		if ((req.arrayOfFileRequests->requestArray[i].expectedFileSize = soap_malloc (&soap, sizeof(ULONG64))) == NULL) {
 			gfal_errmsg(errbuf, errbufsz, "soap_malloc error");
 			errno = ENOMEM;
 			soap_end (&soap);
 			soap_done (&soap);
 			return (-1);
 		}
-		*reqfilep->expectedFileSize = filesizes[i];
+		*(req.arrayOfFileRequests->requestArray[i].expectedFileSize) = filesizes[i];
 		totalsize += filesizes[i]; // compute total size to determine best space token
 	}
 
@@ -2110,19 +2049,19 @@ retry:
 
 	for (i = 0; i < n; i++) {
 		memset (*filestatuses + i, 0, sizeof (struct srmv2_filestatus));
-		if (repfs->statusArray[i]->SURL)
-			(*filestatuses)[i].surl = strdup (repfs->statusArray[i]->SURL);
-		if (repfs->statusArray[i]->transferURL)
-			(*filestatuses)[i].turl = strdup (repfs->statusArray[i]->transferURL);
-		if (repfs->statusArray[i]->status) {
-			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
+		if (repfs->statusArray[i].SURL)
+			(*filestatuses)[i].surl = strdup (repfs->statusArray[i].SURL);
+		if (repfs->statusArray[i].transferURL)
+			(*filestatuses)[i].turl = strdup (repfs->statusArray[i].transferURL);
+		if (repfs->statusArray[i].status) {
+			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
 		}
-		if (repfs->statusArray[i]->remainingPinLifetime)
-			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinLifetime);
+		if (repfs->statusArray[i].remainingPinLifetime)
+			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i].remainingPinLifetime);
 	}
 
 	if (reqtoken && sreq.requestToken)
@@ -2155,24 +2094,23 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 
 	for (i = 0; i < n; ++i) {
 		memset (*statuses + i, 0, sizeof(struct srmv2_mdfilestatus));
-		if (!repfs->pathDetailArray[i]) continue;
-		if (repfs->pathDetailArray[i]->path)
-			(*statuses)[i].surl = strdup (repfs->pathDetailArray[i]->path);
-		if (repfs->pathDetailArray[i]->status)
-			(*statuses)[i].status = statuscode2errno(repfs->pathDetailArray[i]->status->statusCode);
+		if (repfs->pathDetailArray[i].path)
+			(*statuses)[i].surl = strdup (repfs->pathDetailArray[i].path);
+		if (repfs->pathDetailArray[i].status)
+			(*statuses)[i].status = statuscode2errno(repfs->pathDetailArray[i].status->statusCode);
 		if ((*statuses)[i].status) {
-			if (repfs->pathDetailArray[i]->status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->pathDetailArray[i]->status->explanation);
+			if (repfs->pathDetailArray[i].status->explanation)
+				(*statuses)[i].explanation = strdup (repfs->pathDetailArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*statuses)[i].explanation = strdup (reqstatp->explanation);
 			continue;
 		} 
-		if (repfs->pathDetailArray[i]->size)
-			(*statuses)[i].stat.st_size = *(repfs->pathDetailArray[i]->size);
+		if (repfs->pathDetailArray[i].size)
+			(*statuses)[i].stat.st_size = *(repfs->pathDetailArray[i].size);
 		else
 			(*statuses)[i].stat.st_size = 0;
-		if (repfs->pathDetailArray[i]->fileLocality) {
-            switch (*(repfs->pathDetailArray[i]->fileLocality)) {
+		if (repfs->pathDetailArray[i].fileLocality) {
+            switch (*(repfs->pathDetailArray[i].fileLocality)) {
                 case ONLINE_:
                     (*statuses)[i].locality = GFAL_LOCALITY_ONLINE_;
                     break;
@@ -2198,14 +2136,14 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 		(*statuses)[i].stat.st_uid = 2;//TODO: create haseh placeholder for string<->uid/gid mapping
 		(*statuses)[i].stat.st_gid = 2;
 		(*statuses)[i].stat.st_nlink = 1;
-		if (repfs->pathDetailArray[i]->otherPermission)
-			(*statuses)[i].stat.st_mode = *(repfs->pathDetailArray[i]->otherPermission);
-		if (repfs->pathDetailArray[i]->groupPermission)
-			(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i]->groupPermission->mode << 3;
-		if (repfs->pathDetailArray[i]->ownerPermission)
-			(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i]->ownerPermission->mode << 6;
-		if (repfs->pathDetailArray[i]->type) {
-			switch (*(repfs->pathDetailArray[i]->type)) {
+		if (repfs->pathDetailArray[i].otherPermission)
+			(*statuses)[i].stat.st_mode = *(repfs->pathDetailArray[i].otherPermission);
+		if (repfs->pathDetailArray[i].groupPermission)
+			(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i].groupPermission->mode << 3;
+		if (repfs->pathDetailArray[i].ownerPermission)
+			(*statuses)[i].stat.st_mode |= repfs->pathDetailArray[i].ownerPermission->mode << 6;
+		if (repfs->pathDetailArray[i].type) {
+			switch (*(repfs->pathDetailArray[i].type)) {
 				case FILE_:
 					(*statuses)[i].stat.st_mode |= S_IFREG;
 					break;
@@ -2218,8 +2156,8 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 			}
 		}
 
-		if (repfs->pathDetailArray[i]->arrayOfSubPaths) {
-			r = copy_md (reqstatp, repfs->pathDetailArray[i]->arrayOfSubPaths, &((*statuses)->subpaths));
+		if (repfs->pathDetailArray[i].arrayOfSubPaths) {
+			r = copy_md (reqstatp, repfs->pathDetailArray[i].arrayOfSubPaths, &((*statuses)->subpaths));
 
 			if (r < 0)
 				return (r);
@@ -2405,8 +2343,7 @@ retry:
 	reqstatp = rep.srmExtendFileLifeTimeResponse->returnStatus;
 	repfs = rep.srmExtendFileLifeTimeResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray ||
-			!repfs->statusArray[0] || !repfs->statusArray[0]->status) {
+	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
 
 		char errmsg[ERRMSG_LEN];
 
@@ -2442,14 +2379,14 @@ retry:
 
 	for (i = 0; i < n; i++) {
 		memset (*pinfilestatuses + i, 0, sizeof (struct srmv2_pinfilestatus));
-		if (repfs->statusArray[i]->surl)
-			(*pinfilestatuses)[i].surl = strdup (repfs->statusArray[i]->surl);
-		if (repfs->statusArray[i]->pinLifetime)
-			(*pinfilestatuses)[i].pinlifetime = *(repfs->statusArray[i]->pinLifetime);
-		if (repfs->statusArray[i]->status) {
-			(*pinfilestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*pinfilestatuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
+		if (repfs->statusArray[i].surl)
+			(*pinfilestatuses)[i].surl = strdup (repfs->statusArray[i].surl);
+		if (repfs->statusArray[i].pinLifetime)
+			(*pinfilestatuses)[i].pinlifetime = *(repfs->statusArray[i].pinLifetime);
+		if (repfs->statusArray[i].status) {
+			(*pinfilestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*pinfilestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*pinfilestatuses)[i].explanation = strdup (reqstatp->explanation);
 		}
@@ -2522,8 +2459,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 	reqstatp = rep.srmReleaseFilesResponse->returnStatus;
 	repfs = rep.srmReleaseFilesResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray ||
-			!repfs->statusArray[0] || !repfs->statusArray[0]->status) {
+	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
 
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
@@ -2558,12 +2494,12 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 
 	for (i = 0; i < n; i++) {
 		memset (*statuses + i, 0, sizeof (struct srmv2_pinfilestatus));
-		if (repfs->statusArray[i]->surl)
-			(*statuses)[i].surl = strdup (repfs->statusArray[i]->surl);
-		if (repfs->statusArray[i]->status) {
-			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
+		if (repfs->statusArray[i].surl)
+			(*statuses)[i].surl = strdup (repfs->statusArray[i].surl);
+		if (repfs->statusArray[i].status) {
+			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*statuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*statuses)[i].explanation = strdup (reqstatp->explanation);
 		}
@@ -2699,8 +2635,7 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 	reqstatp = rep.srmAbortFilesResponse->returnStatus;
 	repfs = rep.srmAbortFilesResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray ||
-			!repfs->statusArray[0] || !repfs->statusArray[0]->status) {
+	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
 
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
@@ -2735,12 +2670,12 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 
 	for (i = 0; i < n; i++) {
 		memset (*statuses + i, 0, sizeof (struct srmv2_pinfilestatus));
-		if (repfs->statusArray[i]->surl)
-			(*statuses)[i].surl = strdup (repfs->statusArray[i]->surl);
-		if (repfs->statusArray[i]->status) {
-			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->statusArray[i]->status->explanation);
+		if (repfs->statusArray[i].surl)
+			(*statuses)[i].surl = strdup (repfs->statusArray[i].surl);
+		if (repfs->statusArray[i].status) {
+			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
+			if (repfs->statusArray[i].status->explanation)
+				(*statuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*statuses)[i].explanation = strdup (reqstatp->explanation);
 		}
@@ -2812,9 +2747,7 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 	repfs = rep.srmCheckPermissionResponse->arrayOfPermissions;
 	n = repfs->__sizesurlPermissionArray;
 
-	if (!repfs || n < 1 || !repfs->surlPermissionArray ||
-			!repfs->surlPermissionArray[0] || !repfs->surlPermissionArray[0]->status) {
-
+	if (!repfs || n < 1 || !repfs->surlPermissionArray) {
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
@@ -2846,18 +2779,18 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 
 	for (i = 0; i < n; i++) {
 		memset (*statuses + i, 0, sizeof (struct srmv2_pinfilestatus));
-		if (repfs->surlPermissionArray[i]->surl)
-			(*statuses)[i].surl = strdup (repfs->surlPermissionArray[i]->surl);
-		if (repfs->surlPermissionArray[i]->status) {
-			(*statuses)[i].status = statuscode2errno (repfs->surlPermissionArray[i]->status->statusCode);
-			if (repfs->surlPermissionArray[i]->status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->surlPermissionArray[i]->status->explanation);
+		if (repfs->surlPermissionArray[i].surl)
+			(*statuses)[i].surl = strdup (repfs->surlPermissionArray[i].surl);
+		if (repfs->surlPermissionArray[i].status) {
+			(*statuses)[i].status = statuscode2errno (repfs->surlPermissionArray[i].status->statusCode);
+			if (repfs->surlPermissionArray[i].status->explanation)
+				(*statuses)[i].explanation = strdup (repfs->surlPermissionArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				(*statuses)[i].explanation = strdup (reqstatp->explanation);
 		} else
 			(*statuses)[i].status = ENOMEM;
         if ((*statuses)[i].status == 0) {
-			enum srm2__TPermissionMode perm = *(repfs->surlPermissionArray[i]->permission);
+			enum srm2__TPermissionMode perm = *(repfs->surlPermissionArray[i].permission);
 
 			if ((amode == R_OK && (perm == NONE || perm == X || perm == W || perm == WX)) ||
 					(amode == W_OK && (perm == NONE || perm == X || perm == R || perm == RX)) ||
