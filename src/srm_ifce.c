@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.39 $ $Date: 2008/04/25 15:29:42 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.40 $ $Date: 2008/04/28 09:52:10 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -134,13 +134,13 @@ srm_getxe (int nbfiles, const char **surls, const char *srm_endpoint,
 {
 	int flags;
 	int errflag = 0;
-	struct srm1__RequestFileStatus *f;
+    struct srmDiskCache__RequestFileStatus *f;
 	int i, n;
 	int nbproto = 0;
 	struct srm1__getResponse outg;
 	char *p;
 	struct ArrayOfstring protoarray;
-	struct srm1__RequestStatus *reqstatp;
+	struct srmDiskCache__RequestStatus *reqstatp;
 	int ret;
 	int sav_errno = 0;
 	struct soap soap;
@@ -280,12 +280,12 @@ srm_getstatusxe (int reqid, const char *srm_endpoint, struct srm_filestatus **fi
 {
 	int flags;
 	int errflag = 0;
-	struct srm1__RequestFileStatus *f;
+	struct srmDiskCache__RequestFileStatus *f;
 	int i;
 	int n;
 	struct srm1__getRequestStatusResponse outq;
 	char *p;
-	struct srm1__RequestStatus *reqstatp;
+    struct srmDiskCache__RequestStatus *reqstatp;
 	int ret;
 	int sav_errno = 0;
 	struct soap soap;
@@ -378,7 +378,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	struct ArrayOfboolean permarray;
 	struct ArrayOfstring protoarray;
 	int r = 0;
-	struct srm1__RequestStatus *reqstatp;
+	struct srmDiskCache__RequestStatus *reqstatp;
 	int ret;
 	int sav_errno = 0;
 	struct ArrayOflong sizearray;
@@ -697,7 +697,7 @@ srm_set_xfer_status (const char *status, const char *srm_endpoint, int reqid, in
 	int flags;
 	int sav_errno = 0;
 	struct srm1__setFileStatusResponse out;
-	struct srm1__RequestStatus *reqstat;
+	struct srmDiskCache__RequestStatus *reqstat;
 	int ret;
 	struct soap soap;
 	const char srmfunc[] = "setFileStatus";
