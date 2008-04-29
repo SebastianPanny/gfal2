@@ -17,13 +17,12 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.1 2008/04/25 15:29:42 ptedesco Exp $
+# Version info: $Id: configure.ac,v 1.2 2008/04/29 14:12:56 ptedesco Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
 # version 0.0.0 will be replaced by AC_GLITE_VERSION
 AC_INIT([GLite Data Grid File Access Library], [0.0.0])
-AC_CONFIG_HEADERS([src/autogen/config.h])
 # auxiliary build tools directory
 AC_CONFIG_AUX_DIR([./project])
 AC_CONFIG_SRCDIR([src/Makefile.am])
@@ -33,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.1 $])
+AC_REVISION([$Revision: 1.2 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -124,12 +123,26 @@ AC_ARG_WITH([voms-location],
     [VOMS_LOCATION=${withval}],
     [VOMS_LOCATION="/opt/lcg"])
 AC_MSG_RESULT([VOMS_LOCATION is ${VOMS_LOCATION}])
+VOMS_CFLAGS="-I${VOMS_LOCATION}/include -I${GLOBUS_LOCATION}/include/${GLOBUS_FLAVOUR}"
+AC_MSG_RESULT([VOMS_CFLAGS is ${VOMS_CFLAGS}])
+VOMS_THR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc_${GLOBUS_THR_FLAVOR}"
+VOMS_NOTHR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc_${GLOBUS_NOTHR_FLAVOR}"
+AC_MSG_RESULT([VOMS_THR_LIBS is ${VOMS_THR_LIBS}])
+AC_MSG_RESULT([VOMS_NOTHR_LIBS is ${VOMS_NOTHR_LIBS}])
 AC_SUBST(VOMS_LOCATION)
+AC_SUBST(VOMS_CFLAGS)
+AC_SUBST(VOMS_THR_LIBS)
+AC_SUBST(VOMS_NOTHR_LIBS)
 
 ################################################################################
 
 # check support for python
-AM_PATH_PYTHON
+AM_PATH_PYTHON([2.3])
+AC_PYTHON([2.3])
+AC_MSG_RESULT([PYTHON_CFLAGS is ${PYTHON_CFLAGS}])
+
+# swig
+AC_SWIG([1.3.0])
 
 # Checks for header files.
 AC_HEADER_DIRENT
@@ -161,6 +174,7 @@ AC_MSG_NOTICE([GSOAP_VERSION_NUM is $GSOAP_VERSION_NUM])
 AC_MSG_NOTICE([checking gsoap version to apply on-the-fly patches])
 AM_CONDITIONAL([USE_GSOAP_2_7_10],[test "x$GSOAP_VERSION_NUM" = "x020710"])
 
+AC_CONFIG_HEADERS([src/autogen/config.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
 
