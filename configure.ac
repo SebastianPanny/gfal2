@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.2 2008/04/29 14:12:56 ptedesco Exp $
+# Version info: $Id: configure.ac,v 1.3 2008/05/06 14:33:05 ptedesco Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.2 $])
+AC_REVISION([$Revision: 1.3 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -65,11 +65,6 @@ AC_ARG_ENABLE(
 
 AC_ARG_ENABLE(
 	[wall],
-	[AS_HELP_STRING([--enable-wall],[Compile with all warnings enabled.])],
-	[CFLAGS="-Wall $CFLAGS"])
-
-AC_ARG_ENABLE(
-	[rfio-support],
 	[AS_HELP_STRING([--enable-wall],[Compile with all warnings enabled.])],
 	[CFLAGS="-Wall $CFLAGS"])
 
