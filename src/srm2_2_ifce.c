@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.39 $ $Date: 2008/04/28 14:51:34 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.40 $ $Date: 2008/05/07 08:45:28 $
  */
 
 #include <sys/types.h>
@@ -127,9 +127,9 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 		if (repfs->statusArray[i].status) {
 			(*statuses)[i].status = statuscode2errno(repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*statuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		}
 	}
 
@@ -360,9 +360,9 @@ retry:
 		if (repfs->statusArray[i].status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		}
 		if (repfs->statusArray[i].remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i].remainingPinTime);
@@ -518,9 +518,9 @@ retry:
 		if (repfs->statusArray[i].status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		}
 		if (repfs->statusArray[i].remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i].remainingPinTime);
@@ -1226,9 +1226,9 @@ retry:
 		if (repfs->statusArray[i].status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		}
 	}
 
@@ -1366,9 +1366,9 @@ retry:
 		if (repfs->statusArray[i].status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		}
 	}
 
@@ -1481,9 +1481,9 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 		if (repfs->statusArray[i].status) {
 			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*statuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		}
 	}
 
@@ -1642,7 +1642,9 @@ retry:
 	if (timeout > 0)
 		endtime = (time(NULL) + timeout);
 
-	/* automatic retry if DB access failed */
+	/* automatic retry if DB access failed *\/
+	 * --- disabled because SRM_USCOREFAILURE doesn't always mean DB failure
+	 * --- see savannah bug #35966
 
 	while (reqstatp->statusCode == SRM_USCOREFAILURE) {
 
@@ -1660,6 +1662,7 @@ retry:
 		soap_done (&soap);
 		goto retry;
 	}
+	*/
 
 	/* wait for files ready */
 
@@ -1761,9 +1764,9 @@ retry:
 		if (repfs->statusArray[i].status) {
 			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc_status, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc_status, reqstatp->explanation);
 		}
 		if (repfs->statusArray[i].remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i].remainingPinTime);
@@ -2056,9 +2059,9 @@ retry:
 		if (repfs->statusArray[i].status) {
 			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*filestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc_status, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*filestatuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc_status, reqstatp->explanation);
 		}
 		if (repfs->statusArray[i].remainingPinLifetime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i].remainingPinLifetime);
@@ -2084,6 +2087,7 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 		struct srmv2_mdfilestatus **statuses)
 {
 	int i, n, r;
+	const char srmfunc[] = "Ls";
 
 	n = repfs->__sizepathDetailArray;
 
@@ -2100,9 +2104,9 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 			(*statuses)[i].status = statuscode2errno(repfs->pathDetailArray[i].status->statusCode);
 		if ((*statuses)[i].status) {
 			if (repfs->pathDetailArray[i].status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->pathDetailArray[i].status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->pathDetailArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*statuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 			continue;
 		} 
 		if (repfs->pathDetailArray[i].size)
@@ -2386,9 +2390,9 @@ retry:
 		if (repfs->statusArray[i].status) {
 			(*pinfilestatuses)[i].status = filestatus2returncode (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*pinfilestatuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*pinfilestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*pinfilestatuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*pinfilestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		}
 	}
 
@@ -2499,9 +2503,9 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 		if (repfs->statusArray[i].status) {
 			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*statuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		}
 	}
 
@@ -2675,9 +2679,9 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 		if (repfs->statusArray[i].status) {
 			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i].status->statusCode);
 			if (repfs->statusArray[i].status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->statusArray[i].status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*statuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		}
 	}
 
@@ -2784,9 +2788,9 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 		if (repfs->surlPermissionArray[i].status) {
 			(*statuses)[i].status = statuscode2errno (repfs->surlPermissionArray[i].status->statusCode);
 			if (repfs->surlPermissionArray[i].status->explanation)
-				(*statuses)[i].explanation = strdup (repfs->surlPermissionArray[i].status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->surlPermissionArray[i].status->explanation);
 			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				(*statuses)[i].explanation = strdup (reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
 		} else
 			(*statuses)[i].status = ENOMEM;
         if ((*statuses)[i].status == 0) {
