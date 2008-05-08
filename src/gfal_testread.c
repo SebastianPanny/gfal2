@@ -3,11 +3,12 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testread.c,v $ $Revision: 1.3 $ $Date: 2008/01/22 16:07:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_testread.c,v $ $Revision: 1.4 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include "gfal_api.h"
 #define BLKLEN 65536
@@ -15,7 +16,6 @@
 main(int argc, char **argv)
 {
 	int fd;
-	int i;
 	char ibuf[BLKLEN];
 	int rc;
 

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.51 $ $Date: 2008/04/25 13:06:37 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.52 $ $Date: 2008/05/08 13:16:36 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -95,7 +95,6 @@ get_hostname(const char *path, char *errbuf, int errbufsz) {
 static int 
 lfc_init (char *errbuf, int errbufsz) {
 	char *lfc_endpoint = NULL;
-	char *p;
 	char *lfc_port = NULL;
 	char errmsg[ERRMSG_LEN];
 
@@ -158,7 +157,7 @@ lfc_init (char *errbuf, int errbufsz) {
 			}
 			sprintf(lfc_penv, "LFC_PORT=%s", lfc_port);
 			if(putenv(lfc_penv) < 0) {
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Host name too long");
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Host name too long", lfc_host);
 				gfal_errmsg(errbuf, errbufsz, "Cannot set environment variable LFC_HOST");
 				free(lfc_endpoint);
 				lfc_host = NULL;
@@ -331,7 +330,6 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses, char *errbuf, int errbufsz)
 {
 	int i;
-	char *p;
 	struct lfc_filestatg statg;
 	char errmsg[ERRMSG_LEN];
 

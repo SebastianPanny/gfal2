@@ -369,7 +369,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 			errno = EINVAL;
 			return (NULL);
 		} else if ((len = PyList_Size (item)) == 0) {
-			$1->filesizes == NULL;
+			$1->filesizes = NULL;
 		} else {
 			$1->filesizes = (GFAL_LONG64 *) calloc (len, sizeof (GFAL_LONG64));
 			if ($1->filesizes == NULL) {

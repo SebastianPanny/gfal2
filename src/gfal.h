@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.h,v $ $Revision: 1.8 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.h,v $ $Revision: 1.9 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_H
@@ -15,9 +15,6 @@ struct dir_info {
 	DIR	*dir;
 	struct proto_ops *pops;
 };
-
-static ssize_t dummysetfilchg ();
-static int fnotsup ();
 
 struct proto_ops {
 	char	*proto_name;
@@ -60,13 +57,6 @@ struct xfer_info {
 	struct proto_ops *pops;
 };
 
-static struct dir_info *alloc_di (DIR *);
-static struct xfer_info *alloc_xi (int);
-static struct dir_info *find_di (DIR *);
-static struct xfer_info *find_xi (int);
-static void free_di (struct dir_info *);
-static int free_xi (int);
-static int mdtomd32 (struct stat64 *, struct stat *);
 char **get_sup_proto ();
 struct proto_ops *find_pops (const char *);
 int mapposixerror (struct proto_ops *, int);

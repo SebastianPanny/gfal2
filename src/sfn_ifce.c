@@ -3,14 +3,17 @@
  */
 
 /*
- * @(#)$RCSfile: sfn_ifce.c,v $ $Revision: 1.6 $ $Date: 2008/04/23 08:57:28 $ CERN Remi Mollon
+ * @(#)$RCSfile: sfn_ifce.c,v $ $Revision: 1.7 $ $Date: 2008/05/08 13:16:36 $ CERN Remi Mollon
  */
 
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <grp.h>
 #include <pwd.h>
-#include <stdio.h>
 #include <dirent.h>
 #include <sys/stat.h>
 #include "gfal_api.h"
@@ -22,7 +25,6 @@ sfn_deletesurls (int nbfiles, const char **surls, struct sfn_filestatus **status
 {
 	int i;
 	char *protocols[] = {"gsiftp", ""};
-	char protocol[64];
 
 	if (sfn_turlsfromsurls (nbfiles, surls, protocols, statuses, errbuf, errbufsz) < 0)
 		return (-1);
@@ -50,7 +52,6 @@ sfn_getfilemd (int nbfiles, const char **surls, struct srmv2_mdfilestatus **stat
 	int i, j;
 	struct sfn_filestatus *turlstatuses;
 	char *protocols[] = {"gsiftp", ""};
-	char protocol[64];
 	int nbresults;
 	char **filenames;
 	struct stat64 *statbufs;
@@ -118,10 +119,7 @@ sfn_turlsfromsurls (int nbfiles, const char **sfns, char **protocols, struct sfn
 	char *p;
 	int *pn;
 	char *proto = NULL;
-	char **protoarray;
 	char server[64];
-	char *turl;
-	char errmsg[ERRMSG_LEN];
    
 	if (!protocols)
 		protocols = get_sup_proto ();
@@ -132,8 +130,6 @@ sfn_turlsfromsurls (int nbfiles, const char **sfns, char **protocols, struct sfn
 	}
 
 	for (i = 0; i < nbfiles; ++i) {
-		memset (*statuses + i, 0, sizeof (struct sfn_filestatus));
-
 		if (sfns[i] == NULL) {
 			(*statuses)[i].status = EINVAL;
 			continue;

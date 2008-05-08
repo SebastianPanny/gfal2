@@ -3,11 +3,12 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_teststat.c,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_teststat.c,v $ $Revision: 1.2 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "gfal_api.h"
 
 main(int argc, char **argv)

@@ -3,17 +3,17 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testdir.c,v $ $Revision: 1.1.1.1 $ $Date: 2003/11/19 12:56:29 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_testdir.c,v $ $Revision: 1.2 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "gfal_api.h"
 
 main(int argc, char **argv)
 {
 	struct dirent *d;
 	DIR *dir;
-	int rc;
 
 	if (argc != 2) {
 		fprintf (stderr, "usage: %s filename\n", argv[0]);
@@ -26,9 +26,9 @@ main(int argc, char **argv)
 	}
 
 #if defined(__USE_FILE_OFFSET64)
-	while (d = gfal_readdir64 (dir)) {
+	while ((d = gfal_readdir64 (dir))) {
 #else
-	while (d = gfal_readdir (dir)) {
+	while ((d = gfal_readdir (dir))) {
 #endif
 		printf ("%s\n", d->d_name);
 	}

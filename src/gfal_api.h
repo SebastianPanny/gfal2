@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.56 $ $Date: 2008/04/25 13:06:37 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.57 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -334,6 +334,7 @@ int gfal_get_results (gfal_internal, gfal_filestatus **);
 int gfal_get_ids (gfal_internal, int *, int **, char **);
 int gfal_set_ids (gfal_internal, int, const int *, int, const char *, char *, int);
 void gfal_internal_free (gfal_internal);
+void gfal_spacemd_free (int, gfal_spacemd *);
 
                   /* catalog operation entry points */
 int create_alias (const char *, const char *, GFAL_LONG64, char *, int);
@@ -371,6 +372,8 @@ char *turlfromsurl2 (const char *, GFAL_LONG64, const char *, char **, int, int 
 
 		/* Internal functions */
 int purify_surl (const char *, char *, const int);
+int setypesandendpointsfromsurl (const char *, char ***, char ***, char *, int);
+int setypesandendpoints (const char *, char ***, char ***, char *, int);
 int deletepfn (const char *, const char *, char *, int);
 int get_bdii (char *, int, int *, char *, int);
 int get_cat_type(char **);
@@ -415,6 +418,7 @@ int lrc_deletesurl (const char *, char *, int);
 char *lrc_get_catalog_endpoint(char *, int);
 char *lrc_guidforpfn (const char *, char *, int);
 int lrc_guid_exists (const char *, char *, int);
+int lrc_register_pfn (const char *, const char *, char *, int);
 int lrc_replica_exists(const char* ,char*, int);
 int lrc_setfilesize (const char *, GFAL_LONG64, char *, int);
 int lrc_unregister_pfn (const char *, const char *, char *, int);

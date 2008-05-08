@@ -3,17 +3,18 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testchmod.c,v $ $Revision: 1.2 $ $Date: 2008/01/22 16:14:56 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_testchmod.c,v $ $Revision: 1.3 $ $Date: 2008/05/08 13:16:36 $ CERN Remi Mollon
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
 #include "gfal_api.h"
 
 main(int argc, char **argv)
 {
-	int rc, mode, error = 0;
+	int mode, error = 0;
 	char *file;
 
 	if (argc != 3) {

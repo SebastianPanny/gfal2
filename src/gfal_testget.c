@@ -3,11 +3,12 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testget.c,v $ $Revision: 1.4 $ $Date: 2007/08/09 09:08:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_testget.c,v $ $Revision: 1.5 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include "gfal_api.h"
 #define DEFPOLLINT 10

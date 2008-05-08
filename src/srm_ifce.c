@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.42 $ $Date: 2008/05/07 14:18:16 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.43 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -11,6 +11,7 @@
 #include <grp.h>
 #include <pwd.h>
 #include <stdio.h>
+#include <strings.h>
 #include <sys/stat.h>
 #include "gfal_api.h"
 #include "gfal.h"
@@ -54,8 +55,8 @@ srm_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	surlarray.__size = nbfiles;
 	surlarray.__ptr = (char **) surls;
 
-	if (ret = soap_call_srm1__advisoryDelete (&soap, srm_endpoint,
-				srmfunc, &surlarray, &out)) {
+	if ((ret = soap_call_srm1__advisoryDelete (&soap, srm_endpoint,
+				srmfunc, &surlarray, &out))) {
 		char errmsg[ERRMSG_LEN];
 		if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -134,12 +135,10 @@ srm_getxe (int nbfiles, const char **surls, const char *srm_endpoint,
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
-	int errflag = 0;
     struct srmDiskCache__RequestFileStatus *f;
 	int i, n;
 	int nbproto = 0;
 	struct srm1__getResponse outg;
-	char *p;
 	struct ArrayOfstring protoarray;
 	struct srmDiskCache__RequestStatus *reqstatp;
 	int ret;
@@ -176,8 +175,8 @@ srm_getxe (int nbfiles, const char **surls, const char *srm_endpoint,
 	protoarray.__ptr = protocols;
 	protoarray.__size = nbproto;
 
-	if (ret = soap_call_srm1__get (&soap, srm_endpoint, srmfunc, &surlarray,
-				&protoarray, &outg)) {
+	if ((ret = soap_call_srm1__get (&soap, srm_endpoint, srmfunc, &surlarray,
+				&protoarray, &outg))) {
 		char errmsg[ERRMSG_LEN];
 		if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -280,17 +279,14 @@ srm_getstatusxe (int reqid, const char *srm_endpoint, struct srm_filestatus **fi
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
-	int errflag = 0;
 	struct srmDiskCache__RequestFileStatus *f;
 	int i;
 	int n;
 	struct srm1__getRequestStatusResponse outq;
-	char *p;
     struct srmDiskCache__RequestStatus *reqstatp;
 	int ret;
 	int sav_errno = 0;
 	struct soap soap;
-	struct ArrayOfstring surlarray;
 	const char srmfunc[] = "getRequestStatus";
 
 	soap_init (&soap);
@@ -304,8 +300,8 @@ srm_getstatusxe (int reqid, const char *srm_endpoint, struct srm_filestatus **fi
 	soap.recv_timeout = timeout;
 
 
-	if (ret = soap_call_srm1__getRequestStatus (&soap, srm_endpoint,
-				srmfunc, reqid, &outq)) {
+	if ((ret = soap_call_srm1__getRequestStatus (&soap, srm_endpoint,
+				srmfunc, reqid, &outq))) {
 		char errmsg[ERRMSG_LEN];
 		if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -375,7 +371,6 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	struct srm1__getResponse outg;
 	struct srm1__putResponse outp;
 	struct srm1__getRequestStatusResponse outq;
-	char *p;
 	struct ArrayOfboolean permarray;
 	struct ArrayOfstring protoarray;
 	int r = 0;
@@ -386,7 +381,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	struct soap soap;
 	struct ArrayOfstring srcarray;
 	struct ArrayOfstring surlarray;
-	time_t endtime;
+	time_t endtime = 0;
 	const char srmfunc_get[] = "get";
 	const char srmfunc_put[] = "put";
 	const char srmfunc_status[] = "getRequestStatus";
@@ -418,8 +413,8 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	if ((oflag & O_ACCMODE) == 0) {
 		srmfunc = (char *) srmfunc_get;
 
-		if (ret = soap_call_srm1__get (&soap, srm_endpoint, srmfunc, &surlarray,
-					&protoarray, &outg)) {
+		if ((ret = soap_call_srm1__get (&soap, srm_endpoint, srmfunc, &surlarray,
+					&protoarray, &outg))) {
 			char errmsg[ERRMSG_LEN];
 			if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -456,8 +451,8 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 		for (i = 0; i< nbfiles; i++)
 			permarray.__ptr[i] = true_;
 		permarray.__size = nbfiles;
-		if (ret = soap_call_srm1__put (&soap, srm_endpoint, srmfunc, &srcarray,
-					&surlarray, &sizearray, &permarray, &protoarray, &outp)) {
+		if ((ret = soap_call_srm1__put (&soap, srm_endpoint, srmfunc, &srcarray,
+					&surlarray, &sizearray, &permarray, &protoarray, &outp))) {
 			char errmsg[ERRMSG_LEN];
 			if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -495,12 +490,11 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	if (timeout > 0)
 		endtime = time(NULL) + timeout;
 
-	while (reqstatp && strcmp (reqstatp->state, "pending") == 0 ||
-			strcmp (reqstatp->state, "Pending") == 0) {
+	while (reqstatp && strcasecmp (reqstatp->state, "pending") == 0) {
 		sleep ((r++ == 0) ? 1 : (reqstatp->retryDeltaTime > 0) ?
 				reqstatp->retryDeltaTime : DEFPOLLINT);
-		if (ret = soap_call_srm1__getRequestStatus (&soap, srm_endpoint,
-					srmfunc_status, *reqid, &outq)) {
+		if ((ret = soap_call_srm1__getRequestStatus (&soap, srm_endpoint,
+					srmfunc_status, *reqid, &outq))) {
 			char errmsg[ERRMSG_LEN];
 			if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
@@ -529,7 +523,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 			soap_end(&soap);
 			soap_done(&soap);
 
-			if (reqstatp == NULL || reqstatp->fileStatuses != NULL && reqstatp->fileStatuses->__ptr != NULL)
+			if (reqstatp == NULL || (reqstatp->fileStatuses != NULL && reqstatp->fileStatuses->__ptr != NULL))
 				for (i = 0; i < reqstatp->fileStatuses->__size; ++i)
 					srm_set_xfer_done (srm_endpoint, *reqid, reqstatp->fileStatuses->__ptr[i]->fileId,
 							errbuf, errbufsz, timeout);
@@ -714,8 +708,8 @@ srm_set_xfer_status (const char *status, const char *srm_endpoint, int reqid, in
 	soap.recv_timeout = timeout ;
 
 
-	if (ret = soap_call_srm1__setFileStatus (&soap, srm_endpoint,
-				srmfunc, reqid, fileid, (char *) status, &out)) {
+	if ((ret = soap_call_srm1__setFileStatus (&soap, srm_endpoint,
+				srmfunc, reqid, fileid, (char *) status, &out))) {
 		char errmsg[ERRMSG_LEN];
 		if(soap.fault != NULL && soap.fault->faultstring != NULL) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);

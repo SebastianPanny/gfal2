@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.9 $ $Date: 2008/02/12 10:56:16 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.10 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -29,13 +29,16 @@
 #endif
 #include "gfal.h"
 
+static ssize_t dummysetfilchg ();
+static int fnotsup ();
+
 #if GFAL_ENABLE_DCAP
 checkdcaplib (struct proto_ops *pops)
 {
 	void *dlhandle;
 
 	if ((dlhandle = dlopen ("libdcap.so", RTLD_LAZY)) == NULL) {
-		pops->libok == -1;
+		pops->libok = -1;
 		return (-1);
 	}
 	pops->libok = 1;
@@ -96,17 +99,17 @@ checkrfiolib (struct proto_ops *pops)
 	p = getenv ("LCG_RFIO_TYPE");
 	if (p && strcmp (p, "dpm") == 0) {
 		if ((dlhandle = dlopen ("libdpm.so", RTLD_LAZY)) == NULL) {
-			pops->libok == -1;
+			pops->libok = -1;
 			return (-1);
 		}
 	} else if (p && strcmp (p, "castor") == 0) {
 		if ((dlhandle = dlopen ("libshift.so", RTLD_LAZY)) == NULL) {
-			pops->libok == -1;
+			pops->libok = -1;
 			return (-1);
 		}
 	} else if ((dlhandle = dlopen ("libshift.so", RTLD_LAZY)) == NULL &&
 	    (dlhandle = dlopen ("libdpm.so", RTLD_LAZY)) == NULL) {
-		pops->libok == -1;
+		pops->libok = -1;
 		return (-1);
 	}
 	pops->libok = 1;

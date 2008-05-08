@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.19 $ $Date: 2008/04/25 15:29:42 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.20 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -71,7 +71,6 @@ lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
 	int ret;
 	int sav_errno = 0;
 	struct soap soap;
-	char **surlarray;
 
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
@@ -115,8 +114,8 @@ lrc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_lrc__guidForPfn (&soap, lrc_endpoint, "",
-				(char *) pfn, &out)) {
+	if ((ret = soap_call_lrc__guidForPfn (&soap, lrc_endpoint, "",
+				(char *) pfn, &out))) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
 				sav_errno = ENOENT;
@@ -148,8 +147,8 @@ lrc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_lrc__guidExists (&soap, lrc_endpoint, "",
-				(char *) guid, &out)) {
+	if ((ret = soap_call_lrc__guidExists (&soap, lrc_endpoint, "",
+				(char *) guid, &out))) {
 		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);	
@@ -172,8 +171,8 @@ lrc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_lrc__addMapping (&soap, lrc_endpoint, "",
-				(char *) guid, (char *) pfn, &out)) {
+	if ((ret = soap_call_lrc__addMapping (&soap, lrc_endpoint, "",
+				(char *) guid, (char *) pfn, &out))) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "PFNEXISTS"))
 				sav_errno = EEXIST;
@@ -209,8 +208,8 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 		return (-1);
 
 	sprintf (tmpbuf, GFAL_LONG64_FORMAT, filesize);
-	if (ret = soap_call_lrc__setStringPfnAttribute (&soap, lrc_endpoint,
-				"", (char *) pfn, "size", tmpbuf, &out)) {
+	if ((ret = soap_call_lrc__setStringPfnAttribute (&soap, lrc_endpoint,
+				"", (char *) pfn, "size", tmpbuf, &out))) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
 				sav_errno = ENOENT;
@@ -240,13 +239,12 @@ lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 	int ret;
 	int sav_errno = 0;
 	struct soap soap;
-	char **surls;
 
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_lrc__getPfns (&soap, lrc_endpoint, "",
-				(char *) guid, &out)) {
+	if ((ret = soap_call_lrc__getPfns (&soap, lrc_endpoint, "",
+				(char *) guid, &out))) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
@@ -293,8 +291,8 @@ lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_lrc__getPfns (&soap, lrc_endpoint, "",
-				(char *) guid, &out)) {
+	if ((ret = soap_call_lrc__getPfns (&soap, lrc_endpoint, "",
+				(char *) guid, &out))) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
@@ -342,8 +340,8 @@ lrc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
 	if (lrc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_lrc__removeMapping (&soap, lrc_endpoint, "",
-				(char *) guid, (char *) pfn, &out)) {
+	if ((ret = soap_call_lrc__removeMapping (&soap, lrc_endpoint, "",
+				(char *) guid, (char *) pfn, &out))) {
 		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);

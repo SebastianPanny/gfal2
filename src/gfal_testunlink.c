@@ -3,17 +3,16 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testunlink.c,v $ $Release$ $Date: 2005/07/13 11:22:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_testunlink.c,v $ $Release$ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "gfal_api.h"
 
 main(int argc, char **argv)
 {
-	struct stat statbuf;
-
 	if (argc != 2) {
 		fprintf (stderr, "usage: %s filename\n", argv[0]);
 		exit (1);

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gridftp_ifce.c,v $ $Revision: 1.1 $ $Date: 2008/03/04 12:50:21 $ CERN Remi Mollon
+ * @(#)$RCSfile: gridftp_ifce.c,v $ $Revision: 1.2 $ $Date: 2008/05/08 13:16:36 $ CERN Remi Mollon
  */
 
 #include <errno.h>
@@ -154,7 +154,6 @@ static void
 data_callback (void *callback_arg, globus_ftp_client_handle_t *handle, globus_object_t *error,
 		globus_byte_t *buffer, globus_size_t length, globus_off_t offset, globus_bool_t eof)
 {
-	int i;
 	char *endline, *space;
 	monitor_stat_t *monitor = (monitor_stat_t *) callback_arg;
 	globus_mutex_lock(&monitor->mutex);

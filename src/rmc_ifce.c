@@ -3,12 +3,13 @@
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.13 $ $Date: 2008/04/25 15:29:42 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.14 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
+#include "gfal_api.h"
 #include "stdsoap2.h"
 #undef SOAP_FMAC3
 #define SOAP_FMAC3 static
@@ -66,8 +67,8 @@ rmc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_rmc__guidForAlias (&soap, rmc_endpoint, "",
-				(char *) lfn, &out)) {
+	if ((ret = soap_call_rmc__guidForAlias (&soap, rmc_endpoint, "",
+				(char *) lfn, &out))) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHALIAS"))
 				sav_errno = ENOENT;
@@ -98,7 +99,6 @@ rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 	int j;
 	char **lfnarray;
 	struct rmc__getAliasesResponse out;
-	char *p;
 	int ret;
 	int sav_errno = 0;
 	struct soap soap;
@@ -106,8 +106,8 @@ rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (NULL);
 
-	if (ret = soap_call_rmc__getAliases (&soap, rmc_endpoint, "",
-				(char *) guid, &out)) {
+	if ((ret = soap_call_rmc__getAliases (&soap, rmc_endpoint, "",
+				(char *) guid, &out))) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
@@ -141,7 +141,7 @@ rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 
 rmc_create_alias(const char *guid, const char* lfn, char *errbuf, int errbufsz)
 {
-	return (rmc_register_alias (guid, lfn));
+	return (rmc_register_alias (guid, lfn, errbuf, errbufsz));
 }
 
 rmc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
@@ -154,8 +154,8 @@ rmc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_rmc__addAlias (&soap, rmc_endpoint, "",
-				(char *) guid, (char *) lfn, &out)) {
+	if ((ret = soap_call_rmc__addAlias (&soap, rmc_endpoint, "",
+				(char *) guid, (char *) lfn, &out))) {
 		if (ret == SOAP_FAULT) {
 			if (strstr (soap.fault->faultcode, "ALIASEXISTS"))
 				sav_errno = EEXIST;
@@ -188,8 +188,8 @@ rmc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 	if (rmc_init (&soap, errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (ret = soap_call_rmc__removeAlias (&soap, rmc_endpoint, "",
-				(char *) guid, (char *) lfn, &out)) {
+	if ((ret = soap_call_rmc__removeAlias (&soap, rmc_endpoint, "",
+				(char *) guid, (char *) lfn, &out))) {
 		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);

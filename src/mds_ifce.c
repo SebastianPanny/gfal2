@@ -3,13 +3,14 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.58 $ $Date: 2008/05/08 07:43:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.59 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
  */
 
-#include <errno.h>
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include <ctype.h>
 #include <sys/time.h>
 #include <lber.h>
@@ -80,7 +81,7 @@ bdii_parse_env (char *errbuf, int errbufsz)
 		bdii_timeout = atoi (bdii_env);
 		if (bdii_timeout <= 0) {
 			bdii_servers_count = -1;
-			snprintf (errmsg, ERRMSG_LEN, "LCG_GFAL_BDII_TIMEOUT: invalid value (%s)", bdii_timeout);
+			snprintf (errmsg, ERRMSG_LEN, "LCG_GFAL_BDII_TIMEOUT: invalid value (%d)", bdii_timeout);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			errno = EINVAL;
 			return (-1);
@@ -196,7 +197,6 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 		LDAPMessage **reply_ptr, const char** bdii_server_ptr, int *bdii_port_ptr,
 		char *errbuf, int errbufsz)
 {
-	int current_server;
 	const char *bdii_server;
 	int bdii_port;
 	LDAP *ld;
@@ -311,7 +311,6 @@ generate_acbr (const char *glueobject, char *errbuf, int errbufsz) {
 	char tmp[64 + FQAN_MAXLEN];
 	char *filter = NULL, *vo = NULL, **fqan = NULL;
 	int nb_fqan, filterlen, i;
-	char errmsg[ERRMSG_LEN];
 
 	if ((vo = gfal_get_vo (errbuf, errbufsz)) == NULL)
 		return (NULL);
@@ -341,7 +340,6 @@ get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 {
 	static char ce_ap_atnm[] = "GlueCESEBindCEAccesspoint";
 	static char *template = " (GlueCESEBindSEUniqueID=%s)";
-	char *attr;
 	static char *attrs[] = {ce_ap_atnm, NULL};
 	int bdii_port;
 	const char *bdii_server;
@@ -350,7 +348,6 @@ get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 	LDAP *ld;
 	int rc = 0;
 	LDAPMessage *reply;
-	struct timeval timeout;
 	char **value;
 	char errmsg[ERRMSG_LEN];
 
@@ -405,12 +402,10 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 	LDAPMessage *entry;
 	char filter[100 + 2 * VO_MAXLEN];
 	LDAP *ld;
-	char *p;
 	int rc = 0;
 	LDAPMessage *reply;
 	char *service_type;
 	char *service_url;
-	struct timeval timeout;
 	char **value;
 	char *vo;
 	char errmsg[ERRMSG_LEN];
@@ -544,7 +539,6 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 	static char sa_root_atnm[] = "GlueSARoot";
 	static char *template =
 		"(& (| %s (GlueSARoot=%s:*)) (GlueChunkKey=GlueSEUniqueID=%s))";
-	char *attr;
 	static char *attrs[] = {sa_root_atnm, sa_path_atnm, NULL};
 	int bdii_port;
 	const char *bdii_server;
@@ -553,7 +547,6 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 	LDAP *ld;
 	int rc = 0;
 	LDAPMessage *reply;
-	struct timeval timeout;
 	char **value;
 	char errmsg[ERRMSG_LEN];
 
@@ -634,14 +627,12 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 	char *port;
 	int bdii_port;
 	const char *bdii_server;
-	BerElement *ber;
 	LDAPMessage *entry;
 	char filter[2 * HOSTNAME_MAXLEN + 110];
 	int i, nbentries, n, rc = 0;
 	LDAP *ld;
 	LDAPMessage *reply;
-	char **sep, **stp, **st, **sv, **ep, **value;
-	struct timeval timeout;
+	char **sep = NULL, **stp = NULL, **st = NULL, **sv = NULL, **ep = NULL, **value = NULL;
 	char errmsg[ERRMSG_LEN];
 
 	*se_types = NULL;
@@ -841,7 +832,6 @@ get_seap_info (const char *host, char ***access_protocol, int **port, char *errb
 	int *pn;
 	int rc = 0;
 	LDAPMessage *reply;
-	struct timeval timeout;
 	char **value;
 	char errmsg[ERRMSG_LEN];
 
