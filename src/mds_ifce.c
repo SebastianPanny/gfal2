@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.59 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.60 $ $Date: 2008/05/08 15:42:37 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -538,12 +538,12 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 	static char sa_path_atnm[] = "GlueSAPath";
 	static char sa_root_atnm[] = "GlueSARoot";
 	static char *template =
-		"(& (| %s (GlueSARoot=%s:*)) (GlueChunkKey=GlueSEUniqueID=%s))";
+		"(& (GlueSALocalID=%s) (GlueChunkKey=GlueSEUniqueID=%s))";
 	static char *attrs[] = {sa_root_atnm, sa_path_atnm, NULL};
 	int bdii_port;
 	const char *bdii_server;
 	LDAPMessage *entry;
-	char *filter, *filter_tmp;
+	char *filter;
 	LDAP *ld;
 	int rc = 0;
 	LDAPMessage *reply;
@@ -560,11 +560,8 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
-	
-	if ((filter_tmp = generate_acbr ("GlueSA", errbuf, errbufsz)) == NULL)
-		return (-1);
 
-	rc = asprintf (&filter, template, filter_tmp, vo, host);
+	rc = asprintf (&filter, template, vo, host);
 	free (filter_tmp);
 	if (rc < 0) return (-1);
 
