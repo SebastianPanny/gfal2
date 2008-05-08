@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.57 $ $Date: 2008/04/25 13:06:37 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.58 $ $Date: 2008/05/08 07:43:56 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -308,7 +308,7 @@ get_bdii (char *bdii_server, int buflen, int *bdii_port, char *errbuf, int errbu
 /* generates part of bdii filter with accesscontrolbaserule */
 static char *
 generate_acbr (const char *glueobject, char *errbuf, int errbufsz) {
-	char tmp[40 + FQAN_MAXLEN];
+	char tmp[64 + FQAN_MAXLEN];
 	char *filter = NULL, *vo = NULL, **fqan = NULL;
 	int nb_fqan, filterlen, i;
 	char errmsg[ERRMSG_LEN];
@@ -317,7 +317,7 @@ generate_acbr (const char *glueobject, char *errbuf, int errbufsz) {
 		return (NULL);
 
 	nb_fqan = gfal_get_fqan (&fqan, errbuf, errbufsz);
-	filterlen = nb_fqan * (64 + FQAN_MAXLEN) + 3 * (64 + VO_MAXLEN);
+	filterlen = nb_fqan * (sizeof (tmp)) + 3 * (64 + VO_MAXLEN);
 	
 	if ((filter = (char *) calloc (filterlen, sizeof (char))) == NULL)
 		return (NULL);
@@ -327,7 +327,7 @@ generate_acbr (const char *glueobject, char *errbuf, int errbufsz) {
 			glueobject, vo, glueobject, vo, glueobject, vo);
 
 	for (i = 0; i < nb_fqan; ++i) {
-		snprintf (tmp, 64 + FQAN_MAXLEN, " (%sAccessControlBaseRule=VOMS:%s)", glueobject, fqan[i]);
+		snprintf (tmp, sizeof (tmp), " (%sAccessControlBaseRule=VOMS:%s)", glueobject, fqan[i]);
 		strcat (filter, tmp);
 	}
 
