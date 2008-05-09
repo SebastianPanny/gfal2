@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.60 $ $Date: 2008/05/08 15:42:37 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.61 $ $Date: 2008/05/09 09:00:18 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -16,6 +16,8 @@
 #include <lber.h>
 #include <ldap.h>
 #include "gfal_api.h"
+
+#define GFAL_VOINFOTAG_DEFAULT "DEFAULT"
 
 static char *dn = "mds-vo-name=local,o=grid";
 static const char gfal_remote_type[] = "BDII";
@@ -533,7 +535,8 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 
 /* Get from the BDII the SAPath */
 
-get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, char *errbuf, int errbufsz)
+static int
+get_sa_path (const char *host, const char *salocalid, char **sa_path, char **sa_root, char *errbuf, int errbufsz)
 {
 	static char sa_path_atnm[] = "GlueSAPath";
 	static char sa_root_atnm[] = "GlueSARoot";
@@ -548,21 +551,29 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 	int rc = 0;
 	LDAPMessage *reply;
 	char **value;
+	char *vo;
 	char errmsg[ERRMSG_LEN];
 
-	if (strlen (host) > HOSTNAME_MAXLEN) {
-		gfal_errmsg (errbuf, errbufsz, "Hostname too long");
-		errno = ENAMETOOLONG;
+	if (!host || !sa_path || !salocalid) {
+		gfal_errmsg (errbuf, errbufsz, "get_sa_path: invalid arguments");
+		errno = EINVAL;
 		return (-1);
 	}
-	if (strlen (vo) > VO_MAXLEN) {
-		gfal_errmsg (errbuf, errbufsz, "VO name too long");
+
+	if (strlen (host) > HOSTNAME_MAXLEN) {
+		snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
+		gfal_errmsg (errbuf, errbufsz, errmsg);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
 
-	rc = asprintf (&filter, template, vo, host);
-	free (filter_tmp);
+	if (salocalid == NULL) {
+		salocalid = gfal_get_vo (errbuf, errbufsz);
+		if (salocalid == NULL)
+			return (-1);
+	}
+
+	rc = asprintf (&filter, template, salocalid, host);
 	if (rc < 0) return (-1);
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
@@ -604,6 +615,108 @@ get_sa_path (const char *host, const char *vo, char **sa_path, char **sa_root, c
 	}
 
 	bdii_query_free (&ld, &reply);
+	return (rc);
+}
+
+static int
+get_voinfo (const char *host, const char *spacetokendesc, char **sa_path, char **salocalid, char *errbuf, int errbufsz)
+{
+	static char sa_path_atnm[] = "GlueVOInfoPath";
+	static char sa_key_atnm[] = "GlueChunkKey";
+	static char *template =
+		"(& %s (GlueVOInfoTag=%s) (GlueChunkKey=GlueSEUniqueID=%s))";
+	static char *attrs[] = {sa_key_atnm, sa_path_atnm, NULL};
+	int i;
+	int bdii_port;
+	const char *bdii_server;
+	LDAPMessage *entry;
+	char *filter, *filter_tmp;
+	LDAP *ld;
+	int rc = 0;
+	LDAPMessage *reply;
+	char **value;
+	char errmsg[ERRMSG_LEN];
+
+	if (!host || !sa_path || !salocalid) {
+		gfal_errmsg (errbuf, errbufsz, "get_voinfo: invalid arguments");
+		errno = EINVAL;
+		return (-1);
+	}
+
+	if (strlen (host) > HOSTNAME_MAXLEN) {
+		snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
+		gfal_errmsg (errbuf, errbufsz, errmsg);
+		errno = ENAMETOOLONG;
+		return (-1);
+	}
+	
+	if ((filter_tmp = generate_acbr ("GlueVOInfo", errbuf, errbufsz)) == NULL)
+		return (-1);
+
+	rc = asprintf (&filter, template, filter_tmp, spacetokendesc ? spacetokendesc : GFAL_VOINFOTAG_DEFAULT, host);
+	free (filter_tmp);
+	if (rc < 0) return (-1);
+
+	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
+	free (filter);
+	if (rc < 0) return rc;
+	GFAL_DEBUG ("DEBUG: get_voinfo used server %s:%d\n", bdii_server, bdii_port);
+
+	*sa_path = *salocalid = NULL;
+	entry = ldap_first_entry (ld, reply);
+
+	if (entry) {
+		if ((value = ldap_get_values (ld, entry, sa_path_atnm)) != NULL) {
+			if ( (*sa_path = strdup (value[0])) == NULL)
+				rc = -1;
+			ldap_value_free (value);
+		}
+		else if ((value = ldap_get_values (ld, entry, sa_key_atnm)) != NULL) {
+			rc = 0;
+			for (i = 0; value[i] && !*salocalid && !rc; ++i) {
+				if (strncmp (value[i], "GlueSALocalID=", 14) == 0) {
+					if ( (*salocalid = strdup (value[i] + 14)) == NULL)
+						rc = -1;
+				}
+			}
+			ldap_value_free (value);
+		} else {
+			snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: Warning, GlueVOInfo for tag '%s' and SE '%s' wrongly published",
+					gfal_remote_type, bdii_server, bdii_port, spacetokendesc, host);
+			gfal_errmsg (errbuf, errbufsz, errmsg);
+			rc = -1;
+		}
+
+	} else {
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: Warning, no GlueVOInfo information found about tag '%s' and SE '%s'",
+				gfal_remote_type, bdii_server, bdii_port, spacetokendesc, host);
+		gfal_errmsg (errbuf, errbufsz, errmsg);
+		rc = -1;               
+	}
+
+	bdii_query_free (&ld, &reply);
+	return (rc);
+}
+
+get_storage_path (const char *host, const char *spacetokendesc, char **sa_path, char **sa_root, char *errbuf, int errbufsz)
+{
+	char *salocalid = NULL;
+	int rc = 0;
+
+	if (!host || !sa_path || !sa_root) {
+		gfal_errmsg (errbuf, errbufsz, "get_storage_path: invalid arguments");
+		errno = EINVAL;
+		return (-1);
+	}
+
+	*sa_path = *sa_root = NULL;
+
+	if (spacetokendesc)
+		rc = get_voinfo (host, spacetokendesc, sa_path, &salocalid, errbuf, errbufsz);
+
+	if (!*sa_path)
+		rc = get_sa_path (host, salocalid, sa_path, sa_root, errbuf, errbufsz);
+
 	return (rc);
 }
 

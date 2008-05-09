@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.92 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.93 $ $Date: 2008/05/09 09:00:18 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -810,7 +810,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		}
 
 		/* now create dir path which is either sa_path, sa_root or combination of ce_ap & sa_root */
-		if(get_sa_path (default_se, vo, &sa_path, &sa_root, errbuf, ERRMSG_LEN) < 0) 
+		if (get_storage_path (default_se, NULL, &sa_path, &sa_root, errbuf, ERRMSG_LEN) < 0) 
 			goto err;
 		if(sa_path != NULL) {
 			if (isdisk)
@@ -3177,9 +3177,9 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
 	simple_ep = p == NULL ? gfal->endpoint : p + 3;
 	if ((q = strchr (simple_ep, ':')) != NULL)
 		*q = 0;
-	if(get_sa_path (simple_ep, vo, &sa_path, &sa_root, errbuf, errbufsz) < 0) 
+	if (get_storage_path (simple_ep, gfal->srmv2_spacetokendesc, &sa_path, &sa_root, errbuf, errbufsz) < 0) 
 		return (-1);
-	if(sa_path != NULL) {
+	if (sa_path != NULL) {
 		if (gfal->setype == TYPE_SE) {
 			snprintf (dir_path, 1103, "sfn://%s%s%s/", simple_ep, *sa_path=='/'?"":"/", sa_path);
 		} else {

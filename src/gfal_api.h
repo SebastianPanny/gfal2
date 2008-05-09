@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.57 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.58 $ $Date: 2008/05/09 09:00:18 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -380,7 +380,7 @@ int get_cat_type(char **);
 int get_ce_ap (const char *, char **, char *, int);
 int get_lfc_endpoint (char **, char *, int);
 int get_rls_endpoints (char **, char **, char *, int);
-int get_sa_path (const char *, const char *, char **, char **, char *, int);
+int get_storage_path (const char *, const char *, char **, char **, char *, int);
 int get_seap_info (const char *, char ***, int **, char *, int);
 int get_se_types_and_endpoints (const char *, char ***, char ***, char *, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
