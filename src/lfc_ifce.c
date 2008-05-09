@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.52 $ $Date: 2008/05/08 13:16:36 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.53 $ $Date: 2008/05/09 13:04:38 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -447,31 +447,31 @@ lfc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (NULL);
 	}
 	/* no results */
-	if (size <= 0) {
+	if (size < 0 || (size > 0 && list == NULL)) {
 		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: No such GUID", gfal_remote_type, lfc_host, guid);
+		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: %s: Unknown error", gfal_remote_type, lfc_host, guid);
 		gfal_errmsg(errbuf, errbufsz, errmsg);
-		errno = ENOENT;
+		errno = ECOMM;
 		if (list) free (list);
 		return (NULL);
-	} else if (list == NULL) {
-		errno = ENOMEM;
-		return (NULL);
 	}
 
-	replicas = (char **) calloc (size + 1, sizeof (char *));
-	if (replicas == NULL) {
-		free (list);
-		return (NULL);
+	if (size > 0) {
+		replicas = (char **) calloc (size + 1, sizeof (char *));
+		if (replicas == NULL) {
+			free (list);
+			return (NULL);
+		}
+
+		for (i = 0; i < size; ++i) {
+			if (list[i].sfn)
+				replicas[i] = strdup (list[i].sfn);
+		}
+		replicas[i] = NULL;
 	}
 
-	for (i = 0; i < size; ++i) {
-		if (list[i].sfn)
-			replicas[i] = strdup (list[i].sfn);
-	}
-	free (list);
-	replicas[i] = NULL;
-
+	if (list) free (list);
+	errno = 0;
 	return (replicas);
 }
 
