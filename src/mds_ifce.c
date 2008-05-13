@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.61 $ $Date: 2008/05/09 09:00:18 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.62 $ $Date: 2008/05/13 11:46:47 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -554,7 +554,7 @@ get_sa_path (const char *host, const char *salocalid, char **sa_path, char **sa_
 	char *vo;
 	char errmsg[ERRMSG_LEN];
 
-	if (!host || !sa_path || !salocalid) {
+	if (!host || !sa_path) {
 		gfal_errmsg (errbuf, errbufsz, "get_sa_path: invalid arguments");
 		errno = EINVAL;
 		return (-1);
