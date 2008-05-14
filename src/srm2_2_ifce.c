@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.43 $ $Date: 2008/05/08 15:41:18 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.44 $ $Date: 2008/05/14 14:22:28 $
  */
 
 #define _GNU_SOURCE
@@ -827,11 +827,12 @@ srmv2_getbestspacetoken (const char *spacetokendesc, const char *srm_endpoint, G
 		char *errbuf, int errbufsz, int timeout)
 {
 	int sav_errno;
-	int i, ret, nbtokens, numtoken = -1;
+	int i, ret, nbtokens = -1, numtoken = -1;
 	GFAL_LONG64 unusedsize = -1;
 	char **spacetokens = NULL;
 	gfal_spacemd *spacemd = NULL;
 	char *spacetoken = NULL;
+	char errmsg[ERRMSG_LEN];
 
 	ret = srmv2_getspacetokens (spacetokendesc, srm_endpoint, &nbtokens, &spacetokens, errbuf, errbufsz, timeout);
 	if (ret < 0 || spacetokens == NULL || nbtokens < 1) {
@@ -860,6 +861,14 @@ srmv2_getbestspacetoken (const char *spacetokendesc, const char *srm_endpoint, G
 			numtoken = i;
 			unusedsize = spacemd[i].unusedsize;
 		}
+	}
+
+	if (numtoken < 0) {
+		/* no suitable space token */
+		snprintf (errmsg, ERRMSG_LEN, "%s: no associated space token with enough free space", spacetokendesc);
+		gfal_errmsg (errbuf, errbufsz, errmsg);
+		errno = EINVAL;
+		return (NULL);
 	}
 
 	spacetoken = spacemd[numtoken].spacetoken;
