@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.62 $ $Date: 2008/05/13 11:46:47 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.63 $ $Date: 2008/05/20 16:42:09 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -567,10 +567,11 @@ get_sa_path (const char *host, const char *salocalid, char **sa_path, char **sa_
 		return (-1);
 	}
 
+	if ((vo = gfal_get_vo (errbuf, errbufsz)) == NULL)
+		return (NULL);
+
 	if (salocalid == NULL) {
-		salocalid = gfal_get_vo (errbuf, errbufsz);
-		if (salocalid == NULL)
-			return (-1);
+		salocalid = vo;
 	}
 
 	rc = asprintf (&filter, template, salocalid, host);
