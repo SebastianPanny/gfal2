@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.43 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.44 $ $Date: 2008/05/21 13:38:33 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -520,13 +520,13 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 		if (timeout > 0 && time(NULL) > endtime) {
 			char errmsg[ERRMSG_LEN];
 
-			soap_end(&soap);
-			soap_done(&soap);
-
 			if (reqstatp == NULL || (reqstatp->fileStatuses != NULL && reqstatp->fileStatuses->__ptr != NULL))
 				for (i = 0; i < reqstatp->fileStatuses->__size; ++i)
 					srm_set_xfer_done (srm_endpoint, *reqid, reqstatp->fileStatuses->__ptr[i]->fileId,
-							errbuf, errbufsz, timeout);
+							errmsg, ERRMSG_LEN, timeout);
+
+			soap_end(&soap);
+			soap_done(&soap);
 
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: User timeout over", gfal_remote_type, srmfunc_status, srm_endpoint);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
