@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.44 $ $Date: 2008/05/21 13:38:33 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.45 $ $Date: 2008/05/27 15:47:38 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -46,8 +46,9 @@ srm_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout ;
-	soap.recv_timeout = timeout ;
+	soap.send_timeout = timeout;
+	soap.recv_timeout = timeout;
+	soap.connect_timeout = timeout;
 
 
 	/* issue "advisoryDelete" request */
@@ -154,8 +155,9 @@ srm_getxe (int nbfiles, const char **surls, const char *srm_endpoint,
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout ;
-	soap.recv_timeout = timeout ;
+	soap.send_timeout = timeout;
+	soap.recv_timeout = timeout;
+	soap.connect_timeout = timeout;
    
 	if (!protocols) {
 		protocols = get_sup_proto ();
@@ -298,6 +300,7 @@ srm_getstatusxe (int reqid, const char *srm_endpoint, struct srm_filestatus **fi
 
 	soap.send_timeout = timeout;
 	soap.recv_timeout = timeout;
+	soap.connect_timeout = timeout;
 
 
 	if ((ret = soap_call_srm1__getRequestStatus (&soap, srm_endpoint,
@@ -394,8 +397,9 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout ;
-	soap.recv_timeout = timeout ;
+	soap.send_timeout = timeout;
+	soap.recv_timeout = timeout;
+	soap.connect_timeout = timeout;
    
 	if (!protocols)
 		protocols = get_sup_proto ();
@@ -602,8 +606,9 @@ srm_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint,
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout ;
-	soap.recv_timeout = timeout ;
+	soap.send_timeout = timeout;
+	soap.recv_timeout = timeout;
+	soap.connect_timeout = timeout;
 
 
 	/* issue "getFileMetaData" request */
@@ -704,8 +709,9 @@ srm_set_xfer_status (const char *status, const char *srm_endpoint, int reqid, in
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout ;
-	soap.recv_timeout = timeout ;
+	soap.send_timeout = timeout;
+	soap.recv_timeout = timeout;
+	soap.connect_timeout = timeout;
 
 
 	if ((ret = soap_call_srm1__setFileStatus (&soap, srm_endpoint,
