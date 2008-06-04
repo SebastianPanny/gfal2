@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.93 $ $Date: 2008/05/09 09:00:18 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.94 $ $Date: 2008/06/04 14:40:10 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1457,7 +1457,7 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 			req->srmv2_token = NULL;
 		}
 		ret = srmv2_getfilemd (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_lslevels,
-				req->srmv2_lsoffset, req->srmv2_lscount, &(req->srmv2_mdstatuses), &(req->srmv2_token),
+				&(req->srmv2_lsoffset), req->srmv2_lscount, &(req->srmv2_mdstatuses), &(req->srmv2_token),
 				errbuf, errbufsz, req->timeout);
 	} else if (req->setype == TYPE_SRM) {
 		if (req->srm_mdstatuses) {
@@ -1482,6 +1482,16 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 
 	req->returncode = ret;
 	return (copy_gfal_results (req, MD_STATUS));
+}
+
+gfal_ls_end (gfal_internal req, char *errbuf, int errbufsz)
+{
+	if (req == NULL) {
+		gfal_errmsg (errbuf, errbufsz, "gfal_ls_end: invalid arguement");
+		return (-1);
+	}
+
+	return (req->srmv2_lsoffset == 0);
 }
 
 gfal_get (gfal_internal req, char *errbuf, int errbufsz)
@@ -1572,7 +1582,7 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
 			req->srmv2_token = NULL;
 		}
 		ret = srmv2_prestagee (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_spacetokendesc,
-				req->protocols, &(req->srmv2_token), &(req->srmv2_statuses),
+				req->protocols, req->srmv2_desiredpintime, &(req->srmv2_token), &(req->srmv2_statuses),
 				errbuf, errbufsz, req->timeout);
 	} else {
 		gfal_errmsg (errbuf, errbufsz, "gfal_prestage: Only SRMv2-compliant SEs are supported");

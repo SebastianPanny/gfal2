@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.45 $ $Date: 2008/05/27 15:47:38 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.46 $ $Date: 2008/06/04 14:40:10 $
  */
 
 #define _GNU_SOURCE
@@ -33,11 +33,50 @@ static const char gfal_remote_type[] = "SE";
 
 static int statuscode2errno (int statuscode);
 static int filestatus2returncode (int filestatus);
+static const char *statuscode2errmsg (int statuscode);
+
+static const char *srmv2_errmsg[] = {
+	"SRM_SUCCESS",
+	"SRM_FAILURE",
+	"SRM_AUTHENTICATION_FAILURE",
+	"SRM_AUTHORIZATION_FAILURE",
+	"SRM_INVALID_REQUEST",
+	"SRM_INVALID_PATH",
+	"SRM_FILE_LIFETIME_EXPIRED",
+	"SRM_SPACE_LIFETIME_EXPIRED",
+	"SRM_EXCEED_ALLOCATION",
+	"SRM_NO_USER_SPACE",
+	"SRM_NO_FREE_SPACE",
+	"SRM_DUPLICATION_ERROR",
+	"SRM_NON_EMPTY_DIRECTORY",
+	"SRM_TOO_MANY_RESULTS",
+	"SRM_INTERNAL_ERROR",
+	"SRM_FATAL_INTERNAL_ERROR",
+	"SRM_NOT_SUPPORTED",
+	"SRM_REQUEST_QUEUED",
+	"SRM_REQUEST_INPROGRESS",
+	"SRM_REQUEST_SUSPENDED",
+	"SRM_ABORTED",
+	"SRM_RELEASED",
+	"SRM_FILE_PINNED",
+	"SRM_FILE_IN_CACHE",
+	"SRM_SPACE_AVAILABLE",
+	"SRM_LOWER_SPACE_GRANTED",
+	"SRM_DONE",
+	"SRM_PARTIAL_SUCCESS",
+	"SRM_REQUEST_TIMED_OUT",
+	"SRM_LAST_COPY",
+	"SRM_FILE_BUSY",
+	"SRM_FILE_LOST",
+	"SRM_FILE_UNAVAILABLE",
+	"SRM_CUSTOM_STATUS"
+};
 
 srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 		struct srmv2_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int ret;
 	struct srm2__srmRmResponse_ rep;
 	struct srm2__ArrayOfTSURLReturnStatus *repfs;
@@ -79,13 +118,12 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	if ((ret = soap_call_srm2__srmRm (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
 
-		if(soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if(soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -96,25 +134,26 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	repfs = rep.srmRmResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-
 		char errmsg[ERRMSG_LEN];
 
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -134,10 +173,13 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 			(*statuses)[i].surl = strdup (repfs->statusArray[i]->surl);
 		if (repfs->statusArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno(repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -205,6 +247,7 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int n;
 	int ret;
 	int nbproto = 0;
@@ -256,7 +299,7 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 	} else if ((targetspacetoken = srmv2_getbestspacetoken (spacetokendesc, srm_endpoint, 0, errbuf, errbufsz, timeout)) != NULL) {
 		req.targetSpaceToken = targetspacetoken;
 	} else {
-		int sav_errno = errno;
+		sav_errno = errno;
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -307,13 +350,12 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 
 	if ((ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -340,19 +382,21 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -375,10 +419,13 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 			(*filestatuses)[i].turl = strdup (repfs->statusArray[i]->transferURL);
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg(repfs->statusArray[i]->status->statusCode));
 		}
 		if (repfs->statusArray[i]->remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
@@ -447,6 +494,7 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 		struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int i = 0;
 	int n;
 	int ret;
@@ -474,13 +522,12 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 
 	if ((ret = soap_call_srm2__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc, &sreq, &srep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -492,25 +539,26 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 	repfs = srep.srmStatusOfGetRequestResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-
 		char errmsg[ERRMSG_LEN];
 
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -533,10 +581,13 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 			(*filestatuses)[i].turl = strdup (repfs->statusArray[i]->transferURL);
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg(repfs->statusArray[i]->status->statusCode));
 		}
 		if (repfs->statusArray[i]->remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
@@ -552,6 +603,7 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int i, ret;
 	struct soap soap;
 	struct srm2__srmGetSpaceTokensResponse_ tknrep;
@@ -586,13 +638,12 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 	tknreq.userSpaceTokenDescription = (char *) spacetokendesc;
 
 	if ((ret = soap_call_srm2__srmGetSpaceTokens (&soap, srm_endpoint, srmfunc, &tknreq, &tknrep))) {
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -602,15 +653,17 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 	tknrepstatp = tknrep.srmGetSpaceTokensResponse->returnStatus;
 
 	if (tknrepstatp->statusCode != SRM_USCORESUCCESS) {
-		errno = statuscode2errno(tknrepstatp->statusCode);
-		if (tknrepstatp->explanation) {
+		sav_errno = statuscode2errno (tknrepstatp->statusCode);
+		if (tknrepstatp->explanation && tknrepstatp->explanation[0])
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, tknrepstatp->explanation);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+		else
+			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint,
+					statuscode2errmsg (tknrepstatp->statusCode));
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
-		errno = ECOMM;
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -656,6 +709,7 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int i, ret;
 	struct soap soap;
 	struct srm2__srmGetSpaceMetaDataResponse_ tknrep;
@@ -704,15 +758,14 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 	tknreq.arrayOfSpaceTokens->stringArray = (char **) spacetokens;
 
 	if ((ret = soap_call_srm2__srmGetSpaceMetaData (&soap, srm_endpoint, srmfunc, &tknreq, &tknrep))) {
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -722,16 +775,18 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 	tknrepstatp = tknrep.srmGetSpaceMetaDataResponse->returnStatus;
 
 	if (tknrepstatp->statusCode != SRM_USCORESUCCESS) {
-		errno = statuscode2errno(tknrepstatp->statusCode);
-		if (tknrepstatp->explanation) {
+		sav_errno = statuscode2errno (tknrepstatp->statusCode);
+		if (tknrepstatp->explanation && tknrepstatp->explanation[0])
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, tknrepstatp->explanation);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+		else
+			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint,
+					statuscode2errmsg (tknrepstatp->statusCode));
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
-		errno = ECOMM;
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -766,11 +821,13 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 			continue;
 		if (tknrepp->spaceDataArray[i]->status &&
 				tknrepp->spaceDataArray[i]->status->statusCode != SRM_USCORESUCCESS) {
-			int sav_errno = statuscode2errno(tknrepp->spaceDataArray[i]->status->statusCode);
-			if (tknrepp->spaceDataArray[i]->status->explanation)
+			int sav_errno = statuscode2errno (tknrepp->spaceDataArray[i]->status->statusCode);
+			if (tknrepp->spaceDataArray[i]->status->explanation && tknrepp->spaceDataArray[i]->status->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, tknrepp->spaceDataArray[i]->status->explanation);
 			else
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, strerror (sav_errno));
+				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint,
+					   statuscode2errmsg (tknrepp->spaceDataArray[i]->status->statusCode));
+
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			soap_end (&soap);
 			soap_done (&soap);
@@ -831,7 +888,7 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 srmv2_getbestspacetoken (const char *spacetokendesc, const char *srm_endpoint, GFAL_LONG64 neededsize,
 		char *errbuf, int errbufsz, int timeout)
 {
-	int sav_errno;
+	int sav_errno = 0;
 	int i, ret, nbtokens = -1, numtoken = -1;
 	GFAL_LONG64 unusedsize = -1;
 	char **spacetokens = NULL;
@@ -895,7 +952,6 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	struct srm2__srmMkdirResponse_ rep;
 	struct srm2__srmMkdirRequest req;
 	struct srm2__TReturnStatus *repstatp;
-	int ret = 0;
 	struct soap soap;
 	char errmsg[ERRMSG_LEN];
 	int slashes_to_ignore;
@@ -933,38 +989,41 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	*p = 0;
 	req.SURL = file;
 
-	if ((ret = soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep))) {
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+	if (soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
-		errno = ECOMM;
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = ECOMM;
 		return (-1);
 	}
 
 	repstatp = rep.srmMkdirResponse->returnStatus;
 
 	if (repstatp->statusCode != SRM_USCORESUCCESS) {
-		sav_errno = statuscode2errno(repstatp->statusCode);
+		sav_errno = statuscode2errno (repstatp->statusCode);
 		if (sav_errno == EEXIST || sav_errno == EACCES) {
 			/* EEXIST - dir already exists, nothing to do
 			 * EACCES - dir *may* already exists, but no authZ on parent */
 			return (0);
 		} else if (sav_errno != ENOENT) {
-			if (repstatp->explanation)
+			if (repstatp->explanation && repstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, dest_file, repstatp->explanation);
 			else
-				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, dest_file, strerror (sav_errno));
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, dest_file,
+						statuscode2errmsg(repstatp->statusCode));
+
 			gfal_errmsg(errbuf, errbufsz, errmsg);
+			soap_end (&soap);
+			soap_done (&soap);
 			errno = sav_errno;
-			ret = -1;
+			return (-1);
 		}
 	} else {
 		/* The directory was successfuly created */
@@ -980,7 +1039,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 		slashes_to_ignore = 2;
 	}
 
-	while (!ret && (p = strchr (p, '/'))) {
+	while ((p = strchr (p, '/'))) {
 		if (nbslash < slashes_to_ignore) {	/* skip first slashes */
 			++nbslash;
 			do
@@ -995,59 +1054,51 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 		memset (&req, 0, sizeof(req));
 		req.SURL = (char *) file;
 
-		if ((ret = soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep))) {
-			if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+			if (soap.fault != NULL && soap.fault->faultstring != NULL)
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			} else if (soap.error == SOAP_EOF) {
+			else if (soap.error == SOAP_EOF)
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
-			errno = ECOMM;
+
+			gfal_errmsg(errbuf, errbufsz, errmsg);
 			soap_end (&soap);
 			soap_done (&soap);
+			errno = ECOMM;
 			return (-1);
 		}
 
 		repstatp = rep.srmMkdirResponse->returnStatus;
-		ret = sav_errno = 0;
 
 		if (repstatp->statusCode != SRM_USCORESUCCESS) {
 			sav_errno = statuscode2errno(repstatp->statusCode);
 			if (sav_errno != EEXIST && sav_errno != EACCES) {
-				if (repstatp->explanation)
+				if (repstatp->explanation && repstatp->explanation[0])
 					snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, file, repstatp->explanation);
 				else
-					snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, file, strerror (sav_errno));
+					snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, file,
+							statuscode2errmsg(repstatp->statusCode));
+
 				gfal_errmsg(errbuf, errbufsz, errmsg);
+				soap_end (&soap);
+				soap_done (&soap);
 				errno = sav_errno;
-				ret = -1;
+				return (-1);
 			}
 		}
 
 		*p++ = '/';	/* restore slash */
-		while (!ret && *p == '/')
+		while (*p == '/')
 			p++;
-	}
-
-	if  (sav_errno) {
-		if (repstatp->explanation)
-			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", dest_file, repstatp->explanation);
-		else
-			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", dest_file, strerror (sav_errno));
-		gfal_errmsg(errbuf, errbufsz, errmsg);
-		errno = sav_errno;
-		ret = -1;
 	}
 
 	soap_end (&soap);
 	soap_done (&soap);
 	strncpy (lastcreated_dir, dest_file, 1024);
-	return (ret);
+	return (0);
 }
 
-srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int nbprotocols, char **protocols, char **reqtoken, 
-		struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int nbprotocols, char **protocols, int desiredpintime,
+		char **reqtoken, struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	char **se_types = NULL;
 	char **se_endpoints = NULL;
@@ -1075,7 +1126,7 @@ srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int
 		return (-1);
 	}
 
-	r = srmv2_prestagee (nbfiles, surls, srm_endpoint, spacetokendesc, protocols, reqtoken,
+	r = srmv2_prestagee (nbfiles, surls, srm_endpoint, spacetokendesc, protocols, desiredpintime, reqtoken,
 			filestatuses, errbuf, errbufsz, timeout);
 
 	free (srm_endpoint);
@@ -1083,9 +1134,10 @@ srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int
 }
 
 srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, const char *spacetokendesc,
-		char **protocols, char **reqtoken, struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+		char **protocols, int desiredpintime, char **reqtoken, struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int i = 0;
 	int n;
 	int ret;
@@ -1137,7 +1189,7 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	} else if ((targetspacetoken = srmv2_getbestspacetoken (spacetokendesc, srm_endpoint, 0, errbuf, errbufsz, timeout)) != NULL) {
 		req.targetSpaceToken = targetspacetoken;
 	} else {
-		int sav_errno = errno;
+		sav_errno = errno;
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -1149,7 +1201,7 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	req.storageSystemInfo = NULL;
 	req.desiredFileStorageType = &s_types[PERMANENT];
 	req.desiredTotalRequestTime = NULL;
-	req.desiredLifeTime = NULL;
+	req.desiredLifeTime = &desiredpintime;
 	req.targetFileRetentionPolicyInfo = NULL;
 	req.deferredStartTime = NULL;
 
@@ -1193,13 +1245,12 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 
 	if ((ret = soap_call_srm2__srmBringOnline (&soap, srm_endpoint, "BringOnline", &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg (errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -1220,25 +1271,26 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	repfs = rep.srmBringOnlineResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-
 		char errmsg[ERRMSG_LEN];
 
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -1259,10 +1311,13 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 			(*filestatuses)[i].surl = strdup (repfs->statusArray[i]->sourceSURL);
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -1310,6 +1365,7 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int i = 0;
 	int n;
 	int ret;
@@ -1337,13 +1393,12 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 
 	if ((ret = soap_call_srm2__srmStatusOfBringOnlineRequest (&soap, srm_endpoint, srmfunc, &sreq, &srep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -1358,25 +1413,26 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 	repfs = srep.srmStatusOfBringOnlineRequestResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-
 		char errmsg[ERRMSG_LEN];
 
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -1397,10 +1453,13 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 			(*filestatuses)[i].surl = strdup (repfs->statusArray[i]->sourceSURL);
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -1419,6 +1478,7 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 		struct srmv2_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int ret;
 	struct srm2__srmPutDoneResponse_ rep;
 	struct srm2__ArrayOfTSURLReturnStatus *repfs;
@@ -1459,13 +1519,12 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 
 	if ((ret = soap_call_srm2__srmPutDone (&soap, srm_endpoint, srmfunc , &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg (errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -1476,24 +1535,25 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 	repfs = rep.srmPutDoneResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg (errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -1514,10 +1574,13 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 			(*statuses)[i].surl = strdup (repfs->statusArray[i]->surl);
 		if (repfs->statusArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -1552,6 +1615,7 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	struct srm2__srmAbortRequestResponse_ abortrep;
 	time_t endtime = 0;
 	int flags;
+	int sav_errno = 0;
 	int i;
 	int n;
 	int nbproto = 0;
@@ -1608,7 +1672,7 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	} else if ((targetspacetoken = srmv2_getbestspacetoken (spacetokendesc, srm_endpoint, 0, errbuf, errbufsz, timeout)) != NULL) {
 		req.targetSpaceToken = targetspacetoken;
 	} else {
-		int sav_errno = errno;
+		sav_errno = errno;
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -1659,13 +1723,12 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 
 	if ((ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s", gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg (errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -1714,15 +1777,14 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 
 		if ((ret = soap_call_srm2__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
 			char errmsg[ERRMSG_LEN];
-			if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+			if (soap.fault != NULL && soap.fault->faultstring != NULL)
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
-			} else if (soap.error == SOAP_EOF) {
+			else if (soap.error == SOAP_EOF)
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 						gfal_remote_type, srmfunc_status, srm_endpoint);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
-			}
+
+			gfal_errmsg (errbuf, errbufsz, errmsg);
 			soap_end (&soap);
 			soap_done (&soap);
 			errno = ECOMM;
@@ -1738,52 +1800,51 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 			abortreq.requestToken = r_token;
 
 			if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep))) {
-				if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+				if (soap.fault != NULL && soap.fault->faultstring != NULL)
 					snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 							gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
-					gfal_errmsg (errbuf, errbufsz, errmsg);
-				} else if (soap.error == SOAP_EOF) {
+				else if (soap.error == SOAP_EOF)
 					snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 							gfal_remote_type, srmfunc_status, srm_endpoint);
-					gfal_errmsg (errbuf, errbufsz, errmsg);
-				}
-				soap_end (&soap);
-				soap_done (&soap);
-				errno = ECOMM;
-				return (-1);
+
+				sav_errno = ECOMM;
+			} else {
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: User timeout over",
+						gfal_remote_type, srmfunc_status, srm_endpoint);
+				sav_errno = ETIMEDOUT;
 			}
 
-			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: User timeout over",
-					gfal_remote_type, srmfunc_status, srm_endpoint);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
-			errno = ETIMEDOUT;
 			soap_end (&soap);
 			soap_done (&soap);
+			errno = sav_errno;
 			return (-1);
 		}
 	}
 
 	if (!repfs || repfs->__sizestatusArray < nbfiles || !repfs->statusArray) {
-
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc_status, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc_status, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>",
 					gfal_remote_type, srmfunc_status, srm_endpoint);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg (errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -1806,10 +1867,13 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 			(*filestatuses)[i].turl = strdup (repfs->statusArray[i]->transferURL);
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc_status, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc_status, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, reqstatp->explanation);
+			else
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status,
+						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 		if (repfs->statusArray[i]->remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
@@ -1836,6 +1900,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	struct srm2__srmAbortRequestResponse_ abortrep;
 	time_t endtime = 0;
 	int flags;
+	int sav_errno = 0;
 	int i;
 	int n;
 	int nbproto = 0;
@@ -1943,7 +2008,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 					totalsize, errbuf, errbufsz, timeout)) != NULL) {
 		req.targetSpaceToken = targetspacetoken;
 	} else {
-		int sav_errno = errno;
+		sav_errno = errno;
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -1956,18 +2021,17 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 			return (-1);
 	}
 
-retry:
+/*retry:*/
 
 	if ((ret = soap_call_srm2__srmPrepareToPut (&soap, srm_endpoint, srmfunc, &req, &rep))) {
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg (errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -1985,7 +2049,9 @@ retry:
 	if (timeout > 0)
 		endtime = time(NULL) + timeout;
 
-	/* automatic retry if DB access failed */
+	/* automatic retry if DB access failed *\/
+	 * --- disabled because SRM_USCOREFAILURE doesn't always mean DB failure
+	 * --- see savannah bug #35966
 
 	while (reqstatp->statusCode == SRM_USCOREFAILURE) {
 
@@ -2002,7 +2068,8 @@ retry:
 		soap_end (&soap);
 		soap_done (&soap);
 		goto retry;
-	} 
+	}
+	*/
 
 	/* wait for files ready */
 
@@ -2012,15 +2079,14 @@ retry:
 		sleep ((r++ == 0) ? 1 : DEFPOLLINT);
 
 		if ((ret = soap_call_srm2__srmStatusOfPutRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
-			if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+			if (soap.fault != NULL && soap.fault->faultstring != NULL)
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
-			} else if (soap.error == SOAP_EOF) {
+			else if (soap.error == SOAP_EOF)
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 						gfal_remote_type, srmfunc_status, srm_endpoint);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
-			}
+
+			gfal_errmsg (errbuf, errbufsz, errmsg);
 			soap_end (&soap);
 			soap_done (&soap);
 			errno = ECOMM;
@@ -2036,27 +2102,24 @@ retry:
 			abortreq.requestToken = r_token;
 
 			if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, srmfunc_abort, &abortreq, &abortrep))) {
-				if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+				if (soap.fault != NULL && soap.fault->faultstring != NULL)
 					snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 							gfal_remote_type, srmfunc_abort, srm_endpoint, soap.fault->faultstring);
-					gfal_errmsg (errbuf, errbufsz, errmsg);
-				} else if (soap.error == SOAP_EOF) {
+				else if (soap.error == SOAP_EOF)
 					snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 							gfal_remote_type, srmfunc_abort, srm_endpoint);
-					gfal_errmsg (errbuf, errbufsz, errmsg);
-				}
-				soap_end (&soap);
-				soap_done (&soap);
-				errno = ECOMM;
-				return (-1);
+
+				sav_errno = ECOMM;
+			} else {
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: User timeout over",
+						gfal_remote_type, srmfunc_status, srm_endpoint);
+				sav_errno = ETIMEDOUT;
 			}
 
-			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: User timeout over",
-					gfal_remote_type, srmfunc_status, srm_endpoint);
 			gfal_errmsg (errbuf, errbufsz, errmsg);
-			errno = ETIMEDOUT;
 			soap_end (&soap);
 			soap_done (&soap);
+			errno = sav_errno;
 			return (-1);
 		}
 	}
@@ -2074,21 +2137,24 @@ retry:
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc_status, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc_status, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>",
 					gfal_remote_type, srmfunc_status, srm_endpoint);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg (errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -2111,10 +2177,13 @@ retry:
 			(*filestatuses)[i].turl = strdup (repfs->statusArray[i]->transferURL);
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc_status, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s] %s", srmfunc_status, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, reqstatp->explanation);
+			else
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status,
+						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 		if (repfs->statusArray[i]->remainingPinLifetime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinLifetime);
@@ -2142,6 +2211,11 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 	int i, n, r;
 	const char srmfunc[] = "Ls";
 
+	if (reqstatp == NULL || repfs == NULL || statuses == NULL) {
+		errno = EFAULT;
+		return (-1);
+	}
+
 	n = repfs->__sizepathDetailArray;
 
 	if ((*statuses = (struct srmv2_mdfilestatus *) calloc (n, sizeof (struct srmv2_mdfilestatus))) == NULL) {
@@ -2158,10 +2232,13 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 		if (repfs->pathDetailArray[i]->status)
 			(*statuses)[i].status = statuscode2errno(repfs->pathDetailArray[i]->status->statusCode);
 		if ((*statuses)[i].status) {
-			if (repfs->pathDetailArray[i]->status->explanation)
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->pathDetailArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->pathDetailArray[i]->status->explanation && repfs->pathDetailArray[i]->status->explanation[0])
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->pathDetailArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg(repfs->pathDetailArray[i]->status->statusCode));
 			continue;
 		} 
 		if (repfs->pathDetailArray[i]->size)
@@ -2228,10 +2305,11 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 	return (n);
 }
 
-srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int numlevels, int offset, int count,
+srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int numlevels, int *offset, int count,
 		struct srmv2_mdfilestatus **statuses, char **reqtoken, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int ret;
 	struct soap soap;
 	enum xsd__boolean trueoption = true_;
@@ -2267,7 +2345,7 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 
 	req.fullDetailedList = &trueoption;
 	req.numOfLevels = &numlevels;
-	if (offset > 0) req.offset = &offset;
+	if (offset && *offset > 0) req.offset = offset;
 	if (count > 0) req.count = &count;
 	req.arrayOfSURLs->__sizeurlArray = nbfiles;
 	req.arrayOfSURLs->urlArray = (char **) surls;
@@ -2276,15 +2354,14 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 
 	if ((ret = soap_call_srm2__srmLs (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if(soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if(soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -2305,25 +2382,39 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 	if (!repfs || repfs->__sizepathDetailArray <= 0 || !repfs->pathDetailArray) {
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
-				reqstatp->statusCode != SRM_USCOREDONE) {
-			errno = statuscode2errno (reqstatp->statusCode);
-			if (reqstatp->explanation) {
+				reqstatp->statusCode != SRM_USCOREDONE &&
+				reqstatp->statusCode != SRM_USCORETOO_USCOREMANY_USCORERESULTS) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
 	n = copy_md (reqstatp, repfs, statuses);
+	
+	if (n >= 0) {
+		if (n == 1 && reqstatp->statusCode == SRM_USCORETOO_USCOREMANY_USCORERESULTS &&
+				repfs->pathDetailArray[0] != NULL && repfs->pathDetailArray[0]->arrayOfSubPaths != NULL)
+			/* offset is only supported for a single directory listing */
+			*offset += repfs->pathDetailArray[0]->arrayOfSubPaths->__sizepathDetailArray;
+		else
+			*offset = 0;
+	}
 
 	soap_end (&soap);
 	soap_done (&soap);
@@ -2335,6 +2426,7 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 		struct srmv2_pinfilestatus **pinfilestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int n;
 	int ret;
 	struct srm2__ArrayOfTSURLLifetimeReturnStatus *repfs;
@@ -2379,15 +2471,14 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 
 	if ((ret = soap_call_srm2__srmExtendFileLifeTime (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -2399,27 +2490,29 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 	repfs = rep.srmExtendFileLifeTimeResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-
 		char errmsg[ERRMSG_LEN];
 
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -2442,10 +2535,13 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 			(*pinfilestatuses)[i].pinlifetime = *(repfs->statusArray[i]->pinLifetime);
 		if (repfs->statusArray[i]->status) {
 			(*pinfilestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*pinfilestatuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*pinfilestatuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -2458,6 +2554,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 		struct srmv2_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int ret;
 	struct srm2__srmReleaseFilesResponse_ rep;
 	struct srm2__ArrayOfTSURLReturnStatus *repfs;
@@ -2498,15 +2595,14 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 
 	if ((ret = soap_call_srm2__srmReleaseFiles (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -2517,26 +2613,28 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 	repfs = rep.srmReleaseFilesResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -2557,10 +2655,13 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 			(*statuses)[i].surl = strdup (repfs->statusArray[i]->surl);
 		if (repfs->statusArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -2572,6 +2673,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 srmv2_abortrequest (const char *srm_endpoint, const char *reqtoken, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int ret;
 	struct srm2__srmAbortRequestResponse_ rep;
 	struct srm2__srmAbortRequestRequest req;
@@ -2598,15 +2700,14 @@ srmv2_abortrequest (const char *srm_endpoint, const char *reqtoken, char *errbuf
 
 	if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -2619,17 +2720,22 @@ srmv2_abortrequest (const char *srm_endpoint, const char *reqtoken, char *errbuf
     if (reqstatp->statusCode != SRM_USCORESUCCESS &&
             reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-        if (reqstatp->explanation) {
+        sav_errno = statuscode2errno (reqstatp->statusCode);
+        if (reqstatp->explanation && reqstatp->explanation[0])
             snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-            gfal_errmsg(errbuf, errbufsz, errmsg);
-        }
-        errno = statuscode2errno(reqstatp->statusCode);
+		else
+            snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
+					gfal_remote_type, srmfunc, srm_endpoint,
+					statuscode2errmsg (reqstatp->statusCode));
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
         ret = -1;
     }
 
     soap_end (&soap);
     soap_done (&soap);
+	errno = sav_errno;
     return (ret);
 }
 
@@ -2637,6 +2743,7 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 		struct srmv2_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int ret;
 	struct srm2__srmAbortFilesResponse_ rep;
 	struct srm2__ArrayOfTSURLReturnStatus *repfs;
@@ -2677,15 +2784,14 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 
 	if ((ret = soap_call_srm2__srmAbortFiles (&soap, srm_endpoint, "AbortFiles", &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if (soap.fault != NULL && soap.fault->faultstring != NULL) {
+		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -2696,26 +2802,28 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 	repfs = rep.srmAbortFilesResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-
 		char errmsg[ERRMSG_LEN];
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -2736,10 +2844,13 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 			(*statuses)[i].surl = strdup (repfs->statusArray[i]->surl);
 		if (repfs->statusArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation)
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -2753,6 +2864,7 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 		struct srmv2_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
+	int sav_errno = 0;
 	int ret;
 	struct srm2__srmCheckPermissionResponse_ rep;
 	struct srm2__ArrayOfTSURLPermissionReturn *repfs;
@@ -2791,15 +2903,14 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 
 	if ((ret = soap_call_srm2__srmCheckPermission (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		char errmsg[ERRMSG_LEN];
-		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT) {
+		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		} else if (soap.error == SOAP_EOF) {
+		else if (soap.error == SOAP_EOF)
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-		}
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -2815,21 +2926,24 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
-			errno = statuscode2errno(reqstatp->statusCode);
-			if (reqstatp->explanation) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation)
 				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
-			}
+			else
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint,
+						statuscode2errmsg (reqstatp->statusCode));
 		} else {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
-			errno = ECOMM;
+			sav_errno = ECOMM;
 		}
 
+		gfal_errmsg(errbuf, errbufsz, errmsg);
 		soap_end (&soap);
 		soap_done (&soap);
+		errno = sav_errno;
 		return (-1);
 	}
 
@@ -2848,10 +2962,13 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 			(*statuses)[i].surl = strdup (repfs->surlPermissionArray[i]->surl);
 		if (repfs->surlPermissionArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno (repfs->surlPermissionArray[i]->status->statusCode);
-			if (repfs->surlPermissionArray[i]->status->explanation)
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, repfs->surlPermissionArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s] %s", srmfunc, reqstatp->explanation);
+			if (repfs->surlPermissionArray[i]->status->explanation && repfs->surlPermissionArray[i]->status->explanation[0])
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->surlPermissionArray[i]->status->explanation);
+			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			else
+				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg (repfs->surlPermissionArray[i]->status->statusCode));
 		} else
 			(*statuses)[i].status = ENOMEM;
         if ((*statuses)[i].status == 0) {
@@ -2880,9 +2997,6 @@ statuscode2errno (int statuscode)
 	switch (statuscode) {
 		case SRM_USCOREINVALID_USCOREPATH:
 			return (ENOENT);
-		case SRM_USCOREINVALID_USCOREREQUEST:
-		case SRM_USCORESPACE_USCORELIFETIME_USCOREEXPIRED:
-			return (EINVAL);
 		case SRM_USCOREAUTHORIZATION_USCOREFAILURE:
 			return (EACCES);
 		case SRM_USCOREDUPLICATION_USCOREERROR:
@@ -2913,4 +3027,10 @@ filestatus2returncode (int filestatus)
 		default:
 			return (-1);
 	}
+}
+
+static const char *
+statuscode2errmsg (int statuscode)
+{
+	return (srmv2_errmsg[statuscode]);
 }

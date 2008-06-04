@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.58 $ $Date: 2008/05/09 09:00:18 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.59 $ $Date: 2008/06/04 14:40:10 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -318,6 +318,7 @@ int gfal_stat64 (const char *, struct stat *);
 int gfal_deletesurls (gfal_internal, char *, int);
 int gfal_turlsfromsurls (gfal_internal, char *, int);
 int gfal_ls (gfal_internal, char *, int);
+int gfal_ls_end (gfal_internal, char *, int);
 int gfal_get (gfal_internal, char *, int);
 int gfal_getstatus (gfal_internal, char *, int);
 int gfal_prestage (gfal_internal, char *, int);
@@ -385,7 +386,7 @@ int get_seap_info (const char *, char ***, int **, char *, int);
 int get_se_types_and_endpoints (const char *, char ***, char ***, char *, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int srm_getfilemd (int, const char **, const char *, struct srm_mdfilestatus **, char *, int, int);
-int srmv2_getfilemd (int, const char **, const char *, int, int, int, struct srmv2_mdfilestatus **, char **, char *, int, int);
+int srmv2_getfilemd (int, const char **, const char *, int, int *, int, struct srmv2_mdfilestatus **, char **, char *, int, int);
 #endif
 int lfc_maperror (struct proto_ops *, int);
 int lfc_getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
@@ -456,8 +457,8 @@ int srmv2_getspacetokens (const char *, const char *, int *, char ***, char *, i
 int srmv2_getspacemd (int, const char **, const char *, gfal_spacemd **, char *, int, int);
 char *srmv2_getbestspacetoken (const char *, const char *, GFAL_LONG64, char *, int, int);
 int srmv2_makedirp (const char *, const char *, char *, int, int);
-int srmv2_prestage (int, const char **, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
-int srmv2_prestagee (int, const char **, const char *, const char *, char **, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_prestage (int, const char **, const char *, int, char **, int, char **, struct srmv2_filestatus **, char *, int, int);
+int srmv2_prestagee (int, const char **, const char *, const char *, char **, int, char **, struct srmv2_filestatus **, char *, int, int);
 int srmv2_prestagestatus (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_prestagestatuse (const char *, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_set_xfer_done_get (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
