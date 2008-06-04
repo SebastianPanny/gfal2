@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.63 $ $Date: 2008/05/20 16:42:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.64 $ $Date: 2008/06/04 14:33:06 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -568,7 +568,7 @@ get_sa_path (const char *host, const char *salocalid, char **sa_path, char **sa_
 	}
 
 	if ((vo = gfal_get_vo (errbuf, errbufsz)) == NULL)
-		return (NULL);
+		return (-1);
 
 	if (salocalid == NULL) {
 		salocalid = vo;
