@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.65 $ $Date: 2008/04/25 15:47:14 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.66 $ $Date: 2008/06/05 13:09:16 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -332,6 +332,8 @@ install.man: install.doc \
 	     $(prefix)/man/man3/gfal_set_ids_python.3 \
 	     $(prefix)/man/man3/gfal_deletesurls.3 \
 	     $(prefix)/man/man3/gfal_deletesurls_python.3 \
+	     $(prefix)/man/man3/gfal_removedir.3 \
+	     $(prefix)/man/man3/gfal_removedir_python.3 \
 	     $(prefix)/man/man3/gfal_turlsfromsurls.3 \
 	     $(prefix)/man/man3/gfal_turlsfromsurls_python.3 \
 	     $(prefix)/man/man3/gfal_ls.3 \
@@ -421,6 +423,10 @@ $(prefix)/man/man3/gfal_set_ids_python.3: gfal_set_ids_python.man
 $(prefix)/man/man3/gfal_deletesurls.3: gfal_deletesurls.man
 	cp -p $? $@
 $(prefix)/man/man3/gfal_deletesurls_python.3: gfal_deletesurls_python.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_removedir.3: gfal_removedir.man
+	cp -p $? $@
+$(prefix)/man/man3/gfal_removedir_python.3: gfal_removedir_python.man
 	cp -p $? $@
 $(prefix)/man/man3/gfal_turlsfromsurls.3: gfal_turlsfromsurls.man
 	cp -p $? $@

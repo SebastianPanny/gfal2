@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.59 $ $Date: 2008/06/04 14:40:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.60 $ $Date: 2008/06/05 13:09:16 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -316,6 +316,7 @@ int gfal_stat64 (const char *, struct stat *);
 #endif
 
 int gfal_deletesurls (gfal_internal, char *, int);
+int gfal_removedir (gfal_internal, char *, int);
 int gfal_turlsfromsurls (gfal_internal, char *, int);
 int gfal_ls (gfal_internal, char *, int);
 int gfal_ls_end (gfal_internal, char *, int);
@@ -449,6 +450,7 @@ int srm_set_xfer_done (const char *, int, int, char *, int, int);
 int srm_set_xfer_running (const char *, int, int, char *, int, int);
 int srm_turlsfromsurls (int, const char **, const char *, GFAL_LONG64 *, char **, int, int *, struct srm_filestatus **, char *, int, int);
 int srmv2_deletesurls (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_rmdir (const char *, const char *, int, struct srmv2_filestatus **, char *, int, int);
 int srmv2_get (int, const char **, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
 int srmv2_gete (int, const char **, const char *, const char *, int, char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_getstatus (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);

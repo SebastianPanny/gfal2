@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.94 $ $Date: 2008/06/04 14:40:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.95 $ $Date: 2008/06/05 13:09:16 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1141,9 +1141,47 @@ gfal_rmdir (const char *dirname)
 		return (-1);
 	}
 
-	if (strncmp (path, "lfn:", 4) == 0 ||
-			strncmp (path, "guid:", 5) == 0 ||
-			strncmp (path, "srm:", 4) == 0 ||
+	if (strncmp (path, "srm:", 4) == 0) {
+		int rc, i = 0;
+		char **se_endpoints;
+		char **se_types;
+		char *srmv2_endpoint = NULL;
+		struct srmv2_filestatus *filestatuses;
+
+		if (setypesandendpointsfromsurl (path, &se_types, &se_endpoints, NULL, 0) < 0)
+			return (-1);
+
+		while (se_types[i]) {
+			if (srmv2_endpoint == NULL && strcmp (se_types[i], "srm_v2") == 0)
+				srmv2_endpoint = se_endpoints[i];
+			else
+				free (se_endpoints[i]);
+
+			free (se_types[i]);
+			++i;
+		}
+
+		free (se_types);
+		free (se_endpoints);
+
+		if (srmv2_endpoint == NULL) {
+			errno = EPROTONOSUPPORT;
+			return (-1);
+		}
+
+		if (srmv2_rmdir (path, srmv2_endpoint, 0, &filestatuses, errbuf, ERRMSG_LEN, 0) < 1 || !filestatuses) {
+			free (srmv2_endpoint);
+			return (-1);
+		}
+		if (filestatuses[0].surl) free (filestatuses[0].surl);
+		errno = filestatuses[0].status;
+		rc = filestatuses[0].status == 0 ? 0 : -1;
+		free (filestatuses);
+		free (srmv2_endpoint);
+		return (rc);
+	}
+
+	if (strncmp (path, "guid:", 5) == 0 ||
 			strncmp (path, "sfn:", 4) == 0) {
 		errno = EPROTONOSUPPORT;
 		return (-1);
@@ -1389,6 +1427,43 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 		}
 		ret = sfn_deletesurls (req->nbfiles, (const char **) req->surls,
 				&(req->sfn_statuses), errbuf, errbufsz, req->timeout);
+	}
+
+	req->returncode = ret;
+	return (copy_gfal_results (req, DEFAULT_STATUS));
+}
+
+gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
+{
+	int ret;
+	char errmsg[ERRMSG_LEN];
+
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
+		return (-1);
+
+	if (req->nbfiles != 1 || req->surls == NULL || req->surls[0] == NULL) {
+		snprintf (errmsg, ERRMSG_LEN - 1, "gfal_removedir: you have to specify only one directory SURL at a time");
+		gfal_errmsg (errbuf, errbufsz, errmsg);
+		errno = EPROTONOSUPPORT;
+		return (-1);;
+	}
+
+	if (req->setype == TYPE_SRMv2) {
+		if (req->srmv2_statuses) {
+			free (req->srmv2_statuses);
+			req->srmv2_statuses = NULL;
+		}
+		if (req->srmv2_token) {
+			free (req->srmv2_token);
+			req->srmv2_token = NULL;
+		}
+		/* for the moment, there is no field in the gfal struct for recursive removal */
+		ret = srmv2_rmdir (req->surls[0], req->endpoint, 0, &(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
+	} else { // req->setype == TYPE_SRM or TYPE_SE
+		snprintf (errmsg, ERRMSG_LEN - 1, "gfal_removedir: only SRMv2.2 supports this operation");
+		gfal_errmsg (errbuf, errbufsz, errmsg);
+		errno = EPROTONOSUPPORT;
+		return (-1);;
 	}
 
 	req->returncode = ret;

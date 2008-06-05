@@ -15,6 +15,7 @@ extern int gfal_set_ids (gfal_internal req, int LEN, const int *LIST, int srm_re
         const char *srmv2_reqtoken, char *errbuf, int errbufsz);
 extern void gfal_internal_free (gfal_internal req);
 extern int gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_removedir (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_ls (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_get (gfal_internal req, char *errbuf, int errbufsz);

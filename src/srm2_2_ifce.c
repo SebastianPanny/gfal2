@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.46 $ $Date: 2008/06/04 14:40:10 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.47 $ $Date: 2008/06/05 13:09:17 $
  */
 
 #define _GNU_SOURCE
@@ -186,6 +186,82 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	soap_end (&soap);
 	soap_done (&soap);
 	return (n);
+}
+
+srmv2_rmdir (const char *surl, const char *srm_endpoint, int recursive,
+		struct srmv2_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
+{
+	int flags;
+	int ret;
+	struct srm2__srmRmdirResponse_ rep;
+	struct srm2__srmRmdirRequest req;
+	struct srm2__TReturnStatus *reqstatp;
+	enum xsd__boolean trueoption = true_;
+	struct soap soap;
+	const char srmfunc[] = "srmRmdir";
+	char errmsg[ERRMSG_LEN];
+
+	soap_init (&soap);
+	soap.namespaces = namespaces_srmv2;
+
+#ifdef GFAL_SECURE
+	flags = CGSI_OPT_DISABLE_NAME_CHECK;
+	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
+#endif
+
+	soap.send_timeout = timeout;
+	soap.recv_timeout = timeout;
+	soap.connect_timeout = timeout;
+
+	memset (&req, 0, sizeof(req));
+	req.SURL = (char *) surl;
+	if (recursive)
+		req.recursive = &trueoption;
+
+	/* issue "srmRmdir" request */
+
+	if ((ret = soap_call_srm2__srmRmdir (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+		if(soap.fault != NULL && soap.fault->faultstring != NULL)
+			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", srm_endpoint, soap.fault->faultstring);
+		else if (soap.error == SOAP_EOF)
+			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Connection fails or timeout", gfal_remote_type, srmfunc, srm_endpoint);
+
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
+	if (rep.srmRmdirResponse == NULL || (reqstatp = rep.srmRmdirResponse->returnStatus) == NULL) {
+		snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: <empty response>", gfal_remote_type, srmfunc, srm_endpoint);
+		gfal_errmsg(errbuf, errbufsz, errmsg);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
+	if ((*statuses = (struct srmv2_filestatus*) calloc (1, sizeof (struct srmv2_filestatus))) == NULL) {
+		errno = ENOMEM;
+		soap_end (&soap);
+		soap_done (&soap);
+		return (-1);
+	}
+
+	(*statuses)[0].surl = strdup (surl);
+	(*statuses)[0].status = statuscode2errno (reqstatp->statusCode);
+	if ((*statuses)[0].status) {
+		if (reqstatp->explanation != NULL && reqstatp->explanation[0])
+			asprintf (&((*statuses)[0].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+		else
+			asprintf (&((*statuses)[0].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+					statuscode2errmsg (reqstatp->statusCode));
+	}
+
+	soap_end (&soap);
+	soap_done (&soap);
+	return (1);
 }
 
 srmv2_get (int nbfiles, const char **surls, const char *spacetokendesc, int nbprotocols, char **protocols,
