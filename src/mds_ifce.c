@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.64 $ $Date: 2008/06/04 14:33:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.65 $ $Date: 2008/07/03 10:59:46 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -230,7 +230,10 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 		*bdii_port_ptr = bdii_port;
 		if (ld == NULL) continue;
 
-		ldap_set_option (ld, LDAP_OPT_NETWORK_TIMEOUT, &bdii_timeout);
+		timeout.tv_sec = bdii_timeout;
+		timeout.tv_usec = 0;
+
+		ldap_set_option (ld, LDAP_OPT_NETWORK_TIMEOUT, &timeout);
 		if ((err = ldap_simple_bind_s (ld, "", "")) != LDAP_SUCCESS) {
 			ldap_unbind (ld);
 			snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: %s", gfal_remote_type, bdii_server, bdii_port, ldap_err2string (err));
@@ -239,9 +242,6 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 			GFAL_DEBUG ("DEBUG: %s\n", errmsg);
 			continue;
 		}
-
-		timeout.tv_sec = bdii_timeout;
-		timeout.tv_usec = 0;
 
 		rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0, &timeout, reply_ptr);
 		if (rc != LDAP_SUCCESS) {
