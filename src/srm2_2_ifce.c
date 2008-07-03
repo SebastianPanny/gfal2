@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.47 $ $Date: 2008/06/05 13:09:17 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.48 $ $Date: 2008/07/03 10:58:48 $
  */
 
 #define _GNU_SOURCE
@@ -1822,11 +1822,8 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	if (timeout > 0)
 		endtime = (time(NULL) + timeout);
 
-	/* automatic retry if DB access failed *\/
-	 * --- disabled because SRM_USCOREFAILURE doesn't always mean DB failure
-	 * --- see savannah bug #35966
-
-	while (reqstatp->statusCode == SRM_USCOREFAILURE) {
+	/* INTERNAL_ERROR = transient error => automatic retry */
+	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
 		if (timeout > 0 && time(NULL) > endtime) {
 			char errmsg[ERRMSG_LEN];
@@ -1842,7 +1839,6 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 		soap_done (&soap);
 		goto retry;
 	}
-	*/
 
 	/* wait for files ready */
 
@@ -2125,11 +2121,8 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	if (timeout > 0)
 		endtime = time(NULL) + timeout;
 
-	/* automatic retry if DB access failed *\/
-	 * --- disabled because SRM_USCOREFAILURE doesn't always mean DB failure
-	 * --- see savannah bug #35966
-
-	while (reqstatp->statusCode == SRM_USCOREFAILURE) {
+	/* INTERNAL_ERROR = transient error => automatic retry */
+	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
 		if (timeout > 0 && time(NULL) > endtime) {
 			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: User timeout over",
@@ -2145,7 +2138,6 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 		soap_done (&soap);
 		goto retry;
 	}
-	*/
 
 	/* wait for files ready */
 
