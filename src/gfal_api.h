@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.60 $ $Date: 2008/06/05 13:09:16 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.61 $ $Date: 2008/07/08 12:41:34 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -459,10 +459,10 @@ int srmv2_getspacetokens (const char *, const char *, int *, char ***, char *, i
 int srmv2_getspacemd (int, const char **, const char *, gfal_spacemd **, char *, int, int);
 char *srmv2_getbestspacetoken (const char *, const char *, GFAL_LONG64, char *, int, int);
 int srmv2_makedirp (const char *, const char *, char *, int, int);
-int srmv2_prestage (int, const char **, const char *, int, char **, int, char **, struct srmv2_filestatus **, char *, int, int);
-int srmv2_prestagee (int, const char **, const char *, const char *, char **, int, char **, struct srmv2_filestatus **, char *, int, int);
-int srmv2_prestagestatus (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_prestagestatuse (const char *, const char *, struct srmv2_filestatus **, char *, int, int);
+int srmv2_prestage (int, const char **, const char *, int, char **, int, char **, struct srmv2_pinfilestatus **, char *, int, int);
+int srmv2_prestagee (int, const char **, const char *, const char *, char **, int, char **, struct srmv2_pinfilestatus **, char *, int, int);
+int srmv2_prestagestatus (int, const char **, const char *, struct srmv2_pinfilestatus **, char *, int, int);
+int srmv2_prestagestatuse (const char *, const char *, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_set_xfer_done_get (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_set_xfer_done_put (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
 int srmv2_set_xfer_running (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.95 $ $Date: 2008/06/05 13:09:16 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.96 $ $Date: 2008/07/08 12:41:34 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1648,16 +1648,16 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
-		if (req->srmv2_statuses) {
-			free (req->srmv2_statuses);
-			req->srmv2_statuses = NULL;
+		if (req->srmv2_pinstatuses) {
+			free (req->srmv2_pinstatuses);
+			req->srmv2_pinstatuses = NULL;
 		}
 		if (req->srmv2_token) {
 			free (req->srmv2_token);
 			req->srmv2_token = NULL;
 		}
 		ret = srmv2_prestagee (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_spacetokendesc,
-				req->protocols, req->srmv2_desiredpintime, &(req->srmv2_token), &(req->srmv2_statuses),
+				req->protocols, req->srmv2_desiredpintime, &(req->srmv2_token), &(req->srmv2_pinstatuses),
 				errbuf, errbufsz, req->timeout);
 	} else {
 		gfal_errmsg (errbuf, errbufsz, "gfal_prestage: Only SRMv2-compliant SEs are supported");
@@ -1666,7 +1666,7 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
 	}
 
 	req->returncode = ret;
-	return (copy_gfal_results (req, DEFAULT_STATUS));
+	return (copy_gfal_results (req, PIN_STATUS));
 }
 
 gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
@@ -1677,11 +1677,11 @@ gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
 		return (-1);
 
 	if (req->setype == TYPE_SRMv2) {
-		if (req->srmv2_statuses) {
-			free (req->srmv2_statuses);
-			req->srmv2_statuses = NULL;
+		if (req->srmv2_pinstatuses) {
+			free (req->srmv2_pinstatuses);
+			req->srmv2_pinstatuses = NULL;
 		}
-		ret = srmv2_prestagestatuse (req->srmv2_token, req->endpoint, &(req->srmv2_statuses),
+		ret = srmv2_prestagestatuse (req->srmv2_token, req->endpoint, &(req->srmv2_pinstatuses),
 				errbuf, errbufsz, req->timeout);
 	} else {
 		gfal_errmsg (errbuf, errbufsz, "gfal_prestagestatus: Only SRMv2-compliant SEs are supported");
@@ -1690,7 +1690,7 @@ gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
 	}
 
 	req->returncode = ret;
-	return (copy_gfal_results (req, DEFAULT_STATUS));
+	return (copy_gfal_results (req, PIN_STATUS));
 }
 
 gfal_pin (gfal_internal req, char *errbuf, int errbufsz)

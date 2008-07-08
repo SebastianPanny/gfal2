@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.48 $ $Date: 2008/07/03 10:58:48 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.49 $ $Date: 2008/07/08 12:41:34 $
  */
 
 #define _GNU_SOURCE
@@ -1174,7 +1174,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 }
 
 srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int nbprotocols, char **protocols, int desiredpintime,
-		char **reqtoken, struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+		char **reqtoken, struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	char **se_types = NULL;
 	char **se_endpoints = NULL;
@@ -1210,7 +1210,7 @@ srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int
 }
 
 srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, const char *spacetokendesc,
-		char **protocols, int desiredpintime, char **reqtoken, struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+		char **protocols, int desiredpintime, char **reqtoken, struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
 	int sav_errno = 0;
@@ -1372,7 +1372,7 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 
 	n = repfs->__sizestatusArray;
 
-	if ((*filestatuses = (struct srmv2_filestatus *) calloc (n, sizeof(struct srmv2_filestatus))) == NULL) {
+	if ((*filestatuses = (struct srmv2_pinfilestatus *) calloc (n, sizeof(struct srmv2_pinfilestatus))) == NULL) {
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ENOMEM;
@@ -1382,7 +1382,7 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	for (i = 0; i < n; i++) {
 		if (!repfs->statusArray[i])
 			continue;
-		memset (*filestatuses + i, 0, sizeof (struct srmv2_filestatus));
+		memset (*filestatuses + i, 0, sizeof (struct srmv2_pinfilestatus));
 		if (repfs->statusArray[i]->sourceSURL)
 			(*filestatuses)[i].surl = strdup (repfs->statusArray[i]->sourceSURL);
 		if (repfs->statusArray[i]->status) {
@@ -1395,6 +1395,8 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
 						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
+		if (repfs->statusArray[i]->remainingPinTime)
+			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
 	}
 
 	soap_end (&soap);
@@ -1402,7 +1404,7 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	return (n);	
 }
 
-srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_filestatus **filestatuses, 
+srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_pinfilestatus **filestatuses, 
 		char *errbuf, int errbufsz, int timeout)
 {
 	char **se_types = NULL;
@@ -1437,7 +1439,7 @@ srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, str
 	return (r);
 }
 
-srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct srmv2_filestatus **filestatuses, 
+srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct srmv2_pinfilestatus **filestatuses, 
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
@@ -1514,7 +1516,7 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 
 	n = repfs->__sizestatusArray;
 
-	if ((*filestatuses = (struct srmv2_filestatus *) calloc (n, sizeof(struct srmv2_filestatus))) == NULL) {
+	if ((*filestatuses = (struct srmv2_pinfilestatus *) calloc (n, sizeof(struct srmv2_pinfilestatus))) == NULL) {
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ENOMEM;
@@ -1524,7 +1526,7 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 	for (i = 0; i < n; i++) {
 		if (!repfs->statusArray[i])
 			continue;
-		memset (*filestatuses + i, 0, sizeof (struct srmv2_filestatus));
+		memset (*filestatuses + i, 0, sizeof (struct srmv2_pinfilestatus));
 		if (repfs->statusArray[i]->sourceSURL)
 			(*filestatuses)[i].surl = strdup (repfs->statusArray[i]->sourceSURL);
 		if (repfs->statusArray[i]->status) {
@@ -1537,6 +1539,8 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
 						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
+		if (repfs->statusArray[i]->remainingPinTime)
+			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
 	}
 
 	soap_end (&soap);
@@ -1710,6 +1714,7 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	const char srmfunc[] = "PrepareToGet";
 	const char srmfunc_status[] = "StatusOfGetRequest";
 
+retry:
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
 
@@ -1993,6 +1998,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	const char srmfunc[] = "PrepareToPut";
 	const char srmfunc_status[] = "StatusOfPutRequest";
 
+retry:
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
 
@@ -2092,8 +2098,6 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 		if (srmv2_makedirp (surls[i], srm_endpoint, errbuf, errbufsz, timeout) < 0)
 			return (-1);
 	}
-
-/*retry:*/
 
 	if ((ret = soap_call_srm2__srmPrepareToPut (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
