@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.65 $ $Date: 2008/07/03 10:59:46 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.66 $ $Date: 2008/07/10 13:14:52 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -19,7 +19,10 @@
 
 #define GFAL_VOINFOTAG_DEFAULT "DEFAULT"
 
-static char *dn = "mds-vo-name=local,o=grid";
+/* bug #38585: GFAL: querying BDII using the 'resource' branch (as well)
+ * static char *dn = "mds-vo-name=local,o=grid";
+ */
+static char *dn = "o=grid";
 static const char gfal_remote_type[] = "BDII";
 
 struct bdii_server_info_t {
