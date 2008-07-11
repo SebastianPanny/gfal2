@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.67 $ $Date: 2008/07/10 14:33:32 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.68 $ $Date: 2008/07/11 10:24:57 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -19,7 +19,12 @@
 
 #define GFAL_VOINFOTAG_DEFAULT "DEFAULT"
 
-static char *dn = "mds-vo-name=local,o=grid";
+/* bug #38585: GFAL: querying BDII using the 'resource' branch (as well)
+ * Need to get both 'local' and 'resource' entries
+ * static char *dn = "mds-vo-name=local,o=grid";
+ */
+static char *dn = "o=grid";
+static char *dn_filter = "(|(mds-vo-name:dn:=local)(mds-vo-name:dn:=resource))";
 static const char gfal_remote_type[] = "BDII";
 
 struct bdii_server_info_t {
@@ -202,6 +207,7 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 	const char *bdii_server;
 	int bdii_port;
 	LDAP *ld;
+	char *complete_filter = NULL;
 	char errmsg[ERRMSG_LEN];
 	struct timeval timeout;
 	int err = 0, rc = 0;
@@ -220,6 +226,12 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 	if (bdii_servers_count < 0) {
 		gfal_errmsg (errbuf, errbufsz, "Invalid BDII parameters");
 		errno = EINVAL;
+		return (-1);
+	}
+
+	/* Add the dn filter part to 'filter' */
+	if (asprintf (&complete_filter, "(& %s %s)", dn_filter, filter) < 0 || complete_filter == NULL) {
+		errno = ENOMEM;
 		return (-1);
 	}
 
@@ -243,7 +255,7 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 			continue;
 		}
 
-		rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, filter, attrs, 0, &timeout, reply_ptr);
+		rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, complete_filter, attrs, 0, &timeout, reply_ptr);
 		if (rc != LDAP_SUCCESS) {
 			ldap_unbind (ld);
 			if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
