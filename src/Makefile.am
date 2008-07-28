@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.3 2008/06/23 11:45:58 ptedesco Exp $
+# Version info: $Id: Makefile.am,v 1.4 2008/07/28 07:36:37 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -202,12 +202,13 @@ libgfal_a_CFLAGS = \
 libgfal_la_SOURCES = $(GFAL_SOURCE_FILES)
 
 libgfal_la_LIBADD = \
-	-luuid -lc -lldap -ldl \
+	-luuid -lc -ldl \
 	$(GSOAP_LIBS) \
 	$(CGSI_GSOAP_LIBS) \
 	$(GLOBUS_GSS_NOTHR_LIBS) \
 	$(GLOBUS_FTP_CLIENT_NOTHR_LIBS) \
-	$(VOMS_NOTHR_LIBS)
+	$(VOMS_NOTHR_LIBS) \
+	-lldap
 
 libgfal_la_CFLAGS = \
 	$(GLOBUS_NOTHR_CFLAGS) \
@@ -221,11 +222,12 @@ libgfal_la_CFLAGS = \
 libgfal_pthr_la_SOURCES = $(GFAL_SOURCE_FILES)
 
 libgfal_pthr_la_LIBADD = \
-	-luuid -lc -lldap -ldl \
+	-luuid -lc -ldl \
 	$(GSOAP_LIBS) \
 	$(CGSI_GSOAP_LIBS) \
 	$(GLOBUS_GSS_THR_LIBS) \
-	$(GLOBUS_FTP_CLIENT_THR_LIBS)
+	$(GLOBUS_FTP_CLIENT_THR_LIBS) \
+	-lldap
 
 libgfal_pthr_la_LDFLAGS = \
 	$(GFAL_FLAGS) 
@@ -242,42 +244,42 @@ libgfal_pthr_la_CFLAGS = \
 gfal_version_SOURCES = \
 	gfal_version.c
 
-gfal_version_LDADD = -luuid -lc -lldap -ldl libgfal.la $(VOMS_NOTHR_LIBS) $(CGSI_GSOAP_LIBS) $(GSOAP_LIBS)
+gfal_version_LDADD = libgfal.la
 
 gfal_version_CFLAGS = $(VOMS_CFLAGS)
 
 # test programs
 #-------------------------------------------------------------------------------
 gfal_testchmod_SOURCES = gfal_testchmod.c
-gfal_testchmod_LDADD = -luuid -lc -lldap -ldl libgfal.la $(VOMS_NOTHR_LIBS) $(CGSI_GSOAP_LIBS) $(GSOAP_LIBS)
+gfal_testchmod_LDADD = libgfal.la
 gfal_testchmod_CFLAGS = $(VOMS_CFLAGS)
 
 gfal_testget_SOURCES = gfal_testget.c
-gfal_testget_LDADD = -luuid -lc -lldap -ldl libgfal.la $(VOMS_NOTHR_LIBS) $(CGSI_GSOAP_LIBS) $(GSOAP_LIBS)
+gfal_testget_LDADD = libgfal.la
 gfal_testget_CFLAGS = $(VOMS_CFLAGS)
 
 gfal_teststat_SOURCES = gfal_teststat.c
-gfal_teststat_LDADD = -luuid -lc -lldap -ldl libgfal.la $(VOMS_NOTHR_LIBS) $(CGSI_GSOAP_LIBS) $(GSOAP_LIBS)
+gfal_teststat_LDADD = libgfal.la
 gfal_teststat_CFLAGS = $(VOMS_CFLAGS)
 
 gfal_testcreatdir_SOURCES = gfal_testcreatdir.c
-gfal_testcreatdir_LDADD = -luuid -lc -lldap -ldl libgfal.la $(VOMS_NOTHR_LIBS) $(CGSI_GSOAP_LIBS) $(GSOAP_LIBS)
+gfal_testcreatdir_LDADD = libgfal.la
 gfal_testcreatdir_CFLAGS = $(VOMS_CFLAGS)
 
 gfal_testread_SOURCES = gfal_testread.c
-gfal_testread_LDADD = -luuid -lc -lldap -ldl libgfal.la $(VOMS_NOTHR_LIBS) $(CGSI_GSOAP_LIBS) $(GSOAP_LIBS)
+gfal_testread_LDADD = libgfal.la
 gfal_testread_CFLAGS = $(VOMS_CFLAGS)
 
 gfal_testunlink_SOURCES = gfal_testunlink.c
-gfal_testunlink_LDADD = -luuid -lc -lldap -ldl libgfal.la $(VOMS_NOTHR_LIBS) $(CGSI_GSOAP_LIBS) $(GSOAP_LIBS)
+gfal_testunlink_LDADD = libgfal.la
 gfal_testunlink_CFLAGS = $(VOMS_CFLAGS)
 
 gfal_testdir_SOURCES = gfal_testdir.c
-gfal_testdir_LDADD = -luuid -lc -lldap -ldl libgfal.la $(VOMS_NOTHR_LIBS) $(CGSI_GSOAP_LIBS) $(GSOAP_LIBS)
+gfal_testdir_LDADD = libgfal.la
 gfal_testdir_CFLAGS = $(VOMS_CFLAGS)
 
 gfal_testrw_SOURCES = gfal_testrw.c
-gfal_testrw_LDADD = -luuid -lc -lldap -ldl libgfal.la $(VOMS_NOTHR_LIBS) $(CGSI_GSOAP_LIBS) $(GSOAP_LIBS)
+gfal_testrw_LDADD = libgfal.la
 gfal_testrw_CFLAGS = $(VOMS_CFLAGS)
 
 
