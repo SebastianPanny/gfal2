@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.68 $ $Date: 2008/07/11 10:24:57 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.69 $ $Date: 2008/07/29 15:47:46 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -638,6 +638,8 @@ get_voinfo (const char *host, const char *spacetokendesc, char **sa_path, char *
 	static char sa_key_atnm[] = "GlueChunkKey";
 	static char *template =
 		"(& %s (GlueVOInfoTag=%s) (GlueChunkKey=GlueSEUniqueID=%s))";
+	static char *template2 =
+		"(& %s (!(GlueVOInfoTag=*)) (GlueChunkKey=GlueSEUniqueID=%s))";
 	static char *attrs[] = {sa_key_atnm, sa_path_atnm, NULL};
 	int i;
 	int bdii_port;
@@ -666,7 +668,11 @@ get_voinfo (const char *host, const char *spacetokendesc, char **sa_path, char *
 	if ((filter_tmp = generate_acbr ("GlueVOInfo", errbuf, errbufsz)) == NULL)
 		return (-1);
 
-	rc = asprintf (&filter, template, filter_tmp, spacetokendesc ? spacetokendesc : GFAL_VOINFOTAG_DEFAULT, host);
+	if (spacetokendesc)
+		rc = asprintf (&filter, template, filter_tmp, spacetokendesc, host);
+	else
+		rc = asprintf (&filter, template2, filter_tmp, host);
+
 	free (filter_tmp);
 	if (rc < 0) return (-1);
 
