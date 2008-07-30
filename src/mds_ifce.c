@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.69 $ $Date: 2008/07/29 15:47:46 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.70 $ $Date: 2008/07/30 13:50:59 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -730,8 +730,7 @@ get_storage_path (const char *host, const char *spacetokendesc, char **sa_path, 
 
 	*sa_path = *sa_root = NULL;
 
-	if (spacetokendesc)
-		rc = get_voinfo (host, spacetokendesc, sa_path, &salocalid, errbuf, errbufsz);
+	rc = get_voinfo (host, spacetokendesc, sa_path, &salocalid, errbuf, errbufsz);
 
 	if (!*sa_path)
 		rc = get_sa_path (host, salocalid, sa_path, sa_root, errbuf, errbufsz);
