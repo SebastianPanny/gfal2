@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.49 $ $Date: 2008/07/08 12:41:34 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.50 $ $Date: 2008/08/14 22:59:43 $
  */
 
 #define _GNU_SOURCE
@@ -15,6 +15,9 @@
 #include <pwd.h>
 #include <sys/stat.h>
 #include "gfal_api.h"
+#undef SOAP_FMAC1
+#define SOAP_FMAC1 static
+#include "stdsoap2.h"
 #undef SOAP_FMAC3
 #define SOAP_FMAC3 static
 #undef SOAP_FMAC5
