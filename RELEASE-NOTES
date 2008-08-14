@@ -1,3 +1,10 @@
+*** Release glite-data-gfal_R_1_10_17_3 2008-08-15
+
+	o SOAP_FMAC3 and SOAP_FMAC5 are used in the generated gSOAP files,
+	  however stdsoap2.h uses SOAP_FMAC1, which has to be redefiened
+	  as well, when included in these sources.
+      This should fix the SL5 build.
+
 *** Release glite-data-gfal_R_1_10_17_2 2008-07-30
 
     o Fix bug #39114: GFAL doesn't handle properly VOInfoPath if no space taken
