@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.4 2008/07/28 07:36:37 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.5 2008/08/23 07:00:30 szamsu Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -171,11 +171,8 @@ GFAL_SOURCE_FILES = \
 	srmC.c
 
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
-lrc_ifce_o_CFLAGS = -DWITH_NOGLOBAL
 rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h
-rmc_ifce_o_CFLAGS = -DWITH_NOGLOBAL
 srm2_2_ifce.o: srm2_2_ifce.c srmv2H.h srmv2Stub.h srmSoapBinding+.nsmap gfal_api.h
-srm2_2_ifce_o_CFLAGS = -DWITH_NOGLOBAL
 srm_ifce.o: srm_ifce.c srmH.h srmStub.h ISRM.nsmap gfal_api.h
 
 GFAL_FLAGS = \

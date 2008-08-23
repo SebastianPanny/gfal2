@@ -3,13 +3,12 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.21 $ $Date: 2008/08/14 22:59:43 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.22 $ $Date: 2008/08/23 07:00:30 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
 #include <string.h>
-#undef SOAP_FMAC1
-#define SOAP_FMAC1 static
+#define WITH_NOGLOBAL
 #include "stdsoap2.h"
 #undef SOAP_FMAC3
 #define SOAP_FMAC3 static
