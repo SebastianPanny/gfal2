@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.4 2008/08/23 05:43:39 szamsu Exp $
+# Version info: $Id: configure.ac,v 1.5 2008/08/23 05:49:33 szamsu Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.4 $])
+AC_REVISION([$Revision: 1.5 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -136,13 +136,21 @@ AC_ARG_WITH([python-location],
 AC_MSG_RESULT([PYTHON_LOCATION is ${PYTHON_LOCATION}])
 AC_SUBST(PYTHON_LOCATION)
 
-# check support for python
+# The optional Python location may not be in the PATH 
+# and LD_LIBRARY_PATH, so it has to be added that the
+# checking macro succeeds.
 ac_saved_path="$PATH"
 ac_saved_ld_library_path="$LD_LIBRARY_PATH"
 PATH="$PYTHON_LOCATION/bin:$PATH"
 LD_LIBRARY_PATH="$PYTHON_LOCATION/lib"
 export PATH LD_LIBRARY_PATH
 AM_PATH_PYTHON([2.3])
+
+# PYTHON_CFLAGS and PYTHON_LIBS in the original
+# python.m4 macro are based on the ${prefix} and
+# ${execprefix} automake variables. However the
+# optional $PYTHON_LOCATION may point to a 
+# different place, so these variables are re-evaluated.
 
 dnl Get the values of Python CFLAGS
 AC_CACHE_CHECK([for $am_cv_pathless_PYTHON include], [am_cv_python_include],
