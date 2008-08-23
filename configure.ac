@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.3 2008/05/06 14:33:05 ptedesco Exp $
+# Version info: $Id: configure.ac,v 1.4 2008/08/23 05:43:39 szamsu Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.3 $])
+AC_REVISION([$Revision: 1.4 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -82,9 +82,6 @@ AM_CONDITIONAL([USE_GSOAP_2_7_10],[test "x$GSOAP_VERSION_NUM" = "x020710"])
 #cgsi-gsoap
 AC_CGSI_GSOAP
 
-#swig 
-AC_SWIG
-
 # --with arguments
 #-------------------------------------------------------------------------------
 
@@ -131,9 +128,36 @@ AC_SUBST(VOMS_NOTHR_LIBS)
 
 ################################################################################
 
+# Python location for optional Python 2.5 support
+AC_ARG_WITH([python-location],
+    [AS_HELP_STRING([--with-python-location=VAL],[Python location])],
+    [PYTHON_LOCATION=${withval}],
+    [PYTHON_LOCATION="/usr"])
+AC_MSG_RESULT([PYTHON_LOCATION is ${PYTHON_LOCATION}])
+AC_SUBST(PYTHON_LOCATION)
+
 # check support for python
+ac_saved_path="$PATH"
+ac_saved_ld_library_path="$LD_LIBRARY_PATH"
+PATH="$PYTHON_LOCATION/bin:$PATH"
+LD_LIBRARY_PATH="$PYTHON_LOCATION/lib"
+export PATH LD_LIBRARY_PATH
 AM_PATH_PYTHON([2.3])
-AC_PYTHON([2.3])
+
+dnl Get the values of Python CFLAGS
+AC_CACHE_CHECK([for $am_cv_pathless_PYTHON include], [am_cv_python_include],
+[am_cv_python_include=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_python_inc(0,prefix='$PYTHON_LOCATION')"`])
+AC_SUBST([PYTHON_CFLAGS], ["-I${am_cv_python_include}"])
+
+dnl Get the values of Python LIBS
+AC_CACHE_CHECK([for $am_cv_pathless_PYTHON lib], [am_cv_python_lib],
+[am_cv_python_lib=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_python_lib(0,1,prefix='$PYTHON_LOCATION')" 2>/dev/null || echo "${PYTHON_LOCATION}/lib/python${PYTHON_VERSION}/config"`])
+AC_SUBST([PYTHON_LIBS], ["-L${am_cv_python_lib}/config -lpython${PYTHON_VERSION}"])
+
+PATH="$ac_saved_path"
+LD_LIBRARY_PATH="$ac_saved_ld_library_path"
+
+AC_MSG_RESULT([PYTHON_LIBS is ${PYTHON_LIBS}])
 AC_MSG_RESULT([PYTHON_CFLAGS is ${PYTHON_CFLAGS}])
 
 # swig
