@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.45 $ $Date: 2008/05/27 15:47:38 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.46 $ $Date: 2008/09/18 14:52:26 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -68,7 +68,7 @@ srm_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		} else {
-			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown error", gfal_remote_type, srmfunc, srm_endpoint);
+			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown SOAP error (%d)", gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		}
@@ -189,7 +189,7 @@ srm_getxe (int nbfiles, const char **surls, const char *srm_endpoint,
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		} else {
-			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown error", gfal_remote_type, srmfunc, srm_endpoint);
+			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown SOAP error (%d)", gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		}
@@ -315,7 +315,7 @@ srm_getstatusxe (int reqid, const char *srm_endpoint, struct srm_filestatus **fi
 			gfal_errmsg (errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		} else {
-			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown error", gfal_remote_type, srmfunc, srm_endpoint);
+			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown SOAP error (%d)", gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		}
@@ -429,7 +429,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				sav_errno = ECOMM;
 			} else {
-				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown error", gfal_remote_type, srmfunc, srm_endpoint);
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown SOAP error (%d)", gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 				sav_errno = ECOMM;
 			}
@@ -467,7 +467,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				sav_errno = ECOMM;
 			} else {
-				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown error", gfal_remote_type, srmfunc, srm_endpoint);
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown SOAP error (%d)", gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 				sav_errno = ECOMM;
 			}
@@ -509,7 +509,7 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 				gfal_errmsg (errbuf, errbufsz, errmsg);
 				sav_errno = ECOMM;
 			} else {
-				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown error", gfal_remote_type, srmfunc_status, srm_endpoint);
+				snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown SOAP error (%d)", gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
 				gfal_errmsg(errbuf, errbufsz, errmsg);
 				sav_errno = ECOMM;
 			}
@@ -628,7 +628,7 @@ srm_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint,
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		} else {
-			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown error", gfal_remote_type, srmfunc, srm_endpoint);
+			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown SOAP error (%d)", gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		}
@@ -726,7 +726,7 @@ srm_set_xfer_status (const char *status, const char *srm_endpoint, int reqid, in
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		} else {
-			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown error", gfal_remote_type, srmfunc, srm_endpoint);
+			snprintf (errmsg, ERRMSG_LEN - 1, "[%s][%s] %s: Unknown SOAP error (%d)", gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 			gfal_errmsg(errbuf, errbufsz, errmsg);
 			sav_errno = ECOMM;
 		}
