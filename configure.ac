@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.5 2008/08/23 05:49:33 szamsu Exp $
+# Version info: $Id: configure.ac,v 1.6 2008/10/07 07:20:37 szamsu Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.5 $])
+AC_REVISION([$Revision: 1.6 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -44,7 +44,7 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
 # some default values
-if [ $(uname -m) = 'x86_64' ]; then
+if test $(uname -m) = 'x86_64'; then
     GLOBUS_FLAVOUR_DEFAULT=gcc64dbg
     GLOBUS_FLAVOUR_PTHR_DEFAULT=gcc64dbgpthr
 else
@@ -170,6 +170,31 @@ AC_MSG_RESULT([PYTHON_CFLAGS is ${PYTHON_CFLAGS}])
 
 # swig
 AC_SWIG([1.3.0])
+# we also need to set SWIG_LIB, because the one built into 
+# the 'swig' binary will not be valid in a userspace build
+for SWIG_LIB_PATH in \
+    ${SWIG_INSTALL_PATH}/lib/swig${swig_major_ver}.${swig_minor_ver} \
+    ${SWIG_INSTALL_PATH}/lib/swig${swig_major_ver}.${swig_minor_ver}.${swig_micro_ver} \
+    ${SWIG_INSTALL_PATH}/lib/swig/${swig_major_ver}.${swig_minor_ver} \
+    ${SWIG_INSTALL_PATH}/lib/swig/${swig_major_ver}.${swig_minor_ver}.${swig_micro_ver} \
+    ${SWIG_INSTALL_PATH}/lib64/swig${swig_major_ver}.${swig_minor_ver} \
+    ${SWIG_INSTALL_PATH}/lib64/swig${swig_major_ver}.${swig_minor_ver}.${swig_micro_ver} \
+    ${SWIG_INSTALL_PATH}/lib64/swig/${swig_major_ver}.${swig_minor_ver} \
+    ${SWIG_INSTALL_PATH}/lib64/swig/${swig_major_ver}.${swig_minor_ver}.${swig_micro_ver} \
+    ${SWIG_INSTALL_PATH}/share/swig${swig_major_ver}.${swig_minor_ver} \
+    ${SWIG_INSTALL_PATH}/share/swig${swig_major_ver}.${swig_minor_ver}.${swig_micro_ver} \
+    ${SWIG_INSTALL_PATH}/share/swig/${swig_major_ver}.${swig_minor_ver} \
+    ${SWIG_INSTALL_PATH}/share/swig/${swig_major_ver}.${swig_minor_ver}.${swig_micro_ver} \
+    failed; do
+    if test -d ${SWIG_LIB_PATH}; then break; fi
+done
+if test "${SWIG_LIB_PATH}" = 'failed'; then
+    AC_MSG_RESULT([Could not find swig library!])
+else
+    AC_MSG_RESULT([swig library path: $SWIG_LIB_PATH])
+    AC_SUBST(SWIG_LIB_PATH)
+fi
+
 
 # Checks for header files.
 AC_HEADER_DIRENT

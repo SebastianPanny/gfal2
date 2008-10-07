@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.6 2008/09/17 09:04:09 ptedesco Exp $
+# Version info: $Id: Makefile.am,v 1.7 2008/10/07 07:20:37 szamsu Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -147,7 +147,7 @@ _gfal_la_CFLAGS = $(PYTHON_CFLAGS)
 _gfal_la_LIBADD = libgfal.la
 
 gfal_wrap.c: gfal.i lcg-typemaps.python.i
-	$(SWIG) -python -o $@ $<
+	SWIG_LIB=$(SWIG_LIB_PATH) $(SWIG) -python -o $@ $<
 
 _gfalthr_la_SOURCES = gfalthr.i lcg-typemaps.python.i gfalthr_wrap.c
 _gfalthr_la_LDFLAGS = -module
@@ -155,7 +155,7 @@ _gfalthr_la_CFLAGS = $(PYTHON_CFLAGS)
 _gfalthr_la_LIBADD = libgfal_pthr.la
 
 gfalthr_wrap.c: gfalthr.i lcg-typemaps.python.i
-	$(SWIG) -python -o $@ $<
+	SWIG_LIB=$(SWIG_LIB_PATH) $(SWIG) -python -o $@ $<
 
 
 GFAL_SOURCE_FILES = \
