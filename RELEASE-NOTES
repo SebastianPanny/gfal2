@@ -1,6 +1,14 @@
+*** Release glite-data-gfal_R_1_10_18_2 2008-10-07
+
+    o Experimenting with Python 2.5 support.
+    o Using --with-swig-prefix to really use ETICS relocated Swig dependency.
+    o Setting SWIG_LIB, because the one built into the 'swig'
+    binary will not be valid in a userspace build, when Swig
+    is relocated.
+
 *** Release glite-data-gfal_R_1_10_18_1 2008-09-19
-	o Improve error message in case of soap error different from SOAP_EOF, and with no error string
-	o added missing libraries to python modules
+    o Improve error message in case of soap error different from SOAP_EOF, and with no error string
+    o added missing libraries to python modules
 
 *** Release glite-data-gfal_R_1_10_17_4 2008-08-23
 
@@ -10,9 +18,9 @@
 
 *** Release glite-data-gfal_R_1_10_17_3 2008-08-15
 
-	o SOAP_FMAC3 and SOAP_FMAC5 are used in the generated gSOAP files,
-	  however stdsoap2.h uses SOAP_FMAC1, which has to be redefiened
-	  as well, when included in these sources.
+    o SOAP_FMAC3 and SOAP_FMAC5 are used in the generated gSOAP files,
+      however stdsoap2.h uses SOAP_FMAC1, which has to be redefiened
+      as well, when included in these sources.
       This should fix the SL5 build.
 
 *** Release glite-data-gfal_R_1_10_17_2 2008-07-30
