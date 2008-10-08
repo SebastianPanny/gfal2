@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.7 2008/10/07 07:20:37 szamsu Exp $
+# Version info: $Id: Makefile.am,v 1.8 2008/10/08 14:54:31 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -138,6 +138,10 @@ BUILT_SOURCES = \
 	gfalthr_wrap.c
 
 # python
+pythondir = $(libdir)/python
+pkgpythondir = $(pythondir)
+pyexecdir = $(libdir)/python
+pkgpyexecdir = $(pyexecdir)
 pkgpython_PYTHON = gfal.py gfalthr.py
 pkgpyexec_LTLIBRARIES = _gfal.la _gfalthr.la
 
