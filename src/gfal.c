@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.97 $ $Date: 2008/10/16 12:10:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.98 $ $Date: 2008/10/16 12:19:58 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -77,7 +77,7 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 			return (-1);
 		}
 		else if (!vd->data || !vd->data[0]) {
-			gfal_errmsg (errbuf, errbufsz, "Unable to get VOMS info from the proxy (Memory problem?)");
+			gfal_errmsg (errbuf, errbufsz, "Unable to get VOMS info from the proxy (Memory problem?)", GFAL_ERRLEVEL_ERROR);
 			return (-1);
 		}
 
@@ -140,7 +140,7 @@ gfal_get_vo (char *errbuf, int errbufsz)
 		gfal_parse_vomsdata (errbuf, errbufsz);
 
 	if (gfal_vo == NULL)
-		gfal_errmsg (errbuf, errbufsz, "Unable to get the VO name neither from environment (LCG_GFAL_VO) nor from the proxy");
+		gfal_errmsg (errbuf, errbufsz, "Unable to get the VO name neither from environment (LCG_GFAL_VO) nor from the proxy", GFAL_ERRLEVEL_ERROR);
 
 	return (gfal_vo);
 }
@@ -2688,7 +2688,7 @@ getfilesizeg (const char *guid, GFAL_LONG64 *filesize, char *errbuf, int errbufs
 	}
 	if (strcmp (cat_type, "edg") == 0) {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "EDG catalogs don't support the getfilesizeg() method.");
+		gfal_errmsg(errbuf, errbufsz, "EDG catalogs don't support the getfilesizeg() method.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
