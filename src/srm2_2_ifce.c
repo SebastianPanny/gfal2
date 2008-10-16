@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.53 $ $Date: 2008/10/16 12:10:11 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.54 $ $Date: 2008/10/16 16:27:16 $
  */
 
 #define _GNU_SOURCE
@@ -2546,11 +2546,11 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 	n = copy_md (reqstatp, repfs, statuses);
 	
 	if (n >= 0) {
-		if (n == 1 && reqstatp->statusCode == SRM_USCORETOO_USCOREMANY_USCORERESULTS &&
+		if (n == 1 && offset && reqstatp->statusCode == SRM_USCORETOO_USCOREMANY_USCORERESULTS &&
 				repfs->pathDetailArray[0] != NULL && repfs->pathDetailArray[0]->arrayOfSubPaths != NULL)
 			/* offset is only supported for a single directory listing */
 			*offset += repfs->pathDetailArray[0]->arrayOfSubPaths->__sizepathDetailArray;
-		else
+		else if (offset)
 			*offset = 0;
 	}
 
