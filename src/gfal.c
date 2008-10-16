@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.96 $ $Date: 2008/07/08 12:41:34 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.97 $ $Date: 2008/10/16 12:10:11 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -41,6 +41,7 @@ static char *gfal_fqan[GFAL_FQAN_MAX];
 static int gfal_nb_fqan = 0;
 static int vomsdataparsed = 0;
 static int nobdii = 0;
+static int gfal_verbose = 0;
 
 enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
@@ -64,14 +65,14 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 		struct vomsdata *vd;
 		int i, len, error;
 		char *pos, *p1, *p2;
-		char errmsg[ERRMSG_LEN];
+		char errmsg[GFAL_ERRMSG_LEN];
 
 		if ((vd = VOMS_Init ("", "")) == NULL ||
 				!VOMS_SetVerificationType (VERIFY_NONE, vd, &error) ||
 				!VOMS_RetrieveFromProxy (RECURSE_CHAIN, vd, &error)) {
 			if (error != 5) { /* error is not "VOMS extension not found!" */
-				VOMS_ErrorMessage (vd, error, errmsg, ERRMSG_LEN);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
+				VOMS_ErrorMessage (vd, error, errmsg, GFAL_ERRMSG_LEN);
+				gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			}
 			return (-1);
 		}
@@ -88,8 +89,8 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 
 			pos = p1 = gfal_fqan[i];
 			if (*p1 != '/') {
-				snprintf (errmsg, ERRMSG_LEN, "Invalid FQAN: %s", gfal_fqan[i]);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
+				snprintf (errmsg, GFAL_ERRMSG_LEN, "Invalid FQAN: %s", gfal_fqan[i]);
+				gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 				return (-1);
 			}
 
@@ -223,14 +224,14 @@ free_xi (int fd)
 
 gfal_access (const char *path, int amode)
 {
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char pathbuf[1104];
 	char *guid = NULL, *surl = NULL, *turl = NULL, *pfn = NULL;
 	struct proto_ops *pops = NULL;
 	char protocol[64];
 	char **supported_protocols;
 
-	if (canonical_url (path, "file", pathbuf, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (path, "file", pathbuf, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (strncmp (pathbuf, "lfn:", 4) == 0) {
@@ -242,13 +243,13 @@ gfal_access (const char *path, int amode)
 		free (cat_type);
 
 		if (islfc)
-			return lfc_accessl (pathbuf + 4, amode, errbuf, ERRMSG_LEN);
+			return lfc_accessl (pathbuf + 4, amode, errbuf, GFAL_ERRMSG_LEN);
 
-		if ((guid = guidfromlfn (pathbuf + 4, errbuf, ERRMSG_LEN)) == NULL)
+		if ((guid = guidfromlfn (pathbuf + 4, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
 	}
 	if (guid || (strncmp (pathbuf, "guid:", 5) == 0 && (guid = pathbuf + 5))) {
-		if ((surl = surlfromguid (guid, errbuf, ERRMSG_LEN)) == NULL)
+		if ((surl = surlfromguid (guid, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
 		if (guid != pathbuf) free (guid);
 	}
@@ -281,7 +282,7 @@ gfal_access (const char *path, int amode)
 		}
 
 		if (srmv2_access (1, (const char **) &surl, srmv2_endpoint, amode,
-					&filestatuses, errbuf, ERRMSG_LEN, 0) < 1 || !filestatuses) {
+					&filestatuses, errbuf, GFAL_ERRMSG_LEN, 0) < 1 || !filestatuses) {
 			free (srmv2_endpoint);
 			return (-1);
 		}
@@ -294,7 +295,7 @@ gfal_access (const char *path, int amode)
 	} else if (strncmp (surl, "sfn:", 4) == 0) {
 		supported_protocols = get_sup_proto ();
 
-		if ((turl = turlfromsfn (surl, supported_protocols, errbuf, ERRMSG_LEN)) == NULL)
+		if ((turl = turlfromsfn (surl, supported_protocols, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
 		if (surl != path) free (surl);
 	}
@@ -303,7 +304,7 @@ gfal_access (const char *path, int amode)
 		return (-1);
 	}
 
-	if (parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, ERRMSG_LEN) < 0) {
+	if (parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, GFAL_ERRMSG_LEN) < 0) {
 		free (turl);
 		return (-1);
 	}
@@ -325,11 +326,11 @@ gfal_access (const char *path, int amode)
 gfal_chmod (const char *path, mode_t mode)
 {
 	char pathbuf[1104];
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char *cat_type = NULL;
 	int islfc;
 
-	if (canonical_url (path, "file", pathbuf, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (path, "file", pathbuf, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (get_cat_type (&cat_type) < 0)
@@ -338,16 +339,16 @@ gfal_chmod (const char *path, mode_t mode)
 	free (cat_type);
 
 	if (islfc && strncmp (pathbuf, "lfn:", 4) == 0) {
-		return (lfc_chmodl (pathbuf + 4, mode, errbuf, ERRMSG_LEN) < 0);
+		return (lfc_chmodl (pathbuf + 4, mode, errbuf, GFAL_ERRMSG_LEN) < 0);
 	} else if (islfc && strncmp (pathbuf, "guid:", 5) == 0) {
 		int i, rc = 0;
 		char **lfns;
 
-		if ((lfns = lfnsforguid (pathbuf + 5, errbuf, ERRMSG_LEN)) == NULL)
+		if ((lfns = lfnsforguid (pathbuf + 5, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
 
 		if (lfns[0] != NULL)
-			rc = lfc_chmodl (lfns[0] + 4, mode, errbuf, ERRMSG_LEN);
+			rc = lfc_chmodl (lfns[0] + 4, mode, errbuf, GFAL_ERRMSG_LEN);
 
 		for (i = 0; lfns[i] != NULL; ++i)
 			free (lfns[i]);
@@ -362,7 +363,7 @@ gfal_chmod (const char *path, mode_t mode)
 
 gfal_close (int fd)
 {
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	int rc;
 	int rc1 = 0;
 	int sav_errno = 0;
@@ -377,7 +378,7 @@ gfal_close (int fd)
 
 	if (xi->surl) {
 		rc1 = set_xfer_done (xi->surl, xi->reqid, xi->fileid,
-				xi->token, xi->oflag, errbuf, ERRMSG_LEN, 0);
+				xi->token, xi->oflag, errbuf, GFAL_ERRMSG_LEN, 0);
 		free (xi->surl);
 		if (xi->token) free (xi->token);
 	}
@@ -415,9 +416,22 @@ gfal_creat64 (const char *filename, mode_t mode)
 	return (gfal_open64 (filename, O_WRONLY|O_CREAT|O_TRUNC, mode));
 }
 
-	void
-gfal_errmsg (char *errbuf, int errbufsz, const char *errmsg)
+	int
+gfal_set_verbose (int value)
 {
+	if (value < 0 || value > 2)
+		return (-1);
+
+	gfal_verbose = value;
+	return (0);
+}
+
+	void
+gfal_errmsg (char *errbuf, int errbufsz, const char *errmsg, int level)
+{
+	if (level > gfal_verbose)
+		continue;
+
 	if (errbuf == NULL)
 		fprintf (stderr, "%s\n", errmsg);
 	else {
@@ -456,7 +470,7 @@ gfal_lseek64 (int fd, off64_t offset, int whence)
 
 gfal_lstat (const char *filename, struct stat *statbuf)
 {
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char *fn;
 	char *guid;
 	char path[1104], pathbuf[1104];
@@ -467,36 +481,36 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 	struct stat64 statb64;
 	char *turl;
 
-	if (canonical_url (filename, "file", path, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (filename, "file", path, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (strncmp (path, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) == NULL)
+		if ((guid = guidfromlfn (path + 4, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
-		if ((fn = surlfromguid (guid, errbuf, ERRMSG_LEN)) == NULL) {
+		if ((fn = surlfromguid (guid, errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			free (guid);
 			return (-1);
 		}
 		free (guid);
 	} else if (strncmp (path, "guid:", 5) == 0) {
-		if ((fn = surlfromguid (path + 5, errbuf, ERRMSG_LEN)) == NULL)
+		if ((fn = surlfromguid (path + 5, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
 	} else
 		fn = (char *)path;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		if ((rc = getfilemd (fn, &statb64, errbuf, ERRMSG_LEN, 0)) == 0)
+		if ((rc = getfilemd (fn, &statb64, errbuf, GFAL_ERRMSG_LEN, 0)) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
 		if (fn != path) free (fn);
 		return (rc);
 	}
 	if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, NULL, errbuf, ERRMSG_LEN)) == NULL) {
+		if ((turl = turlfromsfn (fn, NULL, errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			if (fn != path) free (fn);
 			return (-1);
 		}
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, ERRMSG_LEN)) == 0) {
+	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, GFAL_ERRMSG_LEN)) == 0) {
 		if ((pops = find_pops (protocol)) != NULL) {
 			if ((rc = pops->lstat (pfn, statbuf)) < 0)
 				errno = pops->maperror (pops, 0);
@@ -512,7 +526,7 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 
 gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 {
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char *fn;
 	char *guid;
 	char path[1104], pathbuf[1104];
@@ -522,35 +536,35 @@ gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 	int rc;
 	char *turl;
 
-	if (canonical_url (filename, "file", path, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (filename, "file", path, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (strncmp (path, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) == NULL)
+		if ((guid = guidfromlfn (path + 4, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
-		if ((fn = surlfromguid (guid, errbuf, ERRMSG_LEN)) == NULL) {
+		if ((fn = surlfromguid (guid, errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			free (guid);
 			return (-1);
 		}
 		free (guid);
 	} else if (strncmp (path, "guid:", 5) == 0) {
-		if ((fn = surlfromguid (path + 5, errbuf, ERRMSG_LEN)) == NULL)
+		if ((fn = surlfromguid (path + 5, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
 	} else
 		fn = (char *)path;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		rc = getfilemd (fn, statbuf, errbuf, ERRMSG_LEN, 0);
+		rc = getfilemd (fn, statbuf, errbuf, GFAL_ERRMSG_LEN, 0);
 		if (fn != path) free (fn);
 		return (rc);
 	}
 	if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, NULL, errbuf, ERRMSG_LEN)) == NULL) {
+		if ((turl = turlfromsfn (fn, NULL, errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			if (fn != path) free (fn);
 			return (-1);
 		}
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, ERRMSG_LEN)) == 0) {
+	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, GFAL_ERRMSG_LEN)) == 0) {
 		if ((pops = find_pops (protocol)) != NULL) {
 			if ((rc = pops->lstat64 (pfn, statbuf)) < 0)
 				errno = pops->maperror (pops, 0);
@@ -566,13 +580,13 @@ gfal_lstat64 (const char *filename, struct stat64 *statbuf)
 
 gfal_mkdir (const char *dirname, mode_t mode)
 {
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char path[1104], pathbuf[1104];
 	char *pfn;
 	struct proto_ops *pops = NULL;
 	char protocol[64];
 
-	if (canonical_url (dirname, "file", path, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (dirname, "file", path, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (strncmp (path, "guid:", 5) == 0 ||
@@ -592,7 +606,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
 
 		/* Only LFC has a tree-like structure */
 		if (islfc)
-			return lfc_mkdirp (path + 4, mode, errbuf, ERRMSG_LEN);
+			return lfc_mkdirp (path + 4, mode, errbuf, GFAL_ERRMSG_LEN);
 
 		/* So, mkdir is not supported for non-LFC file catalogs */
 		errno = EPROTONOSUPPORT;
@@ -634,7 +648,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
 	}
 
 	/* It is a TURL */
-	if (parseturl (path, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, ERRMSG_LEN) < 0)
+	if (parseturl (path, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 	if ((pops = find_pops (protocol)) == NULL)
 		return (-1);
@@ -648,7 +662,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
 
 gfal_open (const char *filename, int flags, mode_t mode)
 {
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	int fd = -1;
 	int i;
 	int fileid;
@@ -680,7 +694,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	char *turl = NULL;
 	struct xfer_info *xi;
 
-	if (canonical_url (filename, "file", path, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (filename, "file", path, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	supported_protocols = get_sup_proto ();
@@ -693,13 +707,13 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
 	if (strncmp (path, "lfn:", 4) == 0) {
 		if (!newfile) {
-			if ((guid = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) == NULL)
+			if ((guid = guidfromlfn (path + 4, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 				goto err;
-			if ((fn = surlfromguid (guid, errbuf, ERRMSG_LEN)) == NULL)
+			if ((fn = surlfromguid (guid, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 				goto err;
 		} else { // newfile
 			/* We check whether LFN exists, and if no, we create it */
-			if ((guid = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) != NULL) {
+			if ((guid = guidfromlfn (path + 4, errbuf, GFAL_ERRMSG_LEN)) != NULL) {
 				/* LFN already exists, and we don't modify existing files, so ... error */
 				errno = EEXIST;
 				goto err;
@@ -717,7 +731,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		}
 	} else if (strncmp (path, "guid:", 5) == 0) {
 		if (!newfile) {
-			if ((fn = surlfromguid (path + 5, errbuf, ERRMSG_LEN)) == NULL)
+			if ((fn = surlfromguid (path + 5, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 				goto err;
 		} else { // newfile
 			/* we check the format of the given GUID */
@@ -728,7 +742,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
 			strncpy (guid_file, path + 5, 37);
 
-			if ((vo = gfal_get_vo (errbuf, ERRMSG_LEN)) == NULL) {
+			if ((vo = gfal_get_vo (errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 				errno = EINVAL;
 				goto err;
 			}
@@ -758,15 +772,15 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		int j = 0;
 
 		/* we need a vo name to generate a valid SURL */
-		if ((vo = gfal_get_vo (errbuf, ERRMSG_LEN)) == NULL) {
+		if ((vo = gfal_get_vo (errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			errno = EINVAL;
 			goto err;
 		}
 
 		/* We get the default se (for the VO), its type and its info */
-		if ((default_se = get_default_se(errbuf, ERRMSG_LEN)) == NULL)
+		if ((default_se = get_default_se(errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			goto err;
-		if (setypesandendpoints (default_se, &se_types, &se_endpoints, errbuf, ERRMSG_LEN) < 0)
+		if (setypesandendpoints (default_se, &se_types, &se_endpoints, errbuf, GFAL_ERRMSG_LEN) < 0)
 			return (-1);
 
 		while (se_types[j]) {
@@ -786,13 +800,13 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
 		if (!isdisk && !issrmv1 && !issrmv2) {
 			free (se_type);
-			gfal_errmsg(errbuf, ERRMSG_LEN, "The Storage Element type is neither 'disk', 'srm_v1' nor 'srm_v2'.");
+			gfal_errmsg(errbuf, GFAL_ERRMSG_LEN, "The Storage Element type is neither 'disk', 'srm_v1' nor 'srm_v2'.", GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			goto err;
 		}
 		free (se_type);
 
-		if (get_seap_info (default_se, &ap, &pn, errbuf, ERRMSG_LEN) < 0)
+		if (get_seap_info (default_se, &ap, &pn, errbuf, GFAL_ERRMSG_LEN) < 0)
 			goto err;
 
 		for (i=0; ap[i]; ++i) {
@@ -804,13 +818,13 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		free (pn);
 
 		if (!port) {
-			gfal_errmsg(errbuf, ERRMSG_LEN, "protocol not supported by Storage Element.");
+			gfal_errmsg(errbuf, GFAL_ERRMSG_LEN, "protocol not supported by Storage Element.", GFAL_ERRLEVEL_ERROR);
 			errno = EPROTONOSUPPORT;
 			goto err;
 		}
 
 		/* now create dir path which is either sa_path, sa_root or combination of ce_ap & sa_root */
-		if (get_storage_path (default_se, NULL, &sa_path, &sa_root, errbuf, ERRMSG_LEN) < 0) 
+		if (get_storage_path (default_se, NULL, &sa_path, &sa_root, errbuf, GFAL_ERRMSG_LEN) < 0) 
 			goto err;
 		if(sa_path != NULL) {
 			if (isdisk)
@@ -819,7 +833,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 				sprintf (dir_path, "srm://%s%s%s", default_se, *sa_path=='/'?"":"/", sa_path);
 		} else {  /* sa_root != NULL */
 			if (isdisk) {
-				if (get_ce_ap (default_se, &ce_ap, errbuf, ERRMSG_LEN) < 0)
+				if (get_ce_ap (default_se, &ce_ap, errbuf, GFAL_ERRMSG_LEN) < 0)
 					goto err;
 
 				sprintf (dir_path, "sfn://%s%s%s%s%s", default_se, 
@@ -848,14 +862,14 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
 	if (strncmp (fn, "srm:", 4) == 0) {
 		if ((turl = turlfromsurl2 (fn, DEFAULT_NEWFILE_SIZE, NULL, supported_protocols,
-						flags, &reqid, &fileid, &token, errbuf, ERRMSG_LEN, 0)) == NULL)
+						flags, &reqid, &fileid, &token, errbuf, GFAL_ERRMSG_LEN, 0)) == NULL)
 			goto err;
 	} else if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, supported_protocols, errbuf, ERRMSG_LEN)) == NULL)
+		if ((turl = turlfromsfn (fn, supported_protocols, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			goto err;
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if (parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, ERRMSG_LEN) < 0)
+	if (parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, GFAL_ERRMSG_LEN) < 0)
 		goto err;
 	if ((pops = find_pops (protocol)) == NULL)
 		goto err;
@@ -881,14 +895,14 @@ gfal_open (const char *filename, int flags, mode_t mode)
 			free (token);
 		}
 		(void) set_xfer_running (xi->surl, xi->reqid, xi->fileid,
-				xi->token, errbuf, ERRMSG_LEN, 0);
+				xi->token, errbuf, GFAL_ERRMSG_LEN, 0);
 	}
 
 	if (newfile && lfn) {
-		if (create_alias_m (guid_file, lfn, mode, 0, errbuf, ERRMSG_LEN) < 0)
+		if (create_alias_m (guid_file, lfn, mode, 0, errbuf, GFAL_ERRMSG_LEN) < 0)
 			goto err;
-		if (register_pfn (guid_file, fn, errbuf, ERRMSG_LEN) < 0) {
-			unregister_alias (guid_file, path, errbuf, ERRMSG_LEN);
+		if (register_pfn (guid_file, fn, errbuf, GFAL_ERRMSG_LEN) < 0) {
+			unregister_alias (guid_file, path, errbuf, GFAL_ERRMSG_LEN);
 			goto err;
 		}
 	}
@@ -903,7 +917,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 err:
 	if (fd >= 0) {
 		int sav_errno = errno;
-		deletepfn (pfn, NULL, errbuf, ERRMSG_LEN);
+		deletepfn (pfn, NULL, errbuf, GFAL_ERRMSG_LEN);
 		errno = sav_errno;
 	}
 	if (guid) free (guid);
@@ -923,14 +937,14 @@ gfal_opendir (const char *dirname)
 {
 	struct dir_info *di;
 	DIR *dir;
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char path[1104], pathbuf[1104];
 	char *pfn;
 	struct proto_ops *pops = NULL;
 	char protocol[64];
 	int islfn = 0;
 
-	if (canonical_url (dirname, "file", path, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (dirname, "file", path, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (NULL);
 
 	if ((strncmp (path, "lfn:", 4) == 0 && (islfn = 1)) ||
@@ -946,8 +960,8 @@ gfal_opendir (const char *dirname)
 		}
 		free (cat_type);
 
-		if (islfn) dir = (DIR *) lfc_opendirlg (path + 4, NULL, errbuf, ERRMSG_LEN);
-		else	   dir = (DIR *) lfc_opendirlg (NULL, path, errbuf, ERRMSG_LEN);
+		if (islfn) dir = (DIR *) lfc_opendirlg (path + 4, NULL, errbuf, GFAL_ERRMSG_LEN);
+		else	   dir = (DIR *) lfc_opendirlg (NULL, path, errbuf, GFAL_ERRMSG_LEN);
 
 		if (dir == NULL) return (NULL);
 		if ((di = alloc_di (dir)) == NULL)
@@ -976,7 +990,7 @@ gfal_opendir (const char *dirname)
 		errno = EPROTONOSUPPORT;
 		return (NULL);
 	}
-	if (parseturl (path, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, ERRMSG_LEN) < 0)
+	if (parseturl (path, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (NULL);
 	if ((pops = find_pops (protocol)) == NULL)
 		return (NULL);
@@ -1040,15 +1054,15 @@ gfal_rename (const char *old_name, const char *new_name)
 {
 	char *new_pfn;
 	char *old_pfn;
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char path1[1104], pathbuf1[1104];
 	char path2[1104], pathbuf2[1104];
 	struct proto_ops *pops = NULL;
 	char protocol1[64];
 	char protocol2[64];
 
-	if (canonical_url (old_name, "file", path1, 1104, errbuf, ERRMSG_LEN) < 0 ||
-	    canonical_url (new_name, "file", path2, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (old_name, "file", path1, 1104, errbuf, GFAL_ERRMSG_LEN) < 0 ||
+	    canonical_url (new_name, "file", path2, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (strncmp (path1, "lfn:", 4) == 0 && strncmp (path2, "lfn:", 4) == 0) {
@@ -1062,18 +1076,18 @@ gfal_rename (const char *old_name, const char *new_name)
 		free (cat_type);
 
 		if (islfc)
-			return lfc_renamel (path1 + 4, path2 + 4, errbuf, ERRMSG_LEN);
+			return lfc_renamel (path1 + 4, path2 + 4, errbuf, GFAL_ERRMSG_LEN);
 		else if (isedg) {
 			char *guid;
 			int rc;
 
-			if ((guid = guidfromlfn (path1 + 4, errbuf, ERRMSG_LEN)) == NULL)
+			if ((guid = guidfromlfn (path1 + 4, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 				return (-1);
-			if (rmc_register_alias (guid, path2, errbuf, ERRMSG_LEN) < 0) {
+			if (rmc_register_alias (guid, path2, errbuf, GFAL_ERRMSG_LEN) < 0) {
 				free (guid);
 				return (-1);
 			}
-			rc = rmc_unregister_alias (guid, path1, errbuf, ERRMSG_LEN);
+			rc = rmc_unregister_alias (guid, path1, errbuf, GFAL_ERRMSG_LEN);
 			free (guid);
 			return (rc);
 		}
@@ -1096,9 +1110,9 @@ gfal_rename (const char *old_name, const char *new_name)
 		errno = EPROTONOSUPPORT;
 		return (-1);
 	}
-	if (parseturl (path1, protocol1, sizeof(protocol1), pathbuf1, sizeof(pathbuf1), &old_pfn, errbuf, ERRMSG_LEN) < 0)
+	if (parseturl (path1, protocol1, sizeof(protocol1), pathbuf1, sizeof(pathbuf1), &old_pfn, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
-	if (parseturl (path2, protocol2, sizeof(protocol2), pathbuf2, sizeof(pathbuf2), &new_pfn, errbuf, ERRMSG_LEN) < 0)
+	if (parseturl (path2, protocol2, sizeof(protocol2), pathbuf2, sizeof(pathbuf2), &new_pfn, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 	if (strcmp (protocol1, protocol2)) {
 		errno = EINVAL;
@@ -1116,13 +1130,13 @@ gfal_rename (const char *old_name, const char *new_name)
 
 gfal_rmdir (const char *dirname)
 {
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char path[1104], pathbuf[1104];
 	char *pfn;
 	struct proto_ops *pops = NULL;
 	char protocol[64];
 
-	if (canonical_url (dirname, "file", path, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (dirname, "file", path, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (strncmp (path, "lfn:", 4) == 0) {
@@ -1135,7 +1149,7 @@ gfal_rmdir (const char *dirname)
 		free (cat_type);
 
 		if (islfc)
-			return lfc_rmdirl (path + 4, errbuf, ERRMSG_LEN);
+			return lfc_rmdirl (path + 4, errbuf, GFAL_ERRMSG_LEN);
 
 		errno = EPROTONOSUPPORT;
 		return (-1);
@@ -1169,7 +1183,7 @@ gfal_rmdir (const char *dirname)
 			return (-1);
 		}
 
-		if (srmv2_rmdir (path, srmv2_endpoint, 0, &filestatuses, errbuf, ERRMSG_LEN, 0) < 1 || !filestatuses) {
+		if (srmv2_rmdir (path, srmv2_endpoint, 0, &filestatuses, errbuf, GFAL_ERRMSG_LEN, 0) < 1 || !filestatuses) {
 			free (srmv2_endpoint);
 			return (-1);
 		}
@@ -1186,7 +1200,7 @@ gfal_rmdir (const char *dirname)
 		errno = EPROTONOSUPPORT;
 		return (-1);
 	}
-	if (parseturl (path, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, ERRMSG_LEN) < 0)
+	if (parseturl (path, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 	if ((pops = find_pops (protocol)) == NULL)
 		return (-1);
@@ -1214,7 +1228,7 @@ gfal_setfilchg (int fd, const void *buf, size_t size)
 
 gfal_stat (const char *filename, struct stat *statbuf)
 {
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char *fn;
 	char *guid;
 	char path[1104], pathbuf[1104];
@@ -1225,7 +1239,7 @@ gfal_stat (const char *filename, struct stat *statbuf)
 	struct stat64 statb64;
 	char *turl;
 
-	if (canonical_url (filename, "file", path, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (filename, "file", path, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (strncmp (path, "lfn:", 4) == 0) {
@@ -1238,34 +1252,34 @@ gfal_stat (const char *filename, struct stat *statbuf)
 		free (cat_type);
 
 		if (islfc)
-			return lfc_statl (path + 4, NULL, statbuf, errbuf, ERRMSG_LEN);
+			return lfc_statl (path + 4, NULL, statbuf, errbuf, GFAL_ERRMSG_LEN);
 
-		if ((guid = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) == NULL)
+		if ((guid = guidfromlfn (path + 4, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
-		if ((fn = surlfromguid (guid, errbuf, ERRMSG_LEN)) == NULL) {
+		if ((fn = surlfromguid (guid, errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			free (guid);
 			return (-1);
 		}
 		free (guid);
 	} else if (strncmp (path, "guid:", 5) == 0) {
-		if ((fn = surlfromguid (path + 5, errbuf, ERRMSG_LEN)) == NULL)
+		if ((fn = surlfromguid (path + 5, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
 	} else
 		fn = (char *)path;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		if ((rc = getfilemd (fn, &statb64, errbuf, ERRMSG_LEN, 0)) == 0)
+		if ((rc = getfilemd (fn, &statb64, errbuf, GFAL_ERRMSG_LEN, 0)) == 0)
 			rc = mdtomd32 (&statb64, statbuf);
 		if (fn != path) free (fn);
 		return (rc);
 	}
 	if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, NULL, errbuf, ERRMSG_LEN)) == NULL) {
+		if ((turl = turlfromsfn (fn, NULL, errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			if (fn != path) free (fn);
 			return (-1);
 		}
 	} else		/* assume that is a pfn */
 		turl = fn;
-	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, ERRMSG_LEN)) == 0) {
+	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf), &pfn, errbuf, GFAL_ERRMSG_LEN)) == 0) {
 		if ((pops = find_pops (protocol)) != NULL) {
 			if ((rc = pops->stat (pfn, statbuf)) < 0)
 				errno = pops->maperror (pops, 0);
@@ -1281,7 +1295,7 @@ gfal_stat (const char *filename, struct stat *statbuf)
 
 gfal_stat64 (const char *filename, struct stat64 *statbuf)
 {
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char *fn;
 	char *guid;
 	char path[1104], pathbuf[1104];
@@ -1291,36 +1305,36 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 	int rc;
 	char *turl;
 
-	if (canonical_url (filename, "file", path, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (filename, "file", path, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (strncmp (path, "lfn:", 4) == 0) {
-		if ((guid = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) == NULL)
+		if ((guid = guidfromlfn (path + 4, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
-		if ((fn = surlfromguid (guid, errbuf, ERRMSG_LEN)) == NULL) {
+		if ((fn = surlfromguid (guid, errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			free (guid);
 			return (-1);
 		}
 		free (guid);
 	} else if (strncmp (path, "guid:", 5) == 0) {
-		if ((fn = surlfromguid (path + 5, errbuf, ERRMSG_LEN)) == NULL)
+		if ((fn = surlfromguid (path + 5, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
 	} else
 		fn = (char *)path;
 	if (strncmp (fn, "srm:", 4) == 0) {
-		rc = getfilemd (fn, statbuf, errbuf, ERRMSG_LEN, 0);
+		rc = getfilemd (fn, statbuf, errbuf, GFAL_ERRMSG_LEN, 0);
 		if (fn != path) free (fn);
 		return (rc);
 	}
 	if (strncmp (fn, "sfn:", 4) == 0) {
-		if ((turl = turlfromsfn (fn, NULL, errbuf, ERRMSG_LEN)) == NULL) {
+		if ((turl = turlfromsfn (fn, NULL, errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			if (fn != path) free (fn);
 			return (-1);
 		}
 	} else		/* assume that is a pfn */
 		turl = fn;
 	if ((rc = parseturl (turl, protocol, sizeof(protocol), pathbuf, sizeof(pathbuf),
-					&pfn, errbuf, ERRMSG_LEN)) == 0) {
+					&pfn, errbuf, GFAL_ERRMSG_LEN)) == 0) {
 		if ((pops = find_pops (protocol)) != NULL) {
 			if ((rc = pops->stat64 (pfn, statbuf)) < 0)
 				errno = pops->maperror (pops, 0);
@@ -1337,31 +1351,31 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 gfal_unlink (const char *filename)
 {
 	char path[1104];
-	char errbuf[ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN];
 	char *guid = NULL, *guid_lfn = NULL;
 	int islfn = 0, i = 0;
 	char **pfns = NULL;
 	int rc = 0;
 	int *results = NULL;
 
-	if (canonical_url (filename, "file", path, 1104, errbuf, ERRMSG_LEN) < 0)
+	if (canonical_url (filename, "file", path, 1104, errbuf, GFAL_ERRMSG_LEN) < 0)
 		return (-1);
 
 	if (strncmp (path, "lfn:", 4) == 0) {
 		islfn = 1;
-		if ((guid_lfn = guidfromlfn (path + 4, errbuf, ERRMSG_LEN)) == NULL)
+		if ((guid_lfn = guidfromlfn (path + 4, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 			return (-1);
 	}
 	if ((islfn && (guid = guid_lfn)) || (strncmp (path, "guid:", 5) == 0 && (guid = strdup (path + 5)))) {
 		/* must try to delete all PFNs mapped to this guid */
-		if ((pfns = surlsfromguid (guid, errbuf, ERRMSG_LEN)) == NULL) {
+		if ((pfns = surlsfromguid (guid, errbuf, GFAL_ERRMSG_LEN)) == NULL) {
 			if (guid != NULL) free (guid);
 			return (-1);
 		}
 		while (pfns[i]) {
-			if (deletepfn (pfns[i], guid, errbuf, ERRMSG_LEN) == 0 && islfn) {
+			if (deletepfn (pfns[i], guid, errbuf, GFAL_ERRMSG_LEN) == 0 && islfn) {
 				gfal_unregister_pfns (1, (const char **) &guid, (const char **) &pfns[i],
-						0, &results, errbuf, ERRMSG_LEN);
+						0, &results, errbuf, GFAL_ERRMSG_LEN);
 				free (results);
 			}
 			else --rc;
@@ -1370,12 +1384,12 @@ gfal_unlink (const char *filename)
 		free (pfns);
 
 		if (rc == 0 && islfn)			
-			rc = unregister_alias (guid, path + 4, errbuf, ERRMSG_LEN);
+			rc = unregister_alias (guid, path + 4, errbuf, GFAL_ERRMSG_LEN);
 
 		if (guid != NULL) free (guid);
 		return (rc == 0 ? 0 : -1);
 	} else
-		return (deletepfn (path, NULL, errbuf, ERRMSG_LEN));
+		return (deletepfn (path, NULL, errbuf, GFAL_ERRMSG_LEN));
 }
 
 	ssize_t
@@ -1436,14 +1450,14 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
 		return (-1);
 
 	if (req->nbfiles != 1 || req->surls == NULL || req->surls[0] == NULL) {
-		snprintf (errmsg, ERRMSG_LEN - 1, "gfal_removedir: you have to specify only one directory SURL at a time");
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "gfal_removedir: you have to specify only one directory SURL at a time");
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1460,8 +1474,8 @@ gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
 		/* for the moment, there is no field in the gfal struct for recursive removal */
 		ret = srmv2_rmdir (req->surls[0], req->endpoint, 0, &(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
 	} else { // req->setype == TYPE_SRM or TYPE_SE
-		snprintf (errmsg, ERRMSG_LEN - 1, "gfal_removedir: only SRMv2.2 supports this operation");
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "gfal_removedir: only SRMv2.2 supports this operation");
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1562,7 +1576,7 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 gfal_ls_end (gfal_internal req, char *errbuf, int errbufsz)
 {
 	if (req == NULL) {
-		gfal_errmsg (errbuf, errbufsz, "gfal_ls_end: invalid arguement");
+		gfal_errmsg (errbuf, errbufsz, "gfal_ls_end: invalid arguement", GFAL_ERRLEVEL_ERROR);
 		return (-1);
 	}
 
@@ -1596,9 +1610,9 @@ gfal_get (gfal_internal req, char *errbuf, int errbufsz)
 		ret = srm_getxe (req->nbfiles, (const char **) req->surls, req->endpoint, req->protocols,
 				&(req->srm_reqid), &(req->srm_statuses), errbuf, errbufsz, req->timeout);
 	} else { // req->setype == TYPE_SE
-		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN - 1, "gfal_get: SFNs aren't supported");
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		char errmsg[GFAL_ERRMSG_LEN];
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "gfal_get: SFNs aren't supported");
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1629,9 +1643,9 @@ gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz)
 		ret = srm_getstatusxe (req->srm_reqid, req->endpoint, &(req->srm_statuses),
 				errbuf, errbufsz, req->timeout);
 	} else { // req->setype == TYPE_SE
-		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN - 1, "gfal_getstatus: SFNs aren't supported");
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		char errmsg[GFAL_ERRMSG_LEN];
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "gfal_getstatus: SFNs aren't supported");
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1660,7 +1674,7 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
 				req->protocols, req->srmv2_desiredpintime, &(req->srmv2_token), &(req->srmv2_pinstatuses),
 				errbuf, errbufsz, req->timeout);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "gfal_prestage: Only SRMv2-compliant SEs are supported");
+		gfal_errmsg (errbuf, errbufsz, "gfal_prestage: Only SRMv2-compliant SEs are supported", GFAL_ERRLEVEL_ERROR);
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1684,7 +1698,7 @@ gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
 		ret = srmv2_prestagestatuse (req->srmv2_token, req->endpoint, &(req->srmv2_pinstatuses),
 				errbuf, errbufsz, req->timeout);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "gfal_prestagestatus: Only SRMv2-compliant SEs are supported");
+		gfal_errmsg (errbuf, errbufsz, "gfal_prestagestatus: Only SRMv2-compliant SEs are supported", GFAL_ERRLEVEL_ERROR);
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1709,7 +1723,7 @@ gfal_pin (gfal_internal req, char *errbuf, int errbufsz)
 				req->srmv2_desiredpintime, &(req->srmv2_pinstatuses),
 				errbuf, errbufsz, req->timeout);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "gfal_pin: Only SRMv2-compliant SEs are supported");
+		gfal_errmsg (errbuf, errbufsz, "gfal_pin: Only SRMv2-compliant SEs are supported", GFAL_ERRLEVEL_ERROR);
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1736,7 +1750,7 @@ gfal_release (gfal_internal req, char *errbuf, int errbufsz)
 		int i;
 
 		if (req->srm_statuses == NULL) {
-			gfal_errmsg (errbuf, errbufsz, "gfal_release: no SRMv1 file ids");
+			gfal_errmsg (errbuf, errbufsz, "gfal_release: no SRMv1 file ids", GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
@@ -1796,7 +1810,7 @@ gfal_set_xfer_done (gfal_internal req, char *errbuf, int errbufsz)
 		int i;
 
 		if (req->srm_statuses == NULL) {
-			gfal_errmsg (errbuf, errbufsz, "gfal_set_xfer_done: no SRMv1 file ids");
+			gfal_errmsg (errbuf, errbufsz, "gfal_set_xfer_done: no SRMv1 file ids", GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
@@ -1853,7 +1867,7 @@ gfal_set_xfer_running (gfal_internal req, char *errbuf, int errbufsz)
 		int i;
 
 		if (req->srm_statuses == NULL) {
-			gfal_errmsg (errbuf, errbufsz, "gfal_release: no SRMv1 file ids");
+			gfal_errmsg (errbuf, errbufsz, "gfal_release: no SRMv1 file ids", GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
@@ -1906,7 +1920,7 @@ gfal_abortrequest (gfal_internal req, char *errbuf, int errbufsz)
 		}
 		ret = srmv2_abortrequest (req->endpoint, req->srmv2_token, errbuf, errbufsz, req->timeout);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "gfal_abortrequest: Only SRMv2-compliant SEs are supported");
+		gfal_errmsg (errbuf, errbufsz, "gfal_abortrequest: Only SRMv2-compliant SEs are supported", GFAL_ERRLEVEL_ERROR);
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1930,7 +1944,7 @@ gfal_abortfiles (gfal_internal req, char *errbuf, int errbufsz)
 		ret = srmv2_abortfiles (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
 				&(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
 	} else {
-		gfal_errmsg (errbuf, errbufsz, "gfal_abortfiles: Only SRMv2-compliant SEs are supported");
+		gfal_errmsg (errbuf, errbufsz, "gfal_abortfiles: Only SRMv2-compliant SEs are supported", GFAL_ERRLEVEL_ERROR);
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -1982,7 +1996,7 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 	char **se_types;
 	char *srmv1_endpoint = NULL;
 	char *srmv2_endpoint = NULL;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (setypesandendpointsfromsurl (surl, &se_types, &se_endpoints, errbuf, errbufsz) < 0)
 		return (-1);
@@ -2010,8 +2024,8 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 		if (rc > 0) {
 			rc = statuses[0].status == 0 ? 0 : -1;
 			if (statuses[0].explanation) {
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", surl, statuses[0].explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
+				snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: %s", surl, statuses[0].explanation);
+				gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 				free (statuses[0].explanation);
 			}
 			if (statuses[0].surl) free (statuses[0].surl);
@@ -2028,8 +2042,8 @@ deletesurl2 (const char *surl, char *spacetokendesc, char *errbuf, int errbufsz,
 			free (statuses);
 		} else rc = -1;
 	} else {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: SE not published as ClassicSE nor SRMv1 nor SRMv2.2", surl);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: SE not published as ClassicSE nor SRMv1 nor SRMv2.2", surl);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -2105,9 +2119,9 @@ getfilemd (const char *surl, struct stat64 *statbuf, char *errbuf, int errbufsz,
 		if (mdstatuses[0].surl) free (mdstatuses[0].surl);
 		free (mdstatuses);
 	} else {
-		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: SE not published as ClassicSE nor SRMv1 nor SRMv2.2", surl);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		char errmsg[GFAL_ERRMSG_LEN];
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: SE not published as ClassicSE nor SRMv1 nor SRMv2.2", surl);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -2145,12 +2159,12 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_o
 {
 	int len;
 	char *p, *endpoint = NULL;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 	int endpoint_offset=0;
 
 	if (strncmp (surl, "srm://", 6) && strncmp (surl, "sfn://", 6)) {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid SURL (must start with either 'srm://' or 'sfn://')", surl);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: Invalid SURL (must start with either 'srm://' or 'sfn://')", surl);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (NULL);
 	}
@@ -2159,8 +2173,8 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_o
 	if (p == NULL) {
 		p = strchr (surl + 6, '/');
 		if (p == NULL) {
-			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid SURL", surl);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
+			snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: Invalid SURL", surl);
+			gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (NULL);
 		}
@@ -2187,16 +2201,16 @@ canonical_url (const char *url, const char *defproto, char *newurl, int newurlsz
 	int len;
 	char *cat_type;
 	int islfc = 0;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (url == NULL || newurl == NULL || newurlsz < 10) {
-		gfal_errmsg(errbuf, errbufsz, "Function 'canonical_url': bad arguments");
+		gfal_errmsg(errbuf, errbufsz, "Function 'canonical_url': bad arguments", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
 	if (strlen (url) > newurlsz - 1) {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: URL too long", url);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: URL too long", url);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
@@ -2212,14 +2226,14 @@ canonical_url (const char *url, const char *defproto, char *newurl, int newurlsz
 	if ((p_url = strstr (url, ":")) == NULL) {
 		/* use 'defproto' as default URL protocol if defined */
 		if (defproto == NULL) {
-			snprintf (errmsg, ERRMSG_LEN - 1, "%s: No protocol specified", url);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
+			snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: No protocol specified", url);
+			gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
 		if (strlen (url) + strlen (defproto) + 1 > newurlsz - 1) {
-			snprintf (errmsg, ERRMSG_LEN - 1, "%s: URL too long", url);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
+			snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: URL too long", url);
+			gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			errno = ENAMETOOLONG;
 			return (-1);
 		}
@@ -2241,8 +2255,8 @@ canonical_url (const char *url, const char *defproto, char *newurl, int newurlsz
 	if (strcmp (newurl, "lfn:") == 0) {
 		if (*p_url != '/') {
 			if (islfc && lfc_home == NULL && (lfc_home = getenv ("LFC_HOME")) == NULL) {
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Relative path, but LFC_HOME not defined", url);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
+				snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: Relative path, but LFC_HOME not defined", url);
+				gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 				errno = EINVAL;
 				return (-1);
 			}
@@ -2255,8 +2269,8 @@ canonical_url (const char *url, const char *defproto, char *newurl, int newurlsz
 	} else if (strcmp (newurl, "file:") == 0) {
 		if (*p_url != '/') {
 			if (pwd == NULL && (pwd = getenv ("PWD")) == NULL) {
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Can't determine current directory", url);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
+				snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: Can't determine current directory", url);
+				gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 				errno = EINVAL;
 				return (-1);
 			}
@@ -2277,11 +2291,11 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 {
 	int len;
 	char *p;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (strlen (turl) > pathbufsz - 1) {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: TURL too long", turl);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: TURL too long", turl);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
@@ -2289,13 +2303,13 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 
 	/* get protocol */
 	if ((p = strstr (pathbuf, ":/")) == NULL) {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid TURL", turl);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: Invalid TURL", turl);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	} else if ((len = p - pathbuf) > (protocolsz - 1)) {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: TURL protocol too long", turl);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: TURL protocol too long", turl);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	} else {
@@ -2309,8 +2323,8 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 	} else if (strcmp (protocol, "rfio") == 0) {
 		p += 2;
 		if (*p != '/' || (*(p + 1) == '/' && *(p + 2) != '/')) {
-			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid TURL", turl);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
+			snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: Invalid TURL", turl);
+			gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
@@ -2322,8 +2336,8 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pathbuf, int 
 			// For other case, we want hostname:/filename
 			memmove (pathbuf, p, strlen (p) + 1);
 			if ((p = strchr (pathbuf, '/')) == NULL) {
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: Invalid TURL", turl);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
+				snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: Invalid TURL", turl);
+				gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 				errno = EINVAL;
 				return (-1);
 			}
@@ -2348,7 +2362,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 	char **se_types;
 	char *srmv1_endpoint = NULL;
 	char *srmv2_endpoint = NULL;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (setypesandendpointsfromsurl (surl, &se_types, &se_endpoints, errbuf, errbufsz) < 0)
 		return (-1);
@@ -2379,7 +2393,7 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 			if (rc > 0) {
 				rc = statuses[0].status == 0 ? 0 : -1;
 				if (statuses[0].explanation) {
-					gfal_errmsg(errbuf, errbufsz, statuses[0].explanation);
+					gfal_errmsg(errbuf, errbufsz, statuses[0].explanation, GFAL_ERRLEVEL_ERROR);
 					free (statuses[0].explanation);
 				}
 				free (statuses);
@@ -2390,16 +2404,16 @@ set_xfer_done (const char *surl, int reqid, int fileid, char *token, int oflag,
 			if (rc > 0) {
 				rc = statuses[0].status == 0 ? 0 : -1;
 				if (statuses[0].explanation) {
-					snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", surl, statuses[0].explanation);
-					gfal_errmsg(errbuf, errbufsz, errmsg);
+					snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: %s", surl, statuses[0].explanation);
+					gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 					free (statuses[0].explanation);
 				}
 				free (statuses);
 			}
 		}
 	} else {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: SE not published as SRMv1 nor SRMv2.2", surl);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: SE not published as SRMv1 nor SRMv2.2", surl);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -2453,9 +2467,9 @@ set_xfer_running (const char *surl, int reqid, int fileid, char *token,
 	} else if (srmv1_endpoint) {
 		rc = srm_set_xfer_running (srmv1_endpoint, reqid, fileid, errbuf, errbufsz, timeout);
 	} else {
-		char errmsg[ERRMSG_LEN];
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: SE not published as ClassicSE nor SRMv1 nor SRMv2.2", surl);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		char errmsg[GFAL_ERRMSG_LEN];
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: SE not published as ClassicSE nor SRMv1 nor SRMv2.2", surl);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -2470,15 +2484,15 @@ setypesandendpoints (const char *endpoint, char ***se_types, char ***se_endpoint
 	int len;
 	char *p1, *p2;
 	char endpoint_tmp[256];
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (se_types == NULL) {
 		errno = EINVAL;
 		return (-1);
 	}
 	if (strlen (endpoint) + 2 >= sizeof (endpoint_tmp)) {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: Endpoint too long", endpoint);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: Endpoint too long", endpoint);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
@@ -2541,7 +2555,7 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 	char **se_types;
 	char *srmv1_endpoint = NULL;
 	char *srmv2_endpoint = NULL;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (setypesandendpointsfromsurl (surl, &se_types, &se_endpoints, errbuf, errbufsz) < 0)
 		return (NULL);
@@ -2583,8 +2597,8 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 		if (filestatuses[0].status) {
 			errno = filestatuses[0].status;
 			if (filestatuses[0].explanation) {
-				snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", surl, filestatuses[0].explanation);
-				gfal_errmsg(errbuf, errbufsz, errmsg);
+				snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: %s", surl, filestatuses[0].explanation);
+				gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 				free (filestatuses[0].explanation);
 			}
 			free (filestatuses);
@@ -2595,8 +2609,8 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 
 		p = filestatuses[0].turl;
 		if (filestatuses[0].explanation) {
-			snprintf (errmsg, ERRMSG_LEN - 1, "%s: %s", surl, filestatuses[0].explanation);
-			gfal_errmsg(errbuf, errbufsz, errmsg);
+			snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: %s", surl, filestatuses[0].explanation);
+			gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		}
 		free (filestatuses);
 	}  else	if (srmv1_endpoint) { /* if SRM v1.1 supported */
@@ -2622,8 +2636,8 @@ turlfromsurl2 (const char *surl, GFAL_LONG64 filesize, const char *spacetokendes
 		*fileid = filestatuses[0].fileid;
 		free (filestatuses);
 	} else {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: SE not published as ClassicSE nor SRMv1 nor SRMv2.2", surl);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: SE not published as ClassicSE nor SRMv1 nor SRMv2.2", surl);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		p = NULL;
 	}
@@ -2683,7 +2697,7 @@ getfilesizeg (const char *guid, GFAL_LONG64 *filesize, char *errbuf, int errbufs
 
 	/* else */
 	free (cat_type);
-	gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+	gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 	errno = EINVAL;
 	return (-1);
 }
@@ -2703,7 +2717,7 @@ get_catalog_endpoint (char *errbuf, int errbufsz)
 		return (lfc_get_catalog_endpoint (errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (NULL);
 	}
@@ -2724,7 +2738,7 @@ guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 		return (lfc_guidforpfn (pfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (NULL);
 	}
@@ -2738,7 +2752,7 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses
 
 	if (strcmp (cat_type, "edg") == 0) {
 		int i;
-		char errmsg[ERRMSG_LEN];
+		char errmsg[GFAL_ERRMSG_LEN];
 
 		free (cat_type);
 
@@ -2747,7 +2761,7 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses
 			return (-1);
 
 		for (i = 0; i < nbfiles; ++i) {
-			(*guids)[i] = lrc_guidforpfn (pfns[i], errmsg, ERRMSG_LEN);
+			(*guids)[i] = lrc_guidforpfn (pfns[i], errmsg, GFAL_ERRMSG_LEN);
 			(*statuses)[i] = errno;
 		}
 		errno = 0;
@@ -2757,7 +2771,7 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses
 		return (lfc_guidsforpfns (nbfiles, pfns, guids, statuses, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -2777,7 +2791,7 @@ guid_exists (const char *guid, char *errbuf, int errbufsz)
 		return (lfc_guid_exists (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -2797,7 +2811,7 @@ register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 		return (lfc_register_pfn (guid, pfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -2818,7 +2832,7 @@ setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
 		return (lfc_setsize (pfn, filesize, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -2839,7 +2853,7 @@ surlfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (lfc_surlfromguid (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (NULL);
 	}
@@ -2860,7 +2874,7 @@ surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 		return (lfc_surlsfromguid (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (NULL);
 	}
@@ -2917,7 +2931,7 @@ gfal_unregister_pfns (int nbguids, const char **guids, const char **pfns, int ve
 		free (cat_type);
 		return (lfc_unregister_pfns (nbguids, guids, pfns, verbose, results, errbuf, errbufsz));
 	} else {
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		free (cat_type);
 		errno = EINVAL;
 		return (-1);
@@ -2939,7 +2953,7 @@ guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 		return (lfc_guidfromlfn (lfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (NULL);
 	}
@@ -2950,7 +2964,7 @@ lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 {
 	char *cat_type;
 	if (get_cat_type (&cat_type) < 0) {
-		gfal_errmsg (errbuf, errbufsz, "Unable to determine the catalog type");
+		gfal_errmsg (errbuf, errbufsz, "Unable to determine the catalog type", GFAL_ERRLEVEL_ERROR);
 		return (NULL);
 	}
 	if (strcmp (cat_type, "edg") == 0) {
@@ -2961,7 +2975,7 @@ lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 		return (lfc_lfnsforguid (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (NULL);
 	}
@@ -2982,7 +2996,7 @@ replica_exists(const char* guid, char *errbuf, int errbufsz)
 		return (lfc_replica_exists (guid, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3009,7 +3023,7 @@ create_alias_m (const char *guid, const char *lfn, mode_t mode, GFAL_LONG64 size
 		return (lfc_create_alias (guid, lfn, mode, size, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3029,7 +3043,7 @@ register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 		return (lfc_register_alias (guid, lfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3049,7 +3063,7 @@ unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 		return (lfc_unregister_alias (guid, lfn, errbuf, errbufsz));
 	} else {
 		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.");
+		gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3146,7 +3160,7 @@ getbestfile(char **surls, int size, char *errbuf, int errbufsz)
 	}
 	if (i == size) {	/* no default SE entry */
 		if (selected == -1 && localsurl == -1) {	/* only non suported entries */
-			gfal_errmsg(errbuf, errbufsz, "Only non supported entries. No replica entry starting with \"srm://\" or \"sfn://\".");
+			gfal_errmsg(errbuf, errbufsz, "Only non supported entries. No replica entry starting with \"srm://\" or \"sfn://\".", GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (NULL);
 		} else if(localsurl >= 0)
@@ -3164,20 +3178,20 @@ get_default_se(char *errbuf, int errbufsz)
 	char *vo;
 	char *default_se;
 	int i;
-	char se_env[15 + VO_MAXLEN];
-	char errmsg[ERRMSG_LEN];
+	char se_env[15 + GFAL_VO_MAXLEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if((vo = gfal_get_vo (errbuf, errbufsz)) == NULL) {
 		errno = EINVAL;
 		return (NULL);
 	}
-	if(strlen(vo) >= VO_MAXLEN) {
-		snprintf (errmsg, ERRMSG_LEN - 1, "%s: VO name too long", vo);
-		gfal_errmsg(errbuf, errbufsz, errmsg);
+	if(strlen(vo) >= GFAL_VO_MAXLEN) {
+		snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: VO name too long", vo);
+		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (NULL);
 	}
-	snprintf(se_env, 15 + VO_MAXLEN, "VO_%s_DEFAULT_SE", vo);
+	snprintf(se_env, 15 + GFAL_VO_MAXLEN, "VO_%s_DEFAULT_SE", vo);
 	for(i = 3; i < 3 + strlen(vo); ++i) {
 		if (se_env[i] == '.' || se_env[i] == '-') 
 			se_env[i] = '_';
@@ -3307,7 +3321,7 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
 			asprintf (gfal->surls + i, "%s/file%s", dir_path, guid);
 		}
 	} else { /* gfal->relative_path && gfal->nbfiles > 1 */
-		gfal_errmsg(errbuf, errbufsz, "'relative_path' is not compatible with multiple files");
+		gfal_errmsg(errbuf, errbufsz, "'relative_path' is not compatible with multiple files", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3337,21 +3351,21 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	char *srmv1_endpoint = NULL;
 	char *srmv2_endpoint = NULL;
 	int isclassicse = 0;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 	int endpoint_offset=0;
 
 	if (req == NULL || req->nbfiles < 0 || (req->endpoint == NULL && req->surls == NULL)) {
-		gfal_errmsg (errbuf, errbufsz, "Invalid request: Endpoint or SURLs must be specified");
+		gfal_errmsg (errbuf, errbufsz, "Invalid request: Endpoint or SURLs must be specified", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
 	if (req->oflag != 0 && req->filesizes == NULL) {
-		gfal_errmsg (errbuf, errbufsz, "Invalid request: File sizes must be specified for put requests");
+		gfal_errmsg (errbuf, errbufsz, "Invalid request: File sizes must be specified for put requests", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
 	if (req->srmv2_lslevels > 1) {
-		gfal_errmsg (errbuf, errbufsz, "Invalid request: srmv2_lslevels must be 0 or 1");
+		gfal_errmsg (errbuf, errbufsz, "Invalid request: srmv2_lslevels must be 0 or 1", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3370,7 +3384,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 			if ((*gfal)->setype == TYPE_SE) {
 				gfal_internal_free (*gfal);
 				*gfal = NULL;
-				gfal_errmsg (errbuf, errbufsz, "Invalid request: Disabling BDII checks is not compatible with Classic SEs");
+				gfal_errmsg (errbuf, errbufsz, "Invalid request: Disabling BDII checks is not compatible with Classic SEs", GFAL_ERRLEVEL_ERROR);
 				errno = EINVAL;
 				return (-1);
 			}
@@ -3392,7 +3406,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 				if (((*gfal)->setype == TYPE_SRMv2 && s == NULL) || p == NULL || (s != NULL && s < p)) {
 					gfal_internal_free (*gfal);
 					*gfal = NULL;
-					gfal_errmsg (errbuf, errbufsz, "Invalid request: When BDII checks are disabled, you must provide full endpoint");
+					gfal_errmsg (errbuf, errbufsz, "Invalid request: When BDII checks are disabled, you must provide full endpoint", GFAL_ERRLEVEL_ERROR);
 					errno = EINVAL;
 					return (-1);
 				}
@@ -3403,7 +3417,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		} else {
 			gfal_internal_free (*gfal);
 			*gfal = NULL;
-			gfal_errmsg (errbuf, errbufsz, "Invalid request: When BDII checks are disabled, you must provide SURLs and endpoint type");
+			gfal_errmsg (errbuf, errbufsz, "Invalid request: When BDII checks are disabled, you must provide SURLs and endpoint type", GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
@@ -3416,7 +3430,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		(*gfal)->free_endpoint = 1;
 	}
 	if ((strchr ((*gfal)->endpoint, '.') == NULL)) {
-		gfal_errmsg(errbuf, errbufsz, "No domain name specified for storage element endpoint");
+		gfal_errmsg(errbuf, errbufsz, "No domain name specified for storage element endpoint", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3475,16 +3489,16 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		(*gfal)->setype = TYPE_SE;
 	} else {
 		if (!srmv1_endpoint && !srmv2_endpoint && !isclassicse)
-			snprintf (errmsg, ERRMSG_LEN - 1, "%s: Unknown SE in BDII", (*gfal)->endpoint);
+			snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "%s: Unknown SE in BDII", (*gfal)->endpoint);
 		else {
-			snprintf (errmsg, ERRMSG_LEN - 1, "Invalid request: Desired SE type doesn't match request parameters or SE");
+			snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "Invalid request: Desired SE type doesn't match request parameters or SE");
 			if (srmv1_endpoint) free (srmv1_endpoint);
 			if (srmv2_endpoint) free (srmv2_endpoint);
 		}
 
 		gfal_internal_free (*gfal);
 		*gfal = NULL;
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3494,10 +3508,10 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 			if (generate_surls (*gfal, errbuf, errbufsz) < 0)
 				return (-1);
 		} else {
-			snprintf (errmsg, ERRMSG_LEN - 1, "No SURLs must be specified with 'generatesurls' activated");
+			snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "No SURLs must be specified with 'generatesurls' activated");
 			gfal_internal_free (*gfal);
 			*gfal = NULL;
-			gfal_errmsg (errbuf, errbufsz, errmsg);
+			gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
@@ -3512,7 +3526,7 @@ check_gfal_internal (gfal_internal req, int allow_null_surls, char *errbuf, int 
 {
 	if (req == NULL || req->setype == TYPE_NONE || (!allow_null_surls && req->surls == NULL) ||
 			(req->setype != TYPE_SE && req->endpoint == NULL)) {
-		gfal_errmsg (errbuf, errbufsz, "Invalid gfal_internal argument");
+		gfal_errmsg (errbuf, errbufsz, "Invalid gfal_internal argument", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3683,7 +3697,7 @@ gfal_set_ids (gfal_internal req, int nbfileids, const int *srm_fileids, int srm_
 		char *errbuf, int errbufsz)
 {
 	if (req == NULL || req->nbfiles < 0 || (srm_fileids == NULL && srmv2_reqtoken == NULL)) {
-		gfal_errmsg (errbuf, errbufsz, "gfal_set_ids: invalid arguments");
+		gfal_errmsg (errbuf, errbufsz, "gfal_set_ids: invalid arguments", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3692,7 +3706,7 @@ gfal_set_ids (gfal_internal req, int nbfileids, const int *srm_fileids, int srm_
 		int i;
 
 		if (nbfileids != req->nbfiles) {
-			gfal_errmsg (errbuf, errbufsz, "gfal_set_ids: mismatch between number of fileids and number of files");
+			gfal_errmsg (errbuf, errbufsz, "gfal_set_ids: mismatch between number of fileids and number of files", GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.16 $ $Date: 2008/08/23 07:00:30 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.17 $ $Date: 2008/10/16 12:10:11 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -41,7 +41,7 @@ rmc_init (struct soap *soap, char *errbuf, int errbufsz)
 				return (-1);
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, "You have to define 'RMC_ENDPOINT' and 'LRC_ENDPOINT' environment variables, when BDII calls are disabled");
+			gfal_errmsg(errbuf, errbufsz, "You have to define 'RMC_ENDPOINT' and 'LRC_ENDPOINT' environment variables, when BDII calls are disabled", GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
@@ -74,11 +74,11 @@ rmc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 			if (strstr (soap.fault->faultcode, "NOSUCHALIAS"))
 				sav_errno = ENOENT;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -113,11 +113,11 @@ rmc_lfnsforguid (const char *guid, char *errbuf, int errbufsz)
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -163,11 +163,11 @@ rmc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
 				sav_errno = ENAMETOOLONG;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -191,7 +191,7 @@ rmc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 
 	if ((ret = soap_call_rmc__removeAlias (&soap, rmc_endpoint, "",
 				(char *) guid, (char *) lfn, &out))) {
-		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.61 $ $Date: 2008/07/08 12:41:34 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.62 $ $Date: 2008/10/16 12:10:11 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -18,6 +18,7 @@ extern "C"
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include "gfal_constants.h"
 
 #ifndef GFAL_LONG64_FORMAT
 #if defined(__ia64__) || defined(__x86_64)
@@ -45,13 +46,6 @@ extern "C"
 #else
 #define GFAL_DEBUG(format, ...)
 #endif
-
-#define VO_MAXLEN            255
-#define FQAN_MAXLEN          511
-#define HOSTNAME_MAXLEN      255
-#define ERRMSG_LEN           1024
-#define DEFAULT_BDII_TIMEOUT 60
-#define GFAL_SIZE_MARGIN     1048576     // 1MB
 
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
 
@@ -284,7 +278,8 @@ int gfal_close (int);
 int gfal_closedir (DIR *);
 int gfal_creat (const char *, mode_t);
 int gfal_creat64 (const char *, mode_t);
-void gfal_errmsg (char *, int, const char *);
+int gfal_set_verbose (int);
+void gfal_errmsg (char *, int, const char *, int);
 off_t gfal_lseek (int, off_t, int);
 int gfal_lstat (const char *, struct stat *);
 int gfal_mkdir (const char *, mode_t);

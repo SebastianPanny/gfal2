@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.71 $ $Date: 2008/10/07 07:34:51 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.72 $ $Date: 2008/10/16 12:10:11 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -34,7 +34,7 @@ struct bdii_server_info_t {
 
 static struct bdii_server_info_t *bdii_servers = NULL;
 static int bdii_servers_count = 0;
-static int bdii_timeout = DEFAULT_BDII_TIMEOUT;
+static int bdii_timeout = GFAL_BDII_TIMEOUT;
 static int bdii_server_current = 0;
 static int bdii_server_known_good = 0;
 
@@ -81,15 +81,15 @@ bdii_parse_env (char *errbuf, int errbufsz)
 	int n;
 	char *ptr, *colon_pos;
 	char *strtok_state;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	bdii_env = getenv ("LCG_GFAL_BDII_TIMEOUT");
 	if (bdii_env != NULL) {
 		bdii_timeout = atoi (bdii_env);
 		if (bdii_timeout <= 0) {
 			bdii_servers_count = -1;
-			snprintf (errmsg, ERRMSG_LEN, "LCG_GFAL_BDII_TIMEOUT: invalid value (%d)", bdii_timeout);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
+			snprintf (errmsg, GFAL_ERRMSG_LEN, "LCG_GFAL_BDII_TIMEOUT: invalid value (%d)", bdii_timeout);
+			gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
@@ -98,7 +98,7 @@ bdii_parse_env (char *errbuf, int errbufsz)
 	bdii_env = getenv ("LCG_GFAL_INFOSYS");
 	if (bdii_env == NULL) {
 		bdii_servers_count = -1;
-		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_INFOSYS not set");
+		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_INFOSYS not set", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -133,7 +133,7 @@ bdii_parse_env (char *errbuf, int errbufsz)
 	if (n == 0) {
 		free (list);
 		bdii_servers_count = -1;
-		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_INFOSYS is invalid");
+		gfal_errmsg (errbuf, errbufsz, "LCG_GFAL_INFOSYS is invalid", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -208,12 +208,12 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 	int bdii_port;
 	LDAP *ld;
 	char *complete_filter = NULL;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 	struct timeval timeout;
 	int err = 0, rc = 0;
 
 	if (gfal_is_nobdii ()) {
-		gfal_errmsg (errbuf, errbufsz, "BDII calls are needed, but disabled!");
+		gfal_errmsg (errbuf, errbufsz, "BDII calls are needed, but disabled!", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -224,7 +224,7 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 			return (-1);
 	}
 	if (bdii_servers_count < 0) {
-		gfal_errmsg (errbuf, errbufsz, "Invalid BDII parameters");
+		gfal_errmsg (errbuf, errbufsz, "Invalid BDII parameters", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -248,8 +248,8 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 		ldap_set_option (ld, LDAP_OPT_NETWORK_TIMEOUT, &timeout);
 		if ((err = ldap_simple_bind_s (ld, "", "")) != LDAP_SUCCESS) {
 			ldap_unbind (ld);
-			snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: %s", gfal_remote_type, bdii_server, bdii_port, ldap_err2string (err));
-			gfal_errmsg (errbuf, errbufsz, errmsg);
+			snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: %s", gfal_remote_type, bdii_server, bdii_port, ldap_err2string (err));
+			gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			errno = ldaperr2errno (err);
 			GFAL_DEBUG ("DEBUG: %s\n", errmsg);
 			continue;
@@ -259,13 +259,13 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 		if (rc != LDAP_SUCCESS) {
 			ldap_unbind (ld);
 			if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
-				snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: Connection Timeout", gfal_remote_type, bdii_server, bdii_port);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
+				snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: Connection Timeout", gfal_remote_type, bdii_server, bdii_port);
+				gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 				errno = ETIMEDOUT;
 			} else {
-				snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: ERROR: %s", gfal_remote_type, bdii_server, bdii_port, 
+				snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: ERROR: %s", gfal_remote_type, bdii_server, bdii_port, 
 						ldap_err2string (rc));
-				gfal_errmsg (errbuf, errbufsz, errmsg);
+				gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 				errno = EINVAL;
 			}
 			GFAL_DEBUG ("DEBUG: %s\n", errmsg);
@@ -301,14 +301,14 @@ get_bdii (char *bdii_server, int buflen, int *bdii_port, char *errbuf, int errbu
 			return (-1);
 	}
 	if (bdii_servers_count < 0) {
-		gfal_errmsg (errbuf, errbufsz, "Invalid BDII parameters");
+		gfal_errmsg (errbuf, errbufsz, "Invalid BDII parameters", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
 
 	bdii_server_get_current (&bdii_server_r, &bdii_port_r);
 	if (strlen (bdii_server_r) >= buflen) {
-		gfal_errmsg (errbuf, errbufsz, "bdii_server buffer length is too short");
+		gfal_errmsg (errbuf, errbufsz, "bdii_server buffer length is too short", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return -1;
 	}
@@ -322,7 +322,7 @@ get_bdii (char *bdii_server, int buflen, int *bdii_port, char *errbuf, int errbu
 /* generates part of bdii filter with accesscontrolbaserule */
 static char *
 generate_acbr (const char *glueobject, char *errbuf, int errbufsz) {
-	char tmp[64 + FQAN_MAXLEN];
+	char tmp[64 + GFAL_FQAN_MAXLEN];
 	char *filter = NULL, *vo = NULL, **fqan = NULL;
 	int nb_fqan, filterlen, i;
 
@@ -330,7 +330,7 @@ generate_acbr (const char *glueobject, char *errbuf, int errbufsz) {
 		return (NULL);
 
 	nb_fqan = gfal_get_fqan (&fqan, errbuf, errbufsz);
-	filterlen = nb_fqan * (sizeof (tmp)) + 3 * (64 + VO_MAXLEN);
+	filterlen = nb_fqan * (sizeof (tmp)) + 3 * (64 + GFAL_VO_MAXLEN);
 	
 	if ((filter = (char *) calloc (filterlen, sizeof (char))) == NULL)
 		return (NULL);
@@ -363,11 +363,11 @@ get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 	int rc = 0;
 	LDAPMessage *reply;
 	char **value;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (strlen (template) + strlen (host) - 2 >= sizeof (filter)) {
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: Hostname too long", gfal_remote_type, bdii_server, bdii_port);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: Hostname too long", gfal_remote_type, bdii_server, bdii_port);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
@@ -381,8 +381,8 @@ get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 	if (entry) {
 		value = ldap_get_values (ld, entry, ce_ap_atnm);
 		if (value == NULL) {
-			snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: CE Accesspoint not found for host %s", gfal_remote_type, bdii_server, bdii_port, host);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
+			snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: CE Accesspoint not found for host %s", gfal_remote_type, bdii_server, bdii_port, host);
+			gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			rc = -1;
 
@@ -392,8 +392,8 @@ get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 			ldap_value_free (value);
 		}
 	} else {
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: No GlueCESEBind found for host %s", gfal_remote_type, bdii_server, bdii_port, host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: No GlueCESEBind found for host %s", gfal_remote_type, bdii_server, bdii_port, host);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -414,7 +414,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 	const char *bdii_server;
 	BerElement *ber;
 	LDAPMessage *entry;
-	char filter[100 + 2 * VO_MAXLEN];
+	char filter[100 + 2 * GFAL_VO_MAXLEN];
 	LDAP *ld;
 	int rc = 0;
 	LDAPMessage *reply;
@@ -422,14 +422,14 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 	char *service_url;
 	char **value;
 	char *vo;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if ((vo = gfal_get_vo (errbuf, errbufsz)) == NULL) {
 		errno = EINVAL;
 		return (-1);
 	}
-	if (strlen (vo) > VO_MAXLEN) {
-		gfal_errmsg (errbuf, errbufsz, "VO name too long");
+	if (strlen (vo) > GFAL_VO_MAXLEN) {
+		gfal_errmsg (errbuf, errbufsz, "VO name too long", GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
@@ -474,14 +474,14 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 		free (service_url);
 	}
 	if (*lrc_endpoint == NULL) {
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: LRC endpoint not found", gfal_remote_type, bdii_server, bdii_port);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: LRC endpoint not found", gfal_remote_type, bdii_server, bdii_port);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		rc = -1;
 	}
 	if (*rmc_endpoint == NULL) {
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: RMC endpoint not found", gfal_remote_type, bdii_server, bdii_port);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: RMC endpoint not found", gfal_remote_type, bdii_server, bdii_port);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -502,7 +502,7 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	int rc = 0;
 	LDAPMessage *reply;
 	char **value;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 	const char *bdii_server;
 	int bdii_port;
 
@@ -536,8 +536,8 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	bdii_query_free (&ld, &reply);
 
 	if (rc == 0 && *lfc_endpoint == NULL) {
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: LFC endpoint not found", gfal_remote_type, bdii_server, bdii_port);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: LFC endpoint not found", gfal_remote_type, bdii_server, bdii_port);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		rc = -1;
 	}
@@ -564,17 +564,17 @@ get_sa_path (const char *host, const char *salocalid, char **sa_path, char **sa_
 	LDAPMessage *reply;
 	char **value;
 	char *vo;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (!host || !sa_path) {
-		gfal_errmsg (errbuf, errbufsz, "get_sa_path: invalid arguments");
+		gfal_errmsg (errbuf, errbufsz, "get_sa_path: invalid arguments", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
 
-	if (strlen (host) > HOSTNAME_MAXLEN) {
-		snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+	if (strlen (host) > GFAL_HOSTNAME_MAXLEN) {
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "%s: Hostname too long", host);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
@@ -612,17 +612,17 @@ get_sa_path (const char *host, const char *salocalid, char **sa_path, char **sa_
 				rc = -1;
 			ldap_value_free (value);
 		} else {
-			snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: Both SAPath and SARoot are not set about %s VO and SE : %s",
+			snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: Both SAPath and SARoot are not set about %s VO and SE : %s",
 					gfal_remote_type, bdii_server, bdii_port, vo, host);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
+			gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			rc = -1;
 		}
 
 	} else {
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: No GlueSA information found about %s VO and SE %s",
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: No GlueSA information found about %s VO and SE %s",
 				gfal_remote_type, bdii_server, bdii_port, vo, host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		rc = -1;               
 	}
@@ -650,17 +650,17 @@ get_voinfo (const char *host, const char *spacetokendesc, char **sa_path, char *
 	int rc = 0;
 	LDAPMessage *reply;
 	char **value;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (!host || !sa_path || !salocalid) {
-		gfal_errmsg (errbuf, errbufsz, "get_voinfo: invalid arguments");
+		gfal_errmsg (errbuf, errbufsz, "get_voinfo: invalid arguments", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
 
-	if (strlen (host) > HOSTNAME_MAXLEN) {
-		snprintf (errmsg, ERRMSG_LEN, "%s: Hostname too long", host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+	if (strlen (host) > GFAL_HOSTNAME_MAXLEN) {
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "%s: Hostname too long", host);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
@@ -701,23 +701,23 @@ get_voinfo (const char *host, const char *spacetokendesc, char **sa_path, char *
 			ldap_value_free (value);
 		} else {
 			if (spacetokendesc)
-				snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: Warning, GlueVOInfo for tag '%s' and SE '%s' wrongly published",
+				snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: Warning, GlueVOInfo for tag '%s' and SE '%s' wrongly published",
 						gfal_remote_type, bdii_server, bdii_port, spacetokendesc, host);
 			else
-				snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: Warning, GlueVOInfo for SE '%s' (with no tag) wrongly published",
+				snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: Warning, GlueVOInfo for SE '%s' (with no tag) wrongly published",
 						gfal_remote_type, bdii_server, bdii_port, host);
-			gfal_errmsg (errbuf, errbufsz, errmsg);
+			gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 			rc = -1;
 		}
 
 	} else {
 		if (spacetokendesc)
-			snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: Warning, no GlueVOInfo information found about tag '%s' and SE '%s'",
+			snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: Warning, no GlueVOInfo information found about tag '%s' and SE '%s'",
 					gfal_remote_type, bdii_server, bdii_port, spacetokendesc, host);
 		else
-			snprintf (errmsg, ERRMSG_LEN, "[%s] %s:%d: Warning, no GlueVOInfo information found about SE '%s' (with no tag)",
+			snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: Warning, no GlueVOInfo information found about SE '%s' (with no tag)",
 					gfal_remote_type, bdii_server, bdii_port, host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_WARN);
 		rc = -1;               
 	}
 
@@ -731,7 +731,7 @@ get_storage_path (const char *host, const char *spacetokendesc, char **sa_path, 
 	int rc = 0;
 
 	if (!host || !sa_path || !sa_root) {
-		gfal_errmsg (errbuf, errbufsz, "get_storage_path: invalid arguments");
+		gfal_errmsg (errbuf, errbufsz, "get_storage_path: invalid arguments", GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -758,31 +758,31 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 	static char se_type_atep[] = "GlueServiceEndpoint";
 	static char *template = " (| (GlueSEUniqueID=%s) (& (GlueServiceType=srm*) (GlueServiceEndpoint=*://%s*)))";
 	static char *attrs[] = {se_type_atpt, se_type_atst, se_type_atve, se_type_atty, se_type_atep, NULL};
-	char host_tmp[HOSTNAME_MAXLEN];
+	char host_tmp[GFAL_HOSTNAME_MAXLEN];
 	int len_tmp;
 	char *port;
 	int bdii_port;
 	const char *bdii_server;
 	LDAPMessage *entry;
-	char filter[2 * HOSTNAME_MAXLEN + 110];
+	char filter[2 * GFAL_HOSTNAME_MAXLEN + 110];
 	int i, nbentries, n, rc = 0;
 	LDAP *ld;
 	LDAPMessage *reply;
 	char **sep = NULL, **stp = NULL, **st = NULL, **sv = NULL, **ep = NULL, **value = NULL;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	*se_types = NULL;
 	*se_endpoints = NULL;
 	len_tmp = strlen (host);
 
-	if (len_tmp >= HOSTNAME_MAXLEN) {
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: Hostname too long", gfal_remote_type, host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+	if (len_tmp >= GFAL_HOSTNAME_MAXLEN) {
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: Hostname too long", gfal_remote_type, host);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}
 
-	strncpy (host_tmp, host, HOSTNAME_MAXLEN);
+	strncpy (host_tmp, host, GFAL_HOSTNAME_MAXLEN);
 	if ((port = strchr (host_tmp, ':')) != NULL)
 		*port = 0;
 
@@ -795,8 +795,8 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 	rc = 0;
 	
 	if ((nbentries = ldap_count_entries (ld, reply)) < 1) {
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: No entries for host: %s", gfal_remote_type, bdii_server, host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: No entries for host: %s", gfal_remote_type, bdii_server, host);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = EINVAL;
 		bdii_query_free (&ld, &reply);
 		return (-1);
@@ -854,8 +854,8 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 			 *
 			if ((value = ldap_get_values (ld, entry, se_type_atst)) != NULL &&
 					strcasecmp (value[0], "production") != 0) {
-				snprintf (errmsg, ERRMSG_LEN, "[%s] %s: is not in 'production' status in BDII ('%s')", gfal_remote_type, host, value[0]);
-				gfal_errmsg (errbuf, errbufsz, errmsg);
+				snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: is not in 'production' status in BDII ('%s')", gfal_remote_type, host, value[0]);
+				gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 				ldap_value_free (value);
 				errno = EINVAL;
 				rc = -1;
@@ -873,11 +873,11 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 				value = ldap_get_values (ld, entry, se_type_atpt);
 				if (value == NULL) {
 					continue;
-				} else if (len_tmp + strlen (value[0]) + 1 < HOSTNAME_MAXLEN) {
+				} else if (len_tmp + strlen (value[0]) + 1 < GFAL_HOSTNAME_MAXLEN) {
 					strcpy (port + 1, value[0]);
 				} else {
-					snprintf (errmsg, ERRMSG_LEN, "[%s] %s: Hostname too long", gfal_remote_type, host);
-					gfal_errmsg (errbuf, errbufsz, errmsg);
+					snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: Hostname too long", gfal_remote_type, host);
+					gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 					ldap_value_free (value);
 					errno = ENAMETOOLONG;
 					rc = -1;
@@ -969,11 +969,11 @@ get_seap_info (const char *host, char ***access_protocol, int **port, char *errb
 	int rc = 0;
 	LDAPMessage *reply;
 	char **value;
-	char errmsg[ERRMSG_LEN];
+	char errmsg[GFAL_ERRMSG_LEN];
 
 	if (strlen (template) + strlen (host) - 2 >= sizeof (filter)) {
-		snprintf (errmsg, ERRMSG_LEN, "[%s] %s: Hostname too long", gfal_remote_type, host);
-		gfal_errmsg (errbuf, errbufsz, errmsg);
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: Hostname too long", gfal_remote_type, host);
+		gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
 		errno = ENAMETOOLONG;
 		return (-1);
 	}

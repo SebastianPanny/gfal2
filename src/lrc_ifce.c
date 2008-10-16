@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.22 $ $Date: 2008/08/23 07:00:30 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.23 $ $Date: 2008/10/16 12:10:11 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -41,7 +41,7 @@ lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 				return (-1);
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, "You have to define 'RMC_ENDPOINT' and 'LRC_ENDPOINT' environment variables, when BDII calls are disabled");
+			gfal_errmsg(errbuf, errbufsz, "You have to define 'RMC_ENDPOINT' and 'LRC_ENDPOINT' environment variables, when BDII calls are disabled", GFAL_ERRLEVEL_ERROR);
 			errno = EINVAL;
 			return (-1);
 		}
@@ -82,11 +82,11 @@ lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = 0;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -121,11 +121,11 @@ lrc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
 				sav_errno = ENOENT;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -150,7 +150,7 @@ lrc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 
 	if ((ret = soap_call_lrc__guidExists (&soap, lrc_endpoint, "",
 				(char *) guid, &out))) {
-		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 		soap_end (&soap);
 		soap_done (&soap);	
 		errno = ECOMM;
@@ -180,11 +180,11 @@ lrc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
 				sav_errno = ENAMETOOLONG;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -215,11 +215,11 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
 				sav_errno = ENOENT;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -250,11 +250,11 @@ lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -298,11 +298,11 @@ lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
 				sav_errno = ENOENT;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -343,7 +343,7 @@ lrc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
 
 	if ((ret = soap_call_lrc__removeMapping (&soap, lrc_endpoint, "",
 				(char *) guid, (char *) pfn, &out))) {
-		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring);
+		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
