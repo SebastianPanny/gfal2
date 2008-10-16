@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.98 $ $Date: 2008/10/16 12:19:58 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.99 $ $Date: 2008/10/16 12:23:04 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -430,7 +430,7 @@ gfal_set_verbose (int value)
 gfal_errmsg (char *errbuf, int errbufsz, const char *errmsg, int level)
 {
 	if (level > gfal_verbose)
-		continue;
+		return;
 
 	if (errbuf == NULL)
 		fprintf (stderr, "%s\n", errmsg);
