@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.62 $ $Date: 2008/10/16 12:10:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.63 $ $Date: 2008/10/20 14:37:32 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -328,6 +328,7 @@ int gfal_abortfiles (gfal_internal, char *, int);
 gfal_request gfal_request_new ();
 int gfal_init (gfal_request, gfal_internal *, char *, int);
 int gfal_get_results (gfal_internal, gfal_filestatus **);
+int gfal_get_ids_setype (gfal_internal, enum se_type *, int *, int **, char **);
 int gfal_get_ids (gfal_internal, int *, int **, char **);
 int gfal_set_ids (gfal_internal, int, const int *, int, const char *, char *, int);
 void gfal_internal_free (gfal_internal);
@@ -338,7 +339,6 @@ int create_alias (const char *, const char *, GFAL_LONG64, char *, int);
 int create_alias_m (const char *, const char *, mode_t, GFAL_LONG64, char *, int);
 char *getbestfile(char **, int size, char *, int);
 char *get_catalog_endpoint(char *, int);
-int getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
 int guid_exists (const char *, char *, int);
 int gfal_guidsforpfns (int, const char **, char ***, int **, char *, int);
 char *guidforpfn (const char *, char *, int);
@@ -385,7 +385,6 @@ int srm_getfilemd (int, const char **, const char *, struct srm_mdfilestatus **,
 int srmv2_getfilemd (int, const char **, const char *, int, int *, int, struct srmv2_mdfilestatus **, char **, char *, int, int);
 #endif
 int lfc_maperror (struct proto_ops *, int);
-int lfc_getfilesizeg(const char *, GFAL_LONG64 *, char *, int);
 int lfc_setsize (const char *, GFAL_LONG64, char *, int);
 int lfc_accessl (const char *, int, char *, int);
 int lfc_chmodl (const char *, mode_t, char *, int);

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.54 $ $Date: 2008/10/16 12:10:11 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.55 $ $Date: 2008/10/20 14:37:32 $ CERN James Casey
  */
 #include <sys/types.h>
 #include <dlfcn.h>
@@ -244,26 +244,6 @@ lfc_replica_exists(const char *guid, char *errbuf, int errbufsz) {
 
 	free (replicas);
 	return (size > 0 ? 1 : 0);
-}
-
-int
-lfc_getfilesizeg(const char *guid, GFAL_LONG64 *sizep, char *errbuf, int errbufsz)
-{
-	struct lfc_filestatg statg;
-
-	if(lfc_init(errbuf, errbufsz) < 0)
-		return (-1);
-
-	if(fcops.statg(NULL, guid, &statg) < 0) {
-		char errmsg[GFAL_ERRMSG_LEN];
-		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type, lfc_host, guid, fcops.sstrerror(*fcops.serrno));
-		gfal_errmsg(errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
-		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
-		return (-1);
-	}
-
-	*sizep = (u_signed64) statg.filesize;
-	return (0);
 }
 
 int

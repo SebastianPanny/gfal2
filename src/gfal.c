@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.99 $ $Date: 2008/10/16 12:23:04 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.100 $ $Date: 2008/10/20 14:37:32 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -2679,29 +2679,6 @@ get_cat_type (char **cat_type) {
 	return 0;
 }
 
-getfilesizeg (const char *guid, GFAL_LONG64 *filesize, char *errbuf, int errbufsz)
-{
-	char *cat_type;
-
-	if (get_cat_type (&cat_type) < 0) {
-		return (-1);
-	}
-	if (strcmp (cat_type, "edg") == 0) {
-		free (cat_type);
-		gfal_errmsg(errbuf, errbufsz, "EDG catalogs don't support the getfilesizeg() method.", GFAL_ERRLEVEL_ERROR);
-		errno = EINVAL;
-	} else if (strcmp (cat_type, "lfc") == 0) {
-		free (cat_type);
-		return (lfc_getfilesizeg (guid, filesize, errbuf, errbufsz));
-	} 
-
-	/* else */
-	free (cat_type);
-	gfal_errmsg(errbuf, errbufsz, "The catalog type is neither 'edg' nor 'lfc'.", GFAL_ERRLEVEL_ERROR);
-	errno = EINVAL;
-	return (-1);
-}
-
 	char *
 get_catalog_endpoint (char *errbuf, int errbufsz)
 {
@@ -3665,12 +3642,20 @@ gfal_get_results (gfal_internal req, gfal_filestatus **results)
 	int
 gfal_get_ids (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2_reqtoken)
 {
+	return (gfal_get_ids_setype (req, NULL, srm_reqid, srm_fileids, srmv2_reqtoken));
+}
+
+	int
+gfal_get_ids_setype (gfal_internal req, enum se_type *type, int *srm_reqid, int **srm_fileids, char **srmv2_reqtoken)
+{
 	if (srm_reqid) *srm_reqid = -1;
 	if (srm_fileids) *srm_fileids = NULL;
 	if (srmv2_reqtoken) *srmv2_reqtoken = NULL;
 
-	if (req == NULL || req->results_size < 1)
+	if (req == NULL || req->results_size < 1 || req->setype == TYPE_NONE)
 		return (-1);
+
+	if (type != NULL) *type = req->setype;
 
 	if (req->srm_statuses) { // SRMv1
 		int i;
