@@ -97,6 +97,52 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
         $1 = (GFAL_LONG64) PyLong_AsLongLong ($input);
 }
 
+// 
+%typemap(in) enum se_type {
+    if ($input == Py_None)
+        $1 = TYPE_NONE;
+    else if (PyInt_Check ($input))
+        $1 = (enum se_type) PyInt_AsLong ($input);
+    else if (PyString_Check ($input)) {
+        char *setype = PyString_AsString ($input);
+        if (!setype || setype[0] == 0 || strcmp (setype, "none") == 0)
+            $1 = TYPE_NONE;
+        else if (strcmp (setype, "se") == 0)
+            $1 = TYPE_SE;
+        else if (strcmp (setype, "srmv1") == 0)
+            $1 = TYPE_SRM;
+        else if (strcmp (setype, "srmv2") == 0)
+            $1 = TYPE_SRMv2;
+        else {
+            PyErr_SetString (PyExc_MemoryError, "Invalid setype value, must be: none, se, srmv1, srmv2");
+            errno = EINVAL;
+            return (NULL);
+        }
+    }
+}
+
+%typemap(in, numinputs=0) (enum se_type *OUTPUT)(enum se_type tmp) {
+    tmp = TYPE_NONE;
+    $1 = &tmp;
+}
+
+%typemap(argout) (enum se_type *OUTPUT){
+    char setype[6];
+
+    switch (*$1) {
+        case TYPE_SRM:
+            snprintf (setype, 6, "srmv1");
+            break;
+        case TYPE_SRMv2:
+            snprintf (setype, 6, "srmv2");
+            break;
+        case TYPE_SE:
+            snprintf (setype, 6, "se");
+            break;
+    }
+    resultobj = my_t_output_helper(resultobj, PyString_FromString (setype));
+}//end of typemap
+
 // if the string is empty, it is replaced by NULL
 %typemap(in) char * {
     if ($input == Py_None) {
@@ -328,10 +374,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
         $1->generatesurls = (int) PyInt_AsLong (item);
 
     if ((item = PyDict_GetItem ($input, PyString_FromString ("relative_path"))) != NULL) {
-        if (item == Py_None)
-            $1->relative_path = NULL;
-        else
-            $1->relative_path = PyString_AsString (item);
+        $1->relative_path = PyString_AsString (item);
         if ($1->relative_path && $1->relative_path[0] == 0)
             $1->relative_path = NULL;
     }
@@ -350,10 +393,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
             return (NULL);
         }
         for (i = 0; i < len; ++i) {
-            if (PyList_GetItem (item, i) == Py_None)
-                $1->surls[i] = NULL;
-            else
-                $1->surls[i] = PyString_AsString (PyList_GetItem (item, i));
+            $1->surls[i] = PyString_AsString (PyList_GetItem (item, i));
         }
         $1->surls[i] = NULL;
     }
@@ -361,10 +401,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
         $1->nbfiles = (int) PyInt_AsLong (item);
 
     if ((item = PyDict_GetItem ($input, PyString_FromString ("endpoint"))) != NULL) {
-        if (item == Py_None)
-            $1->endpoint = NULL;
-        else
-            $1->endpoint = PyString_AsString (item);
+        $1->endpoint = PyString_AsString (item);
         if ($1->endpoint && $1->endpoint[0] == 0)
             $1->endpoint = NULL;
     }
@@ -378,7 +415,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
             errno = EINVAL;
             return (NULL);
         } else if ((len = PyList_Size (item)) == 0) {
-            $1->filesizes = NULL;
+            $1->filesizes == NULL;
         } else {
             $1->filesizes = (GFAL_LONG64 *) calloc (len, sizeof (GFAL_LONG64));
             if ($1->filesizes == NULL) {
@@ -393,12 +430,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
     }
 
     if ((item = PyDict_GetItem ($input, PyString_FromString ("defaultsetype"))) != NULL) {
-        char *defaultsetype;
-
-        if (item == Py_None)
-            defaultsetype = NULL;
-        else
-            defaultsetype = PyString_AsString (item);
+        char *defaultsetype = PyString_AsString (item);
         if (!defaultsetype || defaultsetype[0] == 0 || strcmp (defaultsetype, "none") == 0)
             $1->defaultsetype = TYPE_NONE;
         else if (strcmp (defaultsetype, "se") == 0)
@@ -415,12 +447,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
     }
 
     if ((item = PyDict_GetItem ($input, PyString_FromString ("setype"))) != NULL) {
-        char *setype;
-
-        if (item == Py_None)
-            setype = NULL;
-        else
-            setype =  PyString_AsString (item);
+        char *setype = PyString_AsString (item);
         if (!setype || setype[0] == 0 || strcmp (setype, "none") == 0)
             $1->setype = TYPE_NONE;
         else if (strcmp (setype, "se") == 0)
@@ -455,20 +482,14 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
             return (NULL);
         }
         for (i = 0; i < len; ++i) {
-            if (PyList_GetItem (item, i) == Py_None)
-                $1->protocols[i] = NULL;
-            else
-                $1->protocols[i] = PyString_AsString (PyList_GetItem (item, i));
+            $1->protocols[i] = PyString_AsString (PyList_GetItem (item, i));
         }
         $1->protocols[i] = "";
         $1->protocols[i + 1] = NULL;
     }
 
     if ((item = PyDict_GetItem ($input, PyString_FromString ("srmv2_spacetokendesc"))) != NULL) {
-        if (item == Py_None)
-            $1->srmv2_spacetokendesc = NULL;
-        else
-            $1->srmv2_spacetokendesc = PyString_AsString (item);
+        $1->srmv2_spacetokendesc = PyString_AsString (item);
         if ($1->srmv2_spacetokendesc && $1->srmv2_spacetokendesc[0] == 0)
             $1->srmv2_spacetokendesc = NULL;
     }
@@ -503,10 +524,10 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }
 
 // convert python object into C gfal_internal
-    %typemap(in) gfal_internal {
-        if ((SWIG_ConvertPtr($input,(void **) &$1, $1_descriptor,SWIG_POINTER_EXCEPTION)) < 0)
-            return (NULL);
-    }
+%typemap(in) gfal_internal {
+    if ((SWIG_ConvertPtr($input,(void **) &$1, $1_descriptor,SWIG_POINTER_EXCEPTION)) < 0)
+        return (NULL);
+}
 
 // convert C gfal_internal into Python object
 %typemap(argout) gfal_internal {
