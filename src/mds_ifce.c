@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.72 $ $Date: 2008/10/16 12:10:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.73 $ $Date: 2008/10/21 10:02:35 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -706,7 +706,7 @@ get_voinfo (const char *host, const char *spacetokendesc, char **sa_path, char *
 			else
 				snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s:%d: Warning, GlueVOInfo for SE '%s' (with no tag) wrongly published",
 						gfal_remote_type, bdii_server, bdii_port, host);
-			gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_ERROR);
+			gfal_errmsg (errbuf, errbufsz, errmsg, GFAL_ERRLEVEL_WARN);
 			rc = -1;
 		}
 
@@ -756,7 +756,7 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 	static char se_type_atve[] = "GlueServiceVersion";
 	static char se_type_atty[] = "GlueServiceType";
 	static char se_type_atep[] = "GlueServiceEndpoint";
-	static char *template = " (| (GlueSEUniqueID=%s) (& (GlueServiceType=srm*) (GlueServiceEndpoint=*://%s*)))";
+	static char *template = " (| (GlueSEUniqueID=%s) (& (GlueServiceType=srm*) (GlueServiceEndpoint=*://%s:%s*)))";
 	static char *attrs[] = {se_type_atpt, se_type_atst, se_type_atve, se_type_atty, se_type_atep, NULL};
 	char host_tmp[GFAL_HOSTNAME_MAXLEN];
 	int len_tmp;
@@ -786,7 +786,7 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 	if ((port = strchr (host_tmp, ':')) != NULL)
 		*port = 0;
 
-	sprintf (filter, template, host_tmp, host);
+	sprintf (filter, template, host_tmp, host_tmp, port == NULL ? "" : port + 1);
 
 	rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, errbuf, errbufsz);
 	if (rc < 0) return (-1);
