@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.23 $ $Date: 2008/10/16 12:10:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: lrc_ifce.c,v $ $Revision: 1.24 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -24,7 +24,7 @@
 char *lrc_endpoint;
 extern char *rmc_endpoint;
 
-#include "gfal_api.h"
+#include "gfal_internals.h"
 
 	static int
 lrc_init (struct soap *soap, char *errbuf, int errbufsz)
@@ -41,7 +41,8 @@ lrc_init (struct soap *soap, char *errbuf, int errbufsz)
 				return (-1);
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, "You have to define 'RMC_ENDPOINT' and 'LRC_ENDPOINT' environment variables, when BDII calls are disabled", GFAL_ERRLEVEL_ERROR);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
+					"You have to define 'RMC_ENDPOINT' and 'LRC_ENDPOINT' environment variables, when BDII calls are disabled");
 			errno = EINVAL;
 			return (-1);
 		}
@@ -78,15 +79,10 @@ lrc_replica_exists (const char *guid, char *errbuf, int errbufsz)
 
 	if ((ret = soap_call_lrc__getPfns (&soap, lrc_endpoint, "",
 					(char *) guid, &out))) {
-		if (ret == SOAP_FAULT) {
-			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
-				sav_errno = 0;
-			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
-				sav_errno = ECOMM;
-			}
+		if (ret == SOAP_FAULT && strstr (soap.fault->faultcode, "NOSUCHGUID")) {
+			sav_errno = 0;
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", soap.fault->faultstring);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -116,16 +112,11 @@ lrc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 		return (NULL);
 
 	if ((ret = soap_call_lrc__guidForPfn (&soap, lrc_endpoint, "",
-				(char *) pfn, &out))) {
-		if (ret == SOAP_FAULT) {
-			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
-				sav_errno = ENOENT;
-			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
-				sav_errno = ECOMM;
-			}
+					(char *) pfn, &out))) {
+		if (ret == SOAP_FAULT && strstr (soap.fault->faultcode, "NOSUCHPFN")) {
+			sav_errno = ENOENT;
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", soap.fault->faultstring);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -150,7 +141,7 @@ lrc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 
 	if ((ret = soap_call_lrc__guidExists (&soap, lrc_endpoint, "",
 				(char *) guid, &out))) {
-		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);	
 		errno = ECOMM;
@@ -180,11 +171,11 @@ lrc_register_pfn (const char *guid, const char *pfn, char *errbuf, int errbufsz)
 			else if (strstr (soap.fault->faultcode, "VALUETOOLONG"))
 				sav_errno = ENAMETOOLONG;
 			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", soap.fault->faultstring);
 				sav_errno = ECOMM;
 			}
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", soap.fault->faultstring);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -211,15 +202,10 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 	sprintf (tmpbuf, GFAL_LONG64_FORMAT, filesize);
 	if ((ret = soap_call_lrc__setStringPfnAttribute (&soap, lrc_endpoint,
 				"", (char *) pfn, "size", tmpbuf, &out))) {
-		if (ret == SOAP_FAULT) {
-			if (strstr (soap.fault->faultcode, "NOSUCHPFN"))
-				sav_errno = ENOENT;
-			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
-				sav_errno = ECOMM;
-			}
+		if (ret == SOAP_FAULT && strstr (soap.fault->faultcode, "NOSUCHPFN")) {
+			sav_errno = ENOENT;
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", soap.fault->faultstring);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -230,52 +216,6 @@ lrc_setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbuf
 	soap_end (&soap);
 	soap_done (&soap);
 	return (0);
-}
-
-	char *
-lrc_surlfromguid (const char *guid, char *errbuf, int errbufsz)
-{
-	struct lrc__getPfnsResponse out;
-	char *p, *result;
-	int ret;
-	int sav_errno = 0;
-	struct soap soap;
-
-	if (lrc_init (&soap, errbuf, errbufsz) < 0)
-		return (NULL);
-
-	if ((ret = soap_call_lrc__getPfns (&soap, lrc_endpoint, "",
-				(char *) guid, &out))) {
-		if (ret == SOAP_FAULT) {
-			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
-				sav_errno = ENOENT;
-			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
-				sav_errno = ECOMM;
-			}
-		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
-			sav_errno = ECOMM;
-		}
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = sav_errno;
-		return (NULL);
-	} else {
-		result = getbestfile (out._getPfnsReturn->__ptr, 
-				out._getPfnsReturn->__size, errbuf, errbufsz);
-		if(result == NULL) {
-			soap_end (&soap);
-			soap_done (&soap);
-			errno = EPROTONOSUPPORT;
-			return (NULL);
-		}
-		p = strdup (result);
-		soap_end (&soap);
-		soap_done (&soap);
-		return (p);
-	}
-
 }
 
 	char **
@@ -294,15 +234,10 @@ lrc_surlsfromguid (const char *guid, char *errbuf, int errbufsz)
 
 	if ((ret = soap_call_lrc__getPfns (&soap, lrc_endpoint, "",
 				(char *) guid, &out))) {
-		if (ret == SOAP_FAULT) {
-			if (strstr (soap.fault->faultcode, "NOSUCHGUID"))
-				sav_errno = ENOENT;
-			else {
-				gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
-				sav_errno = ECOMM;
-			}
+		if (ret == SOAP_FAULT && strstr (soap.fault->faultcode, "NOSUCHGUID")) {
+			sav_errno = ENOENT;
 		} else {
-			gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", soap.fault->faultstring);
 			sav_errno = ECOMM;
 		}
 		soap_end (&soap);
@@ -343,7 +278,7 @@ lrc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
 
 	if ((ret = soap_call_lrc__removeMapping (&soap, lrc_endpoint, "",
 				(char *) guid, (char *) pfn, &out))) {
-		gfal_errmsg(errbuf, errbufsz, soap.fault->faultstring, GFAL_ERRLEVEL_ERROR);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", soap.fault->faultstring);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -351,5 +286,135 @@ lrc_unregister_pfn (const char *guid, const char *pfn, char *errbuf, int errbufs
 	}
 	soap_end (&soap);
 	soap_done (&soap);
+	return (0);
+}
+
+int
+lrc_fillsurls (gfal_file gf)
+{
+	int size = 0;
+	char **surls;
+	char errmsg[GFAL_ERRMSG_LEN];
+	struct soap soap;
+
+	if (gf == NULL || gf->guid == NULL) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+	if (lrc_init (&soap, errmsg, GFAL_ERRMSG_LEN) < 0) {
+		gf->errmsg = strdup (errmsg);
+		gf->errcode = errno;
+		return (-1);
+	}
+
+	surls = lrc_surlsfromguid (gf->guid, errmsg, GFAL_ERRMSG_LEN);
+	if (surls == NULL) {
+		gf->errmsg = strdup (errmsg);
+		gf->errcode = errno;
+		return (-1);
+	}
+
+	if (surls[0] != NULL) {
+		// Put SURLs in order of preference:
+		//   1. SURLs from default SE
+		//   2. SURLs from local domain
+		//   3. Others
+		char dname[GFAL_HOSTNAME_MAXLEN];
+		int i, random_ind;
+		int next_defaultse = 0, next_local = 0, next_others = 0;
+		char  *surl, *surl_tmp1, *surl_tmp2, *p1, *p2, *p3;
+		char *default_se;
+
+		srand ((unsigned) time (NULL));
+		*dname = '\0';
+		getdomainnm (dname, sizeof(dname));
+
+		// Calculate the size of tab 'surls'
+		for (size = 0; surls[size]; ++size) ;
+
+		gf->nbreplicas = size;
+		gf->replicas = (gfal_replica *) calloc (size, sizeof (gfal_replica));
+		if (gf->replicas == NULL) {
+			gf->errcode = errno;
+			return (-1);
+		}
+
+		/* and get the default SE, it there is one */
+		default_se = get_default_se(errmsg, GFAL_ERRMSG_LEN);
+
+		for (i = 0; i < size; i++) {
+			if ((surl = surls[i]) == NULL ||
+					(strncmp (surl, "srm://", 6) && strncmp (surl, "sfn://", 6)))
+				// skip entries not in the form srm: or sfn:
+				continue;
+
+			if ((p1 = strchr (surl + 6, '/')) == NULL) continue; // no host name
+			if ((p2 = strchr (surl + 6, '.')) == NULL) continue; // no domain name
+			*p1 = '\0';
+
+			if ((p3 = strchr (surl + 6, ':')))
+				// remove port number
+				*p3 = '\0';
+
+			if ((gf->replicas[i] = (gfal_replica) calloc (1, sizeof (struct _gfal_replica))) == NULL) {
+				gf->errcode = errno;
+				return (-1);
+			}
+
+			if(default_se != NULL && strcmp(surl + 6, default_se) == 0) {
+				// SURL from default SE
+				// Normally only 1 SURL from default SE, so no need of randomize place
+				*p1 = '/';
+				if (p3) *p3 = ':';
+
+				surl_tmp1 = gf->replicas[next_defaultse]->surl;
+				surl_tmp2 = gf->replicas[next_local]->surl;
+				gf->replicas[next_defaultse++]->surl = strdup (surl);
+				if (surl_tmp1 && gf->replicas[next_local])
+					gf->replicas[next_local++]->surl = surl_tmp1;
+				if (surl_tmp2 && gf->replicas[next_others])
+					gf->replicas[next_others++]->surl = surl_tmp2;
+
+				free (surl);
+				continue;
+			}
+
+			if (strcmp (p2 + 1, dname) == 0) {
+				// SURL from local domain
+				// Put it at random place amongst local surls
+				*p1 = '/';
+				if (p3) *p3 = ':';
+				random_ind = (rand() % (next_local - next_defaultse + 1)) + next_defaultse;
+
+				surl_tmp1 = gf->replicas[random_ind]->surl;
+				surl_tmp2 = gf->replicas[next_local]->surl;
+				gf->replicas[random_ind]->surl = strdup (surl);
+				if (surl_tmp1 && gf->replicas[next_local])
+					gf->replicas[next_local++]->surl = surl_tmp1;
+				if (surl_tmp2 && gf->replicas[next_others])
+					gf->replicas[next_others++]->surl = surl_tmp2;
+
+				free (surl);
+				continue;
+			}
+
+			// Other SURL...
+			// Put it at random place amongst other surls
+			*p1 = '/';
+			if (p3) *p3 = ':';
+			random_ind = (rand() % (next_others - next_local + 1)) + next_local;
+
+			surl_tmp1 = gf->replicas[random_ind]->surl;
+			gf->replicas[random_ind]->surl = strdup (surl);
+			if (surl_tmp1 && gf->replicas[next_others])
+				gf->replicas[next_others++]->surl = surl_tmp1;
+
+			free (surl);
+		}
+	}
+
+	if (surls) free (surls);
+	errno = 0;
 	return (0);
 }

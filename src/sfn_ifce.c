@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: sfn_ifce.c,v $ $Revision: 1.7 $ $Date: 2008/05/08 13:16:36 $ CERN Remi Mollon
+ * @(#)$RCSfile: sfn_ifce.c,v $ $Revision: 1.8 $ $Date: 2008/11/10 12:36:15 $ CERN Remi Mollon
  */
 
 #define _GNU_SOURCE
@@ -16,8 +16,7 @@
 #include <pwd.h>
 #include <dirent.h>
 #include <sys/stat.h>
-#include "gfal_api.h"
-#include "gfal.h"
+#include "gfal_internals.h"
 
 
 

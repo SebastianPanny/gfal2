@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.66 $ $Date: 2008/06/05 13:09:16 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.67 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -142,7 +142,8 @@ SHLIBLDFLAGS = -shared
 
 INCLUDE_PYTHON=-I$(PYTHON_INC) -I$(PYTHON_LIB)
 
-GFAL_OBJS = checkprotolib.o gfal.o lrc_ifce.o mds_ifce.o rmc_ifce.o gridftp_ifce.o sfn_ifce.o srm2_2_ifce.o srm_ifce.o srmC.o srmClient.o lfc_ifce.o
+GFAL_HEADERS = gfal_api.h gfal_internals.h gfal_types.h gfal_constants.h
+GFAL_OBJS = checkprotolib.o gfal.o gfal_file.o lrc_ifce.o mds_ifce.o rmc_ifce.o gridftp_ifce.o sfn_ifce.o srm2_2_ifce.o srm_ifce.o lfc_ifce.o
 GFAL_TESTSRC = gfal_testchmod.c gfal_testget.c gfal_teststat.c gfal_testcreatdir.c gfal_testread.c gfal_testunlink.c gfal_testdir.c gfal_testrw.c
 GFAL_TESTBIN = $(GFAL_TESTSRC:.c=)
 GFAL_INSTALL_TESTBIN = $(patsubst %,$(prefix)/bin/%, $(GFAL_TESTBIN))
@@ -161,23 +162,25 @@ libgfal_pthr.so: $(GFAL_OBJS)
 gfal_version: gfal_version.c libgfal.so
 	$(CC) -o $@ $(CLI_LIBS) $(VOMSLIB) $<
 
-checkprotolib.o: checkprotolib.c gfal.h 
+checkprotolib.o: checkprotolib.c $(GFAL_HEADERS)
 	$(CC) -c $(PROTOFLG) $<
-gfal.o: gfal.c gfal.h gfal_api.h gfal_constants.h ../VERSION
+gfal.o: gfal.c $(GFAL_HEADERS) ../VERSION
 	$(CC) -c -DVERSION=\"$(VERSION)\" $(SECFLG) $(VOMSINC) $<
-lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
-	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
-rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h
-	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
-lfc_ifce.o: lfc_ifce.c gfal_api.h
-	$(CC) -c $(LFCINC) $(SECFLG) $<
-gridftp_ifce.o: gridftp_ifce.c gfal.h gfal_api.h gfal_constants.h
-	$(CC) -c $(SECFLG) $(GLOBUS_INC) $<
-sfn_ifce.o: sfn_ifce.c gfal.h gfal_api.h gfal_constants.h
+gfal_file.o: gfal_file.c $(GFAL_HEADERS)
 	$(CC) -c $(SECFLG) $<
-srm2_2_ifce.o: srm2_2_ifce.c srmv2H.h srmv2Stub.h srmSoapBinding+.nsmap gfal_api.h
+lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap $(GFAL_HEADERS)
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
-srm_ifce.o: srm_ifce.c srmH.h srmStub.h ISRM.nsmap gfal_api.h
+rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap $(GFAL_HEADERS)
+	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
+lfc_ifce.o: lfc_ifce.c $(GFAL_HEADERS)
+	$(CC) -c $(LFCINC) $(SECFLG) $<
+gridftp_ifce.o: gridftp_ifce.c $(GFAL_HEADERS)
+	$(CC) -c $(SECFLG) $(GLOBUS_INC) $<
+sfn_ifce.o: sfn_ifce.c $(GFAL_HEADERS)
+	$(CC) -c $(SECFLG) $<
+srm2_2_ifce.o: srm2_2_ifce.c srmv2H.h srmv2Stub.h srmv2C.c srmv2Client.c srmSoapBinding+.nsmap $(GFAL_HEADERS)
+	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
+srm_ifce.o: srm_ifce.c srmH.h srmStub.h srmC.c srmClient.c ISRM.nsmap $(GFAL_HEADERS)
 	$(CC) -c $(GSOAPINC) $(SECFLG) $<
 srmC.o: srmC.c
 	$(CC) -c $(GSOAPINC) $<
@@ -239,8 +242,11 @@ install: $(prefix)/bin \
 	 $(prefix)/$(lib_m) \
 	 $(prefix)/bin/gfal_version \
 	 $(GFAL_INSTALL_TESTBIN) \
-	 $(prefix)/include $(prefix)/include/gfal_api.h \
+	 $(prefix)/include \
+	 $(prefix)/include/gfal_api.h \
+	 $(prefix)/include/gfal_internals.h \
 	 $(prefix)/include/gfal_constants.h \
+	 $(prefix)/include/gfal_types.h \
 	 $(prefix)/$(lib_m)/libgfal.a \
 	 $(prefix)/$(lib_m)/libgfal.so \
 	 $(prefix)/$(lib_m)/libgfal_pthr.so \
@@ -263,7 +269,16 @@ $(prefix)/include:
 $(prefix)/include/gfal_api.h: gfal_api.h
 	-mv -f $@ $(prefix)/include/OLD$?
 	cp -p $? $@
+
+$(prefix)/include/gfal_internals.h: gfal_internals.h
+	-mv -f $@ $(prefix)/include/OLD$?
+	cp -p $? $@
+
 $(prefix)/include/gfal_constants.h: gfal_constants.h
+	-mv -f $@ $(prefix)/include/OLD$?
+	cp -p $? $@
+
+$(prefix)/include/gfal_types.h: gfal_types.h
 	-mv -f $@ $(prefix)/include/OLD$?
 	cp -p $? $@
 

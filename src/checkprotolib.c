@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.10 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.11 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -27,7 +27,7 @@
 #include "rfio_api.h"
 #include "serrno.h"
 #endif
-#include "gfal.h"
+#include "gfal_internals.h"
 
 static ssize_t dummysetfilchg ();
 static int fnotsup ();

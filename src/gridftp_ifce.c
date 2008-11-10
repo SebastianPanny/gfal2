@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gridftp_ifce.c,v $ $Revision: 1.3 $ $Date: 2008/10/16 12:10:11 $ CERN Remi Mollon
+ * @(#)$RCSfile: gridftp_ifce.c,v $ $Revision: 1.4 $ $Date: 2008/11/10 12:36:15 $ CERN Remi Mollon
  */
 
 #include <errno.h>
@@ -14,7 +14,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "globus_ftp_client.h"
-#include "gfal_api.h"
+#include "gfal_internals.h"
 
 #ifdef GLOBUS_ERROR_TYPE_MULTIPLE
 #define GLOBUS_ERROR2STRING(errorobj) globus_error_print_friendly (errorobj)
@@ -354,7 +354,7 @@ err:
 
 		if (p != NULL) {
 			if (err != ENOENT && !save_errno)
-				gfal_errmsg (errbuf, errbufsz, p, GFAL_ERRLEVEL_ERROR);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", p);
 
 			globus_libc_free(p);
 		}
@@ -390,7 +390,7 @@ gridftp_ls (char *path, int *nbfiles, char ***filenames, struct stat64 **statbuf
 	int save_errno = 0;
 
 	if (path == NULL || filenames == NULL || statbufs == NULL) {
-		gfal_errmsg (errbuf, errbufsz, "gridftp_ls: invalid arguments", GFAL_ERRLEVEL_ERROR);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "gridftp_ls: invalid arguments");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -470,7 +470,7 @@ err:
 				err = EINVAL;
 
 			if (err != ENOENT && !save_errno)
-				gfal_errmsg (errbuf, errbufsz, p, GFAL_ERRLEVEL_ERROR);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", p);
 
 			globus_libc_free(p);
 			if (!save_errno)

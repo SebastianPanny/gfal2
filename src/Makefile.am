@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.8 2008/10/08 14:54:31 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.9 2008/11/10 12:36:15 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -104,6 +104,8 @@ srmSoapBinding+.nsmap: srmSoapBinding.nsmap
 # distributed header files
 dist_include_HEADERS = \
 	gfal_api.h \
+	gfal_internals.h \
+	gfal_types.h \
 	gfal_constants.h
 
 # executables
@@ -165,6 +167,7 @@ gfalthr_wrap.c: gfalthr.i lcg-typemaps.python.i
 GFAL_SOURCE_FILES = \
 	checkprotolib.c \
 	gfal.c \
+	gfal_file.c \
 	lrc_ifce.c \
 	mds_ifce.c \
 	rmc_ifce.c \
@@ -172,9 +175,7 @@ GFAL_SOURCE_FILES = \
 	srm2_2_ifce.c \
 	srm_ifce.c \
 	lfc_ifce.c \
-	gridftp_ifce.c \
-	srmClient.c \
-	srmC.c
+	gridftp_ifce.c
 
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
 rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h
