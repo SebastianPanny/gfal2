@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.56 $ $Date: 2008/11/11 13:29:39 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.57 $ $Date: 2008/11/11 13:56:05 $
  */
 
 #define _GNU_SOURCE
@@ -2383,6 +2383,10 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 					(*statuses)[i].stat.st_mode |= S_IFLNK;
 					break;
 			}
+		}
+		if (repfs->pathDetailArray[i]->checkSumType && repfs->pathDetailArray[i]->checkSumValue) {
+			(*statuses)[i].checksumtype = strdup (repfs->pathDetailArray[i]->checkSumType);
+			(*statuses)[i].checksum = strdup (repfs->pathDetailArray[i]->checkSumValue);
 		}
 		if (repfs->pathDetailArray[i]->arrayOfSpaceTokens &&
                 repfs->pathDetailArray[i]->arrayOfSpaceTokens->__sizestringArray > 0 &&

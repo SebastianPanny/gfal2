@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.2 $ $Date: 2008/11/11 13:29:39 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.3 $ $Date: 2008/11/11 13:56:05 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_TYPES_H
@@ -84,6 +84,8 @@ typedef struct gfal_filestatus_ {
 	struct gfal_filestatus_ *subpaths;
 	int nbsubpaths;
 	TFileLocality locality;
+	char *checksumtype;
+	char *checksum;
     char **spacetokens;
     int nbspacetokens;
 } gfal_filestatus;
@@ -239,6 +241,8 @@ struct srmv2_mdfilestatus {
 	struct srmv2_mdfilestatus *subpaths;
 	int nbsubpaths;
 	TFileLocality locality;
+	char *checksumtype;
+	char *checksum;
     char **spacetokens;
     int nbspacetokens;
 };
