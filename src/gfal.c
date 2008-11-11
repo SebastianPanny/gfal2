@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.103 $ $Date: 2008/11/11 13:56:05 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.104 $ $Date: 2008/11/11 15:41:37 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -445,7 +445,7 @@ gfal_creat64 (const char *filename, mode_t mode)
 	int
 gfal_set_verbose (int value)
 {
-	if (value < 0 || value > 2)
+	if (value < 0)
 		return (-1);
 
 	gfal_verbose = value;
