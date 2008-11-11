@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.55 $ $Date: 2008/11/10 12:36:15 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.56 $ $Date: 2008/11/11 13:29:39 $
  */
 
 #define _GNU_SOURCE
@@ -2313,10 +2313,8 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 
 	n = repfs->__sizepathDetailArray;
 
-	if ((*statuses = (struct srmv2_mdfilestatus *) calloc (n, sizeof (struct srmv2_mdfilestatus))) == NULL) {
-		errno = ENOMEM;
+	if ((*statuses = (struct srmv2_mdfilestatus *) calloc (n, sizeof (struct srmv2_mdfilestatus))) == NULL)
 		return (-1);
-	}
 
 	for (i = 0; i < n; ++i) {
 		if (!repfs->pathDetailArray[i])
@@ -2386,6 +2384,20 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 					break;
 			}
 		}
+		if (repfs->pathDetailArray[i]->arrayOfSpaceTokens &&
+                repfs->pathDetailArray[i]->arrayOfSpaceTokens->__sizestringArray > 0 &&
+                repfs->pathDetailArray[i]->arrayOfSpaceTokens->stringArray) {
+            int j;
+            (*statuses)[i].nbspacetokens = repfs->pathDetailArray[i]->arrayOfSpaceTokens->__sizestringArray;
+
+            if (((*statuses)[i].spacetokens = (char **) calloc ((*statuses)[i].nbspacetokens, sizeof (char *))) == NULL)
+                return (-1);
+            for (j = 0; j < (*statuses)[i].nbspacetokens; ++j) {
+                if (repfs->pathDetailArray[i]->arrayOfSpaceTokens->stringArray[j] == NULL)
+                    continue;
+                (*statuses)[i].spacetokens[j] = strdup (repfs->pathDetailArray[i]->arrayOfSpaceTokens->stringArray[j]);
+            }
+        }
 
 		if (repfs->pathDetailArray[i]->arrayOfSubPaths) {
 			r = copy_md (reqstatp, repfs->pathDetailArray[i]->arrayOfSubPaths, &((*statuses)[i].subpaths));

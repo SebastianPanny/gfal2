@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.101 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.102 $ $Date: 2008/11/11 13:29:39 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -3089,6 +3089,8 @@ copy_gfal_mdresults (struct srmv2_mdfilestatus srmv2, gfal_filestatus *gfal)
 	gfal->explanation = srmv2.explanation;
 	gfal->nbsubpaths = srmv2.nbsubpaths;
 	gfal->locality = srmv2.locality;
+	gfal->nbspacetokens = srmv2.nbspacetokens;
+	gfal->spacetokens = srmv2.spacetokens;
 
 
 	if (gfal->nbsubpaths > 0) {
@@ -3302,6 +3304,13 @@ gfal_internal_free (gfal_internal req)
 			if (req->results[i].surl) free (req->results[i].surl);
 			if (req->results[i].turl) free (req->results[i].turl);
 			if (req->results[i].explanation) free (req->results[i].explanation);
+
+			if (req->results[i].nbspacetokens > 0 && req->results[i].spacetokens) {
+				int j;
+				for (j = 0; j < req->results[i].nbspacetokens; ++j)
+					if (req->results[i].spacetokens[j]) free (req->results[i].spacetokens[j]);
+				free (req->results[i].spacetokens);
+			}
 		}
 
 		free (req->results);
