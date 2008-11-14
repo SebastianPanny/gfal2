@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.64 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.65 $ $Date: 2008/11/14 16:41:31 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -20,6 +20,22 @@ extern "C"
 #include <sys/stat.h>
 #include "gfal_constants.h"
 #include "gfal_types.h"
+
+
+/******************** Common functions ********************/
+
+const char *gfal_version ();
+int gfal_set_verbose (int);
+int gfal_set_vo (const char *vo);
+void gfal_set_nobdii (int);
+void gfal_set_timeout_connect (int);
+int gfal_get_timeout_connect ();
+void gfal_set_timeout_sendreceive (int);
+int gfal_get_timeout_sendreceive ();
+void gfal_set_timeout_bdii (int);
+int gfal_get_timeout_bdii ();
+void gfal_set_timeout_srm (int);
+int gfal_get_timeout_srm ();
 
 
 /******************** POSIX functions ********************/
@@ -61,12 +77,10 @@ int gfal_stat64 (const char *, struct stat *);
 #endif
 
 
-/******************** Other functions ********************/
+/******************** SRM functions ********************/
 
-int gfal_set_verbose (int);
-int gfal_set_vo (const char *vo);
-const char *gfal_version ();
-void gfal_set_nobdii (int);
+gfal_request gfal_request_new ();
+int gfal_init (gfal_request, gfal_internal *, char *, int);
 int gfal_deletesurls (gfal_internal, char *, int);
 int gfal_removedir (gfal_internal, char *, int);
 int gfal_turlsfromsurls (gfal_internal, char *, int);
@@ -82,8 +96,6 @@ int gfal_set_xfer_done (gfal_internal, char *, int);
 int gfal_set_xfer_running (gfal_internal, char *, int);
 int gfal_abortrequest (gfal_internal, char *, int);
 int gfal_abortfiles (gfal_internal, char *, int);
-gfal_request gfal_request_new ();
-int gfal_init (gfal_request, gfal_internal *, char *, int);
 int gfal_get_results (gfal_internal, gfal_filestatus **);
 int gfal_get_ids_setype (gfal_internal, enum se_type *, int *, int **, char **);
 int gfal_get_ids (gfal_internal, int *, int **, char **);

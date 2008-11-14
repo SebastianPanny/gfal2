@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.74 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.75 $ $Date: 2008/11/14 16:41:31 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -34,7 +34,6 @@ struct bdii_server_info_t {
 
 static struct bdii_server_info_t *bdii_servers = NULL;
 static int bdii_servers_count = 0;
-static int bdii_timeout = GFAL_BDII_TIMEOUT;
 static int bdii_server_current = 0;
 static int bdii_server_known_good = 0;
 
@@ -83,16 +82,8 @@ bdii_parse_env (char *errbuf, int errbufsz)
 	char *strtok_state;
 
 	bdii_env = getenv ("LCG_GFAL_BDII_TIMEOUT");
-	if (bdii_env != NULL) {
-		bdii_timeout = atoi (bdii_env);
-		if (bdii_timeout <= 0) {
-			bdii_servers_count = -1;
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-					"LCG_GFAL_BDII_TIMEOUT: invalid value (%d)", bdii_timeout);
-			errno = EINVAL;
-			return (-1);
-		}
-	}
+	if (bdii_env != NULL)
+		gfal_set_timeout_bdii (atoi (bdii_env));
 
 	bdii_env = getenv ("LCG_GFAL_INFOSYS");
 	if (bdii_env == NULL) {
@@ -148,7 +139,7 @@ bdii_parse_env (char *errbuf, int errbufsz)
 
 	GFAL_DEBUG ("DEBUG: BDII environment parsing results:\n"
 			"DEBUG: BDII base timeout: %d\n"
-			"DEBUG: BDII servers list:\n", bdii_timeout);
+			"DEBUG: BDII servers list:\n", gfal_get_timeout_bdii);
 
 	for (n = 0; n < bdii_servers_count; ++n)
 		GFAL_DEBUG ("DEBUG:  - %s:%d\n", bdii_servers[n].server, bdii_servers[n].port);
@@ -242,13 +233,13 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 		*bdii_port_ptr = bdii_port;
 		if (ld == NULL) continue;
 
-		timeout.tv_sec = bdii_timeout;
+		timeout.tv_sec = gfal_get_timeout_connect ();
 		timeout.tv_usec = 0;
+		ldap_set_option (ld, LDAP_OPT_NETWORK_TIMEOUT, &timeout);
 
 		gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_INFO, "[INFO] Trying to use BDII: %s:%d (timeout %d)",
-				bdii_server, bdii_port, bdii_timeout);
+				bdii_server, bdii_port, gfal_get_timeout_bdii ());
 
-		ldap_set_option (ld, LDAP_OPT_NETWORK_TIMEOUT, &timeout);
 		if ((err = ldap_simple_bind_s (ld, "", "")) != LDAP_SUCCESS) {
 			ldap_unbind (ld);
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s:%d: %s",
@@ -257,6 +248,7 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 			continue;
 		}
 
+		timeout.tv_sec = gfal_get_timeout_bdii ();
 		rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, complete_filter, attrs, 0, &timeout, reply_ptr);
 		if (rc != LDAP_SUCCESS) {
 			ldap_unbind (ld);

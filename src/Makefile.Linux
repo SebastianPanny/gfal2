@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.67 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.68 $ $Date: 2008/11/14 16:41:30 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -143,7 +143,7 @@ SHLIBLDFLAGS = -shared
 INCLUDE_PYTHON=-I$(PYTHON_INC) -I$(PYTHON_LIB)
 
 GFAL_HEADERS = gfal_api.h gfal_internals.h gfal_types.h gfal_constants.h
-GFAL_OBJS = checkprotolib.o gfal.o gfal_file.o lrc_ifce.o mds_ifce.o rmc_ifce.o gridftp_ifce.o sfn_ifce.o srm2_2_ifce.o srm_ifce.o lfc_ifce.o
+GFAL_OBJS = checkprotolib.o gfal.o gfal_file.o gfal_timeouts.o lrc_ifce.o mds_ifce.o rmc_ifce.o gridftp_ifce.o sfn_ifce.o srm2_2_ifce.o srm_ifce.o lfc_ifce.o
 GFAL_TESTSRC = gfal_testchmod.c gfal_testget.c gfal_teststat.c gfal_testcreatdir.c gfal_testread.c gfal_testunlink.c gfal_testdir.c gfal_testrw.c
 GFAL_TESTBIN = $(GFAL_TESTSRC:.c=)
 GFAL_INSTALL_TESTBIN = $(patsubst %,$(prefix)/bin/%, $(GFAL_TESTBIN))
@@ -167,6 +167,8 @@ checkprotolib.o: checkprotolib.c $(GFAL_HEADERS)
 gfal.o: gfal.c $(GFAL_HEADERS) ../VERSION
 	$(CC) -c -DVERSION=\"$(VERSION)\" $(SECFLG) $(VOMSINC) $<
 gfal_file.o: gfal_file.c $(GFAL_HEADERS)
+	$(CC) -c $(SECFLG) $<
+gfal_timeouts.o: gfal_timeouts.c $(GFAL_HEADERS)
 	$(CC) -c $(SECFLG) $<
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap $(GFAL_HEADERS)
 	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<

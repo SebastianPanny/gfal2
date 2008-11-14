@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.9 2008/11/10 12:36:15 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.10 2008/11/14 16:41:31 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -168,6 +168,7 @@ GFAL_SOURCE_FILES = \
 	checkprotolib.c \
 	gfal.c \
 	gfal_file.c \
+	gfal_timeouts.c \
 	lrc_ifce.c \
 	mds_ifce.c \
 	rmc_ifce.c \

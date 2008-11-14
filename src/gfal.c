@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.104 $ $Date: 2008/11/11 15:41:37 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.105 $ $Date: 2008/11/14 16:41:31 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1420,7 +1420,7 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 			req->sfn_statuses = NULL;
 		}
 		ret = sfn_deletesurls (req->nbfiles, (const char **) req->surls,
-				&(req->sfn_statuses), errbuf, errbufsz, req->timeout);
+				&(req->sfn_statuses), errbuf, errbufsz, gfal_get_timeout_sendreceive ());
 	}
 
 	req->returncode = ret;
@@ -1545,7 +1545,7 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 			req->srmv2_mdstatuses = NULL;
 		}
 		ret = sfn_getfilemd (req->nbfiles, (const char **) req->surls,
-				&(req->srmv2_mdstatuses), errbuf, errbufsz, req->timeout);
+				&(req->srmv2_mdstatuses), errbuf, errbufsz, gfal_get_timeout_sendreceive ());
 	}
 
 	req->returncode = ret;
@@ -2903,6 +2903,10 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 
 	memset (*gfal, 0, sizeof (struct gfal_internal_));
 	memcpy (*gfal, req, sizeof (struct gfal_request_));
+
+	/* Use default SRM timeout if not specified in request */
+	if (!(*gfal)->timeout)
+		(*gfal)->timeout = gfal_get_timeout_srm ();
 
 	if ((*gfal)->no_bdii_check) {
 		if ((*gfal)->surls != NULL && ((*gfal)->setype != TYPE_NONE ||

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.57 $ $Date: 2008/11/11 13:56:05 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.58 $ $Date: 2008/11/14 16:41:31 $
  */
 
 #define _GNU_SOURCE
@@ -96,9 +96,9 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof(req));
 
@@ -210,9 +210,9 @@ srmv2_rmdir (const char *surl, const char *srm_endpoint, int recursive,
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof(req));
 	req.SURL = (char *) surl;
@@ -347,9 +347,9 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	/* issue "get" request */
 
@@ -591,9 +591,9 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&sreq, 0, sizeof(sreq));
 	sreq.requestToken = (char *) reqtoken;
@@ -709,9 +709,9 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&tknreq, 0, sizeof(tknreq));
 
@@ -822,9 +822,9 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&tknreq, 0, sizeof(tknreq));
 
@@ -1052,9 +1052,9 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof (struct srm2__srmMkdirRequest));
 
@@ -1247,9 +1247,9 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	/* issue "bringonline" request */
 
@@ -1475,9 +1475,9 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&sreq, 0, sizeof(sreq));
 	sreq.requestToken = (char *) reqtoken;
@@ -1592,9 +1592,9 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof(req));
 
@@ -1742,9 +1742,9 @@ retry:
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	/* issue "get" request */
 
@@ -2027,9 +2027,9 @@ retry:
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof(req));
 
@@ -2440,9 +2440,9 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof(req));
 
@@ -2555,9 +2555,9 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	/* issue "extendfilelifetime" request */
 
@@ -2680,9 +2680,9 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof(req));
 
@@ -2796,9 +2796,9 @@ srmv2_abortrequest (const char *srm_endpoint, const char *reqtoken, char *errbuf
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof(req));
 
@@ -2866,9 +2866,9 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof(req));
 
@@ -2986,9 +2986,9 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 	soap_register_plugin_arg (&soap, client_cgsi_plugin, &flags);
 #endif
 
-	soap.send_timeout = timeout;
-	soap.recv_timeout = timeout;
-	soap.connect_timeout = timeout;
+	soap.send_timeout = gfal_get_timeout_sendreceive ();
+	soap.recv_timeout = gfal_get_timeout_sendreceive ();
+	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof(req));
 
