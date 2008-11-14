@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.56 $ $Date: 2008/11/10 12:36:15 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.57 $ $Date: 2008/11/14 16:25:51 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -54,39 +54,85 @@ struct fc_ops {
 };
 
 struct fc_ops fcops;
-char *lfc_host = NULL;
-
-static char lfc_env[128];
-static char lfc_penv[128];
+char lfc_endpoint[GFAL_HOSTNAME_MAXLEN] = "";
 
 static int lfc_mkdirp_trans (const char *, mode_t, char *, int, int);
 
 static int 
 lfc_init (char *errbuf, int errbufsz) {
-	char *lfc_endpoint = NULL;
+	int sav_errno = 0;
+	char *lfc_host = NULL;
 	char *lfc_port = NULL;
 
-	if (lfc_host == NULL) {
+	if (*lfc_endpoint == 0) {
 		/* Try first from env */
 		if ((lfc_host = getenv ("LFC_HOST")) != NULL) {
-			lfc_port = getenv ("LFC_PORT");
-		} else if (!gfal_is_nobdii ()) { /* get endpoint from MDS */
-			if (get_lfc_endpoint (&lfc_endpoint, errbuf, errbufsz) < 0)
+			if (strlen (lfc_host) + 6 >= GFAL_HOSTNAME_MAXLEN) {
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Host name too long", lfc_host);
+				free (lfc_host);
+				errno = ENAMETOOLONG;
 				return (-1);
-
-			if (strncmp (lfc_endpoint, "lfc://", 6) == 0) {
-				if ((lfc_host = strdup (lfc_endpoint + 6)) == NULL) {
-					free (lfc_endpoint);
-					errno = ENOMEM;
-					return (-1);
-				}
-			} else { /* just a plain hostname */
-				lfc_host = lfc_endpoint;
 			}
 
-			if ((lfc_port = strchr (lfc_host, ':')) != NULL) {
+			lfc_port = getenv ("LFC_PORT");
+			if (lfc_port && strlen (lfc_port) > 5) {
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Invalid LFC port number", lfc_port);
+				free (lfc_host);
+				free (lfc_port);
+				errno = EINVAL;
+				return (-1);
+			}
+
+			if (lfc_port) {
+				snprintf (lfc_endpoint, GFAL_HOSTNAME_MAXLEN, "%s:%s", lfc_host, lfc_port);
+				free (lfc_port);
+			} else
+				snprintf (lfc_endpoint, GFAL_HOSTNAME_MAXLEN, "%s", lfc_host);
+
+			free (lfc_host);
+		} else if (!gfal_is_nobdii ()) { /* get endpoint from MDS */
+			char lfc_env[GFAL_HOSTNAME_MAXLEN];
+
+			if (get_lfc_endpoint (&lfc_host, errbuf, errbufsz) < 0 || lfc_host == NULL)
+				return (-1);
+
+			if (strlen (lfc_host) >= GFAL_HOSTNAME_MAXLEN) {
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Host name too long", lfc_host);
+				free (lfc_host);
+				errno = ENAMETOOLONG;
+				return (-1);
+			}
+
+			if (strncmp (lfc_host, "lfc://", 6) == 0)
+				strncpy (lfc_endpoint, lfc_host + 6, GFAL_HOSTNAME_MAXLEN);
+			else /* just a plain hostname */
+				strncpy (lfc_endpoint, lfc_host, GFAL_HOSTNAME_MAXLEN);
+			free (lfc_host);
+
+			if ((lfc_port = strchr (lfc_endpoint, ':')) != NULL)
 				*lfc_port = '\0';
-				lfc_port++;
+
+			/* export host and port to environment */
+			snprintf (lfc_env, GFAL_HOSTNAME_MAXLEN, "LFC_HOST=%s", lfc_endpoint);
+			if (putenv (lfc_env) < 0) {
+				*lfc_endpoint = 0;
+				return (-1);
+			}
+
+			if (lfc_port && *(lfc_port + 1) != '\0') {
+				if (strlen (lfc_port) > 5) {
+					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Invalid LFC port number", lfc_port);
+					*lfc_endpoint = 0;
+					errno = EINVAL;
+					return (-1);
+				}
+				snprintf (lfc_env, GFAL_HOSTNAME_MAXLEN, "LFC_PORT=%s", lfc_port);
+				if (putenv (lfc_env) < 0) {
+					*lfc_endpoint = 0;
+					return (-1);
+				}
+
+				*lfc_port = ':';
 			}
 		} else {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
@@ -95,48 +141,12 @@ lfc_init (char *errbuf, int errbufsz) {
 			errno = EINVAL;
 			return (-1);
 		}
-		if (strlen (lfc_host) == 0) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "LFC host is set to empty string");
-			free (lfc_endpoint);
-			lfc_host = NULL;
-			errno = EINVAL;
-			return (-1);
-		}
-
-		if (10 + strlen (lfc_host) + 6 > 128) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Host name too long", lfc_host);
-			free (lfc_endpoint);
-			lfc_host = NULL;
-			errno = ENAMETOOLONG;
-			return (-1);
-		}
-		sprintf (lfc_env, "LFC_HOST=%s", lfc_host);
-		if (putenv (lfc_env) < 0)
-			return (-1);
-
-		if (lfc_port && *lfc_port != '\0') {
-			if (strlen (lfc_port) > 5) {
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Invalid LFC port number", lfc_port);
-				free (lfc_endpoint);
-				lfc_host = NULL;
-				errno = EINVAL;
-				return (-1);
-			}
-			sprintf (lfc_penv, "LFC_PORT=%s", lfc_port);
-			if (putenv (lfc_penv) < 0) {
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Host name too long", lfc_host);
-				free (lfc_endpoint);
-				lfc_host = NULL;
-				return (-1);
-			}
-		}
 		{
 			void *dlhandle;
 
 			if ((dlhandle = dlopen (NULL, RTLD_LAZY)) == NULL) {
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", dlerror ());
-				if (lfc_endpoint) free (lfc_endpoint);
-				lfc_host = NULL;
+				*lfc_endpoint = 0;
 				return (-1);
 			}
 			
@@ -145,8 +155,7 @@ lfc_init (char *errbuf, int errbufsz) {
 			if (fcops.addreplica == NULL) {
 				if ((dlhandle = dlopen ("liblfc.so", RTLD_LAZY)) == NULL) {
 					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "liblfc.so: %s", dlerror ());
-					if (lfc_endpoint) free (lfc_endpoint);
-					lfc_host = NULL;
+					*lfc_endpoint = 0;
 					return (-1);
 				}
 
@@ -189,7 +198,7 @@ char *
 lfc_get_catalog_endpoint (char *errbuf, int errbufsz) {
 	if (lfc_init (errbuf, errbufsz) < 0)
 		return (NULL);
-	return lfc_host;
+	return lfc_endpoint;
 }
 
 int
@@ -201,7 +210,7 @@ lfc_replica_exists (const char *guid, char *errbuf, int errbufsz) {
 		return (-1);
 	if (fcops.getreplica (NULL, guid, NULL, &size, &replicas) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, guid, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
@@ -218,7 +227,7 @@ lfc_accessl (const char *path, int mode, char *errbuf, int errbufsz)
 
 	if (fcops.access (path, mode) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, path, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, path, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
@@ -234,7 +243,7 @@ lfc_chmodl (const char *path, mode_t mode, char *errbuf, int errbufsz)
 
 	if (fcops.chmod (path, mode) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, path, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, path, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
@@ -255,7 +264,7 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 
 	if (fcops.statr (pfn, &statg) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, pfn, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, pfn, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
 	}
@@ -289,9 +298,9 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses,
 			(*statuses = (int *) calloc (nbfiles, sizeof (int))) == NULL)
 		return (-1);
 
-	if (fcops.startsess (lfc_host, (char*) gfal_version ()) < 0) {
+	if (fcops.startsess (lfc_endpoint, (char*) gfal_version ()) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s",
-				gfal_remote_type, lfc_host, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 		free (guids);
 		*guids = NULL;
 		free (*statuses);
@@ -324,7 +333,7 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses,
 
 	if (fcops.endsess () < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s",
-				gfal_remote_type, lfc_host, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 	}
 	return (0);
 }
@@ -342,7 +351,7 @@ lfc_guid_exists (const char *guid, char *errbuf, int errbufsz)
 			return (0);
 
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, guid, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
@@ -361,14 +370,14 @@ lfc_get_replicas (const char * lfn, const char *guid, char *errbuf, int errbufsz
 
 	if (fcops.getreplica (lfn, guid, NULL, &size, &list) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, guid, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
 	}
 	/* no results */
 	if (size < 0 || (size > 0 && list == NULL)) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: Unknown error",
-				gfal_remote_type, lfc_host, guid);
+				gfal_remote_type, lfc_endpoint, guid);
 		errno = ECOMM;
 		if (list) free (list);
 		return (NULL);
@@ -416,9 +425,9 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **r
 	if ((*results = (int *) calloc (nbguids, sizeof (int))) == NULL)
 			return (-1);
 
-	if (fcops.startsess (lfc_host, "") < 0) {
+	if (fcops.startsess (lfc_endpoint, "") < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s",
-				gfal_remote_type, lfc_host, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 		free (*results);
 		*results = NULL;
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
@@ -440,7 +449,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **r
 		}
 		if (rc < 0) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-					gfal_remote_type, pfns[i], lfc_host, fcops.sstrerror (*fcops.serrno));
+					gfal_remote_type, pfns[i], lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 			(*results)[i] = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		} else {
 			(*results)[i] = 0;
@@ -453,7 +462,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **r
 
 		if (fcops.getreplica (NULL, guids[i], NULL, &size, &replist) < 0) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-					gfal_remote_type, guids[i], lfc_host, fcops.sstrerror (*fcops.serrno));
+					gfal_remote_type, guids[i], lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 			continue;
 		}
 		if (replist) free (replist);
@@ -467,7 +476,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **r
 
 		if (fcops.getlinks (NULL, guids[i], &size, &linklist) < 0) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-					gfal_remote_type, guids[i], lfc_host, fcops.sstrerror (*fcops.serrno));
+					gfal_remote_type, guids[i], lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 			continue;
 		}
 		if (size <= 0 || linklist == NULL)
@@ -480,7 +489,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **r
 
 			if (fcops.unlink (lfn) < 0) {
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-						gfal_remote_type, lfn, lfc_host, fcops.sstrerror (*fcops.serrno));
+						gfal_remote_type, lfn, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 			}
 
 			gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "[guid:%s] lfn:%s - UNREGISTERED", guids[i], lfn);
@@ -490,7 +499,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **r
 
 	if (fcops.endsess () < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s",
-				gfal_remote_type, lfc_host, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 	}
 
 	return (0);
@@ -507,7 +516,7 @@ lfc_guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 
 	if (fcops.statg (lfn, NULL, &statg) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, lfn, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, lfn, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
 	}
@@ -528,14 +537,14 @@ lfc_get_aliases (const char *lfn, const char *guid, char *errbuf, int errbufsz)
 
 	if (fcops.getlinks (lfn, guid, &size, &list) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, guid, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
 	}
 	/* no results */
 	if (size <= 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: No such GUID",
-				gfal_remote_type, lfc_host, guid);
+				gfal_remote_type, lfc_endpoint, guid);
 		errno = ENOENT;
 		if (list) free (list);
 		return (NULL);
@@ -593,10 +602,10 @@ lfc_register_file (const char *lfn, const char *guid, const char *surl, mode_t m
 			} else {
 				if (lfn)
 					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: lfn:%s: %s",
-							gfal_remote_type, lfc_host, lfn, fcops.sstrerror (sav_errno));
+							gfal_remote_type, lfc_endpoint, lfn, fcops.sstrerror (sav_errno));
 				else
 					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: guid:%s: %s",
-							gfal_remote_type, lfc_host, guid, fcops.sstrerror (sav_errno));
+							gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (sav_errno));
 
 				fcops.endtrans ();
 				errno = sav_errno < 1000 ? sav_errno : ECOMM;
@@ -606,10 +615,10 @@ lfc_register_file (const char *lfn, const char *guid, const char *surl, mode_t m
 			if (bool_createonly) {
 				if (lfn)
 					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: lfn:%s: %s",
-							gfal_remote_type, lfc_host, lfn, strerror (EEXIST));
+							gfal_remote_type, lfc_endpoint, lfn, strerror (EEXIST));
 				else
 					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: guid:%s: %s",
-							gfal_remote_type, lfc_host, guid, strerror (EEXIST));
+							gfal_remote_type, lfc_endpoint, guid, strerror (EEXIST));
 
 				fcops.endtrans ();
 				errno = EEXIST;
@@ -669,10 +678,10 @@ lfc_register_file (const char *lfn, const char *guid, const char *surl, mode_t m
 
 			if (!generated_guid)
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: guid:%s: %s",
-						gfal_remote_type, lfc_host, guid, fcops.sstrerror (*fcops.serrno));
+						gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
 			else
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: lfn:%s: %s",
-						gfal_remote_type, lfc_host, lfn, fcops.sstrerror (*fcops.serrno));
+						gfal_remote_type, lfc_endpoint, lfn, fcops.sstrerror (*fcops.serrno));
 
 			fcops.aborttrans ();
 			if (generated_lfn) free (generated_lfn);
@@ -685,7 +694,7 @@ lfc_register_file (const char *lfn, const char *guid, const char *surl, mode_t m
 
 		if (size > 0 && fcops.setfsizeg (guid, size, NULL, NULL) < 0) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: guid:%s: %s",
-					gfal_remote_type, lfc_host, guid, fcops.sstrerror (*fcops.serrno));
+					gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
 			sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			fcops.aborttrans ();
 			if (generated_guid) free (generated_guid);
@@ -708,7 +717,7 @@ lfc_register_file (const char *lfn, const char *guid, const char *surl, mode_t m
 		}
 		if (fcops.addreplica (guid, NULL, hostname, surl, '-', '\0', NULL, NULL) < 0) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-					gfal_remote_type, lfc_host, surl, fcops.sstrerror (*fcops.serrno));
+					gfal_remote_type, lfc_endpoint, surl, fcops.sstrerror (*fcops.serrno));
 			sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			free (hostname);
 			fcops.aborttrans ();
@@ -745,14 +754,14 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 	fcops.starttrans (NULL, (char*) gfal_version ());
 	if (fcops.statg (NULL, guid, &statg) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, guid, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
 		sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		rc = -1;
 	}
 	/* now we do a getpath () to get the master lfn */
-	if (rc == 0 && fcops.getpath (lfc_host, statg.fileid, master_lfn) <0 ) {
+	if (rc == 0 && fcops.getpath (lfc_endpoint, statg.fileid, master_lfn) <0 ) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, guid, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
 		sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		rc = -1;
 	}
@@ -760,7 +769,7 @@ lfc_register_alias (const char *guid, const char *lfn, char *errbuf, int errbufs
 	/* and finally register */
 	if (rc == 0 && fcops.symlink (master_lfn, lfn) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, lfn, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, lfn, fcops.sstrerror (*fcops.serrno));
 		sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		rc = -1;
 	}
@@ -790,13 +799,13 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 		if (*fcops.serrno == ENOENT) {
 			if (fcops.lstat (lfn, &stat) < 0 ) {
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-						gfal_remote_type, lfc_host, lfn, fcops.sstrerror (*fcops.serrno));
+						gfal_remote_type, lfc_endpoint, lfn, fcops.sstrerror (*fcops.serrno));
 				sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 				rc = -1;
 			}
 		} else {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-					gfal_remote_type, lfc_host, lfn, fcops.sstrerror (*fcops.serrno));
+					gfal_remote_type, lfc_endpoint, lfn, fcops.sstrerror (*fcops.serrno));
 			sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			rc = -1;
 		}
@@ -805,7 +814,7 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 	/* lfn maps to the guid - unlink it */
 	if (rc == 0 && fcops.unlink (lfn) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, lfn, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, lfn, fcops.sstrerror (*fcops.serrno));
 		sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		rc = -1;
 	}
@@ -867,7 +876,7 @@ lfc_mkdirp_trans (const char *path, mode_t mode, char *errbuf, int errbufsz, int
 			break;
 		if (*fcops.serrno != ENOENT) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-					gfal_remote_type, lfc_host, sav_path, fcops.sstrerror (*fcops.serrno));
+					gfal_remote_type, lfc_endpoint, sav_path, fcops.sstrerror (*fcops.serrno));
 			sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			rc = -1;
 		} else {
@@ -885,7 +894,7 @@ lfc_mkdirp_trans (const char *path, mode_t mode, char *errbuf, int errbufsz, int
 		rc = fcops.mkdirg (sav_path, uuid_buf, mode);
 		if (rc != 0) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-					gfal_remote_type, lfc_host, sav_path, fcops.sstrerror (*fcops.serrno));
+					gfal_remote_type, lfc_endpoint, sav_path, fcops.sstrerror (*fcops.serrno));
 			sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		}
 	}
@@ -908,7 +917,7 @@ lfc_renamel (const char *old_name, const char *new_name, char *errbuf, int errbu
 
 	if (fcops.rename (old_name, new_name) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s",
-				gfal_remote_type, lfc_host, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
@@ -926,7 +935,7 @@ lfc_opendirlg (const char *dirname, const char *guid, char *errbuf, int errbufsz
 
 	if ((dir = fcops.opendirg (dirname, guid)) == NULL) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, dirname, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, dirname, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
 	}
@@ -942,7 +951,7 @@ lfc_rmdirl (const char *dirname, char *errbuf, int errbufsz)
 
 	if (fcops.rmdir (dirname) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, dirname, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, dirname, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
@@ -964,7 +973,7 @@ lfc_setsize (const char *lfn, GFAL_LONG64 size, char *errbuf, int errbufsz)
 
 	if (fcops.setfsize (lfn, NULL, size) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_host, lfn, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, lfn, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (-1);
 	}
@@ -983,7 +992,7 @@ lfc_statl (const char *lfn, const char *guid, struct stat64 *buf, char *errbuf, 
 	if (fcops.statg (lfn, guid, &statbuf) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
 				gfal_remote_type,
-				lfc_host,
+				lfc_endpoint,
 				lfn != NULL ? lfn : guid,
 				fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
@@ -1013,7 +1022,7 @@ lfc_lstatl (const char *lfn, struct stat64 *buf, char *errbuf, int errbufsz)
 	if (fcops.lstat (lfn, &statbuf) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
 				gfal_remote_type,
-				lfc_host,
+				lfc_endpoint,
 				lfn,
 				fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
@@ -1051,9 +1060,9 @@ lfc_fillsurls (gfal_file gf, char *errbuf, int errbufsz)
 		return (-1);
 	}
 
-	if (fcops.startsess (lfc_host, (char*) gfal_version ()) < 0) {
+	if (fcops.startsess (lfc_endpoint, (char*) gfal_version ()) < 0) {
 		gf->errcode = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
-		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_host, fcops.sstrerror (*fcops.serrno));
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
 		gf->errmsg = strdup (errmsg);
 		return (-1);
@@ -1065,7 +1074,7 @@ lfc_fillsurls (gfal_file gf, char *errbuf, int errbufsz)
 		if (fcops.statg (gf->lfn, NULL, &statg) < 0) {
 			gf->errcode = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type,
-					lfc_host, gf->lfn, fcops.sstrerror (*fcops.serrno));
+					lfc_endpoint, gf->lfn, fcops.sstrerror (*fcops.serrno));
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
 			gf->errmsg = strdup (errmsg);
 			fcops.endsess ();
@@ -1080,7 +1089,7 @@ lfc_fillsurls (gfal_file gf, char *errbuf, int errbufsz)
 	}
 
 	if (fcops.getreplica (gf->lfn, gf->guid, NULL, &size, &list) < 0) {
-		asprintf (&(gf->errmsg), "[%s] %s: %s: %s", gfal_remote_type, lfc_host,
+		asprintf (&(gf->errmsg), "[%s] %s: %s: %s", gfal_remote_type, lfc_endpoint,
 				gf->lfn ? gf->lfn : gf->guid, fcops.sstrerror (*fcops.serrno));
 		gf->errcode = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
@@ -1089,7 +1098,7 @@ lfc_fillsurls (gfal_file gf, char *errbuf, int errbufsz)
 	}
 	/* no results */
 	if (size < 0 || (size > 0 && list == NULL)) {
-		asprintf (&(gf->errmsg), "[%s] %s: %s: Unknown error", gfal_remote_type, lfc_host, gf->guid);
+		asprintf (&(gf->errmsg), "[%s] %s: %s: Unknown error", gfal_remote_type, lfc_endpoint, gf->guid);
 		gf->errcode = ECOMM;
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
 		if (list) free (list);
@@ -1224,9 +1233,9 @@ lfc_remove (gfal_file gfile, char *errbuf, int errbufsz)
 		return (-1);
 	}
 
-	if (fcops.startsess (lfc_host, (char *) gfal_version ()) < 0) {
+	if (fcops.startsess (lfc_endpoint, (char *) gfal_version ()) < 0) {
 		gfile->errcode = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
-		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_host, fcops.sstrerror (*fcops.serrno));
+		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
 		gfile->errmsg = strdup (errmsg);
 		return (-1);
@@ -1241,7 +1250,7 @@ lfc_remove (gfal_file gfile, char *errbuf, int errbufsz)
 		if (fcops.delreplica (gfile->guid, NULL, gfile->replicas[i]->surl) < 0) {
 			++nberrors;
 			snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type,
-					lfc_host, gfile->replicas[i]->surl, fcops.sstrerror (*fcops.serrno));
+					lfc_endpoint, gfile->replicas[i]->surl, fcops.sstrerror (*fcops.serrno));
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
 			gfal_file_set_replica_error (gfile, *fcops.serrno < 1000 ? *fcops.serrno : ECOMM, errmsg);
 		}
@@ -1258,7 +1267,7 @@ lfc_remove (gfal_file gfile, char *errbuf, int errbufsz)
 			++nberrors;
 			gfile->errcode = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type,
-					lfc_host, gfile->lfn ? gfile->lfn : gfile->guid,
+					lfc_endpoint, gfile->lfn ? gfile->lfn : gfile->guid,
 					fcops.sstrerror (*fcops.serrno));
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
 			gfile->errmsg = strdup (errmsg);
@@ -1271,7 +1280,7 @@ lfc_remove (gfal_file gfile, char *errbuf, int errbufsz)
 					++nberrors;
 					gfile->errcode = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s", gfal_remote_type,
-							lfc_host, gfile->lfn ? gfile->lfn : gfile->guid,
+							lfc_endpoint, gfile->lfn ? gfile->lfn : gfile->guid,
 							fcops.sstrerror (*fcops.serrno));
 				}
 				gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "[INFO] %s - %s > UNREGISTERED ALIAS",
