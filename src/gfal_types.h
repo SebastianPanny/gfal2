@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.3 $ $Date: 2008/11/11 13:56:05 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.4 $ $Date: 2008/11/17 16:17:44 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_TYPES_H
@@ -303,20 +303,28 @@ struct proto_ops {
 	int	(*close)(int);
 	int	(*closedir)(DIR *);
 	off_t	(*lseek)(int, off_t, int);
+#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 	off64_t	(*lseek64)(int, off64_t, int);
+#endif
 	int	(*lstat)(const char *, struct stat *);
+#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 	int	(*lstat64)(const char *, struct stat64 *);
+#endif
 	int	(*mkdir)(const char *, mode_t);
 	int	(*open)(const char *, int, ...);
 	DIR	*(*opendir)(const char *);
 	ssize_t	(*read)(int, void *, size_t);
 	struct dirent	*(*readdir)(DIR *);
+#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 	struct dirent64	*(*readdir64)(DIR *);
+#endif
 	int	(*rename)(const char *, const char *);
 	int	(*rmdir)(const char *);
 	ssize_t	(*setfilchg)(int, const void *, size_t);
 	int	(*stat)(const char *, struct stat *);
+#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 	int	(*stat64)(const char *, struct stat64 *);
+#endif
 	int	(*unlink)(const char *);
 	ssize_t	(*write)(int, const void *, size_t);
 };
