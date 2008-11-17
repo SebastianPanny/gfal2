@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.105 $ $Date: 2008/11/14 16:41:31 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.106 $ $Date: 2008/11/17 17:27:44 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -38,6 +38,7 @@ static char *gfal_fqan[GFAL_FQAN_MAX];
 static int gfal_nb_fqan = 0;
 static int vomsdataparsed = 0;
 static int nobdii = 0;
+static int purifydisabled = -1;
 
 /*
  * Verbose level
@@ -2735,7 +2736,11 @@ purify_surl (const char *surl, char *surl_cat, const int surl_cat_sz) {
 		errno = EINVAL;
 		return (-1);
 	}
-	if (strncmp (surl, "srm://", 6)) {
+
+	if (purifydisabled < 0)
+		purifydisabled = getenv ("LCG_GFAL_FULL_SURLS_IN_FC") == NULL ? 0 : 1;
+
+	if (purifydisabled == 1 || strncmp (surl, "srm://", 6)) {
 		/* Only SRM SURL need to be purify */
 		strncpy (surl_cat, surl, surl_cat_sz);
 		return (0);
