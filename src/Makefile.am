@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.10 2008/11/14 16:41:31 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.11 2008/11/17 16:16:59 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -222,6 +222,10 @@ libgfal_la_CFLAGS = \
 	$(GSOAP_CFLAGS) \
 	$(VOMS_CFLAGS)
 
+libgfal_la_LDFLAGS = \
+	$(GFAL_FLAGS) \
+	-version-info $(INTERFACE_LIBTOOL_CURRENT):$(INTERFACE_LIBTOOL_REVISION):$(INTERFACE_LIBTOOL_AGE)
+
 # libgfal_pthr.la
 #-------------------------------------------------------------------------------
 libgfal_pthr_la_SOURCES = $(GFAL_SOURCE_FILES)
@@ -235,7 +239,8 @@ libgfal_pthr_la_LIBADD = \
 	-lldap
 
 libgfal_pthr_la_LDFLAGS = \
-	$(GFAL_FLAGS) 
+	$(GFAL_FLAGS) \
+	-version-info $(INTERFACE_LIBTOOL_CURRENT):$(INTERFACE_LIBTOOL_REVISION):$(INTERFACE_LIBTOOL_AGE)
 
 libgfal_pthr_la_CFLAGS = \
 	$(GLOBUS_THR_CFLAGS) \
@@ -251,7 +256,7 @@ gfal_version_SOURCES = \
 
 gfal_version_LDADD = libgfal.la
 
-gfal_version_CFLAGS = $(VOMS_CFLAGS)
+gfal_version_CFLAGS = $(VOMS_CFLAGS) -D_LARGEFILE64_SOURCE
 
 # test programs
 #-------------------------------------------------------------------------------

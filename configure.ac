@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.6 2008/10/07 07:20:37 szamsu Exp $
+# Version info: $Id: configure.ac,v 1.7 2008/11/17 16:16:59 rmollon Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.6 $])
+AC_REVISION([$Revision: 1.7 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -71,6 +71,23 @@ AC_ARG_ENABLE(
 # Set GLite Properties
 AC_GLITE
 AC_GLITE_VERSION
+
+# Overwrite Interface version
+## Split the version code
+INTERFACE_MAJOR=`echo $VERSION | cut -d. -f1`
+INTERFACE_MINOR=`echo $VERSION | cut -d. -f2`
+## we don't care about last number, no binary incompatibilities
+INTERFACE_PATCHLEVEL=0
+
+## Calculate the libtool version fields
+INTERFACE_LIBTOOL_CURRENT=`expr $INTERFACE_MAJOR + $INTERFACE_MINOR`
+INTERFACE_LIBTOOL_REVISION=$INTERFACE_PATCHLEVEL
+INTERFACE_LIBTOOL_AGE=$INTERFACE_MINOR
+
+## Export these variables to Automake
+AC_SUBST([INTERFACE_LIBTOOL_CURRENT])
+AC_SUBST([INTERFACE_LIBTOOL_REVISION])
+AC_SUBST([INTERFACE_LIBTOOL_AGE])
 
 # globus 
 AC_GLOBUS
