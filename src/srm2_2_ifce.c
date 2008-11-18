@@ -3,12 +3,13 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.58 $ $Date: 2008/11/14 16:41:31 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.59 $ $Date: 2008/11/18 12:47:01 $
  */
 
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <grp.h>
@@ -1721,6 +1722,8 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	int r = 0;
 	char *r_token;
 	int ret;
+	int sleep_time = 5;
+	int nbretries = 0;
 	struct srm2__srmPrepareToGetResponse_ rep;
 	struct srm2__ArrayOfTGetRequestFileStatus *repfs;
 	struct srm2__srmPrepareToGetRequest req;
@@ -1852,7 +1855,7 @@ retry:
 	/* INTERNAL_ERROR = transient error => automatic retry */
 	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
-		if (timeout > 0 && time(NULL) > endtime) {
+		if ((timeout > 0 && time(NULL) > endtime) || nbretries > GFAL_SRM_MAXRETRIES) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: User timeout over",
 					gfal_remote_type, srmfunc, srm_endpoint);
 			errno = ETIMEDOUT;
@@ -1863,6 +1866,9 @@ retry:
 
 		soap_end (&soap);
 		soap_done (&soap);
+		sleep (sleep_time);
+		sleep_time *= 2;
+		++nbretries;
 		goto retry;
 	}
 
@@ -2005,6 +2011,8 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	int r = 0;
 	char *r_token;
 	int ret;
+	int sleep_time = 5;
+	int nbretries = 0;
 	struct srm2__srmPrepareToPutResponse_ rep;
 	struct srm2__ArrayOfTPutRequestFileStatus *repfs;
 	struct srm2__srmPrepareToPutRequest req;
@@ -2150,12 +2158,15 @@ retry:
 	/* INTERNAL_ERROR = transient error => automatic retry */
 	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
-		if (timeout > 0 && time(NULL) > endtime) {
+		if ((timeout > 0 && time(NULL) > endtime) || nbretries > GFAL_SRM_MAXRETRIES) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: User timeout over",
 					gfal_remote_type, srmfunc, srm_endpoint);
 			errno = ETIMEDOUT;
 			soap_end (&soap);
 			soap_done (&soap);
+			sleep (sleep_time);
+			sleep_time *= 2;
+			++nbretries;
 			return (-1);
 		}
 

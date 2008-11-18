@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_constants.h,v $ $Revision: 1.6 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_constants.h,v $ $Revision: 1.7 $ $Date: 2008/11/18 12:47:01 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_CONSTANTS_H
@@ -23,6 +23,7 @@
 #define GFAL_ERRMSG_LEN           1024
 #define GFAL_BDII_TIMEOUT         60
 #define GFAL_SIZE_MARGIN          1048576     // 1MB
+#define GFAL_SRM_MAXRETRIES       10
 
 /* GFAL error level for gfal_errmsg */
 #define GFAL_ERRLEVEL_ERROR       0
