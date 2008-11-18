@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.49 $ $Date: 2008/11/14 16:41:31 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: srm_ifce.c,v $ $Revision: 1.50 $ $Date: 2008/11/18 16:47:24 $ CERN Jean-Philippe Baud
  */
 
 #include <sys/types.h>
@@ -20,7 +20,6 @@
 #ifdef GFAL_SECURE
 #include "cgsi_plugin.h"
 #endif
-#define DEFPOLLINT 10
 #include "srmC.c"
 #include "srmClient.c"
 
@@ -370,10 +369,10 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	struct srm1__getRequestStatusResponse outq;
 	struct ArrayOfboolean permarray;
 	struct ArrayOfstring protoarray;
-	int r = 0;
 	struct srmDiskCache__RequestStatus *reqstatp;
 	int ret;
 	int sav_errno = 0;
+	int sleep_time, nbretries;
 	struct ArrayOflong sizearray;
 	struct soap soap;
 	struct ArrayOfstring srcarray;
@@ -485,9 +484,17 @@ srm_turlsfromsurls (int nbfiles, const char **surls, const char *srm_endpoint, G
 	if (timeout > 0)
 		endtime = time(NULL) + timeout;
 
+	sleep_time = 5;
+	nbretries = 0;
+
 	while (reqstatp && strcasecmp (reqstatp->state, "pending") == 0) {
-		sleep ((r++ == 0) ? 1 : (reqstatp->retryDeltaTime > 0) ?
-				reqstatp->retryDeltaTime : DEFPOLLINT);
+		if (reqstatp->retryDeltaTime > 0)
+			sleep (reqstatp->retryDeltaTime);
+		else {
+			sleep (sleep_time);
+			if (++nbretries < 8)
+				sleep_time *= 2; // exponentially increase sleeping time, until ~10min
+		}
 		if ((ret = soap_call_srm1__getRequestStatus (&soap, srm_endpoint,
 					srmfunc_status, *reqid, &outq))) {
 			if(soap.fault != NULL && soap.fault->faultstring != NULL) {

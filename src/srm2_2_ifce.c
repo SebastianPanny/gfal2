@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.59 $ $Date: 2008/11/18 12:47:01 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.60 $ $Date: 2008/11/18 16:47:24 $
  */
 
 #define _GNU_SOURCE
@@ -27,7 +27,6 @@
 #ifdef GFAL_SECURE
 #include "cgsi_plugin.h"
 #endif
-#define DEFPOLLINT 10
 #include "srmv2C.c"
 #include "srmv2Client.c"
 
@@ -1719,11 +1718,9 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	int i;
 	int n;
 	int nbproto = 0;
-	int r = 0;
 	char *r_token;
 	int ret;
-	int sleep_time = 5;
-	int nbretries = 0;
+	int sleep_time, nbretries;
 	struct srm2__srmPrepareToGetResponse_ rep;
 	struct srm2__ArrayOfTGetRequestFileStatus *repfs;
 	struct srm2__srmPrepareToGetRequest req;
@@ -1852,6 +1849,9 @@ retry:
 	if (timeout > 0)
 		endtime = (time(NULL) + timeout);
 
+	sleep_time = 5;
+	nbretries = 0;
+
 	/* INTERNAL_ERROR = transient error => automatic retry */
 	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
@@ -1867,17 +1867,22 @@ retry:
 		soap_end (&soap);
 		soap_done (&soap);
 		sleep (sleep_time);
-		sleep_time *= 2;
+		sleep_time *= 2; // exponentially increase sleeping time
 		++nbretries;
 		goto retry;
 	}
 
 	/* wait for files ready */
 
+	sleep_time = 5;
+	nbretries = 0;
+
 	while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED || 
 			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS) {
 
-		sleep ((r++ == 0) ? 1 : DEFPOLLINT);
+		sleep (sleep_time);
+		if (++nbretries < 8)
+			sleep_time *= 2; // exponentially increase sleeping time, until ~10min
 
 		if ((ret = soap_call_srm2__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
@@ -2011,8 +2016,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	int r = 0;
 	char *r_token;
 	int ret;
-	int sleep_time = 5;
-	int nbretries = 0;
+	int sleep_time, nbretries;
 	struct srm2__srmPrepareToPutResponse_ rep;
 	struct srm2__ArrayOfTPutRequestFileStatus *repfs;
 	struct srm2__srmPrepareToPutRequest req;
@@ -2155,6 +2159,9 @@ retry:
 	if (timeout > 0)
 		endtime = time(NULL) + timeout;
 
+	sleep_time = 5;
+	nbretries = 0;
+
 	/* INTERNAL_ERROR = transient error => automatic retry */
 	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
@@ -2177,10 +2184,15 @@ retry:
 
 	/* wait for files ready */
 
+	sleep_time = 5;
+	nbretries = 0;
+
 	while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
 			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS) {
 
-		sleep ((r++ == 0) ? 1 : DEFPOLLINT);
+		sleep (sleep_time);
+		if (++nbretries < 8)
+			sleep_time *= 2; // exponentially increase sleeping time, until ~10min
 
 		if ((ret = soap_call_srm2__srmStatusOfPutRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
