@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.11 2008/11/17 16:16:59 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.12 2008/11/19 14:43:48 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -236,11 +236,8 @@ libgfal_pthr_la_LIBADD = \
 	$(CGSI_GSOAP_LIBS) \
 	$(GLOBUS_GSS_THR_LIBS) \
 	$(GLOBUS_FTP_CLIENT_THR_LIBS) \
+	$(VOMS_THR_LIBS) \
 	-lldap
-
-libgfal_pthr_la_LDFLAGS = \
-	$(GFAL_FLAGS) \
-	-version-info $(INTERFACE_LIBTOOL_CURRENT):$(INTERFACE_LIBTOOL_REVISION):$(INTERFACE_LIBTOOL_AGE)
 
 libgfal_pthr_la_CFLAGS = \
 	$(GLOBUS_THR_CFLAGS) \
@@ -248,6 +245,10 @@ libgfal_pthr_la_CFLAGS = \
 	$(GFAL_FLAGS) \
 	$(GSOAP_CFLAGS) \
 	$(VOMS_CFLAGS)
+
+libgfal_pthr_la_LDFLAGS = \
+	$(GFAL_FLAGS) \
+	-version-info $(INTERFACE_LIBTOOL_CURRENT):$(INTERFACE_LIBTOOL_REVISION):$(INTERFACE_LIBTOOL_AGE)
 
 # gfal_version
 #-------------------------------------------------------------------------------
