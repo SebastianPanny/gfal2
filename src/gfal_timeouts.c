@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_timeouts.c,v $ $Revision: 1.2 $ $Date: 2008/11/18 16:48:05 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_timeouts.c,v $ $Revision: 1.3 $ $Date: 2008/11/19 14:44:22 $ CERN Remi Mollon
  */
 
 #include <stdlib.h>
@@ -11,7 +11,7 @@
 #include "gfal_internals.h"
 
 static int gfal_timeout_connect = 60;
-static int gfal_timeout_sendreceive = 0;
+static int gfal_timeout_sendreceive = 60;
 static int gfal_timeout_bdii = 60;
 static int gfal_timeout_srm = 3600;
 
