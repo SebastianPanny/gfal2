@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.68 $ $Date: 2008/11/14 16:41:30 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.69 $ $Date: 2008/11/25 15:21:31 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -171,9 +171,9 @@ gfal_file.o: gfal_file.c $(GFAL_HEADERS)
 gfal_timeouts.o: gfal_timeouts.c $(GFAL_HEADERS)
 	$(CC) -c $(SECFLG) $<
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap $(GFAL_HEADERS)
-	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
+	$(CC) -c $(GSOAPINC) $(SECFLG) $<
 rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap $(GFAL_HEADERS)
-	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
+	$(CC) -c $(GSOAPINC) $(SECFLG) $<
 lfc_ifce.o: lfc_ifce.c $(GFAL_HEADERS)
 	$(CC) -c $(LFCINC) $(SECFLG) $<
 gridftp_ifce.o: gridftp_ifce.c $(GFAL_HEADERS)
@@ -181,7 +181,7 @@ gridftp_ifce.o: gridftp_ifce.c $(GFAL_HEADERS)
 sfn_ifce.o: sfn_ifce.c $(GFAL_HEADERS)
 	$(CC) -c $(SECFLG) $<
 srm2_2_ifce.o: srm2_2_ifce.c srmv2H.h srmv2Stub.h srmv2C.c srmv2Client.c srmSoapBinding+.nsmap $(GFAL_HEADERS)
-	$(CC) -c $(GSOAPINC) $(SECFLG) -DWITH_NOGLOBAL $<
+	$(CC) -c $(GSOAPINC) $(SECFLG) $<
 srm_ifce.o: srm_ifce.c srmH.h srmStub.h srmC.c srmClient.c ISRM.nsmap $(GFAL_HEADERS)
 	$(CC) -c $(GSOAPINC) $(SECFLG) $<
 srmC.o: srmC.c
