@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.60 $ $Date: 2008/11/18 16:47:24 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.61 $ $Date: 2008/11/28 17:31:29 $
  */
 
 #define _GNU_SOURCE
@@ -1092,9 +1092,10 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 
 	if (repstatp->statusCode != SRM_USCORESUCCESS) {
 		sav_errno = statuscode2errno (repstatp->statusCode);
-		if (sav_errno == EEXIST || sav_errno == EACCES) {
+		if (sav_errno == EEXIST || sav_errno == EACCES || sav_errno == EOPNOTSUPP) {
 			/* EEXIST - dir already exists, nothing to do
-			 * EACCES - dir *may* already exists, but no authZ on parent */
+			 * EACCES - dir *may* already exists, but no authZ on parent
+			 * EOPNOTSUPP - dir *may* already exists, but before SARoot */
 			return (0);
 		} else if (sav_errno != ENOENT) {
 			if (repstatp->explanation && repstatp->explanation[0])
@@ -3130,6 +3131,8 @@ statuscode2errno (int statuscode)
 			return (ENOSPC);
 		case SRM_USCOREINTERNAL_USCOREERROR:
 			return (ECOMM);
+		case SRM_USCORENOT_USCORESUPPORTED:
+			return (EOPNOTSUPP);
 		case SRM_USCORESUCCESS:
 		case SRM_USCOREFILE_USCOREPINNED:
 		case SRM_USCORESPACE_USCOREAVAILABLE:
