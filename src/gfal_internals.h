@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.1 $ $Date: 2008/11/10 12:36:15 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.2 $ $Date: 2008/11/28 17:32:56 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_INTERNALS_H
@@ -33,6 +33,7 @@ extern "C"
 const char *gfal_version ();
 //void gfal_errmsg (char *, int, const char *, int);
 void gfal_errmsg (char *, int, int, const char *, ...);
+char *gfal_get_userdn (char *errbuf, int errbufsz);
 char *gfal_get_vo (char *errbuf, int errbufsz);
 int gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz);
 int gfal_is_nobdii ();
@@ -41,7 +42,7 @@ void gfal_internal_free (gfal_internal);
 void gfal_spacemd_free (int, gfal_spacemd *);
 char *get_catalog_endpoint(char *, int);
 int guid_exists (const char *, char *, int);
-int gfal_guidsforpfns (int, const char **, char ***, int **, char *, int);
+int gfal_guidsforpfns (int, const char **, int, char ***, int **, char *, int);
 char *gfal_guidforpfn (const char *, char *, int);
 char *guidfromlfn (const char *, char *, int);
 char **gfal_get_aliases (const char *, const char *, char *, int);
@@ -98,7 +99,7 @@ int get_se_types_and_endpoints (const char *, char ***, char ***, char *, int);
 
 int lfc_maperror (struct proto_ops *, int);
 int lfc_setsize (const char *, GFAL_LONG64, char *, int);
-int lfc_accessl (const char *, int, char *, int);
+int lfc_accessl (const char *, const char *, int, char *, int);
 int lfc_chmodl (const char *, mode_t, char *, int);
 int lfc_renamel (const char *, const char *, char *, int);
 int lfc_statl (const char *, const char *, struct stat64 *, char *, int);
@@ -111,7 +112,7 @@ int lfc_deletepfn (const char *, const char *, char *, int);
 int lfc_deletesurl (const char *, char *, int);
 char *lfc_get_catalog_endpoint(char *, int);
 char *lfc_guidforpfn (const char *, char *, int);
-int lfc_guidsforpfns (int, const char **, char ***, int **, char *, int);
+int lfc_guidsforpfns (int, const char **, int, char ***, int **, char *, int);
 char *lfc_guidfromlfn (const char *, char *, int);
 int lfc_guid_exists (const char *, char *, int);
 char **lfc_get_aliases (const char *, const char *, char *, int);

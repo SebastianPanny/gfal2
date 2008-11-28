@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.57 $ $Date: 2008/11/14 16:25:51 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.58 $ $Date: 2008/11/28 17:32:56 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -220,19 +220,57 @@ lfc_replica_exists (const char *guid, char *errbuf, int errbufsz) {
 }
 
 int
-lfc_accessl (const char *path, int mode, char *errbuf, int errbufsz)
+lfc_accessl (const char *path, const char *guid, int mode, char *errbuf, int errbufsz)
 {
+	char *lfn = (char *) path;
+	int sav_errno = 0;
+
+	if (path == NULL && guid == NULL) {
+		errno = EINVAL;
+		return (-1);
+	}
 	if (lfc_init (errbuf, errbufsz) < 0)
 		return (-1);
 
-	if (fcops.access (path, mode) < 0) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_endpoint, path, fcops.sstrerror (*fcops.serrno));
-		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
-		return (-1);
+	if (path == NULL) {
+		struct lfc_linkinfo* links = NULL;
+		int size = 0;
+
+		if (fcops.startsess (lfc_endpoint, (char*) gfal_version ()) < 0) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s",
+					gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
+			sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+		}
+		if (!sav_errno && fcops.getlinks (NULL, guid, &size, &links) < 0) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
+					gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
+			sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+		}
+		if (!sav_errno) {
+			if (links && size > 0) {
+				lfn = strdup (links[0].path);
+				free (links);
+			} else {
+				if (links) free (links);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: No associated LFN",
+						gfal_remote_type, lfc_endpoint, guid);
+				sav_errno = ENOENT;
+			}
+		}
 	}
 
-	return (0);
+	if (!sav_errno && fcops.access (lfn, mode) < 0) {
+		sav_errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
+				gfal_remote_type, lfc_endpoint, path, fcops.sstrerror (*fcops.serrno));
+	}
+
+	if (path = NULL) {
+		if (lfn) free (lfn);
+		fcops.endsess ();
+	}
+	errno = sav_errno;
+	return (!sav_errno ? 0 : -1);
 }
 
 int
@@ -277,11 +315,12 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 
 /** lfc_guidsforpfns : Get the guid for a replica.  If the replica does not
   exist, fail with ENOENT */
-lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses, char *errbuf, int errbufsz)
+lfc_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int **statuses, char *errbuf, int errbufsz)
 {
-	int i;
+	int i, size;
 	struct lfc_filestatg statg;
 	char actual_pfn[GFAL_PATH_MAXLEN];
+	struct lfc_linkinfo* linklist;
 
 	if (nbfiles < 1 || pfns == NULL || guids == NULL) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "Function 'lfc_guidsforpfns': invalid arguments");
@@ -317,8 +356,9 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses,
 		if (fcops.statr (actual_pfn, &statg) < 0) {
 			(*statuses)[i] = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 			(*guids)[i] = NULL;
+			continue;
 		}
-		else if (((*guids)[i] = strdup (statg.guid)) == NULL) {
+		if (((*guids)[i] = strdup (statg.guid)) == NULL) {
 			int j;
 			for (j = 0; j < i; ++j)
 				if ((*guids)[j]) free ((*guids)[j]);
@@ -329,6 +369,24 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses,
 			errno = ENOMEM;
 			return (-1);
 		}
+		
+		size = 0;
+		linklist = NULL;
+
+		if (fcops.getlinks (NULL, (*guids)[i], &size, &linklist) < 0 || size <= 0 || linklist == NULL) {
+			(*statuses)[i] = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+			free ((*guids)[i]);
+			(*guids)[i] = NULL;
+			continue;
+		}
+		if (fcops.access (linklist[0].path, amode) < 0) {
+			(*statuses)[i] = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
+			free (linklist);
+			free ((*guids)[i]);
+			(*guids)[i] = NULL;
+			continue;
+		}
+		free (linklist);
 	}
 
 	if (fcops.endsess () < 0) {
@@ -1077,6 +1135,11 @@ lfc_fillsurls (gfal_file gf, char *errbuf, int errbufsz)
 					lfc_endpoint, gf->lfn, fcops.sstrerror (*fcops.serrno));
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
 			gf->errmsg = strdup (errmsg);
+			fcops.endsess ();
+			return (-1);
+		}
+		if (S_ISDIR (statg.filemode)) {
+			gf->errcode = EISDIR;
 			fcops.endsess ();
 			return (-1);
 		}

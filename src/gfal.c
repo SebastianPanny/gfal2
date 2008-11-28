@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.106 $ $Date: 2008/11/17 17:27:44 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.107 $ $Date: 2008/11/28 17:32:56 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -33,6 +33,7 @@
 
 static struct dir_info *di_array[GFAL_OPEN_MAX];
 static struct xfer_info *xi_array[GFAL_OPEN_MAX];
+static char *gfal_userdn = NULL;
 static char *gfal_vo = NULL;
 static char *gfal_fqan[GFAL_FQAN_MAX];
 static int gfal_nb_fqan = 0;
@@ -85,6 +86,7 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 			return (-1);
 		}
 
+		gfal_userdn = vd->data[0]->user;
 		gfal_vo = gfal_vo == NULL ? vd->data[0]->voname : gfal_vo;
 
 		for (i = 0; vd->data[0]->fqan[i] != NULL; ++i) {
@@ -127,6 +129,20 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 	return (0);
 }
 
+char *
+gfal_get_userdn (char *errbuf, int errbufsz)
+{
+	if (gfal_userdn == NULL)
+		gfal_parse_vomsdata (errbuf, errbufsz);
+
+	if (gfal_userdn == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "Unable to get the user's DN from the proxy");
+		errno = EINVAL;
+	}
+
+	return (gfal_userdn);
+}
+
 int
 gfal_set_vo (const char *vo)
 {
@@ -155,9 +171,7 @@ gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz)
 {
 	if (fqan == NULL) return (-1);
 
-	if (gfal_nb_fqan == 0)
-		gfal_parse_vomsdata (errbuf, errbufsz);
-
+	gfal_parse_vomsdata (errbuf, errbufsz);
 	*fqan = gfal_fqan;
 	return (gfal_nb_fqan);
 }
@@ -243,7 +257,7 @@ gfal_access (const char *path, int amode)
 	gfal_filestatus *filestatuses;
 	const char *current_surl;
 
-	if ((gfile = gfal_file_new (path, "file", 0, NULL, 0)) == NULL)
+	if ((gfile = gfal_file_new (path, "file", 0, errbuf, GFAL_ERRMSG_LEN)) == NULL)
 		return (-1);
 	if (gfile->errcode != 0) {
 		sav_errno = gfile->errcode;
@@ -252,8 +266,8 @@ gfal_access (const char *path, int amode)
 		return (-1);
 	}
 
-	if (gfile->catalog == GFAL_FILE_CATALOG_LFC && gfile->lfn != NULL) {
-		rc = lfc_accessl (gfile->lfn, amode, NULL, 0);
+	if (gfile->catalog == GFAL_FILE_CATALOG_LFC && gfile->guid != NULL) {
+		rc = lfc_accessl (gfile->lfn, gfile->guid, amode, NULL, 0);
 		sav_errno = errno;
 		gfal_file_free (gfile);
 		errno = sav_errno;
@@ -286,7 +300,7 @@ gfal_access (const char *path, int amode)
 			current_surl = gfal_file_get_replica (gfile);
 			req->surls = (char **) &current_surl;
 
-			if (!(bool_issurlok = gfal_init (req, &gfile->gobj, NULL, 0) >= 0))
+			if (!(bool_issurlok = gfal_init (req, &gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
 				gfal_file_set_replica_error (gfile, errno, errbuf);
 
 			if (bool_issurlok) {
@@ -2242,7 +2256,7 @@ gfal_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 	}
 }
 
-gfal_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses, char *errbuf, int errbufsz)
+gfal_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int **statuses, char *errbuf, int errbufsz)
 {
 	char *cat_type;
 	char actual_pfn[GFAL_PATH_MAXLEN];
@@ -2272,7 +2286,7 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, char ***guids, int **statuses
 		return (0);
 	} else if (strcmp (cat_type, "lfc") == 0) {
 		free (cat_type);
-		return (lfc_guidsforpfns (nbfiles, pfns, guids, statuses, errbuf, errbufsz));
+		return (lfc_guidsforpfns (nbfiles, pfns, amode, guids, statuses, errbuf, errbufsz));
 	} else {
 		free (cat_type);
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "The catalog type is neither 'edg' nor 'lfc'.");
