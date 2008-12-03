@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.1 $ $Date: 2008/11/10 12:36:15 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.2 $ $Date: 2008/12/03 09:05:32 $ CERN Remi Mollon
  */
 
 #define _GNU_SOURCE
@@ -217,11 +217,13 @@ gfal_file_set_replica_error (gfal_file gf, int errcode, const char *errmsg) {
 		return (-1);
 
 	gf->replicas[gf->current_replica]->errcode = errcode > 0 ? errcode : EINVAL;
-	gf->replicas[gf->current_replica]->errmsg = strdup (errmsg);
+
+	if (errmsg && errmsg[0])
+		gf->replicas[gf->current_replica]->errmsg = strdup (errmsg);
 	++gf->nberrors;
 
 	gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "[WARNING] %s: %s", gf->replicas[gf->current_replica]->surl,
-			errmsg ? errmsg : strerror (gf->replicas[gf->current_replica]->errcode));
+			errmsg && errmsg[0] ? errmsg : strerror (gf->replicas[gf->current_replica]->errcode));
 
 	if (gf->nberrors >= gf->nbreplicas) {
 		char *file;
@@ -247,7 +249,7 @@ gfal_file_set_turl_error (gfal_file gf, int errcode, const char *errmsg) {
 		return (gfal_file_set_replica_error (gf, errcode, errmsg));
 
 	gf->errcode = errcode > 0 ? errcode : EINVAL;
-	if (errmsg)
+	if (errmsg && errmsg[0])
 		asprintf (&(gf->errmsg), "%s: %s", gf->turl, errmsg);
 	return (0);
 }
