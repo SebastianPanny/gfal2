@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.18 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: rmc_ifce.c,v $ $Revision: 1.19 $ $Date: 2008/12/03 12:38:47 $ CERN Jean-Philippe Baud
  */
 
 #include <errno.h>
@@ -56,6 +56,8 @@ rmc_init (struct soap *soap, char *errbuf, int errbufsz)
 		soap_register_plugin_arg (soap, client_cgsi_plugin, &flags);
 	}
 #endif
+	gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
+			"RMC/LRC are obsolete! Please use LFC instead.");
 	return (0);
 }
 
