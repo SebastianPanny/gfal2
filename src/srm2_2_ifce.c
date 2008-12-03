@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.61 $ $Date: 2008/11/28 17:31:29 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.62 $ $Date: 2008/12/03 12:29:22 $
  */
 
 #define _GNU_SOURCE
@@ -386,6 +386,8 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 
 	if (desiredpintime > 0)
 		req.desiredPinLifeTime = &desiredpintime;
+	if (timeout > 0)
+		req.desiredTotalRequestTime = &timeout;
 
 	req.desiredFileStorageType = &s_types[PERMANENT];
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
@@ -1782,6 +1784,8 @@ retry:
 
 	if (desiredpintime > 0)
 		req.desiredPinLifeTime = &desiredpintime;
+	if (timeout > 0)
+		req.desiredTotalRequestTime = &timeout;
 
 	req.desiredFileStorageType = &s_types[PERMANENT];
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
@@ -2064,6 +2068,8 @@ retry:
 
 	if (desiredpintime > 0)
 		req.desiredPinLifeTime = &desiredpintime;
+	if (timeout > 0)
+		req.desiredTotalRequestTime = &timeout;
 
 	req.desiredFileStorageType = &s_types[PERMANENT];
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
