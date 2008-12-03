@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.107 $ $Date: 2008/11/28 17:32:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.108 $ $Date: 2008/12/03 09:05:04 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -424,7 +424,7 @@ gfal_close (int fd)
 	/* set status "done" */
 
 	if (xi->gfile && xi->gfile->gobj)
-		gfal_set_xfer_running (xi->gfile->gobj, NULL, 0);
+		gfal_set_xfer_done (xi->gfile->gobj, NULL, 0);
 
 	free_xi (fd);
 	errno = sav_errno;
