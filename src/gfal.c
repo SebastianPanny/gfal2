@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.108 $ $Date: 2008/12/03 09:05:04 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.109 $ $Date: 2008/12/05 15:15:54 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -473,7 +473,7 @@ gfal_errmsg (char *errbuf, int errbufsz, int level, const char *format, ...)
 	va_list ap;
 	char *actual_format;
 
-	if (level > gfal_verbose)
+	if ((errbuf == NULL && level > gfal_verbose) || format == NULL || format[0] == 0)
 		return;
 
 	va_start (ap, format);
