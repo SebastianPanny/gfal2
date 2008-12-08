@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.109 $ $Date: 2008/12/05 15:15:54 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.110 $ $Date: 2008/12/08 16:44:06 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -640,7 +640,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		req->filesizes = &filesize;
 	}
 
-	if (newfile && gfile->nbreplicas == 0) {
+	if (newfile && !gfile->turl && gfile->nbreplicas == 0) {
 		char *default_se, *surl = NULL;
 		GFAL_LONG64 filesize = GFAL_NEWFILE_SIZE;
 
