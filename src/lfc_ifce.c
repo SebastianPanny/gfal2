@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.58 $ $Date: 2008/11/28 17:32:56 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.59 $ $Date: 2008/12/09 09:27:37 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -55,6 +55,7 @@ struct fc_ops {
 
 struct fc_ops fcops;
 char lfc_endpoint[GFAL_HOSTNAME_MAXLEN] = "";
+char lfc_env[GFAL_HOSTNAME_MAXLEN];
 
 static int lfc_mkdirp_trans (const char *, mode_t, char *, int, int);
 
@@ -69,7 +70,6 @@ lfc_init (char *errbuf, int errbufsz) {
 		if ((lfc_host = getenv ("LFC_HOST")) != NULL) {
 			if (strlen (lfc_host) + 6 >= GFAL_HOSTNAME_MAXLEN) {
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Host name too long", lfc_host);
-				free (lfc_host);
 				errno = ENAMETOOLONG;
 				return (-1);
 			}
@@ -77,22 +77,15 @@ lfc_init (char *errbuf, int errbufsz) {
 			lfc_port = getenv ("LFC_PORT");
 			if (lfc_port && strlen (lfc_port) > 5) {
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Invalid LFC port number", lfc_port);
-				free (lfc_host);
-				free (lfc_port);
 				errno = EINVAL;
 				return (-1);
 			}
 
-			if (lfc_port) {
+			if (lfc_port)
 				snprintf (lfc_endpoint, GFAL_HOSTNAME_MAXLEN, "%s:%s", lfc_host, lfc_port);
-				free (lfc_port);
-			} else
+			else
 				snprintf (lfc_endpoint, GFAL_HOSTNAME_MAXLEN, "%s", lfc_host);
-
-			free (lfc_host);
 		} else if (!gfal_is_nobdii ()) { /* get endpoint from MDS */
-			char lfc_env[GFAL_HOSTNAME_MAXLEN];
-
 			if (get_lfc_endpoint (&lfc_host, errbuf, errbufsz) < 0 || lfc_host == NULL)
 				return (-1);
 
@@ -428,14 +421,14 @@ lfc_get_replicas (const char * lfn, const char *guid, char *errbuf, int errbufsz
 
 	if (fcops.getreplica (lfn, guid, NULL, &size, &list) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: %s",
-				gfal_remote_type, lfc_endpoint, guid, fcops.sstrerror (*fcops.serrno));
+				gfal_remote_type, lfc_endpoint, lfn ? lfn : guid, fcops.sstrerror (*fcops.serrno));
 		errno = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
 		return (NULL);
 	}
 	/* no results */
 	if (size < 0 || (size > 0 && list == NULL)) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s] %s: %s: Unknown error",
-				gfal_remote_type, lfc_endpoint, guid);
+				gfal_remote_type, lfc_endpoint, lfn ? lfn : guid);
 		errno = ECOMM;
 		if (list) free (list);
 		return (NULL);
