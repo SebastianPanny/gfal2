@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.62 $ $Date: 2008/12/03 12:29:22 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.63 $ $Date: 2008/12/10 08:35:03 $
  */
 
 #define _GNU_SOURCE
@@ -2306,7 +2306,7 @@ retry:
 				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
 				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, reqstatp->explanation);
-			else
+			else if ((*filestatuses)[i].status != 0)
 				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status,
 						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}

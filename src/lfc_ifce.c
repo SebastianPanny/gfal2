@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.59 $ $Date: 2008/12/09 09:27:37 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.60 $ $Date: 2008/12/10 08:35:03 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -1113,9 +1113,8 @@ lfc_fillsurls (gfal_file gf, char *errbuf, int errbufsz)
 
 	if (fcops.startsess (lfc_endpoint, (char*) gfal_version ()) < 0) {
 		gf->errcode = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
-		snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s", gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
-		gf->errmsg = strdup (errmsg);
+		asprintf (&(gf->errmsg), "[%s] %s: %s", gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, gf->errmsg);
 		return (-1);
 	}
 
@@ -1124,10 +1123,9 @@ lfc_fillsurls (gfal_file gf, char *errbuf, int errbufsz)
 
 		if (fcops.statg (gf->lfn, NULL, &statg) < 0) {
 			gf->errcode = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
-			snprintf (errmsg, GFAL_ERRMSG_LEN, "[%s] %s: %s: %s", gfal_remote_type,
+			asprintf (&(gf->errmsg), "[%s] %s: %s: %s", gfal_remote_type,
 					lfc_endpoint, gf->lfn, fcops.sstrerror (*fcops.serrno));
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
-			gf->errmsg = strdup (errmsg);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, gf->errmsg);
 			fcops.endsess ();
 			return (-1);
 		}
@@ -1148,7 +1146,7 @@ lfc_fillsurls (gfal_file gf, char *errbuf, int errbufsz)
 		asprintf (&(gf->errmsg), "[%s] %s: %s: %s", gfal_remote_type, lfc_endpoint,
 				gf->lfn ? gf->lfn : gf->guid, fcops.sstrerror (*fcops.serrno));
 		gf->errcode = *fcops.serrno < 1000 ? *fcops.serrno : ECOMM;
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, gf->errmsg);
 		fcops.endsess ();
 		return (-1);
 	}
@@ -1156,7 +1154,7 @@ lfc_fillsurls (gfal_file gf, char *errbuf, int errbufsz)
 	if (size < 0 || (size > 0 && list == NULL)) {
 		asprintf (&(gf->errmsg), "[%s] %s: %s: Unknown error", gfal_remote_type, lfc_endpoint, gf->guid);
 		gf->errcode = ECOMM;
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, errmsg);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, gf->errmsg);
 		if (list) free (list);
 		fcops.endsess ();
 		return (-1);
