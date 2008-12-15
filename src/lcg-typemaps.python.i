@@ -157,6 +157,10 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 %typemap(in) (int LEN, const int *LIST) {
     int i;
 
+    if ($input != Py_None && !PyList_Check ($input)) {
+        PyErr_SetString (PyExc_TypeError, "Should be a list");
+        return (NULL);
+    }
     if ($input == Py_None || ($1 = PyList_Size ($input)) < 1) {
         $1 = 0;
         $2 = NULL;
@@ -209,6 +213,10 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 %typemap(in) (int LEN, char **LIST) {
     int i;
 
+    if ($input != Py_None && !PyList_Check ($input)) {
+        PyErr_SetString (PyExc_TypeError, "Should be a list");
+        return (NULL);
+    }
     if ($input == Py_None || ($1 = PyList_Size ($input)) < 1) {
         errno = EINVAL;
         return (NULL);
