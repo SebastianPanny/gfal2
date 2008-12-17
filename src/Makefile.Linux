@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.70 $ $Date: 2008/12/03 16:12:16 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.71 $ $Date: 2008/12/17 13:19:02 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -68,7 +68,7 @@ ifeq ($(SWIG_LOCATION), $(EMPTY))
 SWIG_LOCATION=/usr
 endif
 SWIG_LIB=$(shell dirname $(SWIG_LOCATION)/lib*/swig*/perl5/perl5.swg)/..
-SWIG = SWIG_LIB=$(SWIG_LIB) $(SWIG_LOCATION)/bin/swig
+SWIG = SWIG_LIB=$(SWIG_LIB) $(SWIG_LOCATION)/bin/swig -D_LARGEFILE64_SOURCE 
 
 ifeq ($(PYTHON_VERSION), $(EMPTY))
 PYTHON_VERSION=$(shell python -c "import sys; print sys.version[:3]")

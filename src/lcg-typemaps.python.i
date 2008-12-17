@@ -89,6 +89,8 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 
 %include "typemaps.i"
 
+%typemap(out) void %{ $result = NULL; %}
+
 // in python, Long are 64bits
 %typemap(in) GFAL_LONG64 {
     if ($input == Py_None)
@@ -140,7 +142,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
             snprintf (setype, 6, "se");
             break;
     }
-    resultobj = my_t_output_helper(resultobj, PyString_FromString (setype));
+    $result = my_t_output_helper($result, PyString_FromString (setype));
 }//end of typemap
 
 // if the string is empty, it is replaced by NULL
@@ -246,7 +248,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 
 %typemap(argout) (int *OUTPUT){
     PyObject *o = PyInt_FromLong((long) (*$1));
-    resultobj = my_t_output_helper(resultobj,o);
+    $result = my_t_output_helper($result,o);
 }//end of typemap
 
 %typemap(in, numinputs=0) (int **OUTPUT)(int *tmp_tabint) {
@@ -333,6 +335,70 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
     }
 
     $result = my_t_output_helper ($result, o);
+}//end of typemap
+
+// convert output C 'struct dirent' into a string
+// Use of other fields than d_name is not portable
+#if defined(_LARGEFILE64_SOURCE)
+%typemap(out) (struct dirent64 *){
+    if ($1) {
+        $result = PyString_FromString ($1->d_name);
+    } else {
+        $result = Py_None;
+    }
+}//end of typemap
+#endif
+
+%typemap(in, numinputs=0) (struct stat64 *)(struct stat64 statbuf) {
+    $1 = &statbuf;
+    memset ($1, 0, sizeof (struct stat64));
+}
+
+// convert output C 'struct stat64' into a python list exactly (in the same order) as the system os.stat() function
+%typemap(argout) (struct stat64 *){
+    PyObject *statlist = Py_None;
+
+    if ($1) {
+        statlist = PyList_New (10);
+        PyList_SetItem (statlist, 0, PyInt_FromLong ((long)((*$1).st_mode)));
+        PyList_SetItem (statlist, 1, PyLong_FromLongLong ((long long)((*$1).st_ino)));
+        PyList_SetItem (statlist, 2, PyInt_FromLong ((long)((*$1).st_dev)));
+        PyList_SetItem (statlist, 3, PyInt_FromLong ((long)((*$1).st_nlink)));
+        PyList_SetItem (statlist, 4, PyInt_FromLong ((long)((*$1).st_uid)));
+        PyList_SetItem (statlist, 5, PyInt_FromLong ((long)((*$1).st_gid)));
+        PyList_SetItem (statlist, 6, PyLong_FromLongLong ((long long)((*$1).st_size)));
+        PyList_SetItem (statlist, 7, PyLong_FromLong ((long)((*$1).st_atime)));
+        PyList_SetItem (statlist, 8, PyLong_FromLong ((long)((*$1).st_mtime)));
+        PyList_SetItem (statlist, 9, PyLong_FromLong ((long)((*$1).st_ctime)));
+    }
+
+    $result = my_t_output_helper ($result, statlist);
+}//end of typemap
+
+%typemap(in, numinputs=0) (struct stat *)(struct stat statbuf) {
+    $1 = &statbuf;
+    memset ($1, 0, sizeof (struct stat));
+}
+
+// convert output C 'struct stat' into a python list exactly (in the same order) as the system os.stat() function
+%typemap(argout) (struct stat *){
+    PyObject *statlist = Py_None;
+
+    if ($1) {
+        statlist = PyList_New (10);
+        PyList_SetItem (statlist, 0, PyInt_FromLong ((long)((*$1).st_mode)));
+        PyList_SetItem (statlist, 1, PyLong_FromLongLong ((long long)((*$1).st_ino)));
+        PyList_SetItem (statlist, 2, PyInt_FromLong ((long)((*$1).st_dev)));
+        PyList_SetItem (statlist, 3, PyInt_FromLong ((long)((*$1).st_nlink)));
+        PyList_SetItem (statlist, 4, PyInt_FromLong ((long)((*$1).st_uid)));
+        PyList_SetItem (statlist, 5, PyInt_FromLong ((long)((*$1).st_gid)));
+        PyList_SetItem (statlist, 6, PyLong_FromLongLong ((long long)((*$1).st_size)));
+        PyList_SetItem (statlist, 7, PyLong_FromLong ((long)((*$1).st_atime)));
+        PyList_SetItem (statlist, 8, PyLong_FromLong ((long)((*$1).st_mtime)));
+        PyList_SetItem (statlist, 9, PyLong_FromLong ((long)((*$1).st_ctime)));
+    }
+
+    $result = my_t_output_helper ($result, statlist);
 }//end of typemap
 
 %typemap(in, numinputs=0) (struct stat64 *)(struct stat64 statbuf) {
@@ -521,14 +587,18 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 
 // convert C gfal_internal into Python object
 %typemap(argout) gfal_internal * {
-    PyObject *o;
+    /* Only return the object if something (a return code) has already been returned
+     * => not return the object for gfal_internal_free function */
+    if ($result) {
+        PyObject *o;
 
-    if ($1 == NULL || *$1 == NULL)
-        o = Py_None;
-    else
-        o = SWIG_NewPointerObj(*$1, $descriptor(gfal_internal), 1);
+        if ($1 == NULL || *$1 == NULL)
+            o = Py_None;
+        else
+            o = SWIG_NewPointerObj(*$1, $descriptor(gfal_internal), 1);
 
-    $result = my_t_output_helper ($result, o);
+        $result = my_t_output_helper ($result, o);
+    }
 }
 
 // convert python object into C gfal_internal

@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.13 2008/12/03 16:12:16 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.14 2008/12/17 13:19:02 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -35,7 +35,7 @@ endif
 #	-e      don't qualify enum names
 #	-y      generate typedef synonyms for structs and enums
 
-SWIG=$(SWIG_BIN_PATH)/swig
+SWIG=$(SWIG_BIN_PATH)/swig -D_LARGEFILE64_SOURCE
 
 #-------------------------------------------------------------------------------
 # WDSLs, nsmap files
