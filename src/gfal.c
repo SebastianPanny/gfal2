@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.110 $ $Date: 2008/12/08 16:44:06 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.111 $ $Date: 2008/12/17 13:14:42 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -16,12 +16,9 @@
 #include <unistd.h>
 #endif
 #include <errno.h>
-#include <dirent.h>
 #include <fcntl.h>
 #include <dlfcn.h>
 #include <time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <uuid/uuid.h>
 #include <glite/security/voms/voms_apic.h>
 #include "gfal_api.h"
@@ -833,6 +830,7 @@ gfal_opendir (const char *dirname)
 		pops->proto_name = "lfc";
 		pops->maperror = lfc_maperror;
 		pops->readdir = (struct dirent * (*) (DIR *)) dlsym (dlhandle, "lfc_readdir");
+		pops->readdir64 = (struct dirent * (*) (DIR *)) dlsym (dlhandle, "lfc_readdir64");
 		pops->closedir = (int (*) (DIR *)) dlsym (dlhandle, "lfc_closedir");
 
 		di->pops = pops;
