@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.14 2008/12/17 13:19:02 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.15 2008/12/18 13:18:12 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -140,9 +140,9 @@ BUILT_SOURCES = \
 	gfalthr_wrap.c
 
 # python
-pythondir = $(libdir)/python
+pythondir = $(libdir)/python$(PYTHON_VERSION)/site-packages
 pkgpythondir = $(pythondir)
-pyexecdir = $(libdir)/python
+pyexecdir = $(libdir)/python$(PYTHON_VERSION)/site-packages
 pkgpyexecdir = $(pyexecdir)
 pkgpython_PYTHON = gfal.py gfalthr.py
 pkgpyexec_LTLIBRARIES = _gfal.la _gfalthr.la
@@ -346,5 +346,39 @@ man3_MANS = \
 	gfal_turlsfromsurls.man \
 	gfal_turlsfromsurls_python.man \
 	gfal_unlink.man \
-	gfal_write.man
+	gfal_write.man \
+    gfal_access_python.man \
+    gfal_chmod_python.man \
+    gfal_close_python.man \
+    gfal_closedir_python.man \
+    gfal_creat_python.man \
+    gfal_get_errno_python.man \
+    gfal_get_timeout_bdii.man \
+    gfal_get_timeout_bdii_python.man \
+    gfal_get_timeout_connect.man \
+    gfal_get_timeout_connect_python.man \
+    gfal_get_timeout_sendreceive.man \
+    gfal_get_timeout_sendreceive_python.man \
+    gfal_get_timeout_srm.man \
+    gfal_get_timeout_srm_python.man \
+    gfal_lseek_python.man \
+    gfal_mkdir_python.man \
+    gfal_open_python.man \
+    gfal_opendir_python.man \
+    gfal_read_python.man \
+    gfal_rename_python.man \
+    gfal_rmdir_python.man \
+    gfal_set_timeout_bdii.man \
+    gfal_set_timeout_bdii_python.man \
+    gfal_set_timeout_connect.man \
+    gfal_set_timeout_connect_python.man \
+    gfal_set_timeout_sendreceive.man \
+    gfal_set_timeout_sendreceive_python.man \
+    gfal_set_timeout_srm.man \
+    gfal_set_timeout_srm_python.man \
+    gfal_set_verbose.man \
+    gfal_set_verbose_python.man \
+    gfal_stat_python.man \
+    gfal_unlink_python.man \
+    gfal_write_python.man
 
