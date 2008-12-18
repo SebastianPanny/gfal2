@@ -20,13 +20,13 @@ extern int gfal_lstat (const char *filename, struct stat *statbuf);
 extern int gfal_mkdir (const char *dirname, mode_t mode);
 extern int gfal_open (const char *filename, int flags, mode_t mode);
 DIR *gfal_opendir (const char *dirname);
-extern ssize_t gfal_read (int fd, void *buf, size_t size);
+extern ssize_t gfal_read (int fd, void *BUFOUT, size_t BUFOUTSZ);
 extern int gfal_rename (const char *old_name, const char *new_name);
 extern int gfal_rmdir (const char *dirname);
 extern ssize_t gfal_setfilchg (int fd, const void *buf, size_t size);
 extern int gfal_stat (const char *filename, struct stat *statbuf);
 extern int gfal_unlink (const char *filename);
-extern ssize_t gfal_write (int fd, const void *buf, size_t size);
+extern ssize_t gfal_write (int fd, const void *BUFIN, size_t BUFINSZ);
 #if defined(_LARGEFILE64_SOURCE)
 extern int gfal_creat64 (const char *filename, mode_t mode);
 extern off64_t gfal_lseek64 (int fd, off64_t offset, int whence);
@@ -73,9 +73,10 @@ extern int gfal_get_ids_setype (gfal_internal req, enum se_type *setype, int *OU
 extern int gfal_get_ids (gfal_internal req, int *OUTPUT, int **OUTPUT, char **OUTPUT);
 extern int gfal_set_ids (gfal_internal req, int LEN, const int *LIST, int srm_reqid, const char *srmv2_reqtoken, char *errbuf, int errbufsz);
 extern void gfal_internal_free (gfal_internal req);
+extern int gfal_get_errno ();
 
 
-/******************** Additional python functions ********************/
+/******************** Additional stuffs ********************/
 
 #ifdef SWIGPYTHON
 
@@ -95,3 +96,11 @@ def gfal_listdir(dirpath):
 %}
 
 #endif
+
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
+
+typedef unsigned int mode_t;
+typedef unsigned int size_t;
+typedef unsigned int ssize_t;

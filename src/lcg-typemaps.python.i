@@ -710,4 +710,37 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
     $result = my_t_output_helper ($result, list);
 }//end of typemap
 
+
+%typemap(in) (void *BUFOUT, size_t BUFOUTSZ)(char *buf) {
+    if (!PyInt_Check ($input)) {
+        PyErr_SetString (PyExc_TypeError, "Should be an integer");
+        return (NULL);
+    }
+    $2 = (int) PyInt_AsLong ($input);
+    $1 = (void *) calloc ($2, sizeof (char));
+    if ($1 == NULL) {
+        PyErr_NoMemory ();
+        return (NULL);
+    }
+}
+
+%typemap(argout) (void *BUFOUT, size_t BUFOUTSZ){
+    if (result >= 0) {
+        $result = my_t_output_helper ($result, PyBuffer_FromMemory ($1, $2));
+    } else {
+        Py_INCREF (Py_None);
+        $result = my_t_output_helper ($result, Py_None);
+    }
+}//end of typemap
+
+
+%typemap(in) (const void *BUFIN, size_t BUFINSZ) {
+    if (!PyString_Check ($input)) {
+        PyErr_SetString (PyExc_TypeError, "Should be a string");
+        return (NULL);
+    }
+    $1 = (void *) PyString_AsString ($input);
+    $2 = PyString_Size ($input);
+}
+
 #endif
