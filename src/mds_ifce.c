@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.75 $ $Date: 2008/11/14 16:41:31 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.76 $ $Date: 2008/12/18 13:09:58 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -233,9 +233,11 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 		*bdii_port_ptr = bdii_port;
 		if (ld == NULL) continue;
 
-		timeout.tv_sec = gfal_get_timeout_connect ();
-		timeout.tv_usec = 0;
-		ldap_set_option (ld, LDAP_OPT_NETWORK_TIMEOUT, &timeout);
+        if (gfal_get_timeout_connect () > 0) {
+            timeout.tv_sec = gfal_get_timeout_connect ();
+            timeout.tv_usec = 0;
+            ldap_set_option (ld, LDAP_OPT_NETWORK_TIMEOUT, &timeout);
+        }
 
 		gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_INFO, "[INFO] Trying to use BDII: %s:%d (timeout %d)",
 				bdii_server, bdii_port, gfal_get_timeout_bdii ());
@@ -249,7 +251,9 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 		}
 
 		timeout.tv_sec = gfal_get_timeout_bdii ();
-		rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, complete_filter, attrs, 0, &timeout, reply_ptr);
+        timeout.tv_usec = 0;
+		rc = ldap_search_st (ld, dn, LDAP_SCOPE_SUBTREE, complete_filter, attrs, 0,
+                gfal_get_timeout_bdii () > 0 ? &timeout : NULL, reply_ptr);
 		if (rc != LDAP_SUCCESS) {
 			ldap_unbind (ld);
 			if (rc == LDAP_TIMELIMIT_EXCEEDED || rc == LDAP_TIMEOUT) {
