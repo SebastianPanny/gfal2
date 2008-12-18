@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.72 $ $Date: 2008/12/18 13:18:12 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.73 $ $Date: 2008/12/18 18:13:12 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -165,7 +165,7 @@ gfal_version: gfal_version.c libgfal.so
 checkprotolib.o: checkprotolib.c $(GFAL_HEADERS)
 	$(CC) -c $(PROTOFLG) $<
 gfal.o: gfal.c $(GFAL_HEADERS) ../VERSION
-	$(CC) -c -DVERSION=\"$(VERSION)\" $(SECFLG) $(VOMSINC) $<
+	$(CC) -c -DVERSION=\"$(VERSION)-$(RELEASE)\" $(SECFLG) $(VOMSINC) $<
 gfal_file.o: gfal_file.c $(GFAL_HEADERS)
 	$(CC) -c $(SECFLG) $<
 gfal_timeouts.o: gfal_timeouts.c $(GFAL_HEADERS)
@@ -315,7 +315,7 @@ install.doc:
 	install -d $(prefix)/share/doc/GFAL
 	install $(TOP_SRC_DIR)/RELEASE-NOTES $(prefix)/share/doc/GFAL/
 	install $(TOP_SRC_DIR)/LICENSE $(prefix)/share/doc/GFAL/
-	echo "$(VERSION)" >$(prefix)/share/doc/GFAL/VERSION
+	echo "$(VERSION)-$(RELEASE)" >$(prefix)/share/doc/GFAL/VERSION
 
 install.man: install.doc \
 		 $(prefix)/man/man3 \

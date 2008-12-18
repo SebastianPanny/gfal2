@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.15 2008/12/18 13:18:12 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.16 2008/12/18 18:13:12 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -189,7 +189,7 @@ GFAL_FLAGS = \
 	-DGFAL_ENABLE_DCAP -I$(DCAP_LOCATION)/include \
 	-DGFAL_SECURE \
 	-fPIC -D_LARGEFILE64_SOURCE \
-	-DVERSION=\"$(VERSION)\"
+	-DVERSION=\"$(VERSION)-$(RELEASE)\"
 
 # libgfal.a
 #-------------------------------------------------------------------------------
