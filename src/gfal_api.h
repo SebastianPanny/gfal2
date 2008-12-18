@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.65 $ $Date: 2008/11/14 16:41:31 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.66 $ $Date: 2008/12/18 13:08:17 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -37,6 +37,10 @@ int gfal_get_timeout_bdii ();
 void gfal_set_timeout_srm (int);
 int gfal_get_timeout_srm ();
 
+#ifdef SWIGPYTHON
+int gfal_get_errno ();
+#endif
+
 
 /******************** POSIX functions ********************/
 
@@ -67,13 +71,6 @@ int gfal_stat64 (const char *, struct stat64 *);
 #if defined(linux) || defined(sun)
 struct dirent64 *gfal_readdir64 (DIR *);
 #endif
-/*
-#elif defined(__USE_FILE_OFFSET64)
-off_t gfal_lseek64 (int, off_t, int);
-int gfal_lstat64 (const char *, struct stat *);
-struct dirent *gfal_readdir64 (DIR *);
-int gfal_stat64 (const char *, struct stat *);
-*/
 #endif
 
 
