@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.63 $ $Date: 2008/12/10 08:35:03 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.64 $ $Date: 2008/12/18 19:11:54 $
  */
 
 #define _GNU_SOURCE
@@ -15,6 +15,7 @@
 #include <grp.h>
 #include <pwd.h>
 #include <sys/stat.h>
+#include "gfal_api.h"
 #include "gfal_internals.h"
 #define WITH_NOGLOBAL
 #include "stdsoap2.h"
@@ -2018,7 +2019,6 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	int i;
 	int n;
 	int nbproto = 0;
-	int r = 0;
 	char *r_token;
 	int ret;
 	int sleep_time, nbretries;

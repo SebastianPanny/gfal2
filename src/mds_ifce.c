@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.76 $ $Date: 2008/12/18 13:09:58 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.77 $ $Date: 2008/12/18 19:11:54 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -15,6 +15,7 @@
 #include <sys/time.h>
 #include <lber.h>
 #include <ldap.h>
+#include "gfal_api.h"
 #include "gfal_internals.h"
 
 #define GFAL_VOINFOTAG_DEFAULT "DEFAULT"

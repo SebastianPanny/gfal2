@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.60 $ $Date: 2008/12/10 08:35:03 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.61 $ $Date: 2008/12/18 19:11:54 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -61,7 +61,6 @@ static int lfc_mkdirp_trans (const char *, mode_t, char *, int, int);
 
 static int 
 lfc_init (char *errbuf, int errbufsz) {
-	int sav_errno = 0;
 	char *lfc_host = NULL;
 	char *lfc_port = NULL;
 
@@ -258,7 +257,7 @@ lfc_accessl (const char *path, const char *guid, int mode, char *errbuf, int err
 				gfal_remote_type, lfc_endpoint, path, fcops.sstrerror (*fcops.serrno));
 	}
 
-	if (path = NULL) {
+	if (path == NULL) {
 		if (lfn) free (lfn);
 		fcops.endsess ();
 	}

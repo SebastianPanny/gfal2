@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.112 $ $Date: 2008/12/18 13:07:08 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.113 $ $Date: 2008/12/18 19:11:54 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -606,7 +606,6 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	gfal_file gfile = NULL;
 	gfal_request req = NULL;
 	gfal_filestatus *filestatuses = NULL;
-	const char *current_surl = NULL;
 	int bool_issurlok = 0;
 	int sav_errno = 0;
 

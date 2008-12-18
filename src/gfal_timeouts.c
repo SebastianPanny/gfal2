@@ -3,9 +3,11 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_timeouts.c,v $ $Revision: 1.4 $ $Date: 2008/12/18 13:09:17 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_timeouts.c,v $ $Revision: 1.5 $ $Date: 2008/12/18 19:11:54 $ CERN Remi Mollon
  */
 
+#define _GNU_SOURCE
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "gfal_internals.h"
