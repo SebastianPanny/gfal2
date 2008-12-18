@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.111 $ $Date: 2008/12/17 13:14:42 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.112 $ $Date: 2008/12/18 13:07:08 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -830,7 +830,7 @@ gfal_opendir (const char *dirname)
 		pops->proto_name = "lfc";
 		pops->maperror = lfc_maperror;
 		pops->readdir = (struct dirent * (*) (DIR *)) dlsym (dlhandle, "lfc_readdir");
-		pops->readdir64 = (struct dirent * (*) (DIR *)) dlsym (dlhandle, "lfc_readdir64");
+		pops->readdir64 = (struct dirent64 * (*) (DIR *)) dlsym (dlhandle, "lfc_readdir64");
 		pops->closedir = (int (*) (DIR *)) dlsym (dlhandle, "lfc_closedir");
 
 		di->pops = pops;
@@ -3441,4 +3441,10 @@ gfal_get_hostname (const char *path, char *errbuf, int errbufsz) {
 	}
 	*cp = c;
 	return result;
+}
+
+/* to allow users to access errno value with python API */
+int
+gfal_get_errno () {
+	return (errno);
 }
