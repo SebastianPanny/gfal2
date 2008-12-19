@@ -1,3 +1,25 @@
+*** Release glite-data-gfal_R_1_11_0_1 2008-12-19
+
+    o Change python from lib/python to /lib/python2.X/site-packages
+    o Introduce new function gfal_get_errno to get errno value with python API
+    o Add python function gfal_listdir (equivalent of os.listdir python function)
+    o Prints a message saying that RMC/LRC are obsolete
+    o Fix bug #44897: Introduction of a request expiration timeout in lcg-utils and gfal
+    o Fix bug #39764: [lcg-util] lcg-del doesn't check LFC file permissions before trying to remove a file
+    o Ignore SRM_NOT_SUPPORTED for recursive directory creation
+    o Fix bug #44837: lcg-cp fails for valid reason but without error message
+    o Fix bug #43440: GFAL POSIX I/O interface in Python API
+    o Fix bug #43077: Use of Full URLs in LCG Utils and LFC
+    o Fix bug #43002: lcg-gt does not accept negative <requestId> <fileId> and returns only turl
+    o Fix bug #42950: [GFAL] function gfal_stat seg. fault on a surl with srmv2
+    o Fix bug #42633: [lcg-utils] lcg-cr -d SITENAME does not use FQDN but allows incorrect sites 
+    o Fix bug #42546: Problem with GIP in DPM or LFC \
+    o Fix bug #42517: more flexibility in setting timeouts in lcg_util CLI
+    o Fix bug #40976: Unhelpfull error message suggesting poor LDAP browsing
+    o Fix bug #38424: lcg-util: make checksum available
+    o Fix bug #37491: lcg-cp fails when one of the SE where a file is registered is down
+    o Fix bug #36821: Honor ArrayOfTokens in srmLs
+
 *** Release glite-data-gfal_R_1_10_18_4 2008-10-09
 
     o Re-adding the SLC5 dcache-dcap was removed for the SLC4 release
