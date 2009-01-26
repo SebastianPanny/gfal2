@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.4 $ $Date: 2008/11/17 16:17:44 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.5 $ $Date: 2009/01/26 08:29:09 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_TYPES_H
@@ -335,5 +335,9 @@ struct xfer_info {
 	gfal_file gfile;
 	struct proto_ops *pops;
 };
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

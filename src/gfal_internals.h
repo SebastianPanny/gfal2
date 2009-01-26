@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.2 $ $Date: 2008/11/28 17:32:56 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.3 $ $Date: 2009/01/26 08:29:09 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_INTERNALS_H
@@ -207,6 +207,10 @@ int srmv2_abortfiles (int, const char **, const char *, const char *, struct srm
 int srmv2_access (int, const char **, const char *, int, struct srmv2_filestatus **, char *, int, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int srmv2_getfilemd (int, const char **, const char *, int, int *, int, struct srmv2_mdfilestatus **, char **, char *, int, int);
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif
