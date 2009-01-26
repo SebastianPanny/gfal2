@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.7 2008/11/17 16:16:59 rmollon Exp $
+# Version info: $Id: configure.ac,v 1.8 2009/01/26 11:52:51 rmollon Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.7 $])
+AC_REVISION([$Revision: 1.8 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -101,6 +101,14 @@ AC_CGSI_GSOAP
 
 # --with arguments
 #-------------------------------------------------------------------------------
+
+# release number
+AC_ARG_WITH([release],
+    [AS_HELP_STRING([--with-release=VAL],[Release number])],
+    [RELEASE=${withval}],
+    [RELEASE=0])
+AC_MSG_RESULT([RELEASE is ${RELEASE}])
+AC_SUBST(RELEASE)
 
 # lfc-location
 AC_ARG_WITH([lfc-location],
