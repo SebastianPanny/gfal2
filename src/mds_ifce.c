@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.77 $ $Date: 2008/12/18 19:11:54 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.78 $ $Date: 2009/01/26 15:13:09 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -692,10 +692,10 @@ get_voinfo (const char *host, const char *spacetokendesc, char **sa_path, char *
 			ldap_value_free (value);
 		} else {
 			if (spacetokendesc)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_WARN, "[%s] %s:%d: [INFO] GlueVOInfo for tag '%s' and SE '%s' wrongly published",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_WARN, "[%s] %s:%d: [WARN] GlueVOInfo for tag '%s' and SE '%s' wrongly published",
 						gfal_remote_type, bdii_server, bdii_port, spacetokendesc, host);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_WARN, "[%s] %s:%d: [INFO] GlueVOInfo for SE '%s' (with no tag) wrongly published",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_WARN, "[%s] %s:%d: [WARN] GlueVOInfo for SE '%s' (with no tag) wrongly published",
 						gfal_remote_type, bdii_server, bdii_port, host);
 
 			rc = -1;
@@ -703,10 +703,10 @@ get_voinfo (const char *host, const char *spacetokendesc, char **sa_path, char *
 
 	} else {
 		if (spacetokendesc)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_WARN, "[%s] %s:%d: [INFO] no GlueVOInfo information found about tag '%s' and SE '%s'",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_INFO, "[%s] %s:%d: [INFO] no GlueVOInfo information found about tag '%s' and SE '%s'",
 					gfal_remote_type, bdii_server, bdii_port, spacetokendesc, host);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_WARN, "[%s] %s:%d: [INFO] no GlueVOInfo information found about SE '%s' (with no tag)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_INFO, "[%s] %s:%d: [INFO] no GlueVOInfo information found about SE '%s' (with no tag)",
 					gfal_remote_type, bdii_server, bdii_port, host);
 
 		rc = -1;               
