@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.65 $ $Date: 2009/01/29 16:50:39 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.66 $ $Date: 2009/01/30 09:58:12 $
  */
 
 #define _GNU_SOURCE
@@ -1033,14 +1033,12 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 {
 	char file[1024];
 	int flags;
-	int nbslash = 0;
 	int sav_errno = 0;
-	char *p;
+	char *p, *endp;
 	struct srm2__srmMkdirResponse_ rep;
 	struct srm2__srmMkdirRequest req;
 	struct srm2__TReturnStatus *repstatp;
 	struct soap soap;
-	int slashes_to_ignore;
 	const char srmfunc[] = "Mkdir";
 
 	if (!strncmp (lastcreated_dir, dest_file, 1024))
@@ -1063,44 +1061,40 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 
 	strncpy (file, dest_file, 1023);
 
-	/* First of all, check if there is nothing to do (if last sub-directory exists or not) */
-	if ((p = strrchr (file, '/')) == NULL) {
+	if ((p = endp = strrchr (file, '/')) == NULL) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Invalid SURL", dest_file);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = EINVAL;
 		return (-1);
 	}
-	*p = 0;
-	req.SURL = file;
 
-	if (soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep)) {
-		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
-					gfal_remote_type, srmfunc, srm_endpoint);
-		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
+	/* 1st cycle, trying to create directories ascendingly, until success */
+	do {
+		*p = 0;
+		req.SURL = file;
 
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ECOMM;
-		return (-1);
-	}
+		if (soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep)) {
+			if (soap.fault != NULL && soap.fault->faultstring != NULL)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
+			else if (soap.error == SOAP_EOF)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+						gfal_remote_type, srmfunc, srm_endpoint);
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
-	repstatp = rep.srmMkdirResponse->returnStatus;
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ECOMM;
+			return (-1);
+		}
 
-	if (repstatp->statusCode != SRM_USCORESUCCESS) {
+		repstatp = rep.srmMkdirResponse->returnStatus;
 		sav_errno = statuscode2errno (repstatp->statusCode);
-		if (sav_errno == EEXIST || sav_errno == EACCES || sav_errno == EOPNOTSUPP) {
-			/* EEXIST - dir already exists, nothing to do
-			 * EACCES - dir *may* already exists, but no authZ on parent
-			 * EOPNOTSUPP - dir *may* already exists, but before SARoot */
-			return (0);
-		} else if (sav_errno != ENOENT) {
+
+		if (sav_errno != 0 && sav_errno != ENOENT) {
 			if (repstatp->explanation && repstatp->explanation[0])
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc, dest_file, repstatp->explanation);
@@ -1114,34 +1108,21 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 			errno = sav_errno;
 			return (-1);
 		}
-	} else {
-		/* The directory was successfuly created */
-		return (0);
+	} while (sav_errno == ENOENT && (p = strrchr (file, '/')) != NULL);
+
+	if (p == NULL) {
+		/* should never happen, failure must appear in soap call */
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Invalid SURL", dest_file);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = EINVAL;
+		return (-1);
 	}
 
+	/* 2nd cycle, creating directories descendingly as of the one created by previous cycle */
 	*p = '/';
-	if ((p = strchr (file, '?')) == NULL) {
-		p = file;
-		slashes_to_ignore = 3;
-	} else {
-		++p;
-		slashes_to_ignore = 2;
-	}
-
-	while ((p = strchr (p, '/'))) {
-		if (nbslash < slashes_to_ignore) {	/* skip first slashes */
-			++nbslash;
-			do
-				++p;
-			while (*p == '/');
-			continue;
-		}
-
-		*p = '\0';
-
-		/* try to create directory */
-		memset (&req, 0, sizeof(req));
-		req.SURL = (char *) file;
+	while (sav_errno == 0 && p < endp && (p = strchr (p + 1, 0)) != NULL) {
+		req.SURL = file;
 
 		if (soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
@@ -1149,7 +1130,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 			else if (soap.error == SOAP_EOF)
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
-					   	gfal_remote_type, srmfunc, srm_endpoint);
+						gfal_remote_type, srmfunc, srm_endpoint);
 			else
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
@@ -1161,28 +1142,24 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 		}
 
 		repstatp = rep.srmMkdirResponse->returnStatus;
+		sav_errno = statuscode2errno (repstatp->statusCode);
 
-		if (repstatp->statusCode != SRM_USCORESUCCESS) {
-			sav_errno = statuscode2errno(repstatp->statusCode);
-			if (sav_errno != EEXIST && sav_errno != EACCES && sav_errno != EOPNOTSUPP) {
-				if (repstatp->explanation && repstatp->explanation[0])
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-							gfal_remote_type, srmfunc, file, repstatp->explanation);
-				else
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-							gfal_remote_type, srmfunc, file,
-							statuscode2errmsg(repstatp->statusCode));
+		if (sav_errno != 0) {
+			if (repstatp->explanation && repstatp->explanation[0])
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, dest_file, repstatp->explanation);
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, dest_file,
+						statuscode2errmsg(repstatp->statusCode));
 
-				soap_end (&soap);
-				soap_done (&soap);
-				errno = sav_errno;
-				return (-1);
-			}
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = sav_errno;
+			return (-1);
 		}
 
-		*p++ = '/';	/* restore slash */
-		while (*p == '/')
-			p++;
+		*p = '/';
 	}
 
 	soap_end (&soap);
