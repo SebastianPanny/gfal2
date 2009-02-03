@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.11 $ $Date: 2008/12/18 13:19:12 $ CERN Jean-Philippe Baud
+.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.12 $ $Date: 2009/02/03 15:33:59 $ CERN Jean-Philippe Baud
 .\" Copyright (C) 2003-2004 by CERN/IT/PDP/DM
 .\" All rights reserved
 .\"
-.TH GFAL 3 "$Date: 2008/12/18 13:19:12 $" GFAL "Library Functions"
+.TH GFAL 3 "$Date: 2009/02/03 15:33:59 $" GFAL "Library Functions"
 .SH NAME
 gfal - Grid File Access Library
 
@@ -352,6 +352,23 @@ Once the 'gfal_internal' object is not needed anymore, it must be freed:
 
 But, it won't free the arguments which were in your initial request (eg. list of SURLs), you have to free them
 by hand if needed, in addition to the request ('gfal_request' object).
+
+.SH DEBUG INFORMATION
+Some cases may require to have more debug information to understand what is going on, especially what information
+is really exchanged between GFAL and other components.
+
+It is possible to get this information by setting environment variables.
+
+For bash:
+    export CGSI_TRACE=1
+    export CGSI_TRACEFILE=/path/to/your/file
+
+For csh:
+    setenv CGSI_TRACE 1
+    sentenv CGSI_TRACEFILE /path/to/your/file
+
+Then just run your program, and information which is exchanged between GFAL and other components will be put into
+.I /path/to/your/file
 
 .SH RETURN VALUE
 All function return 0 on success, and -1 on failure. The variable
