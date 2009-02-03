@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.66 $ $Date: 2009/01/30 09:58:12 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.67 $ $Date: 2009/02/03 15:33:30 $
  */
 
 #define _GNU_SOURCE
@@ -1094,7 +1094,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 		repstatp = rep.srmMkdirResponse->returnStatus;
 		sav_errno = statuscode2errno (repstatp->statusCode);
 
-		if (sav_errno != 0 && sav_errno != ENOENT) {
+		if (sav_errno != 0 && sav_errno != EEXIST && sav_errno != ENOENT) {
 			if (repstatp->explanation && repstatp->explanation[0])
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc, dest_file, repstatp->explanation);
@@ -1121,6 +1121,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 
 	/* 2nd cycle, creating directories descendingly as of the one created by previous cycle */
 	*p = '/';
+	sav_errno = 0;
 	while (sav_errno == 0 && p < endp && (p = strchr (p + 1, 0)) != NULL) {
 		req.SURL = file;
 
