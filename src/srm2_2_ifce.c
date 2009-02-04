@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.67 $ $Date: 2009/02/03 15:33:30 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.68 $ $Date: 2009/02/04 17:15:31 $
  */
 
 #define _GNU_SOURCE
@@ -1094,7 +1094,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 		repstatp = rep.srmMkdirResponse->returnStatus;
 		sav_errno = statuscode2errno (repstatp->statusCode);
 
-		if (sav_errno != 0 && sav_errno != EEXIST && sav_errno != ENOENT) {
+		if (sav_errno != 0 && sav_errno != EEXIST && sav_errno != EACCES && sav_errno != ENOENT) {
 			if (repstatp->explanation && repstatp->explanation[0])
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
 						gfal_remote_type, srmfunc, dest_file, repstatp->explanation);
