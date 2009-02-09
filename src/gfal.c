@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.113 $ $Date: 2008/12/18 19:11:54 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.114 $ $Date: 2009/02/09 15:25:27 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -2348,7 +2348,7 @@ gfal_get_replicas (const char *lfn, const char *guid, char *errbuf, int errbufsz
 	if (lfn != NULL)
 		actual_lfn = strdup (strncmp (lfn, "lfn:", 4) == 0 ? lfn + 4 : lfn);
 	if (guid != NULL)
-		actual_guid = strdup (strncmp (guid, "guid:", 4) == 0 ? guid + 4 : guid);
+		actual_guid = strdup (strncmp (guid, "guid:", 5) == 0 ? guid + 5 : guid);
 
 	if (get_cat_type (&cat_type) < 0)
 		return (NULL);
@@ -2480,7 +2480,7 @@ gfal_get_aliases (const char *lfn, const char *guid, char *errbuf, int errbufsz)
 	if (lfn != NULL)
 		actual_lfn = strdup (strncmp (lfn, "lfn:", 4) == 0 ? lfn + 4 : lfn);
 	if (guid != NULL)
-		actual_guid = strdup (strncmp (guid, "guid:", 4) == 0 ? guid + 4 : guid);
+		actual_guid = strdup (strncmp (guid, "guid:", 5) == 0 ? guid + 5 : guid);
 
 	if (get_cat_type (&cat_type) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "Unable to determine the catalog type");
@@ -2974,9 +2974,15 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 
 	if ((*gfal)->endpoint == NULL) {
 		/* (*gfal)->surls != NULL */
-		if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,0)) == NULL)
+		if ((*gfal)->surls[0] != NULL) {
+			if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,0)) == NULL)
+				return (-1);
+			(*gfal)->free_endpoint = 1;
+		} else {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "Invalid request: You have to specify either an endpoint or at least one SURL");
+			errno = EINVAL;
 			return (-1);
-		(*gfal)->free_endpoint = 1;
+		}
 	}
 	if ((strchr ((*gfal)->endpoint, '.') == NULL)) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "No domain name specified for storage element endpoint");
@@ -3057,7 +3063,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 			if (generate_surls (*gfal, errbuf, errbufsz) < 0)
 				return (-1);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "No SURLs must be specified with 'generatesurls' activated");
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "Invalid request: No SURLs must be specified with 'generatesurls' activated");
 			gfal_internal_free (*gfal);
 			*gfal = NULL;
 			errno = EINVAL;
