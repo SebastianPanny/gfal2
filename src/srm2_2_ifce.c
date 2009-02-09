@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.68 $ $Date: 2009/02/04 17:15:31 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.69 $ $Date: 2009/02/09 15:26:27 $
  */
 
 #define _GNU_SOURCE
@@ -1270,10 +1270,13 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	req.userRequestDescription = NULL;
 	req.storageSystemInfo = NULL;
 	req.desiredFileStorageType = &s_types[PERMANENT];
-	req.desiredTotalRequestTime = NULL;
-	req.desiredLifeTime = &desiredpintime;
 	req.targetFileRetentionPolicyInfo = NULL;
 	req.deferredStartTime = NULL;
+
+	if (desiredpintime > 0)
+		req.desiredPinLifeTime = &desiredpintime;
+	if (timeout > 0)
+		req.desiredTotalRequestTime = &timeout;
 
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
 
