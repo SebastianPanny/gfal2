@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.114 $ $Date: 2009/02/09 15:25:27 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.115 $ $Date: 2009/02/17 14:11:08 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1083,7 +1083,7 @@ gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
 
 	if ((gfile = gfal_file_new (filename, "file", 0, NULL, 0)) == NULL)
 		return (-1);
-	if (gfile->errcode != 0) {
+	if (gfile->errcode != 0 && gfile->errcode != EISDIR) {
 		sav_errno = gfile->errcode;
 		gfal_file_free (gfile);
 		errno = sav_errno;
