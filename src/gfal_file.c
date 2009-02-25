@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.2 $ $Date: 2008/12/03 09:05:32 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.3 $ $Date: 2009/02/25 13:38:08 $ CERN Remi Mollon
  */
 
 #define _GNU_SOURCE
@@ -52,7 +52,7 @@ gfal_file_new (const char *file, const char *defproto, int bool_tobecreated, cha
 		/* we check the format of the given GUID */
 		uuid_t uuid;
 		if (uuid_parse (actual_file + 5, uuid) < 0) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Invalid GUID format", file);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_file_new][EINVAL] %s: Invalid GUID format", file);
 			errno = EINVAL; /* invalid guid */
 			return (NULL);
 		}
@@ -120,7 +120,7 @@ gfal_file_new (const char *file, const char *defproto, int bool_tobecreated, cha
 			lrc_fillsurls (gf);
 		}
 		else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[ERROR] File Catalog must be \"lfc\" or \"edg\"");
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_file_new][EPROTONOSUPPORT] File Catalog must be \"lfc\" or \"edg\"");
 			errno = EPROTONOSUPPORT;
 			return (NULL);
 		}

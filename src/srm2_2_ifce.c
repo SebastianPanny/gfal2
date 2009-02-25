@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.70 $ $Date: 2009/02/10 08:42:57 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.71 $ $Date: 2009/02/25 13:38:08 $
  */
 
 #define _GNU_SOURCE
@@ -105,7 +105,7 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 
 	/* NOTE: only one file in the array */
 	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -119,12 +119,13 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 
 	if ((ret = soap_call_srm2__srmRm (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if(soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: %s", srm_endpoint, soap.fault->faultstring);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
+					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -133,7 +134,15 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 		return (-1);
 	}
 
-	reqstatp = rep.srmRmResponse->returnStatus;
+	if (rep.srmRmResponse == NULL || (reqstatp = rep.srmRmResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
 	repfs = rep.srmRmResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
@@ -142,15 +151,16 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -177,12 +187,16 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 		if (repfs->statusArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno(repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
-						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -224,12 +238,13 @@ srmv2_rmdir (const char *surl, const char *srm_endpoint, int recursive,
 
 	if ((ret = soap_call_srm2__srmRmdir (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if(soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: %s", srm_endpoint, soap.fault->faultstring);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
+					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 				    gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -239,7 +254,7 @@ srmv2_rmdir (const char *surl, const char *srm_endpoint, int recursive,
 	}
 
 	if (rep.srmRmdirResponse == NULL || (reqstatp = rep.srmRmdirResponse->returnStatus) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
 				gfal_remote_type, srmfunc, srm_endpoint);
 		soap_end (&soap);
 		soap_done (&soap);
@@ -258,9 +273,10 @@ srmv2_rmdir (const char *surl, const char *srm_endpoint, int recursive,
 	(*statuses)[0].status = statuscode2errno (reqstatp->statusCode);
 	if ((*statuses)[0].status) {
 		if (reqstatp->explanation != NULL && reqstatp->explanation[0])
-			asprintf (&((*statuses)[0].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+			asprintf (&((*statuses)[0].explanation), "[%s][%s][%s] %s", gfal_remote_type, srmfunc,
+					statuscode2errmsg (reqstatp->statusCode), reqstatp->explanation);
 		else
-			asprintf (&((*statuses)[0].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+			asprintf (&((*statuses)[0].explanation), "[%s][%s][%s] <none>", gfal_remote_type, srmfunc,
 					statuscode2errmsg (reqstatp->statusCode));
 	}
 
@@ -292,7 +308,7 @@ srmv2_get (int nbfiles, const char **surls, const char *spacetokendesc, int nbpr
 	free (se_endpoints);
 
 	if (! srm_endpoint) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: No matching SRMv2.2-compliant SE", surls[0]);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][][] %s: No matching SRMv2.2-compliant SE", surls[0]);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -356,16 +372,16 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 
 	memset (&req, 0, sizeof(req));
 
-	if ((req.arrayOfFileRequests = 
-				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL || 
-			(req.arrayOfFileRequests->requestArray = 
+	if ((req.arrayOfFileRequests =
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL ||
+			(req.arrayOfFileRequests->requestArray =
 			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest *))) == NULL ||
-			(req.transferParameters = 
-			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL || 
-			(req.targetSpaceToken = 
-			 soap_malloc (&soap, sizeof(char *))) == NULL) { 
+			(req.transferParameters =
+			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL ||
+			(req.targetSpaceToken =
+			 soap_malloc (&soap, sizeof(char *))) == NULL) {
 
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -394,13 +410,13 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
 
 	for (i = 0; i < nbfiles; i++) {
-		if ((req.arrayOfFileRequests->requestArray[i] = 	 
-					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) { 	 
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error"); 	 
-			errno = ENOMEM; 	 
-			soap_end (&soap); 	 
-			soap_done (&soap); 	 
-			return (-1); 	 
+		if ((req.arrayOfFileRequests->requestArray[i] =
+					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
+			errno = ENOMEM;
+			soap_end (&soap);
+			soap_done (&soap);
+			return (-1);
 		}
 		memset (req.arrayOfFileRequests->requestArray[i], 0, sizeof(struct srm2__TGetFileRequest));
 		req.arrayOfFileRequests->requestArray[i]->sourceSURL = (char *) surls[i];
@@ -415,7 +431,7 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 	if (protocols) {
 		if ((req.transferParameters->arrayOfTransferProtocols =
 					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 			errno = ENOMEM;
 			soap_end (&soap);
 			soap_done (&soap);
@@ -431,13 +447,13 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 
 	if ((ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 				   	gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -455,8 +471,16 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 			return (-1);
 		}
 
+	if (rep.srmPrepareToGetResponse == NULL || (reqstatp = rep.srmPrepareToGetResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
 	/* return file statuses */
-	reqstatp = rep.srmPrepareToGetResponse->returnStatus;
 	repfs = rep.srmPrepareToGetResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
@@ -465,15 +489,16 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -503,11 +528,13 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg(repfs->statusArray[i]->status->statusCode), repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s", gfal_remote_type, srmfunc,
+						statuscode2errmsg(repfs->statusArray[i]->status->statusCode), reqstatp->explanation);
 			else
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] <none>", gfal_remote_type, srmfunc,
 						statuscode2errmsg(repfs->statusArray[i]->status->statusCode));
 		}
 		if (repfs->statusArray[i]->remainingPinTime)
@@ -517,10 +544,10 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);	
+	return (n);
 }
 
-srmv2_getstatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_filestatus **filestatuses, 
+srmv2_getstatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_filestatus **filestatuses,
 		char *errbuf, int errbufsz, int timeout)
 {
 	char **se_types = NULL;
@@ -544,7 +571,7 @@ srmv2_getstatus (int nbfiles, const char **surls, const char *reqtoken, struct s
 	free (se_endpoints);
 
 	if (! srm_endpoint) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: No matching SRMv2.2-compliant SE", surls[0]);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][][] %s: No matching SRMv2.2-compliant SE", surls[0]);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -603,13 +630,13 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 
 	if ((ret = soap_call_srm2__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc, &sreq, &srep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 				   	gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -618,8 +645,16 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 		return (-1);
 	}
 
+	if (rep.srmStatusOfGetRequestResponse == NULL || (reqstatp = rep.srmStatusOfGetRequestResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
 	/* return file statuses */
-	reqstatp = srep.srmStatusOfGetRequestResponse->returnStatus;
 	repfs = srep.srmStatusOfGetRequestResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
@@ -628,15 +663,16 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
 						gfal_remote_type, srmfunc, srm_endpoint,
 						statuscode2errmsg (reqstatp->statusCode));
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -697,7 +733,7 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 	const char srmfunc[] = "GetSpaceTokens";
 
 	if (spacetokendesc == NULL || srm_endpoint == NULL || spacetokens == NULL || nbtokens == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "srmv2_getspacetokens: Invalid arguments");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][srmv2_getspacetokens][EINVAL] Invalid arguments");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -722,13 +758,13 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 
 	if ((ret = soap_call_srm2__srmGetSpaceTokens (&soap, srm_endpoint, srmfunc, &tknreq, &tknrep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 				   	gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -737,17 +773,25 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 		return (-1);
 	}
 
-	tknrepstatp = tknrep.srmGetSpaceTokensResponse->returnStatus;
+	if (tknrep.srmGetSpaceTokensResponse == NULL ||
+			(tknrepstatp = tknrep.srmGetSpaceTokensResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
 
 	if (tknrepstatp->statusCode != SRM_USCORESUCCESS) {
 		sav_errno = statuscode2errno (tknrepstatp->statusCode);
 		if (tknrepstatp->explanation && tknrepstatp->explanation[0])
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint, tknrepstatp->explanation);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+					gfal_remote_type, srmfunc, statuscode2errmsg (tknrepstatp->statusCode),
+					srm_endpoint, tknrepstatp->explanation);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint,
-					statuscode2errmsg (tknrepstatp->statusCode));
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (tknrepstatp->statusCode), srm_endpoint);
 
 		soap_end (&soap);
 		soap_done (&soap);
@@ -757,9 +801,9 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 
 	tknrepp = tknrep.srmGetSpaceTokensResponse->arrayOfSpaceTokens;
 
-	if (! tknrepp) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-				gfal_remote_type, srmfunc, srm_endpoint);
+	if (!tknrepp) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+				gfal_remote_type, srmfunc, statuscode2errmsg (tknrepstatp->statusCode), srm_endpoint);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -768,8 +812,9 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 
 	*nbtokens = tknrepp->__sizestringArray;
 	if (*nbtokens < 1 || !tknrepp->stringArray) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s: No such space token descriptor",
-				gfal_remote_type, srmfunc, srm_endpoint, spacetokendesc);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s: No such space token descriptor",
+				gfal_remote_type, srmfunc, statuscode2errmsg (tknrepstatp->statusCode),
+				srm_endpoint, spacetokendesc);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = EINVAL;
@@ -806,13 +851,13 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 	const char srmfunc[] = "GetSpaceMetaData";
 
 	if (nbtokens < 1 || spacetokens == NULL || srm_endpoint == NULL || spaces == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "srmv2_getspacemd: Invalid arguments");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][srmv2_getspacemd][EINVAL] Invalid arguments");
 		errno = EINVAL;
 		return (-1);
 	}
 
 	if (spacetokens[nbtokens] != NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "srmv2_getspacemd: Invalid space token number");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][srmv2_getspacemd][EINVAL] Invalid space token number");
 		errno = EINVAL;
 		return (-1);
 	}
@@ -833,7 +878,7 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 
 	if ((tknreq.arrayOfSpaceTokens =
 				soap_malloc (&soap, nbtokens * sizeof(struct srm2__ArrayOfString))) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -845,13 +890,13 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 
 	if ((ret = soap_call_srm2__srmGetSpaceMetaData (&soap, srm_endpoint, srmfunc, &tknreq, &tknrep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -860,17 +905,25 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 		return (-1);
 	}
 
-	tknrepstatp = tknrep.srmGetSpaceMetaDataResponse->returnStatus;
+	if (tknrep.srmGetSpaceMetaDataResponse == NULL ||
+			(tknrepstatp = tknrep.srmGetSpaceMetaDataResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
 
 	if (tknrepstatp->statusCode != SRM_USCORESUCCESS) {
 		sav_errno = statuscode2errno (tknrepstatp->statusCode);
 		if (tknrepstatp->explanation && tknrepstatp->explanation[0])
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint, tknrepstatp->explanation);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+					gfal_remote_type, srmfunc, statuscode2errmsg (tknrepstatp->statusCode),
+					srm_endpoint, tknrepstatp->explanation);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint,
-					statuscode2errmsg (tknrepstatp->statusCode));
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (tknrepstatp->statusCode), srm_endpoint);
 
 		soap_end (&soap);
 		soap_done (&soap);
@@ -881,7 +934,7 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 	tknrepp = tknrep.srmGetSpaceMetaDataResponse->arrayOfSpaceDetails;
 
 	if (! tknrepp) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
 				gfal_remote_type, srmfunc, srm_endpoint);
 		soap_end (&soap);
 		soap_done (&soap);
@@ -889,7 +942,7 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 		return (-1);
 	}
 	if (tknrepp->__sizespaceDataArray < 1 || !tknrepp->spaceDataArray) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: no valid space tokens",
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: no valid space tokens",
 			gfal_remote_type, srmfunc, srm_endpoint);
 		soap_end (&soap);
 		soap_done (&soap);
@@ -911,10 +964,11 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 				tknrepp->spaceDataArray[i]->status->statusCode != SRM_USCORESUCCESS) {
 			int sav_errno = statuscode2errno (tknrepp->spaceDataArray[i]->status->statusCode);
 			if (tknrepp->spaceDataArray[i]->status->explanation && tknrepp->spaceDataArray[i]->status->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: %s",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (tknrepp->spaceDataArray[i]->status->statusCode),
 						srm_endpoint, tknrepp->spaceDataArray[i]->status->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: %s",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
 						srm_endpoint, statuscode2errmsg (tknrepp->spaceDataArray[i]->status->statusCode));
 
 			soap_end (&soap);
@@ -1015,7 +1069,7 @@ srmv2_getbestspacetoken (const char *spacetokendesc, const char *srm_endpoint, G
 	if (numtoken < 0) {
 		/* no suitable space token */
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-				"%s: no associated space token with enough free space", spacetokendesc);
+				"[GFAL][srmv2_getbestspacetoken][EINVAL] %s: no associated space token with enough free space", spacetokendesc);
 		errno = EINVAL;
 		return (NULL);
 	}
@@ -1062,7 +1116,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	strncpy (file, dest_file, 1023);
 
 	if ((p = endp = strrchr (file, '/')) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Invalid SURL", dest_file);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][srmv2_makedirp][EINVAL] %s: Invalid SURL", dest_file);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = EINVAL;
@@ -1076,13 +1130,13 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 
 		if (soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 			else if (soap.error == SOAP_EOF)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 						gfal_remote_type, srmfunc, srm_endpoint);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 			soap_end (&soap);
@@ -1096,12 +1150,13 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 
 		if (sav_errno != 0 && sav_errno != EEXIST && sav_errno != EACCES && sav_errno != ENOENT) {
 			if (repstatp->explanation && repstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, dest_file, repstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg(repstatp->statusCode),
+						srm_endpoint, dest_file, repstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, dest_file,
-						statuscode2errmsg(repstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg(repstatp->statusCode),
+						srm_endpoint, dest_file);
 
 			soap_end (&soap);
 			soap_done (&soap);
@@ -1112,7 +1167,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 
 	if (p == NULL) {
 		/* should never happen, failure must appear in soap call */
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: Invalid SURL", dest_file);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][srmv2_makedirp][EINVAL] %s: Invalid SURL", dest_file);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = EINVAL;
@@ -1127,13 +1182,13 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 
 		if (soap_call_srm2__srmMkdir (&soap, srm_endpoint, srmfunc, &req, &rep)) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 			else if (soap.error == SOAP_EOF)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 						gfal_remote_type, srmfunc, srm_endpoint);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 			soap_end (&soap);
@@ -1142,17 +1197,25 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 			return (-1);
 		}
 
-		repstatp = rep.srmMkdirResponse->returnStatus;
+		if (rep.srmMkdirResponse == NULL || (reqstatp = rep.srmMkdirResponse->returnStatus) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+					gfal_remote_type, srmfunc, srm_endpoint);
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ECOMM;
+			return (-1);
+		}
+
 		sav_errno = statuscode2errno (repstatp->statusCode);
 
 		if (sav_errno != 0) {
 			if (repstatp->explanation && repstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, dest_file, repstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg(repstatp->statusCode),
+						dest_file, repstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, dest_file,
-						statuscode2errmsg(repstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg(repstatp->statusCode), dest_file);
 
 			soap_end (&soap);
 			soap_done (&soap);
@@ -1191,7 +1254,7 @@ srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int
 	free (se_endpoints);
 
 	if (!srm_endpoint) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: No matching SRMv2.2-compliant SE", surls[0]);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][srmv2_prestage][EINVAL] %s: No matching SRMv2.2-compliant SE", surls[0]);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -1237,16 +1300,16 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 
 	memset (&req, 0, sizeof(req));
 
-	if ((req.arrayOfFileRequests = 
-				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL || 
-			(req.arrayOfFileRequests->requestArray = 
+	if ((req.arrayOfFileRequests =
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL ||
+			(req.arrayOfFileRequests->requestArray =
 			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest *))) == NULL ||
-			(req.transferParameters = 
-			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL || 
-			(req.targetSpaceToken = 
-			 soap_malloc (&soap, sizeof(char *))) == NULL) { 
+			(req.transferParameters =
+			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL ||
+			(req.targetSpaceToken =
+			 soap_malloc (&soap, sizeof(char *))) == NULL) {
 
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -1281,13 +1344,13 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
 
 	for (i = 0; i < nbfiles; i++) {
-		if ((req.arrayOfFileRequests->requestArray[i] = 	 
-					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) { 	 
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error"); 	 
-			errno = ENOMEM; 	 
-			soap_end (&soap); 	 
-			soap_done (&soap); 	 
-			return (-1); 	 
+		if ((req.arrayOfFileRequests->requestArray[i] =
+					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
+			errno = ENOMEM;
+			soap_end (&soap);
+			soap_done (&soap);
+			return (-1);
 		}
 		memset (req.arrayOfFileRequests->requestArray[i], 0, sizeof(struct srm2__TGetFileRequest));
 		req.arrayOfFileRequests->requestArray[i]->sourceSURL = (char *) surls[i];
@@ -1302,7 +1365,7 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	if (protocols) {
 		if ((req.transferParameters->arrayOfTransferProtocols =
 					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 			errno = ENOMEM;
 			soap_end (&soap);
 			soap_done (&soap);
@@ -1318,15 +1381,24 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 
 	if ((ret = soap_call_srm2__srmBringOnline (&soap, srm_endpoint, "BringOnline", &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 				   	gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
+	if (rep.srmBringOnlineResponse == NULL || (reqstatp = rep.srmBringOnlineResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = ECOMM;
@@ -1343,7 +1415,6 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 		}
 
 	/* return file statuses */
-	reqstatp = rep.srmBringOnlineResponse->returnStatus;
 	repfs = rep.srmBringOnlineResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
@@ -1352,15 +1423,15 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -1388,12 +1459,16 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
-						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 		if (repfs->statusArray[i]->remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
@@ -1401,10 +1476,10 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);	
+	return (n);
 }
 
-srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_pinfilestatus **filestatuses, 
+srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_pinfilestatus **filestatuses,
 		char *errbuf, int errbufsz, int timeout)
 {
 	char **se_types = NULL;
@@ -1426,7 +1501,7 @@ srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, str
 	free (se_endpoints);
 
 	if (! srm_endpoint) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s: No matching SRMv2.2-compliant SE", surls[0]);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][srmv2_prestagestatus][EINVAL] %s: No matching SRMv2.2-compliant SE", surls[0]);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -1437,7 +1512,7 @@ srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, str
 	return (r);
 }
 
-srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct srmv2_pinfilestatus **filestatuses, 
+srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct srmv2_pinfilestatus **filestatuses,
 		char *errbuf, int errbufsz, int timeout)
 {
 	int flags;
@@ -1469,13 +1544,13 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 
 	if ((ret = soap_call_srm2__srmStatusOfBringOnlineRequest (&soap, srm_endpoint, srmfunc, &sreq, &srep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 				   	gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -1484,11 +1559,17 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 		return (-1);
 	}
 
-	reqstatp = srep.srmStatusOfBringOnlineRequestResponse->returnStatus;
-	repfs = srep.srmStatusOfBringOnlineRequestResponse->arrayOfFileStatuses;
+	if (rep.srmStatusOfBringOnlineRequestResponse == NULL ||
+			(reqstatp = rep.srmStatusOfBringOnlineRequestResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
 
 	/* return file statuses */
-	reqstatp = srep.srmStatusOfBringOnlineRequestResponse->returnStatus;
 	repfs = srep.srmStatusOfBringOnlineRequestResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
@@ -1497,15 +1578,15 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -1533,12 +1614,16 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
-						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 		if (repfs->statusArray[i]->remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
@@ -1546,7 +1631,7 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);	
+	return (n);
 }
 
 srmv2_set_xfer_done_get (int nbfiles, const char **surls, const char *srm_endpoint, const char *reqtoken,
@@ -1586,9 +1671,9 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 	req.requestToken = (char *) reqtoken;
 
 	/* NOTE: only one SURL in the array */
-	if ((req.arrayOfSURLs = 
+	if ((req.arrayOfSURLs =
 				soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -1600,13 +1685,13 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 
 	if ((ret = soap_call_srm2__srmPutDone (&soap, srm_endpoint, srmfunc , &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 				   	gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -1615,7 +1700,15 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 		return (-1);
 	}
 
-	reqstatp = rep.srmPutDoneResponse->returnStatus;
+	if (rep.srmPutDoneResponse == NULL || (reqstatp = rep.srmPutDoneResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
 	repfs = rep.srmPutDoneResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
@@ -1623,15 +1716,15 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, srm_endpoint, statuscode2errmsg (reqstatp->statusCode));
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -1659,12 +1752,16 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 		if (repfs->statusArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
-						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -1692,7 +1789,7 @@ srmv2_set_xfer_running (int nbfiles, const char **surls, const char *srm_endpoin
 	return (nbfiles);
 }
 
-srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpoint, int desiredpintime, const char *spacetokendesc, 
+srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpoint, int desiredpintime, const char *spacetokendesc,
 		char **protocols, char **reqtoken, struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	struct srm2__srmAbortRequestRequest abortreq;
@@ -1735,16 +1832,16 @@ retry:
 
 	memset (&req, 0, sizeof(req));
 
-	if ((req.arrayOfFileRequests = 
-				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL || 
-			(req.arrayOfFileRequests->requestArray = 
+	if ((req.arrayOfFileRequests =
+				soap_malloc (&soap, sizeof(struct srm2__ArrayOfTGetFileRequest))) == NULL ||
+			(req.arrayOfFileRequests->requestArray =
 			 soap_malloc (&soap, nbfiles * sizeof(struct srm2__TGetFileRequest *))) == NULL ||
-			(req.transferParameters = 
-			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL || 
-			(req.targetSpaceToken = 
-			 soap_malloc (&soap, sizeof(char *))) == NULL) { 
+			(req.transferParameters =
+			 soap_malloc (&soap, sizeof(struct srm2__TTransferParameters))) == NULL ||
+			(req.targetSpaceToken =
+			 soap_malloc (&soap, sizeof(char *))) == NULL) {
 
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -1773,13 +1870,13 @@ retry:
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
 
 	for (i = 0; i < nbfiles; i++) {
-		if ((req.arrayOfFileRequests->requestArray[i] = 	 
-					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) { 	 
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error"); 	 
-			errno = ENOMEM; 	 
-			soap_end (&soap); 	 
-			soap_done (&soap); 	 
-			return (-1); 	 
+		if ((req.arrayOfFileRequests->requestArray[i] =
+					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
+			errno = ENOMEM;
+			soap_end (&soap);
+			soap_done (&soap);
+			return (-1);
 		}
 		memset (req.arrayOfFileRequests->requestArray[i], 0, sizeof(struct srm2__TGetFileRequest));
 		req.arrayOfFileRequests->requestArray[i]->sourceSURL = (char *) surls[i];
@@ -1794,7 +1891,7 @@ retry:
 	if (protocols) {
 		if ((req.transferParameters->arrayOfTransferProtocols =
 					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 			errno = ENOMEM;
 			soap_end (&soap);
 			soap_done (&soap);
@@ -1810,13 +1907,13 @@ retry:
 
 	if ((ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 				   	gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -1843,7 +1940,7 @@ retry:
 	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
 		if ((timeout > 0 && time(NULL) > endtime) || nbretries > GFAL_SRM_MAXRETRIES) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: User timeout over",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
 					gfal_remote_type, srmfunc, srm_endpoint);
 			errno = ETIMEDOUT;
 			soap_end (&soap);
@@ -1864,7 +1961,7 @@ retry:
 	sleep_time = 5;
 	nbretries = 0;
 
-	while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED || 
+	while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
 			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS) {
 
 		sleep (sleep_time);
@@ -1873,13 +1970,13 @@ retry:
 
 		if ((ret = soap_call_srm2__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 						gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
 			else if (soap.error == SOAP_EOF)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 						gfal_remote_type, srmfunc_status, srm_endpoint);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 						gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
 
 			soap_end (&soap);
@@ -1888,7 +1985,15 @@ retry:
 			return (-1);
 		}
 
-		reqstatp = srep.srmStatusOfGetRequestResponse->returnStatus;
+		if (rep.srmStatusOfGetRequestResponse == NULL || (reqstatp = rep.srmStatusOfGetRequestResponse->returnStatus) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+					gfal_remote_type, srmfunc_status, srm_endpoint);
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ECOMM;
+			return (-1);
+		}
+
 		repfs = srep.srmStatusOfGetRequestResponse->arrayOfFileStatuses;
 
 		/* if user timeout has passed, abort the request */
@@ -1897,18 +2002,18 @@ retry:
 
 			if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep))) {
 				if (soap.fault != NULL && soap.fault->faultstring != NULL)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 							gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
 				else if (soap.error == SOAP_EOF)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 							gfal_remote_type, srmfunc_status, srm_endpoint);
 				else
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 							gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
 
 				sav_errno = ECOMM;
 			} else {
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: User timeout over",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
 						gfal_remote_type, srmfunc_status, srm_endpoint);
 				sav_errno = ETIMEDOUT;
 			}
@@ -1926,15 +2031,15 @@ retry:
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc_status, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc_status, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc_status, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -1964,12 +2069,16 @@ retry:
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status,
-						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] <none>",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 		if (repfs->statusArray[i]->remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
@@ -2040,7 +2149,7 @@ retry:
 			(req.targetSpaceToken =
 			 soap_malloc (&soap, sizeof(char *))) == NULL) {
 
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -2056,19 +2165,19 @@ retry:
 	req.arrayOfFileRequests->__sizerequestArray = nbfiles;
 
 	for (i = 0; i < nbfiles; i++) {
-		if ((req.arrayOfFileRequests->requestArray[i] = 	 
-					soap_malloc (&soap, sizeof(struct srm2__TPutFileRequest))) == NULL) { 	 
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error"); 	 
-			errno = ENOMEM; 	 
-			soap_end (&soap); 	 
-			soap_done (&soap); 	 
-			return (-1); 	 
+		if ((req.arrayOfFileRequests->requestArray[i] =
+					soap_malloc (&soap, sizeof(struct srm2__TPutFileRequest))) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
+			errno = ENOMEM;
+			soap_end (&soap);
+			soap_done (&soap);
+			return (-1);
 		}
 		memset (req.arrayOfFileRequests->requestArray[i], 0, sizeof(struct srm2__TPutFileRequest));
 		req.arrayOfFileRequests->requestArray[i]->targetSURL = (char *) surls[i];
 
 		if ((req.arrayOfFileRequests->requestArray[i]->expectedFileSize = soap_malloc (&soap, sizeof(ULONG64))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 			errno = ENOMEM;
 			soap_end (&soap);
 			soap_done (&soap);
@@ -2086,7 +2195,7 @@ retry:
 	if (protocols) {
 		if ((req.transferParameters->arrayOfTransferProtocols =
 					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 			errno = ENOMEM;
 			soap_end (&soap);
 			soap_done (&soap);
@@ -2121,13 +2230,13 @@ retry:
 
 	if ((ret = soap_call_srm2__srmPrepareToPut (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -2154,7 +2263,7 @@ retry:
 	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
 		if ((timeout > 0 && time(NULL) > endtime) || nbretries > GFAL_SRM_MAXRETRIES) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: User timeout over",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
 					gfal_remote_type, srmfunc, srm_endpoint);
 			errno = ETIMEDOUT;
 			soap_end (&soap);
@@ -2184,13 +2293,13 @@ retry:
 
 		if ((ret = soap_call_srm2__srmStatusOfPutRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 						gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
 			else if (soap.error == SOAP_EOF)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 						gfal_remote_type, srmfunc_status, srm_endpoint);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 						gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
 
 			soap_end (&soap);
@@ -2209,18 +2318,18 @@ retry:
 
 			if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, srmfunc_abort, &abortreq, &abortrep))) {
 				if (soap.fault != NULL && soap.fault->faultstring != NULL)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 							gfal_remote_type, srmfunc_abort, srm_endpoint, soap.fault->faultstring);
 				else if (soap.error == SOAP_EOF)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 							gfal_remote_type, srmfunc_abort, srm_endpoint);
 				else
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 							gfal_remote_type, srmfunc_abort, srm_endpoint, soap.error);
 
 				sav_errno = ECOMM;
 			} else {
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: User timeout over",
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
 						gfal_remote_type, srmfunc_status, srm_endpoint);
 				sav_errno = ETIMEDOUT;
 			}
@@ -2233,8 +2342,8 @@ retry:
 	}
 
 	if (reqstatp->statusCode == SRM_USCORESPACE_USCORELIFETIME_USCOREEXPIRED) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,"[%s][%s] %s: Space lifetime expired",
-				gfal_remote_type, srmfunc_status, srm_endpoint);
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,"[%s][%s][%s] %s: Space lifetime expired",
+				gfal_remote_type, srmfunc_status, statuscode2errmsg(reqstatp->statusCode), srm_endpoint);
 		errno = statuscode2errno(reqstatp->statusCode);
 		soap_end (&soap);
 		soap_done (&soap);
@@ -2246,15 +2355,15 @@ retry:
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc_status, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc_status, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc_status, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -2284,12 +2393,16 @@ retry:
 		if (repfs->statusArray[i]->status) {
 			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status, reqstatp->explanation);
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else if ((*filestatuses)[i].status != 0)
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc_status,
-						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] <none>",
+						gfal_remote_type, srmfunc_status, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 		if (repfs->statusArray[i]->remainingPinLifetime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinLifetime);
@@ -2337,14 +2450,18 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 			(*statuses)[i].status = statuscode2errno(repfs->pathDetailArray[i]->status->statusCode);
 		if ((*statuses)[i].status) {
 			if (repfs->pathDetailArray[i]->status->explanation && repfs->pathDetailArray[i]->status->explanation[0])
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->pathDetailArray[i]->status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg(repfs->pathDetailArray[i]->status->statusCode),
+						repfs->pathDetailArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg(repfs->pathDetailArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
-						statuscode2errmsg(repfs->pathDetailArray[i]->status->statusCode));
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg(repfs->pathDetailArray[i]->status->statusCode));
 			continue;
-		} 
+		}
 		if (repfs->pathDetailArray[i]->size)
 			(*statuses)[i].stat.st_size = *(repfs->pathDetailArray[i]->size);
 		else
@@ -2458,7 +2575,7 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 	memset (&req, 0, sizeof(req));
 
 	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -2476,13 +2593,13 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 
 	if ((ret = soap_call_srm2__srmLs (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if(soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -2508,15 +2625,15 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 				reqstatp->statusCode != SRM_USCORETOO_USCOREMANY_USCORERESULTS) {
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -2527,7 +2644,7 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 	}
 
 	n = copy_md (reqstatp, repfs, statuses);
-	
+
 	if (n >= 0) {
 		if (n == 1 && offset && reqstatp->statusCode == SRM_USCORETOO_USCOREMANY_USCORERESULTS &&
 				repfs->pathDetailArray[0] != NULL && repfs->pathDetailArray[0]->arrayOfSubPaths != NULL)
@@ -2576,7 +2693,7 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 
 	if ((req.arrayOfSURLs = soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
 
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -2592,13 +2709,13 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 
 	if ((ret = soap_call_srm2__srmExtendFileLifeTime (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -2607,8 +2724,16 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 		return (-1);
 	}
 
+	if (rep.srmExtendFileLifeTimeResponse == NULL || (reqstatp = rep.srmExtendFileLifeTimeResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
 	/* return file statuses */
-	reqstatp = rep.srmExtendFileLifeTimeResponse->returnStatus;
 	repfs = rep.srmExtendFileLifeTimeResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
@@ -2617,15 +2742,15 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s[%s]] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -2655,18 +2780,22 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 		if (repfs->statusArray[i]->status) {
 			(*pinfilestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
-						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s][%s] <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
 	soap_end (&soap);
 	soap_done (&soap);
-	return (n);	
+	return (n);
 }
 
 srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const char *reqtoken,
@@ -2702,7 +2831,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 	/* NOTE: only one SURL in the array */
 	if ((req.arrayOfSURLs =
 				soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -2714,13 +2843,13 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 
 	if ((ret = soap_call_srm2__srmReleaseFiles (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -2729,7 +2858,15 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 		return (-1);
 	}
 
-	reqstatp = rep.srmReleaseFilesResponse->returnStatus;
+	if (rep.srmReleaseFilesResponse == NULL || (reqstatp = rep.srmReleaseFilesResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
 	repfs = rep.srmReleaseFilesResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
@@ -2738,15 +2875,15 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -2774,12 +2911,16 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 		if (repfs->statusArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
-						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -2817,13 +2958,13 @@ srmv2_abortrequest (const char *srm_endpoint, const char *reqtoken, char *errbuf
 
 	if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -2832,19 +2973,27 @@ srmv2_abortrequest (const char *srm_endpoint, const char *reqtoken, char *errbuf
 		return (-1);
 	}
 
-	reqstatp = rep.srmAbortRequestResponse->returnStatus;
+	if (rep.srmAbortRequestResponse == NULL || (reqstatp = rep.srmAbortRequestResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
     ret = 0;
 
     if (reqstatp->statusCode != SRM_USCORESUCCESS &&
             reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
         sav_errno = statuscode2errno (reqstatp->statusCode);
         if (reqstatp->explanation && reqstatp->explanation[0])
-            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+					srm_endpoint, reqstatp->explanation);
 		else
-            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint,
-					statuscode2errmsg (reqstatp->statusCode));
+            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 
         ret = -1;
     }
@@ -2888,7 +3037,7 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 	/* NOTE: only one SURL in the array */
 	if ((req.arrayOfSURLs =
 				soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -2900,13 +3049,13 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 
 	if ((ret = soap_call_srm2__srmAbortFiles (&soap, srm_endpoint, "AbortFiles", &req, &rep))) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -2915,7 +3064,15 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 		return (-1);
 	}
 
-	reqstatp = rep.srmAbortFilesResponse->returnStatus;
+	if (rep.srmAbortFilesResponse == NULL || (reqstatp = rep.srmAbortFilesResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
+
 	repfs = rep.srmAbortFilesResponse->arrayOfFileStatuses;
 
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
@@ -2924,15 +3081,15 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -2960,12 +3117,16 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 		if (repfs->statusArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->statusArray[i]->status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						repfs->statusArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
-						statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
 		}
 	}
 
@@ -3006,7 +3167,7 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 	/* NOTE: only one SURL in the array */
 	if ((req.arrayOfSURLs =
 				soap_malloc (&soap, sizeof(struct srm2__ArrayOfAnyURI))) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "soap_malloc error");
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 		errno = ENOMEM;
 		soap_end (&soap);
 		soap_done (&soap);
@@ -3018,13 +3179,13 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 
 	if ((ret = soap_call_srm2__srmCheckPermission (&soap, srm_endpoint, srmfunc, &req, &rep))) {
 		if (ret == SOAP_FAULT || ret == SOAP_CLI_FAULT)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
 		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Connection fails or timeout",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 					gfal_remote_type, srmfunc, srm_endpoint);
 		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: Unknown SOAP error (%d)",
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
 		soap_end (&soap);
@@ -3033,24 +3194,31 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 		return (-1);
 	}
 
-	reqstatp = rep.srmCheckPermissionResponse->returnStatus;
-	repfs = rep.srmCheckPermissionResponse->arrayOfPermissions;
-	n = repfs->__sizesurlPermissionArray;
+	if (rep.srmCheckPermissionResponse == NULL || (reqstatp = rep.srmCheckPermissionResponse->returnStatus) == NULL) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+				gfal_remote_type, srmfunc, srm_endpoint);
+		soap_end (&soap);
+		soap_done (&soap);
+		errno = ECOMM;
+		return (-1);
+	}
 
-	if (!repfs || n < 1 || !repfs->surlPermissionArray) {
+	repfs = rep.srmCheckPermissionResponse->arrayOfPermissions;
+
+	if (!repfs || (n = repfs->__sizesurlPermissionArray) < 1 || !repfs->surlPermissionArray) {
 		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
 				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation)
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint, reqstatp->explanation);
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
 			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: %s",
-						gfal_remote_type, srmfunc, srm_endpoint,
-						statuscode2errmsg (reqstatp->statusCode));
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc, srm_endpoint);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
 			sav_errno = ECOMM;
 		}
 
@@ -3076,12 +3244,16 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 		if (repfs->surlPermissionArray[i]->status) {
 			(*statuses)[i].status = statuscode2errno (repfs->surlPermissionArray[i]->status->statusCode);
 			if (repfs->surlPermissionArray[i]->status->explanation && repfs->surlPermissionArray[i]->status->explanation[0])
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, repfs->surlPermissionArray[i]->status->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->surlPermissionArray[i]->status->statusCode),
+						repfs->surlPermissionArray[i]->status->explanation);
 			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc, reqstatp->explanation);
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->surlPermissionArray[i]->status->statusCode),
+						reqstatp->explanation);
 			else
-				asprintf (&((*statuses)[i].explanation), "[%s][%s] %s", gfal_remote_type, srmfunc,
-						statuscode2errmsg (repfs->surlPermissionArray[i]->status->statusCode));
+				asprintf (&((*statuses)[i].explanation), "[%s][%s][%s] %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->surlPermissionArray[i]->status->statusCode));
 		} else
 			(*statuses)[i].status = ENOMEM;
         if ((*statuses)[i].status == 0) {
