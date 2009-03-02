@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.116 $ $Date: 2009/02/25 13:38:08 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.117 $ $Date: 2009/03/02 17:01:24 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -2984,6 +2984,8 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		} else {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
 					"[GFAL][gfal_init][EINVAL] Invalid request: You have to specify either an endpoint or at least one SURL");
+			gfal_internal_free (*gfal);
+			*gfal = NULL;
 			errno = EINVAL;
 			return (-1);
 		}
@@ -2991,6 +2993,8 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	if ((strchr ((*gfal)->endpoint, '.') == NULL)) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
 				"[GFAL][gfal_init][EINVAL] No domain name specified for storage element endpoint");
+		gfal_internal_free (*gfal);
+		*gfal = NULL;
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3025,41 +3029,43 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		return (0);
 	}
 
-	/* Set SE type to the default one if possible */
-	if ((*gfal)->defaultsetype == TYPE_SRM && !(*gfal)->srmv2_spacetokendesc &&
-			!(*gfal)->srmv2_desiredpintime && !(*gfal)->srmv2_lslevels &&
-			!(*gfal)->srmv2_lsoffset && !(*gfal)->srmv2_lscount &&
-			srmv1_endpoint)
-		(*gfal)->setype = TYPE_SRM;
-	else if ((*gfal)->defaultsetype == TYPE_SRMv2 && srmv2_endpoint)
-		(*gfal)->setype = TYPE_SRMv2;
-
-	if (((*gfal)->setype == TYPE_NONE || (*gfal)->setype == TYPE_SRM) &&
-			!(*gfal)->srmv2_spacetokendesc && !(*gfal)->srmv2_desiredpintime &&
-			!(*gfal)->srmv2_lsoffset && !(*gfal)->srmv2_lscount &&
-			!(*gfal)->srmv2_lslevels && srmv1_endpoint) {
-		(*gfal)->setype = TYPE_SRM;
-		(*gfal)->endpoint = srmv1_endpoint;
-		if (srmv2_endpoint) free (srmv2_endpoint);
-	} else if (((*gfal)->setype == TYPE_NONE || (*gfal)->setype == TYPE_SRMv2) && srmv2_endpoint) {
-		(*gfal)->setype = TYPE_SRMv2;
-		(*gfal)->endpoint = srmv2_endpoint;
-		if (srmv1_endpoint) free (srmv1_endpoint);
-	} else if (((*gfal)->setype == TYPE_NONE || (*gfal)->setype == TYPE_SE) && isclassicse) {
-		(*gfal)->setype = TYPE_SE;
-	} else {
-		if (!srmv1_endpoint && !srmv2_endpoint && !isclassicse)
-			snprintf (errmsg, GFAL_ERRMSG_LEN - 1, "[GFAL][gfal_init][EINVAL] %s: Unknown SE in BDII", (*gfal)->endpoint);
-		else {
-			snprintf (errmsg, GFAL_ERRMSG_LEN - 1,
-					"[GFAL][gfal_init][EINVAL] Invalid request: Desired SE type doesn't match request parameters or SE");
-			if (srmv1_endpoint) free (srmv1_endpoint);
-			if (srmv2_endpoint) free (srmv2_endpoint);
+	/* srmv2 is the default if nothing specified by user! */
+	if ((*gfal)->setype == TYPE_NONE) {
+		if (srmv2_endpoint &&
+				((*gfal)->defaultsetype == TYPE_NONE || (*gfal)->defaultsetype == TYPE_SRMv2 ||
+				 ((*gfal)->defaultsetype == TYPE_SRM && !srmv1_endpoint))) {
+			(*gfal)->setype = TYPE_SRMv2;
+		} else if (!(*gfal)->srmv2_spacetokendesc && !(*gfal)->srmv2_desiredpintime &&
+				!(*gfal)->srmv2_lslevels && !(*gfal)->srmv2_lsoffset &&	!(*gfal)->srmv2_lscount) {
+			if (srmv1_endpoint && (*gfal)->defaultsetype != TYPE_SE)
+				(*gfal)->setype = TYPE_SRM;
+			else if (srmv2_endpoint || srmv1_endpoint || isclassicse)
+				(*gfal)->setype = TYPE_SE;
 		}
+	}
+	else if ((*gfal)->setype == TYPE_SRMv2 && !srmv2_endpoint) {
+		(*gfal)->setype = TYPE_NONE;
+	} else if ((*gfal)->srmv2_spacetokendesc || (*gfal)->srmv2_desiredpintime ||
+			(*gfal)->srmv2_lslevels || (*gfal)->srmv2_lsoffset || (*gfal)->srmv2_lscount) {
+		(*gfal)->setype = TYPE_NONE;
+	} else {
+		if ((*gfal)->setype == TYPE_SRM && !srmv1_endpoint)
+			(*gfal)->setype = TYPE_NONE;
+		else if ((*gfal)->setype == TYPE_SE && !srmv2_endpoint && !srmv1_endpoint && !isclassicse)
+			(*gfal)->setype = TYPE_NONE;
+	}
 
+	if ((*gfal)->setype == TYPE_SRMv2) {
+		free ((*gfal)->endpoint);
+		(*gfal)->endpoint = srmv2_endpoint;
+	} else if ((*gfal)->setype == TYPE_SRM) {
+		free ((*gfal)->endpoint);
+		(*gfal)->endpoint = srmv1_endpoint;
+	} else if ((*gfal)->setype == TYPE_NONE) {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
+				"[GFAL][gfal_init][EINVAL] Invalid request: Desired SE type doesn't match request parameters or SE");
 		gfal_internal_free (*gfal);
 		*gfal = NULL;
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "%s", errmsg);
 		errno = EINVAL;
 		return (-1);
 	}
