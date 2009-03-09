@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_constants.h,v $ $Revision: 1.7 $ $Date: 2008/11/18 12:47:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_constants.h,v $ $Revision: 1.8 $ $Date: 2009/03/09 15:16:38 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_CONSTANTS_H
@@ -34,5 +34,7 @@
 #define GFAL_VERBOSE_NORMAL       0    // only errors are printed
 #define GFAL_VERBOSE_VERBOSE      1    // a bit more verbose information is printed
 #define GFAL_VERBOSE_DEBUG        2    // extra information is printed
+
+#define GFAL_CKSM_DEFAULT         GFAL_CKSM_ADLER32   // MD5 is the default algo
 
 #endif

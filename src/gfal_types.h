@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.5 $ $Date: 2009/01/26 08:29:09 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.6 $ $Date: 2009/03/09 15:16:38 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_TYPES_H
@@ -71,6 +71,18 @@ enum TAccessLatency_
 };
 /// Typedef synonym for enum ns1__TAccessLatency.
 typedef enum TAccessLatency_ TAccessLatency;
+
+enum gfal_cksm_type
+{
+	GFAL_CKSM_UNKNOWN = 0,
+	GFAL_CKSM_CRC32,
+	GFAL_CKSM_ADLER32,
+	GFAL_CKSM_MD5,
+	GFAL_CKSM_SHA1,
+	GFAL_CKSM_SHA256,
+	GFAL_CKSM_SHA512
+};
+
 
 typedef struct gfal_filestatus_ {
 	char *surl;

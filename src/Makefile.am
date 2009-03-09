@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.16 2008/12/18 18:13:12 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.17 2009/03/09 15:16:38 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -167,6 +167,7 @@ gfalthr_wrap.c: gfalthr.i lcg-typemaps.python.i
 GFAL_SOURCE_FILES = \
 	checkprotolib.c \
 	gfal.c \
+	gfal_checksum.c \
 	gfal_file.c \
 	gfal_timeouts.c \
 	lrc_ifce.c \

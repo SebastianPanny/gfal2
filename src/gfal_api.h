@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.66 $ $Date: 2008/12/18 13:08:17 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.67 $ $Date: 2009/03/09 15:16:38 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -36,6 +36,7 @@ void gfal_set_timeout_bdii (int);
 int gfal_get_timeout_bdii ();
 void gfal_set_timeout_srm (int);
 int gfal_get_timeout_srm ();
+const char *gfal_get_checksum_algname (enum gfal_cksm_type);
 
 #ifdef SWIGPYTHON
 int gfal_get_errno ();
