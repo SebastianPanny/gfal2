@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_timeouts.c,v $ $Revision: 1.5 $ $Date: 2008/12/18 19:11:54 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_timeouts.c,v $ $Revision: 1.6 $ $Date: 2009/03/09 15:01:37 $ CERN Remi Mollon
  */
 
 #define _GNU_SOURCE
@@ -24,15 +24,13 @@ gfal_set_timeout_connect (int value) {
 	if (value >= 0)
 		gfal_timeout_connect = value;
 
-	/* if 'LFC_CONNTIMEOUT is defined, it isn't overwritten */
-	if ((lfc_timeout = getenv ("LFC_CONNTIMEOUT")) == NULL) {
-		asprintf (&lfc_timeout, "LFC_CONNTIMEOUT=%d", value);
-		if (lfc_timeout == NULL)
-			return;
-		if (putenv (lfc_timeout) < 0)
-			return;
-	} else
-		free (lfc_timeout);
+	/* set 'LFC_CONNTIMEOUT' to same value */
+	asprintf (&lfc_timeout, "LFC_CONNTIMEOUT=%d", value);
+	if (lfc_timeout == NULL)
+		return;
+
+	putenv (lfc_timeout)
+	free (lfc_timeout);
 }
 
 int gfal_get_timeout_connect () {
