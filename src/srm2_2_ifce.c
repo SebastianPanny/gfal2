@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.71 $ $Date: 2009/02/25 13:38:08 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.72 $ $Date: 2009/03/09 15:00:22 $
  */
 
 #define _GNU_SOURCE
@@ -645,7 +645,7 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 		return (-1);
 	}
 
-	if (rep.srmStatusOfGetRequestResponse == NULL || (reqstatp = rep.srmStatusOfGetRequestResponse->returnStatus) == NULL) {
+	if (srep.srmStatusOfGetRequestResponse == NULL || (reqstatp = srep.srmStatusOfGetRequestResponse->returnStatus) == NULL) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
 				gfal_remote_type, srmfunc, srm_endpoint);
 		soap_end (&soap);
@@ -1197,7 +1197,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 			return (-1);
 		}
 
-		if (rep.srmMkdirResponse == NULL || (reqstatp = rep.srmMkdirResponse->returnStatus) == NULL) {
+		if (rep.srmMkdirResponse == NULL || (repstatp = rep.srmMkdirResponse->returnStatus) == NULL) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
 					gfal_remote_type, srmfunc, srm_endpoint);
 			soap_end (&soap);
@@ -1559,8 +1559,8 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 		return (-1);
 	}
 
-	if (rep.srmStatusOfBringOnlineRequestResponse == NULL ||
-			(reqstatp = rep.srmStatusOfBringOnlineRequestResponse->returnStatus) == NULL) {
+	if (srep.srmStatusOfBringOnlineRequestResponse == NULL ||
+			(reqstatp = srep.srmStatusOfBringOnlineRequestResponse->returnStatus) == NULL) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
 				gfal_remote_type, srmfunc, srm_endpoint);
 		soap_end (&soap);
@@ -1985,7 +1985,7 @@ retry:
 			return (-1);
 		}
 
-		if (rep.srmStatusOfGetRequestResponse == NULL || (reqstatp = rep.srmStatusOfGetRequestResponse->returnStatus) == NULL) {
+		if (srep.srmStatusOfGetRequestResponse == NULL || (reqstatp = srep.srmStatusOfGetRequestResponse->returnStatus) == NULL) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
 					gfal_remote_type, srmfunc_status, srm_endpoint);
 			soap_end (&soap);
@@ -2905,7 +2905,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 	for (i = 0; i < n; i++) {
 		if (!repfs->statusArray[i])
 			continue;
-		memset (*statuses + i, 0, sizeof (struct srmv2_pinfilestatus));
+		memset (*statuses + i, 0, sizeof (struct srmv2_filestatus));
 		if (repfs->statusArray[i]->surl)
 			(*statuses)[i].surl = strdup (repfs->statusArray[i]->surl);
 		if (repfs->statusArray[i]->status) {
