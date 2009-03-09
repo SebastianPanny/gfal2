@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.6 $ $Date: 2009/03/09 15:16:38 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.7 $ $Date: 2009/03/09 15:30:29 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_TYPES_H
@@ -74,7 +74,7 @@ typedef enum TAccessLatency_ TAccessLatency;
 
 enum gfal_cksm_type
 {
-	GFAL_CKSM_UNKNOWN = 0,
+	GFAL_CKSM_NONE = 0,
 	GFAL_CKSM_CRC32,
 	GFAL_CKSM_ADLER32,
 	GFAL_CKSM_MD5,

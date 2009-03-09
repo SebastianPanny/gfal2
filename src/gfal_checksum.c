@@ -4,13 +4,13 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_checksum.c,v $ $Revision: 1.1 $ $Date: 2009/03/09 15:16:38 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_checksum.c,v $ $Revision: 1.2 $ $Date: 2009/03/09 15:30:29 $ CERN Remi Mollon
  */
 
 #include "gfal_types.h"
 
 static char *gfal_cksm_algname[] = {
-	"Unknown",
+	"None",
 	"CRC32",
 	"ADLER32",
 	"MD5",
