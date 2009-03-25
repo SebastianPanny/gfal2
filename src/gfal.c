@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.119 $ $Date: 2009/03/25 13:57:45 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.120 $ $Date: 2009/03/25 14:21:11 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -2760,7 +2760,7 @@ purify_surl (const char *surl, char *surl_cat, const int surl_cat_sz) {
 		return (-1);
 	}
 
-	if (gfal_is_purifydisabed () || strncmp (surl, "srm://", 6)) {
+	if (gfal_is_purifydisabled () || strncmp (surl, "srm://", 6)) {
 		/* Only SRM SURL need to be purify */
 		strncpy (surl_cat, surl, surl_cat_sz);
 		return (0);
