@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_timeouts.c,v $ $Revision: 1.6 $ $Date: 2009/03/09 15:01:37 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_timeouts.c,v $ $Revision: 1.7 $ $Date: 2009/03/25 13:41:07 $ CERN Remi Mollon
  */
 
 #define _GNU_SOURCE
@@ -29,7 +29,7 @@ gfal_set_timeout_connect (int value) {
 	if (lfc_timeout == NULL)
 		return;
 
-	putenv (lfc_timeout)
+	putenv (lfc_timeout);
 	free (lfc_timeout);
 }
 
