@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.7 $ $Date: 2009/03/09 15:30:29 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.8 $ $Date: 2009/03/25 14:00:29 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_TYPES_H
@@ -78,9 +78,7 @@ enum gfal_cksm_type
 	GFAL_CKSM_CRC32,
 	GFAL_CKSM_ADLER32,
 	GFAL_CKSM_MD5,
-	GFAL_CKSM_SHA1,
-	GFAL_CKSM_SHA256,
-	GFAL_CKSM_SHA512
+	GFAL_CKSM_SHA1
 };
 
 
