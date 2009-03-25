@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.17 2009/03/09 15:16:38 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.18 2009/03/25 13:32:05 rmollon Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -381,5 +381,9 @@ man3_MANS = \
     gfal_set_verbose_python.man \
     gfal_stat_python.man \
     gfal_unlink_python.man \
-    gfal_write_python.man
+    gfal_write_python.man \
+	gfal_abortfiles.man \
+	gfal_abortfiles_python.man \
+	gfal_abortrequest.man \
+	gfal_abortrequest_python.man
 
