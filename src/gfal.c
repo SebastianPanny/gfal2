@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.117 $ $Date: 2009/03/02 17:01:24 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.118 $ $Date: 2009/03/25 13:33:09 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -3056,11 +3056,13 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	}
 
 	if ((*gfal)->setype == TYPE_SRMv2) {
-		free ((*gfal)->endpoint);
+		if ((*gfal)->free_endpoint) free ((*gfal)->endpoint);
 		(*gfal)->endpoint = srmv2_endpoint;
+		(*gfal)->free_endpoint = 1;
 	} else if ((*gfal)->setype == TYPE_SRM) {
-		free ((*gfal)->endpoint);
+		if ((*gfal)->free_endpoint) free ((*gfal)->endpoint);
 		(*gfal)->endpoint = srmv1_endpoint;
+		(*gfal)->free_endpoint = 1;
 	} else if ((*gfal)->setype == TYPE_NONE) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
 				"[GFAL][gfal_init][EINVAL] Invalid request: Desired SE type doesn't match request parameters or SE");
