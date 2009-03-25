@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.120 $ $Date: 2009/03/25 14:21:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.121 $ $Date: 2009/03/25 17:09:39 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -765,7 +765,8 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	if (newfile) xi->size = 0;
 	else         xi->size = -1;
 
-	gfal_set_xfer_running (gfile->gobj, NULL, 0);
+	if (gfile->gobj)
+		gfal_set_xfer_running (gfile->gobj, NULL, 0);
 
 	if (newfile && gfile->nbreplicas == 1 && (gfile->lfn || gfile->guid) &&
 			gfile->replicas != NULL && gfile->replicas[0] != NULL &&
