@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.118 $ $Date: 2009/03/25 13:33:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.119 $ $Date: 2009/03/25 13:57:45 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -172,6 +172,15 @@ gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz)
 	gfal_parse_vomsdata (errbuf, errbufsz);
 	*fqan = gfal_fqan;
 	return (gfal_nb_fqan);
+}
+
+int
+gfal_is_purifydisabled ()
+{
+	if (purifydisabled < 0)
+		purifydisabled = getenv ("LCG_GFAL_FULL_SURLS_IN_FC") == NULL ? 0 : 1;
+
+	return (purifydisabled);
 }
 
 	static struct dir_info *
@@ -2751,10 +2760,7 @@ purify_surl (const char *surl, char *surl_cat, const int surl_cat_sz) {
 		return (-1);
 	}
 
-	if (purifydisabled < 0)
-		purifydisabled = getenv ("LCG_GFAL_FULL_SURLS_IN_FC") == NULL ? 0 : 1;
-
-	if (purifydisabled == 1 || strncmp (surl, "srm://", 6)) {
+	if (gfal_is_purifydisabed () || strncmp (surl, "srm://", 6)) {
 		/* Only SRM SURL need to be purify */
 		strncpy (surl_cat, surl, surl_cat_sz);
 		return (0);

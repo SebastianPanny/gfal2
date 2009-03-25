@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.3 $ $Date: 2009/01/26 08:29:09 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.4 $ $Date: 2009/03/25 13:57:45 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_INTERNALS_H
@@ -37,6 +37,7 @@ char *gfal_get_userdn (char *errbuf, int errbufsz);
 char *gfal_get_vo (char *errbuf, int errbufsz);
 int gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz);
 int gfal_is_nobdii ();
+int gfal_is_purifydisabled ();
 int gfal_register_file (const char *, const char *, const char *, mode_t, GFAL_LONG64, int, char *, int);
 void gfal_internal_free (gfal_internal);
 void gfal_spacemd_free (int, gfal_spacemd *);
