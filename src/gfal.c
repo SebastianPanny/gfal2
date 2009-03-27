@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.121 $ $Date: 2009/03/25 17:09:39 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.122 $ $Date: 2009/03/27 08:47:45 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -663,13 +663,11 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
 		if (gfal_init (req, &(gfile->gobj), NULL, 0) < 0) {
 			sav_errno = errno;
-			free (default_se);
 			goto err;
 		}
 
 		if (gfile->gobj != NULL && gfile->gobj->surls != NULL && gfile->gobj->surls[0] != NULL)
 			surl = strdup (gfile->gobj->surls[0]);
-		free (default_se);
 
 		if (surl == NULL) {
 			sav_errno = errno;
