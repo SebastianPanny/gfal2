@@ -4,7 +4,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_checksum.c,v $ $Revision: 1.4 $ $Date: 2009/03/25 14:00:29 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_checksum.c,v $ $Revision: 1.5 $ $Date: 2009/03/27 08:49:02 $ CERN Remi Mollon
  */
 
 #include <stdlib.h>
@@ -31,10 +31,11 @@ gfal_parse_checksum_algname (const char *cksmtype_name)
 {
 	int i;
 
-	for (i = 1; gfal_cksm_algname[i]; ++i) {
-		if (strcasecmp (cksmtype_name, gfal_cksm_algname[i]) == 0)
-			return (i);
-	}
+	if (cksmtype_name)
+		for (i = 1; gfal_cksm_algname[i]; ++i) {
+			if (strcasecmp (cksmtype_name, gfal_cksm_algname[i]) == 0)
+				return (i);
+		}
 
 	/* else it is not supported... */
 	return (GFAL_CKSM_NONE);
