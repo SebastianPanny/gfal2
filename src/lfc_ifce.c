@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.62 $ $Date: 2009/02/25 13:38:08 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.63 $ $Date: 2009/04/01 15:55:07 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -869,10 +869,13 @@ lfc_unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbu
 		rc = -1;
 	}
 
-	if (rc == 0)
+	if (rc == 0) {
+		gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "[guid:%s] lfn:%s - UNREGISTERED", guid, lfn);
 		fcops.endtrans ();
+	}
 	else
 		fcops.aborttrans ();
+
 	errno = sav_errno;
 	return (0);
 }
