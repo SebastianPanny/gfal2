@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_get_results_python.man,v $ $Revision: 1.6 $ $Date: 2008/12/18 13:19:12 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_get_results_python.man,v $ $Revision: 1.7 $ $Date: 2009/04/03 13:17:13 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_GET_RESULTS 3 "$Date: 2008/12/18 13:19:12 $" GFAL "Library Functions"
+.TH GFAL_GET_RESULTS 3 "$Date: 2009/04/03 13:17:13 $" GFAL "Library Functions"
 .SH NAME
 gfal_get_results \- Extracts the results from the 'gfal_internal' object
 .SH SYNOPSIS
@@ -60,10 +60,21 @@ Fulfilled by
 .I gfal_getstatus_python(3)
 when SRMv2 interface is used.
 .TP
+.B string locality
+File locality. Possible values are:
+.IR ONLINE ,
+.IR NEARLINE ,
+.IR ONLINE_AND_NEARLINE ,
+.IR LOST ,
+.IR NONE ,
+.IR UNAVAILABLE ,
+.IR UNKNOWN .
+.TP
 .B list stat
 Stat information about the 
 .BR surl .
 Each field of the list corresponds to the same thing than in a system python stat.
+So the field are respectively st_mode, st_ino, st_dev, st_nlink, st_uid, st_gid, st_size, st_atime, st_mtime, st_ctime.
 It is 
 .B ONLY
 fulfilled by 
