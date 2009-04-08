@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.124 $ $Date: 2009/04/08 14:43:20 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.125 $ $Date: 2009/04/08 15:05:31 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -438,9 +438,22 @@ gfal_close (int fd)
 		sav_errno = xi->pops->maperror (xi->pops, 1);
 
 	/* set status "done" */
-
 	if (xi->gfile && xi->gfile->gobj)
 		gfal_set_xfer_done (xi->gfile->gobj, NULL, 0);
+
+	/* set the size for a (new) lfn */
+	if (xi->size >= 0 && xi->gfile && xi->gfile->lfn) {
+		char *cat_type = NULL;
+		int islfc;
+
+		if (get_cat_type (&cat_type) < 0)
+			return (-1);
+		islfc = strcmp (cat_type, "lfc") == 0;
+		free (cat_type);
+
+		if (islfc)
+			lfc_setsize (xi->gfile->lfn, xi->size, NULL, 0);
+	}
 
 	free_xi (fd);
 	errno = sav_errno;
@@ -620,7 +633,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	char protocol[64], pfn[1104];
 	struct proto_ops *pops = NULL;
 	char **supported_protocols = NULL;
-	GFAL_LONG64 filesize = 0;
+	GFAL_LONG64 filesize = GFAL_NEWFILE_SIZE;
 	struct xfer_info *xi = NULL;
 	gfal_file gfile = NULL;
 	gfal_request req = NULL;
@@ -650,6 +663,10 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		goto err;
 	}
 
+	req->nbfiles = 1;
+	req->protocols = supported_protocols;
+	req->no_bdii_check = gfal_is_nobdii ();
+
 	if (newfile) {
 		req->oflag = 1;
 		req->filesizes = &filesize;
@@ -657,18 +674,14 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
 	if (newfile && !gfile->turl && gfile->nbreplicas == 0) {
 		char *default_se, *surl = NULL;
-		GFAL_LONG64 filesize = GFAL_NEWFILE_SIZE;
 
 		if ((default_se = get_default_se(NULL, 0)) == NULL) {
 			sav_errno = errno;
 			goto err;
 		}
 
-		req->nbfiles = 1;
-		req->no_bdii_check = gfal_is_nobdii ();
 		req->endpoint = default_se;
 		req->generatesurls = 1;
-		req->filesizes = &filesize;
 
 		if (gfal_init (req, &(gfile->gobj), NULL, 0) < 0) {
 			sav_errno = errno;
@@ -698,10 +711,6 @@ gfal_open (const char *filename, int flags, mode_t mode)
 		}
 		gfile->replicas[0]->surl = surl;
 	}
-
-	req->nbfiles = 1;
-	req->protocols = supported_protocols;
-	req->no_bdii_check = gfal_is_nobdii ();
 
 	while (!bool_issurlok && gfile->errcode == 0) {
 		bool_issurlok = 1;
