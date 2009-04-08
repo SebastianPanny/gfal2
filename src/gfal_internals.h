@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.4 $ $Date: 2009/03/25 13:57:45 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.5 $ $Date: 2009/04/08 14:23:09 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_INTERNALS_H
@@ -192,6 +192,7 @@ int srmv2_getspacetokens (const char *, const char *, int *, char ***, char *, i
 int srmv2_getspacemd (int, const char **, const char *, gfal_spacemd **, char *, int, int);
 char *srmv2_getbestspacetoken (const char *, const char *, GFAL_LONG64, char *, int, int);
 int srmv2_makedirp (const char *, const char *, char *, int, int);
+int srmv2_bringonline (int, const char **, const char *, const char *, char **, int, char **, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_prestage (int, const char **, const char *, int, char **, int, char **, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_prestagee (int, const char **, const char *, const char *, char **, int, char **, struct srmv2_pinfilestatus **, char *, int, int);
 int srmv2_prestagestatus (int, const char **, const char *, struct srmv2_pinfilestatus **, char *, int, int);

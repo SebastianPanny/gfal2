@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.68 $ $Date: 2009/03/10 08:18:32 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_api.h,v $ $Revision: 1.69 $ $Date: 2009/04/08 14:23:09 $ CERN Jean-Philippe Baud
  */
 
 #ifndef _GFAL_API_H
@@ -82,11 +82,12 @@ gfal_request gfal_request_new ();
 int gfal_init (gfal_request, gfal_internal *, char *, int);
 int gfal_deletesurls (gfal_internal, char *, int);
 int gfal_removedir (gfal_internal, char *, int);
-int gfal_turlsfromsurls (gfal_internal, char *, int);
 int gfal_ls (gfal_internal, char *, int);
 int gfal_ls_end (gfal_internal, char *, int);
+int gfal_turlsfromsurls (gfal_internal, char *, int);
 int gfal_get (gfal_internal, char *, int);
 int gfal_getstatus (gfal_internal, char *, int);
+int gfal_bringonline (gfal_internal, char *, int);
 int gfal_prestage (gfal_internal, char *, int);
 int gfal_prestagestatus (gfal_internal, char *, int);
 int gfal_pin (gfal_internal, char *, int);

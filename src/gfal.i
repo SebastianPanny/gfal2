@@ -58,6 +58,7 @@ extern int gfal_ls (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_ls_end (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_get (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz);
+extern int gfal_bringonline (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_prestage (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz);
 extern int gfal_pin (gfal_internal req, char *errbuf, int errbufsz);

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.122 $ $Date: 2009/03/27 08:47:45 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.123 $ $Date: 2009/04/08 14:23:09 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1334,7 +1334,7 @@ gfal_unlink (const char *filename)
 		errno = sav_errno;
 		return (rc);
 	}
-	if (gfile->catalog == GFAL_FILE_CATALOG_EDG) {
+	else if (gfile->catalog == GFAL_FILE_CATALOG_EDG) {
 		for (i = 0; i < gfile->nbreplicas; ++i) {
 			if (gfile->replicas[i] == NULL ||
 					gfile->replicas[i]->surl == NULL ||
@@ -1391,6 +1391,8 @@ gfal_unlink (const char *filename)
 		errno = sav_errno;
 		return (sav_errno ? -1 : 0);
 	}
+
+	return (0);
 }
 
 	ssize_t
@@ -1642,6 +1644,35 @@ gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz)
 				errbuf, errbufsz, req->timeout);
 	} else { // req->setype == TYPE_SE
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_getstatus][EPROTONOSUPPORT] SFNs aren't supported");
+		errno = EPROTONOSUPPORT;
+		return (-1);;
+	}
+
+	req->returncode = ret;
+	return (copy_gfal_results (req, PIN_STATUS));
+}
+
+gfal_bringonline (gfal_internal req, char *errbuf, int errbufsz)
+{
+	int ret;
+
+	if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
+		return (-1);
+
+	if (req->setype == TYPE_SRMv2) {
+		if (req->srmv2_pinstatuses) {
+			free (req->srmv2_pinstatuses);
+			req->srmv2_pinstatuses = NULL;
+		}
+		if (req->srmv2_token) {
+			free (req->srmv2_token);
+			req->srmv2_token = NULL;
+		}
+		ret = srmv2_bringonline (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_spacetokendesc,
+				req->protocols, req->srmv2_desiredpintime, &(req->srmv2_token), &(req->srmv2_pinstatuses),
+				errbuf, errbufsz, req->timeout);
+	} else {
+		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_bringonline][EPROTONOSUPPORT] Only SRMv2-compliant SEs are supported");
 		errno = EPROTONOSUPPORT;
 		return (-1);;
 	}
@@ -2567,7 +2598,6 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
 	} else if (isedg) {
 		char *actual_lfn = NULL, *actual_guid = NULL;
 		char *generated_lfn = NULL, *generated_guid = NULL;
-		extern char *rmc_endpoint;
 
 		if (lfn) {
 			actual_guid = rmc_guidfromlfn (lfn, errbuf, errbufsz);
@@ -2898,7 +2928,6 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	char *srmv1_endpoint = NULL;
 	char *srmv2_endpoint = NULL;
 	int isclassicse = 0;
-	char errmsg[GFAL_ERRMSG_LEN];
 	int endpoint_offset=0;
 
 	if (req == NULL || req->nbfiles < 0 || (req->endpoint == NULL && req->surls == NULL)) {
@@ -2983,7 +3012,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 	if ((*gfal)->endpoint == NULL) {
 		/* (*gfal)->surls != NULL */
 		if ((*gfal)->surls[0] != NULL) {
-			if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz,0)) == NULL)
+			if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz, 0)) == NULL)
 				return (-1);
 			(*gfal)->free_endpoint = 1;
 		} else {
