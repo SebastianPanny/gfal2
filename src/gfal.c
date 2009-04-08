@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.123 $ $Date: 2009/04/08 14:23:09 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.124 $ $Date: 2009/04/08 14:43:20 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -143,6 +143,15 @@ gfal_get_userdn (char *errbuf, int errbufsz)
 int
 gfal_set_vo (const char *vo)
 {
+	if (gfal_vo == NULL) {
+		char errmsg[GFAL_ERRMSG_LEN];
+
+		gfal_parse_vomsdata (errmsg, GFAL_ERRMSG_LEN);
+		if (gfal_vo != NULL && strcmp (gfal_vo, vo) != 0)
+			gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_ERROR,
+					"[WARNING] specified VO and proxy VO are different!");
+	}
+
 	if ((gfal_vo = strdup (vo)) == NULL)
 		return (-1);
 	
