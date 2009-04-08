@@ -3,12 +3,13 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_testget.c,v $ $Revision: 1.6 $ $Date: 2009/02/09 15:27:42 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal_testget.c,v $ $Revision: 1.7 $ $Date: 2009/04/08 14:21:34 $ CERN Jean-Philippe Baud
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <sys/types.h>
 #include <errno.h>
 #include "gfal_api.h"
