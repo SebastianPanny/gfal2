@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_get_results.man,v $ $Revision: 1.4 $ $Date: 2009/04/03 13:17:13 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_get_results.man,v $ $Revision: 1.5 $ $Date: 2009/04/08 14:16:20 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_GET_RESULTS 3 "$Date: 2009/04/03 13:17:13 $" GFAL "Library Functions"
+.TH GFAL_GET_RESULTS 3 "$Date: 2009/04/08 14:16:20 $" GFAL "Library Functions"
 .SH NAME
 gfal_get_results \- Extracts the results from the 'gfal_internal' object
 .SH SYNOPSIS
@@ -73,7 +73,9 @@ Remaining pin life time for
 .BR surl .
 Fulfilled by 
 .IR gfal_turlsfromsurls(3) ,
-.I gfal_getstatus(3)
+.IR gfal_getstatus(3) ,
+.IR gfal_bringonline(3) ,
+.I gfal_prestagestatus(3)
 when SRMv2 interface is used.
 .TP
 .B TFileLocality locality
