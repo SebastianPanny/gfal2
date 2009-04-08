@@ -63,6 +63,10 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
                         PyDict_SetItemString (dict, "locality", PyString_FromString ("UNKNOWN"));
                 }
             }
+            if (filestatuses[i].checksumtype && filestatuses[i].checksum) {
+                PyDict_SetItemString (dict, "checksumtype", PyString_FromString (filestatuses[i].checksumtype));
+                PyDict_SetItemString (dict, "checksum", PyString_FromString (filestatuses[i].checksum));
+            }
             if (filestatuses[i].stat.st_mode > 0) {
                 PyObject *statlist = PyList_New (10);
                 PyList_SetItem (statlist, 0, PyInt_FromLong ((long)(filestatuses[i].stat.st_mode)));
@@ -636,6 +640,31 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
             PyDict_SetItemString (dict, "file", (*$1)[i].file ? PyString_FromString ((*$1)[i].file) : Py_None);
             PyDict_SetItemString (dict, "status", PyInt_FromLong ((long)((*$1)[i].status)));
             PyDict_SetItemString (dict, "explanation", (*$1)[i].explanation ? PyString_FromString ((*$1)[i].explanation) : Py_None);
+            PyList_Append (list, dict);
+        }
+    }
+
+    $result = my_t_output_helper ($result, list);
+}//end of typemap
+
+%typemap(in, numinputs=0) (lcg_checksum **OUTPUT)(lcg_checksum *filestatus_tmp) {
+    filestatus_tmp = NULL;
+    $1 = &filestatus_tmp;
+}
+
+// convert output C 'lcg_checksum' list into python dictionnary
+%typemap(argout) (lcg_checksum **OUTPUT){
+    PyObject *list = Py_None, *dict = Py_None;
+    int i;
+
+    if (*$1) {
+        list = PyList_New (0);
+        for (i = 0; i < arg1; ++i) {
+            dict = PyDict_New ();
+            PyDict_SetItemString (dict, "file", (*$1)[i].file ? PyString_FromString ((*$1)[i].file) : Py_None);
+            PyDict_SetItemString (dict, "status", PyInt_FromLong ((long)((*$1)[i].status)));
+            PyDict_SetItemString (dict, "explanation", (*$1)[i].explanation ? PyString_FromString ((*$1)[i].explanation) : Py_None);
+            PyDict_SetItemString (dict, "checksum", (*$1)[i].checksum ? PyString_FromString ((*$1)[i].checksum) : Py_None);
             PyList_Append (list, dict);
         }
     }
