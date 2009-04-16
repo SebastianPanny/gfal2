@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_set_ids.man,v $ $Revision: 1.3 $ $Date: 2008/12/18 13:19:12 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_set_ids.man,v $ $Revision: 1.4 $ $Date: 2009/04/16 15:42:49 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_SET_IDS 3 "$Date: 2008/12/18 13:19:12 $" GFAL "Library Functions"
+.TH GFAL_SET_IDS 3 "$Date: 2009/04/16 15:42:49 $" GFAL "Library Functions"
 .SH NAME
 gfal_set_ids \- Sets the SRM file/request ids in the 'gfal_internal' object
 .SH SYNOPSIS
@@ -12,7 +12,9 @@ gfal_set_ids \- Sets the SRM file/request ids in the 'gfal_internal' object
 .BI "int " nbfileids ,
 .BI "int *" srm_fileids ,
 .BI "int " srm_reqid ,
-.BI "char *" srmv2_reqtoken );
+.BI "char *" srmv2_reqtoken ,
+.BI "char *" errbuf ,
+.BI "int " errbufsz );
 .SH DESCRIPTION
 .B gfal_set_ids
 Sets the SRM file/request ids (or request token for SRMv2) in the
@@ -35,6 +37,15 @@ The table of file ids returned by a SRMv1 SE.
 .TP
 .I srmv2_reqtoken
 The request token returned by a SRMv2 SE.
+.TP
+.I errbuf
+allocated 
+.B char *
+pointer in which a detailed error message may be stored.
+.TP
+.I errbufsz
+size allocated ofr the pointer 
+.I errbuf
 
 .SH RETURN VALUE
 This routine returns 0 on a success, or -1 in case of error. In the latter case,
