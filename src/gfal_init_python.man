@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_init_python.man,v $ $Revision: 1.6 $ $Date: 2008/12/18 13:19:12 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_init_python.man,v $ $Revision: 1.7 $ $Date: 2009/04/16 13:56:37 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_INIT 3 "$Date: 2008/12/18 13:19:12 $" GFAL "Library Functions"
+.TH GFAL_INIT 3 "$Date: 2009/04/16 13:56:37 $" GFAL "Library Functions"
 .SH NAME
 gfal_init \- generates a 'gfal_internal' object
 .SH SYNOPSIS
@@ -112,6 +112,8 @@ Disables call to BDII. So the SE type cannot be get from there, what means that 
 .I defaultsetype
 or with 
 .IR setype .
+Moreover, as BDII can't be used to get SE parameters (port number, service path), at least the first SURLs has to
+contain the full endpoint (eg. srm://lxdpm104.cern.ch:8446/srm/managerv2?SFN=/dpm/cern.ch/home/dteam/file.test).
 It is not compatible with 
 .IR generatesurls .
 .TP
