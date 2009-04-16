@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.12 $ $Date: 2009/02/03 15:33:59 $ CERN Jean-Philippe Baud
+.\" @(#)$RCSfile: gfal.man,v $ $Revision: 1.13 $ $Date: 2009/04/16 13:54:45 $ CERN Jean-Philippe Baud
 .\" Copyright (C) 2003-2004 by CERN/IT/PDP/DM
 .\" All rights reserved
 .\"
-.TH GFAL 3 "$Date: 2009/02/03 15:33:59 $" GFAL "Library Functions"
+.TH GFAL 3 "$Date: 2009/04/16 13:54:45 $" GFAL "Library Functions"
 .SH NAME
 gfal - Grid File Access Library
 
@@ -279,6 +279,17 @@ and optionally
 .br
     setenv LFC_HOST lfc-shared.cern.ch
 .br
+.TP
+.B Keep fully qualified SURLs in file catalog
+By default, before storing a SURL in file catalog, SRM-version-specific information is removed. That way, SURLs
+are generic enough to match all SRM servers, BDII being used to get missing information.
+When BDII is not used at all in a project, full SURLs need to be stored directly in file catalog. In such a case,
+LCG_GFAL_FULL_SURLS_IN_FC must be defined to whatever value:
+.sp
+	setenv LCG_GFAL_FULL_SURLS_IN_FC 1
+.sp
+But, be CAREFUL, defining that when BDII can be used will prevent users from choosing the SRM version they want
+to use, and will create complexity when SRM version will change!
 .TP
 .B RFIO protocol
 For the moment there are 2 different versions of RFIO protocol : Castor and DPM. It is planned to merge them
