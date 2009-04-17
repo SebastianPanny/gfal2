@@ -3,7 +3,7 @@
 #
 
 #
-#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.74 $ $Date: 2009/03/09 15:16:38 $ CERN Jean-Philippe Baud
+#  @(#)$RCSfile: Makefile.Linux,v $ $Revision: 1.75 $ $Date: 2009/04/17 14:06:05 $ CERN Jean-Philippe Baud
 #
 
 # trying to include 'Makefile.inc', but do not fail if it is not there
@@ -371,6 +371,8 @@ install.man: install.doc \
 	     $(prefix)/man/man3/gfal_get_python.3 \
 	     $(prefix)/man/man3/gfal_getstatus.3 \
 	     $(prefix)/man/man3/gfal_getstatus_python.3 \
+	     $(prefix)/man/man3/gfal_bringonline.3 \
+	     $(prefix)/man/man3/gfal_bringonline_python.3 \
 	     $(prefix)/man/man3/gfal_prestage.3 \
 	     $(prefix)/man/man3/gfal_prestage_python.3 \
 	     $(prefix)/man/man3/gfal_prestagestatus.3 \
