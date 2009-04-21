@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.73 $ $Date: 2009/04/08 14:23:09 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.74 $ $Date: 2009/04/21 16:22:03 $
  */
 
 #define _GNU_SOURCE
@@ -1937,18 +1937,20 @@ retry:
 		if (repfs->statusArray[i]->sourceSURL)
 			(*filestatuses)[i].surl = strdup (repfs->statusArray[i]->sourceSURL);
 		if (repfs->statusArray[i]->status) {
-			(*filestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
-			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
-						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
-						repfs->statusArray[i]->status->explanation);
-			else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
-						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
-						reqstatp->explanation);
-			else
-				asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] <none>",
-						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+			(*filestatuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
+			if ((*filestatuses)[i].status) {
+				if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
+					asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+							gfal_remote_type, srmfunc_status, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+							repfs->statusArray[i]->status->explanation);
+				else if (reqstatp->explanation != NULL && reqstatp->explanation[0] && strncasecmp (reqstatp->explanation, "failed for all", 14))
+					asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] %s",
+							gfal_remote_type, srmfunc_status, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
+							reqstatp->explanation);
+				else
+					asprintf (&((*filestatuses)[i].explanation), "[%s][%s][%s] <none>",
+							gfal_remote_type, srmfunc_status, statuscode2errmsg (repfs->statusArray[i]->status->statusCode));
+			}
 		}
 		if (repfs->statusArray[i]->remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
