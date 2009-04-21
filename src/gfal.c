@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.125 $ $Date: 2009/04/08 15:05:31 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.126 $ $Date: 2009/04/21 16:17:43 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -56,6 +56,8 @@ static int free_xi (int);
 static int mdtomd32 (struct stat64 *, struct stat *);
 static int copy_gfal_results (gfal_internal, enum status_type);
 static int check_gfal_internal (gfal_internal, int, char *, int);
+static void free_gfal_results (gfal_filestatus *, int);
+static void free_srmv2_mdstatuses (struct srmv2_mdfilestatus *, int);
 
 /* the version should be set by a "define" at the makefile level */
 static const char gfalversion[] = VERSION;
@@ -76,6 +78,7 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 				VOMS_ErrorMessage (vd, error, errmsg, GFAL_ERRMSG_LEN);
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][VOMS_RetrieveFromProxy][] %s", errmsg);
 			}
+			VOMS_Destroy (vd);
 			return (-1);
 		}
 		else if (!vd->data || !vd->data[0]) {
@@ -83,8 +86,8 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 			return (-1);
 		}
 
-		gfal_userdn = vd->data[0]->user;
-		gfal_vo = gfal_vo == NULL ? vd->data[0]->voname : gfal_vo;
+		gfal_userdn = strdup (vd->data[0]->user);
+		gfal_vo = gfal_vo == NULL ? strdup (vd->data[0]->voname) : gfal_vo;
 
 		for (i = 0; vd->data[0]->fqan[i] != NULL; ++i) {
 			if ((gfal_fqan[i] = strdup (vd->data[0]->fqan[i])) == NULL)
@@ -121,6 +124,7 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 		gfal_fqan[i] = NULL;
 		gfal_nb_fqan = i;
 		vomsdataparsed = 1;
+		VOMS_Destroy (vd);
 	}
 
 	return (0);
@@ -1558,7 +1562,7 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 
 	if (req->setype == TYPE_SRMv2) {
 		if (req->srmv2_mdstatuses) {
-			free (req->srmv2_mdstatuses);
+			free_srmv2_mdstatuses (req->srmv2_mdstatuses, req->results_size);
 			req->srmv2_mdstatuses = NULL;
 		}
 		if (req->srmv2_token) {
@@ -3078,6 +3082,8 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 			(isclassicse || srmv1_endpoint || srmv2_endpoint)) {
 		/* if surls start with sfn:, we force the SE type to classic SE */
 		(*gfal)->setype = TYPE_SE;
+		if (srmv1_endpoint) free (srmv1_endpoint);
+		if (srmv2_endpoint) free (srmv2_endpoint);
 		return (0);
 	}
 
@@ -3111,15 +3117,19 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 		if ((*gfal)->free_endpoint) free ((*gfal)->endpoint);
 		(*gfal)->endpoint = srmv2_endpoint;
 		(*gfal)->free_endpoint = 1;
+		if (srmv1_endpoint) free (srmv1_endpoint);
 	} else if ((*gfal)->setype == TYPE_SRM) {
 		if ((*gfal)->free_endpoint) free ((*gfal)->endpoint);
 		(*gfal)->endpoint = srmv1_endpoint;
 		(*gfal)->free_endpoint = 1;
+		if (srmv2_endpoint) free (srmv2_endpoint);
 	} else if ((*gfal)->setype == TYPE_NONE) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
 				"[GFAL][gfal_init][EINVAL] Invalid request: Desired SE type doesn't match request parameters or SE");
 		gfal_internal_free (*gfal);
 		*gfal = NULL;
+		if (srmv1_endpoint) free (srmv1_endpoint);
+		if (srmv2_endpoint) free (srmv2_endpoint);
 		errno = EINVAL;
 		return (-1);
 	}
@@ -3164,10 +3174,33 @@ free_gfal_results (gfal_filestatus *gfal, int n)
 		if (gfal[i].surl) free (gfal[i].surl);
 		if (gfal[i].turl) free (gfal[i].turl);
 		if (gfal[i].explanation) free (gfal[i].explanation);
-		if (gfal[i].subpaths) free_gfal_results (gfal[i].subpaths, gfal[i].nbsubpaths);
+		if (gfal[i].checksumtype) free (gfal[i].checksumtype);
+		if (gfal[i].checksum) free (gfal[i].checksum);
+		if (gfal[i].subpaths)
+			free_gfal_results (gfal[i].subpaths, gfal[i].nbsubpaths);
+
+		if (gfal[i].nbspacetokens > 0 && gfal[i].spacetokens) {
+			int j;
+			for (j = 0; j < gfal[i].nbspacetokens; ++j)
+				if (gfal[i].spacetokens[j]) free (gfal[i].spacetokens[j]);
+			free (gfal[i].spacetokens);
+		}
 	}
 
 	free (gfal);
+}
+
+	static void
+free_srmv2_mdstatuses (struct srmv2_mdfilestatus *md, int n)
+{
+	int i;
+
+	for (i = 0; i < n; ++i) {
+		if (md[i].subpaths)
+			free_srmv2_mdstatuses (md[i].subpaths, md[i].nbsubpaths);
+	}
+
+	free (md);
 }
 
 	static int
@@ -3229,6 +3262,10 @@ copy_gfal_results (gfal_internal req, enum status_type stype)
 			free (req->results[i].turl);
 		if (req->results[i].explanation)
 			free (req->results[i].explanation);
+		if (req->results[i].checksumtype)
+			free (req->results[i].checksumtype);
+		if (req->results[i].checksum)
+			free (req->results[i].checksum);
 		if (req->results[i].subpaths)
 			free_gfal_results (req->results[i].subpaths, req->results[i].nbsubpaths);
 		memset (req->results + i, 0, sizeof (gfal_filestatus));
@@ -3386,31 +3423,14 @@ gfal_internal_free (gfal_internal req)
 	if (req->srmv2_pinstatuses)
 		free (req->srmv2_pinstatuses);
 	if (req->srmv2_mdstatuses)
-		free (req->srmv2_mdstatuses);
+		free_srmv2_mdstatuses (req->srmv2_mdstatuses, req->results_size);
+	if (req->results)
+		free_gfal_results (req->results, req->results_size);
 
 	if (req->generatesurls && req->surls) {
 		for (i = 0; i < req->nbfiles; ++i)
 			if (req->surls[i]) free (req->surls[i]);
 		free (req->surls);
-	}
-
-	if (req->results || req->results_size > 0) {
-		for (i = 0; i < req->results_size; ++i) {
-			if (req->results[i].surl) free (req->results[i].surl);
-			if (req->results[i].turl) free (req->results[i].turl);
-			if (req->results[i].explanation) free (req->results[i].explanation);
-			if (req->results[i].checksumtype) free (req->results[i].checksumtype);
-			if (req->results[i].checksum) free (req->results[i].checksum);
-
-			if (req->results[i].nbspacetokens > 0 && req->results[i].spacetokens) {
-				int j;
-				for (j = 0; j < req->results[i].nbspacetokens; ++j)
-					if (req->results[i].spacetokens[j]) free (req->results[i].spacetokens[j]);
-				free (req->results[i].spacetokens);
-			}
-		}
-
-		free (req->results);
 	}
 
 	free (req);

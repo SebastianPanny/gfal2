@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.79 $ $Date: 2009/02/25 13:38:08 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.80 $ $Date: 2009/04/21 16:17:48 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -272,10 +272,12 @@ bdii_query_send (LDAP** ld_ptr, char* filter, char* attrs[],
 
 		*ld_ptr = ld;
 		bdii_server_is_good ();
+		free (complete_filter);
 		return 0;
 	} while (bdii_server_get_next (&bdii_server, &bdii_port));
 
-	return -1;
+	free (complete_filter);
+	return (-1);
 }
 
 static int
