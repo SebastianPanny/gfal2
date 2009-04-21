@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.4 $ $Date: 2009/03/09 15:17:45 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.5 $ $Date: 2009/04/21 16:21:16 $ CERN Remi Mollon
  */
 
 #define _GNU_SOURCE
@@ -234,8 +234,14 @@ gfal_file_set_replica_error (gfal_file gf, int errcode, const char *errmsg) {
 		char *file;
 
 		if ((file = gf->lfn) || (file = gf->guid)) {
-			gf->errcode = EINVAL;
-			asprintf (&(gf->errmsg), "%s: no valid replicas", file);
+			if (gf->nbreplicas == 1) {
+				gf->errcode = gf->replicas[gf->current_replica]->errcode;
+				gf->errmsg = strdup(gf->replicas[gf->current_replica]->errmsg);
+			}
+			else {
+				gf->errcode = EINVAL;
+				asprintf (&(gf->errmsg), "%s: no valid replicas", file);
+			}
 		} else if (gf->replicas[0]->surl) {
 			gf->errcode = errcode > 0 ? errcode : EINVAL;
 			gf->errmsg = strdup (errmsg);
