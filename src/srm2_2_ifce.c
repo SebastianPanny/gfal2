@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.74 $ $Date: 2009/04/21 16:22:03 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.75 $ $Date: 2009/04/22 11:51:16 $
  */
 
 #define _GNU_SOURCE
@@ -1660,8 +1660,6 @@ srmv2_bringonline (int nbfiles, const char **surls, const char *srm_endpoint, co
 	const char srmfunc[] = "BringOnline";
 	const char srmfunc_status[] = "StatusOfBringOnlineRequest";
 
-
-retry:
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
 
@@ -1757,137 +1755,119 @@ retry:
 		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 	}
 
-	if ((ret = soap_call_srm2__srmBringOnline (&soap, srm_endpoint, srmfunc, &req, &rep))) {
-		if(soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-					gfal_remote_type, srmfunc, srm_endpoint);
-		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
-
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ECOMM;
-		return (-1);
-	}
-
-	if (rep.srmBringOnlineResponse == NULL || (reqstatp = rep.srmBringOnlineResponse->returnStatus) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
-				gfal_remote_type, srmfunc, srm_endpoint);
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ECOMM;
-		return (-1);
-	}
-
 	if (timeout > 0)
 		endtime = (time(NULL) + timeout);
 
 	sleep_time = 5;
 	nbretries = 0;
 
-	/* INTERNAL_ERROR = transient error => automatic retry */
-	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+	do {
+		if ((ret = soap_call_srm2__srmBringOnline (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+			if(soap.fault != NULL && soap.fault->faultstring != NULL)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
+			else if (soap.error == SOAP_EOF)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
+						gfal_remote_type, srmfunc, srm_endpoint);
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
-		if ((timeout > 0 && time(NULL) > endtime) || nbretries > GFAL_SRM_MAXRETRIES) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
-					gfal_remote_type, srmfunc, srm_endpoint);
-			errno = ETIMEDOUT;
 			soap_end (&soap);
 			soap_done (&soap);
+			errno = ECOMM;
 			return (-1);
 		}
 
-		soap_end (&soap);
-		soap_done (&soap);
-		sleep (sleep_time);
-		sleep_time *= 2; // exponentially increase sleeping time
-		++nbretries;
-		goto retry;
-	}
+		if (rep.srmBringOnlineResponse == NULL || (reqstatp = rep.srmBringOnlineResponse->returnStatus) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+					gfal_remote_type, srmfunc, srm_endpoint);
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ECOMM;
+			return (-1);
+		}
 
-	r_token = rep.srmBringOnlineResponse->requestToken;
+		/* INTERNAL_ERROR = transient error => automatic retry */
+		if (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
-	if (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
-			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS) {
-		/* wait for files ready */
-
-		memset (&sreq, 0, sizeof(sreq));
-		sreq.requestToken = r_token;
-
-		sleep_time = 5;
-		nbretries = 0;
-
-		while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
-				reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS) {
-
-			/* if user timeout has passed, abort the request */
-			if (timeout > 0 && time(NULL) + sleep_time > endtime) {
-				abortreq.requestToken = r_token;
-
-				if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep))) {
-					if (soap.fault != NULL && soap.fault->faultstring != NULL)
-						gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-								gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
-					else if (soap.error == SOAP_EOF)
-						gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-								gfal_remote_type, srmfunc_status, srm_endpoint);
-					else
-						gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-								gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
-
-					sav_errno = ECOMM;
-				} else {
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
-							gfal_remote_type, srmfunc_status, srm_endpoint);
-					sav_errno = ETIMEDOUT;
-				}
-
+			if ((timeout > 0 && time(NULL) + sleep_time > endtime)) {
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
+						gfal_remote_type, srmfunc, srm_endpoint);
+				errno = ETIMEDOUT;
 				soap_end (&soap);
 				soap_done (&soap);
-				errno = sav_errno;
 				return (-1);
 			}
 
 			sleep (sleep_time);
-			if (++nbretries < 8)
-				sleep_time *= 2; // exponentially increase sleeping time, until ~10min
+			if (++nbretries < 10)
+				sleep_time *= 2; // exponentially increase sleeping time, until ~40min
+		}
+	}
+	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR);
 
-			if ((ret = soap_call_srm2__srmStatusOfBringOnlineRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
-				if (soap.fault != NULL && soap.fault->faultstring != NULL)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-							gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
-				else if (soap.error == SOAP_EOF)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-							gfal_remote_type, srmfunc_status, srm_endpoint);
-				else
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-							gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
 
-				soap_end (&soap);
-				soap_done (&soap);
-				errno = ECOMM;
-				return (-1);
-			}
+	/* wait for files ready */
 
-			if (srep.srmStatusOfBringOnlineRequestResponse == NULL ||
-					(reqstatp = srep.srmStatusOfBringOnlineRequestResponse->returnStatus) == NULL) {
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+	r_token = rep.srmBringOnlineResponse->requestToken;
+	repfs = rep.srmBringOnlineResponse->arrayOfFileStatuses;
+	memset (&sreq, 0, sizeof(sreq));
+	sreq.requestToken = r_token;
+
+	sleep_time = 5;
+	nbretries = 0;
+
+	while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
+			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS ||
+			reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+
+		/* if user timeout has passed, abort the request */
+		if (timeout > 0 && time(NULL) + sleep_time > endtime) {
+			abortreq.requestToken = r_token;
+			soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
+					gfal_remote_type, srmfunc_status, srm_endpoint);
+			sav_errno = ETIMEDOUT;
+
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = sav_errno;
+			return (-1);
+		}
+
+		sleep (sleep_time);
+		if (++nbretries < 10)
+			sleep_time *= 2; // exponentially increase sleeping time, until ~40min
+
+		if ((ret = soap_call_srm2__srmStatusOfBringOnlineRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
+			if (soap.fault != NULL && soap.fault->faultstring != NULL)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
+						gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
+			else if (soap.error == SOAP_EOF)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 						gfal_remote_type, srmfunc_status, srm_endpoint);
-				soap_end (&soap);
-				soap_done (&soap);
-				errno = ECOMM;
-				return (-1);
-			}
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
+						gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
+
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ECOMM;
+			return (-1);
+		}
+
+		if (srep.srmStatusOfBringOnlineRequestResponse == NULL ||
+				(reqstatp = srep.srmStatusOfBringOnlineRequestResponse->returnStatus) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+					gfal_remote_type, srmfunc_status, srm_endpoint);
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ECOMM;
+			return (-1);
 		}
 
 		repfs = srep.srmStatusOfBringOnlineRequestResponse->arrayOfFileStatuses;
-	}
-	else {
-		repfs = rep.srmBringOnlineResponse->arrayOfFileStatuses;
 	}
 
 	if (reqstatp->statusCode != SRM_USCORESUCCESS &&
@@ -2142,7 +2122,6 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	const char srmfunc[] = "PrepareToGet";
 	const char srmfunc_status[] = "StatusOfGetRequest";
 
-retry:
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
 
@@ -2232,68 +2211,82 @@ retry:
 		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
 	}
 
-	if ((ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep))) {
-		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-				   	gfal_remote_type, srmfunc, srm_endpoint);
-		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
-
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ECOMM;
-		return (-1);
-	}
-
-	reqstatp = rep.srmPrepareToGetResponse->returnStatus;
-	repfs = rep.srmPrepareToGetResponse->arrayOfFileStatuses;
-
-	r_token = rep.srmPrepareToGetResponse->requestToken;
-
-	memset (&sreq, 0, sizeof(sreq));
-	sreq.requestToken = rep.srmPrepareToGetResponse->requestToken;
-
 	if (timeout > 0)
 		endtime = (time(NULL) + timeout);
 
 	sleep_time = 5;
 	nbretries = 0;
 
-	/* INTERNAL_ERROR = transient error => automatic retry */
-	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+	do {
+		if ((ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+			if (soap.fault != NULL && soap.fault->faultstring != NULL)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
+			else if (soap.error == SOAP_EOF)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
+						gfal_remote_type, srmfunc, srm_endpoint);
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
-		if ((timeout > 0 && time(NULL) > endtime) || nbretries > GFAL_SRM_MAXRETRIES) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
-					gfal_remote_type, srmfunc, srm_endpoint);
-			errno = ETIMEDOUT;
 			soap_end (&soap);
 			soap_done (&soap);
+			errno = ECOMM;
 			return (-1);
 		}
 
-		soap_end (&soap);
-		soap_done (&soap);
-		sleep (sleep_time);
-		sleep_time *= 2; // exponentially increase sleeping time
-		++nbretries;
-		goto retry;
+		reqstatp = rep.srmPrepareToGetResponse->returnStatus;
+
+		/* INTERNAL_ERROR = transient error => automatic retry */
+		if (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+
+			if ((timeout > 0 && time(NULL) + sleep_time > endtime)) {
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
+						gfal_remote_type, srmfunc, srm_endpoint);
+				errno = ETIMEDOUT;
+				soap_end (&soap);
+				soap_done (&soap);
+				return (-1);
+			}
+
+			sleep (sleep_time);
+			if (++nbretries < 10)
+				sleep_time *= 2; // exponentially increase sleeping time, until ~40min
+		}
 	}
+	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR);
 
 	/* wait for files ready */
+
+	repfs = rep.srmPrepareToGetResponse->arrayOfFileStatuses;
+	r_token = rep.srmPrepareToGetResponse->requestToken;
+	memset (&sreq, 0, sizeof(sreq));
+	sreq.requestToken = r_token;
 
 	sleep_time = 5;
 	nbretries = 0;
 
 	while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
-			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS) {
+			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS ||
+			reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+
+		/* if user timeout has passed, abort the request */
+		if (timeout > 0 && time(NULL) + sleep_time > endtime) {
+			abortreq.requestToken = r_token;
+			soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
+					gfal_remote_type, srmfunc_status, srm_endpoint);
+			sav_errno = ETIMEDOUT;
+
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = sav_errno;
+			return (-1);
+		}
 
 		sleep (sleep_time);
-		if (++nbretries < 8)
-			sleep_time *= 2; // exponentially increase sleeping time, until ~10min
+		if (++nbretries < 10)
+			sleep_time *= 2; // exponentially increase sleeping time, until ~40min
 
 		if ((ret = soap_call_srm2__srmStatusOfGetRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
@@ -2322,34 +2315,6 @@ retry:
 		}
 
 		repfs = srep.srmStatusOfGetRequestResponse->arrayOfFileStatuses;
-
-		/* if user timeout has passed, abort the request */
-		if (timeout > 0 && time(NULL) > endtime) {
-			abortreq.requestToken = r_token;
-
-			if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep))) {
-				if (soap.fault != NULL && soap.fault->faultstring != NULL)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-							gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
-				else if (soap.error == SOAP_EOF)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-							gfal_remote_type, srmfunc_status, srm_endpoint);
-				else
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-							gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
-
-				sav_errno = ECOMM;
-			} else {
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
-						gfal_remote_type, srmfunc_status, srm_endpoint);
-				sav_errno = ETIMEDOUT;
-			}
-
-			soap_end (&soap);
-			soap_done (&soap);
-			errno = sav_errno;
-			return (-1);
-		}
 	}
 
 	if (!repfs || repfs->__sizestatusArray < nbfiles || !repfs->statusArray) {
@@ -2452,7 +2417,6 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	const char srmfunc[] = "PrepareToPut";
 	const char srmfunc_status[] = "StatusOfPutRequest";
 
-retry:
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
 
@@ -2555,68 +2519,82 @@ retry:
 			return (-1);
 	}
 
-	if ((ret = soap_call_srm2__srmPrepareToPut (&soap, srm_endpoint, srmfunc, &req, &rep))) {
-		if (soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-					gfal_remote_type, srmfunc, srm_endpoint);
-		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
-
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ECOMM;
-		return (-1);
-	}
-
-	reqstatp = rep.srmPrepareToPutResponse->returnStatus;
-	repfs = rep.srmPrepareToPutResponse->arrayOfFileStatuses;
-
-	r_token = rep.srmPrepareToPutResponse->requestToken;
-
-	memset (&sreq, 0, sizeof(sreq));
-	sreq.requestToken = rep.srmPrepareToPutResponse->requestToken;
-
 	if (timeout > 0)
 		endtime = time(NULL) + timeout;
 
 	sleep_time = 5;
 	nbretries = 0;
 
-	/* INTERNAL_ERROR = transient error => automatic retry */
-	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+	do {
+		if ((ret = soap_call_srm2__srmPrepareToPut (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+			if (soap.fault != NULL && soap.fault->faultstring != NULL)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
+			else if (soap.error == SOAP_EOF)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
+						gfal_remote_type, srmfunc, srm_endpoint);
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
-		if ((timeout > 0 && time(NULL) > endtime) || nbretries > GFAL_SRM_MAXRETRIES) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
-					gfal_remote_type, srmfunc, srm_endpoint);
-			errno = ETIMEDOUT;
 			soap_end (&soap);
 			soap_done (&soap);
-			sleep (sleep_time);
-			sleep_time *= 2;
-			++nbretries;
+			errno = ECOMM;
 			return (-1);
 		}
 
-		soap_end (&soap);
-		soap_done (&soap);
-		goto retry;
+		reqstatp = rep.srmPrepareToPutResponse->returnStatus;
+
+		/* INTERNAL_ERROR = transient error => automatic retry */
+		if (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+
+			if ((timeout > 0 && time(NULL) + sleep_time > endtime)) {
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
+						gfal_remote_type, srmfunc, srm_endpoint);
+				errno = ETIMEDOUT;
+				soap_end (&soap);
+				soap_done (&soap);
+				return (-1);
+			}
+
+			sleep (sleep_time);
+			if (++nbretries < 10)
+				sleep_time *= 2; // exponentially increase sleeping time, until ~40min
+		}
 	}
+	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR);
 
 	/* wait for files ready */
+
+	repfs = rep.srmPrepareToPutResponse->arrayOfFileStatuses;
+	r_token = rep.srmPrepareToPutResponse->requestToken;
+	memset (&sreq, 0, sizeof(sreq));
+	sreq.requestToken = rep.srmPrepareToPutResponse->requestToken;
 
 	sleep_time = 5;
 	nbretries = 0;
 
 	while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
-			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS) {
+			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS ||
+			reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+
+		/* if user timeout has passed, abort the request */
+		if (timeout > 0 && time(NULL) + sleep_time > endtime) {
+			abortreq.requestToken = r_token;
+			soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
+					gfal_remote_type, srmfunc_status, srm_endpoint);
+			sav_errno = ETIMEDOUT;
+
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = sav_errno;
+			return (-1);
+		}
 
 		sleep (sleep_time);
-		if (++nbretries < 8)
-			sleep_time *= 2; // exponentially increase sleeping time, until ~10min
+		if (++nbretries < 10)
+			sleep_time *= 2; // exponentially increase sleeping time, until ~40min
 
 		if ((ret = soap_call_srm2__srmStatusOfPutRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
@@ -2635,37 +2613,16 @@ retry:
 			return (-1);
 		}
 
-		reqstatp = srep.srmStatusOfPutRequestResponse->returnStatus;
-		repfs = srep.srmStatusOfPutRequestResponse->arrayOfFileStatuses;
-
-		/* if user timeout has passed, abort the request */
-		if (timeout > 0 && time(NULL) > endtime) {
-			const char srmfunc_abort[] = "AbortRequest";
-			abortreq.requestToken = r_token;
-
-			if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, srmfunc_abort, &abortreq, &abortrep))) {
-				if (soap.fault != NULL && soap.fault->faultstring != NULL)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-							gfal_remote_type, srmfunc_abort, srm_endpoint, soap.fault->faultstring);
-				else if (soap.error == SOAP_EOF)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-							gfal_remote_type, srmfunc_abort, srm_endpoint);
-				else
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-							gfal_remote_type, srmfunc_abort, srm_endpoint, soap.error);
-
-				sav_errno = ECOMM;
-			} else {
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
-						gfal_remote_type, srmfunc_status, srm_endpoint);
-				sav_errno = ETIMEDOUT;
-			}
-
+		if (srep.srmStatusOfPutRequestResponse == NULL || (reqstatp = srep.srmStatusOfPutRequestResponse->returnStatus) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+					gfal_remote_type, srmfunc_status, srm_endpoint);
 			soap_end (&soap);
 			soap_done (&soap);
-			errno = sav_errno;
+			errno = ECOMM;
 			return (-1);
 		}
+
+		repfs = srep.srmStatusOfPutRequestResponse->arrayOfFileStatuses;
 	}
 
 	if (reqstatp->statusCode == SRM_USCORESPACE_USCORELIFETIME_USCOREEXPIRED) {
@@ -2894,7 +2851,6 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 	const char srmfunc[] = "Ls";
 	const char srmfunc_status[] = "StatusOfLsRequest";
 
-retry:
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
 
@@ -2924,138 +2880,119 @@ retry:
 	req.arrayOfSURLs->__sizeurlArray = nbfiles;
 	req.arrayOfSURLs->urlArray = (char **) surls;
 
-	/* issue "srmLs" request */
-
-	if ((ret = soap_call_srm2__srmLs (&soap, srm_endpoint, srmfunc, &req, &rep))) {
-		if(soap.fault != NULL && soap.fault->faultstring != NULL)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
-		else if (soap.error == SOAP_EOF)
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-					gfal_remote_type, srmfunc, srm_endpoint);
-		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-					gfal_remote_type, srmfunc, srm_endpoint, soap.error);
-
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ECOMM;
-		return (-1);
-	}
-
-	if (rep.srmLsResponse == NULL || (reqstatp = rep.srmLsResponse->returnStatus) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
-				gfal_remote_type, srmfunc, srm_endpoint);
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = ECOMM;
-		return (-1);
-	}
-
 	if (timeout > 0)
 		endtime = (time(NULL) + timeout);
 
 	sleep_time = 5;
 	nbretries = 0;
 
-	/* INTERNAL_ERROR = transient error => automatic retry */
-	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+	do {
+		/* issue "srmLs" request */
 
-		if ((timeout > 0 && time(NULL) > endtime) || nbretries > GFAL_SRM_MAXRETRIES) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
-					gfal_remote_type, srmfunc, srm_endpoint);
-			errno = ETIMEDOUT;
+		if ((ret = soap_call_srm2__srmLs (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+			if(soap.fault != NULL && soap.fault->faultstring != NULL)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
+			else if (soap.error == SOAP_EOF)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
+						gfal_remote_type, srmfunc, srm_endpoint);
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
+						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
+
 			soap_end (&soap);
 			soap_done (&soap);
+			errno = ECOMM;
 			return (-1);
 		}
 
-		soap_end (&soap);
-		soap_done (&soap);
-		sleep (sleep_time);
-		sleep_time *= 2; // exponentially increase sleeping time
-		++nbretries;
-		goto retry;
-	}
+		if (rep.srmLsResponse == NULL || (reqstatp = rep.srmLsResponse->returnStatus) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+					gfal_remote_type, srmfunc, srm_endpoint);
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ECOMM;
+			return (-1);
+		}
 
-	if (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
-			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS) {
-		r_token = rep.srmLsResponse->requestToken;
+		/* INTERNAL_ERROR = transient error => automatic retry */
+		if (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
 
-		/* wait for files ready */
-
-		memset (&sreq, 0, sizeof(sreq));
-		sreq.requestToken = r_token;
-
-		sleep_time = 5;
-		nbretries = 0;
-
-		while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
-				reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS) {
-
-			/* if user timeout has passed, abort the request */
-			if (timeout > 0 && time(NULL) + sleep_time > endtime) {
-				abortreq.requestToken = r_token;
-
-				if ((ret = soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep))) {
-					if (soap.fault != NULL && soap.fault->faultstring != NULL)
-						gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-								gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
-					else if (soap.error == SOAP_EOF)
-						gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-								gfal_remote_type, srmfunc_status, srm_endpoint);
-					else
-						gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-								gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
-
-					sav_errno = ECOMM;
-				} else {
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
-							gfal_remote_type, srmfunc_status, srm_endpoint);
-					sav_errno = ETIMEDOUT;
-				}
-
+			if ((timeout > 0 && time(NULL) + sleep_time > endtime)) {
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
+						gfal_remote_type, srmfunc, srm_endpoint);
+				errno = ETIMEDOUT;
 				soap_end (&soap);
 				soap_done (&soap);
-				errno = sav_errno;
 				return (-1);
 			}
 
 			sleep (sleep_time);
-			if (++nbretries < 8)
-				sleep_time *= 2; // exponentially increase sleeping time, until ~10min
+			if (++nbretries < 10)
+				sleep_time *= 2; // exponentially increase sleeping time, until ~40min
+		}
+	}
+	while (reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR);
 
-			if ((ret = soap_call_srm2__srmStatusOfLsRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
-				if (soap.fault != NULL && soap.fault->faultstring != NULL)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
-							gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
-				else if (soap.error == SOAP_EOF)
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
-							gfal_remote_type, srmfunc_status, srm_endpoint);
-				else
-					gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
-							gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
+	/* wait for files ready */
 
-				soap_end (&soap);
-				soap_done (&soap);
-				errno = ECOMM;
-				return (-1);
-			}
+	r_token = rep.srmLsResponse->requestToken;
+	repfs = rep.srmLsResponse->details;
+	memset (&sreq, 0, sizeof(sreq));
+	sreq.requestToken = r_token;
 
-			if (srep.srmStatusOfLsRequestResponse == NULL || (reqstatp = srep.srmStatusOfLsRequestResponse->returnStatus) == NULL) {
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+	sleep_time = 5;
+	nbretries = 0;
+
+	while (reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED ||
+			reqstatp->statusCode == SRM_USCOREREQUEST_USCOREINPROGRESS ||
+			reqstatp->statusCode == SRM_USCOREINTERNAL_USCOREERROR) {
+
+		/* if user timeout has passed, abort the request */
+		if (timeout > 0 && time(NULL) + sleep_time > endtime) {
+			abortreq.requestToken = r_token;
+			soap_call_srm2__srmAbortRequest (&soap, srm_endpoint, "AbortRequest", &abortreq, &abortrep);
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][ETIMEDOUT] %s: User timeout over",
+					gfal_remote_type, srmfunc_status, srm_endpoint);
+			sav_errno = ETIMEDOUT;
+
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = sav_errno;
+			return (-1);
+		}
+
+		sleep (sleep_time);
+		if (++nbretries < 10)
+			sleep_time *= 2; // exponentially increase sleeping time, until ~40min
+
+		if ((ret = soap_call_srm2__srmStatusOfLsRequest (&soap, srm_endpoint, srmfunc_status, &sreq, &srep))) {
+			if (soap.fault != NULL && soap.fault->faultstring != NULL)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
+						gfal_remote_type, srmfunc_status, srm_endpoint, soap.fault->faultstring);
+			else if (soap.error == SOAP_EOF)
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Connection fails or timeout",
 						gfal_remote_type, srmfunc_status, srm_endpoint);
-				soap_end (&soap);
-				soap_done (&soap);
-				errno = ECOMM;
-				return (-1);
-			}
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
+						gfal_remote_type, srmfunc_status, srm_endpoint, soap.error);
+
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ECOMM;
+			return (-1);
+		}
+
+		if (srep.srmStatusOfLsRequestResponse == NULL || (reqstatp = srep.srmStatusOfLsRequestResponse->returnStatus) == NULL) {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
+					gfal_remote_type, srmfunc_status, srm_endpoint);
+			soap_end (&soap);
+			soap_done (&soap);
+			errno = ECOMM;
+			return (-1);
 		}
 
 		repfs = srep.srmStatusOfLsRequestResponse->details;
-	}
-	else {
-		repfs = rep.srmLsResponse->details;
 	}
 
 	if (reqstatp->statusCode != SRM_USCORESUCCESS &&
