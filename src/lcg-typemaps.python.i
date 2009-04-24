@@ -159,6 +159,9 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
     }
 }
 
+// No need to free pointers which are returned by python API functions
+%typemap(freearg) char * {}
+
 // convert python list into C integer list (int*)
 %typemap(in) (int LEN, const int *LIST) {
     int i;
