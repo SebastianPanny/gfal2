@@ -12,7 +12,7 @@ if [ ! -d "$NEWDIR" ]; then
     mkdir -p $NEWDIR
 fi
 
-cp RELEASE-NOTES $NEWDIR/
+cp $TOPSRC/RELEASE-NOTES $NEWDIR/
 
 if [ ! -d "$NEWDIR/man3" ]; then
     mkdir -p $NEWDIR/man3
