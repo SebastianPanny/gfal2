@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.75 $ $Date: 2009/04/22 11:51:16 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.76 $ $Date: 2009/05/19 13:12:17 $
  */
 
 #define _GNU_SOURCE
@@ -1870,28 +1870,25 @@ srmv2_bringonline (int nbfiles, const char **surls, const char *srm_endpoint, co
 		repfs = srep.srmStatusOfBringOnlineRequestResponse->arrayOfFileStatuses;
 	}
 
-	if (reqstatp->statusCode != SRM_USCORESUCCESS &&
-			reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS &&
-			reqstatp->statusCode != SRM_USCOREDONE) {
-		sav_errno = statuscode2errno (reqstatp->statusCode);
-		if (reqstatp->explanation && reqstatp->explanation[0])
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
-					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
-					srm_endpoint, reqstatp->explanation);
-		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
-					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
-
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = sav_errno;
-		return (-1);
-	}
-
 	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
-				gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
-		sav_errno = ECOMM;
+		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
+				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS &&
+				reqstatp->statusCode != SRM_USCOREDONE) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
+		}
+		else {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
+			sav_errno = ECOMM;
+		}
+
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
@@ -2995,29 +2992,26 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 		repfs = srep.srmStatusOfLsRequestResponse->details;
 	}
 
-	if (reqstatp->statusCode != SRM_USCORESUCCESS &&
-			reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS &&
-			reqstatp->statusCode != SRM_USCOREDONE &&
-			reqstatp->statusCode != SRM_USCORETOO_USCOREMANY_USCORERESULTS) {
-		sav_errno = statuscode2errno (reqstatp->statusCode);
-		if (reqstatp->explanation && reqstatp->explanation[0])
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
-					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
-					srm_endpoint, reqstatp->explanation);
-		else
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
-					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
-
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = sav_errno;
-		return (-1);
-	}
-
 	if (!repfs || repfs->__sizepathDetailArray <= 0 || !repfs->pathDetailArray) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
-				gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
-		sav_errno = ECOMM;
+		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
+				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS &&
+				reqstatp->statusCode != SRM_USCOREDONE &&
+				reqstatp->statusCode != SRM_USCORETOO_USCOREMANY_USCORERESULTS) {
+			sav_errno = statuscode2errno (reqstatp->statusCode);
+			if (reqstatp->explanation && reqstatp->explanation[0])
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode),
+						srm_endpoint, reqstatp->explanation);
+			else
+				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+						gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
+		}
+		else {
+			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+					gfal_remote_type, srmfunc, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
+			sav_errno = ECOMM;
+		}
+
 		soap_end (&soap);
 		soap_done (&soap);
 		errno = sav_errno;
