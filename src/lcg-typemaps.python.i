@@ -93,7 +93,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 
 %include "typemaps.i"
 
-%typemap(out) void %{ $result = NULL; %}
+%typemap(out) void %{ $result = Py_None; %}
 
 // in python, Long are 64bits
 %typemap(in) GFAL_LONG64 {
