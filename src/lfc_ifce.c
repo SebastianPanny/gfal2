@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.63 $ $Date: 2009/04/01 15:55:07 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.64 $ $Date: 2009/06/03 09:45:16 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -917,7 +917,8 @@ lfc_mkdirp_trans (const char *path, mode_t mode, char *errbuf, int errbufsz, int
 
 	if (fcops.statg (sav_path, NULL, &statbuf) == 0) {
 		/* the directoty already exists, nothing to do... */
-		fcops.endtrans ();
+		if (bool_starttrans)
+			fcops.endtrans ();
 		return (0);
 	}
 
