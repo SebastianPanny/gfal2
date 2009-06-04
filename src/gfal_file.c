@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.5 $ $Date: 2009/04/21 16:21:16 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.6 $ $Date: 2009/06/04 09:45:01 $ CERN Remi Mollon
  */
 
 #define _GNU_SOURCE
@@ -223,7 +223,7 @@ gfal_file_set_replica_error (gfal_file gf, int errcode, const char *errmsg) {
 	++gf->nberrors;
 
 	if (gf->lfn || gf->guid) { 
-		if (errmsg)
+		if (errmsg && errmsg[0])
 			gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "%s", errmsg);
 		else
 			gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "%s: %s", gf->replicas[gf->current_replica]->surl,
@@ -236,7 +236,8 @@ gfal_file_set_replica_error (gfal_file gf, int errcode, const char *errmsg) {
 		if ((file = gf->lfn) || (file = gf->guid)) {
 			if (gf->nbreplicas == 1) {
 				gf->errcode = gf->replicas[gf->current_replica]->errcode;
-				gf->errmsg = strdup(gf->replicas[gf->current_replica]->errmsg);
+				if (errmsg && errmsg[0])
+					gf->errmsg = strdup(gf->replicas[gf->current_replica]->errmsg);
 			}
 			else {
 				gf->errcode = EINVAL;
@@ -244,7 +245,8 @@ gfal_file_set_replica_error (gfal_file gf, int errcode, const char *errmsg) {
 			}
 		} else if (gf->replicas[0]->surl) {
 			gf->errcode = errcode > 0 ? errcode : EINVAL;
-			gf->errmsg = strdup (errmsg);
+			if (errmsg && errmsg[0])
+				gf->errmsg = strdup (errmsg);
 		} else
 			gf->errcode = EINVAL;
 	}

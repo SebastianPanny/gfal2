@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.126 $ $Date: 2009/04/21 16:17:43 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.127 $ $Date: 2009/06/04 09:45:01 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -769,12 +769,14 @@ gfal_open (const char *filename, int flags, mode_t mode)
 	}
 
 	if (!bool_issurlok) {
-		sav_errno = ENOENT;
+		sav_errno = gfile->errcode ? gfile->errcode : 0;
+		gfal_file_free (gfile);
 		goto err;
 	}
 
 	if ((xi = alloc_xi (fd)) == NULL) {
 		sav_errno = errno;
+		gfal_file_free (gfile);
 		goto err;
 	}
 
@@ -793,6 +795,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 			gfile->replicas[0]->surl != NULL) {
 		if (gfal_register_file (gfile->lfn, gfile->guid, gfile->replicas[0]->surl, mode, 0, 1, NULL, 0) < 0 ) {
 			sav_errno = errno;
+			gfal_file_free (gfile);
 			goto err;
 		}
 	}
