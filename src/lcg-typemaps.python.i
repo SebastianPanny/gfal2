@@ -160,7 +160,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }
 
 // No need to free pointers which are returned by python API functions
-%typemap(freearg) char * {}
+%typemap(freearg) char * %{%}
 
 // convert python list into C integer list (int*)
 %typemap(in) (int LEN, const int *LIST) {
@@ -187,9 +187,9 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }
 
 // Free the int* used as input for the C function, if that is not used to build the return value
-%typemap(freearg) (int LEN, const int *LIST) {
+%typemap(freearg) (int LEN, const int *LIST) %{
     if ($2) free ($2);
-}
+%}
 
 // convert python list into C string list (char**)
 %typemap(in) char **protocols {
@@ -214,9 +214,9 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }
 
 // Free the char** used as input for the C function, if that is not used to build the return value
-%typemap(freearg) (char **protocols) {
+%typemap(freearg) (char **protocols) %{
     if ($1) free ($1);
-}
+%}
 
 // Feed list length and C-style list from python list
 %typemap(in) (int LEN, char **LIST) {
@@ -244,9 +244,9 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }
 
 // Free the char** used as input for the C function, if that is not used to build the return value
-%typemap(freearg) (int LEN, char **LIST) {
+%typemap(freearg) (int LEN, char **LIST) %{
     if ($2) free ($2);
-}
+%}
 
 %typemap(in, numinputs=0) (int *OUTPUT)(int tmp) {
     tmp = -1;
@@ -588,24 +588,35 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
         $1->srmv2_lscount = (int) PyInt_AsLong (item);
 }
 
+// Free gfal_request
+%typemap(freearg) gfal_request %{
+    if ($1) free ($1);
+%}
+
 %typemap(in, numinputs=0) (gfal_internal *)(gfal_internal gfal) {
     $1 = &gfal;
 }
 
 // convert C gfal_internal into Python object
 %typemap(argout) gfal_internal * {
-    /* Only return the object if something (a return code) has already been returned
-     * => not return the object for gfal_internal_free function */
-    if ($result) {
-        PyObject *o;
+    PyObject *o;
 
-        if ($1 == NULL || *$1 == NULL)
-            o = Py_None;
-        else
-            o = SWIG_NewPointerObj(*$1, $descriptor(gfal_internal), 1);
+    if ($1 == NULL || *$1 == NULL)
+        o = Py_None;
+    else
+        o = SWIG_NewPointerObj(*$1, $descriptor(gfal_internal), 0);
 
-        $result = my_t_output_helper ($result, o);
-    }
+    $result = my_t_output_helper ($result, o);
+}
+
+// convert python object into C gfal_internal
+%typemap(in) gfal_internal FREE_REQ {
+    if ((SWIG_ConvertPtr($input,(void **) &$1, $1_descriptor,SWIG_POINTER_EXCEPTION)) < 0)
+        return (NULL);
+
+    if (! $1->generatesurls && $1->surls) free ($1->surls);
+    if ($1->protocols) free ($1->protocols);
+    if ($1->filesizes) free ($1->filesizes);
 }
 
 // convert python object into C gfal_internal
@@ -616,14 +627,18 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 
 // convert C gfal_internal into Python object
 %typemap(argout) gfal_internal {
-    PyObject *o;
+    /* Only return the object if something (a return code) has already been returned
+     * => not return the object for gfal_internal_free function */
+    if ($result != Py_None) {
+        PyObject *o;
 
-    if ($1 == NULL)
-        o = Py_None;
-    else
-        o = SWIG_NewPointerObj($1, $descriptor(gfal_internal), 1);
+        if ($1 == NULL)
+            o = Py_None;
+        else
+            o = SWIG_NewPointerObj($1, $descriptor(gfal_internal), 0);
 
-    $result = my_t_output_helper ($result, o);
+        $result = my_t_output_helper ($result, o);
+    }
 }
 
 %typemap(in, numinputs=0) (lcg_filestatus **OUTPUT)(lcg_filestatus *filestatus_tmp) {

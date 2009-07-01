@@ -73,7 +73,7 @@ extern int gfal_get_results (gfal_internal req, gfal_filestatus **statuses);
 extern int gfal_get_ids_setype (gfal_internal req, enum se_type *setype, int *OUTPUT, int **OUTPUT, char **OUTPUT);
 extern int gfal_get_ids (gfal_internal req, int *OUTPUT, int **OUTPUT, char **OUTPUT);
 extern int gfal_set_ids (gfal_internal req, int LEN, const int *LIST, int srm_reqid, const char *srmv2_reqtoken, char *errbuf, int errbufsz);
-extern void gfal_internal_free (gfal_internal req);
+extern void gfal_internal_free (gfal_internal FREE_REQ);
 extern int gfal_get_errno ();
 
 
