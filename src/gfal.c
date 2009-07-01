@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.127 $ $Date: 2009/06/04 09:45:01 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.128 $ $Date: 2009/07/01 07:38:15 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -330,7 +330,7 @@ gfal_access (const char *path, int amode)
 							&(gfile->gobj->srmv2_statuses), errbuf, GFAL_ERRMSG_LEN,
 							gfile->gobj->timeout);
 
-					if ((bool_issurlok = gfile->gobj->returncode) < 0)
+					if (!(bool_issurlok = gfile->gobj->returncode >= 0))
 						gfal_file_set_replica_error (gfile, errno, errbuf);
 
 					if (bool_issurlok)
@@ -345,8 +345,8 @@ gfal_access (const char *path, int amode)
 					if (bool_issurlok && !(bool_issurlok = filestatuses[0].status == 0))
 						gfal_file_set_replica_error (gfile, filestatuses[0].status, filestatuses[0].explanation);
 
-					sav_errno = filestatuses[0].status;
-					rc = filestatuses[0].status == 0 ? 0 : -1;
+					sav_errno = gfile->errcode;
+					rc = gfile->errcode == 0 ? 0 : -1;
 					gfal_file_free (gfile);
 					errno = sav_errno;
 					return (rc);
@@ -397,15 +397,15 @@ gfal_access (const char *path, int amode)
 	}
 
 	free (req);
-	gfal_file_free (gfile);
 
 	if (!bool_issurlok) {
-		errno = ENOENT;
-		return (-1);
-	} else {
-		errno = sav_errno;
-		return (rc);
+		sav_errno = gfile->errcode ? gfile->errcode : ENOENT;
+		rc = -1;
 	}
+
+	gfal_file_free (gfile);
+	errno = sav_errno;
+	return (rc);
 }
 
 gfal_chmod (const char *path, mode_t mode)
