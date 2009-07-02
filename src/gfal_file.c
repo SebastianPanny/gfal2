@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.6 $ $Date: 2009/06/04 09:45:01 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.7 $ $Date: 2009/07/02 11:27:26 $ CERN Remi Mollon
  */
 
 #define _GNU_SOURCE
@@ -30,9 +30,6 @@ gfal_file
 gfal_file_new (const char *file, const char *defproto, int bool_tobecreated, char *errbuf, int errbufsz) {
 	gfal_file gf;
 	char actual_file[1104];
-
-	if (file == NULL)
-		return (NULL);
 
 	if (canonical_url (file, defproto, actual_file, sizeof (actual_file), errbuf, errbufsz) < 0)
 		return (NULL);
