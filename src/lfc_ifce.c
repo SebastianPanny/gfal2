@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.64 $ $Date: 2009/06/03 09:45:16 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.65 $ $Date: 2009/07/03 14:12:59 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -278,6 +278,7 @@ lfc_chmodl (const char *path, mode_t mode, char *errbuf, int errbufsz)
 		return (-1);
 	}
 
+	errno = 0;
 	return (0);
 }
 

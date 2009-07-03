@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.129 $ $Date: 2009/07/02 13:52:44 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.130 $ $Date: 2009/07/03 14:12:59 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -62,7 +62,7 @@ static void free_srmv2_mdstatuses (struct srmv2_mdfilestatus *, int);
 /* the version should be set by a "define" at the makefile level */
 static const char gfalversion[] = VERSION;
 
-int
+	int
 gfal_parse_vomsdata (char *errbuf, int errbufsz)
 {
 	if (!vomsdataparsed) {
@@ -130,7 +130,7 @@ gfal_parse_vomsdata (char *errbuf, int errbufsz)
 	return (0);
 }
 
-char *
+	char *
 gfal_get_userdn (char *errbuf, int errbufsz)
 {
 	if (gfal_userdn == NULL)
@@ -144,7 +144,7 @@ gfal_get_userdn (char *errbuf, int errbufsz)
 	return (gfal_userdn);
 }
 
-int
+	int
 gfal_set_vo (const char *vo)
 {
 	if (gfal_vo == NULL) {
@@ -158,11 +158,11 @@ gfal_set_vo (const char *vo)
 
 	if ((gfal_vo = strdup (vo)) == NULL)
 		return (-1);
-	
+
 	return (0);
 }
 
-char *
+	char *
 gfal_get_vo (char *errbuf, int errbufsz)
 {
 	if (gfal_vo == NULL && (gfal_vo = getenv ("LCG_GFAL_VO")) == NULL)
@@ -177,7 +177,7 @@ gfal_get_vo (char *errbuf, int errbufsz)
 	return (gfal_vo);
 }
 
-int
+	int
 gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz)
 {
 	if (fqan == NULL) return (-1);
@@ -187,7 +187,7 @@ gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz)
 	return (gfal_nb_fqan);
 }
 
-int
+	int
 gfal_is_purifydisabled ()
 {
 	if (purifydisabled < 0)
@@ -263,6 +263,7 @@ free_xi (int fd)
 	return (0);
 }
 
+	int
 gfal_access (const char *path, int amode)
 {
 	int rc = 0, sav_errno = 0;
@@ -408,6 +409,7 @@ gfal_access (const char *path, int amode)
 	return (rc);
 }
 
+	int
 gfal_chmod (const char *path, mode_t mode)
 {
 	char pathbuf[1104];
@@ -423,13 +425,14 @@ gfal_chmod (const char *path, mode_t mode)
 	free (cat_type);
 
 	if (islfc && strncmp (pathbuf, "lfn:", 4) == 0)
-		return (lfc_chmodl (pathbuf + 4, mode, NULL, 0) < 0);
+		return (lfc_chmodl (pathbuf + 4, mode, NULL, 0));
 
 	/* gfal_chmod is only supported with LFC and LFNs */
 	errno = EPROTONOSUPPORT;
 	return (-1);
 }
 
+	int
 gfal_close (int fd)
 {
 	int rc;
@@ -464,6 +467,7 @@ gfal_close (int fd)
 	return (rc);
 }
 
+	int
 gfal_closedir (DIR *dir)
 {
 	struct dir_info *di;
@@ -480,11 +484,13 @@ gfal_closedir (DIR *dir)
 		return (-1);
 }
 
+	int
 gfal_creat (const char *filename, mode_t mode)
 {
 	return (gfal_open (filename, O_WRONLY|O_CREAT|O_TRUNC, mode));
 }
 
+	int
 gfal_creat64 (const char *filename, mode_t mode)
 {
 	return (gfal_open64 (filename, O_WRONLY|O_CREAT|O_TRUNC, mode));
@@ -549,6 +555,7 @@ gfal_lseek64 (int fd, off64_t offset, int whence)
 	return (offset_out);
 }
 
+	int
 gfal_mkdir (const char *dirname, mode_t mode)
 {
 	char path[1104], pfn[1104];
@@ -629,6 +636,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
 	return (0);
 }
 
+	int
 gfal_open (const char *filename, int flags, mode_t mode)
 {
 	char errbuf[GFAL_ERRMSG_LEN];
@@ -814,6 +822,7 @@ err:
 	return (-1);
 }
 
+	int
 gfal_open64 (const char *filename, int flags, mode_t mode)
 {
 	return (gfal_open (filename, flags | O_LARGEFILE, mode));
@@ -936,6 +945,7 @@ gfal_readdir64 (DIR *dir)
 	return (de);
 }
 
+	int
 gfal_rename (const char *old_name, const char *new_name)
 {
 	char path1[1104], pfn1[1104];
@@ -945,7 +955,7 @@ gfal_rename (const char *old_name, const char *new_name)
 	char protocol2[64];
 
 	if (canonical_url (old_name, "file", path1, 1104, NULL, 0) < 0 ||
-	    canonical_url (new_name, "file", path2, 1104, NULL, 0) < 0)
+			canonical_url (new_name, "file", path2, 1104, NULL, 0) < 0)
 		return (-1);
 
 	if (strncmp (path1, "lfn:", 4) == 0 && strncmp (path2, "lfn:", 4) == 0) {
@@ -1011,6 +1021,7 @@ gfal_rename (const char *old_name, const char *new_name)
 	return (0);
 }
 
+	int
 gfal_rmdir (const char *dirname)
 {
 	char path[1104], pfn[1104];
@@ -1109,6 +1120,7 @@ gfal_setfilchg (int fd, const void *buf, size_t size)
 
 
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE)
+	int
 gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
 {
 	int rc = 0, sav_errno = 0;
@@ -1187,7 +1199,7 @@ gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
 			return (rc);
 		}
 	}
-	
+
 	if (gfile->turl != NULL) {
 		struct proto_ops *pops = NULL;
 		char protocol[64], pfn[1104];
@@ -1214,6 +1226,7 @@ gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
 #endif
 
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
+	int
 gfal_stat (const char *filename, struct stat *statbuf)
 {
 	struct stat64 stat64buf;
@@ -1234,19 +1247,21 @@ gfal_stat (const char *filename, struct stat *statbuf)
 
 
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE)
+	int
 gfal_stat64 (const char *filename, struct stat64 *statbuf)
-/*
+	/*
 #elif defined(__USE_FILE_OFFSET64)
 gfal_stat64 (const char *filename, struct stat *statbuf)
 #endif
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE) || defined(__USE_FILE_OFFSET64)
-*/
+	 */
 {
 	return (gfal_stat_generic (filename, 0, statbuf));
 }
 #endif
 
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
+	int
 gfal_lstat (const char *filename, struct stat *statbuf)
 {
 	struct stat64 stat64buf;
@@ -1267,18 +1282,20 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 
 
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE)
+	int
 gfal_lstat64 (const char *filename, struct stat64 *statbuf)
-/*
+	/*
 #elif defined(__USE_FILE_OFFSET64)
 gfal_stat64 (const char *filename, struct stat *statbuf)
 #endif
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE) || defined(__USE_FILE_OFFSET64)
-*/
+	 */
 {
 	return (gfal_stat_generic (filename, 1, statbuf));
 }
 #endif
 
+	int
 gfal_unlink (const char *filename)
 {
 	int i, rc = 0;
@@ -1444,6 +1461,7 @@ gfal_write (int fd, const void *buf, size_t size)
 	return (rc);
 }
 
+	int
 gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1482,6 +1500,7 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, DEFAULT_STATUS));
 }
 
+	int
 gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1518,6 +1537,7 @@ gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, DEFAULT_STATUS));
 }
 
+	int
 gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1563,6 +1583,7 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, PIN_STATUS));
 }
 
+	int
 gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1607,6 +1628,7 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, MD_STATUS));
 }
 
+	int
 gfal_ls_end (gfal_internal req, char *errbuf, int errbufsz)
 {
 	if (req == NULL) {
@@ -1617,6 +1639,7 @@ gfal_ls_end (gfal_internal req, char *errbuf, int errbufsz)
 	return (req->srmv2_lsoffset == 0);
 }
 
+	int
 gfal_get (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1653,6 +1676,7 @@ gfal_get (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, PIN_STATUS));
 }
 
+	int
 gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1684,6 +1708,7 @@ gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, PIN_STATUS));
 }
 
+	int
 gfal_bringonline (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1713,6 +1738,7 @@ gfal_bringonline (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, PIN_STATUS));
 }
 
+	int
 gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1742,6 +1768,7 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, PIN_STATUS));
 }
 
+	int
 gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1766,6 +1793,7 @@ gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, PIN_STATUS));
 }
 
+	int
 gfal_pin (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1791,6 +1819,7 @@ gfal_pin (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, PIN_STATUS));
 }
 
+	int
 gfal_release (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1847,6 +1876,7 @@ gfal_release (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, DEFAULT_STATUS));
 }
 
+	int
 gfal_set_xfer_done (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1908,6 +1938,7 @@ gfal_set_xfer_done (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, DEFAULT_STATUS));
 }
 
+	int
 gfal_set_xfer_running (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1965,6 +1996,7 @@ gfal_set_xfer_running (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, DEFAULT_STATUS));
 }
 
+	int
 gfal_abortrequest (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -1988,6 +2020,7 @@ gfal_abortrequest (gfal_internal req, char *errbuf, int errbufsz)
 	return (copy_gfal_results (req, DEFAULT_STATUS));
 }
 
+	int
 gfal_abortfiles (gfal_internal req, char *errbuf, int errbufsz)
 {
 	int ret;
@@ -2325,6 +2358,7 @@ gfal_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 	}
 }
 
+	int
 gfal_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int **statuses, char *errbuf, int errbufsz)
 {
 	char *cat_type;
@@ -2448,6 +2482,7 @@ gfal_get_replicas (const char *lfn, const char *guid, char *errbuf, int errbufsz
 	return (results);
 }
 
+	int
 gfal_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **results, char *errbuf, int errbufsz)
 {
 	char *cat_type;
@@ -2583,7 +2618,7 @@ gfal_get_aliases (const char *lfn, const char *guid, char *errbuf, int errbufsz)
 	return (results);
 }
 
-int
+	int
 gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t mode,
 		GFAL_LONG64 size, int bool_createonly, char *errbuf, int errbufsz)
 {
@@ -2634,10 +2669,10 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
 		if (lfn) {
 			actual_guid = rmc_guidfromlfn (lfn, errbuf, errbufsz);
 			if (guid == NULL && actual_guid == NULL &&
-					 (guid = generated_guid = gfal_generate_guid (errbuf, errbufsz)) == NULL)
+					(guid = generated_guid = gfal_generate_guid (errbuf, errbufsz)) == NULL)
 				return (-1);
 			if (actual_guid != NULL && (bool_createonly ||
-					(guid != NULL && strncmp (guid, actual_guid, GFAL_GUID_LEN) !=0))) {
+						(guid != NULL && strncmp (guid, actual_guid, GFAL_GUID_LEN) !=0))) {
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
 						"[GFAL][gfal_register_file][EEXIST] lfn:%s: file already exists", lfn);
 				free (actual_guid);
@@ -2952,6 +2987,7 @@ gfal_request_new ()
 	return (req);
 }
 
+	int
 gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 {
 	int i = 0;
@@ -3463,18 +3499,19 @@ gfal_spacemd_free (int nbtokens, gfal_spacemd *smd)
 	free (smd);
 }
 
-const char *
+	const char *
 gfal_version ()
 {
 	return gfalversion;
 }
 
-void
+	void
 gfal_set_nobdii (int value)
 {
 	nobdii = value;
 }
 
+	int
 gfal_is_nobdii ()
 {
 	return (nobdii);
