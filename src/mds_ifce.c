@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.81 $ $Date: 2009/07/03 15:08:52 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.82 $ $Date: 2009/07/07 16:00:23 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1016,20 +1016,20 @@ get_seap_info (const char *host, char ***access_protocol, int **port, char *errb
 	static char proto_port[] = "GlueSEAccessProtocolPort";
 	static char proto_type[] = "GlueSEAccessProtocolType";
 	static char *template = " (& (GlueSEAccessProtocolType=*) (GlueChunkKey=GlueSEUniqueID=%s))";
-	char **ap;
-	char *attr;
+	char **ap = NULL;
+	char *attr = NULL;
 	static char *attrs[] = {proto_type, proto_port, NULL};
-	int bdii_port;
+	int bdii_port = 0;
 	const char *bdii_server;
-	BerElement *ber;
-	LDAPMessage *entry;
+	BerElement *ber = NULL;
+	LDAPMessage *entry = NULL;
 	char filter[GFAL_HOSTNAME_MAXLEN + 70];
 	int i = 0, n = 0, rc = 0;
-	LDAP *ld;
-	int nbentries;
-	int *pn;
-	LDAPMessage *reply;
-	char **value;
+	LDAP *ld = NULL;
+	int nbentries = 0;
+	int *pn = NULL;
+	LDAPMessage *reply = NULL;
+	char **value = NULL;
 	int sav_errno = 0;
 	int bdii_index = GFAL_BDII_SERVER_FIRST;
 

@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.130 $ $Date: 2009/07/03 14:12:59 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.131 $ $Date: 2009/07/07 16:00:23 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1312,7 +1312,7 @@ gfal_unlink (const char *filename)
 	}
 
 	if (gfile->nbreplicas > 0 && gfile->replicas != NULL) {
-		int bool_issurlok;
+		int bool_issurlok = 1;
 		const char *current_surl;
 		gfal_request req;
 		gfal_internal gobj;
@@ -2107,6 +2107,7 @@ endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_o
 	return (endpoint);
 }
 
+int
 canonical_url (const char *url, const char *defproto, char *newurl, int newurlsz, char *errbuf, int errbufsz) {
 	char *pwd, *lfc_home, *p_url, *p_newurl;
 	int len;
@@ -2194,6 +2195,7 @@ canonical_url (const char *url, const char *defproto, char *newurl, int newurlsz
 	return (0);
 }
 
+	int
 parseturl (const char *turl, char *protocol, int protocolsz, char *pfn, int pfnsz, char* errbuf, int errbufsz)
 {
 	int len;
@@ -2254,6 +2256,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pfn, int pfns
 	return (0);
 }
 
+	int
 setypesandendpoints (const char *endpoint, char ***se_types, char ***se_endpoints, char *errbuf, int errbufsz)
 {
 	int len;
@@ -2284,6 +2287,7 @@ setypesandendpoints (const char *endpoint, char ***se_types, char ***se_endpoint
 	return (get_se_types_and_endpoints (endpoint_tmp, se_types, se_endpoints, errbuf, errbufsz));
 }
 
+	int
 setypesandendpointsfromsurl (const char *surl, char ***se_types, char ***se_endpoints, char *errbuf, int errbufsz)
 {
 	int rc;
@@ -2298,6 +2302,7 @@ setypesandendpointsfromsurl (const char *surl, char ***se_types, char ***se_endp
 	return (rc);
 }
 
+int
 get_cat_type (char **cat_type) {
 	char *cat_env;
 	char *default_cat = GFAL_DEFAULT_CATALOG_TYPE;
@@ -2398,6 +2403,7 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int
 	}
 }
 
+	int
 guid_exists (const char *guid, char *errbuf, int errbufsz)
 {
 	char *cat_type;
@@ -2418,6 +2424,7 @@ guid_exists (const char *guid, char *errbuf, int errbufsz)
 	}
 }
 
+	int
 setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
 {
 	char *cat_type;
@@ -2739,6 +2746,7 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
 	return (rc);
 }
 
+	int
 register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
 	char *cat_type;
@@ -2759,6 +2767,7 @@ register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 	}
 }
 
+	int
 unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
 	char *cat_type;

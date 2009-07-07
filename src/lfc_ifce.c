@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.65 $ $Date: 2009/07/03 14:12:59 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.66 $ $Date: 2009/07/07 16:00:23 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -183,6 +183,7 @@ lfc_init (char *errbuf, int errbufsz) {
 		}
 	}
 	fcops.seterrbuf (errbuf, errbufsz);
+	errno = 0;
 	return (0);
 }
 
@@ -208,6 +209,7 @@ lfc_replica_exists (const char *guid, char *errbuf, int errbufsz) {
 	}
 
 	free (replicas);
+	errno = 0;
 	return (size > 0 ? 1 : 0);
 }
 
@@ -308,6 +310,7 @@ lfc_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 
 /** lfc_guidsforpfns : Get the guid for a replica.  If the replica does not
   exist, fail with ENOENT */
+int
 lfc_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int **statuses, char *errbuf, int errbufsz)
 {
 	int i, size;
@@ -386,6 +389,7 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int 
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][lfc_endsess][] %s: %s",
 				gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 	}
+	errno = 0;
 	return (0);
 }
 
@@ -553,6 +557,7 @@ lfc_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **r
 				gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
 	}
 
+	errno = 0;
 	return (0);
 }
 
@@ -617,6 +622,7 @@ lfc_get_aliases (const char *lfn, const char *guid, char *errbuf, int errbufsz)
 	lfns[i] = NULL;
 	free (list);
 
+	errno = 0;
 	return (lfns);
 }
 
@@ -920,6 +926,7 @@ lfc_mkdirp_trans (const char *path, mode_t mode, char *errbuf, int errbufsz, int
 		/* the directoty already exists, nothing to do... */
 		if (bool_starttrans)
 			fcops.endtrans ();
+		errno = 0;
 		return (0);
 	}
 
@@ -977,6 +984,7 @@ lfc_renamel (const char *old_name, const char *new_name, char *errbuf, int errbu
 		return (-1);
 	}
 
+	errno = 0;
 	return (0);
 }
 
@@ -995,6 +1003,7 @@ lfc_opendirlg (const char *dirname, const char *guid, char *errbuf, int errbufsz
 		return (NULL);
 	}
 
+	errno = 0;
 	return ((DIR *)dir);
 }
 
@@ -1011,6 +1020,7 @@ lfc_rmdirl (const char *dirname, char *errbuf, int errbufsz)
 		return (-1);
 	}
 
+	errno = 0;
 	return (0);
 }
 
@@ -1033,6 +1043,7 @@ lfc_setsize (const char *lfn, GFAL_LONG64 size, char *errbuf, int errbufsz)
 		return (-1);
 	}
 
+	errno = 0;
 	return (0);
 }
 
@@ -1063,6 +1074,7 @@ lfc_statl (const char *lfn, const char *guid, struct stat64 *buf, char *errbuf, 
 	buf->st_ctime = statbuf.ctime;
 	buf->st_mtime = statbuf.mtime;
 
+	errno = 0;
 	return (0);
 }
 
@@ -1093,6 +1105,7 @@ lfc_lstatl (const char *lfn, struct stat64 *buf, char *errbuf, int errbufsz)
 	buf->st_ctime = statbuf.ctime;
 	buf->st_mtime = statbuf.mtime;
 
+	errno = 0;
 	return (0);
 }
 
