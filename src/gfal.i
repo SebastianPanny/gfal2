@@ -18,7 +18,7 @@ extern int gfal_creat (const char *filename, mode_t mode);
 extern off_t gfal_lseek (int fd, off_t offset, int whence);
 extern int gfal_lstat (const char *filename, struct stat *statbuf);
 extern int gfal_mkdir (const char *dirname, mode_t mode);
-extern int gfal_open (const char *filename, int flags, mode_t mode);
+extern int gfal_open (const char *filename, int flags, mode_t mode = 0);
 DIR *gfal_opendir (const char *dirname);
 extern ssize_t gfal_read (int fd, void *BUFOUT, size_t BUFOUTSZ);
 extern int gfal_rename (const char *old_name, const char *new_name);
@@ -31,7 +31,7 @@ extern ssize_t gfal_write (int fd, const void *BUFIN, size_t BUFINSZ);
 extern int gfal_creat64 (const char *filename, mode_t mode);
 extern off64_t gfal_lseek64 (int fd, off64_t offset, int whence);
 extern int gfal_lstat64 (const char *filename, struct stat64 *statbuf);
-extern int gfal_open64 (const char *filename, int flags, mode_t mode);
+extern int gfal_open64 (const char *filename, int flags, mode_t mode = 0);
 extern int gfal_stat64 (const char *filename, struct stat64 *statbuf);
 extern struct dirent64 *gfal_readdir64 (DIR *dir);
 #endif
@@ -105,3 +105,11 @@ def gfal_listdir(dirpath):
 typedef unsigned int mode_t;
 typedef unsigned int size_t;
 typedef unsigned int ssize_t;
+
+#ifndef __USE_FILE_OFFSET64
+typedef unsigned long off_t;
+#else
+typedef unsigned long long off_t;
+#endif
+typedef unsigned long long off64_t;
+
