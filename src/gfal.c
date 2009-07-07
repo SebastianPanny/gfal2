@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.131 $ $Date: 2009/07/07 16:00:23 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.132 $ $Date: 2009/07/07 16:19:41 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1178,26 +1178,26 @@ gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
 			if (bool_issurlok && !(bool_issurlok = filestatuses[0].status == 0))
 				gfal_file_set_replica_error (gfile, filestatuses[0].status, filestatuses[0].explanation);
 
-			if (bool_issurlok) {
+			if (bool_issurlok)
 				memcpy (statbuf, &(filestatuses[0].stat), sizeof (struct stat));
-				rc = 0;
-				sav_errno = errno;
-			}
 
 			if (!bool_issurlok)
 				gfal_file_next_replica (gfile);
 		}
 
 		free (req);
-		gfal_file_free (gfile);
 
 		if (!bool_issurlok) {
-			errno = ENOENT;
-			return (-1);
+			sav_errno = gfile->errcode ? gfile->errcode : ENOENT;
+			rc = -1;
 		} else {
-			errno = sav_errno;
-			return (rc);
+			sav_errno = 0;
+			rc = 0;
 		}
+
+		gfal_file_free (gfile);
+		errno = sav_errno;
+		return (rc);
 	}
 
 	if (gfile->turl != NULL) {
@@ -1211,7 +1211,7 @@ gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
 				else
 					rc = pops->lstat64 (pfn, statbuf);
 				if (rc < 0)
-					errno = pops->maperror (pops, 0);
+					sav_errno = pops->maperror (pops, 0);
 			} else {
 				rc = -1;
 				sav_errno = errno;
