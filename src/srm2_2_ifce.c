@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.76 $ $Date: 2009/05/19 13:12:17 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.77 $ $Date: 2009/07/08 14:06:20 $
  */
 
 #define _GNU_SOURCE
@@ -202,6 +202,7 @@ srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -282,6 +283,7 @@ srmv2_rmdir (const char *surl, const char *srm_endpoint, int recursive,
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (1);
 }
 
@@ -334,6 +336,7 @@ srmv2_get (int nbfiles, const char **surls, const char *spacetokendesc, int nbpr
 	}
 
 	free (pinfilestatuses);
+    errno = 0;
 	return (r);
 }
 
@@ -544,6 +547,7 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -595,6 +599,7 @@ srmv2_getstatus (int nbfiles, const char **surls, const char *reqtoken, struct s
 	}
 
 	free (pinfilestatuses);
+    errno = 0;
 	return (r);
 }
 
@@ -715,6 +720,7 @@ srmv2_getstatuse (const char *reqtoken, const char *srm_endpoint,
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -833,7 +839,7 @@ srmv2_getspacetokens (const char *spacetokendesc, const char *srm_endpoint, int 
 
 	soap_end (&soap);
 	soap_done (&soap);
-
+    errno = 0;
 	return (0);
 }
 
@@ -1021,7 +1027,7 @@ srmv2_getspacemd (int nbtokens, const char **spacetokens, const char *srm_endpoi
 
 	soap_end (&soap);
 	soap_done (&soap);
-
+    errno = 0;
 	return (0);
 }
 
@@ -1078,6 +1084,7 @@ srmv2_getbestspacetoken (const char *spacetokendesc, const char *srm_endpoint, G
 	spacemd[numtoken].spacetoken = NULL;  // prevent it to be freed
 	gfal_spacemd_free (nbtokens, spacemd);
 	free (spacetokens);
+    errno = 0;
 	return (spacetoken);
 }
 
@@ -1229,6 +1236,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	soap_end (&soap);
 	soap_done (&soap);
 	strncpy (lastcreated_dir, dest_file, 1024);
+    errno = 0;
 	return (0);
 }
 
@@ -1263,6 +1271,7 @@ srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int
 			filestatuses, errbuf, errbufsz, timeout);
 
 	free (srm_endpoint);
+    errno = 0;
 	return (r);
 }
 
@@ -1476,6 +1485,7 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -1509,6 +1519,7 @@ srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, str
 	r = srmv2_prestagestatuse (reqtoken, srm_endpoint, filestatuses, errbuf, errbufsz, timeout);
 
 	free (srm_endpoint);
+    errno = 0;
 	return (r);
 }
 
@@ -1631,6 +1642,7 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -1935,6 +1947,7 @@ srmv2_bringonline (int nbfiles, const char **surls, const char *srm_endpoint, co
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -2071,6 +2084,7 @@ srmv2_set_xfer_done_put (int nbfiles, const char **surls, const char *srm_endpoi
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -2090,6 +2104,7 @@ srmv2_set_xfer_running (int nbfiles, const char **surls, const char *srm_endpoin
 		(*filestatuses)[i].status = 0;
 	}
 
+    errno = 0;
 	return (nbfiles);
 }
 
@@ -2383,6 +2398,7 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -2699,7 +2715,7 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 
 	soap_end (&soap);
 	soap_done (&soap);
-
+    errno = 0;
 	return (n);
 }
 
@@ -2822,6 +2838,7 @@ copy_md (struct srm2__TReturnStatus *reqstatp, struct srm2__ArrayOfTMetaDataPath
 		}
 	}
 
+    errno = 0;
 	return (n);
 }
 
@@ -3034,6 +3051,7 @@ srmv2_getfilemd (int nbfiles, const char **surls, const char *srm_endpoint, int 
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 #endif
@@ -3173,6 +3191,7 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -3304,6 +3323,7 @@ srmv2_release (int nbfiles, const char **surls, const char *srm_endpoint, const 
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -3510,6 +3530,7 @@ srmv2_abortfiles (int nbfiles, const char **surls, const char *srm_endpoint, con
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 }
 
@@ -3650,6 +3671,7 @@ srmv2_access (int nbfiles, const char **surls, const char *srm_endpoint, int amo
 
 	soap_end (&soap);
 	soap_done (&soap);
+    errno = 0;
 	return (n);
 
 }
