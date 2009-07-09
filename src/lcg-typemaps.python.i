@@ -434,6 +434,8 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
     $result = my_t_output_helper ($result, statlist);
 }//end of typemap
 
+%typemap(arginit) gfal_request %{$1 = NULL;%}
+
 // convert python dictionnary into C gfal request structure (gfal_request)
 %typemap(in) gfal_request {
     int i,len;
@@ -496,7 +498,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
             errno = EINVAL;
             return (NULL);
         } else if ((len = PyList_Size (item)) == 0) {
-            $1->filesizes == NULL;
+            $1->filesizes = NULL;
         } else {
             $1->filesizes = (GFAL_LONG64 *) calloc (len, sizeof (GFAL_LONG64));
             if ($1->filesizes == NULL) {
@@ -589,13 +591,9 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }
 
 // Free gfal_request
-%typemap(freearg) gfal_request %{
-    if ($1) free ($1);
-%}
+%typemap(freearg) gfal_request %{if ($1) free ($1);%}
 
-%typemap(in, numinputs=0) (gfal_internal *)(gfal_internal gfal) {
-    $1 = &gfal;
-}
+%typemap(in, numinputs=0) (gfal_internal *)(gfal_internal gfal) %{$1 = &gfal;%}
 
 // convert C gfal_internal into Python object
 %typemap(argout) gfal_internal * {
@@ -758,7 +756,7 @@ static PyObject* gfalresults_2_python (gfal_filestatus *filestatuses, int nb) {
 }//end of typemap
 
 
-%typemap(in) (void *BUFOUT, size_t BUFOUTSZ)(char *buf) {
+%typemap(in) (void *BUFOUT, size_t BUFOUTSZ) {
     if (!PyInt_Check ($input)) {
         PyErr_SetString (PyExc_TypeError, "Should be an integer");
         return (NULL);
