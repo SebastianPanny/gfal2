@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.77 $ $Date: 2009/07/08 14:06:20 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.78 $ $Date: 2009/07/13 13:58:58 $
  */
 
 #define _GNU_SOURCE
@@ -3174,7 +3174,7 @@ srmv2_pin (int nbfiles, const char **surls, const char *srm_endpoint, const char
 		if (repfs->statusArray[i]->pinLifetime)
 			(*pinfilestatuses)[i].pinlifetime = *(repfs->statusArray[i]->pinLifetime);
 		if (repfs->statusArray[i]->status) {
-			(*pinfilestatuses)[i].status = filestatus2returncode (repfs->statusArray[i]->status->statusCode);
+			(*pinfilestatuses)[i].status = statuscode2errno (repfs->statusArray[i]->status->statusCode);
 			if (repfs->statusArray[i]->status->explanation && repfs->statusArray[i]->status->explanation[0])
 				asprintf (&((*pinfilestatuses)[i].explanation), "[%s][%s][%s] %s",
 						gfal_remote_type, srmfunc, statuscode2errmsg (repfs->statusArray[i]->status->statusCode),
