@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.132 $ $Date: 2009/07/07 16:19:41 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.133 $ $Date: 2009/07/17 09:42:52 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -2009,6 +2009,19 @@ gfal_abortrequest (gfal_internal req, char *errbuf, int errbufsz)
 			free (req->srmv2_statuses);
 			req->srmv2_statuses = NULL;
 		}
+		if (req->srmv2_pinstatuses) {
+			free (req->srmv2_pinstatuses);
+			req->srmv2_pinstatuses = NULL;
+		}
+		if (req->srmv2_mdstatuses) {
+			free (req->srmv2_mdstatuses);
+			req->srmv2_mdstatuses = NULL;
+		}
+		if (req->results) {
+			free_gfal_results (req->results, req->results_size);
+			req->results = NULL;
+			req->results_size = -1;
+		}
 		ret = srmv2_abortrequest (req->endpoint, req->srmv2_token, errbuf, errbufsz, req->timeout);
 	} else {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_abortrequest][EPROTONOSUPPORT] Only SRMv2-compliant SEs are supported");
@@ -2017,7 +2030,7 @@ gfal_abortrequest (gfal_internal req, char *errbuf, int errbufsz)
 	}
 
 	req->returncode = ret;
-	return (copy_gfal_results (req, DEFAULT_STATUS));
+	return (ret);
 }
 
 	int
@@ -3370,7 +3383,7 @@ copy_gfal_results (gfal_internal req, enum status_type stype)
 	int
 gfal_get_results (gfal_internal req, gfal_filestatus **results)
 {
-	if (req == NULL) {
+	if (req == NULL || req->results == NULL) {
 		*results = NULL;
 		return (-1);
 	}
