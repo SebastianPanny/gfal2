@@ -88,11 +88,14 @@ def gfal_readdir(dirobj):
 def gfal_listdir(dirpath):
     list = []
     dirobj = gfal_opendir(dirpath)
-    dirent = gfal_readdir(dirobj)
-    while dirent != None:
-        list.append(dirent)
+    if dirobj == None:
+        list = None
+    else:
         dirent = gfal_readdir(dirobj)
-    gfal_closedir(dirobj)
+        while dirent != None:
+            list.append(dirent)
+            dirent = gfal_readdir(dirobj)
+        gfal_closedir(dirobj)
     return list
 %}
 
