@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.83 $ $Date: 2009/07/30 14:31:23 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.84 $ $Date: 2009/08/12 13:55:48 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -44,7 +44,7 @@ strchrscan (const char* str, int c)
         if (* (str++) == c) ++n;
 
     return n;
-}	     
+}
 
 /* Convert LDAP error into errno */
 static int
@@ -63,7 +63,7 @@ ldaperr2errno (int err) {
 
 /*
    Parse the LCG_GFAL_INFOSYS environment variable and fill out the
-   bdii_servers_count and bdii_servers vars. 
+   bdii_servers_count and bdii_servers vars.
    Usually this function is called only once per program startup.
  */
     static int
@@ -203,7 +203,7 @@ bdii_server_is_bad (int *bdii_index)
 
 /*
    make a query to the BDII.
-   Store the LDAP* into the ld_ptr, LDAPMessage* into reply_ptr, 
+   Store the LDAP* into the ld_ptr, LDAPMessage* into reply_ptr,
    and BDII server used into bdii_server_ptr and bdii_port_ptr.
  */
     static int
@@ -282,7 +282,7 @@ bdii_query_send (LDAP **ld_ptr, char* filter, char* attrs[],
                         gfal_remote_type, bdii_server, bdii_port);
             } else {
                 gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "[%s][ldap_search_st][] %s:%d > %s",
-                        gfal_remote_type, bdii_server, bdii_port, 
+                        gfal_remote_type, bdii_server, bdii_port,
                         ldap_err2string (rc));
             }
             bdii_server_is_bad (bdii_index);
@@ -381,7 +381,7 @@ generate_acbr (const char *glueobject, char *errbuf, int errbufsz) {
 get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 {
     static char ce_ap_atnm[] = "GlueCESEBindCEAccesspoint";
-    static char *template = " (GlueCESEBindSEUniqueID=%s)";
+    static char *template = "(GlueCESEBindSEUniqueID=%s)";
     static char *attrs[] = {ce_ap_atnm, NULL};
     int bdii_port;
     const char *bdii_server;
@@ -442,7 +442,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 {
     static char rls_ep[] = "GlueServiceEndpoint";
     static char rls_type[] = "GlueServiceType";
-    static char *template = " (& (GlueServiceType=edg-*) (| (GlueServiceAccessControlBaseRule=%s) (GlueServiceAccessControlRule=%s)))";
+    static char *template = "(&(GlueServiceType=edg-*)(|(GlueServiceAccessControlBaseRule=%s)(GlueServiceAccessControlRule=%s)))";
     char *attr;
     static char *attrs[] = {rls_type, rls_ep, NULL};
     int bdii_port;
@@ -490,7 +490,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
                 }
                 ldap_value_free (value);
             }
-            else 
+            else
                 rc = -1;
         }
         if (rc == 0) {
@@ -529,7 +529,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
 get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 {
     static char ep[] = "GlueServiceEndpoint";
-    static char *template = " (& (GlueServiceType=lcg-file-catalog) %s)";
+    static char *template = "(&(GlueServiceType=lcg-file-catalog)%s)";
     static char *attrs[] = {ep, NULL};
     LDAPMessage *entry;
     char *filter, *filter_tmp;
@@ -593,7 +593,7 @@ get_sa_path (const char *host, const char *salocalid, char **sa_path, char **sa_
     static char sa_path_atnm[] = "GlueSAPath";
     static char sa_root_atnm[] = "GlueSARoot";
     static char *template =
-        "(& (GlueSALocalID=%s) (GlueChunkKey=GlueSEUniqueID=%s))";
+        "(&(GlueSALocalID=%s)(GlueChunkKey=GlueSEUniqueID=%s))";
     static char *attrs[] = {sa_root_atnm, sa_path_atnm, NULL};
     int bdii_port;
     const char *bdii_server;
@@ -688,9 +688,9 @@ get_voinfo (const char *host, const char *spacetokendesc, char **sa_path, char *
     static char sa_path_atnm[] = "GlueVOInfoPath";
     static char sa_key_atnm[] = "GlueChunkKey";
     static char *template =
-        "(& %s (GlueVOInfoTag=%s) (GlueChunkKey=GlueSEUniqueID=%s))";
+        "(&%s(GlueVOInfoTag=%s)(GlueChunkKey=GlueSEUniqueID=%s))";
     static char *template2 =
-        "(& %s (!(GlueVOInfoTag=*)) (GlueChunkKey=GlueSEUniqueID=%s))";
+        "(&%s(!(GlueVOInfoTag=*))(GlueChunkKey=GlueSEUniqueID=%s))";
     static char *attrs[] = {sa_key_atnm, sa_path_atnm, NULL};
     int i;
     int bdii_port;
@@ -821,7 +821,7 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
     static char se_type_atve[] = "GlueServiceVersion";
     static char se_type_atty[] = "GlueServiceType";
     static char se_type_atep[] = "GlueServiceEndpoint";
-    static char *template = " (| (GlueSEUniqueID=%s) (& (GlueServiceType=srm*) (GlueServiceEndpoint=*://%s:%s*)))";
+    static char *template = "(|(GlueSEUniqueID=%s)(&(GlueServiceType=srm*)(GlueServiceEndpoint=*://%s:%s*)))";
     static char *attrs[] = {se_type_atpt, se_type_atst, se_type_atve, se_type_atty, se_type_atep, NULL};
     char host_tmp[GFAL_HOSTNAME_MAXLEN];
     int len_tmp;
@@ -924,7 +924,7 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
                  rc = -1;
                  break;
                  }
-                 else ; 
+                 else ;
                  */
 
                 if (port == NULL) {
@@ -970,7 +970,7 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
             for (i = 0; i < n; ++i) {
                 if ((strcmp (st[i], "srm_v1") == 0 || strcmp (st[i], "srm_v2") == 0) && ep[i]) {
                     stp[i] = strdup (st[i]);
-                    sep[i] = strdup (ep[i]); 
+                    sep[i] = strdup (ep[i]);
                 } else if ((strcasecmp (st[i], "SRM") == 0) && (strncmp (sv[i], "1.", 2)) == 0 && ep[i]) {
                     stp[i] = strdup ("srm_v1");
                     sep[i] = strdup (ep[i]);
@@ -1015,7 +1015,7 @@ get_seap_info (const char *host, char ***access_protocol, int **port, char *errb
 {
     static char proto_port[] = "GlueSEAccessProtocolPort";
     static char proto_type[] = "GlueSEAccessProtocolType";
-    static char *template = " (& (GlueSEAccessProtocolType=*) (GlueChunkKey=GlueSEUniqueID=%s))";
+    static char *template = "(&(GlueSEAccessProtocolType=*)(GlueChunkKey=GlueSEUniqueID=%s))";
     char **ap = NULL;
     char *attr = NULL;
     static char *attrs[] = {proto_type, proto_port, NULL};
