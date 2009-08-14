@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.78 $ $Date: 2009/07/13 13:58:58 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.79 $ $Date: 2009/08/14 10:08:49 $
  */
 
 #define _GNU_SOURCE
@@ -1048,6 +1048,13 @@ srmv2_getbestspacetoken (const char *spacetokendesc, const char *srm_endpoint, G
 		errno = ret == 0 ? ENOMEM : errno;
 		return (NULL);
 	}
+
+   if (nbtokens == 1) {
+        errno = 0;
+        spacetoken = spacetokens[0];
+        free (spacetokens);
+        return (spacetoken);
+    }
 
 	ret = srmv2_getspacemd (nbtokens, (const char **) spacetokens, srm_endpoint, &spacemd, errbuf, errbufsz, timeout);
 	if (ret < 0 || spacemd == NULL) {

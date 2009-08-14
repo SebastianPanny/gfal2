@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.134 $ $Date: 2009/07/30 14:31:23 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.135 $ $Date: 2009/08/14 10:08:49 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -631,7 +631,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
     if (pops->mkdir (pfn, mode) < 0) {
         errno = pops->maperror (pops, 0);
         return (-1);
-    }  
+    }
     errno = 0;
     return (0);
 }
@@ -2268,7 +2268,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pfn, int pfns
             *p = ':';
         }
         // For other cases (Castor2-like RFIO TURL), the entire turl is returned as pfn
-    } 
+    }
 
     return (0);
 }
@@ -2326,7 +2326,7 @@ get_cat_type (char **cat_type) {
 
     if((cat_env = getenv ("LCG_CATALOG_TYPE")) == NULL) {
         /* default catalogs if no environment variable specified */
-        cat_env = default_cat;		
+        cat_env = default_cat;
     }
     if((*cat_type = strdup(cat_env)) == NULL) {
         return (-1);
@@ -2844,7 +2844,7 @@ getdomainnm (char *name, int namelen)
 
 
     char *
-get_default_se(char *errbuf, int errbufsz) 
+get_default_se(char *errbuf, int errbufsz)
 {
     char *vo;
     char *default_se;
@@ -2862,11 +2862,11 @@ get_default_se(char *errbuf, int errbufsz)
     }
     snprintf(se_env, 15 + GFAL_VO_MAXLEN, "VO_%s_DEFAULT_SE", vo);
     for(i = 3; i < 3 + strlen(vo); ++i) {
-        if (se_env[i] == '.' || se_env[i] == '-') 
+        if (se_env[i] == '.' || se_env[i] == '-')
             se_env[i] = '_';
         else
             se_env[i] = toupper(se_env[i]);
-    } 
+    }
     default_se = getenv(se_env);
     errno = 0;
     return default_se;
@@ -2928,8 +2928,9 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
     uuid_t uuid;
     char guid[GFAL_GUID_LEN];
     char *sa_path, *sa_root;
-    char *vo, *ce_ap, *p, *q, *simple_ep;
+    char *vo, *ce_ap, *p;
     char dir_path[1104];
+    char simple_ep[256];
 
     if ((gfal->surls = (char **) calloc (gfal->nbfiles, sizeof (char *))) == NULL) {
         errno = ENOMEM;
@@ -2942,11 +2943,10 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
     }
 
     /* now create dir path which is either sa_path, sa_root or combination of ce_ap & sa_root */
-    p = strchr (gfal->endpoint, ':');
-    simple_ep = p == NULL ? gfal->endpoint : p + 3;
-    if ((q = strchr (simple_ep, ':')) != NULL)
-        *q = 0;
-    if (get_storage_path (simple_ep, gfal->srmv2_spacetokendesc, &sa_path, &sa_root, errbuf, errbufsz) < 0) 
+    strncpy (simple_ep, gfal->endpoint, sizeof(simple_ep));
+    p = strchr (simple_ep, ':');
+    if (p) *p = 0;
+    if (get_storage_path (simple_ep, gfal->srmv2_spacetokendesc, &sa_path, &sa_root, errbuf, errbufsz) < 0)
         return (-1);
     if (sa_path != NULL) {
         if (gfal->setype == TYPE_SE) {
@@ -2958,8 +2958,8 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
         if (gfal->setype == TYPE_SE) {
             if (get_ce_ap (simple_ep, &ce_ap, errbuf, errbufsz) < 0)
                 return (-1);
-            snprintf (dir_path, 1103, "sfn://%s%s%s%s%s/", simple_ep, 
-                    *ce_ap=='/'?"":"/", ce_ap, 
+            snprintf (dir_path, 1103, "sfn://%s%s%s%s%s/", simple_ep,
+                    *ce_ap=='/'?"":"/", ce_ap,
                     *sa_root=='/'?"":"/", sa_root);
             free (ce_ap);
         } else {
@@ -2968,8 +2968,6 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
     }
     if (sa_path) free (sa_path);
     if (sa_root) free (sa_root);
-
-    if (q) *q = ':';
 
     if (gfal->relative_path && gfal->nbfiles == 1) {
         asprintf (gfal->surls, "%s%s", dir_path, gfal->relative_path);
@@ -3075,7 +3073,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
             else {
                 /* Check if the endpoint is full or not */
                 if(strncmp ((*gfal)->endpoint, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN) == 0)
-                    endpoint_offset = ENDPOINT_DEFAULT_PREFIX_LEN; 
+                    endpoint_offset = ENDPOINT_DEFAULT_PREFIX_LEN;
                 else
                     endpoint_offset = 0;
                 const char *s = strchr ((*gfal)->endpoint + endpoint_offset, '/');
