@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.84 $ $Date: 2009/08/12 13:55:48 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.85 $ $Date: 2009/08/14 10:08:10 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -853,7 +853,7 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
 
     sprintf (filter, template, host_tmp, host_tmp, port == NULL ? "" : port + 1);
 
-    while (n < 1 && !sav_errno) {
+    while (nbentries < 1 && !sav_errno) {
         rc = bdii_query_send (&ld, filter, attrs, &reply, &bdii_server, &bdii_port, &bdii_index, errbuf, errbufsz);
         if (rc < 0) {
             sav_errno = errno;
@@ -934,7 +934,9 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
                     ldap_value_free (value);
                     value = ldap_get_values (ld, entry, se_type_atpt);
                     if (value == NULL) {
-                        continue;
+                        gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][get_se_types_and_endpoints]"
+                            "[EINVAL] %s: No port published in the BDII", host);
+                        sav_errno = EINVAL;
                     } else if (len_tmp + strlen (value[0]) + 1 < GFAL_HOSTNAME_MAXLEN) {
                         port = host_tmp + len_tmp;
                         strcpy (port + 1, value[0]);
