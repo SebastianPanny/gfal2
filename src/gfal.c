@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.135 $ $Date: 2009/08/14 10:08:49 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.136 $ $Date: 2009/08/21 14:46:38 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1443,9 +1443,7 @@ gfal_unlink (const char *filename)
         return (sav_errno ? -1 : 0);
     }
 
-    gfal_file_free (gfile);
-    errno = EPROTONOSUPPORT;
-    return (-1);
+    return (0);
 }
 
     ssize_t
@@ -2928,7 +2926,7 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
     uuid_t uuid;
     char guid[GFAL_GUID_LEN];
     char *sa_path, *sa_root;
-    char *vo, *ce_ap, *p;
+    char *vo, *ce_ap, *p, *q;
     char dir_path[1104];
     char simple_ep[256];
 
@@ -2942,10 +2940,31 @@ generate_surls (gfal_internal gfal, char *errbuf, int errbufsz)
         return (-1);
     }
 
-    /* now create dir path which is either sa_path, sa_root or combination of ce_ap & sa_root */
-    strncpy (simple_ep, gfal->endpoint, sizeof(simple_ep));
-    p = strchr (simple_ep, ':');
-    if (p) *p = 0;
+    /* now create dir path which is either sa_path, sa_root or combination of ce_ap & sa_root
+     * First we need the hostname (only) of the endpoint */
+    p = strchr (gfal->endpoint, ':');
+    if (p) {
+        /* At that point we need to determine if it protocol or port number... */
+        if (*(p + 1) == '/') {
+            /* endpoint begins with eg. http://..., so it must be removed */
+            q = strchr (p + 3, ':');
+            if (q) {
+                /* a port number is specified, but not wanted here */
+                strncpy (simple_ep, p + 3, q - p - 3);
+                simple_ep[q - p - 3] = 0;
+            } else {
+                /* no port number, only protocol must be removed */
+                strncpy (simple_ep, p + 3, sizeof(simple_ep));
+            }
+        } else {
+            /* no protocol, only port number must be removed */
+            strncpy (simple_ep, gfal->endpoint, p - gfal->endpoint);
+            simple_ep[p - gfal->endpoint] = 0;
+        }
+    } else {
+        /* nothing must be removed (neither protocol, nor port number) */
+        strncpy (simple_ep, gfal->endpoint, sizeof(simple_ep));
+    }
     if (get_storage_path (simple_ep, gfal->srmv2_spacetokendesc, &sa_path, &sa_root, errbuf, errbufsz) < 0)
         return (-1);
     if (sa_path != NULL) {
