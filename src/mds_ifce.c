@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.85 $ $Date: 2009/08/14 10:08:10 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.86 $ $Date: 2009/08/21 14:49:08 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -934,9 +934,11 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
                     ldap_value_free (value);
                     value = ldap_get_values (ld, entry, se_type_atpt);
                     if (value == NULL) {
-                        gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][get_se_types_and_endpoints]"
-                            "[EINVAL] %s: No port published in the BDII", host);
-                        sav_errno = EINVAL;
+                        if (nbentries == 1) {
+                            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][get_se_types_and_endpoints]"
+                                    "[EINVAL] %s: No port published in the BDII", host);
+                            sav_errno = EINVAL;
+                        }
                     } else if (len_tmp + strlen (value[0]) + 1 < GFAL_HOSTNAME_MAXLEN) {
                         port = host_tmp + len_tmp;
                         strcpy (port + 1, value[0]);
@@ -997,7 +999,9 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
             free (stp);
             free (sep);
             rc = -1;
-            errno = sav_errno ? sav_errno : EINVAL;
+            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
+                    "[GFAL][get_se_types_and_endpoints][EINVAL] %s: No available information", host);
+            errno = EINVAL;
         }
 
         if (rc == 0) {
