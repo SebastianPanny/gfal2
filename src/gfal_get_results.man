@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_get_results.man,v $ $Revision: 1.5 $ $Date: 2009/04/08 14:16:20 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_get_results.man,v $ $Revision: 1.6 $ $Date: 2009/08/21 14:52:11 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_GET_RESULTS 3 "$Date: 2009/04/08 14:16:20 $" GFAL "Library Functions"
+.TH GFAL_GET_RESULTS 3 "$Date: 2009/08/21 14:52:11 $" GFAL "Library Functions"
 .SH NAME
 gfal_get_results \- Extracts the results from the 'gfal_internal' object
 .SH SYNOPSIS
@@ -123,7 +123,7 @@ to '1' in the
 object.
 
 .SH RETURN VALUE
-This routine returns 0 on a success, or -1 in case of error. In the latter case,
+This routine returns the number of results on a success, or -1 in case of error. In the latter case,
 .B results
 is defined to NULL.
 
