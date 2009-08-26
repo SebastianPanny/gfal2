@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.19 2009/04/17 14:06:05 rmollon Exp $
+# Version info: $Id: Makefile.am,v 1.20 2009/08/26 15:40:06 molnarzs Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -110,7 +110,8 @@ dist_include_HEADERS = \
 
 # executables
 bin_PROGRAMS = \
-	gfal_version \
+    gfal_test_checksum \
+    gfal_version \
 	gfal_testchmod \
 	gfal_testget \
 	gfal_teststat \
@@ -165,6 +166,7 @@ gfalthr_wrap.c: gfalthr.i lcg-typemaps.python.i
 
 
 GFAL_SOURCE_FILES = \
+    gfal_test_checksum.c \
 	checkprotolib.c \
 	gfal.c \
 	gfal_checksum.c \
@@ -262,6 +264,10 @@ gfal_version_CFLAGS = $(VOMS_CFLAGS) -D_LARGEFILE64_SOURCE
 
 # test programs
 #-------------------------------------------------------------------------------
+gfal_test_checksum_SOURCES = gfal_test_checksum.c
+gfal_test_checksum_LDADD = libgfal.la
+gfal_test_checksum_CFLAGS = $(VOMS_CFLAGS)
+
 gfal_testchmod_SOURCES = gfal_testchmod.c
 gfal_testchmod_LDADD = libgfal.la
 gfal_testchmod_CFLAGS = $(VOMS_CFLAGS)
