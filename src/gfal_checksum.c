@@ -4,11 +4,11 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_checksum.c,v $ $Revision: 1.7 $ $Date: 2009/08/26 15:40:06 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_checksum.c,v $ $Revision: 1.8 $ $Date: 2009/08/26 15:58:00 $ CERN Remi Mollon
  */
 
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 #include "gfal_types.h"
 
 static char *gfal_cksm_algname[] = {
