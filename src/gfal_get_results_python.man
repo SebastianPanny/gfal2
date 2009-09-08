@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_get_results_python.man,v $ $Revision: 1.8 $ $Date: 2009/04/08 14:16:20 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_get_results_python.man,v $ $Revision: 1.9 $ $Date: 2009/09/08 13:54:58 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_GET_RESULTS 3 "$Date: 2009/04/08 14:16:20 $" GFAL "Library Functions"
+.TH GFAL_GET_RESULTS 3 "$Date: 2009/09/08 13:54:58 $" GFAL "Library Functions"
 .SH NAME
 gfal_get_results \- Extracts the results from the 'gfal_internal' object
 .SH SYNOPSIS
@@ -95,18 +95,24 @@ to '1' in the
 .B gfal_request
 object.
 .TP
-.B int nbsubpaths
-Number of elements in 
-.BR subpaths .
-It is 
+.B string checksumtype
+Name of the checksum algorithm (for example
+.B ADLER32, MD5
+). It is 
 .B ONLY
-fulfilled by 
-.I gfal_ls_python(3)
-when you define 
-.B srmv2_lslevels
-to '1' in the 
-.B gfal_request
-object.
+filled by 
+.I gfal_ls_python(3).
+.TP
+.B string checksum
+The checksum value. It is 
+.B ONLY
+filled by 
+.I gfal_ls_python(3).
+.TP
+.B listOfString spacetokens
+The list of space tokens. Filled by  
+.I gfal_prestage_python(3) 
+when SRMv2 interface is used.
 
 .SH RETURN VALUE
 This routine returns 0 on a success, or -1 in case of error. In the latter case,

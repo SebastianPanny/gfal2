@@ -1,8 +1,8 @@
-.\" @(#)$RCSfile: gfal_get_results.man,v $ $Revision: 1.6 $ $Date: 2009/08/21 14:52:11 $ CERN Remi Mollon
+.\" @(#)$RCSfile: gfal_get_results.man,v $ $Revision: 1.7 $ $Date: 2009/09/08 13:54:58 $ CERN Remi Mollon
 .\" Copyright (C) 2007 by CERN
 .\" All rights reserved
 .\"
-.TH GFAL_GET_RESULTS 3 "$Date: 2009/08/21 14:52:11 $" GFAL "Library Functions"
+.TH GFAL_GET_RESULTS 3 "$Date: 2009/09/08 13:54:58 $" GFAL "Library Functions"
 .SH NAME
 gfal_get_results \- Extracts the results from the 'gfal_internal' object
 .SH SYNOPSIS
@@ -38,10 +38,15 @@ Results will be stored in a table of the following stuctures:
     char *turl;
     int status;
     char *explanation;
-    int    pinlifetime;
+    int pinlifetime;
     struct stat64 stat;
-    struct gfal_filestatus *subpaths;
+    struct gfal_filestatus_ *subpaths;
     int nbsubpaths;
+    TFileLocality locality;
+    char *checksumtype;
+    char *checksum;
+    char **spacetokens;
+    int nbspacetokens;
  } gfal_filestatus;
 
 .SH RESULT STRUCTURE MEMBERS
@@ -78,23 +83,13 @@ Fulfilled by
 .I gfal_prestagestatus(3)
 when SRMv2 interface is used.
 .TP
-.B TFileLocality locality
-File locality. Possible values are:
-.IR GFAL_LOCALITY_ONLINE ,
-.IR GFAL_LOCALITY_NEARLINE ,
-.IR GFAL_LOCALITY_ONLINE_USCOREAND_USCORENEARLINE ,
-.IR GFAL_LOCALITY_LOST ,
-.IR GFAL_LOCALITY_NONE ,
-.IR GFAL_LOCALITY_UNAVAILABLE ,
-.IR GFAL_LOCALITY_UNKNOWN .
-.TP
 .B struct stat64 stat
 Stat information about the 
 .BR surl .
 It is 
 .B ONLY
 fulfilled by 
-.IR gfal_ls(3) .
+.IR gfal_ls(3).
 .TP
 .B struct gfal_filestatus *subpaths
 Information about files in the directory (if there are ones)
@@ -121,12 +116,43 @@ when you define
 to '1' in the 
 .B gfal_request
 object.
-
+.TP
+.B TFileLocality locality
+File locality. Possible values are:
+.IR GFAL_LOCALITY_ONLINE ,
+.IR GFAL_LOCALITY_NEARLINE ,
+.IR GFAL_LOCALITY_ONLINE_USCOREAND_USCORENEARLINE ,
+.IR GFAL_LOCALITY_LOST ,
+.IR GFAL_LOCALITY_NONE ,
+.IR GFAL_LOCALITY_UNAVAILABLE ,
+.IR GFAL_LOCALITY_UNKNOWN .
+.TP
+.B char *checksumtype
+Name of the checksum algorithm (for example
+.B ADLER32, MD5
+). It is 
+.B ONLY
+filled by 
+.I gfal_ls(3).
+.TP
+.B char *checksum
+The checksum value. It is 
+.B ONLY
+filled by 
+.I gfal_ls(3).
+.TP
+.B char **spacetokens
+The list of space tokens. Filled by  
+.I gfal_prestage(3) 
+when SRMv2 interface is used.
+.TP
+.B int nbspacetokens
+Number of elements in 
+.BR spacetokens .
 .SH RETURN VALUE
 This routine returns the number of results on a success, or -1 in case of error. In the latter case,
 .B results
 is defined to NULL.
-
 .SH SEE ALSO
 .BR gfal (3),
 .BR gfal_request_new (3),
