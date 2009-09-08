@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.136 $ $Date: 2009/08/21 14:46:38 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.137 $ $Date: 2009/09/08 09:36:56 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -2216,7 +2216,7 @@ parseturl (const char *turl, char *protocol, int protocolsz, char *pfn, int pfns
     int len;
     char *p;
 
-    if (strlen (turl) > pfnsz - 1) {
+    if (turl && strlen (turl) > pfnsz - 1) {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][parseturl][ENAMETOOLONG] %s: TURL too long", turl);
         errno = ENAMETOOLONG;
         return (-1);
