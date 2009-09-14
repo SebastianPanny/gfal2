@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.8 2009/01/26 11:52:51 rmollon Exp $
+# Version info: $Id: configure.ac,v 1.9 2009/09/14 13:49:20 molnarzs Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.8 $])
+AC_REVISION([$Revision: 1.9 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -94,10 +94,56 @@ AC_GLOBUS
 
 # gsoap
 AC_GSOAP
-AM_CONDITIONAL([USE_GSOAP_2_7_10],[test "x$GSOAP_VERSION_NUM" = "x020710"])
 
-#cgsi-gsoap
+# Set GSOAP Scripts names
+AC_GSOAP_FIX
+
+# Set CGSI GSOAP Plugin Properties
 AC_CGSI_GSOAP
+
+# Set template config.h (required by stdsoap)
+# This part should probably go in a macron in gsoap.m4 (something like AC_GSOAP_SRC)
+# BEGIN:
+AH_TEMPLATE(HAVE_FTIME)
+AH_TEMPLATE(HAVE_GMTIME)
+AH_TEMPLATE(HAVE_GMTIME_R)
+AH_TEMPLATE(HAVE_GETTIMEOFDAY)
+AH_TEMPLATE(HAVE_LOCALTIME_R)
+AH_TEMPLATE(HAVE_MBTOWC)
+AH_TEMPLATE(HAVE_STRTOF)
+AH_TEMPLATE(HAVE_STRTOD)
+AH_TEMPLATE(HAVE_STRTOL)
+AH_TEMPLATE(HAVE_STRTOLL)
+AH_TEMPLATE(HAVE_STRTOUL)
+AH_TEMPLATE(HAVE_STRTOULL)
+AH_TEMPLATE(HAVE_SSCANF)
+AH_TEMPLATE(HAVE_WCTOMB)
+AH_TEMPLATE(HAVE_TIMEGM)
+                                                                                                                                                         
+AC_CHECK_FUNC(ftime,           [AC_DEFINE(HAVE_FTIME)])
+AC_CHECK_FUNC(gmtime,          [AC_DEFINE(HAVE_GMTIME)])
+AC_CHECK_FUNC(gmtime_r,        [AC_DEFINE(HAVE_GMTIME_R)])
+AC_CHECK_FUNC(gettimeofday,    [AC_DEFINE(HAVE_GETTIMEOFDAY)])
+AC_CHECK_FUNC(localtime_r,     [AC_DEFINE(HAVE_LOCALTIME_R)])
+AC_CHECK_FUNC(mbtowc,          [AC_DEFINE(HAVE_MBTOWC)])
+AC_CHECK_FUNC(strtof,          [AC_DEFINE(HAVE_STRTOF)])
+AC_CHECK_FUNC(strtod,          [AC_DEFINE(HAVE_STRTOD)])
+AC_CHECK_FUNC(strtol,          [AC_DEFINE(HAVE_STRTOL)])
+AC_CHECK_FUNC(strtoll,         [AC_DEFINE(HAVE_STRTOLL)])
+AC_CHECK_FUNC(strtoul,         [AC_DEFINE(HAVE_STRTOUL)])
+AC_CHECK_FUNC(strtoull,        [AC_DEFINE(HAVE_STRTOULL)])
+AC_CHECK_FUNC(sscanf,          [AC_DEFINE(HAVE_SSCANF)])
+AC_CHECK_FUNC(wctomb,          [AC_DEFINE(HAVE_WCTOMB)])
+AC_CHECK_FUNC(timegm,          [AC_DEFINE(HAVE_TIMEGM)])
+#:END
+
+# For IPv6
+AH_TEMPLATE([WITH_IPV6], [For Ipv6 support])
+AC_DEFINE(WITH_IPV6)
+
+#Conditions for Gsoap on-the-fly paches
+AM_CONDITIONAL(USE_GSOAP_2_7_9, [test "x$GSOAP_VERSION_NUM" = "x020709"])
+AC_MSG_RESULT(["USE_GSOAP_2_7_9 is [$USE_GSOAP_2_7_9]"])
 
 # --with arguments
 #-------------------------------------------------------------------------------
