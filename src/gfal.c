@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.137 $ $Date: 2009/09/08 09:36:56 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.138 $ $Date: 2009/09/23 13:55:11 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -3114,7 +3114,7 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
             gfal_internal_free (*gfal);
             *gfal = NULL;
             gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                    "[GFAL][gfal_init][EINVAL] Invalid request: When BDII checks are disabled, you must provide SURLs and endpoint type");
+                    "[GFAL][gfal_init][EINVAL] Invalid request: When BDII checks are disabled, you must provide SURLs and endpoint types");
             errno = EINVAL;
             return (-1);
         }
