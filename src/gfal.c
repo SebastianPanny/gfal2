@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.138 $ $Date: 2009/09/23 13:55:11 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.139 $ $Date: 2009/10/01 09:53:37 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1443,6 +1443,7 @@ gfal_unlink (const char *filename)
         return (sav_errno ? -1 : 0);
     }
 
+	gfal_file_free (gfile);
     return (0);
 }
 

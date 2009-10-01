@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.86 $ $Date: 2009/08/21 14:49:08 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.87 $ $Date: 2009/10/01 09:53:37 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -472,12 +472,12 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
     GFAL_DEBUG ("DEBUG: get_rls_endpoints used server %s:%d\n", bdii_server, bdii_port);
 
     for (entry = ldap_first_entry (ld, reply);
-            entry != NULL;
+            entry != NULL && rc == 0;
             entry = ldap_next_entry (ld, entry)) {
         service_type = NULL;
         service_url = NULL;
         for (attr = ldap_first_attribute (ld, entry, &ber);
-                attr != NULL;
+                attr != NULL && rc == 0;
                 attr = ldap_next_attribute (ld, entry, ber)) {
             value = ldap_get_values (ld, entry, attr);
             if (value != NULL) {
@@ -492,7 +492,12 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
             }
             else
                 rc = -1;
+
+			ldap_memfree (attr);
         }
+		ber_free (ber, 0);
+		ber = NULL;
+
         if (rc == 0) {
             if (strcmp (service_type, "edg-replica-metadata-catalog") == 0) {
                 if ( (*rmc_endpoint = strdup (service_url)) == NULL)
@@ -506,7 +511,6 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
         free (service_url);
     }
 
-    ber_free (ber, 0);
     bdii_query_free (&ld, &reply);
 
     if (*lrc_endpoint == NULL) {
@@ -1055,45 +1059,42 @@ get_seap_info (const char *host, char ***access_protocol, int **port, char *errb
 
         nbentries = ldap_count_entries (ld, reply);
         nbentries++;
-        if ( (ap = calloc (nbentries, sizeof (char *))) == NULL ||
-                (pn = calloc (nbentries, sizeof (int))) == NULL) {
+        if ( (ap = (char **) calloc (nbentries, sizeof (char *))) == NULL ||
+                (pn = (int *) calloc (nbentries, sizeof (int))) == NULL) {
             sav_errno = errno ? errno : ENOMEM;
             bdii_query_free (&ld, &reply);
             rc = -1;
             break;
         }
 
-        for (entry = ldap_first_entry (ld, reply);
-                entry != NULL;
-                entry = ldap_next_entry (ld, entry)) {
+        for (entry = ldap_first_entry (ld, reply), n = 0;
+                entry != NULL && rc == 0;
+                entry = ldap_next_entry (ld, entry), ++n) {
             for (attr = ldap_first_attribute (ld, entry, &ber);
-                    attr != NULL;
+                    attr != NULL && rc == 0;
                     attr = ldap_next_attribute (ld, entry, ber)) {
-                value = ldap_get_values (ld, entry, attr);
-                if (value == NULL) {
-                    continue;
-                }
-                if (strcmp (attr, "GlueSEAccessProtocolType") == 0) {
-                    if ( (ap[n] = strdup (value[0])) == NULL) {
-                        sav_errno = errno ? errno : ENOMEM;
-                        ldap_unbind (ld);
-                        errno = sav_errno;
-                        return (-1);
-                    }
-                } else
-                    pn[n] = atoi (value[0]);
+				if (!ap[n] && (value = ldap_get_values (ld, entry, attr))) {
+					if (strcmp (attr, "GlueSEAccessProtocolType") == 0) {
+						if ((ap[n] = strdup (value[0])) == NULL) {
+							sav_errno = errno ? errno : ENOMEM;
+							rc = -1;
+						}
+					} else
+						pn[n] = atoi (value[0]);
 
-                ++n;
-                ldap_value_free (value);
+					ldap_value_free (value);
+				}
+				ldap_memfree (attr);
             }
+			ber_free (ber, 0);
+			ber = NULL;
         }
-        ber_free (ber, 0);
         bdii_query_free (&ld, &reply);
     }
 
     if (rc < 0) {
         for (i = 0; i < n; ++i)
-            free (ap[n]);
+            if (ap[i]) free (ap[i]);
         free (ap);
         free (pn);
         errno = sav_errno ? sav_errno : EINVAL;
