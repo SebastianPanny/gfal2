@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.9 2009/09/14 13:49:20 molnarzs Exp $
+# Version info: $Id: configure.ac,v 1.10 2009/10/08 15:32:39 molnarzs Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.9 $])
+AC_REVISION([$Revision: 1.10 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -300,6 +300,8 @@ AM_CONDITIONAL([USE_GSOAP_2_7_10],[test "x$GSOAP_VERSION_NUM" = "x020710"])
 AC_CONFIG_HEADERS([src/autogen/config.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([test/unit/Makefile])
 
 AC_OUTPUT
 

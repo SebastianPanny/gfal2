@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.5 $ $Date: 2009/04/08 14:23:09 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_internals.h,v $ $Revision: 1.6 $ $Date: 2009/10/08 15:32:39 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_INTERNALS_H
@@ -177,38 +177,6 @@ int srm_set_xfer_running (const char *, int, int, char *, int, int);
 int srm_turlsfromsurls (int, const char **, const char *, GFAL_LONG64 *, char **, int, int *, struct srm_filestatus **, char *, int, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int srm_getfilemd (int, const char **, const char *, struct srm_mdfilestatus **, char *, int, int);
-#endif
-
-
-/******************** srm2_2_ifce.c ********************/
-
-int srmv2_deletesurls (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_rmdir (const char *, const char *, int, struct srmv2_filestatus **, char *, int, int);
-int srmv2_get (int, const char **, const char *, int, char **, char **, struct srmv2_filestatus **, char *, int, int);
-int srmv2_gete (int, const char **, const char *, const char *, int, char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_getstatus (int, const char **, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_getstatuse (const char *, const char *, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_getspacetokens (const char *, const char *, int *, char ***, char *, int, int);
-int srmv2_getspacemd (int, const char **, const char *, gfal_spacemd **, char *, int, int);
-char *srmv2_getbestspacetoken (const char *, const char *, GFAL_LONG64, char *, int, int);
-int srmv2_makedirp (const char *, const char *, char *, int, int);
-int srmv2_bringonline (int, const char **, const char *, const char *, char **, int, char **, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_prestage (int, const char **, const char *, int, char **, int, char **, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_prestagee (int, const char **, const char *, const char *, char **, int, char **, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_prestagestatus (int, const char **, const char *, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_prestagestatuse (const char *, const char *, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_set_xfer_done_get (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_set_xfer_done_put (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_set_xfer_running (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_turlsfromsurls_get (int, const char **, const char *, int, const char *, char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_turlsfromsurls_put (int, const char **, const char *, GFAL_LONG64 *, int, const char *, char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_pin (int, const char **, const char *, const char *, int, struct srmv2_pinfilestatus **, char *, int, int);
-int srmv2_release (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_abortrequest (const char *, const char *, char *, int, int);
-int srmv2_abortfiles (int, const char **, const char *, const char *, struct srmv2_filestatus **, char *, int, int);
-int srmv2_access (int, const char **, const char *, int, struct srmv2_filestatus **, char *, int, int);
-#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
-int srmv2_getfilemd (int, const char **, const char *, int, int *, int, struct srmv2_mdfilestatus **, char **, char *, int, int);
 #endif
 
 #ifdef __cplusplus

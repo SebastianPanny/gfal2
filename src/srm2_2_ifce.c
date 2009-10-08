@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.79 $ $Date: 2009/08/14 10:08:49 $
+ * @(#)$RCSfile: srm2_2_ifce.c,v $ $Revision: 1.80 $ $Date: 2009/10/08 15:32:39 $
  */
 
 #define _GNU_SOURCE
@@ -14,22 +14,15 @@
 #include <errno.h>
 #include <grp.h>
 #include <pwd.h>
+#include <assert.h>
 #include <sys/stat.h>
 #include "gfal_api.h"
-#include "gfal_internals.h"
-#define WITH_NOGLOBAL
-#include "stdsoap2.h"
-#undef SOAP_FMAC3
-#define SOAP_FMAC3 static
-#undef SOAP_FMAC5
-#define SOAP_FMAC5 static
-#include "srmv2H.h"
+#include "srm_dependencies.h"
 #include "srmSoapBinding+.nsmap"
-#ifdef GFAL_SECURE
-#include "cgsi_plugin.h"
-#endif
 #include "srmv2C.c"
 #include "srmv2Client.c"
+#include "gfal_utils.h"
+#include "srm2_2_ifce.h"
 
 static char lastcreated_dir[1024] = "";
 static const char gfal_remote_type[] = "SE";
@@ -74,6 +67,67 @@ static const char *srmv2_errmsg[] = {
 	"SRM_FILE_UNAVAILABLE",
 	"SRM_CUSTOM_STATUS"
 };
+
+/* CODEREVIEW START */
+
+/* Set up the default SOAP callers */
+static int srmv2_call_srm_prepare_to_get(gfal_soap_prepare_to_get_parameters_t* p)
+{
+    assert(p);
+    return soap_call_srm2__srmPrepareToGet (
+        p->soap, p->srm_endpoint, p->srmfunc, p->req, p->rep);
+}
+
+static int srmv2_call_srm_bring_online(gfal_soap_bring_online_parameters_t* p)
+{
+    assert(p);
+    return soap_call_srm2__srmBringOnline(
+        p->soap, p->srm_endpoint, p->srmfunc, p->req, p->rep);
+}
+
+static int srmv2_call_prepare_to_put(gfal_soap_prepare_to_put_parameters_t* p)
+{
+    assert(p);
+    return soap_call_srm2__srmPrepareToPut(
+        p->soap, p->srm_endpoint, p->srmfunc, p->req, p->rep);
+}
+
+gfal_soap_callers_t gfal_srm_callers_v2 = {
+    srmv2_call_srm_prepare_to_get,
+    srmv2_call_srm_bring_online,
+    srmv2_call_prepare_to_put
+};
+
+/* Utility functions */
+static int gfal_set_protocol_in_transferParameters(
+    struct soap* soap,
+    struct srm2__TTransferParameters* transferParameters,
+    char** protocols,
+    char *errbuf,
+    int errbufsz)
+{
+    struct srm2__ArrayOfString ** array = NULL;
+    assert(transferParameters);
+    array = &(transferParameters->arrayOfTransferProtocols);
+    *array = NULL;
+
+    if (protocols) {
+        *array = soap_malloc (soap, sizeof(struct srm2__ArrayOfString));
+
+        if (*array == NULL) {
+            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
+            errno = ENOMEM;
+            return GFAL_SRM_RETURN_ERROR;
+        }
+
+        (*array)->__sizestringArray = gfal_count_elements_of_string_array(protocols);
+        (*array)->stringArray = protocols;
+    }
+
+    return GFAL_SRM_RETURN_OK;
+}
+
+/* CODEREVIEW END */
 
 srmv2_deletesurls (int nbfiles, const char **surls, const char *srm_endpoint,
 		struct srmv2_filestatus **statuses, char *errbuf, int errbufsz, int timeout)
@@ -287,8 +341,10 @@ srmv2_rmdir (const char *surl, const char *srm_endpoint, int recursive,
 	return (1);
 }
 
-srmv2_get (int nbfiles, const char **surls, const char *spacetokendesc, int nbprotocols, char **protocols,
-		char **reqtoken, struct srmv2_filestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+srmv2_get (
+    int nbfiles, const char **surls, const char *spacetokendesc, char **protocols,
+    char **reqtoken, struct srmv2_filestatus **filestatuses, char *errbuf,
+    int errbufsz, int timeout)
 {
 	char **se_types = NULL;
 	char **se_endpoints = NULL;
@@ -315,8 +371,8 @@ srmv2_get (int nbfiles, const char **surls, const char *spacetokendesc, int nbpr
 		return (-1);
 	}
 
-	r = srmv2_gete (nbfiles, surls, srm_endpoint, spacetokendesc, 0, protocols, reqtoken,
-			&pinfilestatuses, errbuf, errbufsz, timeout);
+	r = srmv2_gete (nbfiles, surls,spacetokendesc, srm_endpoint, 0, protocols,
+	    reqtoken, &pinfilestatuses, errbuf, errbufsz, timeout);
 
 	free (srm_endpoint);
 
@@ -340,15 +396,16 @@ srmv2_get (int nbfiles, const char **surls, const char *spacetokendesc, int nbpr
 	return (r);
 }
 
-srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const char *spacetokendesc,
-		int desiredpintime,	char **protocols, char **reqtoken, struct srmv2_pinfilestatus **filestatuses,
-		char *errbuf, int errbufsz, int timeout)
+srmv2_gete (
+    int nbfiles, const char **surls, const char *srm_endpoint, int desiredpintime,
+    const char *spacetokendesc, char **protocols, char **reqtoken,
+    struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz,
+    int timeout)
 {
 	int flags;
 	int sav_errno = 0;
 	int n;
 	int ret;
-	int nbproto = 0;
 	struct srm2__srmPrepareToGetResponse_ rep;
 	struct srm2__ArrayOfTGetRequestFileStatus *repfs;
 	struct srm2__srmPrepareToGetRequest req;
@@ -358,6 +415,8 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 	int i = 0;
 	char *targetspacetoken;
 	const char srmfunc[] = "PrepareToGet";
+	int call_is_successfull = 0;
+	gfal_soap_prepare_to_get_parameters_t get_params;
 
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
@@ -429,26 +488,22 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 	req.transferParameters->accessPattern = NULL;
 	req.transferParameters->connectionType = NULL;
 	req.transferParameters->arrayOfClientNetworks = NULL;
-	req.transferParameters->arrayOfTransferProtocols = NULL;
 
-	if (protocols) {
-		if ((req.transferParameters->arrayOfTransferProtocols =
-					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
-			errno = ENOMEM;
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
+	ret = gfal_set_protocol_in_transferParameters(
+        &soap, req.transferParameters, protocols, errbuf, errbufsz);
 
-		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-		if (!protocols[nbproto]) protocols[nbproto] = "";
+    if (ret != GFAL_SRM_RETURN_OK)
+        goto FUNCTION_CLEANUP_AND_RETURN;
 
-		req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
-		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
-	}
+    get_params.soap = &soap;
+    get_params.srm_endpoint = srm_endpoint;
+    get_params.srmfunc = srmfunc;
+    get_params.req = &req;
+    get_params.rep = &rep;
 
-	if ((ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+    ret = gfal_srm_callers_v2.call_prepare_to_get(&get_params);
+
+	if (ret) {
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -486,10 +541,14 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 	/* return file statuses */
 	repfs = rep.srmPrepareToGetResponse->arrayOfFileStatuses;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
-				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
+    call_is_successfull =
+        reqstatp->statusCode == SRM_USCORESUCCESS ||
+        reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS;
 
+	if (!call_is_successfull || !repfs || repfs->__sizestatusArray < 1 ||
+	    !repfs->statusArray)
+	{
+		if (!call_is_successfull) {
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
@@ -542,13 +601,16 @@ srmv2_gete (int nbfiles, const char **surls, const char *srm_endpoint, const cha
 		}
 		if (repfs->statusArray[i]->remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
-
 	}
 
+	errno = 0;
+	ret = n;
+
+FUNCTION_CLEANUP_AND_RETURN:
 	soap_end (&soap);
 	soap_done (&soap);
-    errno = 0;
-	return (n);
+
+	return ret;
 }
 
 srmv2_getstatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_filestatus **filestatuses,
@@ -1248,7 +1310,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 }
 
 srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int nbprotocols, char **protocols, int desiredpintime,
-		char **reqtoken, struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+    char **reqtoken, struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
 {
 	char **se_types = NULL;
 	char **se_endpoints = NULL;
@@ -1274,16 +1336,20 @@ srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int
 		return (-1);
 	}
 
-	r = srmv2_prestagee (nbfiles, surls, srm_endpoint, spacetokendesc, protocols, desiredpintime, reqtoken,
-			filestatuses, errbuf, errbufsz, timeout);
+	r = srmv2_prestagee (nbfiles, surls, srm_endpoint, spacetokendesc,
+	    protocols, desiredpintime, reqtoken, filestatuses, errbuf,
+	    errbufsz, timeout);
 
 	free (srm_endpoint);
     errno = 0;
 	return (r);
 }
 
-srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, const char *spacetokendesc,
-		char **protocols, int desiredpintime, char **reqtoken, struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+srmv2_prestagee (
+    int nbfiles, const char **surls, const char *srm_endpoint, int desiredpintime,
+    const char *spacetokendesc, char **protocols, char **reqtoken,
+    struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz,
+    int timeout)
 {
 	int flags;
 	int sav_errno = 0;
@@ -1300,7 +1366,12 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	int nbproto = 0;
 	const char srmfunc[] = "BringOnline";
 
-	soap_init (&soap);
+	/* CODEREVIEW START */
+    gfal_soap_bring_online_parameters_t bring_online;
+    int call_is_successfull = 0;
+    /* CODEREVIEW END */
+
+    soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
@@ -1361,7 +1432,7 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 
 	for (i = 0; i < nbfiles; i++) {
 		if ((req.arrayOfFileRequests->requestArray[i] =
-					soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
+				soap_malloc (&soap, sizeof(struct srm2__TGetFileRequest))) == NULL) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
 			errno = ENOMEM;
 			soap_end (&soap);
@@ -1376,26 +1447,24 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 	req.transferParameters->accessPattern = NULL;
 	req.transferParameters->connectionType = NULL;
 	req.transferParameters->arrayOfClientNetworks = NULL;
-	req.transferParameters->arrayOfTransferProtocols = NULL;
 
-	if (protocols) {
-		if ((req.transferParameters->arrayOfTransferProtocols =
-					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
-			errno = ENOMEM;
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
+	/* CODEREVIEW START */
+	ret = gfal_set_protocol_in_transferParameters(&soap, req.transferParameters,
+	    protocols, errbuf, errbufsz);
 
-		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-		if (!protocols[nbproto]) protocols[nbproto] = "";
+    if (ret != GFAL_SRM_RETURN_OK)
+        goto FUNCTION_CLEANUP_AND_RETURN;
 
-		req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
-		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
-	}
+    bring_online.soap = &soap;
+    bring_online.srm_endpoint = srm_endpoint;
+    bring_online.srmfunc = srmfunc;
+    bring_online.req = &req;
+    bring_online.rep = &rep;
 
-	if ((ret = soap_call_srm2__srmBringOnline (&soap, srm_endpoint, "BringOnline", &req, &rep))) {
+    ret = gfal_srm_callers_v2.call_bring_online(&bring_online);
+
+    if (ret) {
+    /* CODEREVIEW END */
 		if (soap.fault != NULL && soap.fault->faultstring != NULL)
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 					gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -1432,11 +1501,16 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 
 	/* return file statuses */
 	repfs = rep.srmBringOnlineResponse->arrayOfFileStatuses;
+	/* CODEREVIEW START */
+	call_is_successfull =
+	    reqstatp->statusCode == SRM_USCORESUCCESS ||
+	    reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS;
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
-				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
-
+	if (!call_is_successfull || !repfs || repfs->__sizestatusArray < 1 ||
+	    !repfs->statusArray)
+	{
+		if (!call_is_successfull) {
+    /* CODEREVIEW END */
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
@@ -1489,11 +1563,16 @@ srmv2_prestagee (int nbfiles, const char **surls, const char *srm_endpoint, cons
 		if (repfs->statusArray[i]->remainingPinTime)
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
 	}
-
-	soap_end (&soap);
-	soap_done (&soap);
+	/* CODEREVIEW START */
     errno = 0;
-	return (n);
+    ret = n;
+
+FUNCTION_CLEANUP_AND_RETURN:
+    soap_end (&soap);
+    soap_done (&soap);
+
+    return ret;
+    /* CODEREVIEW END */
 }
 
 srmv2_prestagestatus (int nbfiles, const char **surls, const char *reqtoken, struct srmv2_pinfilestatus **filestatuses,
@@ -1653,8 +1732,11 @@ srmv2_prestagestatuse (const char *reqtoken, const char *srm_endpoint, struct sr
 	return (n);
 }
 
-srmv2_bringonline (int nbfiles, const char **surls, const char *srm_endpoint, const char *spacetokendesc,
-		char **protocols, int desiredpintime, char **reqtoken, struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+srmv2_bringonline (
+    int nbfiles, const char **surls, const char *srm_endpoint, int desiredpintime,
+	const char *spacetokendesc, char **protocols, char **reqtoken,
+	struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz,
+	int timeout)
 {
 	struct srm2__srmAbortRequestRequest abortreq;
 	struct srm2__srmAbortRequestResponse_ abortrep;
@@ -1678,6 +1760,8 @@ srmv2_bringonline (int nbfiles, const char **surls, const char *srm_endpoint, co
 	struct srm2__srmStatusOfBringOnlineRequestRequest sreq;
 	const char srmfunc[] = "BringOnline";
 	const char srmfunc_status[] = "StatusOfBringOnlineRequest";
+    gfal_soap_bring_online_parameters_t bring_online;
+    int call_is_successfull = 0;
 
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
@@ -1757,22 +1841,11 @@ srmv2_bringonline (int nbfiles, const char **surls, const char *srm_endpoint, co
 	req.transferParameters->arrayOfClientNetworks = NULL;
 	req.transferParameters->arrayOfTransferProtocols = NULL;
 
-	if (protocols) {
-		if ((req.transferParameters->arrayOfTransferProtocols =
-					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
-			errno = ENOMEM;
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
+    ret = gfal_set_protocol_in_transferParameters(&soap, req.transferParameters,
+        protocols, errbuf, errbufsz);
 
-		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-		if (!protocols[nbproto]) protocols[nbproto] = "";
-
-		req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
-		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
-	}
+    if (ret != GFAL_SRM_RETURN_OK)
+        goto FUNCTION_CLEANUP_AND_RETURN;
 
 	if (timeout > 0)
 		endtime = (time(NULL) + timeout);
@@ -1780,8 +1853,16 @@ srmv2_bringonline (int nbfiles, const char **surls, const char *srm_endpoint, co
 	sleep_time = 5;
 	nbretries = 0;
 
+    bring_online.soap = &soap;
+    bring_online.srm_endpoint = srm_endpoint;
+    bring_online.srmfunc = srmfunc;
+    bring_online.req = &req;
+    bring_online.rep = &rep;
+
 	do {
-		if ((ret = soap_call_srm2__srmBringOnline (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+	    ret = gfal_srm_callers_v2.call_bring_online(&bring_online);
+
+		if (ret) {
 			if(soap.fault != NULL && soap.fault->faultstring != NULL)
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -1889,10 +1970,15 @@ srmv2_bringonline (int nbfiles, const char **surls, const char *srm_endpoint, co
 		repfs = srep.srmStatusOfBringOnlineRequestResponse->arrayOfFileStatuses;
 	}
 
-	if (!repfs || repfs->__sizestatusArray < 1 || !repfs->statusArray) {
-		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
-				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS &&
-				reqstatp->statusCode != SRM_USCOREDONE) {
+    call_is_successfull =
+	    reqstatp->statusCode == SRM_USCORESUCCESS ||
+	    reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS ||
+	    reqstatp->statusCode == SRM_USCOREDONE;
+
+	if (!call_is_successfull || !repfs || repfs->__sizestatusArray < 1 ||
+	    !repfs->statusArray)
+	{
+		if (!call_is_successfull) {
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
@@ -1952,10 +2038,14 @@ srmv2_bringonline (int nbfiles, const char **surls, const char *srm_endpoint, co
 			(*filestatuses)[i].pinlifetime = *(repfs->statusArray[i]->remainingPinTime);
 	}
 
-	soap_end (&soap);
-	soap_done (&soap);
     errno = 0;
-	return (n);
+    ret = n;
+
+FUNCTION_CLEANUP_AND_RETURN:
+    soap_end (&soap);
+    soap_done (&soap);
+
+    return ret;
 }
 
 srmv2_set_xfer_done_get (int nbfiles, const char **surls, const char *srm_endpoint, const char *reqtoken,
@@ -2115,8 +2205,11 @@ srmv2_set_xfer_running (int nbfiles, const char **surls, const char *srm_endpoin
 	return (nbfiles);
 }
 
-srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpoint, int desiredpintime, const char *spacetokendesc,
-		char **protocols, char **reqtoken, struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+int srmv2_turlsfromsurls_get (
+    int nbfiles, const char **surls, const char *srm_endpoint, int desiredpintime,
+    const char *spacetokendesc,	char **protocols, char **reqtoken,
+    struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz,
+    int timeout)
 {
 	struct srm2__srmAbortRequestRequest abortreq;
 	struct srm2__srmAbortRequestResponse_ abortrep;
@@ -2127,7 +2220,7 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	int n;
 	int nbproto = 0;
 	char *r_token;
-	int ret;
+	int ret = GFAL_SRM_RETURN_ERROR;
 	int sleep_time, nbretries;
 	struct srm2__srmPrepareToGetResponse_ rep;
 	struct srm2__ArrayOfTGetRequestFileStatus *repfs;
@@ -2140,6 +2233,8 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	char *targetspacetoken;
 	const char srmfunc[] = "PrepareToGet";
 	const char srmfunc_status[] = "StatusOfGetRequest";
+	gfal_soap_prepare_to_get_parameters_t get_params;
+	int call_is_successfull = 0;
 
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
@@ -2211,24 +2306,12 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	req.transferParameters->accessPattern = NULL;
 	req.transferParameters->connectionType = NULL;
 	req.transferParameters->arrayOfClientNetworks = NULL;
-	req.transferParameters->arrayOfTransferProtocols = NULL;
 
-	if (protocols) {
-		if ((req.transferParameters->arrayOfTransferProtocols =
-					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
-			errno = ENOMEM;
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
+	ret = gfal_set_protocol_in_transferParameters(
+	    &soap, req.transferParameters, protocols, errbuf, errbufsz);
 
-		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-		if (!protocols[nbproto]) protocols[nbproto] = "";
-
-		req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
-		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
-	}
+	if (ret != GFAL_SRM_RETURN_OK)
+	    goto FUNCTION_CLEANUP_AND_RETURN;
 
 	if (timeout > 0)
 		endtime = (time(NULL) + timeout);
@@ -2236,8 +2319,15 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 	sleep_time = 5;
 	nbretries = 0;
 
+	get_params.soap = &soap;
+	get_params.srm_endpoint = srm_endpoint;
+	get_params.srmfunc = srmfunc;
+	get_params.req = &req;
+	get_params.rep = &rep;
+
 	do {
-		if ((ret = soap_call_srm2__srmPrepareToGet (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+	    ret = gfal_srm_callers_v2.call_prepare_to_get(&get_params);
+		if (ret) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -2336,10 +2426,14 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 		repfs = srep.srmStatusOfGetRequestResponse->arrayOfFileStatuses;
 	}
 
-	if (!repfs || repfs->__sizestatusArray < nbfiles || !repfs->statusArray) {
-		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
-				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
+	call_is_successfull =
+	    reqstatp->statusCode == SRM_USCORESUCCESS ||
+        reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS;
 
+	if (!call_is_successfull || !repfs || repfs->__sizestatusArray < nbfiles ||
+	   !repfs->statusArray)
+	{
+		if (!call_is_successfull) {
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
@@ -2403,15 +2497,21 @@ srmv2_turlsfromsurls_get (int nbfiles, const char **surls, const char *srm_endpo
 			return (-1);
 		}
 
+    errno = 0;
+    ret = n;
+
+FUNCTION_CLEANUP_AND_RETURN:
 	soap_end (&soap);
 	soap_done (&soap);
-    errno = 0;
-	return (n);
+
+	return ret;
 }
 
-srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpoint, GFAL_LONG64 *filesizes,
-		int desiredpintime, const char *spacetokendesc, char **protocols, char **reqtoken,
-		struct srmv2_pinfilestatus **filestatuses, char *errbuf, int errbufsz, int timeout)
+int srmv2_turlsfromsurls_put(
+    int nbfiles, const char **surls, const char *srm_endpoint,
+    GFAL_LONG64 *filesizes, int desiredpintime, const char *spacetokendesc,
+    char **protocols, char **reqtoken, struct srmv2_pinfilestatus **filestatuses,
+    char *errbuf, int errbufsz, int timeout)
 {
 	struct srm2__srmAbortRequestRequest abortreq;
 	struct srm2__srmAbortRequestResponse_ abortrep;
@@ -2420,7 +2520,6 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	int sav_errno = 0;
 	int i;
 	int n;
-	int nbproto = 0;
 	char *r_token;
 	int ret;
 	int sleep_time, nbretries;
@@ -2436,6 +2535,8 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	GFAL_LONG64 totalsize = 0;
 	const char srmfunc[] = "PrepareToPut";
 	const char srmfunc_status[] = "StatusOfPutRequest";
+	gfal_soap_prepare_to_put_parameters_t put_parameters;
+    int call_is_successfull = 0;
 
 	soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
@@ -2503,22 +2604,11 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	req.transferParameters->arrayOfClientNetworks = NULL;
 	req.transferParameters->arrayOfTransferProtocols = NULL;
 
-	if (protocols) {
-		if ((req.transferParameters->arrayOfTransferProtocols =
-					soap_malloc (&soap, sizeof(struct srm2__ArrayOfString))) == NULL) {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][soap_malloc][] error");
-			errno = ENOMEM;
-			soap_end (&soap);
-			soap_done (&soap);
-			return (-1);
-		}
+    ret = gfal_set_protocol_in_transferParameters(&soap, req.transferParameters,
+        protocols, errbuf, errbufsz);
 
-		while (protocols[nbproto] && *protocols[nbproto]) nbproto++;
-		if (!protocols[nbproto]) protocols[nbproto] = "";
-
-		req.transferParameters->arrayOfTransferProtocols->__sizestringArray = nbproto;
-		req.transferParameters->arrayOfTransferProtocols->stringArray = protocols;
-	}
+    if (ret != GFAL_SRM_RETURN_OK)
+        goto FUNCTION_CLEANUP_AND_RETURN;
 
 	if (!spacetokendesc) {
 		req.targetSpaceToken = NULL;
@@ -2545,8 +2635,16 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 	sleep_time = 5;
 	nbretries = 0;
 
-	do {
-		if ((ret = soap_call_srm2__srmPrepareToPut (&soap, srm_endpoint, srmfunc, &req, &rep))) {
+	put_parameters.soap = &soap;
+	put_parameters.srm_endpoint = srm_endpoint;
+	put_parameters.srmfunc = srmfunc;
+	put_parameters.req = &req;
+	put_parameters.rep = &rep;
+
+    do {
+	    ret = gfal_srm_callers_v2.call_prepare_to_put(&put_parameters);
+
+        if (ret) {
 			if (soap.fault != NULL && soap.fault->faultstring != NULL)
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: %s",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.fault->faultstring);
@@ -2653,10 +2751,14 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 		soap_done (&soap);
 		return (-1);
 	}
-	if (!repfs || repfs->__sizestatusArray < nbfiles || !repfs->statusArray) {
-		if (reqstatp->statusCode != SRM_USCORESUCCESS &&
-				reqstatp->statusCode != SRM_USCOREPARTIAL_USCORESUCCESS) {
 
+    call_is_successfull =
+        reqstatp->statusCode == SRM_USCORESUCCESS ||
+        reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS;
+
+    if (!call_is_successfull || repfs->__sizestatusArray < nbfiles || !repfs->statusArray)
+    {
+        if (!call_is_successfull) {
 			sav_errno = statuscode2errno (reqstatp->statusCode);
 			if (reqstatp->explanation && reqstatp->explanation[0])
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
@@ -2720,10 +2822,14 @@ srmv2_turlsfromsurls_put (int nbfiles, const char **surls, const char *srm_endpo
 			return (-1);
 		}
 
-	soap_end (&soap);
-	soap_done (&soap);
     errno = 0;
-	return (n);
+    ret = n;
+
+FUNCTION_CLEANUP_AND_RETURN:
+    soap_end (&soap);
+    soap_done (&soap);
+
+    return ret;
 }
 
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)

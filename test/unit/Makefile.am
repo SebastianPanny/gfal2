@@ -14,19 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# org.glite.data.gfal Makefile.am
-#
-# Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.2 2009/10/08 15:32:39 molnarzs Exp $
+# Authors: Zsolt Molnar <zsolt.molnar@cern.ch, http://www.zsoltmolnar.hu>
+# Version info: $Id: Makefile.am,v 1.1 2009/10/08 15:32:39 molnarzs Exp $
 # Release: $Name:  $
 
-commonutdir = $(datadir)/doc/$(PACKAGE)
-dist_commonut_DATA = \
-	RELEASE-NOTES \
-	LICENSE \
-	VERSION
+AM_CFLAGS = -g -fPIC -D_LARGEFILE64_SOURCE $(GFAL_CFLAGS) \
+    -DVERSION=\"$(VERSION)-$(RELEASE)\" $(GSOAP_CFLAGS) \
+    -I$(top_srcdir)/src -I../../src
 
-SUBDIRS=src test
+bin_PROGRAMS = \
+	gfal-unittest
 
-AUTOMAKE_OPTIONS = foreign
+gfal_unittest_SOURCES = \
+	gfal_unit_testsuite.c \
+	gfal_test__protocol_list_handling.c \
+	gfal_test__gfal_count_elements_of_string_array.c
 
+gfal_unittest_LDADD = -lgfal

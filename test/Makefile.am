@@ -14,19 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# org.glite.data.gfal Makefile.am
-#
-# Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.2 2009/10/08 15:32:39 molnarzs Exp $
+# Authors: Zsolt Molnar <zsolt.molnar@cern.ch, http://www.zsoltmolnar.hu>
+# Version info: $Id: Makefile.am,v 1.1 2009/10/08 15:32:39 molnarzs Exp $
 # Release: $Name:  $
 
-commonutdir = $(datadir)/doc/$(PACKAGE)
-dist_commonut_DATA = \
-	RELEASE-NOTES \
-	LICENSE \
-	VERSION
-
-SUBDIRS=src test
+SUBDIRS=unit
 
 AUTOMAKE_OPTIONS = foreign
-

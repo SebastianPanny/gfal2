@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.21 2009/09/14 13:49:22 molnarzs Exp $
+# Version info: $Id: Makefile.am,v 1.22 2009/10/08 15:32:39 molnarzs Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -188,6 +188,7 @@ gfalthr_wrap.c: gfalthr.i lcg-typemaps.python.i
 
 
 GFAL_SOURCE_FILES = \
+    gfal_utils.c \
     stdsoap2.c \
     gfal_test_checksum.c \
 	checkprotolib.c \
@@ -416,4 +417,3 @@ man3_MANS = \
 	gfal_abortfiles_python.man \
 	gfal_abortrequest.man \
 	gfal_abortrequest_python.man
-
