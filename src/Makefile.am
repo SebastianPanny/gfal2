@@ -17,7 +17,7 @@
 # org.glite.data.gfal src/Makefile.am
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: Makefile.am,v 1.22 2009/10/08 15:32:39 molnarzs Exp $
+# Version info: $Id: Makefile.am,v 1.23 2009/10/14 09:47:14 szamsu Exp $
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
@@ -50,7 +50,7 @@ $(EDG_LOCAL_REPLICA_CATALOG_SOAP_FILES): edg-local-replica-catalog.h
 
 edg-local-replica-catalog.h: edg-local-replica-catalog.wsdl
 	$(WSDL2H) $(WSDL2HFLAGS) -w -t $(top_srcdir)/src/typemap-lrc.dat $< -o $@
-	
+
 # edg-replica-metadata-catalog.wsdl
 #-------------------------------------------------------------------------------
 EDG_REPLICA_METADATA_CATALOG_SOAP_FILES = rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding.nsmap
@@ -228,6 +228,7 @@ libgfal_a_CFLAGS = \
 	$(GLITE_CFLAGS) \
 	$(GFAL_FLAGS) \
 	$(GSOAP_CFLAGS) \
+	$(CGSI_GSOAP_CFLAGS) \
 	$(VOMS_CFLAGS)
 
 # libgfal.la
@@ -247,6 +248,7 @@ libgfal_la_CFLAGS = \
 	$(GLITE_CFLAGS) \
 	$(GFAL_FLAGS) \
 	$(GSOAP_CFLAGS) \
+	$(CGSI_GSOAP_CFLAGS) \
 	$(VOMS_CFLAGS)
 
 libgfal_la_LDFLAGS = \
@@ -270,6 +272,7 @@ libgfal_pthr_la_CFLAGS = \
 	$(GLITE_CFLAGS) \
 	$(GFAL_FLAGS) \
 	$(GSOAP_CFLAGS) \
+	$(CGSI_GSOAP_CFLAGS) \
 	$(VOMS_CFLAGS)
 
 libgfal_pthr_la_LDFLAGS = \
