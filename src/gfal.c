@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal.c,v $ $Revision: 1.139 $ $Date: 2009/10/01 09:53:37 $ CERN Jean-Philippe Baud
+ * @(#)$RCSfile: gfal.c,v $ $Revision: 1.140 $ $Date: 2009/11/05 13:47:03 $ CERN Jean-Philippe Baud
  */
 
 #define _GNU_SOURCE
@@ -1659,9 +1659,11 @@ gfal_get (gfal_internal req, char *errbuf, int errbufsz)
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
-        ret = srmv2_gete (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_spacetokendesc,
-                req->srmv2_desiredpintime, req->protocols, &(req->srmv2_token),
-                &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
+
+        ret = srmv2_gete (req->nbfiles, (const char **) req->surls, req->endpoint,
+            req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+            &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
+
     } else if (req->setype == TYPE_SRM) {
         if (req->srm_statuses) {
             free (req->srm_statuses);
@@ -1728,9 +1730,10 @@ gfal_bringonline (gfal_internal req, char *errbuf, int errbufsz)
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
-        ret = srmv2_bringonline (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_spacetokendesc,
-                req->protocols, req->srmv2_desiredpintime, &(req->srmv2_token), &(req->srmv2_pinstatuses),
-                errbuf, errbufsz, req->timeout);
+
+        ret = srmv2_bringonline (req->nbfiles, (const char **) req->surls, req->endpoint,
+            req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+            &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_bringonline][EPROTONOSUPPORT] Only SRMv2-compliant SEs are supported");
         errno = EPROTONOSUPPORT;
@@ -1758,9 +1761,11 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
-        ret = srmv2_prestagee (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_spacetokendesc,
-                req->protocols, req->srmv2_desiredpintime, &(req->srmv2_token), &(req->srmv2_pinstatuses),
-                errbuf, errbufsz, req->timeout);
+
+        ret = srmv2_prestagee (req->nbfiles, (const char **) req->surls, req->endpoint,
+            req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+            &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
+
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_prestage][EPROTONOSUPPORT] Only SRMv2-compliant SEs are supported");
         errno = EPROTONOSUPPORT;
@@ -2395,8 +2400,9 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int
         free (cat_type);
 
         if ((*guids = (char **) calloc (nbfiles + 1, sizeof (char *))) == NULL ||
-                (*statuses = (int *) calloc (nbfiles, sizeof (int))) == NULL)
+                (*statuses = (int *) calloc (nbfiles, sizeof (int))) == NULL) {
             return (-1);
+        }
 
         for (i = 0; i < nbfiles; ++i) {
             if (purify_surl (pfns[i], actual_pfn, GFAL_PATH_MAXLEN) < 0) {
@@ -3068,7 +3074,6 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
 
     memset (*gfal, 0, sizeof (struct gfal_internal_));
     memcpy (*gfal, req, sizeof (struct gfal_request_));
-
     /* Use default SRM timeout if not specified in request */
     if (!(*gfal)->timeout)
         (*gfal)->timeout = gfal_get_timeout_srm ();
@@ -3237,7 +3242,6 @@ gfal_init (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)
             return (-1);
         }
     }
-
 
     return (0);
 }

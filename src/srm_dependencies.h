@@ -12,7 +12,7 @@
  */
 
 /*
- * @(#)$RCSfile: srm_dependencies.h,v $ $Revision: 1.1 $ $Date: 2009/10/08 15:32:39 $ CERN Remi Mollon
+ * @(#)$RCSfile: srm_dependencies.h,v $ $Revision: 1.2 $ $Date: 2009/11/05 13:47:03 $ CERN Remi Mollon
  */
 #ifndef SRM_DEPENDENCIES_H__
 #define SRM_DEPENDENCIES_H__
@@ -34,37 +34,21 @@ extern "C"
 {
 #endif
 
-/* Data required to call srmPrepareToGet. */
-typedef struct gfal_soap_prepare_to_get_parameters {
-    struct soap *soap;
-    const char *srm_endpoint;
-    const char *srmfunc;
-    struct srm2__srmPrepareToGetRequest *req;
-    struct srm2__srmPrepareToGetResponse_ *rep;
-} gfal_soap_prepare_to_get_parameters_t;
-
-/* Data required to call srmBringOnline. */
-typedef struct gfal_soap_bring_online_parameters {
-    struct soap *soap;
-    const char *srm_endpoint;
-    const char *srmfunc;
-    struct srm2__srmBringOnlineRequest *req;
-    struct srm2__srmBringOnlineResponse_ *rep;
-} gfal_soap_bring_online_parameters_t;
-
-/* Data required to call srmBringOnline. */
-typedef struct gfal_soap_prepare_to_put_parameters {
-    struct soap *soap;
-    const char *srm_endpoint;
-    const char *srmfunc;
-    struct srm2__srmPrepareToPutRequest *req;
-    struct srm2__srmPrepareToPutResponse_ *rep;
-} gfal_soap_prepare_to_put_parameters_t;
-
 /* Function types of the appropriate SOAP calls */
-typedef int (*gfal_soap_call_prepare_to_get_fv)(gfal_soap_prepare_to_get_parameters_t*);
-typedef int (*gfal_soap_call_bring_online_fv)(gfal_soap_bring_online_parameters_t*);
-typedef int (*gfal_soap_call_prepare_to_put_fv)(gfal_soap_prepare_to_put_parameters_t*);
+typedef int (*gfal_soap_call_prepare_to_get_fv)(
+    struct soap *, const char *, const char *,
+    struct srm2__srmPrepareToGetRequest *,
+    struct srm2__srmPrepareToGetResponse_ *);
+
+typedef int (*gfal_soap_call_bring_online_fv)(
+    struct soap *, const char *, const char *,
+    struct srm2__srmBringOnlineRequest *,
+    struct srm2__srmBringOnlineResponse_ *);
+
+typedef int (*gfal_soap_call_prepare_to_put_fv)(
+    struct soap *, const char *, const char *,
+    struct srm2__srmPrepareToPutRequest *,
+    struct srm2__srmPrepareToPutResponse_ *);
 
 /* The collection of SOAP service calls. The pointers may be replaced with test
  * functions (dependency injection) */
