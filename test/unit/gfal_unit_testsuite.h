@@ -12,16 +12,21 @@
 
 #include <stdio.h>
 
-#define GFAL_TEST_ASSERT(test) \
+/** Test the logical condition. If it is logical false, the test execution
+ * stops, error message is displayed. */
+#define GFAL_TEST_ASSERT(condition) \
     do { \
         printf("\t Test at %s:%d... ", __FILE__, __LINE__); \
-        if (!(test)) { \
+        if (!(condition)) { \
             printf("FAILED\n"); \
             exit(-1); \
         } \
         printf("OK\n"); \
     } while (0)
 
+/** Test equality of two values. The test expects value "expected", compares
+ * with "value". In case of inequality, the test execution stops, error message
+ * is displayed. */
 #define GFAL_TEST_EQUAL(expected, value) \
     do { \
         printf("\t Test at %s:%d... ", __FILE__, __LINE__); \
@@ -39,6 +44,7 @@
         __gfal_tests_run++; \
        } while (0)
 
+/** Counts the executed test */
 extern int __gfal_tests_run;
 
 #endif /* #ifndef GFAL_UNIT_TESTSUITE_H */

@@ -37,15 +37,11 @@ int __gfal_tests_run = 0;
  * That is it.
  */
 
-/*
- * List of test functions
- */
+/*List of test functions */
 char * gfal_test__protocol_list_handling();
 char * gfal_test__gfal_count_elements_of_string_array();
 
-/*
- * Register the test functions here
- */
+/*Register the test functions here */
 static char * gfal_all_tests()
 {
     GFAL_TEST_RUN(gfal_test__gfal_count_elements_of_string_array);

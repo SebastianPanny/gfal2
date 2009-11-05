@@ -9,9 +9,14 @@
  */
 #include "srm_dependencies.h"
 #include "srm2_2_ifce.h"
+#include "gfal_api.h"
 #include <assert.h>
 
 #include "gfal_unit_testsuite.h"
+
+/* WARNING: the test functions may have memory leaks. Due to the nature of the
+ * test application, they are not handled elaborately, do not worry if you find
+ * some... They do not affect the test execution and production.*/
 
 #define __CALL_TEST(test) \
     printf("\nTest group: %s\n", #test); \
@@ -19,8 +24,7 @@
     if (!res) \
         return res;
 
-/* The new PrepareToGet caller. This one produces the different error
- * scenarios. */
+/* The actual scenario to te be tested */
 typedef enum _protocol_list_scenario_type {
     E_UNSUPPORTED_PROTOCOL,
     E_EMPTY_LIST,
@@ -42,7 +46,6 @@ static char* _unsupported_protocol[] = {"unsupported_protocol", NULL};
  * test function code. */
 typedef int (*srmv2_fv_type)(int, const char **, const char *, int, const char *,
     char **, char **, struct srmv2_pinfilestatus **, char *, int, int);
-
 
 /* There is only 1 file in the requests, and only 1 corresponding file status in
  * the responses. */
@@ -67,70 +70,77 @@ static void _prepare_response_common(
 
 /* Create the SRM response for the srmPrepareToGet call, according to the
  * actual test scenario. */
-static void _prepare_response_prepare_to_get(gfal_soap_prepare_to_get_parameters_t* p)
+static void _prepare_response_prepare_to_get(
+    struct soap* soap,
+    struct srm2__srmPrepareToGetResponse_ * rep)
 {
     static struct srm2__TGetRequestFileStatus * mock_statuses[NUMBER_OF_FILES];
-    assert(p);
+    assert(soap);
+    assert(rep);
 
-    p->rep->srmPrepareToGetResponse = soap_malloc(
-        p->soap, sizeof(struct srm2__srmPrepareToGetResponse));
+    rep->srmPrepareToGetResponse = soap_malloc(
+        soap, sizeof(struct srm2__srmPrepareToGetResponse));
 
-    p->rep->srmPrepareToGetResponse->arrayOfFileStatuses = soap_malloc(
-        p->soap, sizeof(struct srm2__ArrayOfTGetRequestFileStatus));
+    rep->srmPrepareToGetResponse->arrayOfFileStatuses = soap_malloc(
+        soap, sizeof(struct srm2__ArrayOfTGetRequestFileStatus));
 
-    p->rep->srmPrepareToGetResponse->arrayOfFileStatuses->statusArray = mock_statuses;
+    rep->srmPrepareToGetResponse->arrayOfFileStatuses->statusArray = mock_statuses;
 
     _prepare_response_common(
-        p->soap,
-        &(p->rep->srmPrepareToGetResponse->returnStatus),
-        p->rep->srmPrepareToGetResponse->remainingTotalRequestTime,
-        &(p->rep->srmPrepareToGetResponse->arrayOfFileStatuses->__sizestatusArray)
+        soap,
+        &(rep->srmPrepareToGetResponse->returnStatus),
+        rep->srmPrepareToGetResponse->remainingTotalRequestTime,
+        &(rep->srmPrepareToGetResponse->arrayOfFileStatuses->__sizestatusArray)
     );
 }
 
 /* Create the SRM response for the srmBringOnline call, according to the
  * actual test scenario. */
-static void _prepare_response_bring_online(gfal_soap_bring_online_parameters_t* p)
+static void _prepare_response_bring_online(
+    struct soap* soap, struct srm2__srmBringOnlineResponse_ * rep)
 {
     static struct srm2__TBringOnlineRequestFileStatus * mock_statuses[NUMBER_OF_FILES];
-    assert(p);
+    assert(soap);
+    assert(rep);
 
-    p->rep->srmBringOnlineResponse = soap_malloc(
-        p->soap, sizeof(struct srm2__srmBringOnlineResponse));
+    rep->srmBringOnlineResponse = soap_malloc(
+        soap, sizeof(struct srm2__srmBringOnlineResponse));
 
-    p->rep->srmBringOnlineResponse->arrayOfFileStatuses = soap_malloc(
-        p->soap, sizeof(struct srm2__ArrayOfTBringOnlineRequestFileStatus));
+    rep->srmBringOnlineResponse->arrayOfFileStatuses = soap_malloc(
+        soap, sizeof(struct srm2__ArrayOfTBringOnlineRequestFileStatus));
 
-    p->rep->srmBringOnlineResponse->arrayOfFileStatuses->statusArray = mock_statuses;
+    rep->srmBringOnlineResponse->arrayOfFileStatuses->statusArray = mock_statuses;
 
     _prepare_response_common(
-        p->soap,
-        &(p->rep->srmBringOnlineResponse->returnStatus),
-        p->rep->srmBringOnlineResponse->remainingTotalRequestTime,
-        &(p->rep->srmBringOnlineResponse->arrayOfFileStatuses->__sizestatusArray)
+        soap,
+        &(rep->srmBringOnlineResponse->returnStatus),
+        rep->srmBringOnlineResponse->remainingTotalRequestTime,
+        &(rep->srmBringOnlineResponse->arrayOfFileStatuses->__sizestatusArray)
     );
 }
 
 /* Create the SRM response for the srmPrepareToPut call, according to the
  * actual test scenario. */
-static void _prepare_response_prepare_to_put(gfal_soap_prepare_to_put_parameters_t* p)
+static void _prepare_response_prepare_to_put(
+    struct soap* soap, struct srm2__srmPrepareToPutResponse_ * rep)
 {
     static struct srm2__TPutRequestFileStatus * mock_statuses[NUMBER_OF_FILES];
-    assert(p);
+    assert(soap);
+    assert(rep);
 
-    p->rep->srmPrepareToPutResponse = soap_malloc(
-        p->soap, sizeof(struct srm2__srmPrepareToPutResponse));
+    rep->srmPrepareToPutResponse = soap_malloc(
+        soap, sizeof(struct srm2__srmPrepareToPutResponse));
 
-    p->rep->srmPrepareToPutResponse->arrayOfFileStatuses = soap_malloc(
-        p->soap, sizeof(struct srm2__ArrayOfTPutRequestFileStatus));
+    rep->srmPrepareToPutResponse->arrayOfFileStatuses = soap_malloc(
+        soap, sizeof(struct srm2__ArrayOfTPutRequestFileStatus));
 
-    p->rep->srmPrepareToPutResponse->arrayOfFileStatuses->statusArray = mock_statuses;
+    rep->srmPrepareToPutResponse->arrayOfFileStatuses->statusArray = mock_statuses;
 
     _prepare_response_common(
-        p->soap,
-        &(p->rep->srmPrepareToPutResponse->returnStatus),
-        p->rep->srmPrepareToPutResponse->remainingTotalRequestTime,
-        &(p->rep->srmPrepareToPutResponse->arrayOfFileStatuses->__sizestatusArray)
+        soap,
+        &(rep->srmPrepareToPutResponse->returnStatus),
+        rep->srmPrepareToPutResponse->remainingTotalRequestTime,
+        &(rep->srmPrepareToPutResponse->arrayOfFileStatuses->__sizestatusArray)
     );
 }
 
@@ -139,28 +149,31 @@ static void _prepare_response_prepare_to_put(gfal_soap_prepare_to_put_parameters
  * The function directly produces and returns the SRM response objects.
  *
  * This is the "SOAP call" for the srmPrepareToGet operation. */
-static int _caller_play_scenarios_prepare_to_get(gfal_soap_prepare_to_get_parameters_t* p)
+static int _caller_play_scenarios_prepare_to_get(
+    struct soap * soap, const char * srm_endpoint, const char * srmfunc,
+    struct srm2__srmPrepareToGetRequest * req,
+    struct srm2__srmPrepareToGetResponse_ * rep)
 {
-    _prepare_response_prepare_to_get(p);
+    _prepare_response_prepare_to_get(soap, rep);
 
     switch(_protocol_list_scenario) {
     case E_EMPTY_LIST:
-        GFAL_TEST_EQUAL(0, p->req->transferParameters->arrayOfTransferProtocols);
+        GFAL_TEST_EQUAL(0, req->transferParameters->arrayOfTransferProtocols);
         /* Pretend that the call itself is successful, and do nothing */
-         p->rep->srmPrepareToGetResponse->returnStatus->statusCode = SRM_USCORESUCCESS;
+         rep->srmPrepareToGetResponse->returnStatus->statusCode = SRM_USCORESUCCESS;
         return SOAP_OK;
 
     case E_UNSUPPORTED_PROTOCOL:
         /* Check if the function filled in the appropriate fields of the request */
         GFAL_TEST_EQUAL(1,
-            p->req->transferParameters->arrayOfTransferProtocols->__sizestringArray);
+            req->transferParameters->arrayOfTransferProtocols->__sizestringArray);
 
         GFAL_TEST_ASSERT(
-            strcmp(p->req->transferParameters->arrayOfTransferProtocols->stringArray[0],
+            strcmp(req->transferParameters->arrayOfTransferProtocols->stringArray[0],
                    _unsupported_protocol[0]) == 0
         );
         /* In case of unsupported protocol, the return status is SRM_NOT_SUPPORTED */
-        p->rep->srmPrepareToGetResponse->returnStatus->statusCode = SRM_USCORENOT_USCORESUPPORTED;
+        rep->srmPrepareToGetResponse->returnStatus->statusCode = SRM_USCORENOT_USCORESUPPORTED;
         return SOAP_OK;
     default:
         assert(0);
@@ -174,28 +187,31 @@ static int _caller_play_scenarios_prepare_to_get(gfal_soap_prepare_to_get_parame
  * The function directly produces and returns the SRM response objects.
  *
  * This is the "SOAP call" for the srmBringOnline operation. */
-static int _caller_play_scenarios_bring_online(gfal_soap_bring_online_parameters_t* p)
+static int _caller_play_scenarios_bring_online(
+    struct soap * soap, const char * srm_endpoint, const char * srmfunc,
+    struct srm2__srmBringOnlineRequest * req,
+    struct srm2__srmBringOnlineResponse_ * rep)
 {
-    _prepare_response_bring_online(p);
+    _prepare_response_bring_online(soap, rep);
 
     switch(_protocol_list_scenario) {
     case E_EMPTY_LIST:
-        GFAL_TEST_EQUAL(0, p->req->transferParameters->arrayOfTransferProtocols);
+        GFAL_TEST_EQUAL(0, req->transferParameters->arrayOfTransferProtocols);
         /* Pretend that the call itself is successful, and do nothing */
-        p->rep->srmBringOnlineResponse->returnStatus->statusCode = SRM_USCORESUCCESS;
+        rep->srmBringOnlineResponse->returnStatus->statusCode = SRM_USCORESUCCESS;
         return SOAP_OK;
 
     case E_UNSUPPORTED_PROTOCOL:
         /* Check if the function filled in the appropriate fields of the request */
         GFAL_TEST_EQUAL(1,
-            p->req->transferParameters->arrayOfTransferProtocols->__sizestringArray);
+            req->transferParameters->arrayOfTransferProtocols->__sizestringArray);
 
         GFAL_TEST_ASSERT(
-            strcmp(p->req->transferParameters->arrayOfTransferProtocols->stringArray[0],
+            strcmp(req->transferParameters->arrayOfTransferProtocols->stringArray[0],
                    _unsupported_protocol[0]) == 0
         );
         /* In case of unsupported protocol, the return status is SRM_NOT_SUPPORTED */
-        p->rep->srmBringOnlineResponse->returnStatus->statusCode = SRM_USCORENOT_USCORESUPPORTED;
+        rep->srmBringOnlineResponse->returnStatus->statusCode = SRM_USCORENOT_USCORESUPPORTED;
         return SOAP_OK;
     default:
         assert(0);
@@ -209,28 +225,31 @@ static int _caller_play_scenarios_bring_online(gfal_soap_bring_online_parameters
  * The function directly produces and returns the SRM response objects.
  *
  * This is the "SOAP call" for the srmPrepareToPut operation. */
-static int _caller_play_scenarios_prepare_to_put(gfal_soap_prepare_to_put_parameters_t* p)
+static int _caller_play_scenarios_prepare_to_put(
+    struct soap * soap, const char * srm_endpoint, const char * srmfunc,
+    struct srm2__srmPrepareToPutRequest * req,
+    struct srm2__srmPrepareToPutResponse_ * rep)
 {
-    _prepare_response_prepare_to_put(p);
+    _prepare_response_prepare_to_put(soap, rep);
 
     switch(_protocol_list_scenario) {
     case E_EMPTY_LIST:
-        GFAL_TEST_EQUAL(0, p->req->transferParameters->arrayOfTransferProtocols);
+        GFAL_TEST_EQUAL(0, req->transferParameters->arrayOfTransferProtocols);
         /* Pretend that the call itself is successful, and do nothing */
-        p->rep->srmPrepareToPutResponse->returnStatus->statusCode = SRM_USCORESUCCESS;
+        rep->srmPrepareToPutResponse->returnStatus->statusCode = SRM_USCORESUCCESS;
         return SOAP_OK;
 
     case E_UNSUPPORTED_PROTOCOL:
         /* Check if the function filled in the appropriate fields of the request */
         GFAL_TEST_EQUAL(1,
-            p->req->transferParameters->arrayOfTransferProtocols->__sizestringArray);
+            req->transferParameters->arrayOfTransferProtocols->__sizestringArray);
 
         GFAL_TEST_ASSERT(
-            strcmp(p->req->transferParameters->arrayOfTransferProtocols->stringArray[0],
+            strcmp(req->transferParameters->arrayOfTransferProtocols->stringArray[0],
                    _unsupported_protocol[0]) == 0
         );
         /* In case of unsupported protocol, the return status is SRM_NOT_SUPPORTED */
-        p->rep->srmPrepareToPutResponse->returnStatus->statusCode = SRM_USCORENOT_USCORESUPPORTED;
+        rep->srmPrepareToPutResponse->returnStatus->statusCode = SRM_USCORENOT_USCORESUPPORTED;
         return SOAP_OK;
     default:
         assert(0);
@@ -239,18 +258,6 @@ static int _caller_play_scenarios_prepare_to_put(gfal_soap_prepare_to_put_parame
     return 1;
 }
 
-/* General fixtures for the SRM requests*/
-static const char *mock_surls[] = {"fake_surl"};
-static int mock_nbfiles = 0;
-static const char *mock_srm_endpoint = "fake_endpoint";
-static int mock_desiredpintime = 10;
-static const char *mock_spacetokendesc = NULL;
-static char ** mock_reqtoken = NULL;
-static struct srmv2_pinfilestatus * mock_pinfilestatus[3];
-static int errbufsz = 1024;
-static char errbuf[1024];
-static int mock_timeout = 100;
-
 /* Inject the dependencies. Replace the SOAP callers to the test ones. */
 static void _setup_srm_callers()
 {
@@ -258,6 +265,18 @@ static void _setup_srm_callers()
     gfal_srm_callers_v2.call_bring_online = _caller_play_scenarios_bring_online;
     gfal_srm_callers_v2.call_prepare_to_put = _caller_play_scenarios_prepare_to_put;
 }
+
+/* General fixtures for the SRM requests*/
+static char *mock_surls[] = {"srm://fake_surl/"};
+static int mock_nbfiles = 0;
+static char *mock_srm_endpoint = "httpg://fakeendpoint.cern.ch:8443/srm/managerv2";
+static int mock_desiredpintime = 10;
+static const char *mock_spacetokendesc = NULL;
+static char ** mock_reqtoken = NULL;
+static struct srmv2_pinfilestatus * mock_pinfilestatus[3];
+static int errbufsz = 1024;
+static char errbuf[1024];
+static int mock_timeout = 100;
 
 /* Test the following functions (they have same signatures, so they can be
  * tested in a generic way):
@@ -270,7 +289,7 @@ static char* _test_protocol_list(srmv2_fv_type fv)
    /* SCENARIO 1: empty protocol list. Call must be OK. */
     _protocol_list_scenario = E_EMPTY_LIST;
 
-    res = fv(mock_nbfiles, mock_surls, mock_srm_endpoint,
+    res = fv(mock_nbfiles, (const char**)mock_surls, (const char*)mock_srm_endpoint,
         mock_desiredpintime, mock_spacetokendesc,
         NULL, /* The empty protocol list */
         mock_reqtoken, mock_pinfilestatus, errbuf, errbufsz, mock_timeout);
@@ -283,7 +302,7 @@ static char* _test_protocol_list(srmv2_fv_type fv)
     /* SCENARIO 2: Wrong protocol list. Call must return error. */
     _protocol_list_scenario = E_UNSUPPORTED_PROTOCOL;
 
-    res = fv(mock_nbfiles, mock_surls, mock_srm_endpoint,
+    res = fv(mock_nbfiles, (const char**)mock_surls, (const char*)mock_srm_endpoint,
         mock_desiredpintime, mock_spacetokendesc,
         _unsupported_protocol,
         mock_reqtoken, mock_pinfilestatus, errbuf, errbufsz, mock_timeout);
@@ -302,8 +321,9 @@ static char* _test_srmv2_turlsfromsurls_put()
    /* SCENARIO 1: empty protocol list. Call must be OK. */
     _protocol_list_scenario = E_EMPTY_LIST;
 
-    res = srmv2_turlsfromsurls_put(mock_nbfiles, mock_surls, mock_srm_endpoint,
-        mock_filesizes, mock_desiredpintime, mock_spacetokendesc,
+    res = srmv2_turlsfromsurls_put(mock_nbfiles, (const char**)mock_surls,
+        (const char*)mock_srm_endpoint, mock_filesizes, mock_desiredpintime,
+        mock_spacetokendesc,
         NULL, /* The empty protocol list */
         mock_reqtoken, mock_pinfilestatus, errbuf, errbufsz, mock_timeout);
 
@@ -315,8 +335,9 @@ static char* _test_srmv2_turlsfromsurls_put()
     /* SCENARIO 2: Wrong protocol list. Call must return error. */
     _protocol_list_scenario = E_UNSUPPORTED_PROTOCOL;
 
-    res = srmv2_turlsfromsurls_put(mock_nbfiles, mock_surls, mock_srm_endpoint,
-        mock_filesizes, mock_desiredpintime, mock_spacetokendesc,
+    res = srmv2_turlsfromsurls_put(mock_nbfiles, (const char**)mock_surls,
+        (const char*)mock_srm_endpoint, mock_filesizes, mock_desiredpintime,
+        mock_spacetokendesc,
         _unsupported_protocol,
         mock_reqtoken, mock_pinfilestatus, errbuf, errbufsz, mock_timeout);
 
@@ -324,6 +345,65 @@ static char* _test_srmv2_turlsfromsurls_put()
     GFAL_TEST_EQUAL(EOPNOTSUPP, errno);
 }
 
+static char* _test_gfal_turlsfromsurls()
+{
+    gfal_internal int_req = NULL;
+    gfal_request req = NULL;
+    const errbufsz = 1024;
+    char errbuf[errbufsz];
+    int res;
+    GFAL_LONG64 mock_filesizes[NUMBER_OF_FILES] = {10};
+
+    req = gfal_request_new();
+    req->nbfiles = mock_nbfiles;
+    req->defaultsetype = TYPE_SRMv2;
+    req->setype = TYPE_SRMv2;
+    req->no_bdii_check = 1;
+    req->srmv2_spacetokendesc = (char*) mock_spacetokendesc;
+    req->surls = mock_surls;
+    req->endpoint = mock_srm_endpoint;
+
+    /* SCENARIO 1: empty protocol list. Call must be OK. */
+    /* This will utilize srmv2_turlsfromsurls_get */
+    req->protocols = NULL;
+    gfal_init (req, &int_req, errbuf, errbufsz);
+    errno = 0;
+    _protocol_list_scenario = E_EMPTY_LIST;
+    res = gfal_turlsfromsurls (int_req, errbuf, errbufsz);
+    GFAL_TEST_EQUAL(0, res);
+    GFAL_TEST_EQUAL(0, errno);
+
+    /* This will utilize srmv2_turlsfromsurls_put */
+    req->oflag |= O_ACCMODE;
+    gfal_init (req, &int_req, errbuf, errbufsz);
+    errno = 0;
+    _protocol_list_scenario = E_EMPTY_LIST;
+    res = gfal_turlsfromsurls (int_req, errbuf, errbufsz);
+    GFAL_TEST_EQUAL(0, res);
+    GFAL_TEST_EQUAL(0, errno);
+
+    /* SCENARIO 1: empty protocol list. Call must be OK. */
+    /* This will utilize srmv2_turlsfromsurls_get */
+    req->oflag = 0;
+    req->protocols = _unsupported_protocol;
+    gfal_init (req, &int_req, errbuf, errbufsz);
+    errno = 0;
+     _protocol_list_scenario = E_UNSUPPORTED_PROTOCOL;
+    res = gfal_turlsfromsurls (int_req, errbuf, errbufsz);
+    GFAL_TEST_EQUAL(-1, res);
+    GFAL_TEST_EQUAL(EOPNOTSUPP, errno);
+
+    /* This will utilize srmv2_turlsfromsurls_put */
+    req->oflag |= O_ACCMODE;
+    gfal_init (req, &int_req, errbuf, errbufsz);
+    errno = 0;
+     _protocol_list_scenario = E_UNSUPPORTED_PROTOCOL;
+    res = gfal_turlsfromsurls (int_req, errbuf, errbufsz);
+    GFAL_TEST_EQUAL(-1, res);
+    GFAL_TEST_EQUAL(EOPNOTSUPP, errno);
+
+    return NULL;
+}
 
 char * gfal_test__protocol_list_handling()
 {
@@ -335,6 +415,8 @@ char * gfal_test__protocol_list_handling()
     __CALL_TEST(_test_protocol_list(srmv2_prestagee));
     __CALL_TEST(_test_protocol_list(srmv2_bringonline));
     __CALL_TEST(_test_srmv2_turlsfromsurls_put());
+    __CALL_TEST(_test_gfal_turlsfromsurls());
+
     return NULL;
 }
 

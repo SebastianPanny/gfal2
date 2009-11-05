@@ -5,7 +5,6 @@
  * All rights reserved
  */
 #include "gfal_utils.h"
-
 #include "gfal_unit_testsuite.h"
 
 char * gfal_test__gfal_count_elements_of_string_array()
@@ -17,5 +16,3 @@ char * gfal_test__gfal_count_elements_of_string_array()
     GFAL_TEST_EQUAL(0, gfal_count_elements_of_string_array(fixture_2));
     return NULL;
 }
-
-#undef __CALL_TEST
