@@ -1,6 +1,17 @@
-*** Release glite-data-gfal_R_1_11_12_1 ????
+*** Release glite-data-gfal_R_1_11_12_1 2009-11-20
+
+    Fixed bugs:
+        #53141: [GFAL] gfal_abortrequest() TypeError: iteration over non-sequence 
+        #54172: Errno is not set when gfal_opendir_python fails  
+        #54849: GFAL: shall handle abreviated checksum names 
+        #55266: GFAL man page for gfal_get_results and gfal_get_results_python needs updating 
+        #55576: RFE: Extra parameter in lcg-cp for a better TURL construction 
+        #56373: [GFAL] memory corruption problem with classic SEs 
+        #56950: GFAL's src/Makefile.am is missing CGSI_GSOAP_CFLAGS 
+	o Fix some memory leaks
+    o Improved testability and added unit tests
     o Code refactorzation/reindentation.
-    o Fix bug #50392: lcg-util error message
+	o Change LICENSE to Apache2
 
 *** Release glite-data-gfal_R_1_11_11_1 2009-09-14
     o Fix bug #55266: GFAL man page for gfal_get_results and 
