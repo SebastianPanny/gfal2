@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 # Authors: Zsolt Molnar <zsolt.molnar@cern.ch, http://www.zsoltmolnar.hu>
-# Version info: $Id: Makefile.am,v 1.1 2009/10/08 15:32:39 molnarzs Exp $
+# Version info: $Id: Makefile.am,v 1.2 2009/11/24 09:21:12 szamsu Exp $
 # Release: $Name:  $
 
 AM_CFLAGS = -g -fPIC -D_LARGEFILE64_SOURCE $(GFAL_CFLAGS) \
@@ -30,4 +30,4 @@ gfal_unittest_SOURCES = \
 	gfal_test__protocol_list_handling.c \
 	gfal_test__gfal_count_elements_of_string_array.c
 
-gfal_unittest_LDADD = -lgfal
+gfal_unittest_LDADD = $(top_builddir)/src/libgfal.la
