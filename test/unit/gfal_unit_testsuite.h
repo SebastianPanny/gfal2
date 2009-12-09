@@ -11,6 +11,7 @@
 #define GFAL_UNIT_TESTSUITE_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 /** Test the logical condition. If it is logical false, the test execution
  * stops, error message is displayed. */
@@ -32,6 +33,19 @@
         printf("\t Test at %s:%d... ", __FILE__, __LINE__); \
         if ((expected) != (value)) { \
             printf("FAILED. Expected: %d, Got: %d\n", (expected), (value)); \
+            exit(-1); \
+        } \
+        printf("OK\n"); \
+    } while (0)
+
+/** Test equality of two string values. The test expects value "expected",
+ * compares with "value". In case of inequality, the test execution stops,
+ * error message is displayed. */
+#define GFAL_TEST_EQUAL_STRING(expected, value) \
+    do { \
+        printf("\t Test at %s:%d... ", __FILE__, __LINE__); \
+        if (strcmp(expected, value) != 0) { \
+            printf("FAILED. Expected: %s, Got: %s\n", (expected), (value)); \
             exit(-1); \
         } \
         printf("OK\n"); \

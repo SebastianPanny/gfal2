@@ -40,12 +40,14 @@ int __gfal_tests_run = 0;
 /*List of test functions */
 char * gfal_test__protocol_list_handling();
 char * gfal_test__gfal_count_elements_of_string_array();
+char * gfal_test__gfal_parseturl();
 
 /*Register the test functions here */
 static char * gfal_all_tests()
 {
     GFAL_TEST_RUN(gfal_test__gfal_count_elements_of_string_array);
     GFAL_TEST_RUN(gfal_test__protocol_list_handling);
+    GFAL_TEST_RUN(gfal_test__gfal_parseturl);
     return NULL;
 }
 
