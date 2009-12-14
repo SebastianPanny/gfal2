@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.7 $ $Date: 2009/07/02 11:27:26 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_file.c,v $ $Revision: 1.8 $ $Date: 2009/12/14 15:33:18 $ CERN Remi Mollon
  */
 
 #define _GNU_SOURCE
@@ -207,7 +207,8 @@ gfal_file_get_replica_errmsg (gfal_file gf) {
 }
 
 int
-gfal_file_set_replica_error (gfal_file gf, int errcode, const char *errmsg) {
+gfal_file_set_replica_error (gfal_file gf, int errcode, const char *errmsg)
+{
 	if (gf == NULL || gf->errcode != 0 || gf->nbreplicas < 1 || gf->replicas == NULL ||
 			gf->current_replica < 0 || gf->current_replica >= gf->nbreplicas ||
 			gf->replicas[gf->current_replica] == NULL)
@@ -265,10 +266,20 @@ gfal_file_set_turl_error (gfal_file gf, int errcode, const char *errmsg) {
 }
 
 int
-gfal_file_next_replica (gfal_file gf) {
+gfal_file_next_replica (gfal_file gf)
+{
 	int i, bool_ok;
 
-	if (gf == NULL || gf->errcode != 0 || gf->nbreplicas < 1 || gf->replicas == NULL ||
+    if (gf == NULL)
+        return -1;
+
+    if (gf->nbreplicas == 0) {
+        gf->errcode = EINVAL;
+        asprintf (&(gf->errmsg), "%s: zero number of replicas", gf->file);
+        return 0;
+    }
+
+	if (gf->errcode != 0 || gf->nbreplicas < 1 || gf->replicas == NULL ||
 			gf->current_replica < 0 || gf->current_replica >= gf->nbreplicas)
 		return (-1);
 
