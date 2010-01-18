@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.10 2009/10/08 15:32:39 molnarzs Exp $
+# Version info: $Id: configure.ac,v 1.11 2010/01/18 15:15:27 molnarzs Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.10 $])
+AC_REVISION([$Revision: 1.11 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -61,12 +61,12 @@ fi
 AC_ARG_ENABLE(
 	[debug],
 	[AS_HELP_STRING([--enable-debug],[Produce binaries with debugging symbols.])],
-	[CFLAGS="-g -DDEBUG -D_DEBUG $CFLAGS"])
+	[CFLAGS="$CFLAGS -g -DDEBUG -D_DEBUG"])
 
 AC_ARG_ENABLE(
 	[wall],
 	[AS_HELP_STRING([--enable-wall],[Compile with all warnings enabled.])],
-	[CFLAGS="-Wall $CFLAGS"])
+	[CFLAGS="$CFLAGS -Wall"])
 
 # Set GLite Properties
 AC_GLITE
@@ -302,6 +302,7 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([test/unit/Makefile])
+AC_CONFIG_FILES([test/regression/Makefile])
 
 AC_OUTPUT
 
