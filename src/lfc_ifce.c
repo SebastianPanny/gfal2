@@ -3,7 +3,7 @@
  */
 
 /*
- * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.66 $ $Date: 2009/07/07 16:00:23 $ CERN James Casey
+ * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.67 $ $Date: 2010/01/22 15:25:54 $ CERN James Casey
  */
 #define _GNU_SOURCE
 #include <sys/types.h>
@@ -336,7 +336,7 @@ lfc_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int 
 	if (fcops.startsess (lfc_endpoint, (char*) gfal_version ()) < 0) {
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][lfc_startsess][] %s: %s",
 				gfal_remote_type, lfc_endpoint, fcops.sstrerror (*fcops.serrno));
-		free (guids);
+		free (*guids);
 		*guids = NULL;
 		free (*statuses);
 		*statuses = NULL;

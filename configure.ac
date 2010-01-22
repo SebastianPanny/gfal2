@@ -17,7 +17,7 @@
 # org.glite.data.gfal configure.ac
 #
 # Authors: Paolo Tedesco <paolo.tedesco@cern.ch>
-# Version info: $Id: configure.ac,v 1.11 2010/01/18 15:15:27 molnarzs Exp $
+# Version info: $Id: configure.ac,v 1.12 2010/01/22 15:25:54 molnarzs Exp $
 # Release: $Name:  $
 
 AC_PREREQ(2.57)
@@ -32,7 +32,7 @@ AM_INIT_AUTOMAKE
 AC_COPYRIGHT([Copyright (c) 2008 The EU EGEE Project
 See LICENSE file for details
 ])
-AC_REVISION([$Revision: 1.11 $])
+AC_REVISION([$Revision: 1.12 $])
 
 # Check for the basic compile environment.
 AC_PROG_CC
@@ -302,7 +302,6 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([test/unit/Makefile])
-AC_CONFIG_FILES([test/regression/Makefile])
 
 AC_OUTPUT
 
