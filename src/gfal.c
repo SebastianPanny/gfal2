@@ -2697,6 +2697,7 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
 
     if (islfc) {
         rc = lfc_register_file (lfn, guid, actual_surl, mode, size, bool_createonly, errbuf, errbufsz);
+        sav_errno = errno;
     } else if (isedg) {
         char *actual_lfn = NULL, *actual_guid = NULL;
         char *generated_lfn = NULL, *generated_guid = NULL;
@@ -2766,7 +2767,7 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
         if (generated_guid) free (generated_guid);
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_register_file][EINVAL] The catalog type is neither 'edg' nor 'lfc'.");
-        errno = EINVAL;
+        sav_errno = EINVAL;
         rc = -1;
     }
 
