@@ -510,7 +510,8 @@ srmv2_gete (
 
     call_is_successfull =
         reqstatp->statusCode == SRM_USCORESUCCESS ||
-        reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS;
+        reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS ||
+        reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED;
 
 	if (!call_is_successfull || !repfs || repfs->__sizestatusArray < 1 ||
 	    !repfs->statusArray)
@@ -1458,7 +1459,8 @@ srmv2_prestagee (
 
 	call_is_successfull =
 	    reqstatp->statusCode == SRM_USCORESUCCESS ||
-	    reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS;
+	    reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS ||
+	    reqstatp->statusCode == SRM_USCOREREQUEST_USCOREQUEUED;
 
 	if (!call_is_successfull || !repfs || repfs->__sizestatusArray < 1 ||
 	    !repfs->statusArray)
