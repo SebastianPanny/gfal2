@@ -61,7 +61,7 @@ fi
 AC_ARG_ENABLE(
 	[debug],
 	[AS_HELP_STRING([--enable-debug],[Produce binaries with debugging symbols.])],
-	[CFLAGS="$CFLAGS -g -DDEBUG -D_DEBUG"])
+	[CFLAGS="$CFLAGS -g -DDEBUG -D_DEBUG -O0 -ggdb"])
 
 AC_ARG_ENABLE(
 	[wall],
@@ -302,6 +302,8 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([test/unit/Makefile])
+AC_CONFIG_FILES([test/regression/Makefile])
+AC_CONFIG_FILES([test/regression/52502_mkdir_dpm_se/Makefile])
 
 AC_OUTPUT
 

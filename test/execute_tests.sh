@@ -18,4 +18,4 @@ function execute_test {
     echo -e "\nAll tests in \"$testdir\" passed.\n"   
 }
 
-execute_test unit
+execute_test unit regression

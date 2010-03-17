@@ -20,15 +20,12 @@
 
 AM_CFLAGS = -g -fPIC -D_LARGEFILE64_SOURCE $(GFAL_CFLAGS) \
     -DVERSION=\"$(VERSION)-$(RELEASE)\" $(GSOAP_CFLAGS) \
-    -I$(top_srcdir)/src -I$(top_srcdir)/build/src -I$(top_srcdir)/test
+    -I$(top_srcdir)/src -I$(top_srcdir)/test -I../../src
 
 bin_PROGRAMS = \
-	gfal-unittest
+	52502_mkdir_dpm_se
 
-gfal_unittest_SOURCES = \
-	gfal_unit_testsuite.c \
-	gfal_test__protocol_list_handling.c \
-	gfal_test__gfal_count_elements_of_string_array.c \
-	gfal_test__gfal_parseturl.c 
+52502_mkdir_dpm_se_SOURCES = \
+	52502_mkdir_dpm_se.c
 
-gfal_unittest_LDADD = $(top_builddir)/src/libgfal.la
+52502_mkdir_dpm_se_LDADD = $(top_builddir)/src/libgfal.la

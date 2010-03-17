@@ -5,7 +5,7 @@
  * All rights reserved
  */
 #include <stdio.h>
-#include "gfal_unit_testsuite.h"
+#include "gfal_testsuite.h"
 
 int __gfal_tests_run = 0;
 

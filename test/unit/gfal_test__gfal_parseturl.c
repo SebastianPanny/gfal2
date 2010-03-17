@@ -7,7 +7,7 @@
  * All rights reserved
  */
 #include "gfal_internals.h"
-#include "gfal_unit_testsuite.h"
+#include "gfal_testsuite.h"
 #include <errno.h>
 
 /* WARNING: the test functions may have memory leaks. Due to the nature of the

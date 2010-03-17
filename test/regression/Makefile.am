@@ -15,20 +15,9 @@
 # limitations under the License.
 #
 # Authors: Zsolt Molnar <zsolt.molnar@cern.ch, http://www.zsoltmolnar.hu>
-# Version info: $Id: Makefile.am,v 1.3 2009/12/09 13:18:13 molnarzs Exp $
+# Version info: $Id: Makefile.am,v 1.1 2009/10/08 15:32:39 molnarzs Exp $
 # Release: $Name:  $
 
-AM_CFLAGS = -g -fPIC -D_LARGEFILE64_SOURCE $(GFAL_CFLAGS) \
-    -DVERSION=\"$(VERSION)-$(RELEASE)\" $(GSOAP_CFLAGS) \
-    -I$(top_srcdir)/src -I$(top_srcdir)/build/src -I$(top_srcdir)/test
+SUBDIRS=52502_mkdir_dpm_se
 
-bin_PROGRAMS = \
-	gfal-unittest
-
-gfal_unittest_SOURCES = \
-	gfal_unit_testsuite.c \
-	gfal_test__protocol_list_handling.c \
-	gfal_test__gfal_count_elements_of_string_array.c \
-	gfal_test__gfal_parseturl.c 
-
-gfal_unittest_LDADD = $(top_builddir)/src/libgfal.la
+AUTOMAKE_OPTIONS = foreign

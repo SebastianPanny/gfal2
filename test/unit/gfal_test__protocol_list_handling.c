@@ -12,7 +12,7 @@
 #include "gfal_api.h"
 #include <assert.h>
 
-#include "gfal_unit_testsuite.h"
+#include "gfal_testsuite.h"
 
 /* WARNING: the test functions may have memory leaks. Due to the nature of the
  * test application, they are not handled elaborately, do not worry if you find
