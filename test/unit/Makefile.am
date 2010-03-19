@@ -27,6 +27,7 @@ bin_PROGRAMS = \
 
 gfal_unittest_SOURCES = \
 	gfal_unit_testsuite.c \
+    gfal_test__gfal_consolidate_multiple_characters.c \
 	gfal_test__protocol_list_handling.c \
 	gfal_test__gfal_count_elements_of_string_array.c \
 	gfal_test__gfal_parseturl.c 

@@ -4,38 +4,67 @@ import os, gfal, sys, errno, unittest
 # to a test directory to be created. In GFAL regression tests, 
 # execute_test.sh calling this Python script sets it.
 
+# Test strategy: create directories with different slash configurations (more slashes between
+# direcotry elements, more trailing slashes, etc.), and check if directory was really created.
+# This check is based on "normalized" directory names (no trailing slashes, etc.).
 class MkdirDpmSe_52502_TestCase(unittest.TestCase):
 
     def setUp(self):
         # Setting up the SRM request
         self.dirToCreate_ = os.environ["TEST_DIRECTORY"]
-        gfalDict = {}
-        gfalDict['defaultsetype'] = 'srmv2'
-        gfalDict['surls'] = [self.dirToCreate_]
-        errCode,self.request_,errMessage = gfal.gfal_init(gfalDict)
+        # Check the condition of "last caracter cannot be a '/'"
+        self.failIfEqual("/", self.dirToCreate_[-1])
+        self.dirOneMoreLevel_ = self.dirToCreate_ + "/oneMoreLevel"
         # Delete the directory, if it is there
-        gfal.gfal_rmdir(self.dirToCreate_) 
-        # The thest directory must NOT exist
-        res,self.request_,errmsg = gfal.gfal_ls(self.request_)
-        self.failUnlessEqual(0, res)
-        numberOfResults,self.request_,listOfResults = gfal.gfal_get_results(self.request_) 
-        self.failIfEqual(0, listOfResults[0]["status"], listOfResults[0]["explanation"])
+        self.deleteDirs_()
+        # The test directory must NOT exist
+        res = gfal.gfal_stat(self.dirToCreate_)
+        self.failUnlessEqual(-1, res[0])
+        self.failUnlessEqual(errno.ENOENT, gfal.gfal_get_errno())
 
+#    def testOneDirectoryLevelNoTrailingSlash(self):
+#        self.createAndTest_(self.dirToCreate_)
+#
+#    def testOneDirectoryLevelWithTrailingSlashes(self):
+#        self.createAndTest_(self.dirToCreate_, self.dirToCreate_ + "/")
+#        self.createAndTest_(self.dirToCreate_, self.dirToCreate_ + "//")
+#        self.createAndTest_(self.dirToCreate_, self.dirToCreate_ + "///")
+#
+#    def testTwoDirectoryLevelOneSlash(self):
+#        self.createAndTest_(self.dirOneMoreLevel_)
 
+    def testTwoDirectoryLevelsWithSlashes(self):
+#        self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "/oneMoreLevel")
+        self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "/oneMoreLevel/")
+        self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "//oneMoreLevel")
+        self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "///oneMoreLevel")
+        self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "//oneMoreLevel/")
 
-    def tearDown(self):
-        gfal.gfal_internal_free(self.request_)
-
-    def testTheBug(self):
-        # Create the test directory 
-        res = gfal.gfal_mkdir(self.dirToCreate_, 0755) 
-        errNo = gfal.gfal_get_errno() 
-        self.failUnlessEqual(0, res)
+    # DO the job.
+    # 
+    #   realdir: the real directory name (only one slash between directories, no trailing slash
+    #   testdir: directory names with additional slashes
+    def createAndTest_(self, realdir, testdir = None):
+        if testdir is None:
+            testdir = realdir 
+        # Create the test directory
+        res = gfal.gfal_stat(self.dirToCreate_)
+        
+        print res
+        res = gfal.gfal_mkdir(testdir, 0755)  
+    
+    
+  
+        self.failUnlessEqual(0, gfal.gfal_get_errno())
         # The directory must exist, otherwise the test failed.
-        res,self.request_,errmsg = gfal.gfal_ls(self.request_)
-        self.failUnlessEqual(0, res)
-        numberOfResults,self.request_,listOfResults = gfal.gfal_get_results(self.request_) 
-        self.failUnlessEqual(0, listOfResults[0]["status"], listOfResults[0]["explanation"])
+        res = gfal.gfal_stat(realdir)
+        self.failUnlessEqual(0, res[0])
+        self.failUnlessEqual(0, gfal.gfal_get_errno())
+        self.deleteDirs_()
+
+    def deleteDirs_(self):
+        res = gfal.gfal_rmdir(self.dirOneMoreLevel_)
+        res = gfal.gfal_rmdir(self.dirToCreate_)  
 
 if __name__ == "__main__":
     unittest.main()

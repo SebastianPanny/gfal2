@@ -24,7 +24,6 @@
 #include "gfal_utils.h"
 #include "srm2_2_ifce.h"
 
-static char lastcreated_dir[1024] = "";
 static const char gfal_remote_type[] = "SE";
 
 static int statuscode2errno (int statuscode);
@@ -1129,7 +1128,8 @@ srmv2_getbestspacetoken (const char *spacetokendesc, const char *srm_endpoint, G
 	int
 srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
 {
-	char file[1024];
+	char *file = NULL;
+    char *consolidated_file = NULL;
 	int flags;
 	int sav_errno = 0;
 	char *p, *endp;
@@ -1138,12 +1138,9 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	struct srm2__TReturnStatus *repstatp;
 	struct soap soap;
 	const char srmfunc[] = "Mkdir";
-
-	if (!strncmp (lastcreated_dir, dest_file, 1024))
-		/* this is exactly the same directory as the previous one, so nothing to do */
-		return (0);
-
-	soap_init (&soap);
+    int ret = -1;
+	
+    soap_init (&soap);
 	soap.namespaces = namespaces_srmv2;
 
 #ifdef GFAL_SECURE
@@ -1156,17 +1153,16 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof (struct srm2__srmMkdirRequest));
-
-	strncpy (file, dest_file, 1023);
-
-	if ((p = endp = strrchr (file, '/')) == NULL) {
-		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][srmv2_makedirp][EINVAL] %s: Invalid SURL", dest_file);
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = EINVAL;
-		return (-1);
-	}
-
+    /* do not consolidate the "//" after the protocol part... */
+    consolidated_file = gfal_consolidate_multiple_characters(dest_file, '/', strlen("srm://") + 1);
+    /* +2: place for the trailing \0 and the appended "/" character. */
+    file = (char*) malloc(strlen(consolidated_file) + 2);
+	strcpy (file, consolidated_file);
+    free(consolidated_file);
+    /* We put a trailing "/" to the end of each directory, fo fix teh algorithm below
+       (Savannah bug #52502) */
+    strcat(file, "/");
+    p = endp = strrchr (file, '/');
 	/* 1st cycle, trying to create directories ascendingly, until success */
 	do {
 		*p = 0;
@@ -1182,11 +1178,9 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 			else
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
-
-			soap_end (&soap);
-			soap_done (&soap);
+            
 			errno = ECOMM;
-			return (-1);
+            goto CLEANUP_AND_RETURN;
 		}
 
 		repstatp = rep.srmMkdirResponse->returnStatus;
@@ -1202,20 +1196,16 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 						gfal_remote_type, srmfunc, statuscode2errmsg(repstatp->statusCode),
 						srm_endpoint, dest_file);
 
-			soap_end (&soap);
-			soap_done (&soap);
 			errno = sav_errno;
-			return (-1);
+            goto CLEANUP_AND_RETURN;
 		}
 	} while (sav_errno == ENOENT && (p = strrchr (file, '/')) != NULL);
 
 	if (p == NULL) {
 		/* should never happen, failure must appear in soap call */
 		gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][srmv2_makedirp][EINVAL] %s: Invalid SURL", dest_file);
-		soap_end (&soap);
-		soap_done (&soap);
 		errno = EINVAL;
-		return (-1);
+        goto CLEANUP_AND_RETURN;
 	}
 
 	/* 2nd cycle, creating directories descendingly as of the one created by previous cycle */
@@ -1235,19 +1225,16 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: Unknown SOAP error (%d)",
 						gfal_remote_type, srmfunc, srm_endpoint, soap.error);
 
-			soap_end (&soap);
-			soap_done (&soap);
 			errno = ECOMM;
-			return (-1);
+            goto CLEANUP_AND_RETURN;
 		}
 
 		if (rep.srmMkdirResponse == NULL || (repstatp = rep.srmMkdirResponse->returnStatus) == NULL) {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][] %s: <empty response>",
 					gfal_remote_type, srmfunc, srm_endpoint);
-			soap_end (&soap);
-			soap_done (&soap);
+
 			errno = ECOMM;
-			return (-1);
+            goto CLEANUP_AND_RETURN;
 		}
 
 		sav_errno = statuscode2errno (repstatp->statusCode);
@@ -1261,20 +1248,21 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
 						gfal_remote_type, srmfunc, statuscode2errmsg(repstatp->statusCode), dest_file);
 
-			soap_end (&soap);
-			soap_done (&soap);
 			errno = sav_errno;
-			return (-1);
+            goto CLEANUP_AND_RETURN;
 		}
 
 		*p = '/';
 	}
 
-	soap_end (&soap);
-	soap_done (&soap);
-	strncpy (lastcreated_dir, dest_file, 1024);
     errno = 0;
-	return (0);
+    ret = 0;
+
+CLEANUP_AND_RETURN:
+    free(file);
+    soap_end (&soap);
+	soap_done (&soap);
+    return ret;
 }
 
 srmv2_prestage (int nbfiles, const char **surls, const char *spacetokendesc, int nbprotocols, char **protocols, int desiredpintime,

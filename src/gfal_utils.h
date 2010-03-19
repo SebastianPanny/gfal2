@@ -19,4 +19,22 @@
  */
 int gfal_count_elements_of_string_array(char** a);
 
+/**
+ * Remove multiple, subsequent characters from a string. For instance:
+ *
+ * gfal_consolidate_multiple_characters("charrrrrstring, 'r');
+ *
+ * returns "charstring".
+ *
+ * The returned string is dynamically allocated, free it!
+ *
+ * @param s the string to be consolidated. 
+ * @param c the character to look for
+ * @param start consolidating starts from this index. Before this index, all the characters
+ *              are copied.
+ *
+ * @return the consolidated string, dynamically allocated, or NULL if s was NULL.
+ */
+char* gfal_consolidate_multiple_characters(const char* s, const char c, const int start);
+
 #endif // #define _GFAL_UTILS_H

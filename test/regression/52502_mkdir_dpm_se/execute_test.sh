@@ -10,6 +10,7 @@
 source ../setup.sh
 
 # ------- EDIT THIS to configure ---------
+# Make sure that the last character is not '/'! Because, this caused the bug...
 export TEST_DIRECTORY=$GLOBAL_SRM_TEST_DIR_DPM_1/52502_mkdir_dpm_se
 # ------- DO NOT EDIT BELOW THIS ---------
 
@@ -20,7 +21,7 @@ export TEST_DIRECTORY=$GLOBAL_SRM_TEST_DIR_DPM_1/52502_mkdir_dpm_se
 # originates from the C library or from Python.
 BUILD_DIR=../../../build
 pushd $BUILD_DIR/test/regression/52502_mkdir_dpm_se &> /dev/null
-./52502_mkdir_dpm_se
+libtool gdb ./52502_mkdir_dpm_se
 popd &> /dev/null
 
 unset TEST_DIRECTORY
