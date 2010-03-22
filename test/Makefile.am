@@ -18,6 +18,6 @@
 # Version info: $Id: Makefile.am,v 1.1 2009/10/08 15:32:39 molnarzs Exp $
 # Release: $Name:  $
 
-SUBDIRS=unit regression
+SUBDIRS=regression
 
 AUTOMAKE_OPTIONS = foreign

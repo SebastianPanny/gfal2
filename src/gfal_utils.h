@@ -37,4 +37,14 @@ int gfal_count_elements_of_string_array(char** a);
  */
 char* gfal_consolidate_multiple_characters(const char* s, const char c, const int start);
 
+/**
+  * Add (concatenate) two strings into a dynamically allocated new string.
+  *
+  * @param s1 First string
+  * @param s2 Second string (will be added after s2)
+  *
+  * @return The dynamically allocated concatenation.
+  */
+char* gfal_add_strings(const char* s1, const char* s2);
+
 #endif // #define _GFAL_UTILS_H

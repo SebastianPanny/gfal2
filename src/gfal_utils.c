@@ -47,3 +47,28 @@ char* gfal_consolidate_multiple_characters(const char* s, const char c, const in
     return ret;
 }
 
+
+char* gfal_add_strings(const char* s1, const char* s2)
+{
+    char* ret = 0;
+    unsigned int len_s1 = 0;
+
+    assert(s1);
+    assert(s2);
+   
+    if (!s1 || !s2) {
+        return 0;
+    }
+
+    len_s1 = strlen(s1);
+    ret = malloc(len_s1 + strlen(s2) + 1);
+    assert(ret);
+   
+    if (ret) {
+        strcpy(ret, s1);
+        strcat(ret + len_s1, s2);
+    }
+
+    return ret;
+}
+

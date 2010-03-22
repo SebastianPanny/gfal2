@@ -26,8 +26,16 @@ static struct {
 
 static void delete_dirs_()
 {
+    int res = -2;
+    struct stat statbuf;
     gfal_rmdir(self.dir_one_more_level);
+    res = gfal_stat(self.dir_one_more_level, &statbuf);
+    GFAL_TEST_EQUAL(-1, res);
+    GFAL_TEST_EQUAL(ENOENT, errno);
     gfal_rmdir(self.dir_to_create);
+    res = gfal_stat(self.dir_to_create, &statbuf);
+    GFAL_TEST_EQUAL(-1, res);
+    GFAL_TEST_EQUAL(ENOENT, errno);
 }
 
 static char* string_add_(const char* s1, const char* s2)
@@ -76,8 +84,8 @@ static void test_two_directory_levels_with_slashes()
     set_up();
     create_and_test_(__LINE__, self.dir_one_more_level, 
                      string_add_(self.dir_to_create, "/oneMoreLevel/"));
-/*    create_and_test_(__LINE__, self.dir_one_more_level, 
-                     string_add_(self.dir_to_create, "/oneMoreLevel"));*/
+    create_and_test_(__LINE__, self.dir_one_more_level, 
+                     string_add_(self.dir_to_create, "/oneMoreLevel"));
 }
 
 int main(int argc, char **argv)

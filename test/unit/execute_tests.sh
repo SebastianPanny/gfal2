@@ -2,8 +2,8 @@
 
 BUILD_DIR=../../build
 
-pushd $BUILD_DIR/test/unit &> /dev/null
-./gfal-unittest
+pushd $BUILD_DIR/src &> /dev/null
+./gfal_unittest
 res=$?
 popd &> /dev/null
 

@@ -7,6 +7,7 @@
  */
 
 #define _GNU_SOURCE
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -23,6 +24,7 @@
 #include "srmv2Client.c"
 #include "gfal_utils.h"
 #include "srm2_2_ifce.h"
+#include "srm2_2_ifce_impl.h"
 
 static const char gfal_remote_type[] = "SE";
 
@@ -1124,12 +1126,29 @@ srmv2_getbestspacetoken (const char *spacetokendesc, const char *srm_endpoint, G
 	return (spacetoken);
 }
 
+char* srmv2_normalize_surl_(const char* surl)
+{
+    char *consolidated_file = NULL;
+    char *with_trailing_slash = NULL;
+    /* We put a trailing "/" to the end of each directory, fo fix the algorithm in srmv2_makedirp
+       (Savannah bug #52502) */
+    with_trailing_slash = gfal_add_strings(surl, "/");
+    assert(with_trailing_slash);
+    /* do not consolidate the "//" after the protocol part... (srm://...) */
+    consolidated_file = gfal_consolidate_multiple_characters(
+        with_trailing_slash, '/', strlen("srm://") + 1);
+    assert(consolidated_file);
+    free(with_trailing_slash);
+
+    return consolidated_file;
+}
+
+
 /* tries to create all directories in 'dest_file' */
 	int
 srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, int errbufsz, int timeout)
 {
 	char *file = NULL;
-    char *consolidated_file = NULL;
 	int flags;
 	int sav_errno = 0;
 	char *p, *endp;
@@ -1153,15 +1172,8 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 	soap.connect_timeout = gfal_get_timeout_connect ();
 
 	memset (&req, 0, sizeof (struct srm2__srmMkdirRequest));
-    /* do not consolidate the "//" after the protocol part... */
-    consolidated_file = gfal_consolidate_multiple_characters(dest_file, '/', strlen("srm://") + 1);
-    /* +2: place for the trailing \0 and the appended "/" character. */
-    file = (char*) malloc(strlen(consolidated_file) + 2);
-	strcpy (file, consolidated_file);
-    free(consolidated_file);
-    /* We put a trailing "/" to the end of each directory, fo fix teh algorithm below
-       (Savannah bug #52502) */
-    strcat(file, "/");
+    file = srmv2_normalize_surl_(dest_file);
+
     p = endp = strrchr (file, '/');
 	/* 1st cycle, trying to create directories ascendingly, until success */
 	do {

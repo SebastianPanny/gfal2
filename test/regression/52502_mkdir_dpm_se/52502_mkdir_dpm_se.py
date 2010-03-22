@@ -22,19 +22,19 @@ class MkdirDpmSe_52502_TestCase(unittest.TestCase):
         self.failUnlessEqual(-1, res[0])
         self.failUnlessEqual(errno.ENOENT, gfal.gfal_get_errno())
 
-#    def testOneDirectoryLevelNoTrailingSlash(self):
-#        self.createAndTest_(self.dirToCreate_)
-#
-#    def testOneDirectoryLevelWithTrailingSlashes(self):
-#        self.createAndTest_(self.dirToCreate_, self.dirToCreate_ + "/")
-#        self.createAndTest_(self.dirToCreate_, self.dirToCreate_ + "//")
-#        self.createAndTest_(self.dirToCreate_, self.dirToCreate_ + "///")
-#
-#    def testTwoDirectoryLevelOneSlash(self):
-#        self.createAndTest_(self.dirOneMoreLevel_)
+    def testOneDirectoryLevelNoTrailingSlash(self):
+        self.createAndTest_(self.dirToCreate_)
+
+    def testOneDirectoryLevelWithTrailingSlashes(self):
+        self.createAndTest_(self.dirToCreate_, self.dirToCreate_ + "/")
+        self.createAndTest_(self.dirToCreate_, self.dirToCreate_ + "//")
+        self.createAndTest_(self.dirToCreate_, self.dirToCreate_ + "///")
+
+    def testTwoDirectoryLevelOneSlash(self):
+        self.createAndTest_(self.dirOneMoreLevel_)
 
     def testTwoDirectoryLevelsWithSlashes(self):
-#        self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "/oneMoreLevel")
+        self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "/oneMoreLevel")
         self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "/oneMoreLevel/")
         self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "//oneMoreLevel")
         self.createAndTest_(self.dirOneMoreLevel_, self.dirToCreate_ + "///oneMoreLevel")
@@ -48,13 +48,7 @@ class MkdirDpmSe_52502_TestCase(unittest.TestCase):
         if testdir is None:
             testdir = realdir 
         # Create the test directory
-        res = gfal.gfal_stat(self.dirToCreate_)
-        
-        print res
         res = gfal.gfal_mkdir(testdir, 0755)  
-    
-    
-  
         self.failUnlessEqual(0, gfal.gfal_get_errno())
         # The directory must exist, otherwise the test failed.
         res = gfal.gfal_stat(realdir)

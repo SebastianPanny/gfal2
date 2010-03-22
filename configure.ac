@@ -301,7 +301,6 @@ AC_CONFIG_HEADERS([src/autogen/config.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
-AC_CONFIG_FILES([test/unit/Makefile])
 AC_CONFIG_FILES([test/regression/Makefile])
 AC_CONFIG_FILES([test/regression/52502_mkdir_dpm_se/Makefile])
 

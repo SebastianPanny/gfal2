@@ -21,7 +21,8 @@
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
-SOAPCPP2FLAGS=-c 
+#SOAPCPP2FLAGS=-c -d/tmp 
+SOAPCPP2FLAGS=-c  
 #	-c = generate c code
 
 #WSDL2H=$(GSOAP_LOCATION)/bin/wsdl2h
@@ -132,6 +133,7 @@ dist_include_HEADERS = \
 
 # executables
 bin_PROGRAMS = \
+    gfal_unittest \
     gfal_test_checksum \
     gfal_version \
 	gfal_testchmod \
@@ -326,6 +328,17 @@ gfal_testrw_SOURCES = gfal_testrw.c
 gfal_testrw_LDADD = libgfal.la
 gfal_testrw_CFLAGS = $(VOMS_CFLAGS)
 
+gfal_unittest_SOURCES = \
+	gfal_unit_testsuite.c \
+    gfal_test__srm2_2_ifce.c \
+    gfal_test__gfal_add_strings.c \
+    gfal_test__gfal_consolidate_multiple_characters.c \
+	gfal_test__protocol_list_handling.c \
+	gfal_test__gfal_count_elements_of_string_array.c \
+	gfal_test__gfal_parseturl.c 
+
+gfal_unittest_LDADD = $(top_builddir)/src/libgfal.la
+gfal_unittest_CFLAGS = $(GFAL_FLAGS) $(GSOAP_CFLAGS) $(CGSI_GSOAP_CFLAGS) 
 
 #-------------------------------------------------------------------------------
 # DOCUMENTATION
