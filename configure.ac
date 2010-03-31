@@ -303,6 +303,7 @@ AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([test/regression/Makefile])
 AC_CONFIG_FILES([test/regression/52502_mkdir_dpm_se/Makefile])
+AC_CONFIG_FILES([test/regression/62445_gfal_open_twice_fails/Makefile])
 
 AC_OUTPUT
 
