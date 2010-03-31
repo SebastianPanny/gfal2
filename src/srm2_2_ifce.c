@@ -2563,7 +2563,14 @@ int srmv2_turlsfromsurls_put(
 	/* Create sub-directories of SURLs */
 	for (i = 0; i < nbfiles; ++i) {
         const char* dir = gfal_strip_string(surls[i], '/'); 
-        int res = srmv2_makedirp (dir, srm_endpoint, errbuf, errbufsz, timeout);
+        int res = 0;
+
+        assert (dir);
+
+        if (dir && strlen(dir) > 0) {
+            res = srmv2_makedirp (dir, srm_endpoint, errbuf, errbufsz, timeout);
+        }
+
         free(dir);
 
         if (res < 0) {
