@@ -25,3 +25,5 @@ function execute_a_test
 }
 
 execute_a_test 52502_mkdir_dpm_se
+execute_a_test 62444_gfal_get_prestage_minus_1_on_success
+

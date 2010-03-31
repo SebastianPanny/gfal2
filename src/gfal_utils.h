@@ -47,4 +47,18 @@ char* gfal_consolidate_multiple_characters(const char* s, const char c, const in
   */
 char* gfal_add_strings(const char* s1, const char* s2);
 
+/**
+ * Return a substring between the beginning of a string to the last occurrence of a character
+ * (including the character itself). For instance:
+ *
+ * gfal_strip_string("/home/user/file", '/')
+ *
+ * returns "/home/user/".
+ * 
+ * @param str String to be stripped
+ * @param chr Character to be searched for.
+ * @return The stripped string (dynamically allocated).
+ */
+char* gfal_strip_string(const char* str, const char chr);
+
 #endif // #define _GFAL_UTILS_H

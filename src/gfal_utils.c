@@ -72,3 +72,27 @@ char* gfal_add_strings(const char* s1, const char* s2)
     return ret;
 }
 
+char* gfal_strip_string(const char* str, const char chr)
+{
+    char *res = 0;
+
+    assert(str);
+
+    if (str) {
+        char *pos = strrchr(str, chr);
+        int size = -1;
+
+        if (pos) {
+            /* +1: to include the last character as well */
+            size = pos - str + 1; 
+        } else {
+            size = strlen(str);
+        }
+
+        res = (char*) malloc(size + 1);
+        strncpy(res, str, size);
+        res[size] = 0;
+    }
+
+    return res;
+}
