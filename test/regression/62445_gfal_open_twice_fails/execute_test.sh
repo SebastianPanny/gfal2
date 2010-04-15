@@ -34,10 +34,10 @@ LOCAL_TEST_FILE=file:///etc/group
 
 export GFAL_OPEN_TWICE_FAILS_TEST_FILE=$GFAL_OPEN_TWICE_FAILS_TEST_DIR/test.dat
 
-#lcg-cp --verbose --nobdii -D srmv2 --vo $TEST_VO $LOCAL_TEST_FILE $GFAL_OPEN_TWICE_FAILS_TEST_FILE
+lcg-cp --verbose --nobdii -D srmv2 --vo $TEST_VO $LOCAL_TEST_FILE $GFAL_OPEN_TWICE_FAILS_TEST_FILE
 
 # Python script to test the original problem.
-#python2.5 62445_gfal_open_twice_fails.py -v 
+python2.5 62445_gfal_open_twice_fails.py -v 
 
 export PYTHONPATH=$PYTHONPATH/../../python2.4/site-packages
 echo $PYTHONPATH
@@ -47,11 +47,11 @@ python2.4 62445_gfal_open_twice_fails.py -v
 # originates from the C library or from Python.
 BUILD_DIR=../../../build
 pushd $BUILD_DIR/test/regression/62445_gfal_open_twice_fails &> /dev/null
-#./62445_gfal_open_twice_fails
+./62445_gfal_open_twice_fails
 popd &> /dev/null
 
-#lcg-del -l --verbose --nobdii -D srmv2 --vo $TEST_VO $GFAL_OPEN_TWICE_FAILS_TEST_FILE
-#lcg-del -l -d --verbose --nobdii -D srmv2 --vo $TEST_VO $GFAL_OPEN_TWICE_FAILS_TEST_DIR
+lcg-del -l --verbose --nobdii -D srmv2 --vo $TEST_VO $GFAL_OPEN_TWICE_FAILS_TEST_FILE
+lcg-del -l -d --verbose --nobdii -D srmv2 --vo $TEST_VO $GFAL_OPEN_TWICE_FAILS_TEST_DIR
 
 unset GFAL_OPEN_TWICE_FAILS_TEST_FILE
 
