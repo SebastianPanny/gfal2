@@ -2381,8 +2381,7 @@ int srmv2_turlsfromsurls_get (
 	    reqstatp->statusCode == SRM_USCORESUCCESS ||
         reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS;
 
-	if (!call_is_successfull || !repfs || repfs->__sizestatusArray < nbfiles ||
-	   !repfs->statusArray)
+	if (!repfs || repfs->__sizestatusArray < nbfiles || !repfs->statusArray)
 	{
 		if (!call_is_successfull) {
 			sav_errno = statuscode2errno (reqstatp->statusCode);
