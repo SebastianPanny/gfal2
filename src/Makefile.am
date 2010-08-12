@@ -330,6 +330,7 @@ gfal_testrw_CFLAGS = $(VOMS_CFLAGS)
 
 gfal_unittest_SOURCES = \
 	gfal_unit_testsuite.c \
+    gfal_test__mds_ifce.c \
     gfal_test__gfal_strip_string.c \
     gfal_test__srm2_2_ifce.c \
     gfal_test__gfal_add_strings.c \
