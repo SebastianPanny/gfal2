@@ -23,7 +23,7 @@ WS=$HOME
 
 # The full name of a directory according to the SRM protocol. The tests files
 # will be copied.
-export GLOBAL_SRM_TEST_DIR_DPM_1=srm://lxb7608v1.cern.ch:8446/srm/managerv2?SFN=/dpm/cern.ch/home/dteam
+export GLOBAL_SRM_TEST_DIR_DPM_1=srm://lxbra1910.cern.ch:8446/srm/managerv2?SFN=/dpm/cern.ch/home/dteam
 
 # For the meaning of these global variables, see the LFC documentations.
 export LFC_HOST=lxb7608v3.cern.ch
