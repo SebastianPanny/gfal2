@@ -78,8 +78,9 @@ static void create_and_test_(const int line, const char* realdir, const char* te
 {
     int res = -1;
     struct stat statbuf;
+   
     printf("Called from line %d\n", line);
-    
+
     if (testdir == NULL)
         testdir = realdir;
 
@@ -105,3 +106,4 @@ int main(int argc, char **argv)
   	test_two_directory_levels_with_slashes();
     return 0;
 }
+

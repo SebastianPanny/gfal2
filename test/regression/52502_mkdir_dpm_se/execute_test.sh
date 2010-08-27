@@ -21,12 +21,14 @@
 # https://savannah.cern.ch/bugs/?52502
 #
 
-source ../setup.sh
+source ../../setup.sh
 
 # ------- EDIT THIS to configure ---------
 # Make sure that the last character is not '/'! Because, this caused the bug...
-export TEST_DIRECTORY=$GLOBAL_SRM_TEST_DIR_DPM_1/52502_mkdir_dpm_se
+export TEST_DIRECTORY=$GLOBAL_SRM_TEST_DIR_DPM/52502_mkdir_dpm_se
 # ------- DO NOT EDIT BELOW THIS ---------
+
+echo $TEST_DIRECTORY
 
 # Python script to test the original problem.
 python 52502_mkdir_dpm_se.py -v 
@@ -36,6 +38,7 @@ python 52502_mkdir_dpm_se.py -v
 BUILD_DIR=../../../build
 pushd $BUILD_DIR/test/regression/52502_mkdir_dpm_se &> /dev/null
 ./52502_mkdir_dpm_se
+
 popd &> /dev/null
 
 unset TEST_DIRECTORY
