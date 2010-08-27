@@ -26,17 +26,18 @@ class GetPrestageMinus1OnSuccess_62444_TestCase(unittest.TestCase):
 
     def setUp(self):
         self.testDir_ = os.environ["TEST_DIRECTORY"]
-        gfal.gfal_mkdir(self.testDir_, 0755)
         self.testFile_ = self.testDir_ + "/62444.test.dat"
+        self.request_ = {}
+        self.request_['defaultsetype'] = 'srmv2'
+        self.request_['surls'] = [self.testFile_]
+        self.tearDown()
+        gfal.gfal_mkdir(self.testDir_, 0755)
         fd = gfal.gfal_creat(self.testFile_, 0755)
         self.failIfEqual(-1, fd)
         gfal.gfal_close(fd)
         res = gfal.gfal_stat(self.testFile_)
         self.failUnlessEqual(0, res[0])
         self.failUnlessEqual(0, gfal.gfal_get_errno())
-        self.request_ = {}
-        self.request_['defaultsetype'] = 'srmv2'
-        self.request_['surls'] = [self.testFile_]
 
     def tearDown(self):
         errCode,gfalObject,errMessage = gfal.gfal_init(self.request_)
