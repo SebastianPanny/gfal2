@@ -16,6 +16,8 @@
 
 BUILD_DIR=../../build
 
+source ../setup.sh
+
 pushd $BUILD_DIR/src &> /dev/null
 ./gfal_unittest
 res=$?

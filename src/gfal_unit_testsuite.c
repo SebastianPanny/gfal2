@@ -63,7 +63,6 @@ char * gfal_test__mds_ifce();
 static char * gfal_all_tests()
 {
     GFAL_TEST_RUN(gfal_test__mds_ifce);
-#if 0
     GFAL_TEST_RUN(gfal_test__gfal_consolidate_multiple_characters);
     GFAL_TEST_RUN(gfal_test__gfal_count_elements_of_string_array);
     GFAL_TEST_RUN(gfal_test__protocol_list_handling);
@@ -71,7 +70,6 @@ static char * gfal_all_tests()
     GFAL_TEST_RUN(gfal_test__gfal_add_strings);
     GFAL_TEST_RUN(gfal_test__gfal_strip_string);
     GFAL_TEST_RUN(gfal_test__srm2_2_ifce);
-#endif
     return NULL;
 }
 

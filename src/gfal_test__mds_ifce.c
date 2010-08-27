@@ -31,7 +31,7 @@
         return res;
 
 /* Fixtures They depend on the test environemnt!!! TODO: make them configurable. */
-static char* host = "lxbra1910.cern.ch";
+static char* host = NULL;
 #define errbufsz 1024
 static char errbuf[errbufsz];
 
@@ -43,14 +43,18 @@ static char* _test__get_se_types_and_endpoints_good_case()
 
     ret = get_se_types_and_endpoints (host, &se_types, &se_endpoints, errbuf, errbufsz);
     GFAL_TEST_EQUAL(0, ret);
-    GFAL_TEST_EQUAL_STRING("srm_v2", *se_types);
-    GFAL_TEST_EQUAL_STRING("httpg://lxbra1910.cern.ch:8446/srm/managerv2", *se_endpoints);
+    GFAL_TEST_EQUAL_STRING("srm_v1", *se_types);
+    GFAL_TEST_EQUAL_STRING("srm_v2", *(se_types + 1));
+    GFAL_TEST_EQUAL_STRING("httpg://lxbra1910.cern.ch:8443/srm/managerv1", *se_endpoints);
+    GFAL_TEST_EQUAL_STRING("httpg://lxbra1910.cern.ch:8446/srm/managerv2", *(se_endpoints + 1));
 }
 
 char * gfal_test__mds_ifce()
 {
     char* res = NULL;
-    
+    host=getenv("SE_ENDPOINT_DPM");
+    GFAL_TEST_ASSERT(host != NULL);
+
     __CALL_TEST(_test__get_se_types_and_endpoints_good_case());
     return res;
 }

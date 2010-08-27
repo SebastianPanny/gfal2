@@ -2381,27 +2381,31 @@ int srmv2_turlsfromsurls_get (
 	    reqstatp->statusCode == SRM_USCORESUCCESS ||
         reqstatp->statusCode == SRM_USCOREPARTIAL_USCORESUCCESS;
 
+    if (!call_is_successfull) {
+        sav_errno = statuscode2errno (reqstatp->statusCode);
+    
+        if (reqstatp->explanation && reqstatp->explanation[0]) {
+            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
+                gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode),
+                srm_endpoint, reqstatp->explanation);
+        } else {
+            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
+                gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
+        }
+        
+        errno = sav_errno;
+        ret = GFAL_SRM_RETURN_ERROR;
+        goto FUNCTION_CLEANUP_AND_RETURN;
+    }
+
 	if (!repfs || repfs->__sizestatusArray < nbfiles || !repfs->statusArray)
 	{
-		if (!call_is_successfull) {
-			sav_errno = statuscode2errno (reqstatp->statusCode);
-			if (reqstatp->explanation && reqstatp->explanation[0])
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
-						gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode),
-						srm_endpoint, reqstatp->explanation);
-			else
-				gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <none>",
-						gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
-		} else {
-			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
-					gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
-			sav_errno = ECOMM;
-		}
-
-		soap_end (&soap);
-		soap_done (&soap);
-		errno = sav_errno;
-		return (-1);
+	    gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: <empty response>",
+			gfal_remote_type, srmfunc_status, statuscode2errmsg (reqstatp->statusCode), srm_endpoint);
+        
+		errno = ECOMM;
+        ret = GFAL_SRM_RETURN_ERROR;
+        goto FUNCTION_CLEANUP_AND_RETURN;
 	}
 
 	n = repfs->__sizestatusArray;
