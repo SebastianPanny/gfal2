@@ -27,7 +27,7 @@
 #   tests/52502_mkdir_dpm_se/execute_tests.sh
 #
 # The function requires one argument, the subdirectory name (52502_mkdir_dpm_se). 
-source setup.sh
+source ../setup.sh
 
 function execute_a_test
 {
@@ -35,13 +35,19 @@ function execute_a_test
     echo "Executing test $TEST_NAME..."
     pushd $TEST_NAME > /dev/null
     ./execute_test.sh
+    local res=$?
     popd > /dev/null
+
+    if [ $res != 0 ] ; then
+         echo 
+         echo -e "\nA test in \"$TEST_NAME\" failed.\n"
+         exit 1
+    fi
+
+    echo -e "\nAll tests in \"$TEST_NAME\" passed.\n"   
 }
 
 execute_a_test 52502_mkdir_dpm_se
 execute_a_test 62444_gfal_get_prestage_minus_1_on_success
-
-# We take it out from a release for the moment, as it is not an user use case.
-# Will be fixed later.
-#execute_a_test 62445_gfal_open_twice_fails
+execute_a_test 62445_gfal_open_twice_fails
 
