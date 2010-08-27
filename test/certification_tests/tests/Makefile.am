@@ -15,9 +15,17 @@
 # limitations under the License.
 #
 # Authors: Zsolt Molnar <zsolt.molnar@cern.ch, http://www.zsoltmolnar.hu>
-# Version info: $Id: Makefile.am,v 1.1 2009/10/08 15:32:39 molnarzs Exp $
+# Version info: $Id: Makefile.am,v 1.3 2009/12/09 13:18:13 molnarzs Exp $
 # Release: $Name:  $
 
-SUBDIRS=regression certification_tests
+AM_CFLAGS = -g -fPIC -D_LARGEFILE64_SOURCE $(GFAL_CFLAGS) \
+    -DVERSION=\"$(VERSION)-$(RELEASE)\" $(GSOAP_CFLAGS) \
+    -I$(top_srcdir)/src -I$(top_srcdir)/test -I../../src
 
-AUTOMAKE_OPTIONS = foreign
+bin_PROGRAMS = \
+	gfal-test
+
+gfal_test_SOURCES = \
+	gfal-test.c
+
+gfal_test_LDADD = $(top_builddir)/src/libgfal.la
