@@ -23,9 +23,8 @@
 #include "gfal_api.h"
 #include "gfal_testsuite.h"
 
-/* TEST_DIRECTORY environmant variable must be set: this is a SURL, pointing to a test 
- * directory to be created. In GFAL regression tests, 
- * execute_test.sh calling this Python script sets it. */
+/* TEST_DIRECTORY environment variable must be set: this is a SURL, pointing to a test 
+ * directory to be created. In GFAL regression tests, execute_test.sh sets it. */
 
 /* Test strategy: create directories with different slash configurations (more slashes 
  * between direcotry elements, more trailing slashes, etc.), and check if directory was 

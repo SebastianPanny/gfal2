@@ -29,7 +29,7 @@ export TEST_DIRECTORY=$GLOBAL_SRM_TEST_DIR_DPM_1/52502_mkdir_dpm_se
 # ------- DO NOT EDIT BELOW THIS ---------
 
 # Python script to test the original problem.
-python2.5 52502_mkdir_dpm_se.py -v 
+python 52502_mkdir_dpm_se.py -v 
 
 # The same functionality than above, but from C, to see if the problem
 # originates from the C library or from Python.
