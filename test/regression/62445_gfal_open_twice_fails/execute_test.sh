@@ -38,10 +38,7 @@ export CSEC_TRACE=1
 export GFAL_OPEN_TWICE_FAILS_TEST_FILE=$GFAL_OPEN_TWICE_FAILS_TEST_DIR/test.dat
 
 lcg-cp --verbose --nobdii -D srmv2 --vo $TEST_VO $LOCAL_TEST_FILE $GFAL_OPEN_TWICE_FAILS_TEST_FILE
-
-export PYTHONPATH=$PYTHONPATH/../../python2.4/site-packages
-echo $PYTHONPATH
-python2.4 62445_gfal_open_twice_fails.py -v 
+python 62445_gfal_open_twice_fails.py -v 
 
 # The same functionality than above, but from C, to see if the problem
 # originates from the C library or from Python.
