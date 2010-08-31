@@ -16,15 +16,14 @@
 #
 # Tests for Savannah bug 
 #
-#   52502: gfal_mkdir and DPM SE
+#   62445: [GFAL-Python] gfal_open fails when called twice
 #
-# https://savannah.cern.ch/bugs/?52502
+# https://savannah.cern.ch/bugs/?62445
 #
 
 source ../../setup.sh
 
 # ------- EDIT THIS to configure ---------
-# Make sure that the last character is not '/'! Because, this caused the bug...
 GFAL_OPEN_TWICE_FAILS_TEST_DIR=$GLOBAL_SRM_TEST_DIR_DPM/62445_gfal_open_twice_fails/
 # The test file that will be copied to the server
 LOCAL_TEST_FILE=file:///etc/group
