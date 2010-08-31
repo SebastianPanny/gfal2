@@ -21,8 +21,8 @@
 # Release: $Name:  $
 
 SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
-#SOAPCPP2FLAGS=-c -d/tmp 
-SOAPCPP2FLAGS=-c  
+SOAPCPP2FLAGS=-c -d/tmp 
+#SOAPCPP2FLAGS=-c  
 #	-c = generate c code
 
 #WSDL2H=$(GSOAP_LOCATION)/bin/wsdl2h
@@ -226,7 +226,7 @@ GFAL_FLAGS = \
 libgfal_a_SOURCES = $(GFAL_SOURCE_FILES)
 
 libgfal_a_CFLAGS = \
-	$(GLOBUS_THR_CFLAGS) \
+	$(GLOBUS_NOTHR_CFLAGS) \
 	$(GLITE_CFLAGS) \
 	$(GFAL_FLAGS) \
 	$(GSOAP_CFLAGS) \
@@ -240,13 +240,13 @@ libgfal_la_SOURCES = $(GFAL_SOURCE_FILES)
 libgfal_la_LIBADD = \
 	-luuid -lc -ldl \
 	$(CGSI_GSOAP_LIBS) \
-	$(GLOBUS_GSS_THR_LIBS) \
-	$(GLOBUS_FTP_CLIENT_THR_LIBS) \
-	$(VOMS_THR_LIBS) \
+	$(GLOBUS_GSS_NOTHR_LIBS) \
+	$(GLOBUS_FTP_CLIENT_NOTHR_LIBS) \
+	$(VOMS_NOTHR_LIBS) \
 	-lldap
 
 libgfal_la_CFLAGS = \
-	$(GLOBUS_THR_CFLAGS) \
+	$(GLOBUS_NOTHR_CFLAGS) \
 	$(GLITE_CFLAGS) \
 	$(GFAL_FLAGS) \
 	$(GSOAP_CFLAGS) \
