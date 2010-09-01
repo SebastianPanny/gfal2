@@ -30,6 +30,7 @@
 #include <pwd.h>
 #include <assert.h>
 #include <sys/stat.h>
+#include <regex.h>
 #include "gfal_api.h"
 #include "srm_dependencies.h"
 #include "srmSoapBinding+.nsmap"
@@ -1190,6 +1191,11 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
     p = endp = strrchr (file, '/');
 	/* 1st cycle, trying to create directories ascendingly, until success */
 	do {
+        /* Do not try to create the root directory... */
+        if (srmv2_check_srm_root(file)) {
+            break;
+        }   
+
 		*p = 0;
 		req.SURL = file;
 
@@ -1224,6 +1230,7 @@ srmv2_makedirp (const char *dest_file, const char *srm_endpoint, char *errbuf, i
 			errno = sav_errno;
             goto CLEANUP_AND_RETURN;
 		}
+
 	} while (sav_errno == ENOENT && (p = strrchr (file, '/')) != NULL);
 
 	if (p == NULL) {
@@ -3793,3 +3800,31 @@ statuscode2errmsg (int statuscode)
 {
 	return (srmv2_errmsg[statuscode]);
 }
+
+int srmv2_check_srm_root(const char* surl)
+{
+    int ret = 0;
+    static regex_t re;
+    static is_compiled = 0;
+    static const char* regexp = "^srm\://[^/]*/$";
+    #define SRMV1_CHECK_SRM_ROOT_NMATCH 1
+    regmatch_t match[SRMV1_CHECK_SRM_ROOT_NMATCH];
+
+    if (surl == NULL) {
+        return 0;
+    }
+
+    if (!is_compiled) {
+        int comp_res = regcomp(&re, regexp, REG_ICASE);
+        assert(comp_res == 0);
+        is_compiled = 1;
+    }
+   
+    if (0 == regexec(&re, surl, SRMV1_CHECK_SRM_ROOT_NMATCH, match, 0)) {
+        ret = 1;
+    }
+
+    return ret;
+    #undef SRMV1_CHECK_SRM_ROOT_NMATCH
+}
+

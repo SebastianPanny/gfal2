@@ -113,4 +113,17 @@ int srmv2_access (int, const char **, const char *, int, struct srmv2_filestatus
 int srmv2_getfilemd (int, const char **, const char *, int, int *, int, struct srmv2_mdfilestatus **, char **, char *, int, int);
 #endif
 
+/**
+ * Check if a given SURL corresponds to the root of the file system. That is
+ * 
+ * srm://<any string>/ 
+ *
+ * where <any string> cannot contain slashes. It does not check the validity of <any string>! 
+ *
+ * @param surl The SURL to be checked
+ *
+ @ return 0: not root, 1: root
+ */
+int srmv2_check_srm_root(const char* surl);
+
 #endif /* #ifndef SRM2_2_IFCE_H */
