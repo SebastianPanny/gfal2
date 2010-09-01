@@ -36,9 +36,9 @@ vo_name = result = os.popen("voms-proxy-info --vo").read()[:-1]
 # Parse input arguments 
 #=============================================================================
 def check_arguments(): 
-	if (len(sys.argv) != 2):
-        	usage()
-        	sys.exit(1)
+    if (len(sys.argv) != 2):
+            usage()
+            sys.exit(1)
 
 check_arguments()    
 
@@ -66,76 +66,91 @@ os.environ['VO_"+ VO +"_DEFAULT_SE'] = se
 class test_access_ok(_test):
     def info(self):
         return "gfal_access: check existence of a file"
+
     def test(self):
-	self.name = prot + se + path
-	ret = gfal.gfal_access(self.name, os.R_OK)
-	print ("return", ret)
-	error1 = gfal.gfal_get_errno()
-	code = 0
-	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
-	if (error1 == code):
-                ret = True
+        self.name = prot + se + path + "/"
+        ret = gfal.gfal_access(self.name, os.R_OK)
+
+        print path
+        print self.name
+
+        print ("return", ret)
+        error1 = gfal.gfal_get_errno()
+        code = 0
+        print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
+
+        if (error1 == code):
+            ret = True
         else:
-                ret = False
+            ret = False
+        
         return ret
+
     #def clean(self):
     #    gfal.gfal_unlink(self.name)
     
 class test_EACCES(_ntest):
     def info(self):
         return "gfal_access errors: Access denied (EACCES)"
+
     def test(self):
         self.name = prot + se + "/" + path1
-	#print ("self.name", self.name) 
+        #print ("self.name", self.name) 
         ret = gfal.gfal_access(self.name, os.W_OK)
-	print ("return", ret)
-	error1 = gfal.gfal_get_errno()
-	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
+        print ("return", ret)
+        error1 = gfal.gfal_get_errno()
+        print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
         print ("EACCES", errno.EACCES)
         code = errno.EACCES
         if (error1 == code):
-                ret = True
+            ret = True
         else:
-                ret = False
+            ret = False
+
         return ret
-   # def clean(self):
-    #    gfal.gfal_unlink(self.name)
+# def clean(self):
+#    gfal.gfal_unlink(self.name)
 
 class test_ENOENT(_ntest):
     def info(self):
         return "gfal_access errors: component doesn't exist (ENOENT)"
+
     def test(self):
         self.name =  prot + se + path + vo_name + "/gfal_test"
         ret = gfal.gfal_access(self.name,os.R_OK)
-	error1 = gfal.gfal_get_errno()
-	print ("return", ret)
-	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
-	print ("ENOENT", errno.ENOENT)
+        error1 = gfal.gfal_get_errno()
+        print ("return", ret)
+        print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
+        print ("ENOENT", errno.ENOENT)
         code = errno.ENOENT
+
         if (ret == self.retVal):
-                ret = True
+            ret = True
         else:
-                ret = False
+            ret = False
+        
         return ret
     #def clean(self):
-    #	gfal.gfal_unlink(self.name)
-	
+    #   gfal.gfal_unlink(self.name)
+    
 class test_EFAULT(_ntest):
     def info(self):
         return "gfal_access errors: filename is a NULL pointer (EFAULT)"
     def test(self):
         self.name = prot + se + path
         ret = gfal.gfal_access(None, os.R_OK)
-	print ("return", ret)
-	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
+        print ("return", ret)
+        print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
         print ("EFAULT", errno.EFAULT)
-	print "http://savannah.cern.ch/bugs/?52645"
-	error1 = gfal.gfal_get_errno()
+        print "http://savannah.cern.ch/bugs/?52645"
+        error1 = gfal.gfal_get_errno()
         code = errno.EFAULT
+
         if (error1 == code):
-                ret = True
+            ret = True
         else:
-                ret = False
+            ret = False
+
         return ret
 #    def clean(self):
 #        gfal.gfal_unlink(self.name)
@@ -143,21 +158,25 @@ class test_EFAULT(_ntest):
 class test_EINVAL(_ntest):
     def info(self):
         return "gfal_access errors: filename has an invalid syntax (EINVAL)"
+
     def test(self):
         self.name = prot + se + path
-	#print ("self.name", self.name)
+        #print ("self.name", self.name)
         ret = gfal.gfal_access("0",-9)
-	print ("return", ret)
-	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
+        print ("return", ret)
+        print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
         print ("EINVAL", errno.EINVAL)
-	error1 = gfal.gfal_get_errno()
+        error1 = gfal.gfal_get_errno()
         code = errno.EINVAL
+
         #print("code", code)
         if (error1 == code):
-                ret = True
+            ret = True
         else:
-                ret = False
+            ret = False
+
         return ret
+
     #def clean(self):
      #   gfal.gfal_unlink(self.name)
 
@@ -166,57 +185,60 @@ class gfal_access_test:
         self.tests=[test_access_ok, test_ENOENT, test_EACCES, test_EINVAL, test_EFAULT]
 
     def run(self):
-	flag = 0
+        flag = 0
+
         for testclass in self.tests:
             testInstance = testclass()
             testInstance.prepare()
-	    ret1 = testInstance.test()	
+            ret1 = testInstance.test()  
             testInstance.clean()
-	    if ret1:
+
+            if ret1:
                 print "%-60s[OK]" % testInstance.info()
-		print ""
+                print ""
             else:
                 print "%-60s[FAILED]" % testInstance.info()
-		print ""
-		flag = 1
+                print ""
+                flag = 1
+
         return flag
 
 #************* Interface for Python tests ***************
 
 if (setype == "SRM"):
-	if (path1 == "dpm"):
-                os.environ['LCG_RFIO_TYPE'] = path1
-	print "===================================================="
-	print "Start test: check existence of a file (gfal_access)"
-	print "===================================================="
-	prot = "srm://"
-	ret = gfal_access_test().run()
-	if ( ret == 1):
-		print "Test failed"
-		print ""
-		sys.exit(2)
-	else:
-		print "Test is OK"	
-		print ""
-		sys.exit(0)
+    if (path1 == "dpm"):
+        os.environ['LCG_RFIO_TYPE'] = path1
+    print "===================================================="
+    print "Start test: check existence of a file (gfal_access)"
+    print "===================================================="
+    prot = "srm://"
+    ret = gfal_access_test().run()
+    if ( ret == 1):
+        print "Test failed"
+        print ""
+        sys.exit(2)
+    else:
+        print "Test is OK"  
+        print ""
+        sys.exit(0)
 
 if (setype == "classic"):
-	print "===================================================="
-	print sys.argv[1] +" - classic SE"
-	print "Classic SEs aren't officially supported GFAL"
-	print "Start test: check existence of a file (gfal_access)"
-	print "===================================================="
-        prot = "sfn://"
-        ret = gfal_access_test().run()
-        if ( ret == 1 ):
-		print "Test failed"
-		print ""
-		sys.exit(2)
-        else:
-                print "Test is OK"
-		print ""
-		sys.exit(0)
+    print "===================================================="
+    print sys.argv[1] +" - classic SE"
+    print "Classic SEs aren't officially supported GFAL"
+    print "Start test: check existence of a file (gfal_access)"
+    print "===================================================="
+    prot = "sfn://"
+    ret = gfal_access_test().run()
+    if ( ret == 1 ):
+        print "Test failed"
+        print ""
+        sys.exit(2)
+    else:
+        print "Test is OK"
+        print ""
+        sys.exit(0)
 
 if (setype == ""):
-        print sys.argv[1] + " - unknown SE"
-        sys.exit(1)
+    print sys.argv[1] + " - unknown SE"
+    sys.exit(1)
