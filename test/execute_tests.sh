@@ -32,6 +32,6 @@ function execute_test {
     echo -e "\nAll tests in \"$testdir\" passed.\n"   
 }
 
-#execute_test unit
-#execute_test regression
-execute_test certification_tests
+execute_test unit
+execute_test regression
+#execute_test certification_tests

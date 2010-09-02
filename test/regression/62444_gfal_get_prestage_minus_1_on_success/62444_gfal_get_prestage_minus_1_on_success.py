@@ -17,7 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os, gfal, unittest
+import os, gfalthr, unittest
+gfal=gfalthr
 
 # IMPORTANT!
 # Make sure that the endpoint returns SRM_REQUEST_QUEUED, otherwise the test fails!
@@ -45,6 +46,7 @@ class GetPrestageMinus1OnSuccess_62444_TestCase(unittest.TestCase):
         gfal.gfal_rmdir(self.testDir_)
 
     def testGet(self):
+        self.tearDown();
         errCode,gfalObject,errMessage = gfal.gfal_init(self.request_)
         errCode,gfalObject,errMessage = gfal.gfal_get(gfalObject)
         self.failUnlessEqual(0, errCode)
@@ -52,6 +54,7 @@ class GetPrestageMinus1OnSuccess_62444_TestCase(unittest.TestCase):
         self.failIf("SRM_REQUEST_QUEUED" not in fileStatuses[0]['explanation'])
 
     def testPrestage(self):
+        self.tearDown();
         errCode,gfalObject,errMessage = gfal.gfal_init(self.request_)
         errCode,gfalObject,errMessage = gfal.gfal_prestage(gfalObject)
         self.failUnlessEqual(0, errCode)

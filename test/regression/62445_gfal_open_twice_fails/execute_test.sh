@@ -31,7 +31,6 @@ LOCAL_TEST_FILE=file:///etc/group
 
 export CSEC_TRACEFILE=$PWD/csec.trace
 export CSEC_TRACE=1
-export CSEC_NOTHREAD=1
 
 export GFAL_OPEN_TWICE_FAILS_TEST_FILE=$GFAL_OPEN_TWICE_FAILS_TEST_DIR/test.dat
 
