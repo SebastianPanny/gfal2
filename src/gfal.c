@@ -725,13 +725,11 @@ gfal_open (const char *filename, int flags, mode_t mode)
         gfile->replicas = (gfal_replica *) calloc (1, sizeof (gfal_replica));
         if (gfile->replicas == NULL) {
             sav_errno = errno;
-            gfal_file_free (gfile);
             goto err;
         }
         *(gfile->replicas) = (gfal_replica) calloc (1, sizeof (struct _gfal_replica));
         if (*(gfile->replicas) == NULL) {
             sav_errno = errno;
-            gfal_file_free (gfile);
             goto err;
         }
         gfile->replicas[0]->surl = surl;
@@ -791,13 +789,11 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
     if (!bool_issurlok) {
         sav_errno = gfile->errcode ? gfile->errcode : 0;
-        gfal_file_free (gfile);
         goto err;
     }
 
     if ((xi = alloc_xi (fd)) == NULL) {
         sav_errno = errno;
-        gfal_file_free (gfile);
         goto err;
     }
 
@@ -816,12 +812,16 @@ gfal_open (const char *filename, int flags, mode_t mode)
             gfile->replicas[0]->surl != NULL) {
         if (gfal_register_file (gfile->lfn, gfile->guid, gfile->replicas[0]->surl, mode, 0, 1, NULL, 0) < 0 ) {
             sav_errno = errno;
-            gfal_file_free (gfile);
             goto err;
         }
     }
 
     if (req) free (req);
+
+    if (gfile) {
+        gfal_file_free (gfile);
+    }
+
     errno = 0;
     return (fd);
 
@@ -829,8 +829,15 @@ err:
     if (fd >= 0) {
         gfal_deletesurls (gfile->gobj, NULL, 0);
         free_xi (fd);
+    } else if (gfile) {
+        gfal_file_free (gfile);
     }
-    if (req) free (req);
+    
+    if (req) {
+        free (req);
+    }
+
+
     errno = sav_errno;
     return (-1);
 }
