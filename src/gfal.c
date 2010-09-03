@@ -36,6 +36,7 @@
 #include <glite/security/voms/voms_apic.h>
 #include "gfal_api.h"
 #include "gfal_internals.h"
+#include "lfc_ifce.h"
 
 #if !defined(OFF_MAX)
 #define OFF_MAX 2147483647

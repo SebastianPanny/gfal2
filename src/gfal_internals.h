@@ -109,37 +109,6 @@ int get_seap_info (const char *, char ***, int **, char *, int);
 int get_se_types_and_endpoints (const char *, char ***, char ***, char *, int);
 
 
-/******************** lfc_ifce.c ********************/
-
-int lfc_maperror (struct proto_ops *, int);
-int lfc_setsize (const char *, GFAL_LONG64, char *, int);
-int lfc_accessl (const char *, const char *, int, char *, int);
-int lfc_chmodl (const char *, mode_t, char *, int);
-int lfc_renamel (const char *, const char *, char *, int);
-int lfc_statl (const char *, const char *, struct stat64 *, char *, int);
-int lfc_lstatl (const char *, struct stat64 *, char *, int);
-DIR *lfc_opendirlg (const char *, const char *, char *, int);
-int lfc_rmdirl (const char *, char *, int);
-int lfc_register_file (const char *, const char *, const char *, mode_t,
-		GFAL_LONG64, int, char *, int);
-int lfc_deletepfn (const char *, const char *, char *, int);
-int lfc_deletesurl (const char *, char *, int);
-char *lfc_get_catalog_endpoint(char *, int);
-char *lfc_guidforpfn (const char *, char *, int);
-int lfc_guidsforpfns (int, const char **, int, char ***, int **, char *, int);
-char *lfc_guidfromlfn (const char *, char *, int);
-int lfc_guid_exists (const char *, char *, int);
-char **lfc_get_aliases (const char *, const char *, char *, int);
-int lfc_mkdirp (const char*, mode_t, char *, int);
-int lfc_register_alias (const char *, const char *, char *, int);
-int lfc_replica_exists(const char*, char*, int);
-char **lfc_get_replicas (const char *, const char *, char *, int);
-int lfc_unregister_alias (const char *, const char *, char *, int);
-int lfc_unregister_pfns (int, const char **, const char **, int **, char *, int);
-int lfc_fillsurls (gfal_file, char *, int);
-int lfc_remove (gfal_file, char *, int);
-
-
 /******************** lrc_ifce.c ********************/
 
 int lrc_deletepfn (const char *, const char *, char *, int);
