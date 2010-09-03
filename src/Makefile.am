@@ -329,6 +329,7 @@ gfal_testrw_LDADD = libgfal.la
 gfal_testrw_CFLAGS = $(VOMS_CFLAGS)
 
 gfal_unittest_SOURCES = \
+    gfal_test__lfc_mkdirp.c \
 	gfal_test__srmv2_check_srm_root.c \
 	gfal_unit_testsuite.c \
     gfal_test__mds_ifce.c \

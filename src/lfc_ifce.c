@@ -19,7 +19,6 @@
  * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.67 $ $Date: 2010/01/22 15:25:54 $ CERN James Casey
  */
 #define _GNU_SOURCE
-#include <sys/types.h>
 #include <dlfcn.h>
 #include <errno.h>
 #include <stdio.h>
@@ -28,44 +27,12 @@
 #include <unistd.h>
 #include <uuid/uuid.h>
 
+#include <serrno.h>
+
 #include "gfal_internals.h"
-#include "lfc_api.h"
-#include "serrno.h"
+#include "lfc_ifce.h"
 
 static const char gfal_remote_type[] = "LFC";
-
-#define ALLOC_BLOCK_SIZE 16 /* the block size to allocate new pointers in */
-
-struct fc_ops {
-	int	*serrno;
-	char	*(*sstrerror)(int);
-	int	(*addreplica)(const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *);
-	int	(*creatg)(const char *, const char *, mode_t);
-	int	(*delreplica)(const char *, struct lfc_fileid *, const char *);
-	int	(*aborttrans)();
-	int	(*endtrans)();
-	int	(*getpath)(char *, u_signed64, char *);
-	int (*getlinks)(const char *, const char *, int *, struct lfc_linkinfo **);
-	int (*getreplica)(const char *, const char *, const char *, int *, struct lfc_filereplica **);
-	int	(*lstat)(const char *, struct lfc_filestat *);
-	int	(*mkdirg)(const char *, const char *, mode_t);
-	int	(*seterrbuf)(char *, int);
-	int	(*setfsizeg)(const char *, u_signed64, const char *, char *);
-	int	(*setfsize)(const char *, struct lfc_fileid *, u_signed64);
-	int	(*starttrans)(const char *, const char *);
-	int	(*statg)(const char *, const char *, struct lfc_filestatg *);
-	int	(*statr)(const char *, struct lfc_filestatg *);
-	int	(*symlink)(const char *, const char *);
-	int	(*unlink)(const char *);
-	int	(*access)(const char *, int);
-	int	(*chmod)(const char *, mode_t);
-	int	(*rename)(const char *, const char *);
-	lfc_DIR *(*opendirg)(const char *, const char *);
-	int	(*rmdir)(const char *);
-	int (*startsess) (char *, char *); 
-	int (*endsess) ();
-};
-
 struct fc_ops fcops;
 char lfc_endpoint[GFAL_HOSTNAME_MAXLEN] = "";
 char lfc_env[GFAL_HOSTNAME_MAXLEN];

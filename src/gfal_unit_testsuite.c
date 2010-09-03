@@ -50,6 +50,7 @@ int __gfal_tests_run = 0;
  */
 
 /*List of test functions */
+char * gfal_test__lfc_mkdirp();
 char * gfal_test__srmv2_check_srm_root();
 char * gfal_test__protocol_list_handling();
 char * gfal_test__gfal_count_elements_of_string_array();
@@ -63,6 +64,7 @@ char * gfal_test__mds_ifce();
 /*Register the test functions here */
 static char * gfal_all_tests()
 {
+    GFAL_TEST_RUN(gfal_test__lfc_mkdirp);
     GFAL_TEST_RUN(gfal_test__srmv2_check_srm_root);
     GFAL_TEST_RUN(gfal_test__mds_ifce);
     GFAL_TEST_RUN(gfal_test__gfal_consolidate_multiple_characters);
