@@ -819,10 +819,6 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
     if (req) free (req);
 
-    if (gfile) {
-        gfal_file_free (gfile);
-    }
-
     errno = 0;
     return (fd);
 
