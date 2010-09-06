@@ -4,14 +4,14 @@
 import os,sys,errno,lfc
 sys.path.append("/opt/lcg/lib/python2.3/site-packages/")
 sys.path.append("/opt/lcg/lib64/python2.4/site-packages/")
-import gfal
+import gfalthr
+gfal = gfalthr
 from testClass import _test, _ntest
 global prot
 global vo_name
 global path
 global flag
 flag = 0
-
 
 #=== FUNCTION ================================================================
 # Prints the usage
@@ -56,9 +56,10 @@ path = "grid/" + vo_name + ""
 
 path1 =  result = os.popen("ldapsearch -x -H ldap://" + infosys + " -b 'mds-vo-name=local,o=grid' -LLL '(&(GlueSALocalID:dn:=" + vo_name + ")(GlueSEUniqueID:dn:=" + se + "))' GlueSAPath | awk 'BEGIN { FS = \"GlueSAPath: \" } ; {print $2 }' |awk 'BEGIN { FS = \"/\" } ; {print $2 }'").read()[2:-2]
 
-lfc_host = result = os.popen("lcg-infosites --vo "+ vo_name +"  -f lfc").read()[:-1]
+# TODO: this one resulted multiople result, hard-code now, then fix
+#lfc_host = result = os.popen("lcg-infosites --vo "+ vo_name +"  -f lfc").read()[:-1]
 
-os.environ['LFC_HOST'] = lfc_host
+#os.environ['LFC_HOST'] = lfc_host
 
 VO = result = os.popen("echo dteam | tr 'a-z' 'A-Z'").read()[:-1]
 
@@ -89,16 +90,17 @@ class test_closedir_ok(_test):
         else:
                 ret = False
         return ret
-    #def clean(self):
-    #    gfal.gfal_unlink(self.name)
+    def clean(self):
+        gfal.gfal_unlink(self.name)
     
 class test_EBADF(_ntest):
     def info(self):
         return "gfal_closedir errors: descriptor is invalid (EBADF)"
     def test(self):
-	self.name = prot + path + "/gfal_opendir_test"
-	ret1 = ret1 = gfal.gfal_opendir(self.name)
-        ret = gfal.gfal_closedir(ret1)
+        # This test here is inefficient, what we want to test is handling of NULL (None)
+        #self.name = prot + path + "/gfal_opendir_test"
+        #ret1 = ret1 = gfal.gfal_opendir(self.name)
+        ret = gfal.gfal_closedir(None)
         error1 = gfal.gfal_get_errno()
         print ("return",ret)
         print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
@@ -109,8 +111,6 @@ class test_EBADF(_ntest):
         else:
                 ret = False
         return ret
-    def clean(self):
-        gfal.gfal_unlink(self.name)
 
 class gfal_closedir_test:
     def __init__(self):
