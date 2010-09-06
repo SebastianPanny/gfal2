@@ -487,15 +487,23 @@ gfal_closedir (DIR *dir)
     struct dir_info *di;
     int rc;
 
-    if ((di = find_di (dir))) {
-        if ((rc = di->pops->closedir (dir)) < 0)
-            errno = di->pops->maperror (di->pops, 0);
-        if (strcmp (di->pops->proto_name, "lfc") == 0)
-            free (di->pops);
-        free_di (di);
-        return (rc);
-    } else
-        return (-1);
+    di = find_di (dir);
+
+    if (di == NULL || di->pops == NULL) {
+        return -1;
+    }
+
+    rc = di->pops->closedir (dir);
+
+    if (rc < 0) {
+        errno = di->pops->maperror (di->pops, 0);
+    }
+
+    if (strcmp (di->pops->proto_name, "lfc") == 0)
+        free (di->pops);
+
+    free_di (di);
+    return (rc);
 }
 
     int
