@@ -10,6 +10,8 @@ global prot
 global vo_name
 global path
 
+gfal.gfal_set_verbose(2)
+
 #=== FUNCTION ================================================================
 # Prints the usage
 #=============================================================================
@@ -109,8 +111,7 @@ class test_ENOENT(_ntest):
 	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
 	print ("ENOENT", errno.ENOENT)
 	print "http://savannah.cern.ch/bugs/?52502 STATUS NONE"
-#        code = errno.ENOENT
-        code = 0
+        code = errno.ENOENT
         if (error1 == code):
                 ret = True
         else:
