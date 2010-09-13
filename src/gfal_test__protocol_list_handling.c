@@ -186,6 +186,7 @@ static int _caller_play_scenarios_prepare_to_get(
         );
         /* In case of unsupported protocol, the return status is SRM_NOT_SUPPORTED */
         rep->srmPrepareToGetResponse->returnStatus->statusCode = SRM_USCORENOT_USCORESUPPORTED;
+        rep->srmPrepareToGetResponse->arrayOfFileStatuses->__sizestatusArray = 0;
         return SOAP_OK;
     default:
         assert(0);
@@ -224,6 +225,7 @@ static int _caller_play_scenarios_bring_online(
         );
         /* In case of unsupported protocol, the return status is SRM_NOT_SUPPORTED */
         rep->srmBringOnlineResponse->returnStatus->statusCode = SRM_USCORENOT_USCORESUPPORTED;
+        rep->srmBringOnlineResponse->arrayOfFileStatuses->__sizestatusArray = 0;
         return SOAP_OK;
     default:
         assert(0);
@@ -262,6 +264,7 @@ static int _caller_play_scenarios_prepare_to_put(
         );
         /* In case of unsupported protocol, the return status is SRM_NOT_SUPPORTED */
         rep->srmPrepareToPutResponse->returnStatus->statusCode = SRM_USCORENOT_USCORESUPPORTED;
+        rep->srmPrepareToPutResponse->arrayOfFileStatuses->__sizestatusArray = 0;
         return SOAP_OK;
     default:
         assert(0);
@@ -280,7 +283,7 @@ static void _setup_srm_callers()
 
 /* General fixtures for the SRM requests*/
 static char *mock_surls[] = {"srm://fake_surl/"};
-static int mock_nbfiles = 0;
+static int mock_nbfiles = 1;
 static char *mock_srm_endpoint = "httpg://fakeendpoint.cern.ch:8443/srm/managerv2";
 static int mock_desiredpintime = 10;
 static const char *mock_spacetokendesc = NULL;
