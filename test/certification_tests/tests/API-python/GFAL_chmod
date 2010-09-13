@@ -52,7 +52,6 @@ setype = result = os.popen("ldapsearch -x -H ldap://" + infosys + " -b 'mds-vo-n
 
 path = result = os.popen("ldapsearch -x -H ldap://" + infosys + " -b 'mds-vo-name=local,o=grid' -LLL '(&(GlueSALocalID:dn:=" + vo_name + ")(GlueSEUniqueID:dn:=" + se + "))' GlueSAPath | awk 'BEGIN { FS = \"GlueSAPath: \" } ; {print $2 }'").read()[2:-2]
 # TODO: fix it when the above query results proper path!
-#path="/dpm/cern.ch/home/dteam/"
 path="grid/dteam"
 
 path1 =  result = os.popen("ldapsearch -x -H ldap://" + infosys + " -b 'mds-vo-name=local,o=grid' -LLL '(&(GlueSALocalID:dn:=" + vo_name + ")(GlueSEUniqueID:dn:=" + se + "))' GlueSAPath | awk 'BEGIN { FS = \"GlueSAPath: \" } ; {print $2 }' |awk 'BEGIN { FS = \"/\" } ; {print $2 }'").read()[2:-2]
@@ -79,7 +78,6 @@ class test_chmod_ok(_test):
         return "gfal_chmod: change access mode of a file/directory"
     def test(self):
         self.name = prot + path + "/gfal_chmod_test"
-        print "TEST START" + self.name
 	ret = gfal.gfal_creat(self.name, 0755)
 	print ("return",ret)
         print ("gfal.gfal_get_errno", gfal.gfal_get_errno())

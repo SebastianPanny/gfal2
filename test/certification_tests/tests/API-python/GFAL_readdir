@@ -58,7 +58,7 @@ path1 =  result = os.popen("ldapsearch -x -H ldap://" + infosys + " -b 'mds-vo-n
 
 lfc_host = result = os.popen("lcg-infosites --vo "+ vo_name +"  -f lfc").read()[:-1]
 
-os.environ['LFC_HOST'] = lfc_host
+#os.environ['LFC_HOST'] = lfc_host
 
 VO = result = os.popen("echo dteam | tr 'a-z' 'A-Z'").read()[:-1]
 

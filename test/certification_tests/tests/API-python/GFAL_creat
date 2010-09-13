@@ -4,7 +4,8 @@
 import os,sys,errno,lfc
 sys.path.append("/opt/lcg/lib/python2.3/site-packages/")
 sys.path.append("/opt/lcg/lib64/python2.4/site-packages/")
-import gfal
+import gfalthr
+gfal=gfalthr
 from testClass import _test, _ntest
 global prot
 global vo_name
@@ -85,7 +86,11 @@ class test_EACCES(_ntest):
         return "gfal_creat errors: Access denied (EACCES)"
     def test(self):
         self.name = prot + se + "/" + path1 + "/gfal_creat_test" 
+        print self.name 
         ret = gfal.gfal_creat(self.name, 0755)
+	print ("return", ret)
+	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
+        print ("EACCES", errno.EACCES)
 	error1 = gfal.gfal_get_errno()
 	print ("return", ret)
 	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
@@ -100,25 +105,6 @@ class test_EACCES(_ntest):
    # def clean(self):
     #    gfal.gfal_unlink(self.name)
 
-class test_ENOENT(_ntest):
-    def info(self):
-        return "gfal_creat errors: component doesn't exist (ENOENT)"
-    def test(self):
-        self.name =  prot + se + path + vo_name + "/gfal_creat_test"
-        ret = gfal.gfal_creat(self.name,0755)
-	error1 = gfal.gfal_get_errno()
-	print ("return", ret)
-	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
-	print ("ENOENT", errno.ENOENT)
-        code = errno.ENOENT
-        if (error1 == code):
-                ret = True
-        else:
-                ret = False
-        return ret
-    #def clean(self):
-#	gfal.gfal_unlink(self.name)
-	
 class test_EFAULT(_ntest):
     def info(self):
         return "gfal_creat errors: filename is a NULL pointer (EFAULT)"
@@ -164,7 +150,7 @@ class test_EINVAL(_ntest):
 
 class gfal_creat_test:
     def __init__(self):
-        self.tests=[test_create_ok, test_ENOENT, test_EACCES, test_EINVAL, test_EFAULT]
+        self.tests=[test_create_ok, test_EACCES, test_EINVAL, test_EFAULT]
 
     def run(self):
 	flag = 0

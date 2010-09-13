@@ -62,8 +62,6 @@ if (setype == ""):
 
 path = result = os.popen("ldapsearch -x -H ldap://" + infosys + " -b 'mds-vo-name=local,o=grid' -LLL '(&(GlueSALocalID:dn:=" + vo_name + ")(GlueSEUniqueID:dn:=" + se + "))' GlueSAPath | awk 'BEGIN { FS = \"GlueSAPath: \" } ; {print $2 }'").read()[2:-2]
 
-# TODO: fix it when the above query results proper path!
-path="/dpm/cern.ch/home/dteam/"
 
 path1 =  result = os.popen("ldapsearch -x -H ldap://" + infosys + " -b 'mds-vo-name=local,o=grid' -LLL '(&(GlueSALocalID:dn:=" + vo_name + ")(GlueSEUniqueID:dn:=" + se + "))' GlueSAPath | awk 'BEGIN { FS = \"GlueSAPath: \" } ; {print $2 }' |awk 'BEGIN { FS = \"/\" } ; {print $2 }'").read()[2:-2]
 
@@ -96,7 +94,6 @@ class test_bringonline_ok(_test):
 	gfalDict['defaultsetype'] = 'srmv2'
 	gfalDict['surls'] = [name]
 	gfalDict['srmv2_desiredpintime'] = 60
-	print name
 
 	errCode,gfalObject,errMessage = gfal.gfal_init(gfalDict)
 	if errCode:

@@ -71,8 +71,7 @@ class test_rmdir_ok(_test):
     	#print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
         ret = gfal.gfal_rmdir(self.name)
     	error1 = gfal.gfal_get_errno()
-    #	code = 0 
-        code = 2
+    	code = 0 
     	print ("return", ret)
     	print ("gfal.gfal_get_errno", gfal.gfal_get_errno())
     	print "http://savannah.cern.ch/bugs/?52502 STATUS NONE"

@@ -4,7 +4,8 @@
 import os,sys,errno,lfc
 sys.path.append("/opt/lcg/lib/python2.3/site-packages/")
 sys.path.append("/opt/lcg/lib64/python2.4/site-packages/")
-import gfal
+import gfalthr
+gfal=gfalthr
 from testClass import _test, _ntest
 global prot
 global vo_name

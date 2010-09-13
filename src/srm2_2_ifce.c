@@ -3781,7 +3781,6 @@ int srmv2_handle_unsuccessful_srm_call_(
     const char *srm_endpoint, 
     char *errbuf, int errbufsz)
 {
-    int sav_errno = -1;
     const char* errmsg = NULL;
     const char* explanation = "<none>";
     int ret = GFAL_SRM_RETURN_ERROR;
@@ -3790,33 +3789,30 @@ int srmv2_handle_unsuccessful_srm_call_(
     assert(srmfunc_name);
     assert(srm_endpoint);
     assert(repfs);
-
-    sav_errno = statuscode2errno (reqstatp->statusCode);
-    errmsg = statuscode2errmsg (reqstatp->statusCode);
-
-    if (!call_is_successful) 
+    
+    if (!repfs || repfs->__sizestatusArray < nbfiles || !repfs->statusArray) 
     {
-        if (reqstatp->explanation && reqstatp->explanation[0]) {
-            explanation = reqstatp->explanation;
+        int sav_errno = errno; 
+
+        if (!call_is_successful) 
+        {
+            sav_errno = statuscode2errno (reqstatp->statusCode);
+
+            if (reqstatp->explanation && reqstatp->explanation[0]) {
+                errmsg = statuscode2errmsg (reqstatp->statusCode);
+            }
+        } else {
+            explanation = "<empty response>";
+            sav_errno = ECOMM;
         }
 
-        errno = sav_errno;
-    } 
-    else if (!repfs || repfs->__sizestatusArray < nbfiles || !repfs->statusArray) 
-    {
-        explanation = "<empty response>";
-        errno = ECOMM;
-    }
-    else
-    {
-        ret = GFAL_SRM_RETURN_OK;
-    }
-
-    if (ret == GFAL_SRM_RETURN_ERROR) 
-    {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[%s][%s][%s] %s: %s",
             gfal_remote_type, srmfunc_name, errmsg, srm_endpoint, explanation
         );
+    
+        errno = sav_errno;
+    } else {
+        ret = GFAL_SRM_RETURN_OK;
     }
 
     return ret;
