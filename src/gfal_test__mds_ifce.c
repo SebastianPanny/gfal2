@@ -53,7 +53,7 @@ char * gfal_test__mds_ifce()
 {
     char* res = NULL;
     host=getenv("SE_ENDPOINT_DPM");
-    GFAL_TEST_ASSERT(host != NULL);
+    //GFAL_TEST_ASSERT(host != NULL);
 
     // TODO: test temporarily disabled. Will ebe enabled when we integrate is_interface
     //__CALL_TEST(_test__get_se_types_and_endpoints_good_case());
