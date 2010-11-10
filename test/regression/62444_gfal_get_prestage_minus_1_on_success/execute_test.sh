@@ -24,7 +24,7 @@
 source ../../setup.sh
 
 # ------- EDIT THIS to configure ---------
-export TEST_DIRECTORY=$GLOBAL_SRM_TEST_DIR_DPM/62444_gfal_get_prestage_minus_1_on_success
+export TEST_DIRECTORY=$SE_SRM_PATH_1/62444_gfal_get_prestage_minus_1_on_success
 # ------- DO NOT EDIT BELOW THIS ---------
 
 # Python script to test the original problem.

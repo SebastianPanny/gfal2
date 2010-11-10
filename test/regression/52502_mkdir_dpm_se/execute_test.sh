@@ -25,7 +25,7 @@ source ../../setup.sh
 
 # ------- EDIT THIS to configure ---------
 # Make sure that the last character is not '/'! Because, this caused the bug...
-export TEST_DIRECTORY=$GLOBAL_SRM_TEST_DIR_DPM/52502_mkdir_dpm_se
+export TEST_DIRECTORY=$SE_SRM_PATH_1/52502_mkdir_dpm_se
 # ------- DO NOT EDIT BELOW THIS ---------
 
 echo $TEST_DIRECTORY

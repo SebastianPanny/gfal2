@@ -49,6 +49,6 @@ function checkVariable
 }
 
 checkVariable BUILD_ROOT "/home/user/workspace" $BUILD_ROOT
-source $BUILD_ROOT/org.glite.data/bin/test-setup-gfal.sh
+source $BUILD_ROOT/org.glite.data.project/bin/test-setup-gfal.sh
 export GLOBAL_SRM_TEST_DIR_DPM=srm://$SE_ENDPOINT_DPM:8446/srm/managerv2?SFN=/dpm/cern.ch/home/dteam
 
