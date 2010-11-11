@@ -3297,19 +3297,47 @@ free_gfal_results (gfal_filestatus *gfal, int n)
     int i;
 
     for (i = 0; i < n; ++i) {
-        if (gfal[i].surl) free (gfal[i].surl);
-        if (gfal[i].turl) free (gfal[i].turl);
-        if (gfal[i].explanation) free (gfal[i].explanation);
-        if (gfal[i].checksumtype) free (gfal[i].checksumtype);
-        if (gfal[i].checksum) free (gfal[i].checksum);
-        if (gfal[i].subpaths)
+        if (gfal[i].surl) {
+            free (gfal[i].surl);
+            gfal[i].surl = NULL;
+        }
+        
+        if (gfal[i].turl) {
+            free (gfal[i].turl);
+            gfal[i].turl = NULL;
+        }
+
+        if (gfal[i].explanation) {
+            free (gfal[i].explanation);
+            gfal[i].explanation = NULL;
+        }
+
+        if (gfal[i].checksumtype) {
+            free (gfal[i].checksumtype);
+            gfal[i].checksumtype = NULL;
+        }
+
+        if (gfal[i].checksum) {
+            free (gfal[i].checksum);
+            gfal[i].checksum = NULL;
+        }
+
+        if (gfal[i].subpaths) {
             free_gfal_results (gfal[i].subpaths, gfal[i].nbsubpaths);
+            gfal[i].subpaths = NULL;
+        }
 
         if (gfal[i].nbspacetokens > 0 && gfal[i].spacetokens) {
             int j;
-            for (j = 0; j < gfal[i].nbspacetokens; ++j)
-                if (gfal[i].spacetokens[j]) free (gfal[i].spacetokens[j]);
+            for (j = 0; j < gfal[i].nbspacetokens; ++j) {
+                if (gfal[i].spacetokens[j]) {
+                    free (gfal[i].spacetokens[j]);
+                    gfal[i].spacetokens[j] = NULL;
+                }
+            }
+
             free (gfal[i].spacetokens);
+            gfal[i].spacetokens = NULL;
         }
     }
 
@@ -3322,8 +3350,10 @@ free_srmv2_mdstatuses (struct srmv2_mdfilestatus *md, int n)
     int i;
 
     for (i = 0; i < n; ++i) {
-        if (md[i].subpaths)
+        if (md[i].subpaths) {
             free_srmv2_mdstatuses (md[i].subpaths, md[i].nbsubpaths);
+            md[i].subpaths = NULL;
+        }
     }
 
     free (md);
@@ -3392,8 +3422,11 @@ copy_gfal_results (gfal_internal req, enum status_type stype)
             free (req->results[i].checksumtype);
         if (req->results[i].checksum)
             free (req->results[i].checksum);
-        if (req->results[i].subpaths)
+        if (req->results[i].subpaths) {
             free_gfal_results (req->results[i].subpaths, req->results[i].nbsubpaths);
+            req->results[i].subpaths = NULL;
+        }
+
         memset (req->results + i, 0, sizeof (gfal_filestatus));
 
         if (req->setype == TYPE_SRMv2) {
@@ -3534,29 +3567,59 @@ gfal_internal_free (gfal_internal req)
 
     if (req == NULL)
         return;
-    if (req->free_endpoint && req->endpoint)
+    if (req->free_endpoint && req->endpoint) {
         free (req->endpoint);
-    if (req->sfn_statuses)
+        req->endpoint = NULL;
+    }
+
+    if (req->sfn_statuses) {
         free (req->sfn_statuses);
-    if (req->srm_statuses)
+        req->sfn_statuses = NULL;
+    }
+
+    if (req->srm_statuses) {
         free (req->srm_statuses);
-    if (req->srm_mdstatuses)
+        req->srm_statuses = NULL;
+    }
+
+    if (req->srm_mdstatuses) {
         free (req->srm_mdstatuses);
-    if (req->srmv2_token)
+        req->srm_mdstatuses = NULL;
+    }
+    if (req->srmv2_token) {
         free (req->srmv2_token);
-    if (req->srmv2_statuses)
+        req->srmv2_token = NULL;
+    }
+
+    if (req->srmv2_statuses) {
         free (req->srmv2_statuses);
-    if (req->srmv2_pinstatuses)
+        req->srmv2_statuses = NULL;
+    }
+    if (req->srmv2_pinstatuses) {
         free (req->srmv2_pinstatuses);
-    if (req->srmv2_mdstatuses)
+        req->srmv2_pinstatuses = NULL;
+    }
+
+    if (req->srmv2_mdstatuses) {
         free_srmv2_mdstatuses (req->srmv2_mdstatuses, req->results_size);
-    if (req->results)
+        req->srmv2_mdstatuses = NULL;
+    }
+
+    if (req->results) {
         free_gfal_results (req->results, req->results_size);
+        req->results = NULL;
+    }
 
     if (req->generatesurls && req->surls) {
-        for (i = 0; i < req->nbfiles; ++i)
-            if (req->surls[i]) free (req->surls[i]);
+        for (i = 0; i < req->nbfiles; ++i) {
+            if (req->surls[i]) {
+                free (req->surls[i]);
+                req->surls[i] = NULL;
+            }
+        }
+
         free (req->surls);
+        req->surls = NULL;
     }
 
     free (req);
@@ -3572,11 +3635,19 @@ gfal_spacemd_free (int nbtokens, gfal_spacemd *smd)
         return;
 
     for (i = 0; i < nbtokens; ++i) {
-        if (smd[i].spacetoken) free (smd[i].spacetoken);
-        if (smd[i].owner) free (smd[i].owner);
+        if (smd[i].spacetoken) {
+            free (smd[i].spacetoken);
+            smd[i].spacetoken = NULL;
+        }
+
+        if (smd[i].owner) {
+            free (smd[i].owner);
+            smd[i].owner = NULL;
+        }
     }
 
     free (smd);
+    smd = NULL;
 }
 
     const char *
