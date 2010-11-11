@@ -16,6 +16,12 @@
 
 # Global settings for all the tests. 
 
+# Exit in case of uninitialized variables
+set -o nounset
+
+# Exit the script in case of non-true return value
+set -o errexit
+
 function usage 
 {
     echo
@@ -48,7 +54,44 @@ function checkVariable
     fi
 }
 
+function execute_command {
+    local line_number=$1
+    local expected_return_code=$2
+    local pattern_in_output=$3
+    local command=$4
+
+    set +o nounset
+    local is_display=$5
+    set -o nounset
+
+
+    echo -e "\nExecuting command from line $line_number:\n$command\n\n"
+    set +e
+    OUTPUT=$(eval $command 2>&1)
+    local return_code=$?
+    
+    if [ $return_code != $expected_return_code ]; then 
+        echo -e "Command failed at line $line_number (return code: $return_code, expected: $expected_return_code)"
+        echo -e "\nCommand output:\n$OUTPUT\n"
+        exit 1
+    fi
+    
+    match=`echo $OUTPUT | grep -c "$pattern_in_output"`
+    
+    if [ $match == 0 ]; then
+        echo -e "Expected pattern \"$pattern_in_output\" cannot be found in the output.\n"
+        echo -e "Command output:\n$OUTPUT\n"
+        exit 1
+    fi
+
+    if [ -n "$is_display" ] ; then
+         echo -e "Command output:\n$OUTPUT\n"
+    fi
+
+    set -e
+}
+
+
 checkVariable BUILD_ROOT "/home/user/workspace" $BUILD_ROOT
 source $BUILD_ROOT/org.glite.data.project/bin/test-setup-gfal.sh
-export GLOBAL_SRM_TEST_DIR_DPM=srm://$SE_ENDPOINT_DPM:8446/srm/managerv2?SFN=/dpm/cern.ch/home/dteam
 
