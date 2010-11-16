@@ -57,7 +57,7 @@
     do { \
         printf("\t Test at %s:%d... ", __FILE__, __LINE__); \
         if (strcmp(expected, value) != 0) { \
-            printf("FAILED. Expected: %s, Got: %s\n", (expected), (value)); \
+            printf("FAILED. Expected: \"%s\", Got: \"%s\"\n", (expected), (value)); \
             exit(-1); \
         } \
         printf("OK\n"); \

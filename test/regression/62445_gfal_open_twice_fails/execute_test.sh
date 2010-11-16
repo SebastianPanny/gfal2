@@ -24,7 +24,7 @@
 source ../../setup.sh
 
 # ------- EDIT THIS to configure ---------
-GFAL_OPEN_TWICE_FAILS_TEST_DIR=$GLOBAL_SRM_TEST_DIR_DPM/62445_gfal_open_twice_fails/
+GFAL_OPEN_TWICE_FAILS_TEST_DIR=$SE_SRM_PATH_1/62445_gfal_open_twice_fails/
 # The test file that will be copied to the server
 LOCAL_TEST_FILE=file:///etc/group
 # ------- DO NOT EDIT BELOW THIS ---------

@@ -19,10 +19,10 @@
 
 source ../setup.sh
 
-export LOGSLOCATION="/tmp"
+export LOGSLOCATION="$BUILD_ROOT/testlogs"
 export GFAL_BASIC="yes"
 export GFAL_PYTHON_API="yes"
-export SE_HOST=$SE_ENDPOINT_DPM
+export SE_HOST=$SE_HOST_1
 export VO=$LCG_GFAL_VO
 
 ./GFAL-certtest 
