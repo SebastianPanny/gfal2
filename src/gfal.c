@@ -340,11 +340,24 @@ gfal_access (const char *path, int amode)
             if (!(bool_issurlok = gfal_init (req, &gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
                 gfal_file_set_replica_error (gfile, errno, errbuf);
 
-            if (bool_issurlok) {
-                if (gfile->gobj->setype == TYPE_SRMv2) 
-				{
-/*TODO
-                    gfile->gobj->returncode = srmv2_access (gfile->gobj->nbfiles,
+            if (bool_issurlok)
+            {
+                if (gfile->gobj->setype == TYPE_SRMv2)
+                {
+
+                    struct srm_context context;
+                    struct srm_checkpermission_input checkpermission_input;
+
+
+                    srm_context_init(&context,gfile->gobj->endpoint);
+
+                    checkpermission_input.nbfiles = gfile->gobj->nbfiles;
+                    checkpermission_input.amode = amode;
+                    checkpermission_input.surls = gfile->gobj->surls;
+
+                	gfile->gobj->returncode = srm_check_permission(&context,&checkpermission_input, &(gfile->gobj->srmv2_statuses));
+
+/*TODO                    gfile->gobj->returncode = srmv2_access (gfile->gobj->nbfiles,
                             (const char **) gfile->gobj->surls, gfile->gobj->endpoint, amode,
                             &(gfile->gobj->srmv2_statuses), errbuf, GFAL_ERRMSG_LEN,
                             gfile->gobj->timeout);
@@ -621,6 +634,8 @@ gfal_mkdir (const char *dirname, mode_t mode)
         char **se_endpoints;
         char **se_types;
         char *srmv2_endpoint = NULL;
+    	struct srm_mkdir_input mkdir_input;
+    	struct srm_context context;
 
         if (setypesandendpointsfromsurl (path, &se_types, &se_endpoints, NULL, 0) < 0)
             return (-1);
@@ -642,7 +657,12 @@ gfal_mkdir (const char *dirname, mode_t mode)
             errno = EPROTONOSUPPORT;
             return (-1);
         }
+        // init srm variables
+        srm_context_init(&context,srmv2_endpoint);
+        mkdir_input.dir_name = path;
 
+        // srm function call
+		rc = srm_mkdir(&context,&mkdir_input);
 //TODO        rc = srmv2_makedirp (path, srmv2_endpoint, NULL, 0, 0);
         free (srmv2_endpoint);
 
@@ -1081,7 +1101,10 @@ gfal_rmdir (const char *dirname)
         char **se_endpoints;
         char **se_types;
         char *srmv2_endpoint = NULL;
-        struct srmv2_filestatus *filestatuses;
+        struct srm_context context;
+        struct srm_rmdir_input rmdir_input;
+        struct srm_rmdir_output rmdir_output;
+        srm_context_init(&context,srmv2_endpoint);
 
         if (setypesandendpointsfromsurl (path, &se_types, &se_endpoints, NULL, 0) < 0)
             return (-1);
@@ -1104,14 +1127,24 @@ gfal_rmdir (const char *dirname)
             return (-1);
         }
 
- /*TODO       if (srmv2_rmdir (path, srmv2_endpoint, 0, &filestatuses, NULL, 0, 0) < 1 || !filestatuses) {
+
+        rmdir_input.recursive = 0;
+        rmdir_input.surl = path;
+
+        if (srm_rmdir(&context,&rmdir_input,&rmdir_output) < 1 || !rmdir_output.statuses)
+        {
+        	free(srmv2_endpoint);
+        	return (-1);
+        }
+
+/*TODO  if (srmv2_rmdir (path, srmv2_endpoint, 0, &filestatuses, NULL, 0, 0) < 1 || !filestatuses) {
             free (srmv2_endpoint);
             return (-1);
         }*/
-        if (filestatuses[0].surl) free (filestatuses[0].surl);
-        errno = filestatuses[0].status;
-        rc = filestatuses[0].status == 0 ? 0 : -1;
-        free (filestatuses);
+        if (rmdir_output.statuses[0].surl) free (rmdir_output.statuses[0].surl);
+        errno = rmdir_output.statuses[0].status;
+        rc = rmdir_output.statuses[0].status == 0 ? 0 : -1;
+        free (rmdir_output.statuses);
         free (srmv2_endpoint);
         return (rc);
     }
@@ -1501,23 +1534,40 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_statuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+		struct srm_rm_input rm_input;
+		struct srm_rm_output rm_output;
+
+        if (req->srmv2_statuses)
+        {
             free (req->srmv2_statuses);
             req->srmv2_statuses = NULL;
         }
-        if (req->srmv2_token) {
+        if (req->srmv2_token)
+        {
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
-/*TODO        ret = srmv2_deletesurls (req->nbfiles, (const char **) req->surls, req->endpoint,
+
+
+        srm_context_init(&context,req->endpoint);
+        rm_input.nbfiles = req->nbfiles;
+        rm_input.surls = req->surls;
+
+       ret = srm_rm(&context,&rm_input,&rm_output);
+
+       req->srmv2_statuses = rm_output.statuses;
+
+        /*TODO ret = srmv2_deletesurls (req->nbfiles, (const char **) req->surls, req->endpoint,
                 &(req->srmv2_statuses), errbuf, errbufsz, req->timeout);*/
     } else if (req->setype == TYPE_SRM) {
         if (req->srm_statuses) {
             free (req->srm_statuses);
             req->srm_statuses = NULL;
         }
-/*TODO        ret = srm_deletesurls (req->nbfiles, (const char **) req->surls, req->endpoint,
+/*TODO REMOVE       ret = srm_deletesurls (req->nbfiles, (const char **) req->surls, req->endpoint,
                 &(req->srm_statuses), errbuf, errbufsz, req->timeout);*/
     } else { // req->setype == TYPE_SE
         if (req->sfn_statuses) {
@@ -1547,15 +1597,32 @@ gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
         return (-1);;
     }
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_statuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_rmdir_input rmdir_input;
+    	struct srm_rmdir_output rmdir_output;
+    	struct srm_context context;
+
+    	if (req->srmv2_statuses)
+        {
             free (req->srmv2_statuses);
             req->srmv2_statuses = NULL;
         }
-        if (req->srmv2_token) {
+        if (req->srmv2_token)
+        {
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
+
+        srm_context_init(&context,req->endpoint);
+        rmdir_input.recursive = 0;
+        rmdir_input.surl = req->surls[0];
+
+        ret = srm_rmdir(&context,&rmdir_input,&rmdir_output);
+
+        req->srmv2_statuses = rmdir_output.statuses;
+
+
         /* for the moment, there is no field in the gfal struct for recursive removal */
 //TODO        ret = srmv2_rmdir (req->surls[0], req->endpoint, 0, &(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
     } else { // req->setype == TYPE_SRM or TYPE_SE
@@ -1568,7 +1635,36 @@ gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
     req->returncode = ret;
     return (copy_gfal_results (req, DEFAULT_STATUS));
 }
+int gfal_create_subdirs(gfal_internal req, char *errbuf, int errbufsz)
+{
+	int i,result = 0 ;
+	struct srm_context context;
+	struct srm_mkdir_input mkdir_input;
 
+	srm_context_init(&context,req->endpoint);
+	/* Create sub-directories of SURLs */
+	for (i = 0; i < req->nbfiles; ++i) {
+        const char* dir = gfal_strip_string(req->surls[i], '/');
+        int res = 0;
+
+
+        assert (dir);
+
+        if (dir && strlen(dir) > 0)
+        {
+        	mkdir_input.dir_name = dir;
+
+            res = srm_mkdir(&context,&mkdir_input);
+        }
+
+        free(dir);
+
+        if (res < 0) {
+        	result = -1;
+        }
+	}
+	return result;
+}
     int
 gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
 {
@@ -1577,23 +1673,64 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_pinstatuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_pinstatuses)
+        {
             free (req->srmv2_pinstatuses);
             req->srmv2_pinstatuses = NULL;
         }
-        if (req->srmv2_token) {
+        if (req->srmv2_token)
+        {
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
-  /*TODO      if ((req->oflag & O_ACCMODE) == 0)
-            ret = srmv2_turlsfromsurls_get (req->nbfiles, (const char **) req->surls, req->endpoint,
-                    req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
-                    &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
-        else
-            ret = srmv2_turlsfromsurls_put (req->nbfiles, (const char **) req->surls, req->endpoint,
-                    req->filesizes, req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
-                    &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);*/
+        if ((req->oflag & O_ACCMODE) == 0)
+        {
+        	struct srm_preparetoget_input preparetoget_input;
+        	struct srm_preparetoget_output preparetoget_output;
+
+        	preparetoget_input.nbfiles  = req->nbfiles;
+        	preparetoget_input.surls  = req->surls;
+        	preparetoget_input.desiredpintime  = req->srmv2_desiredpintime;
+        	preparetoget_input.spacetokendesc = req->srmv2_spacetokendesc;
+        	preparetoget_input.protocols = req->protocols;
+
+        	ret = srm_prepare_to_get(&context,&preparetoget_input,&preparetoget_output);
+
+        	req->srmv2_pinstatuses = preparetoget_output.filestatuses;
+        	req->srmv2_token = preparetoget_output.token;
+
+			/*TODO ret = srmv2_turlsfromsurls_get (req->nbfiles, (const char **) req->surls, req->endpoint,
+					req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+					&(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);*/
+        }else
+        {
+        	struct srm_preparetoput_input preparetoput_input;
+        	struct srm_preparetoput_output preparetoput_output;
+
+        	preparetoput_input.nbfiles  = req->nbfiles;
+        	preparetoput_input.surls  = req->surls;
+        	preparetoput_input.desiredpintime  = req->srmv2_desiredpintime;
+        	preparetoput_input.spacetokendesc = req->srmv2_spacetokendesc;
+        	preparetoput_input.protocols = req->protocols;
+        	preparetoput_input.filesizes = req->filesizes;
+
+        	gfal_create_subdirs(req,errbuf,errbufsz);
+
+        	ret = srm_prepare_to_put(&context,&preparetoput_input,&preparetoput_output);
+
+        	req->srmv2_token = preparetoput_output.token;
+        	req->srmv2_pinstatuses = preparetoput_output.filestatuses;
+
+        	/*TODO ret = srmv2_turlsfromsurls_put (req->nbfiles, (const char **) req->surls, req->endpoint,
+        			req->filesizes, req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+					&(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);*/
+        }
     } else if (req->setype == TYPE_SRM) {
         if (req->srm_statuses) {
             free (req->srm_statuses);
@@ -1623,16 +1760,37 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_mdstatuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+    	struct srm_ls_input ls_input;
+    	struct srm_ls_output ls_output;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_mdstatuses)
+        {
             free_srmv2_mdstatuses (req->srmv2_mdstatuses, req->results_size);
             req->srmv2_mdstatuses = NULL;
         }
-        if (req->srmv2_token) {
+        if (req->srmv2_token)
+        {
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
-/*TODO        ret = srmv2_getfilemd (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_lslevels,
+        ls_input.nbfiles = req->nbfiles;
+        ls_input.surls = req->surls;
+        ls_input.numlevels = req->srmv2_lslevels;
+        ls_input.offset = &(req->srmv2_lsoffset);
+        ls_input.count = req->srmv2_lscount;
+
+        ret = srm_ls(&context,&ls_input,&ls_output);
+
+        req->srmv2_mdstatuses = ls_output.statuses;
+        req->srmv2_token = ls_output.token;
+
+
+      /*TODO  ret = srmv2_getfilemd (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_lslevels,
                 &(req->srmv2_lsoffset), req->srmv2_lscount, &(req->srmv2_mdstatuses), &(req->srmv2_token),
                 errbuf, errbufsz, req->timeout);*/
     } else if (req->setype == TYPE_SRM) {
@@ -1679,17 +1837,38 @@ gfal_get (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_pinstatuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+    	struct srm_preparetoget_input preparetoget_input;
+    	struct srm_preparetoget_output preparetoget_output;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_pinstatuses)
+        {
             free (req->srmv2_pinstatuses);
             req->srmv2_pinstatuses = NULL;
         }
-        if (req->srmv2_token) {
+        if (req->srmv2_token)
+        {
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
 
-/*TODO        ret = srmv2_gete (req->nbfiles, (const char **) req->surls, req->endpoint,
+        preparetoget_input.desiredpintime = req->srmv2_desiredpintime;
+        preparetoget_input.nbfiles = req->nbfiles;
+        preparetoget_input.protocols = req->protocols;
+        preparetoget_input.spacetokendesc = req->srmv2_spacetokendesc;
+        preparetoget_input.surls = req->surls;
+
+        ret = srm_prepare_to_get_async(&context,&preparetoget_input,&preparetoget_output);
+
+    	req->srmv2_token = preparetoget_output.token;
+    	req->srmv2_pinstatuses = preparetoget_output.filestatuses;
+
+
+        /*TODO ret = srmv2_gete (req->nbfiles, (const char **) req->surls, req->endpoint,
             req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
             &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);*/
 
@@ -1718,12 +1897,27 @@ gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_pinstatuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+    	struct srm_preparetoget_input preparetoget_input;
+    	struct srm_preparetoget_output preparetoget_output;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_pinstatuses)
+        {
             free (req->srmv2_pinstatuses);
             req->srmv2_pinstatuses = NULL;
         }
-/*TODO        ret = srmv2_getstatuse (req->srmv2_token, req->endpoint, &(req->srmv2_pinstatuses),
+
+        preparetoget_output.token = req->srmv2_token;
+
+        ret = srm_status_of_get_request_async(&context,&preparetoget_input,&preparetoget_output);
+
+        req->srmv2_pinstatuses = preparetoget_output.filestatuses;
+
+        /*TODO ret = srmv2_getstatuse (req->srmv2_token, req->endpoint, &(req->srmv2_pinstatuses),
                 errbuf, errbufsz, req->timeout);*/
     } else if (req->setype == TYPE_SRM) {
         if (req->srm_statuses) {
@@ -1750,17 +1944,36 @@ gfal_bringonline (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_pinstatuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+    	struct srm_bringonline_input bringonline_input;
+    	struct srm_bringonline_output bringonline_output;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_pinstatuses)
+        {
             free (req->srmv2_pinstatuses);
             req->srmv2_pinstatuses = NULL;
         }
-        if (req->srmv2_token) {
+        if (req->srmv2_token)
+        {
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
+        bringonline_input.desiredpintime = req->srmv2_desiredpintime;
+        bringonline_input.nbfiles = req->nbfiles;
+        bringonline_input.protocols =  req->protocols;
+        bringonline_input.spacetokendesc = req->srmv2_spacetokendesc;
+        bringonline_input.surls = req->surls;
 
-/*TODO        ret = srmv2_bringonline (req->nbfiles, (const char **) req->surls, req->endpoint,
+		ret = srm_bring_online(&context,&bringonline_input,&bringonline_output);
+
+		req->srmv2_token = bringonline_output.token;
+		req->srmv2_pinstatuses = bringonline_output.filestatuses;
+
+        /*TODO ret = srmv2_bringonline (req->nbfiles, (const char **) req->surls, req->endpoint,
             req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
             &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);*/
     } else {
@@ -1781,17 +1994,36 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_pinstatuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+    	struct srm_bringonline_input bringonline_input;
+    	struct srm_bringonline_output bringonline_output;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_pinstatuses)
+        {
             free (req->srmv2_pinstatuses);
             req->srmv2_pinstatuses = NULL;
         }
-        if (req->srmv2_token) {
+        if (req->srmv2_token)
+        {
             free (req->srmv2_token);
             req->srmv2_token = NULL;
         }
+        bringonline_input.desiredpintime = req->srmv2_desiredpintime;
+        bringonline_input.nbfiles = req->nbfiles;
+        bringonline_input.protocols =  req->protocols;
+        bringonline_input.spacetokendesc = req->srmv2_spacetokendesc;
+        bringonline_input.surls = req->surls;
 
-/*TODO        ret = srmv2_prestagee (req->nbfiles, (const char **) req->surls, req->endpoint,
+		ret = srm_bring_online_async(&context,&bringonline_input,&bringonline_output);
+
+		req->srmv2_token = bringonline_output.token;
+		req->srmv2_pinstatuses = bringonline_output.filestatuses;
+
+        /*TODO ret = srmv2_prestagee (req->nbfiles, (const char **) req->surls, req->endpoint,
             req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
             &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);*/
 
@@ -1813,12 +2045,26 @@ gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_pinstatuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+    	struct srm_bringonline_input bringonline_input;
+    	struct srm_bringonline_output bringonline_output;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_pinstatuses)
+        {
             free (req->srmv2_pinstatuses);
             req->srmv2_pinstatuses = NULL;
         }
-/*TODO        ret = srmv2_prestagestatuse (req->srmv2_token, req->endpoint, &(req->srmv2_pinstatuses),
+        bringonline_output.token = req->srmv2_token;
+
+        ret = srm_status_of_bring_online_async(&context,&bringonline_input,&bringonline_output);
+
+        req->srmv2_pinstatuses = bringonline_output.filestatuses;
+
+        /*TODO ret = srmv2_prestagestatuse (req->srmv2_token, req->endpoint, &(req->srmv2_pinstatuses),
                 errbuf, errbufsz, req->timeout);*/
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_prestagestatus][EPROTONOSUPPORT] Only SRMv2-compliant SEs are supported");
@@ -1838,12 +2084,29 @@ gfal_pin (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_pinstatuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+    	struct srm_extendfilelifetime_input extendfilelifetime_input;
+    	struct srm_extendfilelifetime_output extendfilelifetime_output;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_pinstatuses)
+        {
             free (req->srmv2_pinstatuses);
             req->srmv2_pinstatuses = NULL;
         }
-/*TODO        ret = srmv2_pin (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
+        extendfilelifetime_input.nbfiles = req->nbfiles;
+        extendfilelifetime_input.surls = req->surls;
+        extendfilelifetime_input.reqtoken = req->srmv2_token;
+        extendfilelifetime_input.pintime = req->srmv2_desiredpintime;
+
+        ret = srm_extend_file_lifetime(&context,&extendfilelifetime_input,&extendfilelifetime_output);
+
+        req->srmv2_pinstatuses = extendfilelifetime_output.filestatuses;
+
+        /*TODO ret = srmv2_pin (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
                 req->srmv2_desiredpintime, &(req->srmv2_pinstatuses),
                 errbuf, errbufsz, req->timeout);*/
     } else {
@@ -1864,12 +2127,25 @@ gfal_release (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_statuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+        if (req->srmv2_statuses)
+        {
             free (req->srmv2_statuses);
             req->srmv2_statuses = NULL;
         }
-/*TODO        ret = srmv2_release (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
+    	struct srm_context context;
+    	struct srm_releasefiles_input releasefiles_input;
+
+    	srm_context_init(&context,req->endpoint);
+
+    	releasefiles_input.nbfiles = req->nbfiles;
+    	releasefiles_input.surls = req->surls;
+    	releasefiles_input.reqtoken = req->srmv2_token;
+
+    	ret = srm_release_files(&context,&releasefiles_input,&(req->srmv2_statuses)); // TODO be as the template context,input,output structures
+
+        /*TODO ret = srmv2_release (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
                 &(req->srmv2_statuses), errbuf, errbufsz, req->timeout);*/
     } else if (req->setype == TYPE_SRM) {
         int i;
@@ -1880,7 +2156,7 @@ gfal_release (gfal_internal req, char *errbuf, int errbufsz)
             return (-1);
         }
         for (i = 0; i < req->nbfiles; ++i) {
- /*TODO           if (srm_set_xfer_done (req->endpoint, req->srm_reqid, req->srm_statuses[i].fileid,
+ /*TODO REMOVE ALL IF SRMV1          if (srm_set_xfer_done (req->endpoint, req->srm_reqid, req->srm_statuses[i].fileid,
                         errbuf, errbufsz, req->timeout) < 0) {
                 req->srm_statuses[i].surl = strdup (req->surls[i]);
                 req->srm_statuses[i].turl = NULL;
@@ -1921,18 +2197,40 @@ gfal_set_xfer_done (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_statuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_statuses)
+        {
             free (req->srmv2_statuses);
             req->srmv2_statuses = NULL;
         }
-/*TODO        if (req->oflag == 0)
-            ret = srmv2_set_xfer_done_get (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
-                    &(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
-        else
-            ret = srmv2_set_xfer_done_put (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
-                    &(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
-*/
+        if (req->oflag == 0)
+        {
+        	struct srm_releasefiles_input releasefiles_input;
+        	releasefiles_input.nbfiles = req->nbfiles;
+        	releasefiles_input.reqtoken = req->srmv2_token;
+        	releasefiles_input.surls = req->surls;
+
+        	ret = srm_release_files(&context,&releasefiles_input,&(req->srmv2_statuses));
+
+		//TODO	ret = srmv2_set_xfer_done_get (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
+		//			&(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
+        }else
+        {
+        	struct srm_putdone_input putdone_input;
+        	putdone_input.nbfiles = req->nbfiles;
+        	putdone_input.reqtoken = req->srmv2_token;
+        	putdone_input.surls = req->surls;
+
+        	ret = srm_put_done(&context,&putdone_input,&(req->srmv2_statuses));
+
+		//TODO	ret = srmv2_set_xfer_done_put (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
+		//			&(req->srmv2_statuses), errbuf, errbufsz, req->timeout);
+        }
     } else if (req->setype == TYPE_SRM) {
         int i;
 
@@ -2042,25 +2340,36 @@ gfal_abortrequest (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 1, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_statuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+
+    	srm_context_init(&context,req->endpoint);
+
+        if (req->srmv2_statuses)
+        {
             free (req->srmv2_statuses);
             req->srmv2_statuses = NULL;
         }
-        if (req->srmv2_pinstatuses) {
+        if (req->srmv2_pinstatuses)
+        {
             free (req->srmv2_pinstatuses);
             req->srmv2_pinstatuses = NULL;
         }
-        if (req->srmv2_mdstatuses) {
+        if (req->srmv2_mdstatuses)
+        {
             free (req->srmv2_mdstatuses);
             req->srmv2_mdstatuses = NULL;
         }
-        if (req->results) {
+        if (req->results)
+        {
             free_gfal_results (req->results, req->results_size);
             req->results = NULL;
             req->results_size = -1;
         }
-//TODO        ret = srmv2_abortrequest (req->endpoint, req->srmv2_token, errbuf, errbufsz, req->timeout);
+        ret = srm_abort_request(&context,req->srmv2_token);
+
+     //TODO   ret = srmv2_abortrequest (req->endpoint, req->srmv2_token, errbuf, errbufsz, req->timeout);
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_abortrequest][EPROTONOSUPPORT] Only SRMv2-compliant SEs are supported");
         errno = EPROTONOSUPPORT;
@@ -2079,12 +2388,25 @@ gfal_abortfiles (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_statuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+    	struct srm_abort_files_input abortfiles_input;
+
+    	srm_context_init(&context,req->endpoint);
+
+    	if (req->srmv2_statuses)
+        {
             free (req->srmv2_statuses);
             req->srmv2_statuses = NULL;
         }
-/*TODO        ret = srmv2_abortfiles (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
+    	abortfiles_input.nbfiles = req->nbfiles;
+    	abortfiles_input.surls = req->surls;
+    	abortfiles_input.reqtoken = req->srmv2_token;
+
+    	ret = srm_abort_files(&context,&abortfiles_input,&(req->srmv2_statuses));
+
+        /*TODO ret = srmv2_abortfiles (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
                 &(req->srmv2_statuses), errbuf, errbufsz, req->timeout);*/
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_abortfiles][EPROTONOSUPPORT] Only SRMv2-compliant SEs are supported");
