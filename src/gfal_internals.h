@@ -29,6 +29,7 @@ extern "C"
 #endif
 
 #include <stdarg.h>
+#include <srm_types.h>
 #include "gfal_constants.h"
 #include "gfal_types.h"
 
@@ -53,7 +54,7 @@ int gfal_is_nobdii ();
 int gfal_is_purifydisabled ();
 int gfal_register_file (const char *, const char *, const char *, mode_t, GFAL_LONG64, int, char *, int);
 void gfal_internal_free (gfal_internal);
-void gfal_spacemd_free (int, gfal_spacemd *);
+void gfal_spacemd_free (int,struct srm_spacemd *);
 char *get_catalog_endpoint(char *, int);
 int guid_exists (const char *, char *, int);
 int gfal_guidsforpfns (int, const char **, int, char ***, int **, char *, int);
@@ -146,7 +147,7 @@ int sfn_turlsfromsurls (int, const char **, char **, struct sfn_filestatus **, c
 
 
 /******************** srm_ifce.c ********************/
-
+/* REMOVED
 int srm_deletesurls (int, const char **, const char *, struct srm_filestatus **, char *, int, int);
 int srm_get (int, const char **, int, char **, int *, char **, struct srm_filestatus **, int);
 int srm_getx (int, const char **, int, char **, int *, struct srm_filestatus **, char *, int, int);
@@ -160,7 +161,7 @@ int srm_turlsfromsurls (int, const char **, const char *, GFAL_LONG64 *, char **
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 int srm_getfilemd (int, const char **, const char *, struct srm_mdfilestatus **, char *, int, int);
 #endif
-
+*/
 #ifdef __cplusplus
 }
 #endif

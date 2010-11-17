@@ -66,6 +66,7 @@ enum TFileLocality_
 /// Typedef synonym for enum ns1__TFileLocality.
 typedef enum TFileLocality_ TFileLocality;
 
+/*
 enum TRetentionPolicy_
 {
 	GFAL_POLICY_UNKNOWN = 0,
@@ -84,7 +85,7 @@ enum TAccessLatency_
 };
 /// Typedef synonym for enum ns1__TAccessLatency.
 typedef enum TAccessLatency_ TAccessLatency;
-
+*/
 enum gfal_cksm_type
 {
 	GFAL_CKSM_NONE = 0,
@@ -225,13 +226,7 @@ struct sfn_filestatus {
 	char *turl;
 	int status;
 };
-
-struct srm_filestatus {
-	char	*surl;
-	char	*turl;
-	int		fileid;
-	int		status;
-};
+/*
 
 struct srmv2_filestatus {
 	char 	*surl;
@@ -281,7 +276,7 @@ typedef struct {
 	int lifetimeleft;
 	TRetentionPolicy retentionpolicy;
 	TAccessLatency accesslatency;
-} gfal_spacemd;
+} gfal_spacemd;*/
 
 enum gfal_file_catalog {
 	GFAL_FILE_CATALOG_UNKNOWN = 0,

@@ -37,6 +37,8 @@
 #include "gfal_api.h"
 #include "gfal_internals.h"
 #include "lfc_ifce.h"
+#include <srm_ifce.h>
+#include <srm_types.h>
 
 #if !defined(OFF_MAX)
 #define OFF_MAX 2147483647
@@ -3630,7 +3632,7 @@ gfal_internal_free (gfal_internal req)
 }
 
     void
-gfal_spacemd_free (int nbtokens, gfal_spacemd *smd)
+gfal_spacemd_free (int nbtokens, struct srm_spacemd *smd)
 {
     int i;
 
