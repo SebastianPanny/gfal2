@@ -2282,13 +2282,34 @@ gfal_set_xfer_running (gfal_internal req, char *errbuf, int errbufsz)
     if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
-    if (req->setype == TYPE_SRMv2) {
-        if (req->srmv2_statuses) {
+    if (req->setype == TYPE_SRMv2)
+    {
+        if (req->srmv2_statuses)
+        {
             free (req->srmv2_statuses);
             req->srmv2_statuses = NULL;
         }
-/*TODO        ret = srmv2_set_xfer_running (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
-                &(req->srmv2_statuses), errbuf, errbufsz, req->timeout);*/
+
+//srmv2_set_xfer_running start
+    	if ((req->srmv2_statuses = (struct srmv2_filestatus *) calloc (req->nbfiles, sizeof (struct srmv2_filestatus))) == NULL)
+    	{
+    		errno = ENOMEM;
+    		ret = (-1);
+    	}else
+    	{
+    		int i;
+			for (i = 0; i < req->nbfiles; ++i)
+			{
+				memset (req->srmv2_statuses + i, 0, sizeof (struct srmv2_filestatus));
+				req->srmv2_statuses[i].surl = strdup (req->surls[i]);
+				req->srmv2_statuses[i].status = 0;
+			}
+			ret = req->nbfiles;
+    	}
+//srmv2_set_xfer_running end
+
+   /*TODO     ret = srmv2_set_xfer_running (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_token,
+                &(req->srmv2_statuses), errbuf, errbufsz, req->timeout); */
     } else if (req->setype == TYPE_SRM) {
         int i;
 
