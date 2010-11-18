@@ -180,6 +180,15 @@ AC_ARG_WITH([dcap-location],
 AC_MSG_RESULT([DCAP_LOCATION is ${DCAP_LOCATION}])
 AC_SUBST(DCAP_LOCATION)
 
+
+# srm-ifce-location
+AC_ARG_WITH([srm-ifce-location],
+    [AS_HELP_STRING([--with-srm-ifce-location=VAL],[srm-ifce location])],
+    [SRM_IFCE_LOCATION=${withval}],
+    [SRM_IFCE_LOCATION="/opt/lcg"])
+AC_MSG_RESULT([SRM_IFCE_LOCATION is ${SRM_IFCE_LOCATION}])
+AC_SUBST(SRM_IFCE_LOCATION)
+
 # voms-location
 AC_ARG_WITH([voms-location],
     [AS_HELP_STRING([--with-voms-location=VAL],[VOMS location])],
@@ -190,6 +199,7 @@ VOMS_CFLAGS="-I${VOMS_LOCATION}/include -I${GLOBUS_LOCATION}/include/${GLOBUS_FL
 AC_MSG_RESULT([VOMS_CFLAGS is ${VOMS_CFLAGS}])
 VOMS_THR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc_${GLOBUS_THR_FLAVOR}"
 VOMS_NOTHR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc_${GLOBUS_NOTHR_FLAVOR}"
+SRM_IFCE_LIBS="-L${SRM_IFCE_LOCATION}/build -lsrm"
 AC_MSG_RESULT([VOMS_THR_LIBS is ${VOMS_THR_LIBS}])
 AC_MSG_RESULT([VOMS_NOTHR_LIBS is ${VOMS_NOTHR_LIBS}])
 AC_SUBST(VOMS_LOCATION)

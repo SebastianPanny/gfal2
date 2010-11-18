@@ -219,6 +219,7 @@ GFAL_FLAGS = \
 	-DGFAL_SECURE \
 	-fPIC -D_LARGEFILE64_SOURCE \
 	-DVERSION=\"$(VERSION)-$(RELEASE)\" \
+	-I$(SRM_IFCE_LOCATION)/src \
 	$(SOAPCPP2_FLAGS)
 
 # libgfal.a
@@ -243,7 +244,8 @@ libgfal_la_LIBADD = \
 	$(GLOBUS_GSS_NOTHR_LIBS) \
 	$(GLOBUS_FTP_CLIENT_NOTHR_LIBS) \
 	$(VOMS_NOTHR_LIBS) \
-	-lldap -lsrm
+	$(SRM_IFCE_LIBS) \
+	-lldap 
 
 libgfal_la_CFLAGS = \
 	$(GLOBUS_NOTHR_CFLAGS) \
