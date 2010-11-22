@@ -41,6 +41,7 @@ extern "C"
 #define GFAL_DEBUG(format, ...)
 #endif
 
+typedef struct srm_spacemd gfal_spacemd;
 
 /******************** gfal.c ********************/
 
@@ -54,7 +55,7 @@ int gfal_is_nobdii ();
 int gfal_is_purifydisabled ();
 int gfal_register_file (const char *, const char *, const char *, mode_t, GFAL_LONG64, int, char *, int);
 void gfal_internal_free (gfal_internal);
-void gfal_spacemd_free (int,struct srm_spacemd *);
+void gfal_spacemd_free (int,gfal_spacemd *);
 char *get_catalog_endpoint(char *, int);
 int guid_exists (const char *, char *, int);
 int gfal_guidsforpfns (int, const char **, int, char ***, int **, char *, int);
