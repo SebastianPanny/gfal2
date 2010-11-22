@@ -29,7 +29,7 @@ extern "C"
 #endif
 
 #include <stdarg.h>
-#include <srm_types.h>
+#include <gfal_srm_ifce_types.h>
 #include "gfal_constants.h"
 #include "gfal_types.h"
 
