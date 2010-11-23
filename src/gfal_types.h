@@ -31,6 +31,7 @@ extern "C"
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <gfal_srm_ifce_types.h>
 
 #ifndef GFAL_LONG64_FORMAT
 #if defined(__ia64__) || defined(__x86_64)
@@ -53,39 +54,6 @@ extern "C"
 
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
 
-enum TFileLocality_
-{
-	GFAL_LOCALITY_UNKNOWN = 0,
-	GFAL_LOCALITY_ONLINE_,	///< xs:string value="ONLINE"
-	GFAL_LOCALITY_NEARLINE_,	///< xs:string value="NEARLINE"
-	GFAL_LOCALITY_ONLINE_USCOREAND_USCORENEARLINE,	///< xs:string value="ONLINE_AND_NEARLINE"
-	GFAL_LOCALITY_LOST,	///< xs:string value="LOST"
-	GFAL_LOCALITY_NONE_,	///< xs:string value="NONE"
-	GFAL_LOCALITY_UNAVAILABLE	///< xs:string value="UNAVAILABLE"
-};
-/// Typedef synonym for enum ns1__TFileLocality.
-typedef enum TFileLocality_ TFileLocality;
-
-/*
-enum TRetentionPolicy_
-{
-	GFAL_POLICY_UNKNOWN = 0,
-	GFAL_POLICY_REPLICA,
-	GFAL_POLICY_OUTPUT,
-	GFAL_POLICY_CUSTODIAL
-};
-/// Typedef synonym for enum ns1__TRetentionPolicy.
-typedef enum TRetentionPolicy_ TRetentionPolicy;
-
-enum TAccessLatency_
-{
-	GFAL_LATENCY_UNKNOWN = 0,
-	GFAL_LATENCY_ONLINE,
-	GFAL_LATENCY_NEARLINE
-};
-/// Typedef synonym for enum ns1__TAccessLatency.
-typedef enum TAccessLatency_ TAccessLatency;
-*/
 enum gfal_cksm_type
 {
 	GFAL_CKSM_NONE = 0,

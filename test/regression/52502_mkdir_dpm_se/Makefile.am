@@ -18,9 +18,10 @@
 # Version info: $Id: Makefile.am,v 1.3 2009/12/09 13:18:13 molnarzs Exp $
 # Release: $Name:  $
 
-AM_CFLAGS = -g -fPIC -D_LARGEFILE64_SOURCE $(GFAL_CFLAGS) \
+AM_CFLAGS = -g -fPIC -D_LARGEFILE64_SOURCE \
     -DVERSION=\"$(VERSION)-$(RELEASE)\" $(GSOAP_CFLAGS) \
-    -I$(top_srcdir)/src -I$(top_srcdir)/test -I../../src
+    -I$(top_srcdir)/src -I$(top_srcdir)/test -I../../src \
+    -I$(SRM_IFCE_LOCATION)/include
 
 bin_PROGRAMS = \
 	52502_mkdir_dpm_se

@@ -174,7 +174,7 @@ pkgpyexec_LTLIBRARIES = _gfal.la _gfalthr.la
 
 _gfal_la_SOURCES = gfal.i lcg-typemaps.python.i gfal_wrap.c
 _gfal_la_LDFLAGS = -module
-_gfal_la_CFLAGS = $(PYTHON_CFLAGS)
+_gfal_la_CFLAGS = $(PYTHON_CFLAGS) -I$(SRM_IFCE_LOCATION)/include 
 _gfal_la_LIBADD = libgfal.la
 
 gfal_wrap.c: gfal.i lcg-typemaps.python.i
@@ -182,7 +182,7 @@ gfal_wrap.c: gfal.i lcg-typemaps.python.i
 
 _gfalthr_la_SOURCES = gfalthr.i gfal.i lcg-typemaps.python.i gfalthr_wrap.c
 _gfalthr_la_LDFLAGS = -module
-_gfalthr_la_CFLAGS = $(PYTHON_CFLAGS)
+_gfalthr_la_CFLAGS = $(PYTHON_CFLAGS) -I$(SRM_IFCE_LOCATION)/include 
 _gfalthr_la_LIBADD = libgfal_pthr.la
 
 gfalthr_wrap.c: gfalthr.i lcg-typemaps.python.i
