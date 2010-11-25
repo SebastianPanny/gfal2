@@ -13,10 +13,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+SCRIPT=$(readlink -f $0)
+SCRIPTPATH=`dirname $SCRIPT`
+BUILD_DIR=$SCRIPTPATH/../../build
 
-BUILD_DIR=../../build
-
-source ../setup.sh
+#source ../setup.sh #not needed for unittests
 
 pushd $BUILD_DIR/src &> /dev/null
 ./gfal_unittest
