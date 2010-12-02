@@ -1104,7 +1104,7 @@ gfal_rmdir (const char *dirname)
         struct srm_context context;
         struct srm_rmdir_input rmdir_input;
         struct srm_rmdir_output rmdir_output;
-        srm_context_init(&context,srmv2_endpoint,NULL,0,gfal_verbose);
+
 
         if (setypesandendpointsfromsurl (path, &se_types, &se_endpoints, NULL, 0) < 0)
             return (-1);
@@ -1126,7 +1126,7 @@ gfal_rmdir (const char *dirname)
             errno = EPROTONOSUPPORT;
             return (-1);
         }
-
+        srm_context_init(&context,srmv2_endpoint,NULL,0,gfal_verbose);
 
         rmdir_input.recursive = 0;
         rmdir_input.surl = path;
