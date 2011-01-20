@@ -310,12 +310,6 @@ AM_CONDITIONAL([USE_GSOAP_2_7_10],[test "x$GSOAP_VERSION_NUM" = "x020710"])
 AC_CONFIG_HEADERS([src/autogen/config.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
-AC_CONFIG_FILES([test/Makefile])
-AC_CONFIG_FILES([test/regression/Makefile])
-AC_CONFIG_FILES([test/certification_tests/Makefile])
-AC_CONFIG_FILES([test/certification_tests/tests/Makefile])
-AC_CONFIG_FILES([test/regression/52502_mkdir_dpm_se/Makefile])
-AC_CONFIG_FILES([test/regression/62445_gfal_open_twice_fails/Makefile])
 
 AC_OUTPUT
 

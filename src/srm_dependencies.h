@@ -30,17 +30,6 @@
 #ifndef SRM_DEPENDENCIES_H__
 #define SRM_DEPENDENCIES_H__
 
-#define WITH_NOGLOBAL
-#include "stdsoap2.h"
-#undef SOAP_FMAC3
-#define SOAP_FMAC3 static
-#undef SOAP_FMAC5
-#define SOAP_FMAC5 static
-#include "srmv2H.h"
-#ifdef GFAL_SECURE
-#include "cgsi_plugin.h"
-#endif // #ifdef GFAL_SECURE
-
 /* enforce proper calling convention */
 #ifdef __cplusplus
 extern "C"

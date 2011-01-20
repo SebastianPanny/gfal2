@@ -25,7 +25,6 @@ SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
 SOAPCPP2FLAGS=-c  
 #	-c = generate c code
 
-#WSDL2H=$(GSOAP_LOCATION)/bin/wsdl2h
 WSDL2H=$(GSOAP_WSDL2H_LOCATION)/bin/wsdl2h
 if USE_GSOAP_2_7_10
 WSDL2HFLAGS=-c -e -y -I$(GSOAP_LOCATION)/include -z
@@ -62,25 +61,6 @@ $(EDG_REPLICA_METADATA_CATALOG_SOAP_FILES): edg-replica-metadata-catalog.h
 edg-replica-metadata-catalog.h: edg-replica-metadata-catalog.wsdl
 	$(WSDL2H) $(WSDL2HFLAGS) -w -t $(top_srcdir)/src/typemap-rmc.dat $< -o $@
 
-# srm.v1.1.wsdl
-#-------------------------------------------------------------------------------
-#SRM_V1_1_SOAP_FILES = srmH.h srmStub.h srmC.c srmClient.c ISRM.nsmap
-
-#$(SRM_V1_1_SOAP_FILES): srm.v1.1.h
-#	$(SOAPCPP2) $(SOAPCPP2FLAGS) -p srm srm.v1.1.h
-
-#srm.v1.1.h: srm.v1.1.wsdl
-#	$(WSDL2H) $(WSDL2HFLAGS) -w -t $(top_srcdir)/src/typemap-srmv1.dat $< -o $@
-
-# srm.v2.2.wsdl
-#-------------------------------------------------------------------------------
-#SRM_V2_2_SOAP_FILES = srmv2H.h srmv2Stub.h srmv2C.c srmv2Client.c srmSoapBinding.nsmap
-
-#$(SRM_V2_2_SOAP_FILES): srm.v2.2.h
-#	$(SOAPCPP2) $(SOAPCPP2FLAGS) -p srmv2 srm.v2.2.h
-
-#srm.v2.2.h: srm.v2.2.wsdl
-#	$(WSDL2H) $(WSDL2HFLAGS) -t $(top_srcdir)/src/typemap-srmv2.dat $< -o $@
 
 # fixed nsmap files
 #-------------------------------------------------------------------------------
@@ -94,9 +74,6 @@ edg_local_replica_catalogSoapBinding+.nsmap: edg_local_replica_catalogSoapBindin
 
 edg_replica_metadata_catalogSoapBinding+.nsmap: edg_replica_metadata_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_rmc/' $? > $@
-
-#srmSoapBinding+.nsmap: srmSoapBinding.nsmap
-#	sed 's/struct Namespace namespaces/struct Namespace namespaces_srmv2/' $? > $@
 
 if USE_GSOAP_2_7_9
 STDSOAP2_C_FIX=patch -p0 -b stdsoap2.c $(top_srcdir)/src/c/stdsoap2.c.patch
@@ -162,8 +139,6 @@ BUILT_SOURCES = \
 	gfal_wrap.c \
 	gfalthr_wrap.c
 
-#	$(SRM_V1_1_SOAP_FILES) 
-#	$(SRM_V2_2_SOAP_FILES) 
 # python
 pythondir = $(libdir)/python$(PYTHON_VERSION)/site-packages
 pkgpythondir = $(pythondir)
@@ -204,13 +179,8 @@ GFAL_SOURCE_FILES = \
 	lfc_ifce.c \
 	gridftp_ifce.c
 
-#stdsoap2.c     stdsoap2.c 
-#	srm2_2_ifce.c 
-#	srm_ifce.c 
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
 rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h
-#srm2_2_ifce.o: srm2_2_ifce.c srmv2H.h srmv2Stub.h srmSoapBinding+.nsmap gfal_api.h
-#srm_ifce.o: srm_ifce.c srmH.h srmStub.h ISRM.nsmap gfal_api.h
 
 GFAL_FLAGS = \
 	-I$(LFC_LOCATION)/include/lfc \
@@ -337,16 +307,11 @@ gfal_unittest_SOURCES = \
     gfal_test__lfc_mkdirp.c \
 	gfal_unit_testsuite.c \
     gfal_test__mds_ifce.c \
-    gfal_test__gfal_strip_string.c \
-    gfal_test__gfal_add_strings.c \
-    gfal_test__gfal_consolidate_multiple_characters.c \
 	gfal_test__gfal_count_elements_of_string_array.c \
 	gfal_test__gfal_parseturl.c 
 
-#Remove these tests not needed for new srm-ifce lib
-#gfal_test__srm2_2_ifce.c 
-#gfal_test__srmv2_check_srm_root.c
-#gfal_test__protocol_list_handling.c
+#ToDO
+# gfal_test__protocol_list_handling.c 
 
 gfal_unittest_LDADD = $(top_builddir)/src/libgfal.la
 gfal_unittest_CFLAGS = $(GFAL_FLAGS) $(GSOAP_CFLAGS) $(CGSI_GSOAP_CFLAGS) 
