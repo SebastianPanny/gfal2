@@ -26,7 +26,7 @@ dist_commonut_DATA = \
 	LICENSE \
 	VERSION
 
-SUBDIRS=src test
+SUBDIRS=src
 
 AUTOMAKE_OPTIONS = foreign
 
