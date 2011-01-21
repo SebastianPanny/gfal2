@@ -33,5 +33,3 @@ function execute_test {
 }
 
 execute_test unit
-execute_test regression
-execute_test certification_tests
