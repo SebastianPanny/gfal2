@@ -25,12 +25,22 @@ SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
 SOAPCPP2FLAGS=-c  
 #	-c = generate c code
 
+if USE_GSOAP_2_7_13
+WSDL2HFLAGS=-c -e -y -I$(GSOAP_LOCATION)/include -I$(GSOAP_LOCATION)/share/gsoap/import  -z
+WSDL2H=$(GSOAP_LOCATION)/bin/wsdl2h
+else
 WSDL2H=$(GSOAP_WSDL2H_LOCATION)/bin/wsdl2h
 if USE_GSOAP_2_7_10
 WSDL2HFLAGS=-c -e -y -I$(GSOAP_LOCATION)/include -z
 else
 WSDL2HFLAGS=-c -e -y
 endif
+endif
+
+
+
+
+
 #	-c      generate C source code
 #	-e      don't qualify enum names
 #	-y      generate typedef synonyms for structs and enums
@@ -81,10 +91,20 @@ else
 STDSOAP2_C_FIX=@echo 'No patch needed for stdsoap2.c'
 endif
 
+
+if USE_GSOAP_2_7_13
+LDFLAGS += -L$(GLITE_LOCATION)/lib64
+LDFLAGS += -L/usr/lib64
+else
 # Copy gsoap file
 stdsoap2.c: 
 	cp -f $(GSOAP_LOCATION)/src/$@ $@
 	$(STDSOAP2_C_FIX)
+endif
+
+
+
+
 #	
 # Common Files
 soapdefs.h:
@@ -209,6 +229,16 @@ libgfal_a_CFLAGS = \
 #-------------------------------------------------------------------------------
 libgfal_la_SOURCES = $(GFAL_SOURCE_FILES)
 
+if USE_GSOAP_2_7_13
+libgfal_la_LIBADD = \
+	-luuid -lc -ldl \
+	$(CGSI_GSOAP_LIBS) \
+	$(GLOBUS_GSS_NOTHR_LIBS) \
+	$(GLOBUS_FTP_CLIENT_NOTHR_LIBS) \
+	$(VOMS_NOTHR_LIBS) \
+	$(GSOAP_LIBS_EMI) \
+	-lldap -lgfal_srm_ifce
+else
 libgfal_la_LIBADD = \
 	-luuid -lc -ldl \
 	$(CGSI_GSOAP_LIBS) \
@@ -216,7 +246,7 @@ libgfal_la_LIBADD = \
 	$(GLOBUS_FTP_CLIENT_NOTHR_LIBS) \
 	$(VOMS_NOTHR_LIBS) \
 	-lldap -lgfal_srm_ifce
-	
+endif	
 
 libgfal_la_CFLAGS = \
 	$(GLOBUS_NOTHR_CFLAGS) \
@@ -235,6 +265,17 @@ libgfal_la_LDFLAGS = \
 #-------------------------------------------------------------------------------
 libgfal_pthr_la_SOURCES = $(GFAL_SOURCE_FILES)
 
+
+if USE_GSOAP_2_7_13
+libgfal_pthr_la_LIBADD = \
+	-luuid -lc -ldl \
+	$(CGSI_GSOAP_LIBS) \
+	$(GLOBUS_GSS_THR_LIBS) \
+	$(GLOBUS_FTP_CLIENT_THR_LIBS) \
+	$(VOMS_THR_LIBS) \
+	$(GSOAP_LIBS_EMI) \	
+	-lldap -lgfal_srm_ifce
+else
 libgfal_pthr_la_LIBADD = \
 	-luuid -lc -ldl \
 	$(CGSI_GSOAP_LIBS) \
@@ -242,7 +283,7 @@ libgfal_pthr_la_LIBADD = \
 	$(GLOBUS_FTP_CLIENT_THR_LIBS) \
 	$(VOMS_THR_LIBS) \
 	-lldap -lgfal_srm_ifce
-
+endif
 
 libgfal_pthr_la_CFLAGS = \
 	$(GLOBUS_THR_CFLAGS) \

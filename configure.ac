@@ -43,14 +43,6 @@ AC_PROG_LIBTOOL
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
-# some default values
-if test $(uname -m) = 'x86_64'; then
-    GLOBUS_FLAVOUR_DEFAULT=gcc64dbg
-    GLOBUS_FLAVOUR_PTHR_DEFAULT=gcc64dbgpthr
-else
-    GLOBUS_FLAVOUR_DEFAULT=gcc32dbg
-    GLOBUS_FLAVOUR_PTHR_DEFAULT=gcc32dbgpthr
-fi
 
 ################################################################################
 #                               Arguments
@@ -89,8 +81,37 @@ AC_SUBST([INTERFACE_LIBTOOL_CURRENT])
 AC_SUBST([INTERFACE_LIBTOOL_REVISION])
 AC_SUBST([INTERFACE_LIBTOOL_AGE])
 
-# globus 
+m4_pattern_allow([AC_EMI_LTDL])
+m4_pattern_allow([AC_GLOBUS_EMI])
+
+
+WITH_EMI=no
+AC_ARG_WITH(emi,
+  [  --with-emi        check for --with-emi ],
+  [  WITH_EMI=yes ])
+  
+if test "$WITH_EMI" = yes; then
+	export GSOAP_LOCATION="/usr"
+	export GLOBUS_LOCATION="/usr"
+	AC_EMI_LTDL
+	GSOAP_LIBS_EMI="-L/usr/lib64 -lgsoap"
+	AC_SUBST(GSOAP_LIBS_EMI)
+fi
+  
+# Set Globus Properties
+if test "$WITH_EMI" = yes; then
+AC_GLOBUS_EMI
+else
 AC_GLOBUS
+# some default values
+if test $(uname -m) = 'x86_64'; then
+    GLOBUS_FLAVOUR_DEFAULT=gcc64dbg
+    GLOBUS_FLAVOUR_PTHR_DEFAULT=gcc64dbgpthr
+else
+    GLOBUS_FLAVOUR_DEFAULT=gcc32dbg
+    GLOBUS_FLAVOUR_PTHR_DEFAULT=gcc32dbgpthr
+fi
+fi
 
 # gsoap
 AC_GSOAP
@@ -100,6 +121,10 @@ AC_GSOAP_FIX
 
 # Set CGSI GSOAP Plugin Properties
 AC_CGSI_GSOAP
+
+
+AM_CONDITIONAL(USE_GSOAP_2_7_13, [test "x$GSOAP_VERSION_NUM" = "x020713"])
+AC_SUBST(USE_GSOAP_2_7_13)
 
 # Set template config.h (required by stdsoap)
 # This part should probably go in a macron in gsoap.m4 (something like AC_GSOAP_SRC)
@@ -190,6 +215,24 @@ AC_MSG_RESULT([SRM_IFCE_LOCATION is ${SRM_IFCE_LOCATION}])
 AC_SUBST(SRM_IFCE_LOCATION)
 
 # voms-location
+if test "$WITH_EMI" = yes; then
+AC_ARG_WITH([voms-location],
+    [AS_HELP_STRING([--with-voms-location=VAL],[VOMS location])],
+    [VOMS_LOCATION=${withval}],
+    [VOMS_LOCATION="/opt/lcg"])
+AC_MSG_RESULT([VOMS_LOCATION is ${VOMS_LOCATION}])
+VOMS_CFLAGS="-I${VOMS_LOCATION}/include -I${GLOBUS_LOCATION}/include -I/usr/lib64/globus/include"
+AC_MSG_RESULT([VOMS_CFLAGS is ${VOMS_CFLAGS}])
+VOMS_THR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc"
+VOMS_NOTHR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc"
+#SRM_IFCE_LIBS="-L${SRM_IFCE_LOCATION}/build -lsrm"
+AC_MSG_RESULT([VOMS_THR_LIBS is ${VOMS_THR_LIBS}])
+AC_MSG_RESULT([VOMS_NOTHR_LIBS is ${VOMS_NOTHR_LIBS}])
+AC_SUBST(VOMS_LOCATION)
+AC_SUBST(VOMS_CFLAGS)
+AC_SUBST(VOMS_THR_LIBS)
+AC_SUBST(VOMS_NOTHR_LIBS)
+else
 AC_ARG_WITH([voms-location],
     [AS_HELP_STRING([--with-voms-location=VAL],[VOMS location])],
     [VOMS_LOCATION=${withval}],
@@ -206,6 +249,10 @@ AC_SUBST(VOMS_LOCATION)
 AC_SUBST(VOMS_CFLAGS)
 AC_SUBST(VOMS_THR_LIBS)
 AC_SUBST(VOMS_NOTHR_LIBS)
+fi
+
+
+
 
 ################################################################################
 
