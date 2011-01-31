@@ -27,12 +27,13 @@ SOAPCPP2FLAGS=-c
 
 if USE_GSOAP_2_7_13
 WSDL2HFLAGS=-c -e -y -I$(GSOAP_LOCATION)/include -I$(GSOAP_LOCATION)/share/gsoap/import  -z
-WSDL2H=$(GSOAP_LOCATION)/bin/wsdl2h
+WSDL2H_bin=$(GSOAP_LOCATION)/bin/wsdl2h
 else
-WSDL2H=$(GSOAP_WSDL2H_LOCATION)/bin/wsdl2h
 if USE_GSOAP_2_7_10
+WSDL2H_bin=$(GSOAP_WSDL2H_LOCATION)/bin/wsdl2h
 WSDL2HFLAGS=-c -e -y -I$(GSOAP_LOCATION)/include -z
 else
+WSDL2H_bin=$(GSOAP_WSDL2H_LOCATION)/bin/wsdl2h
 WSDL2HFLAGS=-c -e -y
 endif
 endif
@@ -59,7 +60,7 @@ $(EDG_LOCAL_REPLICA_CATALOG_SOAP_FILES): edg-local-replica-catalog.h
 	$(SOAPCPP2) $(SOAPCPP2FLAGS) -p lrc edg-local-replica-catalog.h
 
 edg-local-replica-catalog.h: edg-local-replica-catalog.wsdl
-	$(WSDL2H) $(WSDL2HFLAGS) -w -t $(top_srcdir)/src/typemap-lrc.dat $< -o $@
+	$(WSDL2H_bin) $(WSDL2HFLAGS) -w -t $(top_srcdir)/src/typemap-lrc.dat $< -o $@
 
 # edg-replica-metadata-catalog.wsdl
 #-------------------------------------------------------------------------------
@@ -69,7 +70,7 @@ $(EDG_REPLICA_METADATA_CATALOG_SOAP_FILES): edg-replica-metadata-catalog.h
 	$(SOAPCPP2) $(SOAPCPP2FLAGS) -p rmc edg-replica-metadata-catalog.h
 
 edg-replica-metadata-catalog.h: edg-replica-metadata-catalog.wsdl
-	$(WSDL2H) $(WSDL2HFLAGS) -w -t $(top_srcdir)/src/typemap-rmc.dat $< -o $@
+	$(WSDL2H_bin) $(WSDL2HFLAGS) -w -t $(top_srcdir)/src/typemap-rmc.dat $< -o $@
 
 
 # fixed nsmap files
@@ -210,6 +211,7 @@ GFAL_FLAGS = \
 	-fPIC -D_LARGEFILE64_SOURCE \
 	-DVERSION=\"$(VERSION)-$(RELEASE)\" \
 	-I$(SRM_IFCE_LOCATION)/include \
+	$(GLIB_CFLAGS) \
 	$(SOAPCPP2_FLAGS)
 
 # libgfal.a
@@ -222,6 +224,7 @@ libgfal_a_CFLAGS = \
 	$(GFAL_FLAGS) \
 	$(GSOAP_CFLAGS) \
 	$(CGSI_GSOAP_CFLAGS) \
+	$(GLIB_CFLAGS) \
 	$(VOMS_CFLAGS)
 
 
@@ -237,7 +240,7 @@ libgfal_la_LIBADD = \
 	$(GLOBUS_FTP_CLIENT_NOTHR_LIBS) \
 	$(VOMS_NOTHR_LIBS) \
 	$(GSOAP_LIBS_EMI) \
-	-lldap -lgfal_srm_ifce
+	-lldap -lgfal_srm_ifce -lis_ifce
 else
 libgfal_la_LIBADD = \
 	-luuid -lc -ldl \
@@ -245,7 +248,7 @@ libgfal_la_LIBADD = \
 	$(GLOBUS_GSS_NOTHR_LIBS) \
 	$(GLOBUS_FTP_CLIENT_NOTHR_LIBS) \
 	$(VOMS_NOTHR_LIBS) \
-	-lldap -lgfal_srm_ifce
+	-lldap -lgfal_srm_ifce -lis_ifce
 endif	
 
 libgfal_la_CFLAGS = \
@@ -254,6 +257,7 @@ libgfal_la_CFLAGS = \
 	$(GFAL_FLAGS) \
 	$(GSOAP_CFLAGS) \
 	$(CGSI_GSOAP_CFLAGS) \
+	$(GLIB_CFLAGS) \
 	$(VOMS_CFLAGS)
 
 
@@ -273,8 +277,8 @@ libgfal_pthr_la_LIBADD = \
 	$(GLOBUS_GSS_THR_LIBS) \
 	$(GLOBUS_FTP_CLIENT_THR_LIBS) \
 	$(VOMS_THR_LIBS) \
-	$(GSOAP_LIBS_EMI) \	
-	-lldap -lgfal_srm_ifce
+	$(GSOAP_LIBS_EMI) \
+	-lldap -lgfal_srm_ifce -lis_ifce
 else
 libgfal_pthr_la_LIBADD = \
 	-luuid -lc -ldl \
@@ -282,7 +286,7 @@ libgfal_pthr_la_LIBADD = \
 	$(GLOBUS_GSS_THR_LIBS) \
 	$(GLOBUS_FTP_CLIENT_THR_LIBS) \
 	$(VOMS_THR_LIBS) \
-	-lldap -lgfal_srm_ifce
+	-lldap -lgfal_srm_ifce -lis_ifce
 endif
 
 libgfal_pthr_la_CFLAGS = \

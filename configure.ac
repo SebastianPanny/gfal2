@@ -123,8 +123,20 @@ AC_GSOAP_FIX
 AC_CGSI_GSOAP
 
 
-AM_CONDITIONAL(USE_GSOAP_2_7_13, [test "x$GSOAP_VERSION_NUM" = "x020713"])
-AC_SUBST(USE_GSOAP_2_7_13)
+
+
+
+# Magic needed to ensure glib comes from the repository
+AC_ARG_WITH([glib2_devel_prefix], AC_HELP_STRING([--with-glib2-devel-prefix], [Path where glib2 is installed]), [PKG_CONFIG_PATH="$withval/lib/pkgconfig"; export PKG_CONFIG_PATH])
+
+# Look for glib
+AM_PATH_GLIB_2_0([2.2.3])
+if test "$no_glib" = yes; then
+	AC_MSG_ERROR([Required dependency glib2 was not found])
+fi
+
+
+
 
 # Set template config.h (required by stdsoap)
 # This part should probably go in a macron in gsoap.m4 (something like AC_GSOAP_SRC)
@@ -353,6 +365,10 @@ AC_MSG_NOTICE([GSOAP_VERSION_NUM is $GSOAP_VERSION_NUM])
 
 AC_MSG_NOTICE([checking gsoap version to apply on-the-fly patches])
 AM_CONDITIONAL([USE_GSOAP_2_7_10],[test "x$GSOAP_VERSION_NUM" = "x020710"])
+
+AM_CONDITIONAL(USE_GSOAP_2_7_13, [test "x$GSOAP_VERSION_NUM" = "x020713"])
+AC_SUBST(USE_GSOAP_2_7_13)
+
 
 AC_CONFIG_HEADERS([src/autogen/config.h])
 AC_CONFIG_FILES([Makefile])
