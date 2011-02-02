@@ -33,6 +33,7 @@
 #include "ServiceDiscovery.h"
 
 
+
 /* get BDII hostname and port number */
 /* THIS LOGIC IS IMPLEMENTED IN THE NEW SD LIBRARY */
 get_bdii (char *bdii_server, int buflen, int *bdii_port, char *errbuf, int errbufsz)
@@ -66,6 +67,14 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 
 get_storage_path (const char *host, const char *spacetokendesc, char **sa_path, char **sa_root, char *errbuf, int errbufsz)
 {
+	char **fqan = NULL;
+	
+	char *get_vo = gfal_get_vo (errbuf, errbufsz);
+	int fqan_val = gfal_get_fqan (&fqan, errbuf, errbufsz);
+	
+	set_gfal_vo(get_vo);
+	set_gfal_fqan(fqan, fqan_val);
+	   
 	return sd_get_storage_path(host, spacetokendesc, sa_path, sa_root);
 }
 
