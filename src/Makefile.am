@@ -203,6 +203,20 @@ GFAL_SOURCE_FILES = \
 lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
 rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h
 
+
+
+if USE_GSOAP_2_7_13
+GFAL_FLAGS = \
+	-I$(LFC_LOCATION)/usr/include/lfc \
+	-DGFAL_ENABLE_RFIO -I/usr/include/shift -I/usr/local/include/shift -I$(DPM_LOCATION)/usr/include/dpm \
+	-DGFAL_ENABLE_DCAP -I$(DCAP_LOCATION)/include \
+	-DGFAL_SECURE \
+	-fPIC -D_LARGEFILE64_SOURCE \
+	-DVERSION=\"$(VERSION)-$(RELEASE)\" \
+	-I$(SRM_IFCE_LOCATION)/include \
+	$(GLIB_CFLAGS) \
+	$(SOAPCPP2_FLAGS)
+else
 GFAL_FLAGS = \
 	-I$(LFC_LOCATION)/include/lfc \
 	-DGFAL_ENABLE_RFIO -I/usr/include/shift -I/usr/local/include/shift -I$(DPM_LOCATION)/include/dpm \
@@ -213,6 +227,12 @@ GFAL_FLAGS = \
 	-I$(SRM_IFCE_LOCATION)/include \
 	$(GLIB_CFLAGS) \
 	$(SOAPCPP2_FLAGS)
+endif
+
+
+
+
+
 
 # libgfal.a
 #-------------------------------------------------------------------------------
