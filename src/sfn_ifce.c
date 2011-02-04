@@ -165,12 +165,12 @@ sfn_turlsfromsurls (int nbfiles, const char **sfns, char **protocols, struct sfn
 		}
 
 		for (j = 0; protocols[j][0] != '\0' && proto == NULL; ++j) {
-			for (k = 0; ap[k] && proto == NULL; ++k) {
+			for (k = 0; ap && ap[k] && proto == NULL; ++k) {
 				if (strcmp (ap[k], protocols[j]) == 0)
 					proto = protocols[j];
 			}
 		}
-		for (k = 0; ap[k]; ++k)
+		for (k = 0; ap && ap[k]; ++k)
 			free (ap[k]);
 		free (ap);
 		free (pn);
