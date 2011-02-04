@@ -214,6 +214,7 @@ GFAL_FLAGS = \
 	-fPIC -D_LARGEFILE64_SOURCE \
 	-DVERSION=\"$(VERSION)-$(RELEASE)\" \
 	-I$(SRM_IFCE_LOCATION)/include \
+	-I/usr/include/voms \
 	$(GLIB_CFLAGS) \
 	$(SOAPCPP2_FLAGS)
 else
