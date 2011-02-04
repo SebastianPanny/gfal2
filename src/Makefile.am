@@ -329,45 +329,45 @@ gfal_version_SOURCES = \
 
 gfal_version_LDADD = libgfal.la
 
-gfal_version_CFLAGS = $(VOMS_CFLAGS) -D_LARGEFILE64_SOURCE
+gfal_version_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS) -D_LARGEFILE64_SOURCE
 
 # test programs
 #-------------------------------------------------------------------------------
 gfal_test_checksum_SOURCES = gfal_test_checksum.c
 gfal_test_checksum_LDADD = libgfal.la
-gfal_test_checksum_CFLAGS = $(VOMS_CFLAGS)
+gfal_test_checksum_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testchmod_SOURCES = gfal_testchmod.c
 gfal_testchmod_LDADD = libgfal.la
-gfal_testchmod_CFLAGS = $(VOMS_CFLAGS)
+gfal_testchmod_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testget_SOURCES = gfal_testget.c
 gfal_testget_LDADD = libgfal.la
-gfal_testget_CFLAGS = $(VOMS_CFLAGS)
+gfal_testget_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_teststat_SOURCES = gfal_teststat.c
 gfal_teststat_LDADD = libgfal.la
-gfal_teststat_CFLAGS = $(VOMS_CFLAGS)
+gfal_teststat_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testcreatdir_SOURCES = gfal_testcreatdir.c
 gfal_testcreatdir_LDADD = libgfal.la
-gfal_testcreatdir_CFLAGS = $(VOMS_CFLAGS)
+gfal_testcreatdir_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testread_SOURCES = gfal_testread.c
 gfal_testread_LDADD = libgfal.la
-gfal_testread_CFLAGS = $(VOMS_CFLAGS)
+gfal_testread_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testunlink_SOURCES = gfal_testunlink.c
 gfal_testunlink_LDADD = libgfal.la
-gfal_testunlink_CFLAGS = $(VOMS_CFLAGS)
+gfal_testunlink_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testdir_SOURCES = gfal_testdir.c
 gfal_testdir_LDADD = libgfal.la
-gfal_testdir_CFLAGS = $(VOMS_CFLAGS)
+gfal_testdir_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testrw_SOURCES = gfal_testrw.c
 gfal_testrw_LDADD = libgfal.la
-gfal_testrw_CFLAGS = $(VOMS_CFLAGS)
+gfal_testrw_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_unittest_SOURCES = \
     gfal_test__lfc_mkdirp.c \

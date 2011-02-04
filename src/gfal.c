@@ -33,7 +33,7 @@
 #include <dlfcn.h>
 #include <time.h>
 #include <uuid/uuid.h>
-#include <glite/security/voms/voms_apic.h>
+#include "voms_apic.h"
 #include "gfal_api.h"
 #include "gfal_internals.h"
 #include "lfc_ifce.h"
@@ -43,6 +43,10 @@
 #if !defined(OFF_MAX)
 #define OFF_MAX 2147483647
 #endif
+
+
+
+
 
 static struct dir_info *di_array[GFAL_OPEN_MAX];
 static struct xfer_info *xi_array[GFAL_OPEN_MAX];
@@ -200,6 +204,8 @@ gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz)
 
     gfal_parse_vomsdata (errbuf, errbufsz);
     *fqan = gfal_fqan;
+   
+    
     return (gfal_nb_fqan);
 }
 

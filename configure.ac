@@ -233,7 +233,7 @@ AC_ARG_WITH([voms-location],
     [VOMS_LOCATION=${withval}],
     [VOMS_LOCATION="/opt/lcg"])
 AC_MSG_RESULT([VOMS_LOCATION is ${VOMS_LOCATION}])
-VOMS_CFLAGS="-I${VOMS_LOCATION}/include -I${GLOBUS_LOCATION}/include -I/usr/lib64/globus/include"
+VOMS_CFLAGS="-I${VOMS_LOCATION}/include -I${GLOBUS_LOCATION}/include -I/usr/include/voms -I/usr/lib64/globus/include"
 AC_MSG_RESULT([VOMS_CFLAGS is ${VOMS_CFLAGS}])
 VOMS_THR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc"
 VOMS_NOTHR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc"
@@ -250,7 +250,7 @@ AC_ARG_WITH([voms-location],
     [VOMS_LOCATION=${withval}],
     [VOMS_LOCATION="/opt/lcg"])
 AC_MSG_RESULT([VOMS_LOCATION is ${VOMS_LOCATION}])
-VOMS_CFLAGS="-I${VOMS_LOCATION}/include -I${GLOBUS_LOCATION}/include/${GLOBUS_FLAVOUR}"
+VOMS_CFLAGS="-I${VOMS_LOCATION}/include/glite/security/voms -I${GLOBUS_LOCATION}/include/${GLOBUS_FLAVOUR}"
 AC_MSG_RESULT([VOMS_CFLAGS is ${VOMS_CFLAGS}])
 VOMS_THR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc_${GLOBUS_THR_FLAVOR}"
 VOMS_NOTHR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc_${GLOBUS_NOTHR_FLAVOR}"
