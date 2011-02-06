@@ -25,14 +25,19 @@ SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
 SOAPCPP2FLAGS=-c  
 #	-c = generate c code
 
+COPY_VOMS=cp -f /usr/lib64/libvomsc.so.0 /usr/lib64/libvomsc.so
+
+
 if USE_GSOAP_2_7_13
 WSDL2HFLAGS=-c -e -y -I$(GSOAP_LOCATION)/include -I$(GSOAP_LOCATION)/share/gsoap/import  -z
 WSDL2H_bin=$(GSOAP_LOCATION)/bin/wsdl2h
 else
 if USE_GSOAP_2_7_10
+COPY_VOMS=
 WSDL2H_bin=$(GSOAP_WSDL2H_LOCATION)/bin/wsdl2h
 WSDL2HFLAGS=-c -e -y -I$(GSOAP_LOCATION)/include -z
 else
+COPY_VOMS=
 WSDL2H_bin=$(GSOAP_WSDL2H_LOCATION)/bin/wsdl2h
 WSDL2HFLAGS=-c -e -y
 endif
@@ -82,9 +87,11 @@ FIXED_NSMAP_FILES = \
 
 edg_local_replica_catalogSoapBinding+.nsmap: edg_local_replica_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_lrc/' $? > $@
+	$(COPY_VOMS)
 
 edg_replica_metadata_catalogSoapBinding+.nsmap: edg_replica_metadata_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_rmc/' $? > $@
+	$(COPY_VOMS)
 
 if USE_GSOAP_2_7_9
 STDSOAP2_C_FIX=patch -p0 -b stdsoap2.c $(top_srcdir)/src/c/stdsoap2.c.patch
@@ -96,6 +103,7 @@ endif
 if USE_GSOAP_2_7_13
 LDFLAGS += -L$(GLITE_LOCATION)/lib64
 LDFLAGS += -L/usr/lib64
+LDFLAGS += -L/lib64
 else
 # Copy gsoap file
 stdsoap2.c: 
@@ -207,6 +215,7 @@ rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_
 
 if USE_GSOAP_2_7_13
 GFAL_FLAGS = \
+	-Wall -Wextra \
 	-I$(LFC_LOCATION)/usr/include/lfc \
 	-DGFAL_ENABLE_RFIO -I/usr/include/shift -I/usr/local/include/shift -I$(DPM_LOCATION)/usr/include/dpm \
 	-DGFAL_ENABLE_DCAP -I$(DCAP_LOCATION)/include \
@@ -215,6 +224,7 @@ GFAL_FLAGS = \
 	-DVERSION=\"$(VERSION)-$(RELEASE)\" \
 	-I$(SRM_IFCE_LOCATION)/include \
 	-I/usr/include/voms \
+	-I/usr/include/globus \
 	$(GLIB_CFLAGS) \
 	$(SOAPCPP2_FLAGS)
 else
@@ -229,10 +239,6 @@ GFAL_FLAGS = \
 	$(GLIB_CFLAGS) \
 	$(SOAPCPP2_FLAGS)
 endif
-
-
-
-
 
 
 # libgfal.a
@@ -255,12 +261,13 @@ libgfal_la_SOURCES = $(GFAL_SOURCE_FILES)
 
 if USE_GSOAP_2_7_13
 libgfal_la_LIBADD = \
-	-luuid -lc -ldl \
+	-luuid -lc  -ldl\
 	$(CGSI_GSOAP_LIBS) \
 	$(GLOBUS_GSS_NOTHR_LIBS) \
 	$(GLOBUS_FTP_CLIENT_NOTHR_LIBS) \
 	$(VOMS_NOTHR_LIBS) \
 	$(GSOAP_LIBS_EMI) \
+	$(GLIB_LIBS) \
 	-lldap -lgfal_srm_ifce -lis_ifce
 else
 libgfal_la_LIBADD = \
@@ -290,7 +297,6 @@ libgfal_la_LDFLAGS = \
 #-------------------------------------------------------------------------------
 libgfal_pthr_la_SOURCES = $(GFAL_SOURCE_FILES)
 
-
 if USE_GSOAP_2_7_13
 libgfal_pthr_la_LIBADD = \
 	-luuid -lc -ldl \
@@ -299,6 +305,7 @@ libgfal_pthr_la_LIBADD = \
 	$(GLOBUS_FTP_CLIENT_THR_LIBS) \
 	$(VOMS_THR_LIBS) \
 	$(GSOAP_LIBS_EMI) \
+	$(GLIB_LIBS) \
 	-lldap -lgfal_srm_ifce -lis_ifce
 else
 libgfal_pthr_la_LIBADD = \
@@ -316,7 +323,8 @@ libgfal_pthr_la_CFLAGS = \
 	$(GFAL_FLAGS) \
 	$(CGSI_GSOAP_CFLAGS) \
 	$(GSOAP_CFLAGS) 	\
-	$(VOMS_CFLAGS)
+	$(VOMS_CFLAGS) \
+	$(GLIB_CFLAGS)
 
 libgfal_pthr_la_LDFLAGS = \
 	$(GFAL_FLAGS) \
@@ -334,7 +342,7 @@ gfal_version_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS) -D_LARGEFILE64_SOURCE
 # test programs
 #-------------------------------------------------------------------------------
 gfal_test_checksum_SOURCES = gfal_test_checksum.c
-gfal_test_checksum_LDADD = libgfal.la
+gfal_test_checksum_LDADD =  libgfal.la
 gfal_test_checksum_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testchmod_SOURCES = gfal_testchmod.c
@@ -362,7 +370,7 @@ gfal_testunlink_LDADD = libgfal.la
 gfal_testunlink_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testdir_SOURCES = gfal_testdir.c
-gfal_testdir_LDADD = libgfal.la
+gfal_testdir_LDADD = libgfal.la 
 gfal_testdir_CFLAGS = $(VOMS_CFLAGS) $(GFAL_FLAGS)
 
 gfal_testrw_SOURCES = gfal_testrw.c
@@ -379,7 +387,7 @@ gfal_unittest_SOURCES = \
 #ToDO
 # gfal_test__protocol_list_handling.c 
 
-gfal_unittest_LDADD = $(top_builddir)/src/libgfal.la
+gfal_unittest_LDADD = $(top_builddir)/src/libgfal.la $(VOMS_NOTHR_LIBS) $(GLIB_LIBS)
 gfal_unittest_CFLAGS = $(GFAL_FLAGS) $(GSOAP_CFLAGS) $(CGSI_GSOAP_CFLAGS) 
 
 #-------------------------------------------------------------------------------

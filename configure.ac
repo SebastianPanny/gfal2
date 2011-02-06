@@ -53,12 +53,12 @@ AC_PROG_MAKE_SET
 AC_ARG_ENABLE(
 	[debug],
 	[AS_HELP_STRING([--enable-debug],[Produce binaries with debugging symbols.])],
-	[CFLAGS="$CFLAGS -g -DDEBUG -D_DEBUG -O0 -ggdb"])
+	[CFLAGS="$CFLAGS -g -D_DEBUG -O0 -ggdb"])
 
 AC_ARG_ENABLE(
 	[wall],
 	[AS_HELP_STRING([--enable-wall],[Compile with all warnings enabled.])],
-	[CFLAGS="$CFLAGS -Wall"])
+	[CFLAGS="$CFLAGS -Wall -Wextra"])
 
 # Set GLite Properties
 AC_GLITE
@@ -235,8 +235,8 @@ AC_ARG_WITH([voms-location],
 AC_MSG_RESULT([VOMS_LOCATION is ${VOMS_LOCATION}])
 VOMS_CFLAGS="-I${VOMS_LOCATION}/usr/include/voms -I${GLOBUS_LOCATION}/include -I/usr/include/voms -I/usr/lib64/globus/include"
 AC_MSG_RESULT([VOMS_CFLAGS is ${VOMS_CFLAGS}])
-VOMS_THR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc"
-VOMS_NOTHR_LIBS="-L${VOMS_LOCATION}/lib -L${VOMS_LOCATION}/lib64 -lvomsc"
+VOMS_THR_LIBS="-L/usr/lib64 -lvomsc"
+VOMS_NOTHR_LIBS="-L/usr/lib64 -lvomsc"
 #SRM_IFCE_LIBS="-L${SRM_IFCE_LOCATION}/build -lsrm"
 AC_MSG_RESULT([VOMS_THR_LIBS is ${VOMS_THR_LIBS}])
 AC_MSG_RESULT([VOMS_NOTHR_LIBS is ${VOMS_NOTHR_LIBS}])
