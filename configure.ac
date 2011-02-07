@@ -235,8 +235,8 @@ AC_ARG_WITH([voms-location],
 AC_MSG_RESULT([VOMS_LOCATION is ${VOMS_LOCATION}])
 VOMS_CFLAGS="-I${VOMS_LOCATION}/usr/include/voms -I${GLOBUS_LOCATION}/include -I/usr/include/voms -I/usr/lib64/globus/include"
 AC_MSG_RESULT([VOMS_CFLAGS is ${VOMS_CFLAGS}])
-VOMS_THR_LIBS="-L/usr/lib64 -lvomsc"
-VOMS_NOTHR_LIBS="-L/usr/lib64 -lvomsc"
+VOMS_THR_LIBS="-L${VOMS_LOCATION}/usr/lib64 -lvomsapi"
+VOMS_NOTHR_LIBS="-L${VOMS_LOCATION}/usr/lib64 -lvomsapi"
 #SRM_IFCE_LIBS="-L${SRM_IFCE_LOCATION}/build -lsrm"
 AC_MSG_RESULT([VOMS_THR_LIBS is ${VOMS_THR_LIBS}])
 AC_MSG_RESULT([VOMS_NOTHR_LIBS is ${VOMS_NOTHR_LIBS}])
