@@ -25,19 +25,15 @@ SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
 SOAPCPP2FLAGS=-c  
 #	-c = generate c code
 
-COPY_VOMS=sudo cp -f /usr/lib64/libvomsc.so.0 /usr/lib64/libvomsc.so
-
 
 if USE_GSOAP_2_7_13
 WSDL2HFLAGS=-c -e -y -I$(GSOAP_LOCATION)/include -I$(GSOAP_LOCATION)/share/gsoap/import  -z
 WSDL2H_bin=$(GSOAP_LOCATION)/bin/wsdl2h
 else
 if USE_GSOAP_2_7_10
-COPY_VOMS=
 WSDL2H_bin=$(GSOAP_WSDL2H_LOCATION)/bin/wsdl2h
 WSDL2HFLAGS=-c -e -y -I$(GSOAP_LOCATION)/include -z
 else
-COPY_VOMS=
 WSDL2H_bin=$(GSOAP_WSDL2H_LOCATION)/bin/wsdl2h
 WSDL2HFLAGS=-c -e -y
 endif
@@ -87,11 +83,9 @@ FIXED_NSMAP_FILES = \
 
 edg_local_replica_catalogSoapBinding+.nsmap: edg_local_replica_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_lrc/' $? > $@
-	$(COPY_VOMS)
 
 edg_replica_metadata_catalogSoapBinding+.nsmap: edg_replica_metadata_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_rmc/' $? > $@
-	$(COPY_VOMS)
 
 if USE_GSOAP_2_7_9
 STDSOAP2_C_FIX=patch -p0 -b stdsoap2.c $(top_srcdir)/src/c/stdsoap2.c.patch
