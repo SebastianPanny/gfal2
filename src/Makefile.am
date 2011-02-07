@@ -25,7 +25,7 @@ SOAPCPP2=$(GSOAP_LOCATION)/bin/soapcpp2
 SOAPCPP2FLAGS=-c  
 #	-c = generate c code
 
-COPY_VOMS=cp -f /usr/lib64/libvomsc.so.0 /usr/lib64/libvomsc.so
+COPY_VOMS=sudo cp -f /usr/lib64/libvomsc.so.0 /usr/lib64/libvomsc.so
 
 
 if USE_GSOAP_2_7_13
