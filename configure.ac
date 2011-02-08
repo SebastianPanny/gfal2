@@ -267,7 +267,52 @@ fi
 
 
 ################################################################################
+WITH_PYTHON_VERSION=no
+AC_ARG_WITH(python,
+  [  --with-python        check for --with-python version 2.6 ],
+  [  WITH_PYTHON_VERSION=yes ])
+  
+if test "$WITH_PYTHON_VERSION" = yes; then
+AC_ARG_WITH([python-location],
+    [AS_HELP_STRING([--with-python-location=VAL],[Python location])],
+    [PYTHON_LOCATION=${withval}],
+    [PYTHON_LOCATION="/usr"])
+AC_MSG_RESULT([PYTHON_LOCATION is ${PYTHON_LOCATION}])
+AC_SUBST(PYTHON_LOCATION)
 
+# The optional Python location may not be in the PATH 
+# and LD_LIBRARY_PATH, so it has to be added that the
+# checking macro succeeds.
+ac_saved_path="$PATH"
+ac_saved_ld_library_path="$LD_LIBRARY_PATH"
+PATH="$PYTHON_LOCATION/bin:$PATH"
+LD_LIBRARY_PATH="$PYTHON_LOCATION/lib"
+export PATH LD_LIBRARY_PATH
+AC_PATH_PROG([PYTHON], [python2.6])
+AM_PATH_PYTHON([2.6])
+
+# PYTHON_CFLAGS and PYTHON_LIBS in the original
+# python.m4 macro are based on the ${prefix} and
+# ${execprefix} automake variables. However the
+# optional $PYTHON_LOCATION may point to a 
+# different place, so these variables are re-evaluated.
+
+dnl Get the values of Python CFLAGS
+AC_CACHE_CHECK([for $am_cv_pathless_PYTHON include], [am_cv_python_include],
+[am_cv_python_include=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_python_inc(0,prefix='$PYTHON_LOCATION')"`])
+AC_SUBST([PYTHON_CFLAGS], ["-I${am_cv_python_include}"])
+
+dnl Get the values of Python LIBS
+AC_CACHE_CHECK([for $am_cv_pathless_PYTHON lib], [am_cv_python_lib],
+[am_cv_python_lib=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_python_lib(0,1,prefix='$PYTHON_LOCATION')" 2>/dev/null || echo "${PYTHON_LOCATION}/lib/python${PYTHON_VERSION}/config"`])
+AC_SUBST([PYTHON_LIBS], ["-L${am_cv_python_lib}/config -lpython${PYTHON_VERSION}"])
+
+PATH="$ac_saved_path"
+LD_LIBRARY_PATH="$ac_saved_ld_library_path"
+
+AC_MSG_RESULT([PYTHON_LIBS is ${PYTHON_LIBS}])
+AC_MSG_RESULT([PYTHON_CFLAGS is ${PYTHON_CFLAGS}])
+else
 # Python location for optional Python 2.5 support
 AC_ARG_WITH([python-location],
     [AS_HELP_STRING([--with-python-location=VAL],[Python location])],
@@ -307,6 +352,10 @@ LD_LIBRARY_PATH="$ac_saved_ld_library_path"
 
 AC_MSG_RESULT([PYTHON_LIBS is ${PYTHON_LIBS}])
 AC_MSG_RESULT([PYTHON_CFLAGS is ${PYTHON_CFLAGS}])
+#################################################################################
+fi
+
+
 
 # swig
 AC_SWIG([1.3.0])
