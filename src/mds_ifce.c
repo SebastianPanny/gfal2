@@ -60,6 +60,14 @@ get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 
 get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 {
+	char **fqan = NULL;
+	
+	char *get_vo = gfal_get_vo (errbuf, errbufsz);
+	int fqan_val = gfal_get_fqan (&fqan, errbuf, errbufsz);
+	
+	set_gfal_vo(get_vo);
+	set_gfal_fqan(fqan, fqan_val);
+	   
 	return sd_get_lfc_endpoint(lfc_endpoint);
 }
 
