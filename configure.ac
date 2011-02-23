@@ -93,6 +93,7 @@ AC_ARG_WITH(emi,
 if test "$WITH_EMI" = yes; then
 	export GSOAP_LOCATION="/usr"
 	export GLOBUS_LOCATION="/usr"
+	export GSOAP_VERSION="2.7.13"
 	AC_EMI_LTDL
 	GSOAP_LIBS_EMI="-L/usr/lib64 -lgsoap"
 	AC_SUBST(GSOAP_LIBS_EMI)
@@ -415,7 +416,7 @@ AC_MSG_NOTICE([GSOAP_VERSION_NUM is $GSOAP_VERSION_NUM])
 AC_MSG_NOTICE([checking gsoap version to apply on-the-fly patches])
 AM_CONDITIONAL([USE_GSOAP_2_7_10],[test "x$GSOAP_VERSION_NUM" = "x020710"])
 
-AM_CONDITIONAL(USE_GSOAP_2_7_13, [test "x$GSOAP_VERSION_NUM" = "x020713"])
+AM_CONDITIONAL(USE_GSOAP_2_7_13, [test "x$WITH_EMI" = "xyes"])
 AC_SUBST(USE_GSOAP_2_7_13)
 
 
