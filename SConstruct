@@ -21,7 +21,7 @@ version= '0.1_alpha'
 def get_etics_dir():
 	# check en var
 	r = os.environ.get('ETICS_WORKSPACE')
-	if(r != ''):
+	if(r !=''  and r != None):
 		return r	
 	# try to find	
 	home = os.environ.get('HOME')
