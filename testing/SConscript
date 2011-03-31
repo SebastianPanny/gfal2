@@ -1,0 +1,13 @@
+#!/usr/bin/python
+##
+# Example builind script
+# @author : Devresse Adrien
+# @version : v0.0.1
+# @date 21/03/2011
+
+Import('*')
+
+src = ['example/manexample1.c']
+
+env.Program('ManExample1', src, LIBS='gfal')
+
