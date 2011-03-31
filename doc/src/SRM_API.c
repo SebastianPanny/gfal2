@@ -14,7 +14,7 @@
 	@{
 */
 
-
+gfal_handle gfal_init()
 
 int gfal_deletesurls (gfal_handle, char *, int);
 
@@ -25,6 +25,12 @@ int gfal_turlsfromsurls (gfal_handle, char *, int);
 int gfal_get (gfal_handle, char *, int);
 
 int gfal_getstatus (gfal_handle, char *, int);
+/**
+ * 	\brief describe handle state
+ *  \return a string description of the state of the handle
+ *  \param gfal_handle
+ */
+char* gfal_getHandleState(gfal_handle);
 
 int gfal_bringonline (gfal_handle, char *, int);
 
