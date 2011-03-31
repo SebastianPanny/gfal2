@@ -3,6 +3,8 @@
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+void {\bf gfal\_\-perror} (GErro $\ast$)
+\begin{DoxyCompactList}\small\item\em display the gfal error on the stderr following by the errno if exist \item\end{DoxyCompactList}\item 
 const char $\ast$ {\bf gfal\_\-version} ()\label{group__common__group_gaa469918e49f4c3194b8f42c87fdd8137}
 
 \begin{DoxyCompactList}\small\item\em return a string of the current gfal\_\-version define at the compilation time \item\end{DoxyCompactList}\item 
@@ -61,7 +63,21 @@ get the value for the send/receive timeout default value : 0 \index{common\_\-gr
 {}
 \end{DoxyParamCaption}
 )}\label{group__common__group_gae13c73358753f05230b92b03dd37db6c}
-get the timeout for the SRM queries default value : 3600 \index{common\_\-group@{common\_\-group}!gfal\_\-set\_\-nobdii@{gfal\_\-set\_\-nobdii}}
+get the timeout for the SRM queries default value : 3600 \index{common\_\-group@{common\_\-group}!gfal\_\-perror@{gfal\_\-perror}}
+\index{gfal\_\-perror@{gfal\_\-perror}!common_group@{common\_\-group}}
+\subsubsection[{gfal\_\-perror}]{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-perror (
+\begin{DoxyParamCaption}
+\item[{GErro $\ast$}]{}
+\end{DoxyParamCaption}
+)}\label{group__common__group_ga12116589988ce52e9b806d220846a717}
+
+
+display the gfal error on the stderr following by the errno if exist 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em Gerror}]\end{DoxyParams}
+\index{common\_\-group@{common\_\-group}!gfal\_\-set\_\-nobdii@{gfal\_\-set\_\-nobdii}}
 \index{gfal\_\-set\_\-nobdii@{gfal\_\-set\_\-nobdii}!common_group@{common\_\-group}}
 \subsubsection[{gfal\_\-set\_\-nobdii}]{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-nobdii (
 \begin{DoxyParamCaption}

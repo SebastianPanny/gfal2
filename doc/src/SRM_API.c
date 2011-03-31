@@ -5,6 +5,8 @@
  * 
 */
 
+#include <glib.h>
+
 /**
 	\defgroup srm_group all SRM functions
 */
@@ -14,17 +16,19 @@
 	@{
 */
 
-gfal_handle gfal_init()
+gfal_handle gfal_init(char** surls, int nsurl);
 
-int gfal_deletesurls (gfal_handle, char *, int);
+gfal_handle gfal_initG(GList* surl_list)
 
-int gfal_removedir (gfal_handle, char *, int);
+int gfal_deletesurls (gfal_handle, GError** err);
 
-int gfal_turlsfromsurls (gfal_handle, char *, int);
+int gfal_removedir (gfal_handle, GError** err);
 
-int gfal_get (gfal_handle, char *, int);
+int gfal_turlsfromsurls (gfal_handle, GError** err);
 
-int gfal_getstatus (gfal_handle, char *, int);
+int gfal_get (gfal_handle, GError** err);
+
+int gfal_getstatus (gfal_handle, GError** err);
 /**
  * 	\brief describe handle state
  *  \return a string description of the state of the handle
@@ -32,25 +36,25 @@ int gfal_getstatus (gfal_handle, char *, int);
  */
 char* gfal_getHandleState(gfal_handle);
 
-int gfal_bringonline (gfal_handle, char *, int);
+int gfal_bringonline (gfal_handle, GError** err);
 
-int gfal_prestage (gfal_handle, char *, int);
+int gfal_prestage (gfal_handle, GError** err);
 
-int gfal_prestagestatus (gfal_handle, char *, int);
+int gfal_prestagestatus (gfal_handle, GError** err);
 
-int gfal_pin (gfal_handle, char *, int);
+int gfal_pin (gfal_handle, GError** err);
 
-int gfal_release (gfal_handle, char *, int);
+int gfal_release (gfal_handle, GError** err);
 
-int gfal_set_xfer_done (gfal_handle, char *, int);
+int gfal_set_xfer_done (gfal_handle, GError** err);
 
-int gfal_set_xfer_running (gfal_handle, char *, int);
+int gfal_set_xfer_running (gfal_handle, GError** err);
 
-int gfal_abortrequest (gfal_handle, char *, int);
+int gfal_abortrequest (gfal_handle, GError** err);
 
-int gfal_abortfiles (gfal_handle, char *, int);
+int gfal_abortfiles (gfal_handle, GError** err);
 
-int gfal_get_results (gfal_handle, gfal_filestatus **);
+int gfal_get_results (gfal_handle, gfal_filestatus **, GError** err);
 
 int gfal_get_ids_setype (gfal_handle, enum se_type *, int *, int **, char **);
 

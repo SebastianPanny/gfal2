@@ -1,2 +1,93 @@
 \section{all SRM functions}
 \label{group__srm__group}\index{all SRM functions@{all SRM functions}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf gfal\_\-handle} {\bfseries gfal\_\-init} (char $\ast$$\ast$surls, int nsurl)\label{group__srm__group_ga1fdda04fad1e9531f7ace3bdc976bbc1}
+
+\item 
+{\bf gfal\_\-handle} {\bfseries gfal\_\-initG} (GList $\ast$surl\_\-list) int gfal\_\-deletesurls({\bf gfal\_\-handle}\label{group__srm__group_ga92e0ea95c87f25b5e4696e02f3f11393}
+
+\item 
+int {\bfseries gfal\_\-removedir} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_ga3a00aca183c77764672861a8bf35e670}
+
+\item 
+int {\bfseries gfal\_\-turlsfromsurls} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_ga899efa11d0ff1df69a8286b5ed36bc13}
+
+\item 
+int {\bfseries gfal\_\-get} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_ga04da42f7513751162e740f4b16defbce}
+
+\item 
+int {\bfseries gfal\_\-getstatus} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_gae9a31c94b163faf91de0b62180fc9f9e}
+
+\item 
+char $\ast$ {\bf gfal\_\-getHandleState} ({\bf gfal\_\-handle})
+\begin{DoxyCompactList}\small\item\em describe handle state \item\end{DoxyCompactList}\item 
+int {\bfseries gfal\_\-bringonline} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_gaac1c0c2597f22732c4ad1e601147503b}
+
+\item 
+int {\bfseries gfal\_\-prestage} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_gadc0485ba3a0f5cf6912cede961665d1c}
+
+\item 
+int {\bfseries gfal\_\-prestagestatus} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_gabf1d72bcc264ef8a46db472932cc97be}
+
+\item 
+int {\bfseries gfal\_\-pin} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_ga805822514cecfe9a5a67404ef8d0eedb}
+
+\item 
+int {\bfseries gfal\_\-release} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_ga61140bef96a8b9a50ea4b57fe686607c}
+
+\item 
+int {\bfseries gfal\_\-set\_\-xfer\_\-done} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_ga0553923e88bd01125bcfec76363c04e5}
+
+\item 
+int {\bfseries gfal\_\-set\_\-xfer\_\-running} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_ga0b642dba1a1aae645a14cbade35c1f2c}
+
+\item 
+int {\bfseries gfal\_\-abortrequest} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_ga2300184f9c84686d1531cb5f5d29e49e}
+
+\item 
+int {\bfseries gfal\_\-abortfiles} ({\bf gfal\_\-handle}, GError $\ast$$\ast$err)\label{group__srm__group_ga57f0f00afc925a4703b92d5b3237a157}
+
+\item 
+int {\bfseries gfal\_\-get\_\-results} ({\bf gfal\_\-handle}, {\bf gfal\_\-filestatus} $\ast$$\ast$, GError $\ast$$\ast$err)\label{group__srm__group_ga08fd4e225881151d1a824274a1b88357}
+
+\item 
+int {\bfseries gfal\_\-get\_\-ids\_\-setype} ({\bf gfal\_\-handle}, enum se\_\-type $\ast$, int $\ast$, int $\ast$$\ast$, char $\ast$$\ast$)\label{group__srm__group_gaa235192b9803b01ab61307d34d6ed31d}
+
+\item 
+int {\bfseries gfal\_\-get\_\-ids} ({\bf gfal\_\-handle}, int $\ast$, int $\ast$$\ast$, char $\ast$$\ast$)\label{group__srm__group_ga3006e6505a8342831c9ff0c31ce0d020}
+
+\item 
+int {\bfseries gfal\_\-set\_\-ids} ({\bf gfal\_\-handle}, int, const int $\ast$, int, const char $\ast$, char $\ast$, int)\label{group__srm__group_gad5f3894b14e9b5ce190cb820f0cce073}
+
+\item 
+void {\bfseries gfal\_\-handle\_\-free} ({\bf gfal\_\-handle})\label{group__srm__group_gaeea4474e516ec8ce195b0966507b9d54}
+
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\bf gfal\_\-handle} GError $\ast$$\ast$ {\bfseries err}\label{group__srm__group_ga8e7334fe511abd919d6a30f720ac92b1}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{srm\_\-group@{srm\_\-group}!gfal\_\-getHandleState@{gfal\_\-getHandleState}}
+\index{gfal\_\-getHandleState@{gfal\_\-getHandleState}!srm_group@{srm\_\-group}}
+\subsubsection[{gfal\_\-getHandleState}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-getHandleState (
+\begin{DoxyParamCaption}
+\item[{{\bf gfal\_\-handle}}]{}
+\end{DoxyParamCaption}
+)}\label{group__srm__group_ga25221a9cd12d58204efb349337655bfb}
+
+
+describe handle state 
+
+\begin{DoxyReturn}{Returns}
+a string description of the state of the handle 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em gfal\_\-handle}]\end{DoxyParams}

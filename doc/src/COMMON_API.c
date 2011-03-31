@@ -15,6 +15,13 @@
  * @{
 */
 
+
+/**
+ * \brief display the gfal error on the stderr following by the errno if exist
+ * \param Gerror
+ * 
+*/
+void gfal_perror(GErro*);
 /**
  * \brief return a string of the current gfal_version
  *  define at the compilation time
