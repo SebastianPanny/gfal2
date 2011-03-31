@@ -20,7 +20,7 @@ main(int argc, char **argv)
    char obuf[BLKLEN];
    int rc;
 
-   gfal_set_verbose(1);	// switch Gfal in verbose mode
+   gfal_set_verbose(GFAL_VERBOSE_DEBUG);	// switch Gfal in verbose mode
    if (argc != 2) {
 	   fprintf (stderr, "usage: %s filename\n", argv[0]);
 	   exit (1);

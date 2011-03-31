@@ -1,0 +1,28 @@
+#!/bin/bash
+##
+# @author Adevresse
+# @version 0.0.1
+
+
+echo " ****************** script for functional Tests *******************"
+echo "WARNING: This tests need a voms proxy activated and a grid environnement"
+echo "Launch tests..... "
+log=''
+dirn=`dirname $0`
+cd $dirn
+for f in `ls test_*.sh`
+do
+	./$f
+	r=$?
+	if [[ "$r" != "0" ]]; then
+		pr=" $f .........error code: $r [FAIL]"
+		echo $pr
+		exit -1
+	else
+		pr=" $f .......... [OK]"
+	fi
+	echo $pr
+	log="$log\n$pr"
+done
+echo -e $log > testresult.txt
+

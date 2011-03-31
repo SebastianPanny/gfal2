@@ -14,6 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+ /**
+  * 
+  \file gfal_constant.h
+  \brief list of all external constants of gfal
+ */
+
 
 /*
  * @(#)$RCSfile: gfal_constants.h,v $ $Revision: 1.8 $ $Date: 2009/03/09 15:16:38 $ CERN Jean-Philippe Baud
@@ -43,10 +50,10 @@
 #define GFAL_ERRLEVEL_WARN        1
 #define GFAL_ERRLEVEL_INFO        2
 
-#define GFAL_VERBOSE_QUIET       -1    // API-mode, no messages is printed
-#define GFAL_VERBOSE_NORMAL       0    // only errors are printed
-#define GFAL_VERBOSE_VERBOSE      1    // a bit more verbose information is printed
-#define GFAL_VERBOSE_DEBUG        2    // extra information is printed
+#define GFAL_VERBOSE_QUIET       -1    /*!<  \def GFAL_VERBOSE_QUIET API-mode, no messages is printed */
+#define GFAL_VERBOSE_NORMAL       0    /*!< \def GFAL_VERBOSE_NORMAL only errors are printed */
+#define GFAL_VERBOSE_VERBOSE      1    /*!< \def GFAL_VERBOSE_VERBOSE a bit more verbose information is printed */
+#define GFAL_VERBOSE_DEBUG        2    /*!< \def GFAL_VERBOSE_DEBUG  extra information is printed */
 
 #define GFAL_CKSM_DEFAULT         GFAL_CKSM_ADLER32   // MD5 is the default algo
 

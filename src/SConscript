@@ -1,0 +1,19 @@
+#!/usr/bin
+##
+# simple scons file for build
+
+
+
+
+
+Import('*')	# import SConstruct exported var
+
+
+src = ['gfal.c', 'lfc_ifce.c', 'lrc_ifce.c', 'rmc_ifce.c']
+
+mainlib = env.SharedLibrary('#build/libgfal.so', src)
+
+
+
+
+
