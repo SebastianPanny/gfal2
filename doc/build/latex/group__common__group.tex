@@ -1,96 +1,112 @@
 \section{all common functions}
 \label{group__common__group}\index{all common functions@{all common functions}}
 \subsection*{Functions}
-\begin{CompactItemize}
+\begin{DoxyCompactItemize}
 \item 
-const char $\ast$ \bf{gfal\_\-version} ()\label{group__common__group_ga5a8df616e6a5e6fc1d94e2374c7ccf2}
+const char $\ast$ {\bf gfal\_\-version} ()\label{group__common__group_gaa469918e49f4c3194b8f42c87fdd8137}
 
-\begin{CompactList}\small\item\em return a string of the current gfal\_\-version define at the compilation time \item\end{CompactList}\item 
-int \bf{gfal\_\-set\_\-verbose} (int)
-\begin{CompactList}\small\item\em set the verbose global level \item\end{CompactList}\item 
-int \bf{gfal\_\-set\_\-vo} (const char $\ast$vo)\label{group__common__group_gcf4ae9045b7e5a2a697b1bb1f05994a8}
+\begin{DoxyCompactList}\small\item\em return a string of the current gfal\_\-version define at the compilation time \item\end{DoxyCompactList}\item 
+int {\bf gfal\_\-set\_\-verbose} (int)
+\begin{DoxyCompactList}\small\item\em set the verbose global level \item\end{DoxyCompactList}\item 
+int {\bf gfal\_\-set\_\-vo} (const char $\ast$vo)\label{group__common__group_gacef0c28f0787235cf38a17442ebcd960}
 
-\begin{CompactList}\small\item\em set the vo used by gfal \item\end{CompactList}\item 
-void \bf{gfal\_\-set\_\-nobdii} (int)
-\begin{CompactList}\small\item\em define if bdii System is ignored or not \item\end{CompactList}\item 
-void \bf{gfal\_\-set\_\-timeout\_\-connect} (int)\label{group__common__group_g62f544258aa58af5122f40f0eb1a7c92}
+\begin{DoxyCompactList}\small\item\em set the vo used by gfal \item\end{DoxyCompactList}\item 
+void {\bf gfal\_\-set\_\-nobdii} (int)
+\begin{DoxyCompactList}\small\item\em define if bdii System is ignored or not \item\end{DoxyCompactList}\item 
+void {\bf gfal\_\-set\_\-timeout\_\-connect} (int)\label{group__common__group_gaf11091a5cce3f5cf4a74a4388977c103}
 
-\begin{CompactList}\small\item\em change the default timeout \item\end{CompactList}\item 
-int \bf{gfal\_\-get\_\-timeout\_\-connect} ()\label{group__common__group_g63ec5d282f39173b678ecad2d60a4a6f}
+\begin{DoxyCompactList}\small\item\em change the default timeout \item\end{DoxyCompactList}\item 
+int {\bf gfal\_\-get\_\-timeout\_\-connect} ()\label{group__common__group_ga54e9b5620d46ad7fde2f9c5930d8c55f}
 
-\begin{CompactList}\small\item\em get the current timeout default value : 60 \item\end{CompactList}\item 
-void \bf{gfal\_\-set\_\-timeout\_\-sendreceive} (int)
+\begin{DoxyCompactList}\small\item\em get the current timeout default value : 60 \item\end{DoxyCompactList}\item 
+void {\bf gfal\_\-set\_\-timeout\_\-sendreceive} (int)
 \item 
-int \bf{gfal\_\-get\_\-timeout\_\-sendreceive} ()
+int {\bf gfal\_\-get\_\-timeout\_\-sendreceive} ()
 \item 
-void \bf{gfal\_\-set\_\-timeout\_\-bdii} (int)
+void {\bf gfal\_\-set\_\-timeout\_\-bdii} (int)
 \item 
-int \bf{gfal\_\-get\_\-timeout\_\-bdii} ()
+int {\bf gfal\_\-get\_\-timeout\_\-bdii} ()
 \item 
-void \bf{gfal\_\-set\_\-timeout\_\-srm} (int)
+void {\bf gfal\_\-set\_\-timeout\_\-srm} (int)
 \item 
-int \bf{gfal\_\-get\_\-timeout\_\-srm} ()
+int {\bf gfal\_\-get\_\-timeout\_\-srm} ()
 \item 
-const char $\ast$ \textbf{gfal\_\-get\_\-checksum\_\-algname} (enum gfal\_\-cksm\_\-type)\label{group__common__group_g11dd2ec58a632427ae12b710006c15a5}
+const char $\ast$ {\bfseries gfal\_\-get\_\-checksum\_\-algname} (enum gfal\_\-cksm\_\-type)\label{group__common__group_ga74737ce835b23a230ea728a3e787d667}
 
 \item 
-enum gfal\_\-cksm\_\-type \textbf{gfal\_\-parse\_\-checksum\_\-algname} (const char $\ast$)\label{group__common__group_g0ac1b12c9af897b63173fd73043e1669}
+enum gfal\_\-cksm\_\-type {\bfseries gfal\_\-parse\_\-checksum\_\-algname} (const char $\ast$)\label{group__common__group_gaf4d94e02fc8e5f0e5d738fccdc5423b8}
 
-\end{CompactItemize}
+\end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\index{common_group@{common\_\-group}!gfal_get_timeout_bdii@{gfal\_\-get\_\-timeout\_\-bdii}}
-\index{gfal_get_timeout_bdii@{gfal\_\-get\_\-timeout\_\-bdii}!common_group@{common\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-timeout\_\-bdii ()}\label{group__common__group_g676f0d746479f2c9893609854099d614}
-
-
-get the current the timeout for the bdii queries defautl value : 60 \index{common_group@{common\_\-group}!gfal_get_timeout_sendreceive@{gfal\_\-get\_\-timeout\_\-sendreceive}}
-\index{gfal_get_timeout_sendreceive@{gfal\_\-get\_\-timeout\_\-sendreceive}!common_group@{common\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-timeout\_\-sendreceive ()}\label{group__common__group_g198564ca7617a8f3dec7c6b925b2c760}
-
-
-get the value for the send/receive timeout default value : 0 \index{common_group@{common\_\-group}!gfal_get_timeout_srm@{gfal\_\-get\_\-timeout\_\-srm}}
-\index{gfal_get_timeout_srm@{gfal\_\-get\_\-timeout\_\-srm}!common_group@{common\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-timeout\_\-srm ()}\label{group__common__group_g31f524748949fca765e6fb8aa20ef41c}
-
-
-get the timeout for the SRM queries default value : 3600 \index{common_group@{common\_\-group}!gfal_set_nobdii@{gfal\_\-set\_\-nobdii}}
-\index{gfal_set_nobdii@{gfal\_\-set\_\-nobdii}!common_group@{common\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-nobdii (int)}\label{group__common__group_g267920b468d7578c10aa25469f8cadf7}
+\index{common\_\-group@{common\_\-group}!gfal\_\-get\_\-timeout\_\-bdii@{gfal\_\-get\_\-timeout\_\-bdii}}
+\index{gfal\_\-get\_\-timeout\_\-bdii@{gfal\_\-get\_\-timeout\_\-bdii}!common_group@{common\_\-group}}
+\subsubsection[{gfal\_\-get\_\-timeout\_\-bdii}]{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-timeout\_\-bdii (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group__common__group_gafe97012162e66dc0be2bbfcd63a021bd}
+get the current the timeout for the bdii queries defautl value : 60 \index{common\_\-group@{common\_\-group}!gfal\_\-get\_\-timeout\_\-sendreceive@{gfal\_\-get\_\-timeout\_\-sendreceive}}
+\index{gfal\_\-get\_\-timeout\_\-sendreceive@{gfal\_\-get\_\-timeout\_\-sendreceive}!common_group@{common\_\-group}}
+\subsubsection[{gfal\_\-get\_\-timeout\_\-sendreceive}]{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-timeout\_\-sendreceive (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group__common__group_ga3171e505d3ab5e4ea356751cf3a1017a}
+get the value for the send/receive timeout default value : 0 \index{common\_\-group@{common\_\-group}!gfal\_\-get\_\-timeout\_\-srm@{gfal\_\-get\_\-timeout\_\-srm}}
+\index{gfal\_\-get\_\-timeout\_\-srm@{gfal\_\-get\_\-timeout\_\-srm}!common_group@{common\_\-group}}
+\subsubsection[{gfal\_\-get\_\-timeout\_\-srm}]{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-timeout\_\-srm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{group__common__group_gae13c73358753f05230b92b03dd37db6c}
+get the timeout for the SRM queries default value : 3600 \index{common\_\-group@{common\_\-group}!gfal\_\-set\_\-nobdii@{gfal\_\-set\_\-nobdii}}
+\index{gfal\_\-set\_\-nobdii@{gfal\_\-set\_\-nobdii}!common_group@{common\_\-group}}
+\subsubsection[{gfal\_\-set\_\-nobdii}]{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-nobdii (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\label{group__common__group_ga9267895ff60de04b4b35467bc9880e28}
 
 
 define if bdii System is ignored or not 
 
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em :}]0 for False else true \end{description}
-\end{Desc}
-\index{common_group@{common\_\-group}!gfal_set_timeout_bdii@{gfal\_\-set\_\-timeout\_\-bdii}}
-\index{gfal_set_timeout_bdii@{gfal\_\-set\_\-timeout\_\-bdii}!common_group@{common\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-timeout\_\-bdii (int)}\label{group__common__group_g7fc461515a2cdf649fd516319cb54ea9}
 
-
-set the timeout for the bdii queries \index{common_group@{common\_\-group}!gfal_set_timeout_sendreceive@{gfal\_\-set\_\-timeout\_\-sendreceive}}
-\index{gfal_set_timeout_sendreceive@{gfal\_\-set\_\-timeout\_\-sendreceive}!common_group@{common\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-timeout\_\-sendreceive (int)}\label{group__common__group_gedd91bb343f17bc2c0ba9db1203f1819}
-
-
-set the value for the send/receive timeout \index{common_group@{common\_\-group}!gfal_set_timeout_srm@{gfal\_\-set\_\-timeout\_\-srm}}
-\index{gfal_set_timeout_srm@{gfal\_\-set\_\-timeout\_\-srm}!common_group@{common\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-timeout\_\-srm (int)}\label{group__common__group_gc0dac1437f150d4b5b8779f456050bec}
-
-
-set the timeout for the SRM queries \index{common_group@{common\_\-group}!gfal_set_verbose@{gfal\_\-set\_\-verbose}}
-\index{gfal_set_verbose@{gfal\_\-set\_\-verbose}!common_group@{common\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-set\_\-verbose (int)}\label{group__common__group_g331e181c2fadd801321ad43033835052}
+\begin{DoxyParams}{Parameters}
+\item[{\em :}]0 for False else true \end{DoxyParams}
+\index{common\_\-group@{common\_\-group}!gfal\_\-set\_\-timeout\_\-bdii@{gfal\_\-set\_\-timeout\_\-bdii}}
+\index{gfal\_\-set\_\-timeout\_\-bdii@{gfal\_\-set\_\-timeout\_\-bdii}!common_group@{common\_\-group}}
+\subsubsection[{gfal\_\-set\_\-timeout\_\-bdii}]{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-timeout\_\-bdii (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\label{group__common__group_ga3ad71db5f1e6d34500bfffa79ecdf203}
+set the timeout for the bdii queries \index{common\_\-group@{common\_\-group}!gfal\_\-set\_\-timeout\_\-sendreceive@{gfal\_\-set\_\-timeout\_\-sendreceive}}
+\index{gfal\_\-set\_\-timeout\_\-sendreceive@{gfal\_\-set\_\-timeout\_\-sendreceive}!common_group@{common\_\-group}}
+\subsubsection[{gfal\_\-set\_\-timeout\_\-sendreceive}]{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-timeout\_\-sendreceive (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\label{group__common__group_ga8173a5e08ad476cd6067cb6313dfcc42}
+set the value for the send/receive timeout \index{common\_\-group@{common\_\-group}!gfal\_\-set\_\-timeout\_\-srm@{gfal\_\-set\_\-timeout\_\-srm}}
+\index{gfal\_\-set\_\-timeout\_\-srm@{gfal\_\-set\_\-timeout\_\-srm}!common_group@{common\_\-group}}
+\subsubsection[{gfal\_\-set\_\-timeout\_\-srm}]{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-timeout\_\-srm (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\label{group__common__group_ga13400303d2b7c60f8dea3bd2d07a84ad}
+set the timeout for the SRM queries \index{common\_\-group@{common\_\-group}!gfal\_\-set\_\-verbose@{gfal\_\-set\_\-verbose}}
+\index{gfal\_\-set\_\-verbose@{gfal\_\-set\_\-verbose}!common_group@{common\_\-group}}
+\subsubsection[{gfal\_\-set\_\-verbose}]{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-set\_\-verbose (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\label{group__common__group_ga436a6ea0bf30fba5ea242d729b0ce67f}
 
 
 set the verbose global level 
 
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em values}]: \{ GFAL\_\-VERBOSE\_\-QUIET, GFAL\_\-VERBOSE\_\-NORMAL , GFAL\_\-VERBOSE\_\-VERBOSE , GFAL\_\-VERBOSE\_\-DEBUG \} \end{description}
-\end{Desc}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em values}]: \{ GFAL\_\-VERBOSE\_\-QUIET, GFAL\_\-VERBOSE\_\-NORMAL , GFAL\_\-VERBOSE\_\-VERBOSE , GFAL\_\-VERBOSE\_\-DEBUG \} \end{DoxyParams}

@@ -1,170 +1,237 @@
 \section{all POSIX style function}
 \label{group__posix__group}\index{all POSIX style function@{all POSIX style function}}
 \subsection*{Functions}
-\begin{CompactItemize}
+\begin{DoxyCompactItemize}
 \item 
-int \bf{gfal\_\-access} (const char $\ast$, int)
-\begin{CompactList}\small\item\em test access to the given file \item\end{CompactList}\item 
-int \bf{gfal\_\-chmod} (const char $\ast$, mode\_\-t)
-\begin{CompactList}\small\item\em set rights of the file/dir \item\end{CompactList}\item 
-int \bf{gfal\_\-close} (int)
-\begin{CompactList}\small\item\em close the current file descriptor \item\end{CompactList}\item 
-int \textbf{gfal\_\-closedir} (DIR $\ast$)\label{group__posix__group_g1c97c21d23c919b2647f17bbc8b79db2}
-
-\item 
-int \bf{gfal\_\-creat} (const char $\ast$, mode\_\-t)
-\begin{CompactList}\small\item\em creates a new file or truncates an existing one \item\end{CompactList}\item 
-int \bf{gfal\_\-creat64} (const char $\ast$, mode\_\-t)\label{group__posix__group_g48783e60cafa1a3bf9aa2170b99f9b08}
-
-\begin{CompactList}\small\item\em same as create for large file \item\end{CompactList}\item 
-off\_\-t \textbf{gfal\_\-lseek} (int, off\_\-t, int)\label{group__posix__group_g8ba4e1df5f2e6439641c56f245d5ce73}
+int {\bf gfal\_\-access} (const char $\ast$, int)
+\begin{DoxyCompactList}\small\item\em test access to the given file \item\end{DoxyCompactList}\item 
+int {\bf gfal\_\-chmod} (const char $\ast$, mode\_\-t)
+\begin{DoxyCompactList}\small\item\em set rights of the file/dir \item\end{DoxyCompactList}\item 
+int {\bf gfal\_\-close} (int)
+\begin{DoxyCompactList}\small\item\em close the current file descriptor \item\end{DoxyCompactList}\item 
+int {\bfseries gfal\_\-closedir} (DIR $\ast$)\label{group__posix__group_gab62f647bfe55cf9314d77d58dd3c992b}
 
 \item 
-int \textbf{gfal\_\-mkdir} (const char $\ast$, mode\_\-t)\label{group__posix__group_g6f6affcf386900efc5443a9c97556a57}
+int {\bf gfal\_\-creat} (const char $\ast$, mode\_\-t)
+\begin{DoxyCompactList}\small\item\em creates a new file or truncates an existing one \item\end{DoxyCompactList}\item 
+int {\bf gfal\_\-creat64} (const char $\ast$, mode\_\-t)\label{group__posix__group_ga718e537647901c4602a2de32e03ed315}
+
+\begin{DoxyCompactList}\small\item\em same as create for large file \item\end{DoxyCompactList}\item 
+off\_\-t {\bfseries gfal\_\-lseek} (int, off\_\-t, int)\label{group__posix__group_gabe7bccef8678d809c7be0343c510e76b}
 
 \item 
-int \bf{gfal\_\-open} (const char $\ast$, int, mode\_\-t)
-\begin{CompactList}\small\item\em opens a file according to the value of flags \item\end{CompactList}\item 
-int \textbf{gfal\_\-open64} (const char $\ast$, int, mode\_\-t)\label{group__posix__group_gbed417acea7f862ea1977417ed842ef4}
+int {\bfseries gfal\_\-mkdir} (const char $\ast$, mode\_\-t)\label{group__posix__group_gab7962e607012a4a82ee9c900aa5a693c}
 
 \item 
-DIR $\ast$ \textbf{gfal\_\-opendir} (const char $\ast$)\label{group__posix__group_g004ad5efbd544da820823e597e57be92}
+int {\bf gfal\_\-open} (const char $\ast$, int, mode\_\-t)
+\begin{DoxyCompactList}\small\item\em opens a file according to the value of flags \item\end{DoxyCompactList}\item 
+int {\bfseries gfal\_\-open64} (const char $\ast$, int, mode\_\-t)\label{group__posix__group_gab5434b80faefcb20338ecee231185171}
 
 \item 
-ssize\_\-t \textbf{gfal\_\-read} (int, void $\ast$, size\_\-t)\label{group__posix__group_gaa6bfe36f33b86e489b798aed96912de}
+DIR $\ast$ {\bfseries gfal\_\-opendir} (const char $\ast$)\label{group__posix__group_gacaab04d65b5c41946bbd7ff7ab877b85}
 
 \item 
-dirent $\ast$ \textbf{gfal\_\-readdir} (DIR $\ast$)\label{group__posix__group_g2a8ed205f7748d7817a18521268a1f2d}
+ssize\_\-t {\bfseries gfal\_\-read} (int, void $\ast$, size\_\-t)\label{group__posix__group_ga2118fa5baa3533bfecd2b3888f401673}
 
 \item 
-int \textbf{gfal\_\-rename} (const char $\ast$, const char $\ast$)\label{group__posix__group_g34dc6129530d6bf9e5836ef22c0d2792}
+struct dirent $\ast$ {\bfseries gfal\_\-readdir} (DIR $\ast$)\label{group__posix__group_ga85eff3900519533325f1eef7f44c8a1d}
 
 \item 
-int \textbf{gfal\_\-rmdir} (const char $\ast$)\label{group__posix__group_gcc4b6347640a722674c2d6df437490df}
+int {\bfseries gfal\_\-rename} (const char $\ast$, const char $\ast$)\label{group__posix__group_ga8ec13efefcfffe4368d1716b8b408f76}
 
 \item 
-ssize\_\-t \textbf{gfal\_\-setfilchg} (int, const void $\ast$, size\_\-t)\label{group__posix__group_g45a23756f2c79a7e07488bb3fb2fc35e}
+int {\bfseries gfal\_\-rmdir} (const char $\ast$)\label{group__posix__group_ga6ec14778da216b02a3135f0c1181ae0d}
 
 \item 
-int \textbf{gfal\_\-unlink} (const char $\ast$)\label{group__posix__group_gdeb4c6cc47f507da3e3b498374e308fb}
+ssize\_\-t {\bfseries gfal\_\-setfilchg} (int, const void $\ast$, size\_\-t)\label{group__posix__group_gabd9f4f97140c8450eaddf8de7991676c}
 
 \item 
-ssize\_\-t \textbf{gfal\_\-write} (int, const void $\ast$, size\_\-t)\label{group__posix__group_g00c2d64894ae81c05846b06c84727ae9}
+int {\bfseries gfal\_\-unlink} (const char $\ast$)\label{group__posix__group_gabf49493f3ecf135a38c02d72837d6483}
 
 \item 
-off64\_\-t \textbf{gfal\_\-lseek64} (int, off64\_\-t, int)\label{group__posix__group_g39c7d0b6d366fdb0f218439ed3c3bb37}
+ssize\_\-t {\bfseries gfal\_\-write} (int, const void $\ast$, size\_\-t)\label{group__posix__group_ga47b0e382f9ed3018f280041f2c4abc04}
 
 \item 
-int \textbf{gfal\_\-lstat} (const char $\ast$, struct stat $\ast$)\label{group__posix__group_g347f867802a33bc04fdfb769da857103}
+off64\_\-t {\bfseries gfal\_\-lseek64} (int, off64\_\-t, int)\label{group__posix__group_ga16c6d9631685bf2029a5425e52437c52}
 
 \item 
-int \textbf{gfal\_\-lstat64} (const char $\ast$, struct stat64 $\ast$)\label{group__posix__group_g739ca4985a67e0fc4fc253f42df2638c}
+int {\bfseries gfal\_\-lstat} (const char $\ast$, struct stat $\ast$)\label{group__posix__group_gab9da9a8d5ce1c1a7c16b3e44c7d871c2}
 
 \item 
-int \textbf{gfal\_\-stat} (const char $\ast$, struct stat $\ast$)\label{group__posix__group_g1d8c86d522d5dd26ee7ddcd9c6925964}
+int {\bfseries gfal\_\-lstat64} (const char $\ast$, struct stat64 $\ast$)\label{group__posix__group_ga79f19860a67ce8fabc36c0596bf5ecac}
 
 \item 
-int \textbf{gfal\_\-stat64} (const char $\ast$, struct stat64 $\ast$)\label{group__posix__group_gb40e2d23618763284ab4a1fb1a06a880}
+int {\bfseries gfal\_\-stat} (const char $\ast$, struct stat $\ast$)\label{group__posix__group_ga2b6136f28770ee588b34e6e929f39eac}
 
-\end{CompactItemize}
+\item 
+int {\bfseries gfal\_\-stat64} (const char $\ast$, struct stat64 $\ast$)\label{group__posix__group_gaba5b22b058998883722c41e9b8121c3c}
+
+\end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\index{posix_group@{posix\_\-group}!gfal_access@{gfal\_\-access}}
-\index{gfal_access@{gfal\_\-access}!posix_group@{posix\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-access (const char $\ast$, int)}\label{group__posix__group_g33d6a4a93117a6c07405aa6ac0d42122}
+\index{posix\_\-group@{posix\_\-group}!gfal\_\-access@{gfal\_\-access}}
+\index{gfal\_\-access@{gfal\_\-access}!posix_group@{posix\_\-group}}
+\subsubsection[{gfal\_\-access}]{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-access (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\label{group__posix__group_gac1256ba079258716d12a73f4ea96550c}
 
 
 test access to the given file 
 
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em file}]can be in supported protocols lfn, srm, file, tftp \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Returns:]This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately \par
-\begin{itemize}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em file}]can be in supported protocols lfn, srm, file, tftp \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This routine returns 0 if the operation was successful or -\/1 if the operation failed. In the latter case, errno is set appropriately \par
+
+\begin{DoxyItemize}
 \item ERRNO list : \par
-\begin{itemize}
-\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
-\end{itemize}
-\end{Desc}
-\index{posix_group@{posix\_\-group}!gfal_chmod@{gfal\_\-chmod}}
-\index{gfal_chmod@{gfal\_\-chmod}!posix_group@{posix\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-chmod (const char $\ast$, mode\_\-t)}\label{group__posix__group_gdfeeecb2052d81e65bcc09903655991b}
+
+\begin{DoxyItemize}
+\item ENOENT: The named file/directory does not exist.
+\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+\item EFAULT: path is a NULL pointer.
+\item ENOTDIR: A component of path prefix is not a directory.
+\item EINVAL: path has an invalid syntax or amode is invalid.
+\item ECOMM: Communication error.
+\item EPROTONOSUPPORT: Access method not supported. 
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyReturn}
+\index{posix\_\-group@{posix\_\-group}!gfal\_\-chmod@{gfal\_\-chmod}}
+\index{gfal\_\-chmod@{gfal\_\-chmod}!posix_group@{posix\_\-group}}
+\subsubsection[{gfal\_\-chmod}]{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-chmod (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{, }
+\item[{mode\_\-t}]{}
+\end{DoxyParamCaption}
+)}\label{group__posix__group_gaa2a556606a0c7f7863e60ffb7ae47269}
 
 
 set rights of the file/dir 
 
-changes access mode of the file/directory path according to the bit pattern in mode. \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em path}]specifies the file name (this can only be a TURL in the current implementation). \item[{\em mode}]the bit pattern is built by an OR of the constants defined in $<$sys/stat.h$>$. \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Returns:]This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately \par
-\begin{itemize}
+changes access mode of the file/directory path according to the bit pattern in mode. 
+\begin{DoxyParams}{Parameters}
+\item[{\em path}]specifies the file name (this can only be a TURL in the current implementation). \item[{\em mode}]the bit pattern is built by an OR of the constants defined in $<$sys/stat.h$>$. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This routine returns 0 if the operation was successful or -\/1 if the operation failed. In the latter case, errno is set appropriately \par
+
+\begin{DoxyItemize}
 \item ERRNO list : \par
-\begin{itemize}
-\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
-\end{itemize}
-\end{Desc}
-\index{posix_group@{posix\_\-group}!gfal_close@{gfal\_\-close}}
-\index{gfal_close@{gfal\_\-close}!posix_group@{posix\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-close (int)}\label{group__posix__group_g83b88bd27def4c4e2fdfea3c5bbf88b4}
+
+\begin{DoxyItemize}
+\item ENOENT: The named file/directory does not exist.
+\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+\item EFAULT: path is a NULL pointer.
+\item ENOTDIR: A component of path prefix is not a directory.
+\item EINVAL: path has an invalid syntax or amode is invalid.
+\item ECOMM: Communication error.
+\item EPROTONOSUPPORT: Access method not supported. 
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyReturn}
+\index{posix\_\-group@{posix\_\-group}!gfal\_\-close@{gfal\_\-close}}
+\index{gfal\_\-close@{gfal\_\-close}!posix_group@{posix\_\-group}}
+\subsubsection[{gfal\_\-close}]{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-close (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\label{group__posix__group_ga14d68c1b949128de9f257d7a0ed78edb}
 
 
 close the current file descriptor 
 
-close the file whose descriptor fd is the one returned by gfal\_\-open. \begin{Desc}
-\item[Returns:]This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.\begin{itemize}
+close the file whose descriptor fd is the one returned by gfal\_\-open. \begin{DoxyReturn}{Returns}
+This routine returns 0 if the operation was successful or -\/1 if the operation failed. In the latter case, errno is set appropriately.
+\begin{DoxyItemize}
 \item ERRNO list : \par
-\begin{itemize}
-\item EBADF: fd is not a valid file descriptor\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
-\end{itemize}
-\end{Desc}
-\index{posix_group@{posix\_\-group}!gfal_creat@{gfal\_\-creat}}
-\index{gfal_creat@{gfal\_\-creat}!posix_group@{posix\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-creat (const char $\ast$, mode\_\-t)}\label{group__posix__group_g5fcdc6f3e7911787be049e20b6ab19b8}
+
+\begin{DoxyItemize}
+\item EBADF: fd is not a valid file descriptor
+\item ECOMM: Communication error.
+\item EPROTONOSUPPORT: Access method not supported. 
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyReturn}
+\index{posix\_\-group@{posix\_\-group}!gfal\_\-creat@{gfal\_\-creat}}
+\index{gfal\_\-creat@{gfal\_\-creat}!posix_group@{posix\_\-group}}
+\subsubsection[{gfal\_\-creat}]{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-creat (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{, }
+\item[{mode\_\-t}]{}
+\end{DoxyParamCaption}
+)}\label{group__posix__group_gad90595234b21698f50cafbadf64c8350}
 
 
 creates a new file or truncates an existing one 
 
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em filename}]specifies the file name: either a logical file name, a guid, an SURL or a TURL \item[{\em mode}]is used only if the file is created \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Returns:]This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately\begin{itemize}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em filename}]specifies the file name: either a logical file name, a guid, an SURL or a TURL \item[{\em mode}]is used only if the file is created \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This routine returns a write-\/only file descriptor if the operation was successful or -\/1 if the operation failed. In the latter case, errno is set appropriately
+\begin{DoxyItemize}
 \item ERRNO list : \par
-\begin{itemize}
-\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
-\end{itemize}
-\end{Desc}
-\index{posix_group@{posix\_\-group}!gfal_open@{gfal\_\-open}}
-\index{gfal_open@{gfal\_\-open}!posix_group@{posix\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-open (const char $\ast$, int, mode\_\-t)}\label{group__posix__group_g6a431a0bdd01baf8cadbdcaa98b1c622}
+
+\begin{DoxyItemize}
+\item ENOENT: The named file/directory does not exist.
+\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+\item EFAULT: path is a NULL pointer.
+\item EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream
+\item ENOTDIR: A component of path prefix is not a directory.
+\item EINVAL: path has an invalid syntax or amode is invalid.
+\item ECOMM: Communication error.
+\item EPROTONOSUPPORT: Access method not supported. 
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyReturn}
+\index{posix\_\-group@{posix\_\-group}!gfal\_\-open@{gfal\_\-open}}
+\index{gfal\_\-open@{gfal\_\-open}!posix_group@{posix\_\-group}}
+\subsubsection[{gfal\_\-open}]{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-open (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{, }
+\item[{int}]{, }
+\item[{mode\_\-t}]{}
+\end{DoxyParamCaption}
+)}\label{group__posix__group_ga22a05e88da3a8155c595e4d849b0f06d}
 
 
 opens a file according to the value of flags 
 
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em filename}]specifies the file name: either a logical file name, a guid, an SURL or a TURL \item[{\em flags}]value is built by OR\^{a}€™ing the bits defined in $<$fcntl.h$>$ but one and only one of the first three flags below must be used\begin{itemize}
-\item O\_\-RDONLY open for reading only\begin{itemize}
-\item O\_\-WRONLY open for writing only\end{itemize}
-\item O\_\-RDWR open for reading and writing\begin{itemize}
-\item O\_\-CREAT If the file exists already and O\_\-EXCL is also set, gfal\_\-open will fail.\item O\_\-LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened \end{itemize}
-\end{itemize}
-\item[{\em mode}]usef only if file is created \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Returns:]This routine returns the file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately\begin{itemize}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em filename}]specifies the file name: either a logical file name, a guid, an SURL or a TURL \item[{\em flags}]value is built by ORâ€™ing the bits defined in $<$fcntl.h$>$ but one and only one of the first three flags below must be used
+\begin{DoxyItemize}
+\item O\_\-RDONLY open for reading only
+\begin{DoxyItemize}
+\item O\_\-WRONLY open for writing only
+\end{DoxyItemize}
+\item O\_\-RDWR open for reading and writing
+\begin{DoxyItemize}
+\item O\_\-CREAT If the file exists already and O\_\-EXCL is also set, gfal\_\-open will fail.
+\item O\_\-LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened 
+\end{DoxyItemize}
+\end{DoxyItemize}\item[{\em mode}]usef only if file is created \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This routine returns the file descriptor if the operation was successful or -\/1 if the operation failed. In the latter case, errno is set appropriately
+\begin{DoxyItemize}
 \item ERRNO list : \par
-\begin{itemize}
-\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
-\end{itemize}
-\end{Desc}
+
+\begin{DoxyItemize}
+\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+\item EFAULT: path is a NULL pointer.
+\item ENOTDIR: A component of path prefix is not a directory.
+\item EINVAL: path has an invalid syntax or amode is invalid.
+\item ECOMM: Communication error.
+\item EPROTONOSUPPORT: Access method not supported. 
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyReturn}
+
+
+Referenced by gfal\_\-creat().
+
