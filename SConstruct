@@ -10,12 +10,6 @@ import os
 import subprocess
 import glob
 
-# global var
-etics_build_dir=''
-build_dir = 'build'
-header_folder='/stage/include/'
-version= '0.1_alpha'
-
 ##
 # try to find etics workspace or check if ETICS_WORKSPACE is defined
 def get_etics_dir():
@@ -28,21 +22,34 @@ def get_etics_dir():
 	if(os.path.exists(home +'/workspace/.etics')):
 		return home+'/workspace/'
 	raise Exception("Error env var ETICS_WORKSPACE not set")
-	
 
-	
+# global var
+etics_build_dir=get_etics_dir()
+version= '0.1_alpha'
+gsoap_location= etics_build_dir+ "/repository/externals/gsoap/2.7.6b/sl5_x86_64_gcc412"
+glib_location = etics_build_dir+ "/repository/externals/glib2-devel/2.12.3/sl5_x86_64_gcc412"
 
-etics_build_dir = get_etics_dir()	
+
+#special var :
+build_dir = 'build'
+header_folder='/stage/include/'
+
+# auto-defined var :
+gsoap_header_dir= gsoap_location+"/include"
+glib_header_dir = [ glib_location + '/lib64/glib-2.0/include/', glib_location+ '/include/glib-2.0/' ]
+
+
+		
 etics_lib_dir= glob.glob(etics_build_dir+'/repository/vdt/globus/*/*/lib/')[0]
 etics_header_dir = [etics_build_dir+header_folder] + glob.glob(etics_build_dir+header_folder+'/*/') + glob.glob(etics_build_dir+header_folder+'/*/*/') + glob.glob(etics_build_dir+header_folder+'/*/*/*/')
-glib_header_dir = [ etics_build_dir + '/repository/externals/glib2-devel/2.12.3/sl5_x86_64_gcc412/lib64/glib-2.0/include/', etics_build_dir +'/repository/externals/glib2-devel/2.12.3/sl5_x86_64_gcc412/include/glib-2.0/' ]
+
 
 
 print "ETICS WORKSPACE : " + etics_build_dir
 print "ETICS compiled lib dir : " + etics_lib_dir
 
 	
-headers= ['.', '#src/', etics_header_dir, glib_header_dir]
+headers= ['.', '#src/', etics_header_dir, glib_header_dir, gsoap_header_dir]
 libs=[ '#'+build_dir+'/src/.libs/' , etics_lib_dir ]
 cflags=" -DVERSION=\\\""+version+"\\\""
 print cflags
