@@ -25,6 +25,8 @@ exec_test= "exec_tests"
 # setup the library path to add the required library in the env
 def setup_LDPATH():
 	abslibs= map(lambda x: Dir(x).abspath,libs)		# get abs path
+	if(os.getenv('LD_LIBRARY_PATH') is None):
+		os.environ['LD_LIBRARY_PATH']=''
 	for l in abslibs:
 		if(os.environ['LD_LIBRARY_PATH'].count(l) <1 ):
 			os.environ['LD_LIBRARY_PATH']= os.environ['LD_LIBRARY_PATH'] +":" + l
