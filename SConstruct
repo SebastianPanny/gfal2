@@ -29,6 +29,7 @@ version= '0.1_alpha'
 gsoap_location= etics_build_dir+ "/repository/externals/gsoap/2.7.6b/sl5_x86_64_gcc412"
 glib_location = etics_build_dir+ "/repository/externals/glib2-devel/2.12.3/sl5_x86_64_gcc412"
 voms_location = etics_build_dir+ "/stage/lib64"
+globus_location = etics_build_dir + "/repository/vdt/globus/4.0.7-VDT-1.10.1/sl5_x86_64_gcc412"
 link_libs= ['m','uuid','c','dl']
 
 
@@ -40,6 +41,7 @@ build_dir_src = build_dir +'/src'
 # auto-defined var :
 gsoap_header_dir= gsoap_location+"/include"
 glib_header_dir = [ glib_location + '/lib64/glib-2.0/include/', glib_location+ '/include/glib-2.0/' ]
+globus_header = globus_location+ "/include/gcc64dbg"
 
 
 		
@@ -52,9 +54,9 @@ print "ETICS WORKSPACE : " + etics_build_dir
 print "ETICS compiled lib dir : " + etics_lib_dir
 
 	
-headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, gsoap_header_dir]
+headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, gsoap_header_dir, globus_header]
 libs=[ '#'+build_dir+'/libs' , etics_lib_dir, voms_location ]
-cflags=" -DVERSION=\\\""+version+"\\\""
+cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE' ] # largefile flag needed in 64 bits mod
 print cflags
 env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
 env['ENV']['LD_LIBRARY_PATH'] = etics_lib_dir

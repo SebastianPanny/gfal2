@@ -19,13 +19,14 @@
  * @(#)$RCSfile: gridftp_ifce.c,v $ $Revision: 1.5 $ $Date: 2009/02/25 13:38:08 $ CERN Remi Mollon
  */
 
+
+#include <sys/stat.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 #include "globus_ftp_client.h"
 #include "gfal_internals.h"
 

@@ -13,14 +13,15 @@ import os
 #
 
 
-gfal_libs = ['ldap', 'vomsc']
-dat_file1= ['typemap-lrc.dat','edg-local-replica-catalog.wsdl']
-dat_file2= ['typemap-rmc.dat','edg-replica-metadata-catalog.wsdl']
-src = ['gfal.c', 'gfal_file.c', 'sfn_ifce.c', 'stdsoap2.c']
+gfal_libs = ['ldap', 'vomsc','gfal_srm_ifce']		# libraries linked
+dat_file1= ['typemap-lrc.dat','edg-local-replica-catalog.wsdl']		# input files for gsoap parser lrc
+dat_file2= ['typemap-rmc.dat','edg-replica-metadata-catalog.wsdl'] # input files for gsoap parser rmc
+src = ['gfal.c', 'gfal_file.c', 'gfal_timeouts.c', 'sfn_ifce.c', 'stdsoap2.c', 'checkprotolib.c'] # globals src files
 src2= ['lfc_ifce.c']
 lrc_src= ['lrc_ifce.c', 'lrcC.c']
 rmc_src= ['rmc_ifce.c']
-all_src= src+ src2 +lrc_src+ rmc_src
+gridftp_src = ['gridftp_ifce.c']
+all_src= src+ src2 +lrc_src+ rmc_src + gridftp_src
 
 def gsoap_generator_header(target, source, env):
 	cmd=  gsoap_location +"/bin/wsdl2h"+ " -c -e -w -y -t "+ source[0].abspath +" "+ source[1].abspath + " -o "+ target[0].abspath

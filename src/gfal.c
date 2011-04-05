@@ -23,19 +23,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef _WIN32
-#include <io.h>
-#else
-#include <unistd.h>
-#endif
 #include <errno.h>
 #include <fcntl.h>
 #include <dlfcn.h>
 #include <time.h>
 #include <uuid/uuid.h>
+#include "gfal_internals.h"
 #include "voms_apic.h"
 #include "gfal_api.h"
-#include "gfal_internals.h"
 #include "lfc_ifce.h"
 #include <gfal_srm_ifce.h>
 #include <gfal_srm_ifce_types.h>

@@ -32,6 +32,11 @@ extern "C"
 #include <dirent.h>
 #include <sys/stat.h>
 #include <gfal_srm_ifce_types.h>
+#ifdef _WIN32
+#include <io.h>
+#else
+#include <unistd.h>
+#endif
 
 #ifndef GFAL_LONG64_FORMAT
 #if defined(__ia64__) || defined(__x86_64)
@@ -53,6 +58,7 @@ extern "C"
 #endif
 
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
+
 
 enum gfal_cksm_type
 {

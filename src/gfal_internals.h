@@ -30,8 +30,10 @@ extern "C"
 
 #include <stdarg.h>
 #include <gfal_srm_ifce_types.h>
-#include "gfal_constants.h"
 #include "gfal_types.h"
+#include "gfal_constants.h"
+
+
 
 /* Macro function to print debug info if LCG_GFAL_DEBUG is defined */
 #ifdef LCG_GFAL_DEBUG
@@ -42,6 +44,9 @@ extern "C"
 #endif
 
 typedef struct srm_spacemd gfal_spacemd;
+
+
+
 
 /******************** gfal.c ********************/
 
