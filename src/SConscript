@@ -16,7 +16,7 @@ import os
 
 dat_file1= ['typemap-lrc.dat','edg-local-replica-catalog.wsdl']
 dat_file2= ['typemap-rmc.dat','edg-replica-metadata-catalog.wsdl']
-src = ['gfal.c']
+src = ['gfal.c', 'gfal_file.c', 'sfn_ifce.c']
 src2= ['lfc_ifce.c']
 lrc_src= ['lrc_ifce.c']
 rmc_src= ['rmc_ifce.c']
@@ -54,5 +54,6 @@ gsoap_rename1 = env.Command('dg_replica_metadata_catalogSoapBinding.h', 'edg_rep
 gsoap_rename2 = env.Command('edg_local_replica_catalogSoapBinding.h', 'edg_local_replica_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_lrc') )
 
 
-mainlib = env.SharedLibrary('#build/libs/libgfal.so', all_src)
+mainlib = env.SharedLibrary('#build/libs/libgfal', all_src)
+staticlib = env.StaticLibrary('#build/libs/libgfal',all_src)
 

@@ -51,7 +51,7 @@ print "ETICS compiled lib dir : " + etics_lib_dir
 
 	
 headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, gsoap_header_dir]
-libs=[ '#'+build_dir+'/src/.libs/' , etics_lib_dir ]
+libs=[ '#'+build_dir+'/libs' , etics_lib_dir ]
 cflags=" -DVERSION=\\\""+version+"\\\""
 print cflags
 env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags)
