@@ -47,12 +47,12 @@ def gsoap_rename(target,source,env, suffix):
 gsoap_gene_header1= env.Command('edg-local-replica-catalog.h',dat_file1, gsoap_generator_header)
 gsoap_gene_header2= env.Command('edg-replica-metadata-catalog.h', dat_file2, gsoap_generator_header)
 
-gsoap_final1 = env.Command(['lrcC.c', 'edg_local_replica_catalogSoapBinding.nsmap', 'lrcStub.h','lrcH.h'],'edg-local-replica-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'lrc', '#src'))
-gsoap_final2 = env.Command(['RmcC.c','edg_replica_metadata_catalogSoapBinding.nsmap', 'rmcStub.h','rmcH.h'],'edg-replica-metadata-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'rmc', '#src'))
+gsoap_final1 = env.Command(['lrcC.c', 'edg_local_replica_catalogSoapBinding.nsmap', 'lrcStub.h','lrcH.h'],'edg-local-replica-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'lrc', build_dir_src))
+gsoap_final2 = env.Command(['RmcC.c','edg_replica_metadata_catalogSoapBinding.nsmap', 'rmcStub.h','rmcH.h'],'edg-replica-metadata-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'rmc', build_dir_src))
 
-gsoap_rename1 = env.Command('#src/edg_replica_metadata_catalogSoapBinding.h', '#src/edg_replica_metadata_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_rmc') )
-gsoap_rename2 = env.Command('#src/edg_local_replica_catalogSoapBinding.h', '#src/edg_local_replica_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_lrc') )
+gsoap_rename1 = env.Command('dg_replica_metadata_catalogSoapBinding.h', 'edg_replica_metadata_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_rmc') )
+gsoap_rename2 = env.Command('edg_local_replica_catalogSoapBinding.h', 'edg_local_replica_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_lrc') )
 
 
-mainlib = env.SharedLibrary('#build/libgfal.so', all_src)
+mainlib = env.SharedLibrary('#build/libs/libgfal.so', all_src)
 

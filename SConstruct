@@ -33,6 +33,7 @@ glib_location = etics_build_dir+ "/repository/externals/glib2-devel/2.12.3/sl5_x
 #special var :
 build_dir = 'build'
 header_folder='/stage/include/'
+build_dir_src = build_dir +'/src'
 
 # auto-defined var :
 gsoap_header_dir= gsoap_location+"/include"
@@ -59,7 +60,8 @@ env['ENV']['LD_LIBRARY_PATH'] = etics_lib_dir
 
 
 SConscript('testing/SConscript', ['env', 'headers', 'libs'])
-SConscript('src/SConscript',['env', 'headers', 'libs', 'gsoap_location'])
+VariantDir(build_dir_src, 'src')
+SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'gsoap_location', 'build_dir_src'])
 
 
 	
