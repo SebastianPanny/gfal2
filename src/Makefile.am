@@ -77,9 +77,9 @@ edg-replica-metadata-catalog.h: edg-replica-metadata-catalog.wsdl
 # fixed nsmap files
 #-------------------------------------------------------------------------------
 FIXED_NSMAP_FILES = \
-	edg_local_replica_catalogSoapBinding+.nsmap \
-	edg_replica_metadata_catalogSoapBinding+.nsmap 
-#	srmSoapBinding+.nsmap
+	edg_local_replica_catalogSoapBinding.h \
+	edg_replica_metadata_catalogSoapBinding.h 
+#	srmSoapBinding.h
 
 edg_local_replica_catalogSoapBinding.h: edg_local_replica_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_lrc/' $? > $@
@@ -202,8 +202,8 @@ GFAL_SOURCE_FILES = \
 	lfc_ifce.c \
 	gridftp_ifce.c
 
-lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding+.nsmap gfal_api.h
-rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding+.nsmap gfal_api.h
+lrc_ifce.o: lrc_ifce.c lrcH.h lrcStub.h lrcC.c lrcClient.c edg_local_replica_catalogSoapBinding.h gfal_api.h
+rmc_ifce.o: rmc_ifce.c rmcH.h rmcStub.h rmcC.c rmcClient.c edg_replica_metadata_catalogSoapBinding.h gfal_api.h
 
 
 
