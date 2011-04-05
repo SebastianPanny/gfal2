@@ -7,13 +7,52 @@
 
 
 Import('*')	# import SConstruct exported var
-
-
-src = ['gfal.c', 'lfc_ifce.c', 'lrc_ifce.c', 'rmc_ifce.c']
-
-mainlib = env.SharedLibrary('#build/libgfal.so', src)
-
+import os
+## gsoap generation
+# bin/soapcpp2 -c   -p lrc edg-local-replica-catalog.h
+#
 
 
 
+dat_file1= ['typemap-lrc.dat','edg-local-replica-catalog.wsdl']
+dat_file2= ['typemap-rmc.dat','edg-replica-metadata-catalog.wsdl']
+src = ['gfal.c']
+src2= ['lfc_ifce.c']
+lrc_src= ['lrc_ifce.c']
+rmc_src= ['rmc_ifce.c']
+all_src= src+ src2 +lrc_src+ rmc_src
+
+def gsoap_generator_header(target, source, env):
+	cmd=  gsoap_location +"/bin/wsdl2h"+ " -c -e -w -y -t "+ source[0].abspath +" "+ source[1].abspath + " -o "+ target[0].abspath
+	print cmd
+	os.system(cmd)
+	return None
+	
+def gsoap_generator(target, source, env, opt_source, folder):
+	print File(opt_source).name
+	cmd = gsoap_location+ "/bin/soapcpp2" +" -c  -d "+Dir(folder).abspath+" -p "+opt_source+" "+ source[0].abspath 
+	print cmd
+	os.system(cmd)
+	return None
+
+def gsoap_rename(target,source,env, suffix):
+	cmd = 'sed '+ '\'s/struct Namespace namespaces/struct Namespace namespaces'+suffix+'/\' ' + source[0].abspath +"  > "+ target[0].abspath 
+	print cmd
+	p= os.system(cmd)
+	if(p is not 0):
+		raise Exception("Error while sed")
+	return None
+
+
+gsoap_gene_header1= env.Command('edg-local-replica-catalog.h',dat_file1, gsoap_generator_header)
+gsoap_gene_header2= env.Command('edg-replica-metadata-catalog.h', dat_file2, gsoap_generator_header)
+
+gsoap_final1 = env.Command(['lrcC.c', 'edg_local_replica_catalogSoapBinding.nsmap', 'lrcStub.h','lrcH.h'],'edg-local-replica-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'lrc', '#src'))
+gsoap_final2 = env.Command(['RmcC.c','edg_replica_metadata_catalogSoapBinding.nsmap', 'rmcStub.h','rmcH.h'],'edg-replica-metadata-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'rmc', '#src'))
+
+gsoap_rename1 = env.Command('#src/edg_replica_metadata_catalogSoapBinding.h', '#src/edg_replica_metadata_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_rmc') )
+gsoap_rename2 = env.Command('#src/edg_local_replica_catalogSoapBinding.h', '#src/edg_local_replica_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_lrc') )
+
+
+mainlib = env.SharedLibrary('#build/libgfal.so', all_src)
 

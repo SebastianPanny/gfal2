@@ -30,7 +30,7 @@
 #undef SOAP_FMAC5
 #define SOAP_FMAC5 static
 #include "rmcH.h"
-#include "edg_replica_metadata_catalogSoapBinding+.nsmap"
+#include "edg_replica_metadata_catalogSoapBinding.h"
 #ifdef GFAL_SECURE
 #include "cgsi_plugin.h"
 #endif

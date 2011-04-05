@@ -28,7 +28,7 @@
 #undef SOAP_FMAC5
 #define SOAP_FMAC5 static
 #include "lrcH.h"
-#include "edg_local_replica_catalogSoapBinding+.nsmap"
+#include "edg_local_replica_catalogSoapBinding.h"
 #ifdef GFAL_SECURE
 #include "cgsi_plugin.h"
 #endif

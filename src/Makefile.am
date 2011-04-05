@@ -81,10 +81,10 @@ FIXED_NSMAP_FILES = \
 	edg_replica_metadata_catalogSoapBinding+.nsmap 
 #	srmSoapBinding+.nsmap
 
-edg_local_replica_catalogSoapBinding+.nsmap: edg_local_replica_catalogSoapBinding.nsmap
+edg_local_replica_catalogSoapBinding.h: edg_local_replica_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_lrc/' $? > $@
 
-edg_replica_metadata_catalogSoapBinding+.nsmap: edg_replica_metadata_catalogSoapBinding.nsmap
+edg_replica_metadata_catalogSoapBinding.h: edg_replica_metadata_catalogSoapBinding.nsmap
 	sed 's/struct Namespace namespaces/struct Namespace namespaces_rmc/' $? > $@
 
 if USE_GSOAP_2_7_9

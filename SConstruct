@@ -49,7 +49,7 @@ print "ETICS WORKSPACE : " + etics_build_dir
 print "ETICS compiled lib dir : " + etics_lib_dir
 
 	
-headers= ['.', '#src/', etics_header_dir, glib_header_dir, gsoap_header_dir]
+headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, gsoap_header_dir]
 libs=[ '#'+build_dir+'/src/.libs/' , etics_lib_dir ]
 cflags=" -DVERSION=\\\""+version+"\\\""
 print cflags
@@ -59,7 +59,7 @@ env['ENV']['LD_LIBRARY_PATH'] = etics_lib_dir
 
 
 SConscript('testing/SConscript', ['env', 'headers', 'libs'])
-SConscript('src/SConscript',['env', 'headers', 'libs'])
+SConscript('src/SConscript',['env', 'headers', 'libs', 'gsoap_location'])
 
 
 	
