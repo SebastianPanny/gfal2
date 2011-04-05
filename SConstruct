@@ -28,6 +28,8 @@ etics_build_dir=get_etics_dir()
 version= '0.1_alpha'
 gsoap_location= etics_build_dir+ "/repository/externals/gsoap/2.7.6b/sl5_x86_64_gcc412"
 glib_location = etics_build_dir+ "/repository/externals/glib2-devel/2.12.3/sl5_x86_64_gcc412"
+voms_location = etics_build_dir+ "/stage/lib64"
+link_libs= ['m','uuid','c','dl']
 
 
 #special var :
@@ -51,10 +53,10 @@ print "ETICS compiled lib dir : " + etics_lib_dir
 
 	
 headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, gsoap_header_dir]
-libs=[ '#'+build_dir+'/libs' , etics_lib_dir ]
+libs=[ '#'+build_dir+'/libs' , etics_lib_dir, voms_location ]
 cflags=" -DVERSION=\\\""+version+"\\\""
 print cflags
-env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags)
+env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
 env['ENV']['LD_LIBRARY_PATH'] = etics_lib_dir
 
 

@@ -13,12 +13,12 @@ import os
 #
 
 
-
+gfal_libs = ['ldap', 'vomsc']
 dat_file1= ['typemap-lrc.dat','edg-local-replica-catalog.wsdl']
 dat_file2= ['typemap-rmc.dat','edg-replica-metadata-catalog.wsdl']
-src = ['gfal.c', 'gfal_file.c', 'sfn_ifce.c']
+src = ['gfal.c', 'gfal_file.c', 'sfn_ifce.c', 'stdsoap2.c']
 src2= ['lfc_ifce.c']
-lrc_src= ['lrc_ifce.c']
+lrc_src= ['lrc_ifce.c', 'lrcC.c']
 rmc_src= ['rmc_ifce.c']
 all_src= src+ src2 +lrc_src+ rmc_src
 
@@ -42,8 +42,15 @@ def gsoap_rename(target,source,env, suffix):
 	if(p is not 0):
 		raise Exception("Error while sed")
 	return None
+##
+# copy the stdsoap2.c in the proper directory
+env.Command('stdsoap2.c',[], Copy("$TARGET",File(gsoap_location+'/src/'+'stdsoap2.c').abspath))
 
+##
+#add the library
+env.Append(LIBS=gfal_libs)
 
+# generate all the gsoap needed files
 gsoap_gene_header1= env.Command('edg-local-replica-catalog.h',dat_file1, gsoap_generator_header)
 gsoap_gene_header2= env.Command('edg-replica-metadata-catalog.h', dat_file2, gsoap_generator_header)
 
