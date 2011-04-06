@@ -29,7 +29,7 @@ def setup_LDPATH():
 		os.environ['LD_LIBRARY_PATH']=''
 	for l in abslibs:
 		if(os.environ['LD_LIBRARY_PATH'].count(l) <1 ):
-			os.environ['LD_LIBRARY_PATH']= os.environ['LD_LIBRARY_PATH'] +":" + l
+			os.environ['LD_LIBRARY_PATH']= os.getenv('LD_LIBRARY_PATH') +":" + l
 		
 
 
@@ -46,13 +46,20 @@ def compile_testing():
 def run_test(target,source,env):
 	fpath= Dir('#testing').abspath + os.sep +"build"+ os.sep+ exec_test
 	print fpath
-	os.system(fpath)
+	r= os.system(fpath)
+	if(r is not 0):
+		print "Error while running tests, exit"
+		os._exit(-1)
 	return None
 
 def testing():
 	x =compile_testing()
 	setup_LDPATH()
-	env.Command('test',x, run_test)
+	print "[Debug] PATH : "+ os.getenv('LD_LIBRARY_PATH')
+	r= env.Command('test',x, run_test)
+
+	
+		
 
 
 if 'testing' in COMMAND_LINE_TARGETS:

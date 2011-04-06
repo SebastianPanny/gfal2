@@ -5,8 +5,19 @@
 
 
 echo " ****************** script for functional Tests *******************"
-echo "WARNING: This tests need a voms proxy activated and a grid environnement"
+echo "WARNING: This tests need a voms proxy activated on dteam vo, a grid environnement"
 echo "Launch tests..... "
+which voms-proxy-info &> /dev/null
+if [ "$?" != "0" ]; then
+	echo " Error voms-proxy-info not found, grid env is not operational" >&2
+	exit -1
+fi
+voms-proxy-info &> /dev/null
+if [ "$?" != "0" ]; then
+	echo -e " Error : voms proxy not started, start it and retry \n\t\t example : voms-proxy-init --voms dteam" >&2
+	exit -1
+fi
+
 log=''
 dirn=`dirname $0`
 cd $dirn
