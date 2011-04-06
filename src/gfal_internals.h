@@ -152,22 +152,7 @@ int sfn_getfilemd (int, const char **, struct srmv2_mdfilestatus **, char *, int
 int sfn_turlsfromsurls (int, const char **, char **, struct sfn_filestatus **, char *, int);
 
 
-/******************** srm_ifce.c ********************/
-/* REMOVED
-int srm_deletesurls (int, const char **, const char *, struct srm_filestatus **, char *, int, int);
-int srm_get (int, const char **, int, char **, int *, char **, struct srm_filestatus **, int);
-int srm_getx (int, const char **, int, char **, int *, struct srm_filestatus **, char *, int, int);
-int srm_getxe (int, const char **, const char *, char **, int *, struct srm_filestatus **, char *, int, int);
-int srm_getstatus (int, const char **, int, char *, struct srm_filestatus **, int );
-int srm_getstatusx (int, const char **, int, struct srm_filestatus **, char *, int, int);
-int srm_getstatusxe (int, const char *, struct srm_filestatus **, char *, int, int);
-int srm_set_xfer_done (const char *, int, int, char *, int, int);
-int srm_set_xfer_running (const char *, int, int, char *, int, int);
-int srm_turlsfromsurls (int, const char **, const char *, GFAL_LONG64 *, char **, int, int *, struct srm_filestatus **, char *, int, int);
-#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
-int srm_getfilemd (int, const char **, const char *, struct srm_mdfilestatus **, char *, int, int);
-#endif
-*/
+
 #ifdef __cplusplus
 }
 #endif
