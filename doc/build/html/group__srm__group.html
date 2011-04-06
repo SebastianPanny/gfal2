@@ -20,8 +20,7 @@
 gfal_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#g0cdadb4ebbaac57afd72c2369f8ac2ef">gfal_init</a> (GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">init the gfal srm interface for surl -&gt; turls transformation <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gb0a2e0313f2418614690d624166ad8c0"></a><!-- doxytag: member="srm_group::gfal_deletesurls" ref="gb0a2e0313f2418614690d624166ad8c0" args="(gfal_handle, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_deletesurls</b> (gfal_handle, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#gfb4d82067ddab76a4755a8d8bf6be299">gfal_deletesurls</a> (gfal_handle, GList *lsurl, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g5c1b039985488235931ecea769bc7fb1"></a><!-- doxytag: member="srm_group::gfal_removedir" ref="g5c1b039985488235931ecea769bc7fb1" args="(gfal_handle, gchar *surl, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#g5c1b039985488235931ecea769bc7fb1">gfal_removedir</a> (gfal_handle, gchar *surl, GError **err)</td></tr>
@@ -80,6 +79,41 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">release the handle <br></td></tr>
 </table>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="gfb4d82067ddab76a4755a8d8bf6be299"></a><!-- doxytag: member="SRM_API.c::gfal_deletesurls" ref="gfb4d82067ddab76a4755a8d8bf6be299" args="(gfal_handle, GList *lsurl, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_deletesurls           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GList *&nbsp;</td>
+          <td class="paramname"> <em>lsurl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+a lsit of dir 
+</div>
+</div><p>
 <a class="anchor" name="g72241d4a54f2d555838376723c4fe106"></a><!-- doxytag: member="SRM_API.c::gfal_get" ref="g72241d4a54f2d555838376723c4fe106" args="(gfal_handle, GList *surl_list, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -180,7 +214,7 @@ describe handle state
 state of the actual request 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 6 16:17:23 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 6 16:59:18 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

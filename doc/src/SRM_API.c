@@ -26,9 +26,12 @@
 	\brief init the gfal srm interface for surl -> turls transformation
 */
 gfal_handle gfal_init(GError** err);
+/**
+	\remove a lsit of dir
 
+*/
 
-int gfal_deletesurls (gfal_handle, GError** err);
+int gfal_deletesurls (gfal_handle, GList* lsurl, GError** err);
 /**
 	\brief remove a dir, only one at a time
 */

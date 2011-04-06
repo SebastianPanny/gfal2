@@ -6,8 +6,7 @@
 gfal\_\-handle \bf{gfal\_\-init} (GError $\ast$$\ast$err)\label{group__srm__group_g0cdadb4ebbaac57afd72c2369f8ac2ef}
 
 \begin{CompactList}\small\item\em init the gfal srm interface for surl -$>$ turls transformation \item\end{CompactList}\item 
-int \textbf{gfal\_\-deletesurls} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_gb0a2e0313f2418614690d624166ad8c0}
-
+int \bf{gfal\_\-deletesurls} (gfal\_\-handle, GList $\ast$lsurl, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-removedir} (gfal\_\-handle, gchar $\ast$surl, GError $\ast$$\ast$err)\label{group__srm__group_g5c1b039985488235931ecea769bc7fb1}
 
@@ -63,7 +62,12 @@ void \bf{gfal\_\-handle\_\-free} (gfal\_\-handle)\label{group__srm__group_ga21bc
 
 
 \subsection{Function Documentation}
-\index{srm_group@{srm\_\-group}!gfal_get@{gfal\_\-get}}
+\index{srm_group@{srm\_\-group}!gfal_deletesurls@{gfal\_\-deletesurls}}
+\index{gfal_deletesurls@{gfal\_\-deletesurls}!srm_group@{srm\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-deletesurls (gfal\_\-handle, GList $\ast$ {\em lsurl}, GError $\ast$$\ast$ {\em err})}\label{group__srm__group_gfb4d82067ddab76a4755a8d8bf6be299}
+
+
+a lsit of dir \index{srm_group@{srm\_\-group}!gfal_get@{gfal\_\-get}}
 \index{gfal_get@{gfal\_\-get}!srm_group@{srm\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get (gfal\_\-handle, GList $\ast$ {\em surl\_\-list}, GError $\ast$$\ast$ {\em err})}\label{group__srm__group_g72241d4a54f2d555838376723c4fe106}
 
