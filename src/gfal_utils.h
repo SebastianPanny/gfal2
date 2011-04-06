@@ -23,6 +23,9 @@
 #ifndef _GFAL_UTILS_H
 #define _GFAL_UTILS_H
 
+#include <string.h>
+#include <ctype.h>
+
 /**
  * Count the elements of a NULL-terminated string array.
  *

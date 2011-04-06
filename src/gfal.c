@@ -29,6 +29,7 @@
 #include <time.h>
 #include <uuid/uuid.h>
 #include "gfal_internals.h"
+#include "gfal_utils.h"
 #include "voms_apic.h"
 #include "gfal_api.h"
 #include "lfc_ifce.h"
