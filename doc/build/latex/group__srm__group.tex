@@ -3,23 +3,18 @@
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-gfal\_\-handle \textbf{gfal\_\-init} (char $\ast$$\ast$surls, int nsurl)\label{group__srm__group_g2cba61c672fd4b6d3c8e3d1a39996eca}
+gfal\_\-handle \bf{gfal\_\-init} (GError $\ast$$\ast$err)\label{group__srm__group_g0cdadb4ebbaac57afd72c2369f8ac2ef}
+
+\begin{CompactList}\small\item\em init the gfal srm interface for surl -$>$ turls transformation \item\end{CompactList}\item 
+int \textbf{gfal\_\-deletesurls} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_gb0a2e0313f2418614690d624166ad8c0}
 
 \item 
-gfal\_\-handle \textbf{gfal\_\-init\-G} (GList $\ast$surl\_\-list) int gfal\_\-deletesurls(gfal\_\-handle\label{group__srm__group_g57f80a6142b085837cbc1b41d966b3fd}
+int \bf{gfal\_\-removedir} (gfal\_\-handle, gchar $\ast$surl, GError $\ast$$\ast$err)\label{group__srm__group_g5c1b039985488235931ecea769bc7fb1}
 
-\item 
-int \textbf{gfal\_\-removedir} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g86f588ad635d9857abbe1b12d780a2d3}
-
-\item 
-int \textbf{gfal\_\-turlsfromsurls} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_geed18ae14798b82be595bd2f7752b667}
-
-\item 
-int \textbf{gfal\_\-get} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g696da32502408c77fcebc440aa6c46ba}
-
-\item 
-int \textbf{gfal\_\-getstatus} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g0de517db68fac8b99b6e4cf3ab413485}
-
+\begin{CompactList}\small\item\em remove a dir, only one at a time \item\end{CompactList}\item 
+int \bf{gfal\_\-get} (gfal\_\-handle, GList $\ast$surl\_\-list, GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em get a turls list from a surls list \item\end{CompactList}\item 
+int \bf{gfal\_\-getstatus} (gfal\_\-handle, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \bf{gfal\_\-get\-Handle\-State} (gfal\_\-handle)
 \begin{CompactList}\small\item\em describe handle state \item\end{CompactList}\item 
@@ -62,18 +57,24 @@ int \textbf{gfal\_\-get\_\-ids} (gfal\_\-handle, int $\ast$, int $\ast$$\ast$, c
 int \textbf{gfal\_\-set\_\-ids} (gfal\_\-handle, int, const int $\ast$, int, const char $\ast$, char $\ast$, int)\label{group__srm__group_g5da8c01443270bf26cb6f60fe1457c53}
 
 \item 
-void \textbf{gfal\_\-handle\_\-free} (gfal\_\-handle)\label{group__srm__group_ga21bc6b4163400d28590637b474a1b05}
+void \bf{gfal\_\-handle\_\-free} (gfal\_\-handle)\label{group__srm__group_ga21bc6b4163400d28590637b474a1b05}
 
-\end{CompactItemize}
-\subsection*{Variables}
-\begin{CompactItemize}
-\item 
-gfal\_\-handle GError $\ast$$\ast$ \textbf{err}\label{group__srm__group_g59682e65b5e0d894f654c64d3a19aecd}
-
-\end{CompactItemize}
+\begin{CompactList}\small\item\em release the handle \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Function Documentation}
+\index{srm_group@{srm\_\-group}!gfal_get@{gfal\_\-get}}
+\index{gfal_get@{gfal\_\-get}!srm_group@{srm\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get (gfal\_\-handle, GList $\ast$ {\em surl\_\-list}, GError $\ast$$\ast$ {\em err})}\label{group__srm__group_g72241d4a54f2d555838376723c4fe106}
+
+
+get a turls list from a surls list 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em full}]list of surls that will be converted \item[{\em err}]if err=NULL, error report ignored else must $\ast$err=NULL and err will be set to the correct error \end{description}
+\end{Desc}
 \index{srm_group@{srm\_\-group}!gfal_getHandleState@{gfal\_\-getHandleState}}
 \index{gfal_getHandleState@{gfal\_\-getHandleState}!srm_group@{srm\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-get\-Handle\-State (gfal\_\-handle)}\label{group__srm__group_gb850010181be27c87a5c5b0341412655}
@@ -88,3 +89,9 @@ describe handle state
 \begin{description}
 \item[{\em gfal\_\-handle}]\end{description}
 \end{Desc}
+\index{srm_group@{srm\_\-group}!gfal_getstatus@{gfal\_\-getstatus}}
+\index{gfal_getstatus@{gfal\_\-getstatus}!srm_group@{srm\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-getstatus (gfal\_\-handle, GError $\ast$$\ast$ {\em err})}\label{group__srm__group_g0de517db68fac8b99b6e4cf3ab413485}
+
+
+state of the actual request 

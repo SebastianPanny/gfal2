@@ -17,6 +17,10 @@
 		- <b> internal API, use at your own risks </b> LFC_API : \ref lfc_low_group
 		- <b> internal API, use at your own risks </b> SFN_API : \ref sfn_low_group 
 		- <b> internal API, use at your own risks </b> internal functions of gfal : \ref internal_group
+
+	<h2> II. ANOTHER DOCS : </h2>
+		- More informations about the GError system : http://developer.gnome.org/glib/stable/glib-Error-Reporting.html
+		- More informations about the use of GList : http://developer.gnome.org/glib/stable/glib-Doubly-Linked-Lists.html#g-list-free-full
 */
 
 

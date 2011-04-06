@@ -38,16 +38,19 @@
 <a name="l00023"></a>00023 <span class="preprocessor">#ifndef _GFAL_UTILS_H</span>
 <a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#define _GFAL_UTILS_H</span>
 <a name="l00025"></a>00025 <span class="preprocessor"></span>
-<a name="l00033"></a>00033 <span class="keywordtype">int</span> gfal_count_elements_of_string_array(<span class="keywordtype">char</span>** a);
-<a name="l00034"></a>00034 
-<a name="l00051"></a>00051 <span class="keywordtype">char</span>* gfal_consolidate_multiple_characters(<span class="keyword">const</span> <span class="keywordtype">char</span>* s, <span class="keyword">const</span> <span class="keywordtype">char</span> c, <span class="keyword">const</span> <span class="keywordtype">int</span> start);
-<a name="l00052"></a>00052 
-<a name="l00061"></a>00061 <span class="keywordtype">char</span>* gfal_add_strings(<span class="keyword">const</span> <span class="keywordtype">char</span>* s1, <span class="keyword">const</span> <span class="keywordtype">char</span>* s2);
-<a name="l00062"></a>00062 
-<a name="l00075"></a>00075 <span class="keywordtype">char</span>* gfal_strip_string(<span class="keyword">const</span> <span class="keywordtype">char</span>* str, <span class="keyword">const</span> <span class="keywordtype">char</span> chr);
-<a name="l00076"></a>00076 
-<a name="l00077"></a>00077 <span class="preprocessor">#endif // #define _GFAL_UTILS_H</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Apr 6 10:32:48 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;string.h&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;ctype.h&gt;</span>
+<a name="l00028"></a>00028 
+<a name="l00036"></a>00036 <span class="keywordtype">int</span> gfal_count_elements_of_string_array(<span class="keywordtype">char</span>** a);
+<a name="l00037"></a>00037 
+<a name="l00054"></a>00054 <span class="keywordtype">char</span>* gfal_consolidate_multiple_characters(<span class="keyword">const</span> <span class="keywordtype">char</span>* s, <span class="keyword">const</span> <span class="keywordtype">char</span> c, <span class="keyword">const</span> <span class="keywordtype">int</span> start);
+<a name="l00055"></a>00055 
+<a name="l00064"></a>00064 <span class="keywordtype">char</span>* gfal_add_strings(<span class="keyword">const</span> <span class="keywordtype">char</span>* s1, <span class="keyword">const</span> <span class="keywordtype">char</span>* s2);
+<a name="l00065"></a>00065 
+<a name="l00078"></a>00078 <span class="keywordtype">char</span>* gfal_strip_string(<span class="keyword">const</span> <span class="keywordtype">char</span>* str, <span class="keyword">const</span> <span class="keywordtype">char</span> chr);
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080 <span class="preprocessor">#endif // #define _GFAL_UTILS_H</span>
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Apr 6 16:17:23 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

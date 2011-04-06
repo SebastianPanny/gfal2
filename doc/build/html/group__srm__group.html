@@ -16,23 +16,21 @@
 <h1>all SRM functions</h1><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g2cba61c672fd4b6d3c8e3d1a39996eca"></a><!-- doxytag: member="srm_group::gfal_init" ref="g2cba61c672fd4b6d3c8e3d1a39996eca" args="(char **surls, int nsurl)" -->
-gfal_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_init</b> (char **surls, int nsurl)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g0cdadb4ebbaac57afd72c2369f8ac2ef"></a><!-- doxytag: member="srm_group::gfal_init" ref="g0cdadb4ebbaac57afd72c2369f8ac2ef" args="(GError **err)" -->
+gfal_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#g0cdadb4ebbaac57afd72c2369f8ac2ef">gfal_init</a> (GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g57f80a6142b085837cbc1b41d966b3fd"></a><!-- doxytag: member="srm_group::gfal_initG" ref="g57f80a6142b085837cbc1b41d966b3fd" args="(GList *surl_list) int gfal_deletesurls(gfal_handle" -->
-gfal_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_initG</b> (GList *surl_list) int gfal_deletesurls(gfal_handle</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">init the gfal srm interface for surl -&gt; turls transformation <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gb0a2e0313f2418614690d624166ad8c0"></a><!-- doxytag: member="srm_group::gfal_deletesurls" ref="gb0a2e0313f2418614690d624166ad8c0" args="(gfal_handle, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_deletesurls</b> (gfal_handle, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g86f588ad635d9857abbe1b12d780a2d3"></a><!-- doxytag: member="srm_group::gfal_removedir" ref="g86f588ad635d9857abbe1b12d780a2d3" args="(gfal_handle, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_removedir</b> (gfal_handle, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g5c1b039985488235931ecea769bc7fb1"></a><!-- doxytag: member="srm_group::gfal_removedir" ref="g5c1b039985488235931ecea769bc7fb1" args="(gfal_handle, gchar *surl, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#g5c1b039985488235931ecea769bc7fb1">gfal_removedir</a> (gfal_handle, gchar *surl, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="geed18ae14798b82be595bd2f7752b667"></a><!-- doxytag: member="srm_group::gfal_turlsfromsurls" ref="geed18ae14798b82be595bd2f7752b667" args="(gfal_handle, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_turlsfromsurls</b> (gfal_handle, GError **err)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">remove a dir, only one at a time <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#g72241d4a54f2d555838376723c4fe106">gfal_get</a> (gfal_handle, GList *surl_list, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g696da32502408c77fcebc440aa6c46ba"></a><!-- doxytag: member="srm_group::gfal_get" ref="g696da32502408c77fcebc440aa6c46ba" args="(gfal_handle, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get</b> (gfal_handle, GError **err)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g0de517db68fac8b99b6e4cf3ab413485"></a><!-- doxytag: member="srm_group::gfal_getstatus" ref="g0de517db68fac8b99b6e4cf3ab413485" args="(gfal_handle, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_getstatus</b> (gfal_handle, GError **err)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get a turls list from a surls list  <a href="#g72241d4a54f2d555838376723c4fe106"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#g0de517db68fac8b99b6e4cf3ab413485">gfal_getstatus</a> (gfal_handle, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#gb850010181be27c87a5c5b0341412655">gfal_getHandleState</a> (gfal_handle)</td></tr>
 
@@ -77,14 +75,54 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_ids</b> (gfal
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_ids</b> (gfal_handle, int, const int *, int, const char *, char *, int)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ga21bc6b4163400d28590637b474a1b05"></a><!-- doxytag: member="srm_group::gfal_handle_free" ref="ga21bc6b4163400d28590637b474a1b05" args="(gfal_handle)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_handle_free</b> (gfal_handle)</td></tr>
+void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#ga21bc6b4163400d28590637b474a1b05">gfal_handle_free</a> (gfal_handle)</td></tr>
 
-<tr><td colspan="2"><br><h2>Variables</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g59682e65b5e0d894f654c64d3a19aecd"></a><!-- doxytag: member="srm_group::err" ref="g59682e65b5e0d894f654c64d3a19aecd" args="" -->
-gfal_handle GError **&nbsp;</td><td class="memItemRight" valign="bottom"><b>err</b></td></tr>
-
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">release the handle <br></td></tr>
 </table>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="g72241d4a54f2d555838376723c4fe106"></a><!-- doxytag: member="SRM_API.c::gfal_get" ref="g72241d4a54f2d555838376723c4fe106" args="(gfal_handle, GList *surl_list, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_get           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GList *&nbsp;</td>
+          <td class="paramname"> <em>surl_list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+get a turls list from a surls list 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>full</em>&nbsp;</td><td>list of surls that will be converted </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>if err=NULL, error report ignored else must *err=NULL and err will be set to the correct error </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
 <a class="anchor" name="gb850010181be27c87a5c5b0341412655"></a><!-- doxytag: member="SRM_API.c::gfal_getHandleState" ref="gb850010181be27c87a5c5b0341412655" args="(gfal_handle)" -->
 <div class="memitem">
 <div class="memproto">
@@ -113,7 +151,36 @@ describe handle state
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 6 10:32:49 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="g0de517db68fac8b99b6e4cf3ab413485"></a><!-- doxytag: member="SRM_API.c::gfal_getstatus" ref="g0de517db68fac8b99b6e4cf3ab413485" args="(gfal_handle, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_getstatus           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+state of the actual request 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 6 16:17:23 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
