@@ -1,123 +1,100 @@
 \section{internal LFC functions}
 \label{group__lfc__low__group}\index{internal LFC functions@{internal LFC functions}}
 \subsection*{Functions}
-\begin{DoxyCompactItemize}
+\begin{CompactItemize}
 \item 
-int {\bfseries lfc\_\-replica\_\-exists} (const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gabbe18c87850e75add8cb0d61990ee0e1}
+int \textbf{lfc\_\-replica\_\-exists} (const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g4fa605c700ac841df98ffb1b4f2d0ecb}
 
 \item 
-int {\bfseries lfc\_\-accessl} (const char $\ast$path, const char $\ast$guid, int mode, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gad7d35d7f3896696a7279ef8021df3673}
+int \textbf{lfc\_\-accessl} (const char $\ast$path, const char $\ast$guid, int mode, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g145e85cc530b23736eea535580c4e5e3}
 
 \item 
-int {\bfseries lfc\_\-chmodl} (const char $\ast$path, mode\_\-t mode, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gaee59846916e41529d63b44915f122191}
+int \textbf{lfc\_\-chmodl} (const char $\ast$path, mode\_\-t mode, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g45d447082c9b4e1a47684a43f198d2e4}
 
 \item 
-char $\ast$ {\bf lfc\_\-guidforpfn} (const char $\ast$pfn, char $\ast$errbuf, int errbufsz)
+char $\ast$ \bf{lfc\_\-guidforpfn} (const char $\ast$pfn, char $\ast$errbuf, int errbufsz)
 \item 
-int {\bf lfc\_\-guidsforpfns} (int nbfiles, const char $\ast$$\ast$pfns, int amode, char $\ast$$\ast$$\ast$guids, int $\ast$$\ast$statuses, char $\ast$errbuf, int errbufsz)
+int \bf{lfc\_\-guidsforpfns} (int nbfiles, const char $\ast$$\ast$pfns, int amode, char $\ast$$\ast$$\ast$guids, int $\ast$$\ast$statuses, char $\ast$errbuf, int errbufsz)
 \item 
-int {\bf lfc\_\-guid\_\-exists} (const char $\ast$guid, char $\ast$errbuf, int errbufsz)
+int \bf{lfc\_\-guid\_\-exists} (const char $\ast$guid, char $\ast$errbuf, int errbufsz)
 \item 
-char $\ast$$\ast$ {\bfseries lfc\_\-get\_\-replicas} (const char $\ast$lfn, const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga3c5ecef79062be724003a2260ef40b19}
+char $\ast$$\ast$ \textbf{lfc\_\-get\_\-replicas} (const char $\ast$lfn, const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g942218fc4c4fa95df2bf10db3f3fad75}
 
 \item 
-int {\bf lfc\_\-unregister\_\-pfns} (int nbguids, const char $\ast$$\ast$guids, const char $\ast$$\ast$pfns, int $\ast$$\ast$results, char $\ast$errbuf, int errbufsz)
+int \bf{lfc\_\-unregister\_\-pfns} (int nbguids, const char $\ast$$\ast$guids, const char $\ast$$\ast$pfns, int $\ast$$\ast$results, char $\ast$errbuf, int errbufsz)
 \item 
-char $\ast$ {\bfseries lfc\_\-guidfromlfn} (const char $\ast$lfn, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga192726c9dafad7c115e7887efe7d7580}
+char $\ast$ \textbf{lfc\_\-guidfromlfn} (const char $\ast$lfn, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g338e9042e72eeffa51e27beca09675c4}
 
 \item 
-char $\ast$$\ast$ {\bfseries lfc\_\-get\_\-aliases} (const char $\ast$lfn, const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga2db9bc17b853d42e3a1d50617e88bcbc}
+char $\ast$$\ast$ \textbf{lfc\_\-get\_\-aliases} (const char $\ast$lfn, const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g546944558296f5a894005368c236cccf}
 
 \item 
-int {\bfseries lfc\_\-register\_\-file} (const char $\ast$lfn, const char $\ast$guid, const char $\ast$surl, mode\_\-t mode, GFAL\_\-LONG64 size, int bool\_\-createonly, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gae374ef020eaa20cc4d3887f419988bb5}
+int \textbf{lfc\_\-register\_\-file} (const char $\ast$lfn, const char $\ast$guid, const char $\ast$surl, mode\_\-t mode, GFAL\_\-LONG64 size, int bool\_\-createonly, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gdc3db49fb133cc79ae3250731167b478}
 
 \item 
-int {\bfseries lfc\_\-register\_\-alias} (const char $\ast$guid, const char $\ast$lfn, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gaf5d9e431cef64218ec4a9d7ea4c83e5d}
+int \textbf{lfc\_\-register\_\-alias} (const char $\ast$guid, const char $\ast$lfn, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gbcf2a1618d925816f8b570cdeac04afd}
 
 \item 
-int {\bfseries lfc\_\-unregister\_\-alias} (const char $\ast$guid, const char $\ast$lfn, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga5cda1bf078a1ff38e4a5634be681c070}
+int \textbf{lfc\_\-unregister\_\-alias} (const char $\ast$guid, const char $\ast$lfn, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g776fc6004cd4c565c42be3365a719376}
 
 \item 
-int {\bfseries lfc\_\-mkdirp} (const char $\ast$path, mode\_\-t mode, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga3e91ea3be60dd14651eb02bc74939982}
+int \textbf{lfc\_\-mkdirp} (const char $\ast$path, mode\_\-t mode, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gb13d4fafbe48d4748371fb2780381908}
 
 \item 
-int {\bfseries lfc\_\-renamel} (const char $\ast$old\_\-name, const char $\ast$new\_\-name, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga0c0701cf0e966f698270061818b1dd35}
+int \textbf{lfc\_\-renamel} (const char $\ast$old\_\-name, const char $\ast$new\_\-name, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gf0a92088b3b2bd149ad3968573d3dbce}
 
 \item 
-DIR $\ast$ {\bfseries lfc\_\-opendirlg} (const char $\ast$dirname, const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gad08c307ed11bd3ec055de4b678387d8f}
+DIR $\ast$ \textbf{lfc\_\-opendirlg} (const char $\ast$dirname, const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ge22436958fd4ad2bb2bcc1b608aa7f34}
 
 \item 
-int {\bfseries lfc\_\-rmdirl} (const char $\ast$dirname, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga466ec4eaa033e1837ddbc528d27f4fdb}
+int \textbf{lfc\_\-rmdirl} (const char $\ast$dirname, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga46361de52e13b63a74c50589a75fa33}
 
 \item 
-int {\bfseries lfc\_\-maperror} (struct {\bf proto\_\-ops} $\ast$pops, int ioflag)\label{group__lfc__low__group_ga6656c5c83f930300965dc7431284f34c}
+int \textbf{lfc\_\-maperror} (struct proto\_\-ops $\ast$pops, int ioflag)\label{group__lfc__low__group_g6be41de8da5424cc099b88ec27f772c0}
 
 \item 
-int {\bfseries lfc\_\-setsize} (const char $\ast$lfn, GFAL\_\-LONG64 size, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga6b922ee5e927824e365719936480ddf5}
+int \textbf{lfc\_\-setsize} (const char $\ast$lfn, GFAL\_\-LONG64 size, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g30eee0fb314a09f9b28cddd249ccf692}
 
 \item 
-int {\bfseries lfc\_\-statl} (const char $\ast$lfn, const char $\ast$guid, struct stat64 $\ast$buf, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga94c524f433cfca09de6209dd053aa82b}
+int \textbf{lfc\_\-statl} (const char $\ast$lfn, const char $\ast$guid, struct stat64 $\ast$buf, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g3115c08a5c7ffb01087a192358a40ca1}
 
 \item 
-int {\bfseries lfc\_\-lstatl} (const char $\ast$lfn, struct stat64 $\ast$buf, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gad95fca1dd9ce556929f73435742d8947}
+int \textbf{lfc\_\-lstatl} (const char $\ast$lfn, struct stat64 $\ast$buf, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g498672f9d3482822d3da75e23903cfdb}
 
 \item 
-int {\bfseries lfc\_\-fillsurls} ({\bf gfal\_\-file} gf, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_gabb9ea871fc1b57bac60ca23393b03d5c}
+int \textbf{lfc\_\-fillsurls} (gfal\_\-file gf, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g0b34fbad9eb051aa476eec5bea9e7692}
 
 \item 
-int {\bfseries lfc\_\-remove} ({\bf gfal\_\-file} gfile, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_ga8487030116369e50cdbc8b1e58941010}
+int \textbf{lfc\_\-remove} (gfal\_\-file gfile, char $\ast$errbuf, int errbufsz)\label{group__lfc__low__group_g1f63e86121210390d7f0d448bdd4d44f}
 
-\end{DoxyCompactItemize}
+\end{CompactItemize}
 \subsection*{Variables}
-\begin{DoxyCompactItemize}
+\begin{CompactItemize}
 \item 
-static int int {\bfseries errbufsz}\label{group__lfc__low__group_ga5f33ba003292df01bda69e8729812d5b}
+static int int \textbf{errbufsz}\label{group__lfc__low__group_g51ff886d2f9a537a943f4db41528d563}
 
-\end{DoxyCompactItemize}
+\end{CompactItemize}
 
 
 \subsection{Function Documentation}
-\index{lfc\_\-low\_\-group@{lfc\_\-low\_\-group}!lfc\_\-guid\_\-exists@{lfc\_\-guid\_\-exists}}
-\index{lfc\_\-guid\_\-exists@{lfc\_\-guid\_\-exists}!lfc_low_group@{lfc\_\-low\_\-group}}
-\subsubsection[{lfc\_\-guid\_\-exists}]{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-guid\_\-exists (
-\begin{DoxyParamCaption}
-\item[{const char $\ast$}]{ guid, }
-\item[{char $\ast$}]{ errbuf, }
-\item[{int}]{ errbufsz}
-\end{DoxyParamCaption}
-)}\label{group__lfc__low__group_ga794c2003104aea2b2758a353f842770e}
-test if guid exists \index{lfc\_\-low\_\-group@{lfc\_\-low\_\-group}!lfc\_\-guidforpfn@{lfc\_\-guidforpfn}}
-\index{lfc\_\-guidforpfn@{lfc\_\-guidforpfn}!lfc_low_group@{lfc\_\-low\_\-group}}
-\subsubsection[{lfc\_\-guidforpfn}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ lfc\_\-guidforpfn (
-\begin{DoxyParamCaption}
-\item[{const char $\ast$}]{ pfn, }
-\item[{char $\ast$}]{ errbuf, }
-\item[{int}]{ errbufsz}
-\end{DoxyParamCaption}
-)}\label{group__lfc__low__group_gab5d93837d209241152def5bf822d4da5}
-lfc\_\-guidforpfn : Get the guid for a replica. If the replica does not exist, fail with ENOENT \index{lfc\_\-low\_\-group@{lfc\_\-low\_\-group}!lfc\_\-guidsforpfns@{lfc\_\-guidsforpfns}}
-\index{lfc\_\-guidsforpfns@{lfc\_\-guidsforpfns}!lfc_low_group@{lfc\_\-low\_\-group}}
-\subsubsection[{lfc\_\-guidsforpfns}]{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-guidsforpfns (
-\begin{DoxyParamCaption}
-\item[{int}]{ nbfiles, }
-\item[{const char $\ast$$\ast$}]{ pfns, }
-\item[{int}]{ amode, }
-\item[{char $\ast$$\ast$$\ast$}]{ guids, }
-\item[{int $\ast$$\ast$}]{ statuses, }
-\item[{char $\ast$}]{ errbuf, }
-\item[{int}]{ errbufsz}
-\end{DoxyParamCaption}
-)}\label{group__lfc__low__group_ga00511443273d52d4e5e9bf5c6614b757}
-lfc\_\-guidsforpfns : Get the guid for a replica. If the replica does not exist, fail with ENOENT \index{lfc\_\-low\_\-group@{lfc\_\-low\_\-group}!lfc\_\-unregister\_\-pfns@{lfc\_\-unregister\_\-pfns}}
-\index{lfc\_\-unregister\_\-pfns@{lfc\_\-unregister\_\-pfns}!lfc_low_group@{lfc\_\-low\_\-group}}
-\subsubsection[{lfc\_\-unregister\_\-pfns}]{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-unregister\_\-pfns (
-\begin{DoxyParamCaption}
-\item[{int}]{ nbguids, }
-\item[{const char $\ast$$\ast$}]{ guids, }
-\item[{const char $\ast$$\ast$}]{ pfns, }
-\item[{int $\ast$$\ast$}]{ results, }
-\item[{char $\ast$}]{ errbuf, }
-\item[{int}]{ errbufsz}
-\end{DoxyParamCaption}
-)}\label{group__lfc__low__group_ga009a0b7272932fb3efbd80c2e62aa2e7}
+\index{lfc_low_group@{lfc\_\-low\_\-group}!lfc_guid_exists@{lfc\_\-guid\_\-exists}}
+\index{lfc_guid_exists@{lfc\_\-guid\_\-exists}!lfc_low_group@{lfc\_\-low\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-guid\_\-exists (const char $\ast$ {\em guid}, char $\ast$ {\em errbuf}, int {\em errbufsz})}\label{group__lfc__low__group_g89af6526e8342c74f90fa2ee10cdc5fa}
+
+
+test if guid exists \index{lfc_low_group@{lfc\_\-low\_\-group}!lfc_guidforpfn@{lfc\_\-guidforpfn}}
+\index{lfc_guidforpfn@{lfc\_\-guidforpfn}!lfc_low_group@{lfc\_\-low\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ lfc\_\-guidforpfn (const char $\ast$ {\em pfn}, char $\ast$ {\em errbuf}, int {\em errbufsz})}\label{group__lfc__low__group_g344113bab975bfeedfa4be33b2054745}
+
+
+lfc\_\-guidforpfn : Get the guid for a replica. If the replica does not exist, fail with ENOENT \index{lfc_low_group@{lfc\_\-low\_\-group}!lfc_guidsforpfns@{lfc\_\-guidsforpfns}}
+\index{lfc_guidsforpfns@{lfc\_\-guidsforpfns}!lfc_low_group@{lfc\_\-low\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-guidsforpfns (int {\em nbfiles}, const char $\ast$$\ast$ {\em pfns}, int {\em amode}, char $\ast$$\ast$$\ast$ {\em guids}, int $\ast$$\ast$ {\em statuses}, char $\ast$ {\em errbuf}, int {\em errbufsz})}\label{group__lfc__low__group_gf922973a476763abd5185fc13d2af9eb}
+
+
+lfc\_\-guidsforpfns : Get the guid for a replica. If the replica does not exist, fail with ENOENT \index{lfc_low_group@{lfc\_\-low\_\-group}!lfc_unregister_pfns@{lfc\_\-unregister\_\-pfns}}
+\index{lfc_unregister_pfns@{lfc\_\-unregister\_\-pfns}!lfc_low_group@{lfc\_\-low\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-unregister\_\-pfns (int {\em nbguids}, const char $\ast$$\ast$ {\em guids}, const char $\ast$$\ast$ {\em pfns}, int $\ast$$\ast$ {\em results}, char $\ast$ {\em errbuf}, int {\em errbufsz})}\label{group__lfc__low__group_g9ea58977487f9be50e91ba9857bc9510}
+
+
 Unregister replicas (SURLs) from a GUIDs, and remove all links to a GUID if there are no more replicas 

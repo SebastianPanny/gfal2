@@ -60,7 +60,7 @@ libs=[ '#'+build_dir+'/libs' , etics_lib_dir, voms_location ]
 cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE' ] # largefile flag needed in 64 bits mod
 print cflags
 env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
-#env['ENV']['LD_LIBRARY_PATH'] = etics_lib_dir
+env['ENV']['LD_LIBRARY_PATH'] = os.getenv('LD_LIBRARY_PATH')
 
 
 
