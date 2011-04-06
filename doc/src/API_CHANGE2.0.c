@@ -21,6 +21,7 @@
 	<h2> II. ANOTHER DOCS : </h2>
 		- More informations about the GError system : http://developer.gnome.org/glib/stable/glib-Error-Reporting.html
 		- More informations about the use of GList : http://developer.gnome.org/glib/stable/glib-Doubly-Linked-Lists.html#g-list-free-full
+		- More informations about the Gobject system : http://developer.gnome.org/gobject/stable/
 */
 
 
@@ -104,28 +105,10 @@ char *get_catalog_endpoint(char *, int);
 int guid_exists (const char *, char *, int);
 int gfal_guidsforpfns (int, const char **, int, char ***, int **, char *, int);
 char *gfal_guidforpfn (const char *, char *, int);
-char *guidfromlfn (const char *, char *, int);
 char **gfal_get_aliases (const char *, const char *, char *, int);
-int register_alias (const char *, const char *, char *, int);
-int unregister_alias (const char *, const char *, char *, int);
 int gfal_unregister_pfns (int, const char **, const char **, int **, char *, int);
 char **gfal_get_replicas (const char *, const char *, char *, int);
 char *gfal_get_hostname (const char *, char *, int);
-
-/* legacy method for EDG Catalog where size is set on pfn, not guid */
-int setfilesize (const char *, GFAL_LONG64, char *, int);
-
-char *get_default_se(char *, int);
-int purify_surl (const char *, char *, const int);
-int setypesandendpointsfromsurl (const char *, char ***, char ***, char *, int);
-int setypesandendpoints (const char *, char ***, char ***, char *, int);
-int canonical_url (const char *, const char *, char *, int, char *, int);
-int parseturl (const char *, char *, int, char *, int, char*, int);
-int replica_exists(const char*, char*, int);
-int getdomainnm (char *name, int namelen);
-char **get_sup_proto ();
-struct proto_ops *find_pops (const char *);
-int mapposixerror (struct proto_ops *, int);
 
 
 /******************** gfal_file.c ********************/
