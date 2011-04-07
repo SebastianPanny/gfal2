@@ -20,7 +20,7 @@
 
 	<h2> II. ANOTHER DOCS : </h2>
 		- More informations about the GError system : http://developer.gnome.org/glib/stable/glib-Error-Reporting.html
-		- More informations about the use of GList : http://developer.gnome.org/glib/stable/glib-Doubly-Linked-Lists.html#g-list-free-full
+		- More informations about the use of GList : http://developer.gnome.org/glib/stable/glib-Doubly-Linked-Lists.html
 		- More informations about the Gobject system : http://developer.gnome.org/gobject/stable/
 */
 
@@ -101,7 +101,6 @@ int gfal_is_nobdii ();
 int gfal_is_purifydisabled ();
 int gfal_register_file (const char *, const char *, const char *, mode_t, GFAL_LONG64, int, char *, int);
 void gfal_spacemd_free (int,gfal_spacemd *);
-char *get_catalog_endpoint(char *, int);
 int gfal_guidsforpfns (int, const char **, int, char ***, int **, char *, int);
 char *gfal_guidforpfn (const char *, char *, int);
 char **gfal_get_aliases (const char *, const char *, char *, int);
