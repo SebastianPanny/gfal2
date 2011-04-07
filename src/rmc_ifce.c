@@ -38,7 +38,8 @@
 #include "rmcClient.c"
 #include "gfal_internals.h"
 
-extern char *lrc_endpoint;
+// fix it removed with lrc extern 
+char *lrc_endpoint=NULL;
 char *rmc_endpoint;
 
 	static int
