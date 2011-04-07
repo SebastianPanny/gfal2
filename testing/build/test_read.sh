@@ -8,4 +8,4 @@ lcg-cp /tmp/hello $sfile > /dev/null
 if [[ "$?" != "0" ]]; then
 	exit -1
 fi
-lcg-del -v -l -D srmv2 $sfile > /dev/null &> /dev/null
+lcg-del -v -l -D srmv2 $sfile &> /dev/null
