@@ -102,7 +102,6 @@ int gfal_is_purifydisabled ();
 int gfal_register_file (const char *, const char *, const char *, mode_t, GFAL_LONG64, int, char *, int);
 void gfal_spacemd_free (int,gfal_spacemd *);
 char *get_catalog_endpoint(char *, int);
-int guid_exists (const char *, char *, int);
 int gfal_guidsforpfns (int, const char **, int, char ***, int **, char *, int);
 char *gfal_guidforpfn (const char *, char *, int);
 char **gfal_get_aliases (const char *, const char *, char *, int);
@@ -128,14 +127,14 @@ char *gfal_generate_guid (char *, int);
 
 /******************** mds_ifce.c ********************/
 
-int get_bdii (char *, int, int *, char *, int);
-int get_cat_type(char **);
-int get_ce_ap (const char *, char **, char *, int);
-int get_lfc_endpoint (char **, char *, int);
-int get_rls_endpoints (char **, char **, char *, int);
-int get_storage_path (const char *, const char *, char **, char **, char *, int);
-int get_seap_info (const char *, char ***, int **, char *, int);
-int get_se_types_and_endpoints (const char *, char ***, char ***, char *, int);
+int gfal_get_bdii (char *, int, int *, char *, int);
+int gfal_get_cat_type(char **);
+int gfal_get_ce_ap (const char *, char **, char *, int);
+int gfal_get_lfc_endpoint (char **, char *, int);
+int gfal_get_rls_endpoints (char **, char **, char *, int);
+int gfal_get_storage_path (const char *, const char *, char **, char **, char *, int);
+int gfal_get_seap_info (const char *, char ***, int **, char *, int);
+int gfal_get_se_types_and_endpoints (const char *, char ***, char ***, char *, int);
 
 
 
