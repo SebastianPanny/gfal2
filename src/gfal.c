@@ -1580,9 +1580,9 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
             free (req->sfn_statuses);
             req->sfn_statuses = NULL;
         }
-        perror("FEATURE DISABLED in 1.X, need fix") // fix this
-        errno = EINVAL
-        return -1
+        perror("FEATURE DISABLED in 1.X, need fix");	 // fix this
+        errno = EINVAL;
+        return -1;
         /*ret = sfn_deletesurls (req->nbfiles, (const char **) req->surls,
                 &(req->sfn_statuses), errbuf, errbufsz, gfal_get_timeout_sendreceive ());*/
     }
@@ -1760,7 +1760,7 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
     req->returncode = ret;
     return (copy_gfal_results (req, PIN_STATUS));
 }
-
+/* fix it : removed function in 2.0
     int
 gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 {
@@ -1799,18 +1799,18 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
         req->srmv2_token = ls_output.token;
 
 
-      /*TODO  ret = srmv2_getfilemd (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_lslevels,
-                &(req->srmv2_lsoffset), req->srmv2_lscount, &(req->srmv2_mdstatuses), &(req->srmv2_token),
-                errbuf, errbufsz, req->timeout);*/
+      //TODO  ret = srmv2_getfilemd (req->nbfiles, (const char **) req->surls, req->endpoint, req->srmv2_lslevels,
+      //          &(req->srmv2_lsoffset), req->srmv2_lscount, &(req->srmv2_mdstatuses), &(req->srmv2_token),
+       //         errbuf, errbufsz, req->timeout);
     } else if (req->setype == TYPE_SRM) {
         if (req->srm_mdstatuses) {
             free (req->srm_mdstatuses);
             req->srm_mdstatuses = NULL;
         }
-/*TODO        ret = srm_getfilemd (req->nbfiles, (const char **) req->surls, req->endpoint,
-                &(req->srm_mdstatuses), errbuf, errbufsz, req->timeout);*/
+//TODO        ret = srm_getfilemd (req->nbfiles, (const char **) req->surls, req->endpoint,
+//               &(req->srm_mdstatuses), errbuf, errbufsz, req->timeout);
     } else { // req->setype == TYPE_SE
-        /* sfn_getfilemd uses srmv2_mdstatuses field!! */
+        // sfn_getfilemd uses srmv2_mdstatuses field!! 
         if (req->sfn_statuses) {
             free (req->sfn_statuses);
             req->sfn_statuses = NULL;
@@ -1825,8 +1825,9 @@ gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
 
     req->returncode = ret;
     return (copy_gfal_results (req, MD_STATUS));
-}
+}*/
 
+/* removed function in gfal 2.0 fix it
     int
 gfal_ls_end (gfal_internal req, char *errbuf, int errbufsz)
 {
@@ -1836,7 +1837,7 @@ gfal_ls_end (gfal_internal req, char *errbuf, int errbufsz)
     }
 
     return (req->srmv2_lsoffset == 0);
-}
+}*/
 
     int
 gfal_get (gfal_internal req, char *errbuf, int errbufsz)
