@@ -1574,12 +1574,17 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 /*TODO REMOVE       ret = srm_deletesurls (req->nbfiles, (const char **) req->surls, req->endpoint,
                 &(req->srm_statuses), errbuf, errbufsz, req->timeout);*/
     } else { // req->setype == TYPE_SE
+    
+
         if (req->sfn_statuses) {
             free (req->sfn_statuses);
             req->sfn_statuses = NULL;
         }
-        ret = sfn_deletesurls (req->nbfiles, (const char **) req->surls,
-                &(req->sfn_statuses), errbuf, errbufsz, gfal_get_timeout_sendreceive ());
+        perror("FEATURE DISABLED in 1.X, need fix") // fix this
+        errno = EINVAL
+        return -1
+        /*ret = sfn_deletesurls (req->nbfiles, (const char **) req->surls,
+                &(req->sfn_statuses), errbuf, errbufsz, gfal_get_timeout_sendreceive ());*/
     }
 
     req->returncode = ret;
