@@ -27,6 +27,7 @@
 #include <fcntl.h>
 #include <dlfcn.h>
 #include <time.h>
+#include <glib.h>
 #include <uuid/uuid.h>
 #include "gfal_internals.h"
 #include "gfal_utils.h"
@@ -1238,9 +1239,11 @@ gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
             if (!(bool_issurlok = gfal_init (req, &gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
                 gfal_file_set_replica_error (gfile, errno, errbuf);
 
-            if (bool_issurlok && !(bool_issurlok = gfal_ls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
+    /* gfal_ls removed : fix it        if (bool_issurlok && !(bool_issurlok = gfal_ls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
                 gfal_file_set_replica_error (gfile, errno, errbuf);
-
+	*/
+	g_error("gfal_ls removed, function disabled temporarly");
+	/* */
             if (bool_issurlok && (!(bool_issurlok = gfal_get_results (gfile->gobj, &filestatuses) >= 0) ||
                         !(bool_issurlok = filestatuses != NULL))) {
                 snprintf (errbuf, GFAL_ERRMSG_LEN, "Internal error");
