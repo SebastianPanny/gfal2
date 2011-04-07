@@ -26,7 +26,7 @@ def get_etics_dir():
 # global var
 etics_build_dir=get_etics_dir()
 version= '0.1_alpha'
-gsoap_location= etics_build_dir+ "/repository/externals/gsoap/2.7.6b/sl5_x86_64_gcc412"
+#gsoap_location= etics_build_dir+ "/repository/externals/gsoap/2.7.6b/sl5_x86_64_gcc412"
 glib_location = etics_build_dir+ "/repository/externals/glib2-devel/2.12.3/sl5_x86_64_gcc412"
 voms_location = etics_build_dir+ "/stage/lib64"
 srm_ifce_location= etics_build_dir+ "/stage/lib64"
@@ -42,7 +42,7 @@ header_folder='/stage/include/'
 build_dir_src = build_dir +'/src'
 
 # auto-defined var :
-gsoap_header_dir= gsoap_location+"/include"
+#gsoap_header_dir= gsoap_location+"/include"
 glib_header_dir = [ glib_location + '/lib64/glib-2.0/include/', glib_location+ '/include/glib-2.0/' ]
 globus_header = globus_location+ "/include/gcc64dbg"
 dpm_header= dpm_location+ "/usr/include/dpm"
@@ -55,7 +55,7 @@ etics_header_dir = [etics_build_dir+header_folder] + glob.glob(etics_build_dir+h
 print "ETICS WORKSPACE : " + etics_build_dir
 print "ETICS compiled lib dir : " + etics_lib_dir
 
-headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, gsoap_header_dir, globus_header, srm_ifce_location, dpm_header, dcap_header]
+headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, globus_header, srm_ifce_location, dpm_header, dcap_header]
 libs=[ '#'+build_dir+'/libs' , etics_lib_dir, voms_location ]
 cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)

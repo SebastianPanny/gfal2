@@ -15,11 +15,11 @@ import os
 #globus_libs = ['globus_common_gcc64','globus_ftp_client_gcc64']
 gfal_libs = ['ldap', 'vomsc','gfal_srm_ifce','is_ifce'] #+ globus_libs		# libraries linked
 #dat_file1= ['typemap-lrc.dat','edg-local-replica-catalog.wsdl']		# input files for gsoap parser lrc
-dat_file2= ['typemap-rmc.dat','edg-replica-metadata-catalog.wsdl'] # input files for gsoap parser rmc
-src = ['gfal.c', 'gfal_file.c', 'gfal_utils.c', 'gfal_timeouts.c', 'stdsoap2.c', 'checkprotolib.c', 'gfal_checksum.c'] # globals src files
+#dat_file2= ['typemap-rmc.dat','edg-replica-metadata-catalog.wsdl'] # input files for gsoap parser rmc
+src = ['gfal.c', 'gfal_file.c', 'gfal_utils.c', 'gfal_timeouts.c', 'checkprotolib.c', 'gfal_checksum.c'] # globals src files
 src2= ['lfc_ifce.c']
 #lrc_src= ['lrc_ifce.c', 'lrcC.c']
-rmc_src= ['rmc_ifce.c']
+#rmc_src= ['rmc_ifce.c']
 mds_src= ['mds_ifce.c']
 #gridftp_src = ['gridftp_ifce.c']
 all_src= src+ src2 + rmc_src + mds_src
@@ -46,7 +46,7 @@ def gsoap_rename(target,source,env, suffix):
 	return None
 ##
 # copy the stdsoap2.c in the proper directory
-env.Command('stdsoap2.c',[], Copy("$TARGET",File(gsoap_location+'/src/'+'stdsoap2.c').abspath))
+#env.Command('stdsoap2.c',[], Copy("$TARGET",File(gsoap_location+'/src/'+'stdsoap2.c').abspath))
 
 ##
 #add the library
@@ -54,13 +54,13 @@ env.Append(LIBS=gfal_libs)
 
 # generate all the gsoap needed files
 #gsoap_gene_header1= env.Command('edg-local-replica-catalog.h',dat_file1, gsoap_generator_header)
-gsoap_gene_header2= env.Command('edg-replica-metadata-catalog.h', dat_file2, gsoap_generator_header)
+#gsoap_gene_header2= env.Command('edg-replica-metadata-catalog.h', dat_file2, gsoap_generator_header)
 
 #gsoap_final1 = env.Command(['lrcC.c', 'edg_local_replica_catalogSoapBinding.nsmap', 'lrcStub.h','lrcH.h'],'edg-local-replica-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'lrc', build_dir_src))
-gsoap_final2 = env.Command(['RmcC.c','edg_replica_metadata_catalogSoapBinding.nsmap', 'rmcStub.h','rmcH.h'],'edg-replica-metadata-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'rmc', build_dir_src))
+#gsoap_final2 = env.Command(['RmcC.c','edg_replica_metadata_catalogSoapBinding.nsmap', 'rmcStub.h','rmcH.h'],'edg-replica-metadata-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'rmc', build_dir_src))
 
 #gsoap_rename1 = env.Command('dg_replica_metadata_catalogSoapBinding.h', 'edg_replica_metadata_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_rmc') )
-gsoap_rename2 = env.Command('edg_local_replica_catalogSoapBinding.h', 'edg_local_replica_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_lrc') )
+#gsoap_rename2 = env.Command('edg_local_replica_catalogSoapBinding.h', 'edg_local_replica_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_lrc') )
 
 
 mainlib = env.SharedLibrary('#build/libs/libgfal', all_src)
