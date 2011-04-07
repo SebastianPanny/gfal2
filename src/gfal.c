@@ -1031,6 +1031,7 @@ gfal_rename (const char *old_name, const char *new_name)
         if (islfc)
             return lfc_renamel (path1 + 4, path2 + 4, NULL, 0);
         else if (isedg) {
+			/* rmc remvoed fix it
             char *guid;
             int rc;
 
@@ -1040,9 +1041,13 @@ gfal_rename (const char *old_name, const char *new_name)
                 free (guid);
                 return (-1);
             }
+
             rc = rmc_unregister_alias (guid, path1, NULL, 0);
             free (guid);
             return (rc);
+            *  */
+            g_error("rmc removed, temporarly disabled");
+            /* */
         }
 
         errno = EPROTONOSUPPORT;
@@ -3000,10 +3005,10 @@ guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
     if (get_cat_type (&cat_type) < 0) {
         return (NULL);
     }
-    if (strcmp (cat_type, "edg") == 0) {
+ /*  remove rmc dependencies : fix it if (strcmp (cat_type, "edg") == 0) {
         free (cat_type);
         return (rmc_guidfromlfn (lfn, errbuf, errbufsz));
-    } else if (strcmp (cat_type, "lfc") == 0) {
+    } else*/ if (strcmp (cat_type, "lfc") == 0) {
         free (cat_type);
         return (lfc_guidfromlfn (lfn, errbuf, errbufsz));
     } else {
@@ -3040,13 +3045,16 @@ gfal_get_aliases (const char *lfn, const char *guid, char *errbuf, int errbufsz)
         results = lfc_get_aliases (actual_lfn, actual_guid, errbuf, errbufsz);
         sav_errno = errno;
     } else if (strcmp (cat_type, "edg") == 0) {
+		/* fix it, rmlc removed 
         if (actual_guid == NULL) {
             if ((actual_guid = rmc_guidfromlfn (actual_lfn, errbuf, errbufsz)) == NULL)
                 sav_errno = errno;
         } else {
             results = rmc_lfnsforguid (actual_guid, errbuf, errbufsz);
             sav_errno = errno;
-        }
+        }*/
+        g_error(" rmc support removed, temporarly disable")
+        /* */
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
                 "[GFAL][gfal_get_aliases][EINVAL] The catalog type is neither 'edg' nor 'lfc'.");
@@ -3106,6 +3114,9 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
         rc = lfc_register_file (lfn, guid, actual_surl, mode, size, bool_createonly, errbuf, errbufsz);
         sav_errno = errno;
     } else if (isedg) {
+		/* */
+		g_error("lrc & rmc  support removed, impossible to use temporarly");
+		/* rmc & lrc removed : fix it
         char *actual_lfn = NULL, *actual_guid = NULL;
         char *generated_lfn = NULL, *generated_guid = NULL;
 
@@ -3164,16 +3175,16 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
 
         if (rc == 0) {
             gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "Registering SURL: %s (guid:%s)", actual_surl, guid);
-          /*  lrc support removed : fix it rc = lrc_register_pfn (guid, actual_surl, errbuf, errbufsz);
+          //  lrc support removed : fix it rc = lrc_register_pfn (guid, actual_surl, errbuf, errbufsz);
 
             if (rc == 0 && size > 0)
-                rc = lrc_setfilesize (actual_surl, size, errbuf, errbufsz);*/
-             g_error("lrc support removed, impossible to use temporarly");
-             /* */
+                rc = lrc_setfilesize (actual_surl, size, errbuf, errbufsz);
+
+  
         }
 
         if (actual_guid) free (actual_guid);
-        if (generated_guid) free (generated_guid);
+        if (generated_guid) free (generated_guid);*/
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_register_file][EINVAL] The catalog type is neither 'edg' nor 'lfc'.");
         sav_errno = EINVAL;
@@ -3191,10 +3202,12 @@ register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
     if (get_cat_type (&cat_type) < 0) {
         return (-1);
     }
-    if (strcmp (cat_type, "edg") == 0) {
+  /* 		 rmc removed fix it if (strcmp (cat_type, "edg") == 0) {
+
         free (cat_type);
         return (rmc_register_alias (guid, lfn, errbuf, errbufsz));
-    } else if (strcmp (cat_type, "lfc") == 0) {
+        * 
+    } else */ if (strcmp (cat_type, "lfc") == 0) {
         free (cat_type);
         return (lfc_register_alias (guid, lfn, errbuf, errbufsz));
     } else {
@@ -3212,10 +3225,10 @@ unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
     if (get_cat_type (&cat_type) < 0) {
         return (-1);
     }
-    if (strcmp (cat_type, "edg") == 0) {
+ /* fix it, rmc removed   if (strcmp (cat_type, "edg") == 0) {
         free (cat_type);
         return (rmc_unregister_alias (guid, lfn, errbuf, errbufsz));
-    } else if (strcmp (cat_type, "lfc") == 0) {
+    } else*/ if (strcmp (cat_type, "lfc") == 0) {
         free (cat_type);
         return (lfc_unregister_alias (guid, lfn, errbuf, errbufsz));
     } else {
