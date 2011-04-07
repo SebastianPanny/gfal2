@@ -120,7 +120,7 @@ gfal_file_new (const char *file, const char *defproto, int bool_tobecreated, cha
 
 		if (gf->catalog == GFAL_FILE_CATALOG_LFC)
 			lfc_fillsurls (gf, errbuf, errbufsz);
-		else if (gf->catalog == GFAL_FILE_CATALOG_EDG) {
+	/*	lrc and rmc removed : fix it else if (gf->catalog == GFAL_FILE_CATALOG_EDG) {
 			if (gf->guid == NULL) {
 				if ((gf->guid = rmc_guidfromlfn (gf->lfn, errbuf, errbufsz)) == NULL) {
 					gfal_file_free (gf);
@@ -128,7 +128,7 @@ gfal_file_new (const char *file, const char *defproto, int bool_tobecreated, cha
 				}
 			}
 			lrc_fillsurls (gf);
-		}
+		}*/
 		else {
 			gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_file_new][EPROTONOSUPPORT] File Catalog must be \"lfc\" or \"edg\"");
 			errno = EPROTONOSUPPORT;
