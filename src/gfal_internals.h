@@ -117,7 +117,7 @@ int get_se_types_and_endpoints (const char *, char ***, char ***, char *, int);
 
 
 /******************** lrc_ifce.c ********************/
-
+/* Lrc Support removed : fix it
 int lrc_deletepfn (const char *, const char *, char *, int);
 int lrc_deletesurl (const char *, char *, int);
 char *lrc_get_catalog_endpoint(char *, int);
@@ -129,7 +129,7 @@ int lrc_setfilesize (const char *, GFAL_LONG64, char *, int);
 int lrc_unregister_pfn (const char *, const char *, char *, int);
 char **lrc_surlsfromguid (const char *, char *, int);
 int lrc_fillsurls (gfal_file);
-
+*/
 
 /******************** rmc_ifce.c ********************/
 

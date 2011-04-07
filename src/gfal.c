@@ -2747,10 +2747,10 @@ get_catalog_endpoint (char *errbuf, int errbufsz)
     if (get_cat_type (&cat_type) < 0) {
         return (NULL);
     }
-    if (strcmp (cat_type, "edg") == 0) {
+ /* lrc support removed : fix it   if (strcmp (cat_type, "edg") == 0) {
         free (cat_type);
         return (lrc_get_catalog_endpoint (errbuf, errbufsz));
-    } else if (strcmp (cat_type, "lfc") == 0) {
+    } else */if (strcmp (cat_type, "lfc") == 0) {
         free (cat_type);
         return (lfc_get_catalog_endpoint (errbuf, errbufsz));
     } else {
@@ -2772,10 +2772,10 @@ gfal_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
     if (get_cat_type (&cat_type) < 0) {
         return (NULL);
     }
-    if (strcmp (cat_type, "edg") == 0) {
+  /*  lrc support removed : fix it if (strcmp (cat_type, "edg") == 0) {
         free (cat_type);
         return (lrc_guidforpfn (actual_pfn, errbuf, errbufsz));
-    } else if (strcmp (cat_type, "lfc") == 0) {
+    } else */if (strcmp (cat_type, "lfc") == 0) {
         free (cat_type);
         return (lfc_guidforpfn (actual_pfn, errbuf, errbufsz));
     } else {
@@ -2794,7 +2794,7 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int
 
     if (get_cat_type (&cat_type) < 0)
         return (-1);
-
+/* lrc support removed : fix it
     if (strcmp (cat_type, "edg") == 0) {
         int i;
         char errmsg[GFAL_ERRMSG_LEN];
@@ -2816,7 +2816,7 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int
         }
         errno = 0;
         return (0);
-    } else if (strcmp (cat_type, "lfc") == 0) {
+    } else*/ if (strcmp (cat_type, "lfc") == 0) {
         free (cat_type);
         return (lfc_guidsforpfns (nbfiles, pfns, amode, guids, statuses, errbuf, errbufsz));
     } else {
@@ -2834,10 +2834,10 @@ guid_exists (const char *guid, char *errbuf, int errbufsz)
     if (get_cat_type (&cat_type) < 0) {
         return (-1);
     }
-    if (strcmp (cat_type, "edg") == 0) {
+ /* lrc support removed : fix it   if (strcmp (cat_type, "edg") == 0) {
         free (cat_type);
         return (lrc_guid_exists (guid, errbuf, errbufsz));
-    } else if (strcmp (cat_type, "lfc") == 0) {
+    } else */if (strcmp (cat_type, "lfc") == 0) {
         free (cat_type);
         return (lfc_guid_exists (guid, errbuf, errbufsz));
     } else {
@@ -2855,10 +2855,10 @@ setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
     if (get_cat_type (&cat_type) < 0) {
         return (-1);
     }
-    if (strcmp (cat_type, "edg") == 0) {
+ /*  lrc removed : fix it if (strcmp (cat_type, "edg") == 0) {
         free (cat_type);
         return (lrc_setfilesize (pfn, filesize, errbuf, errbufsz));
-    } else if (strcmp (cat_type, "lfc") == 0) {
+    } else*/ if (strcmp (cat_type, "lfc") == 0) {
         // in this case, we suppose pfn is actually a LFN
         free (cat_type);
         return (lfc_setsize (pfn, filesize, errbuf, errbufsz));
@@ -2894,6 +2894,7 @@ gfal_get_replicas (const char *lfn, const char *guid, char *errbuf, int errbufsz
         results = lfc_get_replicas (actual_lfn, actual_guid, errbuf, errbufsz);
         sav_errno = errno;
     } else if (strcmp (cat_type, "edg") == 0) {
+		/* lrc and rmc support removed : fix it
         if (actual_guid == NULL) {
             if ((actual_guid = rmc_guidfromlfn (actual_lfn, errbuf, errbufsz)) == NULL)
                 sav_errno = errno;
@@ -2901,6 +2902,9 @@ gfal_get_replicas (const char *lfn, const char *guid, char *errbuf, int errbufsz
             results = lrc_surlsfromguid (actual_guid, errbuf, errbufsz);
             sav_errno = errno;
         }
+        * */
+        g_error("lrc and rmc support removed, impossible to use like this");
+        /* */
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_get_replicas][EINVAL] The catalog type is neither 'edg' nor 'lfc'.");
         sav_errno = EINVAL;
@@ -2923,6 +2927,7 @@ gfal_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **
         return (-1);
 
     if (strcmp (cat_type, "edg") == 0) {
+		/* lrc & rmc support removed : fix it
         int i, j;
         char **remaining_pfns, **lfns;
         char surl_cat[GFAL_PATH_MAXLEN];
@@ -2952,16 +2957,16 @@ gfal_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **
 
             remaining_pfns = lrc_surlsfromguid (guids[i], errbuf, errbufsz);
             if (remaining_pfns != NULL) {
-                /* still valid replicas */
+                // still valid replicas 
                 for (j = 0; remaining_pfns[j]; ++j) free (remaining_pfns[j]);
                 free(remaining_pfns);
                 continue;
             }
 
-            /* There are no more replicas */
+            // There are no more replicas 
             lfns = rmc_lfnsforguid (guids[i], errbuf, errbufsz);
             if (lfns != NULL) {
-                /* We remove all aliases */
+                // We remove all aliases 
                 for (j = 0; lfns[j]; ++j) {
                     gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "[guid:%s] %s UNREGISTERED", guids[i], lfns[j]);
                     rmc_unregister_alias (guids[i], lfns[j], errbuf, errbufsz);
@@ -2970,7 +2975,8 @@ gfal_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **
                 free (lfns);
             }
         }
-        return (0);
+        return (0);*/
+        g_error(" lrc and rmc support removed, impossible to use");
     } else if (strcmp (cat_type, "lfc") == 0) {
         free (cat_type);
         return (lfc_unregister_pfns (nbguids, guids, pfns, results, errbuf, errbufsz));
@@ -3153,10 +3159,12 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
 
         if (rc == 0) {
             gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_WARN, "Registering SURL: %s (guid:%s)", actual_surl, guid);
-            rc = lrc_register_pfn (guid, actual_surl, errbuf, errbufsz);
+          /*  lrc support removed : fix it rc = lrc_register_pfn (guid, actual_surl, errbuf, errbufsz);
 
             if (rc == 0 && size > 0)
-                rc = lrc_setfilesize (actual_surl, size, errbuf, errbufsz);
+                rc = lrc_setfilesize (actual_surl, size, errbuf, errbufsz);*/
+             g_error("lrc support removed, impossible to use temporarly");
+             /* */
         }
 
         if (actual_guid) free (actual_guid);
