@@ -3053,7 +3053,7 @@ gfal_get_aliases (const char *lfn, const char *guid, char *errbuf, int errbufsz)
             results = rmc_lfnsforguid (actual_guid, errbuf, errbufsz);
             sav_errno = errno;
         }*/
-        g_error(" rmc support removed, temporarly disable")
+        g_error(" rmc support removed, temporarly disable");
         /* */
     } else {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,

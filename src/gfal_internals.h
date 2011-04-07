@@ -132,13 +132,13 @@ int lrc_fillsurls (gfal_file);
 */
 
 /******************** rmc_ifce.c ********************/
-
+/* mrc removed : fix it
 char *rmc_guidfromlfn (const char *, char *, int);
 char **rmc_lfnsforguid (const char *, char *, int);
 int rmc_register_alias (const char *, const char *, char *, int);
 int rmc_unregister_alias (const char *, const char *, char *, int);
 
-
+*/
 /******************** gridftp_ifce.c ********************/
 
 int gridftp_delete (char *, char *, int, int);
