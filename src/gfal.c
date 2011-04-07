@@ -1460,7 +1460,8 @@ gfal_unlink (const char *filename)
         errno = sav_errno;
         return (rc);
     }
-    if (gfile->catalog == GFAL_FILE_CATALOG_EDG) {
+  if (gfile->catalog == GFAL_FILE_CATALOG_EDG) { 
+	  /* lrc removed : fix it
         for (i = 0; i < gfile->nbreplicas; ++i) {
             if (gfile->replicas[i] == NULL ||
                     gfile->replicas[i]->surl == NULL ||
@@ -1473,7 +1474,8 @@ gfal_unlink (const char *filename)
                 gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_INFO, "[INFO] %s - %s > UNREGISTERED",
                         gfile->guid, gfile->replicas[i]->surl);
             }
-
+			
+		
         }
 
         if (gfile->nberrors == 0) {
@@ -1497,6 +1499,9 @@ gfal_unlink (const char *filename)
         gfal_file_free (gfile);
         errno = sav_errno;
         return (sav_errno ? -1 : 0);
+        */
+     g_error("lrc removed : not avaialable temporarly");
+     /* */
     }
     if (gfile->turl != NULL) {
         char pfn[1104];
