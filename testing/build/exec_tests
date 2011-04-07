@@ -19,6 +19,7 @@ if [ "$?" != "0" ]; then
 fi
 
 log=''
+resu=0
 dirn=`dirname $0`
 cd $dirn
 for f in `ls test_*.sh`
@@ -27,8 +28,7 @@ do
 	r=$?
 	if [[ "$r" != "0" ]]; then
 		pr=" $f .........error code: $r [FAIL]"
-		echo $pr
-		exit -1
+		resu=-1
 	else
 		pr=" $f .......... [OK]"
 	fi
@@ -36,4 +36,7 @@ do
 	log="$log\n$pr"
 done
 echo -e $log > testresult.txt
-
+if [[ "$resu" != "0"]]; then
+	echo "Failure of the tests !!" >&2
+	exit -1
+fi
