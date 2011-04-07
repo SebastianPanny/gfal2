@@ -387,9 +387,10 @@ gfal_access (const char *path, int amode)
                     errno = sav_errno;
                     return (rc);
                 } else {
-                    if (!(bool_issurlok = gfal_turlsfromsurls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
+                    /* fix it : need to be replaced by a correct call to get if (!(bool_issurlok = gfal_turlsfromsurls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
                         gfal_file_set_replica_error (gfile, errno, errbuf);
 
+					*/
                     if (bool_issurlok && (!(bool_issurlok = gfal_get_results (gfile->gobj, &filestatuses) >= 0) ||
                                 !(bool_issurlok = filestatuses != NULL))) {
                         snprintf (errbuf, GFAL_ERRMSG_LEN, "Internal error");
@@ -783,9 +784,10 @@ gfal_open (const char *filename, int flags, mode_t mode)
                     gfal_file_set_replica_error (gfile, errno, errbuf);
             }
 
-            if (bool_issurlok && !(bool_issurlok = gfal_turlsfromsurls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
+/* fix it : need to be replaced by a correctcall to get        
+ *    if (bool_issurlok && !(bool_issurlok = gfal_turlsfromsurls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
                 gfal_file_set_replica_error (gfile, errno, errbuf);
-
+*/
             if (bool_issurlok && (!(bool_issurlok = gfal_get_results (gfile->gobj, &filestatuses) >= 0) ||
                         !(bool_issurlok = filestatuses != NULL))) {
                 snprintf (errbuf, GFAL_ERRMSG_LEN, "Internal error");
