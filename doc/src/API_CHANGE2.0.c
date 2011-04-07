@@ -6,7 +6,15 @@
 	List of the scheduled changes for the GFal 2.0 API
 	\warning  this is not a final choice
 
-	<h2> I. OFFICIAL API : </h2>
+	<h1> I. RESUME OF THE CHANGES : </h2>
+		- POSIX API is still unchanged
+		- old gridftp support and associated functions are removed : (gfal_ls, sfn_*, gridftp_*,...)
+		- SRM related API is modified in order to be easier to use
+		- Old ERRNO reprot system is changed for a new verbose one.
+		- LRC/RMC legacy support is dropped.
+		- Lots of the old dependencies are no more needed and are removed.
+		
+	<h2> II. OFFICIAL API : </h2>
 	
 	- Gfal POSIX lib API:
 		- the Common functions API : \ref common_group \n
@@ -18,7 +26,7 @@
 		- <b> internal API, use at your own risks </b> SFN_API : \ref sfn_low_group 
 		- <b> internal API, use at your own risks </b> internal functions of gfal : \ref internal_group
 
-	<h2> II. ANOTHER DOCS : </h2>
+	<h2> III. ANOTHER DOCS : </h2>
 		- More informations about the GError system : http://developer.gnome.org/glib/stable/glib-Error-Reporting.html
 		- More informations about the use of GList : http://developer.gnome.org/glib/stable/glib-Doubly-Linked-Lists.html
 		- More informations about the Gobject system : http://developer.gnome.org/gobject/stable/

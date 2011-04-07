@@ -3,7 +3,13 @@
 \par
  List of the scheduled changes for the GFal 2.0 API \begin{Desc}
 \item[Warning:]this is not a final choice\end{Desc}
-\subsubsection*{I. OFFICIAL API : }
+\subsection*{I. RESUME OF THE CHANGES : }
+
+\begin{itemize}
+\item POSIX API is still unchanged\item old gridftp support and associated functions are removed : (gfal\_\-ls, sfn\_\-$\ast$, gridftp\_\-$\ast$,...)\item SRM related API is modified in order to be easier to use\item Old ERRNO reprot system is changed for a new verbose one.\item LRC/RMC legacy support is dropped.\item Lots of the old dependencies are no more needed and are removed.\end{itemize}
+
+
+\subsubsection*{II. OFFICIAL API : }
 
 \begin{itemize}
 \item Gfal POSIX lib API:\begin{itemize}
@@ -17,7 +23,7 @@
 \end{itemize}
 
 
-\subsubsection*{II. ANOTHER DOCS : }
+\subsubsection*{III. ANOTHER DOCS : }
 
 \begin{itemize}
 \item More informations about the GError system : \tt{http://developer.gnome.org/glib/stable/glib-Error-Reporting.html}\item More informations about the use of GList : \tt{http://developer.gnome.org/glib/stable/glib-Doubly-Linked-Lists.html}\item More informations about the Gobject system : \tt{http://developer.gnome.org/gobject/stable/} \end{itemize}
