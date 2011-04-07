@@ -36,7 +36,7 @@ do
 	log="$log\n$pr"
 done
 echo -e $log > testresult.txt
-if [[ "$resu" != "0"]]; then
+if [[ "$resu" != "0" ]]; then
 	echo "Failure of the tests !!" >&2
 	exit -1
 fi
