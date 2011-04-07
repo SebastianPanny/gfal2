@@ -95,8 +95,8 @@ gfal_request gfal_request_new ();
 int gfal_init (gfal_request, gfal_internal *, char *, int);
 int gfal_deletesurls (gfal_internal, char *, int);
 int gfal_removedir (gfal_internal, char *, int);
-int gfal_ls (gfal_internal, char *, int);
-int gfal_ls_end (gfal_internal, char *, int);
+/* removed func fix it int gfal_ls (gfal_internal, char *, int); */
+/* remvoed func fix it int gfal_ls_end (gfal_internal, char *, int); */
 int gfal_turlsfromsurls (gfal_internal, char *, int);
 int gfal_get (gfal_internal, char *, int);
 int gfal_getstatus (gfal_internal, char *, int);
