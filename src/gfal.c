@@ -1674,6 +1674,7 @@ int gfal_create_subdirs(gfal_internal req, char *errbuf, int errbufsz)
 	}
 	return result;
 }
+/* removed function in 2.0
     int
 gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
 {
@@ -1714,9 +1715,9 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
         	req->srmv2_pinstatuses = preparetoget_output.filestatuses;
         	req->srmv2_token = preparetoget_output.token;
 
-			/*TODO ret = srmv2_turlsfromsurls_get (req->nbfiles, (const char **) req->surls, req->endpoint,
-					req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
-					&(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);*/
+			//TODO ret = srmv2_turlsfromsurls_get (req->nbfiles, (const char **) req->surls, req->endpoint,
+			//		req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+			//		&(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
         }else
         {
         	struct srm_preparetoput_input preparetoput_input;
@@ -1736,18 +1737,18 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
         	req->srmv2_token = preparetoput_output.token;
         	req->srmv2_pinstatuses = preparetoput_output.filestatuses;
 
-        	/*TODO ret = srmv2_turlsfromsurls_put (req->nbfiles, (const char **) req->surls, req->endpoint,
-        			req->filesizes, req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
-					&(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);*/
+        //	TODO ret = srmv2_turlsfromsurls_put (req->nbfiles, (const char **) req->surls, req->endpoint,
+        //			req->filesizes, req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+		//			&(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);//
         }
     } else if (req->setype == TYPE_SRM) {
         if (req->srm_statuses) {
             free (req->srm_statuses);
             req->srm_statuses = NULL;
         }
-/*TODO REMOVE        ret = srm_turlsfromsurls (req->nbfiles, (const char **) req->surls, req->endpoint,
-                req->filesizes, req->protocols, req->oflag, &(req->srm_reqid),
-                &(req->srm_statuses), errbuf, errbufsz, req->timeout);*/
+//TODO REMOVE        ret = srm_turlsfromsurls (req->nbfiles, (const char **) req->surls, req->endpoint,
+   //             req->filesizes, req->protocols, req->oflag, &(req->srm_reqid),
+  //              &(req->srm_statuses), errbuf, errbufsz, req->timeout);
     } else { // req->setype == TYPE_SE
         if (req->sfn_statuses) {
             free (req->sfn_statuses);
@@ -1760,6 +1761,9 @@ gfal_turlsfromsurls (gfal_internal req, char *errbuf, int errbufsz)
     req->returncode = ret;
     return (copy_gfal_results (req, PIN_STATUS));
 }
+*/
+
+
 /* fix it : removed function in 2.0
     int
 gfal_ls (gfal_internal req, char *errbuf, int errbufsz)
