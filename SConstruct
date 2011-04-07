@@ -33,7 +33,7 @@ srm_ifce_location= etics_build_dir+ "/stage/lib64"
 dcap_location = etics_build_dir+ "/repository/externals/dcache-dcap/1.8.0/sl5_x86_64_gcc412/dcap"
 dpm_location = etics_build_dir + "/stage"
 globus_location = etics_build_dir + "/repository/vdt/globus/4.0.7-VDT-1.10.1/sl5_x86_64_gcc412"
-link_libs= ['m','uuid','c','dl']
+link_libs= ['m','uuid','c','dl','glib-2.0']
 
 
 #special var :
