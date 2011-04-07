@@ -65,7 +65,7 @@ env['ENV']['LD_LIBRARY_PATH'] = os.getenv('LD_LIBRARY_PATH')
 
 SConscript('testing/SConscript', ['env', 'headers', 'libs'])
 VariantDir(build_dir_src, 'src')
-SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'gsoap_location', 'build_dir_src'])
+SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src'])
 
 
 	

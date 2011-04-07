@@ -22,7 +22,7 @@ src2= ['lfc_ifce.c']
 #rmc_src= ['rmc_ifce.c']
 mds_src= ['mds_ifce.c']
 #gridftp_src = ['gridftp_ifce.c']
-all_src= src+ src2 + rmc_src + mds_src
+all_src= src+ src2  + mds_src
 
 def gsoap_generator_header(target, source, env):
 	cmd=  gsoap_location +"/bin/wsdl2h"+ " -c -e -w -y -t "+ source[0].abspath +" "+ source[1].abspath + " -o "+ target[0].abspath
