@@ -21,11 +21,13 @@
  * \param Gerror
  * 
 */
-void gfal_perror(GErro*);
+void gfal_perror(gfal_handle);
 /**
  * \brief return a string of the current gfal_version
  *  define at the compilation time
  */
+char* gfal_getErrorString(gfal_handle)
+ 
 const char *gfal_version ();
 /**
  * \brief set the verbose global level

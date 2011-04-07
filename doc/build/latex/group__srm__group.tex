@@ -3,73 +3,43 @@
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-gfal\_\-handle \bf{gfal\_\-init} (GError $\ast$$\ast$err)\label{group__srm__group_g0cdadb4ebbaac57afd72c2369f8ac2ef}
+gfal\_\-handle \bf{gfal\_\-init} ()\label{group__srm__group_g4e6d4aab98935aaf408d8a5cdf9727d4}
 
 \begin{CompactList}\small\item\em init the gfal srm interface for surl -$>$ turls transformation \item\end{CompactList}\item 
-int \bf{gfal\_\-deletesurls} (gfal\_\-handle, GList $\ast$lsurl, GError $\ast$$\ast$err)
+int \bf{gfal\_\-deletesurls} (gfal\_\-handle, GList $\ast$lsurl)
 \item 
-int \bf{gfal\_\-removedir} (gfal\_\-handle, gchar $\ast$surl, GError $\ast$$\ast$err)\label{group__srm__group_g5c1b039985488235931ecea769bc7fb1}
+int \bf{gfal\_\-removedir} (gfal\_\-handle, gchar $\ast$surl)\label{group__srm__group_gff1cd1d3df193f577ebb2fe108aa0b6c}
 
 \begin{CompactList}\small\item\em remove a dir, only one at a time \item\end{CompactList}\item 
-int \bf{gfal\_\-get} (gfal\_\-handle, GList $\ast$surl\_\-list, GError $\ast$$\ast$err)
+int \bf{gfal\_\-get} (gfal\_\-handle, GList $\ast$surl\_\-list)
 \begin{CompactList}\small\item\em get a turls list from a surls list \item\end{CompactList}\item 
-int \bf{gfal\_\-getstatus} (gfal\_\-handle, GError $\ast$$\ast$err)
+int \bf{gfal\_\-getstatus} (gfal\_\-handle)
 \item 
 char $\ast$ \bf{gfal\_\-get\-Handle\-State} (gfal\_\-handle)
 \begin{CompactList}\small\item\em describe handle state \item\end{CompactList}\item 
-int \textbf{gfal\_\-bringonline} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g8df147aadc31a312b25c40fc9a3df77f}
+int \textbf{gfal\_\-bringonline} (gfal\_\-handle)\label{group__srm__group_g17710c0eaab072ece70a7138b598f0b0}
 
 \item 
-int \textbf{gfal\_\-prestage} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g7203e8c1902d92bd349baa0bb1120868}
+int \textbf{gfal\_\-prestage} (gfal\_\-handle)\label{group__srm__group_g05a256007ca8303bbf31c1148cc23995}
 
 \item 
-int \textbf{gfal\_\-prestagestatus} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g6e1fad549e7d87ccba3f5aad262c4bb7}
+int \textbf{gfal\_\-prestagestatus} (gfal\_\-handle)\label{group__srm__group_g575ef65953139a8439575376437cd2f1}
 
 \item 
-int \textbf{gfal\_\-pin} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g2071e5e174ad0e186b2e2ed221ff254a}
+int \textbf{gfal\_\-pin} (gfal\_\-handle)\label{group__srm__group_g1b450340e97429bf3eb42078c4626048}
 
-\item 
-int \textbf{gfal\_\-release} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g1814902f6764e9895555b337ebe072cf}
-
-\item 
-int \textbf{gfal\_\-set\_\-xfer\_\-done} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g53578369e607b8ee44ca5acdd1723e46}
-
-\item 
-int \textbf{gfal\_\-set\_\-xfer\_\-running} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g28565cf7c05f3dcfe82f3d7f716ae39a}
-
-\item 
-int \textbf{gfal\_\-abortrequest} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g31c2fcfa5efdb1a7c93ffaaa457d9357}
-
-\item 
-int \textbf{gfal\_\-abortfiles} (gfal\_\-handle, GError $\ast$$\ast$err)\label{group__srm__group_g009a98403584e32536a8d7ebe66284fd}
-
-\item 
-int \textbf{gfal\_\-get\_\-results} (gfal\_\-handle, gfal\_\-filestatus $\ast$$\ast$, GError $\ast$$\ast$err)\label{group__srm__group_g3b4725f553de6720a80036d28a4fb28d}
-
-\item 
-int \textbf{gfal\_\-get\_\-ids\_\-setype} (gfal\_\-handle, enum se\_\-type $\ast$, int $\ast$, int $\ast$$\ast$, char $\ast$$\ast$)\label{group__srm__group_g2bed7d372296a8d43282cea69ccb663e}
-
-\item 
-int \textbf{gfal\_\-get\_\-ids} (gfal\_\-handle, int $\ast$, int $\ast$$\ast$, char $\ast$$\ast$)\label{group__srm__group_g72418d9d0374b8beca6fca284a8e5db2}
-
-\item 
-int \textbf{gfal\_\-set\_\-ids} (gfal\_\-handle, int, const int $\ast$, int, const char $\ast$, char $\ast$, int)\label{group__srm__group_g5da8c01443270bf26cb6f60fe1457c53}
-
-\item 
-void \bf{gfal\_\-handle\_\-free} (gfal\_\-handle)\label{group__srm__group_ga21bc6b4163400d28590637b474a1b05}
-
-\begin{CompactList}\small\item\em release the handle \item\end{CompactList}\end{CompactItemize}
+\end{CompactItemize}
 
 
 \subsection{Function Documentation}
 \index{srm_group@{srm\_\-group}!gfal_deletesurls@{gfal\_\-deletesurls}}
 \index{gfal_deletesurls@{gfal\_\-deletesurls}!srm_group@{srm\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-deletesurls (gfal\_\-handle, GList $\ast$ {\em lsurl}, GError $\ast$$\ast$ {\em err})}\label{group__srm__group_gfb4d82067ddab76a4755a8d8bf6be299}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-deletesurls (gfal\_\-handle, GList $\ast$ {\em lsurl})}\label{group__srm__group_g629a56f0d644547dbc9fdb2e058476e6}
 
 
 a lsit of dir \index{srm_group@{srm\_\-group}!gfal_get@{gfal\_\-get}}
 \index{gfal_get@{gfal\_\-get}!srm_group@{srm\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get (gfal\_\-handle, GList $\ast$ {\em surl\_\-list}, GError $\ast$$\ast$ {\em err})}\label{group__srm__group_g72241d4a54f2d555838376723c4fe106}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get (gfal\_\-handle, GList $\ast$ {\em surl\_\-list})}\label{group__srm__group_g3ae5c2126214ee65695904a7f9fddeb0}
 
 
 get a turls list from a surls list 
@@ -95,7 +65,7 @@ describe handle state
 \end{Desc}
 \index{srm_group@{srm\_\-group}!gfal_getstatus@{gfal\_\-getstatus}}
 \index{gfal_getstatus@{gfal\_\-getstatus}!srm_group@{srm\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-getstatus (gfal\_\-handle, GError $\ast$$\ast$ {\em err})}\label{group__srm__group_g0de517db68fac8b99b6e4cf3ab413485}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-getstatus (gfal\_\-handle)}\label{group__srm__group_g1f99a22cf6a648d42530bc83d0ac8861}
 
 
 state of the actual request 
