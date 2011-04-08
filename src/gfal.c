@@ -1672,11 +1672,9 @@ int gfal_create_subdirs(gfal_internal req, char *errbuf, int errbufsz)
 	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
 	/* Create sub-directories of SURLs */
 	for (i = 0; i < req->nbfiles; ++i) {
-        const char* dir = gfal_strip_string(req->surls[i], '/');
+        const char* dir = g_strconcat((gchar*)req->surls[i], "/", NULL);	// concat the two string
+        g_assert(dir);	
         int res = 0;
-
-
-        assert (dir);
 
         if (dir && strlen(dir) > 0)
         {
@@ -1685,12 +1683,10 @@ int gfal_create_subdirs(gfal_internal req, char *errbuf, int errbufsz)
             res = srm_mkdir(&context,&mkdir_input);
         }
 
-        free(dir);
-
-        if (res < 0) {
+        if (res < 0) 
         	result = -1;
-        }
 	}
+	g_free(dir);
 	return result;
 }
 /* removed function in 2.0
