@@ -65,7 +65,7 @@
 <a name="l00050"></a>00050 
 <a name="l00051"></a>00051 <span class="comment">/******************** gfal.c ********************/</span>
 <a name="l00052"></a>00052 
-<a name="l00053"></a>00053 <span class="keyword">const</span> <span class="keywordtype">char</span> *gfal_version ();
+<a name="l00053"></a>00053 <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="group__common__group.html#ga5a8df616e6a5e6fc1d94e2374c7ccf2">gfal_version</a> ();
 <a name="l00054"></a>00054 <span class="comment">//void gfal_errmsg (char *, int, const char *, int);</span>
 <a name="l00055"></a>00055 <span class="keywordtype">void</span> gfal_errmsg (<span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">int</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *, ...);
 <a name="l00056"></a>00056 <span class="keywordtype">char</span> *gfal_get_userdn (<span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
@@ -132,28 +132,28 @@
 <a name="l00117"></a>00117 
 <a name="l00118"></a>00118 
 <a name="l00119"></a>00119 <span class="comment">/******************** lrc_ifce.c ********************/</span>
-<a name="l00120"></a>00120 
-<a name="l00121"></a>00121 <span class="keywordtype">int</span> lrc_deletepfn (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00122"></a>00122 <span class="keywordtype">int</span> lrc_deletesurl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00123"></a>00123 <span class="keywordtype">char</span> *lrc_get_catalog_endpoint(<span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00124"></a>00124 <span class="keywordtype">char</span> *lrc_guidforpfn (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00125"></a>00125 <span class="keywordtype">int</span> lrc_guid_exists (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00126"></a>00126 <span class="keywordtype">int</span> lrc_register_pfn (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00127"></a>00127 <span class="keywordtype">int</span> lrc_replica_exists(<span class="keyword">const</span> <span class="keywordtype">char</span>* ,<span class="keywordtype">char</span>*, <span class="keywordtype">int</span>);
-<a name="l00128"></a>00128 <span class="keywordtype">int</span> lrc_setfilesize (<span class="keyword">const</span> <span class="keywordtype">char</span> *, GFAL_LONG64, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00129"></a>00129 <span class="keywordtype">int</span> lrc_unregister_pfn (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00130"></a>00130 <span class="keywordtype">char</span> **lrc_surlsfromguid (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00131"></a>00131 <span class="keywordtype">int</span> lrc_fillsurls (gfal_file);
-<a name="l00132"></a>00132 
+<a name="l00120"></a>00120 <span class="comment">/* Lrc Support removed : fix it</span>
+<a name="l00121"></a>00121 <span class="comment">int lrc_deletepfn (const char *, const char *, char *, int);</span>
+<a name="l00122"></a>00122 <span class="comment">int lrc_deletesurl (const char *, char *, int);</span>
+<a name="l00123"></a>00123 <span class="comment">char *lrc_get_catalog_endpoint(char *, int);</span>
+<a name="l00124"></a>00124 <span class="comment">char *lrc_guidforpfn (const char *, char *, int);</span>
+<a name="l00125"></a>00125 <span class="comment">int lrc_guid_exists (const char *, char *, int);</span>
+<a name="l00126"></a>00126 <span class="comment">int lrc_register_pfn (const char *, const char *, char *, int);</span>
+<a name="l00127"></a>00127 <span class="comment">int lrc_replica_exists(const char* ,char*, int);</span>
+<a name="l00128"></a>00128 <span class="comment">int lrc_setfilesize (const char *, GFAL_LONG64, char *, int);</span>
+<a name="l00129"></a>00129 <span class="comment">int lrc_unregister_pfn (const char *, const char *, char *, int);</span>
+<a name="l00130"></a>00130 <span class="comment">char **lrc_surlsfromguid (const char *, char *, int);</span>
+<a name="l00131"></a>00131 <span class="comment">int lrc_fillsurls (gfal_file);</span>
+<a name="l00132"></a>00132 <span class="comment">*/</span>
 <a name="l00133"></a>00133 
 <a name="l00134"></a>00134 <span class="comment">/******************** rmc_ifce.c ********************/</span>
-<a name="l00135"></a>00135 
-<a name="l00136"></a>00136 <span class="keywordtype">char</span> *rmc_guidfromlfn (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00137"></a>00137 <span class="keywordtype">char</span> **rmc_lfnsforguid (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00138"></a>00138 <span class="keywordtype">int</span> rmc_register_alias (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00139"></a>00139 <span class="keywordtype">int</span> rmc_unregister_alias (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00140"></a>00140 
-<a name="l00141"></a>00141 
+<a name="l00135"></a>00135 <span class="comment">/* mrc removed : fix it</span>
+<a name="l00136"></a>00136 <span class="comment">char *rmc_guidfromlfn (const char *, char *, int);</span>
+<a name="l00137"></a>00137 <span class="comment">char **rmc_lfnsforguid (const char *, char *, int);</span>
+<a name="l00138"></a>00138 <span class="comment">int rmc_register_alias (const char *, const char *, char *, int);</span>
+<a name="l00139"></a>00139 <span class="comment">int rmc_unregister_alias (const char *, const char *, char *, int);</span>
+<a name="l00140"></a>00140 <span class="comment"></span>
+<a name="l00141"></a>00141 <span class="comment">*/</span>
 <a name="l00142"></a>00142 <span class="comment">/******************** gridftp_ifce.c ********************/</span>
 <a name="l00143"></a>00143 
 <a name="l00144"></a>00144 <span class="keywordtype">int</span> gridftp_delete (<span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">int</span>);
@@ -173,7 +173,7 @@
 <a name="l00158"></a>00158 <span class="preprocessor">#endif</span>
 <a name="l00159"></a>00159 <span class="preprocessor"></span>
 <a name="l00160"></a>00160 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Apr 7 16:07:39 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Apr 8 09:55:48 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
