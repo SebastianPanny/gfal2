@@ -19,19 +19,26 @@ src5 = ['example/gfal_testcreatedir.c']
 src6 = ['example/gfal_teststat.c']
 exec_test= "exec_tests"
 
-
+#
+#	be carefull about this test, an other version of the gfallib must not be in the ld path
+#
 
 ##
-# setup the library path to add the required library in the env
+# setup the library path to add the required library in the env and return the old ldpath
 def setup_LDPATH():
 	abslibs= map(lambda x: Dir(x).abspath,libs)		# get abs path
-	if(os.getenv('LD_LIBRARY_PATH') is None):
-		os.environ['LD_LIBRARY_PATH']=''
+	#if(os.getenv('LD_LIBRARY_PATH') is None):
+	old_ldpath= os.getenv('LD_LIBRARY_PATH')
+	os.environ['LD_LIBRARY_PATH']=''
 	for l in abslibs:
 		if(os.environ['LD_LIBRARY_PATH'].count(l) <1 ):
 			os.environ['LD_LIBRARY_PATH']= os.getenv('LD_LIBRARY_PATH') +":" + l
+	return old_ldpath
 		
-
+##
+# set the ld path to the given value
+def set_LDPATH(ldp):
+	os.environ['LD_LIBRARY_PATH']=ldp
 
 def compile_testing():
 	VariantDir('build', 'example',duplicate=0)
@@ -54,9 +61,10 @@ def run_test(target,source,env):
 
 def testing():
 	x =compile_testing()
-	setup_LDPATH()
+	old= setup_LDPATH()
 	print "[Debug] PATH : "+ os.getenv('LD_LIBRARY_PATH')
 	r= env.Command('test',x, run_test)
+	set_LDPATH(old)
 
 	
 		
