@@ -17,20 +17,21 @@
  */
 
 /**
- * @file gfal_common.h
- * @brief the core header file of the common lib part
+ * @file gfal_common_catalog.h
+ * @brief the header file of the common lib for the catalog management
  * @author Devresse Adrien
  * @version 0.0.1
  * @date 8/04/2011
  * */
 
-#include "gfal_api.h"
-#include <glib.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "gfal_constants.h"
-#include "gfal_common_catalog.h"
+#include "gfal_common.h"
 
+
+/**
+	\brief catalog type getter
+	
+	@return return a string of the catalogtype
+*/
+char* gfal_get_cat_type();
 
 

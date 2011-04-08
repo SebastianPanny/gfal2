@@ -1,4 +1,3 @@
-#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -17,20 +16,32 @@
  */
 
 /**
- * @file gfal_common.h
- * @brief the core header file of the common lib part
+ * @file gfal_common_catalog.c
+ * @brief the file of the common lib for the catalog management
  * @author Devresse Adrien
  * @version 0.0.1
  * @date 8/04/2011
  * */
 
-#include "gfal_api.h"
-#include <glib.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "gfal_constants.h"
 #include "gfal_common_catalog.h"
 
 
+
+static char* get_default_cat(){
+	return GFAL_DEFAULT_CATALOG_TYPE;
+}
+
+char* gfal_get_cat_type() {
+    char *cat_env;
+    char *cat_type;
+
+    if((cat_env = getenv ("LCG_CATALOG_TYPE")) == NULL) {
+		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[get_cat_type] LCG_CATALOG_TYPE env var is not defined, use default var instead");
+        cat_env = get_default_cat(); 
+	}
+    if((cat_type = strdup(cat_env)) == NULL) {
+        return (char*)(-1);
+    }
+    return cat_type;
+}
 

@@ -23,6 +23,10 @@
  * @date 8/04/2011
  * */
  
+ #include "gfal_common.h"
+ 
+ 
+
  
  
  

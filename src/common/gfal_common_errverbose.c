@@ -1,4 +1,3 @@
-#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -17,20 +16,44 @@
  */
 
 /**
- * @file gfal_common.h
- * @brief the core header file of the common lib part
+ * @file gfal_common_errverbose.c
+ * @brief the file of the common lib for error management and verbose display
  * @author Devresse Adrien
  * @version 0.0.1
  * @date 8/04/2011
  * */
 
-#include "gfal_api.h"
-#include <glib.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "gfal_constants.h"
-#include "gfal_common_catalog.h"
+#include "gfal_common_errverbose.h"
 
+/*
+ * Verbose level
+ *   API mode (no messages on stderr) by default
+ *   CLI has to set it to '0' to get normal error messages
+ */
+static int gfal_verbose = -1;
+
+extern int gfal_get_verbose(){
+	return gfal_verbose;
+}
+
+extern int gfal_set_verbose (int value)
+{
+    if (value < 0)
+        return (-1);
+    gfal_verbose = value;
+    return (0);
+}
+
+
+ extern void gfal_print_verbose(int verbose_lvl, const char* msg, ...){
+	 if(verbose_lvl <= gfal_get_verbose()){
+			va_list args;
+			va_start(args, msg);
+			printf(msg, args); 
+			va_end(args);		 
+	 }
+
+ }
+ 
 
 

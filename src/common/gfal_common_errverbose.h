@@ -17,20 +17,31 @@
  */
 
 /**
- * @file gfal_common.h
- * @brief the core header file of the common lib part
+ * @file gfal_common_errverbose.h
+ * @brief the header file of the common lib for error management and verbose display
  * @author Devresse Adrien
  * @version 0.0.1
  * @date 8/04/2011
  * */
 
-#include "gfal_api.h"
-#include <glib.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+
 #include "gfal_constants.h"
-#include "gfal_common_catalog.h"
+#include <stdarg.h>
+#include <stdio.h>
 
+/**
+ * \brief display a verbose message 
+ * 
+ * msg is displayed if current verbose level is superior to verbose mode specified
+ * 
+ */
+void gfal_print_verbose(int verbose_lvl,const char* msg, ...);
+/**
+ * \brief set the verbose mode for the current program
+ * 
+ * 
+ */
+int gfal_set_verbose (int value);
 
+int gfal_get_verbose();
 
