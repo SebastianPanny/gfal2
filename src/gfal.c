@@ -37,6 +37,7 @@
 #include <gfal_srm_ifce_types.h>
 #include <assert.h>
 
+#include "gfal_common.h"
 
 #if !defined(OFF_MAX)
 #define OFF_MAX 2147483647

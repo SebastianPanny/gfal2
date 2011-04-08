@@ -11,9 +11,11 @@ import os
 
 gfal_libs = ['ldap', 'vomsc','gfal_srm_ifce','is_ifce'] #+ globus_libs		# libraries linked
 src = ['gfal.c', 'gfal_file.c', 'gfal_timeouts.c', 'checkprotolib.c', 'gfal_checksum.c'] # globals src files
+common_src= ['common/gfal_common.c']
 src2= ['lfc_ifce.c']
 mds_src= ['mds_ifce.c']
-all_src= src+ src2  + mds_src
+all_src= src+ common_src+ src2  + mds_src
+other_headers=['common/']
 
 """ old soap generation functions
 def gsoap_generator_header(target, source, env):
@@ -57,6 +59,7 @@ def gsoap_rename(target,source,env, suffix):
 ##
 #add the library
 env.Append(LIBS=gfal_libs)
+env.Append(CPPPATH= other_headers)
 
 mainlib = env.SharedLibrary('#build/libs/libgfal', all_src)
 staticlib = env.StaticLibrary('#build/libs/libgfal',all_src)

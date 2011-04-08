@@ -22,3 +22,10 @@
  * @version 0.0.1
  * @date 8/04/2011
  * */
+
+#include "gfal_api.h"
+#include <glib.h>
+#include <stdlib.h>
+#include <string.h>
+#include "gfal_constants.h"
+
