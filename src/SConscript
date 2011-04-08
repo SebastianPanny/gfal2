@@ -10,7 +10,7 @@ Import('*')	# import SConstruct exported var
 import os
 
 gfal_libs = ['ldap', 'vomsc','gfal_srm_ifce','is_ifce'] #+ globus_libs		# libraries linked
-src = ['gfal.c', 'gfal_file.c', 'gfal_utils.c', 'gfal_timeouts.c', 'checkprotolib.c', 'gfal_checksum.c'] # globals src files
+src = ['gfal.c', 'gfal_file.c', 'gfal_timeouts.c', 'checkprotolib.c', 'gfal_checksum.c'] # globals src files
 src2= ['lfc_ifce.c']
 mds_src= ['mds_ifce.c']
 all_src= src+ src2  + mds_src

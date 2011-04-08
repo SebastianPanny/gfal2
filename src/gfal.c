@@ -30,7 +30,6 @@
 #include <glib.h>
 #include <uuid/uuid.h>
 #include "gfal_internals.h"
-#include "gfal_utils.h"
 #include "voms_apic.h"
 #include "gfal_api.h"
 #include "lfc_ifce.h"
@@ -1672,21 +1671,18 @@ int gfal_create_subdirs(gfal_internal req, char *errbuf, int errbufsz)
 	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
 	/* Create sub-directories of SURLs */
 	for (i = 0; i < req->nbfiles; ++i) {
-        const char* dir = g_strconcat((gchar*)req->surls[i], "/", NULL);	// concat the two string
+        const gchar* dir = g_strconcat((gchar*)req->surls[i], "/", NULL);	// concat the two string
         g_assert(dir);	
         int res = 0;
 
-        if (dir && strlen(dir) > 0)
-        {
-        	mkdir_input.dir_name = dir;
-
+        if(strlen(dir) > 0){
+        	mkdir_input.dir_name = (char*) dir;
             res = srm_mkdir(&context,&mkdir_input);
         }
-
+		g_free((gpointer) dir);
         if (res < 0) 
         	result = -1;
 	}
-	g_free(dir);
 	return result;
 }
 /* removed function in 2.0
