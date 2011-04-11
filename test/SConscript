@@ -1,0 +1,23 @@
+#!/usr/bin/python
+##
+# Example builind script
+# @author : Devresse Adrien
+# @version : v0.1
+# @date 08/04/2011
+
+Import('*')	# import SConstruct exported var
+import os
+import random
+import shutil
+import commands
+
+src_tests= ["common/gfal__test_verbose.c", "#src/common/gfal_common_errverbose.c", "common/gfal__test_catalog.c","#src/common/gfal_common_catalog.c" ,"unit_test.c" ]
+## build test config
+
+env_test.PrependENVPath('LD_LIBRARY_PATH', libs) # setup internal env LD PATH
+test1 =env_test.Program("test_verbose",  src_tests+ [ccheck_lib])
+print "prog" + test1[0].abspath
+run_test= env_test.Alias("test_run_verbose.passed", test1, test1[0].abspath)
+test_alias= env_test.Alias("test", ["test_run_verbose.passed"])	
+AlwaysBuild(test_alias)
+
