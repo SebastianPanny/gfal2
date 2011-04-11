@@ -29,6 +29,11 @@
 #include "../common/gfal_common.h"
 #include "gfal_types.h"
 #include <glib.h>
+#include <sys/types.h>
+#include <dlfcn.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <sys/stat.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -180,29 +185,36 @@ int gfal_unlink (const char *);
 
 ssize_t gfal_write (int, const void *, size_t);
 
+
+
+#if defined(linux) || defined(sun)
+struct dirent *gfal_readdir (DIR *);
+#endif
+
+#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
+
+
 off64_t gfal_lseek64 (int, off64_t, int);
+
 
 int gfal_lstat (const char *, struct stat *);
 
+
 int gfal_lstat64 (const char *, struct stat64 *);
 
+
 int gfal_stat (const char *, struct stat *);
+
 
 int gfal_stat64 (const char *, struct stat64 *);
 
 
-/**
- * 
- * \brief display the full list of gfal errors in chronological order
- * 
-*/
-void gfal_perror(gfal_handle);
+#if defined(linux) || defined(sun)
+struct dirent64 *gfal_readdir64 (DIR *);
+#endif
+#endif
 
-char* gfal_errorString(gfal_handle);
- /**
- * \brief return a string of the current gfal_version
- *  define at the compilation time
- */
+
 const char *gfal_version ();
 /**
  * \brief set the verbose global level
@@ -254,6 +266,12 @@ void gfal_set_timeout_srm (int);
  *  default value : 3600
  * */
 int gfal_get_timeout_srm ();
+
+
 const char *gfal_get_checksum_algname (enum gfal_cksm_type);
 
 enum gfal_cksm_type gfal_parse_checksum_algname (const char *);
+
+int gfal_is_nobdii ();
+
+

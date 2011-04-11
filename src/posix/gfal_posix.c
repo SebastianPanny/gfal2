@@ -25,9 +25,11 @@
  
 #include "gfal_posix_api.h"
 
-    int
-gfal_access (const char *path, int amode)
-{
+/* the version should be set by a "define" at the makefile level */
+static const char gfalversion[] = VERSION;
+static int nobdii = 0;
+
+int gfal_access (const char *path, int amode){
     int rc = 0, sav_errno = 0;
     int bool_issurlok = 0;
     char errbuf[GFAL_ERRMSG_LEN];
@@ -1403,21 +1405,16 @@ int gfal_create_subdirs(gfal_internal req, char *errbuf, int errbufsz)
 	}
 	return result;
 }
-    const char *
-gfal_version ()
-{
+
+const char * gfal_version (){
     return gfalversion;
 }
 
-    void
-gfal_set_nobdii (int value)
-{
+void gfal_set_nobdii (int value){
     nobdii = value;
 }
 
-    int
-gfal_is_nobdii ()
-{
+int gfal_is_nobdii (){
     return (nobdii);
 }
 

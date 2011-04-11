@@ -29,11 +29,17 @@ extern "C"
 #endif
 
 #include <stdarg.h>
-#include <gfal_srm_ifce_types.h>
+#include <uuid/uuid.h>
 #include "gfal_types.h"
 #include "gfal_constants.h"
 
+// externals imports
+#include "lfc_ifce.h"
+#include <gfal_srm_ifce.h>
+#include <gfal_srm_ifce_types.h>
+#include "voms_apic.h"
 
+// remain a transition file : fix it
 
 /* Macro function to print debug info if LCG_GFAL_DEBUG is defined */
 #ifdef LCG_GFAL_DEBUG
@@ -44,7 +50,7 @@ extern "C"
 #endif
 
 typedef struct srm_spacemd gfal_spacemd;
-
+enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
 
 
@@ -56,7 +62,7 @@ void gfal_errmsg (char *, int, int, const char *, ...);
 char *gfal_get_userdn (char *errbuf, int errbufsz);
 char *gfal_get_vo (char *errbuf, int errbufsz);
 int gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz);
-int gfal_is_nobdii ();
+//int gfal_is_nobdii ();
 int gfal_is_purifydisabled ();
 int gfal_register_file (const char *, const char *, const char *, mode_t, GFAL_LONG64, int, char *, int);
 void gfal_internal_free (gfal_internal);
@@ -150,6 +156,20 @@ int gridftp_ls (char *, int *, char ***, struct stat64 **, char *, int, int);
 int sfn_getfilemd (int, const char **, struct srmv2_mdfilestatus **, char *, int, int);
 int sfn_turlsfromsurls (int, const char **, char **, struct sfn_filestatus **, char *, int);
 
+
+
+
+struct dir_info *alloc_di (DIR *);
+struct xfer_info *alloc_xi (int);
+struct dir_info *find_di (DIR *);
+struct xfer_info *find_xi (int);
+void free_di (struct dir_info *);
+int free_xi (int);
+int mdtomd32 (struct stat64 *, struct stat *);
+int copy_gfal_results (gfal_internal, enum status_type);
+int check_gfal_internal (gfal_internal, int, char *, int);
+void free_gfal_results (gfal_filestatus *, int);
+void free_srmv2_mdstatuses (struct srmv2_mdfilestatus *, int);
 
 
 #ifdef __cplusplus

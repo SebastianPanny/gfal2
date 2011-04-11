@@ -31,6 +31,34 @@
 #include <string.h>
 #include "gfal_constants.h"
 #include "gfal_common_catalog.h"
+#include "gfal_internals.h"
+#include "gfal_types.h"
 
 
+
+
+
+gfal_request gfal_request_new ();
+int gfal_init (gfal_request, gfal_internal *, char *, int);
+int gfal_deletesurls (gfal_internal, char *, int);
+int gfal_removedir (gfal_internal, char *, int);
+/* removed func fix it int gfal_ls (gfal_internal, char *, int); */
+/* remvoed func fix it int gfal_ls_end (gfal_internal, char *, int); */
+int gfal_turlsfromsurls (gfal_internal, char *, int);
+int gfal_get (gfal_internal, char *, int);
+int gfal_getstatus (gfal_internal, char *, int);
+int gfal_bringonline (gfal_internal, char *, int);
+int gfal_prestage (gfal_internal, char *, int);
+int gfal_prestagestatus (gfal_internal, char *, int);
+int gfal_pin (gfal_internal, char *, int);
+int gfal_release (gfal_internal, char *, int);
+int gfal_set_xfer_done (gfal_internal, char *, int);
+int gfal_set_xfer_running (gfal_internal, char *, int);
+int gfal_abortrequest (gfal_internal, char *, int);
+int gfal_abortfiles (gfal_internal, char *, int);
+int gfal_get_results (gfal_internal, gfal_filestatus **);
+int gfal_get_ids_setype (gfal_internal, enum se_type *, int *, int **, char **);
+int gfal_get_ids (gfal_internal, int *, int **, char **);
+int gfal_set_ids (gfal_internal, int, const int *, int, const char *, char *, int);
+void gfal_internal_free (gfal_internal);
 

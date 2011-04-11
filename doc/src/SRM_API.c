@@ -88,5 +88,18 @@ int gfal_set_ids (gfal_handle, int, const int *, int, const char *, char *, int)
 void gfal_handle_free (gfal_handle);
 
 /**
+ * 
+ * \brief display the full list of gfal errors in chronological order
+ * 
+*/
+void gfal_perror(gfal_handle);
+
+char* gfal_errorString(gfal_handle);
+ /**
+ * \brief return a string of the current gfal_version
+ *  define at the compilation time
+ */
+
+/**
 	@}
 */
