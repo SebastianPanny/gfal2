@@ -32,9 +32,10 @@
 /**
 	\brief catalog type getter
 	
-	@return return a string of the catalogtype
+	@return return a string of the type of the catalog
+	 return NULL if an error occured and set the GError correctly
 */
-char* gfal_get_cat_type();
+char* gfal_get_cat_type(GError**);
 
 
  	
