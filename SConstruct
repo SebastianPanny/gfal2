@@ -34,19 +34,20 @@ dcap_location = etics_build_dir+ "/repository/externals/dcache-dcap/1.8.0/sl5_x8
 dpm_location = etics_build_dir + "/stage"
 link_libs= ['m','uuid','c','dl','glib-2.0']
 
-
-#special var :
 build_dir = 'build'
+
+#related var for headers:
 header_folder='/stage/include/'
 ccheck_header= ccheck_location+ "/include"
 build_dir_src = build_dir +'/src'
 build_dir_test= build_dir +'/test/src'
 ccheck_header= ccheck_location+ "/include"
-
-# auto-defined var :
 glib_header_dir = [ glib_location + '/lib64/glib-2.0/include/', glib_location+ '/include/glib-2.0/' ]
 dpm_header= dpm_location+ "/usr/include/dpm"
 dcap_header= dcap_location + "/include"
+
+# related var for static library
+ccheck_lib= ccheck_location+ "/lib64/libcheck.a"
 
 		
 etics_lib_dir= glob.glob(etics_build_dir+'/repository/vdt/globus/*/*/lib/')[0]
@@ -63,13 +64,18 @@ env['ENV']['LD_LIBRARY_PATH'] = os.getenv('LD_LIBRARY_PATH')
 
 
 
-SConscript('testing/SConscript', ['env', 'headers', 'libs'])
+#main build
 VariantDir(build_dir_src, 'src')
 SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src'])
-#tests
-env_test = env.Clone(CPPPATH=[ccheck_header, "#src/common", "#src/"])
+
+# glboal testing build
+SConscript('testing/SConscript', ['env', 'headers', 'libs'])
+
+#unit tests
+env_test = env.Clone()
+env_test.Append(CPPPATH=[ccheck_header, "#src/common", "#src/"])
 VariantDir(build_dir_test, 'test')
-SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','ccheck_header','ccheck_location'])
+SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','ccheck_header','ccheck_lib'])
 	
 
 	
