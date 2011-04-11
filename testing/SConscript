@@ -33,6 +33,7 @@ def setup_LDPATH():
 	for l in abslibs:
 		if(os.environ['LD_LIBRARY_PATH'].count(l) <1 ):
 			os.environ['LD_LIBRARY_PATH']= os.getenv('LD_LIBRARY_PATH') +":" + l
+	env['ENV']['LD_LIBRARY_PATH']= os.getenv('LD_LIBRARY_PATH')
 	return old_ldpath
 		
 ##
