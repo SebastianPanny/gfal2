@@ -2,15 +2,15 @@
   \page api_change
   
   
-	<h1> API CHANGE 2.0 </h1> \n
+	<h1> API CHANGE 2.0  : </h1> 
 	List of the scheduled changes for the GFal 2.0 API
 	\warning  this is not a final choice
 
-	<h1> I. RESUME OF THE CHANGES : </h2>
+	<h2> I. BRIEF OF THE CHANGES : </h2>
 		- POSIX API is still unchanged
 		- old gridftp support and associated functions are removed : (gfal_ls, sfn_*, gridftp_*,...)
 		- SRM related API is modified in order to be easier to use
-		- Old ERRNO reprot system is changed for a new verbose one.
+		- the old error report system is changed for a new verbose one.
 		- LRC/RMC legacy support is dropped.
 		- Lots of the old dependencies are no more needed and are removed.
 		
@@ -95,11 +95,6 @@ struct gfal_handle_ {
 };
 
 typedef struct gfal_handle_  *gfal_handle;
-  
-char * gfal_test__gfal_parseturl();
-
-static char * endpointfromsurl (const char *surl, char *errbuf, int errbufsz, int _prefixing_on);
-
 
   //void gfal_errmsg (char *, int, const char *, int);
 char *gfal_get_userdn (char *errbuf, int errbufsz);
@@ -142,23 +137,6 @@ int gfal_get_rls_endpoints (char **, char **, char *, int);
 int gfal_get_storage_path (const char *, const char *, char **, char **, char *, int);
 int gfal_get_seap_info (const char *, char ***, int **, char *, int);
 int gfal_get_se_types_and_endpoints (const char *, char ***, char ***, char *, int);
-
-
-
-
-/******************** rmc_ifce.c ********************/
-
-char *rmc_guidfromlfn (const char *, char *, int);
-char **rmc_lfnsforguid (const char *, char *, int);
-int rmc_register_alias (const char *, const char *, char *, int);
-int rmc_unregister_alias (const char *, const char *, char *, int);
-
-
-/******************** gridftp_ifce.c ********************/
-
-int gridftp_delete (char *, char *, int, int);
-int gridftp_ls (char *, int *, char ***, struct stat64 **, char *, int, int);
-
 
 
 /**

@@ -1,0 +1,39 @@
+\section{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-errverbose.h File Reference}
+\label{gfal__common__errverbose_8h}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-errverbose.h}}
+the header file of the common lib for error management and verbose display 
+
+{\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
+{\tt \#include $<$stdarg.h$>$}\par
+{\tt \#include $<$stdio.h$>$}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \bf{gfal\_\-print\_\-verbose} (int verbose\_\-lvl, const char $\ast$msg,...)
+\begin{CompactList}\small\item\em display a verbose message \item\end{CompactList}\item 
+int \bf{gfal\_\-set\_\-verbose} (int value)
+\begin{CompactList}\small\item\em set the verbose mode for the current program \item\end{CompactList}\item 
+int \bf{gfal\_\-get\_\-verbose} ()\label{gfal__common__errverbose_8h_135b3fdd775aa7215e2ab4de1eea495f}
+
+\begin{CompactList}\small\item\em return verbose mode level \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+the header file of the common lib for error management and verbose display 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]0.0.1 \end{Desc}
+\begin{Desc}
+\item[Date:]8/04/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common_errverbose.h@{gfal\_\-common\_\-errverbose.h}!gfal_print_verbose@{gfal\_\-print\_\-verbose}}
+\index{gfal_print_verbose@{gfal\_\-print\_\-verbose}!gfal_common_errverbose.h@{gfal\_\-common\_\-errverbose.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-print\_\-verbose (int {\em verbose\_\-lvl}, const char $\ast$ {\em msg},  {\em ...})}\label{gfal__common__errverbose_8h_8b05640b4b43a776603bd93703c29d30}
+
+
+display a verbose message 
+
+msg is displayed if current verbose level is superior to verbose mode specified 

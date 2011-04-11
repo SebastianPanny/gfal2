@@ -23,9 +23,6 @@
 typedef gfal_handle_ *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_handle</b></td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g9282bb70dffe20af2db91d05418ac9c5"></a><!-- doxytag: member="internal_group::gfal_test__gfal_parseturl" ref="g9282bb70dffe20af2db91d05418ac9c5" args="()" -->
-char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_test__gfal_parseturl</b> ()</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g6bd6336b0fee1ff32ad6bc5ef3d96068"></a><!-- doxytag: member="internal_group::gfal_get_userdn" ref="g6bd6336b0fee1ff32ad6bc5ef3d96068" args="(char *errbuf, int errbufsz)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_userdn</b> (char *errbuf, int errbufsz)</td></tr>
 
@@ -121,24 +118,6 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_seap_info</b>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g2c87f70238deffb3907d5a612e847fd4"></a><!-- doxytag: member="internal_group::gfal_get_se_types_and_endpoints" ref="g2c87f70238deffb3907d5a612e847fd4" args="(const char *, char ***, char ***, char *, int)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_se_types_and_endpoints</b> (const char *, char ***, char ***, char *, int)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g83a423ba6bb37eda1d1e9fe70cefeea0"></a><!-- doxytag: member="internal_group::rmc_guidfromlfn" ref="g83a423ba6bb37eda1d1e9fe70cefeea0" args="(const char *, char *, int)" -->
-char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>rmc_guidfromlfn</b> (const char *, char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g7311bb7aa4f897ebf7f91bbb55c81d5b"></a><!-- doxytag: member="internal_group::rmc_lfnsforguid" ref="g7311bb7aa4f897ebf7f91bbb55c81d5b" args="(const char *, char *, int)" -->
-char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>rmc_lfnsforguid</b> (const char *, char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g726824240cad440eb7a60259b9468a40"></a><!-- doxytag: member="internal_group::rmc_register_alias" ref="g726824240cad440eb7a60259b9468a40" args="(const char *, const char *, char *, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>rmc_register_alias</b> (const char *, const char *, char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g3da248a6139d1cab4b4432793b2df115"></a><!-- doxytag: member="internal_group::rmc_unregister_alias" ref="g3da248a6139d1cab4b4432793b2df115" args="(const char *, const char *, char *, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>rmc_unregister_alias</b> (const char *, const char *, char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g227bf30b43a3fb3ba58d280c4669d558"></a><!-- doxytag: member="internal_group::gridftp_delete" ref="g227bf30b43a3fb3ba58d280c4669d558" args="(char *, char *, int, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gridftp_delete</b> (char *, char *, int, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g4c8a3503515b82f59509d89a4a858c9f"></a><!-- doxytag: member="internal_group::gridftp_ls" ref="g4c8a3503515b82f59509d89a4a858c9f" args="(char *, int *, char ***, struct stat64 **, char *, int, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gridftp_ls</b> (char *, int *, char ***, struct stat64 **, char *, int, int)</td></tr>
-
 </table>
 <hr><h2>Function Documentation</h2>
 <a class="anchor" name="gfbe1d2da151f9bd6a0ab1ec1abf0ac81"></a><!-- doxytag: member="API_CHANGE2.0.c::gfal_get_hostname" ref="gfbe1d2da151f9bd6a0ab1ec1abf0ac81" args="(const char *, char *, int)" -->
@@ -176,7 +155,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gridftp_ls</b> (char *
 extract a hostname from a SURL. We search for "://" to get the start of the hostname. Then we keep going to the next slash, colon or end of the SURL. 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Apr 8 09:55:48 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Apr 8 22:28:19 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

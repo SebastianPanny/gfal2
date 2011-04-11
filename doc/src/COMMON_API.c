@@ -15,19 +15,18 @@
  * @{
 */
 
-
 /**
- * \brief display the gfal error on the stderr following by the errno if exist
- * \param Gerror
+ * 
+ * \brief display the full list of gfal errors in chronological order
  * 
 */
 void gfal_perror(gfal_handle);
-/**
+
+char* gfal_errorString(gfal_handle);
+ /**
  * \brief return a string of the current gfal_version
  *  define at the compilation time
  */
-char* gfal_getErrorString(gfal_handle)
- 
 const char *gfal_version ();
 /**
  * \brief set the verbose global level
