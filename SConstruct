@@ -26,6 +26,7 @@ def get_etics_dir():
 # global var
 etics_build_dir=get_etics_dir()
 version= '0.1_alpha'
+ccheck_location = etics_build_dir+ "/repository/externals/c-check/0.9.8/sl5_x86_64_gcc412"
 glib_location = etics_build_dir+ "/repository/externals/glib2-devel/2.12.3/sl5_x86_64_gcc412"
 voms_location = etics_build_dir+ "/stage/lib64"
 srm_ifce_location= etics_build_dir+ "/stage/lib64"
@@ -37,7 +38,10 @@ link_libs= ['m','uuid','c','dl','glib-2.0']
 #special var :
 build_dir = 'build'
 header_folder='/stage/include/'
+ccheck_header= ccheck_location+ "/include"
 build_dir_src = build_dir +'/src'
+build_dir_test= build_dir +'/test/src'
+ccheck_header= ccheck_location+ "/include"
 
 # auto-defined var :
 glib_header_dir = [ glib_location + '/lib64/glib-2.0/include/', glib_location+ '/include/glib-2.0/' ]
@@ -62,8 +66,10 @@ env['ENV']['LD_LIBRARY_PATH'] = os.getenv('LD_LIBRARY_PATH')
 SConscript('testing/SConscript', ['env', 'headers', 'libs'])
 VariantDir(build_dir_src, 'src')
 SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src'])
-
-
+#tests
+env_test = env.Clone(CPPPATH=[ccheck_header, "#src/common", "#src/"])
+VariantDir(build_dir_test, 'test')
+SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','ccheck_header','ccheck_location'])
 	
 
 	

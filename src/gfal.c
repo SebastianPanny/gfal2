@@ -57,12 +57,7 @@ static int vomsdataparsed = 0;
 static int nobdii = 0;
 static int purifydisabled = -1;
 
-/*
- * Verbose level
- *   API mode (no messages on stderr) by default
- *   CLI has to set it to '0' to get normal error messages
- */
-static int gfal_verbose = -1;
+
 
 static enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
@@ -354,7 +349,7 @@ gfal_access (const char *path, int amode)
                     struct srm_checkpermission_input checkpermission_input;
 
 
-                    srm_context_init(&context,gfile->gobj->endpoint,errbuf,GFAL_ERRMSG_LEN,gfal_verbose);
+                    srm_context_init(&context,gfile->gobj->endpoint,errbuf,GFAL_ERRMSG_LEN,gfal_get_verbose());
 
                     checkpermission_input.nbfiles = gfile->gobj->nbfiles;
                     checkpermission_input.amode = amode;
@@ -543,15 +538,7 @@ gfal_creat64 (const char *filename, mode_t mode)
     return (gfal_open64 (filename, O_WRONLY|O_CREAT|O_TRUNC, mode));
 }
 
-    int
-gfal_set_verbose (int value)
-{
-    if (value < 0)
-        return (-1);
 
-    gfal_verbose = value;
-    return (0);
-}
 
     void
 gfal_errmsg (char *errbuf, int errbufsz, int level, const char *format, ...)
@@ -559,7 +546,7 @@ gfal_errmsg (char *errbuf, int errbufsz, int level, const char *format, ...)
     va_list ap;
     char *actual_format;
 
-    if ((errbuf == NULL && level > gfal_verbose) || format == NULL || format[0] == 0)
+    if ((errbuf == NULL && level > gfal_get_verbose()) || format == NULL || format[0] == 0)
         return;
 
     va_start (ap, format);
@@ -666,7 +653,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
             return (-1);
         }
         // init srm variables
-        srm_context_init(&context,srmv2_endpoint,NULL,0,gfal_verbose);
+        srm_context_init(&context,srmv2_endpoint,NULL,0,gfal_get_verbose());
 
         mkdir_input.dir_name = path;
         // srm function call
@@ -712,6 +699,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
     if ((flags & (O_WRONLY | O_CREAT)) == (O_WRONLY | O_CREAT) ||
             (flags & (O_RDWR | O_CREAT)) == (O_RDWR | O_CREAT)) {
         /* writing in a file, so a new file */
+        gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_open] new file requested \n");
         newfile = 1;
     }
 
@@ -1142,7 +1130,7 @@ gfal_rmdir (const char *dirname)
             errno = EPROTONOSUPPORT;
             return (-1);
         }
-        srm_context_init(&context,srmv2_endpoint,NULL,0,gfal_verbose);
+        srm_context_init(&context,srmv2_endpoint,NULL,0,gfal_get_verbose());
 
         rmdir_input.recursive = 0;
         rmdir_input.surl = path;
@@ -1575,7 +1563,7 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
         }
 
 
-        srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+        srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
         rm_input.nbfiles = req->nbfiles;
         rm_input.surls = req->surls;
 
@@ -1642,7 +1630,7 @@ gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
             req->srmv2_token = NULL;
         }
 
-        srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+        srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
         rmdir_input.recursive = 0;
         rmdir_input.surl = req->surls[0];
 
@@ -1669,7 +1657,7 @@ int gfal_create_subdirs(gfal_internal req, char *errbuf, int errbufsz)
 	struct srm_context context;
 	struct srm_mkdir_input mkdir_input;
 
-	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 	/* Create sub-directories of SURLs */
 	for (i = 0; i < req->nbfiles; ++i) {
         const gchar* dir = g_strconcat((gchar*)req->surls[i], "/", NULL);	// concat the two string
@@ -1869,7 +1857,7 @@ gfal_get (gfal_internal req, char *errbuf, int errbufsz)
     	struct srm_preparetoget_input preparetoget_input;
     	struct srm_preparetoget_output preparetoget_output;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
         if (req->srmv2_pinstatuses)
         {
@@ -1929,7 +1917,7 @@ gfal_getstatus (gfal_internal req, char *errbuf, int errbufsz)
     	struct srm_preparetoget_input preparetoget_input;
     	struct srm_preparetoget_output preparetoget_output;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
         if (req->srmv2_pinstatuses)
         {
@@ -1976,7 +1964,7 @@ gfal_bringonline (gfal_internal req, char *errbuf, int errbufsz)
     	struct srm_bringonline_input bringonline_input;
     	struct srm_bringonline_output bringonline_output;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
         if (req->srmv2_pinstatuses)
         {
@@ -2026,7 +2014,7 @@ gfal_prestage (gfal_internal req, char *errbuf, int errbufsz)
     	struct srm_bringonline_input bringonline_input;
     	struct srm_bringonline_output bringonline_output;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
         if (req->srmv2_pinstatuses)
         {
@@ -2077,7 +2065,7 @@ gfal_prestagestatus (gfal_internal req, char *errbuf, int errbufsz)
     	struct srm_bringonline_input bringonline_input;
     	struct srm_bringonline_output bringonline_output;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
         if (req->srmv2_pinstatuses)
         {
@@ -2116,7 +2104,7 @@ gfal_pin (gfal_internal req, char *errbuf, int errbufsz)
     	struct srm_extendfilelifetime_input extendfilelifetime_input;
     	struct srm_extendfilelifetime_output extendfilelifetime_output;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
         if (req->srmv2_pinstatuses)
         {
@@ -2163,7 +2151,7 @@ gfal_release (gfal_internal req, char *errbuf, int errbufsz)
     	struct srm_context context;
     	struct srm_releasefiles_input releasefiles_input;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
     	releasefiles_input.nbfiles = req->nbfiles;
     	releasefiles_input.surls = req->surls;
@@ -2227,7 +2215,7 @@ gfal_set_xfer_done (gfal_internal req, char *errbuf, int errbufsz)
     {
     	struct srm_context context;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
         if (req->srmv2_statuses)
         {
@@ -2391,7 +2379,7 @@ gfal_abortrequest (gfal_internal req, char *errbuf, int errbufsz)
     {
     	struct srm_context context;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
         if (req->srmv2_statuses)
         {
@@ -2440,7 +2428,7 @@ gfal_abortfiles (gfal_internal req, char *errbuf, int errbufsz)
     	struct srm_context context;
     	struct srm_abort_files_input abortfiles_input;
 
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_verbose);
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
 
     	if (req->srmv2_statuses)
         {
