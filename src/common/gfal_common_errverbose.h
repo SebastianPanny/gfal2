@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <glib.h>
 
 /**
  * \brief display a verbose message 
@@ -48,4 +49,9 @@ int gfal_set_verbose (int value);
  * \brief return verbose mode level
  */
 int gfal_get_verbose();
+
+/**
+ * \brief display the full GError message on stderr and free the memory associated
+ */
+void gfal_release_GError(GError** err);
 

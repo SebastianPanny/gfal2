@@ -55,5 +55,11 @@ extern int gfal_set_verbose (int value)
 
  }
  
+ 
+ extern void gfal_release_GError(GError** err){
+	 fprintf(stderr,"[gfal]%s", (*err)->message);
+	 free(*err);
+	 *err=NULL;	 
+ }
 
 

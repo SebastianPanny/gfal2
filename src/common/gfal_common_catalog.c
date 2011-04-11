@@ -39,9 +39,9 @@ char* gfal_get_cat_type(GError** err) {
 		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[get_cat_type] LCG_CATALOG_TYPE env var is not defined, use default var instead");
         cat_env = get_default_cat(); 
 	}
-    if((cat_type = strndup(cat_env,50)) == NULL) {
-		g_set_error(err,NULL,EINVAL,"[get_cat_type] invalid env var LCG_CATALOG_TYPE, please set it correctly or delete it ");
-        return (char*)(-1);
+    if((cat_type = strndup(cat_env, 50)) == NULL) {
+		g_set_error(err,0,EINVAL,"[get_cat_type] invalid env var LCG_CATALOG_TYPE, please set it correctly or delete it ");
+        return NULL;
     }
     return cat_type;
 }

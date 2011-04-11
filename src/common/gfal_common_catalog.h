@@ -24,8 +24,8 @@
  * @date 8/04/2011
  * */
 
-#include "gfal_common.h"
 #include <string.h>
+#include "gfal_common.h"
 #include <errno.h>
 
 

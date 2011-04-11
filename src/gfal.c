@@ -449,12 +449,16 @@ gfal_chmod (const char *path, mode_t mode)
     char pathbuf[1104];
     char *cat_type = NULL;
     int islfc;
+    GError* err=NULL;
 
     if (canonical_url (path, "file", pathbuf, 1104, NULL, 0) < 0)
         return (-1);
 
-    if (get_cat_type (&cat_type) < 0)
+    if (( cat_type = gfal_get_cat_type(&err) ) == NULL){
+		gfal_release_GError(&err);
+		free (cat_type);   
         return (-1);
+     }
     islfc = strcmp (cat_type, "lfc") == 0;
     free (cat_type);
 
@@ -472,6 +476,7 @@ gfal_close (int fd)
     int rc;
     int sav_errno = 0;
     struct xfer_info *xi;
+    GError* err=NULL;
 
     if (fd < 0 || (xi = find_xi (fd)) == NULL)
         return (-1);
@@ -487,8 +492,11 @@ gfal_close (int fd)
         char *cat_type = NULL;
         int islfc;
 
-        if (get_cat_type (&cat_type) < 0)
+        if (( cat_type = gfal_get_cat_type(&err) ) == NULL){
+			gfal_release_GError(err);
+			free (cat_type);
             return (-1);
+		}
         islfc = strcmp (cat_type, "lfc") == 0;
         free (cat_type);
 
@@ -595,6 +603,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
     char path[1104], pfn[1104];
     struct proto_ops *pops = NULL;
     char protocol[64];
+    GError* err = NULL;
 
     if (canonical_url (dirname, "file", path, 1104, NULL, 0) < 0)
         return (-1);
@@ -608,9 +617,11 @@ gfal_mkdir (const char *dirname, mode_t mode)
     if (strncmp (path, "lfn:", 4) == 0) {
         int islfc;
         char *cat_type;
-        if (get_cat_type (&cat_type) < 0)
+        if ((cat_type = gfal_get_cat_type(&err)) ==NULL){
+			gfal_release_GError(&err);
+			free(cat_type);
             return (-1);
-
+		}
         islfc = strcmp (cat_type, "lfc") == 0;
         free (cat_type);
 
@@ -885,6 +896,7 @@ gfal_opendir (const char *dirname)
     struct proto_ops *pops = NULL;
     char protocol[64];
     int islfn = 0;
+    GError* err = NULL;
 
     if (canonical_url (dirname, "file", path, 1104, NULL, 0) < 0)
         return (NULL);
@@ -894,8 +906,11 @@ gfal_opendir (const char *dirname)
         void *dlhandle;
         char *cat_type;
 
-        if (get_cat_type (&cat_type) < 0)
+        if (( cat_type = gfal_get_cat_type(&err) ) == NULL){
+			gfal_release_GError(&err);
+			free(cat_type);
             return (NULL);
+		}
         if (strcmp (cat_type, "lfc") != 0) {
             errno = EPROTONOSUPPORT;
             return (NULL);
@@ -1001,6 +1016,7 @@ gfal_rename (const char *old_name, const char *new_name)
     struct proto_ops *pops = NULL;
     char protocol1[64];
     char protocol2[64];
+    GError* err=NULL;
 
     if (canonical_url (old_name, "file", path1, 1104, NULL, 0) < 0 ||
             canonical_url (new_name, "file", path2, 1104, NULL, 0) < 0)
@@ -1009,11 +1025,14 @@ gfal_rename (const char *old_name, const char *new_name)
     if (strncmp (path1, "lfn:", 4) == 0 && strncmp (path2, "lfn:", 4) == 0) {
         int islfc,isedg;
         char *cat_type;
-        if (get_cat_type (&cat_type) < 0)
+        if (( cat_type = gfal_get_cat_type(&err) ) == NULL){
+			gfal_release_GError(&err);
+			free(cat_type);
             return (-1);
+		}
 
         islfc = strcmp (cat_type, "lfc") == 0;
-        isedg = strcmp (cat_type, "edg") == 0;
+        isedg = 0;
         free (cat_type);
 
         if (islfc)
@@ -1080,6 +1099,7 @@ gfal_rmdir (const char *dirname)
     char path[1104], pfn[1104];
     struct proto_ops *pops = NULL;
     char protocol[64];
+    GError* err=NULL;
 
     if (canonical_url (dirname, "file", path, 1104, NULL, 0) < 0)
         return (-1);
@@ -1087,9 +1107,12 @@ gfal_rmdir (const char *dirname)
     if (strncmp (path, "lfn:", 4) == 0) {
         int islfc;
         char *cat_type;
-        if (get_cat_type (&cat_type) < 0)
+        if (( cat_type = gfal_get_cat_type(&err) ) == NULL){
+			gfal_release_GError(&err);
+			free(cat_type);
             return (-1);
-
+		}
+		
         islfc = strcmp (cat_type, "lfc") == 0;
         free (cat_type);
 
@@ -2521,6 +2544,7 @@ canonical_url (const char *url, const char *defproto, char *newurl, int newurlsz
     int len;
     char *cat_type;
     int islfc = 0;
+    GError* err=NULL;
 
     if (url == NULL || newurl == NULL || newurlsz < 10) {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][canonical_url][EFAULT] bad arguments");
@@ -2533,8 +2557,11 @@ canonical_url (const char *url, const char *defproto, char *newurl, int newurlsz
         return (-1);
     }
 
-    if(get_cat_type (&cat_type) < 0)
+    if(( cat_type = gfal_get_cat_type(&err) ) == NULL){
+        gfal_release_GError(&err);
+		free(cat_type);
         return (-1);
+	}
     islfc = strcmp (cat_type, "lfc") == 0;
     free (cat_type);
 
@@ -2735,7 +2762,7 @@ get_cat_type (char **cat_type) {
 get_catalog_endpoint (char *errbuf, int errbufsz)
 {
     char *cat_type;
-    if (get_cat_type (&cat_type) < 0) {
+    if (( cat_type = gfal_get_cat_type(NULL) ) ==NULL) {
         return (NULL);
     }
  /* lrc support removed : fix it   if (strcmp (cat_type, "edg") == 0) {
@@ -2760,7 +2787,7 @@ gfal_guidforpfn (const char *pfn, char *errbuf, int errbufsz)
 
     if (purify_surl (pfn, actual_pfn, GFAL_PATH_MAXLEN) < 0)
         return (NULL);
-    if (get_cat_type (&cat_type) < 0) {
+    if (( cat_type = gfal_get_cat_type(NULL) ) == NULL) {
         return (NULL);
     }
   /*  lrc support removed : fix it if (strcmp (cat_type, "edg") == 0) {
@@ -2783,7 +2810,7 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int
     char *cat_type;
     char actual_pfn[GFAL_PATH_MAXLEN];
 
-    if (get_cat_type (&cat_type) < 0)
+    if (( cat_type = gfal_get_cat_type(NULL) ) == NULL)
         return (-1);
 /* lrc support removed : fix it
     if (strcmp (cat_type, "edg") == 0) {
@@ -2822,7 +2849,7 @@ gfal_guidsforpfns (int nbfiles, const char **pfns, int amode, char ***guids, int
 guid_exists (const char *guid, char *errbuf, int errbufsz)
 {
     char *cat_type;
-    if (get_cat_type (&cat_type) < 0) {
+    if (( cat_type = gfal_get_cat_type(NULL) ) == NULL) {
         return (-1);
     }
  /* lrc support removed : fix it   if (strcmp (cat_type, "edg") == 0) {
@@ -2843,7 +2870,7 @@ guid_exists (const char *guid, char *errbuf, int errbufsz)
 setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
 {
     char *cat_type;
-    if (get_cat_type (&cat_type) < 0) {
+    if (( cat_type = gfal_get_cat_type(NULL) ) == NULL) {
         return (-1);
     }
  /*  lrc removed : fix it if (strcmp (cat_type, "edg") == 0) {
@@ -2878,7 +2905,7 @@ gfal_get_replicas (const char *lfn, const char *guid, char *errbuf, int errbufsz
     if (guid != NULL)
         actual_guid = strdup (strncmp (guid, "guid:", 5) == 0 ? guid + 5 : guid);
 
-    if (get_cat_type (&cat_type) < 0)
+    if (( cat_type = gfal_get_cat_type(NULL) ) == NULL)
         return (NULL);
 
     if (strcmp (cat_type, "lfc") == 0) {
@@ -2914,7 +2941,7 @@ gfal_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **
     char *cat_type;
     int rc = 0;
 
-    if (get_cat_type (&cat_type) < 0)
+    if (( cat_type = gfal_get_cat_type(NULL) ) == NULL)
         return (-1);
 
     if (strcmp (cat_type, "edg") == 0) {
@@ -2983,7 +3010,7 @@ gfal_unregister_pfns (int nbguids, const char **guids, const char **pfns, int **
 guidfromlfn (const char *lfn, char *errbuf, int errbufsz)
 {
     char *cat_type;
-    if (get_cat_type (&cat_type) < 0) {
+    if (( cat_type = gfal_get_cat_type(NULL) ) == NULL) {
         return (NULL);
     }
  /*  remove rmc dependencies : fix it if (strcmp (cat_type, "edg") == 0) {
@@ -3018,7 +3045,7 @@ gfal_get_aliases (const char *lfn, const char *guid, char *errbuf, int errbufsz)
     if (guid != NULL)
         actual_guid = strdup (strncmp (guid, "guid:", 5) == 0 ? guid + 5 : guid);
 
-    if (get_cat_type (&cat_type) < 0) {
+    if (( cat_type = gfal_get_cat_type(NULL) ) == NULL) {
         gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_get_aliases][] Unable to determine the catalog type");
         return (NULL);
     }
@@ -3063,7 +3090,7 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
         return (-1);
     }
 
-    if (get_cat_type (&cat_type) < 0) {
+    if (( cat_type = gfal_get_cat_type(NULL) ) == NULL) {
         return (-1);
     }
     islfc = strcmp (cat_type, "lfc") == 0;
@@ -3180,7 +3207,7 @@ gfal_register_file (const char *lfn, const char *guid, const char *surl, mode_t 
 register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
     char *cat_type;
-    if (get_cat_type (&cat_type) < 0) {
+    if (( cat_type = gfal_get_cat_type(NULL) ) ==NULL) {
         return (-1);
     }
   /* 		 rmc removed fix it if (strcmp (cat_type, "edg") == 0) {
@@ -3203,7 +3230,7 @@ register_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 unregister_alias (const char *guid, const char *lfn, char *errbuf, int errbufsz)
 {
     char *cat_type;
-    if (get_cat_type (&cat_type) < 0) {
+    if (( cat_type = gfal_get_cat_type(NULL) ) ==NULL) {
         return (-1);
     }
  /* fix it, rmc removed   if (strcmp (cat_type, "edg") == 0) {
