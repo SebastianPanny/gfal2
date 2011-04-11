@@ -25,8 +25,6 @@
 
 #include "gfal_common_catalog.h"
 
-
-
 static char* get_default_cat(){
 	return GFAL_DEFAULT_CATALOG_TYPE;
 }

@@ -2743,21 +2743,6 @@ setypesandendpointsfromsurl (const char *surl, char ***se_types, char ***se_endp
     return (rc);
 }
 
-int
-get_cat_type (char **cat_type) {
-    char *cat_env;
-    char *default_cat = GFAL_DEFAULT_CATALOG_TYPE;
-
-    if((cat_env = getenv ("LCG_CATALOG_TYPE")) == NULL) {
-        /* default catalogs if no environment variable specified */
-        cat_env = default_cat;
-    }
-    if((*cat_type = strdup(cat_env)) == NULL) {
-        return (-1);
-    }
-    return 0;
-}
-
     char *
 get_catalog_endpoint (char *errbuf, int errbufsz)
 {

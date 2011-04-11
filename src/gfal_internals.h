@@ -107,7 +107,6 @@ char *gfal_generate_guid (char *, int);
 /******************** mds_ifce.c ********************/
 
 int get_bdii (char *, int, int *, char *, int);
-int get_cat_type(char **);
 int get_ce_ap (const char *, char **, char *, int);
 int get_lfc_endpoint (char **, char *, int);
 int get_rls_endpoints (char **, char **, char *, int);
