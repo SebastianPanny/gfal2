@@ -39,12 +39,17 @@
 <a name="l00028"></a>00028 <span class="preprocessor">#include "gfal_constants.h"</span>
 <a name="l00029"></a>00029 <span class="preprocessor">#include &lt;stdarg.h&gt;</span>
 <a name="l00030"></a>00030 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
-<a name="l00031"></a>00031 
-<a name="l00038"></a>00038 <span class="keywordtype">void</span> <a class="code" href="gfal__common__errverbose_8c.html#8b05640b4b43a776603bd93703c29d30">gfal_print_verbose</a>(<span class="keywordtype">int</span> verbose_lvl,<span class="keyword">const</span> <span class="keywordtype">char</span>* msg, ...);
-<a name="l00044"></a>00044 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g331e181c2fadd801321ad43033835052">gfal_set_verbose</a> (<span class="keywordtype">int</span> value);
-<a name="l00048"></a>00048 <span class="keywordtype">int</span> <a class="code" href="gfal__common__errverbose_8c.html#135b3fdd775aa7215e2ab4de1eea495f">gfal_get_verbose</a>();
-<a name="l00049"></a>00049 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Apr 8 22:28:19 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00031"></a>00031 <span class="preprocessor">#include &lt;string.h&gt;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &lt;errno.h&gt;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &lt;glib.h&gt;</span>
+<a name="l00034"></a>00034 
+<a name="l00041"></a>00041 <span class="keywordtype">void</span> <a class="code" href="gfal__common__errverbose_8c.html#8b05640b4b43a776603bd93703c29d30">gfal_print_verbose</a>(<span class="keywordtype">int</span> verbose_lvl,<span class="keyword">const</span> <span class="keywordtype">char</span>* msg, ...);
+<a name="l00047"></a>00047 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g331e181c2fadd801321ad43033835052">gfal_set_verbose</a> (<span class="keywordtype">int</span> value);
+<a name="l00051"></a>00051 <span class="keywordtype">int</span> <a class="code" href="gfal__common__errverbose_8c.html#135b3fdd775aa7215e2ab4de1eea495f">gfal_get_verbose</a>();
+<a name="l00052"></a>00052 
+<a name="l00056"></a>00056 <span class="keywordtype">void</span> <a class="code" href="gfal__common__errverbose_8c.html#1441ea4b8176eb0cf3099009b950a3e9">gfal_release_GError</a>(GError** err);
+<a name="l00057"></a>00057 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Apr 11 15:07:42 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

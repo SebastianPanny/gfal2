@@ -4,93 +4,100 @@
     <compoundname>gfal_common_catalog.c</compoundname>
     <includes refid="gfal__common__catalog_8h" local="yes">gfal_common_catalog.h</includes>
     <incdepgraph>
-      <node id="70">
+      <node id="73">
         <label>sys/stat.h</label>
       </node>
-      <node id="76">
+      <node id="79">
         <label>stdlib.h</label>
       </node>
-      <node id="72">
+      <node id="75">
         <label>gfal_types.h</label>
         <link refid="gfal__types_8h-source"/>
-        <childnode refid="68" relation="include">
-        </childnode>
-        <childnode refid="69" relation="include">
-        </childnode>
-        <childnode refid="70" relation="include">
-        </childnode>
-        <childnode refid="73" relation="include">
-        </childnode>
-        <childnode refid="74" relation="include">
-        </childnode>
-      </node>
-      <node id="67">
-        <label>gfal_api.h</label>
-        <link refid="gfal__api_8h-source"/>
-        <childnode refid="68" relation="include">
-        </childnode>
-        <childnode refid="69" relation="include">
-        </childnode>
-        <childnode refid="70" relation="include">
-        </childnode>
         <childnode refid="71" relation="include">
         </childnode>
         <childnode refid="72" relation="include">
         </childnode>
-      </node>
-      <node id="73">
-        <label>gfal_srm_ifce_types.h</label>
-      </node>
-      <node id="68">
-        <label>sys/types.h</label>
-      </node>
-      <node id="78">
-        <label>string.h</label>
-      </node>
-      <node id="74">
-        <label>unistd.h</label>
-      </node>
-      <node id="75">
-        <label>glib.h</label>
-      </node>
-      <node id="66">
-        <label>gfal_common.h</label>
-        <link refid="gfal__common_8h"/>
-        <childnode refid="67" relation="include">
-        </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="73" relation="include">
         </childnode>
         <childnode refid="76" relation="include">
         </childnode>
         <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
-        </childnode>
+      </node>
+      <node id="81">
+        <label>errno.h</label>
+      </node>
+      <node id="70">
+        <label>gfal_api.h</label>
+        <link refid="gfal__api_8h-source"/>
         <childnode refid="71" relation="include">
         </childnode>
-        <childnode refid="65" relation="include">
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
         </childnode>
       </node>
+      <node id="76">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
       <node id="71">
+        <label>sys/types.h</label>
+      </node>
+      <node id="68">
+        <label>string.h</label>
+      </node>
+      <node id="77">
+        <label>unistd.h</label>
+      </node>
+      <node id="78">
+        <label>glib.h</label>
+      </node>
+      <node id="69">
+        <label>gfal_common.h</label>
+        <link refid="gfal__common_8h"/>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+      </node>
+      <node id="74">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="64">
+      <node id="66">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
         <link refid="gfal_common_catalog.c"/>
-        <childnode refid="65" relation="include">
+        <childnode refid="67" relation="include">
         </childnode>
       </node>
-      <node id="65">
+      <node id="67">
         <label>gfal_common_catalog.h</label>
         <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="66" relation="include">
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
         </childnode>
       </node>
-      <node id="77">
+      <node id="80">
         <label>stdio.h</label>
       </node>
-      <node id="69">
+      <node id="72">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
@@ -108,19 +115,23 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="30" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="30" bodyend="32"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__catalog_8c_14a9a7a47c50b94a4d8f699d544aa15ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__catalog_8c_1c20aa1a376c802d0c60208854537851e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
         <definition>char* gfal_get_cat_type</definition>
-        <argsstring>()</argsstring>
+        <argsstring>(GError **err)</argsstring>
         <name>gfal_get_cat_type</name>
+        <param>
+          <type>GError **</type>
+          <defname>err</defname>
+        </param>
         <briefdescription>
 <para>catalog type getter </para>        </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>return a string of the catalogtype </para></simplesect>
+<para><simplesect kind="return"><para>return a string of the type of the catalog return NULL if an error occured and set the GError correctly </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="34" bodyend="46"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="34" bodyend="47"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -156,7 +167,7 @@
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GFAL_DEFAULT_CATALOG_TYPE;</highlight></codeline>
 <codeline lineno="32"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_get_cat_type()<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_get_cat_type(GError**<sp/>err)<sp/>{</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*cat_env;</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*cat_type;</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
@@ -164,12 +175,13 @@
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_VERBOSE,<sp/></highlight><highlight class="stringliteral">&quot;[get_cat_type]<sp/>LCG_CATALOG_TYPE<sp/>env<sp/>var<sp/>is<sp/>not<sp/>defined,<sp/>use<sp/>default<sp/>var<sp/>instead&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cat_env<sp/>=<sp/>get_default_cat();<sp/></highlight></codeline>
 <codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((cat_type<sp/>=<sp/>strdup(cat_env))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)(-1);</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cat_type;</highlight></codeline>
-<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((cat_type<sp/>=<sp/>strndup(cat_env,<sp/>50))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,EINVAL,</highlight><highlight class="stringliteral">&quot;[get_cat_type]<sp/>invalid<sp/>env<sp/>var<sp/>LCG_CATALOG_TYPE,<sp/>please<sp/>set<sp/>it<sp/>correctly<sp/>or<sp/>delete<sp/>it<sp/>&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cat_type;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c"/>
   </compounddef>

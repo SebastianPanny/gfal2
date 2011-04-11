@@ -20,15 +20,17 @@
   </ul></div>
 <h1>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h File Reference</h1>the header file of the common lib for the catalog management <a href="#_details">More...</a>
 <p>
+<code>#include &lt;string.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common_8h-source.html">gfal_common.h</a>&quot;</code><br>
+<code>#include &lt;errno.h&gt;</code><br>
 
 <p>
 <a href="gfal__common__catalog_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#4a9a7a47c50b94a4d8f699d544aa15ed">gfal_get_cat_type</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#791ad55a9c8aaca0bb8ae74a3538c202">gfal_get_cat_type</a> (GError **)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#4a9a7a47c50b94a4d8f699d544aa15ed"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#791ad55a9c8aaca0bb8ae74a3538c202"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 the header file of the common lib for the catalog management 
@@ -37,13 +39,14 @@ the header file of the common lib for the catalog management
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>8/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="4a9a7a47c50b94a4d8f699d544aa15ed"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_get_cat_type" ref="4a9a7a47c50b94a4d8f699d544aa15ed" args="()" -->
+<a class="anchor" name="791ad55a9c8aaca0bb8ae74a3538c202"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_get_cat_type" ref="791ad55a9c8aaca0bb8ae74a3538c202" args="(GError **)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">char* gfal_get_cat_type           </td>
           <td>(</td>
+          <td class="paramtype">GError **&nbsp;</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"></td>
@@ -55,11 +58,11 @@ the header file of the common lib for the catalog management
 <p>
 catalog type getter 
 <p>
-<dl compact><dt><b>Returns:</b></dt><dd>return a string of the catalogtype </dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return a string of the type of the catalog return NULL if an error occured and set the GError correctly </dd></dl>
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Apr 8 22:28:19 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Apr 11 15:07:42 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

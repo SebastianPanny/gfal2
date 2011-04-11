@@ -5,38 +5,56 @@
     <includes refid="gfal__constants_8h" local="yes">gfal_constants.h</includes>
     <includes local="no">stdarg.h</includes>
     <includes local="no">stdio.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="no">errno.h</includes>
+    <includes local="no">glib.h</includes>
     <includedby refid="gfal__common__errverbose_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</includedby>
     <incdepgraph>
-      <node id="106">
+      <node id="113">
         <label>stdarg.h</label>
       </node>
-      <node id="104">
+      <node id="111">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h</label>
         <link refid="gfal_common_errverbose.h"/>
-        <childnode refid="105" relation="include">
+        <childnode refid="112" relation="include">
         </childnode>
-        <childnode refid="106" relation="include">
+        <childnode refid="113" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="114" relation="include">
+        </childnode>
+        <childnode refid="115" relation="include">
+        </childnode>
+        <childnode refid="116" relation="include">
+        </childnode>
+        <childnode refid="117" relation="include">
         </childnode>
       </node>
-      <node id="105">
+      <node id="116">
+        <label>errno.h</label>
+      </node>
+      <node id="115">
+        <label>string.h</label>
+      </node>
+      <node id="117">
+        <label>glib.h</label>
+      </node>
+      <node id="112">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="107">
+      <node id="114">
         <label>stdio.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="109">
+      <node id="119">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</label>
         <link refid="gfal__common__errverbose_8c"/>
       </node>
-      <node id="108">
+      <node id="118">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h</label>
         <link refid="gfal_common_errverbose.h"/>
-        <childnode refid="109" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -63,7 +81,7 @@
 <para>msg is displayed if current verbose level is superior to verbose mode specified </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="38" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="48" bodyend="56"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="41" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="48" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="group__common__group_1g331e181c2fadd801321ad43033835052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -88,7 +106,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="44" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="39" bodyend="45"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="39" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8h_1135b3fdd775aa7215e2ab4de1eea495f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -101,7 +119,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="35" bodyend="37"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__errverbose_8h_11441ea4b8176eb0cf3099009b950a3e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gfal_release_GError</definition>
+        <argsstring>(GError **err)</argsstring>
+        <name>gfal_release_GError</name>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>display the full GError message on stderr and free the memory associated </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="59" bodyend="63"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -133,11 +168,16 @@
 <codeline lineno="28"><highlight class="preprocessor">#include<sp/>&quot;gfal_constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdarg.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>verbose_lvl,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>msg,<sp/>...);</highlight></codeline>
-<codeline lineno="44"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g331e181c2fadd801321ad43033835052" kindref="member">gfal_set_verbose</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
-<codeline lineno="48"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose</ref>();</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;errno.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>verbose_lvl,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>msg,<sp/>...);</highlight></codeline>
+<codeline lineno="47"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g331e181c2fadd801321ad43033835052" kindref="member">gfal_set_verbose</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="51"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_11441ea4b8176eb0cf3099009b950a3e9" kindref="member">gfal_release_GError</ref>(GError**<sp/>err);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h"/>
   </compounddef>

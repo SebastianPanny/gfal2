@@ -5,6 +5,9 @@ the header file of the common lib for error management and verbose display
 {\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include $<$stdarg.h$>$}\par
 {\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$errno.h$>$}\par
+{\tt \#include $<$glib.h$>$}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
@@ -14,7 +17,10 @@ int \bf{gfal\_\-set\_\-verbose} (int value)
 \begin{CompactList}\small\item\em set the verbose mode for the current program \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-verbose} ()\label{gfal__common__errverbose_8h_135b3fdd775aa7215e2ab4de1eea495f}
 
-\begin{CompactList}\small\item\em return verbose mode level \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em return verbose mode level \item\end{CompactList}\item 
+void \bf{gfal\_\-release\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8h_1441ea4b8176eb0cf3099009b950a3e9}
+
+\begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}

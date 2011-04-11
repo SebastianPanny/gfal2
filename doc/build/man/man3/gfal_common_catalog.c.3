@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "8 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "11 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,7 +13,7 @@
 
 .in +1c
 .ti -1c
-.RI "char * \fBgfal_get_cat_type\fP ()"
+.RI "char * \fBgfal_get_cat_type\fP (GError **err)"
 .br
 .RI "\fIcatalog type getter \fP"
 .in -1c
@@ -39,13 +39,13 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "char* gfal_get_cat_type ()"
+.SS "char* gfal_get_cat_type (GError **)"
 .PP
 catalog type getter 
 .PP
 \fBReturns:\fP
 .RS 4
-return a string of the catalogtype 
+return a string of the type of the catalog return NULL if an error occured and set the GError correctly 
 .RE
 .PP
 

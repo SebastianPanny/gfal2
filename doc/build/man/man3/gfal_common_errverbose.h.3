@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "8 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "11 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -11,6 +11,12 @@
 \fC#include <stdarg.h>\fP
 .br
 \fC#include <stdio.h>\fP
+.br
+\fC#include <string.h>\fP
+.br
+\fC#include <errno.h>\fP
+.br
+\fC#include <glib.h>\fP
 .br
 
 .SS "Functions"
@@ -28,6 +34,10 @@
 .RI "int \fBgfal_get_verbose\fP ()"
 .br
 .RI "\fIreturn verbose mode level \fP"
+.ti -1c
+.RI "void \fBgfal_release_GError\fP (GError **err)"
+.br
+.RI "\fIdisplay the full GError message on stderr and free the memory associated \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
