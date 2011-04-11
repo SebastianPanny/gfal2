@@ -35,3 +35,6 @@
 char* gfal_get_cat_type();
 
 
+ 	
+
+

@@ -42,6 +42,8 @@ void gfal_print_verbose(int verbose_lvl,const char* msg, ...);
  * 
  */
 int gfal_set_verbose (int value);
-
+/**
+ * \brief return verbose mode level
+ */
 int gfal_get_verbose();
 

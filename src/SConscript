@@ -61,6 +61,11 @@ def gsoap_rename(target,source,env, suffix):
 env.Append(LIBS=gfal_libs)
 env.Append(CPPPATH= other_headers)
 
+
+
 mainlib = env.SharedLibrary('#build/libs/libgfal', all_src)
 staticlib = env.StaticLibrary('#build/libs/libgfal',all_src)
+
+Default(mainlib,staticlib)
+
 
