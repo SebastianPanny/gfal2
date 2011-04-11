@@ -31,7 +31,7 @@ static char* get_default_cat(){
 	return GFAL_DEFAULT_CATALOG_TYPE;
 }
 
-char* gfal_get_cat_type() {
+char* gfal_get_cat_type(GError** err) {
     char *cat_env;
     char *cat_type;
 
@@ -39,7 +39,8 @@ char* gfal_get_cat_type() {
 		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[get_cat_type] LCG_CATALOG_TYPE env var is not defined, use default var instead");
         cat_env = get_default_cat(); 
 	}
-    if((cat_type = strdup(cat_env)) == NULL) {
+    if((cat_type = strndup(cat_env,50)) == NULL) {
+		g_set_error(err,NULL,EINVAL,"[get_cat_type] invalid env var LCG_CATALOG_TYPE, please set it correctly or delete it ");
         return (char*)(-1);
     }
     return cat_type;

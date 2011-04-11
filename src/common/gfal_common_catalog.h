@@ -25,6 +25,8 @@
  * */
 
 #include "gfal_common.h"
+#include <string.h>
+#include <errno.h>
 
 
 /**
