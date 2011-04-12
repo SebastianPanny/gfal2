@@ -102,7 +102,7 @@ gfal_file_new (const char *file, const char *defproto, int bool_tobecreated, cha
 
 	if (gf->lfn != NULL || gf->guid != NULL) {
 		char *cat_type;
-		if ( cat_type= gfal_get_cat_type (NULL) == NULL) {
+		if ( (cat_type= gfal_get_cat_type (NULL)) == NULL) {
 			gfal_file_free (gf);
 			return (NULL);
 		}
