@@ -24,9 +24,8 @@
  * */
  
  
-#include "gfal_internals.h"
-#include "gfal_constants.h"
 #include "../common/gfal_common.h"
+#include "../common/gfal_constants.h"
 #include "gfal_types.h"
 #include <glib.h>
 #include <sys/types.h>

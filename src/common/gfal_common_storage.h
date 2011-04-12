@@ -23,7 +23,7 @@
   * @date 12/04/2011
   * */
 
-#inlude "gfal_common.h"
+#include "gfal_common.h"
 
 
 

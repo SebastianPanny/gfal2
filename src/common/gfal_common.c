@@ -33,9 +33,6 @@
 
 
 
-
-static struct dir_info *di_array[GFAL_OPEN_MAX];
-static struct xfer_info *xi_array[GFAL_OPEN_MAX];
 static char *gfal_userdn = NULL;
 static char *gfal_vo = NULL;
 static char *gfal_fqan[GFAL_FQAN_MAX];

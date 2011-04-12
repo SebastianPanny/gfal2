@@ -27,6 +27,9 @@
 
 
 
+struct dir_info *di_array[GFAL_OPEN_MAX];
+struct xfer_info *xi_array[GFAL_OPEN_MAX];
+
 struct dir_info *
 alloc_di (DIR *dir)
 {
