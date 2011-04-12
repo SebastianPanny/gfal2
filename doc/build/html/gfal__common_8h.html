@@ -27,10 +27,76 @@
 <code>#include &lt;string.h&gt;</code><br>
 <code>#include &quot;gfal_constants.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__catalog_8h-source.html">gfal_common_catalog.h</a>&quot;</code><br>
+<code>#include &quot;gfal_internals.h&quot;</code><br>
+<code>#include &quot;gfal_types.h&quot;</code><br>
 
 <p>
 <a href="gfal__common_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
+<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b5d503849656335232e56583b376ee22"></a><!-- doxytag: member="gfal_common.h::gfal_request_new" ref="b5d503849656335232e56583b376ee22" args="()" -->
+gfal_request&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_request_new</b> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0716a4d199225519746d4dd88621dd57"></a><!-- doxytag: member="gfal_common.h::gfal_init" ref="0716a4d199225519746d4dd88621dd57" args="(gfal_request, gfal_internal *, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_init</b> (gfal_request, gfal_internal *, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8ec8e45c58067eb06cd8836d85668ce5"></a><!-- doxytag: member="gfal_common.h::gfal_deletesurls" ref="8ec8e45c58067eb06cd8836d85668ce5" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_deletesurls</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="40eba4bdcf3d5d99631bdd8bfa9029e0"></a><!-- doxytag: member="gfal_common.h::gfal_removedir" ref="40eba4bdcf3d5d99631bdd8bfa9029e0" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_removedir</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="54ec3268b58bf5630c2c024e2786cb5c"></a><!-- doxytag: member="gfal_common.h::gfal_turlsfromsurls" ref="54ec3268b58bf5630c2c024e2786cb5c" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_turlsfromsurls</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f53cbbdfbf7fa2eb4a112adac9cca181"></a><!-- doxytag: member="gfal_common.h::gfal_get" ref="f53cbbdfbf7fa2eb4a112adac9cca181" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="04aeeae94e9415bbbbc66c05e9d1d5f0"></a><!-- doxytag: member="gfal_common.h::gfal_getstatus" ref="04aeeae94e9415bbbbc66c05e9d1d5f0" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_getstatus</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6e5d230e9c6c10f7eb0812c3e715da8b"></a><!-- doxytag: member="gfal_common.h::gfal_bringonline" ref="6e5d230e9c6c10f7eb0812c3e715da8b" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_bringonline</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6e812150f464fa1ad38f4fbd822eeac4"></a><!-- doxytag: member="gfal_common.h::gfal_prestage" ref="6e812150f464fa1ad38f4fbd822eeac4" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_prestage</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="873df094d8cbd7df805daef71f1397d7"></a><!-- doxytag: member="gfal_common.h::gfal_prestagestatus" ref="873df094d8cbd7df805daef71f1397d7" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_prestagestatus</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e3d50efa31f015cba9f0bb9f76dbd760"></a><!-- doxytag: member="gfal_common.h::gfal_pin" ref="e3d50efa31f015cba9f0bb9f76dbd760" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_pin</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e1fbb1b6c81d1e9b227ac3bdafcab05b"></a><!-- doxytag: member="gfal_common.h::gfal_release" ref="e1fbb1b6c81d1e9b227ac3bdafcab05b" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_release</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="906f9ae2d627df81007ce2ac8b9c3077"></a><!-- doxytag: member="gfal_common.h::gfal_set_xfer_done" ref="906f9ae2d627df81007ce2ac8b9c3077" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_xfer_done</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b45892d9b11438b075a1337ce785d336"></a><!-- doxytag: member="gfal_common.h::gfal_set_xfer_running" ref="b45892d9b11438b075a1337ce785d336" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_xfer_running</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="36d39f2c8275e09815a156177b7f2b91"></a><!-- doxytag: member="gfal_common.h::gfal_abortrequest" ref="36d39f2c8275e09815a156177b7f2b91" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_abortrequest</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="895e99946a94b412cb16542e49c50d2e"></a><!-- doxytag: member="gfal_common.h::gfal_abortfiles" ref="895e99946a94b412cb16542e49c50d2e" args="(gfal_internal, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_abortfiles</b> (gfal_internal, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="516faa64e8163a2fd3aeabb23c81261d"></a><!-- doxytag: member="gfal_common.h::gfal_get_results" ref="516faa64e8163a2fd3aeabb23c81261d" args="(gfal_internal, gfal_filestatus **)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_results</b> (gfal_internal, gfal_filestatus **)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d3480ef06395ae3e11bbcc7b4f6f947e"></a><!-- doxytag: member="gfal_common.h::gfal_get_ids_setype" ref="d3480ef06395ae3e11bbcc7b4f6f947e" args="(gfal_internal, enum se_type *, int *, int **, char **)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_ids_setype</b> (gfal_internal, enum se_type *, int *, int **, char **)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="53ad87ee70e3be3542a13e3f0d4e4f13"></a><!-- doxytag: member="gfal_common.h::gfal_get_ids" ref="53ad87ee70e3be3542a13e3f0d4e4f13" args="(gfal_internal, int *, int **, char **)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_ids</b> (gfal_internal, int *, int **, char **)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="24e63e5dbd1e49352f7af0a67b14a9fc"></a><!-- doxytag: member="gfal_common.h::gfal_set_ids" ref="24e63e5dbd1e49352f7af0a67b14a9fc" args="(gfal_internal, int, const int *, int, const char *, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_ids</b> (gfal_internal, int, const int *, int, const char *, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e79632687935a7c4a7d0580aaa15dd88"></a><!-- doxytag: member="gfal_common.h::gfal_internal_free" ref="e79632687935a7c4a7d0580aaa15dd88" args="(gfal_internal)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_internal_free</b> (gfal_internal)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 the core header file of the common lib part 
@@ -38,7 +104,7 @@ the core header file of the common lib part
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>8/04/2011 </dd></dl>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Apr 11 15:07:42 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Apr 12 11:17:37 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

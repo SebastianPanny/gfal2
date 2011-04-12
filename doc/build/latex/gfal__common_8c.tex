@@ -3,6 +3,212 @@
 the core file of the common lib part 
 
 {\tt \#include \char`\"{}gfal\_\-common.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \textbf{OFF\_\-MAX}~2147483647\label{gfal__common_8c_616a28e950e9272a02aa05e39154d50e}
+
+\item 
+\#define \textbf{ENDPOINT\_\-DEFAULT\_\-PREFIX}~\char`\"{}httpg://\char`\"{}\label{gfal__common_8c_0bb77a5d8a45b2679d2c1784e5ac2686}
+
+\item 
+\#define \textbf{ENDPOINT\_\-DEFAULT\_\-PREFIX\_\-LEN}~strlen(\char`\"{}httpg://\char`\"{})\label{gfal__common_8c_fb26b505193c80088cceb0cdf63cc257}
+
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \textbf{gfal\_\-parse\_\-vomsdata} (char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_54942230ba2576538e1ad096332950b8}
+
+\item 
+char $\ast$ \textbf{gfal\_\-get\_\-userdn} (char $\ast$errbuf, int errbufsz)\label{group__internal__group_g6bd6336b0fee1ff32ad6bc5ef3d96068}
+
+\item 
+int \bf{gfal\_\-set\_\-vo} (const char $\ast$vo)\label{group__common__group_gcf4ae9045b7e5a2a697b1bb1f05994a8}
+
+\begin{CompactList}\small\item\em set the vo used by gfal \item\end{CompactList}\item 
+char $\ast$ \textbf{gfal\_\-get\_\-vo} (char $\ast$errbuf, int errbufsz)\label{group__internal__group_g1d7294ee456d16c8b1bf40f97ffb5081}
+
+\item 
+int \textbf{gfal\_\-get\_\-fqan} (char $\ast$$\ast$$\ast$fqan, char $\ast$errbuf, int errbufsz)\label{group__internal__group_g54b4e29078838583c8022630ef5a2ed3}
+
+\item 
+int \textbf{gfal\_\-is\_\-purifydisabled} ()\label{group__internal__group_g3a35f0e6f616c5108f95cfffd557db77}
+
+\item 
+dir\_\-info $\ast$ \textbf{alloc\_\-di} (DIR $\ast$dir)\label{gfal__common_8c_8f269e9d06e4dd7d2512f0a6f4d56b1e}
+
+\item 
+xfer\_\-info $\ast$ \textbf{alloc\_\-xi} (int fd)\label{gfal__common_8c_5cfad4b7ae4af2b7a5024987d7cdc00f}
+
+\item 
+dir\_\-info $\ast$ \textbf{find\_\-di} (DIR $\ast$dir)\label{gfal__common_8c_1aae9f6db4f9e390d1f51246c8db9acd}
+
+\item 
+xfer\_\-info $\ast$ \textbf{find\_\-xi} (int fd)\label{gfal__common_8c_8257512b1e1452759e94f6238f28bea3}
+
+\item 
+void \textbf{free\_\-di} (struct dir\_\-info $\ast$di)\label{gfal__common_8c_ce8666ffef5eb0a0685827cc382fc383}
+
+\item 
+int \textbf{free\_\-xi} (int fd)\label{gfal__common_8c_661514301effed3ed470e6ece13fffaa}
+
+\item 
+void \textbf{gfal\_\-errmsg} (char $\ast$errbuf, int errbufsz, int level, const char $\ast$format,...)\label{gfal__common_8c_e6fb0cae56e9344c2b6ed23001f7dcb5}
+
+\item 
+ssize\_\-t \textbf{gfal\_\-setfilchg} (int fd, const void $\ast$buf, size\_\-t size)\label{group__posix__group_g45a23756f2c79a7e07488bb3fb2fc35e}
+
+\item 
+int \textbf{gfal\_\-get} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_95e09a3cfbab50249ecf2bca54b88274}
+
+\item 
+int \textbf{gfal\_\-getstatus} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_2665d19dee3b8ed312f27d97310dd21d}
+
+\item 
+int \textbf{gfal\_\-bringonline} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_dafd89750e4d0a86149e95cfab51586a}
+
+\item 
+int \textbf{gfal\_\-prestage} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_ec2097ecb2aadb209c713a9c2b1d4384}
+
+\item 
+int \textbf{gfal\_\-prestagestatus} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_64e77a525710c0ffd5def90f8aef3f8a}
+
+\item 
+int \textbf{gfal\_\-pin} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_b149b326996828f815afc9f004057ec1}
+
+\item 
+int \textbf{gfal\_\-release} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_229fde0a465692ab8b0ed3fec2ebc29a}
+
+\item 
+int \textbf{gfal\_\-set\_\-xfer\_\-done} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_946427a964fb84234ace8d3a2fdc29f3}
+
+\item 
+int \textbf{gfal\_\-set\_\-xfer\_\-running} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_25eed083011cdc1cb50910548ff69c8e}
+
+\item 
+int \textbf{gfal\_\-abortrequest} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_aca24e1095b862293529fec208518384}
+
+\item 
+int \textbf{gfal\_\-abortfiles} (gfal\_\-internal req, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_37f6d2d8ea0ad96d32e8542bd59adf63}
+
+\item 
+int \textbf{mdtomd32} (struct stat64 $\ast$statb64, struct stat $\ast$statbuf)\label{gfal__common_8c_cd29b5992fa6526c74fa4d1fb630a02d}
+
+\item 
+char $\ast$ \textbf{endpointfromsurl} (const char $\ast$surl, char $\ast$errbuf, int errbufsz, int \_\-prefixing\_\-on)\label{gfal__common_8c_fb27343aaad36ce664aa6a26cac94fc2}
+
+\item 
+int \textbf{canonical\_\-url} (const char $\ast$url, const char $\ast$defproto, char $\ast$newurl, int newurlsz, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_951b857d6ce43fd8a8914844b5de559a}
+
+\item 
+int \textbf{parseturl} (const char $\ast$turl, char $\ast$protocol, int protocolsz, char $\ast$pfn, int pfnsz, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_1592fb1bdd6aa5ab4c56e3aaf9240b98}
+
+\item 
+int \textbf{setypesandendpoints} (const char $\ast$endpoint, char $\ast$$\ast$$\ast$se\_\-types, char $\ast$$\ast$$\ast$se\_\-endpoints, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_42f0dde4abdd73f485da45932283f669}
+
+\item 
+int \textbf{setypesandendpointsfromsurl} (const char $\ast$surl, char $\ast$$\ast$$\ast$se\_\-types, char $\ast$$\ast$$\ast$se\_\-endpoints, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_563ab483cd3ebb8e7d365d7803523ff5}
+
+\item 
+char $\ast$ \textbf{get\_\-catalog\_\-endpoint} (char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_43eaae6782e74a6d25cd0a0f8183833e}
+
+\item 
+char $\ast$ \textbf{gfal\_\-guidforpfn} (const char $\ast$pfn, char $\ast$errbuf, int errbufsz)\label{group__internal__group_g86568afb8c7f9b0d6944de793a3e867a}
+
+\item 
+int \textbf{gfal\_\-guidsforpfns} (int nbfiles, const char $\ast$$\ast$pfns, int amode, char $\ast$$\ast$$\ast$guids, int $\ast$$\ast$statuses, char $\ast$errbuf, int errbufsz)\label{group__internal__group_g72f2d9fb6a55816f243a4c57c5369fe5}
+
+\item 
+int \textbf{guid\_\-exists} (const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_a880588c2bf383146384431128d4cf88}
+
+\item 
+int \textbf{setfilesize} (const char $\ast$pfn, GFAL\_\-LONG64 filesize, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_ba9082c3f661f0aa6a1f4398031a5b52}
+
+\item 
+char $\ast$$\ast$ \textbf{gfal\_\-get\_\-replicas} (const char $\ast$lfn, const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__internal__group_gbd0a581309f65e07a5e28d442f07b169}
+
+\item 
+int \textbf{gfal\_\-unregister\_\-pfns} (int nbguids, const char $\ast$$\ast$guids, const char $\ast$$\ast$pfns, int $\ast$$\ast$results, char $\ast$errbuf, int errbufsz)\label{group__internal__group_g70f889fa2436723fb7b3cff20b661f21}
+
+\item 
+char $\ast$ \textbf{guidfromlfn} (const char $\ast$lfn, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_fffd314fbaeab0aff9beb7c5b47ab13d}
+
+\item 
+char $\ast$$\ast$ \textbf{gfal\_\-get\_\-aliases} (const char $\ast$lfn, const char $\ast$guid, char $\ast$errbuf, int errbufsz)\label{group__internal__group_g25d4ae6bef6570590efbc8548e7d79e2}
+
+\item 
+int \textbf{gfal\_\-register\_\-file} (const char $\ast$lfn, const char $\ast$guid, const char $\ast$surl, mode\_\-t mode, GFAL\_\-LONG64 size, int bool\_\-createonly, char $\ast$errbuf, int errbufsz)\label{group__internal__group_gdb09f20d086253b45c5d2896be95b4a9}
+
+\item 
+int \textbf{register\_\-alias} (const char $\ast$guid, const char $\ast$lfn, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_4bb13064562b552627698601dda010cd}
+
+\item 
+int \textbf{unregister\_\-alias} (const char $\ast$guid, const char $\ast$lfn, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_8877542e026eef3292c7f5ab44c55124}
+
+\item 
+int \textbf{getdomainnm} (char $\ast$name, int namelen)\label{gfal__common_8c_446a829e4f333d3a0364ab0f2b5a2dc7}
+
+\item 
+char $\ast$ \textbf{get\_\-default\_\-se} (char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_806f5f7bc913922610d15e88a78b7294}
+
+\item 
+int \textbf{purify\_\-surl} (const char $\ast$surl, char $\ast$surl\_\-cat, const int surl\_\-cat\_\-sz)\label{gfal__common_8c_b082f9f86bdeee9d7d01f1e2cf9c7c58}
+
+\item 
+int \textbf{generate\_\-surls} (gfal\_\-internal gfal, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_e63263d48c0304e99084f6399c22c6f2}
+
+\item 
+gfal\_\-request \textbf{gfal\_\-request\_\-new} ()\label{gfal__common_8c_b5d503849656335232e56583b376ee22}
+
+\item 
+int \textbf{gfal\_\-init} (gfal\_\-request req, gfal\_\-internal $\ast$gfal, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_2f7ff4951ca00ee9acb7a3bd3c86681d}
+
+\item 
+int \textbf{check\_\-gfal\_\-internal} (gfal\_\-internal req, int allow\_\-null\_\-surls, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_9c2077bbb3673cb6a5d17bc5cec81342}
+
+\item 
+void \textbf{free\_\-gfal\_\-results} (gfal\_\-filestatus $\ast$gfal, int n)\label{gfal__common_8c_9567fdc300b34b1274cc43fef14b5f90}
+
+\item 
+void \textbf{free\_\-srmv2\_\-mdstatuses} (struct srmv2\_\-mdfilestatus $\ast$md, int n)\label{gfal__common_8c_7db5dc9eefae3a89e01fb3789e608000}
+
+\item 
+int \textbf{copy\_\-gfal\_\-mdresults} (struct srmv2\_\-mdfilestatus srmv2, gfal\_\-filestatus $\ast$gfal)\label{gfal__common_8c_bd3c2238eb91ebb15768a8699c6b885e}
+
+\item 
+int \textbf{copy\_\-gfal\_\-results} (gfal\_\-internal req, enum status\_\-type stype)\label{gfal__common_8c_54cf4105c597d35309f3208929bace40}
+
+\item 
+int \textbf{gfal\_\-get\_\-results} (gfal\_\-internal req, gfal\_\-filestatus $\ast$$\ast$results)\label{gfal__common_8c_bcdd56bd6e5b5c86b436fab3a02fbd8b}
+
+\item 
+int \textbf{gfal\_\-get\_\-ids} (gfal\_\-internal req, int $\ast$srm\_\-reqid, int $\ast$$\ast$srm\_\-fileids, char $\ast$$\ast$srmv2\_\-reqtoken)\label{gfal__common_8c_40c4088ef63981a3878a55a050ae6328}
+
+\item 
+int \textbf{gfal\_\-get\_\-ids\_\-setype} (gfal\_\-internal req, enum se\_\-type $\ast$type, int $\ast$srm\_\-reqid, int $\ast$$\ast$srm\_\-fileids, char $\ast$$\ast$srmv2\_\-reqtoken)\label{gfal__common_8c_a60d676ab5378d44d133a772aee07fb0}
+
+\item 
+int \textbf{gfal\_\-set\_\-ids} (gfal\_\-internal req, int nbfileids, const int $\ast$srm\_\-fileids, int srm\_\-reqid, const char $\ast$srmv2\_\-reqtoken, char $\ast$errbuf, int errbufsz)\label{gfal__common_8c_54d854da5f0c755a6b43e81b723dde98}
+
+\item 
+void \textbf{gfal\_\-internal\_\-free} (gfal\_\-internal req)\label{gfal__common_8c_73cd999ee9b3b89a7902c24d89ed8113}
+
+\item 
+void \textbf{gfal\_\-spacemd\_\-free} (int nbtokens, struct srm\_\-spacemd $\ast$smd)\label{group__internal__group_gb22308fb1cfbade81dddfcf4bedf86da}
+
+\item 
+char $\ast$ \textbf{gfal\_\-generate\_\-lfn} (char $\ast$errbuf, int errbufsz)\label{group__internal__group_gcd48b57bf9659be5204319918c6f9d20}
+
+\item 
+char $\ast$ \textbf{gfal\_\-generate\_\-guid} (char $\ast$errbuf, int errbufsz)\label{group__internal__group_g8311ede197e204e57029165fbc3898d6}
+
+\item 
+char $\ast$ \bf{gfal\_\-get\_\-hostname} (const char $\ast$path, char $\ast$errbuf, int errbufsz)
+\item 
+int \textbf{gfal\_\-get\_\-errno} ()\label{gfal__common_8c_4f4c3163c72535da9dd42484905b1c7c}
+
+\end{CompactItemize}
 
 
 \subsection{Detailed Description}

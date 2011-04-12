@@ -62,13 +62,16 @@ cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURC
 env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
 env['ENV']['LD_LIBRARY_PATH'] = os.getenv('LD_LIBRARY_PATH')
 
-
+# debug mode
+if ARGUMENTS.get('debug','0') =='yes':
+	print "DEBUG MODE"
+	env.Append(CFLAGS='-g')
 
 #main build
 VariantDir(build_dir_src, 'src')
 SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src'])
 
-# glboal testing build
+# global testing build
 SConscript('testing/SConscript', ['env', 'headers', 'libs'])
 
 #unit tests

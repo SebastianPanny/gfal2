@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common.h" 3 "11 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common.h" 3 "12 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -20,7 +20,78 @@
 .br
 \fC#include 'gfal_common_catalog.h'\fP
 .br
+\fC#include 'gfal_internals.h'\fP
+.br
+\fC#include 'gfal_types.h'\fP
+.br
 
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "gfal_request \fBgfal_request_new\fP ()"
+.br
+.ti -1c
+.RI "int \fBgfal_init\fP (gfal_request, gfal_internal *, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_deletesurls\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_removedir\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_turlsfromsurls\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_get\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_getstatus\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_bringonline\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_prestage\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_prestagestatus\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_pin\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_release\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_set_xfer_done\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_set_xfer_running\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_abortrequest\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_abortfiles\fP (gfal_internal, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_results\fP (gfal_internal, gfal_filestatus **)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_ids_setype\fP (gfal_internal, enum se_type *, int *, int **, char **)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_ids\fP (gfal_internal, int *, int **, char **)"
+.br
+.ti -1c
+.RI "int \fBgfal_set_ids\fP (gfal_internal, int, const int *, int, const char *, char *, int)"
+.br
+.ti -1c
+.RI "void \fBgfal_internal_free\fP (gfal_internal)"
+.br
+.in -1c
 .SH "Detailed Description"
 .PP 
 the core header file of the common lib part 
