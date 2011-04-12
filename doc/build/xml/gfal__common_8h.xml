@@ -2,194 +2,199 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
   <compounddef id="gfal__common_8h" kind="file">
     <compoundname>gfal_common.h</compoundname>
-    <includes refid="gfal__api_8h" local="yes">gfal_api.h</includes>
+    <includes refid="gfal__types_8h" local="yes">gfal_types.h</includes>
+    <includes refid="gfal__constants_8h" local="yes">gfal_constants.h</includes>
+    <includes refid="gfal__common__catalog_8h" local="yes">gfal_common_catalog.h</includes>
+    <includes refid="gfal__common__storage_8h" local="yes">gfal_common_storage.h</includes>
+    <includes local="no">gfal_srm_ifce.h</includes>
+    <includes local="no">gfal_srm_ifce_types.h</includes>
+    <includes local="yes">voms_apic.h</includes>
     <includes local="no">glib.h</includes>
     <includes local="no">stdlib.h</includes>
     <includes local="no">stdio.h</includes>
     <includes local="no">string.h</includes>
-    <includes refid="gfal__constants_8h" local="yes">gfal_constants.h</includes>
-    <includes refid="gfal__common__catalog_8h" local="yes">gfal_common_catalog.h</includes>
-    <includes refid="gfal__internals_8h" local="yes">gfal_internals.h</includes>
-    <includes refid="gfal__types_8h" local="yes">gfal_types.h</includes>
-    <includedby refid="gfal__common_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common.c</includedby>
+    <includedby refid="gfal__internals_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_internals.h</includedby>
     <includedby refid="gfal__common__catalog_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</includedby>
+    <includedby refid="gfal__common__storage_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_storage.h</includedby>
+    <includedby refid="gfal__common_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common.c</includedby>
+    <includedby refid="gfal__file_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_file.c</includedby>
     <includedby refid="gfal__posix__api_8h" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</includedby>
     <incdepgraph>
-      <node id="63">
+      <node id="76">
         <label>sys/stat.h</label>
       </node>
-      <node id="75">
+      <node id="86">
         <label>stdarg.h</label>
       </node>
-      <node id="69">
+      <node id="91">
         <label>stdlib.h</label>
       </node>
-      <node id="65">
-        <label>gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
-        <childnode refid="61" relation="include">
-        </childnode>
-        <childnode refid="62" relation="include">
-        </childnode>
-        <childnode refid="63" relation="include">
-        </childnode>
-        <childnode refid="66" relation="include">
-        </childnode>
-        <childnode refid="67" relation="include">
-        </childnode>
-      </node>
-      <node id="73">
+      <node id="82">
         <label>errno.h</label>
       </node>
-      <node id="60">
-        <label>gfal_api.h</label>
-        <link refid="gfal__api_8h-source"/>
-        <childnode refid="61" relation="include">
-        </childnode>
-        <childnode refid="62" relation="include">
-        </childnode>
-        <childnode refid="63" relation="include">
-        </childnode>
-        <childnode refid="64" relation="include">
-        </childnode>
-        <childnode refid="65" relation="include">
-        </childnode>
-      </node>
-      <node id="66">
-        <label>gfal_srm_ifce_types.h</label>
-      </node>
-      <node id="74">
-        <label>gfal_internals.h</label>
-        <link refid="gfal__internals_8h-source"/>
-        <childnode refid="75" relation="include">
-        </childnode>
-        <childnode refid="76" relation="include">
-        </childnode>
-        <childnode refid="65" relation="include">
-        </childnode>
-        <childnode refid="64" relation="include">
-        </childnode>
-        <childnode refid="77" relation="include">
-        </childnode>
-        <childnode refid="79" relation="include">
-        </childnode>
-        <childnode refid="66" relation="include">
-        </childnode>
-        <childnode refid="80" relation="include">
-        </childnode>
-      </node>
-      <node id="76">
-        <label>uuid/uuid.h</label>
-      </node>
-      <node id="61">
-        <label>sys/types.h</label>
-      </node>
-      <node id="71">
-        <label>string.h</label>
-      </node>
-      <node id="78">
-        <label>lfc_api.h</label>
-      </node>
-      <node id="67">
-        <label>unistd.h</label>
-      </node>
-      <node id="77">
-        <label>lfc_ifce.h</label>
-        <link refid="lfc__ifce_8h-source"/>
-        <childnode refid="61" relation="include">
-        </childnode>
-        <childnode refid="78" relation="include">
-        </childnode>
-        <childnode refid="65" relation="include">
-        </childnode>
-      </node>
-      <node id="68">
-        <label>glib.h</label>
-      </node>
-      <node id="59">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
-        <link refid="gfal_common.h"/>
-        <childnode refid="60" relation="include">
-        </childnode>
-        <childnode refid="68" relation="include">
-        </childnode>
-        <childnode refid="69" relation="include">
-        </childnode>
-        <childnode refid="70" relation="include">
-        </childnode>
-        <childnode refid="71" relation="include">
-        </childnode>
-        <childnode refid="64" relation="include">
-        </childnode>
+      <node id="88">
+        <label>gfal_common_storage.h</label>
+        <link refid="gfal__common__storage_8h-source"/>
         <childnode refid="72" relation="include">
         </childnode>
+      </node>
+      <node id="77">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="87">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="74">
+        <label>sys/types.h</label>
+      </node>
+      <node id="83">
+        <label>string.h</label>
+      </node>
+      <node id="85">
+        <label>lfc_api.h</label>
+      </node>
+      <node id="84">
+        <label>lfc/lfc_ifce.h</label>
+        <link refid="lfc__ifce_8h-source"/>
         <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="65" relation="include">
-        </childnode>
-      </node>
-      <node id="64">
-        <label>gfal_constants.h</label>
-        <link refid="gfal__constants_8h-source"/>
-      </node>
-      <node id="79">
-        <label>gfal_srm_ifce.h</label>
-      </node>
-      <node id="72">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="71" relation="include">
-        </childnode>
-        <childnode refid="59" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
       </node>
-      <node id="80">
-        <label>voms_apic.h</label>
-      </node>
-      <node id="70">
-        <label>stdio.h</label>
-      </node>
-      <node id="62">
-        <label>dirent.h</label>
-      </node>
-    </incdepgraph>
-    <invincdepgraph>
-      <node id="86">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
-        <link refid="gfal__posix_8c"/>
-      </node>
-      <node id="85">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
-        <link refid="gfal__posix__api_8h-source"/>
-        <childnode refid="86" relation="include">
-        </childnode>
-      </node>
-      <node id="82">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.c</label>
-        <link refid="gfal__common_8c"/>
+      <node id="78">
+        <label>unistd.h</label>
       </node>
       <node id="81">
+        <label>glib.h</label>
+      </node>
+      <node id="72">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
         <link refid="gfal_common.h"/>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+      </node>
+      <node id="89">
+        <label>gfal_srm_ifce.h</label>
+      </node>
+      <node id="80">
+        <label>gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="81" relation="include">
+        </childnode>
         <childnode refid="82" relation="include">
         </childnode>
         <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
+        <childnode refid="84" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
         </childnode>
       </node>
-      <node id="84">
+      <node id="79">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h-source"/>
+      </node>
+      <node id="90">
+        <label>voms_apic.h</label>
+      </node>
+      <node id="92">
+        <label>stdio.h</label>
+      </node>
+      <node id="73">
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="94">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_internals.h</label>
+        <link refid="gfal__internals_8h-source"/>
+      </node>
+      <node id="100">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
+        <link refid="gfal__posix_8c"/>
+      </node>
+      <node id="97">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_storage.h</label>
+        <link refid="gfal__common__storage_8h-source"/>
+        <childnode refid="93" relation="include">
+        </childnode>
+      </node>
+      <node id="99">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
+        <link refid="gfal__posix__api_8h-source"/>
+        <childnode refid="100" relation="include">
+        </childnode>
+      </node>
+      <node id="98">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.c</label>
+        <link refid="gfal__common_8c"/>
+      </node>
+      <node id="93">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
+        <link refid="gfal_common.h"/>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+      </node>
+      <node id="96">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
         <link refid="gfal__common__catalog_8c"/>
       </node>
-      <node id="83">
+      <node id="95">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</label>
         <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="81" relation="include">
+        <childnode refid="93" relation="include">
         </childnode>
-        <childnode refid="84" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -205,7 +210,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="41" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2044" bodyend="2055"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="46" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1972" bodyend="1983"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_10716a4d199225519746d4dd88621dd57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -230,7 +235,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2058" bodyend="2264"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1986" bodyend="2192"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_18ec8e45c58067eb06cd8836d85668ce5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -252,7 +257,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="43" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1272" bodyend="1330"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1272" bodyend="1330"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_140eba4bdcf3d5d99631bdd8bfa9029e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -274,7 +279,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="44" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1333" bodyend="1384"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="49" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1333" bodyend="1384"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_154ec3268b58bf5630c2c024e2786cb5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -296,7 +301,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="47"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="52"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1f53cbbdfbf7fa2eb4a112adac9cca181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -318,7 +323,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="465" bodyend="522"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="393" bodyend="450"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_104aeeae94e9415bbbbc66c05e9d1d5f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -340,7 +345,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="49" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="525" bodyend="569"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="54" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="453" bodyend="497"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_16e5d230e9c6c10f7eb0812c3e715da8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -362,7 +367,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="572" bodyend="619"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="500" bodyend="547"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_16e812150f464fa1ad38f4fbd822eeac4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -384,7 +389,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="622" bodyend="670"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="550" bodyend="598"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1873df094d8cbd7df805daef71f1397d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -406,7 +411,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="52" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="673" bodyend="709"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="57" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="601" bodyend="637"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1e3d50efa31f015cba9f0bb9f76dbd760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -428,7 +433,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="712" bodyend="752"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="640" bodyend="680"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1e1fbb1b6c81d1e9b227ac3bdafcab05b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -450,7 +455,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="54" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="755" bodyend="822"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="683" bodyend="750"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1906f9ae2d627df81007ce2ac8b9c3077" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -472,7 +477,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="825" bodyend="907"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="753" bodyend="835"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1b45892d9b11438b075a1337ce785d336" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -494,7 +499,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="910" bodyend="986"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="838" bodyend="914"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_136d39f2c8275e09815a156177b7f2b91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -516,7 +521,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="57" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="989" bodyend="1034"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="917" bodyend="962"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1895e99946a94b412cb16542e49c50d2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -538,7 +543,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1037" bodyend="1072"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="63" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="965" bodyend="1000"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1516faa64e8163a2fd3aeabb23c81261d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -557,7 +562,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2460" bodyend="2469"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="64" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2388" bodyend="2397"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1d3480ef06395ae3e11bbcc7b4f6f947e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -585,7 +590,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2478" bodyend="2507"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="65" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2406" bodyend="2435"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_153ad87ee70e3be3542a13e3f0d4e4f13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -610,7 +615,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2472" bodyend="2475"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="66" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2400" bodyend="2403"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_124e63e5dbd1e49352f7af0a67b14a9fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -644,7 +649,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2510" bodyend="2546"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="67" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2438" bodyend="2474"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common_8h_1e79632687935a7c4a7d0580aaa15dd88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -660,7 +665,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="63" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2549" bodyend="2612"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="2477" bodyend="2540"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -689,44 +694,49 @@
 <codeline lineno="16"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
 <codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="preprocessor">#include<sp/>&quot;gfal_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__catalog_8h" kindref="compound">gfal_common_catalog.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_internals.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__catalog_8h" kindref="compound">gfal_common_catalog.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_common_storage.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>external<sp/>imports</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gfal_srm_ifce.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gfal_srm_ifce_types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;voms_apic.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>standard<sp/>imports</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal">gfal_request<sp/>gfal_request_new<sp/>();</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1g4e6d4aab98935aaf408d8a5cdf9727d4" kindref="member">gfal_init</ref><sp/>(gfal_request,<sp/>gfal_internal<sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1g629a56f0d644547dbc9fdb2e058476e6" kindref="member">gfal_deletesurls</ref><sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1gff1cd1d3df193f577ebb2fe108aa0b6c" kindref="member">gfal_removedir</ref><sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>removed<sp/>func<sp/>fix<sp/>it<sp/>int<sp/>gfal_ls<sp/>(gfal_internal,<sp/>char<sp/>*,<sp/>int);<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>remvoed<sp/>func<sp/>fix<sp/>it<sp/>int<sp/>gfal_ls_end<sp/>(gfal_internal,<sp/>char<sp/>*,<sp/>int);<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_turlsfromsurls<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1g3ae5c2126214ee65695904a7f9fddeb0" kindref="member">gfal_get</ref><sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1g1f99a22cf6a648d42530bc83d0ac8861" kindref="member">gfal_getstatus</ref><sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_bringonline<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_prestage<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_prestagestatus<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_pin<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_release<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_set_xfer_done<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_set_xfer_running<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_abortrequest<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_abortfiles<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_results<sp/>(gfal_internal,<sp/>gfal_filestatus<sp/>**);</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_ids_setype<sp/>(gfal_internal,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>se_type<sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>**,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**);</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_ids<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>**,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**);</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_set_ids<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_internal_free<sp/>(gfal_internal);</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">gfal_request<sp/>gfal_request_new<sp/>();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1g4e6d4aab98935aaf408d8a5cdf9727d4" kindref="member">gfal_init</ref><sp/>(gfal_request,<sp/>gfal_internal<sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1g629a56f0d644547dbc9fdb2e058476e6" kindref="member">gfal_deletesurls</ref><sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1gff1cd1d3df193f577ebb2fe108aa0b6c" kindref="member">gfal_removedir</ref><sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>removed<sp/>func<sp/>fix<sp/>it<sp/>int<sp/>gfal_ls<sp/>(gfal_internal,<sp/>char<sp/>*,<sp/>int);<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>remvoed<sp/>func<sp/>fix<sp/>it<sp/>int<sp/>gfal_ls_end<sp/>(gfal_internal,<sp/>char<sp/>*,<sp/>int);<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_turlsfromsurls<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1g3ae5c2126214ee65695904a7f9fddeb0" kindref="member">gfal_get</ref><sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__srm__group_1g1f99a22cf6a648d42530bc83d0ac8861" kindref="member">gfal_getstatus</ref><sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_bringonline<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_prestage<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_prestagestatus<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_pin<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_release<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_set_xfer_done<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_set_xfer_running<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_abortrequest<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_abortfiles<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_results<sp/>(gfal_internal,<sp/>gfal_filestatus<sp/>**);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_ids_setype<sp/>(gfal_internal,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>se_type<sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>**,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_ids<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>**,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_set_ids<sp/>(gfal_internal,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_internal_free<sp/>(gfal_internal);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common.h"/>
   </compounddef>

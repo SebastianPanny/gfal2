@@ -5,102 +5,107 @@
     <includes local="no">sys/types.h</includes>
     <includes local="no">lfc_api.h</includes>
     <includes refid="gfal__types_8h" local="yes">gfal_types.h</includes>
-    <includedby refid="gfal__internals_8h" local="yes">/home/adevress/myworkspace/gfal/src/gfal_internals.h</includedby>
-    <includedby refid="gfal__test____lfc__mkdirp_8c" local="yes">/home/adevress/myworkspace/gfal/src/gfal_test__lfc_mkdirp.c</includedby>
-    <includedby refid="lfc__ifce_8c" local="yes">/home/adevress/myworkspace/gfal/src/lfc_ifce.c</includedby>
+    <includedby refid="gfal__common__catalog_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</includedby>
+    <includedby refid="lfc__ifce_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c</includedby>
     <incdepgraph>
-      <node id="514">
+      <node id="357">
         <label>sys/stat.h</label>
       </node>
-      <node id="512">
-        <label>gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
-        <childnode refid="510" relation="include">
-        </childnode>
-        <childnode refid="513" relation="include">
-        </childnode>
-        <childnode refid="514" relation="include">
-        </childnode>
-        <childnode refid="515" relation="include">
-        </childnode>
-        <childnode refid="516" relation="include">
-        </childnode>
-      </node>
-      <node id="515">
+      <node id="358">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="510">
+      <node id="353">
         <label>sys/types.h</label>
       </node>
-      <node id="511">
+      <node id="354">
         <label>lfc_api.h</label>
       </node>
-      <node id="516">
+      <node id="352">
+        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h</label>
+        <link refid="lfc_ifce.h"/>
+        <childnode refid="353" relation="include">
+        </childnode>
+        <childnode refid="354" relation="include">
+        </childnode>
+        <childnode refid="355" relation="include">
+        </childnode>
+      </node>
+      <node id="359">
         <label>unistd.h</label>
       </node>
-      <node id="509">
-        <label>/home/adevress/myworkspace/gfal/src/lfc_ifce.h</label>
-        <link refid="lfc_ifce.h"/>
-        <childnode refid="510" relation="include">
+      <node id="355">
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="353" relation="include">
         </childnode>
-        <childnode refid="511" relation="include">
+        <childnode refid="356" relation="include">
         </childnode>
-        <childnode refid="512" relation="include">
+        <childnode refid="357" relation="include">
+        </childnode>
+        <childnode refid="358" relation="include">
+        </childnode>
+        <childnode refid="359" relation="include">
         </childnode>
       </node>
-      <node id="513">
+      <node id="356">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="524">
+      <node id="363">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_internals.h</label>
+        <link refid="gfal__internals_8h-source"/>
+      </node>
+      <node id="367">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
         <link refid="gfal__posix_8c"/>
       </node>
-      <node id="518">
-        <label>/home/adevress/myworkspace/gfal/src/gfal_internals.h</label>
-        <link refid="gfal__internals_8h-source"/>
-        <childnode refid="519" relation="include">
-        </childnode>
-        <childnode refid="523" relation="include">
+      <node id="364">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_storage.h</label>
+        <link refid="gfal__common__storage_8h-source"/>
+        <childnode refid="362" relation="include">
         </childnode>
       </node>
-      <node id="523">
+      <node id="366">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
         <link refid="gfal__posix__api_8h-source"/>
-        <childnode refid="524" relation="include">
+        <childnode refid="367" relation="include">
         </childnode>
       </node>
-      <node id="517">
-        <label>/home/adevress/myworkspace/gfal/src/lfc_ifce.h</label>
+      <node id="360">
+        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h</label>
         <link refid="lfc_ifce.h"/>
-        <childnode refid="518" relation="include">
+        <childnode refid="361" relation="include">
         </childnode>
       </node>
-      <node id="520">
+      <node id="365">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.c</label>
         <link refid="gfal__common_8c"/>
       </node>
-      <node id="519">
+      <node id="362">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
         <link refid="gfal__common_8h"/>
-        <childnode refid="520" relation="include">
+        <childnode refid="363" relation="include">
         </childnode>
-        <childnode refid="521" relation="include">
+        <childnode refid="361" relation="include">
         </childnode>
-        <childnode refid="523" relation="include">
+        <childnode refid="364" relation="include">
+        </childnode>
+        <childnode refid="365" relation="include">
+        </childnode>
+        <childnode refid="366" relation="include">
         </childnode>
       </node>
-      <node id="522">
+      <node id="368">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
         <link refid="gfal__common__catalog_8c"/>
       </node>
-      <node id="521">
+      <node id="361">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</label>
         <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="519" relation="include">
+        <childnode refid="362" relation="include">
         </childnode>
-        <childnode refid="522" relation="include">
+        <childnode refid="368" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -115,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="28" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" bodystart="28" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="28" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" bodystart="28" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -138,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="171" bodyend="175"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="171" bodyend="175"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g4fa605c700ac841df98ffb1b4f2d0ecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -163,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="178" bodyend="194"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="178" bodyend="194"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g145e85cc530b23736eea535580c4e5e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -196,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="64" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="197" bodyend="248"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="64" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="197" bodyend="248"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g45d447082c9b4e1a47684a43f198d2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -225,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="66" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="251" bodyend="265"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="66" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="251" bodyend="265"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g344113bab975bfeedfa4be33b2054745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -250,7 +255,7 @@
 <para>lfc_guidforpfn : Get the guid for a replica. If the replica does not exist, fail with ENOENT </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="70" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="270" bodyend="289"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="70" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="270" bodyend="289"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1gf922973a476763abd5185fc13d2af9eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -291,7 +296,7 @@
 <para>lfc_guidsforpfns : Get the guid for a replica. If the replica does not exist, fail with ENOENT </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="294" bodyend="374"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="294" bodyend="374"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g89af6526e8342c74f90fa2ee10cdc5fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -316,7 +321,7 @@
 <para>test if guid exists </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="77" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="377" bodyend="394"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="77" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="377" bodyend="394"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g942218fc4c4fa95df2bf10db3f3fad75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char **</type>
@@ -345,7 +350,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="79" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="397" bodyend="438"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="79" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="397" bodyend="438"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g9ea58977487f9be50e91ba9857bc9510" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -382,7 +387,7 @@
 <para>Unregister replicas (SURLs) from a GUIDs, and remove all links to a GUID if there are no more replicas </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="84" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="443" bodyend="542"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="84" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="443" bodyend="542"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g338e9042e72eeffa51e27beca09675c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -407,7 +412,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="86" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="545" bodyend="562"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="86" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="545" bodyend="562"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g546944558296f5a894005368c236cccf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char **</type>
@@ -436,7 +441,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="88" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="565" bodyend="607"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="88" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="565" bodyend="607"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1gdc3db49fb133cc79ae3250731167b478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -481,7 +486,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="91" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="610" bodyend="774"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="91" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="610" bodyend="774"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1gbcf2a1618d925816f8b570cdeac04afd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -510,7 +515,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="93" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="777" bodyend="820"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="93" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="777" bodyend="820"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g776fc6004cd4c565c42be3365a719376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -539,7 +544,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="95" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="823" bodyend="868"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="95" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="823" bodyend="868"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1gb13d4fafbe48d4748371fb2780381908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -568,7 +573,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="97" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="871" bodyend="874"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="97" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="871" bodyend="874"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1gf0a92088b3b2bd149ad3968573d3dbce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -597,7 +602,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="99" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="955" bodyend="969"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="99" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="955" bodyend="969"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1ge22436958fd4ad2bb2bcc1b608aa7f34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>DIR *</type>
@@ -626,7 +631,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="101" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="972" bodyend="988"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="101" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="972" bodyend="988"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1ga46361de52e13b63a74c50589a75fa33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -651,7 +656,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="103" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="991" bodyend="1005"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="103" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="991" bodyend="1005"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g6be41de8da5424cc099b88ec27f772c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -672,7 +677,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="105" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="1008" bodyend="1011"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="105" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="1008" bodyend="1011"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g30eee0fb314a09f9b28cddd249ccf692" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -701,7 +706,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="107" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="1014" bodyend="1028"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="107" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="1014" bodyend="1028"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g3115c08a5c7ffb01087a192358a40ca1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -734,7 +739,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="109" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="1031" bodyend="1059"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="109" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="1031" bodyend="1059"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g498672f9d3482822d3da75e23903cfdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -763,7 +768,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="111" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="1062" bodyend="1090"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="111" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="1062" bodyend="1090"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g0b34fbad9eb051aa476eec5bea9e7692" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -788,7 +793,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="113" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="1093" bodyend="1267"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="113" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="1093" bodyend="1267"/>
       </memberdef>
       <memberdef kind="function" id="group__lfc__low__group_1g1f63e86121210390d7f0d448bdd4d44f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -813,7 +818,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h" line="115" bodyfile="/home/adevress/myworkspace/gfal/src/lfc_ifce.c" bodystart="1270" bodyend="1349"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h" line="115" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.c" bodystart="1270" bodyend="1349"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -936,6 +941,6 @@
 <codeline lineno="117"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#define<sp/>GFAL_LFC_IFCE_H_<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="118"><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="/home/adevress/myworkspace/gfal/src/lfc_ifce.h"/>
+    <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h"/>
   </compounddef>
 </doxygen>
