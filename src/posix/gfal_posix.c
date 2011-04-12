@@ -26,7 +26,7 @@
 #include "gfal_posix_api.h"
 
 /* the version should be set by a "define" at the makefile level */
-static const char gfalversion[] = VERSION;
+static const char *gfalversion = VERSION;
 static int nobdii = 0;
 
 int gfal_access (const char *path, int amode){
@@ -1116,7 +1116,7 @@ gfal_unlink (const char *filename)
         int bool_issurlok = 1;
         const char *current_surl;
         gfal_request req;
-        gfal_internal gobj;
+        gfal_handle gobj;
         gfal_filestatus *filestatuses;
 
         if ((req = gfal_request_new ()) == NULL) {
@@ -1164,7 +1164,7 @@ gfal_unlink (const char *filename)
                     gfal_errmsg (NULL, 0, GFAL_ERRLEVEL_INFO, "[INFO] %s > DELETED", current_surl);
             }
 
-            gfal_internal_free (gobj);
+            gfal_handle_free (gobj);
         }
 
         free (req);
@@ -1269,11 +1269,11 @@ gfal_write (int fd, const void *buf, size_t size)
 }
 
     int
-gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
+gfal_deletesurls (gfal_handle req, char *errbuf, int errbufsz)
 {
     int ret;
 
-    if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
+    if (check_gfal_handle (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
     if (req->setype == TYPE_SRMv2)
@@ -1330,11 +1330,11 @@ gfal_deletesurls (gfal_internal req, char *errbuf, int errbufsz)
 }
 
     int
-gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
+gfal_removedir (gfal_handle req, char *errbuf, int errbufsz)
 {
     int ret;
 
-    if (check_gfal_internal (req, 0, errbuf, errbufsz) < 0)
+    if (check_gfal_handle (req, 0, errbuf, errbufsz) < 0)
         return (-1);
 
     if (req->nbfiles != 1 || req->surls == NULL || req->surls[0] == NULL) {
@@ -1382,7 +1382,7 @@ gfal_removedir (gfal_internal req, char *errbuf, int errbufsz)
     req->returncode = ret;
     return (copy_gfal_results (req, DEFAULT_STATUS));
 }
-int gfal_create_subdirs(gfal_internal req, char *errbuf, int errbufsz)
+int gfal_create_subdirs(gfal_handle req, char *errbuf, int errbufsz)
 {
 	int i,result = 0 ;
 	struct srm_context context;

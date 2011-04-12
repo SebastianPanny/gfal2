@@ -40,8 +40,37 @@
 #include <string.h>
 
 
-const char *gfal_version ();
-//void gfal_errmsg (char *, int, const char *, int);
+
+
+gfal_request gfal_request_new ();
+int gfal_init (gfal_request, gfal_handle *, char *, int);
+int gfal_deletesurls (gfal_handle, char *, int);
+int gfal_removedir (gfal_handle, char *, int);
+/* removed func fix it int gfal_ls (gfal_handle, char *, int); */
+/* remvoed func fix it int gfal_ls_end (gfal_handle, char *, int); */
+int gfal_turlsfromsurls (gfal_handle, char *, int);
+int gfal_get (gfal_handle, char *, int);
+int gfal_getstatus (gfal_handle, char *, int);
+int gfal_bringonline (gfal_handle, char *, int);
+int gfal_prestage (gfal_handle, char *, int);
+int gfal_prestagestatus (gfal_handle, char *, int);
+int gfal_pin (gfal_handle, char *, int);
+int gfal_release (gfal_handle, char *, int);
+int gfal_set_xfer_done (gfal_handle, char *, int);
+int gfal_set_xfer_running (gfal_handle, char *, int);
+int gfal_abortrequest (gfal_handle, char *, int);
+int gfal_abortfiles (gfal_handle, char *, int);
+int gfal_get_results (gfal_handle, gfal_filestatus **);
+int gfal_get_ids_setype (gfal_handle, enum se_type *, int *, int **, char **);
+int gfal_get_ids (gfal_handle, int *, int **, char **);
+int gfal_set_ids (gfal_handle, int, const int *, int, const char *, char *, int);
+void gfal_handle_free (gfal_handle);
+
+
+/**
+ * @brief display an internal message
+ * @deprecated old rerror system, will be replaced
+ * */
 void gfal_errmsg (char *, int, int, const char *, ...);
 char *gfal_get_userdn (char *errbuf, int errbufsz);
 char *gfal_get_vo (char *errbuf, int errbufsz);
@@ -49,7 +78,6 @@ int gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz);
 //int gfal_is_nobdii ();
 int gfal_is_purifydisabled ();
 int gfal_register_file (const char *, const char *, const char *, mode_t, GFAL_LONG64, int, char *, int);
-void gfal_internal_free (gfal_internal);
 //void gfal_spacemd_free (int,gfal_spacemd *);
 char *get_catalog_endpoint(char *, int);
 int guid_exists (const char *, char *, int);
@@ -66,33 +94,9 @@ char *gfal_get_hostname (const char *, char *, int);
 
 
 
-gfal_request gfal_request_new ();
-int gfal_init (gfal_request, gfal_internal *, char *, int);
-int gfal_deletesurls (gfal_internal, char *, int);
-int gfal_removedir (gfal_internal, char *, int);
-/* removed func fix it int gfal_ls (gfal_internal, char *, int); */
-/* remvoed func fix it int gfal_ls_end (gfal_internal, char *, int); */
-int gfal_turlsfromsurls (gfal_internal, char *, int);
-int gfal_get (gfal_internal, char *, int);
-int gfal_getstatus (gfal_internal, char *, int);
-int gfal_bringonline (gfal_internal, char *, int);
-int gfal_prestage (gfal_internal, char *, int);
-int gfal_prestagestatus (gfal_internal, char *, int);
-int gfal_pin (gfal_internal, char *, int);
-int gfal_release (gfal_internal, char *, int);
-int gfal_set_xfer_done (gfal_internal, char *, int);
-int gfal_set_xfer_running (gfal_internal, char *, int);
-int gfal_abortrequest (gfal_internal, char *, int);
-int gfal_abortfiles (gfal_internal, char *, int);
-int gfal_get_results (gfal_internal, gfal_filestatus **);
-int gfal_get_ids_setype (gfal_internal, enum se_type *, int *, int **, char **);
-int gfal_get_ids (gfal_internal, int *, int **, char **);
-int gfal_set_ids (gfal_internal, int, const int *, int, const char *, char *, int);
-void gfal_internal_free (gfal_internal);
-
 int mdtomd32 (struct stat64 *, struct stat *);
-int copy_gfal_results (gfal_internal, enum status_type);
-int check_gfal_internal (gfal_internal, int, char *, int);
+int copy_gfal_results (gfal_handle, enum status_type);
+int check_gfal_handle (gfal_handle, int, char *, int);
 void free_gfal_results (gfal_filestatus *, int);
 void free_srmv2_mdstatuses (struct srmv2_mdfilestatus *, int);
 

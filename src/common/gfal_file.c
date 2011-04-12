@@ -164,7 +164,7 @@ gfal_file_free (gfal_file gf) {
 	if (gf->guid != NULL)
 		free (gf->guid);
 	if (gf->gobj != NULL)
-		gfal_internal_free (gf->gobj);
+		gfal_handle_free (gf->gobj);
 	if (gf->turl != NULL)
 		free (gf->turl);
 	if (gf->errmsg != NULL)
@@ -304,7 +304,7 @@ gfal_file_next_replica (gfal_file gf)
 
 	if (gf->gobj) {
 		// next replica needs another gfal_internal object 
-		gfal_internal_free (gf->gobj);
+		gfal_handle_free (gf->gobj);
 		gf->gobj = NULL;
 	}
 

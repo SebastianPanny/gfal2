@@ -160,7 +160,7 @@ typedef struct gfal_request_ {
 	int							srmv2_lscount;
 } *gfal_request;
 
-typedef struct gfal_internal_ {
+typedef struct gfal_handle_ {
 	// INPUTS
 
 	int							generatesurls;
@@ -205,7 +205,7 @@ typedef struct gfal_internal_ {
 	int returncode; // size of the new results
 	int results_size; // size of the old results
 	gfal_filestatus *results;
-} *gfal_internal;
+} *gfal_handle;
 
 struct sfn_filestatus {
 	char *surl;
@@ -285,7 +285,7 @@ typedef struct _gfal_file {
 	int nberrors;                  // nb of non-working replicas
 	gfal_replica *replicas;
 	int current_replica;
-	gfal_internal gobj;
+	gfal_handle gobj;
 	char *turl;
 	int errcode;
 	char *errmsg;
