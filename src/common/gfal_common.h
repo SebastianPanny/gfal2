@@ -28,6 +28,7 @@
 #include "gfal_constants.h"
 #include "gfal_common_catalog.h"
 #include "gfal_common_storage.h"
+#include "gfal_file.h"
 // external imports
 #include <gfal_srm_ifce.h>
 #include <gfal_srm_ifce_types.h>
@@ -39,6 +40,28 @@
 #include <string.h>
 
 
+const char *gfal_version ();
+//void gfal_errmsg (char *, int, const char *, int);
+void gfal_errmsg (char *, int, int, const char *, ...);
+char *gfal_get_userdn (char *errbuf, int errbufsz);
+char *gfal_get_vo (char *errbuf, int errbufsz);
+int gfal_get_fqan (char ***fqan, char *errbuf, int errbufsz);
+//int gfal_is_nobdii ();
+int gfal_is_purifydisabled ();
+int gfal_register_file (const char *, const char *, const char *, mode_t, GFAL_LONG64, int, char *, int);
+void gfal_internal_free (gfal_internal);
+//void gfal_spacemd_free (int,gfal_spacemd *);
+char *get_catalog_endpoint(char *, int);
+int guid_exists (const char *, char *, int);
+int gfal_guidsforpfns (int, const char **, int, char ***, int **, char *, int);
+char *gfal_guidforpfn (const char *, char *, int);
+char *guidfromlfn (const char *, char *, int);
+char **gfal_get_aliases (const char *, const char *, char *, int);
+int register_alias (const char *, const char *, char *, int);
+int unregister_alias (const char *, const char *, char *, int);
+int gfal_unregister_pfns (int, const char **, const char **, int **, char *, int);
+char **gfal_get_replicas (const char *, const char *, char *, int);
+char *gfal_get_hostname (const char *, char *, int);
 
 
 
@@ -66,4 +89,10 @@ int gfal_get_ids_setype (gfal_internal, enum se_type *, int *, int **, char **);
 int gfal_get_ids (gfal_internal, int *, int **, char **);
 int gfal_set_ids (gfal_internal, int, const int *, int, const char *, char *, int);
 void gfal_internal_free (gfal_internal);
+
+int mdtomd32 (struct stat64 *, struct stat *);
+int copy_gfal_results (gfal_internal, enum status_type);
+int check_gfal_internal (gfal_internal, int, char *, int);
+void free_gfal_results (gfal_filestatus *, int);
+void free_srmv2_mdstatuses (struct srmv2_mdfilestatus *, int);
 

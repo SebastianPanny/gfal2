@@ -57,6 +57,18 @@ extern "C"
 #endif
 #endif
 
+/* Macro function to print debug info if LCG_GFAL_DEBUG is defined */
+#ifdef LCG_GFAL_DEBUG
+#define GFAL_DEBUG(format, ...) \
+	fprintf (stderr, format, ## __VA_ARGS__)
+#else
+#define GFAL_DEBUG(format, ...)
+#endif
+
+
+typedef struct srm_spacemd gfal_spacemd;
+enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
+
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
 
 
@@ -327,6 +339,9 @@ struct xfer_info {
 	gfal_file gfile;
 	struct proto_ops *pops;
 };
+
+
+
 
 #ifdef __cplusplus
 }

@@ -27,8 +27,8 @@
 #include <glib.h>
 #include <errno.h>
 #include <string.h>
+#include "gfal_types.h"	
 #include "lfc/lfc_ifce.h"
-#include "gfal_types.h"
 #include <stdarg.h>
 #include <uuid/uuid.h>
 #include "gfal_common.h"
@@ -48,4 +48,14 @@ char* gfal_get_cat_type(GError**);
 
  	
 
-
+char *get_default_se(char *, int);
+int purify_surl (const char *, char *, const int);
+int setypesandendpointsfromsurl (const char *, char ***, char ***, char *, int);
+int setypesandendpoints (const char *, char ***, char ***, char *, int);
+int canonical_url (const char *, const char *, char *, int, char *, int);
+int parseturl (const char *, char *, int, char *, int, char*, int);
+int replica_exists(const char*, char*, int);
+int getdomainnm (char *name, int namelen);
+char **get_sup_proto ();
+struct proto_ops *find_pops (const char *);
+int mapposixerror (struct proto_ops *, int);

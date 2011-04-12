@@ -23,6 +23,8 @@
  * @date 8/04/2011
  * */
 
+#define _GNU_SOURCE
+
 #include "gfal_common_catalog.h"
 
 static char* get_default_cat(){

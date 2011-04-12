@@ -36,7 +36,7 @@ extern "C"
 
 
 /******************** Common functions ********************/
-
+/*
 const char *gfal_version ();
 int gfal_set_verbose (int);
 int gfal_set_vo (const char *vo);
@@ -51,7 +51,7 @@ void gfal_set_timeout_srm (int);
 int gfal_get_timeout_srm ();
 const char *gfal_get_checksum_algname (enum gfal_cksm_type);
 enum gfal_cksm_type gfal_parse_checksum_algname (const char *);
-
+*/
 #ifdef SWIGPYTHON
 int gfal_get_errno ();
 #endif

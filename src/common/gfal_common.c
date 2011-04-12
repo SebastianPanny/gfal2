@@ -1373,7 +1373,7 @@ guid_exists (const char *guid, char *errbuf, int errbufsz)
         return (-1);
     }
 }
-
+/*
     int
 setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
 {
@@ -1381,10 +1381,10 @@ setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
     if (( cat_type = gfal_get_cat_type(NULL) ) == NULL) {
         return (-1);
     }
- /*  lrc removed : fix it if (strcmp (cat_type, "edg") == 0) {
+ //  lrc removed : fix it if (strcmp (cat_type, "edg") == 0) {
         free (cat_type);
         return (lrc_setfilesize (pfn, filesize, errbuf, errbufsz));
-    } else*/ if (strcmp (cat_type, "lfc") == 0) {
+    } else/ if (strcmp (cat_type, "lfc") == 0) {
         // in this case, we suppose pfn is actually a LFN
         free (cat_type);
         return (lfc_setsize (pfn, filesize, errbuf, errbufsz));
@@ -1395,7 +1395,7 @@ setfilesize (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)
         return (-1);
     }
 }
-
+*/
     char **
 gfal_get_replicas (const char *lfn, const char *guid, char *errbuf, int errbufsz)
 {
@@ -2539,7 +2539,7 @@ gfal_internal_free (gfal_internal req)
     return;
 }
 
-    void
+ /*   void
 gfal_spacemd_free (int nbtokens, struct srm_spacemd *smd)
 {
     int i;
@@ -2563,7 +2563,7 @@ gfal_spacemd_free (int nbtokens, struct srm_spacemd *smd)
     smd = NULL;
 }
 
-
+*/
 
 char *
 gfal_generate_lfn (char *errbuf, int errbufsz) {
