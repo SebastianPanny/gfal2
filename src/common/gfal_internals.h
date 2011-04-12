@@ -28,29 +28,18 @@ extern "C"
 {
 #endif
 
-#include <stdarg.h>
-#include <uuid/uuid.h>
-#include "gfal_types.h"
+
 #include "gfal_constants.h"
+#include "gfal_common.h"
 
 // externals imports
-#include "lfc_ifce.h"
-#include <gfal_srm_ifce.h>
-#include <gfal_srm_ifce_types.h>
-#include "voms_apic.h"
+
 
 // remain a transition file : fix it
 
-/* Macro function to print debug info if LCG_GFAL_DEBUG is defined */
-#ifdef LCG_GFAL_DEBUG
-#define GFAL_DEBUG(format, ...) \
-	fprintf (stderr, format, ## __VA_ARGS__)
-#else
-#define GFAL_DEBUG(format, ...)
-#endif
 
-typedef struct srm_spacemd gfal_spacemd;
-enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
+
+
 
 
 
@@ -97,17 +86,7 @@ int mapposixerror (struct proto_ops *, int);
 
 /******************** gfal_file.c ********************/
 
-gfal_file gfal_file_new (const char *, const char *, int, char *, int);
-int gfal_file_free (gfal_file);
-const char *gfal_file_get_catalog_name (gfal_file);
-const char *gfal_file_get_replica (gfal_file);
-int gfal_file_get_replica_errcode (gfal_file);
-const char *gfal_file_get_replica_errmsg (gfal_file);
-int gfal_file_set_replica_error (gfal_file, int, const char *);
-int gfal_file_set_turl_error (gfal_file, int, const char *);
-int gfal_file_next_replica (gfal_file);
-char *gfal_generate_lfn (char *, int);
-char *gfal_generate_guid (char *, int);
+
 
 
 /******************** mds_ifce.c ********************/
@@ -145,11 +124,11 @@ int rmc_unregister_alias (const char *, const char *, char *, int);
 
 */
 /******************** gridftp_ifce.c ********************/
-
+/*
 int gridftp_delete (char *, char *, int, int);
 int gridftp_ls (char *, int *, char ***, struct stat64 **, char *, int, int);
 
-
+*/
 /******************** sfn_ifce.c ********************/
 
 /* fix it : removed int sfn_deletesurls (int, const char **, struct sfn_filestatus **, char *, int, int);*/
@@ -159,12 +138,7 @@ int sfn_turlsfromsurls (int, const char **, char **, struct sfn_filestatus **, c
 
 
 
-struct dir_info *alloc_di (DIR *);
-struct xfer_info *alloc_xi (int);
-struct dir_info *find_di (DIR *);
-struct xfer_info *find_xi (int);
-void free_di (struct dir_info *);
-int free_xi (int);
+
 int mdtomd32 (struct stat64 *, struct stat *);
 int copy_gfal_results (gfal_internal, enum status_type);
 int check_gfal_internal (gfal_internal, int, char *, int);

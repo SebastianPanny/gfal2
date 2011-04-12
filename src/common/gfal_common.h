@@ -24,15 +24,20 @@
  * @date 8/04/2011
  * */
 
-#include "gfal_api.h"
+#include "gfal_types.h"
+#include "gfal_constants.h"
+#include "gfal_common_catalog.h"
+#include "gfal_common_storage.h"
+// external imports
+#include <gfal_srm_ifce.h>
+#include <gfal_srm_ifce_types.h>
+#include "voms_apic.h"
+// standard imports
 #include <glib.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "gfal_constants.h"
-#include "gfal_common_catalog.h"
-#include "gfal_internals.h"
-#include "gfal_types.h"
+
 
 
 

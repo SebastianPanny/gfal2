@@ -1,4 +1,3 @@
-#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -15,37 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+ 
+ /**
+  * @brief header file for the storage access part of gfal
+  * @author : Devresse Adrien
+  * @version 0.0.1
+  * @date 12/04/2011
+  * */
 
-/**
- * @file gfal_common_catalog.h
- * @brief the header file of the common lib for the catalog management
- * @author Devresse Adrien
- * @version 0.0.1
- * @date 8/04/2011
- * */
-
-#include <glib.h>
-#include <errno.h>
-#include <string.h>
-#include "lfc/lfc_ifce.h"
-#include "gfal_types.h"
-#include <stdarg.h>
-#include <uuid/uuid.h>
-#include "gfal_common.h"
+#inlude "gfal_common.h"
 
 
 
-
-
-/**
-	\brief catalog type getter
-	
-	@return return a string of the type of the catalog
-	 return NULL if an error occured and set the GError correctly
-*/
-char* gfal_get_cat_type(GError**);
-
-
- 	
-
-
+struct dir_info *alloc_di (DIR *);
+struct xfer_info *alloc_xi (int);
+struct dir_info *find_di (DIR *);
+struct xfer_info *find_xi (int);
+void free_di (struct dir_info *);
+int free_xi (int);
