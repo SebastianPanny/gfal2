@@ -28,25 +28,13 @@
 #include "gfal_common.h"
 #include "voms_apic.h"
  
-/**
- * @brief dn of the current registered user
- * @return string of the dn of the current user registered by the voms proxy or null if error
- * need to be free after use
- */ 
+
 char *gfal_get_userdnG (GError** err);
 
 
-/**
- * @brief vo of the current user
- * @return string of the VO of the current user or null ir error
- * need to be free after use
- */
+
 char *gfal_get_voG (GError** err);
 
-/**
- * @brief get the user attributes
- * @return return a List of strings of the compact user Attribute or NULL if error
- * do not free
- */ 
+
 GList* gfal_get_fqanG(GError** err);
  

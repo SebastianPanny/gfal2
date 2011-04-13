@@ -32,9 +32,14 @@
  */
 static int gfal_verbose = -1;
 
+
+/**
+ * \brief return verbose mode level
+ */
 extern int gfal_get_verbose(){
 	return gfal_verbose;
 }
+
 
 extern int gfal_set_verbose (int value)
 {
@@ -44,22 +49,68 @@ extern int gfal_set_verbose (int value)
     return (0);
 }
 
-
+/**
+ * \brief display a verbose message 
+ * 
+ * msg is displayed if current verbose level is superior to verbose mode specified
+ * 
+ */
  extern void gfal_print_verbose(int verbose_lvl, const char* msg, ...){
 	 if(verbose_lvl <= gfal_get_verbose()){
+			char tab[2048];
+			sprintf(tab,"%s\n",msg);
 			va_list args;
 			va_start(args, msg);
-			printf(msg, args); 
+			printf(tab, args); 
 			va_end(args);		 
 	 }
 
  }
  
- 
+ /**
+ * \brief display the full GError message on stderr and free the memory associated
+ */
  extern void gfal_release_GError(GError** err){
-	 fprintf(stderr,"[gfal]%s", (*err)->message);
-	 free(*err);
+	 fprintf(stderr,"[gfal]%s\n", (*err)->message);
+	 g_clear_error(err);
 	 *err=NULL;	 
  }
+ 
+#if (GLIB_CHECK_VERSION(2,16,0) != TRUE)			// add code of glib 2.16 for link with a very old glib version
+static void
+g_error_add_prefix (gchar       **string,
+                    const gchar  *format,
+                    va_list       ap)
+{
+  gchar *oldstring;
+  gchar *prefix;
+
+  prefix = g_strdup_vprintf (format, ap);
+  oldstring = *string;
+  *string = g_strconcat (prefix, oldstring, NULL);
+  g_free (oldstring);
+  g_free (prefix);
+}
+ 
+void
+g_propagate_prefixed_error (GError      **dest,
+                            GError       *src,
+                            const gchar  *format,
+                            ...)
+{
+  g_propagate_error (dest, src);
+
+  if (dest && *dest)
+    {
+      va_list ap;
+
+      va_start (ap, format);
+      g_error_add_prefix (&(*dest)->message, format, ap);
+      va_end (ap);
+    }
+}
+ 
+ #endif
+ 
 
 
