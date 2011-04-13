@@ -29,6 +29,7 @@
 #include "gfal_common_catalog.h"
 #include "gfal_common_storage.h"
 #include "gfal_file.h"
+#include "voms/gfal_voms_if.h"
 // external imports
 #include <gfal_srm_ifce.h>
 #include <gfal_srm_ifce_types.h>
