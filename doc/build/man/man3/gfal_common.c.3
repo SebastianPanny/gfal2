@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common.c" 3 "12 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common.c" 3 "13 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -47,41 +47,42 @@
 .ti -1c
 .RI "void \fBgfal_errmsg\fP (char *errbuf, int errbufsz, int level, const char *format,...)"
 .br
+.RI "\fIdisplay an internal message \fP"
 .ti -1c
 .RI "ssize_t \fBgfal_setfilchg\fP (int fd, const void *buf, size_t size)"
 .br
 .ti -1c
-.RI "int \fBgfal_get\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_get\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_getstatus\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_getstatus\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_bringonline\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_bringonline\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_prestage\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_prestage\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_prestagestatus\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_prestagestatus\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_pin\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_pin\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_release\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_release\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_set_xfer_done\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_set_xfer_done\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_set_xfer_running\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_set_xfer_running\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_abortrequest\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_abortrequest\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBgfal_abortfiles\fP (gfal_internal req, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_abortfiles\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
 .ti -1c
 .RI "int \fBmdtomd32\fP (struct stat64 *statb64, struct stat *statbuf)"
@@ -114,9 +115,6 @@
 .RI "int \fBguid_exists\fP (const char *guid, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBsetfilesize\fP (const char *pfn, GFAL_LONG64 filesize, char *errbuf, int errbufsz)"
-.br
-.ti -1c
 .RI "char ** \fBgfal_get_replicas\fP (const char *lfn, const char *guid, char *errbuf, int errbufsz)"
 .br
 .ti -1c
@@ -147,16 +145,16 @@
 .RI "int \fBpurify_surl\fP (const char *surl, char *surl_cat, const int surl_cat_sz)"
 .br
 .ti -1c
-.RI "int \fBgenerate_surls\fP (gfal_internal gfal, char *errbuf, int errbufsz)"
+.RI "int \fBgenerate_surls\fP (gfal_handle gfal, char *errbuf, int errbufsz)"
 .br
 .ti -1c
 .RI "gfal_request \fBgfal_request_new\fP ()"
 .br
 .ti -1c
-.RI "int \fBgfal_init\fP (gfal_request req, gfal_internal *gfal, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_init\fP (gfal_request req, gfal_handle *gfal, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "int \fBcheck_gfal_internal\fP (gfal_internal req, int allow_null_surls, char *errbuf, int errbufsz)"
+.RI "int \fBcheck_gfal_handle\fP (gfal_handle req, int allow_null_surls, char *errbuf, int errbufsz)"
 .br
 .ti -1c
 .RI "void \fBfree_gfal_results\fP (gfal_filestatus *gfal, int n)"
@@ -168,25 +166,22 @@
 .RI "int \fBcopy_gfal_mdresults\fP (struct srmv2_mdfilestatus srmv2, gfal_filestatus *gfal)"
 .br
 .ti -1c
-.RI "int \fBcopy_gfal_results\fP (gfal_internal req, enum status_type stype)"
+.RI "int \fBcopy_gfal_results\fP (gfal_handle req, enum status_type stype)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_results\fP (gfal_internal req, gfal_filestatus **results)"
+.RI "int \fBgfal_get_results\fP (gfal_handle req, gfal_filestatus **results)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_ids\fP (gfal_internal req, int *srm_reqid, int **srm_fileids, char **srmv2_reqtoken)"
+.RI "int \fBgfal_get_ids\fP (gfal_handle req, int *srm_reqid, int **srm_fileids, char **srmv2_reqtoken)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_ids_setype\fP (gfal_internal req, enum se_type *type, int *srm_reqid, int **srm_fileids, char **srmv2_reqtoken)"
+.RI "int \fBgfal_get_ids_setype\fP (gfal_handle req, enum se_type *type, int *srm_reqid, int **srm_fileids, char **srmv2_reqtoken)"
 .br
 .ti -1c
-.RI "int \fBgfal_set_ids\fP (gfal_internal req, int nbfileids, const int *srm_fileids, int srm_reqid, const char *srmv2_reqtoken, char *errbuf, int errbufsz)"
+.RI "int \fBgfal_set_ids\fP (gfal_handle req, int nbfileids, const int *srm_fileids, int srm_reqid, const char *srmv2_reqtoken, char *errbuf, int errbufsz)"
 .br
 .ti -1c
-.RI "void \fBgfal_internal_free\fP (gfal_internal req)"
-.br
-.ti -1c
-.RI "void \fBgfal_spacemd_free\fP (int nbtokens, struct srm_spacemd *smd)"
+.RI "void \fBgfal_handle_free\fP (gfal_handle req)"
 .br
 .ti -1c
 .RI "char * \fBgfal_generate_lfn\fP (char *errbuf, int errbufsz)"
@@ -218,6 +213,18 @@ Devresse Adrien
 \fBDate:\fP
 .RS 4
 8/04/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "void gfal_errmsg (char *, int, int, const char *,  ...)"
+.PP
+display an internal message 
+.PP
+\fBDeprecated\fP
+.RS 4
+old rerror system, will be replaced 
 .RE
 .PP
 

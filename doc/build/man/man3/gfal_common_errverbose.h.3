@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "12 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "13 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -38,6 +38,10 @@
 .RI "void \fBgfal_release_GError\fP (GError **err)"
 .br
 .RI "\fIdisplay the full GError message on stderr and free the memory associated \fP"
+.ti -1c
+.RI "void \fBgfal_create_GError\fP (GError **err, int errno, const char *msg,...)"
+.br
+.RI "\fIcreate an error with the given message \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 

@@ -179,7 +179,7 @@
 <a name="l00160"></a>00160         <span class="keywordtype">int</span>                                                     srmv2_lscount;
 <a name="l00161"></a>00161 } *gfal_request;
 <a name="l00162"></a>00162 
-<a name="l00163"></a>00163 <span class="keyword">typedef</span> <span class="keyword">struct </span>gfal_internal_ {
+<a name="l00163"></a>00163 <span class="keyword">typedef</span> <span class="keyword">struct </span>gfal_handle_ {
 <a name="l00164"></a>00164         <span class="comment">// INPUTS</span>
 <a name="l00165"></a>00165 
 <a name="l00166"></a>00166         <span class="keywordtype">int</span>                                                     generatesurls;
@@ -224,7 +224,7 @@
 <a name="l00205"></a>00205         <span class="keywordtype">int</span> returncode; <span class="comment">// size of the new results</span>
 <a name="l00206"></a>00206         <span class="keywordtype">int</span> results_size; <span class="comment">// size of the old results</span>
 <a name="l00207"></a>00207         gfal_filestatus *results;
-<a name="l00208"></a>00208 } *gfal_internal;
+<a name="l00208"></a>00208 } *gfal_handle;
 <a name="l00209"></a>00209 
 <a name="l00210"></a>00210 <span class="keyword">struct </span>sfn_filestatus {
 <a name="l00211"></a>00211         <span class="keywordtype">char</span> *surl;
@@ -304,7 +304,7 @@
 <a name="l00285"></a>00285         <span class="keywordtype">int</span> nberrors;                  <span class="comment">// nb of non-working replicas</span>
 <a name="l00286"></a>00286         gfal_replica *replicas;
 <a name="l00287"></a>00287         <span class="keywordtype">int</span> current_replica;
-<a name="l00288"></a>00288         gfal_internal gobj;
+<a name="l00288"></a>00288         gfal_handle gobj;
 <a name="l00289"></a>00289         <span class="keywordtype">char</span> *turl;
 <a name="l00290"></a>00290         <span class="keywordtype">int</span> errcode;
 <a name="l00291"></a>00291         <span class="keywordtype">char</span> *errmsg;
@@ -367,7 +367,7 @@
 <a name="l00348"></a>00348 <span class="preprocessor">#endif</span>
 <a name="l00349"></a>00349 <span class="preprocessor"></span>
 <a name="l00350"></a>00350 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Apr 12 13:58:08 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Apr 13 11:37:22 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

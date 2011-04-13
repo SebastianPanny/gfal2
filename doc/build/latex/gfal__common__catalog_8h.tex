@@ -5,8 +5,8 @@ the header file of the common lib for the catalog management
 {\tt \#include $<$glib.h$>$}\par
 {\tt \#include $<$errno.h$>$}\par
 {\tt \#include $<$string.h$>$}\par
-{\tt \#include \char`\"{}lfc/lfc\_\-ifce.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
+{\tt \#include \char`\"{}lfc/lfc\_\-ifce.h\char`\"{}}\par
 {\tt \#include $<$stdarg.h$>$}\par
 {\tt \#include $<$uuid/uuid.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-common.h\char`\"{}}\par
@@ -14,7 +14,40 @@ the header file of the common lib for the catalog management
 \begin{CompactItemize}
 \item 
 char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$)
-\begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\item 
+char $\ast$ \textbf{get\_\-default\_\-se} (char $\ast$, int)\label{gfal__common__catalog_8h_c304a754c49bedeec6c1c9b1445b937d}
+
+\item 
+int \textbf{purify\_\-surl} (const char $\ast$, char $\ast$, const int)\label{gfal__common__catalog_8h_c25d6ed82e636c14d640318a2ad5f3b5}
+
+\item 
+int \textbf{setypesandendpointsfromsurl} (const char $\ast$, char $\ast$$\ast$$\ast$, char $\ast$$\ast$$\ast$, char $\ast$, int)\label{gfal__common__catalog_8h_f398c539d03eaea6dcb6b45067cb21f2}
+
+\item 
+int \textbf{setypesandendpoints} (const char $\ast$, char $\ast$$\ast$$\ast$, char $\ast$$\ast$$\ast$, char $\ast$, int)\label{gfal__common__catalog_8h_f06de10d100ffd8ad880619661708810}
+
+\item 
+int \textbf{canonical\_\-url} (const char $\ast$, const char $\ast$, char $\ast$, int, char $\ast$, int)\label{gfal__common__catalog_8h_845c890f2d493921bd587158fab72d65}
+
+\item 
+int \textbf{parseturl} (const char $\ast$, char $\ast$, int, char $\ast$, int, char $\ast$, int)\label{gfal__common__catalog_8h_70868bce152313f31e24982453f10723}
+
+\item 
+int \textbf{replica\_\-exists} (const char $\ast$, char $\ast$, int)\label{gfal__common__catalog_8h_ac34379d44fb4037af134b34a9aae030}
+
+\item 
+int \textbf{getdomainnm} (char $\ast$name, int namelen)\label{gfal__common__catalog_8h_446a829e4f333d3a0364ab0f2b5a2dc7}
+
+\item 
+char $\ast$$\ast$ \textbf{get\_\-sup\_\-proto} ()\label{gfal__common__catalog_8h_03347619db3b30ef54ae6a98e351e21f}
+
+\item 
+proto\_\-ops $\ast$ \textbf{find\_\-pops} (const char $\ast$)\label{gfal__common__catalog_8h_40d4c392e45e16062bc90caf0ebfa436}
+
+\item 
+int \textbf{mapposixerror} (struct proto\_\-ops $\ast$, int)\label{gfal__common__catalog_8h_c8360922877ec368815d412209e862a2}
+
+\end{CompactItemize}
 
 
 \subsection{Detailed Description}

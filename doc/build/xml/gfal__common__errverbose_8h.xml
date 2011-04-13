@@ -10,51 +10,51 @@
     <includes local="no">glib.h</includes>
     <includedby refid="gfal__common__errverbose_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</includedby>
     <incdepgraph>
-      <node id="164">
+      <node id="178">
         <label>stdarg.h</label>
       </node>
-      <node id="162">
+      <node id="176">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h</label>
         <link refid="gfal_common_errverbose.h"/>
-        <childnode refid="163" relation="include">
+        <childnode refid="177" relation="include">
         </childnode>
-        <childnode refid="164" relation="include">
+        <childnode refid="178" relation="include">
         </childnode>
-        <childnode refid="165" relation="include">
+        <childnode refid="179" relation="include">
         </childnode>
-        <childnode refid="166" relation="include">
+        <childnode refid="180" relation="include">
         </childnode>
-        <childnode refid="167" relation="include">
+        <childnode refid="181" relation="include">
         </childnode>
-        <childnode refid="168" relation="include">
+        <childnode refid="182" relation="include">
         </childnode>
       </node>
-      <node id="167">
+      <node id="181">
         <label>errno.h</label>
       </node>
-      <node id="166">
+      <node id="180">
         <label>string.h</label>
       </node>
-      <node id="168">
+      <node id="182">
         <label>glib.h</label>
       </node>
-      <node id="163">
+      <node id="177">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="165">
+      <node id="179">
         <label>stdio.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="170">
+      <node id="184">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</label>
         <link refid="gfal__common__errverbose_8c"/>
       </node>
-      <node id="169">
+      <node id="183">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h</label>
         <link refid="gfal_common_errverbose.h"/>
-        <childnode refid="170" relation="include">
+        <childnode refid="184" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -138,6 +138,34 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="59" bodyend="63"/>
       </memberdef>
+      <memberdef kind="function" id="gfal__common__errverbose_8h_1dceacc7d09db7769adc7d375109299f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gfal_create_GError</definition>
+        <argsstring>(GError **err, int errno, const char *msg,...)</argsstring>
+        <name>gfal_create_GError</name>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>errno</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>...</type>
+        </param>
+        <briefdescription>
+<para>create an error with the given message </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="65" bodyend="76"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para>the header file of the common lib for error management and verbose display </para>    </briefdescription>
@@ -178,6 +206,8 @@
 <codeline lineno="52"><highlight class="normal"></highlight></codeline>
 <codeline lineno="56"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_11441ea4b8176eb0cf3099009b950a3e9" kindref="member">gfal_release_GError</ref>(GError**<sp/>err);</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_1dceacc7d09db7769adc7d375109299f5" kindref="member">gfal_create_GError</ref>(GError**<sp/>err,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>errno,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>msg,...);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h"/>
   </compounddef>

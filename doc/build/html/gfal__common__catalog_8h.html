@@ -22,8 +22,8 @@
 <code>#include &lt;glib.h&gt;</code><br>
 <code>#include &lt;errno.h&gt;</code><br>
 <code>#include &lt;string.h&gt;</code><br>
-<code>#include &quot;lfc/lfc_ifce.h&quot;</code><br>
 <code>#include &quot;gfal_types.h&quot;</code><br>
+<code>#include &quot;lfc/lfc_ifce.h&quot;</code><br>
 <code>#include &lt;stdarg.h&gt;</code><br>
 <code>#include &lt;uuid/uuid.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common_8h-source.html">gfal_common.h</a>&quot;</code><br>
@@ -35,6 +35,39 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#791ad55a9c8aaca0bb8ae74a3538c202">gfal_get_cat_type</a> (GError **)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#791ad55a9c8aaca0bb8ae74a3538c202"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c304a754c49bedeec6c1c9b1445b937d"></a><!-- doxytag: member="gfal_common_catalog.h::get_default_se" ref="c304a754c49bedeec6c1c9b1445b937d" args="(char *, int)" -->
+char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>get_default_se</b> (char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c25d6ed82e636c14d640318a2ad5f3b5"></a><!-- doxytag: member="gfal_common_catalog.h::purify_surl" ref="c25d6ed82e636c14d640318a2ad5f3b5" args="(const char *, char *, const int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>purify_surl</b> (const char *, char *, const int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f398c539d03eaea6dcb6b45067cb21f2"></a><!-- doxytag: member="gfal_common_catalog.h::setypesandendpointsfromsurl" ref="f398c539d03eaea6dcb6b45067cb21f2" args="(const char *, char ***, char ***, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>setypesandendpointsfromsurl</b> (const char *, char ***, char ***, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f06de10d100ffd8ad880619661708810"></a><!-- doxytag: member="gfal_common_catalog.h::setypesandendpoints" ref="f06de10d100ffd8ad880619661708810" args="(const char *, char ***, char ***, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>setypesandendpoints</b> (const char *, char ***, char ***, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="845c890f2d493921bd587158fab72d65"></a><!-- doxytag: member="gfal_common_catalog.h::canonical_url" ref="845c890f2d493921bd587158fab72d65" args="(const char *, const char *, char *, int, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>canonical_url</b> (const char *, const char *, char *, int, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="70868bce152313f31e24982453f10723"></a><!-- doxytag: member="gfal_common_catalog.h::parseturl" ref="70868bce152313f31e24982453f10723" args="(const char *, char *, int, char *, int, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>parseturl</b> (const char *, char *, int, char *, int, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ac34379d44fb4037af134b34a9aae030"></a><!-- doxytag: member="gfal_common_catalog.h::replica_exists" ref="ac34379d44fb4037af134b34a9aae030" args="(const char *, char *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>replica_exists</b> (const char *, char *, int)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="446a829e4f333d3a0364ab0f2b5a2dc7"></a><!-- doxytag: member="gfal_common_catalog.h::getdomainnm" ref="446a829e4f333d3a0364ab0f2b5a2dc7" args="(char *name, int namelen)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>getdomainnm</b> (char *name, int namelen)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="03347619db3b30ef54ae6a98e351e21f"></a><!-- doxytag: member="gfal_common_catalog.h::get_sup_proto" ref="03347619db3b30ef54ae6a98e351e21f" args="()" -->
+char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>get_sup_proto</b> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="40d4c392e45e16062bc90caf0ebfa436"></a><!-- doxytag: member="gfal_common_catalog.h::find_pops" ref="40d4c392e45e16062bc90caf0ebfa436" args="(const char *)" -->
+proto_ops *&nbsp;</td><td class="memItemRight" valign="bottom"><b>find_pops</b> (const char *)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c8360922877ec368815d412209e862a2"></a><!-- doxytag: member="gfal_common_catalog.h::mapposixerror" ref="c8360922877ec368815d412209e862a2" args="(struct proto_ops *, int)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>mapposixerror</b> (struct proto_ops *, int)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 the header file of the common lib for the catalog management 
@@ -66,7 +99,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Apr 12 13:58:08 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 13 11:37:22 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -20,7 +20,10 @@ int \bf{gfal\_\-get\_\-verbose} ()\label{gfal__common__errverbose_8h_135b3fdd775
 \begin{CompactList}\small\item\em return verbose mode level \item\end{CompactList}\item 
 void \bf{gfal\_\-release\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8h_1441ea4b8176eb0cf3099009b950a3e9}
 
-\begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\item 
+void \bf{gfal\_\-create\_\-GError} (GError $\ast$$\ast$err, int errno, const char $\ast$msg,...)\label{gfal__common__errverbose_8h_dceacc7d09db7769adc7d375109299f5}
+
+\begin{CompactList}\small\item\em create an error with the given message \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}

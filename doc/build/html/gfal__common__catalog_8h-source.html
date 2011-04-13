@@ -38,8 +38,8 @@
 <a name="l00027"></a>00027 <span class="preprocessor">#include &lt;glib.h&gt;</span>
 <a name="l00028"></a>00028 <span class="preprocessor">#include &lt;errno.h&gt;</span>
 <a name="l00029"></a>00029 <span class="preprocessor">#include &lt;string.h&gt;</span>
-<a name="l00030"></a>00030 <span class="preprocessor">#include "lfc/lfc_ifce.h"</span>
-<a name="l00031"></a>00031 <span class="preprocessor">#include "gfal_types.h"</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include "gfal_types.h"</span> 
+<a name="l00031"></a>00031 <span class="preprocessor">#include "lfc/lfc_ifce.h"</span>
 <a name="l00032"></a>00032 <span class="preprocessor">#include &lt;stdarg.h&gt;</span>
 <a name="l00033"></a>00033 <span class="preprocessor">#include &lt;uuid/uuid.h&gt;</span>
 <a name="l00034"></a>00034 <span class="preprocessor">#include "<a class="code" href="gfal__common_8h.html">gfal_common.h</a>"</span>
@@ -53,8 +53,18 @@
 <a name="l00048"></a>00048 
 <a name="l00049"></a>00049         
 <a name="l00050"></a>00050 
-<a name="l00051"></a>00051 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Apr 12 13:58:08 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00051"></a>00051 <span class="keywordtype">char</span> *get_default_se(<span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
+<a name="l00052"></a>00052 <span class="keywordtype">int</span> purify_surl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">int</span>);
+<a name="l00053"></a>00053 <span class="keywordtype">int</span> setypesandendpointsfromsurl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
+<a name="l00054"></a>00054 <span class="keywordtype">int</span> setypesandendpoints (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
+<a name="l00055"></a>00055 <span class="keywordtype">int</span> canonical_url (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
+<a name="l00056"></a>00056 <span class="keywordtype">int</span> parseturl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">char</span>*, <span class="keywordtype">int</span>);
+<a name="l00057"></a>00057 <span class="keywordtype">int</span> replica_exists(<span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>*, <span class="keywordtype">int</span>);
+<a name="l00058"></a>00058 <span class="keywordtype">int</span> getdomainnm (<span class="keywordtype">char</span> *name, <span class="keywordtype">int</span> namelen);
+<a name="l00059"></a>00059 <span class="keywordtype">char</span> **get_sup_proto ();
+<a name="l00060"></a>00060 <span class="keyword">struct </span>proto_ops *find_pops (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00061"></a>00061 <span class="keywordtype">int</span> mapposixerror (<span class="keyword">struct</span> proto_ops *, <span class="keywordtype">int</span>);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Apr 13 11:37:22 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

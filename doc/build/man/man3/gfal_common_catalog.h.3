@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "12 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "13 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,9 +12,9 @@
 .br
 \fC#include <string.h>\fP
 .br
-\fC#include 'lfc/lfc_ifce.h'\fP
-.br
 \fC#include 'gfal_types.h'\fP
+.br
+\fC#include 'lfc/lfc_ifce.h'\fP
 .br
 \fC#include <stdarg.h>\fP
 .br
@@ -30,6 +30,39 @@
 .RI "char * \fBgfal_get_cat_type\fP (GError **)"
 .br
 .RI "\fIcatalog type getter \fP"
+.ti -1c
+.RI "char * \fBget_default_se\fP (char *, int)"
+.br
+.ti -1c
+.RI "int \fBpurify_surl\fP (const char *, char *, const int)"
+.br
+.ti -1c
+.RI "int \fBsetypesandendpointsfromsurl\fP (const char *, char ***, char ***, char *, int)"
+.br
+.ti -1c
+.RI "int \fBsetypesandendpoints\fP (const char *, char ***, char ***, char *, int)"
+.br
+.ti -1c
+.RI "int \fBcanonical_url\fP (const char *, const char *, char *, int, char *, int)"
+.br
+.ti -1c
+.RI "int \fBparseturl\fP (const char *, char *, int, char *, int, char *, int)"
+.br
+.ti -1c
+.RI "int \fBreplica_exists\fP (const char *, char *, int)"
+.br
+.ti -1c
+.RI "int \fBgetdomainnm\fP (char *name, int namelen)"
+.br
+.ti -1c
+.RI "char ** \fBget_sup_proto\fP ()"
+.br
+.ti -1c
+.RI "proto_ops * \fBfind_pops\fP (const char *)"
+.br
+.ti -1c
+.RI "int \fBmapposixerror\fP (struct proto_ops *, int)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
