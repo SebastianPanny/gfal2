@@ -14,6 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+ 
+// constant to define for succefull unit test
+
+
 
 /**
  * Unit tests for gfal
@@ -26,6 +31,7 @@
 #include <stdlib.h>
 #include "common/gfal__test_verbose.c"
 #include "common/gfal__test_catalog.c"
+#include "common/voms/gfal__test_voms.c"
 
 Suite* common_suite (void)
 {
@@ -39,6 +45,14 @@ Suite* common_suite (void)
   TCase *tc_cata = tcase_create ("Catalog");
   tcase_add_test (tc_cata, test_get_cat_type);
   suite_add_tcase (s, tc_cata);
+  /* voms */
+  TCase *tc_voms = tcase_create ("Voms");
+  tcase_add_test (tc_voms, test_voms_parse_args);
+  tcase_add_test (tc_voms, test_voms_info_is_null);
+  tcase_add_test (tc_voms,test_voms_info_test_vo);
+  tcase_add_test (tc_voms,  test_voms_get_userdnG);
+  tcase_add_test (tc_voms, test_voms_get_fqan);
+  suite_add_tcase (s, tc_voms); 
   return s;
 }
 
@@ -50,6 +64,7 @@ int main (int argc, char** argv)
   int number_failed;
   Suite *s = common_suite ();
   SRunner *sr = srunner_create (s);
+  srunner_set_fork_status(sr,CK_NOFORK); // cancel fork for gdb
   srunner_run_all (sr, CK_VERBOSE);
   number_failed = srunner_ntests_failed (sr);
   if( number_failed > 0){

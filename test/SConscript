@@ -11,11 +11,14 @@ import random
 import shutil
 import commands
 
-src_tests= ["common/gfal__test_verbose.c", "#src/common/gfal_common_errverbose.c", "common/gfal__test_catalog.c","#src/common/gfal_common_catalog.c" ,"unit_test.c" ]
+src_tests_global = ["#src/common/gfal_common_errverbose.c"]
+src_tests_voms = ["common/voms/gfal__test_voms.c","#src/common/voms/gfal_voms_if.c" ]
+src_tests= ["common/gfal__test_verbose.c", "common/gfal__test_catalog.c","#src/common/gfal_common_catalog.c" ,"unit_test.c" ]
+src_tests_all = src_tests+ src_tests_voms + src_tests_global
 ## build test config
 
 env_test.PrependENVPath('LD_LIBRARY_PATH', libs) # setup internal env LD PATH
-test1 =env_test.Program("test_verbose",  src_tests+ [ccheck_lib])
+test1 =env_test.Program("test_verbose",  src_tests_all+ [ccheck_lib])
 print "prog" + test1[0].abspath
 run_test= env_test.Alias("test_run_verbose.passed", test1, test1[0].abspath)
 test_alias= env_test.Alias("test", ["test_run_verbose.passed"])	
