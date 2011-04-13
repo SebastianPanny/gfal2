@@ -6,6 +6,13 @@
 .SH SYNOPSIS
 .br
 .PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "gfal_handle \fBgfal_initG\fP (GError **err)"
+.br
+.in -1c
 .SH "Detailed Description"
 .PP 
 the header file with the main srm funcs of the common API 
@@ -23,6 +30,18 @@ Devresse Adrien
 \fBDate:\fP
 .RS 4
 12/04/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "gfal_handle gfal_initG (GError ** err)"
+.PP
+initiate a gfal_handle with default parameters 
+.PP
+\fBReturns:\fP
+.RS 4
+a gfal_handle, need to be free after usage or NULL if errors 
 .RE
 .PP
 

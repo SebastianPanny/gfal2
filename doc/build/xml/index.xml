@@ -111,6 +111,8 @@
     <member refid="structgfal__handle___102c0e20f750d7ebd85ef2defa87ea9bc" kind="variable"><name>srmv2_pinstatuses</name></member>
     <member refid="structgfal__handle___1eda94944b159eee087bdf639a9749ee6" kind="variable"><name>srmv2_mdstatuses</name></member>
     <member refid="structgfal__handle___1994d8e472e1a6f2655015f0fad5c61d7" kind="variable"><name>results</name></member>
+    <member refid="structgfal__handle___1ffde1783305f85b47050836043fefc17" kind="variable"><name>err</name></member>
+    <member refid="structgfal__handle___10cda107d439be9411c84f8025b2ee39d" kind="variable"><name>srm_proto_type</name></member>
   </compound>
   <compound refid="structgfal__request__" kind="struct"><name>gfal_request_</name>
     <member refid="structgfal__request___1fbd60bd31be962c793d26f14cd5cf0cb" kind="variable"><name>generatesurls</name></member>
@@ -464,8 +466,10 @@
     <member refid="gfal__common__errverbose_8h_1f9695e2ac1722715b687c1818cb2993d" kind="function"><name>g_propagate_prefixed_error</name></member>
   </compound>
   <compound refid="gfal__common__srm_8c" kind="file"><name>gfal_common_srm.c</name>
+    <member refid="gfal__common__srm_8c_18410ba458f920d8f8a8f0e5594170fe4" kind="function"><name>gfal_initG</name></member>
   </compound>
   <compound refid="gfal__common__srm_8h" kind="file"><name>gfal_common_srm.h</name>
+    <member refid="gfal__common__srm_8h_18410ba458f920d8f8a8f0e5594170fe4" kind="function"><name>gfal_initG</name></member>
   </compound>
   <compound refid="gfal__common__storage_8c" kind="file"><name>gfal_common_storage.c</name>
     <member refid="gfal__common__storage_8c_18f269e9d06e4dd7d2512f0a6f4d56b1e" kind="function"><name>alloc_di</name></member>
@@ -577,6 +581,9 @@
     <member refid="gfal__types_8h_1f7af47cd60506a8297ba942b10bf6435be4b708139dee94dc957d82edb4953aa" kind="enumvalue"><name>TYPE_SRM</name></member>
     <member refid="gfal__types_8h_1f7af47cd60506a8297ba942b10bf643522a89f7374bea96aee08a01ecc4e6299" kind="enumvalue"><name>TYPE_SRMv2</name></member>
     <member refid="gfal__types_8h_1f7af47cd60506a8297ba942b10bf643563d83542bd0e4df3f75089e0beff00eb" kind="enumvalue"><name>TYPE_SE</name></member>
+    <member refid="gfal__types_8h_19d91276b04bd477b98e19474b5aa1404" kind="enum"><name>gfal_srm_proto</name></member>
+    <member refid="gfal__types_8h_19d91276b04bd477b98e19474b5aa1404eabbb9c9ec8becb1f18905df46ed86a8" kind="enumvalue"><name>PROTO_SRM</name></member>
+    <member refid="gfal__types_8h_19d91276b04bd477b98e19474b5aa14047392b0b19828b09e26fa23482999dbc1" kind="enumvalue"><name>PROTO_SRMv2</name></member>
     <member refid="gfal__types_8h_15ddde4f783b917f6e921e9a3c6fc819f" kind="enum"><name>gfal_cksm_type</name></member>
     <member refid="gfal__types_8h_15ddde4f783b917f6e921e9a3c6fc819f6f63a1371935e41c8be5d50558d38d80" kind="enumvalue"><name>GFAL_CKSM_NONE</name></member>
     <member refid="gfal__types_8h_15ddde4f783b917f6e921e9a3c6fc819f23eed48f2ad214c383011f8de4c7be30" kind="enumvalue"><name>GFAL_CKSM_CRC32</name></member>
