@@ -32,12 +32,7 @@
 #include <errno.h>
 #include <glib.h>
 
-/**
- * \brief display a verbose message 
- * 
- * msg is displayed if current verbose level is superior to verbose mode specified
- * 
- */
+
 void gfal_print_verbose(int verbose_lvl,const char* msg, ...);
 /**
  * \brief set the verbose mode for the current program
@@ -45,13 +40,20 @@ void gfal_print_verbose(int verbose_lvl,const char* msg, ...);
  * 
  */
 int gfal_set_verbose (int value);
-/**
- * \brief return verbose mode level
- */
+
 int gfal_get_verbose();
 
-/**
- * \brief display the full GError message on stderr and free the memory associated
- */
+
 void gfal_release_GError(GError** err);
 
+
+#if (GLIB_CHECK_VERSION(2,16,0) != TRUE)			// add a advanced functions of glib for old version of glib
+
+#define ERROR_OVERWRITTEN_WARNING "GError set over the top of a previous GError or uninitialized memory.\n"
+ 
+void     g_propagate_prefixed_error   (GError       **dest,
+								   GError        *src,
+								   const gchar   *format,
+								   ...) G_GNUC_PRINTF (3, 4);
+ 
+#endif
