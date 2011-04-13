@@ -23,3 +23,5 @@
  * @date 12/04/2011
  * */
  
+ 
+gfal_handle gfal_initG(GError** err);
