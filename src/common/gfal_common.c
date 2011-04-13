@@ -45,7 +45,7 @@ static int purifydisabled = -1;
 
 
 
-
+// fix it to remove !
     int
 gfal_parse_vomsdata (char *errbuf, int errbufsz)
 {

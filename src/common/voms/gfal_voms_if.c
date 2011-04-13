@@ -39,19 +39,21 @@ static int gfal_voms_init(struct vomsdata **vd, GError **err){
     int error;
     if( (*vd = VOMS_Init ("", "")) ==NULL){
 		g_set_error(err,0, EINVAL, " [parse_vomsdataG][VOMS_Init] VOMS_Init failed, \
-										maybe X509_VOMS_DIR and X509_CERT_DIR are not set correctly");
+maybe voms-proxy is not initiated correctly");
 		VOMS_Destroy(*vd);
 		return -1;				
 	}
 	if( !VOMS_SetVerificationType (VERIFY_NONE, *vd, &error)){
         VOMS_ErrorMessage (*vd, error, errmsg, GFAL_ERRMSG_LEN);	
- 		g_set_error(err, 0, EINVAL, "[parse_vomsdataG][VOMS_SetVerificationType] error : %s", errmsg);      
+ 		g_set_error(err, 0, EINVAL, "[parse_vomsdataG][VOMS_SetVerificationType] error : %s, \
+maybe is not initiated correctly", errmsg);      
  		VOMS_Destroy(*vd); 	
 		return -2;
 	}	
 	if( !VOMS_RetrieveFromProxy (RECURSE_CHAIN, *vd, &error)){
         VOMS_ErrorMessage (*vd, error, errmsg, GFAL_ERRMSG_LEN);	
- 		g_set_error(err,0, EINVAL, "[parse_vomsdataG][VOMS_RetrieveFromProxy] error : %s", errmsg);      
+ 		g_set_error(err,0, EINVAL, "[parse_vomsdataG][VOMS_RetrieveFromProxy] error : %s, \
+maybe voms-proxy is not initiated correctly", errmsg);      
  		VOMS_Destroy(*vd); 	
 		return -3;			
 	}
