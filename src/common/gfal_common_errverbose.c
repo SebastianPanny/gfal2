@@ -58,7 +58,7 @@ extern int gfal_set_verbose (int value)
  extern void gfal_print_verbose(int verbose_lvl, const char* msg, ...){
 	 if(verbose_lvl <= gfal_get_verbose()){
 			char tab[2048];
-			sprintf(tab,"%s\n",msg);
+			sprintf(tab,"[GFAL] [VERBOSE] %s\n",msg);
 			va_list args;
 			va_start(args, msg);
 			printf(tab, args); 
