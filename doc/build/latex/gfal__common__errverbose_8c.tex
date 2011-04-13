@@ -16,9 +16,9 @@ void \bf{gfal\_\-print\_\-verbose} (int verbose\_\-lvl, const char $\ast$msg,...
 void \bf{gfal\_\-release\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8c_1441ea4b8176eb0cf3099009b950a3e9}
 
 \begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\item 
-void \bf{gfal\_\-create\_\-GError} (GError $\ast$$\ast$err, int errno, const char $\ast$msg,...)\label{gfal__common__errverbose_8c_dceacc7d09db7769adc7d375109299f5}
+void \textbf{g\_\-propagate\_\-prefixed\_\-error} (GError $\ast$$\ast$dest, GError $\ast$src, const gchar $\ast$format,...)\label{gfal__common__errverbose_8c_ba441719ee1fd49a708add03c0eea22f}
 
-\begin{CompactList}\small\item\em create an error with the given message \item\end{CompactList}\end{CompactItemize}
+\end{CompactItemize}
 
 
 \subsection{Detailed Description}

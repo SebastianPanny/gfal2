@@ -11,8 +11,7 @@ struct \textbf{gfal\_\-voms\_\-info\_\-}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-int \textbf{gfal\_\-parse\_\-vomsdata\-G} (GError $\ast$$\ast$err)\label{gfal__voms__if_8c_fad846d1ae353ebf568469b4d15cab50}
-
+int \bf{gfal\_\-parse\_\-vomsdata\-G} (GError $\ast$$\ast$err)
 \item 
 char $\ast$ \bf{gfal\_\-get\_\-userdn\-G} (GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em dn of the current registered user \item\end{CompactList}\item 
@@ -61,3 +60,9 @@ vo of the current user
 
 \begin{Desc}
 \item[Returns:]string of the VO of the current user or null ir error need to be free after use \end{Desc}
+\index{gfal_voms_if.c@{gfal\_\-voms\_\-if.c}!gfal_parse_vomsdataG@{gfal\_\-parse\_\-vomsdataG}}
+\index{gfal_parse_vomsdataG@{gfal\_\-parse\_\-vomsdataG}!gfal_voms_if.c@{gfal\_\-voms\_\-if.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-parse\_\-vomsdata\-G (GError $\ast$$\ast$ {\em err})}\label{gfal__voms__if_8c_fad846d1ae353ebf568469b4d15cab50}
+
+
+get the data from the proxy and store it 

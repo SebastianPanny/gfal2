@@ -8,6 +8,12 @@ the header file of the common lib for error management and verbose display
 {\tt \#include $<$string.h$>$}\par
 {\tt \#include $<$errno.h$>$}\par
 {\tt \#include $<$glib.h$>$}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \textbf{ERROR\_\-OVERWRITTEN\_\-WARNING}~\char`\"{}GError set over the top of a previous GError or uninitialized memory.$\backslash$n\char`\"{}\label{gfal__common__errverbose_8h_a33f2d1da54117a211eb24ac682ee384}
+
+\end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
@@ -21,9 +27,9 @@ int \bf{gfal\_\-get\_\-verbose} ()\label{gfal__common__errverbose_8h_135b3fdd775
 void \bf{gfal\_\-release\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8h_1441ea4b8176eb0cf3099009b950a3e9}
 
 \begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\item 
-void \bf{gfal\_\-create\_\-GError} (GError $\ast$$\ast$err, int errno, const char $\ast$msg,...)\label{gfal__common__errverbose_8h_dceacc7d09db7769adc7d375109299f5}
+void \textbf{g\_\-propagate\_\-prefixed\_\-error} (GError $\ast$$\ast$dest, GError $\ast$src, const gchar $\ast$format,...) G\_\-GNUC\_\-PRINTF(3\label{gfal__common__errverbose_8h_f9695e2ac1722715b687c1818cb2993d}
 
-\begin{CompactList}\small\item\em create an error with the given message \item\end{CompactList}\end{CompactItemize}
+\end{CompactItemize}
 
 
 \subsection{Detailed Description}
