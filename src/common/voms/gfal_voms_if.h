@@ -22,8 +22,10 @@
  * @version 2.0
  * @date 12/04/2011
  * */
+#define _GNU_SOURCE
  
 #include <glib.h>
+#include "gfal_common.h"
 #include "voms_apic.h"
  
 /**
@@ -43,8 +45,8 @@ char *gfal_get_voG (GError** err);
 
 /**
  * @brief get the user attributes
- * @return return an array of string of the compact user Attribute or NULL if error
+ * @return return a List of strings of the compact user Attribute or NULL if error
  * do not free
  */ 
-GArray* gfal_get_fqanG(GError** err);
+GList* gfal_get_fqanG(GError** err);
  
