@@ -17,6 +17,7 @@ src3 = ['example/gfal_testdir.c']
 src4 = ['example/gfal_testchmod.c']
 src5 = ['example/gfal_testcreatedir.c']
 src6 = ['example/gfal_teststat.c']
+src7 = ['example/gfal_testget.c']
 exec_test= "exec_tests"
 
 #
@@ -49,7 +50,8 @@ def compile_testing():
 	p4=env.Program('build/gfal_testchmod', src4, LIBS='gfal')
 	p5=env.Program('build/gfal_testcreatedir', src5, LIBS='gfal')
 	p6= env.Program('build/gfal_teststat', src6, LIBS='gfal')
-	return [p1,p2,p3,p4,p5,p6]
+	p7= env.Program('build/gfal_testget',src7 , LIBS='gfal')
+	return [p1,p2,p3,p4,p5,p6,p7]
 
 def run_test(target,source,env):
 	fpath= Dir('#testing').abspath + os.sep +"build"+ os.sep+ exec_test

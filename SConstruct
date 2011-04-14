@@ -60,8 +60,8 @@ headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, srm_ifce_l
 libs=[ '#'+build_dir+'/libs' , etics_lib_dir, voms_location ]
 cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
-r = os.getenv('LD_LIBRARY_PATH')	# obtien les vars d'env
-env['ENV']['LD_LIBRARY_PATH'] = (r is not None) and r or "" 
+r = os.getenv('LD_LIBRARY_PATH')	# get ld path
+env['ENV']['LD_LIBRARY_PATH'] = (r is not None) and r or "" # set ld path or empty one if not exist
 
 # debug mode
 if ARGUMENTS.get('debug','0') =='yes':

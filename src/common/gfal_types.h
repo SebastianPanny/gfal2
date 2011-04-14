@@ -36,6 +36,7 @@ extern "C"
 #include <io.h>
 #else
 #include <unistd.h>
+#include <glib.h>
 #endif
 
 #ifndef GFAL_LONG64_FORMAT
@@ -70,7 +71,7 @@ typedef struct srm_spacemd gfal_spacemd;
 enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
-
+enum gfal_srm_proto {PROTO_SRM=0, PROTO_SRMv2};
 
 enum gfal_cksm_type
 {
@@ -205,6 +206,8 @@ typedef struct gfal_handle_ {
 	int returncode; // size of the new results
 	int results_size; // size of the old results
 	gfal_filestatus *results;
+	GError* err;
+	enum gfal_srm_proto srm_proto_type;		// define the protocole version of SRM
 } *gfal_handle;
 
 struct sfn_filestatus {

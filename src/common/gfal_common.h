@@ -49,7 +49,7 @@ int gfal_deletesurls (gfal_handle, char *, int);
 int gfal_removedir (gfal_handle, char *, int);
 /* removed func fix it int gfal_ls (gfal_handle, char *, int); */
 /* remvoed func fix it int gfal_ls_end (gfal_handle, char *, int); */
-int gfal_turlsfromsurls (gfal_handle, char *, int);
+//int gfal_turlsfromsurls (gfal_handle, char *, int);
 int gfal_get (gfal_handle, char *, int);
 int gfal_getstatus (gfal_handle, char *, int);
 int gfal_bringonline (gfal_handle, char *, int);

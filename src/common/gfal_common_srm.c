@@ -27,7 +27,7 @@
 #include "gfal_common_srm.h"
 
 /**
- * initiate a gfal_handle with default parameters
+ * initiate a gfal's context with default parameters for use
  * @return a gfal_handle, need to be free after usage or NULL if errors
  */
 gfal_handle gfal_initG (GError** err)
@@ -35,7 +35,7 @@ gfal_handle gfal_initG (GError** err)
 	gfal_handle handle = malloc(sizeof(struct gfal_handle_));
 	if(handle == NULL){
 		errno= ENOMEM;
-		g_error_set(err,0,ENOMEM, "[gfal_initG] bad allocation, no more memory free");
+		g_set_error(err,0,ENOMEM, "[gfal_initG] bad allocation, no more memory free");
 		return NULL;
 	}
 	memset((void*)handle,0,sizeof(struct gfal_handle_));
@@ -245,4 +245,18 @@ gfal_handle gfal_initG (GError** err)
         }
     }
 	*/
+}
+
+void gfal_set_default_storage(gfal_handle handle, enum gfal_srm_proto proto){
+	handle->srm_proto_type = proto;
+}
+
+/**
+ * @brief free a gfal's context and set to NULL
+ * 
+ */
+void gfal_handle_freeG (gfal_handle handle){
+	g_clear_error(&(handle->err));
+	free(handle);
+	handle = NULL;
 }

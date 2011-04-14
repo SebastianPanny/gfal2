@@ -32,6 +32,7 @@
 #include "common/gfal__test_verbose.c"
 #include "common/gfal__test_catalog.c"
 #include "common/voms/gfal__test_voms.c"
+#include "common/gfal__test_common_srm.c"
 
 Suite* common_suite (void)
 {
@@ -52,7 +53,10 @@ Suite* common_suite (void)
   tcase_add_test (tc_voms,test_voms_info_test_vo);
   tcase_add_test (tc_voms,  test_voms_get_userdnG);
   tcase_add_test (tc_voms, test_voms_get_fqan);
-  suite_add_tcase (s, tc_voms); 
+  suite_add_tcase (s, tc_voms);
+  TCase *tc_srm = tcase_create("SRM");
+  tcase_add_test(tc_srm, test_create_srm_handle);
+  suite_add_tcase (s, tc_srm);
   return s;
 }
 

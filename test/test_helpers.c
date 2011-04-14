@@ -64,7 +64,7 @@ helper_make_test_root(char *errbuf, int errbufsz) {
   char root_guid[CA_MAXGUIDLEN+1];
   char *cat_type;
 
-  if(get_cat_type(&cat_type) <0 ) {
+  if((cat_type= gfal_get_cat_type(NULL))  <0 ) {
     fail("Could not get catalog type");
   }
   if(strcmp(cat_type, "lfc") != 0) {

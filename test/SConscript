@@ -13,8 +13,9 @@ import commands
 
 src_tests_global = ["#src/common/gfal_common_errverbose.c"]
 src_tests_voms = ["common/voms/gfal__test_voms.c","#src/common/voms/gfal_voms_if.c" ]
+src_tests_srm = ["#src/common/gfal_common_srm.c", "common/gfal__test_common_srm.c"]
 src_tests= ["common/gfal__test_verbose.c", "common/gfal__test_catalog.c","#src/common/gfal_common_catalog.c" ,"unit_test.c" ]
-src_tests_all = src_tests+ src_tests_voms + src_tests_global
+src_tests_all = src_tests+ src_tests_voms + src_tests_global + src_tests_srm 
 ## build test config
 
 env_test.PrependENVPath('LD_LIBRARY_PATH', libs) # setup internal env LD PATH
