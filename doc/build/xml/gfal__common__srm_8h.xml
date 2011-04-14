@@ -16,11 +16,28 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>initiate a gfal_handle with default parameters <simplesect kind="return"><para>a gfal_handle, need to be free after usage or NULL if errors </para></simplesect>
+<para>initiate a gfal&apos;s context with default parameters for use <simplesect kind="return"><para>a gfal_handle, need to be free after usage or NULL if errors </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="27" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="33" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__srm_8h_19dbd943eaed291897d852fc3ae560058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gfal_handle_freeG</definition>
+        <argsstring>(gfal_handle handle)</argsstring>
+        <name>gfal_handle_freeG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>free a gfal&apos;s context and set to NULL </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="31" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="258" bodyend="262"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -49,6 +66,10 @@
 <codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal">gfal_handle<sp/>gfal_initG(GError**<sp/>err);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_handle_freeG(gfal_handle<sp/>handle);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h"/>
   </compounddef>

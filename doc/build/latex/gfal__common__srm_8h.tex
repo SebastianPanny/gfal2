@@ -6,7 +6,10 @@ the header file with the main srm funcs of the common API
 \begin{CompactItemize}
 \item 
 gfal\_\-handle \bf{gfal\_\-init\-G} (GError $\ast$$\ast$err)
-\end{CompactItemize}
+\item 
+void \bf{gfal\_\-handle\_\-free\-G} (gfal\_\-handle handle)\label{gfal__common__srm_8h_9dbd943eaed291897d852fc3ae560058}
+
+\begin{CompactList}\small\item\em free a gfal's context and set to NULL \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}
@@ -26,5 +29,5 @@ the header file with the main srm funcs of the common API
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-handle gfal\_\-init\-G (GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_8410ba458f920d8f8a8f0e5594170fe4}
 
 
-initiate a gfal\_\-handle with default parameters \begin{Desc}
+initiate a gfal's context with default parameters for use \begin{Desc}
 \item[Returns:]a gfal\_\-handle, need to be free after usage or NULL if errors \end{Desc}

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "13 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "14 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,6 +12,10 @@
 .ti -1c
 .RI "gfal_handle \fBgfal_initG\fP (GError **err)"
 .br
+.ti -1c
+.RI "void \fBgfal_handle_freeG\fP (gfal_handle handle)"
+.br
+.RI "\fIfree a gfal's context and set to NULL \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -37,7 +41,7 @@ Devresse Adrien
 .PP 
 .SS "gfal_handle gfal_initG (GError ** err)"
 .PP
-initiate a gfal_handle with default parameters 
+initiate a gfal's context with default parameters for use 
 .PP
 \fBReturns:\fP
 .RS 4
