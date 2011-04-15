@@ -279,7 +279,7 @@ void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
 char** gfal_GList_to_tab(GList* surls){
 	int surl_size = g_list_length(surls);
 	int i;
-	char ** resu = calloc(surl_size+1, sizeof(char));
+	char ** resu = calloc(surl_size+1, sizeof(char*));
 	for(i=0;i<surl_size; ++i){
 		resu[i]= surls->data;
 		surls = g_list_next(surls);
@@ -345,11 +345,13 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 	}
 	if (handle->srm_proto_type == PROTO_SRMv2){
 		ret= gfal_srmv2_getasync(handle,surls,&tmp_err);
+		if(ret<0)
+			g_propagate_prefixed_error(err,tmp_err,"[gfal_get_asyncG]");
 	} else if(handle->srm_proto_type == PROTO_SRM){
 			
 	} else{
 		ret=-1;
-		g_set_error(&tmp_err,0,EPROTONOSUPPORT, "[gfal_get_asyncG] Type de protocole spécifié non supporté ( Supportés : SRM & SRMv2 ) ");
+		g_set_error(err,0,EPROTONOSUPPORT, "[gfal_get_asyncG] Type de protocole spécifié non supporté ( Supportés : SRM & SRMv2 ) ");
 	}
 	return ret;
 

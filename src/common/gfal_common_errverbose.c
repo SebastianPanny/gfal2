@@ -71,6 +71,10 @@ extern int gfal_set_verbose (int value)
  * \brief display the full GError message on stderr and free the memory associated
  */
  extern void gfal_release_GError(GError** err){
+	 if(err==NULL || *err==NULL){
+		 gfal_print_verbose(GFAL_VERBOSE_DEBUG," release NULL error");
+		 return;
+	 }
 	 fprintf(stderr,"[gfal]%s\n", (*err)->message);
 	 g_clear_error(err);
 	 *err=NULL;	 
