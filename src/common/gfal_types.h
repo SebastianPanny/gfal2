@@ -160,8 +160,30 @@ typedef struct gfal_request_ {
 	int							srmv2_lsoffset;
 	int							srmv2_lscount;
 } *gfal_request;
+ 
+ /**
+  * @struct structure for the srmv2 option management
+  *  set to 0 by default
+  */
+ typedef struct _gfal_srmv2_opt{
+	int opt_srmv2_desiredpintime;			//	optional desired default endpoint
+	char** opt_srmv2_protocols;				// optional protocols list for manual set
+	char * opt_srmv2_spacetokendesc;		// optional spacetokens desc for srmv2	 
+	 
+ } gfal_srmv2_opt; 
 
-typedef struct gfal_handle_ {
+ /**
+  * symbolise the state of a request
+  *  needed to get the response
+  */ 
+ typedef struct _gfal_request_state{
+	char *						srmv2_token;
+	struct srmv2_filestatus *	srmv2_statuses;
+	struct srmv2_pinfilestatus *srmv2_pinstatuses;
+	 
+ } gfal_request_state; 
+ 
+ typedef struct gfal_handle_ {
 	// INPUTS
 
 	int							generatesurls;
@@ -206,11 +228,16 @@ typedef struct gfal_handle_ {
 	int returncode; // size of the new results
 	int results_size; // size of the old results
 	gfal_filestatus *results;
-	GError* err;
+	GError* err;							// Last error reported
 	enum gfal_srm_proto srm_proto_type;		// define the protocole version of SRM
 	gboolean initiated; 					// 1 if initiated, else error
-	char* endpoint_G;
+	// pointer to srmv2 set option
+	gfal_srmv2_opt* srmv2_opt;
+	// pointer to the last request resu
+	gfal_request_state* last_request_state;
 } *gfal_handle;
+
+
 
 struct sfn_filestatus {
 	char *surl;

@@ -30,10 +30,19 @@
 static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
 	if(handle->initiated == 1)
 		return TRUE;
-	g_error_set(err,0, EINVAL,"[gboolean gfal_handle_checkG] gfal_handle not set correctly");
+	g_set_error(err,0, EINVAL,"[gboolean gfal_handle_checkG] gfal_handle not set correctly");
 	return FALSE;
 }
 
+/**
+ * @brief end point associated with the list
+ *  determine the best endpoint associated with the list of url and the params of the actual handle
+ *  the returned endpoint need to be free after use
+ * */
+static char* gfal_get_srm_endpoint(gfal_handle handle, GList* surls, GError** err){
+	
+	return NULL; // fix it
+}
 
 /**
  * initiate a gfal's context with default parameters for use
@@ -41,17 +50,16 @@ static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
  */
 gfal_handle gfal_initG (GError** err)
 {
-	gfal_handle handle = malloc(sizeof(struct gfal_handle_));
+	gfal_handle handle = calloc(1,sizeof(struct gfal_handle_));// clear allocation of the struct and set defautl options
 	if(handle == NULL){
 		errno= ENOMEM;
 		g_set_error(err,0,ENOMEM, "[gfal_initG] bad allocation, no more memory free");
 		return NULL;
 	}
-	memset((void*)handle,0,sizeof(struct gfal_handle_));	// clear the struct and set defautl options
 	handle->err= NULL;
 	handle->srm_proto_type = PROTO_SRMv2;
 	handle->initiated = 1;
-	handle->endpoint_G = NULL;
+	handle->srmv2_opt = calloc(1,sizeof(struct _gfal_srmv2_opt));	// define the srmv2 option struct and clear it
 	/*
     int i = 0;
     char **se_endpoints;
@@ -263,22 +271,61 @@ gfal_handle gfal_initG (GError** err)
  * */
 void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
 	handle->srm_proto_type = proto;
-	return 0;
 }
 
 /**
- * 
-
-static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
-    	struct srm_context context;
-    	struct srm_preparetoget_input preparetoget_input;
-    	struct srm_preparetoget_output preparetoget_output;
-    	const int size = 2048;
-    	char errbuf[size];
-
-    	srm_context_init(&context, handle->endpoint_G, errbuf, size, gfal_get_verbose());	
-	
+ * convert glist to table char**
+ */
+char** gfal_GList_to_tab(GList* surls){
+	int surl_size = g_list_length(surls);
+	int i;
+	char ** resu = calloc(surl_size+1, sizeof(char));
+	for(i=0;i<surl_size; ++i){
+		resu[i]= surls->data;
+		surls = g_list_next(surls);
+	}
+	return resu;
 }
+
+/**
+ *  @brief execute a srmv2 request async
+*/
+static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
+	GError* tmp_err=NULL;
+	struct srm_context context;
+	int ret=0;
+	struct srm_preparetoget_input preparetoget_input;
+	struct srm_preparetoget_output preparetoget_output;
+	const int size = 2048;
+	char errbuf[size] ; memset(errbuf,0,size*sizeof(char));
+	char *endpoint = gfal_get_srm_endpoint(handle, surls, &tmp_err);		// get endpoint
+	const gfal_srmv2_opt* opts = handle->srmv2_opt;
+	int surl_size = g_list_length(surls);
+	char**  surls_tab = gfal_GList_to_tab(surls);
+	
+	// set the structures datafields	
+	preparetoget_input.desiredpintime = opts->opt_srmv2_desiredpintime;		
+	preparetoget_input.nbfiles = surl_size;
+	preparetoget_input.protocols = opts->opt_srmv2_protocols;
+	preparetoget_input.spacetokendesc = opts->opt_srmv2_spacetokendesc;
+	preparetoget_input.surls = surls_tab;	
+	srm_context_init(&context, endpoint, errbuf, size, gfal_get_verbose());	
+	
+	
+	ret = srm_prepare_to_get_async(&context,&preparetoget_input,&preparetoget_output);
+	if(ret != 0){
+		g_set_error(&tmp_err,0,errno,"[gfal_srmv2_getasync] call to srm_ifce error: %s",errbuf);
+	} else{
+		handle->last_request_state = calloc(1, sizeof(struct _gfal_request_state));
+    	handle->last_request_state->srmv2_token = preparetoget_output.token;
+    	handle->last_request_state->srmv2_pinstatuses = preparetoget_output.filestatuses;		
+	}
+
+	free(endpoint);
+	free(surls_tab);
+	return ret;	
+}
+
 
 
 /**
@@ -302,9 +349,10 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 			
 	} else{
 		ret=-1;
-		g_error_set(&tmp_err,0,EPROTONOSUPPORT, "Type de protocole spécifié non supporté ( Supportés : SRM & SRMv2 ) ");
+		g_set_error(&tmp_err,0,EPROTONOSUPPORT, "[gfal_get_asyncG] Type de protocole spécifié non supporté ( Supportés : SRM & SRMv2 ) ");
 	}
-		
+	return ret;
+
 	/*int ret;
 
     if (check_gfal_handle (req, 0, errbuf, errbufsz) < 0)
@@ -364,11 +412,15 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 }
 
 /**
- * @brief free a gfal's context and set to NULL
+ * @brief free a gfal's handle, safe if null
  * 
  */
 void gfal_handle_freeG (gfal_handle handle){
+	if(handle == NULL)
+		return;
 	g_clear_error(&(handle->err));
+	free(handle->srmv2_opt);
+	free(handle->last_request_state);
 	free(handle);
 	handle = NULL;
 }

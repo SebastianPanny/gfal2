@@ -1,3 +1,4 @@
+#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -22,8 +23,11 @@
  * @version 2.0
  * @date 12/04/2011
  * */
- 
- 
+
+
+ /**
+  *  return a initiated handle to execute a gfal request 
+  * */  
 gfal_handle gfal_initG(GError** err);
 
 

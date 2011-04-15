@@ -28,6 +28,7 @@
 #include "gfal_constants.h"
 #include "gfal_common_catalog.h"
 #include "gfal_common_storage.h"
+#include "gfal_common_srm.h"
 #include "gfal_file.h"
 #include "voms/gfal_voms_if.h"
 // external imports
