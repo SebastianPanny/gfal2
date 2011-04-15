@@ -20,7 +20,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="27" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="33" bodyend="248"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="27" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="42" bodyend="259"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm_8h_19dbd943eaed291897d852fc3ae560058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -37,7 +37,56 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="31" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="258" bodyend="262"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="31" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="370" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__srm_8h_195ffd4de24c18af334c1d9c270de7d81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_get_asyncG</definition>
+        <argsstring>(gfal_handle handle, GList *surls, GError **err)</argsstring>
+        <name>gfal_get_asyncG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>GList *</type>
+          <declname>surls</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>launch a surls-&gt; turls translation in asynchronous mode </para>        </briefdescription>
+        <detaileddescription>
+<para>static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){ struct srm_context context; struct srm_preparetoget_input preparetoget_input; struct srm_preparetoget_output preparetoget_output; const int size = 2048; char errbuf[size];</para><para>srm_context_init(&amp;context, handle-&gt;endpoint_G, errbuf, size, <ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose()</ref>);</para><para>}</para><para>/** <simplesect kind="warning"><para>need a initiaed gfal_handle </para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: the gfal_handle initiated ( gfal_init  ) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>surls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: GList of string of the differents surls to convert </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: GError for error report </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return 0 if success else -1, check GError for more information </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="292" bodyend="364"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -70,6 +119,9 @@
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_handle_freeG(gfal_handle<sp/>handle);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_asyncG(gfal_handle<sp/>handle,<sp/>GList*<sp/>surls,<sp/>GError**<sp/>err);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h"/>
   </compounddef>

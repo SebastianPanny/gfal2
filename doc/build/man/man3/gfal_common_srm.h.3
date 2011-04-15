@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "14 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "15 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -16,6 +16,10 @@
 .RI "void \fBgfal_handle_freeG\fP (gfal_handle handle)"
 .br
 .RI "\fIfree a gfal's context and set to NULL \fP"
+.ti -1c
+.RI "int \fBgfal_get_asyncG\fP (gfal_handle handle, GList *surls, GError **err)"
+.br
+.RI "\fIlaunch a surls-> turls translation in asynchronous mode \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -39,6 +43,38 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
+.SS "int gfal_get_asyncG (gfal_handle handle, GList * surls, GError ** err)"
+.PP
+launch a surls-> turls translation in asynchronous mode 
+.PP
+static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){ struct srm_context context; struct srm_preparetoget_input preparetoget_input; struct srm_preparetoget_output preparetoget_output; const int size = 2048; char errbuf[size];
+.PP
+srm_context_init(&context, handle->endpoint_G, errbuf, size, \fBgfal_get_verbose()\fP);
+.PP
+}
+.PP
+/** 
+.PP
+\fBWarning:\fP
+.RS 4
+need a initiaed gfal_handle 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP : the gfal_handle initiated ( \fBgfal_init\fP ) 
+.br
+\fIsurls\fP : GList of string of the differents surls to convert 
+.br
+\fIerr\fP : GError for error report 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return 0 if success else -1, check GError for more information 
+.RE
+.PP
+
 .SS "gfal_handle gfal_initG (GError ** err)"
 .PP
 initiate a gfal's context with default parameters for use 

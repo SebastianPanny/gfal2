@@ -9,7 +9,9 @@ gfal\_\-handle \bf{gfal\_\-init\-G} (GError $\ast$$\ast$err)
 \item 
 void \bf{gfal\_\-handle\_\-free\-G} (gfal\_\-handle handle)\label{gfal__common__srm_8h_9dbd943eaed291897d852fc3ae560058}
 
-\begin{CompactList}\small\item\em free a gfal's context and set to NULL \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em free a gfal's context and set to NULL \item\end{CompactList}\item 
+int \bf{gfal\_\-get\_\-async\-G} (gfal\_\-handle handle, GList $\ast$surls, GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em launch a surls-$>$ turls translation in asynchronous mode \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}
@@ -24,6 +26,28 @@ the header file with the main srm funcs of the common API
 
 
 \subsection{Function Documentation}
+\index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_get_asyncG@{gfal\_\-get\_\-asyncG}}
+\index{gfal_get_asyncG@{gfal\_\-get\_\-asyncG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\-G (gfal\_\-handle {\em handle}, GList $\ast$ {\em surls}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_95ffd4de24c18af334c1d9c270de7d81}
+
+
+launch a surls-$>$ turls translation in asynchronous mode 
+
+static int gfal\_\-srmv2\_\-getasync(gfal\_\-handle handle, GList$\ast$ surls, GError$\ast$$\ast$ err)\{ struct srm\_\-context context; struct srm\_\-preparetoget\_\-input preparetoget\_\-input; struct srm\_\-preparetoget\_\-output preparetoget\_\-output; const int size = 2048; char errbuf[size];
+
+srm\_\-context\_\-init(\&context, handle-$>$endpoint\_\-G, errbuf, size, \doxyref{gfal\_\-get\_\-verbose()}{p.}{gfal__common__errverbose_8c_135b3fdd775aa7215e2ab4de1eea495f});
+
+\}
+
+/$\ast$$\ast$ \begin{Desc}
+\item[Warning:]need a initiaed gfal\_\-handle \end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]: the gfal\_\-handle initiated ( gfal\_\-init ) \item[{\em surls}]: GList of string of the differents surls to convert \item[{\em err}]: GError for error report \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return 0 if success else -1, check GError for more information \end{Desc}
 \index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_initG@{gfal\_\-initG}}
 \index{gfal_initG@{gfal\_\-initG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-handle gfal\_\-init\-G (GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_8410ba458f920d8f8a8f0e5594170fe4}

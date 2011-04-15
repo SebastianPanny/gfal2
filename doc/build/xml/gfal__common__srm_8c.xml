@@ -169,6 +169,27 @@
       </node>
     </incdepgraph>
       <sectiondef kind="func">
+      <memberdef kind="function" id="gfal__common__srm_8c_1ee374c4ea2287fb7bd8c44711ae28361" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gboolean</type>
+        <definition>static gboolean gfal_handle_checkG</definition>
+        <argsstring>(gfal_handle handle, GError **err)</argsstring>
+        <name>gfal_handle_checkG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" line="30" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="30" bodyend="35"/>
+      </memberdef>
       <memberdef kind="function" id="gfal__common__srm_8c_18410ba458f920d8f8a8f0e5594170fe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_handle</type>
         <definition>gfal_handle gfal_initG</definition>
@@ -185,13 +206,13 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="33" bodyend="248"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" line="43" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="42" bodyend="259"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm_8c_195c3a86e573758ad51dc63700a52660a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm_8c_1e125bfd4e854ce90b945993ad8abbb9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void gfal_set_default_storage</definition>
+        <definition>void gfal_set_default_storageG</definition>
         <argsstring>(gfal_handle handle, enum gfal_srm_proto proto)</argsstring>
-        <name>gfal_set_default_storage</name>
+        <name>gfal_set_default_storageG</name>
         <param>
           <type>gfal_handle</type>
           <declname>handle</declname>
@@ -201,12 +222,61 @@
           <declname>proto</declname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>accessor for the default storage type definition </para>        </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" line="250" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="250" bodyend="252"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" line="264" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="264" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__srm_8c_195ffd4de24c18af334c1d9c270de7d81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_get_asyncG</definition>
+        <argsstring>(gfal_handle handle, GList *surls, GError **err)</argsstring>
+        <name>gfal_get_asyncG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>GList *</type>
+          <declname>surls</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>launch a surls-&gt; turls translation in asynchronous mode </para>        </briefdescription>
+        <detaileddescription>
+<para>static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){ struct srm_context context; struct srm_preparetoget_input preparetoget_input; struct srm_preparetoget_output preparetoget_output; const int size = 2048; char errbuf[size];</para><para>srm_context_init(&amp;context, handle-&gt;endpoint_G, errbuf, size, <ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose()</ref>);</para><para>}</para><para>/** <simplesect kind="warning"><para>need a initiaed gfal_handle </para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: the gfal_handle initiated ( gfal_init  ) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>surls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: GList of string of the differents surls to convert </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: GError for error report </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return 0 if success else -1, check GError for more information </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" line="292" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="292" bodyend="364"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm_8c_19dbd943eaed291897d852fc3ae560058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -223,7 +293,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" line="258" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="258" bodyend="262"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" line="370" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="370" bodyend="374"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -251,231 +321,241 @@
 <codeline lineno="26"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common_8h" kindref="compound">gfal_common.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm_8h" kindref="compound">gfal_common_srm.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal">gfal_handle<sp/>gfal_initG<sp/>(GError**<sp/>err)</highlight></codeline>
-<codeline lineno="34"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle<sp/>=<sp/>malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>gfal_handle_));</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle<sp/>==<sp/>NULL){</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno=<sp/>ENOMEM;</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,ENOMEM,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_initG]<sp/>bad<sp/>allocation,<sp/>no<sp/>more<sp/>memory<sp/>free&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memset((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)handle,0,</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>gfal_handle_));</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;err=<sp/>NULL;</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;srm_proto_type<sp/>=<sp/>PROTO_SRMv2;</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="45"><highlight class="comment"><sp/><sp/><sp/><sp/>int<sp/>i<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="46"><highlight class="comment"><sp/><sp/><sp/><sp/>char<sp/>**se_endpoints;</highlight></codeline>
-<codeline lineno="47"><highlight class="comment"><sp/><sp/><sp/><sp/>char<sp/>**se_types;</highlight></codeline>
-<codeline lineno="48"><highlight class="comment"><sp/><sp/><sp/><sp/>char<sp/>*srmv1_endpoint<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="49"><highlight class="comment"><sp/><sp/><sp/><sp/>char<sp/>*srmv2_endpoint<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="50"><highlight class="comment"><sp/><sp/><sp/><sp/>int<sp/>isclassicse<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="51"><highlight class="comment"><sp/><sp/><sp/><sp/>int<sp/>endpoint_offset=0;</highlight></codeline>
-<codeline lineno="52"><highlight class="comment"></highlight></codeline>
-<codeline lineno="53"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(req<sp/>==<sp/>NULL<sp/>||<sp/>req-&gt;nbfiles<sp/>&lt;<sp/>0<sp/>||<sp/>(req-&gt;endpoint<sp/>==<sp/>NULL<sp/>&amp;&amp;<sp/>req-&gt;surls<sp/>==<sp/>NULL))<sp/>{</highlight></codeline>
-<codeline lineno="54"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="55"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>Endpoint<sp/>or<sp/>SURLs<sp/>must<sp/>be<sp/>specified&quot;);</highlight></codeline>
-<codeline lineno="56"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="57"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="58"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="59"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(req-&gt;oflag<sp/>!=<sp/>0<sp/>&amp;&amp;<sp/>req-&gt;filesizes<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="60"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="61"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>File<sp/>sizes<sp/>must<sp/>be<sp/>specified<sp/>for<sp/>put<sp/>requests&quot;);</highlight></codeline>
-<codeline lineno="62"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="63"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="64"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="65"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(req-&gt;srmv2_lslevels<sp/>&gt;<sp/>1)<sp/>{</highlight></codeline>
-<codeline lineno="66"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="67"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>srmv2_lslevels<sp/>must<sp/>be<sp/>0<sp/>or<sp/>1&quot;);</highlight></codeline>
-<codeline lineno="68"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="69"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="70"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="71"><highlight class="comment"></highlight></codeline>
-<codeline lineno="72"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal<sp/>=<sp/>(gfal_handle)<sp/>malloc<sp/>(sizeof<sp/>(struct<sp/>gfal_handle_)))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="73"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>ENOMEM;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gboolean<sp/>gfal_handle_checkG(gfal_handle<sp/>handle,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle-&gt;initiated<sp/>==<sp/>1)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TRUE;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_error_set(err,0,<sp/>EINVAL,</highlight><highlight class="stringliteral">&quot;[gboolean<sp/>gfal_handle_checkG]<sp/>gfal_handle<sp/>not<sp/>set<sp/>correctly&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>FALSE;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">gfal_handle<sp/>gfal_initG<sp/>(GError**<sp/>err)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle<sp/>=<sp/>malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>gfal_handle_));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle<sp/>==<sp/>NULL){</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno=<sp/>ENOMEM;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,ENOMEM,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_initG]<sp/>bad<sp/>allocation,<sp/>no<sp/>more<sp/>memory<sp/>free&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memset((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)handle,0,</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>gfal_handle_));<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>clear<sp/>the<sp/>struct<sp/>and<sp/>set<sp/>defautl<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;err=<sp/>NULL;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;srm_proto_type<sp/>=<sp/>PROTO_SRMv2;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;initiated<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;endpoint_G<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="56"><highlight class="comment"><sp/><sp/><sp/><sp/>int<sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="comment"><sp/><sp/><sp/><sp/>char<sp/>**se_endpoints;</highlight></codeline>
+<codeline lineno="58"><highlight class="comment"><sp/><sp/><sp/><sp/>char<sp/>**se_types;</highlight></codeline>
+<codeline lineno="59"><highlight class="comment"><sp/><sp/><sp/><sp/>char<sp/>*srmv1_endpoint<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="60"><highlight class="comment"><sp/><sp/><sp/><sp/>char<sp/>*srmv2_endpoint<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="61"><highlight class="comment"><sp/><sp/><sp/><sp/>int<sp/>isclassicse<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="comment"><sp/><sp/><sp/><sp/>int<sp/>endpoint_offset=0;</highlight></codeline>
+<codeline lineno="63"><highlight class="comment"></highlight></codeline>
+<codeline lineno="64"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(req<sp/>==<sp/>NULL<sp/>||<sp/>req-&gt;nbfiles<sp/>&lt;<sp/>0<sp/>||<sp/>(req-&gt;endpoint<sp/>==<sp/>NULL<sp/>&amp;&amp;<sp/>req-&gt;surls<sp/>==<sp/>NULL))<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="66"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>Endpoint<sp/>or<sp/>SURLs<sp/>must<sp/>be<sp/>specified&quot;);</highlight></codeline>
+<codeline lineno="67"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
+<codeline lineno="68"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="69"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(req-&gt;oflag<sp/>!=<sp/>0<sp/>&amp;&amp;<sp/>req-&gt;filesizes<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="72"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>File<sp/>sizes<sp/>must<sp/>be<sp/>specified<sp/>for<sp/>put<sp/>requests&quot;);</highlight></codeline>
+<codeline lineno="73"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
 <codeline lineno="74"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
 <codeline lineno="75"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="76"><highlight class="comment"></highlight></codeline>
-<codeline lineno="77"><highlight class="comment"><sp/><sp/><sp/><sp/>memset<sp/>(*gfal,<sp/>0,<sp/>sizeof<sp/>(struct<sp/>gfal_handle_));</highlight></codeline>
-<codeline lineno="78"><highlight class="comment"><sp/><sp/><sp/><sp/>memcpy<sp/>(*gfal,<sp/>req,<sp/>sizeof<sp/>(struct<sp/>gfal_request_));</highlight></codeline>
-<codeline lineno="80"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(!(*gfal)-&gt;timeout)</highlight></codeline>
-<codeline lineno="81"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;timeout<sp/>=<sp/>gfal_get_timeout_srm<sp/>();</highlight></codeline>
+<codeline lineno="76"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(req-&gt;srmv2_lslevels<sp/>&gt;<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="78"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>srmv2_lslevels<sp/>must<sp/>be<sp/>0<sp/>or<sp/>1&quot;);</highlight></codeline>
+<codeline lineno="79"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
+<codeline lineno="80"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="81"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="82"><highlight class="comment"></highlight></codeline>
-<codeline lineno="83"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;no_bdii_check)<sp/>{</highlight></codeline>
-<codeline lineno="84"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;surls<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>((*gfal)-&gt;setype<sp/>!=<sp/>TYPE_NONE<sp/>||</highlight></codeline>
-<codeline lineno="85"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((*gfal)-&gt;setype<sp/>=<sp/>(*gfal)-&gt;defaultsetype)<sp/>!=<sp/>TYPE_NONE))<sp/>{</highlight></codeline>
-<codeline lineno="86"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SE)<sp/>{</highlight></codeline>
-<codeline lineno="87"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
-<codeline lineno="88"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="89"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="90"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>Disabling<sp/>BDII<sp/>checks<sp/>is<sp/>not<sp/>compatible<sp/>with<sp/>Classic<sp/>SEs&quot;);</highlight></codeline>
-<codeline lineno="91"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="92"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="93"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="94"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>!=<sp/>TYPE_SE<sp/>&amp;&amp;<sp/>(*gfal)-&gt;endpoint<sp/>==<sp/>NULL<sp/>&amp;&amp;<sp/>((*gfal)-&gt;free_endpoint<sp/>=<sp/>1)<sp/>&amp;&amp;</highlight></codeline>
-<codeline lineno="95"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((*gfal)-&gt;endpoint<sp/>=<sp/>endpointfromsurl<sp/>((*gfal)-&gt;surls[0],<sp/>errbuf,<sp/>errbufsz,<sp/>1))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="96"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
-<codeline lineno="97"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="98"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="99"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="100"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>{</highlight></codeline>
-<codeline lineno="101"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Check<sp/>if<sp/>the<sp/>endpoint<sp/>is<sp/>full<sp/>or<sp/>not<sp/></highlight></codeline>
-<codeline lineno="102"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(strncmp<sp/>((*gfal)-&gt;endpoint,<sp/>ENDPOINT_DEFAULT_PREFIX,<sp/>ENDPOINT_DEFAULT_PREFIX_LEN)<sp/>==<sp/>0)</highlight></codeline>
-<codeline lineno="103"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endpoint_offset<sp/>=<sp/>ENDPOINT_DEFAULT_PREFIX_LEN;</highlight></codeline>
-<codeline lineno="104"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else</highlight></codeline>
-<codeline lineno="105"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endpoint_offset<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="106"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char<sp/>*s<sp/>=<sp/>strchr<sp/>((*gfal)-&gt;endpoint<sp/>+<sp/>endpoint_offset,<sp/>&apos;/&apos;);</highlight></codeline>
-<codeline lineno="107"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char<sp/>*p<sp/>=<sp/>strchr<sp/>((*gfal)-&gt;endpoint<sp/>+<sp/>endpoint_offset,<sp/>&apos;:&apos;);</highlight></codeline>
-<codeline lineno="108"><highlight class="comment"></highlight></codeline>
-<codeline lineno="109"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRMv2<sp/>&amp;&amp;<sp/>s<sp/>==<sp/>NULL)<sp/>||<sp/>p<sp/>==<sp/>NULL<sp/>||<sp/>(s<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>s<sp/>&lt;<sp/>p))<sp/>{</highlight></codeline>
-<codeline lineno="110"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
-<codeline lineno="111"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="112"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="113"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>When<sp/>BDII<sp/>checks<sp/>are<sp/>disabled,<sp/>you<sp/>must<sp/>provide<sp/>full<sp/>endpoint&quot;);</highlight></codeline>
-<codeline lineno="114"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="115"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="116"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="117"><highlight class="comment"></highlight></codeline>
-<codeline lineno="118"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(0);</highlight></codeline>
-<codeline lineno="119"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="120"><highlight class="comment"></highlight></codeline>
-<codeline lineno="121"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
-<codeline lineno="122"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
-<codeline lineno="123"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="124"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="125"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>When<sp/>BDII<sp/>checks<sp/>are<sp/>disabled,<sp/>you<sp/>must<sp/>provide<sp/>SURLs<sp/>and<sp/>endpoint<sp/>types&quot;);</highlight></codeline>
-<codeline lineno="126"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="127"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="128"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="129"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="130"><highlight class="comment"></highlight></codeline>
-<codeline lineno="131"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;endpoint<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="132"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>(*gfal)-&gt;surls<sp/>!=<sp/>NULL<sp/></highlight></codeline>
-<codeline lineno="133"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;surls[0]<sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="134"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(((*gfal)-&gt;endpoint<sp/>=<sp/>endpointfromsurl<sp/>((*gfal)-&gt;surls[0],<sp/>errbuf,<sp/>errbufsz,<sp/>0))<sp/>==<sp/>NULL)</highlight></codeline>
-<codeline lineno="135"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="136"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;free_endpoint<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="137"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
-<codeline lineno="138"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="139"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>You<sp/>have<sp/>to<sp/>specify<sp/>either<sp/>an<sp/>endpoint<sp/>or<sp/>at<sp/>least<sp/>one<sp/>SURL&quot;);</highlight></codeline>
-<codeline lineno="140"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
-<codeline lineno="141"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="142"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="143"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="144"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="145"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="146"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((strchr<sp/>((*gfal)-&gt;endpoint,<sp/>&apos;.&apos;)<sp/>==<sp/>NULL))<sp/>{</highlight></codeline>
-<codeline lineno="147"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="148"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>No<sp/>domain<sp/>name<sp/>specified<sp/>for<sp/>storage<sp/>element<sp/>endpoint&quot;);</highlight></codeline>
-<codeline lineno="149"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
-<codeline lineno="150"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="151"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="152"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="153"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="154"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(setypesandendpoints<sp/>((*gfal)-&gt;endpoint,<sp/>&amp;se_types,<sp/>&amp;se_endpoints,<sp/>errbuf,<sp/>errbufsz)<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
-<codeline lineno="155"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
-<codeline lineno="156"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="157"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="158"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="159"><highlight class="comment"></highlight></codeline>
-<codeline lineno="160"><highlight class="comment"><sp/><sp/><sp/><sp/>while<sp/>(se_types[i])<sp/>{</highlight></codeline>
-<codeline lineno="161"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv1_endpoint<sp/>==<sp/>NULL<sp/>&amp;&amp;<sp/>strcmp<sp/>(se_types[i],<sp/>&quot;srm_v1&quot;)<sp/>==<sp/>0)</highlight></codeline>
-<codeline lineno="162"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srmv1_endpoint<sp/>=<sp/>se_endpoints[i];</highlight></codeline>
-<codeline lineno="163"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>if<sp/>(srmv2_endpoint<sp/>==<sp/>NULL<sp/>&amp;&amp;<sp/>strcmp<sp/>(se_types[i],<sp/>&quot;srm_v2&quot;)<sp/>==<sp/>0)</highlight></codeline>
-<codeline lineno="164"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srmv2_endpoint<sp/>=<sp/>se_endpoints[i];</highlight></codeline>
-<codeline lineno="165"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>{</highlight></codeline>
-<codeline lineno="166"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free<sp/>(se_endpoints[i]);</highlight></codeline>
-<codeline lineno="167"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((strcmp<sp/>(se_types[i],<sp/>&quot;disk&quot;))<sp/>==<sp/>0)</highlight></codeline>
-<codeline lineno="168"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isclassicse<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="169"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal<sp/>=<sp/>(gfal_handle)<sp/>malloc<sp/>(sizeof<sp/>(struct<sp/>gfal_handle_)))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>ENOMEM;</highlight></codeline>
+<codeline lineno="85"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="86"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="comment"></highlight></codeline>
+<codeline lineno="88"><highlight class="comment"><sp/><sp/><sp/><sp/>memset<sp/>(*gfal,<sp/>0,<sp/>sizeof<sp/>(struct<sp/>gfal_handle_));</highlight></codeline>
+<codeline lineno="89"><highlight class="comment"><sp/><sp/><sp/><sp/>memcpy<sp/>(*gfal,<sp/>req,<sp/>sizeof<sp/>(struct<sp/>gfal_request_));</highlight></codeline>
+<codeline lineno="91"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(!(*gfal)-&gt;timeout)</highlight></codeline>
+<codeline lineno="92"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;timeout<sp/>=<sp/>gfal_get_timeout_srm<sp/>();</highlight></codeline>
+<codeline lineno="93"><highlight class="comment"></highlight></codeline>
+<codeline lineno="94"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;no_bdii_check)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;surls<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>((*gfal)-&gt;setype<sp/>!=<sp/>TYPE_NONE<sp/>||</highlight></codeline>
+<codeline lineno="96"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((*gfal)-&gt;setype<sp/>=<sp/>(*gfal)-&gt;defaultsetype)<sp/>!=<sp/>TYPE_NONE))<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SE)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
+<codeline lineno="99"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="100"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="101"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>Disabling<sp/>BDII<sp/>checks<sp/>is<sp/>not<sp/>compatible<sp/>with<sp/>Classic<sp/>SEs&quot;);</highlight></codeline>
+<codeline lineno="102"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
+<codeline lineno="103"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="104"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>!=<sp/>TYPE_SE<sp/>&amp;&amp;<sp/>(*gfal)-&gt;endpoint<sp/>==<sp/>NULL<sp/>&amp;&amp;<sp/>((*gfal)-&gt;free_endpoint<sp/>=<sp/>1)<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="106"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((*gfal)-&gt;endpoint<sp/>=<sp/>endpointfromsurl<sp/>((*gfal)-&gt;surls[0],<sp/>errbuf,<sp/>errbufsz,<sp/>1))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
+<codeline lineno="108"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="109"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="110"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Check<sp/>if<sp/>the<sp/>endpoint<sp/>is<sp/>full<sp/>or<sp/>not<sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(strncmp<sp/>((*gfal)-&gt;endpoint,<sp/>ENDPOINT_DEFAULT_PREFIX,<sp/>ENDPOINT_DEFAULT_PREFIX_LEN)<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="114"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endpoint_offset<sp/>=<sp/>ENDPOINT_DEFAULT_PREFIX_LEN;</highlight></codeline>
+<codeline lineno="115"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else</highlight></codeline>
+<codeline lineno="116"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endpoint_offset<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char<sp/>*s<sp/>=<sp/>strchr<sp/>((*gfal)-&gt;endpoint<sp/>+<sp/>endpoint_offset,<sp/>&apos;/&apos;);</highlight></codeline>
+<codeline lineno="118"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char<sp/>*p<sp/>=<sp/>strchr<sp/>((*gfal)-&gt;endpoint<sp/>+<sp/>endpoint_offset,<sp/>&apos;:&apos;);</highlight></codeline>
+<codeline lineno="119"><highlight class="comment"></highlight></codeline>
+<codeline lineno="120"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRMv2<sp/>&amp;&amp;<sp/>s<sp/>==<sp/>NULL)<sp/>||<sp/>p<sp/>==<sp/>NULL<sp/>||<sp/>(s<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>s<sp/>&lt;<sp/>p))<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
+<codeline lineno="122"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="123"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="124"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>When<sp/>BDII<sp/>checks<sp/>are<sp/>disabled,<sp/>you<sp/>must<sp/>provide<sp/>full<sp/>endpoint&quot;);</highlight></codeline>
+<codeline lineno="125"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
+<codeline lineno="126"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="127"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="comment"></highlight></codeline>
+<codeline lineno="129"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(0);</highlight></codeline>
+<codeline lineno="130"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="comment"></highlight></codeline>
+<codeline lineno="132"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
+<codeline lineno="134"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="135"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="136"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>When<sp/>BDII<sp/>checks<sp/>are<sp/>disabled,<sp/>you<sp/>must<sp/>provide<sp/>SURLs<sp/>and<sp/>endpoint<sp/>types&quot;);</highlight></codeline>
+<codeline lineno="137"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
+<codeline lineno="138"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="139"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="comment"></highlight></codeline>
+<codeline lineno="142"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;endpoint<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>(*gfal)-&gt;surls<sp/>!=<sp/>NULL<sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;surls[0]<sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(((*gfal)-&gt;endpoint<sp/>=<sp/>endpointfromsurl<sp/>((*gfal)-&gt;surls[0],<sp/>errbuf,<sp/>errbufsz,<sp/>0))<sp/>==<sp/>NULL)</highlight></codeline>
+<codeline lineno="146"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="147"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;free_endpoint<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="148"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="150"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>You<sp/>have<sp/>to<sp/>specify<sp/>either<sp/>an<sp/>endpoint<sp/>or<sp/>at<sp/>least<sp/>one<sp/>SURL&quot;);</highlight></codeline>
+<codeline lineno="151"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
+<codeline lineno="152"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="153"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
+<codeline lineno="154"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="155"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((strchr<sp/>((*gfal)-&gt;endpoint,<sp/>&apos;.&apos;)<sp/>==<sp/>NULL))<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="159"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>No<sp/>domain<sp/>name<sp/>specified<sp/>for<sp/>storage<sp/>element<sp/>endpoint&quot;);</highlight></codeline>
+<codeline lineno="160"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
+<codeline lineno="161"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="162"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
+<codeline lineno="163"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="164"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(setypesandendpoints<sp/>((*gfal)-&gt;endpoint,<sp/>&amp;se_types,<sp/>&amp;se_endpoints,<sp/>errbuf,<sp/>errbufsz)<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
+<codeline lineno="167"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="168"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="169"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="170"><highlight class="comment"></highlight></codeline>
-<codeline lineno="171"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free<sp/>(se_types[i]);</highlight></codeline>
-<codeline lineno="172"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
-<codeline lineno="173"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="174"><highlight class="comment"></highlight></codeline>
-<codeline lineno="175"><highlight class="comment"><sp/><sp/><sp/><sp/>free<sp/>(se_types);</highlight></codeline>
-<codeline lineno="176"><highlight class="comment"><sp/><sp/><sp/><sp/>free<sp/>(se_endpoints);</highlight></codeline>
-<codeline lineno="177"><highlight class="comment"></highlight></codeline>
-<codeline lineno="178"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;surls<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>strncmp<sp/>((*gfal)-&gt;surls[0],<sp/>&quot;sfn:&quot;,<sp/>4)<sp/>==<sp/>0<sp/>&amp;&amp;</highlight></codeline>
-<codeline lineno="179"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(isclassicse<sp/>||<sp/>srmv1_endpoint<sp/>||<sp/>srmv2_endpoint))<sp/>{</highlight></codeline>
-<codeline lineno="180"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>if<sp/>surls<sp/>start<sp/>with<sp/>sfn:,<sp/>we<sp/>force<sp/>the<sp/>SE<sp/>type<sp/>to<sp/>classic<sp/>SE<sp/>//</highlight></codeline>
-<codeline lineno="181"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_SE;</highlight></codeline>
-<codeline lineno="182"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv1_endpoint)<sp/>free<sp/>(srmv1_endpoint);</highlight></codeline>
-<codeline lineno="183"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv2_endpoint)<sp/>free<sp/>(srmv2_endpoint);</highlight></codeline>
-<codeline lineno="184"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(0);</highlight></codeline>
-<codeline lineno="185"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="186"><highlight class="comment"></highlight></codeline>
-<codeline lineno="187"><highlight class="comment"><sp/><sp/><sp/><sp/>//<sp/>srmv2<sp/>is<sp/>the<sp/>default<sp/>if<sp/>nothing<sp/>specified<sp/>by<sp/>user!<sp/>//</highlight></codeline>
-<codeline lineno="188"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_NONE)<sp/>{</highlight></codeline>
-<codeline lineno="189"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv2_endpoint<sp/>&amp;&amp;</highlight></codeline>
-<codeline lineno="190"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((*gfal)-&gt;defaultsetype<sp/>==<sp/>TYPE_NONE<sp/>||<sp/>(*gfal)-&gt;defaultsetype<sp/>==<sp/>TYPE_SRMv2<sp/>||</highlight></codeline>
-<codeline lineno="191"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((*gfal)-&gt;defaultsetype<sp/>==<sp/>TYPE_SRM<sp/>&amp;&amp;<sp/>!srmv1_endpoint)))<sp/>{</highlight></codeline>
-<codeline lineno="192"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_SRMv2;</highlight></codeline>
-<codeline lineno="193"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>else<sp/>if<sp/>(!(*gfal)-&gt;srmv2_spacetokendesc<sp/>&amp;&amp;<sp/>!(*gfal)-&gt;srmv2_desiredpintime<sp/>&amp;&amp;</highlight></codeline>
-<codeline lineno="194"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!(*gfal)-&gt;srmv2_lslevels<sp/>&amp;&amp;<sp/>!(*gfal)-&gt;srmv2_lsoffset<sp/>&amp;&amp;<sp/>!(*gfal)-&gt;srmv2_lscount)<sp/>{</highlight></codeline>
-<codeline lineno="195"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv1_endpoint<sp/>&amp;&amp;<sp/>(*gfal)-&gt;defaultsetype<sp/>!=<sp/>TYPE_SE)</highlight></codeline>
-<codeline lineno="196"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_SRM;</highlight></codeline>
-<codeline lineno="197"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>if<sp/>(srmv2_endpoint<sp/>||<sp/>srmv1_endpoint<sp/>||<sp/>isclassicse)</highlight></codeline>
-<codeline lineno="198"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_SE;</highlight></codeline>
-<codeline lineno="199"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="200"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="201"><highlight class="comment"><sp/><sp/><sp/><sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRMv2<sp/>&amp;&amp;<sp/>!srmv2_endpoint)<sp/>{</highlight></codeline>
-<codeline lineno="202"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_NONE;</highlight></codeline>
-<codeline lineno="203"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>else<sp/>if<sp/>((*gfal)-&gt;srmv2_spacetokendesc<sp/>||<sp/>(*gfal)-&gt;srmv2_desiredpintime<sp/>||</highlight></codeline>
-<codeline lineno="204"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;srmv2_lslevels<sp/>||<sp/>(*gfal)-&gt;srmv2_lsoffset<sp/>||<sp/>(*gfal)-&gt;srmv2_lscount)<sp/>{</highlight></codeline>
-<codeline lineno="205"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_NONE;</highlight></codeline>
-<codeline lineno="206"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
-<codeline lineno="207"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRM<sp/>&amp;&amp;<sp/>!srmv1_endpoint)</highlight></codeline>
-<codeline lineno="208"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_NONE;</highlight></codeline>
-<codeline lineno="209"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SE<sp/>&amp;&amp;<sp/>!srmv2_endpoint<sp/>&amp;&amp;<sp/>!srmv1_endpoint<sp/>&amp;&amp;<sp/>!isclassicse)</highlight></codeline>
-<codeline lineno="210"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_NONE;</highlight></codeline>
+<codeline lineno="171"><highlight class="comment"><sp/><sp/><sp/><sp/>while<sp/>(se_types[i])<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv1_endpoint<sp/>==<sp/>NULL<sp/>&amp;&amp;<sp/>strcmp<sp/>(se_types[i],<sp/>&quot;srm_v1&quot;)<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="173"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srmv1_endpoint<sp/>=<sp/>se_endpoints[i];</highlight></codeline>
+<codeline lineno="174"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>if<sp/>(srmv2_endpoint<sp/>==<sp/>NULL<sp/>&amp;&amp;<sp/>strcmp<sp/>(se_types[i],<sp/>&quot;srm_v2&quot;)<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="175"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srmv2_endpoint<sp/>=<sp/>se_endpoints[i];</highlight></codeline>
+<codeline lineno="176"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free<sp/>(se_endpoints[i]);</highlight></codeline>
+<codeline lineno="178"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((strcmp<sp/>(se_types[i],<sp/>&quot;disk&quot;))<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="179"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isclassicse<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="180"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="comment"></highlight></codeline>
+<codeline lineno="182"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free<sp/>(se_types[i]);</highlight></codeline>
+<codeline lineno="183"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
+<codeline lineno="184"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="comment"></highlight></codeline>
+<codeline lineno="186"><highlight class="comment"><sp/><sp/><sp/><sp/>free<sp/>(se_types);</highlight></codeline>
+<codeline lineno="187"><highlight class="comment"><sp/><sp/><sp/><sp/>free<sp/>(se_endpoints);</highlight></codeline>
+<codeline lineno="188"><highlight class="comment"></highlight></codeline>
+<codeline lineno="189"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;surls<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>strncmp<sp/>((*gfal)-&gt;surls[0],<sp/>&quot;sfn:&quot;,<sp/>4)<sp/>==<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="190"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(isclassicse<sp/>||<sp/>srmv1_endpoint<sp/>||<sp/>srmv2_endpoint))<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>if<sp/>surls<sp/>start<sp/>with<sp/>sfn:,<sp/>we<sp/>force<sp/>the<sp/>SE<sp/>type<sp/>to<sp/>classic<sp/>SE<sp/>//</highlight></codeline>
+<codeline lineno="192"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_SE;</highlight></codeline>
+<codeline lineno="193"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv1_endpoint)<sp/>free<sp/>(srmv1_endpoint);</highlight></codeline>
+<codeline lineno="194"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv2_endpoint)<sp/>free<sp/>(srmv2_endpoint);</highlight></codeline>
+<codeline lineno="195"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(0);</highlight></codeline>
+<codeline lineno="196"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="comment"></highlight></codeline>
+<codeline lineno="198"><highlight class="comment"><sp/><sp/><sp/><sp/>//<sp/>srmv2<sp/>is<sp/>the<sp/>default<sp/>if<sp/>nothing<sp/>specified<sp/>by<sp/>user!<sp/>//</highlight></codeline>
+<codeline lineno="199"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_NONE)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv2_endpoint<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="201"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((*gfal)-&gt;defaultsetype<sp/>==<sp/>TYPE_NONE<sp/>||<sp/>(*gfal)-&gt;defaultsetype<sp/>==<sp/>TYPE_SRMv2<sp/>||</highlight></codeline>
+<codeline lineno="202"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((*gfal)-&gt;defaultsetype<sp/>==<sp/>TYPE_SRM<sp/>&amp;&amp;<sp/>!srmv1_endpoint)))<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_SRMv2;</highlight></codeline>
+<codeline lineno="204"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>else<sp/>if<sp/>(!(*gfal)-&gt;srmv2_spacetokendesc<sp/>&amp;&amp;<sp/>!(*gfal)-&gt;srmv2_desiredpintime<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="205"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!(*gfal)-&gt;srmv2_lslevels<sp/>&amp;&amp;<sp/>!(*gfal)-&gt;srmv2_lsoffset<sp/>&amp;&amp;<sp/>!(*gfal)-&gt;srmv2_lscount)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv1_endpoint<sp/>&amp;&amp;<sp/>(*gfal)-&gt;defaultsetype<sp/>!=<sp/>TYPE_SE)</highlight></codeline>
+<codeline lineno="207"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_SRM;</highlight></codeline>
+<codeline lineno="208"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>if<sp/>(srmv2_endpoint<sp/>||<sp/>srmv1_endpoint<sp/>||<sp/>isclassicse)</highlight></codeline>
+<codeline lineno="209"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_SE;</highlight></codeline>
+<codeline lineno="210"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="211"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="212"><highlight class="comment"></highlight></codeline>
-<codeline lineno="213"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRMv2)<sp/>{</highlight></codeline>
-<codeline lineno="214"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;free_endpoint)<sp/>free<sp/>((*gfal)-&gt;endpoint);</highlight></codeline>
-<codeline lineno="215"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;endpoint<sp/>=<sp/>srmv2_endpoint;</highlight></codeline>
-<codeline lineno="216"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;free_endpoint<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="217"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv1_endpoint)<sp/>free<sp/>(srmv1_endpoint);</highlight></codeline>
-<codeline lineno="218"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRM)<sp/>{</highlight></codeline>
-<codeline lineno="219"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;free_endpoint)<sp/>free<sp/>((*gfal)-&gt;endpoint);</highlight></codeline>
-<codeline lineno="220"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;endpoint<sp/>=<sp/>srmv1_endpoint;</highlight></codeline>
-<codeline lineno="221"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;free_endpoint<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="222"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv2_endpoint)<sp/>free<sp/>(srmv2_endpoint);</highlight></codeline>
-<codeline lineno="223"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_NONE)<sp/>{</highlight></codeline>
-<codeline lineno="224"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="225"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>Desired<sp/>SE<sp/>type<sp/>doesn&apos;t<sp/>match<sp/>request<sp/>parameters<sp/>or<sp/>SE&quot;);</highlight></codeline>
-<codeline lineno="226"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
-<codeline lineno="227"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="212"><highlight class="comment"><sp/><sp/><sp/><sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRMv2<sp/>&amp;&amp;<sp/>!srmv2_endpoint)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_NONE;</highlight></codeline>
+<codeline lineno="214"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>else<sp/>if<sp/>((*gfal)-&gt;srmv2_spacetokendesc<sp/>||<sp/>(*gfal)-&gt;srmv2_desiredpintime<sp/>||</highlight></codeline>
+<codeline lineno="215"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;srmv2_lslevels<sp/>||<sp/>(*gfal)-&gt;srmv2_lsoffset<sp/>||<sp/>(*gfal)-&gt;srmv2_lscount)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_NONE;</highlight></codeline>
+<codeline lineno="217"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRM<sp/>&amp;&amp;<sp/>!srmv1_endpoint)</highlight></codeline>
+<codeline lineno="219"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_NONE;</highlight></codeline>
+<codeline lineno="220"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SE<sp/>&amp;&amp;<sp/>!srmv2_endpoint<sp/>&amp;&amp;<sp/>!srmv1_endpoint<sp/>&amp;&amp;<sp/>!isclassicse)</highlight></codeline>
+<codeline lineno="221"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;setype<sp/>=<sp/>TYPE_NONE;</highlight></codeline>
+<codeline lineno="222"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="comment"></highlight></codeline>
+<codeline lineno="224"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRMv2)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;free_endpoint)<sp/>free<sp/>((*gfal)-&gt;endpoint);</highlight></codeline>
+<codeline lineno="226"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;endpoint<sp/>=<sp/>srmv2_endpoint;</highlight></codeline>
+<codeline lineno="227"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;free_endpoint<sp/>=<sp/>1;</highlight></codeline>
 <codeline lineno="228"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv1_endpoint)<sp/>free<sp/>(srmv1_endpoint);</highlight></codeline>
-<codeline lineno="229"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv2_endpoint)<sp/>free<sp/>(srmv2_endpoint);</highlight></codeline>
-<codeline lineno="230"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="231"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="232"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="233"><highlight class="comment"></highlight></codeline>
-<codeline lineno="234"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;generatesurls)<sp/>{</highlight></codeline>
-<codeline lineno="235"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;surls<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="236"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(generate_surls<sp/>(*gfal,<sp/>errbuf,<sp/>errbufsz)<sp/>&lt;<sp/>0)</highlight></codeline>
-<codeline lineno="237"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="238"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
-<codeline lineno="239"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
-<codeline lineno="240"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>No<sp/>SURLs<sp/>must<sp/>be<sp/>specified<sp/>with<sp/>&apos;generatesurls&apos;<sp/>activated&quot;);</highlight></codeline>
-<codeline lineno="241"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
-<codeline lineno="242"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="243"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
-<codeline lineno="244"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
-<codeline lineno="245"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="246"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="247"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="249"><highlight class="normal"></highlight></codeline>
-<codeline lineno="250"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_set_default_storage(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto<sp/>proto){</highlight></codeline>
-<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;srm_proto_type<sp/>=<sp/>proto;</highlight></codeline>
-<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="253"><highlight class="normal"></highlight></codeline>
-<codeline lineno="258"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_handle_freeG<sp/>(gfal_handle<sp/>handle){</highlight></codeline>
-<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;(handle-&gt;err));</highlight></codeline>
-<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(handle);</highlight></codeline>
-<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_SRM)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;free_endpoint)<sp/>free<sp/>((*gfal)-&gt;endpoint);</highlight></codeline>
+<codeline lineno="231"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;endpoint<sp/>=<sp/>srmv1_endpoint;</highlight></codeline>
+<codeline lineno="232"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*gfal)-&gt;free_endpoint<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="233"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv2_endpoint)<sp/>free<sp/>(srmv2_endpoint);</highlight></codeline>
+<codeline lineno="234"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>else<sp/>if<sp/>((*gfal)-&gt;setype<sp/>==<sp/>TYPE_NONE)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="236"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>Desired<sp/>SE<sp/>type<sp/>doesn&apos;t<sp/>match<sp/>request<sp/>parameters<sp/>or<sp/>SE&quot;);</highlight></codeline>
+<codeline lineno="237"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
+<codeline lineno="238"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="239"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv1_endpoint)<sp/>free<sp/>(srmv1_endpoint);</highlight></codeline>
+<codeline lineno="240"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(srmv2_endpoint)<sp/>free<sp/>(srmv2_endpoint);</highlight></codeline>
+<codeline lineno="241"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
+<codeline lineno="242"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="243"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="comment"></highlight></codeline>
+<codeline lineno="245"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;generatesurls)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>((*gfal)-&gt;surls<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(generate_surls<sp/>(*gfal,<sp/>errbuf,<sp/>errbufsz)<sp/>&lt;<sp/>0)</highlight></codeline>
+<codeline lineno="248"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="249"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_errmsg<sp/>(errbuf,<sp/>errbufsz,<sp/>GFAL_ERRLEVEL_ERROR,</highlight></codeline>
+<codeline lineno="251"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;[GFAL][gfal_init][EINVAL]<sp/>Invalid<sp/>request:<sp/>No<sp/>SURLs<sp/>must<sp/>be<sp/>specified<sp/>with<sp/>&apos;generatesurls&apos;<sp/>activated&quot;);</highlight></codeline>
+<codeline lineno="252"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle_free<sp/>(*gfal);</highlight></codeline>
+<codeline lineno="253"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*gfal<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="254"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EINVAL;</highlight></codeline>
+<codeline lineno="255"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="256"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_set_default_storageG(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto<sp/>proto){</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;srm_proto_type<sp/>=<sp/>proto;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"></codeline>
+<codeline lineno="364"></codeline>
+<codeline lineno="370"></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c"/>
   </compounddef>
