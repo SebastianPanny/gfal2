@@ -15,7 +15,7 @@
 .ti -1c
 .RI "void \fBgfal_handle_freeG\fP (gfal_handle handle)"
 .br
-.RI "\fIfree a gfal's context and set to NULL \fP"
+.RI "\fIfree a gfal's handle, safe if null \fP"
 .ti -1c
 .RI "int \fBgfal_get_asyncG\fP (gfal_handle handle, GList *surls, GError **err)"
 .br
@@ -46,14 +46,6 @@ Devresse Adrien
 .SS "int gfal_get_asyncG (gfal_handle handle, GList * surls, GError ** err)"
 .PP
 launch a surls-> turls translation in asynchronous mode 
-.PP
-static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){ struct srm_context context; struct srm_preparetoget_input preparetoget_input; struct srm_preparetoget_output preparetoget_output; const int size = 2048; char errbuf[size];
-.PP
-srm_context_init(&context, handle->endpoint_G, errbuf, size, \fBgfal_get_verbose()\fP);
-.PP
-}
-.PP
-/** 
 .PP
 \fBWarning:\fP
 .RS 4

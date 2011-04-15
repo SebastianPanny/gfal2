@@ -2,7 +2,80 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
   <compounddef id="gfal__common__srm_8h" kind="file">
     <compoundname>gfal_common_srm.h</compoundname>
+    <includedby refid="gfal__common_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common.h</includedby>
     <includedby refid="gfal__common__srm_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c</includedby>
+    <invincdepgraph>
+      <node id="231">
+        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.c</label>
+        <link refid="gfal__voms__if_8c"/>
+      </node>
+      <node id="230">
+        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.h</label>
+        <link refid="gfal__voms__if_8h-source"/>
+        <childnode refid="225" relation="include">
+        </childnode>
+        <childnode refid="231" relation="include">
+        </childnode>
+      </node>
+      <node id="226">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_internals.h</label>
+        <link refid="gfal__internals_8h-source"/>
+      </node>
+      <node id="234">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
+        <link refid="gfal__posix_8c"/>
+      </node>
+      <node id="229">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_storage.h</label>
+        <link refid="gfal__common__storage_8h-source"/>
+        <childnode refid="225" relation="include">
+        </childnode>
+      </node>
+      <node id="224">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h</label>
+        <link refid="gfal_common_srm.h"/>
+        <childnode refid="225" relation="include">
+        </childnode>
+      </node>
+      <node id="233">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
+        <link refid="gfal__posix__api_8h-source"/>
+        <childnode refid="234" relation="include">
+        </childnode>
+      </node>
+      <node id="232">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.c</label>
+        <link refid="gfal__common_8c"/>
+      </node>
+      <node id="225">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
+        <link refid="gfal__common_8h"/>
+        <childnode refid="226" relation="include">
+        </childnode>
+        <childnode refid="227" relation="include">
+        </childnode>
+        <childnode refid="229" relation="include">
+        </childnode>
+        <childnode refid="230" relation="include">
+        </childnode>
+        <childnode refid="232" relation="include">
+        </childnode>
+        <childnode refid="233" relation="include">
+        </childnode>
+      </node>
+      <node id="228">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
+        <link refid="gfal__common__catalog_8c"/>
+      </node>
+      <node id="227">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="225" relation="include">
+        </childnode>
+        <childnode refid="228" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
       <sectiondef kind="func">
       <memberdef kind="function" id="gfal__common__srm_8h_18410ba458f920d8f8a8f0e5594170fe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_handle</type>
@@ -20,7 +93,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="27" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="42" bodyend="259"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="31" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="51" bodyend="267"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm_8h_19dbd943eaed291897d852fc3ae560058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -32,12 +105,12 @@
           <declname>handle</declname>
         </param>
         <briefdescription>
-<para>free a gfal&apos;s context and set to NULL </para>        </briefdescription>
+<para>free a gfal&apos;s handle, safe if null </para>        </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="31" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="370" bodyend="374"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="35" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="418" bodyend="426"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm_8h_195ffd4de24c18af334c1d9c270de7d81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -59,7 +132,7 @@
         <briefdescription>
 <para>launch a surls-&gt; turls translation in asynchronous mode </para>        </briefdescription>
         <detaileddescription>
-<para>static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){ struct srm_context context; struct srm_preparetoget_input preparetoget_input; struct srm_preparetoget_output preparetoget_output; const int size = 2048; char errbuf[size];</para><para>srm_context_init(&amp;context, handle-&gt;endpoint_G, errbuf, size, <ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose()</ref>);</para><para>}</para><para>/** <simplesect kind="warning"><para>need a initiaed gfal_handle </para></simplesect>
+<para><simplesect kind="warning"><para>need a initiaed gfal_handle </para></simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>handle</parametername>
@@ -86,7 +159,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="292" bodyend="364"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="38" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="339" bodyend="412"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -97,31 +170,32 @@
 <simplesect kind="date"><para>12/04/2011 </para></simplesect>
 </para>    </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(c)<sp/>Members<sp/>of<sp/>the<sp/>EGEE<sp/>Collaboration.<sp/>2004.</highlight></codeline>
-<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>See<sp/>http://www.eu-egee.org/partners/<sp/>for<sp/>details<sp/>on<sp/>the<sp/>copyright<sp/>holders.</highlight></codeline>
-<codeline lineno="4"><highlight class="comment"><sp/>*</highlight></codeline>
-<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Licensed<sp/>under<sp/>the<sp/>Apache<sp/>License,<sp/>Version<sp/>2.0<sp/>(the<sp/>&quot;License&quot;);</highlight></codeline>
-<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>you<sp/>may<sp/>not<sp/>use<sp/>this<sp/>file<sp/>except<sp/>in<sp/>compliance<sp/>with<sp/>the<sp/>License.</highlight></codeline>
-<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>You<sp/>may<sp/>obtain<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>License<sp/>at</highlight></codeline>
-<codeline lineno="8"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
-<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>http://www.apache.org/licenses/LICENSE-2.0</highlight></codeline>
-<codeline lineno="10"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
-<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>Unless<sp/>required<sp/>by<sp/>applicable<sp/>law<sp/>or<sp/>agreed<sp/>to<sp/>in<sp/>writing,<sp/>software</highlight></codeline>
-<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>distributed<sp/>under<sp/>the<sp/>License<sp/>is<sp/>distributed<sp/>on<sp/>an<sp/>&quot;AS<sp/>IS&quot;<sp/>BASIS,</highlight></codeline>
-<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>WITHOUT<sp/>WARRANTIES<sp/>OR<sp/>CONDITIONS<sp/>OF<sp/>ANY<sp/>KIND,<sp/>either<sp/>express<sp/>or<sp/>implied.</highlight></codeline>
-<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>See<sp/>the<sp/>License<sp/>for<sp/>the<sp/>specific<sp/>language<sp/>governing<sp/>permissions<sp/>and</highlight></codeline>
-<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
-<codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal">gfal_handle<sp/>gfal_initG(GError**<sp/>err);</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_handle_freeG(gfal_handle<sp/>handle);</highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight></codeline>
+<codeline lineno="2"><highlight class="preprocessor"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(c)<sp/>Members<sp/>of<sp/>the<sp/>EGEE<sp/>Collaboration.<sp/>2004.</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>See<sp/>http://www.eu-egee.org/partners/<sp/>for<sp/>details<sp/>on<sp/>the<sp/>copyright<sp/>holders.</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Licensed<sp/>under<sp/>the<sp/>Apache<sp/>License,<sp/>Version<sp/>2.0<sp/>(the<sp/>&quot;License&quot;);</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>you<sp/>may<sp/>not<sp/>use<sp/>this<sp/>file<sp/>except<sp/>in<sp/>compliance<sp/>with<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>You<sp/>may<sp/>obtain<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>License<sp/>at</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>http://www.apache.org/licenses/LICENSE-2.0</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>Unless<sp/>required<sp/>by<sp/>applicable<sp/>law<sp/>or<sp/>agreed<sp/>to<sp/>in<sp/>writing,<sp/>software</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>distributed<sp/>under<sp/>the<sp/>License<sp/>is<sp/>distributed<sp/>on<sp/>an<sp/>&quot;AS<sp/>IS&quot;<sp/>BASIS,</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>WITHOUT<sp/>WARRANTIES<sp/>OR<sp/>CONDITIONS<sp/>OF<sp/>ANY<sp/>KIND,<sp/>either<sp/>express<sp/>or<sp/>implied.</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>See<sp/>the<sp/>License<sp/>for<sp/>the<sp/>specific<sp/>language<sp/>governing<sp/>permissions<sp/>and</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">gfal_handle<sp/>gfal_initG(GError**<sp/>err);</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_asyncG(gfal_handle<sp/>handle,<sp/>GList*<sp/>surls,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_handle_freeG(gfal_handle<sp/>handle);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_asyncG(gfal_handle<sp/>handle,<sp/>GList*<sp/>surls,<sp/>GError**<sp/>err);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h"/>
   </compounddef>

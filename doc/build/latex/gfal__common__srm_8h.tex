@@ -9,7 +9,7 @@ gfal\_\-handle \bf{gfal\_\-init\-G} (GError $\ast$$\ast$err)
 \item 
 void \bf{gfal\_\-handle\_\-free\-G} (gfal\_\-handle handle)\label{gfal__common__srm_8h_9dbd943eaed291897d852fc3ae560058}
 
-\begin{CompactList}\small\item\em free a gfal's context and set to NULL \item\end{CompactList}\item 
+\begin{CompactList}\small\item\em free a gfal's handle, safe if null \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-async\-G} (gfal\_\-handle handle, GList $\ast$surls, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em launch a surls-$>$ turls translation in asynchronous mode \item\end{CompactList}\end{CompactItemize}
 
@@ -33,13 +33,7 @@ the header file with the main srm funcs of the common API
 
 launch a surls-$>$ turls translation in asynchronous mode 
 
-static int gfal\_\-srmv2\_\-getasync(gfal\_\-handle handle, GList$\ast$ surls, GError$\ast$$\ast$ err)\{ struct srm\_\-context context; struct srm\_\-preparetoget\_\-input preparetoget\_\-input; struct srm\_\-preparetoget\_\-output preparetoget\_\-output; const int size = 2048; char errbuf[size];
-
-srm\_\-context\_\-init(\&context, handle-$>$endpoint\_\-G, errbuf, size, \doxyref{gfal\_\-get\_\-verbose()}{p.}{gfal__common__errverbose_8c_135b3fdd775aa7215e2ab4de1eea495f});
-
-\}
-
-/$\ast$$\ast$ \begin{Desc}
+\begin{Desc}
 \item[Warning:]need a initiaed gfal\_\-handle \end{Desc}
 \begin{Desc}
 \item[Parameters:]
