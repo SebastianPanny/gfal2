@@ -1,6 +1,6 @@
 
 
-/* unit test for common_errverbose */
+/* unit test for common_catalog */
 
 
 #include <check.h>
