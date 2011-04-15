@@ -22,7 +22,6 @@ END_TEST
 
 START_TEST(test_glist_to_surls)
 {
-
 		GList* list = g_list_append(NULL,"bob");
 		list = g_list_append(list, "gilles");
 		list = g_list_append(list, "john");
@@ -32,10 +31,30 @@ START_TEST(test_glist_to_surls)
 		int i;
 		for(i=0; i< n; ++i){
 			char * str= list->data;
-			fail_unless(strncmp(str,surls[i],100) == NULL, " must be the same string");
+			fail_unless(strncmp(str,surls[i],100) == 0, " must be the same string");
 			list = g_list_next(list);
 		}
 		fail_unless(surls[n]==NULL, " last element+1 must be null");
+}
+END_TEST
+
+
+START_TEST(test_gfal_get_async_1)
+{
+	GError* err=NULL;
+	gfal_handle handle = gfal_initG(&err);
+	if(handle == NULL){
+			gfal_release_GError(&err);
+			fail(" handle fail to initiated");
+	}
+	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/testfile002");
+	int r = gfal_get_asyncG(handle,list,&err);
+	if(r < 0){
+			gfal_release_GError(&err);
+			fail("must be a success");
+			return;
+	}	
+	
 }
 END_TEST
 	
