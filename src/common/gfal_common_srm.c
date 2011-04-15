@@ -26,6 +26,15 @@
 #include "gfal_common.h"
 #include "gfal_common_srm.h"
 
+
+static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
+	if(handle->initiated == 1)
+		return TRUE;
+	g_error_set(err,0, EINVAL,"[gboolean gfal_handle_checkG] gfal_handle not set correctly");
+	return FALSE;
+}
+
+
 /**
  * initiate a gfal's context with default parameters for use
  * @return a gfal_handle, need to be free after usage or NULL if errors
@@ -38,9 +47,11 @@ gfal_handle gfal_initG (GError** err)
 		g_set_error(err,0,ENOMEM, "[gfal_initG] bad allocation, no more memory free");
 		return NULL;
 	}
-	memset((void*)handle,0,sizeof(struct gfal_handle_));
+	memset((void*)handle,0,sizeof(struct gfal_handle_));	// clear the struct and set defautl options
 	handle->err= NULL;
 	handle->srm_proto_type = PROTO_SRMv2;
+	handle->initiated = 1;
+	handle->endpoint_G = NULL;
 	/*
     int i = 0;
     char **se_endpoints;
@@ -247,8 +258,109 @@ gfal_handle gfal_initG (GError** err)
 	*/
 }
 
-void gfal_set_default_storage(gfal_handle handle, enum gfal_srm_proto proto){
+/**
+ * @brief accessor for the default storage type definition
+ * */
+void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
 	handle->srm_proto_type = proto;
+	return 0;
+}
+
+/**
+ * 
+
+static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
+    	struct srm_context context;
+    	struct srm_preparetoget_input preparetoget_input;
+    	struct srm_preparetoget_output preparetoget_output;
+    	const int size = 2048;
+    	char errbuf[size];
+
+    	srm_context_init(&context, handle->endpoint_G, errbuf, size, gfal_get_verbose());	
+	
+}
+
+
+/**
+ * @brief launch a surls-> turls translation in asynchronous mode
+ * @warning need a initiaed gfal_handle
+ * @param handle : the gfal_handle initiated ( \ref gfal_init )
+ * @param surls : GList of string of the differents surls to convert
+ * @param err : GError for error report
+ * @return return 0 if success else -1, check GError for more information
+ */
+int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
+	GError* tmp_err=NULL;
+	int ret=0;
+	if( !gfal_handle_checkG(handle, &tmp_err) ){	// check handle validity
+		g_propagate_prefixed_error(err,tmp_err,"[gfal_get_asyncG]");
+		return -1;
+	}
+	if (handle->srm_proto_type == PROTO_SRMv2){
+		ret= gfal_srmv2_getasync(handle,surls,&tmp_err);
+	} else if(handle->srm_proto_type == PROTO_SRM){
+			
+	} else{
+		ret=-1;
+		g_error_set(&tmp_err,0,EPROTONOSUPPORT, "Type de protocole spécifié non supporté ( Supportés : SRM & SRMv2 ) ");
+	}
+		
+	/*int ret;
+
+    if (check_gfal_handle (req, 0, errbuf, errbufsz) < 0)
+        return (-1);
+
+    if (req->setype == TYPE_SRMv2)
+    {
+    	struct srm_context context;
+    	struct srm_preparetoget_input preparetoget_input;
+    	struct srm_preparetoget_output preparetoget_output;
+
+    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
+
+        if (req->srmv2_pinstatuses)
+        {
+            free (req->srmv2_pinstatuses);
+            req->srmv2_pinstatuses = NULL;
+        }
+        if (req->srmv2_token)
+        {
+            free (req->srmv2_token);
+            req->srmv2_token = NULL;
+        }
+
+        preparetoget_input.desiredpintime = req->srmv2_desiredpintime;
+        preparetoget_input.nbfiles = req->nbfiles;
+        preparetoget_input.protocols = req->protocols;
+        preparetoget_input.spacetokendesc = req->srmv2_spacetokendesc;
+        preparetoget_input.surls = req->surls;
+
+        ret = srm_prepare_to_get_async(&context,&preparetoget_input,&preparetoget_output);
+
+    	req->srmv2_token = preparetoget_output.token;
+    	req->srmv2_pinstatuses = preparetoget_output.filestatuses;
+
+
+        //TODO ret = srmv2_gete (req->nbfiles, (const char **) req->surls, req->endpoint,
+         //   req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
+         //   &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
+
+    } else if (req->setype == TYPE_SRM) {
+        if (req->srm_statuses) {
+            free (req->srm_statuses);
+            req->srm_statuses = NULL;
+        }
+//TODO REMOVE        ret = srm_getxe (req->nbfiles, (const char **) req->surls, req->endpoint, req->protocols,
+ //               &(req->srm_reqid), &(req->srm_statuses), errbuf, errbufsz, req->timeout);
+    } else { // req->setype == TYPE_SE
+        gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_get][EPROTONOSUPPORT] SFNs aren't supported");
+        errno = EPROTONOSUPPORT;
+        return (-1);;
+    }
+
+    req->returncode = ret;
+    return (copy_gfal_results (req, PIN_STATUS));*/
+	
 }
 
 /**

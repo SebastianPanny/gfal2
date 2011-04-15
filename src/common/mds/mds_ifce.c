@@ -34,7 +34,7 @@
 
 
 /** @brief  get BDII hostname and port number 
-* THIS LOGIC IS IMPLEMENTED IN THE NEW SD LIBRARY *
+*  @deprecated THIS LOGIC IS IMPLEMENTED IN THE NEW SD LIBRARY *
 * */
 get_bdii (char *bdii_server, int buflen, int *bdii_port, char *errbuf, int errbufsz)
 {

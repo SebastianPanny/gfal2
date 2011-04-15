@@ -29,3 +29,6 @@ gfal_handle gfal_initG(GError** err);
 
 
 void gfal_handle_freeG(gfal_handle handle);
+
+
+int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);

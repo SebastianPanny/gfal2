@@ -208,6 +208,8 @@ typedef struct gfal_handle_ {
 	gfal_filestatus *results;
 	GError* err;
 	enum gfal_srm_proto srm_proto_type;		// define the protocole version of SRM
+	gboolean initiated; 					// 1 if initiated, else error
+	char* endpoint_G;
 } *gfal_handle;
 
 struct sfn_filestatus {
