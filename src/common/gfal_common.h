@@ -32,6 +32,7 @@
 #include "gfal_common_srm.h"
 #include "gfal_file.h"
 #include "voms/gfal_voms_if.h"
+#include "mds/gfal_common_mds.h"
 // external imports
 #include <gfal_srm_ifce.h>
 #include <gfal_srm_ifce_types.h>

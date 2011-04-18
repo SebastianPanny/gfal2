@@ -33,6 +33,7 @@
 #include "common/gfal__test_catalog.c"
 #include "common/voms/gfal__test_voms.c"
 #include "common/gfal__test_common_srm.c"
+#include "common/mds/gfal__test_common_mds.c"
 
 Suite* common_suite (void)
 {
@@ -60,6 +61,9 @@ Suite* common_suite (void)
   tcase_add_test(tc_srm, test_gfal_get_async_1);
   tcase_add_test(tc_srm, test_gfal_check_surl);
   suite_add_tcase (s, tc_srm);
+  TCase *tc_mds= tcase_create("MDS");
+  tcase_add_test(tc_mds, test_check_bdii_endpoints_srm);
+  suite_add_tcase(s, tc_mds);
   return s;
 }
 

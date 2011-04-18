@@ -31,7 +31,7 @@ static char* get_default_cat(){
 	return GFAL_DEFAULT_CATALOG_TYPE;
 }
 
-char* gfal_get_cat_type(GError** err) {
+extern char* gfal_get_cat_type(GError** err) {
     char *cat_env;
     char *cat_type;
 

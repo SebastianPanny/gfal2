@@ -279,7 +279,7 @@ void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
 char** gfal_GList_to_tab(GList* surls){
 	int surl_size = g_list_length(surls);
 	int i;
-	char ** resu = surl_size?((char**)calloc(surl_size+1, sizeof(char*))):NULL;
+	char **resu = surl_size?((char**)calloc(surl_size+1, sizeof(char*))):NULL;
 	for(i=0;i<surl_size; ++i){
 		resu[i]= surls->data;
 		surls = g_list_next(surls);

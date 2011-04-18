@@ -67,7 +67,7 @@ extern "C"
 #endif
 
 
-typedef struct srm_spacemd gfal_spacemd;
+//typedef struct srm_spacemd gfal_spacemd;
 enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
