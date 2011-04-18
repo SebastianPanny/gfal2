@@ -310,7 +310,6 @@ static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
 	GError* tmp_err=NULL;
 	struct srm_context context;
 	int ret=0,i=0;
-	GList* tmp_list=NULL;
 	struct srm_preparetoget_input preparetoget_input;
 	struct srm_preparetoget_output preparetoget_output;
 	const int size = 2048;
@@ -320,7 +319,7 @@ static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
 	const gfal_srmv2_opt* opts = handle->srmv2_opt;							// get default opts for srmv2
 	int surl_size = g_list_length(surls);										// get the length of glist
 	
-	tmp_list = surls;
+	GList* tmp_list = surls;
 	while(tmp_list != NULL){
 		if( gfal_surl_checker(tmp_list->data,&tmp_err) != 0){
 			g_propagate_prefixed_error(err,tmp_err,"[gfal_srmv2_getasync]");	// check all urls if valids
