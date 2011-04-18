@@ -29,6 +29,7 @@
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "common/gfal_common.h"
 #include "common/gfal__test_verbose.c"
 #include "common/gfal__test_catalog.c"
 #include "common/voms/gfal__test_voms.c"
@@ -72,6 +73,7 @@ Suite* common_suite (void)
 
 int main (int argc, char** argv)
 {
+  fprintf(stderr, " tests : %s ", getenv("LD_LIBRARY_PATH"));
   int number_failed;
   Suite *s = common_suite ();
   SRunner *sr = srunner_create (s);

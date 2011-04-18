@@ -11,7 +11,7 @@ import random
 import shutil
 import commands
 
-src_tests_link = ['gfal_srm_ifce']
+src_tests_link = ['gfal_srm_ifce','ldap','is_ifce']
 src_tests_global = ["#src/common/gfal_common_errverbose.c"]
 src_tests_voms = ["common/voms/gfal__test_voms.c","#src/common/voms/gfal_voms_if.c" ]
 src_tests_srm = ["#src/common/gfal_common_srm.c", "common/gfal__test_common_srm.c"]
@@ -20,7 +20,9 @@ src_tests= ["common/gfal__test_verbose.c", "common/gfal__test_catalog.c","#src/c
 src_tests_all = src_tests+ src_tests_voms + src_tests_global + src_tests_srm  + src_tests_mds
 ## build test config
 
+lfc_gfal_infosys = (os.getenv("LCG_GFAL_INFOSYS") is None) and "" or os.getenv("LCG_GFAL_INFOSYS") # get the var env or ""
 env_test.PrependENVPath('LD_LIBRARY_PATH', libs) # setup internal env LD PATH
+env_test.PrependENVPath('LCG_GFAL_INFOSYS', lfc_gfal_infosys); # setup the bdii access point
 env_test.Append(LIBS=src_tests_link);
 test1 =env_test.Program("test_verbose",  src_tests_all+ [ccheck_lib])
 run_test= env_test.Alias("test_run_verbose.passed", test1, test1[0].abspath)

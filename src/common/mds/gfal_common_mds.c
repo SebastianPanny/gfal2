@@ -31,7 +31,13 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 	
 	const int ret = sd_get_se_types_and_endpoints(host, se_types, se_endpoints);
 	if(ret)
-		g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return an error ");
+		if(errno == ECOMM){
+			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return a COMM error, maybe the LCG_GFAL_INFOSYS env var is not set properly ");			
+		}else if(errno == EINVAL){
+			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return a EINVAL error, unable to get endpoint from this host, ( maybe host doesn't exist anymore ? ) ");			
+		}else{
+			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return an error ");
+		}
 	return ret;	
 }
 
