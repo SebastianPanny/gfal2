@@ -40,8 +40,7 @@ static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
  *  the returned endpoint need to be free after use
  * */
 static char* gfal_get_srm_endpoint(gfal_handle handle, GList* surls, GError** err){
-	
-	return NULL; // fix it
+	return strdup("httpg://hlxdpm101.cern.ch/dpm/cern.ch"); // fix it
 }
 
 /**
@@ -279,7 +278,7 @@ void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
 char** gfal_GList_to_tab(GList* surls){
 	int surl_size = g_list_length(surls);
 	int i;
-	char ** resu = calloc(surl_size+1, sizeof(char*));
+	char ** resu = surl_size?((char**)calloc(surl_size+1, sizeof(char*))):NULL;
 	for(i=0;i<surl_size; ++i){
 		resu[i]= surls->data;
 		surls = g_list_next(surls);
@@ -287,21 +286,37 @@ char** gfal_GList_to_tab(GList* surls){
 	return resu;
 }
 
+
+/**
+ * parse a surl to check the validity
+ */
+int gfal_surl_checker(const char* surl, GError** err){
+	regex_t rex;
+	int ret = regcomp(&rex, "^srm://.*",REG_ICASE);
+	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex");
+	ret=  regexec(&rex,surl,0,NULL,0);
+	return 0;
+} 
+
 /**
  *  @brief execute a srmv2 request async
 */
 static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
+	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
+			
 	GError* tmp_err=NULL;
 	struct srm_context context;
 	int ret=0;
 	struct srm_preparetoget_input preparetoget_input;
 	struct srm_preparetoget_output preparetoget_output;
 	const int size = 2048;
+	
 	char errbuf[size] ; memset(errbuf,0,size*sizeof(char));
 	char *endpoint = gfal_get_srm_endpoint(handle, surls, &tmp_err);		// get endpoint
 	const gfal_srmv2_opt* opts = handle->srmv2_opt;
 	int surl_size = g_list_length(surls);
 	char**  surls_tab = gfal_GList_to_tab(surls);
+	
 	
 	// set the structures datafields	
 	preparetoget_input.desiredpintime = opts->opt_srmv2_desiredpintime;		
@@ -314,7 +329,7 @@ static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
 	
 	ret = srm_prepare_to_get_async(&context,&preparetoget_input,&preparetoget_output);
 	if(ret != 0){
-		g_set_error(&tmp_err,0,errno,"[gfal_srmv2_getasync] call to srm_ifce error: %s",errbuf);
+		g_set_error(err,0,errno,"[gfal_srmv2_getasync] call to srm_ifce error: %s",errbuf);
 	} else{
 		handle->last_request_state = calloc(1, sizeof(struct _gfal_request_state));
     	handle->last_request_state->srmv2_token = preparetoget_output.token;
@@ -337,16 +352,19 @@ static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
  * @return return 0 if success else -1, check GError for more information
  */
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
+	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_get_asyncG] handle passed is null");
+	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_get_asyncG] GList passed is null");
+		
 	GError* tmp_err=NULL;
 	int ret=0;
-	if( !gfal_handle_checkG(handle, &tmp_err) ){	// check handle validity
+	if( !gfal_handle_checkG(handle, &tmp_err) ){	// check handle validityo
 		g_propagate_prefixed_error(err,tmp_err,"[gfal_get_asyncG]");
 		return -1;
 	}
 	if (handle->srm_proto_type == PROTO_SRMv2){
 		ret= gfal_srmv2_getasync(handle,surls,&tmp_err);
 		if(ret<0)
-			g_propagate_prefixed_error(err,tmp_err,"[gfal_get_asyncG]");
+			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_asyncG]");
 	} else if(handle->srm_proto_type == PROTO_SRM){
 			
 	} else{

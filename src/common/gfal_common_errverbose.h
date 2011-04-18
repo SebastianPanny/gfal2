@@ -33,6 +33,11 @@
 #include <glib.h>
 
 
+/** @def macro for fast debug purpose
+ * 
+ */
+#define g_return_val_err_if_fail(exp,val,err,msg) if(!(exp)){ g_set_error(err,0,EINVAL,msg); return val; }
+
 void gfal_print_verbose(int verbose_lvl,const char* msg, ...);
 /**
  * \brief set the verbose mode for the current program

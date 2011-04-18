@@ -23,7 +23,8 @@
  * @version 2.0
  * @date 12/04/2011
  * */
-
+#include "gfal_common.h"
+#include <regex.h>
 
  /**
   *  return a initiated handle to execute a gfal request 
