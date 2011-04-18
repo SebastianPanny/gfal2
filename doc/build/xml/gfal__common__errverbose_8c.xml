@@ -4,45 +4,45 @@
     <compoundname>gfal_common_errverbose.c</compoundname>
     <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
     <incdepgraph>
-      <node id="181">
+      <node id="193">
         <label>stdarg.h</label>
       </node>
-      <node id="178">
+      <node id="190">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</label>
         <link refid="gfal_common_errverbose.c"/>
-        <childnode refid="179" relation="include">
+        <childnode refid="191" relation="include">
         </childnode>
       </node>
-      <node id="179">
+      <node id="191">
         <label>gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="180" relation="include">
+        <childnode refid="192" relation="include">
         </childnode>
-        <childnode refid="181" relation="include">
+        <childnode refid="193" relation="include">
         </childnode>
-        <childnode refid="182" relation="include">
+        <childnode refid="194" relation="include">
         </childnode>
-        <childnode refid="183" relation="include">
+        <childnode refid="195" relation="include">
         </childnode>
-        <childnode refid="184" relation="include">
+        <childnode refid="196" relation="include">
         </childnode>
-        <childnode refid="185" relation="include">
+        <childnode refid="197" relation="include">
         </childnode>
       </node>
-      <node id="184">
+      <node id="196">
         <label>errno.h</label>
       </node>
-      <node id="183">
+      <node id="195">
         <label>string.h</label>
       </node>
-      <node id="185">
+      <node id="197">
         <label>glib.h</label>
       </node>
-      <node id="180">
+      <node id="192">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="182">
+      <node id="194">
         <label>stdio.h</label>
       </node>
     </incdepgraph>
@@ -124,7 +124,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="73" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="73" bodyend="77"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="73" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="73" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8c_1d416ec06ae951461c110211bcedb4d65" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -149,7 +149,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="84" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="81" bodyend="93"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="88" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="85" bodyend="97"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8c_1ba441719ee1fd49a708add03c0eea22f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -177,7 +177,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="100" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="96" bodyend="111"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="104" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="100" bodyend="115"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -257,49 +257,53 @@
 <codeline lineno="68"><highlight class="normal"><sp/>}</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_11441ea4b8176eb0cf3099009b950a3e9" kindref="member">gfal_release_GError</ref>(GError**<sp/>err){</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fprintf(stderr,</highlight><highlight class="stringliteral">&quot;[gfal]%s\n&quot;</highlight><highlight class="normal">,<sp/>(*err)-&gt;message);</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(err);</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*err=NULL;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/>}</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>(GLIB_CHECK_VERSION(2,16,0)<sp/>!=<sp/>TRUE)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>add<sp/>code<sp/>of<sp/>glib<sp/>2.16<sp/>for<sp/>link<sp/>with<sp/>a<sp/>very<sp/>old<sp/>glib<sp/>version</highlight></codeline>
-<codeline lineno="80"><highlight class="preprocessor"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal">g_error_add_prefix<sp/>(gchar<sp/><sp/><sp/><sp/><sp/><sp/><sp/>**string,</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>gchar<sp/><sp/>*format,</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>va_list<sp/><sp/><sp/><sp/><sp/><sp/><sp/>ap)</highlight></codeline>
-<codeline lineno="84"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/>gchar<sp/>*oldstring;</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/>gchar<sp/>*prefix;</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/>prefix<sp/>=<sp/>g_strdup_vprintf<sp/>(format,<sp/>ap);</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/>oldstring<sp/>=<sp/>*string;</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/>*string<sp/>=<sp/>g_strconcat<sp/>(prefix,<sp/>oldstring,<sp/>NULL);</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/>g_free<sp/>(oldstring);</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/>g_free<sp/>(prefix);</highlight></codeline>
-<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="96"><highlight class="normal">g_propagate_prefixed_error<sp/>(GError<sp/><sp/><sp/><sp/><sp/><sp/>**dest,</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError<sp/><sp/><sp/><sp/><sp/><sp/><sp/>*src,</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>gchar<sp/><sp/>*format,</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...)</highlight></codeline>
-<codeline lineno="100"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/>g_propagate_error<sp/>(dest,<sp/>src);</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dest<sp/>&amp;&amp;<sp/>*dest)</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>va_list<sp/>ap;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(err==NULL<sp/>||<sp/>*err==NULL){</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_DEBUG,</highlight><highlight class="stringliteral">&quot;<sp/>release<sp/>NULL<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fprintf(stderr,</highlight><highlight class="stringliteral">&quot;[gfal]%s\n&quot;</highlight><highlight class="normal">,<sp/>(*err)-&gt;message);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(err);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*err=NULL;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>(GLIB_CHECK_VERSION(2,16,0)<sp/>!=<sp/>TRUE)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>add<sp/>code<sp/>of<sp/>glib<sp/>2.16<sp/>for<sp/>link<sp/>with<sp/>a<sp/>very<sp/>old<sp/>glib<sp/>version</highlight></codeline>
+<codeline lineno="84"><highlight class="preprocessor"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">g_error_add_prefix<sp/>(gchar<sp/><sp/><sp/><sp/><sp/><sp/><sp/>**string,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>gchar<sp/><sp/>*format,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>va_list<sp/><sp/><sp/><sp/><sp/><sp/><sp/>ap)</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>gchar<sp/>*oldstring;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>gchar<sp/>*prefix;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>prefix<sp/>=<sp/>g_strdup_vprintf<sp/>(format,<sp/>ap);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/>oldstring<sp/>=<sp/>*string;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/>*string<sp/>=<sp/>g_strconcat<sp/>(prefix,<sp/>oldstring,<sp/>NULL);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/>g_free<sp/>(oldstring);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>g_free<sp/>(prefix);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">g_propagate_prefixed_error<sp/>(GError<sp/><sp/><sp/><sp/><sp/><sp/>**dest,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError<sp/><sp/><sp/><sp/><sp/><sp/><sp/>*src,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>gchar<sp/><sp/>*format,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/>g_propagate_error<sp/>(dest,<sp/>src);</highlight></codeline>
 <codeline lineno="106"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>va_start<sp/>(ap,<sp/>format);</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>g_error_add_prefix<sp/>(&amp;(*dest)-&gt;message,<sp/>format,<sp/>ap);</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>va_end<sp/>(ap);</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#endif</highlight></codeline>
-<codeline lineno="114"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dest<sp/>&amp;&amp;<sp/>*dest)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>va_list<sp/>ap;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>va_start<sp/>(ap,<sp/>format);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>g_error_add_prefix<sp/>(&amp;(*dest)-&gt;message,<sp/>format,<sp/>ap);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>va_end<sp/>(ap);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#endif</highlight></codeline>
+<codeline lineno="118"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c"/>
   </compounddef>

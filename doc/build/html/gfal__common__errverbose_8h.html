@@ -31,6 +31,9 @@
 <a href="gfal__common__errverbose_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Defines</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="00318caf89751e23c0ab5617cdf2120f"></a><!-- doxytag: member="gfal_common_errverbose.h::g_return_val_err_if_fail" ref="00318caf89751e23c0ab5617cdf2120f" args="(exp, val, err, msg)" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>g_return_val_err_if_fail</b>(exp, val, err, msg)&nbsp;&nbsp;&nbsp;if(!(exp)){ g_set_error(err,0,EINVAL,msg); return val; }</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a33f2d1da54117a211eb24ac682ee384"></a><!-- doxytag: member="gfal_common_errverbose.h::ERROR_OVERWRITTEN_WARNING" ref="a33f2d1da54117a211eb24ac682ee384" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>ERROR_OVERWRITTEN_WARNING</b>&nbsp;&nbsp;&nbsp;&quot;GError set over the top of a previous GError or uninitialized memory.\n&quot;</td></tr>
 
@@ -97,7 +100,7 @@ display a verbose message
 msg is displayed if current verbose level is superior to verbose mode specified 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Apr 15 14:23:05 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Apr 18 09:58:53 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

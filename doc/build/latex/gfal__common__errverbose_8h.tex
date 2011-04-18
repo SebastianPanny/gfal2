@@ -11,6 +11,9 @@ the header file of the common lib for error management and verbose display
 \subsection*{Defines}
 \begin{CompactItemize}
 \item 
+\#define \textbf{g\_\-return\_\-val\_\-err\_\-if\_\-fail}(exp, val, err, msg)~if(!(exp))\{ g\_\-set\_\-error(err,0,EINVAL,msg); return val; \}\label{gfal__common__errverbose_8h_00318caf89751e23c0ab5617cdf2120f}
+
+\item 
 \#define \textbf{ERROR\_\-OVERWRITTEN\_\-WARNING}~\char`\"{}GError set over the top of a previous GError or uninitialized memory.$\backslash$n\char`\"{}\label{gfal__common__errverbose_8h_a33f2d1da54117a211eb24ac682ee384}
 
 \end{CompactItemize}
