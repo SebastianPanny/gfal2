@@ -26,12 +26,21 @@
 #include "gfal_common.h"
 #include "gfal_common_srm.h"
 
-
+/**
+ * check the validity of the current handle
+ */
 static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
 	if(handle->initiated == 1)
 		return TRUE;
 	g_set_error(err,0, EINVAL,"[gboolean gfal_handle_checkG] gfal_handle not set correctly");
 	return FALSE;
+}
+
+/**
+ * set the bdii value of the handle specified
+ */
+void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk){
+	handle->no_bdii_check = no_bdii_chk;
 }
 
 /**
@@ -44,6 +53,20 @@ int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
 	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_fullendpoint_in_surl] fail to compile regex, report this bug");
 	ret=  regexec(&rex,surl,0,NULL,0);
 	return ret;	
+}
+
+/**
+ *  @brief create a full endpath from a surl with full endpath
+ * */
+char* gfal_get_fullendpoint(const char* surl, GError** err){
+	char* p = strstr(surl,"?SFN=");
+	const int len_prefix = strlen(GFAL_PREFIX_SRM);						// get the srm prefix length
+	const int len_endpoint_prefix = strlen(GFAL_ENDPOINT_DEFAULT_PREFIX); // get the endpoint protocol prefix len 
+	g_return_val_err_if_fail(p && len_prefix && (p>(surl+len_prefix)) && len_endpoint_prefix,NULL,err,"[gfal_get_fullendpoint] full surl must contain ?SFN= and a valid prefix, fatal error");	// assertion on params
+	char* resu = calloc(p-surl-len_prefix+len_endpoint_prefix, sizeof(char));	
+	strncpy(resu, GFAL_ENDPOINT_DEFAULT_PREFIX, len_endpoint_prefix);	// copy prefix
+	strncpy(resu + len_endpoint_prefix, surl+len_prefix, p- surl-len_prefix);		// copy endpoint
+	return resu;
 }
 
 /**

@@ -26,6 +26,9 @@
 #include "gfal_common.h"
 #include <regex.h>
 
+#define GFAL_PREFIX_SRM "srm://"
+#define GFAL_ENDPOINT_DEFAULT_PREFIX "httpg://"
+
  /**
   *  return a initiated handle to execute a gfal request 
   * */  
@@ -37,3 +40,5 @@ void gfal_handle_freeG(gfal_handle handle);
 
 
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);
+
+void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk);
