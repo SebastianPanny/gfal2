@@ -35,12 +35,12 @@ static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
 }
 
 /**
- *  return 1 if a full endpoint is contained is url, 0 if not and -1 if error
+ *  return 0 if a full endpoint is contained in surl  
  * 
 */
 int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
 	regex_t rex;
-	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+:[:digit:]+/.*?SFN=",REG_ICASE | REG_EXTENDED);
+	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+:[0-9]+/([:alnum:]|-|/|\.|_)+?SFN=",REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_fullendpoint_in_surl] fail to compile regex, report this bug");
 	ret=  regexec(&rex,surl,0,NULL,0);
 	return ret;	
@@ -53,6 +53,18 @@ int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
  *  @return return 0 with endpoint and types set if success else -1 and set Error
  * */
 int gfal_auto_get_srm_endpoint(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, GList* surls, GError** err){
+	g_return_val_err_if_fail(endpoint && srm_type && surls,-1, err, "[gfal_auto_get_srm_endpoint] invalid value in params"); // check params
+	
+	GError* tmp_err=NULL;
+	gboolean isFullEndpoint = gfal_check_fullendpoint_in_surl(surls->data, &tmp_err)?FALSE:TRUE;		// check if a full endpoint exist
+	if(tmp_err){
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_auto_get_srm_endpoint]");
+		return -2;
+	}
+	if(handle->no_bdii_check == TRUE && isFullEndpoint == FALSE){
+		g_set_error(err,0,EINVAL,"[gfal_auto_get_srm_endpoint] no_bdii_check option need a full endpoint in the first surl");
+		return -3;
+	}
 	
 	return -1;
 }
