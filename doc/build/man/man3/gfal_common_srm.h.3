@@ -11,6 +11,16 @@
 \fC#include <regex.h>\fP
 .br
 
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGFAL_PREFIX_SRM\fP   'srm://'"
+.br
+.ti -1c
+.RI "#define \fBGFAL_ENDPOINT_DEFAULT_PREFIX\fP   'httpg://'"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
@@ -25,6 +35,9 @@
 .RI "int \fBgfal_get_asyncG\fP (gfal_handle handle, GList *surls, GError **err)"
 .br
 .RI "\fIlaunch a surls-> turls translation in asynchronous mode \fP"
+.ti -1c
+.RI "void \fBgfal_set_nobdiiG\fP (gfal_handle handle, gboolean no_bdii_chk)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -82,6 +95,9 @@ a gfal_handle, need to be free after usage or NULL if errors
 .RE
 .PP
 
+.SS "void gfal_set_nobdiiG (gfal_handle handle, gboolean no_bdii_chk)"
+.PP
+set the bdii value of the handle specified 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

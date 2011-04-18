@@ -4,6 +4,15 @@ the header file with the main srm funcs of the common API
 
 {\tt \#include \char`\"{}gfal\_\-common.h\char`\"{}}\par
 {\tt \#include $<$regex.h$>$}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \textbf{GFAL\_\-PREFIX\_\-SRM}~\char`\"{}srm://\char`\"{}\label{gfal__common__srm_8h_c163cc407dc64638a5f13fe1d7ceb858}
+
+\item 
+\#define \textbf{GFAL\_\-ENDPOINT\_\-DEFAULT\_\-PREFIX}~\char`\"{}httpg://\char`\"{}\label{gfal__common__srm_8h_496c8a18054866dcb27ae3f3397ac303}
+
+\end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
@@ -13,7 +22,9 @@ void \bf{gfal\_\-handle\_\-free\-G} (gfal\_\-handle handle)\label{gfal__common__
 
 \begin{CompactList}\small\item\em free a gfal's handle, safe if null \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-async\-G} (gfal\_\-handle handle, GList $\ast$surls, GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em launch a surls-$>$ turls translation in asynchronous mode \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em launch a surls-$>$ turls translation in asynchronous mode \item\end{CompactList}\item 
+void \bf{gfal\_\-set\_\-nobdii\-G} (gfal\_\-handle handle, gboolean no\_\-bdii\_\-chk)
+\end{CompactItemize}
 
 
 \subsection{Detailed Description}
@@ -51,3 +62,9 @@ launch a surls-$>$ turls translation in asynchronous mode
 
 initiate a gfal's context with default parameters for use \begin{Desc}
 \item[Returns:]a gfal\_\-handle, need to be free after usage or NULL if errors \end{Desc}
+\index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_set_nobdiiG@{gfal\_\-set\_\-nobdiiG}}
+\index{gfal_set_nobdiiG@{gfal\_\-set\_\-nobdiiG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-nobdii\-G (gfal\_\-handle {\em handle}, gboolean {\em no\_\-bdii\_\-chk})}\label{gfal__common__srm_8h_a3975dda72e623713566e510b0317796}
+
+
+set the bdii value of the handle specified 
