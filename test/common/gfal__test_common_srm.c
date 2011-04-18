@@ -57,4 +57,20 @@ START_TEST(test_gfal_get_async_1)
 	
 }
 END_TEST
+
+
+
+START_TEST(test_gfal_check_surl)
+{
+	GError* err=NULL;
+	int ret;
+	fail_unless((ret = gfal_surl_checker("srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54",&err) ) == 0, " error in url parse");
+	if(ret)
+		gfal_release_GError(&err);
+	fail_unless((ret = gfal_surl_checker("srm://g_rid-cer_t-03.roma1.in_fn.it/dpm/roma1.in_fn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54",&err) ) == 0, " error in url parse 2");
+	if(ret)
+		gfal_release_GError(&err);
+	fail_if( (ret = gfal_surl_checker("http://google.com",&err ))== 0, " must fail , bad url");
+}
+END_TEST
 	

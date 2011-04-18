@@ -56,6 +56,9 @@ Suite* common_suite (void)
   suite_add_tcase (s, tc_voms);
   TCase *tc_srm = tcase_create("SRM");
   tcase_add_test(tc_srm, test_create_srm_handle);
+  tcase_add_test(tc_srm, test_glist_to_surls);
+  tcase_add_test(tc_srm, test_gfal_get_async_1);
+  tcase_add_test(tc_srm, test_gfal_check_surl);
   suite_add_tcase (s, tc_srm);
   return s;
 }

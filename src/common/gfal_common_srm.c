@@ -273,7 +273,8 @@ void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
 }
 
 /**
- * convert glist to table char**
+ * @biref convert glist to surl char* to char**
+ *  @return return NULL if error or pointer to char**
  */
 char** gfal_GList_to_tab(GList* surls){
 	int surl_size = g_list_length(surls);
@@ -292,10 +293,12 @@ char** gfal_GList_to_tab(GList* surls){
  */
 int gfal_surl_checker(const char* surl, GError** err){
 	regex_t rex;
-	int ret = regcomp(&rex, "^srm://.*",REG_ICASE);
-	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex");
+	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");
 	ret=  regexec(&rex,surl,0,NULL,0);
-	return 0;
+	if(ret) 
+		g_set_error(err,0,EINVAL,"[gfal_surl_checker] Incorrect surl, impossible to parse surl %s :", surl);
+	return ret;
 } 
 
 /**
@@ -306,16 +309,28 @@ static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
 			
 	GError* tmp_err=NULL;
 	struct srm_context context;
-	int ret=0;
+	int ret=0,i=0;
+	GList* tmp_list=NULL;
 	struct srm_preparetoget_input preparetoget_input;
 	struct srm_preparetoget_output preparetoget_output;
 	const int size = 2048;
 	
 	char errbuf[size] ; memset(errbuf,0,size*sizeof(char));
 	char *endpoint = gfal_get_srm_endpoint(handle, surls, &tmp_err);		// get endpoint
-	const gfal_srmv2_opt* opts = handle->srmv2_opt;
-	int surl_size = g_list_length(surls);
-	char**  surls_tab = gfal_GList_to_tab(surls);
+	const gfal_srmv2_opt* opts = handle->srmv2_opt;							// get default opts for srmv2
+	int surl_size = g_list_length(surls);										// get the length of glist
+	
+	tmp_list = surls;
+	while(tmp_list != NULL){
+		if( gfal_surl_checker(tmp_list->data,&tmp_err) != 0){
+			g_propagate_prefixed_error(err,tmp_err,"[gfal_srmv2_getasync]");	// check all urls if valids
+			return -1;
+		}
+		tmp_list = g_list_next(tmp_list);		
+	}
+
+
+	char**  surls_tab = gfal_GList_to_tab(surls);								// convert glist
 	
 	
 	// set the structures datafields	
@@ -353,8 +368,9 @@ static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
  */
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_get_asyncG] handle passed is null");
-	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_get_asyncG] GList passed is null");
-		
+	g_return_val_err_if_fail(surls!=NULL,-2,err,"[gfal_get_asyncG] surls arg passed is null");
+	g_return_val_err_if_fail(g_list_last(surls) != NULL,-3,err,"[gfal_get_asyncG] surls arg passed is empty");
+			
 	GError* tmp_err=NULL;
 	int ret=0;
 	if( !gfal_handle_checkG(handle, &tmp_err) ){	// check handle validityo
