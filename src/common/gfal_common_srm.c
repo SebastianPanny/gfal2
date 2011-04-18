@@ -35,12 +35,26 @@ static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
 }
 
 /**
- * @brief end point associated with the list
- *  determine the best endpoint associated with the list of url and the params of the actual handle
- *  the returned endpoint need to be free after use
+ *  return 1 if a full endpoint is contained is url, 0 if not and -1 if error
+ * 
+*/
+int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
+	regex_t rex;
+	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+:[:digit:]+/.*?SFN=",REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_fullendpoint_in_surl] fail to compile regex, report this bug");
+	ret=  regexec(&rex,surl,0,NULL,0);
+	return ret;	
+}
+
+/**
+ * @brief get endpoint
+ *  determine the best endpoint associated with the list of url and the params of the actual handle (no bdii check or not)
+ *  see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations
+ *  @return return 0 with endpoint and types set if success else -1 and set Error
  * */
-static char* gfal_get_srm_endpoint(gfal_handle handle, GList* surls, GError** err){
-	return strdup("httpg://hlxdpm101.cern.ch/dpm/cern.ch"); // fix it
+int gfal_auto_get_srm_endpoint(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, GList* surls, GError** err){
+	
+	return -1;
 }
 
 /**
@@ -301,10 +315,11 @@ int gfal_surl_checker(const char* surl, GError** err){
 	return ret;
 } 
 
+
 /**
  *  @brief execute a srmv2 request async
 */
-static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
+static int gfal_srmv2_getasync(gfal_handle handle, char* endpoint, GList* surls, GError** err){
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
 			
 	GError* tmp_err=NULL;
@@ -315,20 +330,9 @@ static int gfal_srmv2_getasync(gfal_handle handle, GList* surls, GError** err){
 	const int size = 2048;
 	
 	char errbuf[size] ; memset(errbuf,0,size*sizeof(char));
-	char *endpoint = gfal_get_srm_endpoint(handle, surls, &tmp_err);		// get endpoint
 	const gfal_srmv2_opt* opts = handle->srmv2_opt;							// get default opts for srmv2
 	int surl_size = g_list_length(surls);										// get the length of glist
 	
-	GList* tmp_list = surls;
-	while(tmp_list != NULL){
-		if( gfal_surl_checker(tmp_list->data,&tmp_err) != 0){
-			g_propagate_prefixed_error(err,tmp_err,"[gfal_srmv2_getasync]");	// check all urls if valids
-			return -1;
-		}
-		tmp_list = g_list_next(tmp_list);		
-	}
-
-
 	char**  surls_tab = gfal_GList_to_tab(surls);								// convert glist
 	
 	
@@ -369,18 +373,36 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_get_asyncG] handle passed is null");
 	g_return_val_err_if_fail(surls!=NULL,-2,err,"[gfal_get_asyncG] surls arg passed is null");
 	g_return_val_err_if_fail(g_list_last(surls) != NULL,-3,err,"[gfal_get_asyncG] surls arg passed is empty");
-			
+	
 	GError* tmp_err=NULL;
+	GList* tmp_list = surls;
 	int ret=0;
-	if( !gfal_handle_checkG(handle, &tmp_err) ){	// check handle validityo
+	
+	
+	if( !gfal_handle_checkG(handle, &tmp_err) ){	// check handle validity
 		g_propagate_prefixed_error(err,tmp_err,"[gfal_get_asyncG]");
 		return -1;
 	}
-	if (handle->srm_proto_type == PROTO_SRMv2){
-		ret= gfal_srmv2_getasync(handle,surls,&tmp_err);
+	while(tmp_list != NULL){							// check all urls if valids
+		if( gfal_surl_checker(tmp_list->data,&tmp_err) != 0){
+			g_propagate_prefixed_error(err,tmp_err,"[gfal_get_asyncG]");	
+			return -1;
+		}
+		tmp_list = g_list_next(tmp_list);		
+	}
+			
+	char* full_endpoint=NULL;
+	enum gfal_srm_proto srm_types;
+	if((ret = gfal_auto_get_srm_endpoint(handle,&full_endpoint,&srm_types, surls, &tmp_err)) != 0){		// check & get endpoint										
+		g_propagate_prefixed_error(err,tmp_err, "[gfal_get_asyncG]");
+		return -1;
+	}
+	
+	if (srm_types == PROTO_SRMv2){
+		ret= gfal_srmv2_getasync(handle, full_endpoint, surls,&tmp_err);
 		if(ret<0)
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_asyncG]");
-	} else if(handle->srm_proto_type == PROTO_SRM){
+	} else if(srm_types == PROTO_SRM){
 			
 	} else{
 		ret=-1;

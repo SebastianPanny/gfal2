@@ -73,4 +73,11 @@ START_TEST(test_gfal_check_surl)
 	fail_if( (ret = gfal_surl_checker("http://google.com",&err ))== 0, " must fail , bad url");
 }
 END_TEST
+
+
+START_TEST(test_gfal_full_endpoint_check)
+{
+	
+	fail("hello");
+}
 	

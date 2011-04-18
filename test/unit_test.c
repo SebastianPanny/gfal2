@@ -61,6 +61,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_srm, test_glist_to_surls);
   tcase_add_test(tc_srm, test_gfal_get_async_1);
   tcase_add_test(tc_srm, test_gfal_check_surl);
+  tcase_add_test(tc_srm, test_gfal_full_endpoint_check);
   suite_add_tcase (s, tc_srm);
   TCase *tc_mds= tcase_create("MDS");
   tcase_add_test(tc_mds, test_check_bdii_endpoints_srm);
