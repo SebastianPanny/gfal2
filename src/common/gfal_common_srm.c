@@ -70,20 +70,6 @@ char* gfal_get_fullendpoint(const char* surl, GError** err){
 }
 
 /**
- * @brief get endpoint from the bdii system only
- * @return 0 if success with endpoint and srm_type set correctly else -1 and err set
- * 
- * */
-int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, GList* surls, GError** err){
-	g_return_val_err_if_fail(handle && endpoint && srm_type && surls, -1, err, "[gfal_get_endpoint_and_setype_from_bdii] invalid parameters");
-	char** tab_endpoint;
-	char** tab_se_type;
-
-	return -1;
-	
-}
-
-/**
  * @brief get the hostname from a surl
  *  @return return NULL if error and set err else return the hostname value
  */
@@ -99,6 +85,35 @@ int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, 
 	 }
 	 return strndup(surl+srm_prefix_len, p-surl-srm_prefix_len);	 
  }
+
+
+/**
+ * @brief get endpoint from the bdii system only
+ * @return 0 if success with endpoint and srm_type set correctly else -1 and err set
+ * 
+ * */
+int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, GList* surls, GError** err){
+	g_return_val_err_if_fail(handle && endpoint && srm_type && surls, -1, err, "[gfal_get_endpoint_and_setype_from_bdii] invalid parameters");
+	char** tab_endpoint=NULL;
+	char** tab_se_type=NULL;
+	char * hostname;
+	int ret =-1;
+	GError* tmp_err=NULL;
+	if( (hostname = gfal_get_hostname_from_surl(surls, &tmp_err)) == NULL){
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_endpoint_and_setype_from_bdii]");
+		return -1;
+	}
+
+	if( (ret =gfal_mds_get_se_types_and_endpoints( hostname,  &tab_se_type, &tab_endpoint, &tmp_err)) != 0){
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_endpoint_and_setype_from_bdii]");
+		return -2;
+	}
+	free(hostname);
+	
+	return -1;
+	
+}
+
 
 /**
  * @brief get endpoint
