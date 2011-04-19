@@ -259,6 +259,7 @@ char** gfal_GList_to_tab(GList* surls){
  * parse a surl to check the validity
  */
 int gfal_surl_checker(const char* surl, GError** err){
+	g_return_val_err_if_fail(surl != NULL,-1,err,"[gfal_surl_checker_] check URL failed : surl is empty");
 	regex_t rex;
 	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");
@@ -324,7 +325,7 @@ static int gfal_srmv2_getasync(gfal_handle handle, char* endpoint, GList* surls,
  */
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_get_asyncG] handle passed is null");
-	g_return_val_err_if_fail(surls!=NULL,-2,err,"[gfal_get_asyncG] surls arg passed is null");
+	g_return_val_err_if_fail(surls!=NULL ,-2,err,"[gfal_get_asyncG] surls arg passed is null");
 	g_return_val_err_if_fail(g_list_last(surls) != NULL,-3,err,"[gfal_get_asyncG] surls arg passed is empty");
 	
 	GError* tmp_err=NULL;
@@ -357,14 +358,13 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 		if(ret<0)
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_asyncG]");
 	} else if(srm_types == PROTO_SRM){
-			
+			g_set_error(err,0, EPROTONOSUPPORT, "[gfal_get_asyncG] Tentative d'utilisation de SRMv1 déprécié, Seul SRMv2 est autorisé : echec");
+			ret =  -1;
 	} else{
 		ret=-1;
-		g_set_error(err,0,EPROTONOSUPPORT, "[gfal_get_asyncG] Type de protocole spécifié non supporté ( Supportés : SRM & SRMv2 ) ");
+		g_set_error(err,0,EPROTONOSUPPORT, "[gfal_get_asyncG] Type de protocole spécifié non supporté ( Supportés :  SRMv2 ) ");
 	}
-	return ret;
-
-	
+	return ret;	
 }
 
 /**
