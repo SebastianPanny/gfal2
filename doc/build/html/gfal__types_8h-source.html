@@ -91,7 +91,7 @@
 <a name="l00071"></a>00071 <span class="keyword">enum</span> status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 <a name="l00072"></a>00072 
 <a name="l00073"></a>00073 <span class="keyword">enum</span> se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
-<a name="l00074"></a>00074 <span class="keyword">enum</span> gfal_srm_proto {PROTO_SRM=0, PROTO_SRMv2};
+<a name="l00074"></a>00074 <span class="keyword">enum</span> gfal_srm_proto {PROTO_SRM=0, PROTO_SRMv2, PROTO_ERROR_UNKNOW};
 <a name="l00075"></a>00075 
 <a name="l00076"></a>00076 <span class="keyword">enum</span> gfal_cksm_type
 <a name="l00077"></a>00077 {
@@ -241,7 +241,7 @@
 <a name="l00229"></a>00229         <span class="keywordtype">int</span> results_size; <span class="comment">// size of the old results</span>
 <a name="l00230"></a>00230         gfal_filestatus *results;
 <a name="l00231"></a>00231         GError* err;                                                    <span class="comment">// Last error reported</span>
-<a name="l00232"></a>00232         <span class="keyword">enum</span> gfal_srm_proto srm_proto_type;             <span class="comment">// define the protocole version of SRM</span>
+<a name="l00232"></a>00232         <span class="keyword">enum</span> gfal_srm_proto srm_proto_type;             <span class="comment">// define the protocole version of SRM choosen by default</span>
 <a name="l00233"></a>00233         gboolean initiated;                                     <span class="comment">// 1 if initiated, else error</span>
 <a name="l00234"></a>00234         <span class="comment">// pointer to srmv2 set option</span>
 <a name="l00235"></a>00235         gfal_srmv2_opt* srmv2_opt;
@@ -392,7 +392,7 @@
 <a name="l00380"></a>00380 <span class="preprocessor">#endif</span>
 <a name="l00381"></a>00381 <span class="preprocessor"></span>
 <a name="l00382"></a>00382 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Apr 18 18:17:04 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Apr 19 16:01:27 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

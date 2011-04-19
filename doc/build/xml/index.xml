@@ -481,10 +481,15 @@
     <member refid="gfal__common__errverbose_8h_1f9695e2ac1722715b687c1818cb2993d" kind="function"><name>g_propagate_prefixed_error</name></member>
   </compound>
   <compound refid="gfal__common__srm_8c" kind="file"><name>gfal_common_srm.c</name>
+    <member refid="gfal__common__srm_8c_153abf256730d533302d1910e5fb61efe" kind="define"><name>_GNU_SOURCE</name></member>
     <member refid="gfal__common__srm_8c_1ee374c4ea2287fb7bd8c44711ae28361" kind="function"><name>gfal_handle_checkG</name></member>
     <member refid="gfal__common__srm_8c_1a3975dda72e623713566e510b0317796" kind="function"><name>gfal_set_nobdiiG</name></member>
     <member refid="gfal__common__srm_8c_1d12926fb068b66769f28f2c4fc177bd2" kind="function"><name>gfal_check_fullendpoint_in_surl</name></member>
     <member refid="gfal__common__srm_8c_1029b9bf9c0858e450fea92fd6946dd9c" kind="function"><name>gfal_get_fullendpoint</name></member>
+    <member refid="gfal__common__srm_8c_1c3f7e4d896977d068aa52fac05d472dd" kind="function"><name>gfal_get_hostname_from_surl</name></member>
+    <member refid="gfal__common__srm_8c_10d446b68846125f4a2e0afcd299ebf8a" kind="function"><name>gfal_get_proto_from_bdii</name></member>
+    <member refid="gfal__common__srm_8c_1615db6cd2caff5a0cb71b580e368b75c" kind="function"><name>gfal_select_best_protocol_and_endpoint</name></member>
+    <member refid="gfal__common__srm_8c_1bfcb216c00fa3e0195aad78959d92ab0" kind="function"><name>gfal_get_endpoint_and_setype_from_bdii</name></member>
     <member refid="gfal__common__srm_8c_121a9ced61504337905fe0016000424e8" kind="function"><name>gfal_auto_get_srm_endpoint</name></member>
     <member refid="gfal__common__srm_8c_18410ba458f920d8f8a8f0e5594170fe4" kind="function"><name>gfal_initG</name></member>
     <member refid="gfal__common__srm_8c_1e125bfd4e854ce90b945993ad8abbb9a" kind="function"><name>gfal_set_default_storageG</name></member>
@@ -493,6 +498,7 @@
     <member refid="gfal__common__srm_8c_1f34b63916fc824844adb775122b387f9" kind="function"><name>gfal_srmv2_getasync</name></member>
     <member refid="gfal__common__srm_8c_195ffd4de24c18af334c1d9c270de7d81" kind="function"><name>gfal_get_asyncG</name></member>
     <member refid="gfal__common__srm_8c_19dbd943eaed291897d852fc3ae560058" kind="function"><name>gfal_handle_freeG</name></member>
+    <member refid="gfal__common__srm_8c_158ac4e2053d2c689cfe00c767b332fb8" kind="variable"><name>gfal_proto_list_pref</name></member>
   </compound>
   <compound refid="gfal__common__srm_8h" kind="file"><name>gfal_common_srm.h</name>
     <member refid="gfal__common__srm_8h_1c163cc407dc64638a5f13fe1d7ceb858" kind="define"><name>GFAL_PREFIX_SRM</name></member>
@@ -616,6 +622,7 @@
     <member refid="gfal__types_8h_19d91276b04bd477b98e19474b5aa1404" kind="enum"><name>gfal_srm_proto</name></member>
     <member refid="gfal__types_8h_19d91276b04bd477b98e19474b5aa1404eabbb9c9ec8becb1f18905df46ed86a8" kind="enumvalue"><name>PROTO_SRM</name></member>
     <member refid="gfal__types_8h_19d91276b04bd477b98e19474b5aa14047392b0b19828b09e26fa23482999dbc1" kind="enumvalue"><name>PROTO_SRMv2</name></member>
+    <member refid="gfal__types_8h_19d91276b04bd477b98e19474b5aa1404e515be0fe8fb4804fa28e0b309ef6835" kind="enumvalue"><name>PROTO_ERROR_UNKNOW</name></member>
     <member refid="gfal__types_8h_15ddde4f783b917f6e921e9a3c6fc819f" kind="enum"><name>gfal_cksm_type</name></member>
     <member refid="gfal__types_8h_15ddde4f783b917f6e921e9a3c6fc819f6f63a1371935e41c8be5d50558d38d80" kind="enumvalue"><name>GFAL_CKSM_NONE</name></member>
     <member refid="gfal__types_8h_15ddde4f783b917f6e921e9a3c6fc819f23eed48f2ad214c383011f8de4c7be30" kind="enumvalue"><name>GFAL_CKSM_CRC32</name></member>

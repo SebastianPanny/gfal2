@@ -377,6 +377,13 @@
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="gfal__types_8h_19d91276b04bd477b98e19474b5aa1404e515be0fe8fb4804fa28e0b309ef6835" prot="public">
+          <name>PROTO_ERROR_UNKNOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -542,7 +549,7 @@
 <codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>status_type<sp/>{DEFAULT_STATUS<sp/>=<sp/>0,<sp/>MD_STATUS,<sp/>PIN_STATUS};</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>se_type<sp/>{TYPE_NONE<sp/>=<sp/>0,<sp/>TYPE_SRM,<sp/>TYPE_SRMv2,<sp/>TYPE_SE};</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto<sp/>{PROTO_SRM=0,<sp/>PROTO_SRMv2};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto<sp/>{PROTO_SRM=0,<sp/>PROTO_SRMv2,<sp/>PROTO_ERROR_UNKNOW};</highlight></codeline>
 <codeline lineno="75"><highlight class="normal"></highlight></codeline>
 <codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_cksm_type</highlight></codeline>
 <codeline lineno="77"><highlight class="normal">{</highlight></codeline>
@@ -692,7 +699,7 @@
 <codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>results_size;<sp/></highlight><highlight class="comment">//<sp/>size<sp/>of<sp/>the<sp/>old<sp/>results</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_filestatus<sp/>*results;</highlight></codeline>
 <codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>err;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>error<sp/>reported</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto<sp/>srm_proto_type;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>define<sp/>the<sp/>protocole<sp/>version<sp/>of<sp/>SRM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto<sp/>srm_proto_type;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>define<sp/>the<sp/>protocole<sp/>version<sp/>of<sp/>SRM<sp/>choosen<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gboolean<sp/>initiated;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>if<sp/>initiated,<sp/>else<sp/>error</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pointer<sp/>to<sp/>srmv2<sp/>set<sp/>option</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srmv2_opt*<sp/>srmv2_opt;</highlight></codeline>

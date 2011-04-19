@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
   <compounddef id="gfal__common__mds_8h" kind="file">
     <compoundname>gfal_common_mds.h</compoundname>
-    <includes refid="gfal__common_8h" local="yes">gfal_common.h</includes>
+    <includes refid="gfal__common_8h" local="yes">../gfal_common.h</includes>
     <includes local="no">stdio.h</includes>
     <includes local="no">stdlib.h</includes>
     <includes local="no">string.h</includes>
@@ -12,6 +12,7 @@
     <includes local="no">lber.h</includes>
     <includes local="no">ldap.h</includes>
     <includes local="yes">ServiceDiscovery.h</includes>
+    <includes local="yes">../gfal_common.h</includes>
     <includedby refid="gfal__common_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common.h</includedby>
     <incdepgraph>
       <node id="669">
@@ -95,6 +96,8 @@
         </childnode>
         <childnode refid="696" relation="include">
         </childnode>
+        <childnode refid="689" relation="include">
+        </childnode>
       </node>
       <node id="680">
         <label>uuid/uuid.h</label>
@@ -140,7 +143,7 @@
         <label>ServiceDiscovery.h</label>
       </node>
       <node id="665">
-        <label>gfal_common.h</label>
+        <label>../gfal_common.h</label>
         <link refid="gfal__common_8h"/>
         <childnode refid="666" relation="include">
         </childnode>
@@ -392,7 +395,7 @@
 <codeline lineno="17"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="25"><highlight class="preprocessor">#define<sp/>_GNU_SOURCE</highlight></codeline>
-<codeline lineno="26"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common_8h" kindref="compound">gfal_common.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
