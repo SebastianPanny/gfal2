@@ -23,8 +23,15 @@
  * @date 12/04/2011
  * */
  
+ #define _GNU_SOURCE 
+ 
 #include "gfal_common.h"
 #include "gfal_common_srm.h"
+
+/**
+ * list of the protols in the order of preference
+ */
+static enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
 
 /**
  * check the validity of the current handle
@@ -73,10 +80,10 @@ char* gfal_get_fullendpoint(const char* surl, GError** err){
  * @brief get the hostname from a surl
  *  @return return NULL if error and set err else return the hostname value
  */
- char*  gfal_get_hostname_from_surl(const char * surl, GError* err){
+ char*  gfal_get_hostname_from_surl(const char * surl, GError** err){
 	 const int srm_prefix_len = strlen(GFAL_PREFIX_SRM);
 	 const int surl_len = strnlen(surl,2048);
-	 g_return_val_err_if_fail(surl &&  (srm_prefix_len <surl_len)  && surl_len < 2048,NULL, err, "[gfal_get_hostname_from_surl] invalid value in params");
+	 g_return_val_err_if_fail(surl &&  (srm_prefix_len < surl_len)  && (surl_len < 2048),NULL, err, "[gfal_get_hostname_from_surl] invalid value in params");
 	 char* p = strchr(surl+srm_prefix_len,'/');
 	 char* prep = strstr(surl, GFAL_PREFIX_SRM);
 	 if(prep != surl){
@@ -85,8 +92,53 @@ char* gfal_get_fullendpoint(const char* surl, GError** err){
 	 }
 	 return strndup(surl+srm_prefix_len, p-surl-srm_prefix_len);	 
  }
+ 
+ /**
+  * map a bdii se protocol type to a gfal protocol type
+  */
+static enum gfal_srm_proto gfal_get_proto_from_bdii(const char* se_type_bdii){
+	enum gfal_srm_proto resu;
+	if( strcmp(se_type_bdii,"srm_v1") == 0){
+		resu = PROTO_SRM;
+	}else if( strcmp(se_type_bdii,"srm_v2") == 0){
+		resu = PROTO_SRMv2;
+	}else{
+		resu = PROTO_ERROR_UNKNOW;
+	}
+	return resu;
+}
 
-
+/**
+ * select the best protocol choice and the best endpoint choice  from a list of protocol and endpoints obtained by the bdii
+ * 
+ */
+int gfal_select_best_protocol_and_endpoint(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, char** tab_se_type, char** tab_endpoint, GError** err){
+	g_return_val_err_if_fail(handle && endpoint && srm_type && tab_se_type && tab_endpoint, -1, err, "[gfal_select_best_protocol_and_endpoint] Invalid value");
+	int i=0;
+	char** pse =tab_se_type;
+	char** pendpoint = tab_endpoint;
+	enum gfal_srm_proto* p_pref = &(handle->srm_proto_type);	
+	while( *p_pref != PROTO_ERROR_UNKNOW){
+		while(pse != NULL &&  tab_endpoint != NULL ){
+			if( *p_pref == gfal_get_proto_from_bdii(*pse) ){ // test if the response is the actual preferred response
+				*endpoint = strndup(*tab_endpoint,2048);
+				*srm_type = *p_pref;
+				return 0;
+			}
+			tab_endpoint++;
+			pse++;
+		}	
+		if(p_pref == &(handle->srm_proto_type)) // switch desired proto to the list if the default choice is not in the list
+			p_pref=gfal_proto_list_pref;
+		else
+			p_pref++;
+	}
+	g_set_error(err,0, EINVAL, "[gfal_select_best_protocol_and_endpoint] cannot obtain a valid protocol from the bdii response, fatal error");
+	return -2;
+	
+}
+ 
+  
 /**
  * @brief get endpoint from the bdii system only
  * @return 0 if success with endpoint and srm_type set correctly else -1 and err set
@@ -97,20 +149,30 @@ int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, 
 	char** tab_endpoint=NULL;
 	char** tab_se_type=NULL;
 	char * hostname;
-	int ret =-1;
+	int ret =-1, i;
 	GError* tmp_err=NULL;
-	if( (hostname = gfal_get_hostname_from_surl(surls, &tmp_err)) == NULL){
+	if( (hostname = gfal_get_hostname_from_surl(surls->data, &tmp_err)) == NULL){ 		// get the hostname
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_endpoint_and_setype_from_bdii]");
 		return -1;
 	}
 
-	if( (ret =gfal_mds_get_se_types_and_endpoints( hostname,  &tab_se_type, &tab_endpoint, &tmp_err)) != 0){
+	if( (ret =gfal_mds_get_se_types_and_endpoints( hostname,  &tab_se_type, &tab_endpoint, &tmp_err)) != 0){ // questioning the bdii
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_endpoint_and_setype_from_bdii]");
 		return -2;
 	}
+	if( gfal_select_best_protocol_and_endpoint(handle, endpoint, srm_type, tab_se_type, tab_endpoint, &tmp_err) != 0){ // map the response if correct
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_endpoint_and_setype_from_bdii]");
+		return -3;		
+	}
+	for(i=0; tab_endpoint[i] != NULL && tab_se_type[i] != NULL;i++){
+		free(tab_endpoint[i]);
+		free(tab_se_type[i]);
+	}
+	free(tab_endpoint);
+	free(tab_se_type);
 	free(hostname);
 	
-	return -1;
+	return 0;
 	
 }
 
@@ -144,7 +206,11 @@ int gfal_auto_get_srm_endpoint(gfal_handle handle, char** endpoint, enum gfal_sr
 		*srm_type= handle->srm_proto_type;
 		return 0;
 	}
-	return -1;
+	if( gfal_get_endpoint_and_setype_from_bdii(handle, endpoint, srm_type, surls, &tmp_err) != 0){
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_auto_get_srm_endpoint]");
+		return -1;
+	}
+	return 0;
 }
 
 /**
@@ -163,210 +229,7 @@ gfal_handle gfal_initG (GError** err)
 	handle->srm_proto_type = PROTO_SRMv2;
 	handle->initiated = 1;
 	handle->srmv2_opt = calloc(1,sizeof(struct _gfal_srmv2_opt));	// define the srmv2 option struct and clear it
-	/*
-    int i = 0;
-    char **se_endpoints;
-    char **se_types;
-    char *srmv1_endpoint = NULL;
-    char *srmv2_endpoint = NULL;
-    int isclassicse = 0;
-    int endpoint_offset=0;
-
-    if (req == NULL || req->nbfiles < 0 || (req->endpoint == NULL && req->surls == NULL)) {
-        gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                "[GFAL][gfal_init][EINVAL] Invalid request: Endpoint or SURLs must be specified");
-        errno = EINVAL;
-        return (-1);
-    }
-    if (req->oflag != 0 && req->filesizes == NULL) {
-        gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                "[GFAL][gfal_init][EINVAL] Invalid request: File sizes must be specified for put requests");
-        errno = EINVAL;
-        return (-1);
-    }
-    if (req->srmv2_lslevels > 1) {
-        gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                "[GFAL][gfal_init][EINVAL] Invalid request: srmv2_lslevels must be 0 or 1");
-        errno = EINVAL;
-        return (-1);
-    }
-
-    if ((*gfal = (gfal_handle) malloc (sizeof (struct gfal_handle_))) == NULL) {
-        errno = ENOMEM;
-        return (-1);
-    }
-
-    memset (*gfal, 0, sizeof (struct gfal_handle_));
-    memcpy (*gfal, req, sizeof (struct gfal_request_));
-    /// Use default SRM timeout if not specified in request 
-    if (!(*gfal)->timeout)
-        (*gfal)->timeout = gfal_get_timeout_srm ();
-
-    if ((*gfal)->no_bdii_check) {
-        if ((*gfal)->surls != NULL && ((*gfal)->setype != TYPE_NONE ||
-                    ((*gfal)->setype = (*gfal)->defaultsetype) != TYPE_NONE)) {
-            if ((*gfal)->setype == TYPE_SE) {
-                gfal_handle_free (*gfal);
-                *gfal = NULL;
-                gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                        "[GFAL][gfal_init][EINVAL] Invalid request: Disabling BDII checks is not compatible with Classic SEs");
-                errno = EINVAL;
-                return (-1);
-            }
-            else if ((*gfal)->setype != TYPE_SE && (*gfal)->endpoint == NULL && ((*gfal)->free_endpoint = 1) &&
-                    ((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz, 1)) == NULL) {
-                gfal_handle_free (*gfal);
-                *gfal = NULL;
-                return (-1);
-            }
-            else {
-                // Check if the endpoint is full or not 
-                if(strncmp ((*gfal)->endpoint, ENDPOINT_DEFAULT_PREFIX, ENDPOINT_DEFAULT_PREFIX_LEN) == 0)
-                    endpoint_offset = ENDPOINT_DEFAULT_PREFIX_LEN;
-                else
-                    endpoint_offset = 0;
-                const char *s = strchr ((*gfal)->endpoint + endpoint_offset, '/');
-                const char *p = strchr ((*gfal)->endpoint + endpoint_offset, ':');
-
-                if (((*gfal)->setype == TYPE_SRMv2 && s == NULL) || p == NULL || (s != NULL && s < p)) {
-                    gfal_handle_free (*gfal);
-                    *gfal = NULL;
-                    gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                            "[GFAL][gfal_init][EINVAL] Invalid request: When BDII checks are disabled, you must provide full endpoint");
-                    errno = EINVAL;
-                    return (-1);
-                }
-
-                return (0);
-            }
-
-        } else {
-            gfal_handle_free (*gfal);
-            *gfal = NULL;
-            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                    "[GFAL][gfal_init][EINVAL] Invalid request: When BDII checks are disabled, you must provide SURLs and endpoint types");
-            errno = EINVAL;
-            return (-1);
-        }
-    }
-
-    if ((*gfal)->endpoint == NULL) {
-        // (*gfal)->surls != NULL 
-        if ((*gfal)->surls[0] != NULL) {
-            if (((*gfal)->endpoint = endpointfromsurl ((*gfal)->surls[0], errbuf, errbufsz, 0)) == NULL)
-                return (-1);
-            (*gfal)->free_endpoint = 1;
-        } else {
-            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                    "[GFAL][gfal_init][EINVAL] Invalid request: You have to specify either an endpoint or at least one SURL");
-            gfal_handle_free (*gfal);
-            *gfal = NULL;
-            errno = EINVAL;
-            return (-1);
-        }
-    }
-    if ((strchr ((*gfal)->endpoint, '.') == NULL)) {
-        gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                "[GFAL][gfal_init][EINVAL] No domain name specified for storage element endpoint");
-        gfal_handle_free (*gfal);
-        *gfal = NULL;
-        errno = EINVAL;
-        return (-1);
-    }
-    if (setypesandendpoints ((*gfal)->endpoint, &se_types, &se_endpoints, errbuf, errbufsz) < 0) {
-        gfal_handle_free (*gfal);
-        *gfal = NULL;
-        return (-1);
-    }
-
-    while (se_types[i]) {
-        if (srmv1_endpoint == NULL && strcmp (se_types[i], "srm_v1") == 0)
-            srmv1_endpoint = se_endpoints[i];
-        else if (srmv2_endpoint == NULL && strcmp (se_types[i], "srm_v2") == 0)
-            srmv2_endpoint = se_endpoints[i];
-        else {
-            free (se_endpoints[i]);
-            if ((strcmp (se_types[i], "disk")) == 0)
-                isclassicse = 1;
-        }
-
-        free (se_types[i]);
-        ++i;
-    }
-
-    free (se_types);
-    free (se_endpoints);
-
-    if ((*gfal)->surls != NULL && strncmp ((*gfal)->surls[0], "sfn:", 4) == 0 &&
-            (isclassicse || srmv1_endpoint || srmv2_endpoint)) {
-        // if surls start with sfn:, we force the SE type to classic SE //
-        (*gfal)->setype = TYPE_SE;
-        if (srmv1_endpoint) free (srmv1_endpoint);
-        if (srmv2_endpoint) free (srmv2_endpoint);
-        return (0);
-    }
-
-    // srmv2 is the default if nothing specified by user! //
-    if ((*gfal)->setype == TYPE_NONE) {
-        if (srmv2_endpoint &&
-                ((*gfal)->defaultsetype == TYPE_NONE || (*gfal)->defaultsetype == TYPE_SRMv2 ||
-                 ((*gfal)->defaultsetype == TYPE_SRM && !srmv1_endpoint))) {
-            (*gfal)->setype = TYPE_SRMv2;
-        } else if (!(*gfal)->srmv2_spacetokendesc && !(*gfal)->srmv2_desiredpintime &&
-                !(*gfal)->srmv2_lslevels && !(*gfal)->srmv2_lsoffset &&	!(*gfal)->srmv2_lscount) {
-            if (srmv1_endpoint && (*gfal)->defaultsetype != TYPE_SE)
-                (*gfal)->setype = TYPE_SRM;
-            else if (srmv2_endpoint || srmv1_endpoint || isclassicse)
-                (*gfal)->setype = TYPE_SE;
-        }
-    }
-    else if ((*gfal)->setype == TYPE_SRMv2 && !srmv2_endpoint) {
-        (*gfal)->setype = TYPE_NONE;
-    } else if ((*gfal)->srmv2_spacetokendesc || (*gfal)->srmv2_desiredpintime ||
-            (*gfal)->srmv2_lslevels || (*gfal)->srmv2_lsoffset || (*gfal)->srmv2_lscount) {
-        (*gfal)->setype = TYPE_NONE;
-    } else {
-        if ((*gfal)->setype == TYPE_SRM && !srmv1_endpoint)
-            (*gfal)->setype = TYPE_NONE;
-        else if ((*gfal)->setype == TYPE_SE && !srmv2_endpoint && !srmv1_endpoint && !isclassicse)
-            (*gfal)->setype = TYPE_NONE;
-    }
-
-    if ((*gfal)->setype == TYPE_SRMv2) {
-        if ((*gfal)->free_endpoint) free ((*gfal)->endpoint);
-        (*gfal)->endpoint = srmv2_endpoint;
-        (*gfal)->free_endpoint = 1;
-        if (srmv1_endpoint) free (srmv1_endpoint);
-    } else if ((*gfal)->setype == TYPE_SRM) {
-        if ((*gfal)->free_endpoint) free ((*gfal)->endpoint);
-        (*gfal)->endpoint = srmv1_endpoint;
-        (*gfal)->free_endpoint = 1;
-        if (srmv2_endpoint) free (srmv2_endpoint);
-    } else if ((*gfal)->setype == TYPE_NONE) {
-        gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                "[GFAL][gfal_init][EINVAL] Invalid request: Desired SE type doesn't match request parameters or SE");
-        gfal_handle_free (*gfal);
-        *gfal = NULL;
-        if (srmv1_endpoint) free (srmv1_endpoint);
-        if (srmv2_endpoint) free (srmv2_endpoint);
-        errno = EINVAL;
-        return (-1);
-    }
-
-    if ((*gfal)->generatesurls) {
-        if ((*gfal)->surls == NULL) {
-            if (generate_surls (*gfal, errbuf, errbufsz) < 0)
-                return (-1);
-        } else {
-            gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR,
-                    "[GFAL][gfal_init][EINVAL] Invalid request: No SURLs must be specified with 'generatesurls' activated");
-            gfal_handle_free (*gfal);
-            *gfal = NULL;
-            errno = EINVAL;
-            return (-1);
-        }
-    }
-	*/
+	return handle;
 }
 
 /**
@@ -483,10 +346,11 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 			
 	char* full_endpoint=NULL;
 	enum gfal_srm_proto srm_types;
-	if((ret = gfal_auto_get_srm_endpoint(handle,&full_endpoint,&srm_types, surls, &tmp_err)) != 0){		// check & get endpoint										
+	if((ret = gfal_auto_get_srm_endpoint(handle, &full_endpoint,&srm_types, surls, &tmp_err)) != 0){		// check & get endpoint										
 		g_propagate_prefixed_error(err,tmp_err, "[gfal_get_asyncG]");
 		return -1;
 	}
+	gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_get_asyncG] endpoint %s", full_endpoint);
 	
 	if (srm_types == PROTO_SRMv2){
 		ret= gfal_srmv2_getasync(handle, full_endpoint, surls,&tmp_err);
@@ -500,61 +364,6 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 	}
 	return ret;
 
-	/*int ret;
-
-    if (check_gfal_handle (req, 0, errbuf, errbufsz) < 0)
-        return (-1);
-
-    if (req->setype == TYPE_SRMv2)
-    {
-    	struct srm_context context;
-    	struct srm_preparetoget_input preparetoget_input;
-    	struct srm_preparetoget_output preparetoget_output;
-
-    	srm_context_init(&context,req->endpoint,errbuf,errbufsz,gfal_get_verbose());
-
-        if (req->srmv2_pinstatuses)
-        {
-            free (req->srmv2_pinstatuses);
-            req->srmv2_pinstatuses = NULL;
-        }
-        if (req->srmv2_token)
-        {
-            free (req->srmv2_token);
-            req->srmv2_token = NULL;
-        }
-
-        preparetoget_input.desiredpintime = req->srmv2_desiredpintime;
-        preparetoget_input.nbfiles = req->nbfiles;
-        preparetoget_input.protocols = req->protocols;
-        preparetoget_input.spacetokendesc = req->srmv2_spacetokendesc;
-        preparetoget_input.surls = req->surls;
-
-        ret = srm_prepare_to_get_async(&context,&preparetoget_input,&preparetoget_output);
-
-    	req->srmv2_token = preparetoget_output.token;
-    	req->srmv2_pinstatuses = preparetoget_output.filestatuses;
-
-
-        //TODO ret = srmv2_gete (req->nbfiles, (const char **) req->surls, req->endpoint,
-         //   req->srmv2_desiredpintime, req->srmv2_spacetokendesc, req->protocols,
-         //   &(req->srmv2_token), &(req->srmv2_pinstatuses), errbuf, errbufsz, req->timeout);
-
-    } else if (req->setype == TYPE_SRM) {
-        if (req->srm_statuses) {
-            free (req->srm_statuses);
-            req->srm_statuses = NULL;
-        }
-//TODO REMOVE        ret = srm_getxe (req->nbfiles, (const char **) req->surls, req->endpoint, req->protocols,
- //               &(req->srm_reqid), &(req->srm_statuses), errbuf, errbufsz, req->timeout);
-    } else { // req->setype == TYPE_SE
-        gfal_errmsg (errbuf, errbufsz, GFAL_ERRLEVEL_ERROR, "[GFAL][gfal_get][EPROTONOSUPPORT] SFNs aren't supported");
-        errno = EPROTONOSUPPORT;
-        return (-1);;
-    }
-
-    req->returncode = ret;
-    return (copy_gfal_results (req, PIN_STATUS));*/
 	
 }
 

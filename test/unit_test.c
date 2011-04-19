@@ -69,6 +69,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_srm, test_gfal_get_fullendpoint);
   tcase_add_test(tc_srm, test_gfal_get_hostname_from_surl);
   tcase_add_test(tc_srm, test_gfal_get_endpoint_and_setype_from_bdii);
+  tcase_add_test(tc_srm, test_gfal_select_best_protocol_and_endpoint);
   suite_add_tcase (s, tc_srm);
   TCase *tc_mds= tcase_create("MDS");
   tcase_add_test(tc_mds, test_check_bdii_endpoints_srm);

@@ -61,7 +61,7 @@ extern int gfal_set_verbose (int value)
 			sprintf(tab,"[GFAL] [VERBOSE] %s\n",msg);
 			va_list args;
 			va_start(args, msg);
-			printf(tab, args); 
+			vprintf(tab, args); 
 			va_end(args);		 
 	 }
 

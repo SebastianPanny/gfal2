@@ -179,7 +179,7 @@ START_TEST(test_gfal_auto_get_srm_endpoint_no_full_with_bdii)
 	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");
 	
 	fail_if( ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) , " must return the correct endpoint");
-	fail_if( endpoint == NULL || strstr(endpoint,"httpg://") == NULL, " must contain the endpoint");
+	fail_if( endpoint == NULL || strcmp(endpoint,"httpg://grid-cert-03.roma1.infn.it:8446/srm/managerv2") != NULL, " must contain the endpoint");
 	fail_if(proto != handle->srm_proto_type, " srm must be the default version of srm");
 	gfal_handle_freeG(handle);	
 	g_list_free(list);
@@ -193,7 +193,7 @@ START_TEST(test_gfal_get_fullendpoint){
 	GError* err=NULL;
 	char* endpoint;
 	fail_if( (endpoint = gfal_get_fullendpoint(surl,&err)) == NULL || err || strcmp(endpoint,"httpg://srm-pps:8443/srm/managerv2"), " must be successfull");
-	fprintf(stderr, " endpoint from surl %s ", endpoint);
+	//fprintf(stderr, " endpoint from surl %s ", endpoint);
 	free(endpoint);
 	const char * surl2 = "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04";	
 	fail_if( (endpoint = gfal_get_fullendpoint(surl2,&err)) !=NULL || err==NULL , " must fail");	
@@ -218,3 +218,62 @@ START_TEST(test_gfal_get_hostname_from_surl)
 	g_list_free(list);
 }
 END_TEST
+
+
+START_TEST(test_gfal_get_endpoint_and_setype_from_bdii)
+{
+	char *endpoint;
+	enum gfal_srm_proto srm_type;
+	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
+	GError * err= NULL;
+	gfal_handle handle  = gfal_initG(&err);
+	if(handle == NULL){
+		fail_unless(" handle is not properly allocated");
+		return;
+	}
+	
+	int ret = gfal_get_endpoint_and_setype_from_bdii(handle, &endpoint, &srm_type, list, &err);
+	if(ret){
+		fail( " fail, must be a valid return");		
+		gfal_release_GError(&err);
+	}
+	fail_unless( srm_type == PROTO_SRMv2, " must be the default protocol");
+	fail_unless( strcmp(endpoint, "httpg://grid-cert-03.roma1.infn.it:8446/srm/managerv2") == 0, "must be this endpoint ");	
+	g_list_free(list);
+}
+END_TEST
+
+
+START_TEST(test_gfal_select_best_protocol_and_endpoint)
+{
+	char *endpoint;
+	enum gfal_srm_proto srm_type;
+	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
+	GError * err= NULL;
+	gfal_handle handle  = gfal_initG(&err);
+	if(handle == NULL){
+		fail_unless(" handle is not properly allocated");
+		return;
+	}
+	gfal_set_default_storageG(handle, PROTO_SRMv2);
+	const char* endpoint_list[] = { "everest", "montblanc", NULL};
+	const char* se_type_list[] = { "srm_v1", "srm_v2", NULL };
+	int ret = gfal_select_best_protocol_and_endpoint(handle, &endpoint, &srm_type, se_type_list, endpoint_list, &err);
+	if(ret){
+			fail(" must successfull");
+			gfal_release_GError(&err);
+	}	
+	fail_if(strcmp(endpoint,"montblanc")!=0, " reponse not match correctly");
+	// try with another version by default
+	gfal_set_default_storageG(handle, PROTO_SRM);
+	ret = gfal_select_best_protocol_and_endpoint(handle, &endpoint, &srm_type, se_type_list, endpoint_list, &err);
+	if(ret){
+			fail(" must successfull");
+			gfal_release_GError(&err);
+	}	
+	fail_if(strcmp(endpoint,"everest")!=0);		
+	
+}
+END_TEST
+
+

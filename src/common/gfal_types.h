@@ -71,7 +71,7 @@ extern "C"
 enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
-enum gfal_srm_proto {PROTO_SRM=0, PROTO_SRMv2};
+enum gfal_srm_proto {PROTO_SRM=0, PROTO_SRMv2, PROTO_ERROR_UNKNOW};
 
 enum gfal_cksm_type
 {
@@ -229,7 +229,7 @@ typedef struct gfal_request_ {
 	int results_size; // size of the old results
 	gfal_filestatus *results;
 	GError* err;							// Last error reported
-	enum gfal_srm_proto srm_proto_type;		// define the protocole version of SRM
+	enum gfal_srm_proto srm_proto_type;		// define the protocole version of SRM choosen by default
 	gboolean initiated; 					// 1 if initiated, else error
 	// pointer to srmv2 set option
 	gfal_srmv2_opt* srmv2_opt;
