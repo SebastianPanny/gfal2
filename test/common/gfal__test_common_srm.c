@@ -82,8 +82,6 @@ START_TEST(test_gfal_full_endpoint_check)
 	if(ret)
 		gfal_release_GError(&err);
 	fail_if( (ret = gfal_check_fullendpoint_in_surl("srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it", &err)) != REG_NOMATCH, " fail, must be a failure : bad url");
-	if(ret)
-		gfal_release_GError(&err);
 	fail_if( (ret= gfal_check_fullendpoint_in_surl( "srm://lxb5409.cern.ch:8446/srm/managerv2?SFN=/dpm/cern.ch/home/dteam/srmv2_tests/test_lfc_3897",&err)) ," fail, must be a success" );
 	if(ret)
 		gfal_release_GError(&err);
@@ -276,4 +274,46 @@ START_TEST(test_gfal_select_best_protocol_and_endpoint)
 }
 END_TEST
 
+
+START_TEST(gfal_get_asyncG_empty_req)
+{
+	GError *err = NULL;
+	GList* list = g_list_append(NULL,NULL);
+	gfal_handle handle = gfal_initG(&err);
+	if(handle == NULL){
+		fail("fail to init handle");
+		return;
+	}
+	int ret = gfal_get_asyncG(handle, list, &err);
+	fail_unless(ret, " this request must fail, no surls in the list");
+	g_list_free(list);
+	g_clear_error(&err);
+	list = g_list_append(NULL,"google.com");
+	list = g_list_append(NULL,"amazon.com");
+	ret = gfal_get_asyncG(handle, list, &err);
+	fail_unless(ret, " this request must fail, bad surl in the list");
+	
+	
+	
+}
+END_TEST
+
+START_TEST(gfal_get_asyncG_empty_old_nonexist_surl)
+{
+	GError *err = NULL;
+	GList* list = g_list_append(NULL,NULL);
+	gfal_handle handle = gfal_initG(&err);
+	if(handle == NULL){
+		fail("fail to init handle");
+		return;
+	}
+
+	list = g_list_append(NULL,"srm://lxdpm103.cern.ch/dpm/cern.ch/home/dteam/generated/2009-09-21/file712de300-7a1e-4c78-90d2-0ba187e5a8da");
+	int ret = gfal_get_asyncG(handle, list, &err);
+	fail_unless(ret, " this request must fail old non exist surl");
+	
+	
+	
+}
+END_TEST
 

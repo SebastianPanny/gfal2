@@ -8,7 +8,7 @@
 
 
 
-START_TEST (test_check_bdii_endpoints_srm)
+START_TEST(test_check_bdii_endpoints_srm)
 {
 	char **se_types=NULL;
 	char **se_endpoints=NULL;
@@ -25,7 +25,7 @@ START_TEST (test_check_bdii_endpoints_srm)
 				return;
 		}
 		fail_unless(ret == 0 && se_types != NULL && se_endpoints != NULL);
-		fprintf(stderr, " se_types : %s , se_endpoints", se_types[1], se_endpoints[1]);
+		//fprintf(stderr, " se_types : %s , se_endpoints", se_types[1], se_endpoints[1]);
 		ptr++;
 	}
 	
