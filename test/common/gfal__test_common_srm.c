@@ -9,7 +9,6 @@
 
 
 
-
 START_TEST (test_create_srm_handle)
 {
 	GError* err=NULL;
@@ -113,6 +112,8 @@ START_TEST(test_gfal_auto_get_srm_endpoint_full_endpoint)
 	fail_if( endpoint == NULL || strstr(endpoint,"httpg://srm-pps:8443/srm/managerv2") == NULL, " must contain the endpoint");
 	fail_if(proto != handle->srm_proto_type, " srm must be the default version of srm");
 	gfal_handle_freeG(handle);	
+	g_list_free(list);
+	free(endpoint);
 }
 END_TEST
 
@@ -136,6 +137,8 @@ START_TEST(test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii)
 	fail_if( endpoint == NULL || strstr(endpoint,"httpg://srm-pps:8443/srm/managerv2") == NULL, " must contain the endpoint");
 	fail_if(proto != handle->srm_proto_type, " srm must be the default version of srm");
 	gfal_handle_freeG(handle);	
+	g_list_free(list);
+	free(endpoint);
 }
 END_TEST
 
@@ -156,6 +159,8 @@ START_TEST(test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii_negative)
 	
 	fail_unless( ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) , " must return error because not a full srm");
 	gfal_handle_freeG(handle);	
+	g_list_free(list);
+	free(endpoint);
 }
 END_TEST
 
@@ -177,6 +182,8 @@ START_TEST(test_gfal_auto_get_srm_endpoint_no_full_with_bdii)
 	fail_if( endpoint == NULL || strstr(endpoint,"httpg://") == NULL, " must contain the endpoint");
 	fail_if(proto != handle->srm_proto_type, " srm must be the default version of srm");
 	gfal_handle_freeG(handle);	
+	g_list_free(list);
+	free(endpoint);
 }
 END_TEST
 
@@ -187,9 +194,27 @@ START_TEST(test_gfal_get_fullendpoint){
 	char* endpoint;
 	fail_if( (endpoint = gfal_get_fullendpoint(surl,&err)) == NULL || err || strcmp(endpoint,"httpg://srm-pps:8443/srm/managerv2"), " must be successfull");
 	fprintf(stderr, " endpoint from surl %s ", endpoint);
-	
+	free(endpoint);
 	const char * surl2 = "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04";	
 	fail_if( (endpoint = gfal_get_fullendpoint(surl2,&err)) !=NULL || err==NULL , " must fail");	
-	
+	free(endpoint);
+}
+END_TEST
+
+
+START_TEST(test_gfal_get_hostname_from_surl)
+{
+	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
+	GError * tmp_err=NULL;
+	char* resu;
+	fail_unless( (resu = gfal_get_hostname_from_surl(list->data, &tmp_err)) && !tmp_err, " must be a success");
+	if(resu){
+		fail_unless( strcmp("grid-cert-03.roma1.infn.it",resu) == 0, " must be the same string");
+		free(resu); 
+	}
+	g_list_free(list);
+	list = g_list_append(NULL,"http://google.com/");	
+	fail_if( (resu = gfal_get_hostname_from_surl(list->data, &tmp_err)) && !tmp_err, " must be a success");
+	g_list_free(list);
 }
 END_TEST

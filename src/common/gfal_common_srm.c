@@ -70,25 +70,65 @@ char* gfal_get_fullendpoint(const char* surl, GError** err){
 }
 
 /**
+ * @brief get endpoint from the bdii system only
+ * @return 0 if success with endpoint and srm_type set correctly else -1 and err set
+ * 
+ * */
+int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, GList* surls, GError** err){
+	g_return_val_err_if_fail(handle && endpoint && srm_type && surls, -1, err, "[gfal_get_endpoint_and_setype_from_bdii] invalid parameters");
+	char** tab_endpoint;
+	char** tab_se_type;
+
+	return -1;
+	
+}
+
+/**
+ * @brief get the hostname from a surl
+ *  @return return NULL if error and set err else return the hostname value
+ */
+ char*  gfal_get_hostname_from_surl(const char * surl, GError* err){
+	 const int srm_prefix_len = strlen(GFAL_PREFIX_SRM);
+	 const int surl_len = strnlen(surl,2048);
+	 g_return_val_err_if_fail(surl &&  (srm_prefix_len <surl_len)  && surl_len < 2048,NULL, err, "[gfal_get_hostname_from_surl] invalid value in params");
+	 char* p = strchr(surl+srm_prefix_len,'/');
+	 char* prep = strstr(surl, GFAL_PREFIX_SRM);
+	 if(prep != surl){
+		 g_set_error(err,0, EINVAL, "[gfal_get_hostname_from_surl not a valid surl");
+		 return NULL;
+	 }
+	 return strndup(surl+srm_prefix_len, p-surl-srm_prefix_len);	 
+ }
+
+/**
  * @brief get endpoint
  *  determine the best endpoint associated with the list of url and the params of the actual handle (no bdii check or not)
  *  see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations
  *  @return return 0 with endpoint and types set if success else -1 and set Error
  * */
 int gfal_auto_get_srm_endpoint(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, GList* surls, GError** err){
-	g_return_val_err_if_fail(endpoint && srm_type && surls,-1, err, "[gfal_auto_get_srm_endpoint] invalid value in params"); // check params
+	g_return_val_err_if_fail(handle && endpoint && srm_type && surls,-1, err, "[gfal_auto_get_srm_endpoint] invalid value in params"); // check params
 	
 	GError* tmp_err=NULL;
+	char * tmp_endpoint=NULL;;
 	gboolean isFullEndpoint = gfal_check_fullendpoint_in_surl(surls->data, &tmp_err)?FALSE:TRUE;		// check if a full endpoint exist
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_auto_get_srm_endpoint]");
 		return -2;
 	}
-	if(handle->no_bdii_check == TRUE && isFullEndpoint == FALSE){
+	if(handle->no_bdii_check == TRUE && isFullEndpoint == FALSE){ // no bdii checked + no full endpoint provided = error 
 		g_set_error(err,0,EINVAL,"[gfal_auto_get_srm_endpoint] no_bdii_check option need a full endpoint in the first surl");
 		return -3;
 	}
-	
+	if( isFullEndpoint == TRUE  ){ // if full endpoint contained in url, get it and set type to default type
+		if( (tmp_endpoint = gfal_get_fullendpoint(surls->data,&tmp_err) ) == NULL){
+				g_propagate_prefixed_error(err, tmp_err, "[gfal_aut_get_srm_endpoint]");
+				return -4;
+			}
+		*endpoint = tmp_endpoint;
+		*srm_type= handle->srm_proto_type;
+		return 0;
+	}
 	return -1;
 }
 

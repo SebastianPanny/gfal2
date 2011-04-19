@@ -23,7 +23,7 @@
   * @date 18/04/2011
   * */
 #define _GNU_SOURCE
-#include "gfal_common.h"
+#include "../gfal_common.h"
 
 #include <stdio.h>
 #include <stdlib.h>
