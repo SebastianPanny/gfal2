@@ -36,7 +36,7 @@
 .br
 .RI "\fIlaunch a surls-> turls translation in asynchronous mode \fP"
 .ti -1c
-.RI "int \fBgfal_get_request_statusG\fP (gfal_handle handle, GError **err)"
+.RI "int \fBgfal_get_async_resultsG\fP (gfal_handle handle, GList **turls, GList **gerr_turls, GError **err)"
 .br
 .ti -1c
 .RI "void \fBgfal_set_nobdiiG\fP (gfal_handle handle, gboolean no_bdii_chk)"
@@ -64,6 +64,30 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
+.SS "int gfal_get_async_resultsG (gfal_handle handle, GList ** turls, GList ** gerr_turls, GError ** err)"
+.PP
+get the state of the current async request 
+.PP
+\fBReturns:\fP
+.RS 4
+return the number of response in turls or negativevalue if error 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP : handle of the current context 
+.br
+\fIGList**\fP turls : GList of char* with the full list of answer, answer can be 0 if error 
+.br
+\fIOptional\fP GList**gerr_turls : GList of GError*, contain the error report for each url ( see GError report system ), A turl element with no error is associated with NULL pointer for safety reason 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+turls need to be free manually after use 
+.RE
+.PP
+
 .SS "int gfal_get_asyncG (gfal_handle handle, GList * surls, GError ** err)"
 .PP
 launch a surls-> turls translation in asynchronous mode 
@@ -85,16 +109,6 @@ need a initiaed gfal_handle
 \fBReturns:\fP
 .RS 4
 return positive if success else -1, check GError for more information 
-.RE
-.PP
-
-.SS "int gfal_get_request_statusG (gfal_handle handle, GError ** err)"
-.PP
-get the state of the current async request 
-.PP
-\fBReturns:\fP
-.RS 4
-0 : request done with success else report error 
 .RE
 .PP
 

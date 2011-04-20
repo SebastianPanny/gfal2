@@ -43,7 +43,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#95ffd4de24c18af334c1d9c270de7d81">gfal_get_asyncG</a> (gfal_handle handle, GList *surls, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">launch a surls-&gt; turls translation in asynchronous mode  <a href="#95ffd4de24c18af334c1d9c270de7d81"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#54237cee8b5d1aa56a4f8619e1c4e392">gfal_get_request_statusG</a> (gfal_handle handle, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#6d99be0f4b19c27b2b44032338444d5f">gfal_get_async_resultsG</a> (gfal_handle handle, GList **turls, GList **gerr_turls, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#a3975dda72e623713566e510b0317796">gfal_set_nobdiiG</a> (gfal_handle handle, gboolean no_bdii_chk)</td></tr>
 
@@ -55,6 +55,56 @@ the header file with the main srm funcs of the common API
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>12/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="6d99be0f4b19c27b2b44032338444d5f"></a><!-- doxytag: member="gfal_common_srm.h::gfal_get_async_resultsG" ref="6d99be0f4b19c27b2b44032338444d5f" args="(gfal_handle handle, GList **turls, GList **gerr_turls, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_get_async_resultsG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GList **&nbsp;</td>
+          <td class="paramname"> <em>turls</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GList **&nbsp;</td>
+          <td class="paramname"> <em>gerr_turls</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+get the state of the current async request <dl compact><dt><b>Returns:</b></dt><dd>return the number of response in turls or negativevalue if error </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: handle of the current context </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>GList**</em>&nbsp;</td><td>turls : GList of char* with the full list of answer, answer can be 0 if error </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Optional</em>&nbsp;</td><td>GList**gerr_turls : GList of GError*, contain the error report for each url ( see GError report system ), A turl element with no error is associated with NULL pointer for safety reason </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Warning:</b></dt><dd>turls need to be free manually after use </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="95ffd4de24c18af334c1d9c270de7d81"></a><!-- doxytag: member="gfal_common_srm.h::gfal_get_asyncG" ref="95ffd4de24c18af334c1d9c270de7d81" args="(gfal_handle handle, GList *surls, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -98,36 +148,6 @@ launch a surls-&gt; turls translation in asynchronous mode
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>return positive if success else -1, check GError for more information </dd></dl>
-
-</div>
-</div><p>
-<a class="anchor" name="54237cee8b5d1aa56a4f8619e1c4e392"></a><!-- doxytag: member="gfal_common_srm.h::gfal_get_request_statusG" ref="54237cee8b5d1aa56a4f8619e1c4e392" args="(gfal_handle handle, GError **err)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int gfal_get_request_statusG           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-get the state of the current async request <dl compact><dt><b>Returns:</b></dt><dd>0 : request done with success else report error </dd></dl>
 
 </div>
 </div><p>
@@ -181,7 +201,7 @@ initiate a gfal's context with default parameters for use <dl compact><dt><b>Ret
 set the bdii value of the handle specified 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 20 11:59:56 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 20 16:24:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

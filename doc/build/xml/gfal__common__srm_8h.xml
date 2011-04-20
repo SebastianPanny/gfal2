@@ -423,14 +423,22 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="40" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="334" bodyend="376"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm_8h_154237cee8b5d1aa56a4f8619e1c4e392" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm_8h_16d99be0f4b19c27b2b44032338444d5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_get_request_statusG</definition>
-        <argsstring>(gfal_handle handle, GError **err)</argsstring>
-        <name>gfal_get_request_statusG</name>
+        <definition>int gfal_get_async_resultsG</definition>
+        <argsstring>(gfal_handle handle, GList **turls, GList **gerr_turls, GError **err)</argsstring>
+        <name>gfal_get_async_resultsG</name>
         <param>
           <type>gfal_handle</type>
           <declname>handle</declname>
+        </param>
+        <param>
+          <type>GList **</type>
+          <declname>turls</declname>
+        </param>
+        <param>
+          <type>GList **</type>
+          <declname>gerr_turls</declname>
         </param>
         <param>
           <type>GError **</type>
@@ -439,11 +447,34 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>get the state of the current async request <simplesect kind="return"><para>0 : request done with success else report error </para></simplesect>
+<para>get the state of the current async request <simplesect kind="return"><para>return the number of response in turls or negativevalue if error </para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: handle of the current context </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>GList**</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>turls : GList of char* with the full list of answer, answer can be 0 if error </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Optional</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GList**gerr_turls : GList of GError*, contain the error report for each url ( see GError report system ), A turl element with no error is associated with NULL pointer for safety reason </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="warning"><para>turls need to be free manually after use </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="418" bodyend="440"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c" bodystart="462" bodyend="484"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm_8h_1a3975dda72e623713566e510b0317796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -506,7 +537,7 @@
 <codeline lineno="39"><highlight class="normal"></highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_asyncG(gfal_handle<sp/>handle,<sp/>GList*<sp/>surls,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="41"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_request_statusG(gfal_handle<sp/>handle,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_async_resultsG(gfal_handle<sp/>handle,<sp/>GList**<sp/>turls,<sp/>GList**<sp/>gerr_turls,<sp/><sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_set_nobdiiG(gfal_handle<sp/>handle,<sp/>gboolean<sp/>no_bdii_chk);</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
