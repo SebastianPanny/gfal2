@@ -318,7 +318,7 @@ START_TEST(gfal_get_asyncG_empty_old_nonexist_surl)
 END_TEST
 
 
-START_TEST(test_gfal_get_request_statusG)
+START_TEST(test_gfal_get_async_resultsG)
 {
 	GError *err = NULL;
 	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/testfile002");			
@@ -339,7 +339,7 @@ START_TEST(test_gfal_get_request_statusG)
 }
 END_TEST
 
-START_TEST(test_gfal_get_request_statusG_empty)
+START_TEST(test_gfal_get_async_resultsG_empty)
 {
 	GError *err = NULL;
 	gfal_handle handle = NULL;
@@ -355,6 +355,7 @@ START_TEST(test_gfal_get_request_statusG_empty)
 	ret = gfal_get_request_statusG(handle, &err);
 	fail_unless(ret  , " must be a failure, ne get before");	
 	g_clear_error(&err);
+	fail("");
 }
 END_TEST
 

@@ -415,8 +415,8 @@ static int gfal_get_request_statusG_srmv2(gfal_handle handle, GError** err){
  * get the state of the current async request
  * @return 0 : request done with success else report error
  */
-int gfal_get_request_statusG(gfal_handle handle, GError** err){
-	g_return_val_err_if_fail(handle, -1, err, "[gfal_get_request_statusG] handle arg enmpty, invalid value");
+int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err){
+	g_return_val_err_if_fail(handle && turls, -1, err, "[gfal_get_request_statusG] arg invalid value");
 	gfal_request_state* last_request = handle->last_request_state;
 	if(last_request == NULL){
 		g_set_error(err,0, EINVAL, "[gfal_get_request_statusG] gfal_get_asyncG executed before");
