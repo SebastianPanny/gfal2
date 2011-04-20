@@ -23,6 +23,8 @@ void \bf{gfal\_\-handle\_\-free\-G} (gfal\_\-handle handle)\label{gfal__common__
 \begin{CompactList}\small\item\em free a gfal's handle, safe if null \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-async\-G} (gfal\_\-handle handle, GList $\ast$surls, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em launch a surls-$>$ turls translation in asynchronous mode \item\end{CompactList}\item 
+int \bf{gfal\_\-get\_\-request\_\-status\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+\item 
 void \bf{gfal\_\-set\_\-nobdii\-G} (gfal\_\-handle handle, gboolean no\_\-bdii\_\-chk)
 \end{CompactItemize}
 
@@ -54,7 +56,14 @@ launch a surls-$>$ turls translation in asynchronous mode
 \item[{\em handle}]: the gfal\_\-handle initiated ( gfal\_\-init ) \item[{\em surls}]: GList of string of the differents surls to convert \item[{\em err}]: GError for error report \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return 0 if success else -1, check GError for more information \end{Desc}
+\item[Returns:]return positive if success else -1, check GError for more information \end{Desc}
+\index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_get_request_statusG@{gfal\_\-get\_\-request\_\-statusG}}
+\index{gfal_get_request_statusG@{gfal\_\-get\_\-request\_\-statusG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-request\_\-status\-G (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_54237cee8b5d1aa56a4f8619e1c4e392}
+
+
+get the state of the current async request \begin{Desc}
+\item[Returns:]0 : request done with success else report error \end{Desc}
 \index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_initG@{gfal\_\-initG}}
 \index{gfal_initG@{gfal\_\-initG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-handle gfal\_\-init\-G (GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_8410ba458f920d8f8a8f0e5594170fe4}

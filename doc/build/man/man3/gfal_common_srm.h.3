@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "19 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "20 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -35,6 +35,9 @@
 .RI "int \fBgfal_get_asyncG\fP (gfal_handle handle, GList *surls, GError **err)"
 .br
 .RI "\fIlaunch a surls-> turls translation in asynchronous mode \fP"
+.ti -1c
+.RI "int \fBgfal_get_request_statusG\fP (gfal_handle handle, GError **err)"
+.br
 .ti -1c
 .RI "void \fBgfal_set_nobdiiG\fP (gfal_handle handle, gboolean no_bdii_chk)"
 .br
@@ -81,7 +84,17 @@ need a initiaed gfal_handle
 .PP
 \fBReturns:\fP
 .RS 4
-return 0 if success else -1, check GError for more information 
+return positive if success else -1, check GError for more information 
+.RE
+.PP
+
+.SS "int gfal_get_request_statusG (gfal_handle handle, GError ** err)"
+.PP
+get the state of the current async request 
+.PP
+\fBReturns:\fP
+.RS 4
+0 : request done with success else report error 
 .RE
 .PP
 

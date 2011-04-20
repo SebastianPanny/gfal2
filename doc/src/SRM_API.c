@@ -74,7 +74,11 @@ int gfal_abortrequest (gfal_handle);
 
 int gfal_abortfiles (gfal_handle);
 
-int gfal_get_results (gfal_handle, gfal_filestatus **);
+int gfal_get_async_resultsG(gfal_handle, GList** turls, GError **);
+
+int gfal_get_async_results(gfal_handle, char*** turls);
+
+/*int gfal_get_results (gfal_handle, gfal_filestatus **);*/
 
 int gfal_get_ids_setype (gfal_handle, enum se_type *, int *, int **, char **);
 
