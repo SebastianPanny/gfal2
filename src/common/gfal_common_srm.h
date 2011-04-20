@@ -39,7 +39,7 @@ void gfal_handle_freeG(gfal_handle handle);
 
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);
 
-int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err);
+int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GList** gerr_turls,  GError** err);
 
 void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk);
 
