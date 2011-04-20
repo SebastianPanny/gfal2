@@ -36,7 +36,7 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		}else if(errno == EINVAL){
 			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system : EINVAL error, unable to get endpoint for this host : %s ( maybe the host doesn't exist anymore ? ) ", host);			
 		}else{
-			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return an error ");
+			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return an error ( maybe voms-proxy is no initiated properly ? )");
 		}
 	return ret;	
 }
