@@ -48,7 +48,7 @@ START_TEST(test_gfal_get_async_1)
 	}
 	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/testfile002");
 	int r = gfal_get_asyncG(handle,list,&err);
-	if(r < 0){
+	if(r <0){
 			gfal_release_GError(&err);
 			fail("must be a success");
 			return;
@@ -226,7 +226,7 @@ START_TEST(test_gfal_get_endpoint_and_setype_from_bdii)
 	GError * err= NULL;
 	gfal_handle handle  = gfal_initG(&err);
 	if(handle == NULL){
-		fail_unless(" handle is not properly allocated");
+		fail(" handle is not properly allocated");
 		return;
 	}
 	
@@ -250,7 +250,7 @@ START_TEST(test_gfal_select_best_protocol_and_endpoint)
 	GError * err= NULL;
 	gfal_handle handle  = gfal_initG(&err);
 	if(handle == NULL){
-		fail_unless(" handle is not properly allocated");
+		fail(" handle is not properly allocated");
 		return;
 	}
 	gfal_set_default_storageG(handle, PROTO_SRMv2);
@@ -314,6 +314,47 @@ START_TEST(gfal_get_asyncG_empty_old_nonexist_surl)
 	
 	
 	
+}
+END_TEST
+
+
+START_TEST(test_gfal_get_request_statusG)
+{
+	GError *err = NULL;
+	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/testfile002");			
+	gfal_handle handle = gfal_initG(&err);
+	if(handle == NULL){
+		fail("fail to init handle");
+		return;
+	}
+	int ret = gfal_get_asyncG(handle, list, &err);
+	fail_if(ret <0, " this request must be a success, valid surl");
+	if(ret <0){
+		gfal_release_GError(&err);
+		return;
+	}
+	ret = gfal_get_request_statusG(handle, &err);
+	fail_if(ret <0 , " must return good status");
+	return;
+}
+END_TEST
+
+START_TEST(test_gfal_get_request_statusG_empty)
+{
+	GError *err = NULL;
+	gfal_handle handle = NULL;
+	
+	int ret = gfal_get_request_statusG(handle, &err);
+	fail_unless(ret , " must be a failure, handle empty");	
+	g_clear_error(&err);
+	handle = gfal_initG(&err);
+	if(handle == NULL){
+		fail("fail to init handle");
+		return;
+	}
+	ret = gfal_get_request_statusG(handle, &err);
+	fail_unless(ret  , " must be a failure, ne get before");	
+	g_clear_error(&err);
 }
 END_TEST
 

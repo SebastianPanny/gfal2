@@ -75,7 +75,7 @@ extern int gfal_set_verbose (int value)
 		 gfal_print_verbose(GFAL_VERBOSE_DEBUG," release NULL error");
 		 return;
 	 }
-	 fprintf(stderr,"[gfal]%s\n", (*err)->message);
+	 fprintf(stderr,"[gfal] %s\n", (*err)->message);
 	 g_clear_error(err);
 	 *err=NULL;	 
  }

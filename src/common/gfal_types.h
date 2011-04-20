@@ -180,7 +180,8 @@ typedef struct gfal_request_ {
 	char *						srmv2_token;
 	struct srmv2_filestatus *	srmv2_statuses;
 	struct srmv2_pinfilestatus *srmv2_pinstatuses;
-	 
+	enum gfal_srm_proto current_request_proto;
+	char * 						request_endpoint; 
  } gfal_request_state; 
  
  typedef struct gfal_handle_ {

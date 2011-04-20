@@ -271,9 +271,9 @@ int gfal_surl_checker(const char* surl, GError** err){
 
 
 /**
- *  @brief execute a srmv2 request async
+ *  @brief execute a srmv2 request async "GET" on the srm_ifce
 */
-static int gfal_srmv2_getasync(gfal_handle handle, char* endpoint, GList* surls, GError** err){
+static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls, GError** err){
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
 			
 	GError* tmp_err=NULL;
@@ -300,12 +300,20 @@ static int gfal_srmv2_getasync(gfal_handle handle, char* endpoint, GList* surls,
 	
 	
 	ret = srm_prepare_to_get_async(&context,&preparetoget_input,&preparetoget_output);
-	if(ret != 0){
+	if(ret < 0){
 		g_set_error(err,0,errno,"[gfal_srmv2_getasync] call to srm_ifce error: %s",errbuf);
 	} else{
-		handle->last_request_state = calloc(1, sizeof(struct _gfal_request_state));
-    	handle->last_request_state->srmv2_token = preparetoget_output.token;
-    	handle->last_request_state->srmv2_pinstatuses = preparetoget_output.filestatuses;		
+		if(handle->last_request_state){
+			gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[GFAL] [gfal_srmv2_getasync] last request params deleted not properly ! ");
+			free(handle->last_request_state);		// free if notthe first one
+		}
+
+		handle->last_request_state = calloc(1, sizeof(struct _gfal_request_state));			// copy the informations of the current request in the last request information structure
+		gfal_request_state * req_state = handle->last_request_state;
+    	req_state->srmv2_token = preparetoget_output.token;
+    	req_state->srmv2_pinstatuses = preparetoget_output.filestatuses;	
+    	req_state->current_request_proto = PROTO_SRMv2;	
+    	req_state->request_endpoint = strndup(endpoint, 2048);
 	}
 
 	free(endpoint);
@@ -321,7 +329,7 @@ static int gfal_srmv2_getasync(gfal_handle handle, char* endpoint, GList* surls,
  * @param handle : the gfal_handle initiated ( \ref gfal_init )
  * @param surls : GList of string of the differents surls to convert
  * @param err : GError for error report
- * @return return 0 if success else -1, check GError for more information
+ * @return return positive if success else -1, check GError for more information
  */
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_get_asyncG] handle passed is null");
@@ -354,8 +362,8 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 	gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_get_asyncG] endpoint %s", full_endpoint);
 	
 	if (srm_types == PROTO_SRMv2){
-		ret= gfal_srmv2_getasync(handle, full_endpoint, surls,&tmp_err);
-		if(ret<0)
+		ret= gfal_getasync_srmv2(handle, full_endpoint, surls,&tmp_err);
+		if(ret <0)
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_asyncG]");
 	} else if(srm_types == PROTO_SRM){
 			g_set_error(err,0, EPROTONOSUPPORT, "[gfal_get_asyncG] Tentative d'utilisation de SRMv1 déprécié, Seul SRMv2 est autorisé : echec");
@@ -379,4 +387,54 @@ void gfal_handle_freeG (gfal_handle handle){
 	free(handle->last_request_state);
 	free(handle);
 	handle = NULL;
+}
+
+/**
+ * obtain the statut in the case of a srmv2 protocol request
+ */
+static int gfal_get_request_statusG_srmv2(gfal_handle handle, GError** err){
+	    struct srm_context context;
+    	struct srm_preparetoget_input preparetoget_input;
+    	struct srm_preparetoget_output preparetoget_output;
+    	const int max_buffer_size = 2048;
+    	char err_buff[max_buffer_size];
+
+		gfal_request_state* request_info = handle->last_request_state;
+    	srm_context_init(&context, request_info->request_endpoint, err_buff,max_buffer_size, gfal_get_verbose());
+
+        preparetoget_output.token = request_info->srmv2_token;			// set the token of the last request
+        int ret = srm_status_of_get_request_async(&context,&preparetoget_input,&preparetoget_output);
+        request_info->srmv2_pinstatuses = preparetoget_output.filestatuses;
+        if( ret <0){
+			g_set_error(err,0, EINVAL, "[gfal_get_request_statusG_srmv2] srm_ifce answered with the error : %d adn err : %s", ret, err_buff);
+		} 
+		return ret;
+}
+
+/**
+ * get the state of the current async request
+ * @return 0 : request done with success else report error
+ */
+int gfal_get_request_statusG(gfal_handle handle, GError** err){
+	g_return_val_err_if_fail(handle, -1, err, "[gfal_get_request_statusG] handle arg enmpty, invalid value");
+	gfal_request_state* last_request = handle->last_request_state;
+	if(last_request == NULL){
+		g_set_error(err,0, EINVAL, "[gfal_get_request_statusG] gfal_get_asyncG executed before");
+		return -2;
+	}
+	int ret = -1;
+	GError * tmp_err=NULL;
+	if( last_request->current_request_proto == PROTO_SRMv2){ // srm v2 request executed
+		ret = gfal_get_request_statusG_srmv2(handle, &tmp_err);
+		if( ret <0)
+			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_request_statusG]");
+	}else if( last_request->current_request_proto == PROTO_SRM){
+		g_set_error(err,0, EINVAL, "[gfal_get_request_statusG] The SRMv1 protocol is not supported anymore ");
+		return -3;		
+	} else{
+		g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_get_request_statusG] the protocol of the current request is not supported ");
+		ret = -2;
+	}
+	return ret;
+	
 }
