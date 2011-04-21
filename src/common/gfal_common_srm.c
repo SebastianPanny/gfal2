@@ -314,6 +314,7 @@ static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls,
     	req_state->srmv2_pinstatuses = preparetoget_output.filestatuses;	
     	req_state->current_request_proto = PROTO_SRMv2;	
     	req_state->request_endpoint = strndup(endpoint, 2048);
+    	req_state->finished = FALSE;
 	}
 
 	free(endpoint);
@@ -328,7 +329,7 @@ static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls,
  * @warning need a initiaed gfal_handle
  * @param handle : the gfal_handle initiated ( \ref gfal_init )
  * @param surls : GList of string of the differents surls to convert
- * @param err : GError for error report
+ * @param err : GError** for error report
  * @return return positive if success else -1, check GError for more information
  */
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
@@ -389,90 +390,102 @@ void gfal_handle_freeG (gfal_handle handle){
 	handle = NULL;
 }
 /**
- * convert a table a struct srmv2_pinfilestatus in a GList<char*>* turls and GList<GErro*> * gerr_turls
+ * convert a table a struct srmv2_pinfilestatus in a GList<char*>* turls 
  * 
  * */
-static int gfal_convert_filestatut(int ret, GList** turls, GList** gerr_turls, struct srmv2_pinfilestatus *filestatus, GError** err){
-			int i;
-			GList* tmp_turls = NULL;
-			GList* tmp_gerr_turls=NULL;
-			for(i=0; i< ret; ++i){
-				const int surl_err_code = filestatus[i].status; // get the status of the current turl
-				GError* surl_err=NULL;
-				char* turl = NULL;
-				if(  surl_err_code != 0){  // error for this turl
-					if(gerr_turls){
-						const char * explanation = (filestatus[i].explanation)?(strndup(filestatus[i].explanation,2048)):"No explanation given by srm_ifce";
-						g_set_error(&surl_err,0, surl_err_code, explanation); 
-					}
-				} else{
-					const char* turl_tmp = filestatus[i].turl;
-					if( turl_tmp == NULL || strnlen(turl_tmp,2048) == 2048){
-						g_set_error(err,0, EINVAL, "[gfal_get_request_statusG_srmv2] turl value from  srm_ifce corrupted"); // fatal error leave
-						ret = -2;
-						return ret;
-					}
-				    turl = strdup(turl_tmp);	
-				}				 
-				tmp_turls =  g_list_append(tmp_turls, turl);
-				tmp_gerr_turls = g_list_append(tmp_gerr_turls,  surl_err);
-			}
-	if(gerr_turls)
-		*gerr_turls = tmp_gerr_turls;
-	*turls = tmp_turls;
-	return ret;	
+static int gfal_convert_filestatut(gfal_handle handle, GList** turls, GList** turls_code, GList** turls_errstring, GError** err){
+	g_return_val_err_if_fail(turls && handle && handle->last_request_state, -1, err, "[gfal_convert_filestatut invalid arguments");
+	gfal_request_state* last_req = handle->last_request_state;
+	GError* tmp_err=NULL;
+	if(gfal_async_request_is_finishedG(handle,&tmp_err) == FALSE){
+		if(tmp_err){
+			g_propagate_prefixed_error(err, tmp_err, "[gfal_convert_filestatut]");
+			return -1;
+		}
+		g_set_error(err,0, EBUSY, "[gfal_convert_filestatut] request GET is not terminated"); 
+		return -2;
+	}
+	// part srmv2 only : support for v1 suppressed
+	struct srmv2_pinfilestatus *filestatus	= last_req->srmv2_pinstatuses;
+	const int ret = last_req->number;
+	int i;
+	GList* tmp_turls=NULL, *tmp_turls_code=NULL, *tmp_turls_errstring=NULL;
+	for(i=0; i< ret; ++i){
+		const int code = filestatus[i].status;
+		if(turls_code){
+			tmp_turls_code = g_list_append(tmp_turls_code, code);
+		}
+		if(turls){
+			const char* turl = filestatus[i].turl;
+			const char* resu = (!code && turl)?strndup(turl,2048):NULL;
+			tmp_turls = g_list_append(tmp_turls, resu);
+		}
+		if(turls_errstring){
+			const char* err_string = filestatus[i].explanation;
+			const char* resu = (code && err_string)?strndup(err_string,2048):NULL;
+			tmp_turls_errstring = g_list_append(tmp_turls_errstring, resu);
+		}
+	}
+	if(turls)
+		*turls = tmp_turls;
+	if(turls_code)
+		*turls_code = tmp_turls_code;
+	if(turls_errstring)
+		*turls_errstring = tmp_turls_errstring;
+	return ret;
 }
+
+
+/**
+ *  convert a srm_ifce result to the handle and set if req is finished or not
+ */
+static int gfal_convert_to_handle(int ret, gfal_request_state* request_info, struct srmv2_pinfilestatus *filestatus, GError** err){
+	g_return_val_err_if_fail(ret && request_info && filestatus, -1, err, "[gfal_convert_to_handle] invalid args");
+	request_info->srmv2_pinstatuses = filestatus;
+	int i;
+	gboolean finished = TRUE;
+	for(i=0; i < ret; ++i){
+		const int code = filestatus[i].status;		// get the current request status
+		if(code == EINVAL) 		// request in progress : must wait
+			finished = FALSE; 
+		//g_printerr(" err code : %s", strerror(code)); 
+	}
+	request_info->finished = finished;
+	request_info->number = ret;
+	return ret;
+}
+
 /**
  * obtain the statut in the case of a srmv2 protocol request
  */
-static int gfal_get_request_statusG_srmv2(gfal_handle handle, GList** turls, GList** gerr_turls, GError** err){
-	    struct srm_context context;
-    	struct srm_preparetoget_input preparetoget_input;
-    	struct srm_preparetoget_output preparetoget_output;
-    	const int max_buffer_size = 2048;
-    	GError* tmp_err=NULL;
-    	char err_buff[max_buffer_size];
-    	
-		gfal_request_state* request_info = handle->last_request_state;
-    	srm_context_init(&context, request_info->request_endpoint, err_buff,max_buffer_size, gfal_get_verbose());
+static int gfal_get_request_statusG(gfal_handle handle, GError** err){
 
-        preparetoget_output.token = request_info->srmv2_token;			// set the token of the last request
-        int ret = srm_status_of_get_request_async(&context,&preparetoget_input,&preparetoget_output);
-        request_info->srmv2_pinstatuses = preparetoget_output.filestatuses;
-        if( ret <0){
+	const int max_buffer_size = 2048;
+	GError* tmp_err=NULL;
+	char err_buff[max_buffer_size];
+	int ret=-1;
+	
+	gfal_request_state* request_info = handle->last_request_state;
+
+	if( request_info->current_request_proto == PROTO_SRMv2){ // srm v2 request executed
+
+		struct srm_context context;
+		struct srm_preparetoget_input preparetoget_input;
+		struct srm_preparetoget_output preparetoget_output;
+		
+		srm_context_init(&context, request_info->request_endpoint, err_buff,max_buffer_size, gfal_get_verbose());
+		
+		preparetoget_output.token = request_info->srmv2_token;			// set the token of the last request
+		int ret = srm_status_of_get_request_async(&context,&preparetoget_input,&preparetoget_output);
+		if( ret <0){
 			g_set_error(err,0, EINVAL, "[gfal_get_request_statusG_srmv2] srm_ifce answered with the error : %d adn err : %s", ret, err_buff);
 		} else{
-			if ( (ret = gfal_convert_filestatut(ret, turls, gerr_turls, request_info->srmv2_pinstatuses, &tmp_err)) <0){
+			if ( (ret = gfal_convert_to_handle(ret, request_info, preparetoget_output.filestatuses, &tmp_err)) <0){
 				g_propagate_prefixed_error(err, tmp_err, "[gfal_get_request_statusG_srmv2]");
 			}
 		} 
-		free(request_info);
-		handle->last_request_state = NULL;
-		return ret;
-}
-
-/**
- * get the state of the current async request
- * @return return the number of response in turls or negativevalue if error
- * @param handle : handle of the current context
- * @param GList** turls : GList of char* with the full list of answer, answer can be 0 if error
- * @param Optional GList**gerr_turls : GList of GError*, contain the error report for each url ( see GError report system ), A turl element with no error is associated with NULL pointer for safety reason
- *  @warning turls need to be free manually after use
- */
-int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GList** gerr_turls,  GError** err){
-	g_return_val_err_if_fail(handle && turls , -1, err, "[gfal_get_request_statusG] arg invalid value");
-	gfal_request_state* last_request = handle->last_request_state;
-	if(last_request == NULL){
-		g_set_error(err,0, EINVAL, "[gfal_get_request_statusG] gfal_get_asyncG executed before");
-		return -2;
-	}
-	int ret = -1;
-	GError * tmp_err=NULL;
-	if( last_request->current_request_proto == PROTO_SRMv2){ // srm v2 request executed
-		ret = gfal_get_request_statusG_srmv2(handle, turls, gerr_turls, &tmp_err);
-		if( ret <0)
-			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_request_statusG]");
-	}else if( last_request->current_request_proto == PROTO_SRM){
+		
+	}else if( request_info->current_request_proto == PROTO_SRM){
 		g_set_error(err,0, EINVAL, "[gfal_get_request_statusG] The SRMv1 protocol is not supported anymore ");
 		return -3;		
 	} else{
@@ -480,5 +493,99 @@ int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GList** gerr_turl
 		ret = -2;
 	}
 	return ret;
-	
 }
+
+/**
+ * @brief progress of the last request
+ * @return return TRUE if the current request is finished else FALSE
+ * @param err : Gerror** err system
+ */
+gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err)
+{
+	g_return_val_err_if_fail(handle , -1, err, "[gfal_get_request_statusG] arg invalid value, handle invalid");	
+	GError * tmp_err=NULL;
+	gboolean ret = FALSE;
+	gfal_request_state* last_request = handle->last_request_state;
+	if(last_request == NULL){
+		g_set_error(err,0, EINVAL, "[gfal_get_request_statusG] gfal_get_asyncG executed before");
+		return -2;
+	}
+	if(last_request->finished == TRUE){
+		ret= TRUE;
+	}else{
+		gfal_get_request_statusG(handle, &tmp_err);
+		ret = last_request->finished;
+	}
+	return ret;
+}
+
+
+int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err){
+	g_return_val_err_if_fail(handle && turls , -1, err, "[gfal_get_request_statusG] arg invalid value");
+	int ret = -1;
+	GError * tmp_err=NULL;
+
+	ret = gfal_convert_filestatut(handle, turls, NULL,NULL,&tmp_err);
+	if( ret <0)
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_request_statusG]");
+	return ret;
+}
+
+  /**
+  * @brief string of each request errcode
+  * @param handle
+  * @param turl_errcode : GList<char*>, give a string error for each turl request, char* can be NULL if no error associated
+  * @return return number of request turl if success else return negative value
+  * */
+  int gfal_get_async_get_request_errstringG(gfal_handle handle, GList** turls_errstring, GError** err){	
+	g_return_val_err_if_fail(handle && turls_errstring , -1, err, "[gfal_get_async_get_request_errstringG] arg invalid value");
+	int ret = -1;
+	GError * tmp_err=NULL;
+	ret = gfal_convert_filestatut(handle,NULL,NULL, turls_errstring, &tmp_err);
+	if( ret <0)
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_get_request_errstringG]");
+	return ret;
+  }
+  
+  
+/**
+ * @brief wait for the current request
+ * @param handle
+ * @param timeout : maximum time to wait before error
+ * @param err : Error report system
+ *  @return return 0 if finished correctly, return 1 if timeout is reached, return -1 if error
+ */
+ int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err){
+	 time_t timeo = time(NULL) + timeout;
+	 GError* tmp_err=NULL;
+	 while(timeo >time(NULL)){
+		 if(  gfal_async_request_is_finishedG(handle, &tmp_err)  == TRUE)
+			return 0;
+		 if(tmp_err){
+			g_propagate_prefixed_error(err,tmp_err,"[gfal_wait_async_requestG]");
+			return 1;
+		}
+		usleep(1000);
+	 }
+	 return -1;
+ }
+ 
+ 
+ /**
+ *  @brief errcode of each turls request
+ *  @param handle : handle associated with the request
+ *  @param turl_errcode :  GList<int> of all the errcode associated with the request
+ *  @param err : Gerror** err system
+ * @return return number of request turl if success else return negative value
+ **/
+ int gfal_get_async_get_request_errcodesG(gfal_handle handle, GList** turls_errcode, GError** err){
+	g_return_val_err_if_fail(handle && turls_errcode , -1, err, "[gfal_get_async_get_request_errcodesG] arg invalid value");
+	int ret = -1;
+	GError * tmp_err=NULL;
+	ret = gfal_convert_filestatut(handle,NULL, turls_errcode, NULL, &tmp_err);
+	if( ret <0)
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_get_request_errcodesG]");
+	return ret;	  
+ }
+ 
+

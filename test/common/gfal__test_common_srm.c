@@ -5,7 +5,8 @@
 
 #include <check.h>
 #include "gfal_common.h"
-
+#include <time.h>
+#include <unistd.h>
 
 
 
@@ -275,6 +276,7 @@ START_TEST(test_gfal_select_best_protocol_and_endpoint)
 END_TEST
 
 
+
 START_TEST(gfal_get_asyncG_empty_req)
 {
 	GError *err = NULL;
@@ -313,17 +315,82 @@ START_TEST(gfal_get_asyncG_empty_old_nonexist_surl)
 	fail_unless(ret, " this request must fail old non exist surl");
 	
 	
-	
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
+START_TEST(test_gfal_is_finished)
+{
+	char *endpoint;
+	enum gfal_srm_proto srm_type;
+	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
+	GError * err= NULL;
+	gfal_handle handle  = gfal_initG(&err);
+	if(handle == NULL){
+		fail(" handle is not properly allocated");
+		return;
+	}
+	int ret = gfal_get_asyncG(handle, list, &err);
+	fail_if(ret <0, " this request must be a success, valid surl");
+	if(ret <0){
+		gfal_release_GError(&err);
+		return;
+	}
+	
+	clock_t end;
+	end = clock () + 5 * CLOCKS_PER_SEC ;
+	gboolean finished = FALSE;
+	while(!finished){
+		if(end < clock())
+			break;
+		finished = gfal_async_request_is_finishedG(handle, &err);
+		if(err)
+			break;
+	}
+	fail_unless(finished, " the request must finished correctly");
+	fail_if(err, " error return must be empty ");
+	if(err)
+		gfal_release_GError(&err);
+	
+	gfal_handle_freeG(handle);
+}
+END_TEST
+
+
+START_TEST(test_gfal_waiting_async)
+{
+	char *endpoint;
+	enum gfal_srm_proto srm_type;
+	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
+	GError * err= NULL;
+	gfal_handle handle  = gfal_initG(&err);
+	if(handle == NULL){
+		fail(" handle is not properly allocated");
+		return;
+	}
+	int ret = gfal_get_asyncG(handle, list, &err);
+	fail_if(ret <0, " this request must be a success, valid surl");
+	if(ret <0){
+		gfal_release_GError(&err);
+		return;
+	}
+	
+	ret= gfal_wait_async_requestG(handle, 5, &err);
+	fail_unless(ret == 0, " the request must finished correctly : code %d ", ret);
+	fail_if(err, " error return must be empty ");
+	if(err)
+		gfal_release_GError(&err);
+	
+	gfal_handle_freeG(handle);	
+		
+}
+END_TEST
 
 START_TEST(test_gfal_get_async_resultsG)
 {
 	GError *err = NULL;
 	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32");	
-	GList* list_resu;
-	GList* list_resu_err;		
+	GList* list_resu;	
 	gfal_handle handle = gfal_initG(&err);
 	if(handle == NULL){
 		fail("fail to init handle");
@@ -335,10 +402,23 @@ START_TEST(test_gfal_get_async_resultsG)
 		gfal_release_GError(&err);
 		return;
 	}
-	ret = gfal_get_async_resultsG(handle, &list_resu, &list_resu_err, &err);
+	ret=  gfal_wait_async_requestG(handle, 5, &err);
+	fail_unless(ret == 0, " the request must finished correctly");
+	if(ret ){
+		gfal_handle_freeG(handle);
+		return;
+	}
+		
+	ret = gfal_get_async_resultsG(handle, &list_resu, &err);
 	fprintf(stderr, " result turl : %s", list_resu->data);
 	fail_if(ret !=1 , " must return good status");
-	fail_if(list_resu_err->data, " must not have error ");
+	fail_if(err, " error report must be null");
+	while(list_resu != NULL){
+		fail_if( list_resu->data == NULL, " must be a success ");
+		g_printerr(" turl : %s", list_resu->data);
+		list_resu = g_list_next(list_resu);
+	}
+	gfal_handle_freeG(handle);
 	return;
 }
 END_TEST
@@ -348,7 +428,7 @@ START_TEST(test_gfal_get_async_resultsG_empty)
 	GError *err = NULL;
 	gfal_handle handle = NULL; // srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/testfile002
 	GList* list;
-	int ret = gfal_get_async_resultsG(handle, &list, NULL, &err);
+	int ret = gfal_get_async_resultsG(handle, &list, &err);
 	fail_unless(ret <0, " must be a failure, handle empty");	
 	g_clear_error(&err);
 	handle = gfal_initG(&err);
@@ -356,9 +436,10 @@ START_TEST(test_gfal_get_async_resultsG_empty)
 		fail("fail to init handle");
 		return;
 	}
-	ret = gfal_get_async_resultsG(handle, &list, NULL, &err);
+	ret = gfal_get_async_resultsG(handle, &list, &err);
 	fail_unless(ret<0  , " must be a failure, ne get before");	
 	g_clear_error(&err);
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
@@ -379,13 +460,86 @@ START_TEST(test_full_gfal_get_request)
 	if(ret <0){
 		gfal_release_GError(&err);
 		return;
-	}	
+	}
+	ret=  gfal_wait_async_requestG(handle, 5, &err);
+	fail_unless(ret == 0, " the request must finished correctly");
+	if(ret ){
+		gfal_handle_freeG(handle);
+		return;
+	}
+	ret = gfal_get_async_resultsG(handle, &list_resu, &err);
+	if( err || list_resu->data == NULL || strncmp(list_resu->data, "gsiftp://atlas-storage-02.roma1.infn.it/atlas-storage-02.roma1.infn.it:/data2/dteam/2009-01-28/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32.8246597.0",1024) != 0){
+		fail( " is not the good turl");
+		gfal_handle_freeG(handle);
+		return;
+	}
+	ret = gfal_get_async_get_request_errcodesG(handle, &list_resu_err, &err);
+	GList* tmp_list = list_resu_err;
+	while( tmp_list != NULL){
+		if( ret || tmp_list->data != NULL){
+			fail( " must not report error");
+			gfal_handle_freeG(handle);	
+			return;		
+		}
+		
+	}
+	g_list_free(list_resu_err);
+	ret = gfal_get_async_get_request_errstringG(handle, &list_resu_err, &err);
+	if( ret || g_list_length(list_resu_err) !=0){
+		fail( " must not report error string");
+		gfal_handle_freeG(handle);	
+		return;		
+	}
+	//if(list_resu_err) g_list_free(list_resu_err);
+}
+END_TEST
 
-	ret = gfal_get_async_resultsG(handle, &list_resu, &list_resu_err, &err);
-	fail_if(ret !=1 , " must return good status");
-	fail_if(list_resu_err->data, " must not have error ");
-	fail_if(g_list_length(list_resu) !=1 || g_list_length(list_resu_err) != 1, " bad result size");
-	fail_unless(strcmp(list_resu->data, "gsiftp://atlas-storage-02.roma1.infn.it/atlas-storage-02.roma1.infn.it:/data2/dteam/2009-01-28/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32.8246597.0") == 0, " is not the good turl");
+
+START_TEST(test_full_gfal_get_request_multi)
+{
+	GError *err = NULL;
+	gfal_handle handle = NULL; 
+	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32");
+	list = g_list_append(list, "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/testfile002");
+	list = g_list_append(list,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32");
+	GList *list_resu=NULL, *list_resu_err=NULL;
+		handle = gfal_initG(&err);
+	if(handle == NULL){
+		fail("fail to init handle");
+		return;
+	}		
+	int ret = gfal_get_asyncG(handle, list, &err);
+	fail_if(ret <0, " this request must be a success, valid surl");
+	if(ret <0){
+		gfal_release_GError(&err);
+		return;
+	}
+	ret=  gfal_wait_async_requestG(handle, 5, &err);
+	fail_unless(ret == 0, " the request must finished correctly");
+	if(ret ){
+		gfal_handle_freeG(handle);
+		return;
+	}
+	ret = gfal_get_async_resultsG(handle, &list_resu, &err);
+	if( err || list_resu->data == NULL || strncmp(list_resu->data, "gsiftp://atlas-storage-02.roma1.infn.it/atlas-storage-02.roma1.infn.it:/data2/dteam/2009-01-28/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32.8246597.0",1024) != 0){
+		fail( " first element is not the good turl");
+		gfal_handle_freeG(handle);
+		return;
+	}
+	ret = gfal_get_async_get_request_errcodesG(handle, &list_resu_err, &err);
+	if( ret || g_list_length(list_resu_err) !=0){
+		fail( " must not report error");
+		gfal_handle_freeG(handle);	
+		return;		
+	}
+	g_list_free(list_resu_err);
+	ret = gfal_get_async_get_request_errstringG(handle, &list_resu_err, &err);
+	if( ret || g_list_length(list_resu) !=0){
+		fail( " must not report error string");
+		gfal_handle_freeG(handle);	
+		return;		
+	}
+	fail("error");
 }
 END_TEST
 

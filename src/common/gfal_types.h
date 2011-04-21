@@ -182,6 +182,8 @@ typedef struct gfal_request_ {
 	struct srmv2_pinfilestatus *srmv2_pinstatuses;
 	enum gfal_srm_proto current_request_proto;
 	char * 						request_endpoint; 
+	gboolean					finished;			// finished or not
+	int							number;				// number of files in request
  } gfal_request_state; 
  
  typedef struct gfal_handle_ {
