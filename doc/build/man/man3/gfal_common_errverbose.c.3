@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "20 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "27 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -30,6 +30,9 @@
 .RI "\fIdisplay the full GError message on stderr and free the memory associated \fP"
 .ti -1c
 .RI "void \fBg_propagate_prefixed_error\fP (GError **dest, GError *src, const gchar *format,...)"
+.br
+.ti -1c
+.RI "void \fBg_list_free_full\fP (GList *list, GDestroyNotify free_func)"
 .br
 .in -1c
 .SH "Detailed Description"

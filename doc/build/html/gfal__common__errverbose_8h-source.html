@@ -65,7 +65,15 @@
 <a name="l00062"></a>00062                                                                    ...) G_GNUC_PRINTF (3, 4);
 <a name="l00063"></a>00063  
 <a name="l00064"></a>00064 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Apr 20 16:24:58 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00065"></a>00065 <span class="preprocessor"></span>
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 <span class="preprocessor">#if (GLIB_CHECK_VERSION(2,28,0) != TRUE)</span>
+<a name="l00068"></a>00068 <span class="preprocessor"></span>
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 <span class="keywordtype">void</span> g_list_free_full(GList *list, GDestroyNotify free_func);
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 <span class="preprocessor">#endif</span>
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Apr 27 15:23:42 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

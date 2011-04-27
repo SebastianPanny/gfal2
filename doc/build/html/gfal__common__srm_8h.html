@@ -22,6 +22,7 @@
 <p>
 <code>#include &quot;<a class="el" href="gfal__common_8h-source.html">gfal_common.h</a>&quot;</code><br>
 <code>#include &lt;regex.h&gt;</code><br>
+<code>#include &lt;time.h&gt;</code><br>
 
 <p>
 <a href="gfal__common__srm_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -43,8 +44,20 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#95ffd4de24c18af334c1d9c270de7d81">gfal_get_asyncG</a> (gfal_handle handle, GList *surls, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">launch a surls-&gt; turls translation in asynchronous mode  <a href="#95ffd4de24c18af334c1d9c270de7d81"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#6d99be0f4b19c27b2b44032338444d5f">gfal_get_async_resultsG</a> (gfal_handle handle, GList **turls, GList **gerr_turls, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#1c3a2a23f764ce8bf5cdd73108e4d9ca">gfal_get_async_resultsG</a> (gfal_handle handle, GList **turls, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#b628e9ad3599f656f022f9101020f519">gfal_async_request_is_finishedG</a> (gfal_handle handle, GError **err)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">progress of the last request  <a href="#b628e9ad3599f656f022f9101020f519"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#882da2b766bd2a686e7bda9421cb7cbf">gfal_get_async_get_request_errcodesG</a> (gfal_handle handle, GList **turl_errcode, GError **err)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">errcode of each turls request  <a href="#882da2b766bd2a686e7bda9421cb7cbf"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#c60fa3f3565e1be54184e71ad1f2f3ea">gfal_get_async_get_request_errstringG</a> (gfal_handle handle, GList **turl_errstring, GError **err)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">string of each request errcode  <a href="#c60fa3f3565e1be54184e71ad1f2f3ea"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#86890a00f72d9af9ab88f42a69e3bf8c">gfal_wait_async_requestG</a> (gfal_handle handle, long timeout, GError **err)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">wait for the current request  <a href="#86890a00f72d9af9ab88f42a69e3bf8c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#a3975dda72e623713566e510b0317796">gfal_set_nobdiiG</a> (gfal_handle handle, gboolean no_bdii_chk)</td></tr>
 
 </table>
@@ -55,7 +68,133 @@ the header file with the main srm funcs of the common API
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>12/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="6d99be0f4b19c27b2b44032338444d5f"></a><!-- doxytag: member="gfal_common_srm.h::gfal_get_async_resultsG" ref="6d99be0f4b19c27b2b44032338444d5f" args="(gfal_handle handle, GList **turls, GList **gerr_turls, GError **err)" -->
+<a class="anchor" name="b628e9ad3599f656f022f9101020f519"></a><!-- doxytag: member="gfal_common_srm.h::gfal_async_request_is_finishedG" ref="b628e9ad3599f656f022f9101020f519" args="(gfal_handle handle, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gfal_async_request_is_finishedG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+progress of the last request 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>return TRUE if the current request is finished else FALSE </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: Gerror** err system </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="882da2b766bd2a686e7bda9421cb7cbf"></a><!-- doxytag: member="gfal_common_srm.h::gfal_get_async_get_request_errcodesG" ref="882da2b766bd2a686e7bda9421cb7cbf" args="(gfal_handle handle, GList **turl_errcode, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_get_async_get_request_errcodesG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GList **&nbsp;</td>
+          <td class="paramname"> <em>turls_errcode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+errcode of each turls request 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: handle associated with the request </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>turl_errcode</em>&nbsp;</td><td>: GList&lt;int&gt; of all the errcode associated with the request </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: Gerror** err system </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return number of request turl if success else return negative value </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="c60fa3f3565e1be54184e71ad1f2f3ea"></a><!-- doxytag: member="gfal_common_srm.h::gfal_get_async_get_request_errstringG" ref="c60fa3f3565e1be54184e71ad1f2f3ea" args="(gfal_handle handle, GList **turl_errstring, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_get_async_get_request_errstringG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GList **&nbsp;</td>
+          <td class="paramname"> <em>turls_errstring</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+string of each request errcode 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>turl_errcode</em>&nbsp;</td><td>: GList&lt;char*&gt;, give a string error for each turl request, char* can be NULL if no error associated </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return number of request turl if success else return negative value </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="1c3a2a23f764ce8bf5cdd73108e4d9ca"></a><!-- doxytag: member="gfal_common_srm.h::gfal_get_async_resultsG" ref="1c3a2a23f764ce8bf5cdd73108e4d9ca" args="(gfal_handle handle, GList **turls, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -74,12 +213,6 @@ the header file with the main srm funcs of the common API
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GList **&nbsp;</td>
-          <td class="paramname"> <em>gerr_turls</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">GError **&nbsp;</td>
           <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
         </tr>
@@ -93,15 +226,14 @@ the header file with the main srm funcs of the common API
 <div class="memdoc">
 
 <p>
-get the state of the current async request <dl compact><dt><b>Returns:</b></dt><dd>return the number of response in turls or negativevalue if error </dd></dl>
+get the result to the last get_async request <dl compact><dt><b>Returns:</b></dt><dd>return the number of response in turls or negative value if error </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: handle of the current context </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>GList**</em>&nbsp;</td><td>turls : GList of char* with the full list of answer, answer can be 0 if error </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>Optional</em>&nbsp;</td><td>GList**gerr_turls : GList of GError*, contain the error report for each url ( see GError report system ), A turl element with no error is associated with NULL pointer for safety reason </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>GList**</em>&nbsp;</td><td>turls : GList&lt;char*&gt; turls with the full list of answer, an answer with error is a NULL pointer </td></tr>
   </table>
 </dl>
-<dl compact><dt><b>Warning:</b></dt><dd>turls need to be free manually after use </dd></dl>
+<dl compact><dt><b>Warning:</b></dt><dd>turls need to be free manually </dd></dl>
 
 </div>
 </div><p>
@@ -144,7 +276,7 @@ launch a surls-&gt; turls translation in asynchronous mode
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: the gfal_handle initiated ( gfal_init ) </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>surls</em>&nbsp;</td><td>: GList of string of the differents surls to convert </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: GError for error report </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: GError** for error report </td></tr>
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>return positive if success else -1, check GError for more information </dd></dl>
@@ -201,7 +333,52 @@ initiate a gfal's context with default parameters for use <dl compact><dt><b>Ret
 set the bdii value of the handle specified 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 20 16:24:58 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="86890a00f72d9af9ab88f42a69e3bf8c"></a><!-- doxytag: member="gfal_common_srm.h::gfal_wait_async_requestG" ref="86890a00f72d9af9ab88f42a69e3bf8c" args="(gfal_handle handle, long timeout, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_wait_async_requestG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&nbsp;</td>
+          <td class="paramname"> <em>timeout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+wait for the current request 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>timeout</em>&nbsp;</td><td>: maximum time to wait before error </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: Error report system </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return 0 if finished correctly, return 1 if timeout is reached, return -1 if error </dd></dl>
+
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 27 15:23:42 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

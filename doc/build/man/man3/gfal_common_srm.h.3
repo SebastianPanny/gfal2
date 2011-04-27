@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "20 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "27 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -9,6 +9,8 @@
 \fC#include 'gfal_common.h'\fP
 .br
 \fC#include <regex.h>\fP
+.br
+\fC#include <time.h>\fP
 .br
 
 .SS "Defines"
@@ -36,8 +38,24 @@
 .br
 .RI "\fIlaunch a surls-> turls translation in asynchronous mode \fP"
 .ti -1c
-.RI "int \fBgfal_get_async_resultsG\fP (gfal_handle handle, GList **turls, GList **gerr_turls, GError **err)"
+.RI "int \fBgfal_get_async_resultsG\fP (gfal_handle handle, GList **turls, GError **err)"
 .br
+.ti -1c
+.RI "gboolean \fBgfal_async_request_is_finishedG\fP (gfal_handle handle, GError **err)"
+.br
+.RI "\fIprogress of the last request \fP"
+.ti -1c
+.RI "int \fBgfal_get_async_get_request_errcodesG\fP (gfal_handle handle, GList **turl_errcode, GError **err)"
+.br
+.RI "\fIerrcode of each turls request \fP"
+.ti -1c
+.RI "int \fBgfal_get_async_get_request_errstringG\fP (gfal_handle handle, GList **turl_errstring, GError **err)"
+.br
+.RI "\fIstring of each request errcode \fP"
+.ti -1c
+.RI "int \fBgfal_wait_async_requestG\fP (gfal_handle handle, long timeout, GError **err)"
+.br
+.RI "\fIwait for the current request \fP"
 .ti -1c
 .RI "void \fBgfal_set_nobdiiG\fP (gfal_handle handle, gboolean no_bdii_chk)"
 .br
@@ -64,27 +82,76 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_get_async_resultsG (gfal_handle handle, GList ** turls, GList ** gerr_turls, GError ** err)"
+.SS "gboolean gfal_async_request_is_finishedG (gfal_handle handle, GError ** err)"
 .PP
-get the state of the current async request 
+progress of the last request 
 .PP
 \fBReturns:\fP
 .RS 4
-return the number of response in turls or negativevalue if error 
+return TRUE if the current request is finished else FALSE 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerr\fP : Gerror** err system 
+.RE
+.PP
+
+.SS "int gfal_get_async_get_request_errcodesG (gfal_handle handle, GList ** turls_errcode, GError ** err)"
+.PP
+errcode of each turls request 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP : handle associated with the request 
+.br
+\fIturl_errcode\fP : GList<int> of all the errcode associated with the request 
+.br
+\fIerr\fP : Gerror** err system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return number of request turl if success else return negative value 
+.RE
+.PP
+
+.SS "int gfal_get_async_get_request_errstringG (gfal_handle handle, GList ** turls_errstring, GError ** err)"
+.PP
+string of each request errcode 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP 
+.br
+\fIturl_errcode\fP : GList<char*>, give a string error for each turl request, char* can be NULL if no error associated 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return number of request turl if success else return negative value 
+.RE
+.PP
+
+.SS "int gfal_get_async_resultsG (gfal_handle handle, GList ** turls, GError ** err)"
+.PP
+get the result to the last get_async request 
+.PP
+\fBReturns:\fP
+.RS 4
+return the number of response in turls or negative value if error 
 .RE
 .PP
 \fBParameters:\fP
 .RS 4
 \fIhandle\fP : handle of the current context 
 .br
-\fIGList**\fP turls : GList of char* with the full list of answer, answer can be 0 if error 
-.br
-\fIOptional\fP GList**gerr_turls : GList of GError*, contain the error report for each url ( see GError report system ), A turl element with no error is associated with NULL pointer for safety reason 
+\fIGList**\fP turls : GList<char*> turls with the full list of answer, an answer with error is a NULL pointer 
 .RE
 .PP
 \fBWarning:\fP
 .RS 4
-turls need to be free manually after use 
+turls need to be free manually 
 .RE
 .PP
 
@@ -103,7 +170,7 @@ need a initiaed gfal_handle
 .br
 \fIsurls\fP : GList of string of the differents surls to convert 
 .br
-\fIerr\fP : GError for error report 
+\fIerr\fP : GError** for error report 
 .RE
 .PP
 \fBReturns:\fP
@@ -125,6 +192,25 @@ a gfal_handle, need to be free after usage or NULL if errors
 .SS "void gfal_set_nobdiiG (gfal_handle handle, gboolean no_bdii_chk)"
 .PP
 set the bdii value of the handle specified 
+.SS "int gfal_wait_async_requestG (gfal_handle handle, long timeout, GError ** err)"
+.PP
+wait for the current request 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP 
+.br
+\fItimeout\fP : maximum time to wait before error 
+.br
+\fIerr\fP : Error report system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return 0 if finished correctly, return 1 if timeout is reached, return -1 if error 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

@@ -4,45 +4,45 @@
     <compoundname>gfal_common_errverbose.c</compoundname>
     <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
     <incdepgraph>
-      <node id="225">
+      <node id="230">
         <label>stdarg.h</label>
       </node>
-      <node id="222">
+      <node id="227">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</label>
         <link refid="gfal_common_errverbose.c"/>
-        <childnode refid="223" relation="include">
-        </childnode>
-      </node>
-      <node id="223">
-        <label>gfal_common_errverbose.h</label>
-        <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="224" relation="include">
-        </childnode>
-        <childnode refid="225" relation="include">
-        </childnode>
-        <childnode refid="226" relation="include">
-        </childnode>
-        <childnode refid="227" relation="include">
-        </childnode>
         <childnode refid="228" relation="include">
-        </childnode>
-        <childnode refid="229" relation="include">
         </childnode>
       </node>
       <node id="228">
+        <label>gfal_common_errverbose.h</label>
+        <link refid="gfal__common__errverbose_8h"/>
+        <childnode refid="229" relation="include">
+        </childnode>
+        <childnode refid="230" relation="include">
+        </childnode>
+        <childnode refid="231" relation="include">
+        </childnode>
+        <childnode refid="232" relation="include">
+        </childnode>
+        <childnode refid="233" relation="include">
+        </childnode>
+        <childnode refid="234" relation="include">
+        </childnode>
+      </node>
+      <node id="233">
         <label>errno.h</label>
       </node>
-      <node id="227">
+      <node id="232">
         <label>string.h</label>
       </node>
-      <node id="229">
+      <node id="234">
         <label>glib.h</label>
       </node>
-      <node id="224">
+      <node id="229">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="226">
+      <node id="231">
         <label>stdio.h</label>
       </node>
     </incdepgraph>
@@ -179,6 +179,27 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="104" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="100" bodyend="115"/>
       </memberdef>
+      <memberdef kind="function" id="gfal__common__errverbose_8c_10d507092f75c2411862d210dbecbc4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void g_list_free_full</definition>
+        <argsstring>(GList *list, GDestroyNotify free_func)</argsstring>
+        <name>g_list_free_full</name>
+        <param>
+          <type>GList *</type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>GDestroyNotify</type>
+          <declname>free_func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="125" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="124" bodyend="132"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="var">
       <memberdef kind="variable" id="gfal__common__errverbose_8c_16ad2d822f5395da159b64a4f9540c3c7" prot="public" static="yes" mutable="no">
@@ -302,8 +323,25 @@
 <codeline lineno="116"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="117"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#endif</highlight></codeline>
 <codeline lineno="118"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#if<sp/>(GLIB_CHECK_VERSION(2,28,0)<sp/>!=<sp/>TRUE)</highlight></codeline>
+<codeline lineno="122"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>g_list_free_full(GList<sp/>*list,<sp/>GDestroyNotify<sp/>free_func)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>GList*<sp/>tmp_list=<sp/>list;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(<sp/>tmp_list<sp/>!=<sp/>NULL){</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free_func(tmp_list-&gt;data);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmp_list<sp/>=<sp/>g_list_next(tmp_list);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_list_free(list);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="135"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c"/>
   </compounddef>
