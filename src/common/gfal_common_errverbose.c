@@ -116,5 +116,22 @@ g_propagate_prefixed_error (GError      **dest,
  
  #endif
  
+ 
+ 
+ #if (GLIB_CHECK_VERSION(2,28,0) != TRUE)
+
+
+void g_list_free_full(GList *list, GDestroyNotify free_func)
+{
+    GList* tmp_list= list;
+	while( tmp_list != NULL){
+		free_func(tmp_list->data);
+		tmp_list = g_list_next(tmp_list);		
+	}
+	g_list_free(list);
+}
+
+#endif
+ 
 
 

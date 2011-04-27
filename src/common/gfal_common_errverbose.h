@@ -62,3 +62,11 @@ void     g_propagate_prefixed_error   (GError       **dest,
 								   ...) G_GNUC_PRINTF (3, 4);
  
 #endif
+
+
+#if (GLIB_CHECK_VERSION(2,28,0) != TRUE)
+
+
+void g_list_free_full(GList *list, GDestroyNotify free_func);
+
+#endif

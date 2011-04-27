@@ -1,4 +1,4 @@
-
+#pragma once
 
 /* unit test for common_srm */
 
@@ -7,6 +7,9 @@
 #include "gfal_common.h"
 #include <time.h>
 #include <unistd.h>
+
+
+
 
 
 
@@ -444,6 +447,50 @@ START_TEST(test_gfal_get_async_resultsG_empty)
 END_TEST
 
 
+START_TEST(test_gfal_async_results_errcode)			// verify the errcode of a bad request
+{
+	gfal_handle handle = NULL;
+	GList* list = g_list_append(NULL, "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/testfile002");
+	GList* errcode=NULL;
+	GError* err = NULL;
+	int ret = gfal_get_async_get_request_errcodesG(handle, &errcode, &err);			// test without handle, must fail
+	if( ret >= 0 || !err || errcode ){
+		fail(" must return error, handle not initiated");
+		return;
+	}
+	g_clear_error(&err);
+	handle = gfal_initG(&err);
+	if(err){
+		fail(" must initiated properly");
+		gfal_release_GError(&err);
+		return;				
+	}
+	ret = gfal_get_async_get_request_errcodesG(handle, &errcode, &err);			// test without get before, must fail
+	if( ret>=0 || !err || errcode){
+		fail(" must fail, no request before");
+		return;				
+	}
+	ret = gfal_get_asyncG(handle, list, &err);
+	if(ret){
+		gfal_release_GError(&err);
+		return;
+	}
+	ret=  gfal_wait_async_requestG(handle, 5, &err);
+	if(ret ){
+		fail(" the request must finished correctly");
+		gfal_release_GError(&err);
+		gfal_handle_freeG(handle);
+		return;
+	}
+	ret = gfal_get_async_get_request_errcodesG(handle, &errcode, &err);			// test without get before, must fail
+	if( ret <=0 || err ){
+		fail(" must be a success");
+		return;				
+	}
+	
+}
+END_TEST
+
 START_TEST(test_full_gfal_get_request)
 {
 	GError *err = NULL;
@@ -462,8 +509,9 @@ START_TEST(test_full_gfal_get_request)
 		return;
 	}
 	ret=  gfal_wait_async_requestG(handle, 5, &err);
-	fail_unless(ret == 0, " the request must finished correctly");
 	if(ret ){
+		fail(" the request must finished correctly");
+		gfal_release_GError(&err);
 		gfal_handle_freeG(handle);
 		return;
 	}
@@ -475,22 +523,40 @@ START_TEST(test_full_gfal_get_request)
 	}
 	ret = gfal_get_async_get_request_errcodesG(handle, &list_resu_err, &err);
 	GList* tmp_list = list_resu_err;
+	if(ret <0){
+			fail(" return error on errcode get ");
+			gfal_release_GError(&err);
+			gfal_handle_freeG(handle);
+			return;
+	}
 	while( tmp_list != NULL){
-		if( ret || tmp_list->data != NULL){
-			fail( " must not report error");
+		if( tmp_list->data != GINT_TO_POINTER(0)){
+			fail( "must not report error");
 			gfal_handle_freeG(handle);	
 			return;		
 		}
-		
+		tmp_list = g_list_next(tmp_list);
 	}
 	g_list_free(list_resu_err);
 	ret = gfal_get_async_get_request_errstringG(handle, &list_resu_err, &err);
-	if( ret || g_list_length(list_resu_err) !=0){
-		fail( " must not report error string");
-		gfal_handle_freeG(handle);	
-		return;		
+	if(ret <0){
+			fail(" return error on err string get ");
+			gfal_release_GError(&err);
+			gfal_handle_freeG(handle);
+			return;		
 	}
-	//if(list_resu_err) g_list_free(list_resu_err);
+	tmp_list = list_resu_err;
+	while( tmp_list != NULL){
+		if( tmp_list->data != NULL){
+			fail( "must not report error string ");
+			gfal_handle_freeG(handle);	
+			return;		
+		}
+		tmp_list = g_list_next(tmp_list);
+	}
+	g_list_free_full(list_resu_err,free); 
+	g_list_free_full(list_resu,free); 
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
@@ -521,7 +587,9 @@ START_TEST(test_full_gfal_get_request_multi)
 		return;
 	}
 	ret = gfal_get_async_resultsG(handle, &list_resu, &err);
-	if( err || list_resu->data == NULL || strncmp(list_resu->data, "gsiftp://atlas-storage-02.roma1.infn.it/atlas-storage-02.roma1.infn.it:/data2/dteam/2009-01-28/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32.8246597.0",1024) != 0){
+	if( err || list_resu->data == NULL // check the first result
+				|| strncmp(list_resu->data, "gsiftp://atlas-storage-02.roma1.infn.it/atlas-storage-02.roma1.infn.it:/data2/dteam/2009-01-28/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32.8246597.0",1024) != 0
+				){
 		fail( " first element is not the good turl");
 		gfal_handle_freeG(handle);
 		return;

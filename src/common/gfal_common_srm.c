@@ -390,11 +390,15 @@ void gfal_handle_freeG (gfal_handle handle){
 	handle = NULL;
 }
 /**
- * convert a table a struct srmv2_pinfilestatus in a GList<char*>* turls 
- * 
+ * convert a table a struct srmv2_pinfilestatus to (a) desired GList(s) of turl string, turl associated error code, turl associated error string
+ *  @return return the number of turl in the last request
+ *  @param turls pointer GList<char*> for the GList turl, need to be free. A empty turl (error case) cause an addition of a NULL pointer to the LIST. turls must be set to NULL if not used.
+ *  @param turls_code pointer GList<int> for the GList error code associated to the turls, need to be free. turls_errcode must be set to NULL if not used
+ *  @param turls_errstring GList<char*> pointer for the GList error string associated to the turls, need to free . A empty turl (error case) cause an addition of a NULL pointer to the LIST. turls_errstring must be set to NULL if not used.
+ *  @param err : global GError system
  * */
 static int gfal_convert_filestatut(gfal_handle handle, GList** turls, GList** turls_code, GList** turls_errstring, GError** err){
-	g_return_val_err_if_fail(turls && handle && handle->last_request_state, -1, err, "[gfal_convert_filestatut invalid arguments");
+	g_return_val_err_if_fail( handle && handle->last_request_state, -1, err, "[gfal_convert_filestatut] invalid arguments");
 	gfal_request_state* last_req = handle->last_request_state;
 	GError* tmp_err=NULL;
 	if(gfal_async_request_is_finishedG(handle,&tmp_err) == FALSE){
@@ -413,17 +417,17 @@ static int gfal_convert_filestatut(gfal_handle handle, GList** turls, GList** tu
 	for(i=0; i< ret; ++i){
 		const int code = filestatus[i].status;
 		if(turls_code){
-			tmp_turls_code = g_list_append(tmp_turls_code, code);
+			tmp_turls_code = g_list_append(tmp_turls_code, GINT_TO_POINTER(code));
 		}
 		if(turls){
 			const char* turl = filestatus[i].turl;
 			const char* resu = (!code && turl)?strndup(turl,2048):NULL;
-			tmp_turls = g_list_append(tmp_turls, resu);
+			tmp_turls = g_list_append(tmp_turls, (gpointer)resu);
 		}
 		if(turls_errstring){
 			const char* err_string = filestatus[i].explanation;
 			const char* resu = (code && err_string)?strndup(err_string,2048):NULL;
-			tmp_turls_errstring = g_list_append(tmp_turls_errstring, resu);
+			tmp_turls_errstring = g_list_append(tmp_turls_errstring,(gpointer) resu);
 		}
 	}
 	if(turls)
