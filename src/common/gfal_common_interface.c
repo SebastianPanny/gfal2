@@ -26,19 +26,38 @@
 
 /**
  * @brief get a initiated gfal_handle
- * Wrapper of gfal_initG for the use cases without the GError system
+ * @return a gfal_handle, need to be free after usage. return NULL if errors
+ * Wrapper for the "without GLib" use case.
  * */ 
 gfal_handle gfal_init(){
 	return gfal_initG(NULL);	
 }
 
+
 /**
- * 
- * 
- * */
-int gfal_get_async(gfal_handle handle, GList* surls){
+ * @brief launch a surls-> turls translation in asynchronous mode
+ * @warning need a initiaed gfal_handle
+ * @param handle : the gfal_handle initiated ( \ref gfal_init )
+ * @param surls : table of string of the differents surls to convert, NULL pointer must be the end of the table
+ * @return return positive if success else -1, check GError for more information
+ */
+int gfal_get_async(gfal_handle handle, char** surls){
+	g_assert(handle != NULL);
+	GList *list=NULL;
+	while(surls!= NULL){
+		list = g_list_append(list, *surls);
+		surls++;
+	} 
+	return gfal_get_asyncG(handle, list, &(handle->err));
+}
+
+
+
+int gfal_get_async_results(gfal_handle handle, char** turls){
 	
-	return gfal_get_asyncG(handle, surls
+	
+	
+	
 }
 
 

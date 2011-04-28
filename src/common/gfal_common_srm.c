@@ -215,7 +215,7 @@ int gfal_auto_get_srm_endpoint(gfal_handle handle, char** endpoint, enum gfal_sr
 
 /**
  * initiate a gfal's context with default parameters for use
- * @return a gfal_handle, need to be free after usage or NULL if errors
+ * @return a gfal_handle, need to be free after usage. return NULL if errors
  */
 gfal_handle gfal_initG (GError** err)
 {
@@ -550,7 +550,13 @@ gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err)
 	return ret;
 }
 
-
+/**
+ * get the result to the last get_async request
+ * @return return the number of response in turls or negative value if error
+ * @param handle : handle of the current context
+ * @param GList** turls : GList<char*> turls with the full list of answer, an answer with error is a NULL pointer
+ * @warning turls need to be free manually 
+ */
 int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err){
 	g_return_val_err_if_fail(handle && turls , -1, err, "[gfal_get_request_statusG] arg invalid value");
 	int ret = -1;
@@ -568,13 +574,13 @@ int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err){
   * @param turl_errcode : GList<char*>, give a string error for each turl request, char* can be NULL if no error associated
   * @return return number of request turl if success else return negative value
   * */
-  int gfal_get_async_get_request_errstringG(gfal_handle handle, GList** turls_errstring, GError** err){	
-	g_return_val_err_if_fail(handle && turls_errstring , -1, err, "[gfal_get_async_get_request_errstringG] arg invalid value");
+  int gfal_get_async_get_results_errstringG(gfal_handle handle, GList** turls_errstring, GError** err){	
+	g_return_val_err_if_fail(handle && turls_errstring , -1, err, "[gfal_get_async_get_results_errstringG] arg invalid value");
 	int ret = -1;
 	GError * tmp_err=NULL;
 	ret = gfal_convert_filestatut(handle,NULL,NULL, turls_errstring, &tmp_err);
 	if( ret <0)
-		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_get_request_errstringG]");
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_get_results_errstringG]");
 	return ret;
   }
   
@@ -609,13 +615,13 @@ int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err){
  *  @param err : Gerror** err system
  * @return return number of request turl if success else return negative value
  **/
- int gfal_get_async_get_request_errcodesG(gfal_handle handle, GList** turls_errcode, GError** err){
-	g_return_val_err_if_fail(handle && turls_errcode , -1, err, "[gfal_get_async_get_request_errcodesG] arg invalid value");
+ int gfal_get_async_get_results_errcodesG(gfal_handle handle, GList** turls_errcode, GError** err){
+	g_return_val_err_if_fail(handle && turls_errcode , -1, err, "[gfal_get_async_get_results_errcodesG] arg invalid value");
 	int ret = -1;
 	GError * tmp_err=NULL;
 	ret = gfal_convert_filestatut(handle,NULL, turls_errcode, NULL, &tmp_err);
 	if( ret <0)
-		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_get_request_errcodesG]");
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_get_results_errcodesG]");
 	return ret;	  
  }
  
