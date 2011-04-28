@@ -27,9 +27,15 @@
 <a href="gfal__common__interface_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__srm__group.html#g4e6d4aab98935aaf408d8a5cdf9727d4">gfal_init</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#bdebd69c0c6a74b1b5adf88b5e836d8a">gfal_last_error_string</a> (gfal_handle handle)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">init the gfal srm interface for surl -&gt; turls transformation  <a href="group__srm__group.html#g4e6d4aab98935aaf408d8a5cdf9727d4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#ad28f1c5d1a0ed623834e6133bb7dd2e">gfal_has_error</a> (gfal_handle handle)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#4ca376cf47166fabd46a45fccb863ebe">gfal_clear_error</a> (gfal_handle handle)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#4211faf02a3c5cc696c7c9f974415d11">gfal_handle_new</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get a initiated gfal_handle  <a href="#4211faf02a3c5cc696c7c9f974415d11"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0071cb3665f7dca9648fa46bebeca524"></a><!-- doxytag: member="gfal_common_interface.h::gfal_handle_free" ref="0071cb3665f7dca9648fa46bebeca524" args="(gfal_handle handle)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_handle_free</b> (gfal_handle handle)</td></tr>
 
@@ -41,17 +47,15 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_handle_free</b> 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">progress of the last request  <a href="#ce6fcac8e92ad2e1d699eed2ce74a257"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#0c654545b837b8e1928842ee762ce5e9">gfal_get_async_results</a> (gfal_handle handle, char ***turls)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0007ea898d0528ec22f92aa2e316cd6e"></a><!-- doxytag: member="gfal_common_interface.h::gfal_get_async_get_results_errcodes" ref="0007ea898d0528ec22f92aa2e316cd6e" args="(gfal_handle handle, GList **turl_errcode, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_async_get_results_errcodes</b> (gfal_handle handle, GList **turl_errcode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#a3161f12f9d5c8151f44df4f132602cb">gfal_get_async_get_results_errcodes</a> (gfal_handle handle, int **turl_errcode)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2fd8cf798324a06112cd820def9268e2"></a><!-- doxytag: member="gfal_common_interface.h::gfal_get_async_get_results_errstring" ref="2fd8cf798324a06112cd820def9268e2" args="(gfal_handle handle, GList **turl_errstring, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_async_get_results_errstring</b> (gfal_handle handle, GList **turl_errstring, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#ecd7d68b18088ff620d21dbef85862ae">gfal_get_async_get_results_errstring</a> (gfal_handle handle, char ***turl_errstring)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2fd01b3689b118904e00a25b0894a48c"></a><!-- doxytag: member="gfal_common_interface.h::gfal_wait_async_request" ref="2fd01b3689b118904e00a25b0894a48c" args="(gfal_handle handle, long timeout, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_wait_async_request</b> (gfal_handle handle, long timeout, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#08c8573e050334d5342a31a48b7db4cb">gfal_wait_async_request</a> (gfal_handle handle, long timeout)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7adbfd5d624e363b12db746923c6a4e3"></a><!-- doxytag: member="gfal_common_interface.h::gfal_set_nobdii" ref="7adbfd5d624e363b12db746923c6a4e3" args="(gfal_handle handle, gboolean no_bdii_chk)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_nobdii</b> (gfal_handle handle, gboolean no_bdii_chk)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">wait for the current request  <a href="#08c8573e050334d5342a31a48b7db4cb"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5e3afd0690b23dedf14d6fa7898f28a9"></a><!-- doxytag: member="gfal_common_interface.h::gfal_set_nobdii_srm" ref="5e3afd0690b23dedf14d6fa7898f28a9" args="(gfal_handle handle, gboolean no_bdii_chk)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_nobdii_srm</b> (gfal_handle handle, gboolean no_bdii_chk)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -81,6 +85,27 @@ The main Interface file for the SRM interface.
 progress of the last request 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>return positive value if the current request is finished, 0 if false or -1 if error occured Wrapper of gfal_async_request_is_finishedG for the "without GLib" use case. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="4ca376cf47166fabd46a45fccb863ebe"></a><!-- doxytag: member="gfal_common_interface.h::gfal_clear_error" ref="4ca376cf47166fabd46a45fccb863ebe" args="(gfal_handle handle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gfal_clear_error           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>clear the current error registered in the handle </dd></dl>
 
 </div>
 </div><p>
@@ -115,11 +140,87 @@ launch a surls-&gt; turls translation in asynchronous mode
 <dl compact><dt><b>Warning:</b></dt><dd>need a initiaed gfal_handle </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: the gfal_handle initiated ( <a class="el" href="group__srm__group.html#g4e6d4aab98935aaf408d8a5cdf9727d4">gfal_init</a> ) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: the gfal_handle initiated ( gfal_init ) </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>surls</em>&nbsp;</td><td>: table of string of the differents surls to convert, NULL pointer must be the end of the table </td></tr>
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>return positive if success else -1, check GError for more information Wrapper of gfal_get_asyncG for the "without GLib" use case. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="a3161f12f9d5c8151f44df4f132602cb"></a><!-- doxytag: member="gfal_common_interface.h::gfal_get_async_get_results_errcodes" ref="a3161f12f9d5c8151f44df4f132602cb" args="(gfal_handle handle, int **turl_errcode)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_get_async_get_results_errcodes           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int **&nbsp;</td>
+          <td class="paramname"> <em>turl_errcode</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+get the error code list associated with the turls of the last get_async request <dl compact><dt><b>Returns:</b></dt><dd>return the number of responses in turls or negative value if error </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: handle of the current context </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>int**</em>&nbsp;</td><td>turl_errcode : pointer to a table of int, set to NULL if error </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Warning:</b></dt><dd>turl_errcode need to be free manually </dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return the number of turls in the table, else negative value if error Wrapper for gfal_get_async_get_results_errcodesG for the "without GLib" use case </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="ecd7d68b18088ff620d21dbef85862ae"></a><!-- doxytag: member="gfal_common_interface.h::gfal_get_async_get_results_errstring" ref="ecd7d68b18088ff620d21dbef85862ae" args="(gfal_handle handle, char ***turl_errstring)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_get_async_get_results_errstring           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char ***&nbsp;</td>
+          <td class="paramname"> <em>turl_errstring</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+get the error string associated with the turls of the last get_async request <dl compact><dt><b>Returns:</b></dt><dd>return the number of responses in turls or negative value if error </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: handle of the current context </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char***</em>&nbsp;</td><td>turls : char** turls with the full list of answer, an answer with error is a NULL pointer </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Warning:</b></dt><dd>turl_errstring need to be free manually </dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return the number of turls in the table, else negative value if error Wrapper for gfal_get_async_get_results_errstringG for the "without GLib" use case. </dd></dl>
 
 </div>
 </div><p>
@@ -149,7 +250,7 @@ launch a surls-&gt; turls translation in asynchronous mode
 <div class="memdoc">
 
 <p>
-get the result to the last get_async request <dl compact><dt><b>Returns:</b></dt><dd>return the number of response in turls or negative value if error </dd></dl>
+get the result to the last get_async request <dl compact><dt><b>Returns:</b></dt><dd>return the number of responses in turls or negative value if error </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: handle of the current context </td></tr>
@@ -161,7 +262,109 @@ get the result to the last get_async request <dl compact><dt><b>Returns:</b></dt
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Apr 28 15:08:51 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="4211faf02a3c5cc696c7c9f974415d11"></a><!-- doxytag: member="gfal_common_interface.h::gfal_handle_new" ref="4211faf02a3c5cc696c7c9f974415d11" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gfal_handle gfal_handle_new           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+get a initiated gfal_handle 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>a gfal_handle, need to be free after usage. return NULL if errors Wrapper of gfal_initG for the "without GLib" use case. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="ad28f1c5d1a0ed623834e6133bb7dd2e"></a><!-- doxytag: member="gfal_common_interface.h::gfal_has_error" ref="ad28f1c5d1a0ed623834e6133bb7dd2e" args="(gfal_handle handle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_has_error           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>return TRUE value if error occured else FALSE </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="bdebd69c0c6a74b1b5adf88b5e836d8a"></a><!-- doxytag: member="gfal_common_interface.h::gfal_last_error_string" ref="bdebd69c0c6a74b1b5adf88b5e836d8a" args="(gfal_handle handle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* gfal_last_error_string           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>string of the last error reported or NULL if no error is reported </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="08c8573e050334d5342a31a48b7db4cb"></a><!-- doxytag: member="gfal_common_interface.h::gfal_wait_async_request" ref="08c8573e050334d5342a31a48b7db4cb" args="(gfal_handle handle, long timeout)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_wait_async_request           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&nbsp;</td>
+          <td class="paramname"> <em>timeout</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+wait for the current request 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>timeout</em>&nbsp;</td><td>: maximum time to wait before error </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return 0 if finished correctly, return 1 if timeout is reached, return -1 if error Wrapper for gfal_wait_async_requestG for the "without GLib" use case. </dd></dl>
+
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Apr 28 20:37:18 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
