@@ -44,9 +44,9 @@ int gfal_get_async_resultsG(gfal_handle handle, GList** turls,  GError** err);
 
 gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err);
 
-int gfal_get_async_get_results_errcodesG(gfal_handle handle, GList** turl_errcode, GError** err);
+int gfal_get_async_results_errcodesG(gfal_handle handle, GList** turl_errcode, GError** err);
 
-int gfal_get_async_get_results_errstringG(gfal_handle handle, GList** turl_errstring, GError** err);
+int gfal_get_async_results_errstringG(gfal_handle handle, GList** turl_errstring, GError** err);
 
 int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err);
   
