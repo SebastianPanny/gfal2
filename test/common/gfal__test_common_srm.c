@@ -8,10 +8,11 @@
 #include <time.h>
 #include <unistd.h>
 
+#define TEST_SRM_VALID_SURL_EXAMPLE1 "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54"
+#define TEST_SRM_INVALID_SURL_EXAMPLE2 "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/test2"
 
-
-
-
+#define TEST_SRM_TURL_EXAMPLE1 "gsiftp://atlas-storage-18.roma1.infn.it/atlas-storage-18.roma1.infn.it:/data4/dteam/2011-03-10/file75715ccc-1c54-4d18-8824-bdd3716a2b54.33321198.0"
+#define TEST_SRM_IFCE_INVALID_PATH_REP "[SE][StatusOfPutRequest][SRM_INVALID_PATH] <none>"
 
 START_TEST (test_create_srm_handle)
 {
@@ -67,10 +68,10 @@ START_TEST(test_gfal_check_surl)
 {
 	GError* err=NULL;
 	int ret;
-	fail_unless((ret = gfal_surl_checker("srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54",&err) ) == 0, " error in url parse");
+	fail_unless((ret = gfal_surl_checker(TEST_SRM_VALID_SURL_EXAMPLE1,&err) ) == 0, " error in url parse");
 	if(ret)
 		gfal_release_GError(&err);
-	fail_unless((ret = gfal_surl_checker("srm://g_rid-cer_t-03.rOMa1.in_fn.it/dpm/roma1.in_fn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54",&err) ) == 0, " error in url parse 2");
+	fail_unless((ret = gfal_surl_checker(TEST_SRM_VALID_SURL_EXAMPLE1,&err) ) == 0, " error in url parse 2");
 	if(ret)
 		gfal_release_GError(&err);
 	fail_if( (ret = gfal_surl_checker("http://google.com",&err ))== 0, " must fail , bad url");
@@ -157,7 +158,7 @@ START_TEST(test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii_negative)
 	gfal_set_nobdiiG(handle, TRUE);
 	fail_unless(handle->no_bdii_check, " nobdii must be true");
 		
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");
+	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);
 	
 	fail_unless( ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) , " must return error because not a full srm");
 	gfal_handle_freeG(handle);	
@@ -178,7 +179,7 @@ START_TEST(test_gfal_auto_get_srm_endpoint_no_full_with_bdii)
 	
 	fail_if(handle->no_bdii_check, " nobdii must be false");
 		
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");
+	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);
 	
 	fail_if( ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) , " must return the correct endpoint");
 	fail_if( endpoint == NULL || strcmp(endpoint,"httpg://grid-cert-03.roma1.infn.it:8446/srm/managerv2") != NULL, " must contain the endpoint");
@@ -206,7 +207,7 @@ END_TEST
 
 START_TEST(test_gfal_get_hostname_from_surl)
 {
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
+	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);	
 	GError * tmp_err=NULL;
 	char* resu;
 	fail_unless( (resu = gfal_get_hostname_from_surl(list->data, &tmp_err)) && !tmp_err, " must be a success");
@@ -326,7 +327,7 @@ START_TEST(test_gfal_is_finished)
 {
 	char *endpoint;
 	enum gfal_srm_proto srm_type;
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
+	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);	
 	GError * err= NULL;
 	gfal_handle handle  = gfal_initG(&err);
 	if(handle == NULL){
@@ -364,7 +365,7 @@ START_TEST(test_gfal_waiting_async)
 {
 	char *endpoint;
 	enum gfal_srm_proto srm_type;
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
+	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);	
 	GError * err= NULL;
 	gfal_handle handle  = gfal_initG(&err);
 	if(handle == NULL){
@@ -392,7 +393,7 @@ END_TEST
 START_TEST(test_gfal_get_async_resultsG)
 {
 	GError *err = NULL;
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32");	
+	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);	
 	GList* list_resu;	
 	gfal_handle handle = gfal_initG(&err);
 	if(handle == NULL){
@@ -413,7 +414,7 @@ START_TEST(test_gfal_get_async_resultsG)
 	}
 		
 	ret = gfal_get_async_resultsG(handle, &list_resu, &err);
-	fprintf(stderr, " result turl : %s", list_resu->data);
+	//fprintf(stderr, " result turl : %s", list_resu->data);
 	fail_if(ret !=1 , " must return good status");
 	fail_if(err, " error report must be null");
 	while(list_resu != NULL){
@@ -470,8 +471,10 @@ START_TEST(test_gfal_async_results_errcode)			// verify the errcode of a bad req
 		fail(" must fail, no request before");
 		return;				
 	}
+	g_clear_error(&err);
 	ret = gfal_get_asyncG(handle, list, &err);
-	if(ret){
+	if(ret <=0){
+		fail(" need to be a success");
 		gfal_release_GError(&err);
 		return;
 	}
@@ -495,7 +498,7 @@ START_TEST(test_full_gfal_get_request)
 {
 	GError *err = NULL;
 	gfal_handle handle = NULL; 
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32");
+	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);
 	GList *list_resu, *list_resu_err;
 	handle = gfal_initG(&err);
 	if(handle == NULL){
@@ -503,8 +506,8 @@ START_TEST(test_full_gfal_get_request)
 		return;
 	}		
 	int ret = gfal_get_asyncG(handle, list, &err);
-	fail_if(ret <0, " this request must be a success, valid surl");
 	if(ret <0){
+		fail(" this request must be a success, valid surl");
 		gfal_release_GError(&err);
 		return;
 	}
@@ -516,8 +519,14 @@ START_TEST(test_full_gfal_get_request)
 		return;
 	}
 	ret = gfal_get_async_resultsG(handle, &list_resu, &err);
-	if( err || list_resu->data == NULL || strncmp(list_resu->data, "gsiftp://atlas-storage-02.roma1.infn.it/atlas-storage-02.roma1.infn.it:/data2/dteam/2009-01-28/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32.8246597.0",1024) != 0){
-		fail( " is not the good turl");
+	if(err || list_resu->data == NULL ){
+		fail( " error must not occured");
+		gfal_release_GError(&err);
+		gfal_handle_freeG(handle);
+		return;			
+	}
+	if(  strncmp(list_resu->data, TEST_SRM_TURL_EXAMPLE1,1024) != 0){
+		fail( " is not the good turl  : %s, %s", list_resu->data, TEST_SRM_TURL_EXAMPLE1);
 		gfal_handle_freeG(handle);
 		return;
 	}
@@ -565,11 +574,11 @@ START_TEST(test_full_gfal_get_request_multi)
 {
 	GError *err = NULL;
 	gfal_handle handle = NULL; 
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32");
-	list = g_list_append(list, "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/testfile002");
-	list = g_list_append(list,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32");
+	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);
+	list = g_list_append(list, TEST_SRM_INVALID_SURL_EXAMPLE2);
+	list = g_list_append(list,TEST_SRM_VALID_SURL_EXAMPLE1);
 	GList *list_resu=NULL, *list_resu_err=NULL;
-		handle = gfal_initG(&err);
+	handle = gfal_initG(&err);
 	if(handle == NULL){
 		fail("fail to init handle");
 		return;
@@ -587,27 +596,43 @@ START_TEST(test_full_gfal_get_request_multi)
 		return;
 	}
 	ret = gfal_get_async_resultsG(handle, &list_resu, &err);
-	if( err || list_resu->data == NULL // check the first result
-				|| strncmp(list_resu->data, "gsiftp://atlas-storage-02.roma1.infn.it/atlas-storage-02.roma1.infn.it:/data2/dteam/2009-01-28/file22a56c33-c9b1-44c7-bbc5-a4ff0ee11e32.8246597.0",1024) != 0
-				){
-		fail( " first element is not the good turl");
+	if( ret <= 0 ){
+		fail( " must not return error ");
 		gfal_handle_freeG(handle);
 		return;
 	}
+	
+	const char* resu[] = { TEST_SRM_TURL_EXAMPLE1, NULL, TEST_SRM_TURL_EXAMPLE1 }; // check all results
+	if( check_GList_Result_String(list_resu, resu) != TRUE){
+		fail(" incorrect result ");
+		gfal_handle_freeG(handle);
+		return;
+	}
+	
 	ret = gfal_get_async_get_request_errcodesG(handle, &list_resu_err, &err);
-	if( ret || g_list_length(list_resu_err) !=0){
-		fail( " must not report error");
+	if( ret<0 ){
+		fail( " must not report error ");
 		gfal_handle_freeG(handle);	
 		return;		
 	}
+	
+	
 	g_list_free(list_resu_err);
 	ret = gfal_get_async_get_request_errstringG(handle, &list_resu_err, &err);
-	if( ret || g_list_length(list_resu) !=0){
-		fail( " must not report error string");
+	if( ret <= 0){
+		fail( " must be a success ");
 		gfal_handle_freeG(handle);	
 		return;		
 	}
-	fail("error");
+	const char* resu_errstring[] = { NULL, TEST_SRM_IFCE_INVALID_PATH_REP, NULL };
+	if( check_GList_Result_String(list_resu_err, resu_errstring) != TRUE){
+		fail(" incorrect error string");
+		gfal_handle_freeG(handle);
+		return;
+	}
+	g_list_free_full(list_resu_err, free);
+	gfal_handle_freeG(handle);
+
 }
 END_TEST
 

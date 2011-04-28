@@ -77,6 +77,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_srm, test_gfal_get_async_resultsG);
   tcase_add_test(tc_srm, test_gfal_get_async_resultsG_empty);
   tcase_add_test(tc_srm, test_full_gfal_get_request);
+  tcase_add_test(tc_srm, test_gfal_async_results_errcode);
   tcase_add_test(tc_srm, test_full_gfal_get_request_multi);
   suite_add_tcase (s, tc_srm);
   TCase *tc_mds= tcase_create("MDS");

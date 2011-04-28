@@ -256,6 +256,33 @@ char** gfal_GList_to_tab(GList* surls){
 
 
 /**
+ * delete properly a gfal_request_state structure
+ * 
+ * */
+ static void gfal_delete_request_state(gfal_request_state* request_state){
+	 if(request_state ){
+		 free(request_state->request_endpoint);
+		 free(request_state->srmv2_token);
+		 free(request_state->srmv2_statuses);
+		 free(request_state->srmv2_pinstatuses);
+		 free(request_state);
+	 }
+ }
+ 
+/**
+ * create a new current request state and init it, delete the old one if exist
+ * 
+ * */
+static void gfal_new_request_state(gfal_handle handle){
+	if(handle->last_request_state){
+		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, " erase a last request state");	// verbose message
+		gfal_delete_request_state(handle->last_request_state);
+	}
+	handle->last_request_state = calloc(1, sizeof(struct _gfal_request_state));		
+}
+
+
+/**
  * parse a surl to check the validity
  */
 int gfal_surl_checker(const char* surl, GError** err){
@@ -308,7 +335,7 @@ static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls,
 			free(handle->last_request_state);		// free if notthe first one
 		}
 
-		handle->last_request_state = calloc(1, sizeof(struct _gfal_request_state));			// copy the informations of the current request in the last request information structure
+		gfal_new_request_state(handle);								// copy the informations of the current request in the last request information structure
 		gfal_request_state * req_state = handle->last_request_state;
     	req_state->srmv2_token = preparetoget_output.token;
     	req_state->srmv2_pinstatuses = preparetoget_output.filestatuses;	
@@ -385,7 +412,7 @@ void gfal_handle_freeG (gfal_handle handle){
 		return;
 	g_clear_error(&(handle->err));
 	free(handle->srmv2_opt);
-	free(handle->last_request_state);
+	gfal_delete_request_state(handle->last_request_state);
 	free(handle);
 	handle = NULL;
 }
