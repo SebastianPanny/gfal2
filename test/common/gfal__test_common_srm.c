@@ -454,7 +454,7 @@ START_TEST(test_gfal_async_results_errcode)			// verify the errcode of a bad req
 	GList* list = g_list_append(NULL, "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/testfile002");
 	GList* errcode=NULL;
 	GError* err = NULL;
-	int ret = gfal_get_async_get_results_errcodesG(handle, &errcode, &err);			// test without handle, must fail
+	int ret = gfal_get_async_results_errcodesG(handle, &errcode, &err);			// test without handle, must fail
 	if( ret >= 0 || !err || errcode ){
 		fail(" must return error, handle not initiated");
 		return;
@@ -466,7 +466,7 @@ START_TEST(test_gfal_async_results_errcode)			// verify the errcode of a bad req
 		gfal_release_GError(&err);
 		return;				
 	}
-	ret = gfal_get_async_get_results_errcodesG(handle, &errcode, &err);			// test without get before, must fail
+	ret = gfal_get_async_results_errcodesG(handle, &errcode, &err);			// test without get before, must fail
 	if( ret>=0 || !err || errcode){
 		fail(" must fail, no request before");
 		return;				
@@ -485,7 +485,7 @@ START_TEST(test_gfal_async_results_errcode)			// verify the errcode of a bad req
 		gfal_handle_freeG(handle);
 		return;
 	}
-	ret = gfal_get_async_get_results_errcodesG(handle, &errcode, &err);			// test without get before, must fail
+	ret = gfal_get_async_results_errcodesG(handle, &errcode, &err);			// test without get before, must fail
 	if( ret <=0 || err ){
 		fail(" must be a success");
 		return;				
@@ -530,7 +530,7 @@ START_TEST(test_full_gfal_get_request)
 		gfal_handle_freeG(handle);
 		return;
 	}
-	ret = gfal_get_async_get_results_errcodesG(handle, &list_resu_err, &err);
+	ret = gfal_get_async_results_errcodesG(handle, &list_resu_err, &err);
 	GList* tmp_list = list_resu_err;
 	if(ret <0){
 			fail(" return error on errcode get ");
@@ -547,7 +547,7 @@ START_TEST(test_full_gfal_get_request)
 		tmp_list = g_list_next(tmp_list);
 	}
 	g_list_free(list_resu_err);
-	ret = gfal_get_async_get_results_errstringG(handle, &list_resu_err, &err);
+	ret = gfal_get_async_results_errstringG(handle, &list_resu_err, &err);
 	if(ret <0){
 			fail(" return error on err string get ");
 			gfal_release_GError(&err);
@@ -609,7 +609,7 @@ START_TEST(test_full_gfal_get_request_multi)
 		return;
 	}
 	
-	ret = gfal_get_async_get_results_errcodesG(handle, &list_resu_err, &err);
+	ret = gfal_get_async_results_errcodesG(handle, &list_resu_err, &err);
 	if( ret<0 ){
 		fail( " must not report error ");
 		gfal_handle_freeG(handle);	
@@ -618,7 +618,7 @@ START_TEST(test_full_gfal_get_request_multi)
 	
 	
 	g_list_free(list_resu_err);
-	ret = gfal_get_async_get_results_errstringG(handle, &list_resu_err, &err);
+	ret = gfal_get_async_results_errstringG(handle, &list_resu_err, &err);
 	if( ret <= 0){
 		fail( " must be a success ");
 		gfal_handle_freeG(handle);	
