@@ -45,13 +45,11 @@
 .br
 .RI "\fIprogress of the last request \fP"
 .ti -1c
-.RI "int \fBgfal_get_async_get_request_errcodesG\fP (gfal_handle handle, GList **turl_errcode, GError **err)"
+.RI "int \fBgfal_get_async_results_errcodesG\fP (gfal_handle handle, GList **turl_errcode, GError **err)"
 .br
-.RI "\fIerrcode of each turls request \fP"
 .ti -1c
-.RI "int \fBgfal_get_async_get_request_errstringG\fP (gfal_handle handle, GList **turl_errstring, GError **err)"
+.RI "int \fBgfal_get_async_results_errstringG\fP (gfal_handle handle, GList **turl_errstring, GError **err)"
 .br
-.RI "\fIstring of each request errcode \fP"
 .ti -1c
 .RI "int \fBgfal_wait_async_requestG\fP (gfal_handle handle, long timeout, GError **err)"
 .br
@@ -94,42 +92,6 @@ return TRUE if the current request is finished else FALSE
 \fBParameters:\fP
 .RS 4
 \fIerr\fP : Gerror** err system 
-.RE
-.PP
-
-.SS "int gfal_get_async_get_request_errcodesG (gfal_handle handle, GList ** turls_errcode, GError ** err)"
-.PP
-errcode of each turls request 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP : handle associated with the request 
-.br
-\fIturl_errcode\fP : GList<int> of all the errcode associated with the request 
-.br
-\fIerr\fP : Gerror** err system 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return number of request turl if success else return negative value 
-.RE
-.PP
-
-.SS "int gfal_get_async_get_request_errstringG (gfal_handle handle, GList ** turls_errstring, GError ** err)"
-.PP
-string of each request errcode 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP 
-.br
-\fIturl_errcode\fP : GList<char*>, give a string error for each turl request, char* can be NULL if no error associated 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return number of request turl if success else return negative value 
 .RE
 .PP
 
@@ -185,7 +147,7 @@ initiate a gfal's context with default parameters for use
 .PP
 \fBReturns:\fP
 .RS 4
-a gfal_handle, need to be free after usage or NULL if errors 
+a gfal_handle, need to be free after usage. return NULL if errors 
 .RE
 .PP
 

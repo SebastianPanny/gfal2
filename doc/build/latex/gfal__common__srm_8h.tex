@@ -28,10 +28,12 @@ int \bf{gfal\_\-get\_\-async\_\-results\-G} (gfal\_\-handle handle, GList $\ast$
 \item 
 gboolean \bf{gfal\_\-async\_\-request\_\-is\_\-finished\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em progress of the last request \item\end{CompactList}\item 
-int \bf{gfal\_\-get\_\-async\_\-get\_\-request\_\-errcodes\-G} (gfal\_\-handle handle, GList $\ast$$\ast$turl\_\-errcode, GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em errcode of each turls request \item\end{CompactList}\item 
-int \bf{gfal\_\-get\_\-async\_\-get\_\-request\_\-errstring\-G} (gfal\_\-handle handle, GList $\ast$$\ast$turl\_\-errstring, GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em string of each request errcode \item\end{CompactList}\item 
+int \textbf{gfal\_\-get\_\-async\_\-results\_\-errcodes\-G} (gfal\_\-handle handle, GList $\ast$$\ast$turl\_\-errcode, GError $\ast$$\ast$err)\label{gfal__common__srm_8h_0d1a5a270a56e0123960a0087bc33c08}
+
+\item 
+int \textbf{gfal\_\-get\_\-async\_\-results\_\-errstring\-G} (gfal\_\-handle handle, GList $\ast$$\ast$turl\_\-errstring, GError $\ast$$\ast$err)\label{gfal__common__srm_8h_089643e4b8996a1e8896009f266ccdf0}
+
+\item 
 int \bf{gfal\_\-wait\_\-async\_\-request\-G} (gfal\_\-handle handle, long timeout, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em wait for the current request \item\end{CompactList}\item 
 void \bf{gfal\_\-set\_\-nobdii\-G} (gfal\_\-handle handle, gboolean no\_\-bdii\_\-chk)
@@ -64,34 +66,6 @@ progress of the last request
 \begin{description}
 \item[{\em err}]: Gerror$\ast$$\ast$ err system \end{description}
 \end{Desc}
-\index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_get_async_get_request_errcodesG@{gfal\_\-get\_\-async\_\-get\_\-request\_\-errcodesG}}
-\index{gfal_get_async_get_request_errcodesG@{gfal\_\-get\_\-async\_\-get\_\-request\_\-errcodesG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-get\_\-request\_\-errcodes\-G (gfal\_\-handle {\em handle}, GList $\ast$$\ast$ {\em turls\_\-errcode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_882da2b766bd2a686e7bda9421cb7cbf}
-
-
-errcode of each turls request 
-
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em handle}]: handle associated with the request \item[{\em turl\_\-errcode}]: GList$<$int$>$ of all the errcode associated with the request \item[{\em err}]: Gerror$\ast$$\ast$ err system \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Returns:]return number of request turl if success else return negative value \end{Desc}
-\index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_get_async_get_request_errstringG@{gfal\_\-get\_\-async\_\-get\_\-request\_\-errstringG}}
-\index{gfal_get_async_get_request_errstringG@{gfal\_\-get\_\-async\_\-get\_\-request\_\-errstringG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-get\_\-request\_\-errstring\-G (gfal\_\-handle {\em handle}, GList $\ast$$\ast$ {\em turls\_\-errstring}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_c60fa3f3565e1be54184e71ad1f2f3ea}
-
-
-string of each request errcode 
-
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em handle}]\item[{\em turl\_\-errcode}]: GList$<$char$\ast$$>$, give a string error for each turl request, char$\ast$ can be NULL if no error associated \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Returns:]return number of request turl if success else return negative value \end{Desc}
 \index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_get_async_resultsG@{gfal\_\-get\_\-async\_\-resultsG}}
 \index{gfal_get_async_resultsG@{gfal\_\-get\_\-async\_\-resultsG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-results\-G (gfal\_\-handle {\em handle}, GList $\ast$$\ast$ {\em turls}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_1c3a2a23f764ce8bf5cdd73108e4d9ca}
@@ -118,7 +92,7 @@ launch a surls-$>$ turls translation in asynchronous mode
 \begin{Desc}
 \item[Parameters:]
 \begin{description}
-\item[{\em handle}]: the gfal\_\-handle initiated ( gfal\_\-init ) \item[{\em surls}]: GList of string of the differents surls to convert \item[{\em err}]: GError$\ast$$\ast$ for error report \end{description}
+\item[{\em handle}]: the gfal\_\-handle initiated ( \doxyref{gfal\_\-init}{p.}{group__srm__group_g4e6d4aab98935aaf408d8a5cdf9727d4} ) \item[{\em surls}]: GList of string of the differents surls to convert \item[{\em err}]: GError$\ast$$\ast$ for error report \end{description}
 \end{Desc}
 \begin{Desc}
 \item[Returns:]return positive if success else -1, check GError for more information \end{Desc}
@@ -128,7 +102,7 @@ launch a surls-$>$ turls translation in asynchronous mode
 
 
 initiate a gfal's context with default parameters for use \begin{Desc}
-\item[Returns:]a gfal\_\-handle, need to be free after usage or NULL if errors \end{Desc}
+\item[Returns:]a gfal\_\-handle, need to be free after usage. return NULL if errors \end{Desc}
 \index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_set_nobdiiG@{gfal\_\-set\_\-nobdiiG}}
 \index{gfal_set_nobdiiG@{gfal\_\-set\_\-nobdiiG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-set\_\-nobdii\-G (gfal\_\-handle {\em handle}, gboolean {\em no\_\-bdii\_\-chk})}\label{gfal__common__srm_8h_a3975dda72e623713566e510b0317796}

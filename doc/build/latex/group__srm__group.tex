@@ -3,8 +3,7 @@
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-gfal\_\-handle \bf{gfal\_\-init} ()\label{group__srm__group_g4e6d4aab98935aaf408d8a5cdf9727d4}
-
+gfal\_\-handle \bf{gfal\_\-init} ()
 \begin{CompactList}\small\item\em init the gfal srm interface for surl -$>$ turls transformation \item\end{CompactList}\item 
 int \bf{gfal\_\-deletesurls} (gfal\_\-handle, GList $\ast$lsurl)
 \item 
@@ -68,4 +67,12 @@ describe handle state
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-getstatus (gfal\_\-handle)}\label{group__srm__group_g1f99a22cf6a648d42530bc83d0ac8861}
 
 
-state of the actual request 
+state of the actual request \index{srm_group@{srm\_\-group}!gfal_init@{gfal\_\-init}}
+\index{gfal_init@{gfal\_\-init}!srm_group@{srm\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-handle gfal\_\-init ()}\label{group__srm__group_g4e6d4aab98935aaf408d8a5cdf9727d4}
+
+
+init the gfal srm interface for surl -$>$ turls transformation 
+
+\begin{Desc}
+\item[Returns:]a gfal\_\-handle, need to be free after usage. return NULL if errors Wrapper of gfal\_\-init\-G for the \char`\"{}without GLib\char`\"{} use case. \end{Desc}

@@ -1,0 +1,131 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h" 3 "28 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h \- The main Interface file for the SRM interface. 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gfal_common_srm.h'\fP
+.br
+\fC#include 'gfal_common.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "gfal_handle \fBgfal_init\fP ()"
+.br
+.RI "\fIinit the gfal srm interface for surl -> turls transformation \fP"
+.ti -1c
+.RI "void \fBgfal_handle_free\fP (gfal_handle handle)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_async\fP (gfal_handle handle, char **surls)"
+.br
+.RI "\fIlaunch a surls-> turls translation in asynchronous mode \fP"
+.ti -1c
+.RI "int \fBgfal_async_request_is_finished\fP (gfal_handle handle)"
+.br
+.RI "\fIprogress of the last request \fP"
+.ti -1c
+.RI "int \fBgfal_get_async_results\fP (gfal_handle handle, char ***turls)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_async_get_results_errcodes\fP (gfal_handle handle, GList **turl_errcode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_async_get_results_errstring\fP (gfal_handle handle, GList **turl_errstring, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_wait_async_request\fP (gfal_handle handle, long timeout, GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_set_nobdii\fP (gfal_handle handle, gboolean no_bdii_chk)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The main Interface file for the SRM interface. 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+2.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+12/04/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "int gfal_async_request_is_finished (gfal_handle handle)"
+.PP
+progress of the last request 
+.PP
+\fBReturns:\fP
+.RS 4
+return positive value if the current request is finished, 0 if false or -1 if error occured Wrapper of gfal_async_request_is_finishedG for the 'without GLib' use case. 
+.RE
+.PP
+
+.SS "int gfal_get_async (gfal_handle handle, char ** surls)"
+.PP
+launch a surls-> turls translation in asynchronous mode 
+.PP
+\fBWarning:\fP
+.RS 4
+need a initiaed gfal_handle 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP : the gfal_handle initiated ( \fBgfal_init\fP ) 
+.br
+\fIsurls\fP : table of string of the differents surls to convert, NULL pointer must be the end of the table 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return positive if success else -1, check GError for more information Wrapper of gfal_get_asyncG for the 'without GLib' use case. 
+.RE
+.PP
+
+.SS "int gfal_get_async_results (gfal_handle handle, char *** turls)"
+.PP
+get the result to the last get_async request 
+.PP
+\fBReturns:\fP
+.RS 4
+return the number of response in turls or negative value if error 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP : handle of the current context 
+.br
+\fIchar***\fP turls : char** turls with the full list of answer, an answer with error is a NULL pointer 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+turls need to be free manually 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return the number of turls in the table, else negative value if error Wrapper for the 'without GLib' use case. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

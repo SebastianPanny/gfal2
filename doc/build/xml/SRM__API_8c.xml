@@ -23,10 +23,11 @@
         <briefdescription>
 <para>init the gfal srm interface for surl -&gt; turls transformation </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><simplesect kind="return"><para>a gfal_handle, need to be free after usage. return NULL if errors Wrapper of gfal_initG for the &quot;without GLib&quot; use case. </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="28"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="28" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.c" bodystart="32" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="group__srm__group_1g629a56f0d644547dbc9fdb2e058476e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -252,7 +253,7 @@
 <codeline lineno="76"><highlight class="normal"></highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_async_resultsG(gfal_handle,<sp/>GList**<sp/>turls,<sp/>GError<sp/>**);</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_async_results(gfal_handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">***<sp/>turls);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__interface_8c_10c654545b837b8e1928842ee762ce5e9" kindref="member">gfal_get_async_results</ref>(gfal_handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">***<sp/>turls);</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"></highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">/*int<sp/>gfal_get_results<sp/>(gfal_handle,<sp/>gfal_filestatus<sp/>**);*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="82"><highlight class="normal"></highlight></codeline>
