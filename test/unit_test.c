@@ -35,6 +35,7 @@
 #include "common/voms/gfal__test_voms.c"
 #include "common/gfal__test_common_srm.c"
 #include "common/mds/gfal__test_common_mds.c"
+#include "common/lfc/gfal__test_common_lfc.c"
 
 Suite* common_suite (void)
 {
@@ -83,6 +84,10 @@ Suite* common_suite (void)
   TCase *tc_mds= tcase_create("MDS");
   tcase_add_test(tc_mds, test_check_bdii_endpoints_srm);
   suite_add_tcase(s, tc_mds);
+  TCase *tc_lfc= tcase_create("LFC");
+  tcase_add_test(tc_lfc, test_gfal_common_lfc_init);
+  suite_add_tcase(s, tc_lfc);
+
   return s;
 }
 
