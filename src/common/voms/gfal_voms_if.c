@@ -32,7 +32,7 @@ typedef struct{
 	
 } gfal_voms_info_;
 
-static gfal_voms_info_* gfal_voms_info=NULL; 
+static __thread gfal_voms_info_* gfal_voms_info=NULL; 
 
 static int gfal_voms_init(struct vomsdata **vd, GError **err){
     char errmsg[GFAL_ERRMSG_LEN];	

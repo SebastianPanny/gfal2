@@ -100,7 +100,7 @@ int main (int argc, char** argv)
   int number_failed;
   Suite *s = common_suite ();
   SRunner *sr = srunner_create (s);
-  srunner_set_fork_status(sr,CK_NOFORK); // cancel fork for gdb
+  srunner_set_fork_status(sr,0);
   srunner_run_all (sr, CK_VERBOSE);
   number_failed = srunner_ntests_failed (sr);
   if( number_failed > 0){

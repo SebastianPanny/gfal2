@@ -27,7 +27,7 @@
 
 /* the version should be set by a "define" at the makefile level */
 static const char *gfalversion = VERSION;
-static int nobdii = 0;
+static __thread int nobdii = 0;
 
 int gfal_access (const char *path, int amode){
     int rc = 0, sav_errno = 0;
