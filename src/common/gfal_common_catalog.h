@@ -24,6 +24,10 @@
  * @date 8/04/2011
  * */
 
+#define MAX_CATALOG_LIST 64
+
+
+
 #include <glib.h>
 #include <errno.h>
 #include <string.h>
@@ -32,6 +36,9 @@
 #include <stdarg.h>
 #include <uuid/uuid.h>
 #include "gfal_common.h"
+#include "lfc/gfal_common_lfc.h"
+
+
 
 
 
@@ -46,6 +53,9 @@
 extern char* gfal_get_cat_type(GError**);
 
 
+void gfal_catalogs_instance(GError** err);
+
+void gfal_catalogs_delete();
  	
 
 char *get_default_se(char *, int);

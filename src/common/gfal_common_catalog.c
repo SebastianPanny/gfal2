@@ -27,10 +27,55 @@
 
 #include "gfal_common_catalog.h"
 
+static gfal_catalog_interface catalog_list[MAX_CATALOG_LIST];
+static int Catalog_number = -1;
+
+/**
+ * Instance all catalogs for use if it's not the case
+ */
+void gfal_catalogs_instance(GError** err){
+	if(Catalog_number <= 0){
+		GError* tmp_err=NULL;
+		static gfal_catalog_interface (*constructor[])(GError**)  = { &lfc_initG};
+		const int size_catalog = 1;
+		int i;
+		for(i=0; i < size_catalog ;++i){
+			gfal_catalog_interface catalog = constructor[i](&tmp_err);
+			if(tmp_err){
+				g_propagate_prefixed_error(err, tmp_err, "[gfal_catalogs_instance]");
+				return;
+			}
+		}
+		Catalog_number=i;
+	}
+}
+
+/**
+ * Delete all instance of catalogs 
+ */
+void gfal_catalogs_delete(){
+	if(Catalog_number > 0){
+			int i;
+			for(i=0; i< Catalog_number; ++i){
+				catalog_list[i].catalog_delete(catalog_list[i].catalog_handle);
+			}
+		
+		Catalog_number =-1;
+	}
+	
+}
+
+
+/**
+ * return the catalog type configured at compilation time
+ */
 static char* get_default_cat(){
 	return GFAL_DEFAULT_CATALOG_TYPE;
 }
 
+/***
+ *  return the name of the current selected default catalog in a string form
+ * */
 extern char* gfal_get_cat_type(GError** err) {
     char *cat_env;
     char *cat_type;

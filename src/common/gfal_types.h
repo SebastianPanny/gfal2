@@ -240,7 +240,36 @@ typedef struct gfal_request_ {
 	gfal_request_state* last_request_state;
 } *gfal_handle;
 
+/**
+ * @enum list the type of the check associated with the url
+ *  GFAL_CATALOG_ALL : general check, if this url is associated with this catalog
+ *  GFAL_CATALOG_ACCESS : check for a access request, check if this url is a correct url for a access request
+ *  GFAL_CATALOG_CHMOD : check for a chmod request, check if this url is correct for a chmod request
+ * */
+typedef enum {
+	GFAL_CATALOG_ALL=0,
+	GFAL_CATALOG_ACCESS,
+	GFAL_CATALOG_CHMOD
+} catalog_mode;
 
+/**
+ * @struct Object for a catalog type, modelise all operation that can be done by the catalog
+ */
+typedef struct{
+	// handle
+	gpointer catalog_handle;
+	// delete
+	/**
+	 * Called before the destruction of the catalog interface
+	 */
+	void (*catalog_delete)(gpointer); 
+	// members
+	gboolean (*check_catalog_url)(char* url,  catalog_mode mode);
+	int (*access)(char* path, int mode);
+	int	(*chmod)(const char *, mode_t);
+	int	(*rename)(const char *, const char *);	
+	
+} gfal_catalog_interface;
 
 struct sfn_filestatus {
 	char *surl;
