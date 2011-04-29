@@ -31,7 +31,7 @@
 /**
  * list of the protols in the order of preference
  */
-static enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
+static const enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
 
 /**
  * check the validity of the current handle

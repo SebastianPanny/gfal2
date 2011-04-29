@@ -265,9 +265,9 @@ typedef struct{
 	void (*catalog_delete)(gpointer); 
 	// members
 	gboolean (*check_catalog_url)(char* url,  catalog_mode mode);
-	int (*access)(char* path, int mode);
-	int	(*chmod)(const char *, mode_t);
-	int	(*rename)(const char *, const char *);	
+	int (*accessG)(char* path, int mode, GError** err);
+	int	(*chmodG)(const char *, mode_t, GError** err);
+	int	(*renameG)(const char *, const char *, GError** err);	
 	
 } gfal_catalog_interface;
 
