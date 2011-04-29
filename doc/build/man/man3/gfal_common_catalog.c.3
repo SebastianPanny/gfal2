@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "28 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "29 Apr 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,6 +12,12 @@
 .SS "Functions"
 
 .in +1c
+.ti -1c
+.RI "void \fBgfal_catalogs_instance\fP (GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_catalogs_delete\fP ()"
+.br
 .ti -1c
 .RI "char * \fBgfal_get_cat_type\fP (GError **err)"
 .br
@@ -39,6 +45,12 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
+.SS "void gfal_catalogs_delete ()"
+.PP
+Delete all instance of catalogs 
+.SS "void gfal_catalogs_instance (GError ** err)"
+.PP
+Instance all catalogs for use if it's not the case 
 .SS "char* gfal_get_cat_type (GError **)"
 .PP
 catalog type getter 

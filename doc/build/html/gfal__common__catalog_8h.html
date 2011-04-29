@@ -28,14 +28,23 @@
 <code>#include &lt;stdarg.h&gt;</code><br>
 <code>#include &lt;uuid/uuid.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common_8h-source.html">gfal_common.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__lfc_8h-source.html">lfc/gfal_common_lfc.h</a>&quot;</code><br>
 
 <p>
 <a href="gfal__common__catalog_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
+<tr><td colspan="2"><br><h2>Defines</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c39f705683e893b91f559704ee2a707e"></a><!-- doxytag: member="gfal_common_catalog.h::MAX_CATALOG_LIST" ref="c39f705683e893b91f559704ee2a707e" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>MAX_CATALOG_LIST</b>&nbsp;&nbsp;&nbsp;64</td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#791ad55a9c8aaca0bb8ae74a3538c202">gfal_get_cat_type</a> (GError **)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#791ad55a9c8aaca0bb8ae74a3538c202"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#af8b36fa0faae6da2763a4926653f30b">gfal_catalogs_instance</a> (GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#9f817ca6f7bb780c77909f76319c572e">gfal_catalogs_delete</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c304a754c49bedeec6c1c9b1445b937d"></a><!-- doxytag: member="gfal_common_catalog.h::get_default_se" ref="c304a754c49bedeec6c1c9b1445b937d" args="(char *, int)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>get_default_se</b> (char *, int)</td></tr>
 
@@ -77,6 +86,45 @@ the header file of the common lib for the catalog management
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>8/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="9f817ca6f7bb780c77909f76319c572e"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_delete" ref="9f817ca6f7bb780c77909f76319c572e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gfal_catalogs_delete           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Delete all instance of catalogs 
+</div>
+</div><p>
+<a class="anchor" name="af8b36fa0faae6da2763a4926653f30b"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_instance" ref="af8b36fa0faae6da2763a4926653f30b" args="(GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gfal_catalogs_instance           </td>
+          <td>(</td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Instance all catalogs for use if it's not the case 
+</div>
+</div><p>
 <a class="anchor" name="791ad55a9c8aaca0bb8ae74a3538c202"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_get_cat_type" ref="791ad55a9c8aaca0bb8ae74a3538c202" args="(GError **)" -->
 <div class="memitem">
 <div class="memproto">
@@ -100,7 +148,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Apr 28 20:37:18 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Apr 29 15:30:53 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

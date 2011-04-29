@@ -10,11 +10,22 @@ the header file of the common lib for the catalog management
 {\tt \#include $<$stdarg.h$>$}\par
 {\tt \#include $<$uuid/uuid.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-common.h\char`\"{}}\par
+{\tt \#include \char`\"{}lfc/gfal\_\-common\_\-lfc.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \textbf{MAX\_\-CATALOG\_\-LIST}~64\label{gfal__common__catalog_8h_c39f705683e893b91f559704ee2a707e}
+
+\end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
 char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$)
 \begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\item 
+void \bf{gfal\_\-catalogs\_\-instance} (GError $\ast$$\ast$err)
+\item 
+void \bf{gfal\_\-catalogs\_\-delete} ()
+\item 
 char $\ast$ \textbf{get\_\-default\_\-se} (char $\ast$, int)\label{gfal__common__catalog_8h_c304a754c49bedeec6c1c9b1445b937d}
 
 \item 
@@ -62,7 +73,17 @@ the header file of the common lib for the catalog management
 
 
 \subsection{Function Documentation}
-\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}}
+\index{gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalogs\_\-delete ()}\label{gfal__common__catalog_8h_9f817ca6f7bb780c77909f76319c572e}
+
+
+Delete all instance of catalogs \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}}
+\index{gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalogs\_\-instance (GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_af8b36fa0faae6da2763a4926653f30b}
+
+
+Instance all catalogs for use if it's not the case \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}}
 \index{gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-get\_\-cat\_\-type (GError $\ast$$\ast$)}\label{gfal__common__catalog_8h_791ad55a9c8aaca0bb8ae74a3538c202}
 
