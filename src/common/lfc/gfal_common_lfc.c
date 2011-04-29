@@ -28,9 +28,15 @@
 #include "gfal_common_lfc.h"
 
 
-
+/**
+ * Map function for the lfc interface, need to be rewrite without old error management
+ * 
+ * */
 gfal_catalog_interface lfc_initG(GError** err){
 	gfal_catalog_interface lfc_catalog;
+	
 	g_error(" not implemented");
 	return ;
 }
+
+

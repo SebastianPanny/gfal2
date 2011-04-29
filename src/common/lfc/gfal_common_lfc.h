@@ -28,7 +28,8 @@
 
 #include "gfal_common_catalog.h"
 #include <glib.h>
-
+#include <sys/types.h>
+#include <lfc_api.h>
 
 
 gfal_catalog_interface lfc_initG(GError**);
