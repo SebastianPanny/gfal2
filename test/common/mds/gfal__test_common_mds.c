@@ -39,4 +39,18 @@ START_TEST(test_check_bdii_endpoints_srm)
 END_TEST
 
 
+START_TEST(gfal__test_get_lfchost_bdii)
+{
+	GError* tmp_err =NULL;
+	
+	char* lfc = gfal_get_lfchost_bdii(&tmp_err);
+	if(!lfc){
+		fail(" must return correct lfc value");
+		gfal_release_GError(&tmp_err);
+	}
+	free(lfc);
+	
+}
+
+
 

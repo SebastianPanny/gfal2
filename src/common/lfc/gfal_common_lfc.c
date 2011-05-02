@@ -26,6 +26,7 @@
  */
 
 #include "gfal_common_lfc.h"
+#include "lfc_ifce_ng.h"
 
 
 
@@ -60,7 +61,7 @@ gfal_catalog_interface lfc_initG(GError** err){
 	lfc_catalog.catalog_delete = &lfc_destroy;
 	lfc_catalog.accessG = &lfc_accessG;
 	g_error(" not implemented");
-	return ;
+	return lfc_catalog;
 }
 
 

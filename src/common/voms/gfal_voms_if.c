@@ -146,3 +146,7 @@ GList* gfal_get_fqanG (GError** err){
 	} 
     return gfal_voms_info->fqan;
 }
+
+
+ 
+ 

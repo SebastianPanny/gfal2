@@ -41,5 +41,37 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 	return ret;	
 }
 
+/**
+ *  try to get lfc hostname from bdii
+ *  @return string if success or NULL & set the err if fail
+ * 
+ */
+ char * gfal_get_lfchost_bdii(GError** err){
+		char* lfc_host = NULL;
+		GError* tmp_err = NULL;
+		char* vo = gfal_get_voG(&tmp_err);		// get vo and fqans from voms module
+		if(!vo || tmp_err){
+			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost_bdii]");
+			return NULL;
+		}
+		GList* fqan = gfal_get_fqanG(&tmp_err);
+		if(!fqan || tmp_err){
+			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost_bdii]");
+			free(vo);	
+			return NULL;		
+		}
+		char** fqantab= gfal_GList_to_tab(fqan);
+		set_gfal_vo(vo);
+		set_gfal_fqan(fqantab, g_list_length(fqan));
+		g_printerr(" vo : %s, fqann %d, fqan : %s \n", vo, g_list_length(fqan), *fqantab); 
+		const int ret =  sd_get_lfc_endpoint(&lfc_host);
+		if(!lfc_host || ret <=0){
+			g_set_error(err, 0, errno, "[gfal_get_lfchost_bdii] Error while get lfc endpoint from bdii system : %d & %s ", ret, strerror(errno) );
+			lfc_host = NULL;
+		}
+		free(fqantab);
+		free(vo);				  
+		return lfc_host;
+ } 
 
 

@@ -36,6 +36,7 @@
 #include "common/gfal__test_common_srm.c"
 #include "common/mds/gfal__test_common_mds.c"
 #include "common/lfc/gfal__test_common_lfc.c"
+#include "common/gfal__test_common_srm_no_glib.c"
 
 Suite* common_suite (void)
 {
@@ -82,9 +83,11 @@ Suite* common_suite (void)
   tcase_add_test(tc_srm, test_full_gfal_get_request_multi);  
   suite_add_tcase (s, tc_srm);
   TCase* tc_srm_no_glib = tcase_create("SRM_NO_GLIB");
+  tcase_add_test(tc_srm_no_glib, test_srm_api_no_glib_full);
   suite_add_tcase(s, tc_srm_no_glib);
   TCase *tc_mds= tcase_create("MDS");
   tcase_add_test(tc_mds, test_check_bdii_endpoints_srm);
+  tcase_add_test(tc_mds, gfal__test_get_lfchost_bdii);
   suite_add_tcase(s, tc_mds);
   TCase *tc_lfc= tcase_create("LFC");
   tcase_add_test(tc_lfc, test_gfal_common_lfc_init);

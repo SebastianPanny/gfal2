@@ -1,3 +1,4 @@
+#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -14,32 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
  
  /**
-  * @brief  header file for the bdii request part of gfal
-  * @author : Devresse Adrien
-  * @version 2.0.0
-  * @date 18/04/2011
-  * */
-#define _GNU_SOURCE
-#include "../gfal_common.h"
+  * 
+  @file lfc_ifce_ng.h
+  @brief internal header of the lfc catalog module
+  @author Adrien Devresse
+  @version 0.0.1
+  @date 02/05/2011
+ */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <ctype.h>
-#include <sys/time.h>
-#include <lber.h>
-#include <ldap.h>
-#include "ServiceDiscovery.h"
+#include "gfal_common_lfc.h"
 
-int gfal_mds_get_se_types_and_endpoints(const char *host, char ***se_types, char ***se_endpoints, GError** err);
-
-
-
-char * gfal_get_lfchost_bdii(GError** err);
- 
- 
- 
