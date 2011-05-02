@@ -1051,9 +1051,9 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" line="29" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="29" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="gfal__posix_8c_18d2039688b4b5c5523bd647e8b4fdcf6" prot="public" static="yes" mutable="no">
-        <type>int</type>
-        <definition>int nobdii</definition>
+      <memberdef kind="variable" id="gfal__posix_8c_1ad09ae4a3020390a39134b375cf29af1" prot="public" static="yes" mutable="no">
+        <type>__thread int</type>
+        <definition>__thread int nobdii</definition>
         <argsstring></argsstring>
         <name>nobdii</name>
         <initializer> 0</initializer>
@@ -1095,7 +1095,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>the<sp/>version<sp/>should<sp/>be<sp/>set<sp/>by<sp/>a<sp/>&quot;define&quot;<sp/>at<sp/>the<sp/>makefile<sp/>level<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*gfalversion<sp/>=<sp/>VERSION;</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nobdii<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>__thread<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nobdii<sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1g33d6a4a93117a6c07405aa6ac0d42122" kindref="member">gfal_access</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>amode){</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>0,<sp/>sav_errno<sp/>=<sp/>0;</highlight></codeline>

@@ -42,11 +42,11 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="267"/>
       </memberdef>
-      <memberdef kind="variable" id="structgfal__catalog__interface_1dd6dd6a4e342663bbe5a8567aec29441" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structgfal__catalog__interface_1b4b4bf8ee3f1e669658c81d4819d7ef5" prot="public" static="no" mutable="no">
         <type>int(*</type>
-        <definition>int(* gfal_catalog_interface::access)(char *path, int mode)</definition>
-        <argsstring>)(char *path, int mode)</argsstring>
-        <name>access</name>
+        <definition>int(* gfal_catalog_interface::accessG)(char *path, int mode, GError **err)</definition>
+        <argsstring>)(char *path, int mode, GError **err)</argsstring>
+        <name>accessG</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -55,11 +55,11 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="268"/>
       </memberdef>
-      <memberdef kind="variable" id="structgfal__catalog__interface_1965e7dd655bc258470505a31bf464167" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structgfal__catalog__interface_1c890ed9d649861b2824f026c28ffcb23" prot="public" static="no" mutable="no">
         <type>int(*</type>
-        <definition>int(* gfal_catalog_interface::chmod)(const char *, mode_t)</definition>
-        <argsstring>)(const char *, mode_t)</argsstring>
-        <name>chmod</name>
+        <definition>int(* gfal_catalog_interface::chmodG)(const char *, mode_t, GError **err)</definition>
+        <argsstring>)(const char *, mode_t, GError **err)</argsstring>
+        <name>chmodG</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -68,11 +68,11 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="269"/>
       </memberdef>
-      <memberdef kind="variable" id="structgfal__catalog__interface_17cf08d7579383a8b5cd24935ea5bbdb3" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structgfal__catalog__interface_17f442bf5ff84cc932a8b4ace9d96ceec" prot="public" static="no" mutable="no">
         <type>int(*</type>
-        <definition>int(* gfal_catalog_interface::rename)(const char *, const char *)</definition>
-        <argsstring>)(const char *, const char *)</argsstring>
-        <name>rename</name>
+        <definition>int(* gfal_catalog_interface::renameG)(const char *, const char *, GError **err)</definition>
+        <argsstring>)(const char *, const char *, GError **err)</argsstring>
+        <name>renameG</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -88,12 +88,12 @@
     </detaileddescription>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="258" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="258" bodyend="272"/>
     <listofallmembers>
-      <member refid="structgfal__catalog__interface_1dd6dd6a4e342663bbe5a8567aec29441" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>access</name></member>
+      <member refid="structgfal__catalog__interface_1b4b4bf8ee3f1e669658c81d4819d7ef5" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>accessG</name></member>
       <member refid="structgfal__catalog__interface_1cd24a8f2983c69aa4bd96565e7b051ad" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>catalog_delete</name></member>
       <member refid="structgfal__catalog__interface_1737a3a53ed3e9e59b97aa57acf7d23dd" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>catalog_handle</name></member>
       <member refid="structgfal__catalog__interface_111b0fe1e835e1a1b17721686bae38d9e" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>check_catalog_url</name></member>
-      <member refid="structgfal__catalog__interface_1965e7dd655bc258470505a31bf464167" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>chmod</name></member>
-      <member refid="structgfal__catalog__interface_17cf08d7579383a8b5cd24935ea5bbdb3" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>rename</name></member>
+      <member refid="structgfal__catalog__interface_1c890ed9d649861b2824f026c28ffcb23" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>chmodG</name></member>
+      <member refid="structgfal__catalog__interface_17f442bf5ff84cc932a8b4ace9d96ceec" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>renameG</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

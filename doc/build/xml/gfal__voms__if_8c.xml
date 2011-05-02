@@ -350,9 +350,9 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
-      <memberdef kind="variable" id="gfal__voms__if_8c_12b6674345c9da6a3f8e0c3541e0cf6dc" prot="public" static="yes" mutable="no">
-        <type>gfal_voms_info_ *</type>
-        <definition>gfal_voms_info_* gfal_voms_info</definition>
+      <memberdef kind="variable" id="gfal__voms__if_8c_1dae7b6e3edb1dff4fae01b202593a319" prot="public" static="yes" mutable="no">
+        <type>__thread gfal_voms_info_ *</type>
+        <definition>__thread gfal_voms_info_* gfal_voms_info</definition>
         <argsstring></argsstring>
         <name>gfal_voms_info</name>
         <initializer>NULL</initializer>
@@ -399,7 +399,7 @@
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="33"><highlight class="normal">}<sp/>gfal_voms_info_;</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gfal_voms_info_*<sp/>gfal_voms_info=NULL;<sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>__thread<sp/>gfal_voms_info_*<sp/>gfal_voms_info=NULL;<sp/></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_voms_init(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>vomsdata<sp/>**vd,<sp/>GError<sp/>**err){</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>errmsg[GFAL_ERRMSG_LEN];<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>

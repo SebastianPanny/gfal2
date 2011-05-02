@@ -265,9 +265,9 @@
 <a name="l00265"></a>00265 <span class="comment"></span>        void (*catalog_delete)(gpointer); 
 <a name="l00266"></a>00266         <span class="comment">// members</span>
 <a name="l00267"></a>00267         gboolean (*check_catalog_url)(<span class="keywordtype">char</span>* url,  catalog_mode mode);
-<a name="l00268"></a>00268         int (*access)(<span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode);
-<a name="l00269"></a>00269         int     (*chmod)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00270"></a>00270         int     (*rename)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);  
+<a name="l00268"></a>00268         int (*accessG)(<span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
+<a name="l00269"></a>00269         int     (*chmodG)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t, GError** err);
+<a name="l00270"></a>00270         int     (*renameG)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, GError** err);   
 <a name="l00271"></a>00271         
 <a name="l00272"></a>00272 } gfal_catalog_interface;
 <a name="l00273"></a>00273 
@@ -412,7 +412,7 @@
 <a name="l00412"></a>00412 <span class="preprocessor">#endif</span>
 <a name="l00413"></a>00413 <span class="preprocessor"></span>
 <a name="l00414"></a>00414 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Apr 29 15:30:53 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon May 2 09:23:47 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
