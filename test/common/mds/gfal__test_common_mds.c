@@ -30,11 +30,8 @@ START_TEST(test_check_bdii_endpoints_srm)
 	}
 	
 	ret = gfal_mds_get_se_types_and_endpoints ("google.com", &se_types, &se_endpoints, &err);		
-	fail_unless(ret != 0 &&  err->code == EINVAL , " must fail, invalid url");
+	fail_unless(ret != 0 &&  err->code == EINVAL , "must fail, invalid url");
 	g_clear_error(&err);
-	
-
-
 }
 END_TEST
 
@@ -42,15 +39,17 @@ END_TEST
 START_TEST(gfal__test_get_lfchost_bdii)
 {
 	GError* tmp_err =NULL;
-	
+	errno = 0;
 	char* lfc = gfal_get_lfchost_bdii(&tmp_err);
 	if(!lfc){
-		fail(" must return correct lfc value");
 		gfal_release_GError(&tmp_err);
+		fail(" must return correct lfc value");
+		return;
 	}
+	g_printerr(" lfc name : %s ", lfc);
 	free(lfc);
 	
 }
-
+END_TEST
 
 
