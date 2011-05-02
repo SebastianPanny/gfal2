@@ -79,8 +79,10 @@ Suite* common_suite (void)
   tcase_add_test(tc_srm, test_gfal_get_async_resultsG_empty);
   tcase_add_test(tc_srm, test_full_gfal_get_request);
   tcase_add_test(tc_srm, test_gfal_async_results_errcode);
-  tcase_add_test(tc_srm, test_full_gfal_get_request_multi);
+  tcase_add_test(tc_srm, test_full_gfal_get_request_multi);  
   suite_add_tcase (s, tc_srm);
+  TCase* tc_srm_no_glib = tcase_create("SRM_NO_GLIB");
+  suite_add_tcase(s, tc_srm_no_glib);
   TCase *tc_mds= tcase_create("MDS");
   tcase_add_test(tc_mds, test_check_bdii_endpoints_srm);
   suite_add_tcase(s, tc_mds);
