@@ -33,15 +33,22 @@
 
 
 static void lfc_destroyG(catalog_handle handle){
-	free(handle);
+	struct lfc_ops* ops = (struct lfc_ops*) handle;
+	free(ops->lfc_endpoint);
+	free(ops);
 	// do nothing for the moment, global instance mode
 }
 
 int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
-	g_return_val_err_if_fail(handle && path, -1, err, "[lfc_accessG] Invalid value in arguments handle  or/and path");
-	
-	g_error(" not implemented");
-	
+	g_return_val_err_if_fail(handle && lfn, -1, err, "[lfc_accessG] Invalid value in arguments handle  or/and path");
+	struct lfc_ops* ops = (struct lfc_ops*) handle;
+	int ret = ops->access(lfn, mode);
+	if(ret <0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err, 0, sav_errno, "[lfc_accessG] lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, ops->sstrerror(sav_errno) );
+		return sav_errno; 
+	}
+	return ret;
 }
 
 
@@ -52,16 +59,16 @@ int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	gfal_catalog_interface lfc_catalog;
 	GError* tmp_err=NULL;
-	int ret=-1;
 	memset(&lfc_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog
 	
-	ret = gfal_setup_lfchost(handle, &tmp_err);
-	if(ret){
+	char* endpoint = gfal_setup_lfchost(handle, &tmp_err);
+	if(endpoint==NULL){
 		g_propagate_prefixed_error(err, tmp_err, "[lfc_initG]");
 		return lfc_catalog;
 	}
 	
 	struct lfc_ops* ops = gfal_load_lfc( "liblfc.so", &tmp_err);
+	ops->lfc_endpoint = endpoint;
 	if(ops ==NULL){
 		g_propagate_prefixed_error(err, tmp_err,"[lfc_initG]");
 		return lfc_catalog;

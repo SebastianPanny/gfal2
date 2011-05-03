@@ -100,7 +100,7 @@ int* gfal_GList_to_tab_int(GList* int_list){
  *  set GError properly if error
  *  
  * */
-int resolve_dlsym_listG(void* handle, void*** flist, char** sym_list, int num, GError** err){
+int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int num, GError** err){
 	if(num >0){
 		void* sym = dlsym(handle, *sym_list);
 		if(!sym){

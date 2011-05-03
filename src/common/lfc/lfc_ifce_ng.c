@@ -76,37 +76,36 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 /**
  * setup the lfc_host correctly for the lfc calls 
  * @param err GError report system if 
- * @return 0 if success else negative value and set err properly
+ * @return  string of the endpoint, need to be free or NULL if error
  */
-int gfal_setup_lfchost(gfal_handle handle, GError ** err){
-	g_return_val_err_if_fail(handle && err, -1, err, "[gfal_setup_lfchost] Invalid parameters handle & err");
+char* gfal_setup_lfchost(gfal_handle handle, GError ** err){
+	g_return_val_err_if_fail(handle && err, NULL, err, "[gfal_setup_lfchost] Invalid parameters handle & err");
 	char* lfc_host = NULL;
 	GError* tmp_err = NULL;
 	
 	if ( (lfc_host = gfal_get_lfchost_envar(&tmp_err)) == NULL ) { // if env var not specified got one from bdii, and setup the env var
 		if(tmp_err){
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost]");
-			return -1;
+			return NULL;
 		}
 		
 		if( (lfc_host = gfal_get_lfchost_bdii(handle, &tmp_err)) ==NULL ){ // call the bdii 
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost]");
-			return -2;	
+			return NULL;	
 		}else{				
 			gfal_define_lfc_env_var(lfc_host, &tmp_err);		// define the env var if sucess
 			if(tmp_err){
 				g_propagate_prefixed_error(err, tmp_err,"[gfal_get_lfchost]");
-				return -4;
+				return NULL;
 			}	
 		}
 	} 
 
 	if (strnlen (lfc_host,GFAL_MAX_LFCHOST_LEN) + 6 >= GFAL_MAX_LFCHOST_LEN) { 
 		g_set_error(err, 0, ENAMETOOLONG, "[gfal_get_lfchost] lfc host name :  %s, Host name too long", lfc_host);
-		return (-3);		
+		return (NULL);		
 	}	
-	free(lfc_host);
-	return 0;
+	return lfc_host;
 }
 
 /**

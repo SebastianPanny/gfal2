@@ -32,6 +32,8 @@
 #define GFAL_MAX_LFCHOST_LEN 1024
 
 struct lfc_ops {
+	char* lfc_endpoint;
+	
 	int	*serrno;
 	char	*(*sstrerror)(int);
 	int	(*addreplica)(const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *);
@@ -61,7 +63,7 @@ struct lfc_ops {
 	int (*endsess) ();
 };
 
-int gfal_setup_lfchost(gfal_handle handle, GError ** err);
+char* gfal_setup_lfchost(gfal_handle handle, GError ** err);
 
 
 struct lfc_ops* gfal_load_lfc(const char* name, GError** err);
