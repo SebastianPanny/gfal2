@@ -26,6 +26,14 @@
 #include "gfal_common.h"
 
 
+/**
+ * set the bdii value of the handle specified
+ */
+void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk){
+	handle->no_bdii_check = no_bdii_chk;
+}
+
+
 
 int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpoints, GError** err){
 	

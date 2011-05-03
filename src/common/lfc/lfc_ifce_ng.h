@@ -28,3 +28,8 @@
 
 #include "gfal_common_lfc.h"
 
+#define GFAL_MAX_LFCHOST_LEN 1024
+
+
+int gfal_setup_lfchost(GError ** err);
+

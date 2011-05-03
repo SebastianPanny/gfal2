@@ -43,6 +43,16 @@
 #include <stdio.h>
 #include <string.h>
 
+/**
+ * new next gen functions 
+ * 
+ * 
+ * */
+ 
+gfal_handle gfal_initG(GError** err);
+
+void gfal_handle_freeG(gfal_handle handle);
+ 
 
 
 

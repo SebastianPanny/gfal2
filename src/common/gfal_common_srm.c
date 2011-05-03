@@ -43,12 +43,6 @@ static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
 	return FALSE;
 }
 
-/**
- * set the bdii value of the handle specified
- */
-void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk){
-	handle->no_bdii_check = no_bdii_chk;
-}
 
 /**
  *  return 0 if a full endpoint is contained in surl  
@@ -213,24 +207,7 @@ int gfal_auto_get_srm_endpoint(gfal_handle handle, char** endpoint, enum gfal_sr
 	return 0;
 }
 
-/**
- * initiate a gfal's context with default parameters for use
- * @return a gfal_handle, need to be free after usage. return NULL if errors
- */
-gfal_handle gfal_initG (GError** err)
-{
-	gfal_handle handle = calloc(1,sizeof(struct gfal_handle_));// clear allocation of the struct and set defautl options
-	if(handle == NULL){
-		errno= ENOMEM;
-		g_set_error(err,0,ENOMEM, "[gfal_initG] bad allocation, no more memory free");
-		return NULL;
-	}
-	handle->err= NULL;
-	handle->srm_proto_type = PROTO_SRMv2;
-	handle->initiated = 1;
-	handle->srmv2_opt = calloc(1,sizeof(struct _gfal_srmv2_opt));	// define the srmv2 option struct and clear it
-	return handle;
-}
+
 
 /**
  * @brief accessor for the default storage type definition
@@ -239,35 +216,6 @@ void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
 	handle->srm_proto_type = proto;
 }
 
-/**
- * @brief convert glist of surl char* to char**
- *  @return return NULL if error or pointer to char**
- */
-char** gfal_GList_to_tab(GList* surls){
-	int surl_size = g_list_length(surls);
-	int i;
-	char **resu = surl_size?((char**)calloc(surl_size+1, sizeof(char*))):NULL;
-	for(i=0;i<surl_size; ++i){
-		resu[i]= surls->data;
-		surls = g_list_next(surls);
-	}
-	return resu;
-}
-
-/**
- * @brief convert glist of int to a table of int
- *  @return return NULL if error or pointer to int*
- */
-int* gfal_GList_to_tab_int(GList* int_list){
-	int int_size = g_list_length(int_list);
-	int i;
-	int *resu = int_size?((int*)calloc(int_size+1, sizeof(int))):NULL;
-	for(i=0;i<int_size; ++i){
-		resu[i]= GPOINTER_TO_INT(int_list->data);
-		int_list = g_list_next(int_list);
-	}
-	return resu;
-}
 
 
 /**
@@ -418,19 +366,7 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 	return ret;	
 }
 
-/**
- * @brief free a gfal's handle, safe if null
- * 
- */
-void gfal_handle_freeG (gfal_handle handle){
-	if(handle == NULL)
-		return;
-	g_clear_error(&(handle->err));
-	free(handle->srmv2_opt);
-	gfal_delete_request_state(handle->last_request_state);
-	free(handle);
-	handle = NULL;
-}
+
 /**
  * convert a table a struct srmv2_pinfilestatus to (a) desired GList(s) of turl string, turl associated error code, turl associated error string
  *  @return return the number of turl in the last request

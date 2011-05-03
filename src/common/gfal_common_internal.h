@@ -27,7 +27,10 @@
 #include "gfal_common_srm.h"
 #include "gfal_common.h"
 
-
+typedef struct {
+	
+	
+} gfal_common_internal_context;
 
 char** gfal_GList_to_tab(GList* surls);
 
