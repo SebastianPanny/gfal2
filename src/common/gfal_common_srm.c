@@ -222,7 +222,7 @@ void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
  * delete properly a gfal_request_state structure
  * 
  * */
- static void gfal_delete_request_state(gfal_request_state* request_state){
+void gfal_delete_request_state(gfal_request_state* request_state){
 	 if(request_state ){
 		 free(request_state->request_endpoint);
 		 free(request_state->srmv2_token);
@@ -236,7 +236,7 @@ void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
  * create a new current request state and init it, delete the old one if exist
  * 
  * */
-static void gfal_new_request_state(gfal_handle handle){
+void gfal_new_request_state(gfal_handle handle){
 	if(handle->last_request_state){
 		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, " erase a last request state");	// verbose message
 		gfal_delete_request_state(handle->last_request_state);

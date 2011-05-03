@@ -40,7 +40,13 @@ START_TEST(gfal__test_get_lfchost_bdii)
 {
 	GError* tmp_err =NULL;
 	errno = 0;
-	char* lfc = gfal_get_lfchost_bdii(&tmp_err);
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(tmp_err){
+		gfal_release_GError(&tmp_err);
+		fail("Error while init handle");
+		return;		
+	}
+	char* lfc = gfal_get_lfchost_bdii(handle, &tmp_err);
 	if(!lfc){
 		gfal_release_GError(&tmp_err);
 		fail(" must return correct lfc value");

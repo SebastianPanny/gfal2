@@ -31,5 +31,5 @@
 #define GFAL_MAX_LFCHOST_LEN 1024
 
 
-int gfal_setup_lfchost(GError ** err);
+int gfal_setup_lfchost(gfal_handle handle, GError ** err);
 

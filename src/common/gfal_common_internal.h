@@ -36,3 +36,9 @@ char** gfal_GList_to_tab(GList* surls);
 
 
 int* gfal_GList_to_tab_int(GList* int_list);
+
+
+void gfal_delete_request_state(gfal_request_state* request_state);
+
+
+void gfal_new_request_state(gfal_handle handle);

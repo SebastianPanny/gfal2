@@ -1,4 +1,3 @@
-#pragma once
 
 /* unit test for common_srm */
 
