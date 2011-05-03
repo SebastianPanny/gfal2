@@ -9,6 +9,8 @@
 #include "lfc/gfal_common_lfc.h"
 #include "gfal_common_internal.h"
 
+#define TEST_LFC_VALID_ACCESS "lfn:/grid/dteam/10951205242795"
+
 
 
 START_TEST(test_gfal_common_lfc_define_env)
@@ -27,7 +29,7 @@ START_TEST(test_gfal_common_lfc_define_env)
 		return;
 	}
 	ret = gfal_setup_lfchost(handle, &tmp_err);
-	if(ret == 0){
+	if(ret){
 		fail(" must fail, port invalid");
 		return;	
 	}
@@ -36,7 +38,7 @@ START_TEST(test_gfal_common_lfc_define_env)
 	tmp_err=NULL;
 	setenv("LFC_PORT", "2000",1);	
 	ret = gfal_setup_lfchost(handle, &tmp_err);	// re-test with good port number
-	if(ret){
+	if(ret == NULL){
 		fail(" must be a success, LFC_HOST & LFC_PORT defined");
 		gfal_release_GError(&tmp_err);
 		return;
@@ -83,8 +85,33 @@ START_TEST(test_gfal_common_lfc_init)
 		gfal_release_GError(&tmp_err);
 	}
 	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);
-	
+	if(tmp_err){
+		fail(" msut not fail, valid value");
+		return;
+	}
 }
 END_TEST
 
+START_TEST(test_gfal_common_lfc_access){
+	GError * tmp_err=NULL;
+	int ret =-1;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		fail(" error msut be initiated");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	if(ret <0){
+		fail(" must be a init");
+		gfal_release_GError(&tmp_err);
+	}
+	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, R_OK, &tmp_err);
+	if(ret <0){
+		fail(" must be a valid access");
+		gfal_release_GError(&tmp_err);
+	}
+	
+}
+END_TEST
 

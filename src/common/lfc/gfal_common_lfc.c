@@ -68,11 +68,11 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	}
 	
 	struct lfc_ops* ops = gfal_load_lfc( "liblfc.so", &tmp_err);
-	ops->lfc_endpoint = endpoint;
 	if(ops ==NULL){
 		g_propagate_prefixed_error(err, tmp_err,"[lfc_initG]");
 		return lfc_catalog;
 	}
+	ops->lfc_endpoint = endpoint;
 	lfc_catalog.handle = (void*) ops;
 	lfc_catalog.catalog_delete = &lfc_destroyG;
 	lfc_catalog.accessG = &lfc_accessG;
