@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='iso-8859-1' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
+  <compounddef id="group__srm__group" kind="group">
+    <compoundname>srm_group</compoundname>
+    <title>all SRM functions</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__srm__group_1g4e6d4aab98935aaf408d8a5cdf9727d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gfal_handle</type>
+        <definition>gfal_handle gfal_init</definition>
+        <argsstring>()</argsstring>
+        <name>gfal_init</name>
+        <briefdescription>
+<para>init the gfal srm interface for surl -&gt; turls transformation </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="28"/>
+      </memberdef>
+      <memberdef kind="function" id="group__srm__group_1g629a56f0d644547dbc9fdb2e058476e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_deletesurls</definition>
+        <argsstring>(gfal_handle, GList *lsurl)</argsstring>
+        <name>gfal_deletesurls</name>
+        <param>
+          <type>gfal_handle</type>
+        </param>
+        <param>
+          <type>GList *</type>
+          <declname>lsurl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>a lsit of dir </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="34"/>
+      </memberdef>
+      <memberdef kind="function" id="group__srm__group_1gff1cd1d3df193f577ebb2fe108aa0b6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_removedir</definition>
+        <argsstring>(gfal_handle, gchar *surl)</argsstring>
+        <name>gfal_removedir</name>
+        <param>
+          <type>gfal_handle</type>
+        </param>
+        <param>
+          <type>gchar *</type>
+          <declname>surl</declname>
+        </param>
+        <briefdescription>
+<para>remove a dir, only one at a time </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="38"/>
+      </memberdef>
+      <memberdef kind="function" id="group__srm__group_1g3ae5c2126214ee65695904a7f9fddeb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_get</definition>
+        <argsstring>(gfal_handle, GList *surl_list)</argsstring>
+        <name>gfal_get</name>
+        <param>
+          <type>gfal_handle</type>
+        </param>
+        <param>
+          <type>GList *</type>
+          <declname>surl_list</declname>
+        </param>
+        <briefdescription>
+<para>get a turls list from a surls list </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>full</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>list of surls that will be converted </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if err=NULL, error report ignored else must *err=NULL and err will be set to the correct error </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="45"/>
+      </memberdef>
+      <memberdef kind="function" id="group__srm__group_1g1f99a22cf6a648d42530bc83d0ac8861" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_getstatus</definition>
+        <argsstring>(gfal_handle)</argsstring>
+        <name>gfal_getstatus</name>
+        <param>
+          <type>gfal_handle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>state of the actual request </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="51"/>
+      </memberdef>
+      <memberdef kind="function" id="group__srm__group_1gb850010181be27c87a5c5b0341412655" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char* gfal_getHandleState</definition>
+        <argsstring>(gfal_handle)</argsstring>
+        <name>gfal_getHandleState</name>
+        <param>
+          <type>gfal_handle</type>
+        </param>
+        <briefdescription>
+<para>describe handle state </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a string description of the state of the handle </para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gfal_handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="57"/>
+      </memberdef>
+      <memberdef kind="function" id="group__srm__group_1g17710c0eaab072ece70a7138b598f0b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_bringonline</definition>
+        <argsstring>(gfal_handle)</argsstring>
+        <name>gfal_bringonline</name>
+        <param>
+          <type>gfal_handle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="59"/>
+      </memberdef>
+      <memberdef kind="function" id="group__srm__group_1g05a256007ca8303bbf31c1148cc23995" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_prestage</definition>
+        <argsstring>(gfal_handle)</argsstring>
+        <name>gfal_prestage</name>
+        <param>
+          <type>gfal_handle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="61"/>
+      </memberdef>
+      <memberdef kind="function" id="group__srm__group_1g575ef65953139a8439575376437cd2f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_prestagestatus</definition>
+        <argsstring>(gfal_handle)</argsstring>
+        <name>gfal_prestagestatus</name>
+        <param>
+          <type>gfal_handle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="63"/>
+      </memberdef>
+      <memberdef kind="function" id="group__srm__group_1g1b450340e97429bf3eb42078c4626048" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_pin</definition>
+        <argsstring>(gfal_handle)</argsstring>
+        <name>gfal_pin</name>
+        <param>
+          <type>gfal_handle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/SRM_API.c" line="65"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,340 @@
+.TH "all POSIX style function" 3 "3 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+all POSIX style function \- 
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBgfal_access\fP (const char *, int)"
+.br
+.RI "\fItest access to the given file \fP"
+.ti -1c
+.RI "int \fBgfal_chmod\fP (const char *, mode_t)"
+.br
+.RI "\fIset rights of the file/dir \fP"
+.ti -1c
+.RI "int \fBgfal_close\fP (int)"
+.br
+.RI "\fIclose the current file descriptor \fP"
+.ti -1c
+.RI "int \fBgfal_closedir\fP (DIR *)"
+.br
+.RI "\fIgfal_closedir - close a directory \fP"
+.ti -1c
+.RI "int \fBgfal_creat\fP (const char *, mode_t)"
+.br
+.RI "\fIcreates a new file or truncates an existing one \fP"
+.ti -1c
+.RI "int \fBgfal_creat64\fP (const char *, mode_t)"
+.br
+.RI "\fIsame as create for large file \fP"
+.ti -1c
+.RI "off_t \fBgfal_lseek\fP (int, off_t, int)"
+.br
+.RI "\fIgfal_lseek - position a file \fP"
+.ti -1c
+.RI "int \fBgfal_mkdir\fP (const char *, mode_t)"
+.br
+.ti -1c
+.RI "int \fBgfal_open\fP (const char *, int, mode_t)"
+.br
+.RI "\fIopens a file according to the value of flags \fP"
+.ti -1c
+.RI "int \fBgfal_open64\fP (const char *, int, mode_t)"
+.br
+.ti -1c
+.RI "DIR * \fBgfal_opendir\fP (const char *)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_read\fP (int, void *, size_t)"
+.br
+.ti -1c
+.RI "dirent * \fBgfal_readdir\fP (DIR *)"
+.br
+.ti -1c
+.RI "int \fBgfal_rename\fP (const char *, const char *)"
+.br
+.ti -1c
+.RI "int \fBgfal_rmdir\fP (const char *)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_setfilchg\fP (int, const void *, size_t)"
+.br
+.ti -1c
+.RI "int \fBgfal_unlink\fP (const char *)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_write\fP (int, const void *, size_t)"
+.br
+.ti -1c
+.RI "off64_t \fBgfal_lseek64\fP (int, off64_t, int)"
+.br
+.ti -1c
+.RI "int \fBgfal_lstat\fP (const char *, struct stat *)"
+.br
+.ti -1c
+.RI "int \fBgfal_lstat64\fP (const char *, struct stat64 *)"
+.br
+.ti -1c
+.RI "int \fBgfal_stat\fP (const char *, struct stat *)"
+.br
+.ti -1c
+.RI "int \fBgfal_stat64\fP (const char *, struct stat64 *)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int gfal_access (const char *, int)"
+.PP
+test access to the given file 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfile\fP can be in supported protocols lfn, srm, file, tftp 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately 
+.br
+.IP "\(bu" 2
+ERRNO list : 
+.br
+.IP "  \(bu" 4
+ENOENT: The named file/directory does not exist.
+.IP "  \(bu" 4
+EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+.IP "  \(bu" 4
+EFAULT: path is a NULL pointer.
+.IP "  \(bu" 4
+ENOTDIR: A component of path prefix is not a directory.
+.IP "  \(bu" 4
+EINVAL: path has an invalid syntax or amode is invalid.
+.IP "  \(bu" 4
+ECOMM: Communication error.
+.IP "  \(bu" 4
+EPROTONOSUPPORT: Access method not supported. 
+.PP
+
+.PP
+.RE
+.PP
+
+.SS "int gfal_chmod (const char *, mode_t)"
+.PP
+set rights of the file/dir 
+.PP
+changes access mode of the file/directory path according to the bit pattern in mode. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpath\fP specifies the file name (this can only be a TURL in the current implementation). 
+.br
+\fImode\fP the bit pattern is built by an OR of the constants defined in <sys/stat.h>. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately 
+.br
+.IP "\(bu" 2
+ERRNO list : 
+.br
+.IP "  \(bu" 4
+ENOENT: The named file/directory does not exist.
+.IP "  \(bu" 4
+EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+.IP "  \(bu" 4
+EFAULT: path is a NULL pointer.
+.IP "  \(bu" 4
+ENOTDIR: A component of path prefix is not a directory.
+.IP "  \(bu" 4
+EINVAL: path has an invalid syntax or amode is invalid.
+.IP "  \(bu" 4
+ECOMM: Communication error.
+.IP "  \(bu" 4
+EPROTONOSUPPORT: Access method not supported. 
+.PP
+
+.PP
+.RE
+.PP
+
+.SS "int gfal_close (int)"
+.PP
+close the current file descriptor 
+.PP
+close the file whose descriptor fd is the one returned by gfal_open. 
+.PP
+\fBReturns:\fP
+.RS 4
+This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.
+.IP "\(bu" 2
+ERRNO list : 
+.br
+.IP "  \(bu" 4
+EBADF: fd is not a valid file descriptor
+.IP "  \(bu" 4
+ECOMM: Communication error.
+.IP "  \(bu" 4
+EPROTONOSUPPORT: Access method not supported. 
+.PP
+
+.PP
+.RE
+.PP
+
+.SS "int gfal_closedir (DIR *)"
+.PP
+gfal_closedir - close a directory 
+.PP
+gfal_closedir closes the directory opened by gfal_opendir and associated with the DIR structure pointed by dirp 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfile\fP descriptor 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.
+.RE
+.PP
+.IP "\(bu" 2
+ERRORS : -EBADF :File descriptor in DIR structure is invalid.
+.IP "  \(bu" 4
+ECOMM : Communication error.
+.IP "  \(bu" 4
+EPROTONOSUPPORT : Access method not supported. 
+.PP
+
+.PP
+
+.SS "int gfal_creat (const char *, mode_t)"
+.PP
+creates a new file or truncates an existing one 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP specifies the file name: either a logical file name, a guid, an SURL or a TURL 
+.br
+\fImode\fP is used only if the file is created 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately
+.IP "\(bu" 2
+ERRNO list : 
+.br
+.IP "  \(bu" 4
+ENOENT: The named file/directory does not exist.
+.IP "  \(bu" 4
+EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+.IP "  \(bu" 4
+EFAULT: path is a NULL pointer.
+.IP "  \(bu" 4
+EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream
+.IP "  \(bu" 4
+ENOTDIR: A component of path prefix is not a directory.
+.IP "  \(bu" 4
+EINVAL: path has an invalid syntax or amode is invalid.
+.IP "  \(bu" 4
+ECOMM: Communication error.
+.IP "  \(bu" 4
+EPROTONOSUPPORT: Access method not supported. 
+.PP
+
+.PP
+.RE
+.PP
+
+.SS "off_t gfal_lseek (int, off_t, int)"
+.PP
+gfal_lseek - position a file 
+.PP
+gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value:
+.PP
+.IP "\(bu" 2
+SEEK_SET The offset is set from beginning of file.
+.IP "\(bu" 2
+SEEK_CUR The offset is added to current position.
+.IP "\(bu" 2
+SEEK_END The offset is added to current file size.
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+This routine returns the actual offset from the beginning of the file if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.
+.IP "\(bu" 2
+ERRORS :
+.IP "  \(bu" 4
+EBADF fd is not a valid file descriptor.
+.IP "  \(bu" 4
+EINVAL incorrect value for whence.
+.IP "  \(bu" 4
+EFBIG Resulting offset is too big to fit in off_t.
+.IP "  \(bu" 4
+ECOMM Communication error.
+.IP "  \(bu" 4
+EPROTONOSUPPORT Access method not supported.
+.PP
+
+.PP
+.RE
+.PP
+gfal_lseek64 performs the same function on large files using off64_t rather than off_t. 
+.SS "int gfal_open (const char *, int, mode_t)"
+.PP
+opens a file according to the value of flags 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP specifies the file name: either a logical file name, a guid, an SURL or a TURL 
+.br
+\fIflags\fP value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used
+.IP "\(bu" 2
+O_RDONLY open for reading only
+.IP "  \(bu" 4
+O_WRONLY open for writing only
+.PP
+
+.IP "\(bu" 2
+O_RDWR open for reading and writing
+.IP "  \(bu" 4
+O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail.
+.IP "  \(bu" 4
+O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened 
+.PP
+
+.PP
+.br
+\fImode\fP usef only if file is created 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+This routine returns the file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately
+.IP "\(bu" 2
+ERRNO list : 
+.br
+.IP "  \(bu" 4
+EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+.IP "  \(bu" 4
+EFAULT: path is a NULL pointer.
+.IP "  \(bu" 4
+ENOTDIR: A component of path prefix is not a directory.
+.IP "  \(bu" 4
+EINVAL: path has an invalid syntax or amode is invalid.
+.IP "  \(bu" 4
+ECOMM: Communication error.
+.IP "  \(bu" 4
+EPROTONOSUPPORT: Access method not supported. 
+.PP
+
+.PP
+.RE
+.PP
+

@@ -1,0 +1,47 @@
+\section{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-catalog.c File Reference}
+\label{gfal__common__catalog_8c}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-catalog.c}}
+the file of the common lib for the catalog management 
+
+{\tt \#include \char`\"{}gfal\_\-common\_\-catalog.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \bf{gfal\_\-catalogs\_\-instance} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+\item 
+void \bf{gfal\_\-catalogs\_\-delete} ()
+\item 
+char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+the file of the common lib for the catalog management 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]0.0.1 \end{Desc}
+\begin{Desc}
+\item[Date:]8/04/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}}
+\index{gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalogs\_\-delete ()}\label{gfal__common__catalog_8c_9f817ca6f7bb780c77909f76319c572e}
+
+
+Delete all instance of catalogs \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}}
+\index{gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalogs\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_9f8b43de07d9a8b30bd0fd4ed6b28ef9}
+
+
+Instance all catalogs for use if it's not the case \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}}
+\index{gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-get\_\-cat\_\-type (GError $\ast$$\ast$)}\label{gfal__common__catalog_8c_c20aa1a376c802d0c60208854537851e}
+
+
+catalog type getter 
+
+\begin{Desc}
+\item[Returns:]return a string of the type of the catalog return NULL if an error occured and set the GError correctly \end{Desc}

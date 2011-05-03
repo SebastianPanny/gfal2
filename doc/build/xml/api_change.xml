@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='iso-8859-1' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
+  <compounddef id="api_change" kind="page">
+    <compoundname>api_change</compoundname>
+    <detaileddescription>
+<para><heading level="1">API CHANGE 2.0 : </heading>
+</para><para>List of the scheduled changes for the GFal 2.0 API <simplesect kind="warning"><para>this is not a final choice</para></simplesect>
+<heading level="2">I. BRIEF OF THE CHANGES : </heading>
+</para><para><itemizedlist>
+<listitem><para>POSIX API is still unchanged</para></listitem><listitem><para>old gridftp support and associated functions are removed : (gfal_ls, sfn_*, gridftp_*,...)</para></listitem><listitem><para>SRM related API is modified in order to be easier to use</para></listitem><listitem><para>the old error report system is changed for a new verbose one.</para></listitem><listitem><para>LRC/RMC legacy support is dropped.</para></listitem><listitem><para>Lots of the old dependencies are no more needed and are removed.</para></listitem></itemizedlist>
+</para><para><heading level="2">II. OFFICIAL API : </heading>
+</para><para><itemizedlist>
+<listitem><para>Gfal POSIX lib API:<itemizedlist>
+<listitem><para>the Common functions API : <ref refid="group__common__group" kindref="compound">all common functions</ref>  <linebreak/>
+</para></listitem><listitem><para>the POSIX style API : <ref refid="group__posix__group" kindref="compound">all POSIX style function</ref>  <linebreak/>
+ <linebreak/>
+</para></listitem></itemizedlist>
+</para></listitem><listitem><para>Gfal REQUEST lib API :<itemizedlist>
+<listitem><para>the SRM style API : <ref refid="group__srm__group" kindref="compound">all SRM functions</ref>  <linebreak/>
+</para></listitem><listitem><para><bold> internal API, use at your own risks </bold> LFC_API : <ref refid="group__lfc__low__group" kindref="compound">internal LFC functions</ref> </para></listitem><listitem><para><bold> internal API, use at your own risks </bold> SFN_API : sfn_low_group </para></listitem><listitem><para><bold> internal API, use at your own risks </bold> internal functions of gfal : <ref refid="group__internal__group" kindref="compound">internal functions</ref> </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para><para><heading level="2">III. ANOTHER DOCS : </heading>
+</para><para><itemizedlist>
+<listitem><para>More informations about the GError system : <ulink url="http://developer.gnome.org/glib/stable/glib-Error-Reporting.html">http://developer.gnome.org/glib/stable/glib-Error-Reporting.html</ulink></para></listitem><listitem><para>More informations about the use of GList : <ulink url="http://developer.gnome.org/glib/stable/glib-Doubly-Linked-Lists.html">http://developer.gnome.org/glib/stable/glib-Doubly-Linked-Lists.html</ulink></para></listitem><listitem><para>More informations about the Gobject system : <ulink url="http://developer.gnome.org/gobject/stable/">http://developer.gnome.org/gobject/stable/</ulink> </para></listitem></itemizedlist>
+</para>    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+\section{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-errverbose.c File Reference}
+\label{gfal__common__errverbose_8c}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-errverbose.c}}
+the file of the common lib for error management and verbose display 
+
+{\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \bf{gfal\_\-get\_\-verbose} ()\label{gfal__common__errverbose_8c_135b3fdd775aa7215e2ab4de1eea495f}
+
+\begin{CompactList}\small\item\em return verbose mode level \item\end{CompactList}\item 
+int \bf{gfal\_\-set\_\-verbose} (int value)
+\begin{CompactList}\small\item\em set the verbose global level \item\end{CompactList}\item 
+void \bf{gfal\_\-print\_\-verbose} (int verbose\_\-lvl, const char $\ast$msg,...)
+\begin{CompactList}\small\item\em display a verbose message \item\end{CompactList}\item 
+void \bf{gfal\_\-release\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8c_1441ea4b8176eb0cf3099009b950a3e9}
+
+\begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\item 
+void \textbf{g\_\-propagate\_\-prefixed\_\-error} (GError $\ast$$\ast$dest, GError $\ast$src, const gchar $\ast$format,...)\label{gfal__common__errverbose_8c_ba441719ee1fd49a708add03c0eea22f}
+
+\item 
+void \textbf{g\_\-list\_\-free\_\-full} (GList $\ast$list, GDestroy\-Notify free\_\-func)\label{gfal__common__errverbose_8c_0d507092f75c2411862d210dbecbc4e5}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+the file of the common lib for error management and verbose display 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]0.0.1 \end{Desc}
+\begin{Desc}
+\item[Date:]8/04/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}!gfal_print_verbose@{gfal\_\-print\_\-verbose}}
+\index{gfal_print_verbose@{gfal\_\-print\_\-verbose}!gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-print\_\-verbose (int {\em verbose\_\-lvl}, const char $\ast$ {\em msg},  {\em ...})}\label{gfal__common__errverbose_8c_8b05640b4b43a776603bd93703c29d30}
+
+
+display a verbose message 
+
+msg is displayed if current verbose level is superior to verbose mode specified 

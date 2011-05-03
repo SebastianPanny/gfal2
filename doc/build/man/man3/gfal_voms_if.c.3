@@ -1,0 +1,95 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.c" 3 "3 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.c \- file containing the interface to the voms system 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gfal_voms_if.h'\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBgfal_voms_info_\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBgfal_parse_vomsdataG\fP (GError **err)"
+.br
+.ti -1c
+.RI "char * \fBgfal_get_userdnG\fP (GError **err)"
+.br
+.RI "\fIdn of the current registered user \fP"
+.ti -1c
+.RI "char * \fBgfal_get_voG\fP (GError **err)"
+.br
+.RI "\fIvo of the current user \fP"
+.ti -1c
+.RI "GList * \fBgfal_get_fqanG\fP (GError **err)"
+.br
+.RI "\fIget the user attributes \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+file containing the interface to the voms system 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+2.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+12/04/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "GList* gfal_get_fqanG (GError ** err)"
+.PP
+get the user attributes 
+.PP
+\fBReturns:\fP
+.RS 4
+return a List of strings of the compact user Attribute or NULL if error do not free 
+.RE
+.PP
+
+.SS "char* gfal_get_userdnG (GError ** err)"
+.PP
+dn of the current registered user 
+.PP
+\fBReturns:\fP
+.RS 4
+string of the dn of the current user registered by the voms proxy or null if error need to be free after use 
+.RE
+.PP
+
+.SS "char* gfal_get_voG (GError ** err)"
+.PP
+vo of the current user 
+.PP
+\fBReturns:\fP
+.RS 4
+string of the VO of the current user or null ir error need to be free after use 
+.RE
+.PP
+
+.SS "int gfal_parse_vomsdataG (GError ** err)"
+.PP
+get the data from the proxy and store it 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

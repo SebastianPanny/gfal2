@@ -1,0 +1,205 @@
+\section{all POSIX style function}
+\label{group__posix__group}\index{all POSIX style function@{all POSIX style function}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \bf{gfal\_\-access} (const char $\ast$, int)
+\begin{CompactList}\small\item\em test access to the given file \item\end{CompactList}\item 
+int \bf{gfal\_\-chmod} (const char $\ast$, mode\_\-t)
+\begin{CompactList}\small\item\em set rights of the file/dir \item\end{CompactList}\item 
+int \bf{gfal\_\-close} (int)
+\begin{CompactList}\small\item\em close the current file descriptor \item\end{CompactList}\item 
+int \bf{gfal\_\-closedir} (DIR $\ast$)
+\begin{CompactList}\small\item\em gfal\_\-closedir - close a directory \item\end{CompactList}\item 
+int \bf{gfal\_\-creat} (const char $\ast$, mode\_\-t)
+\begin{CompactList}\small\item\em creates a new file or truncates an existing one \item\end{CompactList}\item 
+int \bf{gfal\_\-creat64} (const char $\ast$, mode\_\-t)\label{group__posix__group_g48783e60cafa1a3bf9aa2170b99f9b08}
+
+\begin{CompactList}\small\item\em same as create for large file \item\end{CompactList}\item 
+off\_\-t \bf{gfal\_\-lseek} (int, off\_\-t, int)
+\begin{CompactList}\small\item\em gfal\_\-lseek - position a file \item\end{CompactList}\item 
+int \textbf{gfal\_\-mkdir} (const char $\ast$, mode\_\-t)\label{group__posix__group_g6f6affcf386900efc5443a9c97556a57}
+
+\item 
+int \bf{gfal\_\-open} (const char $\ast$, int, mode\_\-t)
+\begin{CompactList}\small\item\em opens a file according to the value of flags \item\end{CompactList}\item 
+int \textbf{gfal\_\-open64} (const char $\ast$, int, mode\_\-t)\label{group__posix__group_gbed417acea7f862ea1977417ed842ef4}
+
+\item 
+DIR $\ast$ \textbf{gfal\_\-opendir} (const char $\ast$)\label{group__posix__group_g004ad5efbd544da820823e597e57be92}
+
+\item 
+ssize\_\-t \textbf{gfal\_\-read} (int, void $\ast$, size\_\-t)\label{group__posix__group_gaa6bfe36f33b86e489b798aed96912de}
+
+\item 
+dirent $\ast$ \textbf{gfal\_\-readdir} (DIR $\ast$)\label{group__posix__group_g2a8ed205f7748d7817a18521268a1f2d}
+
+\item 
+int \textbf{gfal\_\-rename} (const char $\ast$, const char $\ast$)\label{group__posix__group_g34dc6129530d6bf9e5836ef22c0d2792}
+
+\item 
+int \textbf{gfal\_\-rmdir} (const char $\ast$)\label{group__posix__group_gcc4b6347640a722674c2d6df437490df}
+
+\item 
+ssize\_\-t \textbf{gfal\_\-setfilchg} (int, const void $\ast$, size\_\-t)\label{group__posix__group_g45a23756f2c79a7e07488bb3fb2fc35e}
+
+\item 
+int \textbf{gfal\_\-unlink} (const char $\ast$)\label{group__posix__group_gdeb4c6cc47f507da3e3b498374e308fb}
+
+\item 
+ssize\_\-t \textbf{gfal\_\-write} (int, const void $\ast$, size\_\-t)\label{group__posix__group_g00c2d64894ae81c05846b06c84727ae9}
+
+\item 
+off64\_\-t \textbf{gfal\_\-lseek64} (int, off64\_\-t, int)\label{group__posix__group_g39c7d0b6d366fdb0f218439ed3c3bb37}
+
+\item 
+int \textbf{gfal\_\-lstat} (const char $\ast$, struct stat $\ast$)\label{group__posix__group_g347f867802a33bc04fdfb769da857103}
+
+\item 
+int \textbf{gfal\_\-lstat64} (const char $\ast$, struct stat64 $\ast$)\label{group__posix__group_g739ca4985a67e0fc4fc253f42df2638c}
+
+\item 
+int \textbf{gfal\_\-stat} (const char $\ast$, struct stat $\ast$)\label{group__posix__group_g1d8c86d522d5dd26ee7ddcd9c6925964}
+
+\item 
+int \textbf{gfal\_\-stat64} (const char $\ast$, struct stat64 $\ast$)\label{group__posix__group_gb40e2d23618763284ab4a1fb1a06a880}
+
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{posix_group@{posix\_\-group}!gfal_access@{gfal\_\-access}}
+\index{gfal_access@{gfal\_\-access}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-access (const char $\ast$, int)}\label{group__posix__group_g33d6a4a93117a6c07405aa6ac0d42122}
+
+
+test access to the given file 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em file}]can be in supported protocols lfn, srm, file, tftp \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately \par
+\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
+\end{itemize}
+\end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_chmod@{gfal\_\-chmod}}
+\index{gfal_chmod@{gfal\_\-chmod}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-chmod (const char $\ast$, mode\_\-t)}\label{group__posix__group_gdfeeecb2052d81e65bcc09903655991b}
+
+
+set rights of the file/dir 
+
+changes access mode of the file/directory path according to the bit pattern in mode. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em path}]specifies the file name (this can only be a TURL in the current implementation). \item[{\em mode}]the bit pattern is built by an OR of the constants defined in $<$sys/stat.h$>$. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately \par
+\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
+\end{itemize}
+\end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_close@{gfal\_\-close}}
+\index{gfal_close@{gfal\_\-close}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-close (int)}\label{group__posix__group_g83b88bd27def4c4e2fdfea3c5bbf88b4}
+
+
+close the current file descriptor 
+
+close the file whose descriptor fd is the one returned by gfal\_\-open. \begin{Desc}
+\item[Returns:]This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item EBADF: fd is not a valid file descriptor\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
+\end{itemize}
+\end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_closedir@{gfal\_\-closedir}}
+\index{gfal_closedir@{gfal\_\-closedir}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-closedir (DIR $\ast$)}\label{group__posix__group_g1c97c21d23c919b2647f17bbc8b79db2}
+
+
+gfal\_\-closedir - close a directory 
+
+gfal\_\-closedir closes the directory opened by gfal\_\-opendir and associated with the DIR structure pointed by dirp \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em file}]descriptor \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.\end{Desc}
+\begin{itemize}
+\item ERRORS : -EBADF :File descriptor in DIR structure is invalid.\begin{itemize}
+\item ECOMM : Communication error.\item EPROTONOSUPPORT : Access method not supported. \end{itemize}
+\end{itemize}
+\index{posix_group@{posix\_\-group}!gfal_creat@{gfal\_\-creat}}
+\index{gfal_creat@{gfal\_\-creat}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-creat (const char $\ast$, mode\_\-t)}\label{group__posix__group_g5fcdc6f3e7911787be049e20b6ab19b8}
+
+
+creates a new file or truncates an existing one 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em filename}]specifies the file name: either a logical file name, a guid, an SURL or a TURL \item[{\em mode}]is used only if the file is created \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
+\end{itemize}
+\end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_lseek@{gfal\_\-lseek}}
+\index{gfal_lseek@{gfal\_\-lseek}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}off\_\-t gfal\_\-lseek (int, off\_\-t, int)}\label{group__posix__group_g8ba4e1df5f2e6439641c56f245d5ce73}
+
+
+gfal\_\-lseek - position a file 
+
+gfal\_\-lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal\_\-open. whence indicates how to interpret the offset value:
+
+\begin{itemize}
+\item SEEK\_\-SET The offset is set from beginning of file.\item SEEK\_\-CUR The offset is added to current position.\item SEEK\_\-END The offset is added to current file size.\end{itemize}
+
+
+\begin{Desc}
+\item[Returns:]This routine returns the actual offset from the beginning of the file if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.\begin{itemize}
+\item ERRORS :\begin{itemize}
+\item EBADF fd is not a valid file descriptor.\item EINVAL incorrect value for whence.\item EFBIG Resulting offset is too big to fit in off\_\-t.\item ECOMM Communication error.\item EPROTONOSUPPORT Access method not supported.\end{itemize}
+\end{itemize}
+\end{Desc}
+gfal\_\-lseek64 performs the same function on large files using off64\_\-t rather than off\_\-t. \index{posix_group@{posix\_\-group}!gfal_open@{gfal\_\-open}}
+\index{gfal_open@{gfal\_\-open}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-open (const char $\ast$, int, mode\_\-t)}\label{group__posix__group_g6a431a0bdd01baf8cadbdcaa98b1c622}
+
+
+opens a file according to the value of flags 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em filename}]specifies the file name: either a logical file name, a guid, an SURL or a TURL \item[{\em flags}]value is built by OR\^{a}€™ing the bits defined in $<$fcntl.h$>$ but one and only one of the first three flags below must be used\begin{itemize}
+\item O\_\-RDONLY open for reading only\begin{itemize}
+\item O\_\-WRONLY open for writing only\end{itemize}
+\item O\_\-RDWR open for reading and writing\begin{itemize}
+\item O\_\-CREAT If the file exists already and O\_\-EXCL is also set, gfal\_\-open will fail.\item O\_\-LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened \end{itemize}
+\end{itemize}
+\item[{\em mode}]usef only if file is created \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]This routine returns the file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
+\end{itemize}
+\end{Desc}

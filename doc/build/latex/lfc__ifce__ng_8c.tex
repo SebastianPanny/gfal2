@@ -1,0 +1,51 @@
+\section{/home/adevress/myworkspace/gfal/src/common/lfc/lfc\_\-ifce\_\-ng.c File Reference}
+\label{lfc__ifce__ng_8c}\index{/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c@{/home/adevress/myworkspace/gfal/src/common/lfc/lfc\_\-ifce\_\-ng.c}}
+main internal file of the lfc catalog module 
+
+{\tt \#include \char`\"{}lfc\_\-ifce\_\-ng.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+char $\ast$ \textbf{gfal\_\-get\_\-lfchost\_\-envar} (GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_9a5b8e8e30853b920e3bbe41062e1d25}
+
+\item 
+int \bf{gfal\_\-setup\_\-lfchost} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+\item 
+lfc\_\-ops $\ast$ \bf{gfal\_\-load\_\-lfc} (const char $\ast$name, GError $\ast$$\ast$err)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+main internal file of the lfc catalog module 
+
+\begin{Desc}
+\item[Author:]Adrien Devresse \end{Desc}
+\begin{Desc}
+\item[Version:]0.0.1 \end{Desc}
+\begin{Desc}
+\item[Date:]02/05/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_load_lfc@{gfal\_\-load\_\-lfc}}
+\index{gfal_load_lfc@{gfal\_\-load\_\-lfc}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct lfc\_\-ops$\ast$ gfal\_\-load\_\-lfc (const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_7c91643749a2c5d7e8043c0e42d00fd6}
+
+
+load the shared library and link the symbol for the LFC usage \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em name}]: name of the library \item[{\em err,:}]error report \end{description}
+\end{Desc}
+\index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_setup_lfchost@{gfal\_\-setup\_\-lfchost}}
+\index{gfal_setup_lfchost@{gfal\_\-setup\_\-lfchost}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-setup\_\-lfchost (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_2e1b3a940000958f22f4aee2aec25be6}
+
+
+setup the lfc\_\-host correctly for the lfc calls \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em err}]GError report system if \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 if success else negative value and set err properly \end{Desc}

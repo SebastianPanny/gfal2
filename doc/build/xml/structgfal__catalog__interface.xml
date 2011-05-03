@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='iso-8859-1' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
+  <compounddef id="structgfal__catalog__interface" kind="struct" prot="public">
+    <compoundname>gfal_catalog_interface</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structgfal__catalog__interface_1bf7b0d1a7036f31a8dfaa08afdd95922" prot="public" static="no" mutable="no">
+        <type>catalog_handle</type>
+        <definition>catalog_handle gfal_catalog_interface::handle</definition>
+        <argsstring></argsstring>
+        <name>handle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="49" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structgfal__catalog__interface_10500e093c9c45a29036053b5350d6d79" prot="public" static="no" mutable="no">
+        <type>void(*</type>
+        <definition>void(* gfal_catalog_interface::catalog_delete)(catalog_handle)</definition>
+        <argsstring>)(catalog_handle)</argsstring>
+        <name>catalog_delete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Called before the destruction of the catalog interface </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structgfal__catalog__interface_12c2c2559a1f6d00bde0f7f3388a5345a" prot="public" static="no" mutable="no">
+        <type>gboolean(*</type>
+        <definition>gboolean(* gfal_catalog_interface::check_catalog_url)(catalog_handle, char *url, catalog_mode mode)</definition>
+        <argsstring>)(catalog_handle, char *url, catalog_mode mode)</argsstring>
+        <name>check_catalog_url</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structgfal__catalog__interface_1cca8c14693bb55de73da36f685cd6961" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* gfal_catalog_interface::accessG)(catalog_handle, char *path, int mode, GError **err)</definition>
+        <argsstring>)(catalog_handle, char *path, int mode, GError **err)</argsstring>
+        <name>accessG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structgfal__catalog__interface_17ce5eab78c8009f553321b68255caa2d" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* gfal_catalog_interface::chmodG)(catalog_handle, const char *, mode_t, GError **err)</definition>
+        <argsstring>)(catalog_handle, const char *, mode_t, GError **err)</argsstring>
+        <name>chmodG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structgfal__catalog__interface_1ad275f9b6d466c8e7af115b9983685ca" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* gfal_catalog_interface::renameG)(catalog_handle, const char *, const char *, GError **err)</definition>
+        <argsstring>)(catalog_handle, const char *, const char *, GError **err)</argsstring>
+        <name>renameG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="59"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="47" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structgfal__catalog__interface_1cca8c14693bb55de73da36f685cd6961" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>accessG</name></member>
+      <member refid="structgfal__catalog__interface_10500e093c9c45a29036053b5350d6d79" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>catalog_delete</name></member>
+      <member refid="structgfal__catalog__interface_12c2c2559a1f6d00bde0f7f3388a5345a" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>check_catalog_url</name></member>
+      <member refid="structgfal__catalog__interface_17ce5eab78c8009f553321b68255caa2d" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>chmodG</name></member>
+      <member refid="structgfal__catalog__interface_1bf7b0d1a7036f31a8dfaa08afdd95922" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>handle</name></member>
+      <member refid="structgfal__catalog__interface_1ad275f9b6d466c8e7af115b9983685ca" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>renameG</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,182 @@
+\section{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common.h File Reference}
+\label{gfal__common_8h}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common.h@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common.h}}
+the core header file of the common lib part 
+
+{\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-catalog.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-storage.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-file.h\char`\"{}}\par
+{\tt \#include \char`\"{}voms/gfal\_\-voms\_\-if.h\char`\"{}}\par
+{\tt \#include \char`\"{}mds/gfal\_\-common\_\-mds.h\char`\"{}}\par
+{\tt \#include $<$gfal\_\-srm\_\-ifce.h$>$}\par
+{\tt \#include $<$gfal\_\-srm\_\-ifce\_\-types.h$>$}\par
+{\tt \#include \char`\"{}voms\_\-apic.h\char`\"{}}\par
+{\tt \#include $<$glib.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+gfal\_\-handle \bf{gfal\_\-init\-G} (GError $\ast$$\ast$err)
+\item 
+void \bf{gfal\_\-handle\_\-free\-G} (gfal\_\-handle handle)\label{gfal__common_8h_9dbd943eaed291897d852fc3ae560058}
+
+\begin{CompactList}\small\item\em free a gfal's handle, safe if null \item\end{CompactList}\item 
+gfal\_\-request \textbf{gfal\_\-request\_\-new} ()\label{gfal__common_8h_b5d503849656335232e56583b376ee22}
+
+\item 
+int \textbf{gfal\_\-init} (gfal\_\-request, gfal\_\-handle $\ast$, char $\ast$, int)\label{gfal__common_8h_6a6a376acadfe02f8b8fdd07d0d19dd1}
+
+\item 
+int \textbf{gfal\_\-deletesurls} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_5e5a84f63eaa3bf2bb079e9f2eb26206}
+
+\item 
+int \textbf{gfal\_\-removedir} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_0a50e7e9c9f23b0f3272d104ae69daee}
+
+\item 
+int \textbf{gfal\_\-get} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_5a11900a104a51b955944379c7397db1}
+
+\item 
+int \textbf{gfal\_\-getstatus} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_8fe0e87610c1221796a3d10d2cf4816e}
+
+\item 
+int \textbf{gfal\_\-bringonline} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_4eb3771f917c71fee4cc06d925a19322}
+
+\item 
+int \textbf{gfal\_\-prestage} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_17c188741a1d8f6db0cfbe22ef2c402f}
+
+\item 
+int \textbf{gfal\_\-prestagestatus} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_ae17e3249e7ab47bfcbb4bbfb0e6da6c}
+
+\item 
+int \textbf{gfal\_\-pin} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_9764581af9643f6d3f014b2bc9d5c4ac}
+
+\item 
+int \textbf{gfal\_\-release} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_d67e1b55d16fbcc9c02e0ab44bbed7bd}
+
+\item 
+int \textbf{gfal\_\-set\_\-xfer\_\-done} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_0dd3f7181d48d5311146106ec2eaba8a}
+
+\item 
+int \textbf{gfal\_\-set\_\-xfer\_\-running} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_e907a676c77e646e5a878e1db1fdcd96}
+
+\item 
+int \textbf{gfal\_\-abortrequest} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_c38428bec7d99cd8e97f8c2cecb02c26}
+
+\item 
+int \textbf{gfal\_\-abortfiles} (gfal\_\-handle, char $\ast$, int)\label{gfal__common_8h_492b7ad68bbcc21f29a4f7de5787bd58}
+
+\item 
+int \textbf{gfal\_\-get\_\-results} (gfal\_\-handle, gfal\_\-filestatus $\ast$$\ast$)\label{gfal__common_8h_eae3f1d564f4e403597f5024c3d2d606}
+
+\item 
+int \textbf{gfal\_\-get\_\-ids\_\-setype} (gfal\_\-handle, enum se\_\-type $\ast$, int $\ast$, int $\ast$$\ast$, char $\ast$$\ast$)\label{gfal__common_8h_2bed7d372296a8d43282cea69ccb663e}
+
+\item 
+int \textbf{gfal\_\-get\_\-ids} (gfal\_\-handle, int $\ast$, int $\ast$$\ast$, char $\ast$$\ast$)\label{gfal__common_8h_72418d9d0374b8beca6fca284a8e5db2}
+
+\item 
+int \textbf{gfal\_\-set\_\-ids} (gfal\_\-handle, int, const int $\ast$, int, const char $\ast$, char $\ast$, int)\label{gfal__common_8h_5da8c01443270bf26cb6f60fe1457c53}
+
+\item 
+void \textbf{gfal\_\-handle\_\-free} (gfal\_\-handle)\label{gfal__common_8h_a21bc6b4163400d28590637b474a1b05}
+
+\item 
+void \bf{gfal\_\-errmsg} (char $\ast$, int, int, const char $\ast$,...)
+\begin{CompactList}\small\item\em display an internal message \item\end{CompactList}\item 
+char $\ast$ \textbf{gfal\_\-get\_\-userdn} (char $\ast$errbuf, int errbufsz)\label{group__internal__group_g6bd6336b0fee1ff32ad6bc5ef3d96068}
+
+\item 
+char $\ast$ \textbf{gfal\_\-get\_\-vo} (char $\ast$errbuf, int errbufsz)\label{group__internal__group_g1d7294ee456d16c8b1bf40f97ffb5081}
+
+\item 
+int \textbf{gfal\_\-get\_\-fqan} (char $\ast$$\ast$$\ast$fqan, char $\ast$errbuf, int errbufsz)\label{group__internal__group_g54b4e29078838583c8022630ef5a2ed3}
+
+\item 
+int \textbf{gfal\_\-is\_\-purifydisabled} ()\label{group__internal__group_g3a35f0e6f616c5108f95cfffd557db77}
+
+\item 
+int \textbf{gfal\_\-register\_\-file} (const char $\ast$, const char $\ast$, const char $\ast$, mode\_\-t, GFAL\_\-LONG64, int, char $\ast$, int)\label{group__internal__group_gdb09f20d086253b45c5d2896be95b4a9}
+
+\item 
+char $\ast$ \textbf{get\_\-catalog\_\-endpoint} (char $\ast$, int)\label{gfal__common_8h_b3b834ff96e3d42df0404a02a9f8d1f5}
+
+\item 
+int \textbf{guid\_\-exists} (const char $\ast$, char $\ast$, int)\label{gfal__common_8h_7aea3a7b0803552b8f2a441f57d900a3}
+
+\item 
+int \textbf{gfal\_\-guidsforpfns} (int, const char $\ast$$\ast$, int, char $\ast$$\ast$$\ast$, int $\ast$$\ast$, char $\ast$, int)\label{group__internal__group_g72f2d9fb6a55816f243a4c57c5369fe5}
+
+\item 
+char $\ast$ \textbf{gfal\_\-guidforpfn} (const char $\ast$, char $\ast$, int)\label{group__internal__group_g86568afb8c7f9b0d6944de793a3e867a}
+
+\item 
+char $\ast$ \textbf{guidfromlfn} (const char $\ast$, char $\ast$, int)\label{gfal__common_8h_47c91fab6a02d32fcc1c6d6a53ba2ce3}
+
+\item 
+char $\ast$$\ast$ \textbf{gfal\_\-get\_\-aliases} (const char $\ast$, const char $\ast$, char $\ast$, int)\label{group__internal__group_g25d4ae6bef6570590efbc8548e7d79e2}
+
+\item 
+int \textbf{register\_\-alias} (const char $\ast$, const char $\ast$, char $\ast$, int)\label{gfal__common_8h_8a3be4d56dcedebe98cf84e8d5082782}
+
+\item 
+int \textbf{unregister\_\-alias} (const char $\ast$, const char $\ast$, char $\ast$, int)\label{gfal__common_8h_2483d66384257fdbe3b1fd6c568709b8}
+
+\item 
+int \textbf{gfal\_\-unregister\_\-pfns} (int, const char $\ast$$\ast$, const char $\ast$$\ast$, int $\ast$$\ast$, char $\ast$, int)\label{group__internal__group_g70f889fa2436723fb7b3cff20b661f21}
+
+\item 
+char $\ast$$\ast$ \textbf{gfal\_\-get\_\-replicas} (const char $\ast$, const char $\ast$, char $\ast$, int)\label{group__internal__group_gbd0a581309f65e07a5e28d442f07b169}
+
+\item 
+char $\ast$ \bf{gfal\_\-get\_\-hostname} (const char $\ast$, char $\ast$, int)
+\item 
+int \textbf{mdtomd32} (struct stat64 $\ast$, struct stat $\ast$)\label{gfal__common_8h_279a394776e983460b0dc373238bbdeb}
+
+\item 
+int \textbf{copy\_\-gfal\_\-results} (gfal\_\-handle, enum status\_\-type)\label{gfal__common_8h_226eb7c7688af01a84b243e831f4af77}
+
+\item 
+int \textbf{check\_\-gfal\_\-handle} (gfal\_\-handle, int, char $\ast$, int)\label{gfal__common_8h_74b7456978e7b4059473733755d71b85}
+
+\item 
+void \textbf{free\_\-gfal\_\-results} (gfal\_\-filestatus $\ast$, int)\label{gfal__common_8h_912fe2b722650ab952e78a8c44e28660}
+
+\item 
+void \textbf{free\_\-srmv2\_\-mdstatuses} (struct srmv2\_\-mdfilestatus $\ast$, int)\label{gfal__common_8h_00141b129093611da15bab0cee7fc196}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+the core header file of the common lib part 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]0.0.1 \end{Desc}
+\begin{Desc}
+\item[Date:]8/04/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common.h@{gfal\_\-common.h}!gfal_errmsg@{gfal\_\-errmsg}}
+\index{gfal_errmsg@{gfal\_\-errmsg}!gfal_common.h@{gfal\_\-common.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-errmsg (char $\ast$, int, int, const char $\ast$,  {\em ...})}\label{gfal__common_8h_53a1e14d422fda082f71f520468b79b3}
+
+
+display an internal message 
+
+\begin{Desc}
+\item[\bf{Deprecated}]old rerror system, will be replaced \end{Desc}
+\index{gfal_common.h@{gfal\_\-common.h}!gfal_initG@{gfal\_\-initG}}
+\index{gfal_initG@{gfal\_\-initG}!gfal_common.h@{gfal\_\-common.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-handle gfal\_\-init\-G (GError $\ast$$\ast$ {\em err})}\label{gfal__common_8h_8410ba458f920d8f8a8f0e5594170fe4}
+
+
+initiate a gfal's context with default parameters for use \begin{Desc}
+\item[Returns:]a gfal\_\-handle, need to be free after usage. return NULL if errors \end{Desc}
