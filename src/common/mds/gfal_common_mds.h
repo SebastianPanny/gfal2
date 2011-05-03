@@ -39,10 +39,12 @@ int gfal_mds_get_se_types_and_endpoints(const char *host, char ***se_types, char
 
 
 
-char * gfal_get_lfchost_bdii(GError** err);
+char * gfal_get_lfchost_bdii(gfal_handle handle, GError** err);
 
 
 void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk);
+
+gboolean gfal_get_nobdiiG(gfal_handle handle);
  
  
  

@@ -78,7 +78,7 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
  * @param err GError report system if 
  * @return 0 if success else negative value and set err properly
  */
-int gfal_setup_lfchost(GError ** err){
+int gfal_setup_lfchost(gfal_handle handle, GError ** err){
 	char* lfc_host = NULL;
 	GError* tmp_err = NULL;
 	
@@ -87,7 +87,8 @@ int gfal_setup_lfchost(GError ** err){
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost]");
 			return -1;
 		}
-		if( (lfc_host = gfal_get_lfchost_bdii(&tmp_err)) ==NULL ){ // call the bdii 
+		
+		if( (lfc_host = gfal_get_lfchost_bdii(handle, &tmp_err)) ==NULL ){ // call the bdii 
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost]");
 			return -2;	
 		}else{				

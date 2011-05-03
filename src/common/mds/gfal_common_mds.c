@@ -33,6 +33,10 @@ void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk){
 	handle->no_bdii_check = no_bdii_chk;
 }
 
+gboolean gfal_get_nobdiiG(gfal_handle handle){
+	return handle->no_bdii_check;
+}
+
 
 
 int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpoints, GError** err){
@@ -54,10 +58,15 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
  *  @return string if success or NULL & set the err if fail
  * 
  */
- char * gfal_get_lfchost_bdii(GError** err){
+ char * gfal_get_lfchost_bdii(gfal_handle handle, GError** err){
 		char* lfc_host = NULL;
 		GError* tmp_err = NULL;
 		char* vo = gfal_get_voG(&tmp_err);		// get vo and fqans from voms module
+
+		if( gfal_get_nobdiiG(handle) ){		// check the bdii
+			g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_setup_lfchost] no_bdii_set : you must define the LFC_HOST env var correctly");
+			return -5;
+		}
 		if(!vo || tmp_err){
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost_bdii]");
 			return NULL;
