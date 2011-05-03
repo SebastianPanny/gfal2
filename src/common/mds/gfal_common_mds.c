@@ -24,7 +24,7 @@
   * */
 
 #include "gfal_common.h"
-
+#include "gfal_common_internal.h"
 
 /**
  * set the bdii value of the handle specified
@@ -65,7 +65,7 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 
 		if( gfal_get_nobdiiG(handle) ){		// check the bdii
 			g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_setup_lfchost] no_bdii_set : you must define the LFC_HOST env var correctly");
-			return -5;
+			return NULL;
 		}
 		if(!vo || tmp_err){
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost_bdii]");
@@ -80,7 +80,7 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		char** fqantab= gfal_GList_to_tab(fqan);
 		set_gfal_vo(vo);
 		set_gfal_fqan(fqantab, g_list_length(fqan));
-		g_printerr(" vo : %s, fqann %d, fqan : %s \n", vo, g_list_length(fqan), *fqantab); 
+		//g_printerr(" vo : %s, fqann %d, fqan : %s \n", vo, g_list_length(fqan), *fqantab); 
 		const int ret =  sd_get_lfc_endpoint(&lfc_host);
 		if(!lfc_host || ret <=0){
 			g_set_error(err, 0, errno, "[gfal_get_lfchost_bdii] Error while get lfc endpoint from bdii system : %d & %s ", ret, strerror(errno) );

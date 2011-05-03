@@ -88,10 +88,12 @@ Suite* common_suite (void)
   TCase *tc_mds= tcase_create("MDS");
   tcase_add_test(tc_mds, test_check_bdii_endpoints_srm);
   tcase_add_test(tc_mds, gfal__test_get_lfchost_bdii);
+  tcase_add_test(tc_mds, gfal__test_get_lfchost_bdii_with_nobdii);
   suite_add_tcase(s, tc_mds);
   TCase *tc_lfc= tcase_create("LFC");
   tcase_add_test(tc_lfc, test_gfal_common_lfc_define_env);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_init);
+  tcase_add_test(tc_lfc, test_gfal_common_lfc_resolve_sym);
   suite_add_tcase(s, tc_lfc);
 
   return s;

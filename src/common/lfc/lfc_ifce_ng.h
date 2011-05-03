@@ -27,9 +27,42 @@
  */
 
 #include "gfal_common_lfc.h"
+#include <dlfcn.h>
 
 #define GFAL_MAX_LFCHOST_LEN 1024
 
+struct lfc_ops {
+	int	*serrno;
+	char	*(*sstrerror)(int);
+	int	(*addreplica)(const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *);
+	int	(*creatg)(const char *, const char *, mode_t);
+	int	(*delreplica)(const char *, struct lfc_fileid *, const char *);
+	int	(*aborttrans)();
+	int	(*endtrans)();
+	int	(*getpath)(char *, u_signed64, char *);
+	int (*getlinks)(const char *, const char *, int *, struct lfc_linkinfo **);
+	int (*getreplica)(const char *, const char *, const char *, int *, struct lfc_filereplica **);
+	int	(*lstat)(const char *, struct lfc_filestat *);
+	int	(*mkdirg)(const char *, const char *, mode_t);
+	int	(*seterrbuf)(char *, int);
+	int	(*setfsizeg)(const char *, u_signed64, const char *, char *);
+	int	(*setfsize)(const char *, struct lfc_fileid *, u_signed64);
+	int	(*starttrans)(const char *, const char *);
+	int	(*statg)(const char *, const char *, struct lfc_filestatg *);
+	int	(*statr)(const char *, struct lfc_filestatg *);
+	int	(*symlink)(const char *, const char *);
+	int	(*unlink)(const char *);
+	int	(*access)(const char *, int);
+	int	(*chmod)(const char *, mode_t);
+	int	(*rename)(const char *, const char *);
+	lfc_DIR *(*opendirg)(const char *, const char *);
+	int	(*rmdir)(const char *);
+	int (*startsess) (char *, char *); 
+	int (*endsess) ();
+};
 
 int gfal_setup_lfchost(gfal_handle handle, GError ** err);
+
+
+struct lfc_ops* gfal_load_lfc(const char* name, GError** err);
 

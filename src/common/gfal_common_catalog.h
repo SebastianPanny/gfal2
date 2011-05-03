@@ -36,13 +36,32 @@
 #include <stdarg.h>
 #include <uuid/uuid.h>
 #include "gfal_common.h"
+
+
+
+typedef gpointer catalog_handle;
+
+/**
+ * @struct Object for a catalog type, modelise all operation that can be done by the catalog
+ */
+typedef struct{
+	// handle
+	catalog_handle handle;
+	// delete
+	/**
+	 * Called before the destruction of the catalog interface
+	 */
+	void (*catalog_delete)(catalog_handle); 
+	// members
+	gboolean (*check_catalog_url)(catalog_handle, char* url,  catalog_mode mode);
+	int (*accessG)(catalog_handle, char* path, int mode, GError** err);
+	int	(*chmodG)(catalog_handle, const char *, mode_t, GError** err);
+	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);	
+	
+} gfal_catalog_interface;
+
+// include the catalogs
 #include "lfc/gfal_common_lfc.h"
-
-
-
-
-
-
 
 /**
 	\brief catalog type getter
@@ -53,7 +72,7 @@
 extern char* gfal_get_cat_type(GError**);
 
 
-void gfal_catalogs_instance(GError** err);
+void gfal_catalogs_instance(gfal_handle, GError** err);
 
 void gfal_catalogs_delete();
  	

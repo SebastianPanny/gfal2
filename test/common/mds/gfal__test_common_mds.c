@@ -59,3 +59,28 @@ START_TEST(gfal__test_get_lfchost_bdii)
 END_TEST
 
 
+START_TEST(gfal__test_get_lfchost_bdii_with_nobdii)
+{
+	GError* tmp_err =NULL;
+	errno = 0;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(tmp_err){
+		gfal_release_GError(&tmp_err);
+		fail("Error while init handle");
+		return;		
+	}
+	gfal_set_nobdiiG(handle, TRUE);
+	char* lfc = gfal_get_lfchost_bdii(handle, &tmp_err);
+	if(lfc || tmp_err->code!= EPROTONOSUPPORT ){
+		gfal_release_GError(&tmp_err);
+		fail(" must return an error, nobdii option checked");
+		return;
+	}
+	//g_printerr(" lfc name : %s ", lfc);
+	free(lfc);	
+	
+	
+}
+END_TEST
+
+

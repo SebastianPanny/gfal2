@@ -252,24 +252,7 @@ typedef enum {
 	GFAL_CATALOG_CHMOD
 } catalog_mode;
 
-/**
- * @struct Object for a catalog type, modelise all operation that can be done by the catalog
- */
-typedef struct{
-	// handle
-	gpointer catalog_handle;
-	// delete
-	/**
-	 * Called before the destruction of the catalog interface
-	 */
-	void (*catalog_delete)(gpointer); 
-	// members
-	gboolean (*check_catalog_url)(char* url,  catalog_mode mode);
-	int (*accessG)(char* path, int mode, GError** err);
-	int	(*chmodG)(const char *, mode_t, GError** err);
-	int	(*renameG)(const char *, const char *, GError** err);	
-	
-} gfal_catalog_interface;
+
 
 struct sfn_filestatus {
 	char *surl;

@@ -25,7 +25,7 @@
 
 
 #include "gfal_common.h"
-
+#include <dlfcn.h>
 
 
 
@@ -91,4 +91,25 @@ int* gfal_GList_to_tab_int(GList* int_list){
 		int_list = g_list_next(int_list);
 	}
 	return resu;
+}
+
+
+/**
+ *  @brief open dynamycally a list of symbols
+ *  resolve all symbols from sym_list to flist with the associated dlhandle
+ *  set GError properly if error
+ *  
+ * */
+int resolve_dlsym_listG(void* handle, void*** flist, char** sym_list, int num, GError** err){
+	if(num >0){
+		void* sym = dlsym(handle, *sym_list);
+		if(!sym){
+			g_set_error(err,0, EBADR, "[resolve_dlsym_listG] Unable to resolve symbol %s, dlsym Error : %s ",*sym_list, dlerror());
+			return -1;
+		}
+		**flist= sym;
+		return resolve_dlsym_listG(handle, flist+1, sym_list+1, num-1, err);
+	}else 
+		return num;
+	
 }

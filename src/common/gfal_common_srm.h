@@ -27,6 +27,7 @@
 
  
 #include "gfal_common.h"
+#include "gfal_common_internal.h"
 #include <regex.h>
 #include <time.h>
 

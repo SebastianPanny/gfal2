@@ -33,14 +33,14 @@ static int Catalog_number = -1;
 /**
  * Instance all catalogs for use if it's not the case
  */
-void gfal_catalogs_instance(GError** err){
+void gfal_catalogs_instance(gfal_handle handle, GError** err){
 	if(Catalog_number <= 0){
 		GError* tmp_err=NULL;
-		static gfal_catalog_interface (*constructor[])(GError**)  = { &lfc_initG};
+		static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG}; // JUST MODIFY THIS LINE IN ORDER TO ADD CATALOG
 		const int size_catalog = 1;
 		int i;
 		for(i=0; i < size_catalog ;++i){
-			gfal_catalog_interface catalog = constructor[i](&tmp_err);
+			gfal_catalog_interface catalog = constructor[i](handle, &tmp_err);
 			if(tmp_err){
 				g_propagate_prefixed_error(err, tmp_err, "[gfal_catalogs_instance]");
 				return;
@@ -57,7 +57,7 @@ void gfal_catalogs_delete(){
 	if(Catalog_number > 0){
 			int i;
 			for(i=0; i< Catalog_number; ++i){
-				catalog_list[i].catalog_delete(catalog_list[i].catalog_handle);
+				catalog_list[i].catalog_delete(catalog_list[i].handle);
 			}
 		
 		Catalog_number =-1;

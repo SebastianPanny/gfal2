@@ -7,6 +7,7 @@
 #include <check.h>
 #include <glib.h>
 #include "lfc/gfal_common_lfc.h"
+#include "gfal_common_internal.h"
 
 
 
@@ -15,21 +16,30 @@ START_TEST(test_gfal_common_lfc_define_env)
 	char* old_host = getenv("LFC_HOST");
 	char* old_port = getenv("LFC_PORT");
 	GError * tmp_err=NULL;
+	int ret =0;
 	
 	setenv("LFC_HOST", "google.com",1);
 	setenv("LFC_PORT", "4465488896645546564",1);
 
-	int ret = gfal_setup_lfchost(&tmp_err);
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle == NULL){
+		fail(" handle must be initiated properly ");
+		return;
+	}
+	ret = gfal_setup_lfchost(handle, &tmp_err);
 	if(ret == 0){
-		fail(" must fail, port invalid");	
+		fail(" must fail, port invalid");
+		return;	
 	}
 	errno = 0;
 	g_clear_error(&tmp_err);
+	tmp_err=NULL;
 	setenv("LFC_PORT", "2000",1);	
-	ret = gfal_setup_lfchost(&tmp_err);	// re-test with good port number
+	ret = gfal_setup_lfchost(handle, &tmp_err);	// re-test with good port number
 	if(ret){
-		fail(" must be a success");
-		
+		fail(" must be a success, LFC_HOST & LFC_PORT defined");
+		gfal_release_GError(&tmp_err);
+		return;
 	}
 	char *new_host = getenv("LFC_HOST");
 	char *new_port = getenv("LFC_PORT");
@@ -43,17 +53,36 @@ START_TEST(test_gfal_common_lfc_define_env)
 }
 END_TEST
 
+START_TEST(test_gfal_common_lfc_resolve_sym)
+{
+	GError* err = NULL;
+	struct lfc_ops* st = gfal_load_lfc("liblfc.so", &err);
+	if(st == NULL || err){
+		fail(" must be a valid resolution");
+		return;
+	}
+	if(st->sstrerror == NULL){
+		fail("must be a valid symbol");
+	}
+	char* str = NULL;
+	str = st->sstrerror(0);
+	if(str ==NULL){
+		fail(" must be a valid string");
+		
+	}
+	free(st);
+}
+END_TEST
 
 START_TEST(test_gfal_common_lfc_init)
 {
-	/*GError * tmp_err=NULL;
-	gfal_catalogs_instance(&tmp_err);
-	if(tmp_err){
-		gfal_release_GError(&tmp_err);*/
-		fail(" error must init properly");
-	/*	return;
+	GError * tmp_err=NULL;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		fail(" error msut be initiated");
+		gfal_release_GError(&tmp_err);
 	}
-	gfal_catalogs_delete();	*/
+	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);
 	
 }
 END_TEST
