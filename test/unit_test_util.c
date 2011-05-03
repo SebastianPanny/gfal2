@@ -7,6 +7,9 @@
 
 #include <glib.h>
 #include <stdio.h> 
+
+
+
  
 gboolean check_GList_Result_String(GList* list, char** example){	// return true if two string list are the same
 	GList *tmp_list=list;

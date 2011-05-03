@@ -37,7 +37,9 @@ static void lfc_destroyG(catalog_handle handle){
 	// do nothing for the moment, global instance mode
 }
 
-int lfc_accessG(catalog_handle handle, char* path, int mode, GError** err){
+int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
+	g_return_val_err_if_fail(handle && path, -1, err, "[lfc_accessG] Invalid value in arguments handle  or/and path");
+	
 	g_error(" not implemented");
 	
 }

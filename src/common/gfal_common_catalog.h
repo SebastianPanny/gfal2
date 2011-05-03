@@ -54,7 +54,14 @@ typedef struct{
 	void (*catalog_delete)(catalog_handle); 
 	// members
 	gboolean (*check_catalog_url)(catalog_handle, char* url,  catalog_mode mode);
+	/**
+	 *  access function for the access for the normal associated url
+	 * */
 	int (*accessG)(catalog_handle, char* path, int mode, GError** err);
+	/**
+	 *  function pointer for the access using the guid url
+	 * */
+	int (*access_guidG)(catalog_handle, char* path, int mode, GError** err);
 	int	(*chmodG)(catalog_handle, const char *, mode_t, GError** err);
 	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);	
 	
