@@ -22,8 +22,10 @@ src_tests_all = src_tests+ src_tests_voms + src_tests_global + src_tests_srm  + 
 ## build test config
 
 lfc_gfal_infosys = (os.getenv("LCG_GFAL_INFOSYS") is None) and "" or os.getenv("LCG_GFAL_INFOSYS") # get the var env or ""
+lfc_host = (os.getenv("LFC_HOST") is None) and "" or os.getenv("LFC_HOST") # get the lfc host en var
 env_test.PrependENVPath('LD_LIBRARY_PATH', libs) # setup internal env LD PATH
 env_test.PrependENVPath('LCG_GFAL_INFOSYS', lfc_gfal_infosys); # setup the bdii access point
+env_test.PrependENVPath('LFC_HOST', lfc_host); # setup the bdii access point
 env_test.Append(LIBS=src_tests_link);
 test1 =env_test.Program("test_verbose",  src_tests_all+ [ccheck_lib])
 run_test= env_test.Alias("test_run_verbose.passed", test1, test1[0].abspath)
