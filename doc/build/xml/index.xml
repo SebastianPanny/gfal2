@@ -71,6 +71,7 @@
     <member refid="structgfal__catalog__interface_10500e093c9c45a29036053b5350d6d79" kind="variable"><name>catalog_delete</name></member>
     <member refid="structgfal__catalog__interface_12c2c2559a1f6d00bde0f7f3388a5345a" kind="variable"><name>check_catalog_url</name></member>
     <member refid="structgfal__catalog__interface_1cca8c14693bb55de73da36f685cd6961" kind="variable"><name>accessG</name></member>
+    <member refid="structgfal__catalog__interface_14ba5e946d8e5637b1c390184b773f112" kind="variable"><name>access_guidG</name></member>
     <member refid="structgfal__catalog__interface_17ce5eab78c8009f553321b68255caa2d" kind="variable"><name>chmodG</name></member>
     <member refid="structgfal__catalog__interface_1ad275f9b6d466c8e7af115b9983685ca" kind="variable"><name>renameG</name></member>
   </compound>
@@ -171,6 +172,7 @@
     <member refid="structgfal__voms__info___197ef64551a5a1c6ca351521dac060adb" kind="variable"><name>vo</name></member>
   </compound>
   <compound refid="structlfc__ops" kind="struct"><name>lfc_ops</name>
+    <member refid="structlfc__ops_13b1ac8f9030e7745491e6e2a8fc7a6a2" kind="variable"><name>lfc_endpoint</name></member>
     <member refid="structlfc__ops_155477b705889f67048a93f1cbf923794" kind="variable"><name>serrno</name></member>
     <member refid="structlfc__ops_19b0e298d185f9787243daf73ed2f9475" kind="variable"><name>sstrerror</name></member>
     <member refid="structlfc__ops_1f99983447548cf12e232fc9a94147768" kind="variable"><name>addreplica</name></member>
@@ -495,7 +497,7 @@
     <member refid="gfal__common__all_8c_19dbd943eaed291897d852fc3ae560058" kind="function"><name>gfal_handle_freeG</name></member>
     <member refid="gfal__common__all_8c_1a7e1120eb32c4c7f293f6fbcb4f0ea33" kind="function"><name>gfal_GList_to_tab</name></member>
     <member refid="gfal__common__all_8c_187219c9e2c6323b67c2ac70354ee2645" kind="function"><name>gfal_GList_to_tab_int</name></member>
-    <member refid="gfal__common__all_8c_14f7576e96249a32768cef374099f7b70" kind="function"><name>resolve_dlsym_listG</name></member>
+    <member refid="gfal__common__all_8c_10323a4ab58106e316851c1ae06148e28" kind="function"><name>resolve_dlsym_listG</name></member>
   </compound>
   <compound refid="gfal__common__catalog_8c" kind="file"><name>gfal_common_catalog.c</name>
     <member refid="gfal__common__catalog_8c_153abf256730d533302d1910e5fb61efe" kind="define"><name>_GNU_SOURCE</name></member>
@@ -549,8 +551,8 @@
     <member refid="gfal__common__interface_8c_168ef05f37b4971c8306b1cc6ee529647" kind="function"><name>gfal_get_async</name></member>
     <member refid="gfal__common__interface_8c_1ce6fcac8e92ad2e1d699eed2ce74a257" kind="function"><name>gfal_async_request_is_finished</name></member>
     <member refid="gfal__common__interface_8c_10c654545b837b8e1928842ee762ce5e9" kind="function"><name>gfal_get_async_results</name></member>
-    <member refid="gfal__common__interface_8c_1a3161f12f9d5c8151f44df4f132602cb" kind="function"><name>gfal_get_async_get_results_errcodes</name></member>
-    <member refid="gfal__common__interface_8c_1ecd7d68b18088ff620d21dbef85862ae" kind="function"><name>gfal_get_async_get_results_errstring</name></member>
+    <member refid="gfal__common__interface_8c_12ea6b8dae8f2f76d5e83711fe6ce5510" kind="function"><name>gfal_get_async_results_errcodes</name></member>
+    <member refid="gfal__common__interface_8c_1c2d58855fe41370b710effc515e53370" kind="function"><name>gfal_get_async_results_errstring</name></member>
     <member refid="gfal__common__interface_8c_195450f539ccc18d88b0d7dede8519bef" kind="function"><name>gfal_set_nobdii_srm</name></member>
     <member refid="gfal__common__interface_8c_108c8573e050334d5342a31a48b7db4cb" kind="function"><name>gfal_wait_async_request</name></member>
     <member refid="gfal__common__interface_8c_1bdebd69c0c6a74b1b5adf88b5e836d8a" kind="function"><name>gfal_last_error_string</name></member>
@@ -576,7 +578,7 @@
     <member refid="gfal__common__internal_8h_187219c9e2c6323b67c2ac70354ee2645" kind="function"><name>gfal_GList_to_tab_int</name></member>
     <member refid="gfal__common__internal_8h_19dc1d8d09085708dad268d80688d2a59" kind="function"><name>gfal_delete_request_state</name></member>
     <member refid="gfal__common__internal_8h_13453c8a22faa54f7bf3278d5ecd7785d" kind="function"><name>gfal_new_request_state</name></member>
-    <member refid="gfal__common__internal_8h_14f7576e96249a32768cef374099f7b70" kind="function"><name>resolve_dlsym_listG</name></member>
+    <member refid="gfal__common__internal_8h_10323a4ab58106e316851c1ae06148e28" kind="function"><name>resolve_dlsym_listG</name></member>
   </compound>
   <compound refid="gfal__common__srm_8c" kind="file"><name>gfal_common_srm.c</name>
     <member refid="gfal__common__srm_8c_153abf256730d533302d1910e5fb61efe" kind="define"><name>_GNU_SOURCE</name></member>
@@ -746,7 +748,7 @@
   </compound>
   <compound refid="gfal__common__lfc_8c" kind="file"><name>gfal_common_lfc.c</name>
     <member refid="gfal__common__lfc_8c_1bef4f40eebb042a8c21b5d5b2d4aa1a7" kind="function"><name>lfc_destroyG</name></member>
-    <member refid="gfal__common__lfc_8c_133267b829d841c337ec0d3a254b7e31a" kind="function"><name>lfc_accessG</name></member>
+    <member refid="gfal__common__lfc_8c_1960f3f01cd2e130cda6dc3513154a954" kind="function"><name>lfc_accessG</name></member>
     <member refid="gfal__common__lfc_8c_118fc1e787694363fd5457f9b8f020cf8" kind="function"><name>lfc_initG</name></member>
   </compound>
   <compound refid="gfal__common__lfc_8h" kind="file"><name>gfal_common_lfc.h</name>
@@ -815,12 +817,12 @@
   <compound refid="lfc__ifce__ng_8c" kind="file"><name>lfc_ifce_ng.c</name>
     <member refid="lfc__ifce__ng_8c_19a5b8e8e30853b920e3bbe41062e1d25" kind="function"><name>gfal_get_lfchost_envar</name></member>
     <member refid="lfc__ifce__ng_8c_1b2b09ed24820a7815bfa4f2057d4831b" kind="function"><name>gfal_define_lfc_env_var</name></member>
-    <member refid="lfc__ifce__ng_8c_12e1b3a940000958f22f4aee2aec25be6" kind="function"><name>gfal_setup_lfchost</name></member>
+    <member refid="lfc__ifce__ng_8c_15d13dc09e91f66d74de768c2e4bf4872" kind="function"><name>gfal_setup_lfchost</name></member>
     <member refid="lfc__ifce__ng_8c_17c91643749a2c5d7e8043c0e42d00fd6" kind="function"><name>gfal_load_lfc</name></member>
   </compound>
   <compound refid="lfc__ifce__ng_8h" kind="file"><name>lfc_ifce_ng.h</name>
     <member refid="lfc__ifce__ng_8h_14ba01f362057d237e7234f527da40cdb" kind="define"><name>GFAL_MAX_LFCHOST_LEN</name></member>
-    <member refid="lfc__ifce__ng_8h_12e1b3a940000958f22f4aee2aec25be6" kind="function"><name>gfal_setup_lfchost</name></member>
+    <member refid="lfc__ifce__ng_8h_15d13dc09e91f66d74de768c2e4bf4872" kind="function"><name>gfal_setup_lfchost</name></member>
     <member refid="lfc__ifce__ng_8h_17c91643749a2c5d7e8043c0e42d00fd6" kind="function"><name>gfal_load_lfc</name></member>
   </compound>
   <compound refid="gfal__common__mds_8c" kind="file"><name>gfal_common_mds.c</name>

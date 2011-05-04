@@ -26,8 +26,8 @@
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="33267b829d841c337ec0d3a254b7e31a"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_accessG" ref="33267b829d841c337ec0d3a254b7e31a" args="(catalog_handle handle, char *path, int mode, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_accessG</b> (catalog_handle handle, char *path, int mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="960f3f01cd2e130cda6dc3513154a954"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_accessG" ref="960f3f01cd2e130cda6dc3513154a954" args="(catalog_handle handle, char *lfn, int mode, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_accessG</b> (catalog_handle handle, char *lfn, int mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#18fc1e787694363fd5457f9b8f020cf8">lfc_initG</a> (gfal_handle handle, GError **err)</td></tr>
 
@@ -65,10 +65,10 @@ file for the lfc catalog module
 <div class="memdoc">
 
 <p>
-Map function for the lfc interface, need to be rewrite without old error management 
+Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 3 15:04:41 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed May 4 09:58:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

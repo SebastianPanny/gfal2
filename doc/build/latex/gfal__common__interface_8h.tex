@@ -24,9 +24,11 @@ int \bf{gfal\_\-async\_\-request\_\-is\_\-finished} (gfal\_\-handle handle)
 \begin{CompactList}\small\item\em progress of the last request \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-async\_\-results} (gfal\_\-handle handle, char $\ast$$\ast$$\ast$turls)
 \item 
-int \bf{gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes} (gfal\_\-handle handle, int $\ast$$\ast$turl\_\-errcode)
+int \textbf{gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes} (gfal\_\-handle handle, int $\ast$$\ast$turl\_\-errcode)\label{gfal__common__interface_8h_a3161f12f9d5c8151f44df4f132602cb}
+
 \item 
-int \bf{gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring} (gfal\_\-handle handle, char $\ast$$\ast$$\ast$turl\_\-errstring)
+int \textbf{gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring} (gfal\_\-handle handle, char $\ast$$\ast$$\ast$turl\_\-errstring)\label{gfal__common__interface_8h_ecd7d68b18088ff620d21dbef85862ae}
+
 \item 
 int \bf{gfal\_\-wait\_\-async\_\-request} (gfal\_\-handle handle, long timeout)
 \begin{CompactList}\small\item\em wait for the current request \item\end{CompactList}\item 
@@ -79,38 +81,6 @@ launch a surls-$>$ turls translation in asynchronous mode
 \end{Desc}
 \begin{Desc}
 \item[Returns:]return positive if success else -1, check GError for more information Wrapper of gfal\_\-get\_\-async\-G for the \char`\"{}without GLib\char`\"{} use case. \end{Desc}
-\index{gfal_common_interface.h@{gfal\_\-common\_\-interface.h}!gfal_get_async_get_results_errcodes@{gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes}}
-\index{gfal_get_async_get_results_errcodes@{gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes}!gfal_common_interface.h@{gfal\_\-common\_\-interface.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes (gfal\_\-handle {\em handle}, int $\ast$$\ast$ {\em turl\_\-errcode})}\label{gfal__common__interface_8h_a3161f12f9d5c8151f44df4f132602cb}
-
-
-get the error code list associated with the turls of the last get\_\-async request \begin{Desc}
-\item[Returns:]return the number of responses in turls or negative value if error \end{Desc}
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em handle}]: handle of the current context \item[{\em int$\ast$$\ast$}]turl\_\-errcode : pointer to a table of int, set to NULL if error \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Warning:]turl\_\-errcode need to be free manually \end{Desc}
-\begin{Desc}
-\item[Returns:]return the number of turls in the table, else negative value if error Wrapper for gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes\-G for the \char`\"{}without GLib\char`\"{} use case \end{Desc}
-\index{gfal_common_interface.h@{gfal\_\-common\_\-interface.h}!gfal_get_async_get_results_errstring@{gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring}}
-\index{gfal_get_async_get_results_errstring@{gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring}!gfal_common_interface.h@{gfal\_\-common\_\-interface.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring (gfal\_\-handle {\em handle}, char $\ast$$\ast$$\ast$ {\em turl\_\-errstring})}\label{gfal__common__interface_8h_ecd7d68b18088ff620d21dbef85862ae}
-
-
-get the error string associated with the turls of the last get\_\-async request \begin{Desc}
-\item[Returns:]return the number of responses in turls or negative value if error \end{Desc}
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em handle}]: handle of the current context \item[{\em char$\ast$$\ast$$\ast$}]turls : char$\ast$$\ast$ turls with the full list of answer, an answer with error is a NULL pointer \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Warning:]turl\_\-errstring need to be free manually \end{Desc}
-\begin{Desc}
-\item[Returns:]return the number of turls in the table, else negative value if error Wrapper for gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring\-G for the \char`\"{}without GLib\char`\"{} use case. \end{Desc}
 \index{gfal_common_interface.h@{gfal\_\-common\_\-interface.h}!gfal_get_async_results@{gfal\_\-get\_\-async\_\-results}}
 \index{gfal_get_async_results@{gfal\_\-get\_\-async\_\-results}!gfal_common_interface.h@{gfal\_\-common\_\-interface.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-results (gfal\_\-handle {\em handle}, char $\ast$$\ast$$\ast$ {\em turls})}\label{gfal__common__interface_8h_0c654545b837b8e1928842ee762ce5e9}

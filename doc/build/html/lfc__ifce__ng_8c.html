@@ -27,7 +27,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9a5b8e8e30853b920e3bbe41062e1d25"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_get_lfchost_envar" ref="9a5b8e8e30853b920e3bbe41062e1d25" args="(GError **err)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_lfchost_envar</b> (GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#2e1b3a940000958f22f4aee2aec25be6">gfal_setup_lfchost</a> (gfal_handle handle, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#5d13dc09e91f66d74de768c2e4bf4872">gfal_setup_lfchost</a> (gfal_handle handle, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">lfc_ops *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#7c91643749a2c5d7e8043c0e42d00fd6">gfal_load_lfc</a> (const char *name, GError **err)</td></tr>
 
@@ -74,12 +74,12 @@ load the shared library and link the symbol for the LFC usage <dl compact><dt><b
 
 </div>
 </div><p>
-<a class="anchor" name="2e1b3a940000958f22f4aee2aec25be6"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_setup_lfchost" ref="2e1b3a940000958f22f4aee2aec25be6" args="(gfal_handle handle, GError **err)" -->
+<a class="anchor" name="5d13dc09e91f66d74de768c2e4bf4872"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_setup_lfchost" ref="5d13dc09e91f66d74de768c2e4bf4872" args="(gfal_handle handle, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int gfal_setup_lfchost           </td>
+          <td class="memname">char* gfal_setup_lfchost           </td>
           <td>(</td>
           <td class="paramtype">gfal_handle&nbsp;</td>
           <td class="paramname"> <em>handle</em>, </td>
@@ -105,11 +105,11 @@ setup the lfc_host correctly for the lfc calls <dl compact><dt><b>Parameters:</b
     <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>GError report system if </td></tr>
   </table>
 </dl>
-<dl compact><dt><b>Returns:</b></dt><dd>0 if success else negative value and set err properly </dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>string of the endpoint, need to be free or NULL if error </dd></dl>
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 3 15:04:41 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed May 4 09:58:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

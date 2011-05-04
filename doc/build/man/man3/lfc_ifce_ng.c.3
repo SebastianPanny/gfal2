@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "3 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "4 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -16,7 +16,7 @@
 .RI "char * \fBgfal_get_lfchost_envar\fP (GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_setup_lfchost\fP (gfal_handle handle, GError **err)"
+.RI "char * \fBgfal_setup_lfchost\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
 .RI "lfc_ops * \fBgfal_load_lfc\fP (const char *name, GError **err)"
@@ -56,7 +56,7 @@ load the shared library and link the symbol for the LFC usage
 .RE
 .PP
 
-.SS "int gfal_setup_lfchost (gfal_handle handle, GError ** err)"
+.SS "char* gfal_setup_lfchost (gfal_handle handle, GError ** err)"
 .PP
 setup the lfc_host correctly for the lfc calls 
 .PP
@@ -67,7 +67,7 @@ setup the lfc_host correctly for the lfc calls
 .PP
 \fBReturns:\fP
 .RS 4
-0 if success else negative value and set err properly 
+string of the endpoint, need to be free or NULL if error 
 .RE
 .PP
 

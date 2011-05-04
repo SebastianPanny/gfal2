@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.c" 3 "3 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.c" 3 "4 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -30,10 +30,10 @@
 .RI "int \fBgfal_get_async_results\fP (gfal_handle handle, char ***turls)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_async_get_results_errcodes\fP (gfal_handle handle, int **turl_errcode)"
+.RI "int \fBgfal_get_async_results_errcodes\fP (gfal_handle handle, int **turl_errcode)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_async_get_results_errstring\fP (gfal_handle handle, char ***turl_errstring)"
+.RI "int \fBgfal_get_async_results_errstring\fP (gfal_handle handle, char ***turl_errstring)"
 .br
 .ti -1c
 .RI "void \fBgfal_set_nobdii_srm\fP (gfal_handle handle, int no_bdii_chk)"
@@ -114,7 +114,34 @@ return positive if success else -1, check GError for more information Wrapper of
 .RE
 .PP
 
-.SS "int gfal_get_async_get_results_errcodes (gfal_handle handle, int ** turl_errcode)"
+.SS "int gfal_get_async_results (gfal_handle handle, char *** turls)"
+.PP
+get the result to the last get_async request 
+.PP
+\fBReturns:\fP
+.RS 4
+return the number of responses in turls or negative value if error 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP : handle of the current context 
+.br
+\fIchar***\fP turls : char** turls with the full list of answer, an answer with error is a NULL pointer 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+turls need to be free manually 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return the number of turls in the table, else negative value if error Wrapper for the 'without GLib' use case. 
+.RE
+.PP
+
+.SS "int gfal_get_async_results_errcodes (gfal_handle handle, int ** turl_errcode)"
 .PP
 get the error code list associated with the turls of the last get_async request 
 .PP
@@ -141,7 +168,7 @@ return the number of turls in the table, else negative value if error Wrapper fo
 .RE
 .PP
 
-.SS "int gfal_get_async_get_results_errstring (gfal_handle handle, char *** turl_errstring)"
+.SS "int gfal_get_async_results_errstring (gfal_handle handle, char *** turl_errstring)"
 .PP
 get the error string associated with the turls of the last get_async request 
 .PP
@@ -165,33 +192,6 @@ turl_errstring need to be free manually
 \fBReturns:\fP
 .RS 4
 return the number of turls in the table, else negative value if error Wrapper for gfal_get_async_get_results_errstringG for the 'without GLib' use case. 
-.RE
-.PP
-
-.SS "int gfal_get_async_results (gfal_handle handle, char *** turls)"
-.PP
-get the result to the last get_async request 
-.PP
-\fBReturns:\fP
-.RS 4
-return the number of responses in turls or negative value if error 
-.RE
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP : handle of the current context 
-.br
-\fIchar***\fP turls : char** turls with the full list of answer, an answer with error is a NULL pointer 
-.RE
-.PP
-\fBWarning:\fP
-.RS 4
-turls need to be free manually 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return the number of turls in the table, else negative value if error Wrapper for the 'without GLib' use case. 
 .RE
 .PP
 

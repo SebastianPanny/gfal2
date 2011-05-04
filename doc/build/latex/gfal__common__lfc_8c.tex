@@ -8,7 +8,7 @@ file for the lfc catalog module
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-int \textbf{lfc\_\-access\-G} (catalog\_\-handle handle, char $\ast$path, int mode, GError $\ast$$\ast$err)\label{gfal__common__lfc_8c_33267b829d841c337ec0d3a254b7e31a}
+int \textbf{lfc\_\-access\-G} (catalog\_\-handle handle, char $\ast$lfn, int mode, GError $\ast$$\ast$err)\label{gfal__common__lfc_8c_960f3f01cd2e130cda6dc3513154a954}
 
 \item 
 gfal\_\-catalog\_\-interface \bf{lfc\_\-init\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)
@@ -32,4 +32,4 @@ file for the lfc catalog module
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-catalog\_\-interface lfc\_\-init\-G (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_18fc1e787694363fd5457f9b8f020cf8}
 
 
-Map function for the lfc interface, need to be rewrite without old error management 
+Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc\_\-init\-G do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 

@@ -50,10 +50,23 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>access function for the access for the normal associated url </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="57"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structgfal__catalog__interface_14ba5e946d8e5637b1c390184b773f112" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* gfal_catalog_interface::access_guidG)(catalog_handle, char *path, int mode, GError **err)</definition>
+        <argsstring>)(catalog_handle, char *path, int mode, GError **err)</argsstring>
+        <name>access_guidG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>function pointer for the access using the guid url </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="64"/>
       </memberdef>
       <memberdef kind="variable" id="structgfal__catalog__interface_17ce5eab78c8009f553321b68255caa2d" prot="public" static="no" mutable="no">
         <type>int(*</type>
@@ -66,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="58"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="65"/>
       </memberdef>
       <memberdef kind="variable" id="structgfal__catalog__interface_1ad275f9b6d466c8e7af115b9983685ca" prot="public" static="no" mutable="no">
         <type>int(*</type>
@@ -79,15 +92,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="59"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="66"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="47" bodyend="61"/>
+    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="47" bodyend="68"/>
     <listofallmembers>
+      <member refid="structgfal__catalog__interface_14ba5e946d8e5637b1c390184b773f112" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>access_guidG</name></member>
       <member refid="structgfal__catalog__interface_1cca8c14693bb55de73da36f685cd6961" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>accessG</name></member>
       <member refid="structgfal__catalog__interface_10500e093c9c45a29036053b5350d6d79" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>catalog_delete</name></member>
       <member refid="structgfal__catalog__interface_12c2c2559a1f6d00bde0f7f3388a5345a" prot="public" virt="non-virtual"><scope>gfal_catalog_interface</scope><name>check_catalog_url</name></member>

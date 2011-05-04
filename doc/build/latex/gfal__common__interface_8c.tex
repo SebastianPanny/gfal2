@@ -15,9 +15,9 @@ int \bf{gfal\_\-async\_\-request\_\-is\_\-finished} (gfal\_\-handle handle)
 \begin{CompactList}\small\item\em progress of the last request \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-async\_\-results} (gfal\_\-handle handle, char $\ast$$\ast$$\ast$turls)
 \item 
-int \bf{gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes} (gfal\_\-handle handle, int $\ast$$\ast$turl\_\-errcode)
+int \bf{gfal\_\-get\_\-async\_\-results\_\-errcodes} (gfal\_\-handle handle, int $\ast$$\ast$turl\_\-errcode)
 \item 
-int \bf{gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring} (gfal\_\-handle handle, char $\ast$$\ast$$\ast$turl\_\-errstring)
+int \bf{gfal\_\-get\_\-async\_\-results\_\-errstring} (gfal\_\-handle handle, char $\ast$$\ast$$\ast$turl\_\-errstring)
 \item 
 void \bf{gfal\_\-set\_\-nobdii\_\-srm} (gfal\_\-handle handle, int no\_\-bdii\_\-chk)
 \item 
@@ -75,38 +75,6 @@ launch a surls-$>$ turls translation in asynchronous mode
 \end{Desc}
 \begin{Desc}
 \item[Returns:]return positive if success else -1, check GError for more information Wrapper of gfal\_\-get\_\-async\-G for the \char`\"{}without GLib\char`\"{} use case. \end{Desc}
-\index{gfal_common_interface.c@{gfal\_\-common\_\-interface.c}!gfal_get_async_get_results_errcodes@{gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes}}
-\index{gfal_get_async_get_results_errcodes@{gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes}!gfal_common_interface.c@{gfal\_\-common\_\-interface.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes (gfal\_\-handle {\em handle}, int $\ast$$\ast$ {\em turl\_\-errcode})}\label{gfal__common__interface_8c_a3161f12f9d5c8151f44df4f132602cb}
-
-
-get the error code list associated with the turls of the last get\_\-async request \begin{Desc}
-\item[Returns:]return the number of responses in turls or negative value if error \end{Desc}
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em handle}]: handle of the current context \item[{\em int$\ast$$\ast$}]turl\_\-errcode : pointer to a table of int, set to NULL if error \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Warning:]turl\_\-errcode need to be free manually \end{Desc}
-\begin{Desc}
-\item[Returns:]return the number of turls in the table, else negative value if error Wrapper for gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes\-G for the \char`\"{}without GLib\char`\"{} use case \end{Desc}
-\index{gfal_common_interface.c@{gfal\_\-common\_\-interface.c}!gfal_get_async_get_results_errstring@{gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring}}
-\index{gfal_get_async_get_results_errstring@{gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring}!gfal_common_interface.c@{gfal\_\-common\_\-interface.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring (gfal\_\-handle {\em handle}, char $\ast$$\ast$$\ast$ {\em turl\_\-errstring})}\label{gfal__common__interface_8c_ecd7d68b18088ff620d21dbef85862ae}
-
-
-get the error string associated with the turls of the last get\_\-async request \begin{Desc}
-\item[Returns:]return the number of responses in turls or negative value if error \end{Desc}
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em handle}]: handle of the current context \item[{\em char$\ast$$\ast$$\ast$}]turls : char$\ast$$\ast$ turls with the full list of answer, an answer with error is a NULL pointer \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Warning:]turl\_\-errstring need to be free manually \end{Desc}
-\begin{Desc}
-\item[Returns:]return the number of turls in the table, else negative value if error Wrapper for gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring\-G for the \char`\"{}without GLib\char`\"{} use case. \end{Desc}
 \index{gfal_common_interface.c@{gfal\_\-common\_\-interface.c}!gfal_get_async_results@{gfal\_\-get\_\-async\_\-results}}
 \index{gfal_get_async_results@{gfal\_\-get\_\-async\_\-results}!gfal_common_interface.c@{gfal\_\-common\_\-interface.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-results (gfal\_\-handle {\em handle}, char $\ast$$\ast$$\ast$ {\em turls})}\label{gfal__common__interface_8c_0c654545b837b8e1928842ee762ce5e9}
@@ -123,6 +91,38 @@ get the result to the last get\_\-async request \begin{Desc}
 \item[Warning:]turls need to be free manually \end{Desc}
 \begin{Desc}
 \item[Returns:]return the number of turls in the table, else negative value if error Wrapper for the \char`\"{}without GLib\char`\"{} use case. \end{Desc}
+\index{gfal_common_interface.c@{gfal\_\-common\_\-interface.c}!gfal_get_async_results_errcodes@{gfal\_\-get\_\-async\_\-results\_\-errcodes}}
+\index{gfal_get_async_results_errcodes@{gfal\_\-get\_\-async\_\-results\_\-errcodes}!gfal_common_interface.c@{gfal\_\-common\_\-interface.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-results\_\-errcodes (gfal\_\-handle {\em handle}, int $\ast$$\ast$ {\em turl\_\-errcode})}\label{gfal__common__interface_8c_2ea6b8dae8f2f76d5e83711fe6ce5510}
+
+
+get the error code list associated with the turls of the last get\_\-async request \begin{Desc}
+\item[Returns:]return the number of responses in turls or negative value if error \end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]: handle of the current context \item[{\em int$\ast$$\ast$}]turl\_\-errcode : pointer to a table of int, set to NULL if error \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Warning:]turl\_\-errcode need to be free manually \end{Desc}
+\begin{Desc}
+\item[Returns:]return the number of turls in the table, else negative value if error Wrapper for gfal\_\-get\_\-async\_\-get\_\-results\_\-errcodes\-G for the \char`\"{}without GLib\char`\"{} use case \end{Desc}
+\index{gfal_common_interface.c@{gfal\_\-common\_\-interface.c}!gfal_get_async_results_errstring@{gfal\_\-get\_\-async\_\-results\_\-errstring}}
+\index{gfal_get_async_results_errstring@{gfal\_\-get\_\-async\_\-results\_\-errstring}!gfal_common_interface.c@{gfal\_\-common\_\-interface.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-results\_\-errstring (gfal\_\-handle {\em handle}, char $\ast$$\ast$$\ast$ {\em turl\_\-errstring})}\label{gfal__common__interface_8c_c2d58855fe41370b710effc515e53370}
+
+
+get the error string associated with the turls of the last get\_\-async request \begin{Desc}
+\item[Returns:]return the number of responses in turls or negative value if error \end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]: handle of the current context \item[{\em char$\ast$$\ast$$\ast$}]turls : char$\ast$$\ast$ turls with the full list of answer, an answer with error is a NULL pointer \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Warning:]turl\_\-errstring need to be free manually \end{Desc}
+\begin{Desc}
+\item[Returns:]return the number of turls in the table, else negative value if error Wrapper for gfal\_\-get\_\-async\_\-get\_\-results\_\-errstring\-G for the \char`\"{}without GLib\char`\"{} use case. \end{Desc}
 \index{gfal_common_interface.c@{gfal\_\-common\_\-interface.c}!gfal_handle_new@{gfal\_\-handle\_\-new}}
 \index{gfal_handle_new@{gfal\_\-handle\_\-new}!gfal_common_interface.c@{gfal\_\-common\_\-interface.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-handle gfal\_\-handle\_\-new ()}\label{gfal__common__interface_8c_4211faf02a3c5cc696c7c9f974415d11}

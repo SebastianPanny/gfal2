@@ -18,7 +18,7 @@ struct \textbf{lfc\_\-ops}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-int \bf{gfal\_\-setup\_\-lfchost} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+char $\ast$ \bf{gfal\_\-setup\_\-lfchost} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 lfc\_\-ops $\ast$ \bf{gfal\_\-load\_\-lfc} (const char $\ast$name, GError $\ast$$\ast$err)
 \end{CompactItemize}
@@ -48,7 +48,7 @@ load the shared library and link the symbol for the LFC usage \begin{Desc}
 \end{Desc}
 \index{lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}!gfal_setup_lfchost@{gfal\_\-setup\_\-lfchost}}
 \index{gfal_setup_lfchost@{gfal\_\-setup\_\-lfchost}!lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-setup\_\-lfchost (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8h_2e1b3a940000958f22f4aee2aec25be6}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-setup\_\-lfchost (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8h_5d13dc09e91f66d74de768c2e4bf4872}
 
 
 setup the lfc\_\-host correctly for the lfc calls \begin{Desc}
@@ -57,4 +57,4 @@ setup the lfc\_\-host correctly for the lfc calls \begin{Desc}
 \item[{\em err}]GError report system if \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]0 if success else negative value and set err properly \end{Desc}
+\item[Returns:]string of the endpoint, need to be free or NULL if error \end{Desc}
