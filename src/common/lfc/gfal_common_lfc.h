@@ -37,5 +37,10 @@
 gfal_catalog_interface lfc_initG(gfal_handle, GError**);
 
 
+gboolean gfal_lfc_check_lfn_url(catalog_handle handle, const char* lfn_url, catalog_mode mode, GError** err);
+
+
+
+
 
 

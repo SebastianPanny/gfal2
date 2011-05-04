@@ -52,8 +52,10 @@ typedef struct{
 	 * Called before the destruction of the catalog interface
 	 */
 	void (*catalog_delete)(catalog_handle); 
-	// members
-	gboolean (*check_catalog_url)(catalog_handle, char* url,  catalog_mode mode);
+	/**
+	 *  must check if the url and the operation are comaptible with this type of catalog 
+	 */
+	gboolean (*check_catalog_url)(catalog_handle, const char* url,  catalog_mode mode, GError** err);
 	/**
 	 *  access function for the access for the normal associated url
 	 * */

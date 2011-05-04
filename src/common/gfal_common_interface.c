@@ -97,11 +97,11 @@ int gfal_get_async_results(gfal_handle handle, char*** turls){
  * @return return the number of turls in the table, else negative value if error
  * Wrapper for gfal_get_async_get_results_errcodesG for the "without GLib" use case
  */
-int gfal_get_async_get_results_errcodes(gfal_handle handle, int** turl_errcode){
+int gfal_get_async_results_errcodes(gfal_handle handle, int** turl_errcode){
 	g_return_val_if_fail(handle != NULL && turl_errcode != NULL,-1);
 	GList* resu = NULL;
 	turl_errcode = NULL;
-	const int ret = gfal_get_async_get_results_errcodesG(handle, &resu, &(handle->err));
+	const int ret = gfal_get_async_results_errcodesG(handle, &resu, &(handle->err));
 	if(ret >= 0){
 		*turl_errcode = gfal_GList_to_tab_int(resu);	
 	}	
@@ -118,11 +118,11 @@ int gfal_get_async_get_results_errcodes(gfal_handle handle, int** turl_errcode){
  * @return return the number of turls in the table, else negative value if error
  * Wrapper for gfal_get_async_get_results_errstringG for  the "without GLib" use case.
  */
-int gfal_get_async_get_results_errstring(gfal_handle handle, char*** turl_errstring){
+int gfal_get_async_results_errstring(gfal_handle handle, char*** turl_errstring){
 	g_return_val_if_fail(handle != NULL && turl_errstring != NULL,-1);
 	GList* resu = NULL;
 	turl_errstring = NULL;
-	const int ret = gfal_get_async_get_results_errstringG(handle, &resu, &(handle->err));
+	const int ret = gfal_get_async_results_errstringG(handle, &resu, &(handle->err));
 	if(ret >= 0){
 		*turl_errstring = gfal_GList_to_tab(resu);	
 	}	

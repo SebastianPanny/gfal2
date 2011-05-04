@@ -28,6 +28,7 @@
 #include "gfal_common_lfc.h"
 #include "lfc_ifce_ng.h"
 #include "gfal_common_internal.h"
+#include <regex.h>
 
 
 
@@ -77,10 +78,23 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	ops->lfc_endpoint = endpoint;
 	gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[gfal][lfc] lfc endpoint : %s", endpoint);
 	lfc_catalog.handle = (void*) ops;
+	lfc_catalog.check_catalog_url= &gfal_lfc_check_lfn_url;
 	lfc_catalog.catalog_delete = &lfc_destroyG;
 	lfc_catalog.accessG = &lfc_accessG;
 	return lfc_catalog;
 }
 
 
+/**
+ * Check if the passed url and operation is compatible with lfc
+ * 
+ * */
+ gboolean gfal_lfc_check_lfn_url(catalog_handle handle, const char* lfn_url, catalog_mode mode, GError** err){
+	regex_t rex;
+	int ret = regcomp(&rex, "^lfn://([:alnum:]|-|/|\.|_)+)", REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret ==0,-1,err,"[gfal_lfc_check_lfn_url] fail to compile regex, report this bug");
+	ret= regexec(&rex, lfn_url, 0, NULL, 0);
+	return (!ret)?TRUE:FALSE;	
+ }
+ 
 
