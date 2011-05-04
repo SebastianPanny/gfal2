@@ -96,6 +96,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_lfc, test_gfal_common_lfc_resolve_sym);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_access);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_no_exist);
+  tcase_add_test(tc_lfc, test_gfal_common_lfc_check_filename);
   suite_add_tcase(s, tc_lfc);
 
   return s;

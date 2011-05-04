@@ -9,8 +9,9 @@
 #include "lfc/gfal_common_lfc.h"
 #include "gfal_common_internal.h"
 
-#define TEST_LFC_VALID_ACCESS "/grid/dteam/hello001"		// this file must be a lfc file with read access and no write access
-#define TEST_LFC_NOEXIST_ACCESS "/grid/dteam/PSGmarqueUNbut" // this file must never exist.
+#define TEST_LFC_VALID_ACCESS "lfn:/grid/dteam/hello001"		// this file must be a lfc file with read access and no write access
+#define TEST_LFC_NOEXIST_ACCESS "lfn:/grid/dteam/PSGmarqueUNbut" // this file must never exist.
+#define TEST_LFC_URL_SYNTAX_ERROR "jardiland.com"
 
 
 
@@ -162,7 +163,42 @@ START_TEST(test_gfal_common_lfc_no_exist)
 		gfal_release_GError(&tmp_err);
 		return;
 	}		
-	
+	gfal_handle_freeG(handle);
+}
+END_TEST
+
+
+START_TEST(test_gfal_common_lfc_check_filename)
+{
+GError * tmp_err=NULL;
+	int ret =-1;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		fail(" error must be initiated");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	if(tmp_err){
+		fail(" must be a valid init");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gboolean b = i.check_catalog_url(i.handle, TEST_LFC_VALID_ACCESS, GFAL_CATALOG_ALL, &tmp_err);
+	if(!b || tmp_err){
+		fail(" must be a valid lfn url");
+		return;
+	}
+	b = i.check_catalog_url(i.handle, TEST_LFC_NOEXIST_ACCESS, GFAL_CATALOG_ALL, &tmp_err);
+	if(!b || tmp_err){
+		fail(" must be a valid lfn url 2");
+		return;
+	}
+	b = i.check_catalog_url(i.handle, TEST_LFC_URL_SYNTAX_ERROR, GFAL_CATALOG_ALL, &tmp_err);
+	if(b){
+		fail(" must an invalid lfn url");
+		return;
+	}	
 }
 END_TEST
 
