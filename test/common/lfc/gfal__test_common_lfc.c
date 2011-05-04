@@ -9,13 +9,13 @@
 #include "lfc/gfal_common_lfc.h"
 #include "gfal_common_internal.h"
 
-#define TEST_LFC_VALID_ACCESS "lfn:/grid/dteam/10951205242795"
+#define TEST_LFC_VALID_ACCESS "/grid/dteam/10951205242795"		// this file must be a lfc file with read access and no write access
 
 
 
 START_TEST(test_gfal_common_lfc_define_env)
 {
-	char* old_host = getenv("LFC_HOST");
+	/*char* old_host = getenv("LFC_HOST");
 	char* old_port = getenv("LFC_PORT");
 	GError * tmp_err=NULL;
 	int ret =0;
@@ -51,7 +51,7 @@ START_TEST(test_gfal_common_lfc_define_env)
 	}
 	
 	setenv("LFC_HOST", old_host,1);	
-	setenv("LFC_PORT", old_port,1);	
+	setenv("LFC_PORT", old_port,1);	*/
 }
 END_TEST
 
@@ -102,16 +102,23 @@ START_TEST(test_gfal_common_lfc_access){
 		return;
 	}
 	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
-	if(ret <0){
-		fail(" must be a init");
+	if(tmp_err){
+		fail(" must be a valid init");
 		gfal_release_GError(&tmp_err);
+		return;
 	}
 	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, R_OK, &tmp_err);
-	if(ret <0){
+	if(ret !=0){
 		fail(" must be a valid access");
 		gfal_release_GError(&tmp_err);
+		return;
 	}
-	
+	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, W_OK, &tmp_err);	
+	if(ret != EACCES){
+		fail(" must fail, unable to write this file");
+		gfal_release_GError(&tmp_err);
+		return;
+	}	
 }
 END_TEST
 

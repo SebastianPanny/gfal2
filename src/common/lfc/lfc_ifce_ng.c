@@ -32,7 +32,7 @@
 char* gfal_get_lfchost_envar(GError** err){
 
 	char *lfc_host=NULL, *lfc_port=NULL;
-	char lfc_endpoint[GFAL_MAX_LFCHOST_LEN];
+	char *lfc_endpoint=NULL;
 	if( (lfc_host = getenv ("LFC_HOST")) !=NULL){
 		if (strnlen (lfc_host,GFAL_MAX_LFCHOST_LEN) + 6 >= GFAL_MAX_LFCHOST_LEN)  {
 				g_set_error(err, 0, ENAMETOOLONG, "[gfal_get_lfchost_envar] Host name from LFC_HOST env var too long");
@@ -40,18 +40,19 @@ char* gfal_get_lfchost_envar(GError** err){
 		}
 
 		lfc_port = getenv ("LFC_PORT");
-		if (lfc_port && strlen (lfc_port) > 5 && atoi(lfc_port) != 0) {
+		if (lfc_port && strnlen (lfc_port,6) > 5 && atoi(lfc_port) != 0) {
 			g_set_error(err, 0, EINVAL , "[gfal_get_lfchost_envar]  Invalid LFC port number in the LFC_PORT env var");
 			return NULL;
 		}
 
 		if (lfc_port)
-			snprintf (lfc_endpoint, GFAL_MAX_LFCHOST_LEN, "%s:%s", lfc_host, lfc_port);
+			lfc_endpoint = g_strdup_printf("%s:%s", lfc_host, lfc_port);
 		else
-			snprintf (lfc_endpoint, GFAL_MAX_LFCHOST_LEN, "%s", lfc_host);	
-	}
+			lfc_endpoint = g_strdup_printf(lfc_endpoint, GFAL_MAX_LFCHOST_LEN, "%s", lfc_host);	
 
-	return strdup(lfc_endpoint);
+	}
+	g_printerr("my host : %s", lfc_endpoint);
+	return lfc_endpoint;
 }
 
 static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
@@ -105,6 +106,7 @@ char* gfal_setup_lfchost(gfal_handle handle, GError ** err){
 		g_set_error(err, 0, ENAMETOOLONG, "[gfal_get_lfchost] lfc host name :  %s, Host name too long", lfc_host);
 		return (NULL);		
 	}	
+	//g_printerr(" my host : %s", lfc_host);
 	return lfc_host;
 }
 
