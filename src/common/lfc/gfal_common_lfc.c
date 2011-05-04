@@ -28,6 +28,7 @@
 #include "gfal_common_lfc.h"
 #include "lfc_ifce_ng.h"
 #include "gfal_common_internal.h"
+#include "gfal_common_errverbose.h"
 #include <regex.h>
 
 

@@ -31,6 +31,7 @@
 #include "gfal_common_catalog.h"
 #include "lfc/gfal_common_lfc.h"
 #include "gfal_constants.h"
+#include "gfal_common_errverbose.h"
 
 
 

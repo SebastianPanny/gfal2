@@ -27,6 +27,7 @@
  
 #include "gfal_common_srm.h"
 #include "gfal_common_internal.h"
+#include "gfal_common_errverbose.h"
 
 /**
  * list of the protols in the order of preference

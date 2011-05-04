@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "common/gfal_common.h"
+#include "common/gfal_common_errverbose.h"
 #include "common/gfal__test_verbose.c"
 #include "common/gfal__test_catalog.c"
 #include "common/voms/gfal__test_voms.c"

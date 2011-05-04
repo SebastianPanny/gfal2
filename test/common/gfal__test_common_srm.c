@@ -5,6 +5,7 @@
 #include <check.h>
 #include "gfal_common.h"
 #include <time.h>
+#include <string.h>
 #include <unistd.h>
 #include "gfal_common_internal.h"
 
@@ -182,7 +183,7 @@ START_TEST(test_gfal_auto_get_srm_endpoint_no_full_with_bdii)
 	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);
 	
 	fail_if( ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) , " must return the correct endpoint");
-	fail_if( endpoint == NULL || strcmp(endpoint,"httpg://grid-cert-03.roma1.infn.it:8446/srm/managerv2") != NULL, " must contain the endpoint");
+	fail_if( endpoint == NULL || strcmp(endpoint,"httpg://grid-cert-03.roma1.infn.it:8446/srm/managerv2") != 0, " must contain the endpoint");
 	fail_if(proto != handle->srm_proto_type, " srm must be the default version of srm");
 	gfal_handle_freeG(handle);	
 	g_list_free(list);

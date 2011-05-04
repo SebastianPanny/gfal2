@@ -4,6 +4,7 @@
 
 
 #include <check.h>
+#include "gfal_constants.h"
 #include "gfal_common_catalog.h"
 
 

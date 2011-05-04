@@ -36,6 +36,7 @@
 #include "gfal_constants.h"
 #include "../mds/gfal_common_mds.h"
 #include "lfc_ifce_ng.h"
+#include "gfal_common_errverbose.h"
 
 
 char* gfal_get_lfchost_envar(GError** err){
