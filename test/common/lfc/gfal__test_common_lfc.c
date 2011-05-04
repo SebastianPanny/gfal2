@@ -9,13 +9,14 @@
 #include "lfc/gfal_common_lfc.h"
 #include "gfal_common_internal.h"
 
-#define TEST_LFC_VALID_ACCESS "/grid/dteam/10951205242795"		// this file must be a lfc file with read access and no write access
+#define TEST_LFC_VALID_ACCESS "/grid/dteam/hello001"		// this file must be a lfc file with read access and no write access
+#define TEST_LFC_NOEXIST_ACCESS "/grid/dteam/PSGmarqueUNbut" // this file must never exist.
 
 
 
 START_TEST(test_gfal_common_lfc_define_env)
 {
-	/*char* old_host = getenv("LFC_HOST");
+	char* old_host = getenv("LFC_HOST");
 	char* old_port = getenv("LFC_PORT");
 	GError * tmp_err=NULL;
 	int ret =0;
@@ -50,8 +51,14 @@ START_TEST(test_gfal_common_lfc_define_env)
 		fail("must be the same string");
 	}
 	
-	setenv("LFC_HOST", old_host,1);	
-	setenv("LFC_PORT", old_port,1);	*/
+	if(old_host)
+		setenv("LFC_HOST", old_host,1);	
+	else
+		unsetenv("LFC_HOST");
+	if(old_port)
+		setenv("LFC_PORT", old_port,1);
+	else
+		unsetenv("LFC_PORT");
 }
 END_TEST
 
@@ -81,14 +88,16 @@ START_TEST(test_gfal_common_lfc_init)
 	GError * tmp_err=NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
 	if(handle==NULL){
-		fail(" error msut be initiated");
+		fail(" error must be initiated");
 		gfal_release_GError(&tmp_err);
+		return;
 	}
 	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);
 	if(tmp_err){
 		fail(" msut not fail, valid value");
 		return;
 	}
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
@@ -97,7 +106,7 @@ START_TEST(test_gfal_common_lfc_access){
 	int ret =-1;
 	gfal_handle handle = gfal_initG(&tmp_err);
 	if(handle==NULL){
-		fail(" error msut be initiated");
+		fail(" error must be initiated");
 		gfal_release_GError(&tmp_err);
 		return;
 	}
@@ -116,9 +125,44 @@ START_TEST(test_gfal_common_lfc_access){
 	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, W_OK, &tmp_err);	
 	if(ret != EACCES){
 		fail(" must fail, unable to write this file");
+		g_printerr(" file access report : %s ", strerror(ret));
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_handle_freeG(handle);	
+}
+END_TEST
+
+
+START_TEST(test_gfal_common_lfc_no_exist)
+{
+	GError * tmp_err=NULL;
+	int ret =-1;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		fail(" error must be initiated");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	if(tmp_err){
+		fail(" must be a valid init");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	ret = i.accessG(i.handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);
+	if(ret != EACCES){
+		fail(" must fail, this file not exist");
 		gfal_release_GError(&tmp_err);
 		return;
 	}	
+	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, F_OK, &tmp_err);
+	if(ret !=0){
+		fail("must be a success, file is present");
+		gfal_release_GError(&tmp_err);
+		return;
+	}		
+	
 }
 END_TEST
 

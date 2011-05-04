@@ -26,7 +26,7 @@
   @date 29/04/2011
  */
 
-#include "gfal_common_catalog.h"
+#include "../gfal_common_catalog.h"
 #include "lfc_ifce_ng.h"
 #include <glib.h>
 #include <sys/types.h>

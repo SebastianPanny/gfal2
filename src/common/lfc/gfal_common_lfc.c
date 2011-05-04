@@ -53,7 +53,9 @@ int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 
 
 /**
- * Map function for the lfc interface, need to be rewrite without old error management
+ * Map function for the lfc interface
+ *  this function provide the generic CATALOG interface for the LFC catalog.
+ *  lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map.
  * 
  * */
 gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
@@ -73,6 +75,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 		return lfc_catalog;
 	}
 	ops->lfc_endpoint = endpoint;
+	gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[gfal][lfc] lfc endpoint : %s", endpoint);
 	lfc_catalog.handle = (void*) ops;
 	lfc_catalog.catalog_delete = &lfc_destroyG;
 	lfc_catalog.accessG = &lfc_accessG;
