@@ -25,7 +25,6 @@
  
  #define _GNU_SOURCE 
  
-#include "gfal_common.h"
 #include "gfal_common_srm.h"
 #include "gfal_common_internal.h"
 

@@ -16,28 +16,22 @@
  * limitations under the License.
  */
 
+
 /**
- * @file gfal_common_internal.h
- * @brief internal declaration for gfal, USE DIRECTLY THIS FUNCTIONS IS  NOT RECOMMANDED
+ * @file contain all the prototypes needed by the gfal common files
  * @author Devresse Adrien
- * @version 2.0
- * @date 12/04/2011
+ * @version 0.0.1
+ * @date 04/05/2011
+ * 
  * */
+ #include <glib.h>
+ 
+ // catalog 
+typedef struct _catalog_opts catalog_opts;
+typedef struct _gfal_catalog_interface gfal_catalog_interface;
+typedef enum _catalog_mode catalog_mode;
+typedef gpointer catalog_handle;
 
-#include "gfal_common_srm.h"
-#include "gfal_common.h"
+// main 
+typedef struct gfal_handle_ *gfal_handle;
 
-
-char** gfal_GList_to_tab(GList* surls);
-
-
-int* gfal_GList_to_tab_int(GList* int_list);
-
-
-void gfal_delete_request_state(gfal_request_state* request_state);
-
-
-void gfal_new_request_state(gfal_handle handle);
-
-
-int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int num, GError** err);

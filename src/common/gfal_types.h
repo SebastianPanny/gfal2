@@ -1,3 +1,4 @@
+#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -28,16 +29,21 @@ extern "C"
 {
 #endif
 
-#include <sys/types.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <gfal_srm_ifce_types.h>
 #ifdef _WIN32
 #include <io.h>
 #else
 #include <unistd.h>
 #include <glib.h>
 #endif
+
+#include <sys/types.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <gfal_srm_ifce_types.h>
+#include "gfal_prototypes.h"
+#include "gfal_common_catalog.h"
+
+
 
 #ifndef GFAL_LONG64_FORMAT
 #if defined(__ia64__) || defined(__x86_64)
@@ -65,6 +71,7 @@ extern "C"
 #else
 #define GFAL_DEBUG(format, ...)
 #endif
+// protos
 
 
 //typedef struct srm_spacemd gfal_spacemd;
@@ -186,7 +193,7 @@ typedef struct gfal_request_ {
 	int							number;				// number of files in request
  } gfal_request_state; 
  
- typedef struct gfal_handle_ {
+struct gfal_handle_ {
 	// INPUTS
 
 	int							generatesurls;
@@ -238,19 +245,11 @@ typedef struct gfal_request_ {
 	gfal_srmv2_opt* srmv2_opt;
 	// pointer to the last request resu
 	gfal_request_state* last_request_state;
-} *gfal_handle;
+	// struct of the catalog opts
+	struct _catalog_opts catalog_opt;
+};
 
-/**
- * @enum list the type of the check associated with the url
- *  GFAL_CATALOG_ALL : general check, if this url is associated with this catalog
- *  GFAL_CATALOG_ACCESS : check for a access request, check if this url is a correct url for a access request
- *  GFAL_CATALOG_CHMOD : check for a chmod request, check if this url is correct for a chmod request
- * */
-typedef enum {
-	GFAL_CATALOG_ALL=0,
-	GFAL_CATALOG_ACCESS,
-	GFAL_CATALOG_CHMOD
-} catalog_mode;
+
 
 
 

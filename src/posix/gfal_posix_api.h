@@ -24,12 +24,10 @@
  * */
  
  
-#include "../common/gfal_common.h"
-#include "../common/gfal_constants.h"
-#include "gfal_types.h"
+
+#include "../common/gfal_types.h"
 #include <glib.h>
 #include <sys/types.h>
-#include <dlfcn.h>
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/stat.h>

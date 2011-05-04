@@ -24,24 +24,22 @@
  * @date 8/04/2011
  * */
 
-#include "gfal_types.h"
-#include "gfal_constants.h"
+
+
+/*#include "gfal_file.h"
 #include "gfal_common_catalog.h"
 #include "gfal_common_storage.h"
 #include "gfal_common_errverbose.h"
 #include "gfal_common_srm.h"
-#include "gfal_file.h"
 #include "voms/gfal_voms_if.h"
-#include "mds/gfal_common_mds.h"
-// external imports
-#include <gfal_srm_ifce.h>
-#include <gfal_srm_ifce_types.h>
+#include "mds/gfal_common_mds.h"*/
+
+
+#include "gfal_constants.h"
+#include "gfal_prototypes.h"
+#include "gfal_types.h"
+#include "lfc/lfc_ifce.h" 
 #include "voms_apic.h"
-// standard imports
-#include <glib.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 
 
 #define GFAL_URL_MAX_LEN 2048

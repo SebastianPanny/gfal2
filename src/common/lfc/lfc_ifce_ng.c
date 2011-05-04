@@ -24,8 +24,17 @@
   @version 0.0.1
   @date 02/05/2011
  */
+#define _GNU_SOURCE
 
-
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <dlfcn.h>
+#include <stdlib.h>
+#include "gfal_types.h"
+#include "gfal_constants.h"
+#include "../mds/gfal_common_mds.h"
 #include "lfc_ifce_ng.h"
 
 

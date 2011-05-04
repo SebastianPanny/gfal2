@@ -22,8 +22,15 @@
  * @version 2.0
  * @date 11/04/2011
  * */
- 
+
+
+#include "../common/gfal_common.h"
+#include "../common/gfal_constants.h" 
+#include "../common/gfal_file.h"
+#include "../common/gfal_common_storage.h"
 #include "gfal_posix_api.h"
+#include <dlfcn.h>
+
 
 /* the version should be set by a "define" at the makefile level */
 static const char *gfalversion = VERSION;

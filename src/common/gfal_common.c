@@ -23,6 +23,15 @@
  * @date 8/04/2011
  * */
  
+// external imports
+#include <gfal_srm_ifce.h>
+#include <gfal_srm_ifce_types.h>
+// standard imports
+#include <glib.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "gfal_common_storage.h"
 #include "gfal_common.h"
  
  

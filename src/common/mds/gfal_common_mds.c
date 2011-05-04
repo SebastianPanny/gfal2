@@ -25,6 +25,15 @@
 
 #include "gfal_common.h"
 #include "gfal_common_internal.h"
+#include "../voms/gfal_voms_if.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <ctype.h>
+#include <sys/time.h>
+#include <lber.h>
+#include <ldap.h>
 
 /**
  * set the bdii value of the handle specified

@@ -23,16 +23,12 @@
   * @date 18/04/2011
   * */
 #define _GNU_SOURCE
-#include "../gfal_common.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <ctype.h>
-#include <sys/time.h>
-#include <lber.h>
-#include <ldap.h>
+
+
+#include <glib.h>
+#include "../gfal_prototypes.h"
+#include "../gfal_types.h"
 #include "ServiceDiscovery.h"
 
 int gfal_mds_get_se_types_and_endpoints(const char *host, char ***se_types, char ***se_endpoints, GError** err);

@@ -23,28 +23,39 @@
  * @version 0.0.1
  * @date 8/04/2011
  * */
-
+ 
+ 
+ 
+#include <stdarg.h>
+#include <uuid/uuid.h>
+#include <glib.h>
+#include <errno.h>
+#include <string.h> 
+ // protos
+#include "gfal_prototypes.h"
 #define MAX_CATALOG_LIST 64
 
 
 
-#include <glib.h>
-#include <errno.h>
-#include <string.h>
-#include "gfal_types.h"	
-#include "lfc/lfc_ifce.h"
-#include <stdarg.h>
-#include <uuid/uuid.h>
-#include "gfal_common.h"
 
 
 
-typedef gpointer catalog_handle;
+/**
+ * @enum list the type of the check associated with the url
+ *  GFAL_CATALOG_ALL : general check, if this url is associated with this catalog
+ *  GFAL_CATALOG_ACCESS : check for a access request, check if this url is a correct url for a access request
+ *  GFAL_CATALOG_CHMOD : check for a chmod request, check if this url is correct for a chmod request
+ * */
+enum _catalog_mode{
+	GFAL_CATALOG_ALL=0,
+	GFAL_CATALOG_ACCESS,
+	GFAL_CATALOG_CHMOD
+};
 
 /**
  * @struct Object for a catalog type, modelise all operation that can be done by the catalog
  */
-typedef struct{
+struct _gfal_catalog_interface{
 	// handle
 	catalog_handle handle;
 	// delete
@@ -67,10 +78,17 @@ typedef struct{
 	int	(*chmodG)(catalog_handle, const char *, mode_t, GError** err);
 	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);	
 	
-} gfal_catalog_interface;
+};
 
-// include the catalogs
-#include "lfc/gfal_common_lfc.h"
+/**
+ * container for the catalog abstraction couch parameters
+ * */
+struct _catalog_opts{
+	gfal_catalog_interface catalog_list[MAX_CATALOG_LIST];
+	int catalog_number;
+};
+
+#include "gfal_types.h"
 
 /**
 	\brief catalog type getter
@@ -81,9 +99,9 @@ typedef struct{
 extern char* gfal_get_cat_type(GError**);
 
 
-void gfal_catalogs_instance(gfal_handle, GError** err);
+int gfal_catalogs_instance(gfal_handle, GError** err);
 
-void gfal_catalogs_delete();
+int gfal_catalogs_delete(gfal_handle, GError** err);
  	
 
 char *get_default_se(char *, int);

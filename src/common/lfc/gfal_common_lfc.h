@@ -26,11 +26,14 @@
   @date 29/04/2011
  */
 
+#define _GNU_SOURCE
+
 #include "../gfal_common_catalog.h"
-#include "lfc_ifce_ng.h"
-#include <glib.h>
 #include <sys/types.h>
-#include <lfc_api.h>
+#include "lfc_ifce_ng.h"
+// protos
+
+
 
 #define GFAL_LFC_PREFIX "lfn:"
 

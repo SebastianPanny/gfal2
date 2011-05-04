@@ -25,44 +25,55 @@
 
 #define _GNU_SOURCE
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "gfal_common_catalog.h"
+#include "lfc/gfal_common_lfc.h"
+#include "gfal_constants.h"
 
-static gfal_catalog_interface catalog_list[MAX_CATALOG_LIST];
-static int Catalog_number = -1;
+
+
+static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG}; // JUST MODIFY THIS LINE IN ORDER TO ADD CATALOG
 
 /**
  * Instance all catalogs for use if it's not the case
  */
-void gfal_catalogs_instance(gfal_handle handle, GError** err){
-	if(Catalog_number <= 0){
+int gfal_catalogs_instance(gfal_handle handle, GError** err){
+	g_return_val_err_if_fail(handle, -1, err, "[gfal_catalogs_instance]  invalid value of handle");
+	const int catalog_number = handle->catalog_opt.catalog_number;
+	if(catalog_number <= 0){
 		GError* tmp_err=NULL;
-		static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG}; // JUST MODIFY THIS LINE IN ORDER TO ADD CATALOG
 		const int size_catalog = 1;
 		int i;
 		for(i=0; i < size_catalog ;++i){
 			gfal_catalog_interface catalog = constructor[i](handle, &tmp_err);
+			handle->catalog_opt.catalog_list[i] = catalog;
 			if(tmp_err){
 				g_propagate_prefixed_error(err, tmp_err, "[gfal_catalogs_instance]");
-				return;
+				return -1;
 			}
 		}
-		Catalog_number=i;
+		handle->catalog_opt.catalog_number=i;
 	}
+	return 0;
 }
 
 /**
  * Delete all instance of catalogs 
  */
-void gfal_catalogs_delete(){
-	if(Catalog_number > 0){
+int gfal_catalogs_delete(gfal_handle handle, GError** err){
+	g_return_val_err_if_fail(handle, -1, err, "[gfal_catalogs_delete]  invalid value of handle");
+	const int catalog_number = handle->catalog_opt.catalog_number;
+	if(catalog_number > 0){
 			int i;
-			for(i=0; i< Catalog_number; ++i){
-				catalog_list[i].catalog_delete(catalog_list[i].handle);
+			for(i=0; i< catalog_number; ++i){
+				handle->catalog_opt.catalog_list[i].catalog_delete( handle->catalog_opt.catalog_list[i].handle );
 			}
 		
-		Catalog_number =-1;
+		handle->catalog_opt.catalog_number =-1;
 	}
-	
+	return 0;
 }
 
 

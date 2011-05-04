@@ -31,7 +31,6 @@
 #include <errno.h>
 #include <uuid/uuid.h>
 #include "gfal_common.h"
-
 #include "gfal_file.h"
 
 static const char *gfal_file_catalog_names[] = {

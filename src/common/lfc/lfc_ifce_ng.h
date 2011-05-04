@@ -25,11 +25,17 @@
   @version 0.0.1
   @date 02/05/2011
  */
-
-#include "gfal_common_lfc.h"
-#include <dlfcn.h>
-
+ 
 #define GFAL_MAX_LFCHOST_LEN 1024
+
+#include <lfc_api.h>
+
+#include "gfal_prototypes.h"
+#include "gfal_types.h"
+
+
+
+
 
 struct lfc_ops {
 	char* lfc_endpoint;
