@@ -152,7 +152,7 @@ START_TEST(test_gfal_common_lfc_no_exist)
 		return;
 	}
 	ret = i.accessG(i.handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);
-	if(ret != EACCES){
+	if(ret != ENOENT){
 		fail(" must fail, this file not exist");
 		gfal_release_GError(&tmp_err);
 		return;

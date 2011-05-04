@@ -43,6 +43,9 @@
 #include <stdio.h>
 #include <string.h>
 
+
+#define GFAL_URL_MAX_LEN 2048
+
 /**
  * new next gen functions 
  * 

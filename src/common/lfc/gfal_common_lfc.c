@@ -31,6 +31,14 @@
 #include <regex.h>
 
 
+/**
+ * convert the lfn url for internal usage
+ * result must be free
+ */
+static char* lfc_urlconverter(char * lfn_url){
+	const int pref_len = strlen(GFAL_LFC_PREFIX);
+	return strndup(pref_len+ lfn_url, GFAL_URL_MAX_LEN );
+}
 
 
 static void lfc_destroyG(catalog_handle handle){
@@ -41,14 +49,18 @@ static void lfc_destroyG(catalog_handle handle){
 }
 
 int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
+	GError* tmp_err=NULL;
 	g_return_val_err_if_fail(handle && lfn, -1, err, "[lfc_accessG] Invalid value in arguments handle  or/and path");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
-	int ret = ops->access(lfn, mode);
+	char* url = lfc_urlconverter(lfn);
+	int ret = ops->access(url, mode);
 	if(ret <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err, 0, sav_errno, "[lfc_accessG] lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, ops->sstrerror(sav_errno) );
 		return sav_errno; 
+		free(url);
 	}
+	free(url);
 	return ret;
 }
 
@@ -91,7 +103,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
  * */
  gboolean gfal_lfc_check_lfn_url(catalog_handle handle, const char* lfn_url, catalog_mode mode, GError** err){
 	regex_t rex;
-	int ret = regcomp(&rex, "^lfn://([:alnum:]|-|/|\.|_)+)", REG_ICASE | REG_EXTENDED);
+	int ret = regcomp(&rex, "^lfn:/([:alnum:]|-|/|\.|_)+", REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret ==0,-1,err,"[gfal_lfc_check_lfn_url] fail to compile regex, report this bug");
 	ret= regexec(&rex, lfn_url, 0, NULL, 0);
 	return (!ret)?TRUE:FALSE;	

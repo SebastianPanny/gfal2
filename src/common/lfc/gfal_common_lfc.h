@@ -32,7 +32,7 @@
 #include <sys/types.h>
 #include <lfc_api.h>
 
-
+#define GFAL_LFC_PREFIX "lfn:"
 
 gfal_catalog_interface lfc_initG(gfal_handle, GError**);
 
