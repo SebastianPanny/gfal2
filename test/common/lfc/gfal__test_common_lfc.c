@@ -13,6 +13,9 @@
 #define TEST_LFC_NOEXIST_ACCESS "lfn:/grid/dteam/PSGmarqueUNbut" // this file must never exist.
 #define TEST_LFC_URL_SYNTAX_ERROR "jardiland.com"
 
+#define TEST_GUID_VALID_ACCESS "guid:ae571282-81ea-41af-ac3c-8b1a084bfc82"
+#define TEST_GUID_NOEXIST_ACCESS "guid:ae595782-81be-40af-ac3c-8b1a084bfc82"
+
 
 
 START_TEST(test_gfal_common_lfc_define_env)
@@ -199,6 +202,41 @@ GError * tmp_err=NULL;
 		fail(" must an invalid lfn url");
 		return;
 	}	
+}
+END_TEST
+
+
+START_TEST(test_gfal_common_lfc_access_guid_file_exist)
+{
+	GError * tmp_err=NULL;
+	int ret =-1;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		fail(" error must be initiated");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	if(tmp_err){
+		fail(" must be a valid init");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	ret = i.access_guidG(i.handle, TEST_GUID_NOEXIST_ACCESS, F_OK, &tmp_err);
+	if(ret != ENOENT){
+		fail(" must fail, this file not exist");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+		
+	ret = i.access_guidG(i.handle, TEST_GUID_VALID_ACCESS, F_OK, &tmp_err);
+	if(ret !=0){
+		g_printerr(" errno : %s ", strerror(ret));
+		fail("must be a success, file is present");
+		gfal_release_GError(&tmp_err);
+		return;
+	}		
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
