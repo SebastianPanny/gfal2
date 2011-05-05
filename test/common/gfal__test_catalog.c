@@ -50,12 +50,39 @@ START_TEST(test_catalog_access_file)
 	if(ret !=0){
 		fail(" must be a valid access");
 		gfal_release_GError(&tmp_err);
+		return;
 	}
-	ret = gfal_catalogs_accessG(handle, TEST_LFC_VALID_ACCESS, F_OK, &tmp_err);	
-	
-	
+	ret = gfal_catalogs_accessG(handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);	
+	if(ret != ENOENT){
+		fail(" must be a non-existing file");
+		gfal_release_GError(&tmp_err);
+		return;
+	}	
+	gfal_handle_freeG(handle);
 }
 END_TEST
+
+
+START_TEST(test_catalog_url_checker)
+{
+	GError* tmp_err=NULL;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle == NULL){
+		fail(" must init properly");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	int ret = gfal_catalogs_accessG(handle, TEST_LFC_URL_SYNTAX_ERROR, F_OK, &tmp_err);
+	if(ret != EPROTONOSUPPORT){
+		fail(" must be an invalid protocol");
+		gfal_release_GError(&tmp_err);
+		return;
+	}		
+	gfal_handle_freeG(handle);	
+}
+END_TEST
+
+
 
 
 

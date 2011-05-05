@@ -16,7 +16,8 @@
  */
  
  
-// constant to define for succefull unit test
+
+
 
 
 
@@ -29,6 +30,7 @@
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "../unit_test_constants.h"
 #include "common/gfal_common.h"
 #include "common/gfal_common_errverbose.h"
 #include "common/gfal__test_verbose.c"
@@ -50,6 +52,8 @@ Suite* common_suite (void)
   /* catalog */
   TCase *tc_cata = tcase_create ("Catalog");
   tcase_add_test (tc_cata, test_get_cat_type);
+  tcase_add_test(tc_cata, test_catalog_access_file);
+  tcase_add_test(tc_cata, test_catalog_url_checker);
   suite_add_tcase (s, tc_cata);
   /* voms */
   TCase *tc_voms = tcase_create ("Voms");
