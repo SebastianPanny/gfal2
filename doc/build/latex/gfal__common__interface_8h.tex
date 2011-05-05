@@ -2,8 +2,8 @@
 \label{gfal__common__interface_8h}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-interface.h}}
 The main Interface file for the SRM interface. 
 
-{\tt \#include \char`\"{}gfal\_\-common\_\-srm.h\char`\"{}}\par
-{\tt \#include \char`\"{}gfal\_\-common.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
@@ -34,7 +34,9 @@ int \bf{gfal\_\-wait\_\-async\_\-request} (gfal\_\-handle handle, long timeout)
 \begin{CompactList}\small\item\em wait for the current request \item\end{CompactList}\item 
 void \textbf{gfal\_\-set\_\-nobdii\_\-srm} (gfal\_\-handle handle, gboolean no\_\-bdii\_\-chk)\label{gfal__common__interface_8h_5e3afd0690b23dedf14d6fa7898f28a9}
 
-\end{CompactItemize}
+\item 
+const char $\ast$ \bf{gfal\_\-version} ()
+\begin{CompactList}\small\item\em return a string of the current gfal\_\-version define at the compilation time \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}

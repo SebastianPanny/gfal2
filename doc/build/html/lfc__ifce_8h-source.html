@@ -18,121 +18,122 @@
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h</h1><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
-<a name="l00002"></a>00002 <span class="comment"> * Copyright (c) Members of the EGEE Collaboration. 2004.</span>
-<a name="l00003"></a>00003 <span class="comment"> * See http://www.eu-egee.org/partners/ for details on the copyright holders.</span>
-<a name="l00004"></a>00004 <span class="comment"> *</span>
-<a name="l00005"></a>00005 <span class="comment"> * Licensed under the Apache License, Version 2.0 (the "License");</span>
-<a name="l00006"></a>00006 <span class="comment"> * you may not use this file except in compliance with the License.</span>
-<a name="l00007"></a>00007 <span class="comment"> * You may obtain a copy of the License at</span>
-<a name="l00008"></a>00008 <span class="comment"> * </span>
-<a name="l00009"></a>00009 <span class="comment"> *     http://www.apache.org/licenses/LICENSE-2.0</span>
-<a name="l00010"></a>00010 <span class="comment"> * </span>
-<a name="l00011"></a>00011 <span class="comment"> * Unless required by applicable law or agreed to in writing, software</span>
-<a name="l00012"></a>00012 <span class="comment"> * distributed under the License is distributed on an "AS IS" BASIS,</span>
-<a name="l00013"></a>00013 <span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<a name="l00014"></a>00014 <span class="comment"> * See the License for the specific language governing permissions and</span>
-<a name="l00015"></a>00015 <span class="comment"> * limitations under the License.</span>
-<a name="l00016"></a>00016 <span class="comment"> */</span>
-<a name="l00017"></a>00017 
-<a name="l00018"></a>00018 <span class="comment">/* * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.67 $ $Date: 2010/01/22 15:25:54 $ CERN James Casey</span>
-<a name="l00019"></a>00019 <span class="comment"> */</span>
-<a name="l00020"></a>00020 <span class="preprocessor">#ifndef GFAL_LFC_IFCE_H_</span>
-<a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_LFC_IFCE_H_</span>
-<a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
-<a name="l00024"></a>00024 <span class="preprocessor">#include &lt;lfc_api.h&gt;</span>
-<a name="l00025"></a>00025 
-<a name="l00026"></a>00026 <span class="preprocessor">#include "gfal_types.h"</span>
-<a name="l00027"></a>00027 
-<a name="l00028"></a>00028 <span class="preprocessor">#define ALLOC_BLOCK_SIZE 16 </span><span class="comment">/* the block size to allocate new pointers in */</span>
-<a name="l00029"></a>00029 
-<a name="l00030"></a>00030 <span class="keyword">struct </span>fc_ops {
-<a name="l00031"></a>00031         <span class="keywordtype">int</span>     *serrno;
-<a name="l00032"></a>00032         <span class="keywordtype">char</span>    *(*sstrerror)(int);
-<a name="l00033"></a>00033         int     (*addreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> char, <span class="keyword">const</span> char, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00034"></a>00034         int     (*creatg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00035"></a>00035         int     (*delreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00036"></a>00036         int     (*aborttrans)();
-<a name="l00037"></a>00037         int     (*endtrans)();
-<a name="l00038"></a>00038         int     (*getpath)(<span class="keywordtype">char</span> *, u_signed64, <span class="keywordtype">char</span> *);
-<a name="l00039"></a>00039         int (*getlinks)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span> *, <span class="keyword">struct </span>lfc_linkinfo **);
-<a name="l00040"></a>00040         int (*getreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span> *, <span class="keyword">struct </span>lfc_filereplica **);
-<a name="l00041"></a>00041         int     (*lstat)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestat *);
-<a name="l00042"></a>00042         int     (*mkdirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00043"></a>00043         int     (*seterrbuf)(<span class="keywordtype">char</span> *, int);
-<a name="l00044"></a>00044         int     (*setfsizeg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, u_signed64, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *);
-<a name="l00045"></a>00045         int     (*setfsize)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, u_signed64);
-<a name="l00046"></a>00046         int     (*starttrans)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00047"></a>00047         int     (*statg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestatg *);
-<a name="l00048"></a>00048         int     (*statr)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestatg *);
-<a name="l00049"></a>00049         int     (*symlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00050"></a>00050         int     (*unlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00051"></a>00051         int     (*access)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, int);
-<a name="l00052"></a>00052         int     (*chmod)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00053"></a>00053         int     (*rename)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00054"></a>00054         lfc_DIR *(*opendirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00055"></a>00055         int     (*rmdir)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00056"></a>00056         int (*startsess) (<span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *); 
-<a name="l00057"></a>00057         int (*endsess) ();
-<a name="l00058"></a>00058 };
-<a name="l00059"></a>00059 
-<a name="l00060"></a>00060 <span class="keywordtype">char</span> * lfc_get_catalog_endpoint (<span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00061"></a>00061 
-<a name="l00062"></a>00062 <span class="keywordtype">int</span> lfc_replica_exists (<span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00063"></a>00063 
-<a name="l00064"></a>00064 <span class="keywordtype">int</span> lfc_accessl (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">int</span> mode, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00065"></a>00065 
-<a name="l00066"></a>00066 <span class="keywordtype">int</span> lfc_chmodl (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, mode_t mode, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00067"></a>00067 
-<a name="l00070"></a>00070 <span class="keywordtype">char</span> * <a class="code" href="group__lfc__low__group.html#g344113bab975bfeedfa4be33b2054745">lfc_guidforpfn</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *pfn, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00071"></a>00071 
-<a name="l00074"></a>00074 <span class="keywordtype">int</span> <a class="code" href="group__lfc__low__group.html#gf922973a476763abd5185fc13d2af9eb">lfc_guidsforpfns</a> (<span class="keywordtype">int</span> nbfiles, <span class="keyword">const</span> <span class="keywordtype">char</span> **pfns, <span class="keywordtype">int</span> amode, <span class="keywordtype">char</span> ***guids, <span class="keywordtype">int</span> **statuses, 
-<a name="l00075"></a>00075     <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00076"></a>00076 
-<a name="l00077"></a>00077 <span class="keywordtype">int</span> <a class="code" href="group__lfc__low__group.html#g89af6526e8342c74f90fa2ee10cdc5fa">lfc_guid_exists</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00078"></a>00078 
-<a name="l00079"></a>00079 <span class="keywordtype">char</span> ** lfc_get_replicas (<span class="keyword">const</span> <span class="keywordtype">char</span> * lfn, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00080"></a>00080 
-<a name="l00081"></a>00081 <span class="comment">/* Unregister replicas (SURLs) from a GUIDs, and remove all links to a GUID</span>
-<a name="l00082"></a>00082 <span class="comment"> * if there are no more replicas */</span>
-<a name="l00083"></a>00083 <span class="keywordtype">int</span> <a class="code" href="group__lfc__low__group.html#g9ea58977487f9be50e91ba9857bc9510">lfc_unregister_pfns</a> (<span class="keywordtype">int</span> nbguids, <span class="keyword">const</span> <span class="keywordtype">char</span> **guids, <span class="keyword">const</span> <span class="keywordtype">char</span> **pfns, <span class="keywordtype">int</span> **results, 
-<a name="l00084"></a>00084     <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00085"></a>00085 
-<a name="l00086"></a>00086 <span class="keywordtype">char</span> * lfc_guidfromlfn (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00087"></a>00087 
-<a name="l00088"></a>00088 <span class="keywordtype">char</span> ** lfc_get_aliases (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00089"></a>00089 
-<a name="l00090"></a>00090 <span class="keywordtype">int</span> lfc_register_file (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keyword">const</span> <span class="keywordtype">char</span> *surl, mode_t mode,
-<a name="l00091"></a>00091                 GFAL_LONG64 size, <span class="keywordtype">int</span> bool_createonly, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00092"></a>00092 
-<a name="l00093"></a>00093 <span class="keywordtype">int</span> lfc_register_alias (<span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00094"></a>00094 
-<a name="l00095"></a>00095 <span class="keywordtype">int</span> lfc_unregister_alias (<span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00096"></a>00096 
-<a name="l00097"></a>00097 <span class="keywordtype">int</span> lfc_mkdirp (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, mode_t mode, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00098"></a>00098 
-<a name="l00099"></a>00099 <span class="keywordtype">int</span> lfc_renamel (<span class="keyword">const</span> <span class="keywordtype">char</span> *old_name, <span class="keyword">const</span> <span class="keywordtype">char</span> *new_name, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00100"></a>00100 
-<a name="l00101"></a>00101 DIR * lfc_opendirlg (<span class="keyword">const</span> <span class="keywordtype">char</span> *dirname, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00102"></a>00102 
-<a name="l00103"></a>00103 <span class="keywordtype">int</span> lfc_rmdirl (<span class="keyword">const</span> <span class="keywordtype">char</span> *dirname, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00104"></a>00104 
-<a name="l00105"></a>00105 <span class="keywordtype">int</span> lfc_maperror (<span class="keyword">struct</span> proto_ops *pops, <span class="keywordtype">int</span> ioflag);
-<a name="l00106"></a>00106 
-<a name="l00107"></a>00107 <span class="keywordtype">int</span> lfc_setsize (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, GFAL_LONG64 size, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00108"></a>00108 
-<a name="l00109"></a>00109 <span class="keywordtype">int</span> lfc_statl (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keyword">struct</span> stat64 *buf, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00110"></a>00110 
-<a name="l00111"></a>00111 <span class="keywordtype">int</span> lfc_lstatl (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keyword">struct</span> stat64 *buf, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00112"></a>00112 
-<a name="l00113"></a>00113 <span class="keywordtype">int</span> lfc_fillsurls (gfal_file gf, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00114"></a>00114 
-<a name="l00115"></a>00115 <span class="keywordtype">int</span> lfc_remove (gfal_file gfile, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
-<a name="l00116"></a>00116 
-<a name="l00117"></a>00117 <span class="preprocessor">#endif </span><span class="comment">/* #define GFAL_LFC_IFCE_H_ */</span>
-<a name="l00118"></a>00118 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed May 4 09:58:55 2011 for CERN org.glite.Gfal by&nbsp;
+<h1>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h</h1><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#pragma once</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright (c) Members of the EGEE Collaboration. 2004.</span>
+<a name="l00004"></a>00004 <span class="comment"> * See http://www.eu-egee.org/partners/ for details on the copyright holders.</span>
+<a name="l00005"></a>00005 <span class="comment"> *</span>
+<a name="l00006"></a>00006 <span class="comment"> * Licensed under the Apache License, Version 2.0 (the "License");</span>
+<a name="l00007"></a>00007 <span class="comment"> * you may not use this file except in compliance with the License.</span>
+<a name="l00008"></a>00008 <span class="comment"> * You may obtain a copy of the License at</span>
+<a name="l00009"></a>00009 <span class="comment"> * </span>
+<a name="l00010"></a>00010 <span class="comment"> *     http://www.apache.org/licenses/LICENSE-2.0</span>
+<a name="l00011"></a>00011 <span class="comment"> * </span>
+<a name="l00012"></a>00012 <span class="comment"> * Unless required by applicable law or agreed to in writing, software</span>
+<a name="l00013"></a>00013 <span class="comment"> * distributed under the License is distributed on an "AS IS" BASIS,</span>
+<a name="l00014"></a>00014 <span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<a name="l00015"></a>00015 <span class="comment"> * See the License for the specific language governing permissions and</span>
+<a name="l00016"></a>00016 <span class="comment"> * limitations under the License.</span>
+<a name="l00017"></a>00017 <span class="comment"> */</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="comment">/* * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.67 $ $Date: 2010/01/22 15:25:54 $ CERN James Casey</span>
+<a name="l00020"></a>00020 <span class="comment"> */</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#ifndef GFAL_LFC_IFCE_H_</span>
+<a name="l00022"></a>00022 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_LFC_IFCE_H_</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;lfc_api.h&gt;</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="preprocessor">#include "gfal_types.h"</span>
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="preprocessor">#define ALLOC_BLOCK_SIZE 16 </span><span class="comment">/* the block size to allocate new pointers in */</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="keyword">struct </span>fc_ops {
+<a name="l00032"></a>00032         <span class="keywordtype">int</span>     *serrno;
+<a name="l00033"></a>00033         <span class="keywordtype">char</span>    *(*sstrerror)(int);
+<a name="l00034"></a>00034         int     (*addreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> char, <span class="keyword">const</span> char, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00035"></a>00035         int     (*creatg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
+<a name="l00036"></a>00036         int     (*delreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00037"></a>00037         int     (*aborttrans)();
+<a name="l00038"></a>00038         int     (*endtrans)();
+<a name="l00039"></a>00039         int     (*getpath)(<span class="keywordtype">char</span> *, u_signed64, <span class="keywordtype">char</span> *);
+<a name="l00040"></a>00040         int (*getlinks)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span> *, <span class="keyword">struct </span>lfc_linkinfo **);
+<a name="l00041"></a>00041         int (*getreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span> *, <span class="keyword">struct </span>lfc_filereplica **);
+<a name="l00042"></a>00042         int     (*lstat)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestat *);
+<a name="l00043"></a>00043         int     (*mkdirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
+<a name="l00044"></a>00044         int     (*seterrbuf)(<span class="keywordtype">char</span> *, int);
+<a name="l00045"></a>00045         int     (*setfsizeg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, u_signed64, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *);
+<a name="l00046"></a>00046         int     (*setfsize)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, u_signed64);
+<a name="l00047"></a>00047         int     (*starttrans)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00048"></a>00048         int     (*statg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestatg *);
+<a name="l00049"></a>00049         int     (*statr)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestatg *);
+<a name="l00050"></a>00050         int     (*symlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00051"></a>00051         int     (*unlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00052"></a>00052         int     (*access)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, int);
+<a name="l00053"></a>00053         int     (*chmod)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
+<a name="l00054"></a>00054         int     (*rename)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00055"></a>00055         lfc_DIR *(*opendirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00056"></a>00056         int     (*rmdir)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00057"></a>00057         int (*startsess) (<span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *); 
+<a name="l00058"></a>00058         int (*endsess) ();
+<a name="l00059"></a>00059 };
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061 <span class="keywordtype">char</span> * lfc_get_catalog_endpoint (<span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 <span class="keywordtype">int</span> lfc_replica_exists (<span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065 <span class="keywordtype">int</span> lfc_accessl (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">int</span> mode, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 <span class="keywordtype">int</span> lfc_chmodl (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, mode_t mode, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00068"></a>00068 
+<a name="l00071"></a>00071 <span class="keywordtype">char</span> * <a class="code" href="group__lfc__low__group.html#g344113bab975bfeedfa4be33b2054745">lfc_guidforpfn</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *pfn, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00072"></a>00072 
+<a name="l00075"></a>00075 <span class="keywordtype">int</span> <a class="code" href="group__lfc__low__group.html#gf922973a476763abd5185fc13d2af9eb">lfc_guidsforpfns</a> (<span class="keywordtype">int</span> nbfiles, <span class="keyword">const</span> <span class="keywordtype">char</span> **pfns, <span class="keywordtype">int</span> amode, <span class="keywordtype">char</span> ***guids, <span class="keywordtype">int</span> **statuses, 
+<a name="l00076"></a>00076     <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 <span class="keywordtype">int</span> <a class="code" href="group__lfc__low__group.html#g89af6526e8342c74f90fa2ee10cdc5fa">lfc_guid_exists</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080 <span class="keywordtype">char</span> ** lfc_get_replicas (<span class="keyword">const</span> <span class="keywordtype">char</span> * lfn, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082 <span class="comment">/* Unregister replicas (SURLs) from a GUIDs, and remove all links to a GUID</span>
+<a name="l00083"></a>00083 <span class="comment"> * if there are no more replicas */</span>
+<a name="l00084"></a>00084 <span class="keywordtype">int</span> <a class="code" href="group__lfc__low__group.html#g9ea58977487f9be50e91ba9857bc9510">lfc_unregister_pfns</a> (<span class="keywordtype">int</span> nbguids, <span class="keyword">const</span> <span class="keywordtype">char</span> **guids, <span class="keyword">const</span> <span class="keywordtype">char</span> **pfns, <span class="keywordtype">int</span> **results, 
+<a name="l00085"></a>00085     <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 <span class="keywordtype">char</span> * lfc_guidfromlfn (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 <span class="keywordtype">char</span> ** lfc_get_aliases (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 <span class="keywordtype">int</span> lfc_register_file (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keyword">const</span> <span class="keywordtype">char</span> *surl, mode_t mode,
+<a name="l00092"></a>00092                 GFAL_LONG64 size, <span class="keywordtype">int</span> bool_createonly, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094 <span class="keywordtype">int</span> lfc_register_alias (<span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="keywordtype">int</span> lfc_unregister_alias (<span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098 <span class="keywordtype">int</span> lfc_mkdirp (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, mode_t mode, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="keywordtype">int</span> lfc_renamel (<span class="keyword">const</span> <span class="keywordtype">char</span> *old_name, <span class="keyword">const</span> <span class="keywordtype">char</span> *new_name, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102 DIR * lfc_opendirlg (<span class="keyword">const</span> <span class="keywordtype">char</span> *dirname, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="keywordtype">int</span> lfc_rmdirl (<span class="keyword">const</span> <span class="keywordtype">char</span> *dirname, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106 <span class="keywordtype">int</span> lfc_maperror (<span class="keyword">struct</span> proto_ops *pops, <span class="keywordtype">int</span> ioflag);
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108 <span class="keywordtype">int</span> lfc_setsize (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, GFAL_LONG64 size, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110 <span class="keywordtype">int</span> lfc_statl (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keyword">const</span> <span class="keywordtype">char</span> *guid, <span class="keyword">struct</span> stat64 *buf, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112 <span class="keywordtype">int</span> lfc_lstatl (<span class="keyword">const</span> <span class="keywordtype">char</span> *lfn, <span class="keyword">struct</span> stat64 *buf, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 <span class="keywordtype">int</span> lfc_fillsurls (gfal_file gf, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116 <span class="keywordtype">int</span> lfc_remove (gfal_file gfile, <span class="keywordtype">char</span> *errbuf, <span class="keywordtype">int</span> errbufsz);
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118 <span class="preprocessor">#endif </span><span class="comment">/* #define GFAL_LFC_IFCE_H_ */</span>
+<a name="l00119"></a>00119 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu May 5 12:52:28 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

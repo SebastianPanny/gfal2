@@ -2,13 +2,21 @@
 \label{gfal__common__catalog_8c}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-catalog.c}}
 the file of the common lib for the catalog management 
 
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-catalog.h\char`\"{}}\par
+{\tt \#include \char`\"{}lfc/gfal\_\-common\_\-lfc.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-void \bf{gfal\_\-catalogs\_\-instance} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+int \bf{gfal\_\-catalogs\_\-instance} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
-void \bf{gfal\_\-catalogs\_\-delete} ()
+int \bf{gfal\_\-catalogs\_\-access\-G} (gfal\_\-handle handle, char $\ast$path, int mode, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-catalogs\_\-delete} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\end{CompactItemize}
@@ -26,17 +34,24 @@ the file of the common lib for the catalog management
 
 
 \subsection{Function Documentation}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}}
+\index{gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-access\-G (gfal\_\-handle {\em handle}, char $\ast$ {\em path}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_c0a73bbac2867b3dd9c107f74114e8a6}
+
+
+Execute an access methode on ALL the comaptible catalogs return the result of the first valid catalog for a given URL \begin{Desc}
+\item[Returns:]result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned \end{Desc}
 \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}}
 \index{gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalogs\_\-delete ()}\label{gfal__common__catalog_8c_9f817ca6f7bb780c77909f76319c572e}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-delete (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_c0412247b6ddd6ceac7fb171c56adaad}
 
 
 Delete all instance of catalogs \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}}
 \index{gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalogs\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_9f8b43de07d9a8b30bd0fd4ed6b28ef9}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_96ebd098ad2447a81f096207879b9d3a}
 
 
-Instance all catalogs for use if it's not the case \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}}
+Instance all catalogs for use if it's not the case return the number of catalog available \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}}
 \index{gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-get\_\-cat\_\-type (GError $\ast$$\ast$)}\label{gfal__common__catalog_8c_c20aa1a376c802d0c60208854537851e}
 

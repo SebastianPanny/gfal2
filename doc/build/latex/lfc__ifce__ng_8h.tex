@@ -2,8 +2,9 @@
 \label{lfc__ifce__ng_8h}\index{/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h@{/home/adevress/myworkspace/gfal/src/common/lfc/lfc\_\-ifce\_\-ng.h}}
 internal header of the lfc catalog module 
 
-{\tt \#include \char`\"{}gfal\_\-common\_\-lfc.h\char`\"{}}\par
-{\tt \#include $<$dlfcn.h$>$}\par
+{\tt \#include $<$lfc\_\-api.h$>$}\par
+{\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 \subsection*{Data Structures}
 \begin{CompactItemize}
 \item 
@@ -21,6 +22,8 @@ struct \textbf{lfc\_\-ops}
 char $\ast$ \bf{gfal\_\-setup\_\-lfchost} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 lfc\_\-ops $\ast$ \bf{gfal\_\-load\_\-lfc} (const char $\ast$name, GError $\ast$$\ast$err)
+\item 
+char $\ast$ \bf{gfal\_\-convert\_\-guid\_\-to\_\-lfn} (catalog\_\-handle handle, char $\ast$guid, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -36,6 +39,18 @@ internal header of the lfc catalog module
 
 
 \subsection{Function Documentation}
+\index{lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}!gfal_convert_guid_to_lfn@{gfal\_\-convert\_\-guid\_\-to\_\-lfn}}
+\index{gfal_convert_guid_to_lfn@{gfal\_\-convert\_\-guid\_\-to\_\-lfn}!lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-convert\_\-guid\_\-to\_\-lfn (catalog\_\-handle {\em handle}, char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8h_c4daecd5aa0938a99eb86c367a0050f1}
+
+
+convert a guid to a lfn link with a call to the lfclib \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em gfal}]handle \item[{\em string}]of the guid \item[{\em err}]: Error report system \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]: string of the lfn if success or NULL char$\ast$ if error \end{Desc}
 \index{lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}!gfal_load_lfc@{gfal\_\-load\_\-lfc}}
 \index{gfal_load_lfc@{gfal\_\-load\_\-lfc}!lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct lfc\_\-ops$\ast$ gfal\_\-load\_\-lfc (const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8h_7c91643749a2c5d7e8043c0e42d00fd6}

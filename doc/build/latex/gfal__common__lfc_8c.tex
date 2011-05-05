@@ -2,16 +2,24 @@
 \label{gfal__common__lfc_8c}\index{/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c@{/home/adevress/myworkspace/gfal/src/common/lfc/gfal\_\-common\_\-lfc.c}}
 file for the lfc catalog module 
 
+{\tt \#include $<$regex.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-lfc.h\char`\"{}}\par
 {\tt \#include \char`\"{}lfc\_\-ifce\_\-ng.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-internal.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
 int \textbf{lfc\_\-access\-G} (catalog\_\-handle handle, char $\ast$lfn, int mode, GError $\ast$$\ast$err)\label{gfal__common__lfc_8c_960f3f01cd2e130cda6dc3513154a954}
 
 \item 
+int \textbf{lfc\_\-access\_\-guid\-G} (catalog\_\-handle handle, char $\ast$guid, int mode, GError $\ast$$\ast$err)\label{gfal__common__lfc_8c_b5091415fccdf6a0904908f253ee4d9b}
+
+\item 
 gfal\_\-catalog\_\-interface \bf{lfc\_\-init\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+\item 
+gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$lfn\_\-url, catalog\_\-mode mode, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -27,7 +35,12 @@ file for the lfc catalog module
 
 
 \subsection{Function Documentation}
-\index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_initG@{lfc\_\-initG}}
+\index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}}
+\index{gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (catalog\_\-handle {\em handle}, const char $\ast$ {\em lfn\_\-url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_8baa624b528deb15ff4ee61fa9948ac8}
+
+
+Check if the passed url and operation is compatible with lfc \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_initG@{lfc\_\-initG}}
 \index{lfc_initG@{lfc\_\-initG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-catalog\_\-interface lfc\_\-init\-G (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_18fc1e787694363fd5457f9b8f020cf8}
 

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "4 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "5 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,14 +6,49 @@
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <errno.h>\fP
+.br
+\fC#include <stdio.h>\fP
+.br
+\fC#include <string.h>\fP
+.br
+\fC#include <sys/types.h>\fP
+.br
+\fC#include <dlfcn.h>\fP
+.br
+\fC#include <stdlib.h>\fP
+.br
+\fC#include 'gfal_types.h'\fP
+.br
+\fC#include 'gfal_constants.h'\fP
+.br
+\fC#include '../mds/gfal_common_mds.h'\fP
+.br
+\fC#include 'gfal_common_interface.h'\fP
+.br
 \fC#include 'lfc_ifce_ng.h'\fP
 .br
+\fC#include 'gfal_common_errverbose.h'\fP
+.br
 
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_GNU_SOURCE\fP"
+.br
+.ti -1c
+.RI "#define \fBGFAL_LFN_MAX_LEN\fP   2048"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
 .RI "char * \fBgfal_get_lfchost_envar\fP (GError **err)"
+.br
+.ti -1c
+.RI "char * \fBgfal_convert_guid_to_lfn\fP (catalog_handle handle, char *guid, GError **err)"
 .br
 .ti -1c
 .RI "char * \fBgfal_setup_lfchost\fP (gfal_handle handle, GError **err)"
@@ -44,6 +79,25 @@ Adrien Devresse
 
 .SH "Function Documentation"
 .PP 
+.SS "char* gfal_convert_guid_to_lfn (catalog_handle handle, char * guid, GError ** err)"
+.PP
+convert a guid to a lfn link with a call to the lfclib 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIgfal\fP handle 
+.br
+\fIstring\fP of the guid 
+.br
+\fIerr\fP : Error report system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+: string of the lfn if success or NULL char* if error 
+.RE
+.PP
+
 .SS "struct lfc_ops* gfal_load_lfc (const char * name, GError ** err)"
 .PP
 load the shared library and link the symbol for the LFC usage 

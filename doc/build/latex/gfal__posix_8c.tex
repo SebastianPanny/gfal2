@@ -2,7 +2,12 @@
 \label{gfal__posix_8c}\index{/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c@{/home/adevress/myworkspace/gfal/src/posix/gfal\_\-posix.c}}
 main file of the posix lib 
 
+{\tt \#include \char`\"{}../common/gfal\_\-common.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-constants.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-file.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-common\_\-storage.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-posix\_\-api.h\char`\"{}}\par
+{\tt \#include $<$dlfcn.h$>$}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
@@ -80,9 +85,6 @@ int \textbf{gfal\_\-removedir} (gfal\_\-handle req, char $\ast$errbuf, int errbu
 int \textbf{gfal\_\-create\_\-subdirs} (gfal\_\-handle req, char $\ast$errbuf, int errbufsz)\label{gfal__posix_8c_2a4f0aab963f1f1006953333907ecdbb}
 
 \item 
-const char $\ast$ \bf{gfal\_\-version} ()\label{group__common__group_ga5a8df616e6a5e6fc1d94e2374c7ccf2}
-
-\begin{CompactList}\small\item\em return a string of the current gfal\_\-version define at the compilation time \item\end{CompactList}\item 
 void \bf{gfal\_\-set\_\-nobdii} (int value)
 \begin{CompactList}\small\item\em define if bdii System is ignored or not \item\end{CompactList}\item 
 int \textbf{gfal\_\-is\_\-nobdii} ()\label{group__internal__group_g0d2a0557bdb571ccb85c6ab5c05ae56f}

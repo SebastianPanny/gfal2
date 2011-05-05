@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" 3 "4 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" 3 "5 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,7 +6,17 @@
 .SH SYNOPSIS
 .br
 .PP
+\fC#include '../common/gfal_common.h'\fP
+.br
+\fC#include '../common/gfal_constants.h'\fP
+.br
+\fC#include '../common/gfal_file.h'\fP
+.br
+\fC#include '../common/gfal_common_storage.h'\fP
+.br
 \fC#include 'gfal_posix_api.h'\fP
+.br
+\fC#include <dlfcn.h>\fP
 .br
 
 .SS "Functions"
@@ -101,10 +111,6 @@
 .ti -1c
 .RI "int \fBgfal_create_subdirs\fP (gfal_handle req, char *errbuf, int errbufsz)"
 .br
-.ti -1c
-.RI "const char * \fBgfal_version\fP ()"
-.br
-.RI "\fIreturn a string of the current gfal_version define at the compilation time \fP"
 .ti -1c
 .RI "void \fBgfal_set_nobdii\fP (int value)"
 .br

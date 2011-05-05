@@ -20,16 +20,24 @@
   </ul></div>
 <h1>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c File Reference</h1>file for the lfc catalog module <a href="#_details">More...</a>
 <p>
+<code>#include &lt;regex.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__lfc_8h-source.html">gfal_common_lfc.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="lfc__ifce__ng_8h-source.html">lfc_ifce_ng.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__internal_8h-source.html">gfal_common_internal.h</a>&quot;</code><br>
+<code>#include &quot;gfal_constants.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">gfal_common_errverbose.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="960f3f01cd2e130cda6dc3513154a954"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_accessG" ref="960f3f01cd2e130cda6dc3513154a954" args="(catalog_handle handle, char *lfn, int mode, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_accessG</b> (catalog_handle handle, char *lfn, int mode, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b5091415fccdf6a0904908f253ee4d9b"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_access_guidG" ref="b5091415fccdf6a0904908f253ee4d9b" args="(catalog_handle handle, char *guid, int mode, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_access_guidG</b> (catalog_handle handle, char *guid, int mode, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#18fc1e787694363fd5457f9b8f020cf8">lfc_initG</a> (gfal_handle handle, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#8baa624b528deb15ff4ee61fa9948ac8">gfal_lfc_check_lfn_url</a> (catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -39,6 +47,47 @@ file for the lfc catalog module
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>29/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="8baa624b528deb15ff4ee61fa9948ac8"></a><!-- doxytag: member="gfal_common_lfc.c::gfal_lfc_check_lfn_url" ref="8baa624b528deb15ff4ee61fa9948ac8" args="(catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gfal_lfc_check_lfn_url           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>lfn_url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">catalog_mode&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Check if the passed url and operation is compatible with lfc 
+</div>
+</div><p>
 <a class="anchor" name="18fc1e787694363fd5457f9b8f020cf8"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_initG" ref="18fc1e787694363fd5457f9b8f020cf8" args="(gfal_handle handle, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -68,7 +117,7 @@ file for the lfc catalog module
 Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 4 09:58:55 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu May 5 12:52:28 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

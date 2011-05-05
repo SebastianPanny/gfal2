@@ -2,19 +2,19 @@
 \label{gfal__common__catalog_8h}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-catalog.h}}
 the header file of the common lib for the catalog management 
 
+{\tt \#include $<$stdarg.h$>$}\par
+{\tt \#include $<$uuid/uuid.h$>$}\par
 {\tt \#include $<$glib.h$>$}\par
 {\tt \#include $<$errno.h$>$}\par
 {\tt \#include $<$string.h$>$}\par
+{\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
-{\tt \#include \char`\"{}lfc/lfc\_\-ifce.h\char`\"{}}\par
-{\tt \#include $<$stdarg.h$>$}\par
-{\tt \#include $<$uuid/uuid.h$>$}\par
-{\tt \#include \char`\"{}gfal\_\-common.h\char`\"{}}\par
-{\tt \#include \char`\"{}lfc/gfal\_\-common\_\-lfc.h\char`\"{}}\par
 \subsection*{Data Structures}
 \begin{CompactItemize}
 \item 
-struct \textbf{gfal\_\-catalog\_\-interface}
+struct \textbf{\_\-gfal\_\-catalog\_\-interface}
+\item 
+struct \bf{\_\-catalog\_\-opts}
 \end{CompactItemize}
 \subsection*{Defines}
 \begin{CompactItemize}
@@ -22,20 +22,24 @@ struct \textbf{gfal\_\-catalog\_\-interface}
 \#define \textbf{MAX\_\-CATALOG\_\-LIST}~64\label{gfal__common__catalog_8h_c39f705683e893b91f559704ee2a707e}
 
 \end{CompactItemize}
-\subsection*{Typedefs}
+\subsection*{Enumerations}
 \begin{CompactItemize}
 \item 
-typedef gpointer \textbf{catalog\_\-handle}\label{gfal__common__catalog_8h_212b7898d8965bb7fa248ca80aabe4a0}
-
+enum \textbf{\_\-catalog\_\-mode} \{ \textbf{GFAL\_\-CATALOG\_\-ALL} = 0, 
+\textbf{GFAL\_\-CATALOG\_\-ACCESS}, 
+\textbf{GFAL\_\-CATALOG\_\-CHMOD}
+ \}
 \end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
 char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$)
 \begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\item 
-void \bf{gfal\_\-catalogs\_\-instance} (gfal\_\-handle, GError $\ast$$\ast$err)
+int \bf{gfal\_\-catalogs\_\-instance} (gfal\_\-handle, GError $\ast$$\ast$err)
 \item 
-void \bf{gfal\_\-catalogs\_\-delete} ()
+int \bf{gfal\_\-catalogs\_\-access\-G} (gfal\_\-handle handle, char $\ast$path, int mode, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-catalogs\_\-delete} (gfal\_\-handle, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \textbf{get\_\-default\_\-se} (char $\ast$, int)\label{gfal__common__catalog_8h_c304a754c49bedeec6c1c9b1445b937d}
 
@@ -84,17 +88,24 @@ the header file of the common lib for the catalog management
 
 
 \subsection{Function Documentation}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}}
+\index{gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-access\-G (gfal\_\-handle {\em handle}, char $\ast$ {\em path}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_c0a73bbac2867b3dd9c107f74114e8a6}
+
+
+Execute an access methode on ALL the comaptible catalogs return the result of the first valid catalog for a given URL \begin{Desc}
+\item[Returns:]result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned \end{Desc}
 \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}}
 \index{gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalogs\_\-delete ()}\label{gfal__common__catalog_8h_9f817ca6f7bb780c77909f76319c572e}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-delete (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_405974336e7b4ebaafeea02577d7d4d5}
 
 
 Delete all instance of catalogs \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}}
 \index{gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalogs\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_5bc1db33781c463ce6afd9db89ee755c}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_d272f75eb549a72064524ecce3c25fe7}
 
 
-Instance all catalogs for use if it's not the case \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}}
+Instance all catalogs for use if it's not the case return the number of catalog available \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}}
 \index{gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-get\_\-cat\_\-type (GError $\ast$$\ast$)}\label{gfal__common__catalog_8h_791ad55a9c8aaca0bb8ae74a3538c202}
 

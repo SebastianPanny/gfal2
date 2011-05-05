@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "4 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "5 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,11 +6,17 @@
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <regex.h>\fP
+.br
 \fC#include 'gfal_common_lfc.h'\fP
 .br
 \fC#include 'lfc_ifce_ng.h'\fP
 .br
 \fC#include 'gfal_common_internal.h'\fP
+.br
+\fC#include 'gfal_constants.h'\fP
+.br
+\fC#include 'gfal_common_errverbose.h'\fP
 .br
 
 .SS "Functions"
@@ -20,7 +26,13 @@
 .RI "int \fBlfc_accessG\fP (catalog_handle handle, char *lfn, int mode, GError **err)"
 .br
 .ti -1c
+.RI "int \fBlfc_access_guidG\fP (catalog_handle handle, char *guid, int mode, GError **err)"
+.br
+.ti -1c
 .RI "gfal_catalog_interface \fBlfc_initG\fP (gfal_handle handle, GError **err)"
+.br
+.ti -1c
+.RI "gboolean \fBgfal_lfc_check_lfn_url\fP (catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -45,6 +57,9 @@ Adrien Devresse
 
 .SH "Function Documentation"
 .PP 
+.SS "gboolean gfal_lfc_check_lfn_url (catalog_handle handle, const char * lfn_url, catalog_mode mode, GError ** err)"
+.PP
+Check if the passed url and operation is compatible with lfc 
 .SS "gfal_catalog_interface lfc_initG (gfal_handle handle, GError ** err)"
 .PP
 Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 

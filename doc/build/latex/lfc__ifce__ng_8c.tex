@@ -2,12 +2,34 @@
 \label{lfc__ifce__ng_8c}\index{/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c@{/home/adevress/myworkspace/gfal/src/common/lfc/lfc\_\-ifce\_\-ng.c}}
 main internal file of the lfc catalog module 
 
+{\tt \#include $<$errno.h$>$}\par
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$sys/types.h$>$}\par
+{\tt \#include $<$dlfcn.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
+{\tt \#include \char`\"{}../mds/gfal\_\-common\_\-mds.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-interface.h\char`\"{}}\par
 {\tt \#include \char`\"{}lfc\_\-ifce\_\-ng.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \textbf{\_\-GNU\_\-SOURCE}\label{lfc__ifce__ng_8c_53abf256730d533302d1910e5fb61efe}
+
+\item 
+\#define \textbf{GFAL\_\-LFN\_\-MAX\_\-LEN}~2048\label{lfc__ifce__ng_8c_74cbac9029a516b4ae28199debf71835}
+
+\end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
 char $\ast$ \textbf{gfal\_\-get\_\-lfchost\_\-envar} (GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_9a5b8e8e30853b920e3bbe41062e1d25}
 
+\item 
+char $\ast$ \bf{gfal\_\-convert\_\-guid\_\-to\_\-lfn} (catalog\_\-handle handle, char $\ast$guid, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \bf{gfal\_\-setup\_\-lfchost} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
@@ -27,6 +49,18 @@ main internal file of the lfc catalog module
 
 
 \subsection{Function Documentation}
+\index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_convert_guid_to_lfn@{gfal\_\-convert\_\-guid\_\-to\_\-lfn}}
+\index{gfal_convert_guid_to_lfn@{gfal\_\-convert\_\-guid\_\-to\_\-lfn}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-convert\_\-guid\_\-to\_\-lfn (catalog\_\-handle {\em handle}, char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_c4daecd5aa0938a99eb86c367a0050f1}
+
+
+convert a guid to a lfn link with a call to the lfclib \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em gfal}]handle \item[{\em string}]of the guid \item[{\em err}]: Error report system \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]: string of the lfn if success or NULL char$\ast$ if error \end{Desc}
 \index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_load_lfc@{gfal\_\-load\_\-lfc}}
 \index{gfal_load_lfc@{gfal\_\-load\_\-lfc}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct lfc\_\-ops$\ast$ gfal\_\-load\_\-lfc (const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_7c91643749a2c5d7e8043c0e42d00fd6}

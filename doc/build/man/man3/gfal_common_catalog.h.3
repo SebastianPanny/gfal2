@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "4 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "5 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,30 +6,29 @@
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <stdarg.h>\fP
+.br
+\fC#include <uuid/uuid.h>\fP
+.br
 \fC#include <glib.h>\fP
 .br
 \fC#include <errno.h>\fP
 .br
 \fC#include <string.h>\fP
 .br
+\fC#include 'gfal_prototypes.h'\fP
+.br
 \fC#include 'gfal_types.h'\fP
-.br
-\fC#include 'lfc/lfc_ifce.h'\fP
-.br
-\fC#include <stdarg.h>\fP
-.br
-\fC#include <uuid/uuid.h>\fP
-.br
-\fC#include 'gfal_common.h'\fP
-.br
-\fC#include 'lfc/gfal_common_lfc.h'\fP
 .br
 
 .SS "Data Structures"
 
 .in +1c
 .ti -1c
-.RI "struct \fBgfal_catalog_interface\fP"
+.RI "struct \fB_gfal_catalog_interface\fP"
+.br
+.ti -1c
+.RI "struct \fB_catalog_opts\fP"
 .br
 .in -1c
 .SS "Defines"
@@ -39,11 +38,11 @@
 .RI "#define \fBMAX_CATALOG_LIST\fP   64"
 .br
 .in -1c
-.SS "Typedefs"
+.SS "Enumerations"
 
 .in +1c
 .ti -1c
-.RI "typedef gpointer \fBcatalog_handle\fP"
+.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -54,10 +53,13 @@
 .br
 .RI "\fIcatalog type getter \fP"
 .ti -1c
-.RI "void \fBgfal_catalogs_instance\fP (gfal_handle, GError **err)"
+.RI "int \fBgfal_catalogs_instance\fP (gfal_handle, GError **err)"
 .br
 .ti -1c
-.RI "void \fBgfal_catalogs_delete\fP ()"
+.RI "int \fBgfal_catalogs_accessG\fP (gfal_handle handle, char *path, int mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalogs_delete\fP (gfal_handle, GError **err)"
 .br
 .ti -1c
 .RI "char * \fBget_default_se\fP (char *, int)"
@@ -115,12 +117,22 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "void gfal_catalogs_delete ()"
+.SS "int gfal_catalogs_accessG (gfal_handle handle, char * path, int mode, GError ** err)"
+.PP
+Execute an access methode on ALL the comaptible catalogs return the result of the first valid catalog for a given URL 
+.PP
+\fBReturns:\fP
+.RS 4
+result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned 
+.RE
+.PP
+
+.SS "int gfal_catalogs_delete (gfal_handle handle, GError ** err)"
 .PP
 Delete all instance of catalogs 
-.SS "void gfal_catalogs_instance (gfal_handle handle, GError ** err)"
+.SS "int gfal_catalogs_instance (gfal_handle handle, GError ** err)"
 .PP
-Instance all catalogs for use if it's not the case 
+Instance all catalogs for use if it's not the case return the number of catalog available 
 .SS "char* gfal_get_cat_type (GError **)"
 .PP
 catalog type getter 

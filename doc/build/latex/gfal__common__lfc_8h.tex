@@ -3,15 +3,14 @@
 header file for the lfc catalog module 
 
 {\tt \#include \char`\"{}../gfal\_\-common\_\-catalog.h\char`\"{}}\par
-{\tt \#include \char`\"{}lfc\_\-ifce\_\-ng.h\char`\"{}}\par
-{\tt \#include $<$glib.h$>$}\par
 {\tt \#include $<$sys/types.h$>$}\par
-{\tt \#include $<$lfc\_\-api.h$>$}\par
-{\tt \#include \char`\"{}../gfal\_\-common\_\-catalog.h\char`\"{}}\par
+{\tt \#include \char`\"{}lfc\_\-ifce\_\-ng.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
 gfal\_\-catalog\_\-interface \bf{lfc\_\-init\-G} (gfal\_\-handle, GError $\ast$$\ast$)
+\item 
+gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$lfn\_\-url, catalog\_\-mode mode, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -27,7 +26,12 @@ header file for the lfc catalog module
 
 
 \subsection{Function Documentation}
-\index{gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}!lfc_initG@{lfc\_\-initG}}
+\index{gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}!gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}}
+\index{gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}!gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (catalog\_\-handle {\em handle}, const char $\ast$ {\em lfn\_\-url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8h_8baa624b528deb15ff4ee61fa9948ac8}
+
+
+Check if the passed url and operation is compatible with lfc \index{gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}!lfc_initG@{lfc\_\-initG}}
 \index{lfc_initG@{lfc\_\-initG}!gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-catalog\_\-interface lfc\_\-init\-G (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8h_0d4af55002fa4216f9915b5a1a721ef4}
 

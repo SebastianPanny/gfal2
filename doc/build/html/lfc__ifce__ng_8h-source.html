@@ -37,49 +37,58 @@
 <a name="l00017"></a>00017 <span class="comment"> */</span>
 <a name="l00018"></a>00018 
 <a name="l00019"></a>00019  
-<a name="l00029"></a>00029 <span class="preprocessor">#include "<a class="code" href="gfal__common__lfc_8h.html">gfal_common_lfc.h</a>"</span>
-<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;dlfcn.h&gt;</span>
-<a name="l00031"></a>00031 
-<a name="l00032"></a>00032 <span class="preprocessor">#define GFAL_MAX_LFCHOST_LEN 1024</span>
-<a name="l00033"></a>00033 <span class="preprocessor"></span>
-<a name="l00034"></a>00034 <span class="keyword">struct </span>lfc_ops {
-<a name="l00035"></a>00035         <span class="keywordtype">char</span>* lfc_endpoint;
-<a name="l00036"></a>00036         
-<a name="l00037"></a>00037         <span class="keywordtype">int</span>     *serrno;
-<a name="l00038"></a>00038         <span class="keywordtype">char</span>    *(*sstrerror)(int);
-<a name="l00039"></a>00039         int     (*addreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> char, <span class="keyword">const</span> char, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00040"></a>00040         int     (*creatg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00041"></a>00041         int     (*delreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00042"></a>00042         int     (*aborttrans)();
-<a name="l00043"></a>00043         int     (*endtrans)();
-<a name="l00044"></a>00044         int     (*getpath)(<span class="keywordtype">char</span> *, u_signed64, <span class="keywordtype">char</span> *);
-<a name="l00045"></a>00045         int (*getlinks)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span> *, <span class="keyword">struct </span>lfc_linkinfo **);
-<a name="l00046"></a>00046         int (*getreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span> *, <span class="keyword">struct </span>lfc_filereplica **);
-<a name="l00047"></a>00047         int     (*lstat)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestat *);
-<a name="l00048"></a>00048         int     (*mkdirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00049"></a>00049         int     (*seterrbuf)(<span class="keywordtype">char</span> *, int);
-<a name="l00050"></a>00050         int     (*setfsizeg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, u_signed64, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *);
-<a name="l00051"></a>00051         int     (*setfsize)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, u_signed64);
-<a name="l00052"></a>00052         int     (*starttrans)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00053"></a>00053         int     (*statg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestatg *);
-<a name="l00054"></a>00054         int     (*statr)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestatg *);
-<a name="l00055"></a>00055         int     (*symlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00056"></a>00056         int     (*unlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00057"></a>00057         int     (*access)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, int);
-<a name="l00058"></a>00058         int     (*chmod)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00059"></a>00059         int     (*rename)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00060"></a>00060         lfc_DIR *(*opendirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00061"></a>00061         int     (*rmdir)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00062"></a>00062         int (*startsess) (<span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *); 
-<a name="l00063"></a>00063         int (*endsess) ();
-<a name="l00064"></a>00064 };
-<a name="l00065"></a>00065 
-<a name="l00066"></a>00066 <span class="keywordtype">char</span>* <a class="code" href="lfc__ifce__ng_8c.html#5d13dc09e91f66d74de768c2e4bf4872">gfal_setup_lfchost</a>(gfal_handle handle, GError ** err);
-<a name="l00067"></a>00067 
-<a name="l00068"></a>00068 
-<a name="l00069"></a>00069 <span class="keyword">struct </span>lfc_ops* <a class="code" href="lfc__ifce__ng_8c.html#7c91643749a2c5d7e8043c0e42d00fd6">gfal_load_lfc</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name, GError** err);
-<a name="l00070"></a>00070 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed May 4 09:58:55 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00029"></a>00029 <span class="preprocessor">#define GFAL_MAX_LFCHOST_LEN 1024</span>
+<a name="l00030"></a>00030 <span class="preprocessor"></span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &lt;lfc_api.h&gt;</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="preprocessor">#include "gfal_prototypes.h"</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include "gfal_types.h"</span>
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 <span class="keyword">struct </span>lfc_ops {
+<a name="l00041"></a>00041         <span class="keywordtype">char</span>* lfc_endpoint;
+<a name="l00042"></a>00042         
+<a name="l00043"></a>00043         <span class="keywordtype">int</span>     *serrno;
+<a name="l00044"></a>00044         <span class="keywordtype">char</span>    *(*sstrerror)(int);
+<a name="l00045"></a>00045         int     (*addreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> char, <span class="keyword">const</span> char, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00046"></a>00046         int     (*creatg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
+<a name="l00047"></a>00047         int     (*delreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00048"></a>00048         int     (*aborttrans)();
+<a name="l00049"></a>00049         int     (*endtrans)();
+<a name="l00050"></a>00050         int     (*getpath)(<span class="keywordtype">char</span> *, u_signed64, <span class="keywordtype">char</span> *);
+<a name="l00051"></a>00051         int (*getlinks)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span> *, <span class="keyword">struct </span>lfc_linkinfo **);
+<a name="l00052"></a>00052         int (*getreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span> *, <span class="keyword">struct </span>lfc_filereplica **);
+<a name="l00053"></a>00053         int     (*lstat)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestat *);
+<a name="l00054"></a>00054         int     (*mkdirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
+<a name="l00055"></a>00055         int     (*seterrbuf)(<span class="keywordtype">char</span> *, int);
+<a name="l00056"></a>00056         int     (*setfsizeg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, u_signed64, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *);
+<a name="l00057"></a>00057         int     (*setfsize)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, u_signed64);
+<a name="l00058"></a>00058         int     (*starttrans)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00059"></a>00059         int     (*statg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestatg *);
+<a name="l00060"></a>00060         int     (*statr)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_filestatg *);
+<a name="l00061"></a>00061         int     (*symlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00062"></a>00062         int     (*unlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00063"></a>00063         int     (*access)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, int);
+<a name="l00064"></a>00064         int     (*chmod)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
+<a name="l00065"></a>00065         int     (*rename)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00066"></a>00066         lfc_DIR *(*opendirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00067"></a>00067         int     (*rmdir)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00068"></a>00068         int (*startsess) (<span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *); 
+<a name="l00069"></a>00069         int (*endsess) ();
+<a name="l00070"></a>00070 };
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 <span class="keywordtype">char</span>* <a class="code" href="lfc__ifce__ng_8c.html#5d13dc09e91f66d74de768c2e4bf4872">gfal_setup_lfchost</a>(gfal_handle handle, GError ** err);
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 <span class="keyword">struct </span>lfc_ops* <a class="code" href="lfc__ifce__ng_8c.html#7c91643749a2c5d7e8043c0e42d00fd6">gfal_load_lfc</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name, GError** err);
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 <span class="keywordtype">char</span>* <a class="code" href="lfc__ifce__ng_8c.html#c4daecd5aa0938a99eb86c367a0050f1">gfal_convert_guid_to_lfn</a>(catalog_handle handle, <span class="keywordtype">char</span>* guid, GError ** err);
+<a name="l00079"></a>00079 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu May 5 12:52:28 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

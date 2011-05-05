@@ -20,37 +20,41 @@
   </ul></div>
 <h1>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h File Reference</h1>the header file of the common lib for the catalog management <a href="#_details">More...</a>
 <p>
+<code>#include &lt;stdarg.h&gt;</code><br>
+<code>#include &lt;uuid/uuid.h&gt;</code><br>
 <code>#include &lt;glib.h&gt;</code><br>
 <code>#include &lt;errno.h&gt;</code><br>
 <code>#include &lt;string.h&gt;</code><br>
+<code>#include &quot;gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;gfal_types.h&quot;</code><br>
-<code>#include &quot;lfc/lfc_ifce.h&quot;</code><br>
-<code>#include &lt;stdarg.h&gt;</code><br>
-<code>#include &lt;uuid/uuid.h&gt;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common_8h-source.html">gfal_common.h</a>&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__lfc_8h-source.html">lfc/gfal_common_lfc.h</a>&quot;</code><br>
 
 <p>
 <a href="gfal__common__catalog_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Data Structures</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_interface</b></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><b>_gfal_catalog_interface</b></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__catalog__opts.html">_catalog_opts</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Defines</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c39f705683e893b91f559704ee2a707e"></a><!-- doxytag: member="gfal_common_catalog.h::MAX_CATALOG_LIST" ref="c39f705683e893b91f559704ee2a707e" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>MAX_CATALOG_LIST</b>&nbsp;&nbsp;&nbsp;64</td></tr>
 
-<tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="212b7898d8965bb7fa248ca80aabe4a0"></a><!-- doxytag: member="gfal_common_catalog.h::catalog_handle" ref="212b7898d8965bb7fa248ca80aabe4a0" args="" -->
-typedef gpointer&nbsp;</td><td class="memItemRight" valign="bottom"><b>catalog_handle</b></td></tr>
+<tr><td colspan="2"><br><h2>Enumerations</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><b>_catalog_mode</b> { <b>GFAL_CATALOG_ALL</b> = 0, 
+<b>GFAL_CATALOG_ACCESS</b>, 
+<b>GFAL_CATALOG_CHMOD</b>
+ }</td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#791ad55a9c8aaca0bb8ae74a3538c202">gfal_get_cat_type</a> (GError **)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#791ad55a9c8aaca0bb8ae74a3538c202"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#5bc1db33781c463ce6afd9db89ee755c">gfal_catalogs_instance</a> (gfal_handle, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#d272f75eb549a72064524ecce3c25fe7">gfal_catalogs_instance</a> (gfal_handle, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#9f817ca6f7bb780c77909f76319c572e">gfal_catalogs_delete</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#c0a73bbac2867b3dd9c107f74114e8a6">gfal_catalogs_accessG</a> (gfal_handle handle, char *path, int mode, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#405974336e7b4ebaafeea02577d7d4d5">gfal_catalogs_delete</a> (gfal_handle, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c304a754c49bedeec6c1c9b1445b937d"></a><!-- doxytag: member="gfal_common_catalog.h::get_default_se" ref="c304a754c49bedeec6c1c9b1445b937d" args="(char *, int)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>get_default_se</b> (char *, int)</td></tr>
@@ -93,31 +97,54 @@ the header file of the common lib for the catalog management
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>8/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="9f817ca6f7bb780c77909f76319c572e"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_delete" ref="9f817ca6f7bb780c77909f76319c572e" args="()" -->
+<a class="anchor" name="c0a73bbac2867b3dd9c107f74114e8a6"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_accessG" ref="c0a73bbac2867b3dd9c107f74114e8a6" args="(gfal_handle handle, char *path, int mode, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void gfal_catalogs_delete           </td>
+          <td class="memname">int gfal_catalogs_accessG           </td>
           <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
 <p>
-Delete all instance of catalogs 
+Execute an access methode on ALL the comaptible catalogs return the result of the first valid catalog for a given URL <dl compact><dt><b>Returns:</b></dt><dd>result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned </dd></dl>
+
 </div>
 </div><p>
-<a class="anchor" name="5bc1db33781c463ce6afd9db89ee755c"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_instance" ref="5bc1db33781c463ce6afd9db89ee755c" args="(gfal_handle, GError **err)" -->
+<a class="anchor" name="405974336e7b4ebaafeea02577d7d4d5"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_delete" ref="405974336e7b4ebaafeea02577d7d4d5" args="(gfal_handle, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void gfal_catalogs_instance           </td>
+          <td class="memname">int gfal_catalogs_delete           </td>
           <td>(</td>
           <td class="paramtype">gfal_handle&nbsp;</td>
           <td class="paramname"> <em>handle</em>, </td>
@@ -138,7 +165,36 @@ Delete all instance of catalogs
 <div class="memdoc">
 
 <p>
-Instance all catalogs for use if it's not the case 
+Delete all instance of catalogs 
+</div>
+</div><p>
+<a class="anchor" name="d272f75eb549a72064524ecce3c25fe7"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_instance" ref="d272f75eb549a72064524ecce3c25fe7" args="(gfal_handle, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalogs_instance           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Instance all catalogs for use if it's not the case return the number of catalog available 
 </div>
 </div><p>
 <a class="anchor" name="791ad55a9c8aaca0bb8ae74a3538c202"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_get_cat_type" ref="791ad55a9c8aaca0bb8ae74a3538c202" args="(GError **)" -->
@@ -164,7 +220,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 4 09:58:55 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu May 5 12:52:28 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

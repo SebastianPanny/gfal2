@@ -20,7 +20,12 @@
   </ul></div>
 <h1>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c File Reference</h1>main file of the posix lib <a href="#_details">More...</a>
 <p>
+<code>#include &quot;<a class="el" href="gfal__common_8h-source.html">../common/gfal_common.h</a>&quot;</code><br>
+<code>#include &quot;../common/gfal_constants.h&quot;</code><br>
+<code>#include &quot;../common/gfal_file.h&quot;</code><br>
+<code>#include &quot;../common/gfal_common_storage.h&quot;</code><br>
 <code>#include &quot;gfal_posix_api.h&quot;</code><br>
+<code>#include &lt;dlfcn.h&gt;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
@@ -106,10 +111,6 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_removedir</b> (gf
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2a4f0aab963f1f1006953333907ecdbb"></a><!-- doxytag: member="gfal_posix.c::gfal_create_subdirs" ref="2a4f0aab963f1f1006953333907ecdbb" args="(gfal_handle req, char *errbuf, int errbufsz)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_create_subdirs</b> (gfal_handle req, char *errbuf, int errbufsz)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ga5a8df616e6a5e6fc1d94e2374c7ccf2"></a><!-- doxytag: member="gfal_posix.c::gfal_version" ref="ga5a8df616e6a5e6fc1d94e2374c7ccf2" args="()" -->
-const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common__group.html#ga5a8df616e6a5e6fc1d94e2374c7ccf2">gfal_version</a> ()</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return a string of the current gfal_version define at the compilation time <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common__group.html#g267920b468d7578c10aa25469f8cadf7">gfal_set_nobdii</a> (int value)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">define if bdii System is ignored or not  <a href="group__common__group.html#g267920b468d7578c10aa25469f8cadf7"></a><br></td></tr>
@@ -123,7 +124,7 @@ main file of the posix lib
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>11/04/2011 </dd></dl>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 4 09:58:55 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu May 5 12:52:28 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

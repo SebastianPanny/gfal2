@@ -2,293 +2,237 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
   <compounddef id="gfal__common__lfc_8c" kind="file">
     <compoundname>gfal_common_lfc.c</compoundname>
+    <includes local="no">regex.h</includes>
     <includes refid="gfal__common__lfc_8h" local="yes">gfal_common_lfc.h</includes>
     <includes refid="lfc__ifce__ng_8h" local="yes">lfc_ifce_ng.h</includes>
     <includes refid="gfal__common__internal_8h" local="yes">gfal_common_internal.h</includes>
+    <includes refid="gfal__constants_8h" local="yes">gfal_constants.h</includes>
+    <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
     <incdepgraph>
-      <node id="897">
+      <node id="531">
         <label>sys/stat.h</label>
       </node>
-      <node id="902">
+      <node id="521">
         <label>stdarg.h</label>
       </node>
-      <node id="916">
-        <label>../gfal_common.h</label>
-      </node>
-      <node id="921">
-        <label>lber.h</label>
-      </node>
-      <node id="910">
+      <node id="535">
         <label>gfal_common_internal.h</label>
         <link refid="gfal__common__internal_8h"/>
-        <childnode refid="909" relation="include">
+        <childnode refid="536" relation="include">
         </childnode>
-        <childnode refid="904" relation="include">
-        </childnode>
-      </node>
-      <node id="914">
-        <label>voms/gfal_voms_if.h</label>
-        <link refid="gfal__voms__if_8h-source"/>
-        <childnode refid="891" relation="include">
-        </childnode>
-        <childnode refid="904" relation="include">
-        </childnode>
-        <childnode refid="915" relation="include">
-        </childnode>
-        <childnode refid="916" relation="include">
+        <childnode refid="538" relation="include">
         </childnode>
       </node>
-      <node id="918">
-        <label>stdlib.h</label>
-      </node>
-      <node id="907">
+      <node id="542">
         <label>gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="905" relation="include">
+        <childnode refid="539" relation="include">
         </childnode>
-        <childnode refid="902" relation="include">
+        <childnode refid="521" relation="include">
         </childnode>
-        <childnode refid="908" relation="include">
+        <childnode refid="543" relation="include">
         </childnode>
-        <childnode refid="893" relation="include">
+        <childnode refid="525" relation="include">
         </childnode>
-        <childnode refid="892" relation="include">
+        <childnode refid="524" relation="include">
         </childnode>
-        <childnode refid="891" relation="include">
+        <childnode refid="523" relation="include">
         </childnode>
       </node>
-      <node id="892">
+      <node id="526">
+        <label>gfal_prototypes.h</label>
+        <link refid="gfal__prototypes_8h-source"/>
+        <childnode refid="523" relation="include">
+        </childnode>
+      </node>
+      <node id="524">
         <label>errno.h</label>
       </node>
-      <node id="922">
-        <label>ldap.h</label>
-      </node>
-      <node id="906">
-        <label>gfal_common_storage.h</label>
-        <link refid="gfal__common__storage_8h-source"/>
-        <childnode refid="904" relation="include">
-        </childnode>
-      </node>
-      <node id="927">
-        <label>../gfal_common_catalog.h</label>
-      </node>
-      <node id="898">
+      <node id="532">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="917">
-        <label>mds/gfal_common_mds.h</label>
-        <link refid="gfal__common__mds_8h-source"/>
-        <childnode refid="904" relation="include">
-        </childnode>
-        <childnode refid="908" relation="include">
-        </childnode>
-        <childnode refid="918" relation="include">
-        </childnode>
-        <childnode refid="893" relation="include">
-        </childnode>
-        <childnode refid="892" relation="include">
-        </childnode>
-        <childnode refid="919" relation="include">
-        </childnode>
-        <childnode refid="920" relation="include">
-        </childnode>
-        <childnode refid="921" relation="include">
-        </childnode>
-        <childnode refid="922" relation="include">
-        </childnode>
-        <childnode refid="923" relation="include">
-        </childnode>
-        <childnode refid="916" relation="include">
-        </childnode>
-      </node>
-      <node id="903">
+      <node id="522">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="909">
+      <node id="536">
         <label>gfal_common_srm.h</label>
         <link refid="gfal__common__srm_8h"/>
-        <childnode refid="904" relation="include">
+        <childnode refid="527" relation="include">
         </childnode>
-        <childnode refid="910" relation="include">
+        <childnode refid="535" relation="include">
         </childnode>
-        <childnode refid="911" relation="include">
+        <childnode refid="518" relation="include">
         </childnode>
-        <childnode refid="912" relation="include">
+        <childnode refid="537" relation="include">
         </childnode>
       </node>
-      <node id="913">
-        <label>gfal_file.h</label>
-        <link refid="gfal__file_8h-source"/>
-      </node>
-      <node id="895">
+      <node id="529">
         <label>sys/types.h</label>
       </node>
-      <node id="893">
+      <node id="525">
         <label>string.h</label>
       </node>
-      <node id="901">
-        <label>lfc_api.h</label>
-      </node>
-      <node id="900">
+      <node id="540">
         <label>lfc/lfc_ifce.h</label>
         <link refid="lfc__ifce_8h-source"/>
-        <childnode refid="895" relation="include">
+        <childnode refid="529" relation="include">
         </childnode>
-        <childnode refid="901" relation="include">
+        <childnode refid="534" relation="include">
         </childnode>
-        <childnode refid="894" relation="include">
+        <childnode refid="527" relation="include">
         </childnode>
       </node>
-      <node id="899">
+      <node id="534">
+        <label>lfc_api.h</label>
+      </node>
+      <node id="528">
         <label>unistd.h</label>
       </node>
-      <node id="925">
+      <node id="533">
         <label>lfc_ifce_ng.h</label>
         <link refid="lfc__ifce__ng_8h"/>
-        <childnode refid="889" relation="include">
+        <childnode refid="534" relation="include">
         </childnode>
-        <childnode refid="926" relation="include">
+        <childnode refid="526" relation="include">
+        </childnode>
+        <childnode refid="527" relation="include">
         </childnode>
       </node>
-      <node id="891">
+      <node id="523">
         <label>glib.h</label>
       </node>
-      <node id="923">
-        <label>ServiceDiscovery.h</label>
-      </node>
-      <node id="912">
+      <node id="537">
         <label>time.h</label>
       </node>
-      <node id="904">
+      <node id="538">
         <label>gfal_common.h</label>
         <link refid="gfal__common_8h"/>
-        <childnode refid="894" relation="include">
+        <childnode refid="539" relation="include">
         </childnode>
-        <childnode refid="905" relation="include">
+        <childnode refid="526" relation="include">
         </childnode>
-        <childnode refid="890" relation="include">
+        <childnode refid="527" relation="include">
         </childnode>
-        <childnode refid="906" relation="include">
+        <childnode refid="540" relation="include">
         </childnode>
-        <childnode refid="907" relation="include">
-        </childnode>
-        <childnode refid="909" relation="include">
-        </childnode>
-        <childnode refid="913" relation="include">
-        </childnode>
-        <childnode refid="914" relation="include">
-        </childnode>
-        <childnode refid="917" relation="include">
-        </childnode>
-        <childnode refid="924" relation="include">
-        </childnode>
-        <childnode refid="898" relation="include">
-        </childnode>
-        <childnode refid="915" relation="include">
-        </childnode>
-        <childnode refid="891" relation="include">
-        </childnode>
-        <childnode refid="918" relation="include">
-        </childnode>
-        <childnode refid="908" relation="include">
-        </childnode>
-        <childnode refid="893" relation="include">
+        <childnode refid="541" relation="include">
         </childnode>
       </node>
-      <node id="920">
-        <label>sys/time.h</label>
-      </node>
-      <node id="919">
-        <label>ctype.h</label>
-      </node>
-      <node id="924">
-        <label>gfal_srm_ifce.h</label>
-      </node>
-      <node id="890">
+      <node id="520">
         <label>../gfal_common_catalog.h</label>
         <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="891" relation="include">
+        <childnode refid="521" relation="include">
         </childnode>
-        <childnode refid="892" relation="include">
+        <childnode refid="522" relation="include">
         </childnode>
-        <childnode refid="893" relation="include">
+        <childnode refid="523" relation="include">
         </childnode>
-        <childnode refid="894" relation="include">
+        <childnode refid="524" relation="include">
         </childnode>
-        <childnode refid="900" relation="include">
+        <childnode refid="525" relation="include">
         </childnode>
-        <childnode refid="902" relation="include">
+        <childnode refid="526" relation="include">
         </childnode>
-        <childnode refid="903" relation="include">
-        </childnode>
-        <childnode refid="904" relation="include">
-        </childnode>
-        <childnode refid="889" relation="include">
+        <childnode refid="527" relation="include">
         </childnode>
       </node>
-      <node id="905">
+      <node id="539">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="915">
+      <node id="541">
         <label>voms_apic.h</label>
       </node>
-      <node id="911">
+      <node id="518">
         <label>regex.h</label>
       </node>
-      <node id="908">
+      <node id="543">
         <label>stdio.h</label>
       </node>
-      <node id="894">
+      <node id="527">
         <label>gfal_types.h</label>
         <link refid="gfal__types_8h-source"/>
-        <childnode refid="895" relation="include">
+        <childnode refid="528" relation="include">
         </childnode>
-        <childnode refid="896" relation="include">
+        <childnode refid="523" relation="include">
         </childnode>
-        <childnode refid="897" relation="include">
+        <childnode refid="529" relation="include">
         </childnode>
-        <childnode refid="898" relation="include">
+        <childnode refid="530" relation="include">
         </childnode>
-        <childnode refid="899" relation="include">
+        <childnode refid="531" relation="include">
         </childnode>
-        <childnode refid="891" relation="include">
+        <childnode refid="532" relation="include">
+        </childnode>
+        <childnode refid="526" relation="include">
+        </childnode>
+        <childnode refid="520" relation="include">
         </childnode>
       </node>
-      <node id="888">
+      <node id="517">
         <label>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c</label>
         <link refid="gfal_common_lfc.c"/>
-        <childnode refid="889" relation="include">
+        <childnode refid="518" relation="include">
         </childnode>
-        <childnode refid="925" relation="include">
+        <childnode refid="519" relation="include">
         </childnode>
-        <childnode refid="910" relation="include">
+        <childnode refid="533" relation="include">
+        </childnode>
+        <childnode refid="535" relation="include">
+        </childnode>
+        <childnode refid="539" relation="include">
+        </childnode>
+        <childnode refid="542" relation="include">
         </childnode>
       </node>
-      <node id="889">
+      <node id="519">
         <label>gfal_common_lfc.h</label>
         <link refid="gfal__common__lfc_8h"/>
-        <childnode refid="890" relation="include">
+        <childnode refid="520" relation="include">
         </childnode>
-        <childnode refid="925" relation="include">
+        <childnode refid="529" relation="include">
         </childnode>
-        <childnode refid="891" relation="include">
-        </childnode>
-        <childnode refid="895" relation="include">
-        </childnode>
-        <childnode refid="901" relation="include">
-        </childnode>
-        <childnode refid="927" relation="include">
+        <childnode refid="533" relation="include">
         </childnode>
       </node>
-      <node id="926">
-        <label>dlfcn.h</label>
-      </node>
-      <node id="896">
+      <node id="530">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="gfal__common__lfc_8c_153abf256730d533302d1910e5fb61efe" prot="public" static="no">
+        <name>_GNU_SOURCE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="18" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="func">
+      <memberdef kind="function" id="gfal__common__lfc_8c_17fa30a234c24ab960a4e6cbd82feaf95" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>static char* lfc_urlconverter</definition>
+        <argsstring>(char *lfn_url, const char *prefix)</argsstring>
+        <name>lfc_urlconverter</name>
+        <param>
+          <type>char *</type>
+          <declname>lfn_url</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>convert the lfn url for internal usage result must be free </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="42" bodyend="45"/>
+      </memberdef>
       <memberdef kind="function" id="gfal__common__lfc_8c_1bef4f40eebb042a8c21b5d5b2d4aa1a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>static void lfc_destroyG</definition>
@@ -304,7 +248,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="35" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="35" bodyend="40"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="48" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__lfc_8c_1960f3f01cd2e130cda6dc3513154a954" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -333,7 +277,36 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="42" bodyend="52"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="55" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__lfc_8c_1b5091415fccdf6a0904908f253ee4d9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int lfc_access_guidG</definition>
+        <argsstring>(catalog_handle handle, char *guid, int mode, GError **err)</argsstring>
+        <name>lfc_access_guidG</name>
+        <param>
+          <type>catalog_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>guid</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="71" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="71" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__lfc_8c_118fc1e787694363fd5457f9b8f020cf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_catalog_interface</type>
@@ -354,7 +327,36 @@
 <para>Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="61" bodyend="83"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="107" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="107" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__lfc_8c_18baa624b528deb15ff4ee61fa9948ac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gboolean</type>
+        <definition>gboolean gfal_lfc_check_lfn_url</definition>
+        <argsstring>(catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)</argsstring>
+        <name>gfal_lfc_check_lfn_url</name>
+        <param>
+          <type>catalog_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>lfn_url</declname>
+        </param>
+        <param>
+          <type>catalog_mode</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if the passed url and operation is compatible with lfc </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" line="138" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="138" bodyend="144"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -382,60 +384,112 @@
 <codeline lineno="15"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
 <codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="28"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__lfc_8h" kindref="compound">gfal_common_lfc.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lfc__ifce__ng_8h" kindref="compound">lfc_ifce_ng.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__internal_8h" kindref="compound">gfal_common_internal.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>lfc_destroyG(catalog_handle<sp/>handle){</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*<sp/>ops<sp/>=<sp/>(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*)<sp/>handle;</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(ops-&gt;lfc_endpoint);</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(ops);</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>do<sp/>nothing<sp/>for<sp/>the<sp/>moment,<sp/>global<sp/>instance<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>lfc_accessG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>lfn,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(handle<sp/>&amp;&amp;<sp/>lfn,<sp/>-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[lfc_accessG]<sp/>Invalid<sp/>value<sp/>in<sp/>arguments<sp/>handle<sp/><sp/>or/and<sp/>path&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*<sp/>ops<sp/>=<sp/>(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*)<sp/>handle;</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>ops-&gt;access(lfn,<sp/>mode);</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0){</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sav_errno<sp/>=<sp/>*ops-&gt;serrno<sp/>&lt;<sp/>1000<sp/>?<sp/>*ops-&gt;serrno<sp/>:<sp/>ECOMM;</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>sav_errno,<sp/></highlight><highlight class="stringliteral">&quot;[lfc_accessG]<sp/>lfc<sp/>access<sp/>error,<sp/>lfc_endpoint<sp/>:%s,<sp/><sp/>file<sp/>:<sp/>%s,<sp/>error<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>ops-&gt;lfc_endpoint,<sp/>lfn,<sp/>ops-&gt;sstrerror(sav_errno)<sp/>);</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sav_errno;<sp/></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
-<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GNU_SOURCE</highlight></codeline>
+<codeline lineno="19"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="preprocessor">#include<sp/>&lt;regex.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__lfc_8h" kindref="compound">gfal_common_lfc.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lfc__ifce__ng_8h" kindref="compound">lfc_ifce_ng.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__internal_8h" kindref="compound">gfal_common_internal.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__errverbose_8h" kindref="compound">gfal_common_errverbose.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>lfc_urlconverter(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>lfn_url,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>prefix){</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>pref_len<sp/>=<sp/>strlen(prefix);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>strndup(pref_len+<sp/>lfn_url,<sp/>GFAL_URL_MAX_LEN<sp/>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>lfc_destroyG(catalog_handle<sp/>handle){</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*<sp/>ops<sp/>=<sp/>(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*)<sp/>handle;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(ops-&gt;lfc_endpoint);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(ops);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>do<sp/>nothing<sp/>for<sp/>the<sp/>moment,<sp/>global<sp/>instance<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal">gfal_catalog_interface<sp/><ref refid="gfal__common__lfc_8c_118fc1e787694363fd5457f9b8f020cf8" kindref="member">lfc_initG</ref>(gfal_handle<sp/>handle,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_catalog_interface<sp/>lfc_catalog;</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memset(&amp;lfc_catalog,0,</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(gfal_catalog_interface));<sp/><sp/></highlight><highlight class="comment">//<sp/>clear<sp/>the<sp/>catalog</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>endpoint<sp/>=<sp/><ref refid="lfc__ifce__ng_8c_15d13dc09e91f66d74de768c2e4bf4872" kindref="member">gfal_setup_lfchost</ref>(handle,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(endpoint==NULL){</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[lfc_initG]&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>lfc_catalog;</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*<sp/>ops<sp/>=<sp/><ref refid="lfc__ifce__ng_8c_17c91643749a2c5d7e8043c0e42d00fd6" kindref="member">gfal_load_lfc</ref>(<sp/></highlight><highlight class="stringliteral">&quot;liblfc.so&quot;</highlight><highlight class="normal">,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ops<sp/>==NULL){</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,</highlight><highlight class="stringliteral">&quot;[lfc_initG]&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>lfc_catalog;</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ops-&gt;lfc_endpoint<sp/>=<sp/>endpoint;</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_VERBOSE,<sp/></highlight><highlight class="stringliteral">&quot;[gfal][lfc]<sp/>lfc<sp/>endpoint<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>endpoint);</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lfc_catalog.handle<sp/>=<sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>ops;</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lfc_catalog.catalog_delete<sp/>=<sp/>&amp;lfc_destroyG;</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lfc_catalog.accessG<sp/>=<sp/>&amp;lfc_accessG;</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>lfc_catalog;</highlight></codeline>
-<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>lfc_accessG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>lfn,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(handle<sp/>&amp;&amp;<sp/>lfn,<sp/>-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[lfc_accessG]<sp/>Invalid<sp/>value<sp/>in<sp/>arguments<sp/>handle<sp/><sp/>or/and<sp/>path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*<sp/>ops<sp/>=<sp/>(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*)<sp/>handle;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>url<sp/>=<sp/>lfc_urlconverter(lfn,<sp/>GFAL_LFC_PREFIX);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>ops-&gt;access(url,<sp/>mode);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0){</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sav_errno<sp/>=<sp/>*ops-&gt;serrno<sp/>&lt;<sp/>1000<sp/>?<sp/>*ops-&gt;serrno<sp/>:<sp/>ECOMM;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>sav_errno,<sp/></highlight><highlight class="stringliteral">&quot;[lfc_accessG]<sp/>lfc<sp/>access<sp/>error,<sp/>lfc_endpoint<sp/>:%s,<sp/><sp/>file<sp/>:<sp/>%s,<sp/>error<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>ops-&gt;lfc_endpoint,<sp/>lfn,<sp/>ops-&gt;sstrerror(sav_errno)<sp/>);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(url);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sav_errno;<sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(url);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>lfc_access_guidG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(<sp/>handle<sp/>&amp;&amp;<sp/>guid,<sp/>EINVAL,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[lfc_access_guid_G]<sp/>Invalid<sp/>value<sp/>in<sp/>arguments<sp/>handle<sp/><sp/>or/and<sp/>guid&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>lfn<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>tmp_guid<sp/>=<sp/>lfc_urlconverter(guid,<sp/>GFAL_GUID_PREFIX);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(lfn<sp/>=<sp/><ref refid="lfc__ifce__ng_8c_1c4daecd5aa0938a99eb86c367a0050f1" kindref="member">gfal_convert_guid_to_lfn</ref>(handle,<sp/>tmp_guid,<sp/>&amp;tmp_err))<sp/>==<sp/>NULL){</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err-&gt;code<sp/>==<sp/>EINVAL){<sp/></highlight><highlight class="comment">//<sp/>GUID<sp/>is<sp/>not<sp/>valid<sp/>-&gt;<sp/>the<sp/>file<sp/>not<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;tmp_err);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ENOENT;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[lfc_access_guidG]&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(tmp_guid);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tmp_err-&gt;code;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*<sp/>ops<sp/>=<sp/>(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*)<sp/>handle;<sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>ops-&gt;access(lfn,<sp/>mode);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0){</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sav_errno<sp/>=<sp/>*ops-&gt;serrno<sp/>&lt;<sp/>1000<sp/>?<sp/>*ops-&gt;serrno<sp/>:<sp/>ECOMM;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>sav_errno,<sp/></highlight><highlight class="stringliteral">&quot;[lfc_access_guidG]<sp/>lfc<sp/>access<sp/>error,<sp/>lfc_endpoint<sp/>:%s,<sp/><sp/>guid<sp/>:<sp/>%s,<sp/>converter<sp/>lfn<sp/>%s,<sp/>error<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>ops-&gt;lfc_endpoint,<sp/>guid,<sp/>lfn,<sp/>ops-&gt;sstrerror(sav_errno)<sp/>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(lfn);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sav_errno;<sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(lfn);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(tmp_guid);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">gfal_catalog_interface<sp/><ref refid="gfal__common__lfc_8c_118fc1e787694363fd5457f9b8f020cf8" kindref="member">lfc_initG</ref>(gfal_handle<sp/>handle,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_catalog_interface<sp/>lfc_catalog;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memset(&amp;lfc_catalog,0,</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(gfal_catalog_interface));<sp/><sp/></highlight><highlight class="comment">//<sp/>clear<sp/>the<sp/>catalog</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>endpoint<sp/>=<sp/><ref refid="lfc__ifce__ng_8c_15d13dc09e91f66d74de768c2e4bf4872" kindref="member">gfal_setup_lfchost</ref>(handle,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(endpoint==NULL){</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[lfc_initG]&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>lfc_catalog;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*<sp/>ops<sp/>=<sp/><ref refid="lfc__ifce__ng_8c_17c91643749a2c5d7e8043c0e42d00fd6" kindref="member">gfal_load_lfc</ref>(<sp/></highlight><highlight class="stringliteral">&quot;liblfc.so&quot;</highlight><highlight class="normal">,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ops<sp/>==NULL){</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,</highlight><highlight class="stringliteral">&quot;[lfc_initG]&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>lfc_catalog;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ops-&gt;lfc_endpoint<sp/>=<sp/>endpoint;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_VERBOSE,<sp/></highlight><highlight class="stringliteral">&quot;[gfal][lfc]<sp/>lfc<sp/>endpoint<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>endpoint);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lfc_catalog.handle<sp/>=<sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>ops;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lfc_catalog.check_catalog_url=<sp/>&amp;<ref refid="gfal__common__lfc_8c_18baa624b528deb15ff4ee61fa9948ac8" kindref="member">gfal_lfc_check_lfn_url</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lfc_catalog.catalog_delete<sp/>=<sp/>&amp;lfc_destroyG;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lfc_catalog.accessG<sp/>=<sp/>&amp;lfc_accessG;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lfc_catalog.access_guidG<sp/>=<sp/>&amp;lfc_access_guidG;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>lfc_catalog;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/>gboolean<sp/><ref refid="gfal__common__lfc_8c_18baa624b528deb15ff4ee61fa9948ac8" kindref="member">gfal_lfc_check_lfn_url</ref>(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>lfn_url,<sp/>catalog_mode<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regex_t<sp/>rex;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>regcomp(&amp;rex,<sp/></highlight><highlight class="stringliteral">&quot;^lfn:/([:alnum:]|-|/|\.|_)+&quot;</highlight><highlight class="normal">,<sp/>REG_ICASE<sp/>|<sp/>REG_EXTENDED);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(ret<sp/>==0,-1,err,</highlight><highlight class="stringliteral">&quot;[gfal_lfc_check_lfn_url]<sp/>fail<sp/>to<sp/>compile<sp/>regex,<sp/>report<sp/>this<sp/>bug&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret=<sp/>regexec(&amp;rex,<sp/>lfn_url,<sp/>0,<sp/>NULL,<sp/>0);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(!ret)?TRUE:FALSE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c"/>
   </compounddef>

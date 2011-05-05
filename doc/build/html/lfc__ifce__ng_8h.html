@@ -20,8 +20,9 @@
   </ul></div>
 <h1>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h File Reference</h1>internal header of the lfc catalog module <a href="#_details">More...</a>
 <p>
-<code>#include &quot;<a class="el" href="gfal__common__lfc_8h-source.html">gfal_common_lfc.h</a>&quot;</code><br>
-<code>#include &lt;dlfcn.h&gt;</code><br>
+<code>#include &lt;lfc_api.h&gt;</code><br>
+<code>#include &quot;gfal_prototypes.h&quot;</code><br>
+<code>#include &quot;gfal_types.h&quot;</code><br>
 
 <p>
 <a href="lfc__ifce__ng_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -38,6 +39,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">lfc_ops *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8h.html#7c91643749a2c5d7e8043c0e42d00fd6">gfal_load_lfc</a> (const char *name, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8h.html#c4daecd5aa0938a99eb86c367a0050f1">gfal_convert_guid_to_lfn</a> (catalog_handle handle, char *guid, GError **err)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 internal header of the lfc catalog module 
@@ -46,6 +49,49 @@ internal header of the lfc catalog module
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>02/05/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="c4daecd5aa0938a99eb86c367a0050f1"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_convert_guid_to_lfn" ref="c4daecd5aa0938a99eb86c367a0050f1" args="(catalog_handle handle, char *guid, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* gfal_convert_guid_to_lfn           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>guid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+convert a guid to a lfn link with a call to the lfclib <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>gfal</em>&nbsp;</td><td>handle </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td>of the guid </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: Error report system </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>: string of the lfn if success or NULL char* if error </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="7c91643749a2c5d7e8043c0e42d00fd6"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_load_lfc" ref="7c91643749a2c5d7e8043c0e42d00fd6" args="(const char *name, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -116,7 +162,7 @@ setup the lfc_host correctly for the lfc calls <dl compact><dt><b>Parameters:</b
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 4 09:58:55 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu May 5 12:52:28 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -21,17 +21,16 @@
 <h1>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h File Reference</h1>header file for the lfc catalog module <a href="#_details">More...</a>
 <p>
 <code>#include &quot;<a class="el" href="gfal__common__catalog_8h-source.html">../gfal_common_catalog.h</a>&quot;</code><br>
-<code>#include &quot;<a class="el" href="lfc__ifce__ng_8h-source.html">lfc_ifce_ng.h</a>&quot;</code><br>
-<code>#include &lt;glib.h&gt;</code><br>
 <code>#include &lt;sys/types.h&gt;</code><br>
-<code>#include &lt;lfc_api.h&gt;</code><br>
-<code>#include &quot;../gfal_common_catalog.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="lfc__ifce__ng_8h-source.html">lfc_ifce_ng.h</a>&quot;</code><br>
 
 <p>
 <a href="gfal__common__lfc_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8h.html#0d4af55002fa4216f9915b5a1a721ef4">lfc_initG</a> (gfal_handle, GError **)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8h.html#8baa624b528deb15ff4ee61fa9948ac8">gfal_lfc_check_lfn_url</a> (catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -41,6 +40,47 @@ header file for the lfc catalog module
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>29/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="8baa624b528deb15ff4ee61fa9948ac8"></a><!-- doxytag: member="gfal_common_lfc.h::gfal_lfc_check_lfn_url" ref="8baa624b528deb15ff4ee61fa9948ac8" args="(catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gfal_lfc_check_lfn_url           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>lfn_url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">catalog_mode&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Check if the passed url and operation is compatible with lfc 
+</div>
+</div><p>
 <a class="anchor" name="0d4af55002fa4216f9915b5a1a721ef4"></a><!-- doxytag: member="gfal_common_lfc.h::lfc_initG" ref="0d4af55002fa4216f9915b5a1a721ef4" args="(gfal_handle, GError **)" -->
 <div class="memitem">
 <div class="memproto">
@@ -70,7 +110,7 @@ header file for the lfc catalog module
 Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 4 09:58:55 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu May 5 12:52:28 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
