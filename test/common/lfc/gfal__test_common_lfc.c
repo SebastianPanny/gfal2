@@ -8,13 +8,8 @@
 #include <glib.h>
 #include "lfc/gfal_common_lfc.h"
 #include "gfal_common_internal.h"
+#include "../../unit_test_constants.h"
 
-#define TEST_LFC_VALID_ACCESS "lfn:/grid/dteam/hello001"		// this file must be a lfc file with read access and no write access
-#define TEST_LFC_NOEXIST_ACCESS "lfn:/grid/dteam/PSGmarqueUNbut" // this file must never exist.
-#define TEST_LFC_URL_SYNTAX_ERROR "jardiland.com"
-
-#define TEST_GUID_VALID_ACCESS "guid:ae571282-81ea-41af-ac3c-8b1a084bfc82"
-#define TEST_GUID_NOEXIST_ACCESS "guid:ae595782-81be-40af-ac3c-8b1a084bfc82"
 
 
 

@@ -60,7 +60,7 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
 		}
 		handle->catalog_opt.catalog_number=i;
 	}
-	return catalog_number;
+	return handle->catalog_opt.catalog_number;
 }
 
 /**
@@ -69,8 +69,8 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
  *  @return result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned
  * */
 int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err){
-	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalogs_accessG] Invalid arguments ");
-	GError** tmp_err=NULL;
+	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalogs_accessG] Invalid arguments");
+	GError* tmp_err=NULL;
 	int i;
 	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);
 	if(n_catalogs <= 0){
@@ -98,7 +98,7 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
  * Delete all instance of catalogs 
  */
 int gfal_catalogs_delete(gfal_handle handle, GError** err){
-	g_return_val_err_if_fail(handle, -1, err, "[gfal_catalogs_delete]  invalid value of handle");
+	g_return_val_err_if_fail(handle, -1, err, "[gfal_catalogs_delete] Invalid value of handle");
 	const int catalog_number = handle->catalog_opt.catalog_number;
 	if(catalog_number > 0){
 			int i;

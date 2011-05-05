@@ -6,7 +6,7 @@
 #include <check.h>
 #include "gfal_constants.h"
 #include "gfal_common_catalog.h"
-
+#include "../unit_test_constants.h"
 
 
 
@@ -35,3 +35,27 @@ START_TEST (test_env_var)
 	free(old_env);
 }
 END_TEST
+
+START_TEST(test_catalog_access_file)
+{
+	GError* tmp_err=NULL;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle == NULL){
+		fail(" must init properly");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	
+	int ret = gfal_catalogs_accessG(handle, TEST_LFC_VALID_ACCESS, F_OK, &tmp_err);
+	if(ret !=0){
+		fail(" must be a valid access");
+		gfal_release_GError(&tmp_err);
+	}
+	ret = gfal_catalogs_accessG(handle, TEST_LFC_VALID_ACCESS, F_OK, &tmp_err);	
+	
+	
+}
+END_TEST
+
+
+
