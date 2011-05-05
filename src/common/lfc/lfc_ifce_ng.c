@@ -101,12 +101,12 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 	struct lfc_linkinfo* links = NULL;
 	if (ops->startsess (ops->lfc_endpoint, (char*) gfal_version ()) < 0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0,sav_errno,"[gfal_convert_guid_to_lfn] Error while start session with lfclib, lfc_endpoint: %s, Error : %s ", ops->lfc_endpoint, ops->sstrerror(*ops->serrno));
+		g_set_error(err,0,sav_errno,"[gfal_convert_guid_to_lfn] Error while start session with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint, guid,ops->sstrerror(*ops->serrno));
 		return NULL;
 	}
 	if(ops->getlinks(NULL, guid, &size, &links) <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0,sav_errno, "[gfal_convert_guid_to_lfn] Error while getlinks() with lfclib,  lfc_endpoint: %s, Error : %s ", ops->lfc_endpoint, ops->sstrerror(*ops->serrno));
+		g_set_error(err,0,sav_errno, "[gfal_convert_guid_to_lfn] Error while getlinks() with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint,guid, ops->sstrerror(*ops->serrno));
 		return NULL;
 	}
 	if(!links || strnlen(links[0].path, GFAL_LFN_MAX_LEN) >= GFAL_LFN_MAX_LEN){
