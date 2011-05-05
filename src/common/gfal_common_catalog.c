@@ -34,18 +34,21 @@
 #include "gfal_common_errverbose.h"
 
 
-
-static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG}; // JUST MODIFY THIS LINE IN ORDER TO ADD CATALOG
+/**
+ *  Note that hte default catalog is the first one
+ */
+static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG}; // JUST MODIFY THIS TWO LINE IN ORDER TO ADD CATALOG
+static const int size_catalog = 1;
 
 /**
  * Instance all catalogs for use if it's not the case
+ *  return the number of catalog available
  */
 int gfal_catalogs_instance(gfal_handle handle, GError** err){
 	g_return_val_err_if_fail(handle, -1, err, "[gfal_catalogs_instance]  invalid value of handle");
 	const int catalog_number = handle->catalog_opt.catalog_number;
 	if(catalog_number <= 0){
 		GError* tmp_err=NULL;
-		const int size_catalog = 1;
 		int i;
 		for(i=0; i < size_catalog ;++i){
 			gfal_catalog_interface catalog = constructor[i](handle, &tmp_err);
@@ -57,7 +60,38 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
 		}
 		handle->catalog_opt.catalog_number=i;
 	}
-	return 0;
+	return catalog_number;
+}
+
+/**
+ *  Execute an access methode on ALL the comaptible catalogs
+ *  return the result of the first valid catalog for a given URL
+ *  @return result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned
+ * */
+int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err){
+	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalogs_accessG] Invalid arguments ");
+	GError** tmp_err=NULL;
+	int i;
+	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);
+	if(n_catalogs <= 0){
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalogs_accessG]");
+		return -1;
+	}
+	gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
+	for(i=0; i < n_catalogs; ++i, ++cata_list){
+		gboolean comp =  cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_ACCESS, &tmp_err);
+		if(tmp_err){
+			g_propagate_prefixed_error(err, tmp_err,"[gfal_catalogs_accessG]");
+			return -1;
+		}
+		if(comp){
+			int ret = cata_list->accessG(cata_list->handle, path, mode, &tmp_err);
+			if(ret <0)
+				g_propagate_prefixed_error(err, tmp_err,"[gfal_catalogs_accessG]"); 
+			return ret;			
+		}	
+	}
+	return EPROTONOSUPPORT;
 }
 
 /**
