@@ -51,3 +51,6 @@ int gfal_get_async_get_results_errstring(gfal_handle handle, char*** turl_errstr
 int gfal_wait_async_request(gfal_handle handle, long timeout);
   
 void gfal_set_nobdii_srm(gfal_handle handle, gboolean no_bdii_chk);
+
+
+const char *gfal_version ();

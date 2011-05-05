@@ -32,8 +32,7 @@
 #include <dlfcn.h>
 
 
-/* the version should be set by a "define" at the makefile level */
-static const char *gfalversion = VERSION;
+
 static __thread int nobdii = 0;
 
 int gfal_access (const char *path, int amode){
@@ -1413,9 +1412,6 @@ int gfal_create_subdirs(gfal_handle req, char *errbuf, int errbufsz)
 	return result;
 }
 
-const char * gfal_version (){
-    return gfalversion;
-}
 
 void gfal_set_nobdii (int value){
     nobdii = value;
