@@ -103,6 +103,8 @@ int gfal_catalogs_instance(gfal_handle, GError** err);
 
 int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err);
 
+int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err);
+
 int gfal_catalogs_delete(gfal_handle, GError** err);
  	
 

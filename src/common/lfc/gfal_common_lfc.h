@@ -34,7 +34,6 @@
 // protos
 
 
-
 gfal_catalog_interface lfc_initG(gfal_handle, GError**);
 
 

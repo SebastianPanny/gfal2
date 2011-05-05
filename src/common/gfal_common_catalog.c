@@ -64,7 +64,7 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
 }
 
 /**
- *  Execute an access methode on ALL the comaptible catalogs
+ *  Execute an access methode on ALL the compatible catalogs
  *  return the result of the first valid catalog for a given URL
  *  @return result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned
  * */
@@ -92,6 +92,30 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
 		}	
 	}
 	return EPROTONOSUPPORT;
+}
+/**
+ * Execute a guid access on the default specified catalog
+ * @param handle 
+ * @param guid of the element to check
+ * @param mode : mode of the access
+ * @param err : Error report system
+ * @return return the content of the access call, or negative value if error
+ * @warning no url syntaxe checking
+ * */
+int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err){
+	g_return_val_err_if_fail(handle && guid, EINVAL, err, "[gfal_catalogs_guid_accessG] Invalid arguments");	
+	GError* tmp_err=NULL;
+	int i;
+	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);
+	if(n_catalogs <= 0){
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalogs_accessG]");
+		return -1;
+	}	
+	gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
+	int ret = cata_list->access_guidG(cata_list->handle, guid, mode, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err,"[gfal_catalogs_accessG]"); 
+	return ret;		
 }
 
 /**
