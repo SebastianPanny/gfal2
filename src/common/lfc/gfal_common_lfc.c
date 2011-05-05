@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+#define _GNU_SOURCE
  
  /**
   * 
@@ -25,19 +26,21 @@
   @date 29/04/2011
  */
 
+#include <regex.h>
 #include "gfal_common_lfc.h"
 #include "lfc_ifce_ng.h"
 #include "gfal_common_internal.h"
+#include "gfal_constants.h"
 #include "gfal_common_errverbose.h"
-#include <regex.h>
+
 
 
 /**
  * convert the lfn url for internal usage
  * result must be free
  */
-static char* lfc_urlconverter(char * lfn_url){
-	const int pref_len = strlen(GFAL_LFC_PREFIX);
+static char* lfc_urlconverter(char * lfn_url, const char* prefix){
+	const int pref_len = strlen(prefix);
 	return strndup(pref_len+ lfn_url, GFAL_URL_MAX_LEN );
 }
 
@@ -50,10 +53,10 @@ static void lfc_destroyG(catalog_handle handle){
 }
 
 int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
-	GError* tmp_err=NULL;
 	g_return_val_err_if_fail(handle && lfn, -1, err, "[lfc_accessG] Invalid value in arguments handle  or/and path");
+	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
-	char* url = lfc_urlconverter(lfn);
+	char* url = lfc_urlconverter(lfn, GFAL_LFC_PREFIX);
 	int ret = ops->access(url, mode);
 	if(ret <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
@@ -62,6 +65,30 @@ int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 		free(url);
 	}
 	free(url);
+	return ret;
+}
+
+int lfc_access_guidG(catalog_handle handle, char* guid, int mode, GError** err){
+	g_return_val_err_if_fail( handle && guid, EINVAL, err, "[lfc_access_guid_G] Invalid value in arguments handle  or/and guid");
+	GError* tmp_err = NULL;
+	char* lfn = NULL;
+	int ret;
+	char* tmp_guid = lfc_urlconverter(guid, GFAL_GUID_PREFIX);
+	if( (lfn = gfal_convert_guid_to_lfn(handle, guid, &tmp_err)) == NULL){
+		g_propagate_prefixed_error(err, tmp_err, "[lfc_access_guidG]");
+		free(tmp_guid);
+		return tmp_err->code;
+	}
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	ret = ops->access(lfn, mode);
+	if(ret <0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err, 0, sav_errno, "[lfc_access_guidG] lfc access error, lfc_endpoint :%s,  guid : %s, converter lfn %s, error : %s", ops->lfc_endpoint, guid, lfn, ops->sstrerror(sav_errno) );
+		free(lfn);
+		return sav_errno; 
+	}
+	free(lfn);
+	free(tmp_guid);
 	return ret;
 }
 
@@ -94,6 +121,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.check_catalog_url= &gfal_lfc_check_lfn_url;
 	lfc_catalog.catalog_delete = &lfc_destroyG;
 	lfc_catalog.accessG = &lfc_accessG;
+	lfc_catalog.access_guidG = &lfc_access_guidG;
 	return lfc_catalog;
 }
 

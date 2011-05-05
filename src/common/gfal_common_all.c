@@ -122,6 +122,6 @@ int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int 
  * 
  * */
 const char * gfal_version (){
-    return gfal_version;
+    return gfalversion;
 }
 

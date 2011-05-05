@@ -42,7 +42,7 @@
 #include "voms_apic.h"
 
 
-#define GFAL_URL_MAX_LEN 2048
+
 
 /**
  * new next gen functions 

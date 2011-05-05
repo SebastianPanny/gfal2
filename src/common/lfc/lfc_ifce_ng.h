@@ -74,3 +74,6 @@ char* gfal_setup_lfchost(gfal_handle handle, GError ** err);
 
 struct lfc_ops* gfal_load_lfc(const char* name, GError** err);
 
+
+char* gfal_convert_guid_to_lfn(catalog_handle handle, char* guid, GError ** err);
+

@@ -25,6 +25,7 @@
   @date 02/05/2011
  */
 #define _GNU_SOURCE
+#define GFAL_LFN_MAX_LEN	2048
 
 #include <errno.h>
 #include <stdio.h>
@@ -35,6 +36,7 @@
 #include "gfal_types.h"
 #include "gfal_constants.h"
 #include "../mds/gfal_common_mds.h"
+#include "gfal_common_interface.h"
 #include "lfc_ifce_ng.h"
 #include "gfal_common_errverbose.h"
 
@@ -84,6 +86,37 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 	}
 	return 0;
 }
+
+/**
+ * convert a guid to a lfn link with a call to the lfclib
+ * @param gfal handle
+ * @param string of the guid
+ * @param err : Error report system
+ * @return : string of the lfn if success or NULL char* if error
+ * */
+ char* gfal_convert_guid_to_lfn(catalog_handle handle, char* guid, GError ** err){
+	char* lfn=NULL;
+	int size = 0;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	struct lfc_linkinfo* links = NULL;
+	if (ops->startsess (ops->lfc_endpoint, (char*) gfal_version ()) < 0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno,"[gfal_convert_guid_to_lfn] Error while start session with lfclib, lfc_endpoint: %s, Error : %s ", ops->lfc_endpoint, ops->sstrerror(*ops->serrno));
+		return NULL;
+	}
+	if(ops->getlinks(NULL, guid, &size, &links) <0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno, "[gfal_convert_guid_to_lfn] Error while getlinks() with lfclib,  lfc_endpoint: %s, Error : %s ", ops->lfc_endpoint, ops->sstrerror(*ops->serrno));
+		return NULL;
+	}
+	if(!links || strnlen(links[0].path, GFAL_LFN_MAX_LEN) >= GFAL_LFN_MAX_LEN){
+		g_set_error(err,0,EINVAL, "[gfal_convert_guid_to_lfn] Error no links associated with this guid or corrupted one : %s", guid);
+		return NULL;
+	}
+	lfn =  strdup(links[0].path);
+	free(links);
+	return lfn;
+ }
 
 /**
  * setup the lfc_host correctly for the lfc calls 

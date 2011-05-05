@@ -24,8 +24,8 @@
  * @date 12/04/2011
  * */
 
-#include "gfal_common_srm.h"
-#include "gfal_common.h"
+#include "gfal_prototypes.h"
+#include "gfal_types.h"
 
 
 char* gfal_last_error_string(gfal_handle handle);
