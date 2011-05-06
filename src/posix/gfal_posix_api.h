@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 /**
- * @file gfal_posix.c
+ * @file gfal_posix_api
  * @brief main header file for API of the posix lib
  * @author Devresse Adrien
  * @version 2.0
@@ -34,20 +34,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/**
- * \brief test access to the given file
- * \param file can be in supported protocols lfn, srm, file, tftp
- * \return This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately \n
- *  - ERRNO list : \n
- *    - ENOENT: The named file/directory does not exist.
- *    - EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
- *    - EFAULT: path is a NULL pointer.
- *    - ENOTDIR: A component of path prefix is not a directory.
- *    - EINVAL: path has an invalid syntax or amode is invalid.
- *    - ECOMM: Communication error.
- *    - EPROTONOSUPPORT: Access method not supported.
- * 
- */
 int gfal_access (const char *, int);
 
 /**

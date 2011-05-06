@@ -25,7 +25,9 @@
 
 
 #include "gfal_common.h"
+#include "gfal_common_errverbose.h"
 #include <dlfcn.h>
+#include <regex.h>
 
 
 /* the version should be set by a "define" at the makefile level */
@@ -125,6 +127,13 @@ const char * gfal_version (){
     return gfalversion;
 }
 
+/**
+ *  return a pointer to the internal last error of the handle
+ * */
+GError** gfal_get_last_gerror(gfal_handle handle){
+	return &(handle->err);
+}
+
 /***
  * check the validity of a result for a "access" standard call
  * @return TRUE if status is a valid and standard access methode error, else return FALSE
@@ -146,4 +155,19 @@ const char * gfal_version (){
 	}
 	 
  }
+ 
+ 
+ /**
+ * parse a guid to check the validity
+ */
+gboolean gfal_guid_checker(const char* guid, GError** err){
+	g_return_val_err_if_fail(guid != NULL,FALSE,err,"[gfal_guid_checker] check URL failed : guid is empty");
+	regex_t rex;
+	int ret = regcomp(&rex, "^guid:([:alnum:]|-|)+$",REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(guid==0,FALSE,err,"[gfal_guid_checker] fail to compile regex, report this bug");
+	ret=  regexec(&rex,guid,0,NULL,0);
+	if(ret) 
+		g_set_error(err,0,EINVAL,"[gfal_guid_checker] Incorrect guid, impossible to parse guid %s :", guid);
+	return (!ret)?TRUE:FALSE;
+} 
 

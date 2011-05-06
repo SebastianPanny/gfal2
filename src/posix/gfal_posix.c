@@ -29,12 +29,14 @@
 #include "../common/gfal_file.h"
 #include "../common/gfal_common_storage.h"
 #include "gfal_posix_api.h"
+#include "gfal_posix_internal.h"
 #include <dlfcn.h>
 
 
 
-static __thread int nobdii = 0;
 
+static __thread int nobdii = 0;
+/*
 int gfal_access (const char *path, int amode){
     int rc = 0, sav_errno = 0;
     int bool_issurlok = 0;
@@ -111,11 +113,11 @@ int gfal_access (const char *path, int amode){
 
                 	gfile->gobj->returncode = srm_check_permission(&context,&checkpermission_input, &(gfile->gobj->srmv2_statuses));
 
-/*TODO                    gfile->gobj->returncode = srmv2_access (gfile->gobj->nbfiles,
-                            (const char **) gfile->gobj->surls, gfile->gobj->endpoint, amode,
-                            &(gfile->gobj->srmv2_statuses), errbuf, GFAL_ERRMSG_LEN,
-                            gfile->gobj->timeout);
-*/
+//TODO                    gfile->gobj->returncode = srmv2_access (gfile->gobj->nbfiles,
+ //                           (const char **) gfile->gobj->surls, gfile->gobj->endpoint, amode,
+ //                           &(gfile->gobj->srmv2_statuses), errbuf, GFAL_ERRMSG_LEN,
+//                            gfile->gobj->timeout);
+///
                     if (!(bool_issurlok = gfile->gobj->returncode >= 0))
                         gfal_file_set_replica_error (gfile, errno, errbuf);
 
@@ -137,12 +139,12 @@ int gfal_access (const char *path, int amode){
                     errno = sav_errno;
                     return (rc);
                 } else {
-                    /* fix it : need to be replaced by a correct call to get if (!(bool_issurlok = gfal_turlsfromsurls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
-                        gfal_file_set_replica_error (gfile, errno, errbuf);
-
-					*/
+                    // fix it : need to be replaced by a correct call to get if (!(bool_issurlok = gfal_turlsfromsurls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
+                    //    gfal_file_set_replica_error (gfile, errno, errbuf);
+//
+					///
 					g_error("transition code, not implemented fix it");
-					/* */
+					////
                     if (bool_issurlok && (!(bool_issurlok = gfal_get_results (gfile->gobj, &filestatuses) >= 0) ||
                                 !(bool_issurlok = filestatuses != NULL))) {
                         snprintf (errbuf, GFAL_ERRMSG_LEN, "Internal error");
@@ -195,6 +197,26 @@ int gfal_access (const char *path, int amode){
     gfal_file_free (gfile);
     errno = sav_errno;
     return (rc);
+}*/
+
+/**
+ * \brief test access to the given file
+ * \param file can be in supported protocols lfn, srm, file, guid
+ * \return This routine return 0 if the operation was successful, errno if standard error occured or -1 if a internal gfal error occured (see \ref gfal_posix_error()). \n
+ *  - ERRNO list : \n
+ *    	- usual errors:
+ *    		- ENOENT: The named file/directory does not exist.
+ *    		- EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+ *   		- EFAULT: path is a NULL pointer.
+ *   		- ENOTDIR: A component of path prefix is not a directory.
+ *  	- gfal specific errors ( associated with a gfal_posix_error() ):
+ *   		- ECOMM: Communication error
+ *   		- EPROTONOSUPPORT: Access method not supported.
+ *   		- EINVAL: path has an invalid syntax or amode is invalid.
+ * 
+ */
+int gfal_access (const char *path, int amode){
+	return gfal_access_posix_internal(path, amode);	
 }
 
 int gfal_chmod (const char *path, mode_t mode){
@@ -1420,5 +1442,6 @@ void gfal_set_nobdii (int value){
 int gfal_is_nobdii (){
     return (nobdii);
 }
+
 
 

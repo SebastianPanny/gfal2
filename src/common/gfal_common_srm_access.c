@@ -62,7 +62,7 @@ static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, char* 
 			return ECOMM;
 		}
 	}
-	g_printerr(" resu : %d , status %d, strerror : %s, explanation : %s \n", ret, resu[0].status, strerror(resu[0].status), resu[0].explanation);
+	//g_printerr(" resu : %d , status %d, strerror : %s, explanation : %s \n", ret, resu[0].status, strerror(resu[0].status), resu[0].explanation);
 	return resu[0].status;
 }
 
