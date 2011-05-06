@@ -3,7 +3,9 @@
 core file for the utility function of gfal common part 
 
 {\tt \#include \char`\"{}gfal\_\-common.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 {\tt \#include $<$dlfcn.h$>$}\par
+{\tt \#include $<$regex.h$>$}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
@@ -20,7 +22,14 @@ int \bf{resolve\_\-dlsym\_\-list\-G} (void $\ast$handle, void $\ast$$\ast$$\ast$
 
 \begin{CompactList}\small\item\em open dynamycally a list of symbols resolve all symbols from sym\_\-list to flist with the associated dlhandle set GError properly if error \item\end{CompactList}\item 
 const char $\ast$ \bf{gfal\_\-version} ()
-\begin{CompactList}\small\item\em return a string of the current gfal\_\-version define at the compilation time \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em return a string of the current gfal\_\-version define at the compilation time \item\end{CompactList}\item 
+GError $\ast$$\ast$ \bf{gfal\_\-get\_\-last\_\-gerror} (gfal\_\-handle handle)
+\item 
+gboolean \textbf{is\_\-valid\_\-access\_\-result} (int status)\label{gfal__common__all_8c_aed64917ebc1c60ab8ccd2c4dfbd2c3a}
+
+\item 
+gboolean \bf{gfal\_\-guid\_\-checker} (const char $\ast$guid, GError $\ast$$\ast$err)
+\end{CompactItemize}
 
 
 \subsection{Detailed Description}
@@ -35,7 +44,12 @@ core file for the utility function of gfal common part
 
 
 \subsection{Function Documentation}
-\index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!gfal_GList_to_tab@{gfal\_\-GList\_\-to\_\-tab}}
+\index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!gfal_get_last_gerror@{gfal\_\-get\_\-last\_\-gerror}}
+\index{gfal_get_last_gerror@{gfal\_\-get\_\-last\_\-gerror}!gfal_common_all.c@{gfal\_\-common\_\-all.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}GError$\ast$$\ast$ gfal\_\-get\_\-last\_\-gerror (gfal\_\-handle {\em handle})}\label{gfal__common__all_8c_c90af0780f11aa512dce46955c844704}
+
+
+return a pointer to the internal last error of the handle \index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!gfal_GList_to_tab@{gfal\_\-GList\_\-to\_\-tab}}
 \index{gfal_GList_to_tab@{gfal\_\-GList\_\-to\_\-tab}!gfal_common_all.c@{gfal\_\-common\_\-all.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ gfal\_\-GList\_\-to\_\-tab (GList $\ast$ {\em surls})}\label{gfal__common__all_8c_a7e1120eb32c4c7f293f6fbcb4f0ea33}
 
@@ -53,7 +67,12 @@ convert glist of int to a table of int
 
 \begin{Desc}
 \item[Returns:]return NULL if error or pointer to int$\ast$ \end{Desc}
-\index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!gfal_initG@{gfal\_\-initG}}
+\index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!gfal_guid_checker@{gfal\_\-guid\_\-checker}}
+\index{gfal_guid_checker@{gfal\_\-guid\_\-checker}!gfal_common_all.c@{gfal\_\-common\_\-all.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-guid\_\-checker (const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__all_8c_9e4b6149b0256f725bc1dab5fc32ab62}
+
+
+parse a guid to check the validity \index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!gfal_initG@{gfal\_\-initG}}
 \index{gfal_initG@{gfal\_\-initG}!gfal_common_all.c@{gfal\_\-common\_\-all.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-handle gfal\_\-init\-G (GError $\ast$$\ast$ {\em err})}\label{gfal__common__all_8c_8410ba458f920d8f8a8f0e5594170fe4}
 

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "5 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "6 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -8,7 +8,11 @@
 .PP
 \fC#include 'gfal_common.h'\fP
 .br
+\fC#include 'gfal_common_errverbose.h'\fP
+.br
 \fC#include <dlfcn.h>\fP
+.br
+\fC#include <regex.h>\fP
 .br
 
 .SS "Functions"
@@ -37,6 +41,15 @@
 .RI "const char * \fBgfal_version\fP ()"
 .br
 .RI "\fIreturn a string of the current gfal_version define at the compilation time \fP"
+.ti -1c
+.RI "GError ** \fBgfal_get_last_gerror\fP (gfal_handle handle)"
+.br
+.ti -1c
+.RI "gboolean \fBis_valid_access_result\fP (int status)"
+.br
+.ti -1c
+.RI "gboolean \fBgfal_guid_checker\fP (const char *guid, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -60,6 +73,9 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
+.SS "GError** gfal_get_last_gerror (gfal_handle handle)"
+.PP
+return a pointer to the internal last error of the handle 
 .SS "char** gfal_GList_to_tab (GList * surls)"
 .PP
 convert glist of surl char* to char** 
@@ -80,6 +96,9 @@ return NULL if error or pointer to int*
 .RE
 .PP
 
+.SS "gboolean gfal_guid_checker (const char * guid, GError ** err)"
+.PP
+parse a guid to check the validity 
 .SS "gfal_handle gfal_initG (GError ** err)"
 .PP
 initiate a gfal's context with default parameters for use 

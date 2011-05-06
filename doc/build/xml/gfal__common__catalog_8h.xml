@@ -12,64 +12,51 @@
     <includedby refid="gfal__types_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_types.h</includedby>
     <includedby refid="gfal__common__catalog_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</includedby>
     <includedby refid="gfal__common__lfc_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h</includedby>
+    <includedby refid="gfal__posix__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</includedby>
     <incdepgraph>
-      <node id="162">
+      <node id="166">
         <label>sys/stat.h</label>
       </node>
-      <node id="152">
+      <node id="156">
         <label>stdarg.h</label>
       </node>
-      <node id="157">
+      <node id="161">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="154" relation="include">
+        <childnode refid="158" relation="include">
         </childnode>
-      </node>
-      <node id="155">
-        <label>errno.h</label>
-      </node>
-      <node id="163">
-        <label>gfal_srm_ifce_types.h</label>
-      </node>
-      <node id="153">
-        <label>uuid/uuid.h</label>
-      </node>
-      <node id="160">
-        <label>sys/types.h</label>
-      </node>
-      <node id="156">
-        <label>string.h</label>
       </node>
       <node id="159">
+        <label>errno.h</label>
+      </node>
+      <node id="167">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="157">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="164">
+        <label>sys/types.h</label>
+      </node>
+      <node id="160">
+        <label>string.h</label>
+      </node>
+      <node id="163">
         <label>unistd.h</label>
       </node>
-      <node id="154">
+      <node id="158">
         <label>glib.h</label>
       </node>
-      <node id="151">
+      <node id="155">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</label>
         <link refid="gfal_common_catalog.h"/>
-        <childnode refid="152" relation="include">
-        </childnode>
-        <childnode refid="153" relation="include">
-        </childnode>
-        <childnode refid="154" relation="include">
-        </childnode>
-        <childnode refid="155" relation="include">
-        </childnode>
         <childnode refid="156" relation="include">
         </childnode>
         <childnode refid="157" relation="include">
         </childnode>
         <childnode refid="158" relation="include">
         </childnode>
-      </node>
-      <node id="158">
-        <label>gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
         <childnode refid="159" relation="include">
-        </childnode>
-        <childnode refid="154" relation="include">
         </childnode>
         <childnode refid="160" relation="include">
         </childnode>
@@ -77,176 +64,224 @@
         </childnode>
         <childnode refid="162" relation="include">
         </childnode>
+      </node>
+      <node id="162">
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
         <childnode refid="163" relation="include">
         </childnode>
-        <childnode refid="157" relation="include">
+        <childnode refid="158" relation="include">
         </childnode>
-        <childnode refid="151" relation="include">
+        <childnode refid="164" relation="include">
+        </childnode>
+        <childnode refid="165" relation="include">
+        </childnode>
+        <childnode refid="166" relation="include">
+        </childnode>
+        <childnode refid="167" relation="include">
+        </childnode>
+        <childnode refid="161" relation="include">
+        </childnode>
+        <childnode refid="155" relation="include">
         </childnode>
       </node>
-      <node id="161">
+      <node id="165">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="172">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h</label>
-        <link refid="gfal__common__internal_8h"/>
-        <childnode refid="173" relation="include">
-        </childnode>
-        <childnode refid="174" relation="include">
-        </childnode>
-        <childnode refid="175" relation="include">
-        </childnode>
+      <node id="190">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</label>
+        <link refid="gfal__common__srm__access_8c"/>
       </node>
-      <node id="177">
-        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.c</label>
-        <link refid="gfal__voms__if_8c"/>
+      <node id="189">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h</label>
+        <link refid="gfal__common__srm__access_8h"/>
+        <childnode refid="190" relation="include">
+        </childnode>
+        <childnode refid="182" relation="include">
+        </childnode>
       </node>
       <node id="176">
-        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.h</label>
-        <link refid="gfal__voms__if_8h-source"/>
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h</label>
+        <link refid="gfal__common__internal_8h"/>
         <childnode refid="177" relation="include">
-        </childnode>
-      </node>
-      <node id="167">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_internals.h</label>
-        <link refid="gfal__internals_8h-source"/>
-      </node>
-      <node id="170">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
-        <link refid="gfal__posix_8c"/>
-      </node>
-      <node id="168">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_storage.h</label>
-        <link refid="gfal__common__storage_8h-source"/>
-        <childnode refid="169" relation="include">
-        </childnode>
-        <childnode refid="170" relation="include">
-        </childnode>
-      </node>
-      <node id="184">
-        <label>/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.h</label>
-        <link refid="gfal__common__mds_8h-source"/>
-        <childnode refid="182" relation="include">
-        </childnode>
-      </node>
-      <node id="174">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h</label>
-        <link refid="gfal__common__srm_8h"/>
-        <childnode refid="172" relation="include">
-        </childnode>
-      </node>
-      <node id="185">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
-        <link refid="gfal__posix__api_8h-source"/>
-        <childnode refid="170" relation="include">
-        </childnode>
-      </node>
-      <node id="173">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.c</label>
-        <link refid="gfal__common__interface_8c"/>
-      </node>
-      <node id="183">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h</label>
-        <link refid="gfal__common__interface_8h"/>
-        <childnode refid="173" relation="include">
-        </childnode>
-        <childnode refid="182" relation="include">
-        </childnode>
-      </node>
-      <node id="178">
-        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h</label>
-        <link refid="lfc__ifce_8h-source"/>
-        <childnode refid="166" relation="include">
-        </childnode>
-      </node>
-      <node id="182">
-        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c</label>
-        <link refid="lfc__ifce__ng_8c"/>
-      </node>
-      <node id="179">
-        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h</label>
-        <link refid="lfc__ifce__ng_8h"/>
-        <childnode refid="180" relation="include">
-        </childnode>
-        <childnode refid="175" relation="include">
-        </childnode>
-        <childnode refid="182" relation="include">
-        </childnode>
-      </node>
-      <node id="169">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.c</label>
-        <link refid="gfal__common_8c"/>
-      </node>
-      <node id="166">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
-        <link refid="gfal__common_8h"/>
-        <childnode refid="167" relation="include">
-        </childnode>
-        <childnode refid="168" relation="include">
-        </childnode>
-        <childnode refid="169" relation="include">
-        </childnode>
-        <childnode refid="171" relation="include">
-        </childnode>
-        <childnode refid="172" relation="include">
-        </childnode>
-        <childnode refid="176" relation="include">
-        </childnode>
-        <childnode refid="170" relation="include">
-        </childnode>
-      </node>
-      <node id="181">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
-        <link refid="gfal__common__catalog_8c"/>
-      </node>
-      <node id="164">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</label>
-        <link refid="gfal_common_catalog.h"/>
-        <childnode refid="165" relation="include">
-        </childnode>
-        <childnode refid="181" relation="include">
-        </childnode>
-        <childnode refid="180" relation="include">
-        </childnode>
-      </node>
-      <node id="171">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</label>
-        <link refid="gfal__common__all_8c"/>
-      </node>
-      <node id="165">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
-        <childnode refid="166" relation="include">
-        </childnode>
-        <childnode refid="164" relation="include">
         </childnode>
         <childnode refid="178" relation="include">
         </childnode>
         <childnode refid="179" relation="include">
         </childnode>
-        <childnode refid="183" relation="include">
+      </node>
+      <node id="181">
+        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.c</label>
+        <link refid="gfal__voms__if_8c"/>
+      </node>
+      <node id="180">
+        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.h</label>
+        <link refid="gfal__voms__if_8h-source"/>
+        <childnode refid="181" relation="include">
+        </childnode>
+      </node>
+      <node id="171">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_internals.h</label>
+        <link refid="gfal__internals_8h-source"/>
+      </node>
+      <node id="174">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
+        <link refid="gfal__posix_8c"/>
+      </node>
+      <node id="172">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_storage.h</label>
+        <link refid="gfal__common__storage_8h-source"/>
+        <childnode refid="173" relation="include">
+        </childnode>
+        <childnode refid="174" relation="include">
+        </childnode>
+      </node>
+      <node id="191">
+        <label>/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.h</label>
+        <link refid="gfal__common__mds_8h-source"/>
+        <childnode refid="187" relation="include">
+        </childnode>
+      </node>
+      <node id="193">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h</label>
+        <link refid="gfal__posix__internal_8h-source"/>
+        <childnode refid="174" relation="include">
+        </childnode>
+        <childnode refid="182" relation="include">
+        </childnode>
+      </node>
+      <node id="178">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h</label>
+        <link refid="gfal__common__srm_8h"/>
+        <childnode refid="176" relation="include">
+        </childnode>
+      </node>
+      <node id="192">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
+        <link refid="gfal__posix__api_8h-source"/>
+        <childnode refid="174" relation="include">
+        </childnode>
+      </node>
+      <node id="177">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.c</label>
+        <link refid="gfal__common__interface_8c"/>
+      </node>
+      <node id="188">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h</label>
+        <link refid="gfal__common__interface_8h"/>
+        <childnode refid="177" relation="include">
+        </childnode>
+        <childnode refid="187" relation="include">
+        </childnode>
+      </node>
+      <node id="183">
+        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h</label>
+        <link refid="lfc__ifce_8h-source"/>
+        <childnode refid="170" relation="include">
+        </childnode>
+      </node>
+      <node id="187">
+        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c</label>
+        <link refid="lfc__ifce__ng_8c"/>
+      </node>
+      <node id="184">
+        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h</label>
+        <link refid="lfc__ifce__ng_8h"/>
+        <childnode refid="185" relation="include">
+        </childnode>
+        <childnode refid="179" relation="include">
+        </childnode>
+        <childnode refid="187" relation="include">
+        </childnode>
+      </node>
+      <node id="173">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.c</label>
+        <link refid="gfal__common_8c"/>
+      </node>
+      <node id="170">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
+        <link refid="gfal__common_8h"/>
+        <childnode refid="171" relation="include">
+        </childnode>
+        <childnode refid="172" relation="include">
+        </childnode>
+        <childnode refid="173" relation="include">
+        </childnode>
+        <childnode refid="175" relation="include">
+        </childnode>
+        <childnode refid="176" relation="include">
+        </childnode>
+        <childnode refid="180" relation="include">
         </childnode>
         <childnode refid="174" relation="include">
         </childnode>
         <childnode refid="182" relation="include">
         </childnode>
-        <childnode refid="184" relation="include">
+      </node>
+      <node id="182">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
+        <link refid="gfal__posix__access_8c"/>
+      </node>
+      <node id="186">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
+        <link refid="gfal__common__catalog_8c"/>
+      </node>
+      <node id="168">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</label>
+        <link refid="gfal_common_catalog.h"/>
+        <childnode refid="169" relation="include">
+        </childnode>
+        <childnode refid="186" relation="include">
         </childnode>
         <childnode refid="185" relation="include">
         </childnode>
+        <childnode refid="182" relation="include">
+        </childnode>
       </node>
       <node id="175">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</label>
+        <link refid="gfal__common__all_8c"/>
+      </node>
+      <node id="169">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="170" relation="include">
+        </childnode>
+        <childnode refid="168" relation="include">
+        </childnode>
+        <childnode refid="183" relation="include">
+        </childnode>
+        <childnode refid="184" relation="include">
+        </childnode>
+        <childnode refid="188" relation="include">
+        </childnode>
+        <childnode refid="178" relation="include">
+        </childnode>
+        <childnode refid="189" relation="include">
+        </childnode>
+        <childnode refid="187" relation="include">
+        </childnode>
+        <childnode refid="191" relation="include">
+        </childnode>
+        <childnode refid="192" relation="include">
+        </childnode>
+        <childnode refid="193" relation="include">
+        </childnode>
+        <childnode refid="182" relation="include">
+        </childnode>
+      </node>
+      <node id="179">
         <label>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c</label>
         <link refid="gfal__common__lfc_8c"/>
       </node>
-      <node id="180">
+      <node id="185">
         <label>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h</label>
         <link refid="gfal__common__lfc_8h"/>
-        <childnode refid="181" relation="include">
+        <childnode refid="186" relation="include">
         </childnode>
-        <childnode refid="175" relation="include">
+        <childnode refid="179" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -315,7 +350,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="99" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="125" bodyend="138"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="99" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="149" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1d272f75eb549a72064524ecce3c25fe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -362,11 +397,71 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Execute an access methode on ALL the comaptible catalogs return the result of the first valid catalog for a given URL <simplesect kind="return"><para>result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned </para></simplesect>
+<para>Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL <simplesect kind="return"><para>result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="104" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="71" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__catalog_8h_1fdd144370f8c6df2564eaddbf26e2fd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_catalogs_guid_accessG</definition>
+        <argsstring>(gfal_handle handle, char *guid, int mode, GError **err)</argsstring>
+        <name>gfal_catalogs_guid_accessG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>guid</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute a guid access on the default specified catalog <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>guid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the element to check </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: mode of the access </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: Error report system </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return the content of the access call, or negative value if error </para></simplesect>
+<simplesect kind="warning"><para>no url syntaxe checking </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="106" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="105" bodyend="119"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1405974336e7b4ebaafeea02577d7d4d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -387,7 +482,7 @@
 <para>Delete all instance of catalogs </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="106" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="100" bodyend="112"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="108" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="124" bodyend="136"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1c304a754c49bedeec6c1c9b1445b937d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -406,7 +501,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="109" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1814" bodyend="1840"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="111" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1814" bodyend="1840"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1c25d6ed82e636c14d640318a2ad5f3b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -429,7 +524,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="110" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1843" bodyend="1889"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="112" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1843" bodyend="1889"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1f398c539d03eaea6dcb6b45067cb21f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -457,7 +552,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="111" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1272" bodyend="1284"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="113" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1272" bodyend="1284"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1f06de10d100ffd8ad880619661708810" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -485,7 +580,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="112" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1241" bodyend="1269"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="114" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1241" bodyend="1269"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1845c890f2d493921bd587158fab72d65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -516,7 +611,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="113" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1082" bodyend="1171"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="115" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1082" bodyend="1171"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_170868bce152313f31e24982453f10723" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -550,7 +645,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="114" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1174" bodyend="1238"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="116" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1174" bodyend="1238"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1ac34379d44fb4037af134b34a9aae030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -572,7 +667,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="115"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="117"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1446a829e4f333d3a0364ab0f2b5a2dc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -593,7 +688,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="116" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1776" bodyend="1810"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="118" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common.c" bodystart="1776" bodyend="1810"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_103347619db3b30ef54ae6a98e351e21f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char **</type>
@@ -606,7 +701,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="117" bodyfile="/home/adevress/myworkspace/gfal/src/common/checkprotolib.c" bodystart="268" bodyend="291"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="119" bodyfile="/home/adevress/myworkspace/gfal/src/common/checkprotolib.c" bodystart="268" bodyend="291"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_140d4c392e45e16062bc90caf0ebfa436" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>proto_ops *</type>
@@ -622,7 +717,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="118" bodyfile="/home/adevress/myworkspace/gfal/src/common/checkprotolib.c" bodystart="234" bodyend="258"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="120" bodyfile="/home/adevress/myworkspace/gfal/src/common/checkprotolib.c" bodystart="234" bodyend="258"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_1c8360922877ec368815d412209e862a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -641,7 +736,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="119" bodyfile="/home/adevress/myworkspace/gfal/src/common/checkprotolib.c" bodystart="293" bodyend="296"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="121" bodyfile="/home/adevress/myworkspace/gfal/src/common/checkprotolib.c" bodystart="293" bodyend="296"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -717,20 +812,22 @@
 <codeline lineno="103"><highlight class="normal"></highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_1c0a73bbac2867b3dd9c107f74114e8a6" kindref="member">gfal_catalogs_accessG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_1c0412247b6ddd6ceac7fb171c56adaad" kindref="member">gfal_catalogs_delete</ref>(gfal_handle,<sp/>GError**<sp/>err);</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="108"><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*get_default_se(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>purify_surl<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>setypesandendpointsfromsurl<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>***,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>***,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>setypesandendpoints<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>***,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>***,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>canonical_url<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>parseturl<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>replica_exists(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>getdomainnm<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*name,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>namelen);</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**get_sup_proto<sp/>();</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">proto_ops<sp/>*find_pops<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mapposixerror<sp/>(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>proto_ops<sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_1fdd144370f8c6df2564eaddbf26e2fd5" kindref="member">gfal_catalogs_guid_accessG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_1c0412247b6ddd6ceac7fb171c56adaad" kindref="member">gfal_catalogs_delete</ref>(gfal_handle,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*get_default_se(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>purify_surl<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>setypesandendpointsfromsurl<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>***,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>***,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>setypesandendpoints<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>***,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>***,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>canonical_url<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>parseturl<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>replica_exists(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>getdomainnm<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*name,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>namelen);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**get_sup_proto<sp/>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">proto_ops<sp/>*find_pops<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mapposixerror<sp/>(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>proto_ops<sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h"/>
   </compounddef>

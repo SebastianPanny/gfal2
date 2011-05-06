@@ -70,7 +70,7 @@ int \textbf{gfal\_\-stat64} (const char $\ast$, struct stat64 $\ast$)\label{grou
 \subsection{Function Documentation}
 \index{posix_group@{posix\_\-group}!gfal_access@{gfal\_\-access}}
 \index{gfal_access@{gfal\_\-access}!posix_group@{posix\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-access (const char $\ast$, int)}\label{group__posix__group_g33d6a4a93117a6c07405aa6ac0d42122}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-access (const char $\ast$ {\em path}, int {\em amode})}\label{group__posix__group_g33d6a4a93117a6c07405aa6ac0d42122}
 
 
 test access to the given file 
@@ -78,14 +78,18 @@ test access to the given file
 \begin{Desc}
 \item[Parameters:]
 \begin{description}
-\item[{\em file}]can be in supported protocols lfn, srm, file, tftp \end{description}
+\item[{\em file}]can be in supported protocols lfn, srm, file, guid \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately \par
+\item[Returns:]This routine return 0 if the operation was successful, errno if standard error occured or -1 if a internal gfal error occured (see gfal\_\-posix\_\-error()). \par
 \begin{itemize}
 \item ERRNO list : \par
 \begin{itemize}
-\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
+\item usual errors:\begin{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\end{itemize}
+\item gfal specific errors ( associated with a gfal\_\-posix\_\-error() ):\begin{itemize}
+\item ECOMM: Communication error\item EPROTONOSUPPORT: Access method not supported.\item EINVAL: path has an invalid syntax or amode is invalid. \end{itemize}
+\end{itemize}
 \end{itemize}
 \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_chmod@{gfal\_\-chmod}}

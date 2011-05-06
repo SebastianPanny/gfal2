@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "5 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "6 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -57,6 +57,9 @@
 .br
 .ti -1c
 .RI "int \fBgfal_catalogs_accessG\fP (gfal_handle handle, char *path, int mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalogs_guid_accessG\fP (gfal_handle handle, char *guid, int mode, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_catalogs_delete\fP (gfal_handle, GError **err)"
@@ -119,7 +122,7 @@ Devresse Adrien
 .PP 
 .SS "int gfal_catalogs_accessG (gfal_handle handle, char * path, int mode, GError ** err)"
 .PP
-Execute an access methode on ALL the comaptible catalogs return the result of the first valid catalog for a given URL 
+Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL 
 .PP
 \fBReturns:\fP
 .RS 4
@@ -130,6 +133,32 @@ result of the access method or the errno if error occured like a POSIX method. I
 .SS "int gfal_catalogs_delete (gfal_handle handle, GError ** err)"
 .PP
 Delete all instance of catalogs 
+.SS "int gfal_catalogs_guid_accessG (gfal_handle handle, char * guid, int mode, GError ** err)"
+.PP
+Execute a guid access on the default specified catalog 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP 
+.br
+\fIguid\fP of the element to check 
+.br
+\fImode\fP : mode of the access 
+.br
+\fIerr\fP : Error report system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return the content of the access call, or negative value if error 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+no url syntaxe checking 
+.RE
+.PP
+
 .SS "int gfal_catalogs_instance (gfal_handle handle, GError ** err)"
 .PP
 Instance all catalogs for use if it's not the case return the number of catalog available 

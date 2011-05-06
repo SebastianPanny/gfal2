@@ -1,0 +1,69 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h" 3 "6 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h \- header file for the access methode on the srm url type 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <glib.h>\fP
+.br
+\fC#include 'gfal_prototypes.h'\fP
+.br
+\fC#include 'gfal_types.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBgfal_srm_accessG\fP (gfal_handle handle, char *surl, int mode, GError **err)"
+.br
+.RI "\fIaccess method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+header file for the access methode on the srm url type 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+2.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+05/05/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "int gfal_srm_accessG (gfal_handle handle, char * surl, int mode, GError ** err)"
+.PP
+access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP 
+.br
+\fIsurl\fP srm url of a given file 
+.br
+\fImode,access\fP mode to check 
+.br
+\fIerr\fP : GError error reprot system 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+: not safe, surl must be verified 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

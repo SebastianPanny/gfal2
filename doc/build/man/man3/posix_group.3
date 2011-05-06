@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "5 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "6 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -86,36 +86,44 @@ all POSIX style function \-
 .in -1c
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_access (const char *, int)"
+.SS "int gfal_access (const char * path, int amode)"
 .PP
 test access to the given file 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIfile\fP can be in supported protocols lfn, srm, file, tftp 
+\fIfile\fP can be in supported protocols lfn, srm, file, guid 
 .RE
 .PP
 \fBReturns:\fP
 .RS 4
-This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately 
+This routine return 0 if the operation was successful, errno if standard error occured or -1 if a internal gfal error occured (see \fBgfal_posix_error()\fP). 
 .br
 .IP "\(bu" 2
 ERRNO list : 
 .br
 .IP "  \(bu" 4
+usual errors:
+.IP "    \(bu" 6
 ENOENT: The named file/directory does not exist.
-.IP "  \(bu" 4
+.IP "    \(bu" 6
 EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
-.IP "  \(bu" 4
+.IP "    \(bu" 6
 EFAULT: path is a NULL pointer.
-.IP "  \(bu" 4
+.IP "    \(bu" 6
 ENOTDIR: A component of path prefix is not a directory.
+.PP
+
 .IP "  \(bu" 4
-EINVAL: path has an invalid syntax or amode is invalid.
-.IP "  \(bu" 4
-ECOMM: Communication error.
-.IP "  \(bu" 4
-EPROTONOSUPPORT: Access method not supported. 
+gfal specific errors ( associated with a gfal_posix_error() ):
+.IP "    \(bu" 6
+ECOMM: Communication error
+.IP "    \(bu" 6
+EPROTONOSUPPORT: Access method not supported.
+.IP "    \(bu" 6
+EINVAL: path has an invalid syntax or amode is invalid. 
+.PP
+
 .PP
 
 .PP

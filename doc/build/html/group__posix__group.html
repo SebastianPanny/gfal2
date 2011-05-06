@@ -96,13 +96,13 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_stat64</b> (const
           <td class="memname">int gfal_access           </td>
           <td>(</td>
           <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"> <em>path</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"></td><td>&nbsp;</td>
+          <td class="paramname"> <em>amode</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -118,14 +118,18 @@ test access to the given file
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>file</em>&nbsp;</td><td>can be in supported protocols lfn, srm, file, tftp </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>file</em>&nbsp;</td><td>can be in supported protocols lfn, srm, file, guid </td></tr>
   </table>
 </dl>
-<dl compact><dt><b>Returns:</b></dt><dd>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately <br>
+<dl compact><dt><b>Returns:</b></dt><dd>This routine return 0 if the operation was successful, errno if standard error occured or -1 if a internal gfal error occured (see gfal_posix_error()). <br>
 <ul>
 <li>ERRNO list : <br>
 <ul>
-<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</li><li>EFAULT: path is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.</li><li>EINVAL: path has an invalid syntax or amode is invalid.</li><li>ECOMM: Communication error.</li><li>EPROTONOSUPPORT: Access method not supported. </li></ul>
+<li>usual errors:<ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</li><li>EFAULT: path is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.</li></ul>
+</li><li>gfal specific errors ( associated with a gfal_posix_error() ):<ul>
+<li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: Access method not supported.</li><li>EINVAL: path has an invalid syntax or amode is invalid. </li></ul>
+</li></ul>
 </li></ul>
 </dd></dl>
 
@@ -380,7 +384,7 @@ opens a file according to the value of flags
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu May 5 15:20:16 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri May 6 16:13:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

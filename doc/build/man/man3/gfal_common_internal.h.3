@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h" 3 "5 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h" 3 "6 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -32,6 +32,9 @@
 .RI "int \fBresolve_dlsym_listG\fP (void *handle, void ***flist, const char **sym_list, int num, GError **err)"
 .br
 .RI "\fIopen dynamycally a list of symbols resolve all symbols from sym_list to flist with the associated dlhandle set GError properly if error \fP"
+.ti -1c
+.RI "gboolean \fBis_valid_access_result\fP (int status)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 

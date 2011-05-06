@@ -1,0 +1,41 @@
+\section{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-srm\_\-access.c File Reference}
+\label{gfal__common__srm__access_8c}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-srm\_\-access.c}}
+file for the access methode on the srm url type 
+
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-access.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include $<$gfal\_\-srm\_\-ifce\_\-types.h$>$}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \bf{gfal\_\-srm\_\-access\-G} (gfal\_\-handle handle, char $\ast$surl, int mode, GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+file for the access methode on the srm url type 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]2.0 \end{Desc}
+\begin{Desc}
+\item[Date:]05/05/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common_srm_access.c@{gfal\_\-common\_\-srm\_\-access.c}!gfal_srm_accessG@{gfal\_\-srm\_\-accessG}}
+\index{gfal_srm_accessG@{gfal\_\-srm\_\-accessG}!gfal_common_srm_access.c@{gfal\_\-common\_\-srm\_\-access.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-access\-G (gfal\_\-handle {\em handle}, char $\ast$ {\em surl}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__access_8c_e32a5d03243ee2f17e43fadc4c421612}
+
+
+access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]\item[{\em surl}]srm url of a given file \item[{\em mode,access}]mode to check \item[{\em err}]: GError error reprot system \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Warning:]: not safe, surl must be verified \end{Desc}
