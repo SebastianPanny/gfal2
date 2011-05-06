@@ -41,3 +41,7 @@ void gfal_new_request_state(gfal_handle handle);
 
 
 int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int num, GError** err);
+
+
+
+ gboolean is_valid_access_result(int status);

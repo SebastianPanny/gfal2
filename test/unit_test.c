@@ -91,6 +91,7 @@ Suite* common_suite (void)
   suite_add_tcase (s, tc_srm);
   TCase* tc_srm_access= tcase_create("SRM_ACCESS");
   tcase_add_test(tc_srm_access, test_create_srm_access_check_file);
+  tcase_add_test(tc_srm_access, test_create_srm_access_read_file);
   suite_add_tcase(s, tc_srm_access);
   TCase* tc_srm_no_glib = tcase_create("SRM_NO_GLIB");
   tcase_add_test(tc_srm_no_glib, test_srm_api_no_glib_full);

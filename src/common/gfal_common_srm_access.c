@@ -53,7 +53,7 @@ static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, char* 
 		return ECOMM;
 	}
 	for(i=0; i< nb_request; ++i){
-		if( resu[i].status != 0 && resu[i].status != EACCES && resu[i].status != ENOENT){
+		if( !is_valid_access_result(resu[i].status)){
 			if( strnlen(resu[i].surl, GFAL_URL_MAX_LEN) >= GFAL_URL_MAX_LEN || strnlen(resu[i].explanation, GFAL_URL_MAX_LEN) >= GFAL_URL_MAX_LEN){
 				g_set_error(err, 0, ECOMM, "[gfal_access_srmv2_internal] Memory corruption in the libgfal_srm_ifce answer, fatal");			
 			}else{

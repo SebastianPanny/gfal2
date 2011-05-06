@@ -212,7 +212,7 @@ struct dirent64 *gfal_readdir64 (DIR *);
 #endif
 
 
-const char *gfal_version ();
+
 /**
  * \brief set the verbose global level
  * \param values : { \ref GFAL_VERBOSE_QUIET, \ref GFAL_VERBOSE_NORMAL , \ref GFAL_VERBOSE_VERBOSE , \ref GFAL_VERBOSE_DEBUG  }

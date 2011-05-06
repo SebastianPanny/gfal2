@@ -125,3 +125,25 @@ const char * gfal_version (){
     return gfalversion;
 }
 
+/***
+ * check the validity of a result for a "access" standard call
+ * @return TRUE if status is a valid and standard access methode error, else return FALSE
+ * */
+ gboolean is_valid_access_result(int status){
+	 switch(status){
+		 case 0:
+		 case ENOENT:
+		 case EACCES:
+		 case ELOOP:
+		 case ENAMETOOLONG:
+		 case ENOTDIR:
+		 case EROFS:{
+			return TRUE;
+		 }
+		 default:{
+			return FALSE;		 
+		}
+	}
+	 
+ }
+

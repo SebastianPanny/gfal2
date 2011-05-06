@@ -22,7 +22,7 @@ START_TEST (test_create_srm_access_check_file)
 
 	int check = gfal_srm_accessG(handle, TEST_SRM_VALID_SURL_EXAMPLE1, F_OK, &err);
 	if(check != 0 || err){
-		fail(" must be a valid surl and readable file \n");
+		fail(" must be a valid surl \n");
 		gfal_release_GError(&err);
 		return;
 	}
@@ -36,3 +36,27 @@ START_TEST (test_create_srm_access_check_file)
 }
 END_TEST
 
+START_TEST (test_create_srm_access_read_file)
+{
+	GError* err=NULL;
+	gfal_handle handle = gfal_initG(&err);
+	if(handle == NULL){
+		fail(" handle is not properly allocated");
+		return;
+	}
+
+	int check = gfal_srm_accessG(handle, TEST_SRM_VALID_SURL_EXAMPLE1, R_OK, &err);
+	if(check != 0 || err){
+		fail(" must be a  readable file \n");
+		gfal_release_GError(&err);
+		return;
+	}
+	check = gfal_srm_accessG(handle, TEST_SRM_INVALID_SURL_EXAMPLE2, R_OK, &err);
+	if(check != ENOENT || err){
+		fail(" must be an invalid surl ");
+		gfal_release_GError(&err);
+		return;
+	}
+	gfal_handle_freeG(handle);
+}
+END_TEST
