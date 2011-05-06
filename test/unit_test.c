@@ -37,6 +37,7 @@
 #include "common/gfal__test_catalog.c"
 #include "common/voms/gfal__test_voms.c"
 #include "common/gfal__test_common_srm.c"
+#include "common/gfal__test_common_srm_access.c"
 #include "common/mds/gfal__test_common_mds.c"
 #include "common/lfc/gfal__test_common_lfc.c"
 #include "common/gfal__test_common_srm_no_glib.c"
@@ -88,6 +89,9 @@ Suite* common_suite (void)
   tcase_add_test(tc_srm, test_gfal_async_results_errcode);
   tcase_add_test(tc_srm, test_full_gfal_get_request_multi);  
   suite_add_tcase (s, tc_srm);
+  TCase* tc_srm_access= tcase_create("SRM_ACCESS");
+  tcase_add_test(tc_srm_access, test_create_srm_access_check_file);
+  suite_add_tcase(s, tc_srm_access);
   TCase* tc_srm_no_glib = tcase_create("SRM_NO_GLIB");
   tcase_add_test(tc_srm_no_glib, test_srm_api_no_glib_full);
   suite_add_tcase(s, tc_srm_no_glib);

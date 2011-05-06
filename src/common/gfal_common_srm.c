@@ -308,7 +308,6 @@ static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls,
     	req_state->finished = FALSE;
 	}
 
-	free(endpoint);
 	free(surls_tab);
 	return ret;	
 }
@@ -358,12 +357,13 @@ int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
 		if(ret <0)
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_asyncG]");
 	} else if(srm_types == PROTO_SRM){
-			g_set_error(err,0, EPROTONOSUPPORT, "[gfal_get_asyncG] Tentative d'utilisation de SRMv1 déprécié, Seul SRMv2 est autorisé : echec");
+			g_set_error(err,0, EPROTONOSUPPORT, "[gfal_get_asyncG] support for SRMv1 is removed in 2.0, failure");
 			ret =  -1;
 	} else{
 		ret=-1;
-		g_set_error(err,0,EPROTONOSUPPORT, "[gfal_get_asyncG] Type de protocole spécifié non supporté ( Supportés :  SRMv2 ) ");
+		g_set_error(err,0,EPROTONOSUPPORT, "[gfal_get_asyncG] Unknow SRM protocol, failure ");
 	}
+	free(full_endpoint);
 	return ret;	
 }
 

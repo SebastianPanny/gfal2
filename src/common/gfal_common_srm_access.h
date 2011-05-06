@@ -24,7 +24,11 @@
  * @date 05/05/2011
  * */
 
+#include <glib.h>
+#include "gfal_prototypes.h"
+#include "gfal_types.h" 
 
+int gfal_srm_accessG(gfal_handle handle, char* surl, int mode, GError** err); 
 
 
 
