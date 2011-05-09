@@ -121,7 +121,7 @@ test access to the given file
     <tr><td valign="top"></td><td valign="top"><em>file</em>&nbsp;</td><td>can be in supported protocols lfn, srm, file, guid </td></tr>
   </table>
 </dl>
-<dl compact><dt><b>Returns:</b></dt><dd>This routine return 0 if the operation was successful, errno if standard error occured or -1 if a internal gfal error occured (see gfal_posix_error()). <br>
+<dl compact><dt><b>Returns:</b></dt><dd>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call gfal_posix_error() to check it. <br>
 <ul>
 <li>ERRNO list : <br>
 <ul>
@@ -384,7 +384,7 @@ opens a file according to the value of flags
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri May 6 16:13:02 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon May 9 17:53:06 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

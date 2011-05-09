@@ -1,0 +1,66 @@
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "9 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c \- main file of the posix lib ng 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include '../common/gfal_constants.h'\fP
+.br
+\fC#include 'gfal_posix_api.h'\fP
+.br
+\fC#include 'gfal_posix_internal.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBgfal_access\fP (const char *path, int amode)"
+.br
+.RI "\fItest access to the given file \fP"
+.ti -1c
+.RI "void \fBgfal_posix_print_error\fP ()"
+.br
+.ti -1c
+.RI "void \fBgfal_posix_release_error\fP ()"
+.br
+.ti -1c
+.RI "void \fBgfal_posix_clear_error\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+main file of the posix lib ng 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+2.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+09/05/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "void gfal_posix_clear_error ()"
+.PP
+clear the last error reported by a gfal posix function 
+.SS "void gfal_posix_print_error ()"
+.PP
+Display the last string error reported by the gfal error system for the posix API Errors are printed on stderr 
+.SS "void gfal_posix_release_error ()"
+.PP
+Display and clear the last string error reported by the gfal error system for the posix API and similar to a \fBgfal_posix_print_error()\fP and a \fBgfal_posix_clear_error()\fP 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

@@ -28,7 +28,7 @@
 <para>can be in supported protocols lfn, srm, file, guid </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine return 0 if the operation was successful, errno if standard error occured or -1 if a internal gfal error occured (see gfal_posix_error() ). <linebreak/>
+<simplesect kind="return"><para>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call gfal_posix_error()  to check it. <linebreak/>
 <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
@@ -42,7 +42,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="32" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="218" bodyend="220"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="32" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="50" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gdfeeecb2052d81e65bcc09903655991b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -83,7 +83,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="222" bodyend="245"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="203" bodyend="226"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g83b88bd27def4c4e2fdfea3c5bbf88b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -105,7 +105,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="249" bodyend="284"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="230" bodyend="265"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g1c97c21d23c919b2647f17bbc8b79db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -134,7 +134,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="289" bodyend="310"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="270" bodyend="291"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g5fcdc6f3e7911787be049e20b6ab19b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -174,7 +174,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="92" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="312" bodyend="314"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="92" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="293" bodyend="295"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g48783e60cafa1a3bf9aa2170b99f9b08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -193,7 +193,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="96" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="316" bodyend="318"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="96" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="297" bodyend="299"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g8ba4e1df5f2e6439641c56f245d5ce73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>off_t</type>
@@ -222,7 +222,7 @@
 gfal_lseek64 performs the same function on large files using off64_t rather than off_t. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="124" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="323" bodyend="334"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="124" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="304" bodyend="315"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g6f6affcf386900efc5443a9c97556a57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -241,7 +241,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="126" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="351" bodyend="439"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="126" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="332" bodyend="420"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g6a431a0bdd01baf8cadbdcaa98b1c622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -297,7 +297,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="146" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="442" bodyend="632"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="146" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="423" bodyend="613"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gbed417acea7f862ea1977417ed842ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -319,7 +319,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="148" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="635" bodyend="638"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="148" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="616" bodyend="619"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g004ad5efbd544da820823e597e57be92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>DIR *</type>
@@ -335,7 +335,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="150" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="641" bodyend="714"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="150" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="622" bodyend="695"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gaa6bfe36f33b86e489b798aed96912de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
@@ -357,7 +357,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="152" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="717" bodyend="729"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="152" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="698" bodyend="710"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g2a8ed205f7748d7817a18521268a1f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>dirent *</type>
@@ -373,7 +373,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="154" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="732" bodyend="744"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="154" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="713" bodyend="725"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g34dc6129530d6bf9e5836ef22c0d2792" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -392,7 +392,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="156" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="762" bodyend="844"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="156" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="743" bodyend="825"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gcc4b6347640a722674c2d6df437490df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -408,7 +408,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="847" bodyend="944"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="828" bodyend="925"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g45a23756f2c79a7e07488bb3fb2fc35e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
@@ -446,7 +446,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="162" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1126" bodyend="1280"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="162" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1107" bodyend="1261"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g00c2d64894ae81c05846b06c84727ae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
@@ -468,7 +468,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="164" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1283" bodyend="1297"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="164" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1264" bodyend="1278"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g39c7d0b6d366fdb0f218439ed3c3bb37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>off64_t</type>
@@ -490,7 +490,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="166" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="337" bodyend="348"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="166" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="318" bodyend="329"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g347f867802a33bc04fdfb769da857103" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -509,7 +509,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="168" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1092" bodyend="1107"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="168" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1073" bodyend="1088"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g739ca4985a67e0fc4fc253f42df2638c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -528,7 +528,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="170" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1113" bodyend="1122"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="170" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1094" bodyend="1103"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g1d8c86d522d5dd26ee7ddcd9c6925964" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -547,7 +547,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="172" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1057" bodyend="1072"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="172" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1038" bodyend="1053"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gb40e2d23618763284ab4a1fb1a06a880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -566,7 +566,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="174" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1078" bodyend="1087"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="174" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1059" bodyend="1068"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

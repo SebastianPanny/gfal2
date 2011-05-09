@@ -37,14 +37,14 @@
 <p>
 <h3><a class="anchor" name="index_g">- g -</a></h3><ul>
 <li>gfal_access()
-: <a class="el" href="group__posix__group.html#g33d6a4a93117a6c07405aa6ac0d42122">gfal_posix.c</a><li>gfal_async_request_is_finished()
+: <a class="el" href="group__posix__group.html#g33d6a4a93117a6c07405aa6ac0d42122">gfal_posix_ng.c</a><li>gfal_async_request_is_finished()
 : <a class="el" href="gfal__common__interface_8h.html#ce6fcac8e92ad2e1d699eed2ce74a257">gfal_common_interface.h</a>, <a class="el" href="gfal__common__interface_8c.html#ce6fcac8e92ad2e1d699eed2ce74a257">gfal_common_interface.c</a><li>gfal_async_request_is_finishedG()
 : <a class="el" href="gfal__common__srm_8h.html#b628e9ad3599f656f022f9101020f519">gfal_common_srm.h</a><li>gfal_catalogs_accessG()
 : <a class="el" href="gfal__common__catalog_8h.html#c0a73bbac2867b3dd9c107f74114e8a6">gfal_common_catalog.h</a>, <a class="el" href="gfal__common__catalog_8c.html#c0a73bbac2867b3dd9c107f74114e8a6">gfal_common_catalog.c</a><li>gfal_catalogs_delete()
 : <a class="el" href="gfal__common__catalog_8h.html#405974336e7b4ebaafeea02577d7d4d5">gfal_common_catalog.h</a>, <a class="el" href="gfal__common__catalog_8c.html#c0412247b6ddd6ceac7fb171c56adaad">gfal_common_catalog.c</a><li>gfal_catalogs_guid_accessG()
 : <a class="el" href="gfal__common__catalog_8h.html#fdd144370f8c6df2564eaddbf26e2fd5">gfal_common_catalog.h</a>, <a class="el" href="gfal__common__catalog_8c.html#fdd144370f8c6df2564eaddbf26e2fd5">gfal_common_catalog.c</a><li>gfal_catalogs_instance()
 : <a class="el" href="gfal__common__catalog_8h.html#d272f75eb549a72064524ecce3c25fe7">gfal_common_catalog.h</a>, <a class="el" href="gfal__common__catalog_8c.html#96ebd098ad2447a81f096207879b9d3a">gfal_common_catalog.c</a><li>gfal_check_local_url()
-: <a class="el" href="gfal__posix__local__file_8c.html#7d8ee40247d868fda62f2da9c57ac624">gfal_posix_local_file.c</a><li>gfal_chmod()
+: <a class="el" href="gfal__posix__local__file_8c.html#02987ce8beeb908c36ee3d4ef3bc5618">gfal_posix_local_file.c</a><li>gfal_chmod()
 : <a class="el" href="group__posix__group.html#gdfeeecb2052d81e65bcc09903655991b">gfal_posix.c</a><li>gfal_clear_error()
 : <a class="el" href="gfal__common__interface_8h.html#4ca376cf47166fabd46a45fccb863ebe">gfal_common_interface.h</a>, <a class="el" href="gfal__common__interface_8c.html#4ca376cf47166fabd46a45fccb863ebe">gfal_common_interface.c</a><li>gfal_close()
 : <a class="el" href="group__posix__group.html#g83b88bd27def4c4e2fdfea3c5bbf88b4">gfal_posix.c</a><li>gfal_closedir()
@@ -82,9 +82,13 @@
 : <a class="el" href="group__posix__group.html#g8ba4e1df5f2e6439641c56f245d5ce73">gfal_posix.c</a><li>gfal_new_request_state()
 : <a class="el" href="gfal__common__internal_8h.html#3453c8a22faa54f7bf3278d5ecd7785d">gfal_common_internal.h</a><li>gfal_open()
 : <a class="el" href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622">gfal_posix.c</a><li>gfal_parse_vomsdataG()
-: <a class="el" href="gfal__voms__if_8c.html#fad846d1ae353ebf568469b4d15cab50">gfal_voms_if.c</a><li>gfal_print_verbose()
+: <a class="el" href="gfal__voms__if_8c.html#fad846d1ae353ebf568469b4d15cab50">gfal_voms_if.c</a><li>gfal_posix_clear_error()
+: <a class="el" href="gfal__posix__ng_8c.html#a8252652c1dc86d71ba37b401fb675f9">gfal_posix_ng.c</a><li>gfal_posix_print_error()
+: <a class="el" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_ng.c</a><li>gfal_posix_release_error()
+: <a class="el" href="gfal__posix__ng_8c.html#85337290460234042db0adfd54514df9">gfal_posix_ng.c</a><li>gfal_print_verbose()
 : <a class="el" href="gfal__common__errverbose_8h.html#8b05640b4b43a776603bd93703c29d30">gfal_common_errverbose.h</a>, <a class="el" href="gfal__common__errverbose_8c.html#8b05640b4b43a776603bd93703c29d30">gfal_common_errverbose.c</a><li>gfal_release_GError()
-: <a class="el" href="gfal__common__errverbose_8h.html#1441ea4b8176eb0cf3099009b950a3e9">gfal_common_errverbose.h</a>, <a class="el" href="gfal__common__errverbose_8c.html#1441ea4b8176eb0cf3099009b950a3e9">gfal_common_errverbose.c</a><li>gfal_set_nobdii()
+: <a class="el" href="gfal__common__errverbose_8h.html#1441ea4b8176eb0cf3099009b950a3e9">gfal_common_errverbose.h</a>, <a class="el" href="gfal__common__errverbose_8c.html#1441ea4b8176eb0cf3099009b950a3e9">gfal_common_errverbose.c</a><li>gfal_request_new()
+: <a class="el" href="gfal__common_8h.html#b5d503849656335232e56583b376ee22">gfal_common.h</a>, <a class="el" href="gfal__common_8c.html#b5d503849656335232e56583b376ee22">gfal_common.c</a><li>gfal_set_nobdii()
 : <a class="el" href="group__common__group.html#g267920b468d7578c10aa25469f8cadf7">gfal_posix.c</a><li>gfal_set_nobdii_srm()
 : <a class="el" href="gfal__common__interface_8c.html#95450f539ccc18d88b0d7dede8519bef">gfal_common_interface.c</a><li>gfal_set_verbose()
 : <a class="el" href="group__common__group.html#g331e181c2fadd801321ad43033835052">gfal_common_errverbose.h</a>, <a class="el" href="group__common__group.html#g331e181c2fadd801321ad43033835052">gfal_common_errverbose.c</a><li>gfal_set_vo()
@@ -100,7 +104,7 @@
 <h3><a class="anchor" name="index_r">- r -</a></h3><ul>
 <li>resolve_dlsym_listG()
 : <a class="el" href="gfal__common__internal_8h.html#0323a4ab58106e316851c1ae06148e28">gfal_common_internal.h</a>, <a class="el" href="gfal__common__all_8c.html#0323a4ab58106e316851c1ae06148e28">gfal_common_all.c</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Fri May 6 16:13:02 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon May 9 17:53:06 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
