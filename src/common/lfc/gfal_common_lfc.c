@@ -60,7 +60,8 @@ int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 	int ret = ops->access(url, mode);
 	if(ret <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err, 0, sav_errno, "[lfc_accessG] lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, ops->sstrerror(sav_errno) );
+		if(sav_errno == ECOMM)
+			g_set_error(err, 0, sav_errno, "[lfc_accessG] lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, ops->sstrerror(sav_errno) );
 		free(url);
 		return sav_errno; 
 	}
@@ -75,7 +76,7 @@ int lfc_access_guidG(catalog_handle handle, char* guid, int mode, GError** err){
 	int ret;
 	char* tmp_guid = lfc_urlconverter(guid, GFAL_GUID_PREFIX);
 	if( (lfn = gfal_convert_guid_to_lfn(handle, tmp_guid, &tmp_err)) == NULL){
-		if(tmp_err->code == ENOENT || tmp_err->code == EINVAL){ // GUID is not valid -> the file not exist
+		if( tmp_err->code == ENOENT || tmp_err->code==EINVAL ){ // GUID is not valid -> the file not exist
 			g_clear_error(&tmp_err);
 			return ENOENT;
 		}else{
@@ -88,7 +89,8 @@ int lfc_access_guidG(catalog_handle handle, char* guid, int mode, GError** err){
 	ret = ops->access(lfn, mode);
 	if(ret <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err, 0, sav_errno, "[lfc_access_guidG] lfc access error, lfc_endpoint :%s,  guid : %s, converter lfn %s, error : %s", ops->lfc_endpoint, guid, lfn, ops->sstrerror(sav_errno) );
+		if(sav_errno==ECOMM)
+			g_set_error(err, 0, sav_errno, "[lfc_access_guidG] lfc access error, lfc_endpoint :%s,  guid : %s, converter lfn %s, error : %s", ops->lfc_endpoint, guid, lfn, ops->sstrerror(sav_errno) );
 		ret= sav_errno; 
 	}
 	free(lfn);

@@ -62,5 +62,6 @@ int gfal_access_posix_internal(const char *path, int amode){
 			g_set_error(gfal_get_last_gerror(handle),0,EINVAL,"[gfal_access] invalid path, path must begin with file:// lfn:/ guid:/ or srm:// : %s", path);
 		}
 	}
-	return resu;
+	errno = resu;
+	return (resu)?(-1):0;
 }

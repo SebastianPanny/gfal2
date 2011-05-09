@@ -86,7 +86,7 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
 		}
 		if(comp){
 			int ret = cata_list->accessG(cata_list->handle, path, mode, &tmp_err);
-			if(ret <0)
+			if(tmp_err)
 				g_propagate_prefixed_error(err, tmp_err,"[gfal_catalogs_accessG]"); 
 			return ret;			
 		}	

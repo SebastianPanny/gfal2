@@ -120,6 +120,8 @@ Suite* posix_suite (void)
   Suite *s = suite_create ("Posix :");
   TCase* tc_access = tcase_create("ACCESS");
   tcase_add_test(tc_access, test_access_posix_guid_exist);  
+  tcase_add_test(tc_access, test_access_posix_guid_read);
+  tcase_add_test(tc_access, test_access_posix_guid_write);
   suite_add_tcase(s, tc_access);
   return s;
 }
