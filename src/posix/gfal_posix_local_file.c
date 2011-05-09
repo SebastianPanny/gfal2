@@ -36,7 +36,7 @@
 /**
  * check the validity of a classique file url
  * */ 
-gboolean gfal_check_local_url(const char* path, GError* err){
+gboolean gfal_check_local_url(const char* path, GError** err){
 	regex_t rex;
 	int ret = regcomp(&rex, "^file://([:print:]|/)+",REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_local_url] fail to compile regex, report this bug");

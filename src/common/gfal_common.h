@@ -58,7 +58,9 @@ gboolean gfal_guid_checker(const char* guid, GError** err);
 
 GError** gfal_get_last_gerror(gfal_handle);
 
-
+/**
+ * end next gen
+ * */
 gfal_request gfal_request_new ();
 int gfal_init (gfal_request, gfal_handle *, char *, int);
 int gfal_deletesurls (gfal_handle, char *, int);

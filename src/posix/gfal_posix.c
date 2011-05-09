@@ -199,25 +199,6 @@ int gfal_access (const char *path, int amode){
     return (rc);
 }*/
 
-/**
- * \brief test access to the given file
- * \param file can be in supported protocols lfn, srm, file, guid
- * \return This routine return 0 if the operation was successful, errno if standard error occured or -1 if a internal gfal error occured (see \ref gfal_posix_error()). \n
- *  - ERRNO list : \n
- *    	- usual errors:
- *    		- ENOENT: The named file/directory does not exist.
- *    		- EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
- *   		- EFAULT: path is a NULL pointer.
- *   		- ENOTDIR: A component of path prefix is not a directory.
- *  	- gfal specific errors ( associated with a gfal_posix_error() ):
- *   		- ECOMM: Communication error
- *   		- EPROTONOSUPPORT: Access method not supported.
- *   		- EINVAL: path has an invalid syntax or amode is invalid.
- * 
- */
-int gfal_access (const char *path, int amode){
-	return gfal_access_posix_internal(path, amode);	
-}
 
 int gfal_chmod (const char *path, mode_t mode){
     char pathbuf[1104];

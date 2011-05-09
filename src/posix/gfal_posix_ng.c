@@ -60,11 +60,11 @@ void gfal_posix_print_error(){
 	gfal_handle handle;
 	char* msg;
 	if((handle = gfal_posix_instance()) == NULL){
-		g_printerr("[gfal][gfal_posix_print_error] Initialisation error gfal_posix_instance() failure");
-	}else if ( (msg= handle->err->message) != NULL)
+		g_printerr("[gfal][gfal_posix_print_error] Initialisation error gfal_posix_instance() failure\n");
+	}else if ( (msg= handle->err) != NULL){
 		g_printerr("[gfal] %s \n", msg);
 	}else{
-		g_printerr("[gfal][gfal_posix_print_error] No gfal error reported");
+		g_printerr("[gfal][gfal_posix_print_error] No gfal error reported\n");
 	}
 }
 
@@ -76,12 +76,12 @@ void gfal_posix_release_error(){
 	gfal_handle handle;
 	char* msg;
 	if((handle = gfal_posix_instance()) == NULL){
-		g_printerr("[gfal][gfal_posix_release_error] Initialisation error gfal_posix_instance() failure");
-	}else if ( (msg= handle->err->message) != NULL)
+		g_printerr("[gfal][gfal_posix_release_error] Initialisation error gfal_posix_instance() failure\n");
+	}else if ( (msg= handle->err) != NULL){
 		g_printerr("[gfal] %s \n", msg);
 		g_clear_error( &(handle->err));
 	}else{
-		g_printerr("[gfal][gfal_posix_release_error] No gfal error reported");
+		g_printerr("[gfal][gfal_posix_release_error] No gfal error reported\n");
 	}
 }
 
@@ -93,11 +93,11 @@ void gfal_posix_clear_error(){
 	gfal_handle handle;
 	char* msg;
 	if((handle = gfal_posix_instance()) == NULL){
-		g_printerr("[gfal][gfal_posix_clear_error] Initialisation error gfal_posix_instance() failure");
-	}else if ( (msg= handle->err) != NULL)
+		g_printerr("[gfal][gfal_posix_clear_error] Initialisation error gfal_posix_instance() failure\n");
+	}else if ( (msg= handle->err) != NULL){
 		g_clear_error( &(handle->err));
 	}else{
-		g_printerr("[gfal][gfal_posix_clear_error] No gfal error reported");
+		g_printerr("[gfal][gfal_posix_clear_error] No gfal error reported\n");
 	}
 }
 

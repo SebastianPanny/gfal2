@@ -41,6 +41,7 @@
 #include "common/mds/gfal__test_common_mds.c"
 #include "common/lfc/gfal__test_common_lfc.c"
 #include "common/gfal__test_common_srm_no_glib.c"
+#include "posix/test__gfal_posix_access.c"
 
 Suite* common_suite (void)
 {
@@ -110,19 +111,26 @@ Suite* common_suite (void)
   tcase_add_test(tc_lfc, test_gfal_common_lfc_check_filename);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_access_guid_file_exist);
   suite_add_tcase(s, tc_lfc);
-
+  // POSIX TESTS
   return s;
 }
 
-
-
+Suite* posix_suite (void)
+{
+  Suite *s = suite_create ("Posix :");
+  TCase* tc_access = tcase_create("ACCESS");
+  tcase_add_test(tc_access, test_access_posix_guid_exist);  
+  suite_add_tcase(s, tc_access);
+  return s;
+}
 
 int main (int argc, char** argv)
 {
-  fprintf(stderr, " tests : %s ", getenv("LD_LIBRARY_PATH"));
+  //fprintf(stderr, " tests : %s ", getenv("LD_LIBRARY_PATH"));
   int number_failed;
   Suite *s = common_suite ();
   SRunner *sr = srunner_create (s);
+  srunner_add_suite(sr, posix_suite());
   srunner_set_fork_status(sr, CK_NOFORK); // no fork mode for gdb
   srunner_run_all (sr, CK_VERBOSE);
   number_failed = srunner_ntests_failed (sr);
