@@ -77,7 +77,7 @@ SConscript('testing/SConscript', ['env', 'headers', 'libs'])
 
 #unit tests
 env_test = env.Clone()
-env_test.Append(CPPPATH=[ccheck_header, "#src/common", "#src/"])
+env_test.Append(CPPPATH=[ccheck_header, "#src/common", "#src/", "#src/posix"])
 VariantDir(build_dir_test, 'test')
 SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','ccheck_header','ccheck_lib'])
 	

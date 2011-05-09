@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <glib.h>
 #include <regex.h>
+#include "../common/gfal_common_errverbose.h"
 
 #define GFAL_LOCAL_PREFIX "file://"
 
