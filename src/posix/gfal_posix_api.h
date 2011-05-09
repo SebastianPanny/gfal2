@@ -36,6 +36,12 @@
 
 int gfal_access (const char *, int);
 
+void gfal_posix_clear_error();
+
+void gfal_posix_release_error();
+
+void gfal_posix_print_error();
+
 /**
  * \brief set rights of the file/dir 
  * 
