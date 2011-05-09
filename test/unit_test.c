@@ -122,6 +122,12 @@ Suite* posix_suite (void)
   tcase_add_test(tc_access, test_access_posix_guid_exist);  
   tcase_add_test(tc_access, test_access_posix_guid_read);
   tcase_add_test(tc_access, test_access_posix_guid_write);
+  tcase_add_test(tc_access, test_access_posix_lfn_exist);
+  tcase_add_test(tc_access, test_access_posix_lfn_read);
+  tcase_add_test(tc_access, test_access_posix_lfn_write);
+  tcase_add_test(tc_access, test_access_posix_srm_exist);
+  tcase_add_test(tc_access, test_access_posix_srm_read);
+  tcase_add_test(tc_access, test_access_posix_srm_write);
   suite_add_tcase(s, tc_access);
   return s;
 }
