@@ -34,7 +34,7 @@
 /**
  * \brief test access to the given file
  * \param file can be in supported protocols lfn, srm, file, guid
- * \return This routine return 0 if the operation was successful, errno if standard error occured or -1 if a internal gfal error occured (see \ref gfal_posix_error()). \n
+ * \return This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \ref gfal_posix_error() to check it. \n
  *  - ERRNO list : \n
  *    	- usual errors:
  *    		- ENOENT: The named file/directory does not exist.
@@ -58,13 +58,16 @@ int gfal_access (const char *path, int amode){
  */
 void gfal_posix_print_error(){
 	gfal_handle handle;
-	char* msg;
+	GError* err=NULL;
 	if((handle = gfal_posix_instance()) == NULL){
-		g_printerr("[gfal][gfal_posix_print_error] Initialisation error gfal_posix_instance() failure\n");
-	}else if ( (msg= handle->err) != NULL){
-		g_printerr("[gfal] %s \n", msg);
+		g_printerr("[gfal] Initialisation error gfal_posix_instance() failure\n");
+	}else if ( (err = handle->err) != NULL){
+		g_printerr("[gfal]%s \n", err->message);
+	}else if(errno !=0){
+		char* sterr = strerror(errno);
+		g_printerr("[gfal] errno reported by external lib : %s", sterr);
 	}else{
-		g_printerr("[gfal][gfal_posix_print_error] No gfal error reported\n");
+		g_printerr("[gfal] No gfal error reported\n");
 	}
 }
 
@@ -73,16 +76,8 @@ void gfal_posix_print_error(){
  * similar to a gfal_posix_print_error() and a gfal_posix_clear_error()
  */
 void gfal_posix_release_error(){
-	gfal_handle handle;
-	char* msg;
-	if((handle = gfal_posix_instance()) == NULL){
-		g_printerr("[gfal][gfal_posix_release_error] Initialisation error gfal_posix_instance() failure\n");
-	}else if ( (msg= handle->err) != NULL){
-		g_printerr("[gfal] %s \n", msg);
-		g_clear_error( &(handle->err));
-	}else{
-		g_printerr("[gfal][gfal_posix_release_error] No gfal error reported\n");
-	}
+	gfal_posix_print_error();
+	gfal_posix_clear_error();
 }
 
 
@@ -94,10 +89,10 @@ void gfal_posix_clear_error(){
 	char* msg;
 	if((handle = gfal_posix_instance()) == NULL){
 		g_printerr("[gfal][gfal_posix_clear_error] Initialisation error gfal_posix_instance() failure\n");
-	}else if ( (msg= handle->err) != NULL){
-		g_clear_error( &(handle->err));
 	}else{
-		g_printerr("[gfal][gfal_posix_clear_error] No gfal error reported\n");
-	}
+		g_clear_error( &(handle->err));
+		errno =0;
+	}	
+
 }
 
