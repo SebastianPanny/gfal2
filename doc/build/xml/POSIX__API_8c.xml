@@ -27,13 +27,13 @@
 <para>can be in supported protocols lfn, srm, file, guid </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call gfal_posix_error()  to check it. <linebreak/>
+<simplesect kind="return"><para>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref>  to check it. <linebreak/>
 <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
 <listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem></itemizedlist>
-</para></listitem><listitem><para>gfal specific errors ( associated with a gfal_posix_error() ):<itemizedlist>
+</para></listitem><listitem><para>gfal errors ( associated with a specific <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> ):<itemizedlist>
 <listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid. </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
@@ -50,39 +50,44 @@
         <name>gfal_chmod</name>
         <param>
           <type>const char *</type>
+          <defname>path</defname>
         </param>
         <param>
           <type>mode_t</type>
+          <defname>mode</defname>
         </param>
         <briefdescription>
 <para>set rights of the file/dir </para>        </briefdescription>
         <detaileddescription>
-<para>changes access mode of the file/directory path according to the bit pattern in mode. <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>path</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>specifies the file name (this can only be a TURL in the current implementation). </para></parameterdescription>
+<para>: path of the file or the folder concerned : must be a Catalog URL ( lfn: ) or a local file URL ( file: ) </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
 <parametername>mode</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>the bit pattern is built by an OR of the constants defined in &lt;sys/stat.h&gt;. </para></parameterdescription>
+<para>: right to configure </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately <linebreak/>
-<itemizedlist>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref>  to check it<itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid.</para></listitem><listitem><para>ECOMM: Communication error.</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported. </para></listitem></itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem></itemizedlist>
+</para></listitem><listitem><para>gfal errors ( associated with a specific <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> ):<itemizedlist>
+<listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid. </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="203" bodyend="226"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="70" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g83b88bd27def4c4e2fdfea3c5bbf88b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>

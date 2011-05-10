@@ -42,10 +42,14 @@
 <a name="l00030"></a>00030 
 <a name="l00031"></a>00031 gfal_handle gfal_posix_instance();
 <a name="l00032"></a>00032  
-<a name="l00033"></a>00033 <span class="keywordtype">int</span> gfal_access_posix_internal (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> amode);
-<a name="l00034"></a>00034  
-<a name="l00035"></a>00035 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue May 10 15:31:41 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00033"></a>00033 <span class="keywordtype">int</span> gfal_posix_internal_access (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> amode);
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="keywordtype">int</span> gfal_posix_internal_chmod(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode);
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 <span class="keywordtype">void</span> gfal_posix_register_internal_error(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* prefix, GError * tmp_err);
+<a name="l00038"></a>00038  
+<a name="l00039"></a>00039 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue May 10 16:43:41 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

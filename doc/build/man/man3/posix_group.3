@@ -97,7 +97,7 @@ test access to the given file
 .PP
 \fBReturns:\fP
 .RS 4
-This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \fBgfal_posix_error()\fP to check it. 
+This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \fBgfal_posix_print_error()\fP to check it. 
 .br
 .IP "\(bu" 2
 ERRNO list : 
@@ -115,7 +115,7 @@ ENOTDIR: A component of path prefix is not a directory.
 .PP
 
 .IP "  \(bu" 4
-gfal specific errors ( associated with a gfal_posix_error() ):
+gfal errors ( associated with a specific \fBgfal_posix_print_error()\fP ):
 .IP "    \(bu" 6
 ECOMM: Communication error
 .IP "    \(bu" 6
@@ -130,40 +130,45 @@ EINVAL: path has an invalid syntax or amode is invalid.
 .RE
 .PP
 
-.SS "int gfal_chmod (const char *, mode_t)"
+.SS "int gfal_chmod (const char * path, mode_t mode)"
 .PP
 set rights of the file/dir 
 .PP
-changes access mode of the file/directory path according to the bit pattern in mode. 
-.PP
 \fBParameters:\fP
 .RS 4
-\fIpath\fP specifies the file name (this can only be a TURL in the current implementation). 
+\fIpath\fP : path of the file or the folder concerned : must be a Catalog URL ( lfn: ) or a local file URL ( file: ) 
 .br
-\fImode\fP the bit pattern is built by an OR of the constants defined in <sys/stat.h>. 
+\fImode\fP : right to configure 
 .RE
 .PP
 \fBReturns:\fP
 .RS 4
-This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately 
-.br
+return 0 if success else -1 and errno is set, call \fBgfal_posix_print_error()\fP to check it
 .IP "\(bu" 2
 ERRNO list : 
 .br
 .IP "  \(bu" 4
+usual errors:
+.IP "    \(bu" 6
 ENOENT: The named file/directory does not exist.
-.IP "  \(bu" 4
+.IP "    \(bu" 6
 EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
-.IP "  \(bu" 4
+.IP "    \(bu" 6
 EFAULT: path is a NULL pointer.
-.IP "  \(bu" 4
+.IP "    \(bu" 6
 ENOTDIR: A component of path prefix is not a directory.
+.PP
+
 .IP "  \(bu" 4
-EINVAL: path has an invalid syntax or amode is invalid.
-.IP "  \(bu" 4
-ECOMM: Communication error.
-.IP "  \(bu" 4
-EPROTONOSUPPORT: Access method not supported. 
+gfal errors ( associated with a specific \fBgfal_posix_print_error()\fP ):
+.IP "    \(bu" 6
+ECOMM: Communication error
+.IP "    \(bu" 6
+EPROTONOSUPPORT: Access method not supported.
+.IP "    \(bu" 6
+EINVAL: path has an invalid syntax or amode is invalid. 
+.PP
+
 .PP
 
 .PP

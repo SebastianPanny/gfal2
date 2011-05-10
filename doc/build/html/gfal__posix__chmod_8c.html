@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
-<title>CERN org.glite.Gfal: /home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c File Reference</title>
+<title>CERN org.glite.Gfal: /home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c File Reference</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -18,31 +18,26 @@
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c File Reference</h1>file for the internal access func of the posix interface <a href="#_details">More...</a>
+<h1>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c File Reference</h1>file for the internal function of the POSIX chmod function <a href="#_details">More...</a>
 <p>
 <code>#include &lt;stdio.h&gt;</code><br>
 <code>#include &lt;errno.h&gt;</code><br>
 <code>#include &lt;glib.h&gt;</code><br>
-<code>#include &quot;../common/gfal_types.h&quot;</code><br>
+<code>#include &quot;../common/gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;gfal_posix_internal.h&quot;</code><br>
-<code>#include &quot;gfal_posix_local_file.h&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__catalog_8h-source.html">../common/gfal_common_catalog.h</a>&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common_8h-source.html">../common/gfal_common.h</a>&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__srm__access_8h-source.html">../common/gfal_common_srm_access.h</a>&quot;</code><br>
-<code>#include &quot;../common/gfal_constants.h&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4dd88ccfb2942d117604793819e1f933"></a><!-- doxytag: member="gfal_posix_access.c::gfal_posix_internal_access" ref="4dd88ccfb2942d117604793819e1f933" args="(const char *path, int amode)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_posix_internal_access</b> (const char *path, int amode)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e0273008201a878710ad033d08258810"></a><!-- doxytag: member="gfal_posix_chmod.c::gfal_posix_internal_chmod" ref="e0273008201a878710ad033d08258810" args="(const char *path, mode_t mode)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_posix_internal_chmod</b> (const char *path, mode_t mode)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-file for the internal access func of the posix interface 
+file for the internal function of the POSIX chmod function 
 <p>
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
-<dl compact><dt><b>Date:</b></dt><dd>06/05/2011 </dd></dl>
+<dl compact><dt><b>Date:</b></dt><dd>10/05/2011 </dd></dl>
 <hr size="1"><address style="align: right;"><small>Generated on Tue May 10 16:43:41 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
