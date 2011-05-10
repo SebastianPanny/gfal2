@@ -199,7 +199,7 @@ int gfal_access (const char *path, int amode){
     return (rc);
 }*/
 
-
+/*
 int gfal_chmod (const char *path, mode_t mode){
     char pathbuf[1104];
     char *cat_type = NULL;
@@ -220,10 +220,10 @@ int gfal_chmod (const char *path, mode_t mode){
     if (islfc && strncmp (pathbuf, "lfn:", 4) == 0)
         return (lfc_chmodl (pathbuf + 4, mode, NULL, 0));
 
-    /* gfal_chmod is only supported with LFC and LFNs */
+    // gfal_chmod is only supported with LFC and LFNs 
     errno = EPROTONOSUPPORT;
     return (-1);
-}
+}*/
 
 
 
