@@ -37,7 +37,8 @@
 
 
 int gfal_access_posix_internal(const char *path, int amode){
-	int resu = -1;
+	int resu = -1, ret;
+	GError* tmp_err=NULL;
 	gfal_handle handle;
 	if(path == NULL)
 		return EFAULT;
@@ -46,22 +47,22 @@ int gfal_access_posix_internal(const char *path, int amode){
 	}
 	const int check = gfal_surl_checker(path, NULL);
 	if(check==0){
-		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_access] url detected as a valid srm://");
-		resu = gfal_srm_accessG(handle, (char*) path, amode, gfal_get_last_gerror(handle) );	// srm:// -> send to the srm part
+		resu = gfal_srm_accessG(handle, (char*) path, amode, &tmp_err );	// srm:// -> send to the srm part
 	}else if(gfal_guid_checker(path, NULL)){
-		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_access] url detected as a valid guid:");
-		resu = gfal_catalogs_guid_accessG(handle, (char*) path, amode, gfal_get_last_gerror(handle));	// guid: -> send to the first catalog
+		resu = gfal_catalogs_guid_accessG(handle, (char*) path, amode, &tmp_err);	// guid: -> send to the first catalog
 	}else if(gfal_check_local_url(path, NULL)){
-		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_access] url detected as a valid file://");
 		resu = gfal_local_access(path, amode);									// file:// -> send to the local system call
 	}else {
-		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_access] url detected as a valid catalog associated one");
-		resu = gfal_catalogs_accessG(handle, (char*) path, amode, gfal_get_last_gerror(handle) );		// if registered url ( lfn:// ) resolve,
-		if(resu== EPROTONOSUPPORT){ // else return EPROTONOSUPPORT
-			resu = EINVAL;
-			g_set_error(gfal_get_last_gerror(handle),0,EINVAL,"[gfal_access] invalid path, path must begin with file:// lfn:/ guid:/ or srm:// : %s", path);
-		}
+		resu = gfal_catalogs_accessG(handle, (char*) path, amode, &tmp_err );		// if registered url ( lfn:// ) resolve,
 	}
-	errno = resu;
+	
+	if(resu){ // error reported
+		if(*gfal_get_last_gerror(handle) != NULL){
+			gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_access] Warning : existing registered error replaced ! old err : %s ", (*gfal_get_last_gerror(handle))->message);
+			g_clear_error(gfal_get_last_gerror(handle));
+		}
+		g_propagate_prefixed_error(gfal_get_last_gerror(handle), tmp_err, "[gfal_access]");
+		errno = tmp_err->code;			
+	}
 	return (resu)?(-1):0;
 }

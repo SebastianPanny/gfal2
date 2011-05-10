@@ -48,7 +48,15 @@ START_TEST (test_voms_info_test_vo)
 		gfal_release_GError(&err);
 		fail( "return must be not null if success\n");
 	}
-	fail_unless( strncmp(ret, VO_TEST,255) == 0, " must be the defined vo");
+	if(ret == NULL || err){
+		fail(" must not report a null vo");
+		return;
+	}
+	if(strncmp(ret, VO_TEST,255) != 0){
+		fail(" must be the defined vo");		
+		return;
+	}
+
 }
 END_TEST
 
@@ -62,7 +70,14 @@ START_TEST (test_voms_get_userdnG)
 		gfal_release_GError(&err);
 		fail( "return must be not null if success\n");
 	}
-	fail_unless( strncmp(ret, DN_TEST,2048) == 0, " must be the defined vo");
+	if(ret == NULL || err){
+		fail(" must not report a null vo");
+		return;
+	}
+	if(strncmp(ret, DN_TEST,2048) != 0){
+		fail(" must be the defined vo");		
+		return;
+	}
 }
 END_TEST
 

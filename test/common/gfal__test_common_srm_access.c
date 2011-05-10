@@ -27,7 +27,7 @@ START_TEST (test_create_srm_access_check_file)
 		return;
 	}
 	check = gfal_srm_accessG(handle, TEST_SRM_INVALID_SURL_EXAMPLE2, F_OK, &err);
-	if(check != ENOENT || err){
+	if(check ==0  || err->code != ENOENT ){
 		fail(" must be an invalid surl ");
 		gfal_release_GError(&err);
 		return;
@@ -52,7 +52,7 @@ START_TEST (test_create_srm_access_read_file)
 		return;
 	}
 	check = gfal_srm_accessG(handle, TEST_SRM_INVALID_SURL_EXAMPLE2, R_OK, &err);
-	if(check != ENOENT || err){
+	if(check == 0  || err->code != ENOENT){
 		fail(" must be an invalid surl ");
 		gfal_release_GError(&err);
 		return;

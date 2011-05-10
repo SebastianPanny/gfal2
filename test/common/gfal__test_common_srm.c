@@ -417,7 +417,7 @@ START_TEST(test_gfal_get_async_resultsG)
 	fail_if(err, " error report must be null");
 	while(list_resu != NULL){
 		fail_if( list_resu->data == NULL, " must be a success ");
-		g_printerr(" turl : %s", list_resu->data);
+	//	g_printerr(" turl : %s", list_resu->data);
 		list_resu = g_list_next(list_resu);
 	}
 	gfal_handle_freeG(handle);

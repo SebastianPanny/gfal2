@@ -64,10 +64,11 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
 }
 
 /**
- *  Execute an access methode on ALL the compatible catalogs
+ *  Execute an access function on the first catalog compatible in the catalog list
  *  return the result of the first valid catalog for a given URL
- *  @return result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned
- * */
+ *  @return result of the access method or -1 if error and set GError with the correct value
+ *  error : EPROTONOSUPPORT means that the URL is not matched by a catalog
+ *  */
 int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err){
 	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalogs_accessG] Invalid arguments");
 	GError* tmp_err=NULL;
@@ -91,7 +92,8 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
 			return ret;			
 		}	
 	}
-	return EPROTONOSUPPORT;
+	g_set_error(err,0,EPROTONOSUPPORT, "[gfal_catalogs_accessG] Protocol not supported or path/url invalid");
+	return -1;
 }
 /**
  * Execute a guid access on the default specified catalog
@@ -134,7 +136,34 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
 	}
 	return 0;
 }
-
+/**
+ *  Execute an access methode on ALL the compatible catalogs
+ *  return the result of the first valid catalog for a given URL
+ *  @return result of the chmod func or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned
+ * */
+ int gfal_catalog_chmodG(gfal_handle handle, const char* path, mode_t mode, GError** err){
+	g_return_val_err_if_fail(handle && path, -1, err, "[gfal_catalog_chmodG] Invalid arguments");	
+	GError* tmp_err = NULL;	
+	int ret= EPROTONOSUPPORT;
+	int i;
+	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);	
+	if(n_catalogs > 0 && !tmp_err){
+		gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
+		for(i=0; i< n_catalogs; ++i, ++cata_list){
+			gboolean b = cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_CHMOD, &tmp_err);
+			if(!tmp_err && b){ //no error and valid catalog
+				ret = cata_list->chmodG(cata_list->handle, path, mode, &tmp_err);
+				break;		
+			}
+		}
+		
+	}
+	if(tmp_err){
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalog_chmodG]");	
+		ret = -1;
+	}
+	return ret;		 
+ }
 
 /**
  * return the catalog type configured at compilation time

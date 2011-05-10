@@ -53,7 +53,7 @@ START_TEST(test_catalog_access_file)
 		return;
 	}
 	ret = gfal_catalogs_accessG(handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);	
-	if(ret != ENOENT){
+	if(ret ==0 || tmp_err->code != ENOENT ){
 		fail(" must be a non-existing file");
 		gfal_release_GError(&tmp_err);
 		return;
@@ -73,7 +73,7 @@ START_TEST(test_catalog_url_checker)
 		return;
 	}
 	int ret = gfal_catalogs_accessG(handle, TEST_LFC_URL_SYNTAX_ERROR, F_OK, &tmp_err);
-	if(ret != EPROTONOSUPPORT){
+	if(ret ==0 || tmp_err->code != EPROTONOSUPPORT){
 		fail(" must be an invalid protocol");
 		gfal_release_GError(&tmp_err);
 		return;
@@ -93,13 +93,14 @@ START_TEST(test_catalog_guid_access)
 		return;
 	}
 	int ret = gfal_catalogs_guid_accessG(handle, TEST_GUID_NOEXIST_ACCESS, F_OK, &tmp_err);
-	if(ret != ENOENT){
+	if(ret ==0 || tmp_err->code != ENOENT){
 		fail(" must be an inexistant guid");
 		gfal_release_GError(&tmp_err);
 		return;
 	}
+	g_clear_error(&tmp_err);
 	ret = gfal_catalogs_guid_accessG(handle, TEST_GUID_VALID_ACCESS, F_OK, &tmp_err);
-	if(ret != 0){
+	if(ret != 0 || tmp_err){
 		fail(" must be an valid guid");
 		gfal_release_GError(&tmp_err);
 		return;

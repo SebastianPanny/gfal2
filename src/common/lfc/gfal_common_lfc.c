@@ -60,13 +60,19 @@ static void lfc_destroyG(catalog_handle handle){
 int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** err){
 	g_return_val_err_if_fail(handle && path, -1, err, "[lfc_chmodG] Invalid valid value in handle/path ");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
-	return -1;
+	int  ret=-1;
+	ret = ops->chmod(path, mode);
+	if(ret < 0){
+		const int myerrno = *(ops->serrno);
+		g_set_error(err, 0, myerrno, "[lfc_chmodG] Errno reported from lfc : %s ", ops->sstrerror(myerrno));
+	}
+	return ret;
 }
 
 /**
  * 
  * implementation of the access call with the lfc catalog
- *  return 0 or the errno if classical error, report GError** if serious error
+ *  return 0 or -1 if error and report GError** with error code and message
  */
 int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 	g_return_val_err_if_fail(handle && lfn, -1, err, "[lfc_accessG] Invalid value in arguments handle  or/and path");
@@ -76,10 +82,7 @@ int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 	int ret = ops->access(url, mode);
 	if(ret <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		if(sav_errno == ECOMM)
-			g_set_error(err, 0, sav_errno, "[lfc_accessG] lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, ops->sstrerror(sav_errno) );
-		free(url);
-		return sav_errno; 
+		g_set_error(err, 0, sav_errno, "[lfc_accessG] lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, ops->sstrerror(sav_errno) );
 	}
 	free(url);
 	return ret;
@@ -93,25 +96,19 @@ int lfc_access_guidG(catalog_handle handle, char* guid, int mode, GError** err){
 	g_return_val_err_if_fail( handle && guid, EINVAL, err, "[lfc_access_guid_G] Invalid value in arguments handle  or/and guid");
 	GError* tmp_err = NULL;
 	char* lfn = NULL;
-	int ret;
+	int ret=-1;
 	char* tmp_guid = lfc_urlconverter(guid, GFAL_GUID_PREFIX);
-	if( (lfn = gfal_convert_guid_to_lfn(handle, tmp_guid, &tmp_err)) == NULL){
-		if( tmp_err->code == ENOENT || tmp_err->code==EINVAL ){ // GUID is not valid -> the file not exist
-			g_clear_error(&tmp_err);
-			return ENOENT;
-		}else{
-			g_propagate_prefixed_error(err, tmp_err, "[lfc_access_guidG]");
-			free(tmp_guid);
-			return tmp_err->code;
-		}
+	if( (lfn = gfal_convert_guid_to_lfn(handle, tmp_guid, &tmp_err)) != NULL){
+		struct lfc_ops* ops = (struct lfc_ops*) handle;	
+		ret = ops->access(lfn, mode);
+		if(ret <0){
+			int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+			g_set_error(err, 0, sav_errno, "[lfc_access_guidG] lfc access error, lfc_endpoint :%s,  guid : %s, converter lfn %s, error : %s", ops->lfc_endpoint, guid, lfn, ops->sstrerror(sav_errno) ); 
+		}	
 	}
-	struct lfc_ops* ops = (struct lfc_ops*) handle;	
-	ret = ops->access(lfn, mode);
-	if(ret <0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		if(sav_errno==ECOMM)
-			g_set_error(err, 0, sav_errno, "[lfc_access_guidG] lfc access error, lfc_endpoint :%s,  guid : %s, converter lfn %s, error : %s", ops->lfc_endpoint, guid, lfn, ops->sstrerror(sav_errno) );
-		ret= sav_errno; 
+
+	if(tmp_err){
+		g_propagate_prefixed_error(err, tmp_err, "[lfc_access_guidG]");		
 	}
 	free(lfn);
 	free(tmp_guid);

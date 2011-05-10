@@ -53,13 +53,14 @@ static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, char* 
 		return ECOMM;
 	}
 	for(i=0; i< nb_request; ++i){
-		if( !is_valid_access_result(resu[i].status)){
+		if( resu[i].status ){
 			if( strnlen(resu[i].surl, GFAL_URL_MAX_LEN) >= GFAL_URL_MAX_LEN || strnlen(resu[i].explanation, GFAL_URL_MAX_LEN) >= GFAL_URL_MAX_LEN){
-				g_set_error(err, 0, ECOMM, "[gfal_access_srmv2_internal] Memory corruption in the libgfal_srm_ifce answer, fatal");			
+				g_set_error(err, 0, resu[i].status, "[gfal_access_srmv2_internal] Memory corruption in the libgfal_srm_ifce answer, fatal");			
 			}else{
-				g_set_error(err, 0, ECOMM, "[gfal_access_srmv2_internal] Bad Error code from libgfal_srm_ifce %d on the file %s: %s", resu[i].status, resu[i].surl, resu[i].explanation);
+				g_set_error(err, 0, resu[i].status, "[gfal_access_srmv2_internal] Error %d : %s  \
+, file %s: %s", resu[i].status, strerror(resu[i].status), resu[i].surl, resu[i].explanation);
 			}
-			return ECOMM;
+			return -1;
 		}
 	}
 	//g_printerr(" resu : %d , status %d, strerror : %s, explanation : %s \n", ret, resu[0].status, strerror(resu[0].status), resu[0].explanation);

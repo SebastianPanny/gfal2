@@ -93,7 +93,7 @@ START_TEST(test_gfal_common_lfc_init)
 	}
 	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);
 	if(tmp_err){
-		fail(" msut not fail, valid value");
+		fail(" must not fail, valid value");
 		return;
 	}
 	gfal_handle_freeG(handle);
@@ -122,7 +122,7 @@ START_TEST(test_gfal_common_lfc_access){
 		return;
 	}
 	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, W_OK, &tmp_err);	
-	if(ret != EACCES){
+	if(ret == 0 || tmp_err->code != EACCES){
 		fail(" must fail, unable to write this file");
 		g_printerr(" file access report : %s ", strerror(ret));
 		gfal_release_GError(&tmp_err);
@@ -150,7 +150,7 @@ START_TEST(test_gfal_common_lfc_no_exist)
 		return;
 	}
 	ret = i.accessG(i.handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);
-	if(ret != ENOENT){
+	if(ret ==0 || tmp_err->code != ENOENT){
 		fail(" must fail, this file not exist");
 		gfal_release_GError(&tmp_err);
 		return;
@@ -196,7 +196,8 @@ GError * tmp_err=NULL;
 	if(b){
 		fail(" must an invalid lfn url");
 		return;
-	}	
+	}
+	gfal_handle_freeG(handle);	
 }
 END_TEST
 
@@ -207,25 +208,26 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 	int ret =-1;
 	gfal_handle handle = gfal_initG(&tmp_err);
 	if(handle==NULL){
-		fail(" error must be initiated");
+		fail("error must be initiated");
 		gfal_release_GError(&tmp_err);
 		return;
 	}
 	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
 	if(tmp_err){
-		fail(" must be a valid init");
+		fail("must be a valid init");
 		gfal_release_GError(&tmp_err);
 		return;
 	}
 	ret = i.access_guidG(i.handle, TEST_GUID_NOEXIST_ACCESS, F_OK, &tmp_err);
-	if(ret != ENOENT){
-		fail(" must fail, this file not exist");
+	if(ret ==0 || tmp_err->code != ENOENT){
+		fail("must fail, this file not exist");
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-		
+	
+	g_clear_error(&tmp_err);
 	ret = i.access_guidG(i.handle, TEST_GUID_VALID_ACCESS, F_OK, &tmp_err);
-	if(ret !=0){
+	if(ret !=0|| tmp_err){
 		g_printerr(" errno : %s ", strerror(ret));
 		fail("must be a success, file is present");
 		gfal_release_GError(&tmp_err);
