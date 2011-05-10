@@ -44,14 +44,30 @@ static char* lfc_urlconverter(char * lfn_url, const char* prefix){
 	return strndup(pref_len+ lfn_url, GFAL_URL_MAX_LEN );
 }
 
-
+/**
+ *  Deleter to unload the lfc part
+ * */
 static void lfc_destroyG(catalog_handle handle){
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
 	free(ops->lfc_endpoint);
 	free(ops);
 	// do nothing for the moment, global instance mode
 }
+/**
+ * Implementation of the chmod function with the LFC catalog
+ * return 0 or the errno if error, or set GError if serious error
+ */
+int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** err){
+	g_return_val_err_if_fail(handle && path, -1, err, "[lfc_chmodG] Invalid valid value in handle/path ");
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	return -1;
+}
 
+/**
+ * 
+ * implementation of the access call with the lfc catalog
+ *  return 0 or the errno if classical error, report GError** if serious error
+ */
 int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 	g_return_val_err_if_fail(handle && lfn, -1, err, "[lfc_accessG] Invalid value in arguments handle  or/and path");
 	GError* tmp_err=NULL;
@@ -68,7 +84,11 @@ int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 	free(url);
 	return ret;
 }
-
+/**
+ * 
+ * implementation of the access call with the lfc catalog for the guid url
+ *  return 0 or the errno if classical error, report GError** if serious error
+ */
 int lfc_access_guidG(catalog_handle handle, char* guid, int mode, GError** err){
 	g_return_val_err_if_fail( handle && guid, EINVAL, err, "[lfc_access_guid_G] Invalid value in arguments handle  or/and guid");
 	GError* tmp_err = NULL;
@@ -128,6 +148,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.catalog_delete = &lfc_destroyG;
 	lfc_catalog.accessG = &lfc_accessG;
 	lfc_catalog.access_guidG = &lfc_access_guidG;
+	lfc_catalog.chmodG = &lfc_chmodG;
 	return lfc_catalog;
 }
 

@@ -27,7 +27,7 @@
 #include <regex.h>
 #include "../common/gfal_common_errverbose.h"
 
-#define GFAL_LOCAL_PREFIX "file://"
+#define GFAL_LOCAL_PREFIX "file:"
 
  int gfal_local_access(const char *path, int amode){
 	return access(path+strnlen(GFAL_LOCAL_PREFIX), amode);	 
@@ -38,7 +38,7 @@
  * */ 
 gboolean gfal_check_local_url(const char* path, GError** err){
 	regex_t rex;
-	int ret = regcomp(&rex, "^file://([:print:]|/)+",REG_ICASE | REG_EXTENDED);
+	int ret = regcomp(&rex, "^file:([:print:]|/)+",REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_local_url] fail to compile regex, report this bug");
 	ret=  regexec(&rex, path,0,NULL,0);
 	return (!ret)?TRUE:FALSE;		
