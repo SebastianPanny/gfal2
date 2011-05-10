@@ -36,13 +36,15 @@
 #include "../common/gfal_constants.h"
 
 
-int gfal_access_posix_internal(const char *path, int amode){
+int gfal_posix_internal_access (const char *path, int amode){
 	int resu = -1, ret;
 	GError* tmp_err=NULL;
 	gfal_handle handle;
 	if(path == NULL)
-		return EFAULT;
+		errno = EFAULT;
+		return -1;
 	if((handle = gfal_posix_instance()) == NULL){
+		errno = EIO;
 		return -1;
 	}
 	const int check = gfal_surl_checker(path, NULL);
@@ -57,11 +59,7 @@ int gfal_access_posix_internal(const char *path, int amode){
 	}
 	
 	if(resu){ // error reported
-		if(*gfal_get_last_gerror(handle) != NULL){
-			gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_access] Warning : existing registered error replaced ! old err : %s ", (*gfal_get_last_gerror(handle))->message);
-			g_clear_error(gfal_get_last_gerror(handle));
-		}
-		g_propagate_prefixed_error(gfal_get_last_gerror(handle), tmp_err, "[gfal_access]");
+		gfal_posix_register_internal_error(handle, "[gfal_access]", tmp_err);
 		errno = tmp_err->code;			
 	}
 	return (resu)?(-1):0;

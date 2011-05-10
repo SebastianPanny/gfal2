@@ -24,44 +24,7 @@ common_src_all = common_srm + common_src
 all_src= common_src_all + src_lfc  + mds_src+ posix_src_all +common_voms + common_interface
 other_headers=['common/']
 
-""" old soap generation functions
-def gsoap_generator_header(target, source, env):
-	cmd=  gsoap_location +"/bin/wsdl2h"+ " -c -e -w -y -t "+ source[0].abspath +" "+ source[1].abspath + " -o "+ target[0].abspath
-	print cmd
-	os.system(cmd)
-	return None
-	
-def gsoap_generator(target, source, env, opt_source, folder):
-	print File(opt_source).name
-	cmd = gsoap_location+ "/bin/soapcpp2" +" -c  -d "+Dir(folder).abspath+" -p "+opt_source+" "+ source[0].abspath 
-	print cmd
-	os.system(cmd)
-	return None
 
-def gsoap_rename(target,source,env, suffix):
-	cmd = 'sed '+ '\'s/struct Namespace namespaces/struct Namespace namespaces'+suffix+'/\' ' + source[0].abspath +"  > "+ target[0].abspath 
-	print cmd
-	p= os.system(cmd)
-	if(p is not 0):
-		raise Exception("Error while sed")
-	return None
-##
-# copy the stdsoap2.c in the proper directory
-#env.Command('stdsoap2.c',[], Copy("$TARGET",File(gsoap_location+'/src/'+'stdsoap2.c').abspath))
-"""
-
-
-""" use of old soap generation functions
-# generate all the gsoap needed files
-#gsoap_gene_header1= env.Command('edg-local-replica-catalog.h',dat_file1, gsoap_generator_header)
-#gsoap_gene_header2= env.Command('edg-replica-metadata-catalog.h', dat_file2, gsoap_generator_header)
-
-#gsoap_final1 = env.Command(['lrcC.c', 'edg_local_replica_catalogSoapBinding.nsmap', 'lrcStub.h','lrcH.h'],'edg-local-replica-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'lrc', build_dir_src))
-#gsoap_final2 = env.Command(['RmcC.c','edg_replica_metadata_catalogSoapBinding.nsmap', 'rmcStub.h','rmcH.h'],'edg-replica-metadata-catalog.h' , lambda target, source, env: gsoap_generator(target, source, env,'rmc', build_dir_src))
-
-#gsoap_rename1 = env.Command('dg_replica_metadata_catalogSoapBinding.h', 'edg_replica_metadata_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_rmc') )
-#gsoap_rename2 = env.Command('edg_local_replica_catalogSoapBinding.h', 'edg_local_replica_catalogSoapBinding.nsmap', lambda target,source,env: gsoap_rename(target,source,env, '_lrc') )
-"""
 
 ##
 #add the library

@@ -26,15 +26,34 @@
  **/
  
  #include <stdio.h>
+ #include <errno.h>
  #include <glib.h>
  #include "../common/gfal_prototypes.h"
  #include "gfal_posix_internal.h"
  
  
- int gfal_internal_posix_chmod(const char* path, mode_t mode){
-	 
-	 
-	 
+ int gfal_posix_internal_chmod(const char* path, mode_t mode){
+	 GError* tmp_err=NULL;
+	 gfal_handle handle;
+	 int res=-1;
+	 if(path == NULL){
+		errno = EFAULT;
+		return -1;
+	}
+	if((handle = gfal_posix_instance()) == NULL){
+		errno = EIO;
+		return -1;
+	}
+	if( gfal_check_local_url(path, &tmp_err) == TRUE){
+		res = gfal_local_chmod(path, mode);
+	}else if(!tmp_err){
+		res = gfal_catalog_chmodG(handle, path, mode, &tmp_err);
+	}
+	if(res){
+		gfal_posix_register_internal_error(handle, "[gfal_chmod]", tmp_err);
+		errno = tmp_err->code;	
+	}
+	return res; 
 	 
  }
  

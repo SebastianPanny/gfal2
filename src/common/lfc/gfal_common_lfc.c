@@ -39,7 +39,7 @@
  * convert the lfn url for internal usage
  * result must be free
  */
-static char* lfc_urlconverter(char * lfn_url, const char* prefix){
+static char* lfc_urlconverter(const char * lfn_url, const char* prefix){
 	const int pref_len = strlen(prefix);
 	return strndup(pref_len+ lfn_url, GFAL_URL_MAX_LEN );
 }
@@ -61,7 +61,8 @@ int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** er
 	g_return_val_err_if_fail(handle && path, -1, err, "[lfc_chmodG] Invalid valid value in handle/path ");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	int  ret=-1;
-	ret = ops->chmod(path, mode);
+	char* url = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+	ret = ops->chmod(url, mode);
 	if(ret < 0){
 		const int myerrno = *(ops->serrno);
 		g_set_error(err, 0, myerrno, "[lfc_chmodG] Errno reported from lfc : %s ", ops->sstrerror(myerrno));

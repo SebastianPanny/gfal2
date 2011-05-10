@@ -34,21 +34,41 @@
 /**
  * \brief test access to the given file
  * \param file can be in supported protocols lfn, srm, file, guid
- * \return This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \ref gfal_posix_error() to check it. \n
+ * \return This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \ref gfal_posix_print_error() to check it. \n
  *  - ERRNO list : \n
  *    	- usual errors:
  *    		- ENOENT: The named file/directory does not exist.
  *    		- EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
  *   		- EFAULT: path is a NULL pointer.
  *   		- ENOTDIR: A component of path prefix is not a directory.
- *  	- gfal specific errors ( associated with a gfal_posix_error() ):
+ *  	- gfal errors ( associated with a specific gfal_posix_print_error() ):
  *   		- ECOMM: Communication error
  *   		- EPROTONOSUPPORT: Access method not supported.
  *   		- EINVAL: path has an invalid syntax or amode is invalid.
  * 
  */
 int gfal_access (const char *path, int amode){
-	return gfal_access_posix_internal(path, amode);	
+	return gfal_posix_internal_access(path, amode);	
+}
+
+/**
+ * @brief change the right for a file or a folder
+ * @param path : path of the file or the folder concerned : must be a Catalog URL ( lfn: ) or a local file URL ( file: )
+ * @param mode : right to configure
+ * @return return 0 if success else -1 and errno is set, call \ref gfal_posix_print_error() to check it
+ *  - ERRNO list : \n
+ *    	- usual errors:
+ *    		- ENOENT: The named file/directory does not exist.
+ *    		- EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+ *   		- EFAULT: path is a NULL pointer.
+ *   		- ENOTDIR: A component of path prefix is not a directory.
+ *  	- gfal errors ( associated with a specific gfal_posix_print_error() ):
+ *   		- ECOMM: Communication error
+ *   		- EPROTONOSUPPORT: Access method not supported.
+ *   		- EINVAL: path has an invalid syntax or amode is invalid. 		
+ */
+int gfal_chmod(const char* path, mode_t mode){
+	return gfal_posix_internal_chmod(path, mode);
 }
 
 

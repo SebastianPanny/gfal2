@@ -151,7 +151,9 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
 		gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
 		for(i=0; i< n_catalogs; ++i, ++cata_list){
 			gboolean b = cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_CHMOD, &tmp_err);
-			if(!tmp_err && b){ //no error and valid catalog
+			if(tmp_err)
+				break;
+			if(b){ //no error and valid catalog
 				ret = cata_list->chmodG(cata_list->handle, path, mode, &tmp_err);
 				break;		
 			}
