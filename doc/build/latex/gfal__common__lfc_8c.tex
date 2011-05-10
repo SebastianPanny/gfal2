@@ -50,7 +50,7 @@ implementation of the access call with the lfc catalog for the guid url return 0
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-access\-G (catalog\_\-handle {\em handle}, char $\ast$ {\em lfn}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_960f3f01cd2e130cda6dc3513154a954}
 
 
-implementation of the access call with the lfc catalog return 0 or the errno if classical error, report GError$\ast$$\ast$ if serious error \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_chmodG@{lfc\_\-chmodG}}
+implementation of the access call with the lfc catalog return 0 or -1 if error and report GError$\ast$$\ast$ with error code and message \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_chmodG@{lfc\_\-chmodG}}
 \index{lfc_chmodG@{lfc\_\-chmodG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-chmod\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_f40927feaad58de76b5406eb828102a6}
 

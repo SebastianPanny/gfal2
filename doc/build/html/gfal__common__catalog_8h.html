@@ -137,7 +137,7 @@ the header file of the common lib for the catalog management
 <div class="memdoc">
 
 <p>
-Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL <dl compact><dt><b>Returns:</b></dt><dd>result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned </dd></dl>
+Execute an access function on the first catalog compatible in the catalog list return the result of the first valid catalog for a given URL <dl compact><dt><b>Returns:</b></dt><dd>result of the access method or -1 if error and set GError with the correct value error : EPROTONOSUPPORT means that the URL is not matched by a catalog </dd></dl>
 
 </div>
 </div><p>
@@ -273,7 +273,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 10 10:31:21 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 10 15:31:41 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

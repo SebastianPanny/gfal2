@@ -38,6 +38,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#c0412247b6ddd6ceac7fb171c56adaad">gfal_catalogs_delete</a> (gfal_handle handle, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#12b613d1db9c17e70e679ef7285f6a6f">gfal_catalog_chmodG</a> (gfal_handle handle, const char *path, mode_t mode, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#c20aa1a376c802d0c60208854537851e">gfal_get_cat_type</a> (GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#c20aa1a376c802d0c60208854537851e"></a><br></td></tr>
@@ -49,6 +51,48 @@ the file of the common lib for the catalog management
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>8/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="12b613d1db9c17e70e679ef7285f6a6f"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_chmodG" ref="12b613d1db9c17e70e679ef7285f6a6f" args="(gfal_handle handle, const char *path, mode_t mode, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_chmodG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL <dl compact><dt><b>Returns:</b></dt><dd>result of the chmod func or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="c0a73bbac2867b3dd9c107f74114e8a6"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalogs_accessG" ref="c0a73bbac2867b3dd9c107f74114e8a6" args="(gfal_handle handle, char *path, int mode, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -87,7 +131,7 @@ the file of the common lib for the catalog management
 <div class="memdoc">
 
 <p>
-Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL <dl compact><dt><b>Returns:</b></dt><dd>result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned </dd></dl>
+Execute an access function on the first catalog compatible in the catalog list return the result of the first valid catalog for a given URL <dl compact><dt><b>Returns:</b></dt><dd>result of the access method or -1 if error and set GError with the correct value error : EPROTONOSUPPORT means that the URL is not matched by a catalog </dd></dl>
 
 </div>
 </div><p>
@@ -223,7 +267,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 10 10:31:21 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 10 15:31:41 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -122,11 +122,11 @@ Devresse Adrien
 .PP 
 .SS "int gfal_catalogs_accessG (gfal_handle handle, char * path, int mode, GError ** err)"
 .PP
-Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL 
+Execute an access function on the first catalog compatible in the catalog list return the result of the first valid catalog for a given URL 
 .PP
 \fBReturns:\fP
 .RS 4
-result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned 
+result of the access method or -1 if error and set GError with the correct value error : EPROTONOSUPPORT means that the URL is not matched by a catalog 
 .RE
 .PP
 

@@ -68,7 +68,7 @@ Check if the passed url and operation is compatible with lfc
 implementation of the access call with the lfc catalog for the guid url return 0 or the errno if classical error, report GError** if serious error 
 .SS "int lfc_accessG (catalog_handle handle, char * lfn, int mode, GError ** err)"
 .PP
-implementation of the access call with the lfc catalog return 0 or the errno if classical error, report GError** if serious error 
+implementation of the access call with the lfc catalog return 0 or -1 if error and report GError** with error code and message 
 .SS "int lfc_chmodG (catalog_handle handle, const char * path, mode_t mode, GError ** err)"
 .PP
 Implementation of the chmod function with the LFC catalog return 0 or the errno if error, or set GError if serious error 

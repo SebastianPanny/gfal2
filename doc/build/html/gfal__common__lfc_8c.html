@@ -167,7 +167,7 @@ implementation of the access call with the lfc catalog for the guid url return 0
 <div class="memdoc">
 
 <p>
-implementation of the access call with the lfc catalog return 0 or the errno if classical error, report GError** if serious error 
+implementation of the access call with the lfc catalog return 0 or -1 if error and report GError** with error code and message 
 </div>
 </div><p>
 <a class="anchor" name="f40927feaad58de76b5406eb828102a6"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_chmodG" ref="f40927feaad58de76b5406eb828102a6" args="(catalog_handle handle, const char *path, mode_t mode, GError **err)" -->
@@ -240,7 +240,7 @@ Implementation of the chmod function with the LFC catalog return 0 or the errno 
 Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 10 10:31:21 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 10 15:31:41 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

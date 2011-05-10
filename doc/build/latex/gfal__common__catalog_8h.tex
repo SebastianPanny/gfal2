@@ -95,8 +95,8 @@ the header file of the common lib for the catalog management
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-access\-G (gfal\_\-handle {\em handle}, char $\ast$ {\em path}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_c0a73bbac2867b3dd9c107f74114e8a6}
 
 
-Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL \begin{Desc}
-\item[Returns:]result of the access method or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned \end{Desc}
+Execute an access function on the first catalog compatible in the catalog list return the result of the first valid catalog for a given URL \begin{Desc}
+\item[Returns:]result of the access method or -1 if error and set GError with the correct value error : EPROTONOSUPPORT means that the URL is not matched by a catalog \end{Desc}
 \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}}
 \index{gfal_catalogs_delete@{gfal\_\-catalogs\_\-delete}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-delete (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_405974336e7b4ebaafeea02577d7d4d5}
