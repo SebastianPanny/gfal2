@@ -29,11 +29,11 @@
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="960f3f01cd2e130cda6dc3513154a954"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_accessG" ref="960f3f01cd2e130cda6dc3513154a954" args="(catalog_handle handle, char *lfn, int mode, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_accessG</b> (catalog_handle handle, char *lfn, int mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#f40927feaad58de76b5406eb828102a6">lfc_chmodG</a> (catalog_handle handle, const char *path, mode_t mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b5091415fccdf6a0904908f253ee4d9b"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_access_guidG" ref="b5091415fccdf6a0904908f253ee4d9b" args="(catalog_handle handle, char *guid, int mode, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_access_guidG</b> (catalog_handle handle, char *guid, int mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#960f3f01cd2e130cda6dc3513154a954">lfc_accessG</a> (catalog_handle handle, char *lfn, int mode, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#b5091415fccdf6a0904908f253ee4d9b">lfc_access_guidG</a> (catalog_handle handle, char *guid, int mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#18fc1e787694363fd5457f9b8f020cf8">lfc_initG</a> (gfal_handle handle, GError **err)</td></tr>
 
@@ -88,6 +88,129 @@ file for the lfc catalog module
 Check if the passed url and operation is compatible with lfc 
 </div>
 </div><p>
+<a class="anchor" name="b5091415fccdf6a0904908f253ee4d9b"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_access_guidG" ref="b5091415fccdf6a0904908f253ee4d9b" args="(catalog_handle handle, char *guid, int mode, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lfc_access_guidG           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>guid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+implementation of the access call with the lfc catalog for the guid url return 0 or the errno if classical error, report GError** if serious error 
+</div>
+</div><p>
+<a class="anchor" name="960f3f01cd2e130cda6dc3513154a954"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_accessG" ref="960f3f01cd2e130cda6dc3513154a954" args="(catalog_handle handle, char *lfn, int mode, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lfc_accessG           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>lfn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+implementation of the access call with the lfc catalog return 0 or the errno if classical error, report GError** if serious error 
+</div>
+</div><p>
+<a class="anchor" name="f40927feaad58de76b5406eb828102a6"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_chmodG" ref="f40927feaad58de76b5406eb828102a6" args="(catalog_handle handle, const char *path, mode_t mode, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lfc_chmodG           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Implementation of the chmod function with the LFC catalog return 0 or the errno if error, or set GError if serious error 
+</div>
+</div><p>
 <a class="anchor" name="18fc1e787694363fd5457f9b8f020cf8"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_initG" ref="18fc1e787694363fd5457f9b8f020cf8" args="(gfal_handle handle, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -117,7 +240,7 @@ Check if the passed url and operation is compatible with lfc
 Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon May 9 17:53:06 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 10 10:31:21 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
