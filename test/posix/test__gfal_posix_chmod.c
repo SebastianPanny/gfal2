@@ -61,7 +61,7 @@ END_TEST
 
 
 START_TEST(test__gfal_posix_chmod_read_local){
-	// create lcoal file
+	// create local file
 	const char * msg = "hello";
 	char nfile[500];
 	strcpy(nfile, "file://");
@@ -70,8 +70,8 @@ START_TEST(test__gfal_posix_chmod_read_local){
 		fail(" file must be created");
 		return;
 	}
-	write(f, msg, sizeof(char)*5);
-	close(f);
+	fwrite(msg, sizeof(char), 5, f);
+	fclose(f);
 	
 	strcat(nfile,TEST_GFAL_LOCAL_FILE_CHMOD_READ);
 	int res= gfal_chmod(nfile, 0);

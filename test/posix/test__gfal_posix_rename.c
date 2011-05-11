@@ -92,12 +92,66 @@ START_TEST(test__gfal_posix_rename_url_check)
 		gfal_posix_release_error();
 		return;
 	}
-		
+	gfal_posix_clear_error();		
 	res = gfal_rename( TEST_LFC_NOEXIST_ACCESS, "google.com");
 	if(res ==0 || errno != EPROTONOSUPPORT || gfal_posix_code_error() != EPROTONOSUPPORT){
 		fail("unknow protocol, must fail");
 		gfal_posix_release_error();
 		return;
 	}	
+}
+END_TEST
+
+START_TEST(test__gfal_posix_rename_local)
+{
+		// create local file
+	const char * msg = "hello";
+	char nfile[500], nfile2[500];
+	strcpy(nfile, "file://");
+	strcpy(nfile2, "file://");
+	FILE* f = fopen(TEST_GFAL_LOCAL_FILE_RENAME_SRC, "w+");
+	if(f == NULL){
+		fail(" file must be created");
+		return;
+	}
+	fwrite(msg, sizeof(char), 5, f);
+	fclose(f);
+	strcat(nfile,TEST_GFAL_LOCAL_FILE_RENAME_SRC);
+	strcat(nfile2, TEST_GFAL_LOCAL_FILE_RENAME_DEST); // create two full file url file:///
+
+	int res = gfal_access(nfile, F_OK);
+	if(res !=0){
+		fail("src file not present ");
+		gfal_posix_release_error();
+		return;
+	}	
+	
+	res = gfal_rename(nfile, nfile2);
+	if(res !=0){
+		fail("must be a valid rename");
+		gfal_posix_release_error();
+		return;
+	}
+	res = gfal_access(nfile2, F_OK);
+	if(res !=0){
+		fail("dst file not present ");
+		gfal_posix_release_error();
+		return;
+	}	
+	res = gfal_rename(nfile2, nfile);
+	if(res !=0){
+		fail("must be a valid reverse-rename");
+		gfal_posix_release_error();
+		return;
+	}
+	res = gfal_access(nfile, F_OK);
+	if(res !=0){
+		fail("src file is not present as initial ");
+		gfal_posix_release_error();
+		return;
+	}			
+			
+	
+	
 }
 END_TEST

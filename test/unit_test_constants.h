@@ -58,3 +58,7 @@
 
 #define TEST_LFC_MOVABLE_DIR_SRC "lfn:/grid/dteam/testmovedir0011/"
 #define TEST_LFC_MOVABLE_DIR_DEST "lfn:/grid/dteam/testmovedir0012/"
+
+// rename
+#define TEST_GFAL_LOCAL_FILE_RENAME_SRC "/tmp/testrename0011"
+#define TEST_GFAL_LOCAL_FILE_RENAME_DEST "/tmp/testrename0012"
