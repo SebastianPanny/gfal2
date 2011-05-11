@@ -46,3 +46,8 @@
 
 #define TEST_SRM_TURL_EXAMPLE1 "gsiftp://atlas-storage-18.roma1.infn.it/atlas-storage-18.roma1.infn.it:/data4/dteam/2011-03-10/file75715ccc-1c54-4d18-8824-bdd3716a2b54.33321198.0"
 #define TEST_SRM_IFCE_INVALID_PATH_REP "[SE][StatusOfPutRequest][SRM_INVALID_PATH] <none>"
+
+// chmod 
+#define TEST_LFC_MOD_READ_FILE "lfn:/grid/dteam/testchmodread0011"
+#define TEST_LFC_MOD_UNEXIST_FILE "lfn:/grid/dteam/OpenSourceAndMicrosoft"
+#define TEST_LFC_MOD_WRITE_FILE "lfn:/grid/dteam/testchmodwrite0011"

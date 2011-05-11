@@ -116,3 +116,15 @@ void gfal_posix_clear_error(){
 
 }
 
+int gfal_posix_code_error(){
+	gfal_handle handle;
+	GError* err=NULL;
+	int ret = -1;
+	if((handle = gfal_posix_instance()) == NULL){
+		g_printerr("[gfal_posix_code_error] Initialisation error gfal_posix_instance() failure\n");
+	}else  {
+		ret = ((err = handle->err) != NULL)? err->code :0 ;
+	}
+	return ret;
+}
+

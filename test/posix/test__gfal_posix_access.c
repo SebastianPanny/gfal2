@@ -59,7 +59,7 @@ START_TEST(test_access_posix_guid_read)
 		gfal_posix_release_error();
 		return;
 	}
-	
+	gfal_posix_clear_error();	
 	ret = gfal_access(TEST_GUID_NO_READ_ACCESS, R_OK);
 	if(ret != -1 || errno != EACCES){
 		fail("must be an unaccessible file %s", strerror(errno));

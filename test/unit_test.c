@@ -42,6 +42,7 @@
 #include "common/lfc/gfal__test_common_lfc.c"
 #include "common/gfal__test_common_srm_no_glib.c"
 #include "posix/test__gfal_posix_access.c"
+#include "posix/test__gfal_posix_chmod.c"
 
 Suite* common_suite (void)
 {
@@ -128,6 +129,11 @@ Suite* posix_suite (void)
   tcase_add_test(tc_access, test_access_posix_srm_read);
   tcase_add_test(tc_access, test_access_posix_srm_write);
   suite_add_tcase(s, tc_access);
+  TCase* tc_chmod = tcase_create("CHMOD");
+  tcase_add_test(tc_chmod, test__gfal_posix_chmod_read_lfn);
+  tcase_add_test(tc_chmod, test__gfal_posix_chmod_read_local);
+  tcase_add_test(tc_chmod, test__gfal_posix_chmod_write_lfn);
+  suite_add_tcase(s, tc_chmod);
   return s;
 }
 

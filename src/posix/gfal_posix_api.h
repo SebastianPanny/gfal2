@@ -42,6 +42,8 @@ void gfal_posix_release_error();
 
 void gfal_posix_print_error();
 
+int gfal_posix_code_error();
+
 /**
  * \brief set rights of the file/dir 
  * 

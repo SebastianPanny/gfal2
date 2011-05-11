@@ -29,9 +29,21 @@
 
 #define GFAL_LOCAL_PREFIX "file:"
 
- int gfal_local_access(const char *path, int amode){
-	return access(path+strnlen(GFAL_LOCAL_PREFIX), amode);	 
+ int gfal_local_access(const char *path, int amode, GError** err){
+	const int res = access(path+strlen(GFAL_LOCAL_PREFIX), amode);
+	if(res <0){
+		g_set_error(err,0,errno, "[gfal_local_access] error reported by the local system call : %s", strerror(errno));
+	}
+	return res;
  }
+ 
+int gfal_local_chmod(const char* path, mode_t mode,GError** err){
+	const int res = chmod(path+strlen(GFAL_LOCAL_PREFIX),mode);
+	if(res <0){
+		g_set_error(err,0,errno, "[gfal_local_access] error reported by the local system call : %s", strerror(errno));
+	}
+	return res;
+}
  
 /**
  * check the validity of a classique file url

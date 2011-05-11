@@ -144,25 +144,29 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
  int gfal_catalog_chmodG(gfal_handle handle, const char* path, mode_t mode, GError** err){
 	g_return_val_err_if_fail(handle && path, -1, err, "[gfal_catalog_chmodG] Invalid arguments");	
 	GError* tmp_err = NULL;	
-	int ret= EPROTONOSUPPORT;
+	int ret= -1;
 	int i;
-	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);	
+	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);
+	gboolean valid_url= FALSE;	
 	if(n_catalogs > 0 && !tmp_err){
 		gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
 		for(i=0; i< n_catalogs; ++i, ++cata_list){
-			gboolean b = cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_CHMOD, &tmp_err);
+			valid_url = cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_CHMOD, &tmp_err);
 			if(tmp_err)
 				break;
-			if(b){ //no error and valid catalog
+			if(valid_url){ //no error and valid catalog
 				ret = cata_list->chmodG(cata_list->handle, path, mode, &tmp_err);
 				break;		
 			}
 		}
 		
 	}
-	if(tmp_err){
+	if(tmp_err){ // error reported
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalog_chmodG]");	
 		ret = -1;
+	}else if (!valid_url){ // no error and no valid url -> 
+		g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_catalog_chmodG] Error : Protocol not supported or invalidpath/url ");
+		ret =-1;
 	}
 	return ret;		 
  }

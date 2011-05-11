@@ -35,7 +35,7 @@
  int gfal_posix_internal_chmod(const char* path, mode_t mode){
 	 GError* tmp_err=NULL;
 	 gfal_handle handle;
-	 int res=-1;
+	 int res= -1;
 	 if(path == NULL){
 		errno = EFAULT;
 		return -1;
@@ -45,11 +45,11 @@
 		return -1;
 	}
 	if( gfal_check_local_url(path, &tmp_err) == TRUE){
-		res = gfal_local_chmod(path, mode);
+		res = gfal_local_chmod(path, mode, &tmp_err);
 	}else if(!tmp_err){
 		res = gfal_catalog_chmodG(handle, path, mode, &tmp_err);
 	}
-	if(res){
+	if(tmp_err){
 		gfal_posix_register_internal_error(handle, "[gfal_chmod]", tmp_err);
 		errno = tmp_err->code;	
 	}
