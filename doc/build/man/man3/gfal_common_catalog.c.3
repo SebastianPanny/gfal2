@@ -40,6 +40,9 @@
 .RI "int \fBgfal_catalog_chmodG\fP (gfal_handle handle, const char *path, mode_t mode, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_catalog_renameG\fP (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)"
+.br
+.ti -1c
 .RI "char * \fBgfal_get_cat_type\fP (GError **err)"
 .br
 .RI "\fIcatalog type getter \fP"
@@ -68,7 +71,7 @@ Devresse Adrien
 .PP 
 .SS "int gfal_catalog_chmodG (gfal_handle handle, const char * path, mode_t mode, GError ** err)"
 .PP
-Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL 
+Execute the chmod function on the first compatible catalog ( checked with check_url func ) return the result of the first valid catalog for a given URL 
 .PP
 \fBReturns:\fP
 .RS 4

@@ -3,14 +3,21 @@
   <compounddef id="gfal__posix__local__file_8h" kind="file">
     <compoundname>gfal_posix_local_file.h</compoundname>
     <includedby refid="gfal__posix__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</includedby>
+    <includedby refid="gfal__posix__rename_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</includedby>
     <invincdepgraph>
-      <node id="989">
+      <node id="998">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h</label>
         <link refid="gfal_posix_local_file.h"/>
-        <childnode refid="990" relation="include">
+        <childnode refid="999" relation="include">
+        </childnode>
+        <childnode refid="1000" relation="include">
         </childnode>
       </node>
-      <node id="990">
+      <node id="1000">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</label>
+        <link refid="gfal__posix__rename_8c"/>
+      </node>
+      <node id="999">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
         <link refid="gfal__posix__access_8c"/>
       </node>
@@ -87,6 +94,31 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="40" bodyend="46"/>
       </memberdef>
+      <memberdef kind="function" id="gfal__posix__local__file_8h_1360b4701633deaae52f9f77c94173405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_local_rename</definition>
+        <argsstring>(const char *oldpath, const char *newpath, GError **err)</argsstring>
+        <name>gfal_local_rename</name>
+        <param>
+          <type>const char *</type>
+          <declname>oldpath</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>newpath</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="36" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="49" bodyend="55"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -117,6 +149,8 @@
 <codeline lineno="32"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_access(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>amode,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_chmod(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_rename(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>oldpath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newpath,<sp/>GError**<sp/>err);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h"/>
   </compounddef>

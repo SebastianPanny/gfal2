@@ -22,6 +22,9 @@ int \bf{gfal\_\-catalogs\_\-delete} (gfal\_\-handle handle, GError $\ast$$\ast$e
 \item 
 int \bf{gfal\_\-catalog\_\-chmod\-G} (gfal\_\-handle handle, const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)
 \item 
+int \textbf{gfal\_\-catalog\_\-rename\-G} (gfal\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_99ffb13510951a6fe79f3c33305ea189}
+
+\item 
 char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\end{CompactItemize}
 
@@ -43,7 +46,7 @@ the file of the common lib for the catalog management
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-chmod\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_12b613d1db9c17e70e679ef7285f6a6f}
 
 
-Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL \begin{Desc}
+Execute the chmod function on the first compatible catalog ( checked with check\_\-url func ) return the result of the first valid catalog for a given URL \begin{Desc}
 \item[Returns:]result of the chmod func or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned \end{Desc}
 \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}}
 \index{gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}

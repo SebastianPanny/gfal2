@@ -40,6 +40,9 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#12b613d1db9c17e70e679ef7285f6a6f">gfal_catalog_chmodG</a> (gfal_handle handle, const char *path, mode_t mode, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="99ffb13510951a6fe79f3c33305ea189"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_renameG" ref="99ffb13510951a6fe79f3c33305ea189" args="(gfal_handle handle, const char *oldpath, const char *newpath, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_renameG</b> (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#c20aa1a376c802d0c60208854537851e">gfal_get_cat_type</a> (GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#c20aa1a376c802d0c60208854537851e"></a><br></td></tr>
@@ -89,7 +92,7 @@ the file of the common lib for the catalog management
 <div class="memdoc">
 
 <p>
-Execute an access methode on ALL the compatible catalogs return the result of the first valid catalog for a given URL <dl compact><dt><b>Returns:</b></dt><dd>result of the chmod func or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned </dd></dl>
+Execute the chmod function on the first compatible catalog ( checked with check_url func ) return the result of the first valid catalog for a given URL <dl compact><dt><b>Returns:</b></dt><dd>result of the chmod func or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned </dd></dl>
 
 </div>
 </div><p>
@@ -267,7 +270,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 11 12:21:06 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed May 11 18:01:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

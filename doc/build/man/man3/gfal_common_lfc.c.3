@@ -32,6 +32,9 @@
 .RI "int \fBlfc_access_guidG\fP (catalog_handle handle, char *guid, int mode, GError **err)"
 .br
 .ti -1c
+.RI "int \fBlfc_renameG\fP (catalog_handle handle, const char *oldpath, const char *newpath, GError **err)"
+.br
+.ti -1c
 .RI "gfal_catalog_interface \fBlfc_initG\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
@@ -75,6 +78,9 @@ Implementation of the chmod function with the LFC catalog return 0 or the errno 
 .SS "gfal_catalog_interface lfc_initG (gfal_handle handle, GError ** err)"
 .PP
 Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 
+.SS "int lfc_renameG (catalog_handle handle, const char * oldpath, const char * newpath, GError ** err)"
+.PP
+Implementation of the rename call for the lfc catalog return 0 if success else -1 if error and set GError 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

@@ -386,17 +386,48 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         <name>gfal_rename</name>
         <param>
           <type>const char *</type>
+          <defname>oldpath</defname>
         </param>
         <param>
           <type>const char *</type>
+          <defname>newpath</defname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>oldpath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: the old path of the file </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newpath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: the new path of the file </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>: return 0 if success, else -1 and errno / gfal_posix_error_print() <itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.<itemizedlist>
+<listitem><para>EISDIR: newpath is an existing directory but oldpath is not a directory</para></listitem><listitem><para>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.<itemizedlist>
+<listitem><para>EXDEV oldpath and newpath are not on the same mounted file system.</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem><listitem><para>gfal errors ( associated with a specific <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> ):<itemizedlist>
+<listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="156" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="743" bodyend="825"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="156" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="97" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gcc4b6347640a722674c2d6df437490df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -607,7 +638,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="153"><highlight class="normal"></highlight></codeline>
 <codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent<sp/>*gfal_readdir<sp/>(DIR<sp/>*);</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
-<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rename<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1g34dc6129530d6bf9e5836ef22c0d2792" kindref="member">gfal_rename</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
 <codeline lineno="157"><highlight class="normal"></highlight></codeline>
 <codeline lineno="158"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rmdir<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"></highlight></codeline>

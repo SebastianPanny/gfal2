@@ -35,9 +35,8 @@ ssize\_\-t \textbf{gfal\_\-read} (int, void $\ast$, size\_\-t)\label{group__posi
 dirent $\ast$ \textbf{gfal\_\-readdir} (DIR $\ast$)\label{group__posix__group_g2a8ed205f7748d7817a18521268a1f2d}
 
 \item 
-int \textbf{gfal\_\-rename} (const char $\ast$, const char $\ast$)\label{group__posix__group_g34dc6129530d6bf9e5836ef22c0d2792}
-
-\item 
+int \bf{gfal\_\-rename} (const char $\ast$, const char $\ast$)
+\begin{CompactList}\small\item\em change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files \item\end{CompactList}\item 
 int \textbf{gfal\_\-rmdir} (const char $\ast$)\label{group__posix__group_gcc4b6347640a722674c2d6df437490df}
 
 \item 
@@ -208,5 +207,32 @@ opens a file according to the value of flags
 \item ERRNO list : \par
 \begin{itemize}
 \item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
+\end{itemize}
+\end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_rename@{gfal\_\-rename}}
+\index{gfal_rename@{gfal\_\-rename}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-rename (const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath})}\label{group__posix__group_g34dc6129530d6bf9e5836ef22c0d2792}
+
+
+change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em oldpath}]: the old path of the file \item[{\em newpath}]: the new path of the file \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]: return 0 if success, else -1 and errno / gfal\_\-posix\_\-error\_\-print()\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item usual errors:\begin{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: oldpath or newpath is a NULL pointer.\begin{itemize}
+\item EISDIR: newpath is an existing directory but oldpath is not a directory\item ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than \char`\"{}.\char`\"{} and \char`\"{}..\char`\"{}\end{itemize}
+\item ENOTDIR: A component of path prefix is not a directory.\begin{itemize}
+\item EXDEV oldpath and newpath are not on the same mounted file system.\end{itemize}
+\end{itemize}
+\item gfal errors ( associated with a specific \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} ):\begin{itemize}
+\item ECOMM: Communication error\item EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported\item EINVAL: oldpath or newpath has an invalid syntax . \end{itemize}
+\end{itemize}
 \end{itemize}
 \end{Desc}

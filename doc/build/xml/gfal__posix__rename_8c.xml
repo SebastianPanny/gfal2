@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='iso-8859-1' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
+  <compounddef id="gfal__posix__rename_8c" kind="file">
+    <compoundname>gfal_posix_rename.c</compoundname>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">glib.h</includes>
+    <includes refid="gfal__common__catalog_8h" local="yes">../common/gfal_common_catalog.h</includes>
+    <includes refid="gfal__posix__internal_8h" local="yes">gfal_posix_internal.h</includes>
+    <includes refid="gfal__posix__local__file_8h" local="yes">gfal_posix_local_file.h</includes>
+    <includes refid="gfal__posix__api_8h" local="yes">gfal_posix_api.h</includes>
+    <incdepgraph>
+      <node id="1035">
+        <label>sys/stat.h</label>
+      </node>
+      <node id="1026">
+        <label>stdarg.h</label>
+      </node>
+      <node id="1041">
+        <label>stdlib.h</label>
+      </node>
+      <node id="1030">
+        <label>gfal_prototypes.h</label>
+        <link refid="gfal__prototypes_8h-source"/>
+        <childnode refid="1024" relation="include">
+        </childnode>
+      </node>
+      <node id="1028">
+        <label>errno.h</label>
+      </node>
+      <node id="1040">
+        <label>fcntl.h</label>
+      </node>
+      <node id="1036">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="1037">
+        <label>gfal_posix_internal.h</label>
+        <link refid="gfal__posix__internal_8h-source"/>
+        <childnode refid="1030" relation="include">
+        </childnode>
+        <childnode refid="1031" relation="include">
+        </childnode>
+      </node>
+      <node id="1027">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="1039">
+        <label>gfal_posix_api.h</label>
+        <link refid="gfal__posix__api_8h-source"/>
+        <childnode refid="1031" relation="include">
+        </childnode>
+        <childnode refid="1024" relation="include">
+        </childnode>
+        <childnode refid="1033" relation="include">
+        </childnode>
+        <childnode refid="1040" relation="include">
+        </childnode>
+        <childnode refid="1034" relation="include">
+        </childnode>
+        <childnode refid="1035" relation="include">
+        </childnode>
+        <childnode refid="1041" relation="include">
+        </childnode>
+        <childnode refid="1023" relation="include">
+        </childnode>
+      </node>
+      <node id="1038">
+        <label>gfal_posix_local_file.h</label>
+        <link refid="gfal__posix__local__file_8h-source"/>
+      </node>
+      <node id="1033">
+        <label>sys/types.h</label>
+      </node>
+      <node id="1029">
+        <label>string.h</label>
+      </node>
+      <node id="1022">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</label>
+        <link refid="gfal_posix_rename.c"/>
+        <childnode refid="1023" relation="include">
+        </childnode>
+        <childnode refid="1024" relation="include">
+        </childnode>
+        <childnode refid="1025" relation="include">
+        </childnode>
+        <childnode refid="1037" relation="include">
+        </childnode>
+        <childnode refid="1038" relation="include">
+        </childnode>
+        <childnode refid="1039" relation="include">
+        </childnode>
+      </node>
+      <node id="1032">
+        <label>unistd.h</label>
+      </node>
+      <node id="1024">
+        <label>glib.h</label>
+      </node>
+      <node id="1025">
+        <label>../common/gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="1026" relation="include">
+        </childnode>
+        <childnode refid="1027" relation="include">
+        </childnode>
+        <childnode refid="1024" relation="include">
+        </childnode>
+        <childnode refid="1028" relation="include">
+        </childnode>
+        <childnode refid="1029" relation="include">
+        </childnode>
+        <childnode refid="1030" relation="include">
+        </childnode>
+        <childnode refid="1031" relation="include">
+        </childnode>
+      </node>
+      <node id="1023">
+        <label>stdio.h</label>
+      </node>
+      <node id="1031">
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="1032" relation="include">
+        </childnode>
+        <childnode refid="1024" relation="include">
+        </childnode>
+        <childnode refid="1033" relation="include">
+        </childnode>
+        <childnode refid="1034" relation="include">
+        </childnode>
+        <childnode refid="1035" relation="include">
+        </childnode>
+        <childnode refid="1036" relation="include">
+        </childnode>
+        <childnode refid="1030" relation="include">
+        </childnode>
+        <childnode refid="1025" relation="include">
+        </childnode>
+      </node>
+      <node id="1034">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="gfal__posix__rename_8c_1a9886d08766043a3fc98454d669b592e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_posix_internal_rename</definition>
+        <argsstring>(const char *oldpath, const char *newpath)</argsstring>
+        <name>gfal_posix_internal_rename</name>
+        <param>
+          <type>const char *</type>
+          <declname>oldpath</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>newpath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c" bodystart="34" bodyend="59"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>file for the internal rename func </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Devresse Adrien </para></simplesect>
+<simplesect kind="version"><para>2.0 </para></simplesect>
+<simplesect kind="date"><para>11/05/2011 </para></simplesect>
+</para>    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(c)<sp/>Members<sp/>of<sp/>the<sp/>EGEE<sp/>Collaboration.<sp/>2004.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>See<sp/>http://www.eu-egee.org/partners/<sp/>for<sp/>details<sp/>on<sp/>the<sp/>copyright<sp/>holders.</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Licensed<sp/>under<sp/>the<sp/>Apache<sp/>License,<sp/>Version<sp/>2.0<sp/>(the<sp/>&quot;License&quot;);</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>you<sp/>may<sp/>not<sp/>use<sp/>this<sp/>file<sp/>except<sp/>in<sp/>compliance<sp/>with<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>You<sp/>may<sp/>obtain<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>License<sp/>at</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>http://www.apache.org/licenses/LICENSE-2.0</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>Unless<sp/>required<sp/>by<sp/>applicable<sp/>law<sp/>or<sp/>agreed<sp/>to<sp/>in<sp/>writing,<sp/>software</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>distributed<sp/>under<sp/>the<sp/>License<sp/>is<sp/>distributed<sp/>on<sp/>an<sp/>&quot;AS<sp/>IS&quot;<sp/>BASIS,</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>WITHOUT<sp/>WARRANTIES<sp/>OR<sp/>CONDITIONS<sp/>OF<sp/>ANY<sp/>KIND,<sp/>either<sp/>express<sp/>or<sp/>implied.</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>See<sp/>the<sp/>License<sp/>for<sp/>the<sp/>specific<sp/>language<sp/>governing<sp/>permissions<sp/>and</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_local_file.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_posix_internal_rename(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>oldpath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newpath){</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>oldpath<sp/>==NULL<sp/>||<sp/>newpath<sp/>==<sp/>NULL){</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EFAULT;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(handle<sp/>=<sp/>gfal_posix_instance()<sp/>)<sp/>==NULL){</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EIO;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(oldpath,<sp/>NULL)<sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(newpath,<sp/>NULL)){</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_local_rename(oldpath,<sp/>newpath,<sp/>&amp;tmp_err);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_catalog_renameG(handle,<sp/>oldpath,<sp/>newpath,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret){</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_posix_register_internal_error(handle,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_rename]&quot;</highlight><highlight class="normal">,<sp/>tmp_err);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>tmp_err-&gt;code;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(ret)?-1:0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c"/>
+  </compounddef>
+</doxygen>

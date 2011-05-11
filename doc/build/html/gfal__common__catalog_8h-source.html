@@ -53,53 +53,54 @@
 <a name="l00049"></a>00049 <span class="keyword">enum</span> _catalog_mode{
 <a name="l00050"></a>00050         GFAL_CATALOG_ALL=0,
 <a name="l00051"></a>00051         GFAL_CATALOG_ACCESS,
-<a name="l00052"></a>00052         GFAL_CATALOG_CHMOD
-<a name="l00053"></a>00053 };
-<a name="l00054"></a>00054 
-<a name="l00058"></a>00058 <span class="keyword">struct </span>_gfal_catalog_interface{
-<a name="l00059"></a>00059         <span class="comment">// handle</span>
-<a name="l00060"></a>00060         catalog_handle handle;
-<a name="l00061"></a>00061         <span class="comment">// delete</span>
-<a name="l00065"></a>00065 <span class="comment"></span>        void (*catalog_delete)(catalog_handle); 
-<a name="l00069"></a>00069         gboolean (*check_catalog_url)(catalog_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* url,  catalog_mode mode, GError** err);
-<a name="l00073"></a>00073         int (*accessG)(catalog_handle, <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
-<a name="l00077"></a>00077         int (*access_guidG)(catalog_handle, <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
-<a name="l00078"></a>00078         int     (*chmodG)(catalog_handle, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t, GError** err);
-<a name="l00079"></a>00079         int     (*renameG)(catalog_handle, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, GError** err);   
-<a name="l00080"></a>00080         
-<a name="l00081"></a>00081 };
-<a name="l00082"></a>00082 
-<a name="l00086"></a><a class="code" href="struct__catalog__opts.html">00086</a> <span class="keyword">struct </span><a class="code" href="struct__catalog__opts.html">_catalog_opts</a>{
-<a name="l00087"></a>00087         gfal_catalog_interface catalog_list[MAX_CATALOG_LIST];
-<a name="l00088"></a>00088         <span class="keywordtype">int</span> catalog_number;
-<a name="l00089"></a>00089 };
-<a name="l00090"></a>00090 
-<a name="l00091"></a>00091 <span class="preprocessor">#include "gfal_types.h"</span>
-<a name="l00092"></a>00092 
-<a name="l00099"></a>00099 <span class="keyword">extern</span> <span class="keywordtype">char</span>* gfal_get_cat_type(GError**);
-<a name="l00100"></a>00100 
+<a name="l00052"></a>00052         GFAL_CATALOG_CHMOD,
+<a name="l00053"></a>00053         GFAL_CATALOG_RENAME
+<a name="l00054"></a>00054 };
+<a name="l00055"></a>00055 
+<a name="l00059"></a>00059 <span class="keyword">struct </span>_gfal_catalog_interface{
+<a name="l00060"></a>00060         <span class="comment">// handle</span>
+<a name="l00061"></a>00061         catalog_handle handle;
+<a name="l00062"></a>00062         <span class="comment">// delete</span>
+<a name="l00066"></a>00066 <span class="comment"></span>        void (*catalog_delete)(catalog_handle); 
+<a name="l00070"></a>00070         gboolean (*check_catalog_url)(catalog_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* url,  catalog_mode mode, GError** err);
+<a name="l00074"></a>00074         int (*accessG)(catalog_handle, <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
+<a name="l00078"></a>00078         int (*access_guidG)(catalog_handle, <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
+<a name="l00079"></a>00079         int     (*chmodG)(catalog_handle, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t, GError** err);
+<a name="l00080"></a>00080         int     (*renameG)(catalog_handle, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, GError** err);   
+<a name="l00081"></a>00081         
+<a name="l00082"></a>00082 };
+<a name="l00083"></a>00083 
+<a name="l00087"></a><a class="code" href="struct__catalog__opts.html">00087</a> <span class="keyword">struct </span><a class="code" href="struct__catalog__opts.html">_catalog_opts</a>{
+<a name="l00088"></a>00088         gfal_catalog_interface catalog_list[MAX_CATALOG_LIST];
+<a name="l00089"></a>00089         <span class="keywordtype">int</span> catalog_number;
+<a name="l00090"></a>00090 };
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 <span class="preprocessor">#include "gfal_types.h"</span>
+<a name="l00093"></a>00093 
+<a name="l00100"></a>00100 <span class="keyword">extern</span> <span class="keywordtype">char</span>* gfal_get_cat_type(GError**);
 <a name="l00101"></a>00101 
-<a name="l00102"></a>00102 <span class="keywordtype">int</span> <a class="code" href="gfal__common__catalog_8c.html#96ebd098ad2447a81f096207879b9d3a">gfal_catalogs_instance</a>(gfal_handle, GError** err);
-<a name="l00103"></a>00103 
-<a name="l00104"></a>00104 <span class="keywordtype">int</span> <a class="code" href="gfal__common__catalog_8c.html#c0a73bbac2867b3dd9c107f74114e8a6">gfal_catalogs_accessG</a>(gfal_handle handle, <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
-<a name="l00105"></a>00105 
-<a name="l00106"></a>00106 <span class="keywordtype">int</span> <a class="code" href="gfal__common__catalog_8c.html#fdd144370f8c6df2564eaddbf26e2fd5">gfal_catalogs_guid_accessG</a>(gfal_handle handle, <span class="keywordtype">char</span>* guid, <span class="keywordtype">int</span> mode, GError** err);
-<a name="l00107"></a>00107 
-<a name="l00108"></a>00108 <span class="keywordtype">int</span> <a class="code" href="gfal__common__catalog_8c.html#c0412247b6ddd6ceac7fb171c56adaad">gfal_catalogs_delete</a>(gfal_handle, GError** err);
-<a name="l00109"></a>00109         
-<a name="l00110"></a>00110 
-<a name="l00111"></a>00111 <span class="keywordtype">char</span> *get_default_se(<span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00112"></a>00112 <span class="keywordtype">int</span> purify_surl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">int</span>);
-<a name="l00113"></a>00113 <span class="keywordtype">int</span> setypesandendpointsfromsurl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00114"></a>00114 <span class="keywordtype">int</span> setypesandendpoints (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00115"></a>00115 <span class="keywordtype">int</span> canonical_url (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
-<a name="l00116"></a>00116 <span class="keywordtype">int</span> parseturl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">char</span>*, <span class="keywordtype">int</span>);
-<a name="l00117"></a>00117 <span class="keywordtype">int</span> replica_exists(<span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>*, <span class="keywordtype">int</span>);
-<a name="l00118"></a>00118 <span class="keywordtype">int</span> getdomainnm (<span class="keywordtype">char</span> *name, <span class="keywordtype">int</span> namelen);
-<a name="l00119"></a>00119 <span class="keywordtype">char</span> **get_sup_proto ();
-<a name="l00120"></a>00120 <span class="keyword">struct </span>proto_ops *find_pops (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00121"></a>00121 <span class="keywordtype">int</span> mapposixerror (<span class="keyword">struct</span> proto_ops *, <span class="keywordtype">int</span>);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed May 11 12:21:06 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 <span class="keywordtype">int</span> <a class="code" href="gfal__common__catalog_8c.html#96ebd098ad2447a81f096207879b9d3a">gfal_catalogs_instance</a>(gfal_handle, GError** err);
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105 <span class="keywordtype">int</span> <a class="code" href="gfal__common__catalog_8c.html#c0a73bbac2867b3dd9c107f74114e8a6">gfal_catalogs_accessG</a>(gfal_handle handle, <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107 <span class="keywordtype">int</span> <a class="code" href="gfal__common__catalog_8c.html#fdd144370f8c6df2564eaddbf26e2fd5">gfal_catalogs_guid_accessG</a>(gfal_handle handle, <span class="keywordtype">char</span>* guid, <span class="keywordtype">int</span> mode, GError** err);
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109 <span class="keywordtype">int</span> <a class="code" href="gfal__common__catalog_8c.html#c0412247b6ddd6ceac7fb171c56adaad">gfal_catalogs_delete</a>(gfal_handle, GError** err);
+<a name="l00110"></a>00110         
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112 <span class="keywordtype">char</span> *get_default_se(<span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
+<a name="l00113"></a>00113 <span class="keywordtype">int</span> purify_surl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">int</span>);
+<a name="l00114"></a>00114 <span class="keywordtype">int</span> setypesandendpointsfromsurl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
+<a name="l00115"></a>00115 <span class="keywordtype">int</span> setypesandendpoints (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> ***, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
+<a name="l00116"></a>00116 <span class="keywordtype">int</span> canonical_url (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
+<a name="l00117"></a>00117 <span class="keywordtype">int</span> parseturl (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">char</span>*, <span class="keywordtype">int</span>);
+<a name="l00118"></a>00118 <span class="keywordtype">int</span> replica_exists(<span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>*, <span class="keywordtype">int</span>);
+<a name="l00119"></a>00119 <span class="keywordtype">int</span> getdomainnm (<span class="keywordtype">char</span> *name, <span class="keywordtype">int</span> namelen);
+<a name="l00120"></a>00120 <span class="keywordtype">char</span> **get_sup_proto ();
+<a name="l00121"></a>00121 <span class="keyword">struct </span>proto_ops *find_pops (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00122"></a>00122 <span class="keywordtype">int</span> mapposixerror (<span class="keyword">struct</span> proto_ops *, <span class="keywordtype">int</span>);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed May 11 18:01:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

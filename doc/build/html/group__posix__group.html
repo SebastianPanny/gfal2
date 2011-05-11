@@ -56,9 +56,9 @@ ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_read</b> (int
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g2a8ed205f7748d7817a18521268a1f2d"></a><!-- doxytag: member="posix_group::gfal_readdir" ref="g2a8ed205f7748d7817a18521268a1f2d" args="(DIR *)" -->
 dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_readdir</b> (DIR *)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g34dc6129530d6bf9e5836ef22c0d2792"></a><!-- doxytag: member="posix_group::gfal_rename" ref="g34dc6129530d6bf9e5836ef22c0d2792" args="(const char *, const char *)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rename</b> (const char *, const char *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g34dc6129530d6bf9e5836ef22c0d2792">gfal_rename</a> (const char *, const char *)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files  <a href="#g34dc6129530d6bf9e5836ef22c0d2792"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gcc4b6347640a722674c2d6df437490df"></a><!-- doxytag: member="posix_group::gfal_rmdir" ref="gcc4b6347640a722674c2d6df437490df" args="(const char *)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rmdir</b> (const char *)</td></tr>
 
@@ -387,7 +387,58 @@ opens a file according to the value of flags
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 11 12:21:06 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="g34dc6129530d6bf9e5836ef22c0d2792"></a><!-- doxytag: member="POSIX_API.c::gfal_rename" ref="g34dc6129530d6bf9e5836ef22c0d2792" args="(const char *, const char *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_rename           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>oldpath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>newpath</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>oldpath</em>&nbsp;</td><td>: the old path of the file </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>newpath</em>&nbsp;</td><td>: the new path of the file </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>: return 0 if success, else -1 and errno / gfal_posix_error_print()<ul>
+<li>ERRNO list : <br>
+<ul>
+<li>usual errors:<ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer.<ul>
+<li>EISDIR: newpath is an existing directory but oldpath is not a directory</li><li>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than "." and ".."</li></ul>
+</li><li>ENOTDIR: A component of path prefix is not a directory.<ul>
+<li>EXDEV oldpath and newpath are not on the same mounted file system.</li></ul>
+</li></ul>
+</li><li>gfal errors ( associated with a specific <a class="el" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error()</a> ):<ul>
+<li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax . </li></ul>
+</li></ul>
+</li></ul>
+</dd></dl>
+
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Wed May 11 18:01:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

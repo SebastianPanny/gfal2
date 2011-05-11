@@ -7,57 +7,57 @@
     <includes local="no">regex.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../common/gfal_common_errverbose.h</includes>
     <incdepgraph>
-      <node id="983">
+      <node id="992">
         <label>stdarg.h</label>
       </node>
-      <node id="981">
+      <node id="990">
         <label>../common/gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="982" relation="include">
+        <childnode refid="991" relation="include">
         </childnode>
-        <childnode refid="983" relation="include">
+        <childnode refid="992" relation="include">
         </childnode>
-        <childnode refid="984" relation="include">
+        <childnode refid="993" relation="include">
         </childnode>
-        <childnode refid="985" relation="include">
+        <childnode refid="994" relation="include">
         </childnode>
-        <childnode refid="986" relation="include">
+        <childnode refid="995" relation="include">
         </childnode>
-        <childnode refid="979" relation="include">
+        <childnode refid="988" relation="include">
         </childnode>
       </node>
-      <node id="986">
+      <node id="995">
         <label>errno.h</label>
       </node>
-      <node id="977">
+      <node id="986">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</label>
         <link refid="gfal_posix_local_file.c"/>
-        <childnode refid="978" relation="include">
+        <childnode refid="987" relation="include">
         </childnode>
-        <childnode refid="979" relation="include">
+        <childnode refid="988" relation="include">
         </childnode>
-        <childnode refid="980" relation="include">
+        <childnode refid="989" relation="include">
         </childnode>
-        <childnode refid="981" relation="include">
+        <childnode refid="990" relation="include">
         </childnode>
       </node>
-      <node id="985">
+      <node id="994">
         <label>string.h</label>
       </node>
-      <node id="978">
+      <node id="987">
         <label>unistd.h</label>
       </node>
-      <node id="979">
+      <node id="988">
         <label>glib.h</label>
       </node>
-      <node id="982">
+      <node id="991">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="980">
+      <node id="989">
         <label>regex.h</label>
       </node>
-      <node id="984">
+      <node id="993">
         <label>stdio.h</label>
       </node>
     </incdepgraph>
@@ -125,6 +125,31 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="40" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="40" bodyend="46"/>
       </memberdef>
+      <memberdef kind="function" id="gfal__posix__local__file_8c_1360b4701633deaae52f9f77c94173405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_local_rename</definition>
+        <argsstring>(const char *oldpath, const char *newpath, GError **err)</argsstring>
+        <name>gfal_local_rename</name>
+        <param>
+          <type>const char *</type>
+          <declname>oldpath</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>newpath</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="49" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="49" bodyend="55"/>
+      </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
         <definition>gboolean gfal_check_local_url</definition>
@@ -144,7 +169,7 @@
 <para>check the validity of a classique file url </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="51" bodyend="57"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="60" bodyend="66"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -194,14 +219,23 @@
 <codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
 <codeline lineno="46"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="51"><highlight class="normal">gboolean<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regex_t<sp/>rex;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>regcomp(&amp;rex,<sp/></highlight><highlight class="stringliteral">&quot;^file:([:print:]|/)+&quot;</highlight><highlight class="normal">,REG_ICASE<sp/>|<sp/>REG_EXTENDED);</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(ret==0,-1,err,</highlight><highlight class="stringliteral">&quot;[gfal_check_local_url]<sp/>fail<sp/>to<sp/>compile<sp/>regex,<sp/>report<sp/>this<sp/>bug&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret=<sp/><sp/>regexec(&amp;rex,<sp/>path,0,NULL,0);</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(!ret)?TRUE:FALSE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_rename(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>oldpath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newpath,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>rename(oldpath+strlen(GFAL_LOCAL_PREFIX),<sp/>newpath<sp/>+<sp/>strlen(GFAL_LOCAL_PREFIX));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_local_rename]<sp/>errno<sp/>reported<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">gboolean<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regex_t<sp/>rex;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>regcomp(&amp;rex,<sp/></highlight><highlight class="stringliteral">&quot;^file:([:print:]|/)+&quot;</highlight><highlight class="normal">,REG_ICASE<sp/>|<sp/>REG_EXTENDED);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(ret==0,-1,err,</highlight><highlight class="stringliteral">&quot;[gfal_check_local_url]<sp/>fail<sp/>to<sp/>compile<sp/>regex,<sp/>report<sp/>this<sp/>bug&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret=<sp/><sp/>regexec(&amp;rex,<sp/>path,0,NULL,0);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(!ret)?TRUE:FALSE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c"/>
   </compounddef>
