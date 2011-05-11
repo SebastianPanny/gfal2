@@ -110,6 +110,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_lfc, test_gfal_common_lfc_no_exist);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_check_filename);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_access_guid_file_exist);
+  tcase_add_test(tc_lfc, test__gfal_common_lfc_rename);
   suite_add_tcase(s, tc_lfc);
   // POSIX TESTS
   return s;

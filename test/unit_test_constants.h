@@ -51,3 +51,7 @@
 #define TEST_LFC_MOD_READ_FILE "lfn:/grid/dteam/testchmodread0011"
 #define TEST_LFC_MOD_UNEXIST_FILE "lfn:/grid/dteam/OpenSourceAndMicrosoft"
 #define TEST_LFC_MOD_WRITE_FILE "lfn:/grid/dteam/testchmodwrite0011"
+
+
+#define TEST_LFC_RENAME_VALID_DEST "lfn:/grid/dteam/testrename0012"
+#define TEST_LFC_RENAME_VALID_SRC "lfn:/grid/dteam/testrename0011"

@@ -67,6 +67,7 @@ int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** er
 		const int myerrno = *(ops->serrno);
 		g_set_error(err, 0, myerrno, "[lfc_chmodG] Errno reported from lfc : %s ", ops->sstrerror(myerrno));
 	}
+	free(url);
 	return ret;
 }
 
@@ -115,7 +116,26 @@ int lfc_access_guidG(catalog_handle handle, char* guid, int mode, GError** err){
 	free(tmp_guid);
 	return ret;
 }
-
+/**
+ * Implementation of the rename call for the lfc catalog
+ * return 0 if success else -1 if error and set GError
+ * 
+ * */
+int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath, GError** err){
+	g_return_val_err_if_fail(handle && oldpath && newpath, -1, err, "[lfc_renameG] Invalid value in args handle/oldpath/newpath");
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	char* surl = lfc_urlconverter(oldpath, GFAL_LFC_PREFIX);
+	char* durl = lfc_urlconverter(newpath, GFAL_LFC_PREFIX);
+	int ret  = ops->rename(surl, durl);
+	if(ret <0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno, "[lfc_renameG] Error report from LFC : %s",  ops->sstrerror(sav_errno) );
+		ret = -1;
+	}
+	free(surl);
+	free(durl);
+	return ret;	
+}
 
 /**
  * Map function for the lfc interface
@@ -147,6 +167,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.accessG = &lfc_accessG;
 	lfc_catalog.access_guidG = &lfc_access_guidG;
 	lfc_catalog.chmodG = &lfc_chmodG;
+	lfc_catalog.renameG = &lfc_renameG;
 	return lfc_catalog;
 }
 

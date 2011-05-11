@@ -237,3 +237,35 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 }
 END_TEST
 
+
+START_TEST(test__gfal_common_lfc_rename)
+{
+	GError * tmp_err=NULL;
+	int ret =-1;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		fail("error must be initiated");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	if(tmp_err){
+		fail("must be a valid init");
+		gfal_release_GError(&tmp_err);
+		return;
+	}	
+	ret = i.renameG(i.handle, TEST_LFC_RENAME_VALID_SRC, TEST_LFC_RENAME_VALID_DEST, &tmp_err);
+	if( ret < 0 || tmp_err){
+		fail(" must be a success on the first rename");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	ret = i.renameG(i.handle, TEST_LFC_RENAME_VALID_DEST, TEST_LFC_RENAME_VALID_SRC, &tmp_err);
+	if( ret < 0 || tmp_err){
+		fail(" must be a success on the second rename ");
+		gfal_release_GError(&tmp_err);
+		return;
+	}	
+}
+END_TEST
+
