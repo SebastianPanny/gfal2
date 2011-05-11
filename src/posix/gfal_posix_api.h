@@ -36,6 +36,10 @@
 
 int gfal_access (const char *, int);
 
+int gfal_chmod(const char* path, mode_t mode);
+
+int gfal_rename (const char *oldpath, const char * newpath);
+
 void gfal_posix_clear_error();
 
 void gfal_posix_release_error();
@@ -43,24 +47,6 @@ void gfal_posix_release_error();
 void gfal_posix_print_error();
 
 int gfal_posix_code_error();
-
-/**
- * \brief set rights of the file/dir 
- * 
- * changes access mode of the file/directory path according to the bit pattern in mode.
- * \param path specifies the file name (this can only be a TURL in the current implementation).
- * \param mode the bit pattern is built by an OR of the constants defined in <sys/stat.h>.
- * \return This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately \n
- *  - ERRNO list : \n
- *    - ENOENT: The named file/directory does not exist.
- *    - EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
- *    - EFAULT: path is a NULL pointer.
- *    - ENOTDIR: A component of path prefix is not a directory.
- *    - EINVAL: path has an invalid syntax or amode is invalid.
- *    - ECOMM: Communication error.
- *    - EPROTONOSUPPORT: Access method not supported.
-*/
-int gfal_chmod (const char *, mode_t);
 
 /**
  * \brief close the current file descriptor 
@@ -166,7 +152,7 @@ ssize_t gfal_read (int, void *, size_t);
 
 struct dirent *gfal_readdir (DIR *);
 
-int gfal_rename (const char *, const char *);
+
 
 int gfal_rmdir (const char *);
 

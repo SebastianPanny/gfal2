@@ -26,6 +26,7 @@
 
 #include <stdio.h>
 #include <errno.h>
+#include "gfal_posix_api.h"
 #include <glib.h>
 #include "../common/gfal_types.h"
 #include "gfal_posix_internal.h"

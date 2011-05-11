@@ -71,6 +71,17 @@ int gfal_chmod(const char* path, mode_t mode){
 	return gfal_posix_internal_chmod(path, mode);
 }
 
+/**
+ * @brief  change the name or location of a file
+ * oldpath and newpath need to be on the same catalog
+ * this functions work only with catalogs (lfc ) and local files
+ * @param oldpath : the old path of the file
+ * @param newpath : the new path of the file
+ * @return : return 0 if success, else -1 and errno / \ref gfal_posix_error_print()
+*/
+int gfal_rename (const char *oldpath, const char * newpath){
+	return -1;
+}
 
 /**
  * Display the last string error reported by the gfal error system for the posix API
