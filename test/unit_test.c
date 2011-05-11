@@ -138,6 +138,8 @@ Suite* posix_suite (void)
   suite_add_tcase(s, tc_chmod);
   TCase* tc_rename = tcase_create("RENAME");
   tcase_add_test(tc_rename, test__gfal_posix_rename_catalog);
+  tcase_add_test(tc_rename, test__gfal_posix_move_dir_catalog);
+  tcase_add_test(tc_rename, test__gfal_posix_rename_url_check);
   suite_add_tcase(s, tc_rename);
   return s;
 }

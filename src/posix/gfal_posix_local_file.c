@@ -47,7 +47,11 @@ int gfal_local_chmod(const char* path, mode_t mode,GError** err){
 
 
 int gfal_local_rename(const char* oldpath, const char* newpath, GError** err){
-	 return -1;
+	const int res = rename(oldpath+strlen(GFAL_LOCAL_PREFIX), newpath + strlen(GFAL_LOCAL_PREFIX));
+	if(res <0){
+		g_set_error(err, 0, errno, "[gfal_local_rename] errno reported : %s", strerror(errno));
+	}
+	return res;
  }
  
 /**

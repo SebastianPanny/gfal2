@@ -55,3 +55,6 @@
 
 #define TEST_LFC_RENAME_VALID_DEST "lfn:/grid/dteam/testrename0012"
 #define TEST_LFC_RENAME_VALID_SRC "lfn:/grid/dteam/testrename0011"
+
+#define TEST_LFC_MOVABLE_DIR_SRC "lfn:/grid/dteam/testmovedir0011/"
+#define TEST_LFC_MOVABLE_DIR_DEST "lfn:/grid/dteam/testmovedir0012/"
