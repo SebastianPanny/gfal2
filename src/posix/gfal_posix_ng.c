@@ -78,6 +78,21 @@ int gfal_chmod(const char* path, mode_t mode){
  * @param oldpath : the old path of the file
  * @param newpath : the new path of the file
  * @return : return 0 if success, else -1 and errno / \ref gfal_posix_error_print()
+ *  - ERRNO list : \n
+ *    	- usual errors:
+ *    		- ENOENT: The named file/directory does not exist.
+ *    		- EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath,
+              or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
+ *   		- EFAULT: oldpath or newpath is a NULL pointer.
+ * 			- EISDIR: newpath is an existing directory but oldpath is not a directory
+ * 			- ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than "." and ".."
+ *   		- ENOTDIR: A component of path prefix is not a directory.
+ * 			- EXDEV  oldpath  and  newpath  are  not on the same mounted file system. 
+ *  	- gfal errors ( associated with a specific gfal_posix_print_error() ):
+ *   		- ECOMM: Communication error
+ *   		- EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported
+ *   		- EINVAL: oldpath or newpath has an invalid syntax .
+ * 
 */
 int gfal_rename(const char *oldpath, const char *newpath){
 	return gfal_posix_internal_rename(oldpath, newpath);

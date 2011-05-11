@@ -44,6 +44,11 @@ int gfal_local_chmod(const char* path, mode_t mode,GError** err){
 	}
 	return res;
 }
+
+
+int gfal_local_rename(const char* oldpath, const char* newpath, GError** err){
+	 return -1;
+ }
  
 /**
  * check the validity of a classique file url

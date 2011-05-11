@@ -32,3 +32,5 @@
  int gfal_local_access(const char *path, int amode, GError** err);
  
  int gfal_local_chmod(const char* path, mode_t mode, GError** err);
+ 
+ int gfal_local_rename(const char* oldpath, const char* newpath, GError** err);

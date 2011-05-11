@@ -43,6 +43,7 @@
 #include "common/gfal__test_common_srm_no_glib.c"
 #include "posix/test__gfal_posix_access.c"
 #include "posix/test__gfal_posix_chmod.c"
+#include "posix/test__gfal_posix_rename.c"
 
 Suite* common_suite (void)
 {
@@ -135,6 +136,9 @@ Suite* posix_suite (void)
   tcase_add_test(tc_chmod, test__gfal_posix_chmod_read_local);
   tcase_add_test(tc_chmod, test__gfal_posix_chmod_write_lfn);
   suite_add_tcase(s, tc_chmod);
+  TCase* tc_rename = tcase_create("RENAME");
+  tcase_add_test(tc_rename, test__gfal_posix_rename_catalog);
+  suite_add_tcase(s, tc_rename);
   return s;
 }
 
