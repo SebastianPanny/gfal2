@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "10 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "11 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -26,7 +26,10 @@
 
 .in +1c
 .ti -1c
-.RI "int \fBgfal_local_access\fP (const char *path, int amode)"
+.RI "int \fBgfal_local_access\fP (const char *path, int amode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_local_chmod\fP (const char *path, mode_t mode, GError **err)"
 .br
 .ti -1c
 .RI "gboolean \fBgfal_check_local_url\fP (const char *path, GError **err)"

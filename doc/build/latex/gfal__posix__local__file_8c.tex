@@ -15,7 +15,10 @@ file for the internal func of the posix interface
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-int \textbf{gfal\_\-local\_\-access} (const char $\ast$path, int amode)\label{gfal__posix__local__file_8c_7ed4fde5469d13941ddf88ed5ae9688d}
+int \textbf{gfal\_\-local\_\-access} (const char $\ast$path, int amode, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_a98ca73fb3083a78f5d85b1f298a8b97}
+
+\item 
+int \textbf{gfal\_\-local\_\-chmod} (const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_d6c6d5590083bbcef4833f8186a629f3}
 
 \item 
 gboolean \bf{gfal\_\-check\_\-local\_\-url} (const char $\ast$path, GError $\ast$$\ast$err)

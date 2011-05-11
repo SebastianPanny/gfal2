@@ -39,8 +39,10 @@
 <a name="l00029"></a>00029  gboolean <a class="code" href="gfal__posix__local__file_8c.html#02987ce8beeb908c36ee3d4ef3bc5618">gfal_check_local_url</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError* err);
 <a name="l00030"></a>00030  
 <a name="l00031"></a>00031  
-<a name="l00032"></a>00032  <span class="keywordtype">int</span> gfal_local_access(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> amode);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue May 10 16:43:41 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00032"></a>00032  <span class="keywordtype">int</span> gfal_local_access(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> amode, GError** err);
+<a name="l00033"></a>00033  
+<a name="l00034"></a>00034  <span class="keywordtype">int</span> gfal_local_chmod(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode, GError** err);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed May 11 12:21:06 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
