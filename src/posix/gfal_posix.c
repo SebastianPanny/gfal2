@@ -738,7 +738,7 @@ gfal_readdir64 (DIR *dir)
         errno = 0;
     return (de);
 }
-
+/*
     int
 gfal_rename (const char *old_name, const char *new_name)
 {
@@ -783,9 +783,9 @@ gfal_rename (const char *old_name, const char *new_name)
             rc = rmc_unregister_alias (guid, path1, NULL, 0);
             free (guid);
             return (rc);
-            *  */
+            //
             g_error("rmc removed, temporarly disabled");
-            /* */
+            //
         }
 
         errno = EPROTONOSUPPORT;
@@ -822,7 +822,7 @@ gfal_rename (const char *old_name, const char *new_name)
     }
     errno = 0;
     return (0);
-}
+}*/
 
     int
 gfal_rmdir (const char *dirname)

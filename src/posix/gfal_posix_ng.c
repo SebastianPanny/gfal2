@@ -79,8 +79,8 @@ int gfal_chmod(const char* path, mode_t mode){
  * @param newpath : the new path of the file
  * @return : return 0 if success, else -1 and errno / \ref gfal_posix_error_print()
 */
-int gfal_rename (const char *oldpath, const char * newpath){
-	return -1;
+int gfal_rename(const char *oldpath, const char *newpath){
+	return gfal_posix_internal_rename(oldpath, newpath);
 }
 
 /**

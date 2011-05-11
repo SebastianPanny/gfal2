@@ -137,7 +137,7 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
 	return 0;
 }
 /**
- *  Execute an access methode on ALL the compatible catalogs
+ *  Execute the chmod function on the first compatible catalog ( checked with check_url func )
  *  return the result of the first valid catalog for a given URL
  *  @return result of the chmod func or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned
  * */
@@ -170,6 +170,38 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
 	}
 	return ret;		 
  }
+ 
+ 
+int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err){
+	g_return_val_err_if_fail(oldpath && newpath, -1, err, "[gfal_catalog_renameG] invalid value in args oldpath, handle or newpath");
+	GError* tmp_err=NULL;
+	int ret =-1, i;
+	gboolean valid_url = FALSE;
+	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);
+	if(n_catalogs > 0 && !tmp_err){
+		gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
+		for(i=0; i< n_catalogs; ++i, ++cata_list){
+			valid_url = ( cata_list->check_catalog_url(cata_list->handle, oldpath, GFAL_CATALOG_RENAME, &tmp_err)
+						&& cata_list->check_catalog_url(cata_list->handle, newpath, GFAL_CATALOG_RENAME, &tmp_err)) ;
+			if(tmp_err)
+				break;
+			if(valid_url){ 		//no error and valid catalog
+				ret = cata_list->renameG(cata_list->handle, oldpath, newpath, &tmp_err);
+				break;		
+			}
+		}
+		
+	}
+	if(tmp_err){ 			// error reported
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalog_renameG]");	
+		ret = -1;
+	}else if (!valid_url){ 		// no error and no valid url 
+		g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_catalog_renameG] Error : Protocol not supported or invalidpath/url ");
+		ret =-1;
+	}
+	return ret;	
+	
+}
 
 /**
  * return the catalog type configured at compilation time
