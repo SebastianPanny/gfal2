@@ -66,3 +66,9 @@ int gfal_guid_accessG(gfal_handle handle, const char* guid, int mode, GError** e
 	
 }
 
+
+/**
+ * Execute a guid chmod on the first compatible catalog
+ * configure the right of the element associated with the guid
+ */
+

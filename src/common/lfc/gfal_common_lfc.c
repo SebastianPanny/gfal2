@@ -149,8 +149,8 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 	if(res){
 		const int size_res = strnlen(res, GFAL_URL_MAX_LEN);
 		const int size_pref = strlen(GFAL_LFC_PREFIX);
-		res =  g_renew(char, res, (size_pref+ size_res+1)); 
-		memmove(res+ size_pref, res, size_res+1);
+		res =  g_renew(char, res, size_res + size_pref+1); 
+		*((char*) memmove(res+ size_pref, res, size_res) + size_res ) = '\0';
 		memcpy(res, GFAL_LFC_PREFIX, size_pref);
 	}
 	free(tmp_guid);

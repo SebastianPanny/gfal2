@@ -32,6 +32,7 @@
 #include "gfal_posix_internal.h"
 #include "gfal_posix_local_file.h"
 #include  "../common/gfal_common_catalog.h"
+#include "../common/gfal_common_guid.h"
 #include "../common/gfal_common.h"
 #include "../common/gfal_common_srm_access.h"
 #include "../common/gfal_constants.h"
@@ -53,7 +54,7 @@ int gfal_posix_internal_access (const char *path, int amode){
 	if(check==0){
 		resu = gfal_srm_accessG(handle, (char*) path, amode, &tmp_err );	// srm:// -> send to the srm part
 	}else if(gfal_guid_checker(path, NULL)){
-		resu = gfal_catalogs_guid_accessG(handle, (char*) path, amode, &tmp_err);	// guid: -> send to the first catalog
+		resu = gfal_guid_accessG(handle, (char*) path, amode, &tmp_err);	// guid: -> send to the first catalog
 	}else if(gfal_check_local_url(path, NULL)){
 		resu = gfal_local_access(path, amode, &tmp_err);									// file:// -> send to the local system call
 	}else {
