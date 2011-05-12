@@ -15,9 +15,9 @@ int \bf{lfc\_\-chmod\-G} (catalog\_\-handle handle, const char $\ast$path, mode\
 \item 
 int \bf{lfc\_\-access\-G} (catalog\_\-handle handle, char $\ast$lfn, int mode, GError $\ast$$\ast$err)
 \item 
-int \bf{lfc\_\-access\_\-guid\-G} (catalog\_\-handle handle, char $\ast$guid, int mode, GError $\ast$$\ast$err)
-\item 
 int \bf{lfc\_\-rename\-G} (catalog\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
+\item 
+char $\ast$ \bf{lfc\_\-resolve\_\-guid} (catalog\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
 gfal\_\-catalog\_\-interface \bf{lfc\_\-init\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
@@ -42,12 +42,7 @@ file for the lfc catalog module
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (catalog\_\-handle {\em handle}, const char $\ast$ {\em lfn\_\-url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_8baa624b528deb15ff4ee61fa9948ac8}
 
 
-Check if the passed url and operation is compatible with lfc \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_access_guidG@{lfc\_\-access\_\-guidG}}
-\index{lfc_access_guidG@{lfc\_\-access\_\-guidG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-access\_\-guid\-G (catalog\_\-handle {\em handle}, char $\ast$ {\em guid}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b5091415fccdf6a0904908f253ee4d9b}
-
-
-implementation of the access call with the lfc catalog for the guid url return 0 or the errno if classical error, report GError$\ast$$\ast$ if serious error \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_accessG@{lfc\_\-accessG}}
+Check if the passed url and operation is compatible with lfc \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_accessG@{lfc\_\-accessG}}
 \index{lfc_accessG@{lfc\_\-accessG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-access\-G (catalog\_\-handle {\em handle}, char $\ast$ {\em lfn}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_960f3f01cd2e130cda6dc3513154a954}
 
@@ -67,4 +62,9 @@ Map function for the lfc interface this function provide the generic CATALOG int
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-rename\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_cb750f4f936abd772a5f53f5b1fbdaec}
 
 
-Implementation of the rename call for the lfc catalog return 0 if success else -1 if error and set GError 
+Implementation of the rename call for the lfc catalog return 0 if success else -1 if error and set GError \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_resolve_guid@{lfc\_\-resolve\_\-guid}}
+\index{lfc_resolve_guid@{lfc\_\-resolve\_\-guid}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ lfc\_\-resolve\_\-guid (catalog\_\-handle {\em handle}, const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b8943f8f5fd7211851bf7732d9c3b50b}
+
+
+Convert a guid to a catalog url if possible return the link in a catalog's url string or err and NULL if not found 

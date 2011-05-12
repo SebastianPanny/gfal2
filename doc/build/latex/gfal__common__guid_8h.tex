@@ -1,0 +1,48 @@
+\section{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-guid.h File Reference}
+\label{gfal__common__guid_8h}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-guid.h}}
+header file for the guid translation, use the catalogs 
+
+{\tt \#include $<$glib.h$>$}\par
+{\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+gboolean \bf{gfal\_\-guid\_\-checker} (const char $\ast$guid, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-guid\_\-access\-G} (gfal\_\-handle handle, const char $\ast$guid, int mode, GError $\ast$$\ast$err)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+header file for the guid translation, use the catalogs 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]2.0 \end{Desc}
+\begin{Desc}
+\item[Date:]12/05/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common_guid.h@{gfal\_\-common\_\-guid.h}!gfal_guid_accessG@{gfal\_\-guid\_\-accessG}}
+\index{gfal_guid_accessG@{gfal\_\-guid\_\-accessG}!gfal_common_guid.h@{gfal\_\-common\_\-guid.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-guid\_\-access\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em guid}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__guid_8h_55770e13f0626b60b830e3254df7ee9d}
+
+
+Execute a guid access on the first compatible catalog \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]\item[{\em guid}]of the element to check \item[{\em mode}]: mode of the access \item[{\em err}]: Error report system \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return the content of the access call, or negative value if error \end{Desc}
+\begin{Desc}
+\item[Warning:]no url syntax checking \end{Desc}
+\index{gfal_common_guid.h@{gfal\_\-common\_\-guid.h}!gfal_guid_checker@{gfal\_\-guid\_\-checker}}
+\index{gfal_guid_checker@{gfal\_\-guid\_\-checker}!gfal_common_guid.h@{gfal\_\-common\_\-guid.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-guid\_\-checker (const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__guid_8h_9e4b6149b0256f725bc1dab5fc32ab62}
+
+
+parse a guid to check the validity 

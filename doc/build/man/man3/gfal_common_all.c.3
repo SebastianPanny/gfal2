@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "11 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "12 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -47,9 +47,6 @@
 .ti -1c
 .RI "gboolean \fBis_valid_access_result\fP (int status)"
 .br
-.ti -1c
-.RI "gboolean \fBgfal_guid_checker\fP (const char *guid, GError **err)"
-.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -96,9 +93,6 @@ return NULL if error or pointer to int*
 .RE
 .PP
 
-.SS "gboolean gfal_guid_checker (const char * guid, GError ** err)"
-.PP
-parse a guid to check the validity 
 .SS "gfal_handle gfal_initG (GError ** err)"
 .PP
 initiate a gfal's context with default parameters for use 

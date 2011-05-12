@@ -55,7 +55,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#c0a73bbac2867b3dd9c107f74114e8a6">gfal_catalogs_accessG</a> (gfal_handle handle, char *path, int mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#fdd144370f8c6df2564eaddbf26e2fd5">gfal_catalogs_guid_accessG</a> (gfal_handle handle, char *guid, int mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fdd144370f8c6df2564eaddbf26e2fd5"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_guid_accessG" ref="fdd144370f8c6df2564eaddbf26e2fd5" args="(gfal_handle handle, char *guid, int mode, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_guid_accessG</b> (gfal_handle handle, char *guid, int mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#405974336e7b4ebaafeea02577d7d4d5">gfal_catalogs_delete</a> (gfal_handle, GError **err)</td></tr>
 
@@ -171,57 +172,6 @@ Execute an access function on the first catalog compatible in the catalog list r
 Delete all instance of catalogs 
 </div>
 </div><p>
-<a class="anchor" name="fdd144370f8c6df2564eaddbf26e2fd5"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_guid_accessG" ref="fdd144370f8c6df2564eaddbf26e2fd5" args="(gfal_handle handle, char *guid, int mode, GError **err)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int gfal_catalogs_guid_accessG           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&nbsp;</td>
-          <td class="paramname"> <em>guid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>mode</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Execute a guid access on the default specified catalog <dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>guid</em>&nbsp;</td><td>of the element to check </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>: mode of the access </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: Error report system </td></tr>
-  </table>
-</dl>
-<dl compact><dt><b>Returns:</b></dt><dd>return the content of the access call, or negative value if error </dd></dl>
-<dl compact><dt><b>Warning:</b></dt><dd>no url syntaxe checking </dd></dl>
-
-</div>
-</div><p>
 <a class="anchor" name="d272f75eb549a72064524ecce3c25fe7"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_instance" ref="d272f75eb549a72064524ecce3c25fe7" args="(gfal_handle, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -274,7 +224,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 11 18:01:02 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu May 12 14:59:00 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

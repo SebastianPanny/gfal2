@@ -305,27 +305,6 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="141" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="141" bodyend="157"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__all_8c_19e4b6149b0256f725bc1dab5fc32ab62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>gboolean</type>
-        <definition>gboolean gfal_guid_checker</definition>
-        <argsstring>(const char *guid, GError **err)</argsstring>
-        <name>gfal_guid_checker</name>
-        <param>
-          <type>const char *</type>
-          <declname>guid</declname>
-        </param>
-        <param>
-          <type>GError **</type>
-          <declname>err</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para>parse a guid to check the validity </para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="163" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="163" bodyend="172"/>
-      </memberdef>
       </sectiondef>
       <sectiondef kind="var">
       <memberdef kind="variable" id="gfal__common__all_8c_162d87ce420a9bf9aa568c34dd4e7963a" prot="public" static="yes" mutable="no">
@@ -471,18 +450,6 @@
 <codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="157"><highlight class="normal"><sp/>}</highlight></codeline>
 <codeline lineno="158"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="163"><highlight class="normal">gboolean<sp/><ref refid="gfal__common_8h_19e4b6149b0256f725bc1dab5fc32ab62" kindref="member">gfal_guid_checker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(guid<sp/>!=<sp/>NULL,FALSE,err,</highlight><highlight class="stringliteral">&quot;[gfal_guid_checker]<sp/>check<sp/>URL<sp/>failed<sp/>:<sp/>guid<sp/>is<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regex_t<sp/>rex;</highlight></codeline>
-<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>regcomp(&amp;rex,<sp/></highlight><highlight class="stringliteral">&quot;^guid:([0-9]|[a-z]|[A-Z]){8}-([0-9]|[a-z]|[A-Z]){4}-([0-9]|[a-z]|[A-Z]){4}-([0-9]|[a-z]|[A-Z]){4}-([0-9]|[a-z]|[A-Z]){12}&quot;</highlight><highlight class="normal">,REG_ICASE<sp/>|<sp/>REG_EXTENDED);</highlight></codeline>
-<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(ret==0,FALSE,err,</highlight><highlight class="stringliteral">&quot;[gfal_guid_checker]<sp/>fail<sp/>to<sp/>compile<sp/>regex,<sp/>report<sp/>this<sp/>bug&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret=<sp/><sp/>regexec(&amp;rex,guid,0,NULL,0);</highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret)<sp/></highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,EINVAL,</highlight><highlight class="stringliteral">&quot;[gfal_guid_checker]<sp/>Incorrect<sp/>guid,<sp/>impossible<sp/>to<sp/>parse<sp/>guid<sp/>%s<sp/>:&quot;</highlight><highlight class="normal">,<sp/>guid);</highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(!ret)?TRUE:FALSE;</highlight></codeline>
-<codeline lineno="172"><highlight class="normal">}<sp/></highlight></codeline>
-<codeline lineno="173"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c"/>
   </compounddef>

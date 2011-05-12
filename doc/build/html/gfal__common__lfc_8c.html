@@ -33,9 +33,9 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#960f3f01cd2e130cda6dc3513154a954">lfc_accessG</a> (catalog_handle handle, char *lfn, int mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#b5091415fccdf6a0904908f253ee4d9b">lfc_access_guidG</a> (catalog_handle handle, char *guid, int mode, GError **err)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#cb750f4f936abd772a5f53f5b1fbdaec">lfc_renameG</a> (catalog_handle handle, const char *oldpath, const char *newpath, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#b8943f8f5fd7211851bf7732d9c3b50b">lfc_resolve_guid</a> (catalog_handle handle, const char *guid, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#18fc1e787694363fd5457f9b8f020cf8">lfc_initG</a> (gfal_handle handle, GError **err)</td></tr>
 
@@ -88,47 +88,6 @@ file for the lfc catalog module
 
 <p>
 Check if the passed url and operation is compatible with lfc 
-</div>
-</div><p>
-<a class="anchor" name="b5091415fccdf6a0904908f253ee4d9b"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_access_guidG" ref="b5091415fccdf6a0904908f253ee4d9b" args="(catalog_handle handle, char *guid, int mode, GError **err)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int lfc_access_guidG           </td>
-          <td>(</td>
-          <td class="paramtype">catalog_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&nbsp;</td>
-          <td class="paramname"> <em>guid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>mode</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-implementation of the access call with the lfc catalog for the guid url return 0 or the errno if classical error, report GError** if serious error 
 </div>
 </div><p>
 <a class="anchor" name="960f3f01cd2e130cda6dc3513154a954"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_accessG" ref="960f3f01cd2e130cda6dc3513154a954" args="(catalog_handle handle, char *lfn, int mode, GError **err)" -->
@@ -283,7 +242,42 @@ Map function for the lfc interface this function provide the generic CATALOG int
 Implementation of the rename call for the lfc catalog return 0 if success else -1 if error and set GError 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 11 18:01:02 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="b8943f8f5fd7211851bf7732d9c3b50b"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_resolve_guid" ref="b8943f8f5fd7211851bf7732d9c3b50b" args="(catalog_handle handle, const char *guid, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* lfc_resolve_guid           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>guid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Convert a guid to a catalog url if possible return the link in a catalog's url string or err and NULL if not found 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Thu May 12 14:59:00 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

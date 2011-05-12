@@ -1,0 +1,79 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h" 3 "12 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h \- header file for the guid translation, use the catalogs 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <glib.h>\fP
+.br
+\fC#include 'gfal_prototypes.h'\fP
+.br
+\fC#include 'gfal_types.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "gboolean \fBgfal_guid_checker\fP (const char *guid, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_guid_accessG\fP (gfal_handle handle, const char *guid, int mode, GError **err)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+header file for the guid translation, use the catalogs 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+2.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+12/05/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "int gfal_guid_accessG (gfal_handle handle, const char * guid, int mode, GError ** err)"
+.PP
+Execute a guid access on the first compatible catalog 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP 
+.br
+\fIguid\fP of the element to check 
+.br
+\fImode\fP : mode of the access 
+.br
+\fIerr\fP : Error report system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return the content of the access call, or negative value if error 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+no url syntax checking 
+.RE
+.PP
+
+.SS "gboolean gfal_guid_checker (const char * guid, GError ** err)"
+.PP
+parse a guid to check the validity 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

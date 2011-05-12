@@ -16,13 +16,13 @@ int \bf{gfal\_\-catalogs\_\-instance} (gfal\_\-handle handle, GError $\ast$$\ast
 \item 
 int \bf{gfal\_\-catalogs\_\-access\-G} (gfal\_\-handle handle, char $\ast$path, int mode, GError $\ast$$\ast$err)
 \item 
-int \bf{gfal\_\-catalogs\_\-guid\_\-access\-G} (gfal\_\-handle handle, char $\ast$guid, int mode, GError $\ast$$\ast$err)
-\item 
 int \bf{gfal\_\-catalogs\_\-delete} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalog\_\-chmod\-G} (gfal\_\-handle handle, const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)
 \item 
-int \textbf{gfal\_\-catalog\_\-rename\-G} (gfal\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_99ffb13510951a6fe79f3c33305ea189}
+int \bf{gfal\_\-catalog\_\-rename\-G} (gfal\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
+\item 
+char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_4955825d7c275f3dfae9a57232642370}
 
 \item 
 char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)
@@ -46,8 +46,15 @@ the file of the common lib for the catalog management
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-chmod\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_12b613d1db9c17e70e679ef7285f6a6f}
 
 
-Execute the chmod function on the first compatible catalog ( checked with check\_\-url func ) return the result of the first valid catalog for a given URL \begin{Desc}
-\item[Returns:]result of the chmod func or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned \end{Desc}
+Execute the chmod function on the first compatible catalog ( checked with check\_\-url func ) \begin{Desc}
+\item[Returns:]0 if success or -1 and set the GError to the correct errno value with a description msg \end{Desc}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_renameG@{gfal\_\-catalog\_\-renameG}}
+\index{gfal_catalog_renameG@{gfal\_\-catalog\_\-renameG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-rename\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_99ffb13510951a6fe79f3c33305ea189}
+
+
+Execute the rename function on the first compatible catalog ( checked with check\_\-url func ) \begin{Desc}
+\item[Returns:]0 if success or -1 and set the GError to the correct errno value with a description msg \end{Desc}
 \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}}
 \index{gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-access\-G (gfal\_\-handle {\em handle}, char $\ast$ {\em path}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_c0a73bbac2867b3dd9c107f74114e8a6}
@@ -60,21 +67,7 @@ Execute an access function on the first catalog compatible in the catalog list r
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-delete (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_c0412247b6ddd6ceac7fb171c56adaad}
 
 
-Delete all instance of catalogs \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_guid_accessG@{gfal\_\-catalogs\_\-guid\_\-accessG}}
-\index{gfal_catalogs_guid_accessG@{gfal\_\-catalogs\_\-guid\_\-accessG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-guid\_\-access\-G (gfal\_\-handle {\em handle}, char $\ast$ {\em guid}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_fdd144370f8c6df2564eaddbf26e2fd5}
-
-
-Execute a guid access on the default specified catalog \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em handle}]\item[{\em guid}]of the element to check \item[{\em mode}]: mode of the access \item[{\em err}]: Error report system \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Returns:]return the content of the access call, or negative value if error \end{Desc}
-\begin{Desc}
-\item[Warning:]no url syntaxe checking \end{Desc}
-\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}}
+Delete all instance of catalogs \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}}
 \index{gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_96ebd098ad2447a81f096207879b9d3a}
 

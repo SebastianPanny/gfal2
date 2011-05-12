@@ -15,8 +15,6 @@ gfal\_\-handle \bf{gfal\_\-init\-G} (GError $\ast$$\ast$err)
 void \bf{gfal\_\-handle\_\-free\-G} (gfal\_\-handle handle)\label{gfal__common_8h_9dbd943eaed291897d852fc3ae560058}
 
 \begin{CompactList}\small\item\em free a gfal's handle, safe if null \item\end{CompactList}\item 
-gboolean \bf{gfal\_\-guid\_\-checker} (const char $\ast$guid, GError $\ast$$\ast$err)
-\item 
 GError $\ast$$\ast$ \bf{gfal\_\-get\_\-last\_\-gerror} (gfal\_\-handle)
 \item 
 gfal\_\-request \bf{gfal\_\-request\_\-new} ()
@@ -170,12 +168,7 @@ display an internal message
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}GError$\ast$$\ast$ gfal\_\-get\_\-last\_\-gerror (gfal\_\-handle {\em handle})}\label{gfal__common_8h_5db6cc7aef8f56e6b1b69f903d9c5411}
 
 
-return a pointer to the internal last error of the handle \index{gfal_common.h@{gfal\_\-common.h}!gfal_guid_checker@{gfal\_\-guid\_\-checker}}
-\index{gfal_guid_checker@{gfal\_\-guid\_\-checker}!gfal_common.h@{gfal\_\-common.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-guid\_\-checker (const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common_8h_9e4b6149b0256f725bc1dab5fc32ab62}
-
-
-parse a guid to check the validity \index{gfal_common.h@{gfal\_\-common.h}!gfal_initG@{gfal\_\-initG}}
+return a pointer to the internal last error of the handle \index{gfal_common.h@{gfal\_\-common.h}!gfal_initG@{gfal\_\-initG}}
 \index{gfal_initG@{gfal\_\-initG}!gfal_common.h@{gfal\_\-common.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-handle gfal\_\-init\-G (GError $\ast$$\ast$ {\em err})}\label{gfal__common_8h_8410ba458f920d8f8a8f0e5594170fe4}
 

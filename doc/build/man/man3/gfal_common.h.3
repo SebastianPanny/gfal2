@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common.h" 3 "11 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common.h" 3 "12 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -27,9 +27,6 @@
 .RI "void \fBgfal_handle_freeG\fP (gfal_handle handle)"
 .br
 .RI "\fIfree a gfal's handle, safe if null \fP"
-.ti -1c
-.RI "gboolean \fBgfal_guid_checker\fP (const char *guid, GError **err)"
-.br
 .ti -1c
 .RI "GError ** \fBgfal_get_last_gerror\fP (gfal_handle)"
 .br
@@ -196,9 +193,6 @@ old rerror system, will be replaced
 .SS "GError** gfal_get_last_gerror (gfal_handle handle)"
 .PP
 return a pointer to the internal last error of the handle 
-.SS "gboolean gfal_guid_checker (const char * guid, GError ** err)"
-.PP
-parse a guid to check the validity 
 .SS "gfal_handle gfal_initG (GError ** err)"
 .PP
 initiate a gfal's context with default parameters for use 
