@@ -134,6 +134,7 @@ Suite* posix_suite (void)
   suite_add_tcase(s, tc_access);
   TCase* tc_chmod = tcase_create("CHMOD");
   tcase_add_test(tc_chmod, test__gfal_posix_chmod_read_lfn);
+  tcase_add_test(tc_chmod, test__gfal_posix_chmod_read_guid);
   tcase_add_test(tc_chmod, test__gfal_posix_chmod_read_local);
   tcase_add_test(tc_chmod, test__gfal_posix_chmod_write_lfn);
   suite_add_tcase(s, tc_chmod);

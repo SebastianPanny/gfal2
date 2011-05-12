@@ -71,9 +71,9 @@ char* gfal_get_lfchost_envar(GError** err){
 static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 	char* lfc_endpoint=NULL, *lfc_port = NULL;
 	if (strncmp (lfc_host, "lfc://", 6) == 0)				// correct the url begining with lfc://
-		lfc_endpoint =strndup ( lfc_host + 6, GFAL_HOSTNAME_MAXLEN);
+		lfc_endpoint =strndupa ( lfc_host + 6, GFAL_HOSTNAME_MAXLEN);
 	else /* just a plain hostname */
-		lfc_endpoint =strndup (lfc_host, GFAL_HOSTNAME_MAXLEN);
+		lfc_endpoint =strndupa (lfc_host, GFAL_HOSTNAME_MAXLEN);
 
 	if ((lfc_port = strchr (lfc_endpoint, ':')) != NULL){	// register LFC_PORT var and clear port number
 		if (strnlen (lfc_port+1,6) > 5  && atoi(lfc_port) ==0) {
@@ -85,7 +85,6 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 		*lfc_port = '\0';	
 		setenv("LFC_HOST", lfc_host, 1);
 	}
-	free(lfc_endpoint);
 	return 0;
 }
 

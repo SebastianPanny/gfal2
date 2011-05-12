@@ -44,9 +44,11 @@
 		errno = EIO;
 		return -1;
 	}
-	if( gfal_check_local_url(path, &tmp_err) == TRUE){
+	if( gfal_check_local_url(path, NULL) == TRUE){
 		res = gfal_local_chmod(path, mode, &tmp_err);
-	}else if(!tmp_err){
+	}else if(gfal_guid_checker(path, NULL) == TRUE){
+		res = gfal_guid_chmodG(handle, path, mode, &tmp_err);
+	}else{
 		res = gfal_catalog_chmodG(handle, path, mode, &tmp_err);
 	}
 	if(tmp_err){
