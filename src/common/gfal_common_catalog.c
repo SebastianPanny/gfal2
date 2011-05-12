@@ -138,8 +138,7 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
 }
 /**
  *  Execute the chmod function on the first compatible catalog ( checked with check_url func )
- *  return the result of the first valid catalog for a given URL
- *  @return result of the chmod func or the errno if error occured like a POSIX method. If No catalog can resolve this link EPROTONOSUPPORT is returned
+ *  @return 0 if success or -1 and set the GError to the correct errno value with a description msg
  * */
  int gfal_catalog_chmodG(gfal_handle handle, const char* path, mode_t mode, GError** err){
 	g_return_val_err_if_fail(handle && path, -1, err, "[gfal_catalog_chmodG] Invalid arguments");	
@@ -171,7 +170,10 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
 	return ret;		 
  }
  
- 
+ /**
+ *  Execute the rename function on the first compatible catalog ( checked with check_url func )
+ *  @return 0 if success or -1 and set the GError to the correct errno value with a description msg
+ * */
 int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err){
 	g_return_val_err_if_fail(oldpath && newpath, -1, err, "[gfal_catalog_renameG] invalid value in args oldpath, handle or newpath");
 	GError* tmp_err=NULL;
@@ -203,6 +205,10 @@ int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* ne
 	
 }
 
+/***
+ *  Try to resolve the guid to a compatible catalog URL in all the catalogs.
+ *  @return string of the new catalog URL or NULL value if error and set GError to the correct errno and msg
+ * */
 char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err){
 	g_return_val_err_if_fail(handle && guid, NULL,err, "[gfal_catalog_resolve_guid] Invalid args ");
 	GError *tmp_err=NULL;

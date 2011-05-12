@@ -54,7 +54,7 @@ gfal_handle gfal_initG(GError** err);
 
 void gfal_handle_freeG(gfal_handle handle);
  
-gboolean gfal_guid_checker(const char* guid, GError** err);
+
 
 GError** gfal_get_last_gerror(gfal_handle);
 

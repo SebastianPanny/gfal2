@@ -12,6 +12,7 @@ import os
 gfal_libs = ['ldap', 'vomsc','gfal_srm_ifce','is_ifce'] #+ globus_libs		# libraries linked
 common_src= ['common/gfal_common.c', 'common/gfal_common_all.c', 'common/gfal_common_catalog.c','common/gfal_common_errverbose.c', 'common/gfal_file.c',  'common/gfal_checksum.c', 'common/gfal_timeouts.c', 'common/checkprotolib.c','common/gfal_common_storage.c']
 common_srm = ['common/gfal_common_srm.c', 'common/gfal_common_srm_access.c']
+common_guid = ['common/gfal_common_guid.c']
 common_interface = ['common/gfal_common_interface.c']
 common_voms = ['common/voms/gfal_voms_if.c']
 posix_src= [ 'posix/gfal_posix.c', 'posix/gfal_posix_ng.c', 'posix/gfal_version.c',  'posix/gfal_posix_internal.c', 'posix/gfal_posix_local_file.c']
@@ -21,8 +22,8 @@ posix_src_rename = ['posix/gfal_posix_rename.c']
 posix_src_all = posix_src + posix_src_access + posix_src_chmod + posix_src_rename
 src_lfc = ['common/lfc/lfc_ifce.c', 'common/lfc/gfal_common_lfc.c','common/lfc/lfc_ifce_ng.c']
 mds_src= ['common/mds/gfal_common_mds.c', 'common/mds/mds_ifce.c']
-common_src_all = common_srm + common_src
-all_src= common_src_all + src_lfc  + mds_src+ posix_src_all +common_voms + common_interface
+common_src_all = common_srm + common_src + common_guid +common_voms + common_interface
+all_src= common_src_all + src_lfc  + mds_src+ posix_src_all 
 other_headers=['common/']
 
 
