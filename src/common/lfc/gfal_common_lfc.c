@@ -168,10 +168,18 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.access_guidG = &lfc_access_guidG;
 	lfc_catalog.chmodG = &lfc_chmodG;
 	lfc_catalog.renameG = &lfc_renameG;
+	lfc_catalog.resolve_guid = &lfc_resolve_guid;
 	return lfc_catalog;
 }
 
-
+/**
+ * Transform a guid to a catalog url if possible
+ */
+char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
+	g_return_val_err_if_fail( handle && guid, NULL, "[lfc_resolve_guid] Invalid args in handle and/or guid ");
+	return gfal_convert_guid_to_lfn(handle, guid, err);
+}
+  
 /**
  * Check if the passed url and operation is compatible with lfc
  * 

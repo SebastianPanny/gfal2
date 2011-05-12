@@ -77,7 +77,11 @@ struct _gfal_catalog_interface{
 	 * */
 	int (*access_guidG)(catalog_handle, char* path, int mode, GError** err);
 	int	(*chmodG)(catalog_handle, const char *, mode_t, GError** err);
-	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);	
+	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);
+	/**
+	 * return a valid url if is able to resolve the guid or return NULL pointer
+	 */
+	char* (*resolve_guid)(catalog_handle handle, const char* guid, GError** err);	
 	
 };
 

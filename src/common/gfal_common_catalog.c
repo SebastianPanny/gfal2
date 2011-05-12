@@ -102,7 +102,7 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
  * @param mode : mode of the access
  * @param err : Error report system
  * @return return the content of the access call, or negative value if error
- * @warning no url syntaxe checking
+ * @warning no url syntax checking
  * */
 int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err){
 	g_return_val_err_if_fail(handle && guid, EINVAL, err, "[gfal_catalogs_guid_accessG] Invalid arguments");	
