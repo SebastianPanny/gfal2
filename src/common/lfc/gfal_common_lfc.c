@@ -138,6 +138,16 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 }
 
 /**
+ * Convert a guid to a catalog url if possible
+ *  return the link in a catalog's url string or err and NULL if not found
+ */
+char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
+	g_return_val_err_if_fail( handle && guid, NULL, err, "[lfc_resolve_guid] Invalid args in handle and/or guid ");
+	return gfal_convert_guid_to_lfn(handle, guid, err);
+}
+  
+
+/**
  * Map function for the lfc interface
  *  this function provide the generic CATALOG interface for the LFC catalog.
  *  lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map.
@@ -172,14 +182,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	return lfc_catalog;
 }
 
-/**
- * Transform a guid to a catalog url if possible
- */
-char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
-	g_return_val_err_if_fail( handle && guid, NULL, "[lfc_resolve_guid] Invalid args in handle and/or guid ");
-	return gfal_convert_guid_to_lfn(handle, guid, err);
-}
-  
+
 /**
  * Check if the passed url and operation is compatible with lfc
  * 

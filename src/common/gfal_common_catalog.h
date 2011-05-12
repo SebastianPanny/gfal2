@@ -111,6 +111,8 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
 int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err);
 
 int gfal_catalogs_delete(gfal_handle, GError** err);
+
+char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
  	
 
 char *get_default_se(char *, int);

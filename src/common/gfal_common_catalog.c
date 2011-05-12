@@ -203,6 +203,31 @@ int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* ne
 	
 }
 
+char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err){
+	g_return_val_err_if_fail(handle && guid, NULL,err, "[gfal_catalog_resolve_guid] Invalid args ");
+	GError *tmp_err=NULL;
+	char* ret = NULL;
+	int i;
+	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);
+	if(n_catalogs > 0 && !tmp_err){
+		gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
+		for(i=0; i< n_catalogs; ++i, ++cata_list){
+				ret = cata_list->resolve_guid(cata_list->handle, guid, &tmp_err);
+				if(ret || tmp_err)
+					break;		
+			}
+		}
+		
+	if(tmp_err){ 			// error reported
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalog_resolve_guid]");	
+		ret = NULL;
+	}else if(ret==NULL){ 		// no error and no valid url 
+		g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_catalog_resolve_guid] Error : Protocol not supported or invalidpath/url ");
+		ret =NULL;
+	}
+	return ret;		
+}
+
 /**
  * return the catalog type configured at compilation time
  */
