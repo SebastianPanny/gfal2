@@ -95,22 +95,6 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
 	g_set_error(err,0,EPROTONOSUPPORT, "[gfal_catalogs_accessG] Protocol not supported or path/url invalid");
 	return -1;
 }
-/*
-int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err){
-	g_return_val_err_if_fail(handle && guid, EINVAL, err, "[gfal_catalogs_guid_accessG] Invalid arguments");	
-	GError* tmp_err=NULL;
-	int i;
-	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);
-	if(n_catalogs <= 0){
-		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalogs_accessG]");
-		return -1;
-	}	
-	gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
-	int ret = cata_list->access_guidG(cata_list->handle, guid, mode, &tmp_err);
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err,"[gfal_catalogs_accessG]"); 
-	return ret;		
-}*/
 
 /**
  * Delete all instance of catalogs 

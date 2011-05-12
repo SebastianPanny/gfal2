@@ -53,7 +53,7 @@ int gfal_access (const char *path, int amode){
 
 /**
  * @brief change the right for a file or a folder
- * @param path : path of the file or the folder concerned : must be a Catalog URL ( lfn: ) or a local file URL ( file: )
+ * @param path : path of the file or the folder concerned : must be a Catalog URL ( lfn: ), a guid,  or a local file URL ( file: )
  * @param mode : right to configure
  * @return return 0 if success else -1 and errno is set, call \ref gfal_posix_print_error() to check it
  *  - ERRNO list : \n

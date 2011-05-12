@@ -89,33 +89,7 @@ int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 	free(url);
 	return ret;
 }
-/*
- * 
- * implementation of the access call with the lfc catalog for the guid url
- *  return 0 or the errno if classical error, report GError** if serious error
- *
-int lfc_access_guidG(catalog_handle handle, char* guid, int mode, GError** err){
-	g_return_val_err_if_fail( handle && guid, EINVAL, err, "[lfc_access_guid_G] Invalid value in arguments handle  or/and guid");
-	GError* tmp_err = NULL;
-	char* lfn = NULL;
-	int ret=-1;
-	char* tmp_guid = lfc_urlconverter(guid, GFAL_GUID_PREFIX);
-	if( (lfn = gfal_convert_guid_to_lfn(handle, tmp_guid, &tmp_err)) != NULL){
-		struct lfc_ops* ops = (struct lfc_ops*) handle;	
-		ret = ops->access(lfn, mode);
-		if(ret <0){
-			int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-			g_set_error(err, 0, sav_errno, "[lfc_access_guidG] lfc access error, lfc_endpoint :%s,  guid : %s, converter lfn %s, error : %s", ops->lfc_endpoint, guid, lfn, ops->sstrerror(sav_errno) ); 
-		}	
-	}
 
-	if(tmp_err){
-		g_propagate_prefixed_error(err, tmp_err, "[lfc_access_guidG]");		
-	}
-	free(lfn);
-	free(tmp_guid);
-	return ret;
-}*/
 /**
  * Implementation of the rename call for the lfc catalog
  * return 0 if success else -1 if error and set GError
