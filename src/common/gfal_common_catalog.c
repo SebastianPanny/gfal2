@@ -216,7 +216,7 @@ char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** e
 				if(ret || tmp_err)
 					break;		
 			}
-		}
+	}
 		
 	if(tmp_err){ 			// error reported
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalog_resolve_guid]");	

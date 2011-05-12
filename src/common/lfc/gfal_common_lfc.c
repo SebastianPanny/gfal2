@@ -143,7 +143,10 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
  */
 char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 	g_return_val_err_if_fail( handle && guid, NULL, err, "[lfc_resolve_guid] Invalid args in handle and/or guid ");
-	return gfal_convert_guid_to_lfn(handle, guid, err);
+	char* tmp_guid = lfc_urlconverter(guid, GFAL_GUID_PREFIX);
+	const char* res =gfal_convert_guid_to_lfn(handle, tmp_guid, err);
+	free(tmp_guid);
+	return res;
 }
   
 

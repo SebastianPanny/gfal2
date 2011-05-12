@@ -110,6 +110,34 @@ START_TEST(test_catalog_guid_access)
 END_TEST
 
 
+START_TEST(test_catalog_guid_resolve)
+{
+	GError* tmp_err=NULL;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle == NULL){
+		fail(" must init properly");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	char* ret = gfal_catalog_resolve_guid(handle, TEST_GUID_VALID_ACCESS, &tmp_err);
+	if( ret == NULL || tmp_err){
+		fail(" must be a success convertion");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	ret = gfal_catalog_resolve_guid(handle, TEST_GUID_NOEXIST_ACCESS, &tmp_err);
+	if(ret != NULL || !tmp_err){
+		fail(" must be a non-valid guid");
+		return;
+	}
+	g_clear_error(&tmp_err);
+	gfal_handle_freeG(handle);
+	
+	
+	
+}
+END_TEST
+
 
 
 
