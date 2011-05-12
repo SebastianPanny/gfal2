@@ -25,5 +25,9 @@
  * */
  
 #include <glib.h> 
+#include "gfal_prototypes.h"
+#include "gfal_types.h"
  
 gboolean gfal_guid_checker(const char* guid, GError** err);
+
+int gfal_guid_accessG(gfal_handle handle, const char* guid, int mode, GError** err);

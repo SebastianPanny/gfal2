@@ -89,11 +89,11 @@ int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
 	free(url);
 	return ret;
 }
-/**
+/*
  * 
  * implementation of the access call with the lfc catalog for the guid url
  *  return 0 or the errno if classical error, report GError** if serious error
- */
+ *
 int lfc_access_guidG(catalog_handle handle, char* guid, int mode, GError** err){
 	g_return_val_err_if_fail( handle && guid, EINVAL, err, "[lfc_access_guid_G] Invalid value in arguments handle  or/and guid");
 	GError* tmp_err = NULL;
@@ -115,7 +115,7 @@ int lfc_access_guidG(catalog_handle handle, char* guid, int mode, GError** err){
 	free(lfn);
 	free(tmp_guid);
 	return ret;
-}
+}*/
 /**
  * Implementation of the rename call for the lfc catalog
  * return 0 if success else -1 if error and set GError
@@ -144,7 +144,15 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 	g_return_val_err_if_fail( handle && guid, NULL, err, "[lfc_resolve_guid] Invalid args in handle and/or guid ");
 	char* tmp_guid = lfc_urlconverter(guid, GFAL_GUID_PREFIX);
-	const char* res =gfal_convert_guid_to_lfn(handle, tmp_guid, err);
+	char* res =gfal_convert_guid_to_lfn(handle, tmp_guid, err);
+	char* resu;
+	if(res){
+		const int size_res = strnlen(res, GFAL_URL_MAX_LEN);
+		const int size_pref = strlen(GFAL_LFC_PREFIX);
+		res =  g_renew(char, res, (size_pref+ size_res+1)); 
+		memmove(res+ size_pref, res, size_res+1);
+		memcpy(res, GFAL_LFC_PREFIX, size_pref);
+	}
 	free(tmp_guid);
 	return res;
 }
@@ -178,7 +186,6 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.check_catalog_url= &gfal_lfc_check_lfn_url;
 	lfc_catalog.catalog_delete = &lfc_destroyG;
 	lfc_catalog.accessG = &lfc_accessG;
-	lfc_catalog.access_guidG = &lfc_access_guidG;
 	lfc_catalog.chmodG = &lfc_chmodG;
 	lfc_catalog.renameG = &lfc_renameG;
 	lfc_catalog.resolve_guid = &lfc_resolve_guid;

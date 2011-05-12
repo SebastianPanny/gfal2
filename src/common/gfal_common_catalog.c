@@ -95,15 +95,7 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
 	g_set_error(err,0,EPROTONOSUPPORT, "[gfal_catalogs_accessG] Protocol not supported or path/url invalid");
 	return -1;
 }
-/**
- * Execute a guid access on the default specified catalog
- * @param handle 
- * @param guid of the element to check
- * @param mode : mode of the access
- * @param err : Error report system
- * @return return the content of the access call, or negative value if error
- * @warning no url syntax checking
- * */
+/*
 int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err){
 	g_return_val_err_if_fail(handle && guid, EINVAL, err, "[gfal_catalogs_guid_accessG] Invalid arguments");	
 	GError* tmp_err=NULL;
@@ -118,7 +110,7 @@ int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError*
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err,"[gfal_catalogs_accessG]"); 
 	return ret;		
-}
+}*/
 
 /**
  * Delete all instance of catalogs 

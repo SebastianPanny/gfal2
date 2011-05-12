@@ -83,31 +83,7 @@ START_TEST(test_catalog_url_checker)
 END_TEST
 
 
-START_TEST(test_catalog_guid_access)
-{
-	GError* tmp_err=NULL;
-	gfal_handle handle = gfal_initG(&tmp_err);
-	if(handle == NULL){
-		fail(" must init properly");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
-	int ret = gfal_catalogs_guid_accessG(handle, TEST_GUID_NOEXIST_ACCESS, F_OK, &tmp_err);
-	if(ret ==0 || tmp_err->code != ENOENT){
-		fail(" must be an inexistant guid");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
-	g_clear_error(&tmp_err);
-	ret = gfal_catalogs_guid_accessG(handle, TEST_GUID_VALID_ACCESS, F_OK, &tmp_err);
-	if(ret != 0 || tmp_err){
-		fail(" must be an valid guid");
-		gfal_release_GError(&tmp_err);
-		return;
-	}		
-	gfal_handle_freeG(handle);	
-}	
-END_TEST
+
 
 
 START_TEST(test_catalog_guid_resolve)

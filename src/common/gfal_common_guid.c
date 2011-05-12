@@ -23,10 +23,10 @@
  * @date 12/05/2011
  * */
  
-#include "gfal_common_guid.h"
+
 #include <regex.h>
 #include "gfal_common_errverbose.h"
-
+#include "gfal_common_guid.h"
  
  /**
  * parse a guid to check the validity
@@ -41,4 +41,28 @@ gboolean gfal_guid_checker(const char* guid, GError** err){
 		g_set_error(err,0,EINVAL,"[gfal_guid_checker] Incorrect guid, impossible to parse guid %s :", guid);
 	return (!ret)?TRUE:FALSE;
 } 
+
+
+/**
+ * Execute a guid access on the first compatible catalog
+ * @param handle 
+ * @param guid of the element to check
+ * @param mode : mode of the access
+ * @param err : Error report system
+ * @return return the content of the access call, or negative value if error
+ * @warning no url syntax checking
+ * */
+int gfal_guid_accessG(gfal_handle handle, const char* guid, int mode, GError** err){
+	g_return_val_err_if_fail(handle && guid, -1, err,"[gfal_guid_accessG] Invalid arguments handle or/and guid");
+	GError* tmp_err=NULL;
+	int ret =-1;
+	const char * cata_link = gfal_catalog_resolve_guid(handle, guid, &tmp_err); 
+	if(cata_link != NULL){
+		ret = gfal_catalogs_accessG(handle, cata_link, mode, &tmp_err);
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err,"[gfal_guid_accessG]");
+	return ret; 
+	
+}
 

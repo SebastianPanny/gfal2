@@ -205,7 +205,7 @@ END_TEST
 START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 {
 	GError * tmp_err=NULL;
-	int ret =-1;
+	char* ret =NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
 	if(handle==NULL){
 		fail("error must be initiated");
@@ -218,16 +218,16 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	ret = i.access_guidG(i.handle, TEST_GUID_NOEXIST_ACCESS, F_OK, &tmp_err);
-	if(ret ==0 || tmp_err->code != ENOENT){
+	ret = i.resolve_guid(i.handle, TEST_GUID_NOEXIST_ACCESS, &tmp_err);
+	if(ret !=NULL || tmp_err->code != ENOENT){
 		fail("must fail, this file not exist");
 		gfal_release_GError(&tmp_err);
 		return;
 	}
 	
 	g_clear_error(&tmp_err);
-	ret = i.access_guidG(i.handle, TEST_GUID_VALID_ACCESS, F_OK, &tmp_err);
-	if(ret !=0|| tmp_err){
+	ret = i.resolve_guid(i.handle, TEST_GUID_VALID_ACCESS, &tmp_err);
+	if(ret == NULL || tmp_err){
 		g_printerr(" errno : %s ", strerror(ret));
 		fail("must be a success, file is present");
 		gfal_release_GError(&tmp_err);

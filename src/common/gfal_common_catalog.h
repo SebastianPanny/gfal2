@@ -75,7 +75,7 @@ struct _gfal_catalog_interface{
 	/**
 	 *  function pointer for the access using the guid url
 	 * */
-	int (*access_guidG)(catalog_handle, char* path, int mode, GError** err);
+//	int (*access_guidG)(catalog_handle, char* path, int mode, GError** err);
 	int	(*chmodG)(catalog_handle, const char *, mode_t, GError** err);
 	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);
 	/**
@@ -112,7 +112,7 @@ int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError*
 
 int gfal_catalogs_delete(gfal_handle, GError** err);
 
-char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
+//char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
  	
 
 char *get_default_se(char *, int);
