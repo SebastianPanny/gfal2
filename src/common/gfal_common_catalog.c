@@ -54,7 +54,7 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
 			gfal_catalog_interface catalog = constructor[i](handle, &tmp_err);
 			handle->catalog_opt.catalog_list[i] = catalog;
 			if(tmp_err){
-				g_propagate_prefixed_error(err, tmp_err, "[gfal_catalogs_instance]");
+				g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 				return -1;
 			}
 		}
@@ -87,9 +87,9 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
 		}
 	}
 	if(tmp_err){	
-		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalogs_operation_executor]");
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	}else if(ret){
-		g_set_error(err,0,EPROTONOSUPPORT, "[gfal_catalogs_operation_executor] Protocol not supported or path/url invalid");
+		g_set_error(err,0,EPROTONOSUPPORT, "[%s] Protocol not supported or path/url invalid", __func__);
 	}
 	return ret;
 	 
@@ -115,7 +115,7 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
 	
 	int ret = gfal_catalogs_operation_executor(handle, &access_checker, &access_executor, &tmp_err);
 	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalogs_accessG]");
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;
 }
 
@@ -134,7 +134,7 @@ int gfal_catalog_statG(gfal_handle handle, const char* path, struct stat* st, GE
 	
 	int ret = gfal_catalogs_operation_executor(handle, &stat_checker, &stat_executor, &tmp_err);
 	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, __func__); // ??
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__); 
 	return ret;	
 }
 
@@ -174,7 +174,7 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
 	
 	int ret = gfal_catalogs_operation_executor(handle, &chmod_checker, &chmod_executor, &tmp_err);
 	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalog_chmodG]");
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 
  }
  
@@ -197,7 +197,7 @@ int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* ne
 	
 	int ret = gfal_catalogs_operation_executor(handle, &rename_checker, &rename_executor, &tmp_err);
 	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalog_renameG]");
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 
 	
 }
@@ -224,10 +224,10 @@ char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** e
 	}
 		
 	if(tmp_err){ 			// error reported
-		g_propagate_prefixed_error(err, tmp_err, "[gfal_catalog_resolve_guid]");	
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
 		ret = NULL;
 	}else if(ret==NULL){ 		// no error and no valid url 
-		g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_catalog_resolve_guid] Error : Protocol not supported or invalidpath/url ");
+		g_set_error(err, 0, EPROTONOSUPPORT, "[%s] Error : Protocol not supported or invalidpath/url ",__func__);
 		ret =NULL;
 	}
 	return ret;		
@@ -252,7 +252,7 @@ extern char* gfal_get_cat_type(GError** err) {
         cat_env = get_default_cat(); 
 	}
     if((cat_type = strndup(cat_env, 50)) == NULL) {
-		g_set_error(err,0,EINVAL,"[get_cat_type] invalid env var LCG_CATALOG_TYPE, please set it correctly or delete it");
+		g_set_error(err,0,EINVAL,"[%s] invalid env var LCG_CATALOG_TYPE, please set it correctly or delete it",__func__);
         return NULL;
     }
     return cat_type;
