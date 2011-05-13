@@ -120,9 +120,22 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
 }
 
 
-int gfal_catalog_statG(gfal_handle handle,const char* path, struct stat* st, GError** err){
+int gfal_catalog_statG(gfal_handle handle, const char* path, struct stat* st, GError** err){
+	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalog_statG] Invalid arguments");
+	GError* tmp_err=NULL;
+	int i;
 	
-	return -1;
+	gboolean stat_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, path,  GFAL_CATALOG_STAT, terr);
+	}
+	int stat_executor(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->statG(cata_list->handle, path, st, terr);
+	}
+	
+	int ret = gfal_catalogs_operation_executor(handle, &stat_checker, &stat_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, __func__); // ??
+	return ret;	
 }
 
 

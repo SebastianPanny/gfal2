@@ -181,6 +181,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.accessG = &lfc_accessG;
 	lfc_catalog.chmodG = &lfc_chmodG;
 	lfc_catalog.renameG = &lfc_renameG;
+	lfc_catalog.statG = &lfc_statG;
 	lfc_catalog.resolve_guid = &lfc_resolve_guid;
 	return lfc_catalog;
 }
