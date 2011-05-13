@@ -104,7 +104,6 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 	if(ret <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err,0,sav_errno, "[lfc_renameG] Error report from LFC : %s",  ops->sstrerror(sav_errno) );
-		ret = -1;
 	}
 	free(surl);
 	free(durl);
@@ -113,12 +112,20 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 
 /**
  * execute a posix stat request on the lfc
+ * return 0 and set struct if correct answer, else return negative value and set GError
  * 
  */
 int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path && stat, -1, err, "[lfc_statG] Invalid value in args handle/path/stat");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
-	return -1;
+	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+	int ret = ops->statg(lfn, NULL, st);
+	if(ret <0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno, "[lfc_statG] Error report from LFC : %s",  ops->sstrerror(sav_errno) );
+	}
+	free(lfn);
+	return ret;
 }
 
 
@@ -131,7 +138,6 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 	g_return_val_err_if_fail( handle && guid, NULL, err, "[lfc_resolve_guid] Invalid args in handle and/or guid ");
 	char* tmp_guid = lfc_urlconverter(guid, GFAL_GUID_PREFIX);
 	char* res =gfal_convert_guid_to_lfn(handle, tmp_guid, err);
-	char* resu;
 	if(res){
 		const int size_res = strnlen(res, GFAL_URL_MAX_LEN);
 		const int size_pref = strlen(GFAL_LFC_PREFIX);

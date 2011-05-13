@@ -31,6 +31,7 @@
 #include <glib.h>
 #include <errno.h>
 #include <string.h> 
+#include <sys/stat.h>
  // protos
 #include "gfal_prototypes.h"
 #define MAX_CATALOG_LIST 64
@@ -77,6 +78,7 @@ struct _gfal_catalog_interface{
 	 * */
 	int	(*chmodG)(catalog_handle, const char *, mode_t, GError** err);
 	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);
+	int (*statG)(catalog_handle, const char*, struct stat *buf, GError** err);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */
@@ -110,6 +112,8 @@ int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err
 int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err);
 
 int gfal_catalogs_delete(gfal_handle, GError** err);
+
+int gfal_catalog_statG(gfal_handle handle,const char* path, struct stat* st, GError** err);
 
 //char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
  	
