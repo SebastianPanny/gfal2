@@ -28,9 +28,13 @@
 
 #define _GNU_SOURCE
 
-#include "../gfal_common_catalog.h"
 #include <sys/types.h>
-#include "lfc_ifce_ng.h"
+#include <glib.h>
+#include "../gfal_common_catalog.h"
+#include "../gfal_prototypes.h"
+#include "../gfal_types.h"
+
+
 // protos
 
 

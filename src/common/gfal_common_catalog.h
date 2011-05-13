@@ -116,7 +116,7 @@ int gfal_catalogs_delete(gfal_handle, GError** err);
 
 int gfal_catalog_statG(gfal_handle handle,const char* path, struct stat* st, GError** err);
 
-//char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
+char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
  	
 
 char *get_default_se(char *, int);

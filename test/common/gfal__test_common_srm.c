@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include "gfal_common_internal.h"
 #include "../unit_test_constants.h"
+#include "mds/gfal_common_mds.h"
 
 
 
