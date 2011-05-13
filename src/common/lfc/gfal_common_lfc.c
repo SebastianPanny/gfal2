@@ -112,6 +112,18 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 }
 
 /**
+ * execute a posix stat request on the lfc
+ * 
+ */
+int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError** err){
+	g_return_val_err_if_fail(handle && path && stat, -1, err, "[lfc_statG] Invalid value in args handle/path/stat");
+	struct lfc_ops* ops = (struct lfc_ops*) handle;		
+	return -1;
+}
+
+
+
+/**
  * Convert a guid to a catalog url if possible
  *  return the link in a catalog's url string or err and NULL if not found
  */
@@ -124,13 +136,14 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 		const int size_res = strnlen(res, GFAL_URL_MAX_LEN);
 		const int size_pref = strlen(GFAL_LFC_PREFIX);
 		res =  g_renew(char, res, size_res + size_pref+1); 
-		*((char*) memmove(res+ size_pref, res, size_res) + size_res ) = '\0';
-		memcpy(res, GFAL_LFC_PREFIX, size_pref);
+		memmove(res+ size_pref, res, size_res) ;
+		*((char*)mempcpy(res, GFAL_LFC_PREFIX, size_pref)+size_res) ='\0';
 	}
 	free(tmp_guid);
 	return res;
 }
   
+
 
 /**
  * Map function for the lfc interface
@@ -165,6 +178,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.resolve_guid = &lfc_resolve_guid;
 	return lfc_catalog;
 }
+
 
 
 /**
