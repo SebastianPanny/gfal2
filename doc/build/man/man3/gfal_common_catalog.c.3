@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "12 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "13 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -28,7 +28,13 @@
 .RI "int \fBgfal_catalogs_instance\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_catalogs_operation_executor\fP (gfal_handle handle, gboolean(*checker)(gfal_catalog_interface *, GError **), int(*executor)(gfal_catalog_interface *, GError **), GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_catalogs_accessG\fP (gfal_handle handle, char *path, int mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_statG\fP (gfal_handle handle, const char *path, struct stat *st, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_catalogs_delete\fP (gfal_handle handle, GError **err)"

@@ -17,6 +17,8 @@ int \bf{lfc\_\-access\-G} (catalog\_\-handle handle, char $\ast$lfn, int mode, G
 \item 
 int \bf{lfc\_\-rename\-G} (catalog\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
 \item 
+int \bf{lfc\_\-stat\-G} (catalog\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)
+\item 
 char $\ast$ \bf{lfc\_\-resolve\_\-guid} (catalog\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
 gfal\_\-catalog\_\-interface \bf{lfc\_\-init\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)
@@ -67,4 +69,9 @@ Implementation of the rename call for the lfc catalog return 0 if success else -
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ lfc\_\-resolve\_\-guid (catalog\_\-handle {\em handle}, const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b8943f8f5fd7211851bf7732d9c3b50b}
 
 
-Convert a guid to a catalog url if possible return the link in a catalog's url string or err and NULL if not found 
+Convert a guid to a catalog url if possible return the link in a catalog's url string or err and NULL if not found \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_statG@{lfc\_\-statG}}
+\index{lfc_statG@{lfc\_\-statG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-stat\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_51eb57986d959b753dbad4737f3e1b6f}
+
+
+execute a posix stat request on the lfc return 0 and set struct if correct answer, else return negative value and set GError 

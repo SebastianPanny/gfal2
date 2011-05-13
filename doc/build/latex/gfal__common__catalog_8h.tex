@@ -7,6 +7,7 @@ the header file of the common lib for the catalog management
 {\tt \#include $<$glib.h$>$}\par
 {\tt \#include $<$errno.h$>$}\par
 {\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$sys/stat.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 \subsection*{Data Structures}
@@ -25,10 +26,13 @@ struct \bf{\_\-catalog\_\-opts}
 \subsection*{Enumerations}
 \begin{CompactItemize}
 \item 
-enum \textbf{\_\-catalog\_\-mode} \{ \textbf{GFAL\_\-CATALOG\_\-ALL} = 0, 
+enum \textbf{\_\-catalog\_\-mode} \{ \par
+\textbf{GFAL\_\-CATALOG\_\-ALL} = 0, 
 \textbf{GFAL\_\-CATALOG\_\-ACCESS}, 
 \textbf{GFAL\_\-CATALOG\_\-CHMOD}, 
-\textbf{GFAL\_\-CATALOG\_\-RENAME}
+\textbf{GFAL\_\-CATALOG\_\-RENAME}, 
+\par
+\textbf{GFAL\_\-CATALOG\_\-STAT}
  \}
 \end{CompactItemize}
 \subsection*{Functions}
@@ -44,6 +48,12 @@ int \textbf{gfal\_\-catalogs\_\-guid\_\-access\-G} (gfal\_\-handle handle, char 
 
 \item 
 int \bf{gfal\_\-catalogs\_\-delete} (gfal\_\-handle, GError $\ast$$\ast$err)
+\item 
+int \textbf{gfal\_\-catalog\_\-stat\-G} (gfal\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_28ca68c00e4a67bc158975ef3e4f8013}
+
+\item 
+char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_4955825d7c275f3dfae9a57232642370}
+
 \item 
 char $\ast$ \textbf{get\_\-default\_\-se} (char $\ast$, int)\label{gfal__common__catalog_8h_c304a754c49bedeec6c1c9b1445b937d}
 

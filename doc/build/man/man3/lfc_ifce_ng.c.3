@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "12 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "13 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -55,6 +55,9 @@
 .br
 .ti -1c
 .RI "lfc_ops * \fBgfal_load_lfc\fP (const char *name, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_convert_statg\fP (struct stat *output, struct lfc_filestatg *input, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"

@@ -35,6 +35,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#cb750f4f936abd772a5f53f5b1fbdaec">lfc_renameG</a> (catalog_handle handle, const char *oldpath, const char *newpath, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#51eb57986d959b753dbad4737f3e1b6f">lfc_statG</a> (catalog_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#b8943f8f5fd7211851bf7732d9c3b50b">lfc_resolve_guid</a> (catalog_handle handle, const char *guid, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#18fc1e787694363fd5457f9b8f020cf8">lfc_initG</a> (gfal_handle handle, GError **err)</td></tr>
@@ -277,7 +279,48 @@ Implementation of the rename call for the lfc catalog return 0 if success else -
 Convert a guid to a catalog url if possible return the link in a catalog's url string or err and NULL if not found 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu May 12 17:42:03 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="51eb57986d959b753dbad4737f3e1b6f"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_statG" ref="51eb57986d959b753dbad4737f3e1b6f" args="(catalog_handle handle, const char *path, struct stat *st, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lfc_statG           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct stat *&nbsp;</td>
+          <td class="paramname"> <em>st</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+execute a posix stat request on the lfc return 0 and set struct if correct answer, else return negative value and set GError 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Fri May 13 15:18:38 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

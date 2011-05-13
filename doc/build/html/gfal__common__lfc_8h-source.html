@@ -39,23 +39,27 @@
 <a name="l00019"></a>00019  
 <a name="l00029"></a>00029 <span class="preprocessor">#define _GNU_SOURCE</span>
 <a name="l00030"></a>00030 <span class="preprocessor"></span>
-<a name="l00031"></a>00031 <span class="preprocessor">#include "../gfal_common_catalog.h"</span>
-<a name="l00032"></a>00032 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
-<a name="l00033"></a>00033 <span class="preprocessor">#include "<a class="code" href="lfc__ifce__ng_8h.html">lfc_ifce_ng.h</a>"</span>
-<a name="l00034"></a>00034 <span class="comment">// protos</span>
-<a name="l00035"></a>00035 
+<a name="l00031"></a>00031 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &lt;glib.h&gt;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include "../gfal_common_catalog.h"</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include "../gfal_prototypes.h"</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include "../gfal_types.h"</span>
 <a name="l00036"></a>00036 
-<a name="l00037"></a>00037 gfal_catalog_interface <a class="code" href="gfal__common__lfc_8c.html#18fc1e787694363fd5457f9b8f020cf8">lfc_initG</a>(gfal_handle, GError**);
-<a name="l00038"></a>00038 
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="comment">// protos</span>
 <a name="l00039"></a>00039 
-<a name="l00040"></a>00040 gboolean <a class="code" href="gfal__common__lfc_8c.html#8baa624b528deb15ff4ee61fa9948ac8">gfal_lfc_check_lfn_url</a>(catalog_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* lfn_url, catalog_mode mode, GError** err);
-<a name="l00041"></a>00041 
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 gfal_catalog_interface <a class="code" href="gfal__common__lfc_8c.html#18fc1e787694363fd5457f9b8f020cf8">lfc_initG</a>(gfal_handle, GError**);
 <a name="l00042"></a>00042 
 <a name="l00043"></a>00043 
-<a name="l00044"></a>00044 
+<a name="l00044"></a>00044 gboolean <a class="code" href="gfal__common__lfc_8c.html#8baa624b528deb15ff4ee61fa9948ac8">gfal_lfc_check_lfn_url</a>(catalog_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* lfn_url, catalog_mode mode, GError** err);
 <a name="l00045"></a>00045 
 <a name="l00046"></a>00046 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu May 12 17:42:03 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri May 13 15:18:38 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
