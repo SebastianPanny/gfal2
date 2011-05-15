@@ -4,6 +4,7 @@ file for the internal func of the posix interface
 
 {\tt \#include $<$unistd.h$>$}\par
 {\tt \#include $<$glib.h$>$}\par
+{\tt \#include $<$sys/stat.h$>$}\par
 {\tt \#include $<$regex.h$>$}\par
 {\tt \#include \char`\"{}../common/gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 \subsection*{Defines}
@@ -22,6 +23,9 @@ int \textbf{gfal\_\-local\_\-chmod} (const char $\ast$path, mode\_\-t mode, GErr
 
 \item 
 int \textbf{gfal\_\-local\_\-rename} (const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_360b4701633deaae52f9f77c94173405}
+
+\item 
+int \textbf{gfal\_\-local\_\-stat} (const char $\ast$path, struct stat $\ast$buf, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_dc96268400be1d41613ab796237c1cb8}
 
 \item 
 gboolean \bf{gfal\_\-check\_\-local\_\-url} (const char $\ast$path, GError $\ast$$\ast$err)

@@ -11,6 +11,10 @@ header file for the guid translation, use the catalogs
 gboolean \bf{gfal\_\-guid\_\-checker} (const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-guid\_\-access\-G} (gfal\_\-handle handle, const char $\ast$guid, int mode, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-guid\_\-chmod\-G} (gfal\_\-handle handle, const char $\ast$guid, mode\_\-t mode, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-guid\_\-stat\-G} (gfal\_\-handle handle, const char $\ast$guid, struct stat $\ast$buf, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -45,4 +49,23 @@ Execute a guid access on the first compatible catalog \begin{Desc}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-guid\_\-checker (const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__guid_8h_9e4b6149b0256f725bc1dab5fc32ab62}
 
 
-parse a guid to check the validity 
+parse a guid to check the validity \index{gfal_common_guid.h@{gfal\_\-common\_\-guid.h}!gfal_guid_chmodG@{gfal\_\-guid\_\-chmodG}}
+\index{gfal_guid_chmodG@{gfal\_\-guid\_\-chmodG}!gfal_common_guid.h@{gfal\_\-common\_\-guid.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-guid\_\-chmod\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em guid}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__guid_8h_34d01b3a64910eddc1d7988c6b1b2ae4}
+
+
+Execute a guid chmod on the first compatible catalog configure the right of the element associated with the guid \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]: handle \item[{\em guid}]: string of the guid \item[{\em mode}]: mode to set \item[{\em err}]: GError \end{description}
+\end{Desc}
+\index{gfal_common_guid.h@{gfal\_\-common\_\-guid.h}!gfal_guid_statG@{gfal\_\-guid\_\-statG}}
+\index{gfal_guid_statG@{gfal\_\-guid\_\-statG}!gfal_common_guid.h@{gfal\_\-common\_\-guid.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-guid\_\-stat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em guid}, struct stat $\ast$ {\em buf}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__guid_8h_8aebd0a4a29dd4154971395741587405}
+
+
+Execute a guid chmod on the first compatible catalog configure the right of the element associated with the guid \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]: handle \item[{\em guid}]: string of the guid \item[{\em mode}]: mode to struct stat \item[{\em err}]: GError \end{description}
+\end{Desc}

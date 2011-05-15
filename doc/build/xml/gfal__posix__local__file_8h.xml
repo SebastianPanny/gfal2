@@ -5,19 +5,19 @@
     <includedby refid="gfal__posix__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</includedby>
     <includedby refid="gfal__posix__rename_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</includedby>
     <invincdepgraph>
-      <node id="1047">
+      <node id="1048">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h</label>
         <link refid="gfal_posix_local_file.h"/>
-        <childnode refid="1048" relation="include">
-        </childnode>
         <childnode refid="1049" relation="include">
         </childnode>
+        <childnode refid="1050" relation="include">
+        </childnode>
       </node>
-      <node id="1049">
+      <node id="1050">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</label>
         <link refid="gfal__posix__rename_8c"/>
       </node>
-      <node id="1048">
+      <node id="1049">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
         <link refid="gfal__posix__access_8c"/>
       </node>
@@ -67,7 +67,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="32" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="32" bodyend="38"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="32" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="33" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8h_1d6c6d5590083bbcef4833f8186a629f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -92,7 +92,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="40" bodyend="46"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="41" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8h_1360b4701633deaae52f9f77c94173405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -117,7 +117,32 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="36" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="49" bodyend="55"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="36" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="50" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__posix__local__file_8h_1dc96268400be1d41613ab796237c1cb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_local_stat</definition>
+        <argsstring>(const char *path, struct stat *buf, GError **err)</argsstring>
+        <name>gfal_local_stat</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>struct stat *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="38" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="58" bodyend="64"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -151,6 +176,8 @@
 <codeline lineno="34"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_chmod(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_rename(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>oldpath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newpath,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_stat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buf,<sp/>GError<sp/>**<sp/>err);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h"/>
   </compounddef>

@@ -423,32 +423,6 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="169"/>
       </memberdef>
-      <memberdef kind="typedef" id="gfal__types_8h_1a3bcd91e6251d7f36da98c2145fa117b" prot="public" static="no">
-        <type>_gfal_srmv2_opt</type>
-        <definition>typedef struct _gfal_srmv2_opt  gfal_srmv2_opt</definition>
-        <argsstring></argsstring>
-        <name>gfal_srmv2_opt</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="180"/>
-      </memberdef>
-      <memberdef kind="typedef" id="gfal__types_8h_1c22ba8f2cb763532758e405bc3e51ed3" prot="public" static="no">
-        <type><ref refid="struct__gfal__request__state" kindref="compound">_gfal_request_state</ref></type>
-        <definition>typedef struct _gfal_request_state  gfal_request_state</definition>
-        <argsstring></argsstring>
-        <name>gfal_request_state</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para>symbolise the state of a request needed to get the response </para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="194"/>
-      </memberdef>
       <memberdef kind="typedef" id="gfal__types_8h_100a62607e772846a41d4ce7b5185ce6f" prot="public" static="no">
         <type>_gfal_replica *</type>
         <definition>typedef struct _gfal_replica * gfal_replica</definition>
@@ -834,14 +808,14 @@
 <codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srmv2_lscount;</highlight></codeline>
 <codeline lineno="169"><highlight class="normal">}<sp/>*gfal_request;</highlight></codeline>
 <codeline lineno="170"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="175"><highlight class="normal"><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_srmv2_opt{</highlight></codeline>
+<codeline lineno="175"><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_srmv2_opt{</highlight></codeline>
 <codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>opt_srmv2_desiredpintime;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>optional<sp/>desired<sp/>default<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>opt_srmv2_protocols;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>optional<sp/>protocols<sp/>list<sp/>for<sp/>manual<sp/>set</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>opt_srmv2_spacetokendesc;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>optional<sp/>spacetokens<sp/>desc<sp/>for<sp/>srmv2<sp/><sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="180"><highlight class="normal"><sp/>}<sp/>gfal_srmv2_opt;<sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="181"><highlight class="normal"></highlight></codeline>
-<codeline lineno="186" refid="struct__gfal__request__state" refkind="compound"><highlight class="normal"><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct__gfal__request__state" kindref="compound">_gfal_request_state</ref>{</highlight></codeline>
+<codeline lineno="186" refid="struct__gfal__request__state" refkind="compound"><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct__gfal__request__state" kindref="compound">_gfal_request_state</ref>{</highlight></codeline>
 <codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srmv2_token;</highlight></codeline>
 <codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">srmv2_filestatus<sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>srmv2_statuses;</highlight></codeline>
 <codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">srmv2_pinfilestatus<sp/>*srmv2_pinstatuses;</highlight></codeline>
@@ -849,7 +823,7 @@
 <codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>request_endpoint;<sp/></highlight></codeline>
 <codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gboolean<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>finished;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>finished<sp/>or<sp/>not</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>number;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>number<sp/>of<sp/>files<sp/>in<sp/>request</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="194"><highlight class="normal"><sp/>}<sp/><ref refid="struct__gfal__request__state" kindref="compound">gfal_request_state</ref>;<sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/>};</highlight></codeline>
 <codeline lineno="195"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="196"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">gfal_handle_<sp/>{</highlight></codeline>
 <codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>INPUTS</highlight><highlight class="normal"></highlight></codeline>

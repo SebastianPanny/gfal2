@@ -202,6 +202,122 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h" line="33" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.c" bodystart="55" bodyend="68"/>
       </memberdef>
+      <memberdef kind="function" id="gfal__common__guid_8h_134d01b3a64910eddc1d7988c6b1b2ae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_guid_chmodG</definition>
+        <argsstring>(gfal_handle handle, const char *guid, mode_t mode, GError **err)</argsstring>
+        <name>gfal_guid_chmodG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>guid</declname>
+        </param>
+        <param>
+          <type>mode_t</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute a guid chmod on the first compatible catalog configure the right of the element associated with the guid <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: handle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>guid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: string of the guid </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: mode to set </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: GError </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h" line="35" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.c" bodystart="79" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__guid_8h_18aebd0a4a29dd4154971395741587405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_guid_statG</definition>
+        <argsstring>(gfal_handle handle, const char *guid, struct stat *buf, GError **err)</argsstring>
+        <name>gfal_guid_statG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>guid</declname>
+        </param>
+        <param>
+          <type>struct stat *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute a guid chmod on the first compatible catalog configure the right of the element associated with the guid <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: handle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>guid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: string of the guid </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: mode to struct stat </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: GError </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h" line="37" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.c" bodystart="102" bodyend="114"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para>header file for the guid translation, use the catalogs </para>    </briefdescription>
@@ -236,6 +352,10 @@
 <codeline lineno="31"><highlight class="normal">gboolean<sp/><ref refid="gfal__common__guid_8c_19e4b6149b0256f725bc1dab5fc32ab62" kindref="member">gfal_guid_checker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__guid_8c_155770e13f0626b60b830e3254df7ee9d" kindref="member">gfal_guid_accessG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__guid_8c_134d01b3a64910eddc1d7988c6b1b2ae4" kindref="member">gfal_guid_chmodG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__guid_8c_18aebd0a4a29dd4154971395741587405" kindref="member">gfal_guid_statG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buf,<sp/>GError**<sp/>err);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h"/>
   </compounddef>

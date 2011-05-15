@@ -7,7 +7,6 @@
     <includedby refid="gfal__posix_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</includedby>
     <includedby refid="gfal__posix__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</includedby>
     <includedby refid="gfal__posix__chmod_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c</includedby>
-    <includedby refid="gfal__posix__internal_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.c</includedby>
     <includedby refid="gfal__posix__ng_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</includedby>
     <includedby refid="gfal__posix__rename_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</includedby>
     <incdepgraph>
@@ -144,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="31" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.c" bodystart="32" bodyend="36"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="33" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.c" bodystart="38" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__internal_8h_14dd88ccfb2942d117604793819e1f933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -165,7 +164,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="33" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c" bodystart="41" bodyend="69"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="35" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c" bodystart="41" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__internal_8h_1e0273008201a878710ad033d08258810" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -186,7 +185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="35" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c" bodystart="35" bodyend="60"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="37" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c" bodystart="35" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__internal_8h_1f19b799252be42cf1250bb49f88f76a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -196,6 +195,7 @@
         <param>
           <type>gfal_handle</type>
           <declname>handle</declname>
+          <defname>mhandle</defname>
         </param>
         <param>
           <type>const char *</type>
@@ -211,7 +211,7 @@
 <para>register the last error in the handle and display a VERBOSE warning if an error was registered and not deleted </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="37" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.c" bodystart="42" bodyend="48"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="39" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.c" bodystart="48" bodyend="55"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -238,18 +238,19 @@
 <codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="28"><highlight class="preprocessor">#include<sp/>&quot;gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal">gfal_handle<sp/>gfal_posix_instance();</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_posix_internal_access<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>amode);</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_posix_internal_chmod(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>mode_t<sp/>mode);</highlight></codeline>
+<codeline lineno="29"><highlight class="preprocessor">#include<sp/>&quot;gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">gfal_handle<sp/>gfal_posix_instance();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_posix_internal_access<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>amode);</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_posix_register_internal_error(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>prefix,<sp/>GError<sp/>*<sp/>tmp_err);</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_posix_internal_chmod(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>mode_t<sp/>mode);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_posix_register_internal_error(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>prefix,<sp/>GError<sp/>*<sp/>tmp_err);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h"/>
   </compounddef>

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h" 3 "13 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h" 3 "15 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -21,6 +21,12 @@
 .br
 .ti -1c
 .RI "int \fBgfal_guid_accessG\fP (gfal_handle handle, const char *guid, int mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_guid_chmodG\fP (gfal_handle handle, const char *guid, mode_t mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_guid_statG\fP (gfal_handle handle, const char *guid, struct stat *buf, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -74,6 +80,38 @@ no url syntax checking
 .SS "gboolean gfal_guid_checker (const char * guid, GError ** err)"
 .PP
 parse a guid to check the validity 
+.SS "int gfal_guid_chmodG (gfal_handle handle, const char * guid, mode_t mode, GError ** err)"
+.PP
+Execute a guid chmod on the first compatible catalog configure the right of the element associated with the guid 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP : handle 
+.br
+\fIguid\fP : string of the guid 
+.br
+\fImode\fP : mode to set 
+.br
+\fIerr\fP : GError 
+.RE
+.PP
+
+.SS "int gfal_guid_statG (gfal_handle handle, const char * guid, struct stat * buf, GError ** err)"
+.PP
+Execute a guid chmod on the first compatible catalog configure the right of the element associated with the guid 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP : handle 
+.br
+\fIguid\fP : string of the guid 
+.br
+\fImode\fP : mode to struct stat 
+.br
+\fIerr\fP : GError 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

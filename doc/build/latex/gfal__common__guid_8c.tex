@@ -13,6 +13,8 @@ gboolean \bf{gfal\_\-guid\_\-checker} (const char $\ast$guid, GError $\ast$$\ast
 int \bf{gfal\_\-guid\_\-access\-G} (gfal\_\-handle handle, const char $\ast$guid, int mode, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-guid\_\-chmod\-G} (gfal\_\-handle handle, const char $\ast$guid, mode\_\-t mode, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-guid\_\-stat\-G} (gfal\_\-handle handle, const char $\ast$guid, struct stat $\ast$buf, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -56,4 +58,14 @@ Execute a guid chmod on the first compatible catalog configure the right of the 
 \item[Parameters:]
 \begin{description}
 \item[{\em handle}]: handle \item[{\em guid}]: string of the guid \item[{\em mode}]: mode to set \item[{\em err}]: GError \end{description}
+\end{Desc}
+\index{gfal_common_guid.c@{gfal\_\-common\_\-guid.c}!gfal_guid_statG@{gfal\_\-guid\_\-statG}}
+\index{gfal_guid_statG@{gfal\_\-guid\_\-statG}!gfal_common_guid.c@{gfal\_\-common\_\-guid.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-guid\_\-stat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em guid}, struct stat $\ast$ {\em buf}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__guid_8c_8aebd0a4a29dd4154971395741587405}
+
+
+Execute a guid chmod on the first compatible catalog configure the right of the element associated with the guid \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]: handle \item[{\em guid}]: string of the guid \item[{\em mode}]: mode to struct stat \item[{\em err}]: GError \end{description}
 \end{Desc}
