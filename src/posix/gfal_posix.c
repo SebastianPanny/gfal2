@@ -1032,7 +1032,7 @@ gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
     return (rc);
 }
 #endif
-
+/*
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
     int
 gfal_stat (const char *filename, struct stat *statbuf)
@@ -1052,7 +1052,7 @@ gfal_stat (const char *filename, struct stat *statbuf)
     return (0);
 }
 #endif
-
+*/
 
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE)
     int

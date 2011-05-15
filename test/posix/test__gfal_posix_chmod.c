@@ -59,6 +59,49 @@ START_TEST(test__gfal_posix_chmod_read_lfn){
 }
 END_TEST
 
+START_TEST(test__gfal_posix_chmod_read_guid){
+	
+	int res = gfal_chmod(TEST_GUID_MODE_READ_FILE, 0);	// reduce the right to the file to 0
+	if( res != 0){
+		fail(" must be a success");
+		gfal_posix_release_error();
+		return;
+	}
+	res = gfal_access(TEST_GUID_MODE_READ_FILE, R_OK);
+	if(res ==0 || errno!=EACCES || gfal_posix_code_error() != EACCES){	
+		fail(" must be a failure : read right is removed %d %d %d ",res,errno, gfal_posix_code_error());
+		gfal_posix_release_error();
+		return;
+	}
+		
+	gfal_posix_clear_error();
+	res = gfal_chmod(TEST_GUID_NOEXIST_ACCESS, 0);
+	if(res == 0 || gfal_posix_code_error() != ENOENT || errno != ENOENT ){
+		fail(" must report an error");
+		return;
+	}
+	gfal_posix_clear_error();
+	res = gfal_chmod("google.com", 0);
+	if( res == 0 || gfal_posix_code_error() != EPROTONOSUPPORT || errno != EPROTONOSUPPORT ){
+		fail(" must be a incorrect protocole");
+		return;
+	}
+	gfal_posix_clear_error();
+	res = gfal_chmod(TEST_GUID_MODE_READ_FILE, 0555);		// reset the right of the file
+	if(res !=0 ){
+		gfal_posix_release_error();
+		fail(" must report an error");
+		return;
+	}
+	res = gfal_access(TEST_GUID_MODE_READ_FILE, R_OK);
+	if(res != 0){
+		gfal_posix_release_error();
+		fail(" must be a valid access to the file with new right %d %d",errno, gfal_posix_code_error());
+		return;
+	}
+
+}
+END_TEST
 
 START_TEST(test__gfal_posix_chmod_read_local){
 	// create local file

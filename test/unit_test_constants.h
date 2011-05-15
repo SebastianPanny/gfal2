@@ -52,6 +52,7 @@
 #define TEST_LFC_MOD_UNEXIST_FILE "lfn:/grid/dteam/OpenSourceAndMicrosoft"
 #define TEST_LFC_MOD_WRITE_FILE "lfn:/grid/dteam/testchmodwrite0011"
 
+#define TEST_GUID_MODE_READ_FILE "guid:6eb27247-4387-4899-a37b-c4d40f1264fc"
 
 #define TEST_LFC_RENAME_VALID_DEST "lfn:/grid/dteam/testrename0012"
 #define TEST_LFC_RENAME_VALID_SRC "lfn:/grid/dteam/testrename0011"
@@ -62,3 +63,19 @@
 // rename
 #define TEST_GFAL_LOCAL_FILE_RENAME_SRC "/tmp/testrename0011"
 #define TEST_GFAL_LOCAL_FILE_RENAME_DEST "/tmp/testrename0012"
+
+
+// stat
+#define TEST_GFAL_LFC_FILE_STAT_OK TEST_LFC_ONLY_READ_ACCESS
+#define TEST_GFAL_LFC_FILE_STAT_NONEXIST TEST_GUID_NOEXIST_ACCESS
+
+
+#define TEST_GFAL_SRM_FILE_STAT_OK "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/teststat0011"
+#define TEST_GFAL_GUID_FILE_STAT_OK "guid:b7ba213b-829d-4a2e-b744-7c9cc685fe2d"
+
+#define TEST_GFAL_LFC_FILE_STAT_SIZE_VALUE 2048
+#define TEST_GFAL_LFC_FILE_STAT_MODE_VALUE 0555
+#define TEST_GFAL_LFC_FILE_STAT_UID_VALUE 2688
+#define TEST_GFAL_LFC_FILE_STAT_GID_VALUE 20124
+
+

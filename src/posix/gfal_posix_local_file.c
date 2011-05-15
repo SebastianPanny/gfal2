@@ -32,7 +32,7 @@
  int gfal_local_access(const char *path, int amode, GError** err){
 	const int res = access(path+strlen(GFAL_LOCAL_PREFIX), amode);
 	if(res <0){
-		g_set_error(err,0,errno, "[gfal_local_access] error reported by the local system call : %s", strerror(errno));
+		g_set_error(err,0,errno, "[%s] errno reported by local system call", __func__, strerror(errno));
 	}
 	return res;
  }
@@ -40,7 +40,7 @@
 int gfal_local_chmod(const char* path, mode_t mode,GError** err){
 	const int res = chmod(path+strlen(GFAL_LOCAL_PREFIX),mode);
 	if(res <0){
-		g_set_error(err,0,errno, "[gfal_local_access] error reported by the local system call : %s", strerror(errno));
+		g_set_error(err,0,errno, "[%s] errno reported by local system call", __func__, strerror(errno));
 	}
 	return res;
 }
@@ -49,10 +49,18 @@ int gfal_local_chmod(const char* path, mode_t mode,GError** err){
 int gfal_local_rename(const char* oldpath, const char* newpath, GError** err){
 	const int res = rename(oldpath+strlen(GFAL_LOCAL_PREFIX), newpath + strlen(GFAL_LOCAL_PREFIX));
 	if(res <0){
-		g_set_error(err, 0, errno, "[gfal_local_rename] errno reported : %s", strerror(errno));
+		g_set_error(err, 0, errno, "[%s] errno reported by local system call ", __func__, strerror(errno));
 	}
 	return res;
  }
+ 
+int gfal_local_stat(const char* path, struct stat* buf, GError ** err){
+	const int res = stat(path + strlen(GFAL_LOCAL_PREFIX) , buf);
+	if(res <0){
+		g_set_error(err, 0, errno, "[%s] errno reported by local system call", __func__, strerror(errno));
+	}
+	return res;
+} 
  
 /**
  * check the validity of a classique file url

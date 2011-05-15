@@ -44,6 +44,7 @@
 #include "posix/test__gfal_posix_access.c"
 #include "posix/test__gfal_posix_chmod.c"
 #include "posix/test__gfal_posix_rename.c"
+#include "posix/test__gfal_posix_stat.c"
 
 Suite* common_suite (void)
 {
@@ -145,6 +146,10 @@ Suite* posix_suite (void)
   tcase_add_test(tc_rename, test__gfal_posix_rename_url_check);
   tcase_add_test(tc_rename, test__gfal_posix_rename_local);
   suite_add_tcase(s, tc_rename);
+  TCase* tc_stat = tcase_create("STAT");
+  tcase_add_test(tc_stat, test__gfal_posix_stat_lfc);
+  tcase_add_test(tc_stat, test__gfal_posix_stat_guid);
+  suite_add_tcase(s, tc_stat);
   return s;
 }
 

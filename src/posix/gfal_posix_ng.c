@@ -99,6 +99,30 @@ int gfal_rename(const char *oldpath, const char *newpath){
 }
 
 /**
+ *  @brief  informations about a file 
+ * These functions return information about a file.  No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is
+ *     required on all of the directories in path that lead to the file.
+ * @param path : path of a file. Can be a SURL, a Catalog URL or a guid
+ * @param buff : pointer to an allocated struct stat
+ * @return return 0 if success else -1 and errno is set ( and gfal_posix_print_error() )
+ * 
+ *  - ERRNO list : \n
+ *    	- usual errors:
+ *    		- ENOENT: The named file/directory does not exist.
+ *    		- EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath,
+              or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
+ *   		- EFAULT: oldpath or newpath is a NULL pointer.
+ *   		- ENOTDIR: A component of path prefix is not a directory.
+ *  	- gfal errors ( associated with a specific gfal_posix_print_error() ):
+ *   		- ECOMM: Communication error
+ *   		- EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported
+ *   		- EINVAL: oldpath or newpath has an invalid syntax .
+ * */
+int gfal_stat(const char* path, struct stat* buf){
+	return gfal_posix_internal_stat(path, buf);
+}
+
+/**
  * Display the last string error reported by the gfal error system for the posix API
  * Errors are printed on stderr
  */

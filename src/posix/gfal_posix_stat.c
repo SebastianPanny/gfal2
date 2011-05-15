@@ -42,7 +42,7 @@ int gfal_posix_internal_stat(const char* path, struct stat* buf){
 	gfal_handle handle;
 	GError* tmp_err = NULL;
 	int ret = -1;
-	if(!path || !buff){
+	if(!path || !buf){
 		errno = EFAULT;
 		return -1;
 	}
@@ -53,16 +53,18 @@ int gfal_posix_internal_stat(const char* path, struct stat* buf){
 	}
 	
 	if( gfal_check_local_url(path, NULL) ){
-		ret= gfal_local_stat(path, buf, &tmp_err));
+		ret= gfal_local_stat(path, buf, &tmp_err);
 	} else if( gfal_guid_checker(path, NULL) ){
 		g_error(" epic fail, not implemented");
-	} else if( gfal_surl_checker(path, NULL){
+	} else if( gfal_surl_checker(path, NULL)){
 		g_error(" epic fail, not implemented");
 	} else {
-		gfal_catalog_statG(handle, path, buf, &tmp_err);
+		ret = gfal_catalog_statG(handle, path, buf, &tmp_err);
 	}
-
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	
+	if(ret){ // error reported
+		gfal_posix_register_internal_error(handle, "[gfal_stat]", tmp_err);
+		errno = tmp_err->code;			
+	}
 	return ret;
 }
