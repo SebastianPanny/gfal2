@@ -29,6 +29,10 @@
 .br
 .RI "\fIchange the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files \fP"
 .ti -1c
+.RI "int \fBgfal_stat\fP (const char *path, struct stat *buf)"
+.br
+.RI "\fIinformations about a file These functions return information about a file. No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is required on all of the directories in path that lead to the file. \fP"
+.ti -1c
 .RI "void \fBgfal_posix_print_error\fP ()"
 .br
 .ti -1c

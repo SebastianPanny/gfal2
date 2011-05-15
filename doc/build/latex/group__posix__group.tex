@@ -58,9 +58,8 @@ int \textbf{gfal\_\-lstat} (const char $\ast$, struct stat $\ast$)\label{group__
 int \textbf{gfal\_\-lstat64} (const char $\ast$, struct stat64 $\ast$)\label{group__posix__group_g739ca4985a67e0fc4fc253f42df2638c}
 
 \item 
-int \textbf{gfal\_\-stat} (const char $\ast$, struct stat $\ast$)\label{group__posix__group_g1d8c86d522d5dd26ee7ddcd9c6925964}
-
-\item 
+int \bf{gfal\_\-stat} (const char $\ast$, struct stat $\ast$)
+\begin{CompactList}\small\item\em informations about a file These functions return information about a file. No permissions are required on the file itself, but \^{a}€” in the case of stat() and lstat() \^{a}€” execute (search) permission is required on all of the directories in path that lead to the file. \item\end{CompactList}\item 
 int \textbf{gfal\_\-stat64} (const char $\ast$, struct stat64 $\ast$)\label{group__posix__group_gb40e2d23618763284ab4a1fb1a06a880}
 
 \end{CompactItemize}
@@ -236,3 +235,26 @@ change the name or location of a file oldpath and newpath need to be on the same
 \end{itemize}
 \end{itemize}
 \end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_stat@{gfal\_\-stat}}
+\index{gfal_stat@{gfal\_\-stat}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-stat (const char $\ast$ {\em path}, struct stat $\ast$ {\em buf})}\label{group__posix__group_g1d8c86d522d5dd26ee7ddcd9c6925964}
+
+
+informations about a file These functions return information about a file. No permissions are required on the file itself, but \^{a}€” in the case of stat() and lstat() \^{a}€” execute (search) permission is required on all of the directories in path that lead to the file. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em path}]: path of a file. Can be a SURL, a Catalog URL or a guid \item[{\em buff}]: pointer to an allocated struct stat \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return 0 if success else -1 and errno is set ( and \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} )\end{Desc}
+\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item usual errors:\begin{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: oldpath or newpath is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\end{itemize}
+\item gfal errors ( associated with a specific \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} ):\begin{itemize}
+\item ECOMM: Communication error\item EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported\item EINVAL: oldpath or newpath has an invalid syntax . \end{itemize}
+\end{itemize}
+\end{itemize}

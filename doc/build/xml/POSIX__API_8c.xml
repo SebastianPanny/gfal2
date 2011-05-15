@@ -572,17 +572,44 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         <name>gfal_stat</name>
         <param>
           <type>const char *</type>
+          <defname>path</defname>
         </param>
         <param>
           <type>struct stat *</type>
+          <defname>buf</defname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>informations about a file These functions return information about a file. No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is required on all of the directories in path that lead to the file. </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: path of a file. Can be a SURL, a Catalog URL or a guid </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: pointer to an allocated struct stat </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set ( and <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> )</para></simplesect>
+<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem></itemizedlist>
+</para></listitem><listitem><para>gfal errors ( associated with a specific <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> ):<itemizedlist>
+<listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="172" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1038" bodyend="1053"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="172" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="121" bodyend="123"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gb40e2d23618763284ab4a1fb1a06a880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -654,7 +681,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="169"><highlight class="normal"></highlight></codeline>
 <codeline lineno="170"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_lstat64<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat64<sp/>*);</highlight></codeline>
 <codeline lineno="171"><highlight class="normal"></highlight></codeline>
-<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_stat<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat<sp/>*);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1g1d8c86d522d5dd26ee7ddcd9c6925964" kindref="member">gfal_stat</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat<sp/>*);</highlight></codeline>
 <codeline lineno="173"><highlight class="normal"></highlight></codeline>
 <codeline lineno="174"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_stat64<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat64<sp/>*);</highlight></codeline>
 <codeline lineno="175"><highlight class="normal"></highlight></codeline>
