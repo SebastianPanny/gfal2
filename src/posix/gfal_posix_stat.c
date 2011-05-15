@@ -47,16 +47,16 @@ int gfal_posix_internal_stat(const char* path, struct stat* buf){
 		return -1;
 	}
 	
-	if( (handle = gfal_initG(&tmp_err)) == NULL){
+	if( (handle = gfal_posix_instance()) == NULL){
 		errno = EIO;
 		return -1;
 	}
 	
 	if( gfal_check_local_url(path, NULL) ){
-		ret= gfal_local_stat(path, buf, &tmp_err);
+		ret = gfal_local_stat(path, buf, &tmp_err);
 	} else if( gfal_guid_checker(path, NULL) ){
-		g_error(" epic fail, not implemented");
-	} else if( gfal_surl_checker(path, NULL)){
+		ret = gfal_guid_statG(handle, path, buf, &tmp_err);
+	} else if( gfal_surl_checker(path, NULL) == 0){
 		g_error(" epic fail, not implemented");
 	} else {
 		ret = gfal_catalog_statG(handle, path, buf, &tmp_err);

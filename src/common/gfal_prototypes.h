@@ -26,6 +26,11 @@
  * */
  #include <glib.h>
  
+ // opts SRM
+typedef struct _gfal_request_state gfal_request_state; 
+typedef struct _gfal_srmv2_opt gfal_srmv2_opt; 
+
+
  // catalog 
 typedef struct _catalog_opts catalog_opts;
 typedef struct _gfal_catalog_interface gfal_catalog_interface;
@@ -33,5 +38,5 @@ typedef enum _catalog_mode catalog_mode;
 typedef gpointer catalog_handle;
 
 // main 
-typedef struct gfal_handle_ *gfal_handle;
+typedef struct gfal_handle_* gfal_handle;
 

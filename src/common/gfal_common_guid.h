@@ -31,3 +31,7 @@
 gboolean gfal_guid_checker(const char* guid, GError** err);
 
 int gfal_guid_accessG(gfal_handle handle, const char* guid, int mode, GError** err);
+
+int gfal_guid_chmodG(gfal_handle handle, const char* guid, mode_t mode, GError** err);
+
+int gfal_guid_statG(gfal_handle handle, const char* guid, struct stat* buf, GError** err);

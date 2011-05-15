@@ -23,9 +23,15 @@
  * @version 2.0
  * @date 06/05/2011
  * */
- 
-#include "gfal_posix_internal.h"
+
+#include <stdio.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <glib.h> 
 #include "gfal_common.h"
+
+
+
  
 static __thread gfal_handle handle=NULL;
 
@@ -39,10 +45,11 @@ gfal_handle gfal_posix_instance(){
 /**
  *  register the last error in the handle and display a VERBOSE warning if an error was registered and not deleted
  * */
-void gfal_posix_register_internal_error(gfal_handle handle, const char* prefix, GError * tmp_err){
-	if(*gfal_get_last_gerror(handle) != NULL){
-		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "%s Warning : existing registered error replaced ! old err : %s ", prefix, (*gfal_get_last_gerror(handle))->message);
-		g_clear_error(gfal_get_last_gerror(handle));
+void gfal_posix_register_internal_error(gfal_handle mhandle, const char* prefix, GError * tmp_err){
+	GError** err = &(mhandle->err);
+	if(*err != NULL){
+		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "%s Warning : existing registered error replaced ! old err : %s ", prefix, (*err)->message);
+		g_clear_error(err);
 	}
-	g_propagate_prefixed_error(gfal_get_last_gerror(handle), tmp_err, "%s", prefix);
+	g_propagate_prefixed_error(err, tmp_err, "%s", prefix);
 }

@@ -7,6 +7,7 @@
 #include <check.h>
 #include <glib.h>
 #include "lfc/gfal_common_lfc.h"
+#include "lfc/lfc_ifce_ng.h"
 #include "gfal_common_internal.h"
 #include "../../unit_test_constants.h"
 
@@ -19,6 +20,7 @@ START_TEST(test_gfal_common_lfc_define_env)
 	char* old_port = getenv("LFC_PORT");
 	GError * tmp_err=NULL;
 	int ret =0;
+	char* resu = NULL;
 	
 	setenv("LFC_HOST", "google.com",1);
 	setenv("LFC_PORT", "4465488896645546564",1);
@@ -28,8 +30,8 @@ START_TEST(test_gfal_common_lfc_define_env)
 		fail(" handle must be initiated properly ");
 		return;
 	}
-	ret = gfal_setup_lfchost(handle, &tmp_err);
-	if(ret){
+	resu = gfal_setup_lfchost(handle, &tmp_err);
+	if(resu){
 		fail(" must fail, port invalid");
 		return;	
 	}
@@ -37,8 +39,8 @@ START_TEST(test_gfal_common_lfc_define_env)
 	g_clear_error(&tmp_err);
 	tmp_err=NULL;
 	setenv("LFC_PORT", "2000",1);	
-	ret = gfal_setup_lfchost(handle, &tmp_err);	// re-test with good port number
-	if(ret == NULL){
+	resu = gfal_setup_lfchost(handle, &tmp_err);	// re-test with good port number
+	if(resu == NULL){
 		fail(" must be a success, LFC_HOST & LFC_PORT defined");
 		gfal_release_GError(&tmp_err);
 		return;

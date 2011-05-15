@@ -172,18 +172,18 @@ typedef struct gfal_request_ {
   * @struct structure for the srmv2 option management
   *  set to 0 by default
   */
- typedef struct _gfal_srmv2_opt{
+struct _gfal_srmv2_opt{
 	int opt_srmv2_desiredpintime;			//	optional desired default endpoint
 	char** opt_srmv2_protocols;				// optional protocols list for manual set
 	char * opt_srmv2_spacetokendesc;		// optional spacetokens desc for srmv2	 
 	 
- } gfal_srmv2_opt; 
+};
 
  /**
   * symbolise the state of a request
   *  needed to get the response
   */ 
- typedef struct _gfal_request_state{
+struct _gfal_request_state{
 	char *						srmv2_token;
 	struct srmv2_filestatus *	srmv2_statuses;
 	struct srmv2_pinfilestatus *srmv2_pinstatuses;
@@ -191,7 +191,7 @@ typedef struct gfal_request_ {
 	char * 						request_endpoint; 
 	gboolean					finished;			// finished or not
 	int							number;				// number of files in request
- } gfal_request_state; 
+ };
  
 struct gfal_handle_ {
 	// INPUTS

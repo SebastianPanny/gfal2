@@ -24,6 +24,7 @@
  * */
 #include <unistd.h>
 #include <glib.h>
+#include <sys/stat.h>
 #include <regex.h>
 #include "../common/gfal_common_errverbose.h"
 

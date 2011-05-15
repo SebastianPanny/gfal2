@@ -24,9 +24,11 @@
  * @version 2.0
  * @date 06/05/2011
  * */
- 
+
+
 #include "gfal_prototypes.h"
 #include "gfal_types.h"
+
 
 gfal_handle gfal_posix_instance();
  

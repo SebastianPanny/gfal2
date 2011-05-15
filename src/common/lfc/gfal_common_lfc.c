@@ -123,7 +123,7 @@ int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError**
 	struct lfc_filestatg statbuf;
 	
 	int ret = ops->statg(lfn, NULL, &statbuf);
-	if(ret <0){
+	if(ret != 0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err,0,sav_errno, "[lfc_statG] Error report from LFC : %s",  ops->sstrerror(sav_errno) );
 	}else{
