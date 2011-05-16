@@ -57,6 +57,7 @@ START_TEST (test_create_srm_access_read_file)
 		gfal_release_GError(&err);
 		return;
 	}
+	g_clear_error(&err);
 	gfal_handle_freeG(handle);
 }
 END_TEST

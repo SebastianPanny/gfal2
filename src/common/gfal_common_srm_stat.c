@@ -37,7 +37,7 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 	struct srm_context context;
 	struct srm_ls_input input;
 	struct srm_ls_output output;
-	struct srmv2_mdfilestatus *srmv2_mdstatuses;
+	struct srmv2_mdfilestatus *srmv2_mdstatuses=NULL;
 	char * srmv2_token;
 	const int nb_request=1;
 	char errbuf[GFAL_ERRMSG_LEN];
@@ -56,16 +56,19 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 
 	ret = srm_ls(&context,&input,&output);					// execute ls
 
-	srmv2_mdstatuses = output.statuses;
-
-	if( srmv2_mdstatuses->status != 0){
-		g_set_error(err, 0, ECOMM, "[%s] Bad answer from srm_ifce : %d %s", __func__, 
-						srmv2_mdstatuses->status, srmv2_mdstatuses->explanation);
-		free(srmv2_mdstatuses->explanation);
-		ret = -1;
-	} else {
-		memcpy(buf, &(srmv2_mdstatuses->stat), sizeof(struct stat));
-		ret = 0;
+	if(ret >=0){
+		srmv2_mdstatuses = output.statuses;
+		if(srmv2_mdstatuses->status != 0){
+			g_set_error(err, 0, srmv2_mdstatuses->status, "[%s] Error reported from srm_ifce : %d %s", __func__, 
+							srmv2_mdstatuses->status, srmv2_mdstatuses->explanation);
+			ret = -1;
+		} else {
+			memcpy(buf, &(srmv2_mdstatuses->stat), sizeof(struct stat));
+			ret = 0;
+		}
+	}else{
+		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
+		ret=-1;
 	}
 	free(srmv2_mdstatuses);
 	return ret;	

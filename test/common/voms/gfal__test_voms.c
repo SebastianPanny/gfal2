@@ -79,6 +79,7 @@ START_TEST (test_voms_get_userdnG)
 		fail(" must be the defined vo");		
 		return;
 	}
+	free(ret);
 }
 END_TEST
 

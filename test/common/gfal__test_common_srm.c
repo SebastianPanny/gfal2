@@ -59,7 +59,7 @@ START_TEST(test_gfal_get_async_1)
 			fail("must be a success");
 			return;
 	}	
-	
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
@@ -222,6 +222,7 @@ START_TEST(test_gfal_get_hostname_from_surl)
 	g_list_free(list);
 	list = g_list_append(NULL,"http://google.com/");	
 	fail_if( (resu = gfal_get_hostname_from_surl(list->data, &tmp_err)) && !tmp_err, " must be an error");
+	g_clear_error(&tmp_err);
 	g_list_free(list);
 	free(resu);
 }
@@ -244,11 +245,13 @@ START_TEST(test_gfal_get_endpoint_and_setype_from_bdii)
 	if(ret){
 		fail( " fail, must be a valid return");		
 		gfal_release_GError(&err);
+		return;
 	}
 	fail_unless( srm_type == PROTO_SRMv2, " must be the default protocol");
 	fail_unless( strcmp(endpoint, "httpg://grid-cert-03.roma1.infn.it:8446/srm/managerv2") == 0, "must be this endpoint ");	
 	g_list_free(list);
 	free(endpoint);
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
@@ -281,7 +284,7 @@ START_TEST(test_gfal_select_best_protocol_and_endpoint)
 			gfal_release_GError(&err);
 	}	
 	fail_if(strcmp(endpoint,"everest")!=0);		
-	
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
@@ -305,7 +308,7 @@ START_TEST(gfal_get_asyncG_empty_req)
 	ret = gfal_get_asyncG(handle, list, &err);
 	fail_unless(ret, " this request must fail, bad surl in the list");
 	g_clear_error(&err);	
-	
+	gfal_handle_freeG(handle);
 	
 }
 END_TEST
@@ -323,7 +326,7 @@ START_TEST(gfal_get_asyncG_empty_old_nonexist_surl)
 	int ret = gfal_get_asyncG(handle, list, &err);
 	fail_unless(ret, " this request must fail old non exist surl");
 	g_list_free(list);	
-	
+	g_clear_error(&err);
 	gfal_handle_freeG(handle);
 }
 END_TEST
@@ -498,6 +501,7 @@ START_TEST(test_gfal_async_results_errcode)			// verify the errcode of a bad req
 		fail(" must be a success");
 		return;				
 	}
+	gfal_handle_freeG(handle);
 	
 }
 END_TEST

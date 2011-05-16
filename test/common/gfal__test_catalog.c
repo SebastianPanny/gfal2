@@ -59,6 +59,7 @@ START_TEST(test_catalog_access_file)
 		gfal_release_GError(&tmp_err);
 		return;
 	}	
+	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);
 }
 END_TEST

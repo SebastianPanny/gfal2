@@ -54,6 +54,7 @@ int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
 	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+:[0-9]+/([:alnum:]|-|/|\.|_)+?SFN=",REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_fullendpoint_in_surl] fail to compile regex, report this bug");
 	ret=  regexec(&rex,surl,0,NULL,0);
+	regfree(&rex);
 	return ret;	
 }
 
@@ -259,7 +260,7 @@ int gfal_surl_checker(const char* surl, GError** err){
 	ret=  regexec(&rex,surl,0,NULL,0);
 	if(ret) 
 		g_set_error(err,0,EINVAL,"[gfal_surl_checker] Incorrect surl, impossible to parse surl %s :", surl);
-	regfree(rex);
+	regfree(&rex);
 	return ret;
 } 
 

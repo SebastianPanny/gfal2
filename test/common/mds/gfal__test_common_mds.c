@@ -57,9 +57,9 @@ START_TEST(gfal__test_get_lfchost_bdii)
 		fail(" must return correct lfc value");
 		return;
 	}
-	g_printerr(" lfc name : %s ", lfc);
+	//g_printerr(" lfc name : %s ", lfc);
 	free(lfc);
-	
+	gfal_handle_freeG(handle);	
 }
 END_TEST
 
@@ -79,11 +79,13 @@ START_TEST(gfal__test_get_lfchost_bdii_with_nobdii)
 	if(lfc || tmp_err->code!= EPROTONOSUPPORT ){
 		gfal_release_GError(&tmp_err);
 		fail(" must return an error, nobdii option checked");
+		free(lfc);
 		return;
 	}
 	//g_printerr(" lfc name : %s ", lfc);
 	free(lfc);	
 	g_clear_error(&tmp_err);
+	gfal_handle_freeG(handle);
 	
 }
 END_TEST

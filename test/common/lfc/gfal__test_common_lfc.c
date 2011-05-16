@@ -61,6 +61,7 @@ START_TEST(test_gfal_common_lfc_define_env)
 	else
 		unsetenv("LFC_PORT");
 	free(resu);
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
@@ -124,6 +125,7 @@ START_TEST(test_gfal_common_lfc_access){
 		gfal_release_GError(&tmp_err);
 		return;
 	}
+	g_clear_error(&tmp_err);
 	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, W_OK, &tmp_err);	
 	if(ret == 0 || tmp_err->code != EACCES){
 		fail(" must fail, unable to write this file");
@@ -157,7 +159,8 @@ START_TEST(test_gfal_common_lfc_no_exist)
 		fail(" must fail, this file not exist");
 		gfal_release_GError(&tmp_err);
 		return;
-	}	
+	}
+	g_clear_error(&tmp_err);	
 	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, F_OK, &tmp_err);
 	if(ret !=0){
 		fail("must be a success, file is present");
@@ -270,6 +273,7 @@ START_TEST(test__gfal_common_lfc_rename)
 		gfal_release_GError(&tmp_err);
 		return;
 	}	
+	gfal_handle_freeG(handle);
 }
 END_TEST
 
