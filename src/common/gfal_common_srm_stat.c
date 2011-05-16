@@ -61,12 +61,13 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 	if( srmv2_mdstatuses->status != 0){
 		g_set_error(err, 0, ECOMM, "[%s] Bad answer from srm_ifce : %d %s", __func__, 
 						srmv2_mdstatuses->status, srmv2_mdstatuses->explanation);
+		free(srmv2_mdstatuses->explanation);
 		ret = -1;
 	} else {
 		memcpy(buf, &(srmv2_mdstatuses->stat), sizeof(struct stat));
 		ret = 0;
 	}
-
+	free(srmv2_mdstatuses);
 	return ret;	
 }
 

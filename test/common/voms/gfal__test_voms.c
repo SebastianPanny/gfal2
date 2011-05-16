@@ -53,10 +53,11 @@ START_TEST (test_voms_info_test_vo)
 		return;
 	}
 	if(strncmp(ret, VO_TEST,255) != 0){
-		fail(" must be the defined vo");		
+		fail(" must be the defined vo");	
+		free(ret);	
 		return;
 	}
-
+	free(ret);
 }
 END_TEST
 

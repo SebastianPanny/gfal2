@@ -60,6 +60,7 @@ START_TEST(test_gfal_common_lfc_define_env)
 		setenv("LFC_PORT", old_port,1);
 	else
 		unsetenv("LFC_PORT");
+	free(resu);
 }
 END_TEST
 
@@ -226,7 +227,7 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	
+	free(ret);
 	g_clear_error(&tmp_err);
 	ret = i.resolve_guid(i.handle, TEST_GUID_VALID_ACCESS, &tmp_err);
 	if(ret == NULL || tmp_err){
@@ -234,7 +235,8 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 		fail("must be a success, file is present");
 		gfal_release_GError(&tmp_err);
 		return;
-	}		
+	}	
+	free(ret);	
 	gfal_handle_freeG(handle);
 }
 END_TEST

@@ -153,10 +153,12 @@ int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, 
 
 	if( (ret =gfal_mds_get_se_types_and_endpoints( hostname,  &tab_se_type, &tab_endpoint, &tmp_err)) != 0){ // questioning the bdii
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_endpoint_and_setype_from_bdii]");
+		free(hostname);
 		return -2;
 	}
 	if( gfal_select_best_protocol_and_endpoint(handle, endpoint, srm_type, tab_se_type, tab_endpoint, &tmp_err) != 0){ // map the response if correct
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_endpoint_and_setype_from_bdii]");
+		free(hostname);
 		return -3;		
 	}
 	for(i=0; tab_endpoint[i] != NULL && tab_se_type[i] != NULL;i++){
@@ -307,7 +309,6 @@ static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls,
     	req_state->request_endpoint = strndup(endpoint, 2048);
     	req_state->finished = FALSE;
 	}
-
 	free(surls_tab);
 	return ret;	
 }
@@ -466,6 +467,7 @@ static int gfal_get_request_statusG(gfal_handle handle, GError** err){
 			if ( (ret = gfal_convert_to_handle(ret, request_info, preparetoget_output.filestatuses, &tmp_err)) <0){
 				g_propagate_prefixed_error(err, tmp_err, "[gfal_get_request_statusG_srmv2]");
 			}
+			//free(preparetoget_output.filestatuses);
 		} 
 		
 	}else if( request_info->current_request_proto == PROTO_SRM){

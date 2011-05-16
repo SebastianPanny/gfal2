@@ -74,10 +74,12 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 
 		if( gfal_get_nobdiiG(handle) ){		// check the bdii
 			g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_setup_lfchost] no_bdii_set : you must define the LFC_HOST env var correctly");
+			free(vo);
 			return NULL;
 		}
 		if(!vo || tmp_err){
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost_bdii]");
+			free(vo);
 			return NULL;
 		}
 		GList* fqan = gfal_get_fqanG(&tmp_err);

@@ -78,7 +78,8 @@ START_TEST(test_catalog_url_checker)
 		fail(" must be an invalid protocol");
 		gfal_release_GError(&tmp_err);
 		return;
-	}		
+	}	
+	g_clear_error(&tmp_err);	
 	gfal_handle_freeG(handle);	
 }
 END_TEST
@@ -102,6 +103,7 @@ START_TEST(test_catalog_guid_resolve)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
+	free(ret);
 	ret = gfal_catalog_resolve_guid(handle, TEST_GUID_NOEXIST_ACCESS, &tmp_err);
 	if(ret != NULL || !tmp_err){
 		fail(" must be a non-valid guid");
@@ -109,7 +111,7 @@ START_TEST(test_catalog_guid_resolve)
 	}
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);
-	
+	free(ret);
 	
 	
 }

@@ -142,6 +142,7 @@ char* gfal_setup_lfchost(gfal_handle handle, GError ** err){
 			gfal_define_lfc_env_var(lfc_host, &tmp_err);		// define the env var if sucess
 			if(tmp_err){
 				g_propagate_prefixed_error(err, tmp_err,"[gfal_get_lfchost]");
+				free(lfc_host);
 				return NULL;
 			}	
 		}
@@ -149,6 +150,7 @@ char* gfal_setup_lfchost(gfal_handle handle, GError ** err){
 
 	if (strnlen (lfc_host,GFAL_MAX_LFCHOST_LEN) + 6 >= GFAL_MAX_LFCHOST_LEN) { 
 		g_set_error(err, 0, ENAMETOOLONG, "[gfal_get_lfchost] lfc host name :  %s, Host name too long", lfc_host);
+		free(lfc_host);
 		return (NULL);		
 	}	
 	//g_printerr(" my host : %s", lfc_host);

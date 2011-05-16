@@ -38,6 +38,8 @@ START_TEST(test_glist_to_surls)
 			list = g_list_next(list);
 		}
 		fail_unless(surls[n]==NULL, " last element+1 must be null");
+		free(surls);
+		g_list_free(list);
 }
 END_TEST
 
@@ -74,6 +76,7 @@ START_TEST(test_gfal_check_surl)
 	if(ret)
 		gfal_release_GError(&err);
 	fail_if( (ret = gfal_surl_checker("http://google.com",&err ))== 0, " must fail , bad url");
+	g_clear_error(&err);
 }
 END_TEST
 
@@ -160,6 +163,7 @@ START_TEST(test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii_negative)
 	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);
 	
 	fail_unless( ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) , " must return error because not a full srm");
+	g_clear_error(&err);
 	gfal_handle_freeG(handle);	
 	g_list_free(list);
 	free(endpoint);
@@ -199,6 +203,7 @@ START_TEST(test_gfal_get_fullendpoint){
 	free(endpoint);
 	const char * surl2 = "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04";	
 	fail_if( (endpoint = gfal_get_fullendpoint(surl2,&err)) !=NULL || err==NULL , " must fail");	
+	g_clear_error(&err);
 	free(endpoint);
 }
 END_TEST
@@ -216,8 +221,9 @@ START_TEST(test_gfal_get_hostname_from_surl)
 	}
 	g_list_free(list);
 	list = g_list_append(NULL,"http://google.com/");	
-	fail_if( (resu = gfal_get_hostname_from_surl(list->data, &tmp_err)) && !tmp_err, " must be a success");
+	fail_if( (resu = gfal_get_hostname_from_surl(list->data, &tmp_err)) && !tmp_err, " must be an error");
 	g_list_free(list);
+	free(resu);
 }
 END_TEST
 
@@ -242,6 +248,7 @@ START_TEST(test_gfal_get_endpoint_and_setype_from_bdii)
 	fail_unless( srm_type == PROTO_SRMv2, " must be the default protocol");
 	fail_unless( strcmp(endpoint, "httpg://grid-cert-03.roma1.infn.it:8446/srm/managerv2") == 0, "must be this endpoint ");	
 	g_list_free(list);
+	free(endpoint);
 }
 END_TEST
 
@@ -297,7 +304,7 @@ START_TEST(gfal_get_asyncG_empty_req)
 	list = g_list_append(NULL,"amazon.com");
 	ret = gfal_get_asyncG(handle, list, &err);
 	fail_unless(ret, " this request must fail, bad surl in the list");
-	
+	g_clear_error(&err);	
 	
 	
 }
@@ -306,17 +313,16 @@ END_TEST
 START_TEST(gfal_get_asyncG_empty_old_nonexist_surl)
 {
 	GError *err = NULL;
-	GList* list = g_list_append(NULL,NULL);
+	GList* list =NULL;
 	gfal_handle handle = gfal_initG(&err);
 	if(handle == NULL){
 		fail("fail to init handle");
 		return;
 	}
-
 	list = g_list_append(NULL,"srm://lxdpm103.cern.ch/dpm/cern.ch/home/dteam/generated/2009-09-21/file712de300-7a1e-4c78-90d2-0ba187e5a8da");
 	int ret = gfal_get_asyncG(handle, list, &err);
 	fail_unless(ret, " this request must fail old non exist surl");
-	
+	g_list_free(list);	
 	
 	gfal_handle_freeG(handle);
 }
@@ -355,6 +361,7 @@ START_TEST(test_gfal_is_finished)
 	if(err)
 		gfal_release_GError(&err);
 	
+	//g_list_free(list);
 	gfal_handle_freeG(handle);
 }
 END_TEST
@@ -385,7 +392,7 @@ START_TEST(test_gfal_waiting_async)
 		gfal_release_GError(&err);
 	
 	gfal_handle_freeG(handle);	
-		
+	g_list_free(list);
 }
 END_TEST
 
@@ -421,6 +428,8 @@ START_TEST(test_gfal_get_async_resultsG)
 	//	g_printerr(" turl : %s", list_resu->data);
 		list_resu = g_list_next(list_resu);
 	}
+	g_list_free(list);
+	g_list_free_full(list_resu, free);
 	gfal_handle_freeG(handle);
 	return;
 }
@@ -629,7 +638,7 @@ START_TEST(test_full_gfal_get_request_multi)
 		gfal_handle_freeG(handle);
 		return;
 	}
-	g_list_free_full(list_resu_err, free);
+	g_list_free_full(list_resu_err, &free);
 	gfal_handle_freeG(handle);
 
 }

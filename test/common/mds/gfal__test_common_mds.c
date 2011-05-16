@@ -26,6 +26,8 @@ START_TEST(test_check_bdii_endpoints_srm)
 				return;
 		}
 		fail_unless(ret == 0 && se_types != NULL && se_endpoints != NULL);
+		free(se_types);
+		free(se_endpoints);
 		//fprintf(stderr, " se_types : %s , se_endpoints", se_types[1], se_endpoints[1]);
 		ptr++;
 	}
@@ -33,6 +35,8 @@ START_TEST(test_check_bdii_endpoints_srm)
 	ret = gfal_mds_get_se_types_and_endpoints ("google.com", &se_types, &se_endpoints, &err);		
 	fail_unless(ret != 0 &&  err->code == EINVAL , "must fail, invalid url");
 	g_clear_error(&err);
+	free(se_types);
+	free(se_endpoints);
 }
 END_TEST
 
@@ -79,7 +83,7 @@ START_TEST(gfal__test_get_lfchost_bdii_with_nobdii)
 	}
 	//g_printerr(" lfc name : %s ", lfc);
 	free(lfc);	
-	
+	g_clear_error(&tmp_err);
 	
 }
 END_TEST
