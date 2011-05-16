@@ -101,7 +101,7 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
  *  @return result of the access method or -1 if error and set GError with the correct value
  *  error : EPROTONOSUPPORT means that the URL is not matched by a catalog
  *  */
-int gfal_catalogs_accessG(gfal_handle handle, char* path, int mode, GError** err){
+int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError** err){
 	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalogs_accessG] Invalid arguments");
 	GError* tmp_err=NULL;
 	int i;

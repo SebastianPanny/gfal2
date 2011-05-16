@@ -149,6 +149,8 @@ Suite* posix_suite (void)
   TCase* tc_stat = tcase_create("STAT");
   tcase_add_test(tc_stat, test__gfal_posix_stat_lfc);
   tcase_add_test(tc_stat, test__gfal_posix_stat_guid);
+  tcase_add_test(tc_stat, test__gfal_posix_stat_local);
+  tcase_add_test(tc_stat, test__gfal_posix_stat_srm);
   suite_add_tcase(s, tc_stat);
   return s;
 }

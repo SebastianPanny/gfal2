@@ -1,4 +1,3 @@
-#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -17,17 +16,20 @@
  */
 
 /**
- * @file gfal_common_srm_access.h
- * @brief header file for the access methode on the srm url type
+ * @file gfal_common_srm_stat.c
+ * @brief file for the stat function on the srm url type
  * @author Devresse Adrien
  * @version 2.0
- * @date 05/05/2011
+ * @date 16/05/2011
  * */
 
-#include <glib.h>
-#include "gfal_types.h" 
+#include "gfal_common_srm_access.h"
+#include "gfal_constants.h"
+#include "gfal_common_errverbose.h"
+#include <gfal_srm_ifce_types.h> 
 
-int gfal_srm_accessG(gfal_handle handle, char* surl, int mode, GError** err); 
-
-
-
+int gfal_srm_statG(gfal_handle handle, char* surl, struct stat* buf, GError** err){
+	g_return_val_err_if_fail( handle && surl && buf, -1, err, "[gfal_srm_statG] Invalid args in handle/surl/bugg");
+	GError* tmp_err = NULL;
+	return -1;
+}

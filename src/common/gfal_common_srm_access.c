@@ -17,7 +17,7 @@
 
 /**
  * @file gfal_common_srm_access.c
- * @brief file for the access methode on the srm url type
+ * @brief file for the access function on the srm url type
  * @author Devresse Adrien
  * @version 2.0
  * @date 05/05/2011

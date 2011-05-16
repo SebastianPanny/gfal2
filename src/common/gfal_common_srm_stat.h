@@ -17,17 +17,17 @@
  */
 
 /**
- * @file gfal_common_srm_access.h
- * @brief header file for the access methode on the srm url type
+ * @file gfal_common_srm_stat.h
+ * @brief header file for the stat function on the srm url type
  * @author Devresse Adrien
  * @version 2.0
- * @date 05/05/2011
+ * @date 16/05/2011
  * */
 
 #include <glib.h>
 #include "gfal_types.h" 
 
-int gfal_srm_accessG(gfal_handle handle, char* surl, int mode, GError** err); 
+int gfal_srm_statG(gfal_handle handle, char* surl, struct stat* buf, GError** err); 
 
 
 

@@ -29,7 +29,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <glib.h>
-#include "../common/gfal_prototypes.h"
+#include "gfal_posix_internal.h"
 #include "../common/gfal_types.h"
 #include "../common/gfal_common_guid.h"
 #include "../common/gfal_common_srm.h"
