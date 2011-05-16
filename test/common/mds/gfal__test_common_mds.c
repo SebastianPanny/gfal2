@@ -5,6 +5,7 @@
 
 #include <check.h>
 #include "gfal_common.h"
+#include "mds/gfal_common_mds.h"
 
 
 
