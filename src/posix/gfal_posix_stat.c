@@ -57,7 +57,8 @@ int gfal_posix_internal_stat(const char* path, struct stat* buf){
 	} else if( gfal_guid_checker(path, NULL) ){
 		ret = gfal_guid_statG(handle, path, buf, &tmp_err);
 	} else if( gfal_surl_checker(path, NULL) == 0){
-		g_error(" epic fail, not implemented");
+		g_set_error(&tmp_err, 0, ENOSYS, "[%s] not implementated", __func__);
+		ret =-1;
 	} else {
 		ret = gfal_catalog_statG(handle, path, buf, &tmp_err);
 	}
