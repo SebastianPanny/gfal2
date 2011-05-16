@@ -173,7 +173,7 @@ int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, 
 
 
 /**
- * @brief get endpoint
+ * @brief get endpoint and srm_associated type
  *  determine the best endpoint associated with the list of url and the params of the actual handle (no bdii check or not)
  *  see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations
  *  @return return 0 with endpoint and types set if success else -1 and set Error

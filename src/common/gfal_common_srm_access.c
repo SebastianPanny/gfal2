@@ -87,20 +87,20 @@ int gfal_srm_accessG(gfal_handle handle, char* surl, int mode, GError** err){			
 	ret = gfal_auto_get_srm_endpoint(handle, &full_endpoint, &srm_types, surls,  &tmp_err); // get the associated endpoint
 	g_list_free(surls);
 	if( ret != 0){		// check & get endpoint										
-		g_propagate_prefixed_error(err,tmp_err, "[gfal_srm_accessG]");
+		g_propagate_prefixed_error(err,tmp_err, "[%s]", __func__);
 		return -1;
 	}
-	gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_srm_accessG] endpoint %s", full_endpoint);		// display the endpoint if verbose mode
+	gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[%s] endpoint %s", __func__, full_endpoint);		// display the endpoint if verbose mode
 	
 	if (srm_types == PROTO_SRMv2){			// check the proto version
 		ret= gfal_access_srmv2_internal(handle, full_endpoint, surl, mode,&tmp_err);	// execute the SRMv2 access test
 		if(tmp_err)
-			g_propagate_prefixed_error(err, tmp_err, "[gfal_srm_accessG]");
+			g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	} else if(srm_types == PROTO_SRM){
-			g_set_error(err,0, EPROTONOSUPPORT, "[gfal_srm_accessG] support for SRMv1 is removed in 2.0, failure");
+			g_set_error(err,0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure", __func__);
 			ret =  -1;
 	} else{
-		g_set_error(err,0,EPROTONOSUPPORT, "[gfal_srm_accessG] Unknow SRM protocol, failure ");
+		g_set_error(err,0,EPROTONOSUPPORT, "[%s] Unknow version of the protocol SRM , failure ", __func__);
 		ret=-1;
 	}
 	free(full_endpoint);

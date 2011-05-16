@@ -77,7 +77,7 @@ int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** er
  * implementation of the access call with the lfc catalog
  *  return 0 or -1 if error and report GError** with error code and message
  */
-int lfc_accessG(catalog_handle handle, char* lfn, int mode, GError** err){
+int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
 	g_return_val_err_if_fail(handle && lfn, -1, err, "[lfc_accessG] Invalid value in arguments handle  or/and path");
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;

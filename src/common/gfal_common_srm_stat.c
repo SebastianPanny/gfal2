@@ -28,8 +28,73 @@
 #include "gfal_common_errverbose.h"
 #include <gfal_srm_ifce_types.h> 
 
+
+
+static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const char* endpoint, const char* surl, GError** err){
+	g_return_val_err_if_fail( handle && endpoint && surl 
+								 && buf && (sizeof(struct stat) == sizeof(struct stat64)),
+								-1, err, "[gfal_statG_srmv2_internal] Invalid args handle/endpoint or invalid stat sturct size");
+	struct srm_context context;
+	struct srm_ls_input input;
+	struct srm_ls_output output;
+	struct srmv2_mdfilestatus *srmv2_mdstatuses;
+	char * srmv2_token;
+	const int nb_request=1;
+	char errbuf[GFAL_ERRMSG_LEN];
+	int i;
+	int ret=-1;
+	char* tab_surl[] = { (char*)surl, NULL};
+	int tab_resu[nb_request];
+	
+	srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());	// init context
+	
+	input.nbfiles = nb_request;
+	input.surls = tab_surl;
+	input.numlevels = 0;
+	input.offset = 0;
+	input.count = 0;
+
+	ret = srm_ls(&context,&input,&output);					// execute ls
+
+	srmv2_mdstatuses = output.statuses;
+
+	if( srmv2_mdstatuses->status != 0){
+		g_set_error(err, 0, ECOMM, "[%s] Bad answer from srm_ifce : %d %s", __func__, 
+						srmv2_mdstatuses->status, srmv2_mdstatuses->explanation);
+		ret = -1;
+	} else {
+		memcpy(buf, &(srmv2_mdstatuses->stat), sizeof(struct stat));
+		ret = 0;
+	}
+
+	return ret;	
+}
+
 int gfal_srm_statG(gfal_handle handle, char* surl, struct stat* buf, GError** err){
 	g_return_val_err_if_fail( handle && surl && buf, -1, err, "[gfal_srm_statG] Invalid args in handle/surl/bugg");
 	GError* tmp_err = NULL;
-	return -1;
+	int ret =-1;
+	char* endpoint=NULL;
+	enum gfal_srm_proto srm_type;
+	
+	GList* list = g_list_append(NULL, surl);
+	ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &srm_type, list, &tmp_err);
+	g_list_free(list);
+	if( ret >=0 ){
+		if(srm_type == PROTO_SRMv2){
+			gfal_statG_srmv2_internal(handle, buf, endpoint, surl, &tmp_err);
+		}else if (srm_type == PROTO_SRM){
+			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
+			ret = -1;
+		}else {
+			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] Unknow version of the protocol SRM , failure");
+			ret = -1;			
+		}
+		
+	}
+	free(endpoint);
+	
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return ret;
 }

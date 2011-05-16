@@ -927,7 +927,7 @@ gfal_rmdir (const char *dirname)
 
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE)
     int
-gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
+	gfal_stat_generic (const char *filename, int bool_link, struct stat64 *statbuf)
 {
     int rc = 0, sav_errno = 0;
     char errbuf[GFAL_ERRMSG_LEN];

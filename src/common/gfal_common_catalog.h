@@ -73,7 +73,7 @@ struct _gfal_catalog_interface{
 	/**
 	 *  access function for the access for the normal associated url
 	 * */
-	int (*accessG)(catalog_handle, char* path, int mode, GError** err);
+	int (*accessG)(catalog_handle, const char* path, int mode, GError** err);
 	/**
 	 *  function pointer for the access using the guid url
 	 * */
