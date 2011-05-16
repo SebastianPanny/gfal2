@@ -39,6 +39,7 @@ gboolean gfal_guid_checker(const char* guid, GError** err){
 	ret=  regexec(&rex,guid,0,NULL,0);
 	if(ret) 
 		g_set_error(err,0,EINVAL,"[gfal_guid_checker] Incorrect guid, impossible to parse guid %s :", guid);
+	regfree(rex);
 	return (!ret)?TRUE:FALSE;
 } 
 

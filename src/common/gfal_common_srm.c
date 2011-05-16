@@ -259,6 +259,7 @@ int gfal_surl_checker(const char* surl, GError** err){
 	ret=  regexec(&rex,surl,0,NULL,0);
 	if(ret) 
 		g_set_error(err,0,EINVAL,"[gfal_surl_checker] Incorrect surl, impossible to parse surl %s :", surl);
+	regfree(rex);
 	return ret;
 } 
 
