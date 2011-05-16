@@ -70,14 +70,14 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 	return ret;	
 }
 
-int gfal_srm_statG(gfal_handle handle, char* surl, struct stat* buf, GError** err){
+int gfal_srm_statG(gfal_handle handle, const char* surl, struct stat* buf, GError** err){
 	g_return_val_err_if_fail( handle && surl && buf, -1, err, "[gfal_srm_statG] Invalid args in handle/surl/bugg");
 	GError* tmp_err = NULL;
 	int ret =-1;
 	char* endpoint=NULL;
 	enum gfal_srm_proto srm_type;
 	
-	GList* list = g_list_append(NULL, surl);
+	GList* list = g_list_append(NULL, (char*)surl);
 	ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &srm_type, list, &tmp_err);
 	g_list_free(list);
 	if( ret >=0 ){
