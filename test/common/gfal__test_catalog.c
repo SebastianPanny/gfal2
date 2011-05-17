@@ -4,9 +4,12 @@
 
 
 #include <check.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "gfal_constants.h"
 #include "gfal_common_catalog.h"
 #include "gfal_common_errverbose.h"
+#include "gfal_common.h"
 #include "../unit_test_constants.h"
 
 
@@ -179,7 +182,7 @@ START_TEST(test__catalog_lstat)
 	}
 
 
-	int ret = gfal_catalog_statG(handle, TEST_GFAL_LFC_LINK_STAT_OK, &resu, &tmp_err);
+	ret = gfal_catalog_statG(handle, TEST_GFAL_LFC_LINK_STAT_OK, &resu, &tmp_err);
 	if( ret != 0 || tmp_err){
 		fail(" must be a success convertion");
 		gfal_release_GError(&tmp_err);

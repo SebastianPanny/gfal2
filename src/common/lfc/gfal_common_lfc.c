@@ -137,7 +137,7 @@ int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError**
  * execute a posix lstat request on the lfc ( stat request with link information)
  *  return 0 if success and set the struct buf else return negative value and set GError
  */
-int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, GError** err){
+static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path && st, -1, err, "[lfc_lstatG] Invalid value in args handle/path/stat");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
@@ -207,6 +207,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.chmodG = &lfc_chmodG;
 	lfc_catalog.renameG = &lfc_renameG;
 	lfc_catalog.statG = &lfc_statG;
+	lfc_catalog.lstatG = &lfc_lstatG;
 	lfc_catalog.resolve_guid = &lfc_resolve_guid;
 	return lfc_catalog;
 }
