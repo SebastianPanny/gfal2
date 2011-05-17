@@ -123,6 +123,16 @@ int gfal_stat(const char* path, struct stat* buf){
 }
 
 /**
+ * @brief gfal_lstat is identical to \ref gfal_stat except for symbolic links. 
+ * In this case, the link itself is statted and not
+       followed.
+*/
+int gfal_lstat(const char* path, struct stat* buf){
+	return gfal_posix_internal_lstat(path, buf);
+}
+
+
+/**
  * Display the last string error reported by the gfal error system for the posix API
  * Errors are printed on stderr
  */

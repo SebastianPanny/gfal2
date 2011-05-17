@@ -139,6 +139,25 @@ int gfal_catalog_statG(gfal_handle handle, const char* path, struct stat* st, GE
 }
 
 
+
+int gfal_catalog_lstatG(gfal_handle handle, const char* path, struct stat* st, GError** err){
+	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalog_lstatG] Invalid arguments");
+	GError* tmp_err=NULL;
+	int i;
+	
+	gboolean lstat_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, path,  GFAL_CATALOG_LSTAT, terr);
+	}
+	int lstat_executor(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->lstatG(cata_list->handle, path, st, terr);
+	}
+	
+	int ret = gfal_catalogs_operation_executor(handle, &lstat_checker, &lstat_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__); 
+	return ret;	
+}
+
 /**
  * Delete all instance of catalogs 
  */

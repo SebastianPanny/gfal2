@@ -36,6 +36,10 @@ int gfal_posix_internal_access (const char *path, int amode);
 
 int gfal_posix_internal_chmod(const char* path, mode_t mode);
 
+int gfal_posix_internal_stat(const char* path, struct stat* buf);
+
+int gfal_posix_internal_lstat(const char* path, struct stat* buf);
+
 void gfal_posix_register_internal_error(gfal_handle handle, const char* prefix, GError * tmp_err);
  
 

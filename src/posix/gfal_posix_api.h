@@ -40,6 +40,10 @@ int gfal_chmod(const char* path, mode_t mode);
 
 int gfal_rename (const char *oldpath, const char * newpath);
 
+int gfal_stat (const char *, struct stat *);
+
+int gfal_lstat (const char *, struct stat *);
+
 void gfal_posix_clear_error();
 
 void gfal_posix_release_error();
@@ -174,13 +178,13 @@ struct dirent *gfal_readdir (DIR *);
 off64_t gfal_lseek64 (int, off64_t, int);
 
 
-int gfal_lstat (const char *, struct stat *);
+
 
 
 int gfal_lstat64 (const char *, struct stat64 *);
 
 
-int gfal_stat (const char *, struct stat *);
+
 
 
 int gfal_stat64 (const char *, struct stat64 *);

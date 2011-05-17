@@ -1053,7 +1053,7 @@ gfal_stat (const char *filename, struct stat *statbuf)
 }
 #endif
 */
-
+/*
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE)
     int
 gfal_stat64 (const char *filename, struct stat64 *statbuf)
@@ -1062,12 +1062,12 @@ gfal_stat64 (const char *filename, struct stat64 *statbuf)
 gfal_stat64 (const char *filename, struct stat *statbuf)
 #endif
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE) || defined(__USE_FILE_OFFSET64)
-     */
+     *//*
 {
     return (gfal_stat_generic (filename, 0, statbuf));
 }
-#endif
-
+#endif*/
+/*
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
     int
 gfal_lstat (const char *filename, struct stat *statbuf)
@@ -1086,22 +1086,22 @@ gfal_lstat (const char *filename, struct stat *statbuf)
 #endif
     return (0);
 }
-#endif
+#endif*/
 
-
+/*
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE)
     int
 gfal_lstat64 (const char *filename, struct stat64 *statbuf)
-    /*
+  */  /*
 #elif defined(__USE_FILE_OFFSET64)
 gfal_stat64 (const char *filename, struct stat *statbuf)
 #endif
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE) || defined(__USE_FILE_OFFSET64)
-     */
+     *//*
 {
     return (gfal_stat_generic (filename, 1, statbuf));
 }
-#endif
+#endif*/
 
     int
 gfal_unlink (const char *filename)

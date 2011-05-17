@@ -202,7 +202,7 @@ struct lfc_ops* gfal_load_lfc(const char* name, GError** err){
 }
 
 /***
- *  convert a internal lfc stat to a POSIX lfc stat
+ *  convert a internal lfc statg to a POSIX lfc stat
  *  struct must be already allocated
  */
 int gfal_lfc_convert_statg(struct stat* output, struct lfc_filestatg* input, GError** err){
@@ -217,4 +217,22 @@ int gfal_lfc_convert_statg(struct stat* output, struct lfc_filestatg* input, GEr
 	output->st_mtime = input->mtime;
 	return 0;
 }
+
+/***
+ *  convert a internal lfc lstat to a POSIX lfc stat
+ *  struct must be already allocated
+ */
+int gfal_lfc_convert_lstat(struct stat* output, struct lfc_filestat* input, GError** err){
+	g_return_val_err_if_fail(output && input, -1, err, "[gfal_lfc_convert_lstat] Invalid args statg/stat");
+	output->st_mode = input->filemode;
+	output->st_nlink = input->nlink;
+	output->st_uid = input->uid;
+	output->st_gid = input->gid;
+	output->st_size = input->filesize;
+	output->st_atime = input->atime;
+	output->st_ctime = input->ctime;
+	output->st_mtime = input->mtime;
+	return 0;
+}
+
 

@@ -62,6 +62,14 @@ int gfal_local_stat(const char* path, struct stat* buf, GError ** err){
 	}
 	return res;
 } 
+
+int gfal_local_lstat(const char* path, struct stat* buf, GError ** err){
+	const int res = lstat(path + strlen(GFAL_LOCAL_PREFIX), buf);
+	if(res <0){
+		g_set_error(err, 0, errno, "[%s] errno reported by local system call", __func__, strerror(errno));
+	}
+	return res;
+} 
  
 /**
  * check the validity of a classique file url

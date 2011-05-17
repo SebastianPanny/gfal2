@@ -52,7 +52,8 @@ enum _catalog_mode{
 	GFAL_CATALOG_ACCESS,
 	GFAL_CATALOG_CHMOD,
 	GFAL_CATALOG_RENAME,
-	GFAL_CATALOG_STAT
+	GFAL_CATALOG_STAT,
+	GFAL_CATALOG_LSTAT
 };
 
 /**
@@ -116,6 +117,8 @@ int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError*
 int gfal_catalogs_delete(gfal_handle, GError** err);
 
 int gfal_catalog_statG(gfal_handle handle,const char* path, struct stat* st, GError** err);
+
+int gfal_catalog_lstatG(gfal_handle handle,const char* path, struct stat* st, GError** err);
 
 char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
  	

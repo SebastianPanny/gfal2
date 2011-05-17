@@ -29,10 +29,12 @@
  gboolean gfal_check_local_url(const char* path, GError* err);
  
  
- int gfal_local_access(const char *path, int amode, GError** err);
+int gfal_local_access(const char *path, int amode, GError** err);
  
- int gfal_local_chmod(const char* path, mode_t mode, GError** err);
+int gfal_local_chmod(const char* path, mode_t mode, GError** err);
  
- int gfal_local_rename(const char* oldpath, const char* newpath, GError** err);
+int gfal_local_rename(const char* oldpath, const char* newpath, GError** err);
  
- int gfal_local_stat(const char* path, struct stat* buf, GError ** err);
+int gfal_local_stat(const char* path, struct stat* buf, GError ** err);
+ 
+int gfal_local_lstat(const char* path, struct stat* buf, GError ** err);

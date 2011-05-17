@@ -101,12 +101,36 @@ int gfal_guid_chmodG(gfal_handle handle, const char* guid, mode_t mode, GError**
  * @param err : GError
  */
 int gfal_guid_statG(gfal_handle handle, const char* guid, struct stat* buf, GError** err){
-	g_return_val_err_if_fail(handle && guid, -1, err, "[gfal_guid_chmodG] Invalid args");
+	g_return_val_err_if_fail(handle && guid, -1, err, "[gfal_guid_statG] Invalid args");
 	GError* tmp_err=NULL;
 	int ret =-1;
 	const char * cata_link= gfal_catalog_resolve_guid(handle, guid, &tmp_err);
 	if(cata_link)
 		ret = gfal_catalog_statG(handle, cata_link, buf, &tmp_err);
+		
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	free(cata_link);
+	return ret;
+}
+
+
+
+/**
+ * Execute a guid chmod on the first compatible catalog
+ * configure the right of the element associated with the guid
+ * @param handle : handle 
+ * @param guid : string of the guid
+ * @param mode : mode to struct stat
+ * @param err : GError
+ */
+int gfal_guid_lstatG(gfal_handle handle, const char* guid, struct stat* buf, GError** err){
+	g_return_val_err_if_fail(handle && guid, -1, err, "[gfal_guid_lstatG] Invalid args");
+	GError* tmp_err=NULL;
+	int ret =-1;
+	const char * cata_link= gfal_catalog_resolve_guid(handle, guid, &tmp_err);
+	if(cata_link)
+		ret = gfal_catalog_lstatG(handle, cata_link, buf, &tmp_err);
 		
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
