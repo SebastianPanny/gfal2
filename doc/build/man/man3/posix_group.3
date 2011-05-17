@@ -75,6 +75,7 @@ all POSIX style function \-
 .ti -1c
 .RI "int \fBgfal_lstat\fP (const char *, struct stat *)"
 .br
+.RI "\fIgfal_lstat is identical to \fBgfal_stat\fP except for symbolic links. In this case, the link itself is statted and not followed. \fP"
 .ti -1c
 .RI "int \fBgfal_lstat64\fP (const char *, struct stat64 *)"
 .br

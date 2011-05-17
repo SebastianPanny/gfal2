@@ -52,9 +52,9 @@ ssize\_\-t \textbf{gfal\_\-write} (int, const void $\ast$, size\_\-t)\label{grou
 off64\_\-t \textbf{gfal\_\-lseek64} (int, off64\_\-t, int)\label{group__posix__group_g39c7d0b6d366fdb0f218439ed3c3bb37}
 
 \item 
-int \textbf{gfal\_\-lstat} (const char $\ast$, struct stat $\ast$)\label{group__posix__group_g347f867802a33bc04fdfb769da857103}
+int \bf{gfal\_\-lstat} (const char $\ast$, struct stat $\ast$)\label{group__posix__group_g347f867802a33bc04fdfb769da857103}
 
-\item 
+\begin{CompactList}\small\item\em gfal\_\-lstat is identical to \doxyref{gfal\_\-stat}{p.}{group__posix__group_g1d8c86d522d5dd26ee7ddcd9c6925964} except for symbolic links. In this case, the link itself is statted and not followed. \item\end{CompactList}\item 
 int \textbf{gfal\_\-lstat64} (const char $\ast$, struct stat64 $\ast$)\label{group__posix__group_g739ca4985a67e0fc4fc253f42df2638c}
 
 \item 

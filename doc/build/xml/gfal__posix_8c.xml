@@ -586,69 +586,6 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" line="931" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="930" bodyend="1033"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gb40e2d23618763284ab4a1fb1a06a880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_stat64</definition>
-        <argsstring>(const char *filename, struct stat64 *statbuf)</argsstring>
-        <name>gfal_stat64</name>
-        <param>
-          <type>const char *</type>
-          <declname>filename</declname>
-        </param>
-        <param>
-          <type>struct stat64 *</type>
-          <declname>statbuf</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" line="1066" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1059" bodyend="1068"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g347f867802a33bc04fdfb769da857103" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_lstat</definition>
-        <argsstring>(const char *filename, struct stat *statbuf)</argsstring>
-        <name>gfal_lstat</name>
-        <param>
-          <type>const char *</type>
-          <declname>filename</declname>
-        </param>
-        <param>
-          <type>struct stat *</type>
-          <declname>statbuf</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" line="1074" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1073" bodyend="1088"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g739ca4985a67e0fc4fc253f42df2638c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_lstat64</definition>
-        <argsstring>(const char *filename, struct stat64 *statbuf)</argsstring>
-        <name>gfal_lstat64</name>
-        <param>
-          <type>const char *</type>
-          <declname>filename</declname>
-        </param>
-        <param>
-          <type>struct stat64 *</type>
-          <declname>statbuf</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" line="1101" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1094" bodyend="1103"/>
-      </memberdef>
       <memberdef kind="function" id="group__posix__group_1gdeb4c6cc47f507da3e3b498374e308fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_unlink</definition>
@@ -1872,56 +1809,56 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="1053"><highlight class="comment">}</highlight></codeline>
 <codeline lineno="1054"><highlight class="comment">#endif</highlight></codeline>
 <codeline lineno="1055"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1056"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1057"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!defined(linux)<sp/>||<sp/>defined(_LARGEFILE64_SOURCE)</highlight></codeline>
-<codeline lineno="1058"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1059"><highlight class="normal">gfal_stat64<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*filename,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat64<sp/>*statbuf)</highlight></codeline>
-<codeline lineno="1060"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1056"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1057"><highlight class="comment">#if<sp/>!defined(linux)<sp/>||<sp/>defined(_LARGEFILE64_SOURCE)</highlight></codeline>
+<codeline lineno="1058"><highlight class="comment"><sp/><sp/><sp/><sp/>int</highlight></codeline>
+<codeline lineno="1059"><highlight class="comment">gfal_stat64<sp/>(const<sp/>char<sp/>*filename,<sp/>struct<sp/>stat64<sp/>*statbuf)</highlight></codeline>
+<codeline lineno="1060"><highlight class="comment"><sp/><sp/><sp/><sp/>/*</highlight></codeline>
 <codeline lineno="1061"><highlight class="comment">#elif<sp/>defined(__USE_FILE_OFFSET64)</highlight></codeline>
 <codeline lineno="1062"><highlight class="comment">gfal_stat64<sp/>(const<sp/>char<sp/>*filename,<sp/>struct<sp/>stat<sp/>*statbuf)</highlight></codeline>
 <codeline lineno="1063"><highlight class="comment">#endif</highlight></codeline>
 <codeline lineno="1064"><highlight class="comment">#if<sp/>!defined(linux)<sp/>||<sp/>defined(_LARGEFILE64_SOURCE)<sp/>||<sp/>defined(__USE_FILE_OFFSET64)</highlight></codeline>
-<codeline lineno="1065"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1066"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1067"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(gfal_stat_generic<sp/>(filename,<sp/>0,<sp/>statbuf));</highlight></codeline>
-<codeline lineno="1068"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1069"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
-<codeline lineno="1070"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1071"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!<sp/>defined(linux)<sp/>||<sp/>defined(_LARGEFILE64_SOURCE)</highlight></codeline>
-<codeline lineno="1072"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1073"><highlight class="normal">gfal_lstat<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*filename,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat<sp/>*statbuf)</highlight></codeline>
-<codeline lineno="1074"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1075"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">stat64<sp/>stat64buf;</highlight></codeline>
-<codeline lineno="1076"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="1077"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1078"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(gfal_stat_generic<sp/>(filename,<sp/>1,<sp/>&amp;stat64buf)<sp/>&lt;<sp/>0)</highlight></codeline>
-<codeline lineno="1079"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(-1);</highlight></codeline>
-<codeline lineno="1080"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1081"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__USE_FILE_OFFSET64)<sp/>||<sp/>__WORDSIZE<sp/>==<sp/>64</highlight></codeline>
-<codeline lineno="1082"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy<sp/>(statbuf,<sp/>&amp;stat64buf,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat));</highlight></codeline>
-<codeline lineno="1083"><highlight class="normal"><sp/><sp/><sp/><sp/>rc<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="1084"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight></codeline>
-<codeline lineno="1085"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>rc<sp/>=<sp/>mdtomd32<sp/>(&amp;stat64buf,<sp/>statbuf);</highlight></codeline>
-<codeline lineno="1086"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
-<codeline lineno="1087"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(0);</highlight></codeline>
-<codeline lineno="1088"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1089"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
-<codeline lineno="1090"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1091"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1092"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!defined(linux)<sp/>||<sp/>defined(_LARGEFILE64_SOURCE)</highlight></codeline>
-<codeline lineno="1093"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1094"><highlight class="normal">gfal_lstat64<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*filename,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat64<sp/>*statbuf)</highlight></codeline>
-<codeline lineno="1095"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1065"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1066"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="1067"><highlight class="comment"><sp/><sp/><sp/><sp/>return<sp/>(gfal_stat_generic<sp/>(filename,<sp/>0,<sp/>statbuf));</highlight></codeline>
+<codeline lineno="1068"><highlight class="comment">}</highlight></codeline>
+<codeline lineno="1069"><highlight class="comment">#endif*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1070"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1071"><highlight class="comment">#if<sp/>!<sp/>defined(linux)<sp/>||<sp/>defined(_LARGEFILE64_SOURCE)</highlight></codeline>
+<codeline lineno="1072"><highlight class="comment"><sp/><sp/><sp/><sp/>int</highlight></codeline>
+<codeline lineno="1073"><highlight class="comment">gfal_lstat<sp/>(const<sp/>char<sp/>*filename,<sp/>struct<sp/>stat<sp/>*statbuf)</highlight></codeline>
+<codeline lineno="1074"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="1075"><highlight class="comment"><sp/><sp/><sp/><sp/>struct<sp/>stat64<sp/>stat64buf;</highlight></codeline>
+<codeline lineno="1076"><highlight class="comment"><sp/><sp/><sp/><sp/>int<sp/>rc<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="1077"><highlight class="comment"></highlight></codeline>
+<codeline lineno="1078"><highlight class="comment"><sp/><sp/><sp/><sp/>if<sp/>(gfal_stat_generic<sp/>(filename,<sp/>1,<sp/>&amp;stat64buf)<sp/>&lt;<sp/>0)</highlight></codeline>
+<codeline lineno="1079"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>(-1);</highlight></codeline>
+<codeline lineno="1080"><highlight class="comment"></highlight></codeline>
+<codeline lineno="1081"><highlight class="comment">#if<sp/>defined(__USE_FILE_OFFSET64)<sp/>||<sp/>__WORDSIZE<sp/>==<sp/>64</highlight></codeline>
+<codeline lineno="1082"><highlight class="comment"><sp/><sp/><sp/><sp/>memcpy<sp/>(statbuf,<sp/>&amp;stat64buf,<sp/>sizeof<sp/>(struct<sp/>stat));</highlight></codeline>
+<codeline lineno="1083"><highlight class="comment"><sp/><sp/><sp/><sp/>rc<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="1084"><highlight class="comment">#else</highlight></codeline>
+<codeline lineno="1085"><highlight class="comment"><sp/><sp/><sp/><sp/>rc<sp/>=<sp/>mdtomd32<sp/>(&amp;stat64buf,<sp/>statbuf);</highlight></codeline>
+<codeline lineno="1086"><highlight class="comment">#endif</highlight></codeline>
+<codeline lineno="1087"><highlight class="comment"><sp/><sp/><sp/><sp/>return<sp/>(0);</highlight></codeline>
+<codeline lineno="1088"><highlight class="comment">}</highlight></codeline>
+<codeline lineno="1089"><highlight class="comment">#endif*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1090"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1091"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1092"><highlight class="comment">#if<sp/>!defined(linux)<sp/>||<sp/>defined(_LARGEFILE64_SOURCE)</highlight></codeline>
+<codeline lineno="1093"><highlight class="comment"><sp/><sp/><sp/><sp/>int</highlight></codeline>
+<codeline lineno="1094"><highlight class="comment">gfal_lstat64<sp/>(const<sp/>char<sp/>*filename,<sp/>struct<sp/>stat64<sp/>*statbuf)</highlight></codeline>
+<codeline lineno="1095"><highlight class="comment"><sp/><sp/>*/</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
 <codeline lineno="1096"><highlight class="comment">#elif<sp/>defined(__USE_FILE_OFFSET64)</highlight></codeline>
 <codeline lineno="1097"><highlight class="comment">gfal_stat64<sp/>(const<sp/>char<sp/>*filename,<sp/>struct<sp/>stat<sp/>*statbuf)</highlight></codeline>
 <codeline lineno="1098"><highlight class="comment">#endif</highlight></codeline>
 <codeline lineno="1099"><highlight class="comment">#if<sp/>!defined(linux)<sp/>||<sp/>defined(_LARGEFILE64_SOURCE)<sp/>||<sp/>defined(__USE_FILE_OFFSET64)</highlight></codeline>
-<codeline lineno="1100"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1101"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(gfal_stat_generic<sp/>(filename,<sp/>1,<sp/>statbuf));</highlight></codeline>
-<codeline lineno="1103"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1104"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
-<codeline lineno="1105"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1100"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1101"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="1102"><highlight class="comment"><sp/><sp/><sp/><sp/>return<sp/>(gfal_stat_generic<sp/>(filename,<sp/>1,<sp/>statbuf));</highlight></codeline>
+<codeline lineno="1103"><highlight class="comment">}</highlight></codeline>
+<codeline lineno="1104"><highlight class="comment">#endif*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1105"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="1107"><highlight class="normal">gfal_unlink<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*filename)</highlight></codeline>
 <codeline lineno="1108"><highlight class="normal">{</highlight></codeline>

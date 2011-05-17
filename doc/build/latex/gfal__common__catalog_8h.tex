@@ -32,7 +32,8 @@ enum \textbf{\_\-catalog\_\-mode} \{ \par
 \textbf{GFAL\_\-CATALOG\_\-CHMOD}, 
 \textbf{GFAL\_\-CATALOG\_\-RENAME}, 
 \par
-\textbf{GFAL\_\-CATALOG\_\-STAT}
+\textbf{GFAL\_\-CATALOG\_\-STAT}, 
+\textbf{GFAL\_\-CATALOG\_\-LSTAT}
  \}
 \end{CompactItemize}
 \subsection*{Functions}
@@ -50,6 +51,9 @@ int \textbf{gfal\_\-catalogs\_\-guid\_\-access\-G} (gfal\_\-handle handle, char 
 int \bf{gfal\_\-catalogs\_\-delete} (gfal\_\-handle, GError $\ast$$\ast$err)
 \item 
 int \textbf{gfal\_\-catalog\_\-stat\-G} (gfal\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_28ca68c00e4a67bc158975ef3e4f8013}
+
+\item 
+int \textbf{gfal\_\-catalog\_\-lstat\-G} (gfal\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_1ad1b1f96272dbf43a15e7ea5d35389d}
 
 \item 
 char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_4955825d7c275f3dfae9a57232642370}

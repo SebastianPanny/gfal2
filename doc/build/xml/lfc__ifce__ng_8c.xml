@@ -387,6 +387,31 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" line="208" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" bodystart="208" bodyend="219"/>
       </memberdef>
+      <memberdef kind="function" id="lfc__ifce__ng_8c_116e8d4c4177c6e1d39c1850f06042f97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_lfc_convert_lstat</definition>
+        <argsstring>(struct stat *output, struct lfc_filestat *input, GError **err)</argsstring>
+        <name>gfal_lfc_convert_lstat</name>
+        <param>
+          <type>struct stat *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>struct lfc_filestat *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" line="225" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" bodystart="225" bodyend="236"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para>main internal file of the lfc catalog module </para>    </briefdescription>
@@ -575,7 +600,7 @@
 <codeline lineno="202"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="203"><highlight class="normal"></highlight></codeline>
 <codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">/***</highlight></codeline>
-<codeline lineno="205"><highlight class="comment"><sp/>*<sp/><sp/>convert<sp/>a<sp/>internal<sp/>lfc<sp/>stat<sp/>to<sp/>a<sp/>POSIX<sp/>lfc<sp/>stat</highlight></codeline>
+<codeline lineno="205"><highlight class="comment"><sp/>*<sp/><sp/>convert<sp/>a<sp/>internal<sp/>lfc<sp/>statg<sp/>to<sp/>a<sp/>POSIX<sp/>lfc<sp/>stat</highlight></codeline>
 <codeline lineno="206"><highlight class="comment"><sp/>*<sp/><sp/>struct<sp/>must<sp/>be<sp/>already<sp/>allocated</highlight></codeline>
 <codeline lineno="207"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="208"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_lfc_convert_statg(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>output,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>lfc_filestatg*<sp/>input,<sp/>GError**<sp/>err){</highlight></codeline>
@@ -591,6 +616,24 @@
 <codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
 <codeline lineno="219"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">/***</highlight></codeline>
+<codeline lineno="222"><highlight class="comment"><sp/>*<sp/><sp/>convert<sp/>a<sp/>internal<sp/>lfc<sp/>lstat<sp/>to<sp/>a<sp/>POSIX<sp/>lfc<sp/>stat</highlight></codeline>
+<codeline lineno="223"><highlight class="comment"><sp/>*<sp/><sp/>struct<sp/>must<sp/>be<sp/>already<sp/>allocated</highlight></codeline>
+<codeline lineno="224"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_lfc_convert_lstat(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>output,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>lfc_filestat*<sp/>input,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(output<sp/>&amp;&amp;<sp/>input,<sp/>-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_lfc_convert_lstat]<sp/>Invalid<sp/>args<sp/>statg/stat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output-&gt;st_mode<sp/>=<sp/>input-&gt;filemode;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output-&gt;st_nlink<sp/>=<sp/>input-&gt;nlink;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output-&gt;st_uid<sp/>=<sp/>input-&gt;uid;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output-&gt;st_gid<sp/>=<sp/>input-&gt;gid;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output-&gt;st_size<sp/>=<sp/>input-&gt;filesize;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output-&gt;st_atime<sp/>=<sp/>input-&gt;atime;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output-&gt;st_ctime<sp/>=<sp/>input-&gt;ctime;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output-&gt;st_mtime<sp/>=<sp/>input-&gt;mtime;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c"/>
   </compounddef>

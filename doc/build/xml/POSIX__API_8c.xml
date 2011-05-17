@@ -539,12 +539,12 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
           <type>struct stat *</type>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>gfal_lstat is identical to <ref refid="group__posix__group_1g1d8c86d522d5dd26ee7ddcd9c6925964" kindref="member">gfal_stat</ref>  except for symbolic links. In this case, the link itself is statted and not followed. </para>        </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="168" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1073" bodyend="1088"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="168" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="130" bodyend="132"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g739ca4985a67e0fc4fc253f42df2638c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -563,7 +563,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="170" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1094" bodyend="1103"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="170"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g1d8c86d522d5dd26ee7ddcd9c6925964" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -628,7 +628,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="174" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="1059" bodyend="1068"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="174"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -677,7 +677,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="165"><highlight class="normal"></highlight></codeline>
 <codeline lineno="166"><highlight class="normal">off64_t<sp/>gfal_lseek64<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>off64_t,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="167"><highlight class="normal"></highlight></codeline>
-<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_lstat<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat<sp/>*);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1g347f867802a33bc04fdfb769da857103" kindref="member">gfal_lstat</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat<sp/>*);</highlight></codeline>
 <codeline lineno="169"><highlight class="normal"></highlight></codeline>
 <codeline lineno="170"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_lstat64<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat64<sp/>*);</highlight></codeline>
 <codeline lineno="171"><highlight class="normal"></highlight></codeline>

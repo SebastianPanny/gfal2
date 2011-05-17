@@ -48,7 +48,8 @@
 <b>GFAL_CATALOG_CHMOD</b>, 
 <b>GFAL_CATALOG_RENAME</b>, 
 <br>
-&nbsp;&nbsp;<b>GFAL_CATALOG_STAT</b>
+&nbsp;&nbsp;<b>GFAL_CATALOG_STAT</b>, 
+<b>GFAL_CATALOG_LSTAT</b>
 <br>
  }</td></tr>
 
@@ -67,6 +68,9 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_guid_acc
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="28ca68c00e4a67bc158975ef3e4f8013"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_statG" ref="28ca68c00e4a67bc158975ef3e4f8013" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_statG</b> (gfal_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1ad1b1f96272dbf43a15e7ea5d35389d"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_lstatG" ref="1ad1b1f96272dbf43a15e7ea5d35389d" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_lstatG</b> (gfal_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4955825d7c275f3dfae9a57232642370"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_resolve_guid" ref="4955825d7c275f3dfae9a57232642370" args="(gfal_handle handle, const char *guid, GError **err)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolve_guid</b> (gfal_handle handle, const char *guid, GError **err)</td></tr>
@@ -235,7 +239,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 11:04:07 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 15:24:26 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

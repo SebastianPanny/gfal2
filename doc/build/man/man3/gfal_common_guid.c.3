@@ -28,6 +28,9 @@
 .ti -1c
 .RI "int \fBgfal_guid_statG\fP (gfal_handle handle, const char *guid, struct stat *buf, GError **err)"
 .br
+.ti -1c
+.RI "int \fBgfal_guid_lstatG\fP (gfal_handle handle, const char *guid, struct stat *buf, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -91,6 +94,22 @@ Execute a guid chmod on the first compatible catalog configure the right of the 
 \fIguid\fP : string of the guid 
 .br
 \fImode\fP : mode to set 
+.br
+\fIerr\fP : GError 
+.RE
+.PP
+
+.SS "int gfal_guid_lstatG (gfal_handle handle, const char * guid, struct stat * buf, GError ** err)"
+.PP
+Execute a guid chmod on the first compatible catalog configure the right of the element associated with the guid 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP : handle 
+.br
+\fIguid\fP : string of the guid 
+.br
+\fImode\fP : mode to struct stat 
 .br
 \fIerr\fP : GError 
 .RE

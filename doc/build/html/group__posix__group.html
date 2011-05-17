@@ -75,8 +75,9 @@ ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_write</b> (in
 off64_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lseek64</b> (int, off64_t, int)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g347f867802a33bc04fdfb769da857103"></a><!-- doxytag: member="posix_group::gfal_lstat" ref="g347f867802a33bc04fdfb769da857103" args="(const char *, struct stat *)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lstat</b> (const char *, struct stat *)</td></tr>
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g347f867802a33bc04fdfb769da857103">gfal_lstat</a> (const char *, struct stat *)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">gfal_lstat is identical to <a class="el" href="group__posix__group.html#g1d8c86d522d5dd26ee7ddcd9c6925964">gfal_stat</a> except for symbolic links. In this case, the link itself is statted and not followed. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g739ca4985a67e0fc4fc253f42df2638c"></a><!-- doxytag: member="posix_group::gfal_lstat64" ref="g739ca4985a67e0fc4fc253f42df2638c" args="(const char *, struct stat64 *)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lstat64</b> (const char *, struct stat64 *)</td></tr>
 
@@ -485,7 +486,7 @@ informations about a file These functions return information about a file. No pe
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 11:04:07 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 15:24:26 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
