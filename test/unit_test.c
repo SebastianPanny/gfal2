@@ -153,6 +153,9 @@ Suite* posix_suite (void)
   tcase_add_test(tc_stat, test__gfal_posix_stat_local);
   tcase_add_test(tc_stat, test__gfal_posix_stat_srm);
   tcase_add_test(tc_stat, test__gfal_posix_lstat_lfc);
+  tcase_add_test(tc_stat, test__gfal_posix_lstat_guid);
+  tcase_add_test(tc_stat, test__gfal_posix_lstat_local);
+  tcase_add_test(tc_stat, test__gfal_posix_lstat_srm);
   suite_add_tcase(s, tc_stat);
   return s;
 }

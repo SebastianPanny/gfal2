@@ -92,7 +92,9 @@
 #define TEST_GFAL_LFC_LINK_STAT_GID_VALUE 2688
 
 #define TEST_GFAL_LOCAL_STAT_COMMAND "dd if=/dev/zero of=/tmp/teststat0011 bs=512 count=4 &> /dev/null"
+#define TEST_GFAL_LOCAL_LINK_COMMAND "ln -s /tmp/teststat0011 /tmp/teststatlink0011"
 #define TEST_GFAL_LOCAL_STAT_OK "file:///tmp/teststat0011"
+#define TEST_GFAL_LOCAL_LINK_OK "file:///tmp/teststatlink0011"
 #define TEST_GFAL_LOCAL_STAT_NONEXIST "file:///tmp/ChristmasTree"
 
 #define TEST_GFAL_LOCAL_FILE_STAT_SIZE_VALUE 2048
