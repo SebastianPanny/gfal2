@@ -61,6 +61,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_cata, test_catalog_url_checker);
   tcase_add_test(tc_cata, test_catalog_guid_resolve);
   tcase_add_test(tc_cata, test__catalog_stat);
+  tcase_add_test(tc_cata, test__catalog_lstat);
   suite_add_tcase (s, tc_cata);
   /* voms */
   TCase *tc_voms = tcase_create ("Voms");

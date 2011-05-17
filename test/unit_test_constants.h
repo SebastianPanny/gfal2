@@ -67,6 +67,7 @@
 
 // stat
 #define TEST_GFAL_LFC_FILE_STAT_OK "lfn:/grid/dteam/teststat0011"
+#define TEST_GFAL_LFC_LINK_STAT_OK  "lfn:/grid/dteam/teststatlink0011"
 #define TEST_GFAL_LFC_FILE_STAT_NONEXIST TEST_LFC_NOEXIST_ACCESS
 
 

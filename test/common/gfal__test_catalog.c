@@ -156,4 +156,49 @@ START_TEST(test__catalog_stat)
 END_TEST
 
 
+START_TEST(test__catalog_lstat)
+{
+	struct stat resu;
+	memset(&resu, 0, sizeof(struct stat));
+	GError* tmp_err=NULL;
+	
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle == NULL){
+		fail(" must init properly");
+		gfal_release_GError(&tmp_err);
+		return;
+	}	
+	
+	
+
+	int ret = gfal_catalog_statG(handle, TEST_GFAL_LFC_FILE_STAT_OK, &resu, &tmp_err);
+	if( ret != 0 || tmp_err){
+		fail(" must be a success convertion");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+
+
+	int ret = gfal_catalog_statG(handle, TEST_GFAL_LFC_LINK_STAT_OK, &resu, &tmp_err);
+	if( ret != 0 || tmp_err){
+		fail(" must be a success convertion");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	
+	//g_printerr(" extract from the stat struct : right : %o, owner : %d, group : %d, size : %lu", resu.st_mode, resu.st_uid, resu.st_gid, resu.st_size);	
+	ret = gfal_catalog_statG(handle, TEST_GFAL_LFC_FILE_STAT_NONEXIST, &resu, &tmp_err);
+	if( ret == 0 || !tmp_err){
+		fail(" must be a failure");
+		gfal_release_GError(&tmp_err);
+		return;
+	}	
+	
+	g_clear_error(&tmp_err);
+	gfal_handle_freeG(handle);
+	
+}
+END_TEST
+
+
 
