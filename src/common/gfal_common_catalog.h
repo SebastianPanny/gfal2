@@ -80,6 +80,7 @@ struct _gfal_catalog_interface{
 	int	(*chmodG)(catalog_handle, const char *, mode_t, GError** err);
 	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);
 	int (*statG)(catalog_handle, const char*, struct stat *buf, GError** err);
+	int (*lstatG)(catalog_handle, const char*, struct stat *buf, GError** err);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */

@@ -126,14 +126,33 @@ int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError**
 	int ret = ops->statg(lfn, NULL, &statbuf);
 	if(ret != 0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0,sav_errno, "[lfc_statG] Error report from LFC : %s",  ops->sstrerror(sav_errno) );
+		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  ops->sstrerror(sav_errno) );
 	}else{
 		ret= gfal_lfc_convert_statg(st, &statbuf, err);
 	}
 	free(lfn);
 	return ret;
 }
-
+/**
+ * execute a posix lstat request on the lfc ( stat request with link information)
+ *  return 0 if success and set the struct buf else return negative value and set GError
+ */
+int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, GError** err){
+	g_return_val_err_if_fail(handle && path && st, -1, err, "[lfc_lstatG] Invalid value in args handle/path/stat");
+	struct lfc_ops* ops = (struct lfc_ops*) handle;		
+	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+	struct lfc_filestatg statbuf;
+	
+	int ret = ops->lstat(lfn, &statbuf);
+	if(ret != 0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s", __func__, ops->sstrerror(sav_errno) );
+	}else{
+		ret= gfal_lfc_convert_statg(st, &statbuf, err);
+	}
+	free(lfn);
+	return ret;
+}
 
 
 /**
