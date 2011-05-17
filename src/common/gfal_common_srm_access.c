@@ -60,11 +60,14 @@ static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, char* 
 				g_set_error(err, 0, resu[i].status, "[gfal_access_srmv2_internal] Error %d : %s  \
 , file %s: %s", resu[i].status, strerror(resu[i].status), resu[i].surl, resu[i].explanation);
 			}
-			return -1;
+			ret= -1;
+			break;
 		}
+		ret = resu[i].status;
 	}
 	//g_printerr(" resu : %d , status %d, strerror : %s, explanation : %s \n", ret, resu[0].status, strerror(resu[0].status), resu[0].explanation);
-	return resu[0].status;
+	free(resu);
+	return ret;
 }
 
 

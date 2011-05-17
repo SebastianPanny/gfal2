@@ -283,7 +283,8 @@ START_TEST(test_gfal_select_best_protocol_and_endpoint)
 			fail(" must successfull");
 			gfal_release_GError(&err);
 	}	
-	fail_if(strcmp(endpoint,"everest")!=0);		
+	fail_if(strcmp(endpoint,"everest")!=0);	
+	free(endpoint);	
 	gfal_handle_freeG(handle);
 }
 END_TEST

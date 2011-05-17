@@ -50,9 +50,10 @@ static char* lfc_urlconverter(const char * lfn_url, const char* prefix){
  * */
 static void lfc_destroyG(catalog_handle handle){
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
-	free(ops->lfc_endpoint);
-	free(ops);
-	// do nothing for the moment, global instance mode
+	if(ops){
+		free(ops->lfc_endpoint);
+		free(ops);
+	}
 }
 /**
  * Implementation of the chmod function with the LFC catalog
