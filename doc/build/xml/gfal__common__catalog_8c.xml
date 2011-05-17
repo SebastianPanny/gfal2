@@ -208,17 +208,17 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="71" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="70" bodyend="96"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__catalog_8c_1c0a73bbac2867b3dd9c107f74114e8a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__catalog_8c_14fd85b35f2134b73207c12b54e85959d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_catalogs_accessG</definition>
-        <argsstring>(gfal_handle handle, char *path, int mode, GError **err)</argsstring>
+        <argsstring>(gfal_handle handle, const char *path, int mode, GError **err)</argsstring>
         <name>gfal_catalogs_accessG</name>
         <param>
           <type>gfal_handle</type>
           <declname>handle</declname>
         </param>
         <param>
-          <type>char *</type>
+          <type>const char *</type>
           <declname>path</declname>
         </param>
         <param>
@@ -525,7 +525,7 @@
 <codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="96"><highlight class="normal"><sp/>}</highlight></codeline>
 <codeline lineno="97"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="104"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_1c0a73bbac2867b3dd9c107f74114e8a6" kindref="member">gfal_catalogs_accessG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="104"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_14fd85b35f2134b73207c12b54e85959d" kindref="member">gfal_catalogs_accessG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(handle<sp/>&amp;&amp;<sp/>path,<sp/>EINVAL,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_catalogs_accessG]<sp/>Invalid<sp/>arguments&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
 <codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i;</highlight></codeline>

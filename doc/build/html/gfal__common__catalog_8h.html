@@ -58,7 +58,7 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#791ad55a9c8aaca0bb8ae74a3538c202"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#d272f75eb549a72064524ecce3c25fe7">gfal_catalogs_instance</a> (gfal_handle, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#c0a73bbac2867b3dd9c107f74114e8a6">gfal_catalogs_accessG</a> (gfal_handle handle, char *path, int mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#4fd85b35f2134b73207c12b54e85959d">gfal_catalogs_accessG</a> (gfal_handle handle, const char *path, int mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fdd144370f8c6df2564eaddbf26e2fd5"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_guid_accessG" ref="fdd144370f8c6df2564eaddbf26e2fd5" args="(gfal_handle handle, char *guid, int mode, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_guid_accessG</b> (gfal_handle handle, char *guid, int mode, GError **err)</td></tr>
@@ -112,7 +112,7 @@ the header file of the common lib for the catalog management
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>8/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="c0a73bbac2867b3dd9c107f74114e8a6"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_accessG" ref="c0a73bbac2867b3dd9c107f74114e8a6" args="(gfal_handle handle, char *path, int mode, GError **err)" -->
+<a class="anchor" name="4fd85b35f2134b73207c12b54e85959d"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_accessG" ref="4fd85b35f2134b73207c12b54e85959d" args="(gfal_handle handle, const char *path, int mode, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -125,7 +125,7 @@ the header file of the common lib for the catalog management
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramtype">const char *&nbsp;</td>
           <td class="paramname"> <em>path</em>, </td>
         </tr>
         <tr>
@@ -235,7 +235,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Sun May 15 22:37:25 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 11:04:07 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

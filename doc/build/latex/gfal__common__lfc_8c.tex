@@ -13,7 +13,7 @@ file for the lfc catalog module
 \item 
 int \bf{lfc\_\-chmod\-G} (catalog\_\-handle handle, const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)
 \item 
-int \bf{lfc\_\-access\-G} (catalog\_\-handle handle, char $\ast$lfn, int mode, GError $\ast$$\ast$err)
+int \bf{lfc\_\-access\-G} (catalog\_\-handle handle, const char $\ast$lfn, int mode, GError $\ast$$\ast$err)
 \item 
 int \bf{lfc\_\-rename\-G} (catalog\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
 \item 
@@ -46,7 +46,7 @@ file for the lfc catalog module
 
 Check if the passed url and operation is compatible with lfc \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_accessG@{lfc\_\-accessG}}
 \index{lfc_accessG@{lfc\_\-accessG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-access\-G (catalog\_\-handle {\em handle}, char $\ast$ {\em lfn}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_960f3f01cd2e130cda6dc3513154a954}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-access\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em lfn}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_c5d7bae3ad9aea9f912d6b91f8d5731e}
 
 
 implementation of the access call with the lfc catalog return 0 or -1 if error and report GError$\ast$$\ast$ with error code and message \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_chmodG@{lfc\_\-chmodG}}

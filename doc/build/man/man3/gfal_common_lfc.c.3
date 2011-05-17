@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "15 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "17 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -26,7 +26,7 @@
 .RI "int \fBlfc_chmodG\fP (catalog_handle handle, const char *path, mode_t mode, GError **err)"
 .br
 .ti -1c
-.RI "int \fBlfc_accessG\fP (catalog_handle handle, char *lfn, int mode, GError **err)"
+.RI "int \fBlfc_accessG\fP (catalog_handle handle, const char *lfn, int mode, GError **err)"
 .br
 .ti -1c
 .RI "int \fBlfc_renameG\fP (catalog_handle handle, const char *oldpath, const char *newpath, GError **err)"
@@ -69,7 +69,7 @@ Adrien Devresse
 .SS "gboolean gfal_lfc_check_lfn_url (catalog_handle handle, const char * lfn_url, catalog_mode mode, GError ** err)"
 .PP
 Check if the passed url and operation is compatible with lfc 
-.SS "int lfc_accessG (catalog_handle handle, char * lfn, int mode, GError ** err)"
+.SS "int lfc_accessG (catalog_handle handle, const char * lfn, int mode, GError ** err)"
 .PP
 implementation of the access call with the lfc catalog return 0 or -1 if error and report GError** with error code and message 
 .SS "int lfc_chmodG (catalog_handle handle, const char * path, mode_t mode, GError ** err)"

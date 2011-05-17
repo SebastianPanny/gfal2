@@ -31,7 +31,7 @@
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#f40927feaad58de76b5406eb828102a6">lfc_chmodG</a> (catalog_handle handle, const char *path, mode_t mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#960f3f01cd2e130cda6dc3513154a954">lfc_accessG</a> (catalog_handle handle, char *lfn, int mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#c5d7bae3ad9aea9f912d6b91f8d5731e">lfc_accessG</a> (catalog_handle handle, const char *lfn, int mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#cb750f4f936abd772a5f53f5b1fbdaec">lfc_renameG</a> (catalog_handle handle, const char *oldpath, const char *newpath, GError **err)</td></tr>
 
@@ -92,7 +92,7 @@ file for the lfc catalog module
 Check if the passed url and operation is compatible with lfc 
 </div>
 </div><p>
-<a class="anchor" name="960f3f01cd2e130cda6dc3513154a954"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_accessG" ref="960f3f01cd2e130cda6dc3513154a954" args="(catalog_handle handle, char *lfn, int mode, GError **err)" -->
+<a class="anchor" name="c5d7bae3ad9aea9f912d6b91f8d5731e"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_accessG" ref="c5d7bae3ad9aea9f912d6b91f8d5731e" args="(catalog_handle handle, const char *lfn, int mode, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -105,7 +105,7 @@ Check if the passed url and operation is compatible with lfc
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramtype">const char *&nbsp;</td>
           <td class="paramname"> <em>lfn</em>, </td>
         </tr>
         <tr>
@@ -320,7 +320,7 @@ Convert a guid to a catalog url if possible return the link in a catalog's url s
 execute a posix stat request on the lfc return 0 and set struct if correct answer, else return negative value and set GError 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Sun May 15 22:37:25 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 11:04:07 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

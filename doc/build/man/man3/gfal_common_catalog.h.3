@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "15 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "17 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -58,7 +58,7 @@
 .RI "int \fBgfal_catalogs_instance\fP (gfal_handle, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_catalogs_accessG\fP (gfal_handle handle, char *path, int mode, GError **err)"
+.RI "int \fBgfal_catalogs_accessG\fP (gfal_handle handle, const char *path, int mode, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_catalogs_guid_accessG\fP (gfal_handle handle, char *guid, int mode, GError **err)"
@@ -128,7 +128,7 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_catalogs_accessG (gfal_handle handle, char * path, int mode, GError ** err)"
+.SS "int gfal_catalogs_accessG (gfal_handle handle, const char * path, int mode, GError ** err)"
 .PP
 Execute an access function on the first catalog compatible in the catalog list return the result of the first valid catalog for a given URL 
 .PP

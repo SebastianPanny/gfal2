@@ -42,7 +42,7 @@ char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$)
 \begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\item 
 int \bf{gfal\_\-catalogs\_\-instance} (gfal\_\-handle, GError $\ast$$\ast$err)
 \item 
-int \bf{gfal\_\-catalogs\_\-access\-G} (gfal\_\-handle handle, char $\ast$path, int mode, GError $\ast$$\ast$err)
+int \bf{gfal\_\-catalogs\_\-access\-G} (gfal\_\-handle handle, const char $\ast$path, int mode, GError $\ast$$\ast$err)
 \item 
 int \textbf{gfal\_\-catalogs\_\-guid\_\-access\-G} (gfal\_\-handle handle, char $\ast$guid, int mode, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_fdd144370f8c6df2564eaddbf26e2fd5}
 
@@ -104,7 +104,7 @@ the header file of the common lib for the catalog management
 \subsection{Function Documentation}
 \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}}
 \index{gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-access\-G (gfal\_\-handle {\em handle}, char $\ast$ {\em path}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_c0a73bbac2867b3dd9c107f74114e8a6}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-access\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_4fd85b35f2134b73207c12b54e85959d}
 
 
 Execute an access function on the first catalog compatible in the catalog list return the result of the first valid catalog for a given URL \begin{Desc}
