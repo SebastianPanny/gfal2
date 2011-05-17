@@ -100,6 +100,9 @@ START_TEST(test_gfal_common_lfc_init)
 		fail(" must not fail, valid value");
 		return;
 	}
+	struct lfc_ops* op = (struct lfc_ops*) i.handle;
+	free(op->lfc_endpoint);		// manual deletion
+	free(op);
 	gfal_handle_freeG(handle);
 }
 END_TEST
@@ -133,6 +136,9 @@ START_TEST(test_gfal_common_lfc_access){
 		gfal_release_GError(&tmp_err);
 		return;
 	}
+	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
+	free(op->lfc_endpoint);
+	free(op);
 	gfal_handle_freeG(handle);	
 }
 END_TEST
@@ -166,7 +172,11 @@ START_TEST(test_gfal_common_lfc_no_exist)
 		fail("must be a success, file is present");
 		gfal_release_GError(&tmp_err);
 		return;
-	}		
+	}
+	
+	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
+	free(op->lfc_endpoint);
+	free(op);		
 	gfal_handle_freeG(handle);
 }
 END_TEST
@@ -203,6 +213,9 @@ GError * tmp_err=NULL;
 		fail(" must an invalid lfn url");
 		return;
 	}
+	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
+	free(op->lfc_endpoint);
+	free(op);
 	gfal_handle_freeG(handle);	
 }
 END_TEST
@@ -238,7 +251,10 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 		fail("must be a success, file is present");
 		gfal_release_GError(&tmp_err);
 		return;
-	}	
+	}
+	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
+	free(op->lfc_endpoint);
+	free(op);	
 	free(ret);	
 	gfal_handle_freeG(handle);
 }
