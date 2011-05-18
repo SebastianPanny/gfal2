@@ -69,6 +69,41 @@ int gfal_local_lstat(const char* path, struct stat* buf, GError ** err){
 		g_set_error(err, 0, errno, "[%s] errno reported by local system call", __func__, strerror(errno));
 	}
 	return res;
+}
+
+int gfal_local_mkdir_rec(const char* full_path, mode_t mode){
+	char buff[GFAL_URL_MAX_LEN];
+	char *p;
+	int res = -1;
+	
+	size_t len = strnlen(full_path, GFAL_URL_MAX_LEN-1);
+	*((char*) mempcpy(buff, full_path, len) ) = '\0';
+	
+	if(buff[len - 1] == '/')		// clear last "/"
+		buff[len - 1] = '\0';
+	
+	if( (res = mkdir(buff,mode)) ==0 || errno != ENOENT){ // try to create without recursive mode
+		return res;	
+	}
+
+			
+	for(p = buff + 1; *p != '\0'; p++){ // begin the recursive mode
+		if(*p == '/') {
+			*p = '\0';
+			if( ((res =mkdir(buff, ( 0700 | mode) )) !=0) && errno != EEXIST && errno != EACCES);
+				return res;
+			*p = '/';
+		}
+	}
+	return mkdir(buff, mode);
+}
+
+int gfal_local_mkdir(const char* path, mode_t mode, GError** err){
+	const int res = gfal_local_mkdir_rec(path + strlen(GFAL_LOCAL_PREFIX), mode);
+	if(res <0){
+		g_set_error(err, 0, errno, "[%s] errno reported by local system call", __func__, strerror(errno));
+	}
+	return res;	
 } 
  
 /**
