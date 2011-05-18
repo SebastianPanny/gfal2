@@ -51,11 +51,11 @@ Suite* common_suite (void)
 {
   Suite *s = suite_create ("Common");
 
-  /* verbose test case */
+  // verbose test case /
   TCase *tc_core = tcase_create ("Verbose");
   tcase_add_test (tc_core, test_verbose_set_get);
   suite_add_tcase (s, tc_core);
-  /* catalog */
+  // catalog /
   TCase *tc_cata = tcase_create ("Catalog");
   tcase_add_test (tc_cata, test_get_cat_type);
   tcase_add_test(tc_cata, test_catalog_access_file);
@@ -64,7 +64,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_cata, test__catalog_stat);
   tcase_add_test(tc_cata, test__catalog_lstat);
   suite_add_tcase (s, tc_cata);
-  /* voms */
+  // voms /
   TCase *tc_voms = tcase_create ("Voms");
   tcase_add_test (tc_voms, test_voms_parse_args);
   tcase_add_test (tc_voms, test_voms_info_is_null);
@@ -160,6 +160,8 @@ Suite* posix_suite (void)
   suite_add_tcase(s, tc_stat);
   TCase* tc_mkdir = tcase_create("MKDIR");
   tcase_add_test(tc_mkdir, test__mkdir_posix_lfc_simple);
+  tcase_add_test(tc_mkdir, test__mkdir_posix_lfc_rec);
+  tcase_add_test(tc_mkdir, test__mkdir_posix_lfc_rec_with_slash);
   suite_add_tcase(s, tc_mkdir);
   return s;
 }
