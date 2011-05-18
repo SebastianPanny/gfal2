@@ -131,6 +131,11 @@ int gfal_lstat(const char* path, struct stat* buf){
 	return gfal_posix_internal_lstat(path, buf);
 }
 
+int gfal_mkdir( const char* path, mode_t mode){
+	return  gfal_posix_internal_mkdir( path, mode);
+	
+}
+
 
 /**
  * Display the last string error reported by the gfal error system for the posix API

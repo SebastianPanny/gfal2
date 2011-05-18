@@ -101,4 +101,11 @@
 #define TEST_GFAL_LOCAL_FILE_STAT_MODE_VALUE 0100664
 
 
+// mkdir
+
+#define TEST_LFC_EEXIST_MKDIR "lfn:/grid/dteam/testmkdir0011"
+#define TEST_LFC_BASE_FOLDER_URL_MKDIR1 "lfn:/grid/dteam/testmkdir0011/test_"
+#define TEST_LFC_UNACCESS_MKDIR "lfn:/grid/dteam/testmkdirunaccess0011/testlala0011"
+
+
 

@@ -43,9 +43,7 @@
 
 /**
  * @enum list the type of the check associated with the url
- *  GFAL_CATALOG_ALL : general check, if this url is associated with this catalog
- *  GFAL_CATALOG_ACCESS : check for a access request, check if this url is a correct url for a access request
- *  GFAL_CATALOG_CHMOD : check for a chmod request, check if this url is correct for a chmod request
+ *  check_catalog_url send this mode to the catalog to know is this type of operation on it
  * */
 enum _catalog_mode{
 	GFAL_CATALOG_ALL=0,
@@ -53,7 +51,8 @@ enum _catalog_mode{
 	GFAL_CATALOG_CHMOD,
 	GFAL_CATALOG_RENAME,
 	GFAL_CATALOG_STAT,
-	GFAL_CATALOG_LSTAT
+	GFAL_CATALOG_LSTAT,
+	GFAL_CATALOG_MKDIR
 };
 
 /**
@@ -82,6 +81,10 @@ struct _gfal_catalog_interface{
 	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);
 	int (*statG)(catalog_handle, const char*, struct stat *buf, GError** err);
 	int (*lstatG)(catalog_handle, const char*, struct stat *buf, GError** err);
+	/**
+	 * function pointer for the mkdir call
+	 * */
+	int (*mkdirpG)(catalog_handle, const char*, mode_t, gboolean pflag, GError**);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */
@@ -119,6 +122,8 @@ int gfal_catalogs_delete(gfal_handle, GError** err);
 int gfal_catalog_statG(gfal_handle handle,const char* path, struct stat* st, GError** err);
 
 int gfal_catalog_lstatG(gfal_handle handle,const char* path, struct stat* st, GError** err);
+
+int gfal_catalog_mkdirp(gfal_handle handle, const char* path, mode_t mode, gboolean pflag,  GError** err);
 
 char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
  	

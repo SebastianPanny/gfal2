@@ -44,6 +44,8 @@ int gfal_stat (const char *, struct stat *);
 
 int gfal_lstat (const char *, struct stat *);
 
+int gfal_mkdir(const char *, mode_t mode);
+
 void gfal_posix_clear_error();
 
 void gfal_posix_release_error();

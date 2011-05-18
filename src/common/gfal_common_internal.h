@@ -45,3 +45,5 @@ int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int 
 
 
  gboolean is_valid_access_result(int status);
+ 
+ void gfal_generate_guidG(char* buf);

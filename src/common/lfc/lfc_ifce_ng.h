@@ -79,3 +79,5 @@ char* gfal_convert_guid_to_lfn(catalog_handle handle, char* guid, GError ** err)
 
 int gfal_lfc_convert_statg(struct stat* output, struct lfc_filestatg* input, GError** err);
 
+int gfal_lfc_ifce_mkdirpG(struct lfc_ops* ops,const char* path, mode_t mode, gboolean pflag, GError**  err);
+

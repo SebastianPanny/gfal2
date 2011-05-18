@@ -33,13 +33,54 @@
 #include <sys/types.h>
 #include <dlfcn.h>
 #include <stdlib.h>
+#include "../gfal_constants.h"
 #include "gfal_types.h"
-#include "gfal_constants.h"
 #include "../mds/gfal_common_mds.h"
 #include "gfal_common_interface.h"
 #include "lfc_ifce_ng.h"
 #include "gfal_common_errverbose.h"
 
+
+static int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
+	if (ops->startsess (ops->lfc_endpoint, (char*) gfal_version ()) < 0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno,"[%s] Error while start session with lfc, lfc_endpoint: %s, Error : %s ",
+								__func__, ops->lfc_endpoint, ops->sstrerror(*ops->serrno));
+		return -1;
+	}
+	return 0;
+}
+
+static int gfal_lfc_startTransaction(struct lfc_ops* ops, GError ** err){ 
+	if (ops->starttrans(ops->lfc_endpoint, (char*) gfal_version ()) < 0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno,"[%s] Error while start transaction with lfc, lfc_endpoint: %s, Error : %s ",
+										__func__, ops->lfc_endpoint, ops->sstrerror(*ops->serrno));
+		return -1;
+	}
+	return 0;
+}
+
+static int gfal_lfc_endTransaction(struct lfc_ops* ops, GError ** err){ 
+	if (ops->endtrans() < 0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno,"[%s] Error while start transaction with lfc, Error : %s ",
+										__func__, ops->sstrerror(*ops->serrno));
+		return -1;
+	}
+	return 0;
+}
+
+
+static int gfal_lfc_abortTransaction(struct lfc_ops* ops, GError ** err){ 
+	if (ops->aborttrans() < 0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno,"[%s] Error while abort transaction with lfc,  Error : %s ",
+										__func__,  ops->sstrerror(*ops->serrno));
+		return -1;
+	}
+	return 0;
+}
 
 char* gfal_get_lfchost_envar(GError** err){
 
@@ -96,15 +137,11 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
  * @return : string of the lfn if success or NULL char* if error
  * */
  char* gfal_convert_guid_to_lfn(catalog_handle handle, char* guid, GError ** err){
+	GError* tmp_err=NULL;
 	char* lfn=NULL;
 	int size = 0;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	struct lfc_linkinfo* links = NULL;
-	if (ops->startsess (ops->lfc_endpoint, (char*) gfal_version ()) < 0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0,sav_errno,"[gfal_convert_guid_to_lfn] Error while start session with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint, guid,ops->sstrerror(*ops->serrno));
-		return NULL;
-	}
 	if(ops->getlinks(NULL, guid, &size, &links) <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err,0,sav_errno, "[gfal_convert_guid_to_lfn] Error while getlinks() with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint,guid, ops->sstrerror(*ops->serrno));
@@ -235,4 +272,76 @@ int gfal_lfc_convert_lstat(struct stat* output, struct lfc_filestat* input, GErr
 	return 0;
 }
 
+/**
+ * basic wrapper mkdir to the lfc api
+ */
+static int gfal_lfc_mkdir(struct lfc_ops* ops, const char* path, mode_t mode, GError** err){
+	
+	char struid[37];
+	gfal_generate_guidG(struid,NULL);
+	
+	if(ops->mkdirg (path, struid, mode)){ 
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno,"[%s] Error while mkdir call in the lfc %s", __func__,strerror(sav_errno));
+		return -1;
+	}				
+	return 0;	
+}
+
+/**
+ * Begin a recursive call on mkdir to create a full tree path
+ * @warning not safe, please ensure that string begin by "/"
+ * 
+ */
+int gfal_lfc_mkdir_rec(struct lfc_ops* ops, char* browser_path, const char* full_path, mode_t mode, GError** err){
+	int ret=-1;
+	char* next_sep= strchr(browser_path, G_DIR_SEPARATOR); 
+	if(  next_sep == NULL){ // last folder
+		return gfal_lfc_mkdir(ops, full_path, mode, err);
+	}else{
+		const int path_size =next_sep - full_path; 
+		GError* tmp_err = NULL;
+		char path[ path_size+1];
+		
+		*((char*) mempcpy(path, full_path, path_size )) = '\0';
+		ret = gfal_lfc_mkdir(ops, path, mode, &tmp_err);
+		if( ret== 0 || tmp_err->code == EEXIST){
+			g_clear_error(&tmp_err);
+			return gfal_lfc_mkdir_rec(ops, next_sep+1, full_path, mode, err);
+		}
+		g_propagate_error(err, tmp_err);
+		return ret;
+	}
+	
+} 
+
+/**
+ *  Implementation of mkdir -p call on the lfc
+ * 
+ * */
+int gfal_lfc_ifce_mkdirpG(struct lfc_ops* ops,const char* path, mode_t mode, gboolean pflag, GError**  err){
+	g_return_val_err_if_fail( ops && path, -1, err, "[gfal_lfc_ifce_mkdirpG] Invalid args in ops or/and path");
+	int ret, end_trans;
+	GError* tmp_err = NULL;
+	
+	ret = gfal_lfc_startTransaction(ops, &tmp_err);
+	if(ret >=0 ){
+		ret = gfal_lfc_mkdir(ops, path, mode, &tmp_err); // try to create the directory, suppose the non-recursive case
+		if( tmp_err && tmp_err->code == ENOENT
+					&& pflag){ // failure on the simple call, try to do a recursive create
+			errno = 0;
+			g_clear_error(&tmp_err);
+			ret = gfal_lfc_mkdir_rec(ops, (char*)path+1, path,  mode, &tmp_err);
+		}
+		if( ret == 0)
+			ret =gfal_lfc_endTransaction(ops,&tmp_err);
+		else
+			gfal_lfc_abortTransaction(ops,NULL);
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	else
+		errno = 0;
+	return ret;
+}
 

@@ -327,7 +327,7 @@ gfal_lseek64 (int fd, off64_t offset, int whence)
     else errno = 0;
     return (offset_out);
 }
-
+/*
     int
 gfal_mkdir (const char *dirname, mode_t mode)
 {
@@ -356,11 +356,11 @@ gfal_mkdir (const char *dirname, mode_t mode)
         islfc = strcmp (cat_type, "lfc") == 0;
         free (cat_type);
 
-        /* Only LFC has a tree-like structure */
+        // Only LFC has a tree-like structure 
         if (islfc)
             return lfc_mkdirp (path + 4, mode, NULL, 0);
 
-        /* So, mkdir is not supported for non-LFC file catalogs */
+        // So, mkdir is not supported for non-LFC file catalogs 
         errno = EPROTONOSUPPORT;
         return (-1);
     }
@@ -406,7 +406,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
         return (rc);
     }
 
-    /* It is a TURL */
+    // It is a TURL 
     if (parseturl (path, protocol, sizeof(protocol), pfn, sizeof(pfn), NULL, 0) < 0)
         return (-1);
     if ((pops = find_pops (protocol)) == NULL)
@@ -417,7 +417,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
     }
     errno = 0;
     return (0);
-}
+}*/
 
     int
 gfal_open (const char *filename, int flags, mode_t mode)

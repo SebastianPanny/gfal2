@@ -24,7 +24,7 @@
  * @date 04/05/2011
  * 
  * */
- #include <glib.h>
+#include <glib.h>
  
  // opts SRM
 typedef struct _gfal_request_state gfal_request_state; 

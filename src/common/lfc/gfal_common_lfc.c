@@ -153,6 +153,23 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	free(lfn);
 	return ret;
 }
+/**
+ *  Execute a posix mkdir on the lfc
+ *  @return 0 on success else -1 and g_set_error is set with the correct value
+ * 
+ * */
+ static int lfc_mkdirpG(catalog_handle handle, const char* path, mode_t mode, gboolean pflag, GError** err){
+	g_return_val_err_if_fail(handle && path , -1, err, "[lfc_mkdirpG] Invalid value in args handle/path");	
+	GError* tmp_err = NULL; 
+	struct lfc_ops* ops = (struct lfc_ops*) handle;		
+	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+	
+	int ret =gfal_lfc_ifce_mkdirpG(ops, path, mode, pflag, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	free(lfn);
+	return ret; 
+ }
 
 
 /**
@@ -208,6 +225,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.renameG = &lfc_renameG;
 	lfc_catalog.statG = &lfc_statG;
 	lfc_catalog.lstatG = &lfc_lstatG;
+	lfc_catalog.mkdirpG = &lfc_mkdirpG;
 	lfc_catalog.resolve_guid = &lfc_resolve_guid;
 	return lfc_catalog;
 }

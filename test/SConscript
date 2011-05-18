@@ -24,8 +24,9 @@ src_tests_posix_access = ['posix/test__gfal_posix_access.c', '#src/posix/gfal_po
 src_tests_posix_chmod = ['posix/test__gfal_posix_chmod.c', '#src/posix/gfal_posix_chmod.c' ]
 src_tests_posix_rename = ['posix/test__gfal_posix_rename.c', '#src/posix/gfal_posix_rename.c']
 src_tests_posix_stat = ['posix/test__gfal_posix_stat.c', '#src/posix/gfal_posix_stat.c']
+src_tests_posix_mkdir = ['posix/test__gfal_posix_mkdir.c', '#src/posix/gfal_posix_mkdir.c']
 src_tests_posix = [ '#src/posix/gfal_posix_ng.c', '#src/posix/gfal_posix_internal.c', '#src/posix/gfal_posix_local_file.c']
-src_tests_posix_all = src_tests_posix + src_tests_posix_access + src_tests_posix_chmod + src_tests_posix_rename + src_tests_posix_stat
+src_tests_posix_all = src_tests_posix + src_tests_posix_access + src_tests_posix_chmod + src_tests_posix_rename + src_tests_posix_stat + src_tests_posix_mkdir
 src_tests= ["common/gfal__test_verbose.c", "common/gfal__test_catalog.c","#src/common/gfal_common_catalog.c" ,"unit_test.c" ]
 src_tests_all = src_tests+ src_tests_voms + src_tests_global + src_tests_srm_all  + src_tests_mds + src_tests_lfc + src_tests_posix_all
 ## build test config

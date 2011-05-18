@@ -45,6 +45,7 @@
 #include "posix/test__gfal_posix_chmod.c"
 #include "posix/test__gfal_posix_rename.c"
 #include "posix/test__gfal_posix_stat.c"
+#include "posix/test__gfal_posix_mkdir.c"
 
 Suite* common_suite (void)
 {
@@ -157,6 +158,9 @@ Suite* posix_suite (void)
   tcase_add_test(tc_stat, test__gfal_posix_lstat_local);
   tcase_add_test(tc_stat, test__gfal_posix_lstat_srm);
   suite_add_tcase(s, tc_stat);
+  TCase* tc_mkdir = tcase_create("MKDIR");
+  tcase_add_test(tc_mkdir, test__mkdir_posix_lfc_simple);
+  suite_add_tcase(s, tc_mkdir);
   return s;
 }
 

@@ -119,7 +119,9 @@ int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError
 	return ret;
 }
 
-
+/**
+ *  Execute a stat function on the lfc catalog
+ * */
 int gfal_catalog_statG(gfal_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalog_statG] Invalid arguments");
 	GError* tmp_err=NULL;
@@ -139,7 +141,9 @@ int gfal_catalog_statG(gfal_handle handle, const char* path, struct stat* st, GE
 }
 
 
-
+/**
+ *  Execute a lstat function in the lfc
+ * */
 int gfal_catalog_lstatG(gfal_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalog_lstatG] Invalid arguments");
 	GError* tmp_err=NULL;
@@ -220,6 +224,34 @@ int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* ne
 	return ret; 
 	
 }
+/**
+ * Execute a mkdir function on the first compatible catalog ( checked with check url func )
+ *  @param handle handle of the current context
+ *  @param path path to create
+ *  @param mode right of the file created
+ *  @param pflag if TRUE, execute the request recursively if necessary else work as the common mkdir system call
+ *  @param GError error report system
+ *  @warning no check on path, please check the path before
+ *  @return return 0 if success else return -1
+ * 
+ * */
+int gfal_catalog_mkdirp(gfal_handle handle, const char* path, mode_t mode, gboolean pflag,  GError** err){
+	g_return_val_err_if_fail(handle && path , -1, err, "[gfal_catalog_mkdirp] Invalid argumetns in path or/and handle");
+	GError* tmp_err=NULL;	
+
+	gboolean mkdirp_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_MKDIR, terr);
+	}
+	int mkdirp_executor(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->mkdirpG(cata_list->handle, path, mode, pflag, terr);
+	}
+
+	int ret = gfal_catalogs_operation_executor(handle, &mkdirp_checker, &mkdirp_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret; 	
+}
+
 
 /***
  *  Try to resolve the guid to a compatible catalog URL in all the catalogs.

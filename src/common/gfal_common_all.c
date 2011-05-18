@@ -28,6 +28,7 @@
 #include "gfal_common_errverbose.h"
 #include <dlfcn.h>
 #include <regex.h>
+#include <uuid/uuid.h>
 
 
 /* the version should be set by a "define" at the makefile level */
@@ -155,6 +156,20 @@ GError** gfal_get_last_gerror(gfal_handle handle){
 		}
 	}
 	 
+}
+
+/**
+ * @brief generate an uiid string
+ * Generate a uuid string and cpy it in the buf,
+ * @warning buff must be > uuid size ( 37 bytes )
+ * 
+ * */
+ void gfal_generate_guidG(char* buf, GError** err){
+    uuid_t uuid;
+
+    uuid_generate (uuid);
+    uuid_unparse (uuid, buf);
+    uuid_clear(uuid);
  }
  
 
