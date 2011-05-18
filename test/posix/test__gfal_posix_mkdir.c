@@ -140,6 +140,15 @@ START_TEST(test__mkdir_posix_lfc_rec_with_slash)
 		gfal_posix_clear_error();
 		return;			
 	}
+
+	ret = gfal_mkdir(filename, 0664);	
+	if(ret == 0 || errno != EEXIST || gfal_posix_code_error() != EEXIST){ // try to recreate on the same call, must fail
+		fail(" must be a failed creation %d %d %d", ret, errno, gfal_posix_code_error());
+		gfal_posix_clear_error();
+		return;		
+	}
+	gfal_posix_clear_error();
+	errno ==0;
 	
 }
 END_TEST
