@@ -82,11 +82,9 @@ int gfal_local_mkdir_rec(const char* full_path, mode_t mode){
 	if(buff[len - 1] == '/')		// clear last "/"
 		buff[len - 1] = '\0';
 	
-	if( (res = mkdir(buff,mode)) ==0 || errno != ENOENT){ // try to create without recursive mode
+	if( (res = mkdir(buff,mode)) ==0 || errno != ENOENT)// try to create without recursive mode
 		return res;	
-	}
-
-			
+	
 	for(p = buff + 1; *p != '\0'; p++){ // begin the recursive mode
 		if(*p == '/') {
 			*p = '\0';
