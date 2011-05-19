@@ -68,6 +68,11 @@ if ARGUMENTS.get('debug','0') =='yes':
 	print "DEBUG MODE"
 	env.Append(CFLAGS='-g')
 
+# profile mode
+if ARGUMENTS.get('profile','0') =='yes':
+	print "PROFILE MODE"
+	env.Append(CFLAGS='-pg')
+
 #main build
 VariantDir(build_dir_src, 'src')
 SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src'])
