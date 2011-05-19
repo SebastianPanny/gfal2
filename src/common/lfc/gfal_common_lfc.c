@@ -164,7 +164,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	
-	int ret =gfal_lfc_ifce_mkdirpG(ops, path, mode, pflag, &tmp_err);
+	int ret =gfal_lfc_ifce_mkdirpG(ops, lfn, mode, pflag, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	free(lfn);

@@ -72,25 +72,32 @@ int gfal_local_lstat(const char* path, struct stat* buf, GError ** err){
 }
 
 int gfal_local_mkdir_rec(const char* full_path, mode_t mode){
-	char buff[GFAL_URL_MAX_LEN];
 	char *p;
-	int res = -1;
+	int res = -1, i;
 	
-	size_t len = strnlen(full_path, GFAL_URL_MAX_LEN-1);
-	*((char*) mempcpy(buff, full_path, len) ) = '\0';
-	
-	if(buff[len - 1] == '/')		// clear last "/"
-		buff[len - 1] = '\0';
-	
-	if( (res = mkdir(buff,mode)) ==0 || errno != ENOENT)// try to create without recursive mode
+	if( (res = mkdir(full_path, mode)) ==0 ||  errno != ENOENT )// try to create without recursive mode
 		return res;	
+
+	errno =0;
+	size_t len = strnlen(full_path, GFAL_URL_MAX_LEN);
+	char buff[len+1];
 	
-	for(p = buff + 1; *p != '\0'; p++){ // begin the recursive mode
-		if(*p == '/') {
+	i=0;
+	p = (char*) full_path;
+	while(i < len){ // remove '/{2,+}' and last char if =='/'
+		if( ( *p == '/' && ( *(p+1) == '/' || *(p+1) == '\0')) == FALSE)
+			buff[i++] = *p;
+		++p;
+	}
+	buff[len] = '\0';
+				
+	for(p = buff+1 ; *p != '\0'; p++){ // begin the recursive mode
+		if(*p == '/' && *(p+1) != '/') { // check the '/' but skip the '//////' sequencies'
 			*p = '\0';
-			if( ((res =mkdir(buff, ( 0700 | mode) )) !=0) && errno != EEXIST && errno != EACCES);
+			if( ((res =mkdir(buff, ( 0700 | mode) )) !=0) && errno != EEXIST && errno != EACCES)
 				return res;
 			*p = '/';
+			errno =0;
 		}
 	}
 	return mkdir(buff, mode);

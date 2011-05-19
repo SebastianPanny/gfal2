@@ -108,4 +108,11 @@
 #define TEST_LFC_UNACCESS_MKDIR "lfn:/grid/dteam/testmkdirunaccess0011/testunacess0011"
 
 
+#define TEST_LOCAL_MKDIR_EXIST_COMMAND "mkdir /tmp/testmkdir0011 &> /dev/null"
+#define TEST_LOCAL_MKDIR_EXIST_FILE "file:///tmp/testmkdir0011"
+
+#define TEST_LOCAL_BASE_FOLDER_URL_MKDIR1 "file:///tmp/"
+#define TEST_LOCAL_UNACCESS_MKDIR "file:///root/foo"
+
+
 

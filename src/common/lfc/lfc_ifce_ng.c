@@ -296,7 +296,7 @@ static int gfal_lfc_mkdir(struct lfc_ops* ops, const char* path, mode_t mode, GE
 int gfal_lfc_mkdir_rec(struct lfc_ops* ops, char* browser_path, const char* full_path, mode_t mode, GError** err){
 	int ret=-1;
 	char* next_sep= strchr(browser_path, G_DIR_SEPARATOR); 
-	if(  next_sep == NULL){ // last folder
+	if(  next_sep == NULL || *(next_sep+1) == '\0'){ // last folder
 		return gfal_lfc_mkdir(ops, full_path, mode, err);
 	}else{
 		const int path_size =next_sep - full_path; 
@@ -304,8 +304,8 @@ int gfal_lfc_mkdir_rec(struct lfc_ops* ops, char* browser_path, const char* full
 		char path[ path_size+1];
 		
 		*((char*) mempcpy(path, full_path, path_size )) = '\0';
-		ret = gfal_lfc_mkdir(ops, path, mode, &tmp_err);
-		if( ret== 0 || tmp_err->code == EEXIST){
+		ret = gfal_lfc_mkdir(ops, path, ( 0700 | mode) , &tmp_err);
+		if( ret== 0 || tmp_err->code == EEXIST || tmp_err->code == EACCES){
 			g_clear_error(&tmp_err);
 			return gfal_lfc_mkdir_rec(ops, next_sep+1, full_path, mode, err);
 		}

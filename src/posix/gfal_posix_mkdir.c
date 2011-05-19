@@ -55,8 +55,7 @@
 		return -1;
 	}
 	if( gfal_check_local_url(path, NULL) == TRUE){
-		res = -1;
-		g_set_error(&tmp_err, 0, ENOSYS, "[gfal_posix_internal_mkdir] not implemented");
+		res = gfal_local_mkdir(path, mode, &tmp_err);
 	}else if(gfal_guid_checker(path, NULL) == TRUE){
 		res = -1;
 		g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "[%s] Protocol guid not supported for directory creation");
