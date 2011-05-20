@@ -276,3 +276,53 @@ START_TEST(test__mkdir_posix_local_rec_with_slash)
 	
 }
 END_TEST
+
+
+
+
+START_TEST(test__mkdir_posix_srm_simple)
+{
+	struct stat st;
+	int ret =-1;
+	/*ret = gfal_mkdir(TEST_SRM_EEXIST_MKDIR, 0664);
+	if( ret == 0 || errno != EEXIST || gfal_posix_code_error() != EEXIST){
+		fail(" must be an existing dir %d %d %d", ret, errno, gfal_posix_code_error()); ---------> EXIST == 0 for srm, useless test
+		gfal_posix_clear_error();
+		return;
+	}*/
+	gfal_posix_clear_error();
+	errno ==0;
+	
+	char filename[2048];
+	time_t tt;
+	time(&tt);
+	snprintf(filename, 2048, "%stest%ld", TEST_SRM_BASE_FOLDER_URL_MKDIR1, tt);
+	g_printerr(" filename %s ", filename);
+	ret = gfal_mkdir(filename, 0664);
+	if(ret != 0 || errno !=0 || gfal_posix_code_error() != 0){
+		fail(" must be a valid create dir %d %d %d", ret, errno, gfal_posix_code_error());
+		gfal_posix_clear_error();
+		return;		
+	}
+	gfal_posix_clear_error();
+	errno ==0;
+	
+	ret = gfal_access(filename, F_OK);
+	if( ret != 0 ){
+		fail(" directory must exist %d %o ", ret);
+		gfal_posix_clear_error();
+		return;			
+	}
+	
+	ret = gfal_mkdir(TEST_SRM_UNACCESS_MKDIR, 0644);
+	if( ret ==0 || errno != EACCES || gfal_posix_code_error() != EACCES){
+		fail(" must be a non-access dir %d %d %d", ret, errno, gfal_posix_code_error());
+		gfal_posix_clear_error();
+		return;			
+	}
+	gfal_posix_clear_error();
+	errno ==0;	
+	
+}
+END_TEST
+

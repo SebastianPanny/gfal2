@@ -176,7 +176,7 @@ int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, 
 
 
 /**
- * @brief get endpoint and srm_associated type
+ * @brief get endpoint and srm_associated type from a list of surls
  *  determine the best endpoint associated with the list of url and the params of the actual handle (no bdii check or not)
  *  see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations
  *  @return return 0 with endpoint and types set if success else -1 and set Error
@@ -209,6 +209,21 @@ int gfal_auto_get_srm_endpoint(gfal_handle handle, char** endpoint, enum gfal_sr
 		return -1;
 	}
 	return 0;
+}
+
+/**
+ *  @brief get endpoint and srm_associated type from a a surl
+ *  determine the best endpoint associated with the list of url and the params of the actual handle (no bdii check or not)
+ *  see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations
+ *  @return return 0 with endpoint and types set if success else -1 and set Error
+ * */
+int gfal_auto_get_srm_endpoint_for_surl(gfal_handle handle, char** endpoint,
+												enum gfal_srm_proto* srm_type, const char* surl, GError** err){
+	GList* list = g_list_append(NULL, (char*) surl);
+	const int ret = gfal_auto_get_srm_endpoint(handle, endpoint, srm_type, list, err);
+	g_list_free(list);
+	return ret;
+	
 }
 
 

@@ -81,9 +81,7 @@ int gfal_srm_statG(gfal_handle handle, const char* surl, struct stat* buf, GErro
 	char* endpoint=NULL;
 	enum gfal_srm_proto srm_type;
 	
-	GList* list = g_list_append(NULL, (char*)surl);
-	ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &srm_type, list, &tmp_err);
-	g_list_free(list);
+	ret = gfal_auto_get_srm_endpoint_for_surl(handle, &endpoint, &srm_type, surl, &tmp_err);
 	if( ret >=0 ){
 		if(srm_type == PROTO_SRMv2){
 			gfal_statG_srmv2_internal(handle, buf, endpoint, surl, &tmp_err);

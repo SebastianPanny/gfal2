@@ -86,14 +86,11 @@ int gfal_srm_accessG(gfal_handle handle, char* surl, int mode, GError** err){			
 	int ret=-1;
 	char* full_endpoint=NULL;
 	enum gfal_srm_proto srm_types;
-	GList* surls = g_list_append(NULL, surl);
-	ret = gfal_auto_get_srm_endpoint(handle, &full_endpoint, &srm_types, surls,  &tmp_err); // get the associated endpoint
-	g_list_free(surls);
+	ret =gfal_auto_get_srm_endpoint_for_surl(handle, &full_endpoint, &srm_types, surl,  &tmp_err); // get the associated endpoint
 	if( ret != 0){		// check & get endpoint										
 		g_propagate_prefixed_error(err,tmp_err, "[%s]", __func__);
 		return -1;
 	}
-	gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[%s] endpoint %s", __func__, full_endpoint);		// display the endpoint if verbose mode
 	
 	if (srm_types == PROTO_SRMv2){			// check the proto version
 		ret= gfal_access_srmv2_internal(handle, full_endpoint, surl, mode,&tmp_err);	// execute the SRMv2 access test

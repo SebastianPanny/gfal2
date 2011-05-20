@@ -84,12 +84,12 @@ int gfal_local_mkdir_rec(const char* full_path, mode_t mode){
 	
 	i=0;
 	p = (char*) full_path;
-	while(i < len){ // remove '/{2,+}' and last char if =='/'
+	while((p-full_path) < len){ // remove '/{2,+}' and last char if =='/'
 		if( ( *p == '/' && ( *(p+1) == '/' || *(p+1) == '\0')) == FALSE)
 			buff[i++] = *p;
 		++p;
 	}
-	buff[len] = '\0';
+	buff[i] = '\0';
 				
 	for(p = buff+1 ; *p != '\0'; p++){ // begin the recursive mode
 		if(*p == '/' && *(p+1) != '/') { // check the '/' but skip the '//////' sequencies'

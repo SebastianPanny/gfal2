@@ -114,5 +114,6 @@
 #define TEST_LOCAL_BASE_FOLDER_URL_MKDIR1 "file:///tmp/"
 #define TEST_LOCAL_UNACCESS_MKDIR "file:///root/foo"
 
-
-
+#define TEST_SRM_EEXIST_MKDIR "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testmkdir0011"
+#define TEST_SRM_BASE_FOLDER_URL_MKDIR1 "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/"
+#define TEST_SRM_UNACCESS_MKDIR "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testmkdir0012/testunaccessmkdir0011"
