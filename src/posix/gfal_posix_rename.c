@@ -35,25 +35,27 @@ int gfal_posix_internal_rename(const char* oldpath, const char* newpath){
 	GError* tmp_err = NULL;
 	gfal_handle handle;
 	int ret;
-	if( oldpath ==NULL || newpath == NULL){
-		errno = EFAULT;
-		return -1;
-	}
 	
 	if( (handle = gfal_posix_instance() ) ==NULL){
 		errno = EIO;
 		return -1;
 	}
-	
-	if( gfal_check_local_url(oldpath, NULL) 
-			&& gfal_check_local_url(newpath, NULL)){
-		ret = gfal_local_rename(oldpath, newpath, &tmp_err);			
-	}else{
-		ret = gfal_catalog_renameG(handle, oldpath, newpath, &tmp_err);
+
+	if( oldpath == NULL || newpath == NULL){
+		g_set_error(&tmp_err, 0, EFAULT, " oldpath/newpath is an incorrect argument");
+	}else{	
+		if( gfal_check_local_url(oldpath, NULL) 
+				&& gfal_check_local_url(newpath, NULL)){
+			ret = gfal_local_rename(oldpath, newpath, &tmp_err);			
+		}else{
+			ret = gfal_catalog_renameG(handle, oldpath, newpath, &tmp_err);
+		}
 	}
-	if(ret){
+	
+	if(tmp_err){
 		gfal_posix_register_internal_error(handle, "[gfal_rename]", tmp_err);
 		errno = tmp_err->code;
 	} 
+
 	return (ret)?-1:0;
 }

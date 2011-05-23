@@ -42,26 +42,27 @@ int gfal_posix_internal_access (const char *path, int amode){
 	int resu = -1, ret;
 	GError* tmp_err=NULL;
 	gfal_handle handle;
-	if(path == NULL){
-		errno = EFAULT;
-		return -1;
-	}
+
 	if((handle = gfal_posix_instance()) == NULL){
 		errno = EIO;
 		return -1;
 	}
-	const int check = gfal_surl_checker(path, NULL);
-	if(check==0){
-		resu = gfal_srm_accessG(handle, (char*) path, amode, &tmp_err );	// srm:// -> send to the srm part
-	}else if(gfal_guid_checker(path, NULL)){
-		resu = gfal_guid_accessG(handle, (char*) path, amode, &tmp_err);	// guid: -> send to the first catalog
-	}else if(gfal_check_local_url(path, NULL)){
-		resu = gfal_local_access(path, amode, &tmp_err);									// file:// -> send to the local system call
-	}else {
-		resu = gfal_catalogs_accessG(handle, (char*) path, amode, &tmp_err );		// if registered url ( lfn:// ) resolve,
-	}
 	
-	if(resu){ // error reported
+	if(path == NULL){
+		g_set_error(&tmp_err, 0, EFAULT, " path is an incorrect argument");
+	}else{
+		const int check = gfal_surl_checker(path, NULL);
+		if(check==0){
+			resu = gfal_srm_accessG(handle, (char*) path, amode, &tmp_err );	// srm:// -> send to the srm part
+		}else if(gfal_guid_checker(path, NULL)){
+			resu = gfal_guid_accessG(handle, (char*) path, amode, &tmp_err);	// guid: -> send to the first catalog
+		}else if(gfal_check_local_url(path, NULL)){
+			resu = gfal_local_access(path, amode, &tmp_err);									// file:// -> send to the local system call
+		}else {
+			resu = gfal_catalogs_accessG(handle, (char*) path, amode, &tmp_err );		// if registered url ( lfn:// ) resolve,
+		}
+	}
+	if(tmp_err){ // error reported
 		gfal_posix_register_internal_error(handle, "[gfal_access]", tmp_err);
 		errno = tmp_err->code;			
 	}

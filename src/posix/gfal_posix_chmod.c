@@ -36,20 +36,22 @@
 	 GError* tmp_err=NULL;
 	 gfal_handle handle;
 	 int res= -1;
-	 if(path == NULL){
-		errno = EFAULT;
-		return -1;
-	}
+
 	if((handle = gfal_posix_instance()) == NULL){
 		errno = EIO;
 		return -1;
 	}
-	if( gfal_check_local_url(path, NULL) == TRUE){
-		res = gfal_local_chmod(path, mode, &tmp_err);
-	}else if(gfal_guid_checker(path, NULL) == TRUE){
-		res = gfal_guid_chmodG(handle, path, mode, &tmp_err);
+	
+	if(path == NULL){
+		g_set_error(&tmp_err, 0, EFAULT, " path is an incorrect argument");
 	}else{
-		res = gfal_catalog_chmodG(handle, path, mode, &tmp_err);
+		if( gfal_check_local_url(path, NULL) == TRUE){
+			res = gfal_local_chmod(path, mode, &tmp_err);
+		}else if(gfal_guid_checker(path, NULL) == TRUE){
+			res = gfal_guid_chmodG(handle, path, mode, &tmp_err);
+		}else{
+			res = gfal_catalog_chmodG(handle, path, mode, &tmp_err);
+		}
 	}
 	if(tmp_err){
 		gfal_posix_register_internal_error(handle, "[gfal_chmod]", tmp_err);

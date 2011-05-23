@@ -231,7 +231,7 @@ int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* ne
  *  @param mode right of the file created
  *  @param pflag if TRUE, execute the request recursively if necessary else work as the common mkdir system call
  *  @param GError error report system
- *  @warning no check on path, please check the path before
+ *  @warning no check on the path, please check the path before
  *  @return return 0 if success else return -1
  * 
  * */
@@ -247,6 +247,32 @@ int gfal_catalog_mkdirp(gfal_handle handle, const char* path, mode_t mode, gbool
 	}
 
 	int ret = gfal_catalogs_operation_executor(handle, &mkdirp_checker, &mkdirp_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret; 	
+}
+
+/**
+ * Execute a rmdir function on the first compatible catalog ( checked with check url func )
+ *  @param handle handle of the current context
+ *  @param path path to delete
+ *  @param GError error report system
+ *  @warning no check on the path, please check the path before
+ *  @return return 0 if success else return -1
+ * 
+ * */
+int gfal_catalog_rmdirG(gfal_handle handle, const char* path, GError** err){
+	g_return_val_err_if_fail(handle && path , -1, err, "[gfal_catalog_rmdirp] Invalid argumetns in path or/and handle");
+	GError* tmp_err=NULL;	
+
+	gboolean rmdir_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_RMDIR, terr);
+	}
+	int rmdir_executor(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->rmdirG(cata_list->handle, path, terr);
+	}
+
+	int ret = gfal_catalogs_operation_executor(handle, &rmdir_checker, &rmdir_executor, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 	

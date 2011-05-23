@@ -42,27 +42,26 @@ int gfal_posix_internal_stat(const char* path, struct stat* buf){
 	gfal_handle handle;
 	GError* tmp_err = NULL;
 	int ret = -1;
-	if(!path || !buf){
-		errno = EFAULT;
-		return -1;
-	}
 	
 	if( (handle = gfal_posix_instance()) == NULL){
 		errno = EIO;
 		return -1;
 	}
 	
-	if( gfal_check_local_url(path, NULL) ){
-		ret = gfal_local_stat(path, buf, &tmp_err);
-	} else if( gfal_guid_checker(path, NULL) ){
-		ret = gfal_guid_statG(handle, path, buf, &tmp_err);
-	} else if( gfal_surl_checker(path, NULL) == 0){
-		ret = gfal_srm_statG(handle, path, buf, &tmp_err);
-	} else {
-		ret = gfal_catalog_statG(handle, path, buf, &tmp_err);
-	}
-	
-	if(ret){ // error reported
+	if(path == NULL || stat==NULL){
+		g_set_error(&tmp_err, 0, EFAULT, " path or/and stat is an incorrect argument");
+	}else{
+		if( gfal_check_local_url(path, NULL) ){
+			ret = gfal_local_stat(path, buf, &tmp_err);
+		} else if( gfal_guid_checker(path, NULL) ){
+			ret = gfal_guid_statG(handle, path, buf, &tmp_err);
+		} else if( gfal_surl_checker(path, NULL) == 0){
+			ret = gfal_srm_statG(handle, path, buf, &tmp_err);
+		} else {
+			ret = gfal_catalog_statG(handle, path, buf, &tmp_err);
+		}
+	}	
+	if(tmp_err){ // error reported
 		gfal_posix_register_internal_error(handle, "[gfal_stat]", tmp_err);
 		errno = tmp_err->code;			
 	}

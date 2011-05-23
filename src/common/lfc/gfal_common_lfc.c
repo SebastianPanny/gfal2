@@ -183,6 +183,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	const int ret = ops->rmdir(lfn);
 	if( ret < 0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		sav_errno = (sav_errno==EEXIST)?ENOTEMPTY:sav_errno;		// convert wrong reponse code
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
 	}
 	free(lfn);

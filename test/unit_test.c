@@ -177,6 +177,9 @@ Suite* posix_suite (void)
   tcase_add_test(tc_rmdir, test__rmdir_posix_srm_simple);
   tcase_add_test(tc_rmdir, test__rmdir_posix_srm_existingfile);
   tcase_add_test(tc_rmdir, test__rmdir_posix_srm_slash);
+  tcase_add_test(tc_rmdir, test__rmdir_posix_local_simple);
+  tcase_add_test(tc_rmdir, test__rmdir_posix_local_existingfile);
+  tcase_add_test(tc_rmdir, test__rmdir_posix_local_slash);
   suite_add_tcase(s, tc_rmdir);
   return s;
 }
