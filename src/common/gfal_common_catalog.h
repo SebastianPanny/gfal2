@@ -82,9 +82,13 @@ struct _gfal_catalog_interface{
 	int (*statG)(catalog_handle, const char*, struct stat *buf, GError** err);
 	int (*lstatG)(catalog_handle, const char*, struct stat *buf, GError** err);
 	/**
-	 * function pointer for the mkdir call
+	 * function pointer for the mkdir call, if pflag is set, the call is considered like a recursive call for a full path creation
 	 * */
 	int (*mkdirpG)(catalog_handle, const char*, mode_t, gboolean pflag, GError**);
+	/**
+	 * function pointer to the rmdir call
+	 */
+	int (*rmdirG )(catalog_handle, const char*, GError**);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */

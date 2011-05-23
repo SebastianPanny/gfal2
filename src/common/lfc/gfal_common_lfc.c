@@ -155,7 +155,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 }
 /**
  *  Execute a posix mkdir on the lfc
- *  @return 0 on success else -1 and g_set_error is set with the correct value
+ *  @return 0 on success else -1 and err is set with the correct value
  * 
  * */
  static int lfc_mkdirpG(catalog_handle handle, const char* path, mode_t mode, gboolean pflag, GError** err){
@@ -170,7 +170,25 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	free(lfn);
 	return ret; 
  }
-
+ 
+/**
+ * Execute a rmdir on the lfc
+ * @return 0 on success else -1 and err is set with the correct value
+ * */
+ static int lfc_rmdirG(catalog_handle handle, const char* path, GError** err){
+	 g_return_val_err_if_fail( handle && path , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");	
+	GError* tmp_err = NULL; 
+	struct lfc_ops* ops = (struct lfc_ops*) handle;		
+	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+	const int ret = ops->rmdir(lfn);
+	if( ret < 0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
+	}
+	free(lfn);
+	return ret;	 
+ }
+ 
 
 /**
  * Convert a guid to a catalog url if possible
@@ -227,6 +245,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.lstatG = &lfc_lstatG;
 	lfc_catalog.mkdirpG = &lfc_mkdirpG;
 	lfc_catalog.resolve_guid = &lfc_resolve_guid;
+	lfc_catalog.rmdirG = &lfc_rmdirG;
 	return lfc_catalog;
 }
 

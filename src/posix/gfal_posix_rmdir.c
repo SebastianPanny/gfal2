@@ -53,9 +53,20 @@
 		errno = EIO;
 		return -1;
 	}
-	g_set_error(&tmp_err, ENOSYS, "[%s] not implemented", __func__);
+
+
+	if( gfal_check_local_url(path, NULL) == TRUE){
+		res = gfal_local_rmdir(path, &tmp_err);
+	}else if(gfal_guid_checker(path, NULL) == TRUE){
+		g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported for directory deletion");
+	}else if( gfal_surl_checker(path, NULL) == 0 ){
+		g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
+	}else{
+		g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
+	}
+
 	if(tmp_err){
-		gfal_posix_register_internal_error(handle, "[gfal_chmod]", tmp_err);
+		gfal_posix_register_internal_error(handle, "[gfal_rmdir]", tmp_err);
 		errno = tmp_err->code;	
 	}
 	return res; 

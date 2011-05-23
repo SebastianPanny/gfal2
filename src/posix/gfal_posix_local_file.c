@@ -110,6 +110,17 @@ int gfal_local_mkdir(const char* path, mode_t mode, GError** err){
 	}
 	return res;	
 } 
+
+/**
+ * local rmdir mapper
+ * */
+int gfal_local_rmdir(const char* path, GError** err){
+	const int res = rmdir(path+ strlen(GFAL_LOCAL_PREFIX));
+	if(res<0){
+			g_set_error(err,0 ,errno , "[%s] errno reported by local system call", __func__, strerror(errno));
+	}
+	return res;
+}
  
 /**
  * check the validity of a classique file url
