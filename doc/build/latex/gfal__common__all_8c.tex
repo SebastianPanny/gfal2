@@ -6,6 +6,7 @@ core file for the utility function of gfal common part
 {\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 {\tt \#include $<$dlfcn.h$>$}\par
 {\tt \#include $<$regex.h$>$}\par
+{\tt \#include $<$uuid/uuid.h$>$}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
@@ -27,7 +28,9 @@ GError $\ast$$\ast$ \bf{gfal\_\-get\_\-last\_\-gerror} (gfal\_\-handle handle)
 \item 
 gboolean \textbf{is\_\-valid\_\-access\_\-result} (int status)\label{gfal__common__all_8c_aed64917ebc1c60ab8ccd2c4dfbd2c3a}
 
-\end{CompactItemize}
+\item 
+void \bf{gfal\_\-generate\_\-guid\-G} (char $\ast$buf, GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em generate an uiid string Generate a uuid string and cpy it in the buf, \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}
@@ -42,6 +45,15 @@ core file for the utility function of gfal common part
 
 
 \subsection{Function Documentation}
+\index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!gfal_generate_guidG@{gfal\_\-generate\_\-guidG}}
+\index{gfal_generate_guidG@{gfal\_\-generate\_\-guidG}!gfal_common_all.c@{gfal\_\-common\_\-all.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-generate\_\-guid\-G (char $\ast$ {\em buf}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__all_8c_4cb5e50a1af5612463aaa525162a2e9e}
+
+
+generate an uiid string Generate a uuid string and cpy it in the buf, 
+
+\begin{Desc}
+\item[Warning:]buff must be $>$ uuid size ( 37 bytes ) \end{Desc}
 \index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!gfal_get_last_gerror@{gfal\_\-get\_\-last\_\-gerror}}
 \index{gfal_get_last_gerror@{gfal\_\-get\_\-last\_\-gerror}!gfal_common_all.c@{gfal\_\-common\_\-all.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}GError$\ast$$\ast$ gfal\_\-get\_\-last\_\-gerror (gfal\_\-handle {\em handle})}\label{gfal__common__all_8c_c90af0780f11aa512dce46955c844704}

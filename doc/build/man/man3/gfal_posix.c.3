@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" 3 "17 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" 3 "23 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -48,9 +48,6 @@
 .RI "off64_t \fBgfal_lseek64\fP (int fd, off64_t offset, int whence)"
 .br
 .ti -1c
-.RI "int \fBgfal_mkdir\fP (const char *dirname, mode_t mode)"
-.br
-.ti -1c
 .RI "int \fBgfal_open\fP (const char *filename, int flags, mode_t mode)"
 .br
 .RI "\fIopens a file according to the value of flags \fP"
@@ -68,9 +65,6 @@
 .br
 .ti -1c
 .RI "dirent64 * \fBgfal_readdir64\fP (DIR *dir)"
-.br
-.ti -1c
-.RI "int \fBgfal_rmdir\fP (const char *dirname)"
 .br
 .ti -1c
 .RI "int \fBgfal_stat_generic\fP (const char *filename, int bool_link, struct stat64 *statbuf)"

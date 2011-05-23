@@ -26,8 +26,8 @@
 <code>#include &lt;sys/types.h&gt;</code><br>
 <code>#include &lt;dlfcn.h&gt;</code><br>
 <code>#include &lt;stdlib.h&gt;</code><br>
+<code>#include &quot;../gfal_constants.h&quot;</code><br>
 <code>#include &quot;gfal_types.h&quot;</code><br>
-<code>#include &quot;gfal_constants.h&quot;</code><br>
 <code>#include &quot;../mds/gfal_common_mds.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__interface_8h-source.html">gfal_common_interface.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="lfc__ifce__ng_8h-source.html">lfc_ifce_ng.h</a>&quot;</code><br>
@@ -56,6 +56,10 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_convert_statg
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="16e8d4c4177c6e1d39c1850f06042f97"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_convert_lstat" ref="16e8d4c4177c6e1d39c1850f06042f97" args="(struct stat *output, struct lfc_filestat *input, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_convert_lstat</b> (struct stat *output, struct lfc_filestat *input, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#0d7c361d951ac79fee504d5125485033">gfal_lfc_mkdir_rec</a> (struct lfc_ops *ops, char *browser_path, const char *full_path, mode_t mode, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#9fa43925882e2e196e0020b529827d3c">gfal_lfc_ifce_mkdirpG</a> (struct lfc_ops *ops, const char *path, mode_t mode, gboolean pflag, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -105,6 +109,101 @@ convert a guid to a lfn link with a call to the lfclib <dl compact><dt><b>Parame
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>: string of the lfn if success or NULL char* if error </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="9fa43925882e2e196e0020b529827d3c"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_ifce_mkdirpG" ref="9fa43925882e2e196e0020b529827d3c" args="(struct lfc_ops *ops, const char *path, mode_t mode, gboolean pflag, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_lfc_ifce_mkdirpG           </td>
+          <td>(</td>
+          <td class="paramtype">struct lfc_ops *&nbsp;</td>
+          <td class="paramname"> <em>ops</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>pflag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Implementation of mkdir -p call on the lfc 
+</div>
+</div><p>
+<a class="anchor" name="0d7c361d951ac79fee504d5125485033"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_mkdir_rec" ref="0d7c361d951ac79fee504d5125485033" args="(struct lfc_ops *ops, char *browser_path, const char *full_path, mode_t mode, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_lfc_mkdir_rec           </td>
+          <td>(</td>
+          <td class="paramtype">struct lfc_ops *&nbsp;</td>
+          <td class="paramname"> <em>ops</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>browser_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>full_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Begin a recursive call on mkdir to create a full tree path <dl compact><dt><b>Warning:</b></dt><dd>not safe, please ensure that string begin by "/" </dd></dl>
 
 </div>
 </div><p>
@@ -178,7 +277,7 @@ setup the lfc_host correctly for the lfc calls <dl compact><dt><b>Parameters:</b
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 15:24:26 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon May 23 16:29:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

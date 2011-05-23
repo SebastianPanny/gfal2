@@ -18,9 +18,8 @@ int \bf{gfal\_\-creat64} (const char $\ast$, mode\_\-t)\label{group__posix__grou
 \begin{CompactList}\small\item\em same as create for large file \item\end{CompactList}\item 
 off\_\-t \bf{gfal\_\-lseek} (int, off\_\-t, int)
 \begin{CompactList}\small\item\em gfal\_\-lseek - position a file \item\end{CompactList}\item 
-int \textbf{gfal\_\-mkdir} (const char $\ast$, mode\_\-t)\label{group__posix__group_g6f6affcf386900efc5443a9c97556a57}
-
-\item 
+int \bf{gfal\_\-mkdir} (const char $\ast$, mode\_\-t)
+\begin{CompactList}\small\item\em create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like \char`\"{}mkdir -p\char`\"{}. \item\end{CompactList}\item 
 int \bf{gfal\_\-open} (const char $\ast$, int, mode\_\-t)
 \begin{CompactList}\small\item\em opens a file according to the value of flags \item\end{CompactList}\item 
 int \textbf{gfal\_\-open64} (const char $\ast$, int, mode\_\-t)\label{group__posix__group_gbed417acea7f862ea1977417ed842ef4}
@@ -84,9 +83,7 @@ test access to the given file
 \item ERRNO list : \par
 \begin{itemize}
 \item usual errors:\begin{itemize}
-\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\end{itemize}
-\item gfal errors ( associated with a specific \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} ):\begin{itemize}
-\item ECOMM: Communication error\item EPROTONOSUPPORT: Access method not supported.\item EINVAL: path has an invalid syntax or amode is invalid. \end{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item ECOMM: Communication error\item EPROTONOSUPPORT: Access method not supported.\item EINVAL: path has an invalid syntax or amode is invalid. \end{itemize}
 \end{itemize}
 \end{itemize}
 \end{Desc}
@@ -107,9 +104,7 @@ set rights of the file/dir
 \item ERRNO list : \par
 \begin{itemize}
 \item usual errors:\begin{itemize}
-\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\end{itemize}
-\item gfal errors ( associated with a specific \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} ):\begin{itemize}
-\item ECOMM: Communication error\item EPROTONOSUPPORT: Access method not supported.\item EINVAL: path has an invalid syntax or amode is invalid. \end{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item ECOMM: Communication error\item EPROTONOSUPPORT: Access method not supported.\item EINVAL: path has an invalid syntax or amode is invalid. \end{itemize}
 \end{itemize}
 \end{itemize}
 \end{Desc}
@@ -183,7 +178,30 @@ gfal\_\-lseek positions/repositions to offset the file associated with the descr
 \item EBADF fd is not a valid file descriptor.\item EINVAL incorrect value for whence.\item EFBIG Resulting offset is too big to fit in off\_\-t.\item ECOMM Communication error.\item EPROTONOSUPPORT Access method not supported.\end{itemize}
 \end{itemize}
 \end{Desc}
-gfal\_\-lseek64 performs the same function on large files using off64\_\-t rather than off\_\-t. \index{posix_group@{posix\_\-group}!gfal_open@{gfal\_\-open}}
+gfal\_\-lseek64 performs the same function on large files using off64\_\-t rather than off\_\-t. \index{posix_group@{posix\_\-group}!gfal_mkdir@{gfal\_\-mkdir}}
+\index{gfal_mkdir@{gfal\_\-mkdir}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-mkdir (const char $\ast$ {\em path}, mode\_\-t {\em mode})}\label{group__posix__group_g6f6affcf386900efc5443a9c97556a57}
+
+
+create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like \char`\"{}mkdir -p\char`\"{}. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em path}]: url of the directory. Can be surl ( srm://), local (\tt{file://}), or catalog's url (lfc:, ....) \item[{\em mode}]: right of the directory ( depend of the implementation ) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return 0 if success else -1 and errno is set ( and \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} )\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item usual errors:\begin{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: oldpath or newpath is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\begin{itemize}
+\item EEXIST: file already exist\end{itemize}
+\item ECOMM: Communication error\item EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported\item EINVAL: oldpath or newpath has an invalid syntax . \end{itemize}
+\end{itemize}
+\end{itemize}
+\end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_open@{gfal\_\-open}}
 \index{gfal_open@{gfal\_\-open}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-open (const char $\ast$, int, mode\_\-t)}\label{group__posix__group_g6a431a0bdd01baf8cadbdcaa98b1c622}
 
@@ -229,8 +247,6 @@ change the name or location of a file oldpath and newpath need to be on the same
 \item EISDIR: newpath is an existing directory but oldpath is not a directory\item ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than \char`\"{}.\char`\"{} and \char`\"{}..\char`\"{}\end{itemize}
 \item ENOTDIR: A component of path prefix is not a directory.\begin{itemize}
 \item EXDEV oldpath and newpath are not on the same mounted file system.\end{itemize}
-\end{itemize}
-\item gfal errors ( associated with a specific \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} ):\begin{itemize}
 \item ECOMM: Communication error\item EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported\item EINVAL: oldpath or newpath has an invalid syntax . \end{itemize}
 \end{itemize}
 \end{itemize}
@@ -253,8 +269,6 @@ informations about a file These functions return information about a file. No pe
 \item ERRNO list : \par
 \begin{itemize}
 \item usual errors:\begin{itemize}
-\item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: oldpath or newpath is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\end{itemize}
-\item gfal errors ( associated with a specific \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} ):\begin{itemize}
-\item ECOMM: Communication error\item EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported\item EINVAL: oldpath or newpath has an invalid syntax . \end{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: oldpath or newpath is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item ECOMM: Communication error\item EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported\item EINVAL: oldpath or newpath has an invalid syntax . \end{itemize}
 \end{itemize}
 \end{itemize}

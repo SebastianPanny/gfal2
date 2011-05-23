@@ -38,9 +38,9 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group
 <tr><td class="memItemLeft" nowrap align="right" valign="top">off_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g8ba4e1df5f2e6439641c56f245d5ce73">gfal_lseek</a> (int, off_t, int)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">gfal_lseek - position a file  <a href="#g8ba4e1df5f2e6439641c56f245d5ce73"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g6f6affcf386900efc5443a9c97556a57"></a><!-- doxytag: member="posix_group::gfal_mkdir" ref="g6f6affcf386900efc5443a9c97556a57" args="(const char *, mode_t)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_mkdir</b> (const char *, mode_t)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g6f6affcf386900efc5443a9c97556a57">gfal_mkdir</a> (const char *, mode_t)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like "mkdir -p".  <a href="#g6f6affcf386900efc5443a9c97556a57"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622">gfal_open</a> (const char *, int, mode_t)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">opens a file according to the value of flags  <a href="#g6a431a0bdd01baf8cadbdcaa98b1c622"></a><br></td></tr>
@@ -127,9 +127,7 @@ test access to the given file
 <li>ERRNO list : <br>
 <ul>
 <li>usual errors:<ul>
-<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</li><li>EFAULT: path is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.</li></ul>
-</li><li>gfal errors ( associated with a specific <a class="el" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error()</a> ):<ul>
-<li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: Access method not supported.</li><li>EINVAL: path has an invalid syntax or amode is invalid. </li></ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</li><li>EFAULT: path is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: Access method not supported.</li><li>EINVAL: path has an invalid syntax or amode is invalid. </li></ul>
 </li></ul>
 </li></ul>
 </dd></dl>
@@ -174,9 +172,7 @@ set rights of the file/dir
 <li>ERRNO list : <br>
 <ul>
 <li>usual errors:<ul>
-<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</li><li>EFAULT: path is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.</li></ul>
-</li><li>gfal errors ( associated with a specific <a class="el" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error()</a> ):<ul>
-<li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: Access method not supported.</li><li>EINVAL: path has an invalid syntax or amode is invalid. </li></ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</li><li>EFAULT: path is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: Access method not supported.</li><li>EINVAL: path has an invalid syntax or amode is invalid. </li></ul>
 </li></ul>
 </li></ul>
 </dd></dl>
@@ -332,6 +328,53 @@ gfal_lseek positions/repositions to offset the file associated with the descript
 gfal_lseek64 performs the same function on large files using off64_t rather than off_t. 
 </div>
 </div><p>
+<a class="anchor" name="g6f6affcf386900efc5443a9c97556a57"></a><!-- doxytag: member="POSIX_API.c::gfal_mkdir" ref="g6f6affcf386900efc5443a9c97556a57" args="(const char *, mode_t)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_mkdir           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&nbsp;</td>
+          <td class="paramname"> <em>mode</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like "mkdir -p". 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>: url of the directory. Can be surl ( srm://), local (<a href="file://">file://</a>), or catalog's url (lfc:, ....) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>: right of the directory ( depend of the implementation ) </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return 0 if success else -1 and errno is set ( and <a class="el" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error()</a> )<ul>
+<li>ERRNO list : <br>
+<ul>
+<li>usual errors:<ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.<ul>
+<li>EEXIST: file already exist</li></ul>
+</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax . </li></ul>
+</li></ul>
+</li></ul>
+</dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="g6a431a0bdd01baf8cadbdcaa98b1c622"></a><!-- doxytag: member="POSIX_API.c::gfal_open" ref="g6a431a0bdd01baf8cadbdcaa98b1c622" args="(const char *, int, mode_t)" -->
 <div class="memitem">
 <div class="memproto">
@@ -430,9 +473,7 @@ change the name or location of a file oldpath and newpath need to be on the same
 <li>EISDIR: newpath is an existing directory but oldpath is not a directory</li><li>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than "." and ".."</li></ul>
 </li><li>ENOTDIR: A component of path prefix is not a directory.<ul>
 <li>EXDEV oldpath and newpath are not on the same mounted file system.</li></ul>
-</li></ul>
-</li><li>gfal errors ( associated with a specific <a class="el" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error()</a> ):<ul>
-<li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax . </li></ul>
+</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax . </li></ul>
 </li></ul>
 </li></ul>
 </dd></dl>
@@ -478,15 +519,13 @@ informations about a file These functions return information about a file. No pe
 <li>ERRNO list : <br>
 <ul>
 <li>usual errors:<ul>
-<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.</li></ul>
-</li><li>gfal errors ( associated with a specific <a class="el" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error()</a> ):<ul>
-<li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax . </li></ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax . </li></ul>
 </li></ul>
 </li></ul>
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 15:24:26 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon May 23 16:29:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

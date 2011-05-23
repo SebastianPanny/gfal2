@@ -8,8 +8,8 @@ main internal file of the lfc catalog module
 {\tt \#include $<$sys/types.h$>$}\par
 {\tt \#include $<$dlfcn.h$>$}\par
 {\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include \char`\"{}../gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
-{\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}../mds/gfal\_\-common\_\-mds.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-interface.h\char`\"{}}\par
 {\tt \#include \char`\"{}lfc\_\-ifce\_\-ng.h\char`\"{}}\par
@@ -40,6 +40,10 @@ int \textbf{gfal\_\-lfc\_\-convert\_\-statg} (struct stat $\ast$output, struct l
 \item 
 int \textbf{gfal\_\-lfc\_\-convert\_\-lstat} (struct stat $\ast$output, struct lfc\_\-filestat $\ast$input, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_16e8d4c4177c6e1d39c1850f06042f97}
 
+\item 
+int \bf{gfal\_\-lfc\_\-mkdir\_\-rec} (struct lfc\_\-ops $\ast$ops, char $\ast$browser\_\-path, const char $\ast$full\_\-path, mode\_\-t mode, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-lfc\_\-ifce\_\-mkdirp\-G} (struct lfc\_\-ops $\ast$ops, const char $\ast$path, mode\_\-t mode, gboolean pflag, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -67,6 +71,18 @@ convert a guid to a lfn link with a call to the lfclib \begin{Desc}
 \end{Desc}
 \begin{Desc}
 \item[Returns:]: string of the lfn if success or NULL char$\ast$ if error \end{Desc}
+\index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_ifce_mkdirpG@{gfal\_\-lfc\_\-ifce\_\-mkdirpG}}
+\index{gfal_lfc_ifce_mkdirpG@{gfal\_\-lfc\_\-ifce\_\-mkdirpG}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-lfc\_\-ifce\_\-mkdirp\-G (struct lfc\_\-ops $\ast$ {\em ops}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, gboolean {\em pflag}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_9fa43925882e2e196e0020b529827d3c}
+
+
+Implementation of mkdir -p call on the lfc \index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_mkdir_rec@{gfal\_\-lfc\_\-mkdir\_\-rec}}
+\index{gfal_lfc_mkdir_rec@{gfal\_\-lfc\_\-mkdir\_\-rec}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-lfc\_\-mkdir\_\-rec (struct lfc\_\-ops $\ast$ {\em ops}, char $\ast$ {\em browser\_\-path}, const char $\ast$ {\em full\_\-path}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_0d7c361d951ac79fee504d5125485033}
+
+
+Begin a recursive call on mkdir to create a full tree path \begin{Desc}
+\item[Warning:]not safe, please ensure that string begin by \char`\"{}/\char`\"{} \end{Desc}
 \index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_load_lfc@{gfal\_\-load\_\-lfc}}
 \index{gfal_load_lfc@{gfal\_\-load\_\-lfc}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct lfc\_\-ops$\ast$ gfal\_\-load\_\-lfc (const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_7c91643749a2c5d7e8043c0e42d00fd6}

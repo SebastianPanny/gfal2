@@ -44,6 +44,8 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="79cceda78f871c9bd8568a636dd31206"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_lfc_convert_statg" ref="79cceda78f871c9bd8568a636dd31206" args="(struct stat *output, struct lfc_filestatg *input, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_convert_statg</b> (struct stat *output, struct lfc_filestatg *input, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8h.html#9fa43925882e2e196e0020b529827d3c">gfal_lfc_ifce_mkdirpG</a> (struct lfc_ops *ops, const char *path, mode_t mode, gboolean pflag, GError **err)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 internal header of the lfc catalog module 
@@ -93,6 +95,53 @@ convert a guid to a lfn link with a call to the lfclib <dl compact><dt><b>Parame
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>: string of the lfn if success or NULL char* if error </dd></dl>
 
+</div>
+</div><p>
+<a class="anchor" name="9fa43925882e2e196e0020b529827d3c"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_lfc_ifce_mkdirpG" ref="9fa43925882e2e196e0020b529827d3c" args="(struct lfc_ops *ops, const char *path, mode_t mode, gboolean pflag, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_lfc_ifce_mkdirpG           </td>
+          <td>(</td>
+          <td class="paramtype">struct lfc_ops *&nbsp;</td>
+          <td class="paramname"> <em>ops</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>pflag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Implementation of mkdir -p call on the lfc 
 </div>
 </div><p>
 <a class="anchor" name="7c91643749a2c5d7e8043c0e42d00fd6"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_load_lfc" ref="7c91643749a2c5d7e8043c0e42d00fd6" args="(const char *name, GError **err)" -->
@@ -165,7 +214,7 @@ setup the lfc_host correctly for the lfc calls <dl compact><dt><b>Parameters:</b
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 15:24:26 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon May 23 16:29:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

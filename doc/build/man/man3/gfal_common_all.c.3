@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "17 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "23 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,6 +13,8 @@
 \fC#include <dlfcn.h>\fP
 .br
 \fC#include <regex.h>\fP
+.br
+\fC#include <uuid/uuid.h>\fP
 .br
 
 .SS "Functions"
@@ -47,6 +49,10 @@
 .ti -1c
 .RI "gboolean \fBis_valid_access_result\fP (int status)"
 .br
+.ti -1c
+.RI "void \fBgfal_generate_guidG\fP (char *buf, GError **err)"
+.br
+.RI "\fIgenerate an uiid string Generate a uuid string and cpy it in the buf, \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -70,6 +76,16 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
+.SS "void gfal_generate_guidG (char * buf, GError ** err)"
+.PP
+generate an uiid string Generate a uuid string and cpy it in the buf, 
+.PP
+\fBWarning:\fP
+.RS 4
+buff must be > uuid size ( 37 bytes ) 
+.RE
+.PP
+
 .SS "GError** gfal_get_last_gerror (gfal_handle handle)"
 .PP
 return a pointer to the internal last error of the handle 

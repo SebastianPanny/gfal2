@@ -19,6 +19,11 @@ int \bf{gfal\_\-stat} (const char $\ast$path, struct stat $\ast$buf)
 int \bf{gfal\_\-lstat} (const char $\ast$path, struct stat $\ast$buf)\label{group__posix__group_g347f867802a33bc04fdfb769da857103}
 
 \begin{CompactList}\small\item\em gfal\_\-lstat is identical to \doxyref{gfal\_\-stat}{p.}{group__posix__group_g1d8c86d522d5dd26ee7ddcd9c6925964} except for symbolic links. In this case, the link itself is statted and not followed. \item\end{CompactList}\item 
+int \bf{gfal\_\-mkdir} (const char $\ast$path, mode\_\-t mode)
+\begin{CompactList}\small\item\em create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like \char`\"{}mkdir -p\char`\"{}. \item\end{CompactList}\item 
+int \textbf{gfal\_\-rmdir} (const char $\ast$path)\label{group__posix__group_gcc4b6347640a722674c2d6df437490df}
+
+\item 
 void \bf{gfal\_\-posix\_\-print\_\-error} ()
 \item 
 void \bf{gfal\_\-posix\_\-release\_\-error} ()

@@ -7,100 +7,83 @@
     <includedby refid="gfal__common__srm__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</includedby>
     <includedby refid="gfal__common__srm__stat_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.c</includedby>
     <includedby refid="gfal__posix__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</includedby>
+    <includedby refid="gfal__posix__mkdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</includedby>
+    <includedby refid="gfal__posix__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</includedby>
     <incdepgraph>
-      <node id="412">
+      <node id="420">
         <label>sys/stat.h</label>
       </node>
-      <node id="406">
+      <node id="414">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h</label>
         <link refid="gfal_common_srm_access.h"/>
-        <childnode refid="407" relation="include">
+        <childnode refid="415" relation="include">
         </childnode>
-        <childnode refid="408" relation="include">
+        <childnode refid="416" relation="include">
+        </childnode>
+      </node>
+      <node id="424">
+        <label>stdarg.h</label>
+      </node>
+      <node id="422">
+        <label>gfal_prototypes.h</label>
+        <link refid="gfal__prototypes_8h-source"/>
+        <childnode refid="415" relation="include">
+        </childnode>
+      </node>
+      <node id="426">
+        <label>errno.h</label>
+      </node>
+      <node id="421">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="425">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="418">
+        <label>sys/types.h</label>
+      </node>
+      <node id="427">
+        <label>string.h</label>
+      </node>
+      <node id="417">
+        <label>unistd.h</label>
+      </node>
+      <node id="415">
+        <label>glib.h</label>
+      </node>
+      <node id="423">
+        <label>gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="424" relation="include">
+        </childnode>
+        <childnode refid="425" relation="include">
+        </childnode>
+        <childnode refid="415" relation="include">
+        </childnode>
+        <childnode refid="426" relation="include">
+        </childnode>
+        <childnode refid="427" relation="include">
+        </childnode>
+        <childnode refid="420" relation="include">
+        </childnode>
+        <childnode refid="422" relation="include">
+        </childnode>
+        <childnode refid="416" relation="include">
         </childnode>
       </node>
       <node id="416">
-        <label>stdarg.h</label>
-      </node>
-      <node id="414">
-        <label>gfal_prototypes.h</label>
-        <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="407" relation="include">
-        </childnode>
-      </node>
-      <node id="418">
-        <label>errno.h</label>
-      </node>
-      <node id="413">
-        <label>gfal_srm_ifce_types.h</label>
-      </node>
-      <node id="417">
-        <label>uuid/uuid.h</label>
-      </node>
-      <node id="410">
-        <label>sys/types.h</label>
-      </node>
-      <node id="419">
-        <label>string.h</label>
-      </node>
-      <node id="409">
-        <label>unistd.h</label>
-      </node>
-      <node id="407">
-        <label>glib.h</label>
-      </node>
-      <node id="415">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="416" relation="include">
-        </childnode>
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
         <childnode refid="417" relation="include">
         </childnode>
-        <childnode refid="407" relation="include">
+        <childnode refid="415" relation="include">
         </childnode>
         <childnode refid="418" relation="include">
         </childnode>
         <childnode refid="419" relation="include">
         </childnode>
-        <childnode refid="412" relation="include">
+        <childnode refid="420" relation="include">
         </childnode>
-        <childnode refid="414" relation="include">
-        </childnode>
-        <childnode refid="408" relation="include">
-        </childnode>
-      </node>
-      <node id="408">
-        <label>gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
-        <childnode refid="409" relation="include">
-        </childnode>
-        <childnode refid="407" relation="include">
-        </childnode>
-        <childnode refid="410" relation="include">
-        </childnode>
-        <childnode refid="411" relation="include">
-        </childnode>
-        <childnode refid="412" relation="include">
-        </childnode>
-        <childnode refid="413" relation="include">
-        </childnode>
-        <childnode refid="414" relation="include">
-        </childnode>
-        <childnode refid="415" relation="include">
-        </childnode>
-      </node>
-      <node id="411">
-        <label>dirent.h</label>
-      </node>
-    </incdepgraph>
-    <invincdepgraph>
-      <node id="421">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</label>
-        <link refid="gfal__common__srm__access_8c"/>
-      </node>
-      <node id="420">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h</label>
-        <link refid="gfal_common_srm_access.h"/>
         <childnode refid="421" relation="include">
         </childnode>
         <childnode refid="422" relation="include">
@@ -108,11 +91,42 @@
         <childnode refid="423" relation="include">
         </childnode>
       </node>
-      <node id="423">
+      <node id="419">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="429">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</label>
+        <link refid="gfal__common__srm__access_8c"/>
+      </node>
+      <node id="428">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h</label>
+        <link refid="gfal_common_srm_access.h"/>
+        <childnode refid="429" relation="include">
+        </childnode>
+        <childnode refid="430" relation="include">
+        </childnode>
+        <childnode refid="431" relation="include">
+        </childnode>
+        <childnode refid="432" relation="include">
+        </childnode>
+        <childnode refid="433" relation="include">
+        </childnode>
+      </node>
+      <node id="432">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
+        <link refid="gfal__posix__mkdir_8c"/>
+      </node>
+      <node id="431">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
         <link refid="gfal__posix__access_8c"/>
       </node>
-      <node id="422">
+      <node id="433">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</label>
+        <link refid="gfal__posix__rmdir_8c"/>
+      </node>
+      <node id="430">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.c</label>
         <link refid="gfal__common__srm__stat_8c"/>
       </node>
@@ -176,7 +190,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h" line="30" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c" bodystart="83" bodyend="111"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h" line="30" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c" bodystart="83" bodyend="108"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

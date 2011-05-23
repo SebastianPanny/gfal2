@@ -32,16 +32,14 @@
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem></itemizedlist>
-</para></listitem><listitem><para>gfal errors ( associated with a specific <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> ):<itemizedlist>
-<listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid. </para></listitem></itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid. </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="32" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="50" bodyend="52"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="32" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="49" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gdfeeecb2052d81e65bcc09903655991b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -78,16 +76,14 @@
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem></itemizedlist>
-</para></listitem><listitem><para>gfal errors ( associated with a specific <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> ):<itemizedlist>
-<listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid. </para></listitem></itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid. </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="70" bodyend="72"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="68" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g83b88bd27def4c4e2fdfea3c5bbf88b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -235,17 +231,44 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         <name>gfal_mkdir</name>
         <param>
           <type>const char *</type>
+          <defname>path</defname>
         </param>
         <param>
           <type>mode_t</type>
+          <defname>mode</defname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like &quot;mkdir -p&quot;. </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: url of the directory. Can be surl ( srm://), local (<ulink url="file://">file://</ulink>), or catalog&apos;s url (lfc:, ....) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: right of the directory ( depend of the implementation ) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set ( and <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> )<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.<itemizedlist>
+<listitem><para>EEXIST: file already exist</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="126" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="332" bodyend="420"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="126" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="148" bodyend="151"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g6a431a0bdd01baf8cadbdcaa98b1c622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -418,16 +441,14 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <listitem><para>EISDIR: newpath is an existing directory but oldpath is not a directory</para></listitem><listitem><para>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
 </para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.<itemizedlist>
 <listitem><para>EXDEV oldpath and newpath are not on the same mounted file system.</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem><listitem><para>gfal errors ( associated with a specific <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> ):<itemizedlist>
-<listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="156" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="97" bodyend="99"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="156" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="94" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gcc4b6347640a722674c2d6df437490df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -443,7 +464,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="828" bodyend="925"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="153" bodyend="155"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g45a23756f2c79a7e07488bb3fb2fc35e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
@@ -544,7 +565,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="168" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="130" bodyend="132"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="168" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="126" bodyend="128"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g739ca4985a67e0fc4fc253f42df2638c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -601,15 +622,13 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem></itemizedlist>
-</para></listitem><listitem><para>gfal errors ( associated with a specific <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> ):<itemizedlist>
-<listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="172" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="121" bodyend="123"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="172" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="117" bodyend="119"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gb40e2d23618763284ab4a1fb1a06a880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -654,7 +673,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="96"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1g48783e60cafa1a3bf9aa2170b99f9b08" kindref="member">gfal_creat64</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/>mode_t);</highlight></codeline>
 <codeline lineno="124"><highlight class="normal">off_t<sp/><ref refid="group__posix__group_1g8ba4e1df5f2e6439641c56f245d5ce73" kindref="member">gfal_lseek</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>off_t,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_mkdir<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/>mode_t);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1g6f6affcf386900efc5443a9c97556a57" kindref="member">gfal_mkdir</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/>mode_t);</highlight></codeline>
 <codeline lineno="146"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1g6a431a0bdd01baf8cadbdcaa98b1c622" kindref="member">gfal_open</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>mode_t);</highlight></codeline>
 <codeline lineno="147"><highlight class="normal"></highlight></codeline>
 <codeline lineno="148"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_open64<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>mode_t);</highlight></codeline>

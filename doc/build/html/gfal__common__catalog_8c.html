@@ -37,17 +37,17 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_operatio
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#4fd85b35f2134b73207c12b54e85959d">gfal_catalogs_accessG</a> (gfal_handle handle, const char *path, int mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="28ca68c00e4a67bc158975ef3e4f8013"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_statG" ref="28ca68c00e4a67bc158975ef3e4f8013" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_statG</b> (gfal_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#28ca68c00e4a67bc158975ef3e4f8013">gfal_catalog_statG</a> (gfal_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1ad1b1f96272dbf43a15e7ea5d35389d"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_lstatG" ref="1ad1b1f96272dbf43a15e7ea5d35389d" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_lstatG</b> (gfal_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#1ad1b1f96272dbf43a15e7ea5d35389d">gfal_catalog_lstatG</a> (gfal_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#c0412247b6ddd6ceac7fb171c56adaad">gfal_catalogs_delete</a> (gfal_handle handle, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#12b613d1db9c17e70e679ef7285f6a6f">gfal_catalog_chmodG</a> (gfal_handle handle, const char *path, mode_t mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#99ffb13510951a6fe79f3c33305ea189">gfal_catalog_renameG</a> (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#93da9b37bece0b034d80c17131761110">gfal_catalog_mkdirp</a> (gfal_handle handle, const char *path, mode_t mode, gboolean pflag, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4955825d7c275f3dfae9a57232642370"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_resolve_guid" ref="4955825d7c275f3dfae9a57232642370" args="(gfal_handle handle, const char *guid, GError **err)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolve_guid</b> (gfal_handle handle, const char *guid, GError **err)</td></tr>
@@ -105,6 +105,105 @@ Execute the chmod function on the first compatible catalog ( checked with check_
 
 </div>
 </div><p>
+<a class="anchor" name="1ad1b1f96272dbf43a15e7ea5d35389d"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_lstatG" ref="1ad1b1f96272dbf43a15e7ea5d35389d" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_lstatG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct stat *&nbsp;</td>
+          <td class="paramname"> <em>st</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Execute a lstat function in the lfc 
+</div>
+</div><p>
+<a class="anchor" name="93da9b37bece0b034d80c17131761110"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_mkdirp" ref="93da9b37bece0b034d80c17131761110" args="(gfal_handle handle, const char *path, mode_t mode, gboolean pflag, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_mkdirp           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>pflag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Execute a mkdir function on the first compatible catalog ( checked with check url func ) <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>handle of the current context </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>path to create </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>right of the file created </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pflag</em>&nbsp;</td><td>if TRUE, execute the request recursively if necessary else work as the common mkdir system call </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>GError</em>&nbsp;</td><td>error report system </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Warning:</b></dt><dd>no check on path, please check the path before </dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return 0 if success else return -1 </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="99ffb13510951a6fe79f3c33305ea189"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_renameG" ref="99ffb13510951a6fe79f3c33305ea189" args="(gfal_handle handle, const char *oldpath, const char *newpath, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -145,6 +244,47 @@ Execute the chmod function on the first compatible catalog ( checked with check_
 <p>
 Execute the rename function on the first compatible catalog ( checked with check_url func ) <dl compact><dt><b>Returns:</b></dt><dd>0 if success or -1 and set the GError to the correct errno value with a description msg </dd></dl>
 
+</div>
+</div><p>
+<a class="anchor" name="28ca68c00e4a67bc158975ef3e4f8013"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_statG" ref="28ca68c00e4a67bc158975ef3e4f8013" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_statG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct stat *&nbsp;</td>
+          <td class="paramname"> <em>st</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Execute a stat function on the lfc catalog 
 </div>
 </div><p>
 <a class="anchor" name="4fd85b35f2134b73207c12b54e85959d"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalogs_accessG" ref="4fd85b35f2134b73207c12b54e85959d" args="(gfal_handle handle, const char *path, int mode, GError **err)" -->
@@ -270,7 +410,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 17 15:24:26 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon May 23 16:29:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

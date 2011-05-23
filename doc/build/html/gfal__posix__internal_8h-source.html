@@ -51,10 +51,14 @@
 <a name="l00040"></a>00040 
 <a name="l00041"></a>00041 <span class="keywordtype">int</span> gfal_posix_internal_lstat(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* buf);
 <a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="keywordtype">void</span> gfal_posix_register_internal_error(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* prefix, GError * tmp_err);
-<a name="l00044"></a>00044  
-<a name="l00045"></a>00045 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue May 17 15:24:26 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00043"></a>00043 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__mkdir_8c.html#4389d46c4fffcc478b9f2f1312364184">gfal_posix_internal_mkdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__rmdir_8c.html#bb2b0fb8b7cc5c2c1ef27a1dea280ca0">gfal_posix_internal_rmdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path);
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 <span class="keywordtype">void</span> gfal_posix_register_internal_error(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* prefix, GError * tmp_err);
+<a name="l00048"></a>00048  
+<a name="l00049"></a>00049 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon May 23 16:29:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

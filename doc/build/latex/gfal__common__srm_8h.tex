@@ -29,7 +29,16 @@ int \bf{gfal\_\-get\_\-async\_\-results\_\-errcodes\-G} (gfal\_\-handle handle, 
 int \bf{gfal\_\-get\_\-async\_\-results\_\-errstring\-G} (gfal\_\-handle handle, GList $\ast$$\ast$turl\_\-errstring, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em string of each request errcode \item\end{CompactList}\item 
 int \bf{gfal\_\-wait\_\-async\_\-request\-G} (gfal\_\-handle handle, long timeout, GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em wait for the current request \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em wait for the current request \item\end{CompactList}\item 
+void \bf{gfal\_\-delete\_\-srmv2\_\-pinstatuses} (struct srmv2\_\-pinfilestatus $\ast$srmv2\_\-pinstatuses, int n)\label{gfal__common__srm_8h_f0881b420a0b33b1e0f289ee8a7fe578}
+
+\begin{CompactList}\small\item\em delete properly a struct srmv2\_\-pinstatuses \item\end{CompactList}\item 
+void \bf{gfal\_\-delete\_\-srmv2\_\-statuses} (struct srmv2\_\-filestatus $\ast$srmv2\_\-statuses, int n)\label{gfal__common__srm_8h_2e7ac01f03bbd88580d25496aa16631f}
+
+\begin{CompactList}\small\item\em delete properly a struct srmv2\_\-pinstatuses \item\end{CompactList}\item 
+void \bf{gfal\_\-delete\_\-srmv2\_\-mdfilestatus} (struct srmv2\_\-mdfilestatus $\ast$mdfilestatus, int n)\label{gfal__common__srm_8h_867db4fccb89253a14e6d126ac9bb3f7}
+
+\begin{CompactList}\small\item\em delete properly a struct srmv2\_\-mdfilestatus \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}

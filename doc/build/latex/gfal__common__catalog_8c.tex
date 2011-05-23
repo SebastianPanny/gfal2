@@ -19,17 +19,17 @@ int \textbf{gfal\_\-catalogs\_\-operation\_\-executor} (gfal\_\-handle handle, g
 \item 
 int \bf{gfal\_\-catalogs\_\-access\-G} (gfal\_\-handle handle, const char $\ast$path, int mode, GError $\ast$$\ast$err)
 \item 
-int \textbf{gfal\_\-catalog\_\-stat\-G} (gfal\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_28ca68c00e4a67bc158975ef3e4f8013}
-
+int \bf{gfal\_\-catalog\_\-stat\-G} (gfal\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)
 \item 
-int \textbf{gfal\_\-catalog\_\-lstat\-G} (gfal\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_1ad1b1f96272dbf43a15e7ea5d35389d}
-
+int \bf{gfal\_\-catalog\_\-lstat\-G} (gfal\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalogs\_\-delete} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalog\_\-chmod\-G} (gfal\_\-handle handle, const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalog\_\-rename\-G} (gfal\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-catalog\_\-mkdirp} (gfal\_\-handle handle, const char $\ast$path, mode\_\-t mode, gboolean pflag, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_4955825d7c275f3dfae9a57232642370}
 
@@ -57,6 +57,25 @@ the file of the common lib for the catalog management
 
 Execute the chmod function on the first compatible catalog ( checked with check\_\-url func ) \begin{Desc}
 \item[Returns:]0 if success or -1 and set the GError to the correct errno value with a description msg \end{Desc}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}}
+\index{gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-lstat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_1ad1b1f96272dbf43a15e7ea5d35389d}
+
+
+Execute a lstat function in the lfc \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_mkdirp@{gfal\_\-catalog\_\-mkdirp}}
+\index{gfal_catalog_mkdirp@{gfal\_\-catalog\_\-mkdirp}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-mkdirp (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, gboolean {\em pflag}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_93da9b37bece0b034d80c17131761110}
+
+
+Execute a mkdir function on the first compatible catalog ( checked with check url func ) \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]handle of the current context \item[{\em path}]path to create \item[{\em mode}]right of the file created \item[{\em pflag}]if TRUE, execute the request recursively if necessary else work as the common mkdir system call \item[{\em GError}]error report system \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Warning:]no check on path, please check the path before \end{Desc}
+\begin{Desc}
+\item[Returns:]return 0 if success else return -1 \end{Desc}
 \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_renameG@{gfal\_\-catalog\_\-renameG}}
 \index{gfal_catalog_renameG@{gfal\_\-catalog\_\-renameG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-rename\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_99ffb13510951a6fe79f3c33305ea189}
@@ -64,7 +83,12 @@ Execute the chmod function on the first compatible catalog ( checked with check\
 
 Execute the rename function on the first compatible catalog ( checked with check\_\-url func ) \begin{Desc}
 \item[Returns:]0 if success or -1 and set the GError to the correct errno value with a description msg \end{Desc}
-\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_statG@{gfal\_\-catalog\_\-statG}}
+\index{gfal_catalog_statG@{gfal\_\-catalog\_\-statG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-stat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_28ca68c00e4a67bc158975ef3e4f8013}
+
+
+Execute a stat function on the lfc catalog \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}}
 \index{gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-access\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_4fd85b35f2134b73207c12b54e85959d}
 

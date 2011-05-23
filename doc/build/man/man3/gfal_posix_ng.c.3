@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "17 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "23 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -36,6 +36,13 @@
 .RI "int \fBgfal_lstat\fP (const char *path, struct stat *buf)"
 .br
 .RI "\fIgfal_lstat is identical to \fBgfal_stat\fP except for symbolic links. In this case, the link itself is statted and not followed. \fP"
+.ti -1c
+.RI "int \fBgfal_mkdir\fP (const char *path, mode_t mode)"
+.br
+.RI "\fIcreate a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like 'mkdir -p'. \fP"
+.ti -1c
+.RI "int \fBgfal_rmdir\fP (const char *path)"
+.br
 .ti -1c
 .RI "void \fBgfal_posix_print_error\fP ()"
 .br

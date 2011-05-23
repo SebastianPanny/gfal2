@@ -58,11 +58,23 @@
 <a name="l00048"></a>00048 <span class="keywordtype">int</span> gfal_get_async_results_errstringG(gfal_handle handle, GList** turl_errstring, GError** err);
 <a name="l00049"></a>00049 
 <a name="l00050"></a>00050 <span class="keywordtype">int</span> gfal_wait_async_requestG(gfal_handle handle, <span class="keywordtype">long</span> timeout, GError** err);
-<a name="l00051"></a>00051   
+<a name="l00051"></a>00051 
 <a name="l00052"></a>00052 
 <a name="l00053"></a>00053 
 <a name="l00054"></a>00054 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue May 17 15:24:26 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00055"></a>00055 <span class="comment">/*</span>
+<a name="l00056"></a>00056 <span class="comment"> *  Internal one, support not provided</span>
+<a name="l00057"></a>00057 <span class="comment"> * */</span>
+<a name="l00058"></a>00058 <span class="keywordtype">void</span> gfal_delete_srmv2_pinstatuses(<span class="keyword">struct</span> srmv2_pinfilestatus*  srmv2_pinstatuses, <span class="keywordtype">int</span> n);
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060 <span class="keywordtype">void</span> gfal_delete_srmv2_statuses(<span class="keyword">struct</span> srmv2_filestatus*  srmv2_statuses, <span class="keywordtype">int</span> n);
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062 <span class="keywordtype">void</span> gfal_delete_srmv2_mdfilestatus(<span class="keyword">struct</span> srmv2_mdfilestatus* mdfilestatus, <span class="keywordtype">int</span> n);
+<a name="l00063"></a>00063   
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon May 23 16:29:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

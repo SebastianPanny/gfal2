@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "17 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "23 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -18,9 +18,9 @@
 .br
 \fC#include <stdlib.h>\fP
 .br
-\fC#include 'gfal_types.h'\fP
+\fC#include '../gfal_constants.h'\fP
 .br
-\fC#include 'gfal_constants.h'\fP
+\fC#include 'gfal_types.h'\fP
 .br
 \fC#include '../mds/gfal_common_mds.h'\fP
 .br
@@ -62,6 +62,12 @@
 .ti -1c
 .RI "int \fBgfal_lfc_convert_lstat\fP (struct stat *output, struct lfc_filestat *input, GError **err)"
 .br
+.ti -1c
+.RI "int \fBgfal_lfc_mkdir_rec\fP (struct lfc_ops *ops, char *browser_path, const char *full_path, mode_t mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_ifce_mkdirpG\fP (struct lfc_ops *ops, const char *path, mode_t mode, gboolean pflag, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -101,6 +107,19 @@ convert a guid to a lfn link with a call to the lfclib
 \fBReturns:\fP
 .RS 4
 : string of the lfn if success or NULL char* if error 
+.RE
+.PP
+
+.SS "int gfal_lfc_ifce_mkdirpG (struct lfc_ops * ops, const char * path, mode_t mode, gboolean pflag, GError ** err)"
+.PP
+Implementation of mkdir -p call on the lfc 
+.SS "int gfal_lfc_mkdir_rec (struct lfc_ops * ops, char * browser_path, const char * full_path, mode_t mode, GError ** err)"
+.PP
+Begin a recursive call on mkdir to create a full tree path 
+.PP
+\fBWarning:\fP
+.RS 4
+not safe, please ensure that string begin by '/' 
 .RE
 .PP
 

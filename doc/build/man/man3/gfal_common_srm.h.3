@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "17 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "23 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -51,6 +51,18 @@
 .RI "int \fBgfal_wait_async_requestG\fP (gfal_handle handle, long timeout, GError **err)"
 .br
 .RI "\fIwait for the current request \fP"
+.ti -1c
+.RI "void \fBgfal_delete_srmv2_pinstatuses\fP (struct srmv2_pinfilestatus *srmv2_pinstatuses, int n)"
+.br
+.RI "\fIdelete properly a struct srmv2_pinstatuses \fP"
+.ti -1c
+.RI "void \fBgfal_delete_srmv2_statuses\fP (struct srmv2_filestatus *srmv2_statuses, int n)"
+.br
+.RI "\fIdelete properly a struct srmv2_pinstatuses \fP"
+.ti -1c
+.RI "void \fBgfal_delete_srmv2_mdfilestatus\fP (struct srmv2_mdfilestatus *mdfilestatus, int n)"
+.br
+.RI "\fIdelete properly a struct srmv2_mdfilestatus \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
