@@ -248,7 +248,7 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 	g_clear_error(&tmp_err);
 	ret = i.resolve_guid(i.handle, TEST_GUID_VALID_ACCESS, &tmp_err);
 	if(ret == NULL || tmp_err){
-		g_printerr(" errno : %s ", strerror(ret));
+		g_printerr(" errno : %s ", strerror(tmp_err->code));
 		fail("must be a success, file is present");
 		gfal_release_GError(&tmp_err);
 		return;
@@ -256,7 +256,6 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
 	free(op->lfc_endpoint);
 	free(op);	
-	free(ret);	
 	gfal_handle_freeG(handle);
 }
 END_TEST
@@ -293,7 +292,6 @@ START_TEST(test__gfal_common_lfc_rename)
 	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
 	free(op->lfc_endpoint);
 	free(op);	
-	free(ret);		
 	gfal_handle_freeG(handle);
 }
 END_TEST

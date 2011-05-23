@@ -46,6 +46,7 @@
 #include "posix/test__gfal_posix_rename.c"
 #include "posix/test__gfal_posix_stat.c"
 #include "posix/test__gfal_posix_mkdir.c"
+#include "posix/test__gfal_posix_rmdir.c"
 
 Suite* common_suite (void)
 {
@@ -169,6 +170,14 @@ Suite* posix_suite (void)
   tcase_add_test(tc_mkdir, test__mkdir_posix_srm_rec);
   tcase_add_test(tc_mkdir, test__mkdir_posix_srm_rec_with_slash);
   suite_add_tcase(s, tc_mkdir);
+  TCase* tc_rmdir = tcase_create("RMDIR");
+  tcase_add_test(tc_rmdir, test__rmdir_posix_lfc_simple);
+  tcase_add_test(tc_rmdir, test__rmdir_posix_lfc_existingfile);
+  tcase_add_test(tc_rmdir, test__rmdir_posix_lfc_slash);
+  tcase_add_test(tc_rmdir, test__rmdir_posix_srm_simple);
+  tcase_add_test(tc_rmdir, test__rmdir_posix_srm_existingfile);
+  tcase_add_test(tc_rmdir, test__rmdir_posix_srm_slash);
+  suite_add_tcase(s, tc_rmdir);
   return s;
 }
 

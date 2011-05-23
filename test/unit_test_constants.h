@@ -117,3 +117,20 @@
 #define TEST_SRM_EEXIST_MKDIR "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testmkdir0011"
 #define TEST_SRM_BASE_FOLDER_URL_MKDIR1 "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/"
 #define TEST_SRM_UNACCESS_MKDIR "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testmkdir0012/testunaccessmkdir0011"
+
+
+// rmdir 
+
+#define TEST_LFC_RMDIR_CREATED "lfn:/grid/dteam/testrmdir0011" // must be an unexistant dir, will be created and deleted, without slash
+#define TEST_LFC_RMDIR_EEXIST "lfn:/grid/dteam/testrmdir0012" // must be a dir with content inside
+#define TEST_LFC_RMDIR_CREATED_SLASH "lfn:/grid/dteam/testrmdir0011/" // must be an unexisting dir, will be created and deleted with slash
+
+
+#define TEST_SRM_RMDIR_CREATED "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testrmdir0011" // same thing for srm
+#define TEST_SRM_RMDIR_EEXIST "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testrmdir0012"
+#define TEST_SRM_RMDIR_CREATED_SLASH "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testrmdir0011"
+
+#define TEST_LOCAL_RMDIR_CREATED "file:///tmp/testrmdir0011"
+#define TEST_LOCAL_RMDIR_EEXIST "file:///tmp/testrmdir0012"				// do not need to be created, created by system call
+#define TEST_LOCAL_RMDIR_EEXIST_COMMAND "mkdir /tmp/testrmdir0012 && touch /tmp/testrmdir0012/testrmdir0013"
+#define TEST_LOCAL_RMDIR_CREATED_SLASH "file:///tmp/testrmdir0012"
