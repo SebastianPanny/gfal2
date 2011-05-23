@@ -150,6 +150,10 @@ int gfal_mkdir( const char* path, mode_t mode){
 	
 }
 
+int gfal_rmdir(const char* path){
+	return gfal_posix_internal_rmdir(path);
+}
+
 
 /**
  * Display the last string error reported by the gfal error system for the posix API

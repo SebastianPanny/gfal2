@@ -823,7 +823,7 @@ gfal_rename (const char *old_name, const char *new_name)
     errno = 0;
     return (0);
 }*/
-
+/*
     int
 gfal_rmdir (const char *dirname)
 {
@@ -895,10 +895,10 @@ gfal_rmdir (const char *dirname)
         	return (-1);
         }
 
-/*TODO  if (srmv2_rmdir (path, srmv2_endpoint, 0, &filestatuses, NULL, 0, 0) < 1 || !filestatuses) {
-            free (srmv2_endpoint);
+//TODO  if (srmv2_rmdir (path, srmv2_endpoint, 0, &filestatuses, NULL, 0, 0) < 1 || !filestatuses) {
+  //          free (srmv2_endpoint);
             return (-1);
-        }*/
+    //    }
         if (rmdir_output.statuses[0].surl) free (rmdir_output.statuses[0].surl);
         errno = rmdir_output.statuses[0].status;
         rc = rmdir_output.statuses[0].status == 0 ? 0 : -1;
@@ -922,7 +922,7 @@ gfal_rmdir (const char *dirname)
     }
     errno = 0;
     return (0);
-}
+}*/
 
 
 #if !defined(linux) || defined(_LARGEFILE64_SOURCE)
