@@ -297,7 +297,7 @@ START_TEST(test__mkdir_posix_srm_simple)
 	time_t tt;
 	time(&tt);
 	snprintf(filename, 2048, "%stest%ld", TEST_SRM_BASE_FOLDER_URL_MKDIR1, tt);
-	g_printerr(" filename %s ", filename);
+	//g_printerr(" filename %s ", filename);
 	ret = gfal_mkdir(filename, 0664);
 	if(ret != 0 || errno !=0 || gfal_posix_code_error() != 0){
 		fail(" must be a valid create dir %d %d %d", ret, errno, gfal_posix_code_error());

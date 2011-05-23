@@ -136,6 +136,7 @@ START_TEST(test_gfal_common_lfc_access){
 		gfal_release_GError(&tmp_err);
 		return;
 	}
+	g_clear_error(&tmp_err);
 	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
 	free(op->lfc_endpoint);
 	free(op);
@@ -288,7 +289,11 @@ START_TEST(test__gfal_common_lfc_rename)
 		fail(" must be a success on the second rename ");
 		gfal_release_GError(&tmp_err);
 		return;
-	}	
+	}
+	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
+	free(op->lfc_endpoint);
+	free(op);	
+	free(ret);		
 	gfal_handle_freeG(handle);
 }
 END_TEST

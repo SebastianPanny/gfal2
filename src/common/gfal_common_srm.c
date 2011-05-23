@@ -34,6 +34,58 @@
  */
 static enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
 
+
+
+/**
+ *  @brief delete properly a struct srmv2_pinstatuses
+ **/ 
+void gfal_delete_srmv2_pinstatuses(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n){
+	if(srmv2_pinstatuses){
+		int i ;
+		for(i=0; i < n; ++i){
+			free(srmv2_pinstatuses[i].surl);
+			free(srmv2_pinstatuses[i].turl);
+			free(srmv2_pinstatuses[i].explanation);
+		}
+		free(srmv2_pinstatuses);	
+	}
+}
+
+/**
+ *  @brief delete properly  a struct srmv2_mdfilestatus 
+ **/ 
+void gfal_delete_srmv2_mdfilestatus(struct srmv2_mdfilestatus* mdfilestatus, int n){
+	if(mdfilestatus){
+		int i,j ;
+		for(i=0; i < n; ++i){
+			free(mdfilestatus[i].surl);
+			free(mdfilestatus[i].explanation);		
+			free(mdfilestatus[i].checksum);
+			free(mdfilestatus[i].checksumtype);	
+			for(j=0; j < mdfilestatus[i].nbspacetokens;++j){
+				free(mdfilestatus[i].spacetokens[i]);
+			}	
+		}
+		free(mdfilestatus);
+	}
+}
+
+/**
+ *   @brief delete properly a struct srmv2_pinstatuses
+ **/ 
+void gfal_delete_srmv2_statuses(struct srmv2_filestatus*  srmv2_statuses, int n){
+	if(srmv2_statuses){
+		int i ;
+		for(i=0; i < n; ++i){
+			free(srmv2_statuses[i].surl);
+			free(srmv2_statuses[i].turl);
+			free(srmv2_statuses[i].explanation);
+		}
+		free(srmv2_statuses);	
+	}
+}
+
+
 /**
  * check the validity of the current handle
  */
@@ -237,16 +289,17 @@ void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
 
 
 
+
 /**
  * delete properly a gfal_request_state structure
  * 
  * */
 void gfal_delete_request_state(gfal_request_state* request_state){
-	 if(request_state ){
+	 if(request_state){
 		 free(request_state->request_endpoint);
 		 free(request_state->srmv2_token);
 		 free(request_state->srmv2_statuses);
-		 free(request_state->srmv2_pinstatuses);
+		 gfal_delete_srmv2_pinstatuses(request_state->srmv2_pinstatuses, request_state->number);
 		 free(request_state);
 	 }
  }
@@ -257,7 +310,6 @@ void gfal_delete_request_state(gfal_request_state* request_state){
  * */
 void gfal_new_request_state(gfal_handle handle){
 	if(handle->last_request_state){
-		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, " erase a last request state");	// verbose message
 		gfal_delete_request_state(handle->last_request_state);
 	}
 	handle->last_request_state = calloc(1, sizeof(struct _gfal_request_state));		
@@ -313,15 +365,11 @@ static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls,
 	if(ret < 0){
 		g_set_error(err,0,errno,"[gfal_srmv2_getasync] call to srm_ifce error: %s",errbuf);
 	} else{
-		if(handle->last_request_state){
-			gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[GFAL] [gfal_srmv2_getasync] last request params deleted not properly ! ");
-			free(handle->last_request_state);		// free if notthe first one
-		}
-
 		gfal_new_request_state(handle);								// copy the informations of the current request in the last request information structure
 		gfal_request_state * req_state = handle->last_request_state;
     	req_state->srmv2_token = preparetoget_output.token;
-    	req_state->srmv2_pinstatuses = preparetoget_output.filestatuses;	
+    	req_state->srmv2_pinstatuses = preparetoget_output.filestatuses;
+    	req_state->number = ret;	
     	req_state->current_request_proto = PROTO_SRMv2;	
     	req_state->request_endpoint = strndup(endpoint, 2048);
     	req_state->finished = FALSE;
@@ -438,10 +486,11 @@ static int gfal_convert_filestatut(gfal_handle handle, GList** turls, GList** tu
 
 
 /**
- *  convert a srm_ifce result to the handle and set if req is finished or not
+ *  convert a srm_ifce result to the handle, update the last request info
  */
 static int gfal_convert_to_handle(int ret, gfal_request_state* request_info, struct srmv2_pinfilestatus *filestatus, GError** err){
 	g_return_val_err_if_fail(ret && request_info && filestatus, -1, err, "[gfal_convert_to_handle] invalid args");
+	gfal_delete_srmv2_pinstatuses(request_info->srmv2_pinstatuses, request_info->number);
 	request_info->srmv2_pinstatuses = filestatus;
 	int i;
 	gboolean finished = TRUE;
@@ -484,7 +533,6 @@ static int gfal_get_request_statusG(gfal_handle handle, GError** err){
 			if ( (ret = gfal_convert_to_handle(ret, request_info, preparetoget_output.filestatuses, &tmp_err)) <0){
 				g_propagate_prefixed_error(err, tmp_err, "[gfal_get_request_statusG_srmv2]");
 			}
-			//free(preparetoget_output.filestatuses);
 		} 
 		
 	}else if( request_info->current_request_proto == PROTO_SRM){
@@ -545,7 +593,7 @@ int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err){
   * @param turl_errcode : GList<char*>, give a string error for each turl request, char* can be NULL if no error associated
   * @return return number of request turl if success else return negative value
   * */
-  int gfal_get_async_results_errstringG(gfal_handle handle, GList** turls_errstring, GError** err){	
+int gfal_get_async_results_errstringG(gfal_handle handle, GList** turls_errstring, GError** err){	
 	g_return_val_err_if_fail(handle && turls_errstring , -1, err, "[gfal_get_async_results_errstringG] arg invalid value");
 	int ret = -1;
 	GError * tmp_err=NULL;

@@ -65,6 +65,7 @@ void gfal_handle_freeG (gfal_handle handle){
 	free(handle->srmv2_opt);
 	gfal_catalogs_delete(handle, NULL);
 	gfal_delete_request_state(handle->last_request_state);
+	handle->last_request_state = NULL;
 	free(handle);
 	handle = NULL;
 }
