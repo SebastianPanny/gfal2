@@ -457,14 +457,33 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         <name>gfal_rmdir</name>
         <param>
           <type>const char *</type>
+          <defname>path</defname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>removes a directory if it is empty remove an existing directory, return error if the dir is not empty </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>specifies the directory name, can be a surl ( srm://), local (<ulink url="file://">file://</ulink>) or a catalog url ( lfc:, ....) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return 0 is success else -1 and errno is set ( and <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> )<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.<itemizedlist>
+<listitem><para>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="153" bodyend="155"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="170" bodyend="172"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g45a23756f2c79a7e07488bb3fb2fc35e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
@@ -686,7 +705,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
 <codeline lineno="156"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1g34dc6129530d6bf9e5836ef22c0d2792" kindref="member">gfal_rename</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
 <codeline lineno="157"><highlight class="normal"></highlight></codeline>
-<codeline lineno="158"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rmdir<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1gcc4b6347640a722674c2d6df437490df" kindref="member">gfal_rmdir</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"></highlight></codeline>
 <codeline lineno="160"><highlight class="normal">ssize_t<sp/>gfal_setfilchg<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t);</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"></highlight></codeline>

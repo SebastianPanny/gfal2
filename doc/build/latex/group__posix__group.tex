@@ -36,9 +36,8 @@ dirent $\ast$ \textbf{gfal\_\-readdir} (DIR $\ast$)\label{group__posix__group_g2
 \item 
 int \bf{gfal\_\-rename} (const char $\ast$, const char $\ast$)
 \begin{CompactList}\small\item\em change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files \item\end{CompactList}\item 
-int \textbf{gfal\_\-rmdir} (const char $\ast$)\label{group__posix__group_gcc4b6347640a722674c2d6df437490df}
-
-\item 
+int \bf{gfal\_\-rmdir} (const char $\ast$)
+\begin{CompactList}\small\item\em removes a directory if it is empty remove an existing directory, return error if the dir is not empty \item\end{CompactList}\item 
 ssize\_\-t \textbf{gfal\_\-setfilchg} (int, const void $\ast$, size\_\-t)\label{group__posix__group_g45a23756f2c79a7e07488bb3fb2fc35e}
 
 \item 
@@ -248,6 +247,29 @@ change the name or location of a file oldpath and newpath need to be on the same
 \item ENOTDIR: A component of path prefix is not a directory.\begin{itemize}
 \item EXDEV oldpath and newpath are not on the same mounted file system.\end{itemize}
 \item ECOMM: Communication error\item EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported\item EINVAL: oldpath or newpath has an invalid syntax . \end{itemize}
+\end{itemize}
+\end{itemize}
+\end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_rmdir@{gfal\_\-rmdir}}
+\index{gfal_rmdir@{gfal\_\-rmdir}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-rmdir (const char $\ast$ {\em path})}\label{group__posix__group_gcc4b6347640a722674c2d6df437490df}
+
+
+removes a directory if it is empty remove an existing directory, return error if the dir is not empty 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em path}]specifies the directory name, can be a surl ( srm://), local (\tt{file://}) or a catalog url ( lfc:, ....) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return 0 is success else -1 and errno is set ( and \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} )\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item usual errors:\begin{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: oldpath or newpath is a NULL pointer.\begin{itemize}
+\item ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than \char`\"{}.\char`\"{} and \char`\"{}..\char`\"{}\end{itemize}
+\item ENOTDIR: A component of path prefix is not a directory.\item ECOMM: Communication error\item EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported\item EINVAL: path has an invalid syntax . \end{itemize}
 \end{itemize}
 \end{itemize}
 \end{Desc}

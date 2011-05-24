@@ -34,7 +34,8 @@ enum \textbf{\_\-catalog\_\-mode} \{ \par
 \par
 \textbf{GFAL\_\-CATALOG\_\-STAT}, 
 \textbf{GFAL\_\-CATALOG\_\-LSTAT}, 
-\textbf{GFAL\_\-CATALOG\_\-MKDIR}
+\textbf{GFAL\_\-CATALOG\_\-MKDIR}, 
+\textbf{GFAL\_\-CATALOG\_\-RMDIR}
  \}
 \end{CompactItemize}
 \subsection*{Functions}
@@ -123,7 +124,7 @@ Execute a mkdir function on the first compatible catalog ( checked with check ur
 \item[{\em handle}]handle of the current context \item[{\em path}]path to create \item[{\em mode}]right of the file created \item[{\em pflag}]if TRUE, execute the request recursively if necessary else work as the common mkdir system call \item[{\em GError}]error report system \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Warning:]no check on path, please check the path before \end{Desc}
+\item[Warning:]no check on the path, please check the path before \end{Desc}
 \begin{Desc}
 \item[Returns:]return 0 if success else return -1 \end{Desc}
 \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_statG@{gfal\_\-catalog\_\-statG}}

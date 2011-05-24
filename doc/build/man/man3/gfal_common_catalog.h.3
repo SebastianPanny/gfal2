@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "23 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "24 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -44,7 +44,7 @@
 
 .in +1c
 .ti -1c
-.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP }"
+.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -156,7 +156,7 @@ Execute a mkdir function on the first compatible catalog ( checked with check ur
 .PP
 \fBWarning:\fP
 .RS 4
-no check on path, please check the path before 
+no check on the path, please check the path before 
 .RE
 .PP
 \fBReturns:\fP

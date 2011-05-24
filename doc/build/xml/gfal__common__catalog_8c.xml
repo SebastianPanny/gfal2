@@ -441,12 +441,61 @@
 <para>error report system </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="warning"><para>no check on path, please check the path before </para></simplesect>
+<simplesect kind="warning"><para>no check on the path, please check the path before </para></simplesect>
 <simplesect kind="return"><para>return 0 if success else return -1 </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="238" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="238" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__catalog_8c_19cd4da87728df80003fe8618c4f63e13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_catalog_rmdirG</definition>
+        <argsstring>(gfal_handle handle, const char *path, GError **err)</argsstring>
+        <name>gfal_catalog_rmdirG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute a rmdir function on the first compatible catalog ( checked with check url func ) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>handle of the current context </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>path to delete </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>GError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>error report system </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="warning"><para>no check on the path, please check the path before </para></simplesect>
+<simplesect kind="return"><para>return 0 if success else return -1 </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="264" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="264" bodyend="279"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8c_14955825d7c275f3dfae9a57232642370" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -471,7 +520,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="261" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="261" bodyend="285"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="287" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="287" bodyend="311"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8c_1eb649d00e3f4fe888f0f6dbea48d2988" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -484,7 +533,7 @@
 <para>return the catalog type configured at compilation time </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="290" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="290" bodyend="292"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="316" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="316" bodyend="318"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8c_1c20aa1a376c802d0c60208854537851e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -502,7 +551,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="297" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="297" bodyend="310"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="323" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="323" bodyend="336"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -748,60 +797,77 @@
 <codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="253"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="254"><highlight class="normal"></highlight></codeline>
-<codeline lineno="255"><highlight class="normal"></highlight></codeline>
-<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">/***</highlight></codeline>
-<codeline lineno="257"><highlight class="comment"><sp/>*<sp/><sp/>Try<sp/>to<sp/>resolve<sp/>the<sp/>guid<sp/>to<sp/>a<sp/>compatible<sp/>catalog<sp/>URL<sp/>in<sp/>all<sp/>the<sp/>catalogs.</highlight></codeline>
-<codeline lineno="258"><highlight class="comment"><sp/>*<sp/><sp/>@return<sp/>string<sp/>of<sp/>the<sp/>new<sp/>catalog<sp/>URL<sp/>or<sp/>NULL<sp/>value<sp/>if<sp/>error<sp/>and<sp/>set<sp/>GError<sp/>to<sp/>the<sp/>correct<sp/>errno<sp/>and<sp/>msg</highlight></codeline>
-<codeline lineno="259"><highlight class="comment"><sp/>*<sp/><sp/>@warning<sp/>not<sp/>safe,<sp/>no<sp/>checking<sp/>on<sp/>the<sp/>url<sp/>integrity</highlight></codeline>
-<codeline lineno="260"><highlight class="comment"><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="261"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_catalog_resolve_guid(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(handle<sp/>&amp;&amp;<sp/>guid,<sp/>NULL,err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_catalog_resolve_guid]<sp/>Invalid<sp/>args<sp/>&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError<sp/>*tmp_err=NULL;</highlight></codeline>
-<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
-<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n_catalogs<sp/>=<sp/><ref refid="gfal__common__catalog_8c_196ebd098ad2447a81f096207879b9d3a" kindref="member">gfal_catalogs_instance</ref>(handle,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(n_catalogs<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>!tmp_err){</highlight></codeline>
-<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_catalog_interface*<sp/>cata_list<sp/>=<sp/>handle-&gt;catalog_opt.catalog_list;</highlight></codeline>
-<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(i=0;<sp/>i&lt;<sp/>n_catalogs;<sp/>++i,<sp/>++cata_list){</highlight></codeline>
-<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>cata_list-&gt;resolve_guid(cata_list-&gt;handle,<sp/>guid,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>||<sp/>tmp_err)</highlight></codeline>
-<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err){<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>error<sp/>reported</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,__func__);<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret==NULL){<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>error<sp/>and<sp/>no<sp/>valid<sp/>url<sp/></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>EPROTONOSUPPORT,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>Error<sp/>:<sp/>Protocol<sp/>not<sp/>supported<sp/>or<sp/>invalidpath/url<sp/>&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
-<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=NULL;</highlight></codeline>
-<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="286"><highlight class="normal"></highlight></codeline>
-<codeline lineno="290"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>get_default_cat(){</highlight></codeline>
-<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GFAL_DEFAULT_CATALOG_TYPE;</highlight></codeline>
-<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="293"><highlight class="normal"></highlight></codeline>
-<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">/***</highlight></codeline>
-<codeline lineno="295"><highlight class="comment"><sp/>*<sp/><sp/>return<sp/>the<sp/>name<sp/>of<sp/>the<sp/>current<sp/>selected<sp/>default<sp/>catalog<sp/>in<sp/>a<sp/>string<sp/>form</highlight></codeline>
-<codeline lineno="296"><highlight class="comment"><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="297"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_get_cat_type(GError**<sp/>err)<sp/>{</highlight></codeline>
-<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*cat_env;</highlight></codeline>
-<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*cat_type;</highlight></codeline>
-<codeline lineno="300"><highlight class="normal"></highlight></codeline>
-<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((cat_env<sp/>=<sp/>getenv<sp/>(</highlight><highlight class="stringliteral">&quot;LCG_CATALOG_TYPE&quot;</highlight><highlight class="normal">))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_VERBOSE,<sp/></highlight><highlight class="stringliteral">&quot;[get_cat_type]<sp/>LCG_CATALOG_TYPE<sp/>env<sp/>var<sp/>is<sp/>not<sp/>defined,<sp/>use<sp/>default<sp/>var<sp/>instead&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cat_env<sp/>=<sp/>get_default_cat();<sp/></highlight></codeline>
-<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((cat_type<sp/>=<sp/>strndup(cat_env,<sp/>50))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,EINVAL,</highlight><highlight class="stringliteral">&quot;[%s]<sp/>invalid<sp/>env<sp/>var<sp/>LCG_CATALOG_TYPE,<sp/>please<sp/>set<sp/>it<sp/>correctly<sp/>or<sp/>delete<sp/>it&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
-<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
-<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cat_type;</highlight></codeline>
-<codeline lineno="310"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_19cd4da87728df80003fe8618c4f63e13" kindref="member">gfal_catalog_rmdirG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(handle<sp/>&amp;&amp;<sp/>path<sp/>,<sp/>-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_catalog_rmdirp]<sp/>Invalid<sp/>argumetns<sp/>in<sp/>path<sp/>or/and<sp/>handle&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gboolean<sp/>rmdir_checker(gfal_catalog_interface*<sp/>cata_list,<sp/>GError**<sp/>terr){</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cata_list-&gt;check_catalog_url(cata_list-&gt;handle,<sp/>path,<sp/>GFAL_CATALOG_RMDIR,<sp/>terr);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rmdir_executor(gfal_catalog_interface*<sp/>cata_list,<sp/>GError**<sp/>terr){</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cata_list-&gt;rmdirG(cata_list-&gt;handle,<sp/>path,<sp/>terr);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>gfal_catalogs_operation_executor(handle,<sp/>&amp;rmdir_checker,<sp/>&amp;rmdir_executor,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">/***</highlight></codeline>
+<codeline lineno="283"><highlight class="comment"><sp/>*<sp/><sp/>Try<sp/>to<sp/>resolve<sp/>the<sp/>guid<sp/>to<sp/>a<sp/>compatible<sp/>catalog<sp/>URL<sp/>in<sp/>all<sp/>the<sp/>catalogs.</highlight></codeline>
+<codeline lineno="284"><highlight class="comment"><sp/>*<sp/><sp/>@return<sp/>string<sp/>of<sp/>the<sp/>new<sp/>catalog<sp/>URL<sp/>or<sp/>NULL<sp/>value<sp/>if<sp/>error<sp/>and<sp/>set<sp/>GError<sp/>to<sp/>the<sp/>correct<sp/>errno<sp/>and<sp/>msg</highlight></codeline>
+<codeline lineno="285"><highlight class="comment"><sp/>*<sp/><sp/>@warning<sp/>not<sp/>safe,<sp/>no<sp/>checking<sp/>on<sp/>the<sp/>url<sp/>integrity</highlight></codeline>
+<codeline lineno="286"><highlight class="comment"><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_catalog_resolve_guid(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(handle<sp/>&amp;&amp;<sp/>guid,<sp/>NULL,err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_catalog_resolve_guid]<sp/>Invalid<sp/>args<sp/>&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError<sp/>*tmp_err=NULL;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n_catalogs<sp/>=<sp/><ref refid="gfal__common__catalog_8c_196ebd098ad2447a81f096207879b9d3a" kindref="member">gfal_catalogs_instance</ref>(handle,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(n_catalogs<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>!tmp_err){</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_catalog_interface*<sp/>cata_list<sp/>=<sp/>handle-&gt;catalog_opt.catalog_list;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(i=0;<sp/>i&lt;<sp/>n_catalogs;<sp/>++i,<sp/>++cata_list){</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>cata_list-&gt;resolve_guid(cata_list-&gt;handle,<sp/>guid,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>||<sp/>tmp_err)</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err){<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>error<sp/>reported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,__func__);<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret==NULL){<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>error<sp/>and<sp/>no<sp/>valid<sp/>url<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>EPROTONOSUPPORT,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>Error<sp/>:<sp/>Protocol<sp/>not<sp/>supported<sp/>or<sp/>invalidpath/url<sp/>&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=NULL;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>get_default_cat(){</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GFAL_DEFAULT_CATALOG_TYPE;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">/***</highlight></codeline>
+<codeline lineno="321"><highlight class="comment"><sp/>*<sp/><sp/>return<sp/>the<sp/>name<sp/>of<sp/>the<sp/>current<sp/>selected<sp/>default<sp/>catalog<sp/>in<sp/>a<sp/>string<sp/>form</highlight></codeline>
+<codeline lineno="322"><highlight class="comment"><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_get_cat_type(GError**<sp/>err)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*cat_env;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*cat_type;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((cat_env<sp/>=<sp/>getenv<sp/>(</highlight><highlight class="stringliteral">&quot;LCG_CATALOG_TYPE&quot;</highlight><highlight class="normal">))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_VERBOSE,<sp/></highlight><highlight class="stringliteral">&quot;[get_cat_type]<sp/>LCG_CATALOG_TYPE<sp/>env<sp/>var<sp/>is<sp/>not<sp/>defined,<sp/>use<sp/>default<sp/>var<sp/>instead&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cat_env<sp/>=<sp/>get_default_cat();<sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((cat_type<sp/>=<sp/>strndup(cat_env,<sp/>50))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,EINVAL,</highlight><highlight class="stringliteral">&quot;[%s]<sp/>invalid<sp/>env<sp/>var<sp/>LCG_CATALOG_TYPE,<sp/>please<sp/>set<sp/>it<sp/>correctly<sp/>or<sp/>delete<sp/>it&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cat_type;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c"/>
   </compounddef>

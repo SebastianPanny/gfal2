@@ -59,9 +59,9 @@ dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_readdir</b> 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g34dc6129530d6bf9e5836ef22c0d2792">gfal_rename</a> (const char *, const char *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files  <a href="#g34dc6129530d6bf9e5836ef22c0d2792"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gcc4b6347640a722674c2d6df437490df"></a><!-- doxytag: member="posix_group::gfal_rmdir" ref="gcc4b6347640a722674c2d6df437490df" args="(const char *)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rmdir</b> (const char *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gcc4b6347640a722674c2d6df437490df">gfal_rmdir</a> (const char *)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">removes a directory if it is empty remove an existing directory, return error if the dir is not empty  <a href="#gcc4b6347640a722674c2d6df437490df"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g45a23756f2c79a7e07488bb3fb2fc35e"></a><!-- doxytag: member="posix_group::gfal_setfilchg" ref="g45a23756f2c79a7e07488bb3fb2fc35e" args="(int, const void *, size_t)" -->
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_setfilchg</b> (int, const void *, size_t)</td></tr>
 
@@ -480,6 +480,43 @@ change the name or location of a file oldpath and newpath need to be on the same
 
 </div>
 </div><p>
+<a class="anchor" name="gcc4b6347640a722674c2d6df437490df"></a><!-- doxytag: member="POSIX_API.c::gfal_rmdir" ref="gcc4b6347640a722674c2d6df437490df" args="(const char *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_rmdir           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+removes a directory if it is empty remove an existing directory, return error if the dir is not empty 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>specifies the directory name, can be a surl ( srm://), local (<a href="file://">file://</a>) or a catalog url ( lfc:, ....) </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return 0 is success else -1 and errno is set ( and <a class="el" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error()</a> )<ul>
+<li>ERRNO list : <br>
+<ul>
+<li>usual errors:<ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer.<ul>
+<li>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than "." and ".."</li></ul>
+</li><li>ENOTDIR: A component of path prefix is not a directory.</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</li><li>EINVAL: path has an invalid syntax . </li></ul>
+</li></ul>
+</li></ul>
+</dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="g1d8c86d522d5dd26ee7ddcd9c6925964"></a><!-- doxytag: member="POSIX_API.c::gfal_stat" ref="g1d8c86d522d5dd26ee7ddcd9c6925964" args="(const char *, struct stat *)" -->
 <div class="memitem">
 <div class="memproto">
@@ -525,7 +562,7 @@ informations about a file These functions return information about a file. No pe
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon May 23 16:29:02 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 24 17:05:42 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

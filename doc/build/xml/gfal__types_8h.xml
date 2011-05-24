@@ -20,6 +20,7 @@
     <includedby refid="gfal__common__srm_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h</includedby>
     <includedby refid="gfal__common__srm__access_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h</includedby>
     <includedby refid="gfal__common__srm__mkdir_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.h</includedby>
+    <includedby refid="gfal__common__srm__rmdir_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_rmdir.h</includedby>
     <includedby refid="gfal__common__srm__stat_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.h</includedby>
     <includedby refid="lfc__ifce__ng_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h</includedby>
     <includedby refid="lfc__ifce__ng_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c</includedby>
@@ -31,388 +32,398 @@
     <includedby refid="gfal__posix__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</includedby>
     <includedby refid="gfal__posix__stat_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</includedby>
     <incdepgraph>
-      <node id="690">
+      <node id="732">
         <label>sys/stat.h</label>
       </node>
-      <node id="694">
+      <node id="736">
         <label>stdarg.h</label>
       </node>
-      <node id="692">
+      <node id="734">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="687" relation="include">
+        <childnode refid="729" relation="include">
         </childnode>
       </node>
-      <node id="696">
+      <node id="738">
         <label>errno.h</label>
       </node>
-      <node id="691">
+      <node id="733">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="695">
+      <node id="737">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="688">
+      <node id="730">
         <label>sys/types.h</label>
       </node>
-      <node id="697">
+      <node id="739">
         <label>string.h</label>
       </node>
-      <node id="686">
+      <node id="728">
         <label>unistd.h</label>
       </node>
-      <node id="687">
+      <node id="729">
         <label>glib.h</label>
       </node>
-      <node id="693">
+      <node id="735">
         <label>gfal_common_catalog.h</label>
         <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="694" relation="include">
+        <childnode refid="736" relation="include">
         </childnode>
-        <childnode refid="695" relation="include">
-        </childnode>
-        <childnode refid="687" relation="include">
-        </childnode>
-        <childnode refid="696" relation="include">
-        </childnode>
-        <childnode refid="697" relation="include">
-        </childnode>
-        <childnode refid="690" relation="include">
-        </childnode>
-        <childnode refid="692" relation="include">
-        </childnode>
-        <childnode refid="685" relation="include">
-        </childnode>
-      </node>
-      <node id="685">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_types.h</label>
-        <link refid="gfal_types.h"/>
-        <childnode refid="686" relation="include">
-        </childnode>
-        <childnode refid="687" relation="include">
-        </childnode>
-        <childnode refid="688" relation="include">
-        </childnode>
-        <childnode refid="689" relation="include">
-        </childnode>
-        <childnode refid="690" relation="include">
-        </childnode>
-        <childnode refid="691" relation="include">
-        </childnode>
-        <childnode refid="692" relation="include">
-        </childnode>
-        <childnode refid="693" relation="include">
-        </childnode>
-      </node>
-      <node id="689">
-        <label>dirent.h</label>
-      </node>
-    </incdepgraph>
-    <invincdepgraph>
-      <node id="725">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</label>
-        <link refid="gfal__common__srm__access_8c"/>
-      </node>
-      <node id="724">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h</label>
-        <link refid="gfal__common__srm__access_8h"/>
-        <childnode refid="725" relation="include">
-        </childnode>
-        <childnode refid="726" relation="include">
-        </childnode>
-        <childnode refid="712" relation="include">
-        </childnode>
-        <childnode refid="713" relation="include">
-        </childnode>
-        <childnode refid="718" relation="include">
-        </childnode>
-      </node>
-      <node id="735">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c</label>
-        <link refid="gfal__posix__chmod_8c"/>
-      </node>
-      <node id="705">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h</label>
-        <link refid="gfal__common__internal_8h"/>
-        <childnode refid="706" relation="include">
-        </childnode>
-        <childnode refid="707" relation="include">
-        </childnode>
-        <childnode refid="709" relation="include">
-        </childnode>
-      </node>
-      <node id="711">
-        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.c</label>
-        <link refid="gfal__voms__if_8c"/>
-      </node>
-      <node id="710">
-        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.h</label>
-        <link refid="gfal__voms__if_8h-source"/>
-        <childnode refid="711" relation="include">
-        </childnode>
-      </node>
-      <node id="733">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</label>
-        <link refid="gfal__posix__ng_8c"/>
-      </node>
-      <node id="700">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_internals.h</label>
-        <link refid="gfal__internals_8h-source"/>
-      </node>
-      <node id="703">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
-        <link refid="gfal__posix_8c"/>
-      </node>
-      <node id="713">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
-        <link refid="gfal__posix__mkdir_8c"/>
-      </node>
-      <node id="701">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_storage.h</label>
-        <link refid="gfal__common__storage_8h-source"/>
-        <childnode refid="702" relation="include">
-        </childnode>
-        <childnode refid="703" relation="include">
-        </childnode>
-      </node>
-      <node id="731">
-        <label>/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.h</label>
-        <link refid="gfal__common__mds_8h-source"/>
-        <childnode refid="723" relation="include">
-        </childnode>
-      </node>
-      <node id="708">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</label>
-        <link refid="gfal__posix__stat_8c"/>
-      </node>
-      <node id="734">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h</label>
-        <link refid="gfal__posix__internal_8h-source"/>
-        <childnode refid="703" relation="include">
-        </childnode>
-        <childnode refid="712" relation="include">
-        </childnode>
-        <childnode refid="735" relation="include">
-        </childnode>
-        <childnode refid="713" relation="include">
-        </childnode>
-        <childnode refid="733" relation="include">
-        </childnode>
-        <childnode refid="717" relation="include">
-        </childnode>
-        <childnode refid="718" relation="include">
-        </childnode>
-        <childnode refid="708" relation="include">
-        </childnode>
-      </node>
-      <node id="707">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h</label>
-        <link refid="gfal__common__srm_8h"/>
-        <childnode refid="705" relation="include">
-        </childnode>
-        <childnode refid="708" relation="include">
-        </childnode>
-      </node>
-      <node id="728">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.c</label>
-        <link refid="gfal__common__srm__mkdir_8c"/>
-      </node>
-      <node id="727">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.h</label>
-        <link refid="gfal__common__srm__mkdir_8h"/>
-        <childnode refid="728" relation="include">
-        </childnode>
-      </node>
-      <node id="732">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
-        <link refid="gfal__posix__api_8h-source"/>
-        <childnode refid="703" relation="include">
-        </childnode>
-        <childnode refid="712" relation="include">
-        </childnode>
-        <childnode refid="713" relation="include">
-        </childnode>
-        <childnode refid="733" relation="include">
-        </childnode>
-        <childnode refid="717" relation="include">
-        </childnode>
-        <childnode refid="718" relation="include">
-        </childnode>
-      </node>
-      <node id="706">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.c</label>
-        <link refid="gfal__common__interface_8c"/>
-      </node>
-      <node id="722">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h</label>
-        <link refid="gfal__common__interface_8h"/>
-        <childnode refid="706" relation="include">
-        </childnode>
-        <childnode refid="723" relation="include">
-        </childnode>
-      </node>
-      <node id="717">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</label>
-        <link refid="gfal__posix__rename_8c"/>
-      </node>
-      <node id="719">
-        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h</label>
-        <link refid="lfc__ifce_8h-source"/>
-        <childnode refid="699" relation="include">
-        </childnode>
-      </node>
-      <node id="723">
-        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c</label>
-        <link refid="lfc__ifce__ng_8c"/>
-      </node>
-      <node id="730">
-        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h</label>
-        <link refid="lfc__ifce__ng_8h"/>
-        <childnode refid="709" relation="include">
-        </childnode>
-        <childnode refid="723" relation="include">
-        </childnode>
-      </node>
-      <node id="702">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.c</label>
-        <link refid="gfal__common_8c"/>
-      </node>
-      <node id="699">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
-        <link refid="gfal__common_8h"/>
-        <childnode refid="700" relation="include">
-        </childnode>
-        <childnode refid="701" relation="include">
-        </childnode>
-        <childnode refid="702" relation="include">
-        </childnode>
-        <childnode refid="704" relation="include">
-        </childnode>
-        <childnode refid="705" relation="include">
-        </childnode>
-        <childnode refid="710" relation="include">
-        </childnode>
-        <childnode refid="703" relation="include">
-        </childnode>
-        <childnode refid="712" relation="include">
-        </childnode>
-        <childnode refid="713" relation="include">
-        </childnode>
-      </node>
-      <node id="712">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
-        <link refid="gfal__posix__access_8c"/>
-      </node>
-      <node id="715">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
-        <link refid="gfal__common__catalog_8c"/>
-      </node>
-      <node id="714">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="698" relation="include">
-        </childnode>
-        <childnode refid="715" relation="include">
-        </childnode>
-        <childnode refid="716" relation="include">
-        </childnode>
-        <childnode refid="712" relation="include">
-        </childnode>
-        <childnode refid="713" relation="include">
-        </childnode>
-        <childnode refid="717" relation="include">
-        </childnode>
-        <childnode refid="718" relation="include">
-        </childnode>
-      </node>
-      <node id="718">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</label>
-        <link refid="gfal__posix__rmdir_8c"/>
-      </node>
-      <node id="721">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.c</label>
-        <link refid="gfal__common__guid_8c"/>
-      </node>
-      <node id="720">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h</label>
-        <link refid="gfal__common__guid_8h"/>
-        <childnode refid="721" relation="include">
-        </childnode>
-        <childnode refid="712" relation="include">
-        </childnode>
-        <childnode refid="713" relation="include">
-        </childnode>
-        <childnode refid="718" relation="include">
-        </childnode>
-        <childnode refid="708" relation="include">
-        </childnode>
-      </node>
-      <node id="704">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</label>
-        <link refid="gfal__common__all_8c"/>
-      </node>
-      <node id="726">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.c</label>
-        <link refid="gfal__common__srm__stat_8c"/>
-      </node>
-      <node id="729">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.h</label>
-        <link refid="gfal__common__srm__stat_8h"/>
-        <childnode refid="708" relation="include">
-        </childnode>
-      </node>
-      <node id="698">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_types.h</label>
-        <link refid="gfal_types.h"/>
-        <childnode refid="699" relation="include">
-        </childnode>
-        <childnode refid="714" relation="include">
-        </childnode>
-        <childnode refid="719" relation="include">
-        </childnode>
-        <childnode refid="716" relation="include">
-        </childnode>
-        <childnode refid="720" relation="include">
-        </childnode>
-        <childnode refid="722" relation="include">
-        </childnode>
-        <childnode refid="707" relation="include">
-        </childnode>
-        <childnode refid="724" relation="include">
-        </childnode>
-        <childnode refid="727" relation="include">
+        <childnode refid="737" relation="include">
         </childnode>
         <childnode refid="729" relation="include">
         </childnode>
-        <childnode refid="730" relation="include">
+        <childnode refid="738" relation="include">
         </childnode>
-        <childnode refid="723" relation="include">
-        </childnode>
-        <childnode refid="731" relation="include">
+        <childnode refid="739" relation="include">
         </childnode>
         <childnode refid="732" relation="include">
         </childnode>
         <childnode refid="734" relation="include">
         </childnode>
-        <childnode refid="712" relation="include">
-        </childnode>
-        <childnode refid="713" relation="include">
-        </childnode>
-        <childnode refid="718" relation="include">
-        </childnode>
-        <childnode refid="708" relation="include">
+        <childnode refid="727" relation="include">
         </childnode>
       </node>
-      <node id="709">
+      <node id="727">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_types.h</label>
+        <link refid="gfal_types.h"/>
+        <childnode refid="728" relation="include">
+        </childnode>
+        <childnode refid="729" relation="include">
+        </childnode>
+        <childnode refid="730" relation="include">
+        </childnode>
+        <childnode refid="731" relation="include">
+        </childnode>
+        <childnode refid="732" relation="include">
+        </childnode>
+        <childnode refid="733" relation="include">
+        </childnode>
+        <childnode refid="734" relation="include">
+        </childnode>
+        <childnode refid="735" relation="include">
+        </childnode>
+      </node>
+      <node id="731">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="767">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</label>
+        <link refid="gfal__common__srm__access_8c"/>
+      </node>
+      <node id="766">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.h</label>
+        <link refid="gfal__common__srm__access_8h"/>
+        <childnode refid="767" relation="include">
+        </childnode>
+        <childnode refid="768" relation="include">
+        </childnode>
+        <childnode refid="754" relation="include">
+        </childnode>
+        <childnode refid="755" relation="include">
+        </childnode>
+      </node>
+      <node id="779">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c</label>
+        <link refid="gfal__posix__chmod_8c"/>
+      </node>
+      <node id="747">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h</label>
+        <link refid="gfal__common__internal_8h"/>
+        <childnode refid="748" relation="include">
+        </childnode>
+        <childnode refid="749" relation="include">
+        </childnode>
+        <childnode refid="751" relation="include">
+        </childnode>
+      </node>
+      <node id="753">
+        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.c</label>
+        <link refid="gfal__voms__if_8c"/>
+      </node>
+      <node id="752">
+        <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.h</label>
+        <link refid="gfal__voms__if_8h-source"/>
+        <childnode refid="753" relation="include">
+        </childnode>
+      </node>
+      <node id="777">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</label>
+        <link refid="gfal__posix__ng_8c"/>
+      </node>
+      <node id="742">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_internals.h</label>
+        <link refid="gfal__internals_8h-source"/>
+      </node>
+      <node id="745">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
+        <link refid="gfal__posix_8c"/>
+      </node>
+      <node id="755">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
+        <link refid="gfal__posix__mkdir_8c"/>
+      </node>
+      <node id="743">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_storage.h</label>
+        <link refid="gfal__common__storage_8h-source"/>
+        <childnode refid="744" relation="include">
+        </childnode>
+        <childnode refid="745" relation="include">
+        </childnode>
+      </node>
+      <node id="775">
+        <label>/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.h</label>
+        <link refid="gfal__common__mds_8h-source"/>
+        <childnode refid="765" relation="include">
+        </childnode>
+      </node>
+      <node id="750">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</label>
+        <link refid="gfal__posix__stat_8c"/>
+      </node>
+      <node id="778">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h</label>
+        <link refid="gfal__posix__internal_8h-source"/>
+        <childnode refid="745" relation="include">
+        </childnode>
+        <childnode refid="754" relation="include">
+        </childnode>
+        <childnode refid="779" relation="include">
+        </childnode>
+        <childnode refid="755" relation="include">
+        </childnode>
+        <childnode refid="777" relation="include">
+        </childnode>
+        <childnode refid="759" relation="include">
+        </childnode>
+        <childnode refid="760" relation="include">
+        </childnode>
+        <childnode refid="750" relation="include">
+        </childnode>
+      </node>
+      <node id="749">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h</label>
+        <link refid="gfal__common__srm_8h"/>
+        <childnode refid="747" relation="include">
+        </childnode>
+        <childnode refid="750" relation="include">
+        </childnode>
+      </node>
+      <node id="770">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.c</label>
+        <link refid="gfal__common__srm__mkdir_8c"/>
+      </node>
+      <node id="769">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.h</label>
+        <link refid="gfal__common__srm__mkdir_8h"/>
+        <childnode refid="770" relation="include">
+        </childnode>
+      </node>
+      <node id="776">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
+        <link refid="gfal__posix__api_8h-source"/>
+        <childnode refid="745" relation="include">
+        </childnode>
+        <childnode refid="754" relation="include">
+        </childnode>
+        <childnode refid="755" relation="include">
+        </childnode>
+        <childnode refid="777" relation="include">
+        </childnode>
+        <childnode refid="759" relation="include">
+        </childnode>
+        <childnode refid="760" relation="include">
+        </childnode>
+      </node>
+      <node id="748">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.c</label>
+        <link refid="gfal__common__interface_8c"/>
+      </node>
+      <node id="764">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h</label>
+        <link refid="gfal__common__interface_8h"/>
+        <childnode refid="748" relation="include">
+        </childnode>
+        <childnode refid="765" relation="include">
+        </childnode>
+      </node>
+      <node id="759">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</label>
+        <link refid="gfal__posix__rename_8c"/>
+      </node>
+      <node id="761">
+        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce.h</label>
+        <link refid="lfc__ifce_8h-source"/>
+        <childnode refid="741" relation="include">
+        </childnode>
+      </node>
+      <node id="765">
+        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c</label>
+        <link refid="lfc__ifce__ng_8c"/>
+      </node>
+      <node id="774">
+        <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h</label>
+        <link refid="lfc__ifce__ng_8h"/>
+        <childnode refid="751" relation="include">
+        </childnode>
+        <childnode refid="765" relation="include">
+        </childnode>
+      </node>
+      <node id="744">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.c</label>
+        <link refid="gfal__common_8c"/>
+      </node>
+      <node id="741">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
+        <link refid="gfal__common_8h"/>
+        <childnode refid="742" relation="include">
+        </childnode>
+        <childnode refid="743" relation="include">
+        </childnode>
+        <childnode refid="744" relation="include">
+        </childnode>
+        <childnode refid="746" relation="include">
+        </childnode>
+        <childnode refid="747" relation="include">
+        </childnode>
+        <childnode refid="752" relation="include">
+        </childnode>
+        <childnode refid="745" relation="include">
+        </childnode>
+        <childnode refid="754" relation="include">
+        </childnode>
+        <childnode refid="755" relation="include">
+        </childnode>
+      </node>
+      <node id="754">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
+        <link refid="gfal__posix__access_8c"/>
+      </node>
+      <node id="757">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
+        <link refid="gfal__common__catalog_8c"/>
+      </node>
+      <node id="756">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="740" relation="include">
+        </childnode>
+        <childnode refid="757" relation="include">
+        </childnode>
+        <childnode refid="758" relation="include">
+        </childnode>
+        <childnode refid="754" relation="include">
+        </childnode>
+        <childnode refid="755" relation="include">
+        </childnode>
+        <childnode refid="759" relation="include">
+        </childnode>
+        <childnode refid="760" relation="include">
+        </childnode>
+      </node>
+      <node id="760">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</label>
+        <link refid="gfal__posix__rmdir_8c"/>
+      </node>
+      <node id="763">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.c</label>
+        <link refid="gfal__common__guid_8c"/>
+      </node>
+      <node id="762">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h</label>
+        <link refid="gfal__common__guid_8h"/>
+        <childnode refid="763" relation="include">
+        </childnode>
+        <childnode refid="754" relation="include">
+        </childnode>
+        <childnode refid="755" relation="include">
+        </childnode>
+        <childnode refid="750" relation="include">
+        </childnode>
+      </node>
+      <node id="746">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</label>
+        <link refid="gfal__common__all_8c"/>
+      </node>
+      <node id="772">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_rmdir.c</label>
+        <link refid="gfal__common__srm__rmdir_8c"/>
+      </node>
+      <node id="771">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_rmdir.h</label>
+        <link refid="gfal__common__srm__rmdir_8h"/>
+        <childnode refid="772" relation="include">
+        </childnode>
+        <childnode refid="760" relation="include">
+        </childnode>
+      </node>
+      <node id="768">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.c</label>
+        <link refid="gfal__common__srm__stat_8c"/>
+      </node>
+      <node id="773">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.h</label>
+        <link refid="gfal__common__srm__stat_8h"/>
+        <childnode refid="750" relation="include">
+        </childnode>
+      </node>
+      <node id="740">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_types.h</label>
+        <link refid="gfal_types.h"/>
+        <childnode refid="741" relation="include">
+        </childnode>
+        <childnode refid="756" relation="include">
+        </childnode>
+        <childnode refid="761" relation="include">
+        </childnode>
+        <childnode refid="758" relation="include">
+        </childnode>
+        <childnode refid="762" relation="include">
+        </childnode>
+        <childnode refid="764" relation="include">
+        </childnode>
+        <childnode refid="749" relation="include">
+        </childnode>
+        <childnode refid="766" relation="include">
+        </childnode>
+        <childnode refid="769" relation="include">
+        </childnode>
+        <childnode refid="771" relation="include">
+        </childnode>
+        <childnode refid="773" relation="include">
+        </childnode>
+        <childnode refid="774" relation="include">
+        </childnode>
+        <childnode refid="765" relation="include">
+        </childnode>
+        <childnode refid="775" relation="include">
+        </childnode>
+        <childnode refid="776" relation="include">
+        </childnode>
+        <childnode refid="778" relation="include">
+        </childnode>
+        <childnode refid="754" relation="include">
+        </childnode>
+        <childnode refid="755" relation="include">
+        </childnode>
+        <childnode refid="760" relation="include">
+        </childnode>
+        <childnode refid="750" relation="include">
+        </childnode>
+      </node>
+      <node id="751">
         <label>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c</label>
         <link refid="gfal__common__lfc_8c"/>
       </node>
-      <node id="716">
+      <node id="758">
         <label>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h</label>
         <link refid="gfal__common__lfc_8h"/>
-        <childnode refid="715" relation="include">
+        <childnode refid="757" relation="include">
         </childnode>
-        <childnode refid="709" relation="include">
+        <childnode refid="751" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

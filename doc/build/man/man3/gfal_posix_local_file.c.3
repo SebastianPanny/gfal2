@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "23 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "24 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -49,6 +49,9 @@
 .RI "int \fBgfal_local_mkdir\fP (const char *path, mode_t mode, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_local_rmdir\fP (const char *path, GError **err)"
+.br
+.ti -1c
 .RI "gboolean \fBgfal_check_local_url\fP (const char *path, GError **err)"
 .br
 .in -1c
@@ -77,6 +80,9 @@ Devresse Adrien
 .SS "gboolean gfal_check_local_url (const char * path, GError ** err)"
 .PP
 check the validity of a classique file url 
+.SS "int gfal_local_rmdir (const char * path, GError ** err)"
+.PP
+local rmdir mapper 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.
