@@ -149,7 +149,24 @@ int gfal_mkdir( const char* path, mode_t mode){
 	return  gfal_posix_internal_mkdir( path, mode);
 	
 }
-
+/**
+ * @brief  removes a directory if it is empty
+ * remove an existing directory, return error if the dir is not empty
+ *  @param path specifies the directory name, can be a surl ( srm://), local (file://) or a catalog url ( lfc:, ....)
+ *  @return return 0 is success else -1 and errno is set ( and gfal_posix_print_error() )
+ *  - ERRNO list : \n
+ *    	- usual errors:
+ *    		- ENOENT: The named file/directory does not exist.
+ *    		- EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath,
+              or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
+ *   		- EFAULT: oldpath or newpath is a NULL pointer.
+ * 			- ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than "." and ".."
+ *   		- ENOTDIR: A component of path prefix is not a directory.
+ *   		- ECOMM: Communication error
+ *   		- EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported
+ *   		- EINVAL: path has an invalid syntax .
+ * 
+ * */
 int gfal_rmdir(const char* path){
 	return gfal_posix_internal_rmdir(path);
 }

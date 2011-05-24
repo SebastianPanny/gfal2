@@ -84,7 +84,7 @@ int gfal_srm_statG(gfal_handle handle, const char* surl, struct stat* buf, GErro
 	ret = gfal_auto_get_srm_endpoint_for_surl(handle, &endpoint, &srm_type, surl, &tmp_err);
 	if( ret >=0 ){
 		if(srm_type == PROTO_SRMv2){
-			gfal_statG_srmv2_internal(handle, buf, endpoint, surl, &tmp_err);
+			ret = gfal_statG_srmv2_internal(handle, buf, endpoint, surl, &tmp_err);
 		}else if (srm_type == PROTO_SRM){
 			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
 			ret = -1;

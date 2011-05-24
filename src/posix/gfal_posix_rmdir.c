@@ -32,8 +32,7 @@
 #include "gfal_posix_internal.h"
 #include "gfal_posix_local_file.h"
 #include  "../common/gfal_common_catalog.h"
-#include "../common/gfal_common_guid.h"
-#include "../common/gfal_common_srm_access.h"
+#include "../common/gfal_common_srm_rmdir.h"
 #include "../common/gfal_constants.h"
 
 
@@ -59,7 +58,7 @@
 		}else if(gfal_guid_checker(path, NULL) == TRUE){
 			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported for directory deletion");
 		}else if( gfal_surl_checker(path, NULL) == 0 ){
-			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
+			res = gfal_srm_rmdirG(handle, path, &tmp_err);
 		}else{
 			res = gfal_catalog_rmdirG(handle, path, &tmp_err);
 		}
