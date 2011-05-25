@@ -612,7 +612,7 @@ err:
     return (-1);
 }
 
-    int
+/*    int
 gfal_open64 (const char *filename, int flags, mode_t mode)
 {
     return (gfal_open (filename, flags | O_LARGEFILE, mode));
@@ -692,7 +692,7 @@ gfal_opendir (const char *dirname)
     di->pops = pops;
     errno = 0;
     return (dir);
-}
+}*/
 
     ssize_t
 gfal_read (int fd, void *buf, size_t size)

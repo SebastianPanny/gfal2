@@ -56,4 +56,4 @@ gboolean gfal_file_handle_delete(gfal_file_descriptor_handle h, int file_desc, G
 int gfal_dir_handle_create(gfal_file_descriptor_handle h, int module_id, gpointer real_file_desc, GError** err);
 
 
-gfal_directory_handle gfal_dir_handle_bind(gfal_file_descriptor_handle h, int file_desc, GError** err);
+gfal_file_handle gfal_dir_handle_bind(gfal_file_descriptor_handle h, int file_desc, GError** err);

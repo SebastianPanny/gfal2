@@ -30,6 +30,41 @@
 #include "gfal_common_filedescriptor.h"
 
 
-static gfal_
 
+DIR* gfal_opendir(const char* name){
+	GError* tmp_err=NULL;
+
+	gfal_handle handle;
+	DIR* res= NULL;
+
+	if((handle = gfal_posix_instance()) == NULL){
+		errno = EIO;
+		return NULL;
+	}
+
+	if(name == NULL){
+		g_set_error(&tmp_err, 0, EFAULT, " name is empty");
+	}else{
+		if( gfal_check_local_url(name, NULL) == TRUE){
+			res = NULL;
+			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
+		}else if(gfal_guid_checker(name, NULL) == TRUE){
+			res = NULL;
+			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported for directory creation");
+		}else if( gfal_surl_checker(name, NULL) == 0 ){
+			res = NULL;
+			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
+		}else{
+			res = NULL;
+			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
+		}
+	}
+	if(tmp_err){
+		gfal_posix_register_internal_error(handle, "[gfal_opendir]", tmp_err);
+		errno = tmp_err->code;	
+	}
+	return res; 
+	 
+	
+}
 

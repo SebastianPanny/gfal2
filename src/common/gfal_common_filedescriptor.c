@@ -110,10 +110,10 @@ gboolean gfal_remove_file_desc(gfal_file_descriptor_handle fhandle, int key, GEr
  * @warning does not free the handle
  * 
  * */
-gfal_directory_handle gfal_dir_handle_bind(gfal_file_descriptor_handle h, int file_desc, GError** err){
+gfal_file_handle gfal_dir_handle_bind(gfal_file_descriptor_handle h, int file_desc, GError** err){
 	g_return_val_err_if_fail(file_desc, 0, err, "[gfal_dir_handle_bind] invalid dir descriptor");
 	GError* tmp_err = NULL;
-	gfal_directory_handle resu=NULL;
+	gfal_file_handle resu=NULL;
 	resu = gfal_get_file_desc(h, file_desc, &tmp_err);		
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
@@ -129,7 +129,7 @@ int gfal_dir_handle_create(gfal_file_descriptor_handle h, int module_id, gpointe
 	g_return_val_err_if_fail(module_id && real_file_desc, 0, err, "[gfal_dir_handle_create] invalid dir descriptor");
 	GError* tmp_err = NULL;
 	int resu=-1;
-	gfal_directory_handle dir = malloc(sizeof(struct _gfal_file_handle_));
+	gfal_file_handle dir = malloc(sizeof(struct _gfal_file_handle_));
 	dir->module_id = module_id;
 	dir->fdesc= real_file_desc;
 	resu = gfal_add_new_file_desc(h, dir, &tmp_err);			

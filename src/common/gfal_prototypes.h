@@ -41,7 +41,7 @@ typedef gpointer catalog_handle;
 typedef struct _gfal_file_descriptor_container* gfal_file_descriptor_handle;
 
 // dir part file descriptor
-typedef struct _gfal_file_handle_* gfal_directory_handle;
+typedef struct _gfal_file_handle_* gfal_file_handle;
 
 // main 
 typedef struct gfal_handle_* gfal_handle;
