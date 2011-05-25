@@ -26,4 +26,9 @@
 
 
 #include "gfal_constants.h" 
+#include "gfal_prototypes.h"
+
+
+
+gfal_file_descriptor_handle gfal_dir_handle_instance(GError** err);
 

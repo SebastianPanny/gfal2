@@ -23,6 +23,34 @@
  * @date 25/05/2011
  * */
 
-
+#include <stdlib.h>
+#include <errno.h>
+#include <glib.h>
 #include "gfal_constants.h" 
+#include "gfal_prototypes.h"
+#include "gfal_common_filedescriptor.h"
+#include "gfal_common_dir_handle.h"
+
+
+static gfal_file_descriptor_handle dir_handle=NULL;
+
+
+
+
+/**
+ * 
+ * return the singleton of the file descriptor container for the directories
+ */
+gfal_file_descriptor_handle gfal_dir_handle_instance(GError** err){
+	if(dir_handle == NULL)
+		return dir_handle;
+	else{
+		dir_handle = gfal_file_descriptor_handle_create(&free);
+		if(!dir_handle)
+			g_set_error(err, 0, EIO, "[%s] Error while init directories file descriptor container");
+		return dir_handle;	
+	}
+}
+
+
 
