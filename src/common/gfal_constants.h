@@ -45,6 +45,7 @@
 #define GFAL_BDII_TIMEOUT         60
 #define GFAL_SIZE_MARGIN          1048576     // 1MB
 #define GFAL_SRM_MAXRETRIES       10
+#define GFAL_MAX_CATALOG_ID_SIZE 512
 
 /* GFAL error level for gfal_errmsg */
 #define GFAL_ERRLEVEL_ERROR       0

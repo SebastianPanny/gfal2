@@ -632,7 +632,7 @@ int gfal_get_async_results_errstringG(gfal_handle handle, GList** turls_errstrin
  *  @param handle : handle associated with the request
  *  @param turl_errcode :  GList<int> of all the errcode associated with the request
  *  @param err : Gerror** err system
- * @return return number of request turl if success else return negative value
+ *  @return return number of request turl if success else return negative value
  **/
  int gfal_get_async_results_errcodesG(gfal_handle handle, GList** turls_errcode, GError** err){
 	g_return_val_err_if_fail(handle && turls_errcode , -1, err, "[gfal_get_async_results_errcodesG] arg invalid value");

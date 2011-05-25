@@ -42,7 +42,7 @@ static gfal_file_descriptor_handle dir_handle=NULL;
  * return the singleton of the file descriptor container for the directories
  */
 gfal_file_descriptor_handle gfal_dir_handle_instance(GError** err){
-	if(dir_handle == NULL)
+	if(dir_handle != NULL)
 		return dir_handle;
 	else{
 		dir_handle = gfal_file_descriptor_handle_create(&free);

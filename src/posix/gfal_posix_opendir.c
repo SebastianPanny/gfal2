@@ -27,6 +27,9 @@
 #include "../common/gfal_constants.h" 
 #include "gfal_posix_api.h"
 #include "gfal_posix_internal.h"
+#include "gfal_common_filedescriptor.h"
 
+
+static gfal_
 
 

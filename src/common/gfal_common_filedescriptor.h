@@ -38,11 +38,10 @@ struct _gfal_file_handle_{
 	gpointer fdesc;	
 };
 
-
+ // low level funcs
 gfal_file_descriptor_handle gfal_file_descriptor_handle_create(GDestroyNotify destroyer);
 
-int gfal_file_key_generatorG(gfal_file_descriptor_handle fhandle, GError** err);
-
+int gfal_add_new_file_desc(gfal_file_descriptor_handle fhandle, gpointer pfile, GError** err);
 
 gboolean gfal_remove_file_desc(gfal_file_descriptor_handle fhandle, int key, GError** err);
 
@@ -50,6 +49,7 @@ gboolean gfal_remove_file_desc(gfal_file_descriptor_handle fhandle, int key, GEr
 gpointer gfal_get_file_desc(gfal_file_descriptor_handle fhandle, int key, GError** err);
 
 
+// high level funcs
 gboolean gfal_file_handle_delete(gfal_file_descriptor_handle h, int file_desc, GError** err);
 
 

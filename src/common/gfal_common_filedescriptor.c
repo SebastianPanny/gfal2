@@ -36,7 +36,7 @@
  * 
  * generate a new unique key
  * */
-int gfal_file_key_generatorG(gfal_file_descriptor_handle fhandle, GError** err){
+static int gfal_file_key_generatorG(gfal_file_descriptor_handle fhandle, GError** err){
 	g_return_val_err_if_fail(fhandle, 0, err, "[gfal_file_descriptor_generatorG] Invalid  arg file handle");
 	int ret= rand();
 	GHashTable* c = fhandle->container;
@@ -66,7 +66,7 @@ int gfal_add_new_file_desc(gfal_file_descriptor_handle fhandle, gpointer pfile, 
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	}
-	return (key)?0:-1;
+	return key;
 }
 
 /**
@@ -76,7 +76,7 @@ gpointer gfal_get_file_desc(gfal_file_descriptor_handle fhandle, int key, GError
 	GHashTable* c = fhandle->container;	
 	gpointer p =  g_hash_table_lookup(c, GINT_TO_POINTER(key));
 	if(!p)
-		g_set_error(err,0, EBADR, "[%s] bad file descriptor");
+		g_set_error(err,0, EBADR, "[%s] bad file descriptor",__func__);
 	return p;
 }
 
@@ -88,7 +88,7 @@ gboolean gfal_remove_file_desc(gfal_file_descriptor_handle fhandle, int key, GEr
 	GHashTable* c = fhandle->container;	
 	gboolean p =  g_hash_table_remove(c, GINT_TO_POINTER(key));
 	if(!p)
-		g_set_error(err,0, EBADR, "[%s] bad fiel descriptor");
+		g_set_error(err,0, EBADR, "[%s] bad fiel descriptor",__func__);
 	return p;	  
  }
  
@@ -98,7 +98,7 @@ gboolean gfal_remove_file_desc(gfal_file_descriptor_handle fhandle, int key, GEr
   */
  gfal_file_descriptor_handle gfal_file_descriptor_handle_create(GDestroyNotify destroyer){
 	  gfal_file_descriptor_handle d = calloc(1, sizeof(struct _gfal_file_descriptor_container));
-	  d->container = g_hash_table_new_full(g_int_hash, g_int_equal, NULL, destroyer);
+	  d->container = g_hash_table_new_full(NULL, NULL, NULL, destroyer);
 	  return d;	 
  }
  
