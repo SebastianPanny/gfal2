@@ -41,12 +41,14 @@
 #include "common/mds/gfal__test_common_mds.c"
 #include "common/lfc/gfal__test_common_lfc.c"
 #include "common/gfal__test_common_srm_no_glib.c"
+#include "common/gfal__test_common_dir_file_descriptor.c"
 #include "posix/test__gfal_posix_access.c"
 #include "posix/test__gfal_posix_chmod.c"
 #include "posix/test__gfal_posix_rename.c"
 #include "posix/test__gfal_posix_stat.c"
 #include "posix/test__gfal_posix_mkdir.c"
 #include "posix/test__gfal_posix_rmdir.c"
+
 
 Suite* common_suite (void)
 {
@@ -119,6 +121,9 @@ Suite* common_suite (void)
   tcase_add_test(tc_lfc, test_gfal_common_lfc_access_guid_file_exist);
   tcase_add_test(tc_lfc, test__gfal_common_lfc_rename);
   suite_add_tcase(s, tc_lfc);
+  TCase *tc_filedesc = tcase_create("FILE DESCRIPTORS");
+  tcase_add_test(tc_filedesc, test__dir_file_descriptor);
+  suite_add_tcase(s, tc_filedesc);  
   // POSIX TESTS
   return s;
 }

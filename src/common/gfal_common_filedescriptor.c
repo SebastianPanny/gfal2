@@ -28,6 +28,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
+#include "gfal_common_errverbose.h"
 #include "gfal_prototypes.h"
 #include "gfal_common_filedescriptor.h"
 
@@ -58,7 +59,7 @@ int gfal_add_new_file_desc(gfal_file_descriptor_handle fhandle, gpointer pfile, 
 	g_return_val_err_if_fail(fhandle && pfile, 0, err, "[gfal_add_new_file_desc] Invalid  arg fhandle and/or pfile");
 	GError* tmp_err=NULL;
 	GHashTable* c = fhandle->container;
-	int key = gfal_file_descriptor_generatorG(fhandle, &tmp_err);
+	int key = gfal_file_key_generatorG(fhandle, &tmp_err);
 	if(key !=0){
 		g_hash_table_insert(c, GINT_TO_POINTER(key), pfile);
 	} 
