@@ -1,4 +1,3 @@
-#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -15,31 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+ 
+ 
+/**
+ * @file gfal_common_filedescriptor.h
+ * @brief  header file for the file descriptor management
+ * @author Devresse Adrien
+ * @version 2.0
+ * @date 22/05/2011
+ * */
+ 
+#include <glib.h>
+#include "gfal_prototypes.h"
+
+struct _gfal_file_descriptor_container{
+	GHashTable* container;	
+};
 
 
 /**
- * @file contain all the prototypes needed by the gfal common files
- * @author Devresse Adrien
- * @version 0.0.1
- * @date 04/05/2011
- * 
- * */
-#include <glib.h>
- 
- // opts SRM
-typedef struct _gfal_request_state gfal_request_state; 
-typedef struct _gfal_srmv2_opt gfal_srmv2_opt; 
-
-
- // catalog 
-typedef struct _catalog_opts catalog_opts;
-typedef struct _gfal_catalog_interface gfal_catalog_interface;
-typedef enum _catalog_mode catalog_mode;
-typedef gpointer catalog_handle;
-
-// file descrisptor
-typedef struct _gfal_file_descriptor_container* gfal_file_descriptor_handle;
-
-// main 
-typedef struct gfal_handle_* gfal_handle;
-
+ * Generate a new unique key for the given container
+ */ 
+int gfal_file_key_generatorG(gfal_file_descriptor_handle fhandle, GError** err);
