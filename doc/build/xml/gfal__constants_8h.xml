@@ -6,6 +6,8 @@
     <includedby refid="gfal__common_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common.h</includedby>
     <includedby refid="gfal__common__errverbose_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h</includedby>
     <includedby refid="gfal__common__catalog_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</includedby>
+    <includedby refid="gfal__common__dir__handle_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</includedby>
+    <includedby refid="gfal__common__dir__handle_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h</includedby>
     <includedby refid="gfal__common__srm__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</includedby>
     <includedby refid="gfal__common__srm__mkdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.c</includedby>
     <includedby refid="gfal__common__srm__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_rmdir.c</includedby>
@@ -16,203 +18,230 @@
     <includedby refid="gfal__posix__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</includedby>
     <includedby refid="gfal__posix__mkdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</includedby>
     <includedby refid="gfal__posix__ng_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</includedby>
+    <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
     <includedby refid="gfal__posix__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</includedby>
     <invincdepgraph>
-      <node id="607">
+      <node id="643">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</label>
         <link refid="gfal__common__srm__access_8c"/>
       </node>
-      <node id="594">
+      <node id="629">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h</label>
         <link refid="gfal__common__internal_8h"/>
-        <childnode refid="595" relation="include">
+        <childnode refid="630" relation="include">
         </childnode>
-        <childnode refid="596" relation="include">
+        <childnode refid="631" relation="include">
         </childnode>
-        <childnode refid="598" relation="include">
+        <childnode refid="633" relation="include">
         </childnode>
       </node>
-      <node id="600">
+      <node id="635">
         <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.c</label>
         <link refid="gfal__voms__if_8c"/>
       </node>
-      <node id="599">
+      <node id="634">
         <label>/home/adevress/myworkspace/gfal/src/common/voms/gfal_voms_if.h</label>
         <link refid="gfal__voms__if_8h-source"/>
-        <childnode refid="600" relation="include">
+        <childnode refid="635" relation="include">
         </childnode>
       </node>
-      <node id="613">
+      <node id="651">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</label>
         <link refid="gfal__posix__ng_8c"/>
       </node>
-      <node id="588">
+      <node id="623">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_internals.h</label>
         <link refid="gfal__internals_8h-source"/>
       </node>
-      <node id="605">
+      <node id="640">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</label>
         <link refid="gfal__common__errverbose_8c"/>
       </node>
-      <node id="603">
+      <node id="638">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="593" relation="include">
+        <childnode refid="628" relation="include">
         </childnode>
-        <childnode refid="604" relation="include">
+        <childnode refid="639" relation="include">
         </childnode>
-        <childnode refid="605" relation="include">
+        <childnode refid="640" relation="include">
         </childnode>
-        <childnode refid="606" relation="include">
+        <childnode refid="641" relation="include">
         </childnode>
-        <childnode refid="607" relation="include">
+        <childnode refid="642" relation="include">
         </childnode>
-        <childnode refid="608" relation="include">
+        <childnode refid="643" relation="include">
         </childnode>
-        <childnode refid="609" relation="include">
+        <childnode refid="644" relation="include">
         </childnode>
-        <childnode refid="610" relation="include">
+        <childnode refid="645" relation="include">
         </childnode>
-        <childnode refid="598" relation="include">
+        <childnode refid="646" relation="include">
         </childnode>
-        <childnode refid="611" relation="include">
+        <childnode refid="633" relation="include">
         </childnode>
-        <childnode refid="612" relation="include">
+        <childnode refid="647" relation="include">
+        </childnode>
+        <childnode refid="648" relation="include">
         </childnode>
       </node>
-      <node id="592">
+      <node id="627">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
         <link refid="gfal__posix_8c"/>
       </node>
-      <node id="602">
+      <node id="637">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
         <link refid="gfal__posix__mkdir_8c"/>
       </node>
-      <node id="590">
+      <node id="625">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_storage.h</label>
         <link refid="gfal__common__storage_8h-source"/>
-        <childnode refid="591" relation="include">
+        <childnode refid="626" relation="include">
         </childnode>
-        <childnode refid="592" relation="include">
+        <childnode refid="627" relation="include">
         </childnode>
       </node>
-      <node id="597">
+      <node id="632">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</label>
         <link refid="gfal__posix__stat_8c"/>
       </node>
-      <node id="596">
+      <node id="631">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h</label>
         <link refid="gfal__common__srm_8h"/>
-        <childnode refid="594" relation="include">
+        <childnode refid="629" relation="include">
         </childnode>
-        <childnode refid="597" relation="include">
+        <childnode refid="632" relation="include">
         </childnode>
       </node>
-      <node id="608">
+      <node id="644">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.c</label>
         <link refid="gfal__common__srm__mkdir_8c"/>
       </node>
-      <node id="612">
+      <node id="648">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</label>
         <link refid="gfal__posix__local__file_8c"/>
       </node>
-      <node id="595">
+      <node id="630">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.c</label>
         <link refid="gfal__common__interface_8c"/>
       </node>
-      <node id="611">
+      <node id="649">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</label>
+        <link refid="gfal__common__dir__handle_8c"/>
+      </node>
+      <node id="650">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h</label>
+        <link refid="gfal__common__dir__handle_8h"/>
+        <childnode refid="649" relation="include">
+        </childnode>
+      </node>
+      <node id="641">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c</label>
+        <link refid="gfal__common__filedescriptor_8c"/>
+      </node>
+      <node id="647">
         <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c</label>
         <link refid="lfc__ifce__ng_8c"/>
       </node>
-      <node id="591">
+      <node id="626">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.c</label>
         <link refid="gfal__common_8c"/>
       </node>
-      <node id="589">
+      <node id="624">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common.h</label>
         <link refid="gfal__common_8h"/>
-        <childnode refid="588" relation="include">
+        <childnode refid="623" relation="include">
         </childnode>
-        <childnode refid="590" relation="include">
+        <childnode refid="625" relation="include">
         </childnode>
-        <childnode refid="591" relation="include">
+        <childnode refid="626" relation="include">
         </childnode>
-        <childnode refid="593" relation="include">
+        <childnode refid="628" relation="include">
         </childnode>
-        <childnode refid="594" relation="include">
+        <childnode refid="629" relation="include">
         </childnode>
-        <childnode refid="599" relation="include">
+        <childnode refid="634" relation="include">
         </childnode>
-        <childnode refid="592" relation="include">
+        <childnode refid="627" relation="include">
         </childnode>
-        <childnode refid="601" relation="include">
+        <childnode refid="636" relation="include">
         </childnode>
-        <childnode refid="602" relation="include">
+        <childnode refid="637" relation="include">
         </childnode>
       </node>
-      <node id="601">
+      <node id="636">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
         <link refid="gfal__posix__access_8c"/>
       </node>
-      <node id="604">
+      <node id="639">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
         <link refid="gfal__common__catalog_8c"/>
       </node>
-      <node id="614">
+      <node id="653">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</label>
         <link refid="gfal__posix__rmdir_8c"/>
       </node>
-      <node id="606">
+      <node id="642">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.c</label>
         <link refid="gfal__common__guid_8c"/>
       </node>
-      <node id="587">
+      <node id="622">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_constants.h</label>
         <link refid="gfal_constants.h"/>
-        <childnode refid="588" relation="include">
+        <childnode refid="623" relation="include">
         </childnode>
-        <childnode refid="589" relation="include">
+        <childnode refid="624" relation="include">
         </childnode>
-        <childnode refid="603" relation="include">
+        <childnode refid="638" relation="include">
         </childnode>
-        <childnode refid="604" relation="include">
+        <childnode refid="639" relation="include">
         </childnode>
-        <childnode refid="607" relation="include">
+        <childnode refid="649" relation="include">
         </childnode>
-        <childnode refid="608" relation="include">
+        <childnode refid="650" relation="include">
         </childnode>
-        <childnode refid="609" relation="include">
+        <childnode refid="643" relation="include">
         </childnode>
-        <childnode refid="610" relation="include">
+        <childnode refid="644" relation="include">
         </childnode>
-        <childnode refid="598" relation="include">
+        <childnode refid="645" relation="include">
         </childnode>
-        <childnode refid="611" relation="include">
+        <childnode refid="646" relation="include">
         </childnode>
-        <childnode refid="592" relation="include">
+        <childnode refid="633" relation="include">
         </childnode>
-        <childnode refid="601" relation="include">
+        <childnode refid="647" relation="include">
         </childnode>
-        <childnode refid="602" relation="include">
+        <childnode refid="627" relation="include">
         </childnode>
-        <childnode refid="613" relation="include">
+        <childnode refid="636" relation="include">
         </childnode>
-        <childnode refid="614" relation="include">
+        <childnode refid="637" relation="include">
+        </childnode>
+        <childnode refid="651" relation="include">
+        </childnode>
+        <childnode refid="652" relation="include">
+        </childnode>
+        <childnode refid="653" relation="include">
         </childnode>
       </node>
-      <node id="593">
+      <node id="628">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</label>
         <link refid="gfal__common__all_8c"/>
       </node>
-      <node id="609">
+      <node id="645">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_rmdir.c</label>
         <link refid="gfal__common__srm__rmdir_8c"/>
       </node>
-      <node id="610">
+      <node id="646">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.c</label>
         <link refid="gfal__common__srm__stat_8c"/>
       </node>
-      <node id="598">
+      <node id="652">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
+        <link refid="gfal__posix__opendir_8c"/>
+      </node>
+      <node id="633">
         <label>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c</label>
         <link refid="gfal__common__lfc_8c"/>
       </node>
@@ -361,6 +390,17 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="47" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="define" id="gfal__constants_8h_1d0a468ff1de8e2951d4f4a651eb51f63" prot="public" static="no">
+        <name>GFAL_MAX_CATALOG_ID_SIZE</name>
+        <initializer>512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_16426c0ea17e86ab60e58f0736752880f" prot="public" static="no">
         <name>GFAL_ERRLEVEL_ERROR</name>
         <initializer>0</initializer>
@@ -370,7 +410,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="50" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_1dc3471997c4f262015c3720a605ded41" prot="public" static="no">
         <name>GFAL_ERRLEVEL_WARN</name>
@@ -381,7 +421,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="51" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="52" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="52" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_17e72d1391c92eee828752e1e6b8102a2" prot="public" static="no">
         <name>GFAL_ERRLEVEL_INFO</name>
@@ -392,7 +432,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="52" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="52" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_1673cd8feae97356040eaa40b46dd3887" prot="public" static="no">
         <name>GFAL_VERBOSE_QUIET</name>
@@ -403,7 +443,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="54" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="54" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_13c3ece79804284cc6966b7773e1db120" prot="public" static="no">
         <name>GFAL_VERBOSE_NORMAL</name>
@@ -414,7 +454,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="55" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_184a32c8a5edeea3b4f38de04ded0969f" prot="public" static="no">
         <name>GFAL_VERBOSE_VERBOSE</name>
@@ -425,7 +465,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="56" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="57" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="57" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_1bb3df1c6c5b916095e8310fe969e5d67" prot="public" static="no">
         <name>GFAL_VERBOSE_DEBUG</name>
@@ -436,7 +476,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="57" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="57" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_160014fae8069af756eafb5283c823961" prot="public" static="no">
         <name>GFAL_CKSM_DEFAULT</name>
@@ -447,7 +487,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="59" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="60" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_1c00d877428b39b35b4f611656b2d5215" prot="public" static="no">
         <name>GFAL_LFC_PREFIX</name>
@@ -458,7 +498,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="61" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_19adb5dc8efeaa3454b32e2f67309e36f" prot="public" static="no">
         <name>GFAL_GUID_PREFIX</name>
@@ -469,7 +509,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="62" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="63" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="gfal__constants_8h_18aeca034bb7345f07b3b736501168cdd" prot="public" static="no">
         <name>GFAL_URL_MAX_LEN</name>
@@ -480,7 +520,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="64" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="64" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" line="65" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h" bodystart="65" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -528,25 +568,26 @@
 <codeline lineno="45"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_BDII_TIMEOUT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>60</highlight></codeline>
 <codeline lineno="46"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_SIZE_MARGIN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1048576<sp/><sp/><sp/><sp/><sp/>//<sp/>1MB</highlight></codeline>
 <codeline lineno="47"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_SRM_MAXRETRIES<sp/><sp/><sp/><sp/><sp/><sp/><sp/>10</highlight></codeline>
-<codeline lineno="48"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>GFAL<sp/>error<sp/>level<sp/>for<sp/>gfal_errmsg<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_ERRLEVEL_ERROR<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
-<codeline lineno="51"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_ERRLEVEL_WARN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1</highlight></codeline>
-<codeline lineno="52"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_ERRLEVEL_INFO<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2</highlight></codeline>
-<codeline lineno="53"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_VERBOSE_QUIET<sp/><sp/><sp/><sp/><sp/><sp/><sp/>-1<sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="55"><highlight class="preprocessor">#define<sp/>GFAL_VERBOSE_NORMAL<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0<sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="56"><highlight class="preprocessor">#define<sp/>GFAL_VERBOSE_VERBOSE<sp/><sp/><sp/><sp/><sp/><sp/>1<sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="57"><highlight class="preprocessor">#define<sp/>GFAL_VERBOSE_DEBUG<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2<sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="59"><highlight class="preprocessor">#define<sp/>GFAL_CKSM_DEFAULT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GFAL_CKSM_ADLER32<sp/><sp/><sp/>//<sp/>MD5<sp/>is<sp/>the<sp/>default<sp/>algo</highlight></codeline>
-<codeline lineno="60"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_LFC_PREFIX<sp/>&quot;lfn:&quot;</highlight></codeline>
-<codeline lineno="62"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_GUID_PREFIX<sp/>&quot;guid:&quot;</highlight></codeline>
-<codeline lineno="63"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_URL_MAX_LEN<sp/>2048</highlight></codeline>
-<codeline lineno="65"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="48"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_MAX_CATALOG_ID_SIZE<sp/>512</highlight></codeline>
+<codeline lineno="49"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>GFAL<sp/>error<sp/>level<sp/>for<sp/>gfal_errmsg<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_ERRLEVEL_ERROR<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
+<codeline lineno="52"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_ERRLEVEL_WARN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1</highlight></codeline>
+<codeline lineno="53"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_ERRLEVEL_INFO<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2</highlight></codeline>
+<codeline lineno="54"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_VERBOSE_QUIET<sp/><sp/><sp/><sp/><sp/><sp/><sp/>-1<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="preprocessor">#define<sp/>GFAL_VERBOSE_NORMAL<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="preprocessor">#define<sp/>GFAL_VERBOSE_VERBOSE<sp/><sp/><sp/><sp/><sp/><sp/>1<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="preprocessor">#define<sp/>GFAL_VERBOSE_DEBUG<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="preprocessor">#define<sp/>GFAL_CKSM_DEFAULT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GFAL_CKSM_ADLER32<sp/><sp/><sp/>//<sp/>MD5<sp/>is<sp/>the<sp/>default<sp/>algo</highlight></codeline>
+<codeline lineno="61"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_LFC_PREFIX<sp/>&quot;lfn:&quot;</highlight></codeline>
+<codeline lineno="63"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#define<sp/>GFAL_GUID_PREFIX<sp/>&quot;guid:&quot;</highlight></codeline>
+<codeline lineno="64"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_URL_MAX_LEN<sp/>2048</highlight></codeline>
+<codeline lineno="66"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_constants.h"/>
   </compounddef>
