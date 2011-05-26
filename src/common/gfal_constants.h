@@ -64,5 +64,7 @@
 
 #define GFAL_URL_MAX_LEN 2048
 
+#define GFAL_MODULEID_LOCAL 1
+
 
 #endif

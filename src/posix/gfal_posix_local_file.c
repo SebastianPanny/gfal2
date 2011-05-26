@@ -27,6 +27,7 @@
 #include <sys/stat.h>
 #include <regex.h>
 #include "../common/gfal_common_errverbose.h"
+#include "../common/gfal_types.h"
 
 #define GFAL_LOCAL_PREFIX "file:"
 
@@ -109,7 +110,15 @@ int gfal_local_mkdir(const char* path, mode_t mode, GError** err){
 		g_set_error(err, 0, errno, "[%s] errno reported by local system call", __func__, strerror(errno));
 	}
 	return res;	
-} 
+}
+
+gfal_file_handle gfal_local_opendir(const char* path, GError** err){
+	DIR* ret = opendir(path);
+	if(ret == NULL){
+		g_set_error(err, 0, errno, "[%s] errno reported by local system call", __func__, strerror(errno));
+	}
+	return (ret)?(gfal_file_handle_new(GFAL_MODULEID_LOCAL, ret)):NULL;
+}
 
 /**
  * local rmdir mapper

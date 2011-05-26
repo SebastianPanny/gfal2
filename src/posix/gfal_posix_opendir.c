@@ -32,9 +32,10 @@
 #include "../common/gfal_common_filedescriptor.h"
 #include "../common/gfal_common_dir_handle.h"
 #include "../common/gfal_common_errverbose.h"
+#include "gfal_posix_local_file.h"
 
 int gfal_posix_dir_handle_store(gfal_handle handle, gfal_file_handle fhandle, GError** err){
-	g_return_val_err_if_fail(handle, NULL, err, "[gfal_posix_dir_handle_store] handle invalid");
+	g_return_val_err_if_fail(handle, 0, err, "[gfal_posix_dir_handle_store] handle invalid");
 	GError* tmp_err=NULL;
 	int key = 0;
 	if(fhandle){
@@ -62,8 +63,7 @@ DIR* gfal_posix_internal_opendir(const char* name){
 		g_set_error(&tmp_err, 0, EFAULT, " name is empty");
 	}else{
 		if( gfal_check_local_url(name, NULL) == TRUE){
-			ret = NULL;
-			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
+			ret = gfal_local_opendir(name, &tmp_err);
 		}else if(gfal_guid_checker(name, NULL) == TRUE){
 			ret = NULL;
 			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported by opendir");

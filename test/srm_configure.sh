@@ -32,6 +32,7 @@ TESTNOREAD0011="$2/testnoread0011"
 TESTNOWRITE0011="$2/testnowrite0011"
 TESTSTAT0011="$2/teststat0011"
 TESTUNACCESSMKDIR0011="$2/testunaccessmkdir0011"
+TESTRMDIR0012="$2/testrmdir0012"
 
 create_on_grid "$1" "$2/file75715ccc-1c54-4d18-8824-bdd3716a2b54" 
 create_on_grid "$1" "$2/testread0011"
@@ -46,3 +47,7 @@ create_fixed_size_file_on_grid "$1" "$TESTSTAT0011"
 change_right 664 "$TESTSTAT0011"
 create_directory "$TESTUNACCESSMKDIR0011"
 change_right 000 "$TESTUNACCESSMKDIR0011"
+create_directory "$TESTRMDIR0012"
+create_on_grid "$1" "$TESTRMDIR0012/testosef012"
+
+

@@ -58,3 +58,7 @@ int gfal_dir_handle_create(gfal_fdesc_container_handle h, int module_id, gpointe
 
 
 gfal_file_handle gfal_dir_handle_bind(gfal_fdesc_container_handle h, int file_desc, GError** err);
+
+// convenience funcs
+
+gfal_file_handle gfal_file_handle_new(int id_module, gpointer fdesc);

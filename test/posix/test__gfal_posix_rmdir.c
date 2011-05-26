@@ -136,7 +136,7 @@ START_TEST(test__rmdir_posix_srm_existingfile)
 	
 	ret = gfal_rmdir(TEST_SRM_RMDIR_EEXIST);
 	if( ret == 0 || gfal_posix_code_error() != ENOTEMPTY){
-		fail(" must be an invalid deletion, this dir is not empty : %d %d ", gfal_posix_code_error(), errno);
+		fail(" must be an invalid deletion, this dir is not empty : %s %d %d %d ", TEST_SRM_RMDIR_EEXIST, ret, gfal_posix_code_error(), errno);
 		gfal_posix_release_error();
 		return;		
 	}	
