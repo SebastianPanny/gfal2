@@ -29,12 +29,13 @@
 #include <glib.h>
 #include "gfal_prototypes.h"
 
+
 struct _gfal_file_descriptor_container{
 	GHashTable* container;	
 };
 
 struct _gfal_file_handle_{
-	int module_id;
+	int module_id; // the module id is the mapper to find the correct module type : id < 10 -> internal storage, id >10 -> id-10 == offset of the module in the module list
 	gpointer fdesc;	
 };
 

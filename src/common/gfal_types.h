@@ -109,11 +109,11 @@ typedef struct gfal_filestatus_ {
 } gfal_filestatus;
 
 
-typedef struct {
+struct _gfal_descriptors_container{
 	gfal_fdesc_container_handle dir_container;
 	gfal_fdesc_container_handle file_container;
 	
-} gfal_descriptors_container;
+} ;
 
 typedef struct gfal_request_ {
 	/* [optional]
@@ -255,7 +255,7 @@ struct gfal_handle_ {
 	// struct of the catalog opts
 	struct _catalog_opts catalog_opt;
 	//struct for the file descriptors
-	gfal_descriptors_container fdecs;
+	gfal_descriptors_container fdescs;
 };
 
 

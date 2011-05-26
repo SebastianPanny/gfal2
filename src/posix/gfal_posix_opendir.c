@@ -23,19 +23,35 @@
  * @date 25/05/2011
  * */
 
-
-#include "../common/gfal_constants.h" 
+#include <stdlib.h>
+#include <glib.h>
 #include "gfal_posix_api.h"
 #include "gfal_posix_internal.h"
-#include "gfal_common_filedescriptor.h"
+#include "../common/gfal_constants.h" 
+#include "../common/gfal_prototypes.h"
+#include "../common/gfal_common_filedescriptor.h"
+#include "../common/gfal_common_dir_handle.h"
+#include "../common/gfal_common_errverbose.h"
 
-
+int gfal_posix_dir_handle_store(gfal_handle handle, gfal_file_handle fhandle, GError** err){
+	g_return_val_err_if_fail(handle, NULL, err, "[gfal_posix_dir_handle_store] handle invalid");
+	GError* tmp_err=NULL;
+	int key = 0;
+	if(fhandle){
+		gfal_fdesc_container_handle container= gfal_dir_handle_container_instance(&(handle->fdescs), &tmp_err);
+    	if(container)
+			key = gfal_add_new_file_desc(container, (gpointer) fhandle, &tmp_err);
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return key;
+}
 
 DIR* gfal_posix_internal_opendir(const char* name){
 	GError* tmp_err=NULL;
 
 	gfal_handle handle;
-	DIR* res= NULL;
+	gfal_file_handle ret= NULL;
 
 	if((handle = gfal_posix_instance()) == NULL){
 		errno = EIO;
@@ -46,25 +62,26 @@ DIR* gfal_posix_internal_opendir(const char* name){
 		g_set_error(&tmp_err, 0, EFAULT, " name is empty");
 	}else{
 		if( gfal_check_local_url(name, NULL) == TRUE){
-			res = NULL;
+			ret = NULL;
 			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
 		}else if(gfal_guid_checker(name, NULL) == TRUE){
-			res = NULL;
-			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported for directory creation");
+			ret = NULL;
+			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported by opendir");
 		}else if( gfal_surl_checker(name, NULL) == 0 ){
-			res = NULL;
-			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
+			ret = NULL;
+			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol srm is not supported by opendir");
 		}else{
-			res = NULL;
+			ret = NULL;
 			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
 		}
 	}
+	
+	int key = gfal_posix_dir_handle_store(handle, ret, &tmp_err);
+	
 	if(tmp_err){
 		gfal_posix_register_internal_error(handle, "[gfal_opendir]", tmp_err);
 		errno = tmp_err->code;	
 	}
-	return res; 
-	 
-	
+	return GINT_TO_POINTER(key); 	
 }
 

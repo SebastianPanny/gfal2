@@ -38,11 +38,13 @@ typedef enum _catalog_mode catalog_mode;
 typedef gpointer catalog_handle;
 
 // file descrisptor
-typedef struct _gfal_file_descriptor_container* gfal_fdesc_container_handle;
+typedef struct _gfal_file_descriptor_container *gfal_fdesc_container_handle;
+typedef enum _gfal_type_desc gfal_type_desc;
 
 // dir part file descriptor
 typedef struct _gfal_file_handle_* gfal_file_handle;
 
 // main 
 typedef struct gfal_handle_* gfal_handle;
+typedef struct _gfal_descriptors_container gfal_descriptors_container;
 
