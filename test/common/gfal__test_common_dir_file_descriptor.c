@@ -16,6 +16,7 @@
 
 START_TEST(test__dir_file_descriptor_low)
 {
+	
 	GError* tmp_err=NULL;
 	gpointer pfile = (gpointer) (long)rand();
 	gfal_fdesc_container_handle  h = gfal_file_descriptor_handle_create(NULL);
