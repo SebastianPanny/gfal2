@@ -11,12 +11,12 @@
 #include "../unit_test_constants.h"
 #include "gfal_common_dir_handle.h"
 #include "gfal_common_filedescriptor.h"
+#include "gfal_types.h"
 
 
 START_TEST(test__dir_file_descriptor_low)
 {
 	GError* tmp_err=NULL;
-
 	gpointer pfile = (gpointer) (long)rand();
 	gfal_fdesc_container_handle  h = gfal_file_descriptor_handle_create(NULL);
 	if( h == NULL){
@@ -74,7 +74,7 @@ START_TEST(test__dir_file_descriptor_high)
 		return;
 	}
 	
-	gfal_fdesc_container_handle h =  gfal_dir_handle_container_instance(handle, &tmp_err);
+	gfal_fdesc_container_handle h =  gfal_dir_handle_container_instance(&(handle->fdescs), &tmp_err);
 	if( h == NULL){
 		fail(" fail must be a valid init");
 		gfal_release_GError(&tmp_err);

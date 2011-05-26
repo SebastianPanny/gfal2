@@ -15,7 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
+
+// to define
+#define TEST_SRM_DPM_ENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/dpm/lal.in2p3.fr/home/dteam/"
+#define TEST_SRM_DPM_FULLENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/srm/managerv2?SFN=/dpm/lal.in2p3.fr/home/dteam" 
+#define TEST_SRM_DPM_FULLENDPOINT_URL "httpg://grid05.lal.in2p3.fr:8446/srm/managerv2"
+
+// macros
+
+#define TEST_FUSION_STRING(x,y) x y
+#define TEST_XFUSION_STRING(x,y) TEST_FUSION_STRING(x,y)
+
+#define TEST_CONCAT_SRM_PREFIX(x) TEST_XFUSION_STRING(TEST_SRM_DPM_ENDPOINT_PREFIX, x) 
+
+#define TEST_CREATE_SRM_FILE(x) TEST_XFUSION_STRING(TEST_XFUSION_STRING("lcg-cp file:///etc/group ",x)," &> /dev/null")
+
  
  // constant to define for succefull unit test
 #define TEST_LFC_VALID_ACCESS "lfn:/grid/dteam/hello001"		// this file must be a lfc file with read access and no write access
@@ -35,16 +50,16 @@
 #define TEST_GUID_NOEXIST_ACCESS "guid:ae595782-81be-40af-ac3c-8b1a084bfc82"
 
 // srm part constant
-#define TEST_SRM_VALID_SURL_EXAMPLE1 "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54"
-#define TEST_SRM_INVALID_SURL_EXAMPLE2 "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/test2"
+#define TEST_SRM_VALID_SURL_EXAMPLE1  TEST_CONCAT_SRM_PREFIX("file75715ccc-1c54-4d18-8824-bdd3716a2b54") 
+#define TEST_SRM_INVALID_SURL_EXAMPLE2 TEST_CONCAT_SRM_PREFIX("generated/2006-07-04/test2") 
 // access
-#define TEST_SRM_ONLY_READ_ACCESS "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testread0011"
+#define TEST_SRM_ONLY_READ_ACCESS TEST_CONCAT_SRM_PREFIX("testread0011")
 #define TEST_SRM_NOEXIST_ACCESS TEST_SRM_INVALID_SURL_EXAMPLE2
-#define TEST_SRM_NO_READ_ACCESS "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testnoread0011"
-#define TEST_SRM_WRITE_ACCESS "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testwrite0011"
-#define TEST_SRM_NO_WRITE_ACCESS "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testnowrite0011"
+#define TEST_SRM_NO_READ_ACCESS TEST_CONCAT_SRM_PREFIX("testnoread0011")
+#define TEST_SRM_WRITE_ACCESS TEST_CONCAT_SRM_PREFIX("testwrite0011")
+#define TEST_SRM_NO_WRITE_ACCESS TEST_CONCAT_SRM_PREFIX("testnowrite0011")
 
-#define TEST_SRM_TURL_EXAMPLE1 "gsiftp://atlas-storage-18.roma1.infn.it/atlas-storage-18.roma1.infn.it:/data4/dteam/2011-03-10/file75715ccc-1c54-4d18-8824-bdd3716a2b54.33321198.0"
+#define TEST_SRM_TURL_EXAMPLE1 "gsiftp://grid28.lal.in2p3.fr/grid28.lal.in2p3.fr:/dpmpart/part1/dteam/2011-05-26/file75715ccc-1c54-4d18-8824-bdd3716a2b54.51704540.0"
 #define TEST_SRM_IFCE_INVALID_PATH_REP "[SE][StatusOfPutRequest][SRM_INVALID_PATH] <none>"
 
 // chmod 
@@ -71,7 +86,7 @@
 #define TEST_GFAL_LFC_FILE_STAT_NONEXIST TEST_LFC_NOEXIST_ACCESS
 
 
-#define TEST_GFAL_SRM_FILE_STAT_OK "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/teststat0011"
+#define TEST_GFAL_SRM_FILE_STAT_OK TEST_CONCAT_SRM_PREFIX("teststat0011")
 #define TEST_GFAL_SRM_FILE_STAT_SIZE_VALUE 2048
 #define TEST_GFAL_SRM_FILE_STAT_MODE_VALUE 0100664
 #define TEST_GFAL_SRM_FILE_STAT_UID_VALUE 2
@@ -114,9 +129,9 @@
 #define TEST_LOCAL_BASE_FOLDER_URL_MKDIR1 "file:///tmp/"
 #define TEST_LOCAL_UNACCESS_MKDIR "file:///root/foo"
 
-#define TEST_SRM_EEXIST_MKDIR "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testmkdir0011"
-#define TEST_SRM_BASE_FOLDER_URL_MKDIR1 "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/"
-#define TEST_SRM_UNACCESS_MKDIR "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testmkdir0012/testunaccessmkdir0011"
+#define TEST_SRM_EEXIST_MKDIR TEST_CONCAT_SRM_PREFIX("testmkdir0011")
+#define TEST_SRM_BASE_FOLDER_URL_MKDIR1 TEST_CONCAT_SRM_PREFIX("/testmkdirfolder/")
+#define TEST_SRM_UNACCESS_MKDIR TEST_CONCAT_SRM_PREFIX("testunaccessmkdir0011/testunaccessmkdir0012")
 
 
 // rmdir 
@@ -126,9 +141,9 @@
 #define TEST_LFC_RMDIR_CREATED_SLASH "lfn:/grid/dteam/testrmdir0011/" // must be an unexisting dir, will be created and deleted with slash
 
 
-#define TEST_SRM_RMDIR_CREATED "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testrmdir0011" // same thing for srm
-#define TEST_SRM_RMDIR_EEXIST "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testrmdir0012"
-#define TEST_SRM_RMDIR_CREATED_SLASH "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/testrmdir0011"
+#define TEST_SRM_RMDIR_CREATED TEST_CONCAT_SRM_PREFIX("testrmdir0011") // same thing for srm
+#define TEST_SRM_RMDIR_EEXIST TEST_CONCAT_SRM_PREFIX("testrmdir0012")
+#define TEST_SRM_RMDIR_CREATED_SLASH TEST_CONCAT_SRM_PREFIX("testrmdir0011")
 
 #define TEST_LOCAL_RMDIR_CREATED "file:///tmp/testrmdir0011"
 #define TEST_LOCAL_RMDIR_EEXIST "file:///tmp/testrmdir0012"				// do not need to be created, created by system call

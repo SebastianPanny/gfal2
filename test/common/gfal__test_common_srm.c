@@ -136,10 +136,9 @@ START_TEST(test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii)
 	gfal_set_nobdiiG(handle, TRUE);
 	fail_unless(handle->no_bdii_check, " nobdii must be true");
 		
-	GList* list = g_list_append(NULL,"srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b");
-	
+	GList* list = g_list_append(NULL,TEST_SRM_DPM_FULLENDPOINT_PREFIX);	
 	fail_if( ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) , " must return the correct endpoint");
-	fail_if( endpoint == NULL || strstr(endpoint,"httpg://srm-pps:8443/srm/managerv2") == NULL, " must contain the endpoint");
+	fail_if( endpoint == NULL || strstr(endpoint,TEST_SRM_DPM_FULLENDPOINT_URL) == NULL, " must contain the endpoint");
 	fail_if(proto != handle->srm_proto_type, " srm must be the default version of srm");
 	gfal_handle_freeG(handle);	
 	g_list_free(list);
@@ -182,10 +181,10 @@ START_TEST(test_gfal_auto_get_srm_endpoint_no_full_with_bdii)
 	
 	fail_if(handle->no_bdii_check, " nobdii must be false");
 		
-	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);
+	GList* list = g_list_append(NULL,TEST_SRM_DPM_FULLENDPOINT_PREFIX);
 	
 	fail_if( ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) , " must return the correct endpoint");
-	fail_if( endpoint == NULL || strcmp(endpoint,"httpg://grid-cert-03.roma1.infn.it:8446/srm/managerv2") != 0, " must contain the endpoint");
+	fail_if( endpoint == NULL || strcmp(endpoint,TEST_SRM_DPM_FULLENDPOINT_URL) != 0, " must contain the endpoint");
 	fail_if(proto != handle->srm_proto_type, " srm must be the default version of srm");
 	gfal_handle_freeG(handle);	
 	g_list_free(list);
@@ -216,7 +215,10 @@ START_TEST(test_gfal_get_hostname_from_surl)
 	char* resu;
 	fail_unless( (resu = gfal_get_hostname_from_surl(list->data, &tmp_err)) && !tmp_err, " must be a success");
 	if(resu){
-		fail_unless( strcmp("grid-cert-03.roma1.infn.it",resu) == 0, " must be the same string");
+		char* p = strchr(TEST_SRM_DPM_ENDPOINT_PREFIX+7, '/');
+		if(!p)
+			fail(" no / contained in the url");
+		fail_unless( strncmp(TEST_SRM_DPM_ENDPOINT_PREFIX+6,resu, p-TEST_SRM_DPM_ENDPOINT_PREFIX-7) == 0, " must be the same string");
 		free(resu); 
 	}
 	g_list_free(list);
@@ -617,7 +619,7 @@ START_TEST(test_full_gfal_get_request_multi)
 	
 	const char* resu[] = { TEST_SRM_TURL_EXAMPLE1, NULL, TEST_SRM_TURL_EXAMPLE1 }; // check all results
 	if( check_GList_Result_String(list_resu, resu) != TRUE){
-		fail(" incorrect result ");
+		fail(" incorrect result %s", list_resu->data);
 		gfal_handle_freeG(handle);
 		return;
 	}

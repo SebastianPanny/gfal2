@@ -123,6 +123,7 @@ Suite* common_suite (void)
   suite_add_tcase(s, tc_lfc);
   TCase *tc_filedesc = tcase_create("FILE DESCRIPTORS");
   tcase_add_test(tc_filedesc, test__dir_file_descriptor_low);
+  tcase_add_test(tc_filedesc, test__dir_file_descriptor_high);
   suite_add_tcase(s, tc_filedesc);  
   // POSIX TESTS
   return s;

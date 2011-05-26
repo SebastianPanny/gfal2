@@ -284,12 +284,12 @@ START_TEST(test__mkdir_posix_srm_simple)
 {
 	struct stat st;
 	int ret =-1;
-	/*ret = gfal_mkdir(TEST_SRM_EEXIST_MKDIR, 0664);
-	if( ret == 0 || errno != EEXIST || gfal_posix_code_error() != EEXIST){
-		fail(" must be an existing dir %d %d %d", ret, errno, gfal_posix_code_error()); ---------> EXIST == 0 for srm, useless test
+	ret = gfal_mkdir(TEST_SRM_EEXIST_MKDIR, 0664);
+	if( ret != 0 ){
+		fail(" must be an existing dir %d %d %d", ret, errno, gfal_posix_code_error()); //---------> EEXIST ->  0 for srm
 		gfal_posix_clear_error();
 		return;
-	}*/
+	}
 	gfal_posix_clear_error();
 	errno ==0;
 	
