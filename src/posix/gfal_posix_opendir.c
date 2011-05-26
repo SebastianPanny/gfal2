@@ -31,7 +31,7 @@
 
 
 
-DIR* gfal_opendir(const char* name){
+DIR* gfal_posix_internal_opendir(const char* name){
 	GError* tmp_err=NULL;
 
 	gfal_handle handle;

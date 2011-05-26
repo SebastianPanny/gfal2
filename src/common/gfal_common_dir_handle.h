@@ -30,5 +30,5 @@
 
 
 
-gfal_file_descriptor_handle gfal_dir_handle_instance(GError** err);
+gfal_fdesc_container_handle gfal_dir_handle_instance(GError** err);
 

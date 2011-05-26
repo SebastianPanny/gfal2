@@ -16,8 +16,9 @@
 START_TEST(test__dir_file_descriptor_low)
 {
 	GError* tmp_err=NULL;
+
 	gpointer pfile = (gpointer) (long)rand();
-	gfal_file_descriptor_handle  h = gfal_file_descriptor_handle_create(NULL);
+	gfal_fdesc_container_handle  h = gfal_file_descriptor_handle_create(NULL);
 	if( h == NULL){
 		fail(" fail must be a valid init");
 		gfal_release_GError(&tmp_err);
@@ -66,7 +67,14 @@ START_TEST(test__dir_file_descriptor_high)
 	GError* tmp_err= NULL;
 	const int id_module = rand(), id_module2 = rand();
 	const gpointer desc = (gpointer)(long) rand(), desc2 = (gpointer)(long) rand();
-	gfal_file_descriptor_handle h =  gfal_dir_handle_instance(&tmp_err);
+	
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle == NULL){
+		fail(" error while init");
+		return;
+	}
+	
+	gfal_fdesc_container_handle h =  gfal_dir_handle_container_instance(handle, &tmp_err);
 	if( h == NULL){
 		fail(" fail must be a valid init");
 		gfal_release_GError(&tmp_err);
@@ -124,6 +132,8 @@ START_TEST(test__dir_file_descriptor_high)
 		fail(" must be an invalid deletion");
 		return;
 	}
-	g_clear_error(&tmp_err);	
+	g_clear_error(&tmp_err);
+	
+	gfal_handle_freeG(handle);	
 }
 END_TEST

@@ -66,6 +66,7 @@ void gfal_handle_freeG (gfal_handle handle){
 	gfal_catalogs_delete(handle, NULL);
 	gfal_delete_request_state(handle->last_request_state);
 	handle->last_request_state = NULL;
+	gfal_dir_handle_container_delete(&(handle->fdecs));
 	free(handle);
 	handle = NULL;
 }

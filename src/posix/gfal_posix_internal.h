@@ -44,6 +44,8 @@ int gfal_posix_internal_mkdir(const char* path, mode_t mode);
 
 int gfal_posix_internal_rmdir(const char* path);
 
+DIR* gfal_posix_internal_opendir(const char* name);
+
 void gfal_posix_register_internal_error(gfal_handle handle, const char* prefix, GError * tmp_err);
  
 

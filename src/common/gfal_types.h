@@ -108,6 +108,13 @@ typedef struct gfal_filestatus_ {
     int nbspacetokens;
 } gfal_filestatus;
 
+
+typedef struct {
+	gfal_fdesc_container_handle dir_container;
+	gfal_fdesc_container_handle file_container;
+	
+} gfal_descriptors_container;
+
 typedef struct gfal_request_ {
 	/* [optional]
 	 * if set to 1, 'surls' to NULL, and endpoint specified,
@@ -247,6 +254,8 @@ struct gfal_handle_ {
 	gfal_request_state* last_request_state;
 	// struct of the catalog opts
 	struct _catalog_opts catalog_opt;
+	//struct for the file descriptors
+	gfal_descriptors_container fdecs;
 };
 
 
