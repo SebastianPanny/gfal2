@@ -32,6 +32,7 @@
 #include "../common/gfal_common_filedescriptor.h"
 #include "../common/gfal_common_dir_handle.h"
 #include "../common/gfal_common_errverbose.h"
+#include "../common/gfal_common_catalog.h"
 #include "gfal_posix_local_file.h"
 
 
@@ -45,6 +46,8 @@ static int gfal_posix_dir_handle_delete(gfal_fdesc_container_handle container, i
 	}
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	}else{
+		errno = 0;
 	}
 	return ret;
 }
@@ -57,8 +60,11 @@ static int gfal_posix_gfalfilehandle_close(gfal_handle handle, gfal_file_handle 
 		case GFAL_MODULEID_LOCAL:
 			ret = gfal_local_closedir(fh->fdesc, &tmp_err);
 			break;
+		case GFAL_EXTERNAL_MODULE_OFFSET:
+			ret = gfal_catalog_closedir(handle, fh, &tmp_err);
+			break;
 		default:
-			g_set_error(&tmp_err, 0, ENOSYS, " function not implemented");
+			g_set_error(&tmp_err, 0, EBADF, "Bad value container in file descriptor");
 	}
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

@@ -7,6 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
+#include <glib.h>
 #include "gfal_common_internal.h"
 #include "../unit_test_constants.h"
 #include "gfal_common_dir_handle.h"
@@ -67,7 +68,7 @@ START_TEST(test__dir_file_descriptor_high)
 {
 	GError* tmp_err= NULL;
 	const int id_module = rand(), id_module2 = rand();
-	const gpointer desc = (gpointer)(long) rand(), desc2 = (gpointer)(long) rand();
+	const gpointer desc =  GINT_TO_POINTER(rand()), desc2 =  GINT_TO_POINTER(rand());
 	
 	gfal_handle handle = gfal_initG(&tmp_err);
 	if(handle == NULL){

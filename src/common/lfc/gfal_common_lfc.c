@@ -177,7 +177,6 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
  * */
  static int lfc_rmdirG(catalog_handle handle, const char* path, GError** err){
 	 g_return_val_err_if_fail( handle && path , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");	
-	GError* tmp_err = NULL; 
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	const int ret = ops->rmdir(lfn);
@@ -190,6 +189,39 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	return ret;	 
  }
  
+/**
+ * execute an opendir func to the lfc
+ * */
+static DIR* lfc_opendirG(catalog_handle handle, const char* name, GError** err){
+	g_return_val_err_if_fail( handle && name , NULL, err, "[lfc_rmdirG] Invalid value in args handle/path");
+	GError* tmp_err=NULL;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;
+
+	char* lfn = lfc_urlconverter(name, GFAL_LFC_PREFIX);
+	DIR* d  = (DIR*) ops->opendirg(lfn,NULL);	
+	if(d==NULL){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
+	}	
+	free(lfn);
+	return d;		
+}
+
+/**
+ * execute an closedir func to the lfc
+ * */
+static int lfc_closedirG(catalog_handle handle, DIR* d, GError** err){
+	g_return_val_err_if_fail( handle && d , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");
+	GError* tmp_err=NULL;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;
+
+	int ret = ops->closedir(d);	
+	if(ret != 0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
+	}	
+	return ret;		
+}
 
 /**
  * Convert a guid to a catalog url if possible
@@ -247,6 +279,8 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.mkdirpG = &lfc_mkdirpG;
 	lfc_catalog.resolve_guid = &lfc_resolve_guid;
 	lfc_catalog.rmdirG = &lfc_rmdirG;
+	lfc_catalog.opendirG = &lfc_opendirG;
+	lfc_catalog.closedirG = &lfc_closedirG;
 	return lfc_catalog;
 }
 

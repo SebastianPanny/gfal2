@@ -116,6 +116,14 @@ gfal_file_handle gfal_file_handle_new(int id_module, gpointer fdesc){
 	f->fdesc = fdesc;
 	return f;
 }
+/**
+ * same than gfal_file_handle but with external data storage support
+ */
+gfal_file_handle gfal_file_handle_ext_new(int id_module, gpointer fdesc, gpointer ext_data){
+	gfal_file_handle f = gfal_file_handle_new(id_module, fdesc);
+	f->ext_data = ext_data;
+	return f;
+}
  
  /**
  * 

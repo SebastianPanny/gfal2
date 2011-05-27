@@ -62,6 +62,7 @@ struct lfc_ops {
 	int	(*unlink)(const char *);
 	int	(*access)(const char *, int);
 	int	(*chmod)(const char *, mode_t);
+	int (*closedir)(DIR*);
 	int	(*rename)(const char *, const char *);
 	lfc_DIR *(*opendirg)(const char *, const char *);
 	int	(*rmdir)(const char *);

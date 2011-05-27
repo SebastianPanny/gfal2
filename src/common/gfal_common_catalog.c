@@ -32,12 +32,13 @@
 #include "lfc/gfal_common_lfc.h"
 #include "gfal_constants.h"
 #include "gfal_common_errverbose.h"
+#include "gfal_common_filedescriptor.h"
 
 
 /**
  *  Note that hte default catalog is the first one
  */
-static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG}; // JUST MODIFY THIS TWO LINE IN ORDER TO ADD CATALOG
+static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG}; // JUST MODIFY THIS TWO LINES IN ORDER TO ADD CATALOG
 static const int size_catalog = 1;
 
 /**
@@ -278,6 +279,53 @@ int gfal_catalog_rmdirG(gfal_handle handle, const char* path, GError** err){
 	return ret; 	
 }
 
+/**
+ * Execute a opendir function on the first compatible catalog ( checked with check url func )
+ * @param handle handle of the current context
+ * @param path path to open
+ * @param GError error report system
+ * @return gfal_file_handle pointer given to the handle or NULL if error 
+ */
+ gfal_file_handle gfal_catalog_opendirG(gfal_handle handle, const char* name, GError** err){
+	g_return_val_err_if_fail(handle && name, NULL, err,  "[gfal_catalog_opendir] invalid value");
+	GError* tmp_err=NULL;	
+	DIR* d=NULL;
+	gfal_file_handle resu=NULL;
+	gfal_catalog_interface* pcata = NULL;
+	
+	gboolean opendir_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, name, GFAL_CATALOG_OPENDIR, terr);
+	}
+	int opendir_executor(gfal_catalog_interface* cata_list, GError** terr){
+		d= cata_list->opendirG(cata_list->handle, name, terr);
+		pcata= cata_list;
+		return (d)?0:-1;
+	}
+	
+
+	int ret = gfal_catalogs_operation_executor(handle, &opendir_checker, &opendir_executor, &tmp_err);
+	if(!ret){
+		resu = gfal_file_handle_ext_new(GFAL_EXTERNAL_MODULE_OFFSET, (gpointer) d, pcata);
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return resu;  
+}
+
+/**
+ * 
+ * close the given file Handle while contacting the proper catalog
+ */ 
+int gfal_catalog_closedir(gfal_handle handle, gfal_file_handle fh, GError** err){
+	g_return_val_err_if_fail(handle && fh, -1,err, "[gfal_catalog_resolve_guid] Invalid args ");	
+	GError* tmp_err=NULL;
+	int ret = -1;
+	gfal_catalog_interface* if_cata = fh->ext_data;
+	ret = if_cata->closedirG(if_cata->handle, (DIR*) fh->fdesc, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret;  	
+}
 
 /***
  *  Try to resolve the guid to a compatible catalog URL in all the catalogs.
@@ -309,6 +357,7 @@ char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** e
 	}
 	return ret;		
 }
+
 
 /**
  * return the catalog type configured at compilation time

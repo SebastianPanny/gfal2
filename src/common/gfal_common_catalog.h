@@ -31,6 +31,7 @@
 #include <glib.h>
 #include <errno.h>
 #include <string.h> 
+#include <dirent.h>
 #include <sys/stat.h>
  // protos
 #include "gfal_prototypes.h"
@@ -53,7 +54,9 @@ enum _catalog_mode{
 	GFAL_CATALOG_STAT,
 	GFAL_CATALOG_LSTAT,
 	GFAL_CATALOG_MKDIR,
-	GFAL_CATALOG_RMDIR
+	GFAL_CATALOG_RMDIR,
+	GFAL_CATALOG_OPENDIR,
+	
 };
 
 /**
@@ -90,6 +93,14 @@ struct _gfal_catalog_interface{
 	 * function pointer to the rmdir call
 	 */
 	int (*rmdirG )(catalog_handle, const char*, GError**);
+	/**
+	 * function pointer to the opendir call
+	 * */
+	 DIR* (*opendirG)(catalog_handle, const char*, GError**);
+	 /**
+	  *  function pointer to the closedir call
+	  */ 
+	 int (*closedirG)(catalog_handle, DIR*, GError**);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */
@@ -130,7 +141,13 @@ int gfal_catalog_lstatG(gfal_handle handle,const char* path, struct stat* st, GE
 
 int gfal_catalog_mkdirp(gfal_handle handle, const char* path, mode_t mode, gboolean pflag,  GError** err);
 
+
+
 char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
+
+gfal_file_handle gfal_catalog_opendirG(gfal_handle handle, const char* name, GError** err);
+
+int gfal_catalog_closedir(gfal_handle handle, gfal_file_handle fh, GError** err);
  	
 
 char *get_default_se(char *, int);

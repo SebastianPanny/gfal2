@@ -71,8 +71,7 @@ DIR* gfal_posix_internal_opendir(const char* name){
 			ret = NULL;
 			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol srm is not supported by opendir");
 		}else{
-			ret = NULL;
-			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");	
+			ret = gfal_catalog_opendirG(handle, name, &tmp_err);
 		}
 	}
 	
@@ -81,6 +80,8 @@ DIR* gfal_posix_internal_opendir(const char* name){
 	if(tmp_err){
 		gfal_posix_register_internal_error(handle, "[gfal_opendir]", tmp_err);
 		errno = tmp_err->code;	
+	}else{
+		errno=0;
 	}
 	return GINT_TO_POINTER(key); 	
 }

@@ -36,6 +36,7 @@ struct _gfal_file_descriptor_container{
 
 struct _gfal_file_handle_{
 	int module_id; // the module id is the mapper to find the correct module type : id < 10 -> internal storage, id >10 -> id-10 == offset of the module in the module list
+	gpointer ext_data;
 	gpointer fdesc;	
 };
 
@@ -62,3 +63,6 @@ gfal_file_handle gfal_file_handle_bind(gfal_fdesc_container_handle h, int file_d
 // convenience funcs
 
 gfal_file_handle gfal_file_handle_new(int id_module, gpointer fdesc);
+
+
+gfal_file_handle gfal_file_handle_ext_new(int id_module, gpointer fdesc, gpointer ext_data);

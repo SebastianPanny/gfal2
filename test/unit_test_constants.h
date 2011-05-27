@@ -21,7 +21,7 @@
 #define TEST_SRM_DPM_ENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/dpm/lal.in2p3.fr/home/dteam/"
 #define TEST_SRM_DPM_FULLENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/srm/managerv2?SFN=/dpm/lal.in2p3.fr/home/dteam" 
 #define TEST_SRM_DPM_FULLENDPOINT_URL "httpg://grid05.lal.in2p3.fr:8446/srm/managerv2"
-
+#define TEST_LFC_PREFIX "lfn:/grid/dteam"
 // macros
 
 #define TEST_FUSION_STRING(x,y) x y
@@ -30,6 +30,8 @@
 #define TEST_CONCAT_SRM_PREFIX(x) TEST_XFUSION_STRING(TEST_SRM_DPM_ENDPOINT_PREFIX, x) 
 
 #define TEST_CREATE_SRM_FILE(x) TEST_XFUSION_STRING(TEST_XFUSION_STRING("lcg-cp file:///etc/group ",x)," &> /dev/null")
+
+#define TEST_CONCAT_LFC_PREFIX(x) TEST_XFUSION_STRING(TEST_LFC_PREFIX, x)
 
  
  // constant to define for succefull unit test
@@ -155,3 +157,7 @@
 #define TEST_LOCAL_OPENDIR_OPEN_INVALID "file:///windowsdoesnotcrash"
 #define TEST_LOCAL_OPENDIR_OPEN_NOACCESS "file:///root/"
 #define TEST_LOCAL_OPENDIR_OPEN "file:///"
+
+#define TEST_LFC_OPENDIR_OPEN_INVALID TEST_CONCAT_LFC_PREFIX("/cannotbethere")
+#define TEST_LFC_OPENDIR_OPEN			TEST_CONCAT_LFC_PREFIX("/testopendir0011")
+#define TEST_LFC_OPENDIR_OPEN_NOACCESS TEST_CONCAT_LFC_PREFIX("/testopendir0012")
