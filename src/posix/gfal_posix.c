@@ -266,7 +266,7 @@ int gfal_close (int fd){
 
 
 
-
+/**
 int gfal_closedir (DIR *dir){
     struct dir_info *di;
     int rc;
@@ -289,7 +289,7 @@ int gfal_closedir (DIR *dir){
     free_di (di);
     return (rc);
 }
-
+*/
 int gfal_creat (const char *filename, mode_t mode){
     return (gfal_open (filename, O_WRONLY|O_CREAT|O_TRUNC, mode));
 }

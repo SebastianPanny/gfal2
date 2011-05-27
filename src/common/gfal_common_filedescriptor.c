@@ -117,15 +117,13 @@ gfal_file_handle gfal_file_handle_new(int id_module, gpointer fdesc){
 	return f;
 }
  
- 
- 
  /**
  * 
  * return the file handle associated with the file_desc
  * @warning does not free the handle
  * 
  * */
-gfal_file_handle gfal_dir_handle_bind(gfal_fdesc_container_handle h, int file_desc, GError** err){
+gfal_file_handle gfal_file_handle_bind(gfal_fdesc_container_handle h, int file_desc, GError** err){
 	g_return_val_err_if_fail(file_desc, 0, err, "[gfal_dir_handle_bind] invalid dir descriptor");
 	GError* tmp_err = NULL;
 	gfal_file_handle resu=NULL;
@@ -137,10 +135,10 @@ gfal_file_handle gfal_dir_handle_bind(gfal_fdesc_container_handle h, int file_de
 
 /**
  * 
- *  create a file handle with a given module_id ( id of the catalog) and a given file descriptor ( catalog's fiel descriptor )
+ *  create a file handle with a given module_id ( id of the catalog) and a given file descriptor 
  * 
  *  * */
-int gfal_dir_handle_create(gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError** err){
+int gfal_file_handle_create(gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError** err){
 	g_return_val_err_if_fail(module_id && real_file_desc, 0, err, "[gfal_dir_handle_create] invalid dir descriptor");
 	GError* tmp_err = NULL;
 	int resu=-1;
@@ -161,7 +159,7 @@ int gfal_dir_handle_create(gfal_fdesc_container_handle h, int module_id, gpointe
  *  delete the handle associated with the given key, return TRUE if success else FALSE
  * 
  *  * */
-gboolean gfal_dir_handle_delete(gfal_fdesc_container_handle h, int file_desc, GError** err){
+gboolean gfal_file_handle_delete(gfal_fdesc_container_handle h, int file_desc, GError** err){
 	g_return_val_err_if_fail(file_desc, FALSE, err, "[gfal_dir_handle_delete] invalid dir descriptor");
 	GError* tmp_err = NULL;
 	gboolean resu=FALSE;	

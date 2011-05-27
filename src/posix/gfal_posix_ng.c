@@ -176,6 +176,10 @@ DIR* gfal_opendir(const char* name){
 	return gfal_posix_internal_opendir(name);
 }
 
+int gfal_closedir(DIR* d){
+	return gfal_internal_closedir(d);
+}
+
 /**
  * Display the last string error reported by the gfal error system for the posix API
  * Errors are printed on stderr

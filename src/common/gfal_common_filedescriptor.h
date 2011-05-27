@@ -54,10 +54,10 @@ gpointer gfal_get_file_desc(gfal_fdesc_container_handle fhandle, int key, GError
 gboolean gfal_file_handle_delete(gfal_fdesc_container_handle h, int file_desc, GError** err);
 
 
-int gfal_dir_handle_create(gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError** err);
+int gfal_file_handle_create(gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError** err);
 
 
-gfal_file_handle gfal_dir_handle_bind(gfal_fdesc_container_handle h, int file_desc, GError** err);
+gfal_file_handle gfal_file_handle_bind(gfal_fdesc_container_handle h, int file_desc, GError** err);
 
 // convenience funcs
 
