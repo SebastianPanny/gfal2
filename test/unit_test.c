@@ -48,6 +48,7 @@
 #include "posix/test__gfal_posix_stat.c"
 #include "posix/test__gfal_posix_mkdir.c"
 #include "posix/test__gfal_posix_rmdir.c"
+#include "posix/test__gfal_posix_opendir.c"
 
 
 Suite* common_suite (void)
@@ -187,6 +188,9 @@ Suite* posix_suite (void)
   tcase_add_test(tc_rmdir, test__rmdir_posix_local_existingfile);
   tcase_add_test(tc_rmdir, test__rmdir_posix_local_slash);
   suite_add_tcase(s, tc_rmdir);
+  TCase* tc_opendir = tcase_create("OPENDIR/CLOSEDIR/READIR");
+  tcase_add_test(tc_opendir, test__opendir_posix_local_simple);
+  suite_add_tcase(s, tc_opendir);
   return s;
 }
 
