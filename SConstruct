@@ -71,7 +71,7 @@ if ARGUMENTS.get('debug','0') =='yes':
 # profile mode
 if ARGUMENTS.get('profile','0') =='yes':
 	print "PROFILE MODE"
-	env.Append(CFLAGS='-pg')
+	env.Append(CFLAGS='-pg', LINKFLAGS=['-pg'])
 
 #main build
 VariantDir(build_dir_src, 'src')
