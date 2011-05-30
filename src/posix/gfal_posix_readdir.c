@@ -16,8 +16,8 @@
  */
 
 /**
- * @file gfal_posix_closedir.c
- * @brief file for the closedir  posix func
+ * @file gfal_posix_readdir.c
+ * @brief file for the readdir posix func
  * @author Devresse Adrien
  * @version 2.0
  * @date 27/05/2011
@@ -25,6 +25,7 @@
 
 #include <stdlib.h>
 #include <glib.h>
+#include <dirent.h>
 #include "gfal_posix_api.h"
 #include "gfal_posix_internal.h"
 #include "../common/gfal_constants.h" 
@@ -32,36 +33,23 @@
 #include "../common/gfal_common_filedescriptor.h"
 #include "../common/gfal_common_dir_handle.h"
 #include "../common/gfal_common_errverbose.h"
-#include "../common/gfal_common_catalog.h"
 #include "gfal_posix_local_file.h"
 
 
-
-static int gfal_posix_dir_handle_delete(gfal_fdesc_container_handle container, int key, GError** err){
-	g_return_val_err_if_fail(container, -1, err, "[gfal_posix_dir_handle_delete] invalid args");
+/**
+ *  map the file handle to the correct call
+ */ 
+static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handle, gfal_file_handle fh, GError** err){
+	g_return_val_err_if_fail(handle && fh, NULL, err, "[gfal_posix_gfalfilehandle_readdir] incorrect args");
 	GError *tmp_err=NULL;
-	int ret = -1;
-	if(container){
-		ret = (gfal_remove_file_desc(container, key, &tmp_err))?0:-1;
-	}
-	if(tmp_err){
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	}else{
-		errno = 0;
-	}
-	return ret;
-}
-
-static int gfal_posix_gfalfilehandle_close(gfal_handle handle, gfal_file_handle fh, GError** err){
-	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_posix_gfalfilehandle_close] invalid args");
-	GError *tmp_err=NULL;
-	int ret = -1;
+	struct dirent* ret = NULL;
 	switch(fh->module_id){
 		case GFAL_MODULEID_LOCAL:
-			ret = gfal_local_closedir(fh->fdesc, &tmp_err);
+			ret = gfal_local_readdir(fh->fdesc, &tmp_err);
 			break;
 		case GFAL_EXTERNAL_MODULE_OFFSET:
-			ret = gfal_catalog_closedir(handle, fh, &tmp_err);
+			g_set_error(&tmp_err,0, ENOSYS, "Not implemented");
+			//ret = gfal_catalog_readdir(handle, fh, &tmp_err);
 			break;
 		default:
 			g_set_error(&tmp_err, 0, EBADF, "Bad value container in file descriptor");
@@ -69,35 +57,38 @@ static int gfal_posix_gfalfilehandle_close(gfal_handle handle, gfal_file_handle 
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	}
-	return ret;
+	return ret;		
 }
 
-int gfal_internal_closedir(DIR* d){
-	GError* tmp_err=NULL;
-	int ret = -1;
-	gfal_handle handle;	
+/**
+ * Implementation of the readdir functions
+ * 
+ */
+struct dirent* gfal_internal_readdir(DIR* dir){
+	 GError* tmp_err=NULL;
+	 gfal_handle handle;
+	 struct dirent* res= NULL;
+
 	if((handle = gfal_posix_instance()) == NULL){
 		errno = EIO;
-		return -1;
+		return NULL;
 	}
 	
-	if(d == NULL){
-		g_set_error(&tmp_err, 0, EFAULT, "File descriptor is NULL");
+	if(dir == NULL){
+		g_set_error(&tmp_err, 0, EBADF, "Incorrect file descriptor");
 	}else{
 		gfal_fdesc_container_handle container= gfal_dir_handle_container_instance(&(handle->fdescs), &tmp_err);	
-		int key = GPOINTER_TO_INT(d);
+		const int key = GPOINTER_TO_INT(dir);
 		gfal_file_handle fh = gfal_file_handle_bind(container, key, &tmp_err);
 		if( fh != NULL){
-			ret = gfal_posix_gfalfilehandle_close(handle, fh, &tmp_err);
-			if(ret==0){
-				ret = gfal_posix_dir_handle_delete(container, key, &tmp_err);
-			}
+			res = gfal_posix_gfalfilehandle_readdir(handle, fh, &tmp_err);
 		}
-	}	
-	
+	}
 	if(tmp_err){
-		gfal_posix_register_internal_error(handle, "[gfal_closedir]", tmp_err);
+		gfal_posix_register_internal_error(handle, "[gfal_readdir]", tmp_err);
 		errno = tmp_err->code;	
 	}
-	return ret; 		
+	return res; 	
 }
+
+

@@ -124,6 +124,16 @@ gfal_file_handle gfal_local_opendir(const char* path, GError** err){
 	return resu;
 }
 
+struct dirent* gfal_local_readdir(DIR* d, GError** err){
+	errno=0;
+	struct dirent* res = readdir(d);
+	if(res== NULL && errno){
+		g_set_error(err,0 ,errno , "[%s] errno reported by local system call", __func__, strerror(errno));
+	}
+	return res;	 	
+}
+
+
 /**
  * local rmdir mapper
  * */

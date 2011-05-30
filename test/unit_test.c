@@ -191,6 +191,7 @@ Suite* posix_suite (void)
   TCase* tc_opendir = tcase_create("OPENDIR/CLOSEDIR/READIR");
   tcase_add_test(tc_opendir, test__opendir_posix_local_simple);
   tcase_add_test(tc_opendir, test__opendir_posix_lfc_simple);
+  tcase_add_test(tc_opendir, test__readdir_posix_local_simple);
   suite_add_tcase(s, tc_opendir);
   return s;
 }

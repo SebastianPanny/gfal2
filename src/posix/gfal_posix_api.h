@@ -48,6 +48,8 @@ int gfal_mkdir(const char *, mode_t mode);
 
 DIR* gfal_opendir(const char* name);
 
+struct dirent* gfal_readdir(DIR* dir);
+
 void gfal_posix_clear_error();
 
 void gfal_posix_release_error();

@@ -161,3 +161,15 @@
 #define TEST_LFC_OPENDIR_OPEN_INVALID TEST_CONCAT_LFC_PREFIX("/cannotbethere")
 #define TEST_LFC_OPENDIR_OPEN			TEST_CONCAT_LFC_PREFIX("/testopendir0011")
 #define TEST_LFC_OPENDIR_OPEN_NOACCESS TEST_CONCAT_LFC_PREFIX("/testopendir0012")
+
+
+// readdir
+#define TEST_LOCAL_READDIR_CREATE_COMMAND "mkdir -p /tmp/testreaddir0011/testreaddir0012 &> /dev/null && \
+mkdir -p /tmp/testreaddir0011/testreaddir0013 &> /dev/null &&  mkdir -p /tmp/testreaddir0011/testreaddir0014 &> /dev/null && \
+mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
+#define TEST_LOCAL_READDIR_VALID "file:///tmp/testreaddir0011"
+#define TEST_LOCAL_READDIR_1 "testreaddir0012"
+#define TEST_LOCAL_READDIR_2 "testreaddir0013"
+#define TEST_LOCAL_READDIR_3 "testreaddir0014"
+#define TEST_LOCAL_READDIR_4 "testreaddir0015"
+

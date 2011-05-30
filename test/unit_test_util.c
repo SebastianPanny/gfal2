@@ -34,7 +34,7 @@ gboolean check_GList_Result_String(GList* list, char** example){	// return true 
 
 
 
-gboolean check_GList_Result_int(GList* list, int* example){	// return true if two string list are the same
+gboolean check_GList_Result_int(GList* list, int* example){	// return true if tab int and int GList are the same
 	GList *tmp_list=list;
 	while(tmp_list != NULL){
 		if( GPOINTER_TO_INT(tmp_list->data) != *example){
@@ -47,3 +47,12 @@ gboolean check_GList_Result_int(GList* list, int* example){	// return true if tw
 	return TRUE;
 	
 } 
+
+
+static int internal_compare_string(gconstpointer a, gconstpointer b){
+	return (a && b)?(strcmp((char*)a, (char*)b)):-1;
+}
+
+gboolean find_string(GList* strlist, const char* str){  // return true if str is present in the list
+	return ( g_list_find_custom(strlist, str, &internal_compare_string) != NULL)?TRUE:FALSE;
+}

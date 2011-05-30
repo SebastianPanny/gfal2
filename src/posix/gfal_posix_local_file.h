@@ -43,4 +43,6 @@ int gfal_local_mkdir(const char* path, mode_t mode, GError** err);
 
 int gfal_local_rmdir(const char* path, GError** err);
 
+struct dirent* gfal_local_readdir(DIR* d, GError** err);
+
 gfal_file_handle gfal_local_opendir(const char* path, GError** err);

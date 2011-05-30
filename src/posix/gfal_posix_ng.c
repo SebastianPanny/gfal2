@@ -180,6 +180,10 @@ int gfal_closedir(DIR* d){
 	return gfal_internal_closedir(d);
 }
 
+struct dirent* gfal_readdir(DIR* dir){
+	return gfal_internal_readdir(dir);	
+}
+
 /**
  * Display the last string error reported by the gfal error system for the posix API
  * Errors are printed on stderr

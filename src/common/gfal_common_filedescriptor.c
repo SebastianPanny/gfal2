@@ -76,7 +76,7 @@ gpointer gfal_get_file_desc(gfal_fdesc_container_handle fhandle, int key, GError
 	GHashTable* c = fhandle->container;	
 	gpointer p =  g_hash_table_lookup(c, GINT_TO_POINTER(key));
 	if(!p)
-		g_set_error(err,0, EBADR, "[%s] bad file descriptor",__func__);
+		g_set_error(err,0, EBADF, "[%s] bad file descriptor",__func__);
 	return p;
 }
 
@@ -88,7 +88,7 @@ gboolean gfal_remove_file_desc(gfal_fdesc_container_handle fhandle, int key, GEr
 	GHashTable* c = fhandle->container;	
 	gboolean p =  g_hash_table_remove(c, GINT_TO_POINTER(key));
 	if(!p)
-		g_set_error(err,0, EBADR, "[%s] bad fiel descriptor",__func__);
+		g_set_error(err,0, EBADF, "[%s] bad file descriptor",__func__);
 	return p;	  
  }
  

@@ -614,6 +614,7 @@ int gfal_get_async_results_errstringG(gfal_handle handle, GList** turls_errstrin
  int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err){
 	 time_t timeo = time(NULL) + timeout;
 	 GError* tmp_err=NULL;
+	 int uswait = 500;
 	 while(timeo >time(NULL)){
 		 if(  gfal_async_request_is_finishedG(handle, &tmp_err)  == TRUE)
 			return 0;
@@ -621,7 +622,7 @@ int gfal_get_async_results_errstringG(gfal_handle handle, GList** turls_errstrin
 			g_propagate_prefixed_error(err,tmp_err,"[gfal_wait_async_requestG]");
 			return 1;
 		}
-		usleep(1000);
+		usleep(uswait*=2);
 	 }
 	 return -1;
  }

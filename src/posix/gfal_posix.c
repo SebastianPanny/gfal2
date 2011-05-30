@@ -708,7 +708,7 @@ gfal_read (int fd, void *buf, size_t size)
         errno = 0;
     return (rc);
 }
-
+/*
     struct dirent *
 gfal_readdir (DIR *dir)
 {
@@ -737,7 +737,7 @@ gfal_readdir64 (DIR *dir)
     else
         errno = 0;
     return (de);
-}
+}*/
 /*
     int
 gfal_rename (const char *old_name, const char *new_name)

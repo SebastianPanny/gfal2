@@ -327,6 +327,18 @@ int gfal_catalog_closedir(gfal_handle handle, gfal_file_handle fh, GError** err)
 	return ret;  	
 }
 
+/**
+ *  execute a readdir for the given file handle on the appropriate catalog
+ * 
+ * */
+struct dirent* gfal_catalog_readdir(gfal_handle handle, gfal_file_handle fh, GError** err){
+	g_return_val_err_if_fail(handle && fh, -1,err, "[gfal_catalog_resolve_guid] Invalid args ");	
+	GError* tmp_err=NULL;
+	int ret = -1;
+	gfal_catalog_interface* if_cata = fh->ext_data;
+	return NULL;
+}
+
 /***
  *  Try to resolve the guid to a compatible catalog URL in all the catalogs.
  *  @return string of the new catalog URL or NULL value if error and set GError to the correct errno and msg
