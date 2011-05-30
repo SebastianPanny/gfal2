@@ -24,27 +24,30 @@
 <code>#include &lt;stdlib.h&gt;</code><br>
 <code>#include &lt;errno.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">gfal_common_errverbose.h</a>&quot;</code><br>
-<code>#include &quot;gfal_prototypes.h&quot;</code><br>
+<code>#include &quot;gfal_types.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">gfal_common_filedescriptor.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#15fd77eba0faf86bb3c0ff3939ee2b80">gfal_file_key_generatorG</a> (gfal_file_descriptor_handle fhandle, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#8ab30d677c0c3d4a635a35c395524fea">gfal_add_new_file_desc</a> (gfal_fdesc_container_handle fhandle, gpointer pfile, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#9f4b31ee629162f3ae66a7b82b424910">gfal_add_new_file_desc</a> (gfal_file_descriptor_handle fhandle, gpointer pfile, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gpointer&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#91568ee8206643b36d685269b012eb45">gfal_get_file_desc</a> (gfal_fdesc_container_handle fhandle, int key, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">gpointer&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#b1812a17fc7c430f91d738fa51a7f48d">gfal_get_file_desc</a> (gfal_file_descriptor_handle fhandle, int key, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#4b10e1d3a5ffde849302fffdba207835">gfal_remove_file_desc</a> (gfal_fdesc_container_handle fhandle, int key, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#943c20a3d9a14dd8f86ba1abe7bee316">gfal_remove_file_desc</a> (gfal_file_descriptor_handle fhandle, int key, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="13934d51ad328aabb0721ef7793ad233"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_descriptor_handle_create" ref="13934d51ad328aabb0721ef7793ad233" args="(GDestroyNotify destroyer)" -->
+gfal_fdesc_container_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_file_descriptor_handle_create</b> (GDestroyNotify destroyer)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9c7178945c6bcbebf9fa7b082c964480"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_descriptor_handle_create" ref="9c7178945c6bcbebf9fa7b082c964480" args="(GDestroyNotify destroyer)" -->
-gfal_file_descriptor_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_file_descriptor_handle_create</b> (GDestroyNotify destroyer)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9d05f277c63dea4b06fb518237a5da11"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_handle_new" ref="9d05f277c63dea4b06fb518237a5da11" args="(int id_module, gpointer fdesc)" -->
+gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_file_handle_new</b> (int id_module, gpointer fdesc)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_directory_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#23224901d9b8c37c00a8a9fda23f701a">gfal_dir_handle_bind</a> (gfal_file_descriptor_handle h, int file_desc, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#b2ae28c9bade093c2f1fea46f549fbee">gfal_file_handle_ext_new</a> (int id_module, gpointer fdesc, gpointer ext_data)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#bdd3af3590b09b87b43ad27aa9ed3eb0">gfal_dir_handle_create</a> (gfal_file_descriptor_handle h, int module_id, gpointer real_file_desc, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#b1a9b764baa7c997a354d18bbe43e2cb">gfal_file_handle_bind</a> (gfal_fdesc_container_handle h, int file_desc, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#6e01efded781bee066c8939310b6a366">gfal_dir_handle_delete</a> (gfal_file_descriptor_handle h, int file_desc, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#9cfac852697441bd0289e9900960854c">gfal_file_handle_create</a> (gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#5434be84154718254a4e90dbcc196359">gfal_file_handle_delete</a> (gfal_fdesc_container_handle h, int file_desc, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -54,14 +57,14 @@ file for the file descriptor management
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>22/05/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="9f4b31ee629162f3ae66a7b82b424910"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_add_new_file_desc" ref="9f4b31ee629162f3ae66a7b82b424910" args="(gfal_file_descriptor_handle fhandle, gpointer pfile, GError **err)" -->
+<a class="anchor" name="8ab30d677c0c3d4a635a35c395524fea"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_add_new_file_desc" ref="8ab30d677c0c3d4a635a35c395524fea" args="(gfal_fdesc_container_handle fhandle, gpointer pfile, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int gfal_add_new_file_desc           </td>
           <td>(</td>
-          <td class="paramtype">gfal_file_descriptor_handle&nbsp;</td>
+          <td class="paramtype">gfal_fdesc_container_handle&nbsp;</td>
           <td class="paramname"> <em>fhandle</em>, </td>
         </tr>
         <tr>
@@ -90,14 +93,14 @@ Add the given file handle to the and return a file descriptor <dl compact><dt><b
 
 </div>
 </div><p>
-<a class="anchor" name="23224901d9b8c37c00a8a9fda23f701a"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_dir_handle_bind" ref="23224901d9b8c37c00a8a9fda23f701a" args="(gfal_file_descriptor_handle h, int file_desc, GError **err)" -->
+<a class="anchor" name="b1a9b764baa7c997a354d18bbe43e2cb"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_handle_bind" ref="b1a9b764baa7c997a354d18bbe43e2cb" args="(gfal_fdesc_container_handle h, int file_desc, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">gfal_directory_handle gfal_dir_handle_bind           </td>
+          <td class="memname">gfal_file_handle gfal_file_handle_bind           </td>
           <td>(</td>
-          <td class="paramtype">gfal_file_descriptor_handle&nbsp;</td>
+          <td class="paramtype">gfal_fdesc_container_handle&nbsp;</td>
           <td class="paramname"> <em>h</em>, </td>
         </tr>
         <tr>
@@ -126,14 +129,14 @@ return the file handle associated with the file_desc <dl compact><dt><b>Warning:
 
 </div>
 </div><p>
-<a class="anchor" name="bdd3af3590b09b87b43ad27aa9ed3eb0"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_dir_handle_create" ref="bdd3af3590b09b87b43ad27aa9ed3eb0" args="(gfal_file_descriptor_handle h, int module_id, gpointer real_file_desc, GError **err)" -->
+<a class="anchor" name="9cfac852697441bd0289e9900960854c"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_handle_create" ref="9cfac852697441bd0289e9900960854c" args="(gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int gfal_dir_handle_create           </td>
+          <td class="memname">int gfal_file_handle_create           </td>
           <td>(</td>
-          <td class="paramtype">gfal_file_descriptor_handle&nbsp;</td>
+          <td class="paramtype">gfal_fdesc_container_handle&nbsp;</td>
           <td class="paramname"> <em>h</em>, </td>
         </tr>
         <tr>
@@ -164,18 +167,18 @@ return the file handle associated with the file_desc <dl compact><dt><b>Warning:
 <div class="memdoc">
 
 <p>
-create a file handle with a given module_id ( id of the catalog) and a given file descriptor ( catalog's fiel descriptor )<p>
+create a file handle with a given module_id ( id of the catalog) and a given file descriptor<p>
 * 
 </div>
 </div><p>
-<a class="anchor" name="6e01efded781bee066c8939310b6a366"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_dir_handle_delete" ref="6e01efded781bee066c8939310b6a366" args="(gfal_file_descriptor_handle h, int file_desc, GError **err)" -->
+<a class="anchor" name="5434be84154718254a4e90dbcc196359"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_handle_delete" ref="5434be84154718254a4e90dbcc196359" args="(gfal_fdesc_container_handle h, int file_desc, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">gboolean gfal_dir_handle_delete           </td>
+          <td class="memname">gboolean gfal_file_handle_delete           </td>
           <td>(</td>
-          <td class="paramtype">gfal_file_descriptor_handle&nbsp;</td>
+          <td class="paramtype">gfal_fdesc_container_handle&nbsp;</td>
           <td class="paramname"> <em>h</em>, </td>
         </tr>
         <tr>
@@ -204,21 +207,27 @@ delete the handle associated with the given key, return TRUE if success else FAL
 * 
 </div>
 </div><p>
-<a class="anchor" name="15fd77eba0faf86bb3c0ff3939ee2b80"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_key_generatorG" ref="15fd77eba0faf86bb3c0ff3939ee2b80" args="(gfal_file_descriptor_handle fhandle, GError **err)" -->
+<a class="anchor" name="b2ae28c9bade093c2f1fea46f549fbee"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_handle_ext_new" ref="b2ae28c9bade093c2f1fea46f549fbee" args="(int id_module, gpointer fdesc, gpointer ext_data)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int gfal_file_key_generatorG           </td>
+          <td class="memname">gfal_file_handle gfal_file_handle_ext_new           </td>
           <td>(</td>
-          <td class="paramtype">gfal_file_descriptor_handle&nbsp;</td>
-          <td class="paramname"> <em>fhandle</em>, </td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>id_module</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>fdesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>ext_data</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -230,17 +239,17 @@ delete the handle associated with the given key, return TRUE if success else FAL
 <div class="memdoc">
 
 <p>
-generate a new unique key 
+same than gfal_file_handle but with external data storage support 
 </div>
 </div><p>
-<a class="anchor" name="b1812a17fc7c430f91d738fa51a7f48d"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_get_file_desc" ref="b1812a17fc7c430f91d738fa51a7f48d" args="(gfal_file_descriptor_handle fhandle, int key, GError **err)" -->
+<a class="anchor" name="91568ee8206643b36d685269b012eb45"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_get_file_desc" ref="91568ee8206643b36d685269b012eb45" args="(gfal_fdesc_container_handle fhandle, int key, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">gpointer gfal_get_file_desc           </td>
           <td>(</td>
-          <td class="paramtype">gfal_file_descriptor_handle&nbsp;</td>
+          <td class="paramtype">gfal_fdesc_container_handle&nbsp;</td>
           <td class="paramname"> <em>fhandle</em>, </td>
         </tr>
         <tr>
@@ -268,14 +277,14 @@ generate a new unique key
 return the associated file handle for the given file descriptor or NULL if the key is not present and err is set 
 </div>
 </div><p>
-<a class="anchor" name="943c20a3d9a14dd8f86ba1abe7bee316"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_remove_file_desc" ref="943c20a3d9a14dd8f86ba1abe7bee316" args="(gfal_file_descriptor_handle fhandle, int key, GError **err)" -->
+<a class="anchor" name="4b10e1d3a5ffde849302fffdba207835"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_remove_file_desc" ref="4b10e1d3a5ffde849302fffdba207835" args="(gfal_fdesc_container_handle fhandle, int key, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">gboolean gfal_remove_file_desc           </td>
           <td>(</td>
-          <td class="paramtype">gfal_file_descriptor_handle&nbsp;</td>
+          <td class="paramtype">gfal_fdesc_container_handle&nbsp;</td>
           <td class="paramname"> <em>fhandle</em>, </td>
         </tr>
         <tr>
@@ -303,7 +312,7 @@ return the associated file handle for the given file descriptor or NULL if the k
 remove the associated file handle associated with the given file descriptor return true if success else false 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 25 15:26:15 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri May 27 16:46:21 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

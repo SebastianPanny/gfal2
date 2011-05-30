@@ -7,6 +7,7 @@ the header file of the common lib for the catalog management
 {\tt \#include $<$glib.h$>$}\par
 {\tt \#include $<$errno.h$>$}\par
 {\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$dirent.h$>$}\par
 {\tt \#include $<$sys/stat.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
@@ -35,7 +36,9 @@ enum \textbf{\_\-catalog\_\-mode} \{ \par
 \textbf{GFAL\_\-CATALOG\_\-STAT}, 
 \textbf{GFAL\_\-CATALOG\_\-LSTAT}, 
 \textbf{GFAL\_\-CATALOG\_\-MKDIR}, 
-\textbf{GFAL\_\-CATALOG\_\-RMDIR}
+\textbf{GFAL\_\-CATALOG\_\-RMDIR}, 
+\par
+\textbf{GFAL\_\-CATALOG\_\-OPENDIR}
  \}
 \end{CompactItemize}
 \subsection*{Functions}
@@ -60,6 +63,10 @@ int \bf{gfal\_\-catalog\_\-mkdirp} (gfal\_\-handle handle, const char $\ast$path
 \item 
 char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_4955825d7c275f3dfae9a57232642370}
 
+\item 
+gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-opendir\-G} (gfal\_\-handle handle, const char $\ast$name, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-catalog\_\-closedir} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \textbf{get\_\-default\_\-se} (char $\ast$, int)\label{gfal__common__catalog_8h_c304a754c49bedeec6c1c9b1445b937d}
 
@@ -108,7 +115,12 @@ the header file of the common lib for the catalog management
 
 
 \subsection{Function Documentation}
-\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_closedir@{gfal\_\-catalog\_\-closedir}}
+\index{gfal_catalog_closedir@{gfal\_\-catalog\_\-closedir}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-closedir (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_51ecb1a0e6125b0b72ad42b834046bb1}
+
+
+close the given file Handle while contacting the proper catalog \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}}
 \index{gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-lstat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_1ad1b1f96272dbf43a15e7ea5d35389d}
 
@@ -127,6 +139,18 @@ Execute a mkdir function on the first compatible catalog ( checked with check ur
 \item[Warning:]no check on the path, please check the path before \end{Desc}
 \begin{Desc}
 \item[Returns:]return 0 if success else return -1 \end{Desc}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}}
+\index{gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-catalog\_\-opendir\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_eb89b1d37a16ef8ecb50ac603366285c}
+
+
+Execute a opendir function on the first compatible catalog ( checked with check url func ) \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]handle of the current context \item[{\em path}]path to open \item[{\em GError}]error report system \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]gfal\_\-file\_\-handle pointer given to the handle or NULL if error \end{Desc}
 \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_statG@{gfal\_\-catalog\_\-statG}}
 \index{gfal_catalog_statG@{gfal\_\-catalog\_\-statG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-stat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_28ca68c00e4a67bc158975ef3e4f8013}

@@ -5,47 +5,65 @@
     <includes refid="gfal__constants_8h" local="yes">gfal_constants.h</includes>
     <includes refid="gfal__prototypes_8h" local="yes">gfal_prototypes.h</includes>
     <includedby refid="gfal__common__dir__handle_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</includedby>
+    <includedby refid="gfal__posix__closedir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</includedby>
+    <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
     <incdepgraph>
-      <node id="220">
+      <node id="235">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="221" relation="include">
+        <childnode refid="236" relation="include">
         </childnode>
       </node>
-      <node id="218">
+      <node id="233">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h</label>
         <link refid="gfal_common_dir_handle.h"/>
-        <childnode refid="219" relation="include">
+        <childnode refid="234" relation="include">
         </childnode>
-        <childnode refid="220" relation="include">
+        <childnode refid="235" relation="include">
         </childnode>
       </node>
-      <node id="221">
+      <node id="236">
         <label>glib.h</label>
       </node>
-      <node id="219">
+      <node id="234">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="223">
+      <node id="239">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
+        <link refid="gfal__posix__closedir_8c"/>
+      </node>
+      <node id="238">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</label>
         <link refid="gfal__common__dir__handle_8c"/>
       </node>
-      <node id="222">
+      <node id="237">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h</label>
         <link refid="gfal_common_dir_handle.h"/>
-        <childnode refid="223" relation="include">
+        <childnode refid="238" relation="include">
         </childnode>
+        <childnode refid="239" relation="include">
+        </childnode>
+        <childnode refid="240" relation="include">
+        </childnode>
+      </node>
+      <node id="240">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
+        <link refid="gfal__posix__opendir_8c"/>
       </node>
     </invincdepgraph>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__dir__handle_8h_1c6a3e1ddffb475e5855442c9a0573bfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>gfal_file_descriptor_handle</type>
-        <definition>gfal_file_descriptor_handle gfal_dir_handle_instance</definition>
-        <argsstring>(GError **err)</argsstring>
-        <name>gfal_dir_handle_instance</name>
+      <memberdef kind="function" id="gfal__common__dir__handle_8h_10973d623e1abd39d0830739b0710512f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gfal_fdesc_container_handle</type>
+        <definition>gfal_fdesc_container_handle gfal_dir_handle_container_instance</definition>
+        <argsstring>(gfal_descriptors_container *fdescs, GError **err)</argsstring>
+        <name>gfal_dir_handle_container_instance</name>
+        <param>
+          <type>gfal_descriptors_container *</type>
+          <declname>fdescs</declname>
+        </param>
         <param>
           <type>GError **</type>
           <declname>err</declname>
@@ -56,7 +74,7 @@
 <para>return the singleton of the file descriptor container for the directories </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h" line="33" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c" bodystart="44" bodyend="53"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h" line="33" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c" bodystart="43" bodyend="53"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -90,7 +108,7 @@
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal">gfal_file_descriptor_handle<sp/><ref refid="gfal__common__dir__handle_8c_1c6a3e1ddffb475e5855442c9a0573bfc" kindref="member">gfal_dir_handle_instance</ref>(GError**<sp/>err);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">gfal_fdesc_container_handle<sp/><ref refid="gfal__common__dir__handle_8c_10973d623e1abd39d0830739b0710512f" kindref="member">gfal_dir_handle_container_instance</ref>(gfal_descriptors_container*<sp/>fdescs,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h"/>

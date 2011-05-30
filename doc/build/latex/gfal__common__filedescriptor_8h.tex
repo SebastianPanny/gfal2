@@ -14,21 +14,25 @@ struct \textbf{\_\-gfal\_\-file\_\-handle\_\-}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-gfal\_\-file\_\-descriptor\_\-handle \textbf{gfal\_\-file\_\-descriptor\_\-handle\_\-create} (GDestroy\-Notify destroyer)\label{gfal__common__filedescriptor_8h_9c7178945c6bcbebf9fa7b082c964480}
+gfal\_\-fdesc\_\-container\_\-handle \textbf{gfal\_\-file\_\-descriptor\_\-handle\_\-create} (GDestroy\-Notify destroyer)\label{gfal__common__filedescriptor_8h_13934d51ad328aabb0721ef7793ad233}
 
 \item 
-int \bf{gfal\_\-file\_\-key\_\-generator\-G} (gfal\_\-file\_\-descriptor\_\-handle fhandle, GError $\ast$$\ast$err)
+int \bf{gfal\_\-add\_\-new\_\-file\_\-desc} (gfal\_\-fdesc\_\-container\_\-handle fhandle, gpointer pfile, GError $\ast$$\ast$err)
 \item 
-gboolean \bf{gfal\_\-remove\_\-file\_\-desc} (gfal\_\-file\_\-descriptor\_\-handle fhandle, int key, GError $\ast$$\ast$err)
+gboolean \bf{gfal\_\-remove\_\-file\_\-desc} (gfal\_\-fdesc\_\-container\_\-handle fhandle, int key, GError $\ast$$\ast$err)
 \item 
-gpointer \bf{gfal\_\-get\_\-file\_\-desc} (gfal\_\-file\_\-descriptor\_\-handle fhandle, int key, GError $\ast$$\ast$err)
+gpointer \bf{gfal\_\-get\_\-file\_\-desc} (gfal\_\-fdesc\_\-container\_\-handle fhandle, int key, GError $\ast$$\ast$err)
 \item 
-gboolean \textbf{gfal\_\-file\_\-handle\_\-delete} (gfal\_\-file\_\-descriptor\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)\label{gfal__common__filedescriptor_8h_93c7b3ac8466749da63df8d4c9f2642d}
+gboolean \bf{gfal\_\-file\_\-handle\_\-delete} (gfal\_\-fdesc\_\-container\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-file\_\-handle\_\-create} (gfal\_\-fdesc\_\-container\_\-handle h, int module\_\-id, gpointer real\_\-file\_\-desc, GError $\ast$$\ast$err)
+\item 
+gfal\_\-file\_\-handle \bf{gfal\_\-file\_\-handle\_\-bind} (gfal\_\-fdesc\_\-container\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)
+\item 
+gfal\_\-file\_\-handle \textbf{gfal\_\-file\_\-handle\_\-new} (int id\_\-module, gpointer fdesc)\label{gfal__common__filedescriptor_8h_9d05f277c63dea4b06fb518237a5da11}
 
 \item 
-int \bf{gfal\_\-dir\_\-handle\_\-create} (gfal\_\-file\_\-descriptor\_\-handle h, int module\_\-id, gpointer real\_\-file\_\-desc, GError $\ast$$\ast$err)
-\item 
-gfal\_\-directory\_\-handle \bf{gfal\_\-dir\_\-handle\_\-bind} (gfal\_\-file\_\-descriptor\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)
+gfal\_\-file\_\-handle \bf{gfal\_\-file\_\-handle\_\-ext\_\-new} (int id\_\-module, gpointer fdesc, gpointer ext\_\-data)
 \end{CompactItemize}
 
 
@@ -44,33 +48,47 @@ header file for the file descriptor management
 
 
 \subsection{Function Documentation}
-\index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_dir_handle_bind@{gfal\_\-dir\_\-handle\_\-bind}}
-\index{gfal_dir_handle_bind@{gfal\_\-dir\_\-handle\_\-bind}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-directory\_\-handle gfal\_\-dir\_\-handle\_\-bind (gfal\_\-file\_\-descriptor\_\-handle {\em h}, int {\em file\_\-desc}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_23224901d9b8c37c00a8a9fda23f701a}
+\index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_add_new_file_desc@{gfal\_\-add\_\-new\_\-file\_\-desc}}
+\index{gfal_add_new_file_desc@{gfal\_\-add\_\-new\_\-file\_\-desc}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-add\_\-new\_\-file\_\-desc (gfal\_\-fdesc\_\-container\_\-handle {\em fhandle}, gpointer {\em pfile}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_8ab30d677c0c3d4a635a35c395524fea}
+
+
+Add the given file handle to the and return a file descriptor \begin{Desc}
+\item[Returns:]return the associated key if success else 0 and set err \end{Desc}
+\index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_file_handle_bind@{gfal\_\-file\_\-handle\_\-bind}}
+\index{gfal_file_handle_bind@{gfal\_\-file\_\-handle\_\-bind}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-file\_\-handle\_\-bind (gfal\_\-fdesc\_\-container\_\-handle {\em h}, int {\em file\_\-desc}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_b1a9b764baa7c997a354d18bbe43e2cb}
 
 
 return the file handle associated with the file\_\-desc \begin{Desc}
 \item[Warning:]does not free the handle \end{Desc}
-\index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_dir_handle_create@{gfal\_\-dir\_\-handle\_\-create}}
-\index{gfal_dir_handle_create@{gfal\_\-dir\_\-handle\_\-create}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-dir\_\-handle\_\-create (gfal\_\-file\_\-descriptor\_\-handle {\em h}, int {\em module\_\-id}, gpointer {\em real\_\-file\_\-desc}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_bdd3af3590b09b87b43ad27aa9ed3eb0}
+\index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_file_handle_create@{gfal\_\-file\_\-handle\_\-create}}
+\index{gfal_file_handle_create@{gfal\_\-file\_\-handle\_\-create}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-file\_\-handle\_\-create (gfal\_\-fdesc\_\-container\_\-handle {\em h}, int {\em module\_\-id}, gpointer {\em real\_\-file\_\-desc}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_9cfac852697441bd0289e9900960854c}
 
 
-create a file handle with a given module\_\-id ( id of the catalog) and a given file descriptor ( catalog's fiel descriptor )
+create a file handle with a given module\_\-id ( id of the catalog) and a given file descriptor
 
-$\ast$ \index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_file_key_generatorG@{gfal\_\-file\_\-key\_\-generatorG}}
-\index{gfal_file_key_generatorG@{gfal\_\-file\_\-key\_\-generatorG}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-file\_\-key\_\-generator\-G (gfal\_\-file\_\-descriptor\_\-handle {\em fhandle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_15fd77eba0faf86bb3c0ff3939ee2b80}
+$\ast$ \index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_file_handle_delete@{gfal\_\-file\_\-handle\_\-delete}}
+\index{gfal_file_handle_delete@{gfal\_\-file\_\-handle\_\-delete}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-file\_\-handle\_\-delete (gfal\_\-fdesc\_\-container\_\-handle {\em h}, int {\em file\_\-desc}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_5434be84154718254a4e90dbcc196359}
 
 
-generate a new unique key \index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_get_file_desc@{gfal\_\-get\_\-file\_\-desc}}
+delete the handle associated with the given key, return TRUE if success else FALSE
+
+$\ast$ \index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_file_handle_ext_new@{gfal\_\-file\_\-handle\_\-ext\_\-new}}
+\index{gfal_file_handle_ext_new@{gfal\_\-file\_\-handle\_\-ext\_\-new}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-file\_\-handle\_\-ext\_\-new (int {\em id\_\-module}, gpointer {\em fdesc}, gpointer {\em ext\_\-data})}\label{gfal__common__filedescriptor_8h_b2ae28c9bade093c2f1fea46f549fbee}
+
+
+same than gfal\_\-file\_\-handle but with external data storage support \index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_get_file_desc@{gfal\_\-get\_\-file\_\-desc}}
 \index{gfal_get_file_desc@{gfal\_\-get\_\-file\_\-desc}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gpointer gfal\_\-get\_\-file\_\-desc (gfal\_\-file\_\-descriptor\_\-handle {\em fhandle}, int {\em key}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_b1812a17fc7c430f91d738fa51a7f48d}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gpointer gfal\_\-get\_\-file\_\-desc (gfal\_\-fdesc\_\-container\_\-handle {\em fhandle}, int {\em key}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_91568ee8206643b36d685269b012eb45}
 
 
 return the associated file handle for the given file descriptor or NULL if the key is not present and err is set \index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_remove_file_desc@{gfal\_\-remove\_\-file\_\-desc}}
 \index{gfal_remove_file_desc@{gfal\_\-remove\_\-file\_\-desc}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-remove\_\-file\_\-desc (gfal\_\-file\_\-descriptor\_\-handle {\em fhandle}, int {\em key}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_943c20a3d9a14dd8f86ba1abe7bee316}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-remove\_\-file\_\-desc (gfal\_\-fdesc\_\-container\_\-handle {\em fhandle}, int {\em key}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_4b10e1d3a5ffde849302fffdba207835}
 
 
 remove the associated file handle associated with the given file descriptor return true if success else false 

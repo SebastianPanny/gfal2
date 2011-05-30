@@ -25,6 +25,7 @@
 <code>#include &lt;glib.h&gt;</code><br>
 <code>#include &lt;errno.h&gt;</code><br>
 <code>#include &lt;string.h&gt;</code><br>
+<code>#include &lt;dirent.h&gt;</code><br>
 <code>#include &lt;sys/stat.h&gt;</code><br>
 <code>#include &quot;gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;gfal_types.h&quot;</code><br>
@@ -51,7 +52,9 @@
 &nbsp;&nbsp;<b>GFAL_CATALOG_STAT</b>, 
 <b>GFAL_CATALOG_LSTAT</b>, 
 <b>GFAL_CATALOG_MKDIR</b>, 
-<b>GFAL_CATALOG_RMDIR</b>
+<b>GFAL_CATALOG_RMDIR</b>, 
+<br>
+&nbsp;&nbsp;<b>GFAL_CATALOG_OPENDIR</b>
 <br>
  }</td></tr>
 
@@ -76,6 +79,10 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_guid_acc
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4955825d7c275f3dfae9a57232642370"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_resolve_guid" ref="4955825d7c275f3dfae9a57232642370" args="(gfal_handle handle, const char *guid, GError **err)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolve_guid</b> (gfal_handle handle, const char *guid, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#eb89b1d37a16ef8ecb50ac603366285c">gfal_catalog_opendirG</a> (gfal_handle handle, const char *name, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#51ecb1a0e6125b0b72ad42b834046bb1">gfal_catalog_closedir</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c304a754c49bedeec6c1c9b1445b937d"></a><!-- doxytag: member="gfal_common_catalog.h::get_default_se" ref="c304a754c49bedeec6c1c9b1445b937d" args="(char *, int)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>get_default_se</b> (char *, int)</td></tr>
@@ -118,6 +125,41 @@ the header file of the common lib for the catalog management
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>8/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="51ecb1a0e6125b0b72ad42b834046bb1"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_closedir" ref="51ecb1a0e6125b0b72ad42b834046bb1" args="(gfal_handle handle, gfal_file_handle fh, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_closedir           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+close the given file Handle while contacting the proper catalog 
+</div>
+</div><p>
 <a class="anchor" name="1ad1b1f96272dbf43a15e7ea5d35389d"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_lstatG" ref="1ad1b1f96272dbf43a15e7ea5d35389d" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -214,6 +256,49 @@ Execute a mkdir function on the first compatible catalog ( checked with check ur
 </dl>
 <dl compact><dt><b>Warning:</b></dt><dd>no check on the path, please check the path before </dd></dl>
 <dl compact><dt><b>Returns:</b></dt><dd>return 0 if success else return -1 </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="eb89b1d37a16ef8ecb50ac603366285c"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_opendirG" ref="eb89b1d37a16ef8ecb50ac603366285c" args="(gfal_handle handle, const char *name, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gfal_file_handle gfal_catalog_opendirG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Execute a opendir function on the first compatible catalog ( checked with check url func ) <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>handle of the current context </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>path to open </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>GError</em>&nbsp;</td><td>error report system </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>gfal_file_handle pointer given to the handle or NULL if error </dd></dl>
 
 </div>
 </div><p>
@@ -381,7 +466,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 25 15:26:15 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri May 27 16:46:21 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

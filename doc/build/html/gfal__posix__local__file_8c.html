@@ -25,6 +25,8 @@
 <code>#include &lt;sys/stat.h&gt;</code><br>
 <code>#include &lt;regex.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">../common/gfal_common_errverbose.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">../common/gfal_common_filedescriptor.h</a>&quot;</code><br>
+<code>#include &quot;../common/gfal_types.h&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Defines</h2></td></tr>
@@ -53,7 +55,12 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_mkdir_rec</
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="29c13ce3294eab970124d188fab1c567"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_mkdir" ref="29c13ce3294eab970124d188fab1c567" args="(const char *path, mode_t mode, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_mkdir</b> (const char *path, mode_t mode, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="56dc809549c9ff1f7f245619fae1dea5"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_opendir" ref="56dc809549c9ff1f7f245619fae1dea5" args="(const char *path, GError **err)" -->
+gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_opendir</b> (const char *path, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__local__file_8c.html#a89a8db8cb79bf7c575b08305704c248">gfal_local_rmdir</a> (const char *path, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__local__file_8c.html#48c8b58b85db67426dbaf28fb4080ff0">gfal_local_closedir</a> (DIR *d, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__local__file_8c.html#02987ce8beeb908c36ee3d4ef3bc5618">gfal_check_local_url</a> (const char *path, GError **err)</td></tr>
 
@@ -94,6 +101,35 @@ file for the internal func of the posix interface
 check the validity of a classique file url 
 </div>
 </div><p>
+<a class="anchor" name="48c8b58b85db67426dbaf28fb4080ff0"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_closedir" ref="48c8b58b85db67426dbaf28fb4080ff0" args="(DIR *d, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_local_closedir           </td>
+          <td>(</td>
+          <td class="paramtype">DIR *&nbsp;</td>
+          <td class="paramname"> <em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+local closedir mapper 
+</div>
+</div><p>
 <a class="anchor" name="a89a8db8cb79bf7c575b08305704c248"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_rmdir" ref="a89a8db8cb79bf7c575b08305704c248" args="(const char *path, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -123,7 +159,7 @@ check the validity of a classique file url
 local rmdir mapper 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 25 15:26:15 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri May 27 16:46:21 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

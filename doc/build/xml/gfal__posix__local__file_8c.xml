@@ -7,64 +7,138 @@
     <includes local="no">sys/stat.h</includes>
     <includes local="no">regex.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../common/gfal_common_errverbose.h</includes>
+    <includes refid="gfal__common__filedescriptor_8h" local="yes">../common/gfal_common_filedescriptor.h</includes>
+    <includes refid="gfal__types_8h" local="yes">../common/gfal_types.h</includes>
     <incdepgraph>
-      <node id="1235">
+      <node id="1298">
         <label>sys/stat.h</label>
       </node>
-      <node id="1239">
+      <node id="1302">
         <label>stdarg.h</label>
       </node>
-      <node id="1237">
+      <node id="1300">
         <label>../common/gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="1238" relation="include">
+        <childnode refid="1301" relation="include">
         </childnode>
-        <childnode refid="1239" relation="include">
+        <childnode refid="1302" relation="include">
         </childnode>
-        <childnode refid="1240" relation="include">
+        <childnode refid="1303" relation="include">
         </childnode>
-        <childnode refid="1241" relation="include">
+        <childnode refid="1304" relation="include">
         </childnode>
-        <childnode refid="1242" relation="include">
+        <childnode refid="1305" relation="include">
         </childnode>
-        <childnode refid="1234" relation="include">
+        <childnode refid="1297" relation="include">
         </childnode>
       </node>
-      <node id="1242">
+      <node id="1307">
+        <label>gfal_prototypes.h</label>
+        <link refid="gfal__prototypes_8h-source"/>
+        <childnode refid="1297" relation="include">
+        </childnode>
+      </node>
+      <node id="1305">
         <label>errno.h</label>
       </node>
-      <node id="1232">
+      <node id="1311">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="1313">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="1295">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</label>
         <link refid="gfal_posix_local_file.c"/>
-        <childnode refid="1233" relation="include">
+        <childnode refid="1296" relation="include">
         </childnode>
-        <childnode refid="1234" relation="include">
+        <childnode refid="1297" relation="include">
         </childnode>
-        <childnode refid="1235" relation="include">
+        <childnode refid="1298" relation="include">
         </childnode>
-        <childnode refid="1236" relation="include">
+        <childnode refid="1299" relation="include">
         </childnode>
-        <childnode refid="1237" relation="include">
+        <childnode refid="1300" relation="include">
+        </childnode>
+        <childnode refid="1306" relation="include">
+        </childnode>
+        <childnode refid="1308" relation="include">
         </childnode>
       </node>
-      <node id="1241">
+      <node id="1309">
+        <label>sys/types.h</label>
+      </node>
+      <node id="1304">
         <label>string.h</label>
       </node>
-      <node id="1233">
+      <node id="1306">
+        <label>../common/gfal_common_filedescriptor.h</label>
+        <link refid="gfal__common__filedescriptor_8h"/>
+        <childnode refid="1297" relation="include">
+        </childnode>
+        <childnode refid="1307" relation="include">
+        </childnode>
+      </node>
+      <node id="1296">
         <label>unistd.h</label>
       </node>
-      <node id="1234">
+      <node id="1297">
         <label>glib.h</label>
       </node>
-      <node id="1238">
+      <node id="1312">
+        <label>gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="1302" relation="include">
+        </childnode>
+        <childnode refid="1313" relation="include">
+        </childnode>
+        <childnode refid="1297" relation="include">
+        </childnode>
+        <childnode refid="1305" relation="include">
+        </childnode>
+        <childnode refid="1304" relation="include">
+        </childnode>
+        <childnode refid="1310" relation="include">
+        </childnode>
+        <childnode refid="1298" relation="include">
+        </childnode>
+        <childnode refid="1307" relation="include">
+        </childnode>
+        <childnode refid="1308" relation="include">
+        </childnode>
+      </node>
+      <node id="1301">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="1236">
+      <node id="1299">
         <label>regex.h</label>
       </node>
-      <node id="1240">
+      <node id="1303">
         <label>stdio.h</label>
+      </node>
+      <node id="1308">
+        <label>../common/gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="1296" relation="include">
+        </childnode>
+        <childnode refid="1297" relation="include">
+        </childnode>
+        <childnode refid="1309" relation="include">
+        </childnode>
+        <childnode refid="1310" relation="include">
+        </childnode>
+        <childnode refid="1298" relation="include">
+        </childnode>
+        <childnode refid="1311" relation="include">
+        </childnode>
+        <childnode refid="1307" relation="include">
+        </childnode>
+        <childnode refid="1312" relation="include">
+        </childnode>
+      </node>
+      <node id="1310">
+        <label>dirent.h</label>
       </node>
     </incdepgraph>
       <sectiondef kind="define">
@@ -77,7 +151,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="31" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="31" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="33" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="33" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -104,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="33" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="33" bodyend="39"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="35" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="35" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8c_1d6c6d5590083bbcef4833f8186a629f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -129,7 +203,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="41" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="41" bodyend="47"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="43" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="43" bodyend="49"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8c_1360b4701633deaae52f9f77c94173405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -154,7 +228,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="50" bodyend="56"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="52" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="52" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8c_1dc96268400be1d41613ab796237c1cb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -179,7 +253,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="58" bodyend="64"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="60" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8c_15ad87b117d838e861e51a0999307cc71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -204,7 +278,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="66" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="66" bodyend="72"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="68" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8c_14cb0dd1292a24921b9f693a836dc5771" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -225,7 +299,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="74" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="74" bodyend="104"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="76" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="76" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8c_129c13ce3294eab970124d188fab1c567" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -250,7 +324,28 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="106" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="106" bodyend="112"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="108" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="108" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__posix__local__file_8c_156dc809549c9ff1f7f245619fae1dea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gfal_file_handle</type>
+        <definition>gfal_file_handle gfal_local_opendir</definition>
+        <argsstring>(const char *path, GError **err)</argsstring>
+        <name>gfal_local_opendir</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="116" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="116" bodyend="125"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8c_1a89a8db8cb79bf7c575b08305704c248" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -271,7 +366,28 @@
 <para>local rmdir mapper </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="117" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="117" bodyend="123"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="130" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__posix__local__file_8c_148c8b58b85db67426dbaf28fb4080ff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_local_closedir</definition>
+        <argsstring>(DIR *d, GError **err)</argsstring>
+        <name>gfal_local_closedir</name>
+        <param>
+          <type>DIR *</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>local closedir mapper </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="142" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="142" bodyend="148"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
@@ -292,7 +408,7 @@
 <para>check the validity of a classique file url </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="128" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="128" bodyend="135"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" line="153" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="153" bodyend="160"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -325,106 +441,127 @@
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/stat.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_LOCAL_PREFIX<sp/>&quot;file:&quot;</highlight></codeline>
-<codeline lineno="32"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_access(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>amode,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>access(path+strlen(GFAL_LOCAL_PREFIX),<sp/>amode);</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/>}</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_chmod(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>mode_t<sp/>mode,GError**<sp/>err){</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>chmod(path+strlen(GFAL_LOCAL_PREFIX),mode);</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
-<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_rename(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>oldpath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newpath,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>rename(oldpath+strlen(GFAL_LOCAL_PREFIX),<sp/>newpath<sp/>+<sp/>strlen(GFAL_LOCAL_PREFIX));</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call<sp/>&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/>}</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_stat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buf,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>stat(path<sp/>+<sp/>strlen(GFAL_LOCAL_PREFIX)<sp/>,<sp/>buf);</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
-<codeline lineno="64"><highlight class="normal">}<sp/></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_lstat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buf,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>lstat(path<sp/>+<sp/>strlen(GFAL_LOCAL_PREFIX),<sp/>buf);</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_mkdir_rec(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>full_path,<sp/>mode_t<sp/>mode){</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*p;</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>-1,<sp/>i;</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(res<sp/>=<sp/>mkdir(full_path,<sp/>mode))<sp/>==0<sp/>||<sp/><sp/>errno<sp/>!=<sp/>ENOENT<sp/>)</highlight><highlight class="comment">//<sp/>try<sp/>to<sp/>create<sp/>without<sp/>recursive<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size_t<sp/>len<sp/>=<sp/>strnlen(full_path,<sp/>GFAL_URL_MAX_LEN);</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buff[len+1];</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i=0;</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)<sp/>full_path;</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">((p-full_path)<sp/>&lt;<sp/>len){<sp/></highlight><highlight class="comment">//<sp/>remove<sp/>&apos;/{2,+}&apos;<sp/>and<sp/>last<sp/>char<sp/>if<sp/>==&apos;/&apos;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(<sp/>*p<sp/>==<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>(<sp/>*(p+1)<sp/>==<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal"><sp/>||<sp/>*(p+1)<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">))<sp/>==<sp/>FALSE)</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buff[i++]<sp/>=<sp/>*p;</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++p;</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buff[i]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(p<sp/>=<sp/>buff+1<sp/>;<sp/>*p<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">;<sp/>p++){<sp/></highlight><highlight class="comment">//<sp/>begin<sp/>the<sp/>recursive<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(*p<sp/>==<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>*(p+1)<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="comment">//<sp/>check<sp/>the<sp/>&apos;/&apos;<sp/>but<sp/>skip<sp/>the<sp/>&apos;//////&apos;<sp/>sequencies&apos;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*p<sp/>=<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>((res<sp/>=mkdir(buff,<sp/>(<sp/>0700<sp/>|<sp/>mode)<sp/>))<sp/>!=0)<sp/>&amp;&amp;<sp/>errno<sp/>!=<sp/>EEXIST<sp/>&amp;&amp;<sp/>errno<sp/>!=<sp/>EACCES)</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*p<sp/>=<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mkdir(buff,<sp/>mode);</highlight></codeline>
-<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_mkdir(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>gfal_local_mkdir_rec(path<sp/>+<sp/>strlen(GFAL_LOCAL_PREFIX),<sp/>mode);</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="112"><highlight class="normal">}<sp/></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__posix__local__file_8c_1a89a8db8cb79bf7c575b08305704c248" kindref="member">gfal_local_rmdir</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>rmdir(path+<sp/>strlen(GFAL_LOCAL_PREFIX));</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res&lt;0){</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0<sp/>,errno<sp/>,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/gfal_common_filedescriptor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GFAL_LOCAL_PREFIX<sp/>&quot;file:&quot;</highlight></codeline>
+<codeline lineno="34"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_access(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>amode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>access(path+strlen(GFAL_LOCAL_PREFIX),<sp/>amode);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_chmod(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>mode_t<sp/>mode,GError**<sp/>err){</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>chmod(path+strlen(GFAL_LOCAL_PREFIX),mode);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_rename(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>oldpath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newpath,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>rename(oldpath+strlen(GFAL_LOCAL_PREFIX),<sp/>newpath<sp/>+<sp/>strlen(GFAL_LOCAL_PREFIX));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call<sp/>&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_stat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buf,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>stat(path<sp/>+<sp/>strlen(GFAL_LOCAL_PREFIX)<sp/>,<sp/>buf);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}<sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_lstat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buf,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>lstat(path<sp/>+<sp/>strlen(GFAL_LOCAL_PREFIX),<sp/>buf);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_mkdir_rec(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>full_path,<sp/>mode_t<sp/>mode){</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*p;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>-1,<sp/>i;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(res<sp/>=<sp/>mkdir(full_path,<sp/>mode))<sp/>==0<sp/>||<sp/><sp/>errno<sp/>!=<sp/>ENOENT<sp/>)</highlight><highlight class="comment">//<sp/>try<sp/>to<sp/>create<sp/>without<sp/>recursive<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size_t<sp/>len<sp/>=<sp/>strnlen(full_path,<sp/>GFAL_URL_MAX_LEN);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buff[len+1];</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i=0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)<sp/>full_path;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">((p-full_path)<sp/>&lt;<sp/>len){<sp/></highlight><highlight class="comment">//<sp/>remove<sp/>&apos;/{2,+}&apos;<sp/>and<sp/>last<sp/>char<sp/>if<sp/>==&apos;/&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(<sp/>*p<sp/>==<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>(<sp/>*(p+1)<sp/>==<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal"><sp/>||<sp/>*(p+1)<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">))<sp/>==<sp/>FALSE)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buff[i++]<sp/>=<sp/>*p;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++p;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buff[i]<sp/>=<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(p<sp/>=<sp/>buff+1<sp/>;<sp/>*p<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">;<sp/>p++){<sp/></highlight><highlight class="comment">//<sp/>begin<sp/>the<sp/>recursive<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(*p<sp/>==<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>*(p+1)<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="comment">//<sp/>check<sp/>the<sp/>&apos;/&apos;<sp/>but<sp/>skip<sp/>the<sp/>&apos;//////&apos;<sp/>sequencies&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*p<sp/>=<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>((res<sp/>=mkdir(buff,<sp/>(<sp/>0700<sp/>|<sp/>mode)<sp/>))<sp/>!=0)<sp/>&amp;&amp;<sp/>errno<sp/>!=<sp/>EEXIST<sp/>&amp;&amp;<sp/>errno<sp/>!=<sp/>EACCES)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*p<sp/>=<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mkdir(buff,<sp/>mode);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_local_mkdir(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>gfal_local_mkdir_rec(path<sp/>+<sp/>strlen(GFAL_LOCAL_PREFIX),<sp/>mode);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>&lt;0){</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal">gfal_file_handle<sp/>gfal_local_opendir(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DIR*<sp/>ret<sp/>=<sp/>opendir(path+strlen(GFAL_LOCAL_PREFIX));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>resu<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>==<sp/>NULL){</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>errno,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
-<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="128"><highlight class="normal">gboolean<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regex_t<sp/>rex;</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>regcomp(&amp;rex,<sp/></highlight><highlight class="stringliteral">&quot;^file:([:print:]|/)+&quot;</highlight><highlight class="normal">,REG_ICASE<sp/>|<sp/>REG_EXTENDED);</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(ret==0,-1,err,</highlight><highlight class="stringliteral">&quot;[gfal_check_local_url]<sp/>fail<sp/>to<sp/>compile<sp/>regex,<sp/>report<sp/>this<sp/>bug&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret=<sp/><sp/>regexec(&amp;rex,<sp/>path,0,NULL,0);</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regfree(&amp;rex);</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(!ret)?TRUE:FALSE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resu<sp/>=<sp/>gfal_file_handle_new(GFAL_MODULEID_LOCAL,<sp/>(gpointer)<sp/>ret);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resu;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__posix__local__file_8c_1a89a8db8cb79bf7c575b08305704c248" kindref="member">gfal_local_rmdir</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>rmdir(path+<sp/>strlen(GFAL_LOCAL_PREFIX));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res&lt;0){</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0<sp/>,errno<sp/>,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__posix__local__file_8c_148c8b58b85db67426dbaf28fb4080ff0" kindref="member">gfal_local_closedir</ref>(DIR*<sp/>d,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>closedir(d);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res&lt;0){</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0<sp/>,errno<sp/>,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>errno<sp/>reported<sp/>by<sp/>local<sp/>system<sp/>call&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>strerror(errno));</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">gboolean<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regex_t<sp/>rex;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>regcomp(&amp;rex,<sp/></highlight><highlight class="stringliteral">&quot;^file:([:print:]|/)+&quot;</highlight><highlight class="normal">,REG_ICASE<sp/>|<sp/>REG_EXTENDED);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(ret==0,-1,err,</highlight><highlight class="stringliteral">&quot;[gfal_check_local_url]<sp/>fail<sp/>to<sp/>compile<sp/>regex,<sp/>report<sp/>this<sp/>bug&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret=<sp/><sp/>regexec(&amp;rex,<sp/>path,0,NULL,0);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regfree(&amp;rex);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(!ret)?TRUE:FALSE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c"/>
   </compounddef>

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "25 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "27 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -15,6 +15,8 @@
 \fC#include <errno.h>\fP
 .br
 \fC#include <string.h>\fP
+.br
+\fC#include <dirent.h>\fP
 .br
 \fC#include <sys/stat.h>\fP
 .br
@@ -44,7 +46,7 @@
 
 .in +1c
 .ti -1c
-.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP }"
+.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -77,6 +79,12 @@
 .br
 .ti -1c
 .RI "char * \fBgfal_catalog_resolve_guid\fP (gfal_handle handle, const char *guid, GError **err)"
+.br
+.ti -1c
+.RI "gfal_file_handle \fBgfal_catalog_opendirG\fP (gfal_handle handle, const char *name, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_closedir\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
 .br
 .ti -1c
 .RI "char * \fBget_default_se\fP (char *, int)"
@@ -134,6 +142,9 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
+.SS "int gfal_catalog_closedir (gfal_handle handle, gfal_file_handle fh, GError ** err)"
+.PP
+close the given file Handle while contacting the proper catalog 
 .SS "int gfal_catalog_lstatG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 Execute a lstat function in the lfc 
@@ -162,6 +173,25 @@ no check on the path, please check the path before
 \fBReturns:\fP
 .RS 4
 return 0 if success else return -1 
+.RE
+.PP
+
+.SS "gfal_file_handle gfal_catalog_opendirG (gfal_handle handle, const char * name, GError ** err)"
+.PP
+Execute a opendir function on the first compatible catalog ( checked with check url func ) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP handle of the current context 
+.br
+\fIpath\fP path to open 
+.br
+\fIGError\fP error report system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+gfal_file_handle pointer given to the handle or NULL if error 
 .RE
 .PP
 

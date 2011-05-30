@@ -4,48 +4,69 @@
     <compoundname>gfal_common_filedescriptor.h</compoundname>
     <includes local="no">glib.h</includes>
     <includes refid="gfal__prototypes_8h" local="yes">gfal_prototypes.h</includes>
+    <includedby refid="gfal__common__catalog_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</includedby>
     <includedby refid="gfal__common__dir__handle_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</includedby>
     <includedby refid="gfal__common__filedescriptor_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c</includedby>
+    <includedby refid="gfal__posix__closedir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</includedby>
+    <includedby refid="gfal__posix__local__file_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</includedby>
     <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
     <incdepgraph>
-      <node id="268">
+      <node id="294">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="267" relation="include">
+        <childnode refid="293" relation="include">
         </childnode>
       </node>
-      <node id="266">
+      <node id="292">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h</label>
         <link refid="gfal_common_filedescriptor.h"/>
-        <childnode refid="267" relation="include">
+        <childnode refid="293" relation="include">
         </childnode>
-        <childnode refid="268" relation="include">
+        <childnode refid="294" relation="include">
         </childnode>
       </node>
-      <node id="267">
+      <node id="293">
         <label>glib.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="270">
+      <node id="299">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
+        <link refid="gfal__posix__closedir_8c"/>
+      </node>
+      <node id="300">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</label>
+        <link refid="gfal__posix__local__file_8c"/>
+      </node>
+      <node id="297">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</label>
         <link refid="gfal__common__dir__handle_8c"/>
       </node>
-      <node id="271">
+      <node id="298">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c</label>
         <link refid="gfal__common__filedescriptor_8c"/>
       </node>
-      <node id="269">
+      <node id="295">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h</label>
         <link refid="gfal_common_filedescriptor.h"/>
-        <childnode refid="270" relation="include">
+        <childnode refid="296" relation="include">
         </childnode>
-        <childnode refid="271" relation="include">
+        <childnode refid="297" relation="include">
         </childnode>
-        <childnode refid="272" relation="include">
+        <childnode refid="298" relation="include">
+        </childnode>
+        <childnode refid="299" relation="include">
+        </childnode>
+        <childnode refid="300" relation="include">
+        </childnode>
+        <childnode refid="301" relation="include">
         </childnode>
       </node>
-      <node id="272">
+      <node id="296">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
+        <link refid="gfal__common__catalog_8c"/>
+      </node>
+      <node id="301">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
         <link refid="gfal__posix__opendir_8c"/>
       </node>
@@ -53,9 +74,9 @@
     <innerclass refid="struct__gfal__file__descriptor__container" prot="public">_gfal_file_descriptor_container</innerclass>
     <innerclass refid="struct__gfal__file__handle__" prot="public">_gfal_file_handle_</innerclass>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__filedescriptor_8h_19c7178945c6bcbebf9fa7b082c964480" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>gfal_file_descriptor_handle</type>
-        <definition>gfal_file_descriptor_handle gfal_file_descriptor_handle_create</definition>
+      <memberdef kind="function" id="gfal__common__filedescriptor_8h_113934d51ad328aabb0721ef7793ad233" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gfal_fdesc_container_handle</type>
+        <definition>gfal_fdesc_container_handle gfal_file_descriptor_handle_create</definition>
         <argsstring>(GDestroyNotify destroyer)</argsstring>
         <name>gfal_file_descriptor_handle_create</name>
         <param>
@@ -68,16 +89,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="99" bodyend="103"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="44" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="99" bodyend="103"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__filedescriptor_8h_115fd77eba0faf86bb3c0ff3939ee2b80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__filedescriptor_8h_18ab30d677c0c3d4a635a35c395524fea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_file_key_generatorG</definition>
-        <argsstring>(gfal_file_descriptor_handle fhandle, GError **err)</argsstring>
-        <name>gfal_file_key_generatorG</name>
+        <definition>int gfal_add_new_file_desc</definition>
+        <argsstring>(gfal_fdesc_container_handle fhandle, gpointer pfile, GError **err)</argsstring>
+        <name>gfal_add_new_file_desc</name>
         <param>
-          <type>gfal_file_descriptor_handle</type>
+          <type>gfal_fdesc_container_handle</type>
           <declname>fhandle</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>pfile</declname>
         </param>
         <param>
           <type>GError **</type>
@@ -86,18 +111,19 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>generate a new unique key </para>        </detaileddescription>
+<para>Add the given file handle to the and return a file descriptor <simplesect kind="return"><para>return the associated key if success else 0 and set err </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="44" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="39" bodyend="52"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="46" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="58" bodyend="70"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__filedescriptor_8h_1943c20a3d9a14dd8f86ba1abe7bee316" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__filedescriptor_8h_14b10e1d3a5ffde849302fffdba207835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
         <definition>gboolean gfal_remove_file_desc</definition>
-        <argsstring>(gfal_file_descriptor_handle fhandle, int key, GError **err)</argsstring>
+        <argsstring>(gfal_fdesc_container_handle fhandle, int key, GError **err)</argsstring>
         <name>gfal_remove_file_desc</name>
         <param>
-          <type>gfal_file_descriptor_handle</type>
+          <type>gfal_fdesc_container_handle</type>
           <declname>fhandle</declname>
         </param>
         <param>
@@ -114,15 +140,15 @@
 <para>remove the associated file handle associated with the given file descriptor return true if success else false </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="87" bodyend="93"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="87" bodyend="93"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__filedescriptor_8h_1b1812a17fc7c430f91d738fa51a7f48d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__filedescriptor_8h_191568ee8206643b36d685269b012eb45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gpointer</type>
         <definition>gpointer gfal_get_file_desc</definition>
-        <argsstring>(gfal_file_descriptor_handle fhandle, int key, GError **err)</argsstring>
+        <argsstring>(gfal_fdesc_container_handle fhandle, int key, GError **err)</argsstring>
         <name>gfal_get_file_desc</name>
         <param>
-          <type>gfal_file_descriptor_handle</type>
+          <type>gfal_fdesc_container_handle</type>
           <declname>fhandle</declname>
         </param>
         <param>
@@ -139,15 +165,15 @@
 <para>return the associated file handle for the given file descriptor or NULL if the key is not present and err is set </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="75" bodyend="81"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="75" bodyend="81"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__filedescriptor_8h_193c7b3ac8466749da63df8d4c9f2642d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__filedescriptor_8h_15434be84154718254a4e90dbcc196359" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
         <definition>gboolean gfal_file_handle_delete</definition>
-        <argsstring>(gfal_file_descriptor_handle h, int file_desc, GError **err)</argsstring>
+        <argsstring>(gfal_fdesc_container_handle h, int file_desc, GError **err)</argsstring>
         <name>gfal_file_handle_delete</name>
         <param>
-          <type>gfal_file_descriptor_handle</type>
+          <type>gfal_fdesc_container_handle</type>
           <declname>h</declname>
         </param>
         <param>
@@ -161,18 +187,18 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>delete the handle associated with the given key, return TRUE if success else FALSE</para><para>* </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="53"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="170" bodyend="178"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__filedescriptor_8h_1bdd3af3590b09b87b43ad27aa9ed3eb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__filedescriptor_8h_19cfac852697441bd0289e9900960854c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_dir_handle_create</definition>
-        <argsstring>(gfal_file_descriptor_handle h, int module_id, gpointer real_file_desc, GError **err)</argsstring>
-        <name>gfal_dir_handle_create</name>
+        <definition>int gfal_file_handle_create</definition>
+        <argsstring>(gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError **err)</argsstring>
+        <name>gfal_file_handle_create</name>
         <param>
-          <type>gfal_file_descriptor_handle</type>
+          <type>gfal_fdesc_container_handle</type>
           <declname>h</declname>
         </param>
         <param>
@@ -190,18 +216,18 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>create a file handle with a given module_id ( id of the catalog) and a given file descriptor ( catalog&apos;s fiel descriptor )</para><para>* </para>        </detaileddescription>
+<para>create a file handle with a given module_id ( id of the catalog) and a given file descriptor</para><para>* </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="128" bodyend="139"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="149" bodyend="160"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__filedescriptor_8h_123224901d9b8c37c00a8a9fda23f701a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>gfal_directory_handle</type>
-        <definition>gfal_directory_handle gfal_dir_handle_bind</definition>
-        <argsstring>(gfal_file_descriptor_handle h, int file_desc, GError **err)</argsstring>
-        <name>gfal_dir_handle_bind</name>
+      <memberdef kind="function" id="gfal__common__filedescriptor_8h_1b1a9b764baa7c997a354d18bbe43e2cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gfal_file_handle</type>
+        <definition>gfal_file_handle gfal_file_handle_bind</definition>
+        <argsstring>(gfal_fdesc_container_handle h, int file_desc, GError **err)</argsstring>
+        <name>gfal_file_handle_bind</name>
         <param>
-          <type>gfal_file_descriptor_handle</type>
+          <type>gfal_fdesc_container_handle</type>
           <declname>h</declname>
         </param>
         <param>
@@ -219,7 +245,53 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="113" bodyend="121"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="134" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__filedescriptor_8h_19d05f277c63dea4b06fb518237a5da11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gfal_file_handle</type>
+        <definition>gfal_file_handle gfal_file_handle_new</definition>
+        <argsstring>(int id_module, gpointer fdesc)</argsstring>
+        <name>gfal_file_handle_new</name>
+        <param>
+          <type>int</type>
+          <declname>id_module</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>fdesc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="65" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="113" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__filedescriptor_8h_1b2ae28c9bade093c2f1fea46f549fbee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gfal_file_handle</type>
+        <definition>gfal_file_handle gfal_file_handle_ext_new</definition>
+        <argsstring>(int id_module, gpointer fdesc, gpointer ext_data)</argsstring>
+        <name>gfal_file_handle_ext_new</name>
+        <param>
+          <type>int</type>
+          <declname>id_module</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>fdesc</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>ext_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>same than gfal_file_handle but with external data storage support </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="122" bodyend="126"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -253,34 +325,43 @@
 <codeline lineno="29"><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_file_descriptor_container{</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GHashTable*<sp/>container;<sp/><sp/></highlight></codeline>
-<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_file_handle_{</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>module_id;</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gpointer<sp/>fdesc;<sp/></highlight></codeline>
-<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal">gfal_file_descriptor_handle<sp/>gfal_file_descriptor_handle_create(GDestroyNotify<sp/>destroyer);</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__filedescriptor_8c_115fd77eba0faf86bb3c0ff3939ee2b80" kindref="member">gfal_file_key_generatorG</ref>(gfal_file_descriptor_handle<sp/>fhandle,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_file_descriptor_container{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GHashTable*<sp/>container;<sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_file_handle_{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>module_id;<sp/></highlight><highlight class="comment">//<sp/>the<sp/>module<sp/>id<sp/>is<sp/>the<sp/>mapper<sp/>to<sp/>find<sp/>the<sp/>correct<sp/>module<sp/>type<sp/>:<sp/>id<sp/>&lt;<sp/>10<sp/>-&gt;<sp/>internal<sp/>storage,<sp/>id<sp/>&gt;10<sp/>-&gt;<sp/>id-10<sp/>==<sp/>offset<sp/>of<sp/>the<sp/>module<sp/>in<sp/>the<sp/>module<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gpointer<sp/>ext_data;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gpointer<sp/>fdesc;<sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>low<sp/>level<sp/>funcs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">gfal_fdesc_container_handle<sp/>gfal_file_descriptor_handle_create(GDestroyNotify<sp/>destroyer);</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal">gboolean<sp/><ref refid="gfal__common__filedescriptor_8c_1943c20a3d9a14dd8f86ba1abe7bee316" kindref="member">gfal_remove_file_desc</ref>(gfal_file_descriptor_handle<sp/>fhandle,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>key,<sp/>GError**<sp/>err);</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__filedescriptor_8c_18ab30d677c0c3d4a635a35c395524fea" kindref="member">gfal_add_new_file_desc</ref>(gfal_fdesc_container_handle<sp/>fhandle,<sp/>gpointer<sp/>pfile,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">gboolean<sp/><ref refid="gfal__common__filedescriptor_8c_14b10e1d3a5ffde849302fffdba207835" kindref="member">gfal_remove_file_desc</ref>(gfal_fdesc_container_handle<sp/>fhandle,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>key,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal">gpointer<sp/><ref refid="gfal__common__filedescriptor_8c_1b1812a17fc7c430f91d738fa51a7f48d" kindref="member">gfal_get_file_desc</ref>(gfal_file_descriptor_handle<sp/>fhandle,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>key,<sp/>GError**<sp/>err);</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">gpointer<sp/><ref refid="gfal__common__filedescriptor_8c_191568ee8206643b36d685269b012eb45" kindref="member">gfal_get_file_desc</ref>(gfal_fdesc_container_handle<sp/>fhandle,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>key,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal">gboolean<sp/>gfal_file_handle_delete(gfal_file_descriptor_handle<sp/>h,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>file_desc,<sp/>GError**<sp/>err);</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__filedescriptor_8c_1bdd3af3590b09b87b43ad27aa9ed3eb0" kindref="member">gfal_dir_handle_create</ref>(gfal_file_descriptor_handle<sp/>h,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>module_id,<sp/>gpointer<sp/>real_file_desc,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>high<sp/>level<sp/>funcs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">gboolean<sp/><ref refid="gfal__common__filedescriptor_8c_15434be84154718254a4e90dbcc196359" kindref="member">gfal_file_handle_delete</ref>(gfal_fdesc_container_handle<sp/>h,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>file_desc,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
 <codeline lineno="57"><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal">gfal_directory_handle<sp/><ref refid="gfal__common__filedescriptor_8c_123224901d9b8c37c00a8a9fda23f701a" kindref="member">gfal_dir_handle_bind</ref>(gfal_file_descriptor_handle<sp/>h,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>file_desc,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__filedescriptor_8c_19cfac852697441bd0289e9900960854c" kindref="member">gfal_file_handle_create</ref>(gfal_fdesc_container_handle<sp/>h,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>module_id,<sp/>gpointer<sp/>real_file_desc,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">gfal_file_handle<sp/><ref refid="gfal__common__filedescriptor_8c_1b1a9b764baa7c997a354d18bbe43e2cb" kindref="member">gfal_file_handle_bind</ref>(gfal_fdesc_container_handle<sp/>h,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>file_desc,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>convenience<sp/>funcs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">gfal_file_handle<sp/>gfal_file_handle_new(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>id_module,<sp/>gpointer<sp/>fdesc);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">gfal_file_handle<sp/><ref refid="gfal__common__filedescriptor_8c_1b2ae28c9bade093c2f1fea46f549fbee" kindref="member">gfal_file_handle_ext_new</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>id_module,<sp/>gpointer<sp/>fdesc,<sp/>gpointer<sp/>ext_data);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h"/>
   </compounddef>

@@ -14,8 +14,6 @@ main file of the posix lib
 \item 
 int \bf{gfal\_\-close} (int fd)
 \begin{CompactList}\small\item\em close the current file descriptor \item\end{CompactList}\item 
-int \bf{gfal\_\-closedir} (DIR $\ast$dir)
-\begin{CompactList}\small\item\em gfal\_\-closedir - close a directory \item\end{CompactList}\item 
 int \bf{gfal\_\-creat} (const char $\ast$filename, mode\_\-t mode)
 \begin{CompactList}\small\item\em creates a new file or truncates an existing one \item\end{CompactList}\item 
 int \bf{gfal\_\-creat64} (const char $\ast$filename, mode\_\-t mode)\label{group__posix__group_g48783e60cafa1a3bf9aa2170b99f9b08}
@@ -28,12 +26,6 @@ off64\_\-t \textbf{gfal\_\-lseek64} (int fd, off64\_\-t offset, int whence)\labe
 \item 
 int \bf{gfal\_\-open} (const char $\ast$filename, int flags, mode\_\-t mode)
 \begin{CompactList}\small\item\em opens a file according to the value of flags \item\end{CompactList}\item 
-int \textbf{gfal\_\-open64} (const char $\ast$filename, int flags, mode\_\-t mode)\label{group__posix__group_gbed417acea7f862ea1977417ed842ef4}
-
-\item 
-DIR $\ast$ \textbf{gfal\_\-opendir} (const char $\ast$dirname)\label{group__posix__group_g004ad5efbd544da820823e597e57be92}
-
-\item 
 ssize\_\-t \textbf{gfal\_\-read} (int fd, void $\ast$buf, size\_\-t size)\label{group__posix__group_gaa6bfe36f33b86e489b798aed96912de}
 
 \item 

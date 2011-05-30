@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" 3 "25 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" 3 "27 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -14,7 +14,7 @@
 .br
 \fC#include 'gfal_common_errverbose.h'\fP
 .br
-\fC#include 'gfal_prototypes.h'\fP
+\fC#include 'gfal_types.h'\fP
 .br
 \fC#include 'gfal_common_filedescriptor.h'\fP
 .br
@@ -23,28 +23,31 @@
 
 .in +1c
 .ti -1c
-.RI "int \fBgfal_file_key_generatorG\fP (gfal_file_descriptor_handle fhandle, GError **err)"
+.RI "int \fBgfal_add_new_file_desc\fP (gfal_fdesc_container_handle fhandle, gpointer pfile, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_add_new_file_desc\fP (gfal_file_descriptor_handle fhandle, gpointer pfile, GError **err)"
+.RI "gpointer \fBgfal_get_file_desc\fP (gfal_fdesc_container_handle fhandle, int key, GError **err)"
 .br
 .ti -1c
-.RI "gpointer \fBgfal_get_file_desc\fP (gfal_file_descriptor_handle fhandle, int key, GError **err)"
+.RI "gboolean \fBgfal_remove_file_desc\fP (gfal_fdesc_container_handle fhandle, int key, GError **err)"
 .br
 .ti -1c
-.RI "gboolean \fBgfal_remove_file_desc\fP (gfal_file_descriptor_handle fhandle, int key, GError **err)"
+.RI "gfal_fdesc_container_handle \fBgfal_file_descriptor_handle_create\fP (GDestroyNotify destroyer)"
 .br
 .ti -1c
-.RI "gfal_file_descriptor_handle \fBgfal_file_descriptor_handle_create\fP (GDestroyNotify destroyer)"
+.RI "gfal_file_handle \fBgfal_file_handle_new\fP (int id_module, gpointer fdesc)"
 .br
 .ti -1c
-.RI "gfal_directory_handle \fBgfal_dir_handle_bind\fP (gfal_file_descriptor_handle h, int file_desc, GError **err)"
+.RI "gfal_file_handle \fBgfal_file_handle_ext_new\fP (int id_module, gpointer fdesc, gpointer ext_data)"
 .br
 .ti -1c
-.RI "int \fBgfal_dir_handle_create\fP (gfal_file_descriptor_handle h, int module_id, gpointer real_file_desc, GError **err)"
+.RI "gfal_file_handle \fBgfal_file_handle_bind\fP (gfal_fdesc_container_handle h, int file_desc, GError **err)"
 .br
 .ti -1c
-.RI "gboolean \fBgfal_dir_handle_delete\fP (gfal_file_descriptor_handle h, int file_desc, GError **err)"
+.RI "int \fBgfal_file_handle_create\fP (gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError **err)"
+.br
+.ti -1c
+.RI "gboolean \fBgfal_file_handle_delete\fP (gfal_fdesc_container_handle h, int file_desc, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -69,7 +72,7 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_add_new_file_desc (gfal_file_descriptor_handle fhandle, gpointer pfile, GError ** err)"
+.SS "int gfal_add_new_file_desc (gfal_fdesc_container_handle fhandle, gpointer pfile, GError ** err)"
 .PP
 Add the given file handle to the and return a file descriptor 
 .PP
@@ -79,7 +82,7 @@ return the associated key if success else 0 and set err
 .RE
 .PP
 
-.SS "gfal_directory_handle gfal_dir_handle_bind (gfal_file_descriptor_handle h, int file_desc, GError ** err)"
+.SS "gfal_file_handle gfal_file_handle_bind (gfal_fdesc_container_handle h, int file_desc, GError ** err)"
 .PP
 return the file handle associated with the file_desc 
 .PP
@@ -89,23 +92,23 @@ does not free the handle
 .RE
 .PP
 
-.SS "int gfal_dir_handle_create (gfal_file_descriptor_handle h, int module_id, gpointer real_file_desc, GError ** err)"
+.SS "int gfal_file_handle_create (gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError ** err)"
 .PP
-create a file handle with a given module_id ( id of the catalog) and a given file descriptor ( catalog's fiel descriptor )
+create a file handle with a given module_id ( id of the catalog) and a given file descriptor
 .PP
 * 
-.SS "gboolean gfal_dir_handle_delete (gfal_file_descriptor_handle h, int file_desc, GError ** err)"
+.SS "gboolean gfal_file_handle_delete (gfal_fdesc_container_handle h, int file_desc, GError ** err)"
 .PP
 delete the handle associated with the given key, return TRUE if success else FALSE
 .PP
 * 
-.SS "int gfal_file_key_generatorG (gfal_file_descriptor_handle fhandle, GError ** err)"
+.SS "gfal_file_handle gfal_file_handle_ext_new (int id_module, gpointer fdesc, gpointer ext_data)"
 .PP
-generate a new unique key 
-.SS "gpointer gfal_get_file_desc (gfal_file_descriptor_handle fhandle, int key, GError ** err)"
+same than gfal_file_handle but with external data storage support 
+.SS "gpointer gfal_get_file_desc (gfal_fdesc_container_handle fhandle, int key, GError ** err)"
 .PP
 return the associated file handle for the given file descriptor or NULL if the key is not present and err is set 
-.SS "gboolean gfal_remove_file_desc (gfal_file_descriptor_handle fhandle, int key, GError ** err)"
+.SS "gboolean gfal_remove_file_desc (gfal_fdesc_container_handle fhandle, int key, GError ** err)"
 .PP
 remove the associated file handle associated with the given file descriptor return true if success else false 
 .SH "Author"

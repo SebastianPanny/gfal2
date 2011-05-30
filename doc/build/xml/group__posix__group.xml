@@ -135,7 +135,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="270" bodyend="291"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="179" bodyend="181"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g5fcdc6f3e7911787be049e20b6ab19b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -144,35 +144,16 @@
         <name>gfal_creat</name>
         <param>
           <type>const char *</type>
+          <defname>filename</defname>
         </param>
         <param>
           <type>mode_t</type>
+          <defname>mode</defname>
         </param>
         <briefdescription>
 <para>creates a new file or truncates an existing one </para>        </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>filename</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>specifies the file name: either a logical file name, a guid, an SURL or a TURL </para></parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>mode</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>is used only if the file is created </para></parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid.</para></listitem><listitem><para>ECOMM: Communication error.</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported. </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
-</para>        </detaileddescription>
+<para>int gfal_closedir (DIR *dir){ struct dir_info *di; int rc;</para><para>di = find_di (dir);</para><para>if (di == NULL || di-&gt;pops == NULL) { return -1; }</para><para>rc = di-&gt;pops-&gt;closedir (dir);</para><para>if (rc &lt; 0) { errno = di-&gt;pops-&gt;maperror (di-&gt;pops, 0); }</para><para>if (strcmp (di-&gt;pops-&gt;proto_name, &quot;lfc&quot;) == 0) free (di-&gt;pops);</para><para>free_di (di); return (rc); } </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="92" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="293" bodyend="295"/>
@@ -347,11 +328,11 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="148" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="616" bodyend="619"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="148"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g004ad5efbd544da820823e597e57be92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g7e6d16651dbce5d684c53f82349e0306" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>DIR *</type>
-        <definition>DIR* gfal_opendir</definition>
+        <definition>DIR * gfal_opendir</definition>
         <argsstring>(const char *)</argsstring>
         <name>gfal_opendir</name>
         <param>
@@ -363,7 +344,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="150" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="622" bodyend="695"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="150" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="175" bodyend="177"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gaa6bfe36f33b86e489b798aed96912de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>

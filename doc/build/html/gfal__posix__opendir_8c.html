@@ -20,12 +20,25 @@
   </ul></div>
 <h1>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c File Reference</h1>file for the opendir posix func <a href="#_details">More...</a>
 <p>
-<code>#include &quot;../common/gfal_constants.h&quot;</code><br>
+<code>#include &lt;stdlib.h&gt;</code><br>
+<code>#include &lt;glib.h&gt;</code><br>
 <code>#include &quot;gfal_posix_api.h&quot;</code><br>
 <code>#include &quot;gfal_posix_internal.h&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">gfal_common_filedescriptor.h</a>&quot;</code><br>
+<code>#include &quot;../common/gfal_constants.h&quot;</code><br>
+<code>#include &quot;../common/gfal_prototypes.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">../common/gfal_common_filedescriptor.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__dir__handle_8h-source.html">../common/gfal_common_dir_handle.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">../common/gfal_common_errverbose.h</a>&quot;</code><br>
+<code>#include &quot;gfal_posix_local_file.h&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
+<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ecdb7def5a0cad7ee899dd6c64c85f5d"></a><!-- doxytag: member="gfal_posix_opendir.c::gfal_posix_dir_handle_store" ref="ecdb7def5a0cad7ee899dd6c64c85f5d" args="(gfal_handle handle, gfal_file_handle fhandle, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_posix_dir_handle_store</b> (gfal_handle handle, gfal_file_handle fhandle, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b2e2608cd7c4ff0cecf68e04923d93cc"></a><!-- doxytag: member="gfal_posix_opendir.c::gfal_posix_internal_opendir" ref="b2e2608cd7c4ff0cecf68e04923d93cc" args="(const char *name)" -->
+DIR *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_posix_internal_opendir</b> (const char *name)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 file for the opendir posix func 
@@ -33,7 +46,7 @@ file for the opendir posix func
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>25/05/2011 </dd></dl>
-<hr size="1"><address style="align: right;"><small>Generated on Wed May 25 15:26:15 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri May 27 16:46:21 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "25 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "27 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -15,6 +15,10 @@
 \fC#include <regex.h>\fP
 .br
 \fC#include '../common/gfal_common_errverbose.h'\fP
+.br
+\fC#include '../common/gfal_common_filedescriptor.h'\fP
+.br
+\fC#include '../common/gfal_types.h'\fP
 .br
 
 .SS "Defines"
@@ -49,7 +53,13 @@
 .RI "int \fBgfal_local_mkdir\fP (const char *path, mode_t mode, GError **err)"
 .br
 .ti -1c
+.RI "gfal_file_handle \fBgfal_local_opendir\fP (const char *path, GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_local_rmdir\fP (const char *path, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_local_closedir\fP (DIR *d, GError **err)"
 .br
 .ti -1c
 .RI "gboolean \fBgfal_check_local_url\fP (const char *path, GError **err)"
@@ -80,6 +90,9 @@ Devresse Adrien
 .SS "gboolean gfal_check_local_url (const char * path, GError ** err)"
 .PP
 check the validity of a classique file url 
+.SS "int gfal_local_closedir (DIR * d, GError ** err)"
+.PP
+local closedir mapper 
 .SS "int gfal_local_rmdir (const char * path, GError ** err)"
 .PP
 local rmdir mapper 

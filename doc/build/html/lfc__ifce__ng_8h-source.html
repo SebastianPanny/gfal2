@@ -73,26 +73,27 @@
 <a name="l00062"></a>00062         int     (*unlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
 <a name="l00063"></a>00063         int     (*access)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, int);
 <a name="l00064"></a>00064         int     (*chmod)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00065"></a>00065         int     (*rename)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00066"></a>00066         lfc_DIR *(*opendirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00067"></a>00067         int     (*rmdir)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00068"></a>00068         int (*startsess) (<span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *); 
-<a name="l00069"></a>00069         int (*endsess) ();
-<a name="l00070"></a>00070 };
-<a name="l00071"></a>00071 
-<a name="l00072"></a>00072 <span class="keywordtype">char</span>* <a class="code" href="lfc__ifce__ng_8c.html#5d13dc09e91f66d74de768c2e4bf4872">gfal_setup_lfchost</a>(gfal_handle handle, GError ** err);
-<a name="l00073"></a>00073 
+<a name="l00065"></a>00065         int (*closedir)(DIR*);
+<a name="l00066"></a>00066         int     (*rename)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00067"></a>00067         lfc_DIR *(*opendirg)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00068"></a>00068         int     (*rmdir)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00069"></a>00069         int (*startsess) (<span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *); 
+<a name="l00070"></a>00070         int (*endsess) ();
+<a name="l00071"></a>00071 };
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 <span class="keywordtype">char</span>* <a class="code" href="lfc__ifce__ng_8c.html#5d13dc09e91f66d74de768c2e4bf4872">gfal_setup_lfchost</a>(gfal_handle handle, GError ** err);
 <a name="l00074"></a>00074 
-<a name="l00075"></a>00075 <span class="keyword">struct </span>lfc_ops* <a class="code" href="lfc__ifce__ng_8c.html#7c91643749a2c5d7e8043c0e42d00fd6">gfal_load_lfc</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name, GError** err);
-<a name="l00076"></a>00076 
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076 <span class="keyword">struct </span>lfc_ops* <a class="code" href="lfc__ifce__ng_8c.html#7c91643749a2c5d7e8043c0e42d00fd6">gfal_load_lfc</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name, GError** err);
 <a name="l00077"></a>00077 
-<a name="l00078"></a>00078 <span class="keywordtype">char</span>* <a class="code" href="lfc__ifce__ng_8c.html#c4daecd5aa0938a99eb86c367a0050f1">gfal_convert_guid_to_lfn</a>(catalog_handle handle, <span class="keywordtype">char</span>* guid, GError ** err);
-<a name="l00079"></a>00079 
-<a name="l00080"></a>00080 <span class="keywordtype">int</span> gfal_lfc_convert_statg(<span class="keyword">struct</span> stat* output, <span class="keyword">struct</span> lfc_filestatg* input, GError** err);
-<a name="l00081"></a>00081 
-<a name="l00082"></a>00082 <span class="keywordtype">int</span> <a class="code" href="lfc__ifce__ng_8c.html#9fa43925882e2e196e0020b529827d3c">gfal_lfc_ifce_mkdirpG</a>(<span class="keyword">struct</span> lfc_ops* ops,<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode, gboolean pflag, GError**  err);
-<a name="l00083"></a>00083 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed May 25 15:26:14 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 <span class="keywordtype">char</span>* <a class="code" href="lfc__ifce__ng_8c.html#c4daecd5aa0938a99eb86c367a0050f1">gfal_convert_guid_to_lfn</a>(catalog_handle handle, <span class="keywordtype">char</span>* guid, GError ** err);
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 <span class="keywordtype">int</span> gfal_lfc_convert_statg(<span class="keyword">struct</span> stat* output, <span class="keyword">struct</span> lfc_filestatg* input, GError** err);
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 <span class="keywordtype">int</span> <a class="code" href="lfc__ifce__ng_8c.html#9fa43925882e2e196e0020b529827d3c">gfal_lfc_ifce_mkdirpG</a>(<span class="keyword">struct</span> lfc_ops* ops,<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode, gboolean pflag, GError**  err);
+<a name="l00084"></a>00084 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri May 27 16:46:21 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

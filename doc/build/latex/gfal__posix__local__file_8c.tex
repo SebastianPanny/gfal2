@@ -7,6 +7,8 @@ file for the internal func of the posix interface
 {\tt \#include $<$sys/stat.h$>$}\par
 {\tt \#include $<$regex.h$>$}\par
 {\tt \#include \char`\"{}../common/gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-common\_\-filedescriptor.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-types.h\char`\"{}}\par
 \subsection*{Defines}
 \begin{CompactItemize}
 \item 
@@ -37,7 +39,12 @@ int \textbf{gfal\_\-local\_\-mkdir\_\-rec} (const char $\ast$full\_\-path, mode\
 int \textbf{gfal\_\-local\_\-mkdir} (const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_29c13ce3294eab970124d188fab1c567}
 
 \item 
+gfal\_\-file\_\-handle \textbf{gfal\_\-local\_\-opendir} (const char $\ast$path, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_56dc809549c9ff1f7f245619fae1dea5}
+
+\item 
 int \bf{gfal\_\-local\_\-rmdir} (const char $\ast$path, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-local\_\-closedir} (DIR $\ast$d, GError $\ast$$\ast$err)
 \item 
 gboolean \bf{gfal\_\-check\_\-local\_\-url} (const char $\ast$path, GError $\ast$$\ast$err)
 \end{CompactItemize}
@@ -60,7 +67,12 @@ file for the internal func of the posix interface
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-check\_\-local\_\-url (const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__posix__local__file_8c_02987ce8beeb908c36ee3d4ef3bc5618}
 
 
-check the validity of a classique file url \index{gfal_posix_local_file.c@{gfal\_\-posix\_\-local\_\-file.c}!gfal_local_rmdir@{gfal\_\-local\_\-rmdir}}
+check the validity of a classique file url \index{gfal_posix_local_file.c@{gfal\_\-posix\_\-local\_\-file.c}!gfal_local_closedir@{gfal\_\-local\_\-closedir}}
+\index{gfal_local_closedir@{gfal\_\-local\_\-closedir}!gfal_posix_local_file.c@{gfal\_\-posix\_\-local\_\-file.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-local\_\-closedir (DIR $\ast$ {\em d}, GError $\ast$$\ast$ {\em err})}\label{gfal__posix__local__file_8c_48c8b58b85db67426dbaf28fb4080ff0}
+
+
+local closedir mapper \index{gfal_posix_local_file.c@{gfal\_\-posix\_\-local\_\-file.c}!gfal_local_rmdir@{gfal\_\-local\_\-rmdir}}
 \index{gfal_local_rmdir@{gfal\_\-local\_\-rmdir}!gfal_posix_local_file.c@{gfal\_\-posix\_\-local\_\-file.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-local\_\-rmdir (const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__posix__local__file_8c_a89a8db8cb79bf7c575b08305704c248}
 

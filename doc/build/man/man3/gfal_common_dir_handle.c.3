@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c" 3 "25 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c" 3 "27 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -14,7 +14,7 @@
 .br
 \fC#include 'gfal_constants.h'\fP
 .br
-\fC#include 'gfal_prototypes.h'\fP
+\fC#include 'gfal_types.h'\fP
 .br
 \fC#include 'gfal_common_filedescriptor.h'\fP
 .br
@@ -25,7 +25,10 @@
 
 .in +1c
 .ti -1c
-.RI "gfal_file_descriptor_handle \fBgfal_dir_handle_instance\fP (GError **err)"
+.RI "gfal_fdesc_container_handle \fBgfal_dir_handle_container_instance\fP (gfal_descriptors_container *fdescs, GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_dir_handle_container_delete\fP (gfal_descriptors_container *fdescs)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -50,7 +53,7 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "gfal_file_descriptor_handle gfal_dir_handle_instance (GError ** err)"
+.SS "gfal_fdesc_container_handle gfal_dir_handle_container_instance (gfal_descriptors_container * fdescs, GError ** err)"
 .PP
 return the singleton of the file descriptor container for the directories 
 .SH "Author"

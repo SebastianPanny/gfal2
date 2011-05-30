@@ -6,13 +6,16 @@ file for the directory handle management
 {\tt \#include $<$errno.h$>$}\par
 {\tt \#include $<$glib.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
-{\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-filedescriptor.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-dir\_\-handle.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-gfal\_\-file\_\-descriptor\_\-handle \bf{gfal\_\-dir\_\-handle\_\-instance} (GError $\ast$$\ast$err)
+gfal\_\-fdesc\_\-container\_\-handle \bf{gfal\_\-dir\_\-handle\_\-container\_\-instance} (gfal\_\-descriptors\_\-container $\ast$fdescs, GError $\ast$$\ast$err)
+\item 
+void \textbf{gfal\_\-dir\_\-handle\_\-container\_\-delete} (gfal\_\-descriptors\_\-container $\ast$fdescs)\label{gfal__common__dir__handle_8c_266f240b644154dade8bdb39e4c20efc}
+
 \end{CompactItemize}
 
 
@@ -28,9 +31,9 @@ file for the directory handle management
 
 
 \subsection{Function Documentation}
-\index{gfal_common_dir_handle.c@{gfal\_\-common\_\-dir\_\-handle.c}!gfal_dir_handle_instance@{gfal\_\-dir\_\-handle\_\-instance}}
-\index{gfal_dir_handle_instance@{gfal\_\-dir\_\-handle\_\-instance}!gfal_common_dir_handle.c@{gfal\_\-common\_\-dir\_\-handle.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-descriptor\_\-handle gfal\_\-dir\_\-handle\_\-instance (GError $\ast$$\ast$ {\em err})}\label{gfal__common__dir__handle_8c_c6a3e1ddffb475e5855442c9a0573bfc}
+\index{gfal_common_dir_handle.c@{gfal\_\-common\_\-dir\_\-handle.c}!gfal_dir_handle_container_instance@{gfal\_\-dir\_\-handle\_\-container\_\-instance}}
+\index{gfal_dir_handle_container_instance@{gfal\_\-dir\_\-handle\_\-container\_\-instance}!gfal_common_dir_handle.c@{gfal\_\-common\_\-dir\_\-handle.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-fdesc\_\-container\_\-handle gfal\_\-dir\_\-handle\_\-container\_\-instance (gfal\_\-descriptors\_\-container $\ast$ {\em fdescs}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__dir__handle_8c_0973d623e1abd39d0830739b0710512f}
 
 
 return the singleton of the file descriptor container for the directories 

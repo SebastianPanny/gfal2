@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" 3 "25 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" 3 "27 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -29,10 +29,6 @@
 .br
 .RI "\fIclose the current file descriptor \fP"
 .ti -1c
-.RI "int \fBgfal_closedir\fP (DIR *dir)"
-.br
-.RI "\fIgfal_closedir - close a directory \fP"
-.ti -1c
 .RI "int \fBgfal_creat\fP (const char *filename, mode_t mode)"
 .br
 .RI "\fIcreates a new file or truncates an existing one \fP"
@@ -51,12 +47,6 @@
 .RI "int \fBgfal_open\fP (const char *filename, int flags, mode_t mode)"
 .br
 .RI "\fIopens a file according to the value of flags \fP"
-.ti -1c
-.RI "int \fBgfal_open64\fP (const char *filename, int flags, mode_t mode)"
-.br
-.ti -1c
-.RI "DIR * \fBgfal_opendir\fP (const char *dirname)"
-.br
 .ti -1c
 .RI "ssize_t \fBgfal_read\fP (int fd, void *buf, size_t size)"
 .br
