@@ -83,6 +83,7 @@ START_TEST(test__dir_file_descriptor_high)
 		return;
 	}
 	
+
 	gfal_file_handle d = gfal_file_handle_bind(h, 10, &tmp_err);
 	if( d != NULL || !tmp_err){
 		fail(" fail, must an invalid bind");
