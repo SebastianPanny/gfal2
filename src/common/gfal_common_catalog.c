@@ -316,7 +316,7 @@ int gfal_catalog_rmdirG(gfal_handle handle, const char* path, GError** err){
  * 
  * close the given file Handle while contacting the proper catalog
  */ 
-int gfal_catalog_closedir(gfal_handle handle, gfal_file_handle fh, GError** err){
+int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail(handle && fh, -1,err, "[gfal_catalog_resolve_guid] Invalid args ");	
 	GError* tmp_err=NULL;
 	int ret = -1;
@@ -331,12 +331,15 @@ int gfal_catalog_closedir(gfal_handle handle, gfal_file_handle fh, GError** err)
  *  execute a readdir for the given file handle on the appropriate catalog
  * 
  * */
-struct dirent* gfal_catalog_readdir(gfal_handle handle, gfal_file_handle fh, GError** err){
-	g_return_val_err_if_fail(handle && fh, -1,err, "[gfal_catalog_resolve_guid] Invalid args ");	
+struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GError** err){
+	g_return_val_err_if_fail(handle && fh, NULL,err, "[gfal_catalog_resolve_guid] Invalid args ");	
 	GError* tmp_err=NULL;
-	int ret = -1;
+	struct dirent* ret = NULL;
 	gfal_catalog_interface* if_cata = fh->ext_data;
-	return NULL;
+	ret = if_cata->readdirG(if_cata->handle, (DIR*) fh->fdesc, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret; 
 }
 
 /***

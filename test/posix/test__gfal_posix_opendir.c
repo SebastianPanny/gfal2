@@ -164,16 +164,14 @@ START_TEST(test__readdir_posix_local_simple)
 END_TEST
 
 
-/*
+
 START_TEST(test__readdir_posix_lfc_simple)
 {
 	gfal_posix_clear_error();
-	GList* list_dir = g_list_append(NULL, TEST__READDIR_1);
+	GList* list_dir = g_list_append(NULL, TEST_LFC_READDIR_1);
 	list_dir = g_list_append(list_dir, TEST_LFC_READDIR_2);
 	list_dir = g_list_append(list_dir, TEST_LFC_READDIR_3);
 	list_dir = g_list_append(list_dir, TEST_LFC_READDIR_4);
-	list_dir = g_list_append(list_dir, "..");
-	list_dir = g_list_append(list_dir, ".");
 	DIR* d = gfal_opendir(TEST_LFC_READDIR_VALID);
 	if(d==NULL|| gfal_posix_code_error() != 0 || errno != 0){
 		fail(" error, must be an existing dir %ld %d %d",d,gfal_posix_code_error(), errno);
@@ -225,4 +223,4 @@ START_TEST(test__readdir_posix_lfc_simple)
 	gfal_posix_clear_error();	
 }
 END_TEST
-*/
+

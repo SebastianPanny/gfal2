@@ -48,8 +48,7 @@ static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handle, gfal
 			ret = gfal_local_readdir(fh->fdesc, &tmp_err);
 			break;
 		case GFAL_EXTERNAL_MODULE_OFFSET:
-			g_set_error(&tmp_err,0, ENOSYS, "Not implemented");
-			//ret = gfal_catalog_readdir(handle, fh, &tmp_err);
+			ret = gfal_catalog_readdirG(handle, fh, &tmp_err);
 			break;
 		default:
 			g_set_error(&tmp_err, 0, EBADF, "Bad value container in file descriptor");

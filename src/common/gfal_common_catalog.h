@@ -101,6 +101,10 @@ struct _gfal_catalog_interface{
 	  *  function pointer to the closedir call
 	  */ 
 	 int (*closedirG)(catalog_handle, DIR*, GError**);
+	 /**
+	  *  function pointer to the readdir call
+	  * */
+	 struct dirent* (*readdirG)(catalog_handle, DIR*, GError**);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */
@@ -147,7 +151,9 @@ char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** e
 
 gfal_file_handle gfal_catalog_opendirG(gfal_handle handle, const char* name, GError** err);
 
-int gfal_catalog_closedir(gfal_handle handle, gfal_file_handle fh, GError** err);
+int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err);
+
+struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GError** err);
  	
 
 char *get_default_se(char *, int);

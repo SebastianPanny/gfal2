@@ -61,7 +61,7 @@ static int gfal_posix_gfalfilehandle_close(gfal_handle handle, gfal_file_handle 
 			ret = gfal_local_closedir(fh->fdesc, &tmp_err);
 			break;
 		case GFAL_EXTERNAL_MODULE_OFFSET:
-			ret = gfal_catalog_closedir(handle, fh, &tmp_err);
+			ret = gfal_catalog_closedirG(handle, fh, &tmp_err);
 			break;
 		default:
 			g_set_error(&tmp_err, 0, EBADF, "Bad value container in file descriptor");
