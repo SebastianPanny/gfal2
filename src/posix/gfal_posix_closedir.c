@@ -72,7 +72,7 @@ static int gfal_posix_gfalfilehandle_close(gfal_handle handle, gfal_file_handle 
 	return ret;
 }
 
-int gfal_internal_closedir(DIR* d){
+int gfal_posix_internal_closedir(DIR* d){
 	GError* tmp_err=NULL;
 	int ret = -1;
 	gfal_handle handle;	

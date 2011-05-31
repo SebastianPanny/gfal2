@@ -83,7 +83,6 @@ START_TEST(test__dir_file_descriptor_high)
 		return;
 	}
 	
-
 	gfal_file_handle d = gfal_file_handle_bind(h, 10, &tmp_err);
 	if( d != NULL || !tmp_err){
 		fail(" fail, must an invalid bind");
@@ -97,6 +96,7 @@ START_TEST(test__dir_file_descriptor_high)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
+
 
 	int key2 = gfal_file_handle_create(h,  id_module2, desc2, &tmp_err);
 	if( key == 0 || tmp_err){

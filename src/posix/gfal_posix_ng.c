@@ -222,7 +222,7 @@ DIR* gfal_opendir(const char* name){
  * 			- ECOMM : Communication error
  * */
 struct dirent* gfal_readdir(DIR* dir){
-	return gfal_internal_readdir(dir);	
+	return gfal_posix_internal_readdir(dir);	
 }
 
 /**
@@ -238,10 +238,12 @@ struct dirent* gfal_readdir(DIR* dir){
  * 			- ECOMM : Communication error
  * */
 int gfal_closedir(DIR* d){
-	return gfal_internal_closedir(d);
+	return gfal_posix_internal_closedir(d);
 }
 
-
+int gfal_open(const char * path, int flag, mode_t mode){
+	return gfal_posix_internal_open(path, flag, mode);
+}
 
 /**
  * Display the last string error reported by the gfal error system for the posix API

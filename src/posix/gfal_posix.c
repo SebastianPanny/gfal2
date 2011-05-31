@@ -418,7 +418,7 @@ gfal_mkdir (const char *dirname, mode_t mode)
     errno = 0;
     return (0);
 }*/
-
+/*
     int
 gfal_open (const char *filename, int flags, mode_t mode)
 {
@@ -440,7 +440,7 @@ gfal_open (const char *filename, int flags, mode_t mode)
 
     if ((flags & (O_WRONLY | O_CREAT)) == (O_WRONLY | O_CREAT) ||
             (flags & (O_RDWR | O_CREAT)) == (O_RDWR | O_CREAT)) {
-        /* writing in a file, so a new file */
+        /// writing in a file, so a new file 
         gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_open] new file requested \n");
         newfile = 1;
     }
@@ -517,12 +517,12 @@ gfal_open (const char *filename, int flags, mode_t mode)
                     gfal_file_set_replica_error (gfile, errno, errbuf);
             }
 
-/* fix it : need to be replaced by a correctcall to get        
- *    if (bool_issurlok && !(bool_issurlok = gfal_turlsfromsurls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
-                gfal_file_set_replica_error (gfile, errno, errbuf);
-*/
+// fix it : need to be replaced by a correctcall to get        
+//    if (bool_issurlok && !(bool_issurlok = gfal_turlsfromsurls (gfile->gobj, errbuf, GFAL_ERRMSG_LEN) >= 0))
+//                gfal_file_set_replica_error (gfile, errno, errbuf);
+//
 			g_error("transition code, not implemented fix it");
-			/* */
+//		
             if (bool_issurlok && (!(bool_issurlok = gfal_get_results (gfile->gobj, &filestatuses) >= 0) ||
                         !(bool_issurlok = filestatuses != NULL))) {
                 snprintf (errbuf, GFAL_ERRMSG_LEN, "Internal error");
@@ -611,7 +611,7 @@ err:
     errno = sav_errno;
     return (-1);
 }
-
+*/
 /*    int
 gfal_open64 (const char *filename, int flags, mode_t mode)
 {

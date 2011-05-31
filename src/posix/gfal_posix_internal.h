@@ -46,9 +46,14 @@ int gfal_posix_internal_rmdir(const char* path);
 
 DIR* gfal_posix_internal_opendir(const char* name);
 
-int gfal_internal_closedir(DIR* d);
+int gfal_posix_internal_open(const char* path, int flag, mode_t mode);
+
+int gfal_posix_internal_close(int fd);
+
+int gfal_posix_internal_closedir(DIR* d);
 
 struct dirent* gfal_internal_readdir(DIR* dir);
+
 
 void gfal_posix_register_internal_error(gfal_handle handle, const char* prefix, GError * tmp_err);
  

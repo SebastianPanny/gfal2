@@ -63,7 +63,7 @@ static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handle, gfal
  * Implementation of the readdir functions
  * 
  */
-struct dirent* gfal_internal_readdir(DIR* dir){
+struct dirent* gfal_posix_internal_readdir(DIR* dir){
 	 GError* tmp_err=NULL;
 	 gfal_handle handle;
 	 struct dirent* res= NULL;
