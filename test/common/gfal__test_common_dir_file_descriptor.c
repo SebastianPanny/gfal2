@@ -77,6 +77,7 @@ START_TEST(test__dir_file_descriptor_high)
 	}
 	
 	gfal_fdesc_container_handle h =  gfal_dir_handle_container_instance(&(handle->fdescs), &tmp_err);
+
 	if( h == NULL){
 		fail(" fail must be a valid init");
 		gfal_release_GError(&tmp_err);
@@ -97,7 +98,6 @@ START_TEST(test__dir_file_descriptor_high)
 		return;
 	}
 
-
 	int key2 = gfal_file_handle_create(h,  id_module2, desc2, &tmp_err);
 	if( key == 0 || tmp_err){
 		fail(" fail, must be a valid creation 2");
@@ -111,6 +111,7 @@ START_TEST(test__dir_file_descriptor_high)
 		gfal_release_GError(&tmp_err);
 		return;	
 	} 	
+	
 	d = gfal_file_handle_bind(h, key2, &tmp_err);
 	if( d == NULL || d->module_id != id_module2 || d->fdesc != desc2){
 		fail(" fail, must be a valid get");
@@ -140,3 +141,4 @@ START_TEST(test__dir_file_descriptor_high)
 	gfal_handle_freeG(handle);	
 }
 END_TEST
+
