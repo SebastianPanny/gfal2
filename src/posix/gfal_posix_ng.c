@@ -157,10 +157,10 @@ int gfal_mkdir( const char* path, mode_t mode){
  *  - ERRNO list : \n
  *    	- usual errors:
  *    		- ENOENT: The named file/directory does not exist.
- *    		- EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath,
+ *    		- EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath,
               or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
- *   		- EFAULT: oldpath or newpath is a NULL pointer.
- * 			- ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than "." and ".."
+ *   		- EFAULT: path is a NULL pointer.
+ * 			- ENOTEMPTY : path is a nonempty directory, that is, contains entries other than "." and ".."
  *   		- ENOTDIR: A component of path prefix is not a directory.
  *   		- ECOMM: Communication error
  *   		- EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported
@@ -171,18 +171,77 @@ int gfal_rmdir(const char* path){
 	return gfal_posix_internal_rmdir(path);
 }
 
-
+/**
+ * @brief  open a directory
+ * 
+ * opens a directory to be used in subsequent gfal_readdir operations
+ * the url supported are : local files, surls, catalog url ( lfc,...)
+ * @param name of the directory to open
+ * @return file descriptor DIR* if success else NULL if error and errno is set ( gfal_posix_error_print() )
+ * 
+ *  - ERRNO list : \n
+ *    	- usual errors:
+ *    		- ENOENT: The named file/directory does not exist.
+ *    		- EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath,
+              or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
+ *   		- EFAULT: path is a NULL pointer.
+ * 			- ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than "." and ".."
+ *   		- ENOTDIR:  path or a component in path is not a directory.
+ * 			- EMFILE: too many file open by the process
+ *   		- ECOMM: Communication error
+ *   		- EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported
+ *   		- EINVAL: path has an invalid syntax .
+ * */
 DIR* gfal_opendir(const char* name){
 	return gfal_posix_internal_opendir(name);
 }
 
+/**
+ * @brief  read a directory
+ * 
+ * The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp.  It returns NULL on
+ *      reaching the end of the directory stream or if an error occurred.
+ *            struct dirent {
+ *             ino_t          d_ino;       // inode number 
+ *             off_t          d_off;       // offset to the next dirent 
+ *             unsigned short d_reclen;    // length of this record 
+ *             unsigned char  d_type;      // type of file; not supported
+ *                                         //  by all file system types 
+ *             char           d_name[256]; // filename 
+ *         };
+ *
+ * 
+ * @param d file handle ( return by opendir ) to read
+ * @return pointer to struct dirent with file information or NULL if end of list or error ( errno is set ( gfal_posix_error_print() ) )
+ * @warning struct dirents are allocated statically, do not use free() on them
+ * 
+ * 
+ *  - ERRNO list : \n
+ *    	- usual errors:
+ *    		- EBADF : bad file descriptor
+ * 			- ECOMM : Communication error
+ * */
+struct dirent* gfal_readdir(DIR* dir){
+	return gfal_internal_readdir(dir);	
+}
+
+/**
+ * @brief  read a directory
+ *  close the file descriptor of an opendir call
+ * 
+ * @param d file handle ( return by opendir ) to close
+ * @return 0 if success else negative value and errno is set (  ( gfal_posix_error_print() )
+ * 
+ *  - ERRNO list : \n
+ *    	- usual errors:
+ *    		- EBADF : bad file descriptor
+ * 			- ECOMM : Communication error
+ * */
 int gfal_closedir(DIR* d){
 	return gfal_internal_closedir(d);
 }
 
-struct dirent* gfal_readdir(DIR* dir){
-	return gfal_internal_readdir(dir);	
-}
+
 
 /**
  * Display the last string error reported by the gfal error system for the posix API
