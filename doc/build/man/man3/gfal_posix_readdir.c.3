@@ -1,14 +1,16 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c" 3 "31 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c" 3 "31 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c \- file for the closedir posix func 
+/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c \- file for the readdir posix func 
 .SH SYNOPSIS
 .br
 .PP
 \fC#include <stdlib.h>\fP
 .br
 \fC#include <glib.h>\fP
+.br
+\fC#include <dirent.h>\fP
 .br
 \fC#include 'gfal_posix_api.h'\fP
 .br
@@ -24,8 +26,6 @@
 .br
 \fC#include '../common/gfal_common_errverbose.h'\fP
 .br
-\fC#include '../common/gfal_common_catalog.h'\fP
-.br
 \fC#include 'gfal_posix_local_file.h'\fP
 .br
 
@@ -33,12 +33,12 @@
 
 .in +1c
 .ti -1c
-.RI "int \fBgfal_internal_closedir\fP (DIR *d)"
+.RI "dirent * \fBgfal_internal_readdir\fP (DIR *dir)"
 .br
 .in -1c
 .SH "Detailed Description"
 .PP 
-file for the closedir posix func 
+file for the readdir posix func 
 
 \fBAuthor:\fP
 .RS 4
@@ -56,6 +56,11 @@ Devresse Adrien
 .RE
 .PP
 
+.SH "Function Documentation"
+.PP 
+.SS "struct dirent* gfal_internal_readdir (DIR * dir)"
+.PP
+Implementation of the readdir functions 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

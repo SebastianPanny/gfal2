@@ -53,8 +53,10 @@
 <a name="l00043"></a>00043 
 <a name="l00044"></a>00044 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__local__file_8c.html#a89a8db8cb79bf7c575b08305704c248">gfal_local_rmdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
 <a name="l00045"></a>00045 
-<a name="l00046"></a>00046 gfal_file_handle gfal_local_opendir(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri May 27 16:46:21 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00046"></a>00046 <span class="keyword">struct </span>dirent* gfal_local_readdir(DIR* d, GError** err);
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 gfal_file_handle gfal_local_opendir(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue May 31 12:11:23 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

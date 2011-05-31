@@ -25,15 +25,13 @@ int \bf{gfal\_\-open} (const char $\ast$, int, mode\_\-t)
 int \textbf{gfal\_\-open64} (const char $\ast$, int, mode\_\-t)\label{group__posix__group_gbed417acea7f862ea1977417ed842ef4}
 
 \item 
-DIR $\ast$ \textbf{gfal\_\-opendir} (const char $\ast$)\label{group__posix__group_g7e6d16651dbce5d684c53f82349e0306}
-
-\item 
+DIR $\ast$ \bf{gfal\_\-opendir} (const char $\ast$)
+\begin{CompactList}\small\item\em open a directory \item\end{CompactList}\item 
 ssize\_\-t \textbf{gfal\_\-read} (int, void $\ast$, size\_\-t)\label{group__posix__group_gaa6bfe36f33b86e489b798aed96912de}
 
 \item 
-dirent $\ast$ \textbf{gfal\_\-readdir} (DIR $\ast$)\label{group__posix__group_g2a8ed205f7748d7817a18521268a1f2d}
-
-\item 
+dirent $\ast$ \bf{gfal\_\-readdir} (DIR $\ast$)
+\begin{CompactList}\small\item\em read a directory \item\end{CompactList}\item 
 int \bf{gfal\_\-rename} (const char $\ast$, const char $\ast$)
 \begin{CompactList}\small\item\em change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files \item\end{CompactList}\item 
 int \bf{gfal\_\-rmdir} (const char $\ast$)
@@ -123,21 +121,26 @@ close the file whose descriptor fd is the one returned by gfal\_\-open. \begin{D
 \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_closedir@{gfal\_\-closedir}}
 \index{gfal_closedir@{gfal\_\-closedir}!posix_group@{posix\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-closedir (DIR $\ast$)}\label{group__posix__group_g1c97c21d23c919b2647f17bbc8b79db2}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-closedir (DIR $\ast$ {\em d})}\label{group__posix__group_g1c97c21d23c919b2647f17bbc8b79db2}
 
 
 gfal\_\-closedir - close a directory 
 
-gfal\_\-closedir closes the directory opened by gfal\_\-opendir and associated with the DIR structure pointed by dirp \begin{Desc}
+\begin{Desc}
 \item[Parameters:]
 \begin{description}
-\item[{\em file}]descriptor \end{description}
+\item[{\em d}]file handle ( return by opendir ) to close \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.\end{Desc}
+\item[Returns:]0 if success else negative value and errno is set ( ( gfal\_\-posix\_\-error\_\-print() )\end{Desc}
 \begin{itemize}
-\item ERRORS : -EBADF :File descriptor in DIR structure is invalid.\begin{itemize}
-\item ECOMM : Communication error.\item EPROTONOSUPPORT : Access method not supported. \end{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item usual errors:\begin{itemize}
+\item EBADF : incorrecto file descriptor\begin{itemize}
+\item ECOMM : Communication error \end{itemize}
+\end{itemize}
+\end{itemize}
 \end{itemize}
 \index{posix_group@{posix\_\-group}!gfal_creat@{gfal\_\-creat}}
 \index{gfal_creat@{gfal\_\-creat}!posix_group@{posix\_\-group}}
@@ -225,6 +228,58 @@ opens a file according to the value of flags
 \item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
 \end{itemize}
 \end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_opendir@{gfal\_\-opendir}}
+\index{gfal_opendir@{gfal\_\-opendir}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}DIR $\ast$ gfal\_\-opendir (const char $\ast$ {\em name})}\label{group__posix__group_g7e6d16651dbce5d684c53f82349e0306}
+
+
+open a directory 
+
+opens a directory to be used in subsequent gfal\_\-readdir operations the url supported are : local files, surls, catalog url ( lfc,...) \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em name}]of the directory to open \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]file descriptor DIR$\ast$ if success else NULL if error and errno is set ( gfal\_\-posix\_\-error\_\-print() )\end{Desc}
+\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item usual errors:\begin{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: path is a NULL pointer.\begin{itemize}
+\item ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than \char`\"{}.\char`\"{} and \char`\"{}..\char`\"{}\end{itemize}
+\item ENOTDIR: path or a component in path is not a directory.\begin{itemize}
+\item EMFILE: too many file open by the process\end{itemize}
+\item ECOMM: Communication error\item EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported\item EINVAL: path has an invalid syntax . \end{itemize}
+\end{itemize}
+\end{itemize}
+\index{posix_group@{posix\_\-group}!gfal_readdir@{gfal\_\-readdir}}
+\index{gfal_readdir@{gfal\_\-readdir}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct dirent $\ast$ gfal\_\-readdir (DIR $\ast$ {\em dir})}\label{group__posix__group_gad7e253fad72213c19e72c02b869ba7e}
+
+
+read a directory 
+
+The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred. struct dirent \{ ino\_\-t d\_\-ino; // inode number off\_\-t d\_\-off; // offset to the next dirent unsigned short d\_\-reclen; // length of this record unsigned char d\_\-type; // type of file; not supported // by all file system types char d\_\-name[256]; // filename \};
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em d}]file handle ( return by opendir ) to read \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]pointer to struct dirent with file information or NULL if end of list or error ( errno is set ( gfal\_\-posix\_\-error\_\-print() ) ) \end{Desc}
+\begin{Desc}
+\item[Warning:]struct dirents are allocated statically, do not use free() on them\end{Desc}
+\begin{itemize}
+\item ERRNO list : \par
+\begin{itemize}
+\item usual errors:\begin{itemize}
+\item EBADF : incorrecto file descriptor\begin{itemize}
+\item ECOMM : Communication error \end{itemize}
+\end{itemize}
+\end{itemize}
+\end{itemize}
 \index{posix_group@{posix\_\-group}!gfal_rename@{gfal\_\-rename}}
 \index{gfal_rename@{gfal\_\-rename}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-rename (const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath})}\label{group__posix__group_g34dc6129530d6bf9e5836ef22c0d2792}
@@ -267,8 +322,8 @@ removes a directory if it is empty remove an existing directory, return error if
 \item ERRNO list : \par
 \begin{itemize}
 \item usual errors:\begin{itemize}
-\item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: oldpath or newpath is a NULL pointer.\begin{itemize}
-\item ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than \char`\"{}.\char`\"{} and \char`\"{}..\char`\"{}\end{itemize}
+\item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: path is a NULL pointer.\begin{itemize}
+\item ENOTEMPTY : path is a nonempty directory, that is, contains entries other than \char`\"{}.\char`\"{} and \char`\"{}..\char`\"{}\end{itemize}
 \item ENOTDIR: A component of path prefix is not a directory.\item ECOMM: Communication error\item EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported\item EINVAL: path has an invalid syntax . \end{itemize}
 \end{itemize}
 \end{itemize}

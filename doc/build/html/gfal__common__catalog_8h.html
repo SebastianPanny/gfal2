@@ -82,7 +82,9 @@ char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolv
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#eb89b1d37a16ef8ecb50ac603366285c">gfal_catalog_opendirG</a> (gfal_handle handle, const char *name, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#51ecb1a0e6125b0b72ad42b834046bb1">gfal_catalog_closedir</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#348fe15690faed2e2731d15eb6cc7856">gfal_catalog_closedirG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#9ba0d48d73fe53d42d3a715e57473adb">gfal_catalog_readdirG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c304a754c49bedeec6c1c9b1445b937d"></a><!-- doxytag: member="gfal_common_catalog.h::get_default_se" ref="c304a754c49bedeec6c1c9b1445b937d" args="(char *, int)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>get_default_se</b> (char *, int)</td></tr>
@@ -125,12 +127,12 @@ the header file of the common lib for the catalog management
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>8/04/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="51ecb1a0e6125b0b72ad42b834046bb1"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_closedir" ref="51ecb1a0e6125b0b72ad42b834046bb1" args="(gfal_handle handle, gfal_file_handle fh, GError **err)" -->
+<a class="anchor" name="348fe15690faed2e2731d15eb6cc7856"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_closedirG" ref="348fe15690faed2e2731d15eb6cc7856" args="(gfal_handle handle, gfal_file_handle fh, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int gfal_catalog_closedir           </td>
+          <td class="memname">int gfal_catalog_closedirG           </td>
           <td>(</td>
           <td class="paramtype">gfal_handle&nbsp;</td>
           <td class="paramname"> <em>handle</em>, </td>
@@ -302,6 +304,41 @@ Execute a opendir function on the first compatible catalog ( checked with check 
 
 </div>
 </div><p>
+<a class="anchor" name="9ba0d48d73fe53d42d3a715e57473adb"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_readdirG" ref="9ba0d48d73fe53d42d3a715e57473adb" args="(gfal_handle handle, gfal_file_handle fh, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct dirent* gfal_catalog_readdirG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+execute a readdir for the given file handle on the appropriate catalog 
+</div>
+</div><p>
 <a class="anchor" name="28ca68c00e4a67bc158975ef3e4f8013"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_statG" ref="28ca68c00e4a67bc158975ef3e4f8013" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -466,7 +503,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri May 27 16:46:21 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 31 12:11:23 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

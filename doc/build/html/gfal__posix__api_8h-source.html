@@ -56,95 +56,97 @@
 <a name="l00046"></a>00046 
 <a name="l00047"></a>00047 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g6f6affcf386900efc5443a9c97556a57">gfal_mkdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t mode);
 <a name="l00048"></a>00048 
-<a name="l00049"></a>00049 DIR* gfal_opendir(<span class="keyword">const</span> <span class="keywordtype">char</span>* name);
+<a name="l00049"></a>00049 DIR* <a class="code" href="group__posix__group.html#g7e6d16651dbce5d684c53f82349e0306">gfal_opendir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name);
 <a name="l00050"></a>00050 
-<a name="l00051"></a>00051 <span class="keywordtype">void</span> <a class="code" href="gfal__posix__ng_8c.html#a8252652c1dc86d71ba37b401fb675f9">gfal_posix_clear_error</a>();
+<a name="l00051"></a>00051 <span class="keyword">struct </span>dirent* <a class="code" href="group__posix__group.html#gad7e253fad72213c19e72c02b869ba7e">gfal_readdir</a>(DIR* dir);
 <a name="l00052"></a>00052 
-<a name="l00053"></a>00053 <span class="keywordtype">void</span> <a class="code" href="gfal__posix__ng_8c.html#85337290460234042db0adfd54514df9">gfal_posix_release_error</a>();
+<a name="l00053"></a>00053 <span class="keywordtype">void</span> <a class="code" href="gfal__posix__ng_8c.html#a8252652c1dc86d71ba37b401fb675f9">gfal_posix_clear_error</a>();
 <a name="l00054"></a>00054 
-<a name="l00055"></a>00055 <span class="keywordtype">void</span> <a class="code" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error</a>();
+<a name="l00055"></a>00055 <span class="keywordtype">void</span> <a class="code" href="gfal__posix__ng_8c.html#85337290460234042db0adfd54514df9">gfal_posix_release_error</a>();
 <a name="l00056"></a>00056 
-<a name="l00057"></a>00057 <span class="keywordtype">int</span> gfal_posix_code_error();
+<a name="l00057"></a>00057 <span class="keywordtype">void</span> <a class="code" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error</a>();
 <a name="l00058"></a>00058 
-<a name="l00069"></a>00069 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g83b88bd27def4c4e2fdfea3c5bbf88b4">gfal_close</a> (<span class="keywordtype">int</span>);
-<a name="l00082"></a>00082 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g1c97c21d23c919b2647f17bbc8b79db2">gfal_closedir</a> (DIR *);
-<a name="l00099"></a>00099 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g5fcdc6f3e7911787be049e20b6ab19b8">gfal_creat</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00103"></a>00103 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g48783e60cafa1a3bf9aa2170b99f9b08">gfal_creat64</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00131"></a>00131 off_t <a class="code" href="group__posix__group.html#g8ba4e1df5f2e6439641c56f245d5ce73">gfal_lseek</a> (<span class="keywordtype">int</span>, off_t, <span class="keywordtype">int</span>);
-<a name="l00132"></a>00132 
-<a name="l00133"></a>00133 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g6f6affcf386900efc5443a9c97556a57">gfal_mkdir</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
-<a name="l00153"></a>00153 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622">gfal_open</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, mode_t);
-<a name="l00154"></a>00154 
-<a name="l00155"></a>00155 <span class="keywordtype">int</span> gfal_open64 (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, mode_t);
+<a name="l00059"></a>00059 <span class="keywordtype">int</span> gfal_posix_code_error();
+<a name="l00060"></a>00060 
+<a name="l00071"></a>00071 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g83b88bd27def4c4e2fdfea3c5bbf88b4">gfal_close</a> (<span class="keywordtype">int</span>);
+<a name="l00084"></a>00084 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g1c97c21d23c919b2647f17bbc8b79db2">gfal_closedir</a> (DIR *);
+<a name="l00101"></a>00101 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g5fcdc6f3e7911787be049e20b6ab19b8">gfal_creat</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
+<a name="l00105"></a>00105 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g48783e60cafa1a3bf9aa2170b99f9b08">gfal_creat64</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
+<a name="l00133"></a>00133 off_t <a class="code" href="group__posix__group.html#g8ba4e1df5f2e6439641c56f245d5ce73">gfal_lseek</a> (<span class="keywordtype">int</span>, off_t, <span class="keywordtype">int</span>);
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g6f6affcf386900efc5443a9c97556a57">gfal_mkdir</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
+<a name="l00155"></a>00155 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622">gfal_open</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, mode_t);
 <a name="l00156"></a>00156 
-<a name="l00157"></a>00157 DIR *gfal_opendir (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00157"></a>00157 <span class="keywordtype">int</span> gfal_open64 (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, mode_t);
 <a name="l00158"></a>00158 
-<a name="l00159"></a>00159 ssize_t gfal_read (<span class="keywordtype">int</span>, <span class="keywordtype">void</span> *, size_t);
+<a name="l00159"></a>00159 DIR *<a class="code" href="group__posix__group.html#g7e6d16651dbce5d684c53f82349e0306">gfal_opendir</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
 <a name="l00160"></a>00160 
-<a name="l00161"></a>00161 <span class="keyword">struct </span>dirent *gfal_readdir (DIR *);
+<a name="l00161"></a>00161 ssize_t gfal_read (<span class="keywordtype">int</span>, <span class="keywordtype">void</span> *, size_t);
 <a name="l00162"></a>00162 
-<a name="l00163"></a>00163 
+<a name="l00163"></a>00163 <span class="keyword">struct </span>dirent *<a class="code" href="group__posix__group.html#gad7e253fad72213c19e72c02b869ba7e">gfal_readdir</a> (DIR *);
 <a name="l00164"></a>00164 
-<a name="l00165"></a>00165 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#gcc4b6347640a722674c2d6df437490df">gfal_rmdir</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00165"></a>00165 
 <a name="l00166"></a>00166 
-<a name="l00167"></a>00167 ssize_t gfal_setfilchg (<span class="keywordtype">int</span>, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
+<a name="l00167"></a>00167 <span class="keywordtype">int</span> <a class="code" href="group__posix__group.html#gcc4b6347640a722674c2d6df437490df">gfal_rmdir</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
 <a name="l00168"></a>00168 
-<a name="l00169"></a>00169 <span class="keywordtype">int</span> gfal_unlink (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00169"></a>00169 ssize_t gfal_setfilchg (<span class="keywordtype">int</span>, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
 <a name="l00170"></a>00170 
-<a name="l00171"></a>00171 ssize_t gfal_write (<span class="keywordtype">int</span>, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
+<a name="l00171"></a>00171 <span class="keywordtype">int</span> gfal_unlink (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
 <a name="l00172"></a>00172 
-<a name="l00173"></a>00173 
+<a name="l00173"></a>00173 ssize_t gfal_write (<span class="keywordtype">int</span>, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
 <a name="l00174"></a>00174 
-<a name="l00175"></a>00175 <span class="preprocessor">#if defined(linux) || defined(sun)</span>
-<a name="l00176"></a>00176 <span class="preprocessor"></span><span class="keyword">struct </span>dirent *gfal_readdir (DIR *);
-<a name="l00177"></a>00177 <span class="preprocessor">#endif</span>
-<a name="l00178"></a>00178 <span class="preprocessor"></span>
-<a name="l00179"></a>00179 <span class="preprocessor">#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)</span>
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177 <span class="preprocessor">#if defined(linux) || defined(sun)</span>
+<a name="l00178"></a>00178 <span class="preprocessor"></span><span class="keyword">struct </span>dirent *<a class="code" href="group__posix__group.html#gad7e253fad72213c19e72c02b869ba7e">gfal_readdir</a> (DIR *);
+<a name="l00179"></a>00179 <span class="preprocessor">#endif</span>
 <a name="l00180"></a>00180 <span class="preprocessor"></span>
-<a name="l00181"></a>00181 
-<a name="l00182"></a>00182 off64_t gfal_lseek64 (<span class="keywordtype">int</span>, off64_t, <span class="keywordtype">int</span>);
+<a name="l00181"></a>00181 <span class="preprocessor">#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)</span>
+<a name="l00182"></a>00182 <span class="preprocessor"></span>
 <a name="l00183"></a>00183 
-<a name="l00184"></a>00184 
+<a name="l00184"></a>00184 off64_t gfal_lseek64 (<span class="keywordtype">int</span>, off64_t, <span class="keywordtype">int</span>);
 <a name="l00185"></a>00185 
 <a name="l00186"></a>00186 
 <a name="l00187"></a>00187 
-<a name="l00188"></a>00188 <span class="keywordtype">int</span> gfal_lstat64 (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct</span> stat64 *);
+<a name="l00188"></a>00188 
 <a name="l00189"></a>00189 
-<a name="l00190"></a>00190 
+<a name="l00190"></a>00190 <span class="keywordtype">int</span> gfal_lstat64 (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct</span> stat64 *);
 <a name="l00191"></a>00191 
 <a name="l00192"></a>00192 
 <a name="l00193"></a>00193 
-<a name="l00194"></a>00194 <span class="keywordtype">int</span> gfal_stat64 (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct</span> stat64 *);
+<a name="l00194"></a>00194 
 <a name="l00195"></a>00195 
-<a name="l00196"></a>00196 
-<a name="l00197"></a>00197 <span class="preprocessor">#if defined(linux) || defined(sun)</span>
-<a name="l00198"></a>00198 <span class="preprocessor"></span><span class="keyword">struct </span>dirent64 *gfal_readdir64 (DIR *);
-<a name="l00199"></a>00199 <span class="preprocessor">#endif</span>
-<a name="l00200"></a>00200 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
-<a name="l00201"></a>00201 <span class="preprocessor"></span>
-<a name="l00202"></a>00202 
-<a name="l00203"></a>00203 
-<a name="l00208"></a>00208 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g331e181c2fadd801321ad43033835052">gfal_set_verbose</a> (<span class="keywordtype">int</span>);
-<a name="l00212"></a>00212 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#gcf4ae9045b7e5a2a697b1bb1f05994a8">gfal_set_vo</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *vo);
-<a name="l00217"></a>00217 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#g267920b468d7578c10aa25469f8cadf7">gfal_set_nobdii</a> (<span class="keywordtype">int</span>);
-<a name="l00221"></a>00221 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#g62f544258aa58af5122f40f0eb1a7c92">gfal_set_timeout_connect</a> (<span class="keywordtype">int</span>);
-<a name="l00226"></a>00226 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g63ec5d282f39173b678ecad2d60a4a6f">gfal_get_timeout_connect</a> ();
-<a name="l00230"></a>00230 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#gedd91bb343f17bc2c0ba9db1203f1819">gfal_set_timeout_sendreceive</a> (<span class="keywordtype">int</span>);
-<a name="l00235"></a>00235 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g198564ca7617a8f3dec7c6b925b2c760">gfal_get_timeout_sendreceive</a> ();
-<a name="l00239"></a>00239 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#g7fc461515a2cdf649fd516319cb54ea9">gfal_set_timeout_bdii</a> (<span class="keywordtype">int</span>);
-<a name="l00244"></a>00244 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g676f0d746479f2c9893609854099d614">gfal_get_timeout_bdii</a> ();
-<a name="l00248"></a>00248 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#gc0dac1437f150d4b5b8779f456050bec">gfal_set_timeout_srm</a> (<span class="keywordtype">int</span>);
-<a name="l00253"></a>00253 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g31f524748949fca765e6fb8aa20ef41c">gfal_get_timeout_srm</a> ();
-<a name="l00254"></a>00254 
-<a name="l00255"></a>00255 
-<a name="l00256"></a>00256 <span class="keyword">const</span> <span class="keywordtype">char</span> *gfal_get_checksum_algname (<span class="keyword">enum</span> gfal_cksm_type);
+<a name="l00196"></a>00196 <span class="keywordtype">int</span> gfal_stat64 (<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct</span> stat64 *);
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199 <span class="preprocessor">#if defined(linux) || defined(sun)</span>
+<a name="l00200"></a>00200 <span class="preprocessor"></span><span class="keyword">struct </span>dirent64 *gfal_readdir64 (DIR *);
+<a name="l00201"></a>00201 <span class="preprocessor">#endif</span>
+<a name="l00202"></a>00202 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00203"></a>00203 <span class="preprocessor"></span>
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205 
+<a name="l00210"></a>00210 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g331e181c2fadd801321ad43033835052">gfal_set_verbose</a> (<span class="keywordtype">int</span>);
+<a name="l00214"></a>00214 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#gcf4ae9045b7e5a2a697b1bb1f05994a8">gfal_set_vo</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *vo);
+<a name="l00219"></a>00219 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#g267920b468d7578c10aa25469f8cadf7">gfal_set_nobdii</a> (<span class="keywordtype">int</span>);
+<a name="l00223"></a>00223 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#g62f544258aa58af5122f40f0eb1a7c92">gfal_set_timeout_connect</a> (<span class="keywordtype">int</span>);
+<a name="l00228"></a>00228 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g63ec5d282f39173b678ecad2d60a4a6f">gfal_get_timeout_connect</a> ();
+<a name="l00232"></a>00232 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#gedd91bb343f17bc2c0ba9db1203f1819">gfal_set_timeout_sendreceive</a> (<span class="keywordtype">int</span>);
+<a name="l00237"></a>00237 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g198564ca7617a8f3dec7c6b925b2c760">gfal_get_timeout_sendreceive</a> ();
+<a name="l00241"></a>00241 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#g7fc461515a2cdf649fd516319cb54ea9">gfal_set_timeout_bdii</a> (<span class="keywordtype">int</span>);
+<a name="l00246"></a>00246 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g676f0d746479f2c9893609854099d614">gfal_get_timeout_bdii</a> ();
+<a name="l00250"></a>00250 <span class="keywordtype">void</span> <a class="code" href="group__common__group.html#gc0dac1437f150d4b5b8779f456050bec">gfal_set_timeout_srm</a> (<span class="keywordtype">int</span>);
+<a name="l00255"></a>00255 <span class="keywordtype">int</span> <a class="code" href="group__common__group.html#g31f524748949fca765e6fb8aa20ef41c">gfal_get_timeout_srm</a> ();
+<a name="l00256"></a>00256 
 <a name="l00257"></a>00257 
-<a name="l00258"></a>00258 <span class="keyword">enum</span> gfal_cksm_type gfal_parse_checksum_algname (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00258"></a>00258 <span class="keyword">const</span> <span class="keywordtype">char</span> *gfal_get_checksum_algname (<span class="keyword">enum</span> gfal_cksm_type);
 <a name="l00259"></a>00259 
-<a name="l00260"></a>00260 <span class="keywordtype">int</span> gfal_is_nobdii ();
+<a name="l00260"></a>00260 <span class="keyword">enum</span> gfal_cksm_type gfal_parse_checksum_algname (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
 <a name="l00261"></a>00261 
-<a name="l00262"></a>00262 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri May 27 16:46:21 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00262"></a>00262 <span class="keywordtype">int</span> gfal_is_nobdii ();
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue May 31 12:11:23 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

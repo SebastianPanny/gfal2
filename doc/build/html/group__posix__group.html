@@ -47,15 +47,15 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gbed417acea7f862ea1977417ed842ef4"></a><!-- doxytag: member="posix_group::gfal_open64" ref="gbed417acea7f862ea1977417ed842ef4" args="(const char *, int, mode_t)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_open64</b> (const char *, int, mode_t)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g7e6d16651dbce5d684c53f82349e0306"></a><!-- doxytag: member="posix_group::gfal_opendir" ref="g7e6d16651dbce5d684c53f82349e0306" args="(const char *)" -->
-DIR *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_opendir</b> (const char *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">DIR *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g7e6d16651dbce5d684c53f82349e0306">gfal_opendir</a> (const char *)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">open a directory  <a href="#g7e6d16651dbce5d684c53f82349e0306"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gaa6bfe36f33b86e489b798aed96912de"></a><!-- doxytag: member="posix_group::gfal_read" ref="gaa6bfe36f33b86e489b798aed96912de" args="(int, void *, size_t)" -->
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_read</b> (int, void *, size_t)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g2a8ed205f7748d7817a18521268a1f2d"></a><!-- doxytag: member="posix_group::gfal_readdir" ref="g2a8ed205f7748d7817a18521268a1f2d" args="(DIR *)" -->
-dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_readdir</b> (DIR *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gad7e253fad72213c19e72c02b869ba7e">gfal_readdir</a> (DIR *)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read a directory  <a href="#gad7e253fad72213c19e72c02b869ba7e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g34dc6129530d6bf9e5836ef22c0d2792">gfal_rename</a> (const char *, const char *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files  <a href="#g34dc6129530d6bf9e5836ef22c0d2792"></a><br></td></tr>
@@ -215,7 +215,7 @@ close the file whose descriptor fd is the one returned by gfal_open. <dl compact
           <td class="memname">int gfal_closedir           </td>
           <td>(</td>
           <td class="paramtype">DIR *&nbsp;</td>
-          <td class="paramname">          </td>
+          <td class="paramname"> <em>d</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"></td>
         </tr>
@@ -226,15 +226,20 @@ close the file whose descriptor fd is the one returned by gfal_open. <dl compact
 <p>
 gfal_closedir - close a directory 
 <p>
-gfal_closedir closes the directory opened by gfal_opendir and associated with the DIR structure pointed by dirp <dl compact><dt><b>Parameters:</b></dt><dd>
+<dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>file</em>&nbsp;</td><td>descriptor </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td>file handle ( return by opendir ) to close </td></tr>
   </table>
 </dl>
-<dl compact><dt><b>Returns:</b></dt><dd>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.</dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>0 if success else negative value and errno is set ( ( gfal_posix_error_print() )</dd></dl>
 <ul>
-<li>ERRORS : -EBADF :File descriptor in DIR structure is invalid.<ul>
-<li>ECOMM : Communication error.</li><li>EPROTONOSUPPORT : Access method not supported. </li></ul>
+<li>ERRNO list : <br>
+<ul>
+<li>usual errors:<ul>
+<li>EBADF : incorrecto file descriptor<ul>
+<li>ECOMM : Communication error </li></ul>
+</li></ul>
+</li></ul>
 </li></ul>
 
 </div>
@@ -425,6 +430,84 @@ opens a file according to the value of flags
 
 </div>
 </div><p>
+<a class="anchor" name="g7e6d16651dbce5d684c53f82349e0306"></a><!-- doxytag: member="POSIX_API.c::gfal_opendir" ref="g7e6d16651dbce5d684c53f82349e0306" args="(const char *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DIR * gfal_opendir           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>name</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+open a directory 
+<p>
+opens a directory to be used in subsequent gfal_readdir operations the url supported are : local files, surls, catalog url ( lfc,...) <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>of the directory to open </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>file descriptor DIR* if success else NULL if error and errno is set ( gfal_posix_error_print() )</dd></dl>
+<ul>
+<li>ERRNO list : <br>
+<ul>
+<li>usual errors:<ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: path is a NULL pointer.<ul>
+<li>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than "." and ".."</li></ul>
+</li><li>ENOTDIR: path or a component in path is not a directory.<ul>
+<li>EMFILE: too many file open by the process</li></ul>
+</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</li><li>EINVAL: path has an invalid syntax . </li></ul>
+</li></ul>
+</li></ul>
+
+</div>
+</div><p>
+<a class="anchor" name="gad7e253fad72213c19e72c02b869ba7e"></a><!-- doxytag: member="POSIX_API.c::gfal_readdir" ref="gad7e253fad72213c19e72c02b869ba7e" args="(DIR *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct dirent * gfal_readdir           </td>
+          <td>(</td>
+          <td class="paramtype">DIR *&nbsp;</td>
+          <td class="paramname"> <em>dir</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+read a directory 
+<p>
+The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred. struct dirent { ino_t d_ino; // inode number off_t d_off; // offset to the next dirent unsigned short d_reclen; // length of this record unsigned char d_type; // type of file; not supported // by all file system types char d_name[256]; // filename };<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td>file handle ( return by opendir ) to read </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>pointer to struct dirent with file information or NULL if end of list or error ( errno is set ( gfal_posix_error_print() ) ) </dd></dl>
+<dl compact><dt><b>Warning:</b></dt><dd>struct dirents are allocated statically, do not use free() on them</dd></dl>
+<ul>
+<li>ERRNO list : <br>
+<ul>
+<li>usual errors:<ul>
+<li>EBADF : incorrecto file descriptor<ul>
+<li>ECOMM : Communication error </li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+
+</div>
+</div><p>
 <a class="anchor" name="g34dc6129530d6bf9e5836ef22c0d2792"></a><!-- doxytag: member="POSIX_API.c::gfal_rename" ref="g34dc6129530d6bf9e5836ef22c0d2792" args="(const char *, const char *)" -->
 <div class="memitem">
 <div class="memproto">
@@ -502,8 +585,8 @@ removes a directory if it is empty remove an existing directory, return error if
 <li>ERRNO list : <br>
 <ul>
 <li>usual errors:<ul>
-<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer.<ul>
-<li>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than "." and ".."</li></ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: path is a NULL pointer.<ul>
+<li>ENOTEMPTY : path is a nonempty directory, that is, contains entries other than "." and ".."</li></ul>
 </li><li>ENOTDIR: A component of path prefix is not a directory.</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</li><li>EINVAL: path has an invalid syntax . </li></ul>
 </li></ul>
 </li></ul>
@@ -556,7 +639,7 @@ informations about a file These functions return information about a file. No pe
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri May 27 16:46:21 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue May 31 12:11:23 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

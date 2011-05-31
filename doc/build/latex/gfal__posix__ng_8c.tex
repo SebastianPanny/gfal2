@@ -23,9 +23,10 @@ int \bf{gfal\_\-mkdir} (const char $\ast$path, mode\_\-t mode)
 \begin{CompactList}\small\item\em create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like \char`\"{}mkdir -p\char`\"{}. \item\end{CompactList}\item 
 int \bf{gfal\_\-rmdir} (const char $\ast$path)
 \begin{CompactList}\small\item\em removes a directory if it is empty remove an existing directory, return error if the dir is not empty \item\end{CompactList}\item 
-DIR $\ast$ \textbf{gfal\_\-opendir} (const char $\ast$name)\label{group__posix__group_g7e6d16651dbce5d684c53f82349e0306}
-
-\item 
+DIR $\ast$ \bf{gfal\_\-opendir} (const char $\ast$name)
+\begin{CompactList}\small\item\em open a directory \item\end{CompactList}\item 
+dirent $\ast$ \bf{gfal\_\-readdir} (DIR $\ast$dir)
+\begin{CompactList}\small\item\em read a directory \item\end{CompactList}\item 
 int \bf{gfal\_\-closedir} (DIR $\ast$d)
 \begin{CompactList}\small\item\em gfal\_\-closedir - close a directory \item\end{CompactList}\item 
 void \bf{gfal\_\-posix\_\-print\_\-error} ()

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
-<title>CERN org.glite.Gfal: /home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c File Reference</title>
+<title>CERN org.glite.Gfal: /home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c File Reference</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -18,10 +18,11 @@
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c File Reference</h1>file for the closedir posix func <a href="#_details">More...</a>
+<h1>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c File Reference</h1>file for the readdir posix func <a href="#_details">More...</a>
 <p>
 <code>#include &lt;stdlib.h&gt;</code><br>
 <code>#include &lt;glib.h&gt;</code><br>
+<code>#include &lt;dirent.h&gt;</code><br>
 <code>#include &quot;gfal_posix_api.h&quot;</code><br>
 <code>#include &quot;gfal_posix_internal.h&quot;</code><br>
 <code>#include &quot;../common/gfal_constants.h&quot;</code><br>
@@ -29,21 +30,40 @@
 <code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">../common/gfal_common_filedescriptor.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__dir__handle_8h-source.html">../common/gfal_common_dir_handle.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">../common/gfal_common_errverbose.h</a>&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__catalog_8h-source.html">../common/gfal_common_catalog.h</a>&quot;</code><br>
 <code>#include &quot;gfal_posix_local_file.h&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1429791e321b4e09fee8a6c8acbc3d7d"></a><!-- doxytag: member="gfal_posix_closedir.c::gfal_internal_closedir" ref="1429791e321b4e09fee8a6c8acbc3d7d" args="(DIR *d)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_internal_closedir</b> (DIR *d)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__readdir_8c.html#a974d71cb2b37c17da88e233ae5c102f">gfal_internal_readdir</a> (DIR *dir)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-file for the closedir posix func 
+file for the readdir posix func 
 <p>
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>27/05/2011 </dd></dl>
+<hr><h2>Function Documentation</h2>
+<a class="anchor" name="a974d71cb2b37c17da88e233ae5c102f"></a><!-- doxytag: member="gfal_posix_readdir.c::gfal_internal_readdir" ref="a974d71cb2b37c17da88e233ae5c102f" args="(DIR *dir)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct dirent* gfal_internal_readdir           </td>
+          <td>(</td>
+          <td class="paramtype">DIR *&nbsp;</td>
+          <td class="paramname"> <em>dir</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Implementation of the readdir functions 
+</div>
+</div><p>
 <hr size="1"><address style="align: right;"><small>Generated on Tue May 31 12:11:23 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>

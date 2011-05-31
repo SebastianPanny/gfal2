@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "27 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "31 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -84,7 +84,10 @@
 .RI "gfal_file_handle \fBgfal_catalog_opendirG\fP (gfal_handle handle, const char *name, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_catalog_closedir\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
+.RI "int \fBgfal_catalog_closedirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
+.br
+.ti -1c
+.RI "dirent * \fBgfal_catalog_readdirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
 .br
 .ti -1c
 .RI "char * \fBget_default_se\fP (char *, int)"
@@ -142,7 +145,7 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_catalog_closedir (gfal_handle handle, gfal_file_handle fh, GError ** err)"
+.SS "int gfal_catalog_closedirG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
 .PP
 close the given file Handle while contacting the proper catalog 
 .SS "int gfal_catalog_lstatG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
@@ -195,6 +198,9 @@ gfal_file_handle pointer given to the handle or NULL if error
 .RE
 .PP
 
+.SS "struct dirent* gfal_catalog_readdirG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
+.PP
+execute a readdir for the given file handle on the appropriate catalog 
 .SS "int gfal_catalog_statG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 Execute a stat function on the lfc catalog 

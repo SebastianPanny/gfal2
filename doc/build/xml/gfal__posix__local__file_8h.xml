@@ -6,46 +6,53 @@
     <includedby refid="gfal__posix__closedir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</includedby>
     <includedby refid="gfal__posix__mkdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</includedby>
     <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
+    <includedby refid="gfal__posix__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</includedby>
     <includedby refid="gfal__posix__rename_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</includedby>
     <includedby refid="gfal__posix__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</includedby>
     <invincdepgraph>
-      <node id="1318">
+      <node id="1327">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
         <link refid="gfal__posix__closedir_8c"/>
       </node>
-      <node id="1319">
+      <node id="1328">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
         <link refid="gfal__posix__mkdir_8c"/>
       </node>
-      <node id="1316">
+      <node id="1330">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
+        <link refid="gfal__posix__readdir_8c"/>
+      </node>
+      <node id="1325">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h</label>
         <link refid="gfal_posix_local_file.h"/>
-        <childnode refid="1317" relation="include">
+        <childnode refid="1326" relation="include">
         </childnode>
-        <childnode refid="1318" relation="include">
+        <childnode refid="1327" relation="include">
         </childnode>
-        <childnode refid="1319" relation="include">
+        <childnode refid="1328" relation="include">
         </childnode>
-        <childnode refid="1320" relation="include">
+        <childnode refid="1329" relation="include">
         </childnode>
-        <childnode refid="1321" relation="include">
+        <childnode refid="1330" relation="include">
         </childnode>
-        <childnode refid="1322" relation="include">
+        <childnode refid="1331" relation="include">
+        </childnode>
+        <childnode refid="1332" relation="include">
         </childnode>
       </node>
-      <node id="1321">
+      <node id="1331">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</label>
         <link refid="gfal__posix__rename_8c"/>
       </node>
-      <node id="1317">
+      <node id="1326">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
         <link refid="gfal__posix__access_8c"/>
       </node>
-      <node id="1322">
+      <node id="1332">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</label>
         <link refid="gfal__posix__rmdir_8c"/>
       </node>
-      <node id="1320">
+      <node id="1329">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
         <link refid="gfal__posix__opendir_8c"/>
       </node>
@@ -241,7 +248,28 @@
 <para>local rmdir mapper </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="44" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="130" bodyend="136"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="44" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="140" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__posix__local__file_8h_1154d6466ff14a02bd004a735823963fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dirent *</type>
+        <definition>struct dirent* gfal_local_readdir</definition>
+        <argsstring>(DIR *d, GError **err)</argsstring>
+        <name>gfal_local_readdir</name>
+        <param>
+          <type>DIR *</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="46" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="127" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__local__file_8h_156dc809549c9ff1f7f245619fae1dea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
@@ -262,7 +290,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="46" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="116" bodyend="125"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" bodystart="116" bodyend="125"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -305,7 +333,9 @@
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__posix__local__file_8c_1a89a8db8cb79bf7c575b08305704c248" kindref="member">gfal_local_rmdir</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal">gfal_file_handle<sp/>gfal_local_opendir(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>gfal_local_readdir(DIR*<sp/>d,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">gfal_file_handle<sp/>gfal_local_opendir(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError**<sp/>err);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.h"/>
   </compounddef>

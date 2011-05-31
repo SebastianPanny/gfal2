@@ -114,27 +114,33 @@
         <name>gfal_closedir</name>
         <param>
           <type>DIR *</type>
+          <defname>d</defname>
         </param>
         <briefdescription>
 <para>gfal_closedir - close a directory </para>        </briefdescription>
         <detaileddescription>
-<para>gfal_closedir closes the directory opened by gfal_opendir and associated with the DIR structure pointed by dirp <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>file</parametername>
+<parametername>d</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>descriptor </para></parameterdescription>
+<para>file handle ( return by opendir ) to close </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.</para></simplesect>
+<simplesect kind="return"><para>0 if success else negative value and errno is set ( ( gfal_posix_error_print() )</para></simplesect>
 <itemizedlist>
-<listitem><para>ERRORS : -EBADF :File descriptor in DIR structure is invalid.<itemizedlist>
-<listitem><para>ECOMM : Communication error.</para></listitem><listitem><para>EPROTONOSUPPORT : Access method not supported. </para></listitem></itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>EBADF : incorrecto file descriptor<itemizedlist>
+<listitem><para>ECOMM : Communication error </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="179" bodyend="181"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="240" bodyend="242"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g5fcdc6f3e7911787be049e20b6ab19b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -336,14 +342,35 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         <name>gfal_opendir</name>
         <param>
           <type>const char *</type>
+          <defname>name</defname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>open a directory </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>opens a directory to be used in subsequent gfal_readdir operations the url supported are : local files, surls, catalog url ( lfc,...) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the directory to open </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>file descriptor DIR* if success else NULL if error and errno is set ( gfal_posix_error_print() )</para></simplesect>
+<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
+<listitem><para>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ENOTDIR: path or a component in path is not a directory.<itemizedlist>
+<listitem><para>EMFILE: too many file open by the process</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="150" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="175" bodyend="177"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="150" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="195" bodyend="197"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gaa6bfe36f33b86e489b798aed96912de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
@@ -367,21 +394,41 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="152" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="698" bodyend="710"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g2a8ed205f7748d7817a18521268a1f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1gad7e253fad72213c19e72c02b869ba7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>dirent *</type>
-        <definition>struct dirent* gfal_readdir</definition>
+        <definition>struct dirent * gfal_readdir</definition>
         <argsstring>(DIR *)</argsstring>
         <name>gfal_readdir</name>
         <param>
           <type>DIR *</type>
+          <defname>dir</defname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>read a directory </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred. struct dirent { ino_t d_ino; // inode number off_t d_off; // offset to the next dirent unsigned short d_reclen; // length of this record unsigned char d_type; // type of file; not supported // by all file system types char d_name[256]; // filename };</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file handle ( return by opendir ) to read </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>pointer to struct dirent with file information or NULL if end of list or error ( errno is set ( gfal_posix_error_print() ) ) </para></simplesect>
+<simplesect kind="warning"><para>struct dirents are allocated statically, do not use free() on them</para></simplesect>
+<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>EBADF : incorrecto file descriptor<itemizedlist>
+<listitem><para>ECOMM : Communication error </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="154" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" bodystart="713" bodyend="725"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="154" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="224" bodyend="226"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g34dc6129530d6bf9e5836ef22c0d2792" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -455,8 +502,8 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.<itemizedlist>
-<listitem><para>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
+<listitem><para>ENOTEMPTY : path is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
 </para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
@@ -678,11 +725,11 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="147"><highlight class="normal"></highlight></codeline>
 <codeline lineno="148"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_open64<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>mode_t);</highlight></codeline>
 <codeline lineno="149"><highlight class="normal"></highlight></codeline>
-<codeline lineno="150"><highlight class="normal">DIR<sp/>*gfal_opendir<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">DIR<sp/>*<ref refid="group__posix__group_1g7e6d16651dbce5d684c53f82349e0306" kindref="member">gfal_opendir</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
 <codeline lineno="151"><highlight class="normal"></highlight></codeline>
 <codeline lineno="152"><highlight class="normal">ssize_t<sp/>gfal_read<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t);</highlight></codeline>
 <codeline lineno="153"><highlight class="normal"></highlight></codeline>
-<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent<sp/>*gfal_readdir<sp/>(DIR<sp/>*);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent<sp/>*<ref refid="group__posix__group_1gad7e253fad72213c19e72c02b869ba7e" kindref="member">gfal_readdir</ref><sp/>(DIR<sp/>*);</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
 <codeline lineno="156"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__posix__group_1g34dc6129530d6bf9e5836ef22c0d2792" kindref="member">gfal_rename</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
 <codeline lineno="157"><highlight class="normal"></highlight></codeline>
