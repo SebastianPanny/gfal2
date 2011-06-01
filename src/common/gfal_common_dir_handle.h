@@ -18,7 +18,7 @@
 
 /**
  * @file gfal_common_dir_handle.h
- * @brief handle file for the directory handle management
+ * @brief file for the directory handle management
  * @author Devresse Adrien
  * @version 2.0
  * @date 25/05/2011
@@ -31,4 +31,6 @@
 
 
 gfal_fdesc_container_handle gfal_dir_handle_container_instance(gfal_descriptors_container* fdescs, GError** err);
+
+void gfal_dir_handle_container_delete(gfal_descriptors_container* fdescs);
 
