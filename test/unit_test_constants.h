@@ -185,5 +185,5 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 #define TEST_LOCAL_OPEN_CREATE_COMMAND "echo \" Hello World \" > /tmp/testopen0011 && touch /tmp/testopen0013 && chmod 000 /tmp/testopen0013"
 #define TEST_LOCAL_OPEN_EXIST "file:///tmp/testopen0011"
 #define TEST_LOCAL_OPEN_NOEXIST "file:///tmp/testopen0012"
-#define TEST_LOCAL_OPEN_NOACCESS  "file:///tmp/testopen13"
+#define TEST_LOCAL_OPEN_NOACCESS  "file:///tmp/testopen0013"
 
