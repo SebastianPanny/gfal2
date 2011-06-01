@@ -56,7 +56,8 @@ enum _catalog_mode{
 	GFAL_CATALOG_MKDIR,
 	GFAL_CATALOG_RMDIR,
 	GFAL_CATALOG_OPENDIR,
-	GFAL_CATALOG_OPEN
+	GFAL_CATALOG_OPEN,
+	GFAL_CATALOG_SURL
 	
 };
 
@@ -98,6 +99,8 @@ struct _gfal_catalog_interface{
 
 	 int (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
 	 int (*closeG)(catalog_handle, int fd, GError **);
+	 
+	 char* (*getSURL)(catalog_handle, const char*, GError**);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */

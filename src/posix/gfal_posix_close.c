@@ -50,7 +50,7 @@ static int gfal_posix_file_handle_delete(gfal_fdesc_container_handle container, 
 }
  
 static int gfal_posix_file_handle_close(gfal_handle handle, gfal_file_handle fhandle, GError ** err){
-	g_return_val_err_if_fail(handle && fhandle, -1, err, "[gfal_posix_gfalfilehandle_close] invalid args");
+	g_return_val_err_if_fail(handle && fhandle, -1, err, "[gfal_posix_file_handle_close] invalid args");
 	GError* tmp_err=NULL;
 	int ret = -1;
 	switch(fhandle->module_id){
@@ -93,7 +93,7 @@ int gfal_posix_internal_close(int fd){
 		}		
 	}
 	if(tmp_err){
-		gfal_posix_register_internal_error(handle, "[gfal_close", tmp_err);
+		gfal_posix_register_internal_error(handle, "[gfal_close]", tmp_err);
 		errno = tmp_err->code;
 	}
 	return ret;

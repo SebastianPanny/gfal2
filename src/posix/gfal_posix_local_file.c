@@ -133,6 +133,17 @@ struct dirent* gfal_local_readdir(DIR* d, GError** err){
 	return res;	 	
 }
 
+gfal_file_handle gfal_local_open(const char* path, int flag, mode_t mode, GError** err){
+	errno =0;
+	const int ret = open(path + strlen(GFAL_LOCAL_PREFIX), flag, mode);
+	if(ret <=0){
+		g_set_error(err,0 ,errno , "[%s] errno reported by local system call", __func__, strerror(errno));	
+		return NULL;	
+	}else{
+		return gfal_file_handle_new(GFAL_MODULEID_LOCAL, GINT_TO_POINTER(ret));
+	}
+}
+
 int gfal_local_close(int fd, GError** err){
 	errno =0;
 	const int ret = close(fd);

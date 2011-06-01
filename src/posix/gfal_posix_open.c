@@ -29,16 +29,23 @@
 #include "gfal_posix_internal.h"
 #include "../common/gfal_constants.h"
 #include "../common/gfal_common_errverbose.h"
+#include "../common/gfal_common_file_handle.h"
 
 
+/**
+ *  store a gfal_file_handle in the base, in a key/value model
+ *  @return the key, else 0 if error occured and err is set correctly
+ * */
 static int gfal_posix_file_handle_store(gfal_handle handle, gfal_file_handle fhandle, GError** err){
 	g_return_val_err_if_fail( handle && fhandle, -1, err, "[gfal_posix_file_handle_store] invalid args");
-	/*gfal_fdesc_container_handle container= gfal_dir_handle_container_instance(&(handle->fdescs), &tmp_err);
+	GError* tmp_err=NULL;
+	int key=0;
+	gfal_fdesc_container_handle container= gfal_file_handle_container_instance(&(handle->fdescs), &tmp_err);
 	if(container)
 		key = gfal_add_new_file_desc(container, (gpointer) fhandle, &tmp_err);
 	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);*/
-	return -1;
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return key;
 }
 
 
@@ -51,7 +58,7 @@ gfal_file_handle gfal_posix_catalog_open(gfal_handle handle, const char * path, 
 		
 	}
 	if(!tmp_err)
-*/
+*/	g_set_error(tmp_err, 0, ENOSYS, "not implemented");
 	if(tmp_err)
 		gfal_posix_register_internal_error(handle, "[gfal_open]", tmp_err);	
 	return ret;
@@ -70,7 +77,7 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 	gfal_handle handle;
 	gfal_file_handle fhandle=NULL;
 	int ret= -1;
-	int key = 0;
+	int key = -1;
 
 	if((handle = gfal_posix_instance()) == NULL){
 		errno = EIO;
@@ -80,13 +87,12 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 		g_set_error(&tmp_err, 0, EFAULT, " name is empty");
 	}else{
 		if( gfal_check_local_url(path, NULL) == TRUE){
-			fhandle = 0;
-			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
+			fhandle = gfal_local_open(path, flag, mode, &tmp_err);
 		}else if(gfal_guid_checker(path, NULL) == TRUE){
-			fhandle = 0;
+			fhandle = NULL;
 			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
 		}else if( gfal_surl_checker(path, NULL) == 0 ){
-			fhandle = 0;
+			fhandle = NULL;
 			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
 		}else{
 			fhandle = gfal_posix_catalog_open(handle, path, flag, mode, &tmp_err);
@@ -96,7 +102,7 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 
 	if(fhandle)
 		key = gfal_posix_file_handle_store(handle, fhandle, &tmp_err);
-	
+
 	if(tmp_err){
 		gfal_posix_register_internal_error(handle, "[gfal_open]", tmp_err);
 		errno = tmp_err->code;	
