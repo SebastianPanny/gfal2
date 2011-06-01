@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "31 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "1 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -46,7 +46,7 @@
 
 .in +1c
 .ti -1c
-.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP }"
+.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_SURL\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -85,6 +85,9 @@
 .br
 .ti -1c
 .RI "int \fBgfal_catalog_closedirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_closeG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
 .br
 .ti -1c
 .RI "dirent * \fBgfal_catalog_readdirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
@@ -147,7 +150,10 @@ Devresse Adrien
 .PP 
 .SS "int gfal_catalog_closedirG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
 .PP
-close the given file Handle while contacting the proper catalog 
+close the given dir handle in the proper catalog 
+.SS "int gfal_catalog_closeG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
+.PP
+close the fiven file handle in the proper catalog 
 .SS "int gfal_catalog_lstatG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 Execute a lstat function in the lfc 

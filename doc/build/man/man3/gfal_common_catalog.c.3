@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "31 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "1 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -63,6 +63,9 @@
 .RI "int \fBgfal_catalog_closedirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_catalog_closeG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
+.br
+.ti -1c
 .RI "dirent * \fBgfal_catalog_readdirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
 .br
 .ti -1c
@@ -107,7 +110,10 @@ Execute the chmod function on the first compatible catalog ( checked with check_
 
 .SS "int gfal_catalog_closedirG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
 .PP
-close the given file Handle while contacting the proper catalog 
+close the given dir handle in the proper catalog 
+.SS "int gfal_catalog_closeG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
+.PP
+close the fiven file handle in the proper catalog 
 .SS "int gfal_catalog_lstatG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 Execute a lstat function in the lfc 

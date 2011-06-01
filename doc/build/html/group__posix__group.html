@@ -252,13 +252,13 @@ gfal_closedir - close a directory
           <td class="memname">int gfal_creat           </td>
           <td>(</td>
           <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>filename</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">mode_t&nbsp;</td>
-          <td class="paramname"> <em>mode</em></td><td>&nbsp;</td>
+          <td class="paramname"></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -272,13 +272,19 @@ gfal_closedir - close a directory
 <p>
 creates a new file or truncates an existing one 
 <p>
-int gfal_closedir (DIR *dir){ struct dir_info *di; int rc;<p>
-di = find_di (dir);<p>
-if (di == NULL || di-&gt;pops == NULL) { return -1; }<p>
-rc = di-&gt;pops-&gt;closedir (dir);<p>
-if (rc &lt; 0) { errno = di-&gt;pops-&gt;maperror (di-&gt;pops, 0); }<p>
-if (strcmp (di-&gt;pops-&gt;proto_name, "lfc") == 0) free (di-&gt;pops);<p>
-free_di (di); return (rc); } 
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>filename</em>&nbsp;</td><td>specifies the file name: either a logical file name, a guid, an SURL or a TURL </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>is used only if the file is created </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately<ul>
+<li>ERRNO list : <br>
+<ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</li><li>EFAULT: path is a NULL pointer.</li><li>EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream</li><li>ENOTDIR: A component of path prefix is not a directory.</li><li>EINVAL: path has an invalid syntax or amode is invalid.</li><li>ECOMM: Communication error.</li><li>EPROTONOSUPPORT: Access method not supported. </li></ul>
+</li></ul>
+</dd></dl>
+
 </div>
 </div><p>
 <a class="anchor" name="g8ba4e1df5f2e6439641c56f245d5ce73"></a><!-- doxytag: member="POSIX_API.c::gfal_lseek" ref="g8ba4e1df5f2e6439641c56f245d5ce73" args="(int, off_t, int)" -->
@@ -639,7 +645,7 @@ informations about a file These functions return information about a file. No pe
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 31 15:54:45 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Jun 1 16:30:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

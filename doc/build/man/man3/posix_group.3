@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "31 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "1 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -229,23 +229,45 @@ ECOMM : Communication error
 
 .PP
 
-.SS "int gfal_creat (const char * filename, mode_t mode)"
+.SS "int gfal_creat (const char *, mode_t)"
 .PP
 creates a new file or truncates an existing one 
 .PP
-int gfal_closedir (DIR *dir){ struct dir_info *di; int rc;
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP specifies the file name: either a logical file name, a guid, an SURL or a TURL 
+.br
+\fImode\fP is used only if the file is created 
+.RE
 .PP
-di = find_di (dir);
+\fBReturns:\fP
+.RS 4
+This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately
+.IP "\(bu" 2
+ERRNO list : 
+.br
+.IP "  \(bu" 4
+ENOENT: The named file/directory does not exist.
+.IP "  \(bu" 4
+EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
+.IP "  \(bu" 4
+EFAULT: path is a NULL pointer.
+.IP "  \(bu" 4
+EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream
+.IP "  \(bu" 4
+ENOTDIR: A component of path prefix is not a directory.
+.IP "  \(bu" 4
+EINVAL: path has an invalid syntax or amode is invalid.
+.IP "  \(bu" 4
+ECOMM: Communication error.
+.IP "  \(bu" 4
+EPROTONOSUPPORT: Access method not supported. 
 .PP
-if (di == NULL || di->pops == NULL) { return -1; }
+
 .PP
-rc = di->pops->closedir (dir);
+.RE
 .PP
-if (rc < 0) { errno = di->pops->maperror (di->pops, 0); }
-.PP
-if (strcmp (di->pops->proto_name, 'lfc') == 0) free (di->pops);
-.PP
-free_di (di); return (rc); } 
+
 .SS "off_t gfal_lseek (int, off_t, int)"
 .PP
 gfal_lseek - position a file 

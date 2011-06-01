@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "31 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "1 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -57,6 +57,12 @@
 .br
 .ti -1c
 .RI "dirent * \fBgfal_local_readdir\fP (DIR *d, GError **err)"
+.br
+.ti -1c
+.RI "gfal_file_handle \fBgfal_local_open\fP (const char *path, int flag, mode_t mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_local_close\fP (int fd, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_local_rmdir\fP (const char *path, GError **err)"

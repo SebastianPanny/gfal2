@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c" 3 "31 May 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c" 3 "1 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,10 +12,19 @@
 .br
 \fC#include 'gfal_posix_internal.h'\fP
 .br
+\fC#include '../common/gfal_constants.h'\fP
+.br
+\fC#include '../common/gfal_common_errverbose.h'\fP
+.br
+\fC#include '../common/gfal_common_file_handle.h'\fP
+.br
 
 .SS "Functions"
 
 .in +1c
+.ti -1c
+.RI "gfal_file_handle \fBgfal_posix_catalog_open\fP (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)"
+.br
 .ti -1c
 .RI "int \fBgfal_posix_internal_open\fP (const char *path, int flag, mode_t mode)"
 .br

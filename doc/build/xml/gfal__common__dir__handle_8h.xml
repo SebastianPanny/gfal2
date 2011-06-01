@@ -9,54 +9,54 @@
     <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
     <includedby refid="gfal__posix__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</includedby>
     <incdepgraph>
-      <node id="237">
+      <node id="239">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="238" relation="include">
+        <childnode refid="240" relation="include">
         </childnode>
       </node>
-      <node id="235">
+      <node id="237">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h</label>
         <link refid="gfal_common_dir_handle.h"/>
-        <childnode refid="236" relation="include">
+        <childnode refid="238" relation="include">
         </childnode>
-        <childnode refid="237" relation="include">
+        <childnode refid="239" relation="include">
         </childnode>
       </node>
-      <node id="238">
+      <node id="240">
         <label>glib.h</label>
       </node>
-      <node id="236">
+      <node id="238">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="241">
+      <node id="243">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
         <link refid="gfal__posix__closedir_8c"/>
       </node>
-      <node id="243">
+      <node id="245">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
         <link refid="gfal__posix__readdir_8c"/>
       </node>
-      <node id="240">
+      <node id="242">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</label>
         <link refid="gfal__common__dir__handle_8c"/>
       </node>
-      <node id="239">
+      <node id="241">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h</label>
         <link refid="gfal_common_dir_handle.h"/>
-        <childnode refid="240" relation="include">
-        </childnode>
-        <childnode refid="241" relation="include">
-        </childnode>
         <childnode refid="242" relation="include">
         </childnode>
         <childnode refid="243" relation="include">
         </childnode>
+        <childnode refid="244" relation="include">
+        </childnode>
+        <childnode refid="245" relation="include">
+        </childnode>
       </node>
-      <node id="242">
+      <node id="244">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
         <link refid="gfal__posix__opendir_8c"/>
       </node>
@@ -83,9 +83,26 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h" line="33" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c" bodystart="43" bodyend="53"/>
       </memberdef>
+      <memberdef kind="function" id="gfal__common__dir__handle_8h_1266f240b644154dade8bdb39e4c20efc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gfal_dir_handle_container_delete</definition>
+        <argsstring>(gfal_descriptors_container *fdescs)</argsstring>
+        <name>gfal_dir_handle_container_delete</name>
+        <param>
+          <type>gfal_descriptors_container *</type>
+          <declname>fdescs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h" line="35" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c" bodystart="55" bodyend="58"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
-<para>handle file for the directory handle management </para>    </briefdescription>
+<para>file for the directory handle management </para>    </briefdescription>
     <detaileddescription>
 <para><simplesect kind="author"><para>Devresse Adrien </para></simplesect>
 <simplesect kind="version"><para>2.0 </para></simplesect>
@@ -117,6 +134,8 @@
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal">gfal_fdesc_container_handle<sp/><ref refid="gfal__common__dir__handle_8c_10973d623e1abd39d0830739b0710512f" kindref="member">gfal_dir_handle_container_instance</ref>(gfal_descriptors_container*<sp/>fdescs,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_dir_handle_container_delete(gfal_descriptors_container*<sp/>fdescs);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h"/>
   </compounddef>

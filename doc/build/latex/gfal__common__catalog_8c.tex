@@ -38,6 +38,8 @@ gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-opendir\-G} (gfal\_\-handle handle
 \item 
 int \bf{gfal\_\-catalog\_\-closedir\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
 \item 
+int \bf{gfal\_\-catalog\_\-close\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
+\item 
 dirent $\ast$ \bf{gfal\_\-catalog\_\-readdir\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_4955825d7c275f3dfae9a57232642370}
@@ -71,7 +73,12 @@ Execute the chmod function on the first compatible catalog ( checked with check\
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-closedir\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_348fe15690faed2e2731d15eb6cc7856}
 
 
-close the given file Handle while contacting the proper catalog \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}}
+close the given dir handle in the proper catalog \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_closeG@{gfal\_\-catalog\_\-closeG}}
+\index{gfal_catalog_closeG@{gfal\_\-catalog\_\-closeG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-close\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_27712f4ef0fd4a8d3d5b63b90936d295}
+
+
+close the fiven file handle in the proper catalog \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}}
 \index{gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-lstat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_1ad1b1f96272dbf43a15e7ea5d35389d}
 

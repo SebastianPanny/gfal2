@@ -56,6 +56,8 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_operatio
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#348fe15690faed2e2731d15eb6cc7856">gfal_catalog_closedirG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#27712f4ef0fd4a8d3d5b63b90936d295">gfal_catalog_closeG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#9ba0d48d73fe53d42d3a715e57473adb">gfal_catalog_readdirG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4955825d7c275f3dfae9a57232642370"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_resolve_guid" ref="4955825d7c275f3dfae9a57232642370" args="(gfal_handle handle, const char *guid, GError **err)" -->
@@ -146,7 +148,42 @@ Execute the chmod function on the first compatible catalog ( checked with check_
 <div class="memdoc">
 
 <p>
-close the given file Handle while contacting the proper catalog 
+close the given dir handle in the proper catalog 
+</div>
+</div><p>
+<a class="anchor" name="27712f4ef0fd4a8d3d5b63b90936d295"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_closeG" ref="27712f4ef0fd4a8d3d5b63b90936d295" args="(gfal_handle handle, gfal_file_handle fh, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_closeG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+close the fiven file handle in the proper catalog 
 </div>
 </div><p>
 <a class="anchor" name="1ad1b1f96272dbf43a15e7ea5d35389d"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_lstatG" ref="1ad1b1f96272dbf43a15e7ea5d35389d" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
@@ -576,7 +613,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue May 31 15:54:45 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Jun 1 16:30:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
