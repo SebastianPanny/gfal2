@@ -56,6 +56,7 @@ enum _catalog_mode{
 	GFAL_CATALOG_MKDIR,
 	GFAL_CATALOG_RMDIR,
 	GFAL_CATALOG_OPENDIR,
+	GFAL_CATALOG_OPEN
 	
 };
 
@@ -89,22 +90,14 @@ struct _gfal_catalog_interface{
 	 * function pointer for the mkdir call, if pflag is set, the call is considered like a recursive call for a full path creation
 	 * */
 	int (*mkdirpG)(catalog_handle, const char*, mode_t, gboolean pflag, GError**);
-	/**
-	 * function pointer to the rmdir call
-	 */
 	int (*rmdirG )(catalog_handle, const char*, GError**);
-	/**
-	 * function pointer to the opendir call
-	 * */
-	 DIR* (*opendirG)(catalog_handle, const char*, GError**);
-	 /**
-	  *  function pointer to the closedir call
-	  */ 
+
+	 DIR* (*opendirG)(catalog_handle, const char*, GError**); 
 	 int (*closedirG)(catalog_handle, DIR*, GError**);
-	 /**
-	  *  function pointer to the readdir call
-	  * */
 	 struct dirent* (*readdirG)(catalog_handle, DIR*, GError**);
+
+	 int (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
+	 int (*closeG)(catalog_handle, int fd, GError **);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */
@@ -152,6 +145,8 @@ char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** e
 gfal_file_handle gfal_catalog_opendirG(gfal_handle handle, const char* name, GError** err);
 
 int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err);
+
+int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
 
 struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GError** err);
  	

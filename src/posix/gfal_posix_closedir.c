@@ -52,7 +52,7 @@ static int gfal_posix_dir_handle_delete(gfal_fdesc_container_handle container, i
 	return ret;
 }
 
-static int gfal_posix_gfalfilehandle_close(gfal_handle handle, gfal_file_handle fh, GError** err){
+static int gfal_posix_dir_handle_close(gfal_handle handle, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_posix_gfalfilehandle_close] invalid args");
 	GError *tmp_err=NULL;
 	int ret = -1;
@@ -88,7 +88,7 @@ int gfal_posix_internal_closedir(DIR* d){
 		int key = GPOINTER_TO_INT(d);
 		gfal_file_handle fh = gfal_file_handle_bind(container, key, &tmp_err);
 		if( fh != NULL){
-			ret = gfal_posix_gfalfilehandle_close(handle, fh, &tmp_err);
+			ret = gfal_posix_dir_handle_close(handle, fh, &tmp_err);
 			if(ret==0){
 				ret = gfal_posix_dir_handle_delete(container, key, &tmp_err);
 			}

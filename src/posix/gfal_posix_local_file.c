@@ -133,6 +133,15 @@ struct dirent* gfal_local_readdir(DIR* d, GError** err){
 	return res;	 	
 }
 
+int gfal_local_close(int fd, GError** err){
+	errno =0;
+	const int ret = close(fd);
+	if(fd !=0){
+		g_set_error(err,0 ,errno , "[%s] errno reported by local system call", __func__, strerror(errno));		
+	}
+	return ret;
+}
+
 
 /**
  * local rmdir mapper
