@@ -28,6 +28,7 @@
 #include "../common/gfal_types.h"
 #include "gfal_posix_internal.h"
 #include "../common/gfal_constants.h"
+#include "../common/gfal_common_errverbose.h"
 
 
 static int gfal_posix_file_handle_store(gfal_handle handle, gfal_file_handle fhandle, GError** err){
@@ -45,12 +46,12 @@ gfal_file_handle gfal_posix_catalog_open(gfal_handle handle, const char * path, 
 	char surl[GFAL_URL_MAX_LEN+1];
 	GError* tmp_err=NULL;
 	gfal_file_handle ret = NULL;
-	if( gfal_catalog_pathToSURL(handle, path, flag, mode, surl, &tmp_err) == 0){
+/*	if( gfal_catalog_pathToSURL(handle, path, flag, mode, surl, &tmp_err) == 0){
 		
 		
 	}
 	if(!tmp_err)
-
+*/
 	if(tmp_err)
 		gfal_posix_register_internal_error(handle, "[gfal_open]", tmp_err);	
 	return ret;
