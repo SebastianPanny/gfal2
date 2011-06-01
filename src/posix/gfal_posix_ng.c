@@ -245,6 +245,11 @@ int gfal_open(const char * path, int flag, mode_t mode){
 	return gfal_posix_internal_open(path, flag, mode);
 }
 
+int gfal_close(int fd){
+	return gfal_posix_internal_close(fd);
+}
+
+
 /**
  * Display the last string error reported by the gfal error system for the posix API
  * Errors are printed on stderr

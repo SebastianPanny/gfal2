@@ -226,7 +226,7 @@ int gfal_chmod (const char *path, mode_t mode){
 }*/
 
 
-
+/*
 int gfal_close (int fd){
     int rc;
     int sav_errno = 0;
@@ -238,11 +238,11 @@ int gfal_close (int fd){
     if ((rc = xi->pops->close (fd)) < 0)
         sav_errno = xi->pops->maperror (xi->pops, 1);
 
-    /* set status "done" */
+    // set status "done" 
     if (xi->gfile && xi->gfile->gobj)
         gfal_set_xfer_done (xi->gfile->gobj, NULL, 0);
 
-    /* set the size for a (new) lfn */
+    // set the size for a (new) lfn 
     if (xi->size >= 0 && xi->gfile && xi->gfile->lfn) {
         char *cat_type = NULL;
         int islfc;
@@ -263,10 +263,10 @@ int gfal_close (int fd){
     errno = sav_errno;
     return (rc);
 }
+*/
 
 
-
-/**
+/*
 int gfal_closedir (DIR *dir){
     struct dir_info *di;
     int rc;
