@@ -30,6 +30,7 @@
 #include "../common/gfal_constants.h"
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_file_handle.h"
+#include "gfal_posix_local_file.h"
 
 
 /**
@@ -58,7 +59,7 @@ gfal_file_handle gfal_posix_catalog_open(gfal_handle handle, const char * path, 
 		
 	}
 	if(!tmp_err)
-*/	g_set_error(tmp_err, 0, ENOSYS, "not implemented");
+*/	g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
 	if(tmp_err)
 		gfal_posix_register_internal_error(handle, "[gfal_open]", tmp_err);	
 	return ret;
