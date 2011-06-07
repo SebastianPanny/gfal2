@@ -57,7 +57,7 @@ enum _catalog_mode{
 	GFAL_CATALOG_RMDIR,
 	GFAL_CATALOG_OPENDIR,
 	GFAL_CATALOG_OPEN,
-	GFAL_CATALOG_SURL
+	GFAL_CATALOG_GETSURL
 	
 };
 
@@ -100,7 +100,7 @@ struct _gfal_catalog_interface{
 	 int (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
 	 int (*closeG)(catalog_handle, int fd, GError **);
 	 
-	 char* (*getSURL)(catalog_handle, const char*, GError**);
+	 GList* (*getSURL)(catalog_handle, const char*, GError**);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */
@@ -150,6 +150,8 @@ gfal_file_handle gfal_catalog_opendirG(gfal_handle handle, const char* name, GEr
 int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err);
 
 int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
+
+GList* gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err);
 
 struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GError** err);
  	

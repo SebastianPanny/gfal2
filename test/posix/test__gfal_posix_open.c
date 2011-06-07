@@ -73,3 +73,12 @@ START_TEST(test_open_posix_lfc_simple)
 	
 }
 END_TEST
+
+
+START_TEST(test_open_posix_srm_simple)
+{
+
+	fail(" not implemented");	
+	
+}
+END_TEST

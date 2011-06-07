@@ -328,7 +328,19 @@ int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err
 }
 
 /**
- *  close the fiven file handle in the proper catalog
+ * 
+ *  open the file specified by path on the proper catalog with the specified flag and mode
+ * */
+gfal_file_handle gfal_catalog_openG(gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err){
+	GError* tmp_err=NULL;
+	g_set_error(&tmp_err,0, ENOSYS, "not implemented");
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return NULL;
+}
+
+/**
+ *  close the given file handle in the proper catalog
  * */
 int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail(handle && fh, -1,err, "[gfal_catalog_closeG] Invalid args ");	
@@ -354,6 +366,29 @@ struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GE
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 
+}
+
+/**
+ * Resolve a link on the catalog to a list of surl
+ * @return pointer to GList with all the surls, if no catalog can resolve, NULL pointer, else if error, NULL pointer and err is set
+ * @warning must be free with g_list_free_full
+ */
+GList* gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err){
+	GError* tmp_err=NULL;
+	GList* list = NULL;
+	
+	gboolean getSURL_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_GETSURL, terr);
+	}	
+	int getSURL_executor(gfal_catalog_interface* cata_list, GError** terr){
+		list= cata_list->getSURL(cata_list->handle, path, terr);
+		return (list)?0:-1;
+	}
+	
+	gfal_catalogs_operation_executor(handle, &getSURL_checker, &getSURL_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
+	return list;
 }
 
 /***

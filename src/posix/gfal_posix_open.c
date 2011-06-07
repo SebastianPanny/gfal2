@@ -25,11 +25,13 @@
  * */
 
 #include <glib.h>
+#include <stdlib.h>
 #include "../common/gfal_types.h"
 #include "gfal_posix_internal.h"
 #include "../common/gfal_constants.h"
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_file_handle.h"
+#include "../common/gfal_common_catalog.h"
 #include "gfal_posix_local_file.h"
 
 
@@ -49,17 +51,23 @@ static int gfal_posix_file_handle_store(gfal_handle handle, gfal_file_handle fha
 	return key;
 }
 
-
-gfal_file_handle gfal_posix_catalog_open(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err){
-	char surl[GFAL_URL_MAX_LEN+1];
+/**
+ * Try to resolve the file to a surl link, if fail try to open directly on the catalog layer
+ *  @return pointer to file handle if success else error
+ * 
+ */ 
+static gfal_file_handle gfal_posix_catalog_open(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err){
+	GList* res_surl=NULL;
 	GError* tmp_err=NULL;
 	gfal_file_handle ret = NULL;
-/*	if( gfal_catalog_pathToSURL(handle, path, flag, mode, surl, &tmp_err) == 0){
+	if( (res_surl = gfal_catalog_getSURL(handle, path, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
 		
-		
+		g_set_error(&tmp_err, 0, ENOSYS, "not implemented");		
+		g_list_free_full(res_surl, free);	
+	}else if(!tmp_err){ // try std open on the catalogs
+		ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
 	}
-	if(!tmp_err)
-*/	g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
+
 	if(tmp_err)
 		gfal_posix_register_internal_error(handle, "[gfal_open]", tmp_err);	
 	return ret;
