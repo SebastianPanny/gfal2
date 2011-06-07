@@ -10,7 +10,8 @@
 #include "gfal_common_internal.h"
 #include "../unit_test_constants.h"
 #include "mds/gfal_common_mds.h"
-
+#include <regex.h>
+#include <time.h> 
 
 
 START_TEST (test_create_srm_handle)
@@ -581,6 +582,50 @@ START_TEST(test_full_gfal_get_request)
 	g_list_free_full(list_resu_err,free); 
 	g_list_free_full(list_resu,free); 
 	gfal_handle_freeG(handle);
+}
+END_TEST
+
+START_TEST(test_gfal_get_request_struct)
+{
+	GError *err = NULL;
+	gfal_handle handle = NULL; 
+	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);
+	gfal_srm_result* results=NULL;
+	
+	handle = gfal_initG(&err);
+	if(handle == NULL){
+		fail("fail to init handle");
+		return;
+	}		
+	int ret = gfal_get_asyncG(handle, list, &err);
+	if(ret <0){
+		fail(" this request must be a success, valid surl");
+		gfal_release_GError(&err);
+		return;
+	}
+	ret=  gfal_wait_async_requestG(handle, 5, &err);
+	if(ret ){
+		fail(" the request must finished correctly");
+		gfal_release_GError(&err);
+		gfal_handle_freeG(handle);
+		return;
+	}
+	ret = gfal_get_async_results_structG(handle, &results, &err);
+	if(err || ret != g_list_length(list) || results == NULL ){
+		fail( " error must not occured");
+		gfal_release_GError(&err);
+		gfal_handle_freeG(handle);
+		return;			
+	}
+	int i;
+	for(i=0 ; i< ret; ++i){
+		fail_if( results->err_code !=0, "fail must be a valid request : %d ", results->err_code );
+		fail_if( *(results->err_str)  != 0, "fail, must be an empty error string : %s", results->err_str);
+		fail_if( strncmp(results->turl,TEST_SRM_TURL_EXAMPLE1,1024)!=0, "fail, must be a valid turl : %s %s ", results->turl, TEST_SRM_TURL_EXAMPLE1);
+	}
+	free(results);
+	return;
+
 }
 END_TEST
 

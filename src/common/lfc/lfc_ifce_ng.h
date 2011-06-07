@@ -83,3 +83,5 @@ int gfal_lfc_convert_statg(struct stat* output, struct lfc_filestatg* input, GEr
 
 int gfal_lfc_ifce_mkdirpG(struct lfc_ops* ops,const char* path, mode_t mode, gboolean pflag, GError**  err);
 
+char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err);
+

@@ -61,7 +61,8 @@ START_TEST(test_open_posix_local_simple)
 		fail("must be a non accessible file %d %d %d", ret, gfal_posix_code_error(), errno);
 		gfal_posix_release_error();
 		return;
-	}	
+	}
+	gfal_posix_clear_error();	
 }
 END_TEST
 
@@ -100,17 +101,17 @@ START_TEST(test_open_posix_srm_simple)
 	gfal_posix_clear_error();
 	fd = gfal_open(TEST_SRM_OPEN_NOEXIST, O_RDONLY, 555);
 	if(fd >0 || gfal_posix_code_error() != ENOENT || errno != ENOENT ){
-		fail(" must be a non existing file %d %d %d", ret, gfal_posix_code_error(), errno);
+		fail(" must be a non existing file %d %d %d", fd, gfal_posix_code_error(), errno);
 		gfal_posix_release_error();
 		return;
 	}		
-	gfal_posix_clear_error();
+	/*gfal_posix_clear_error();
 	fd = gfal_open(TEST_SRM_OPEN_NOACCESS, O_RDONLY, 555);
 	if(fd >0 || gfal_posix_code_error() != EACCES || errno != EACCES ){
-		fail("must be a non accessible file %d %d %d", ret, gfal_posix_code_error(), errno);
+		fail("must be a non accessible file %d %d %d", fd, gfal_posix_code_error(), errno); --> NOACCESS cannot be checked on srm
 		gfal_posix_release_error();
 		return;
-	}
+	}*/
 	
 }
 END_TEST

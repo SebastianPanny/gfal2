@@ -29,6 +29,7 @@
  // opts SRM
 typedef struct _gfal_request_state gfal_request_state; 
 typedef struct _gfal_srmv2_opt gfal_srmv2_opt; 
+typedef struct _gfal_srm_result gfal_srm_result;
 
 
  // catalog 

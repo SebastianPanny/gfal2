@@ -24,6 +24,9 @@
  * */
  
  #define _GNU_SOURCE 
+
+#include <regex.h>
+#include <time.h> 
  
 #include "gfal_common_srm.h"
 #include "gfal_common_internal.h"
@@ -570,7 +573,7 @@ gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err)
 }
 
 /**
- * get the result to the last get_async request
+ * @brief get the result to the last get_async request
  * @return return the number of response in turls or negative value if error
  * @param handle : handle of the current context
  * @param GList** turls : GList<char*> turls with the full list of answer, an answer with error is a NULL pointer
@@ -588,7 +591,7 @@ int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err){
 }
 
   /**
-  * @brief string of each request errcode
+  * @brief get the error string of each request 
   * @param handle
   * @param turl_errcode : GList<char*>, give a string error for each turl request, char* can be NULL if no error associated
   * @return return number of request turl if success else return negative value
@@ -601,15 +604,56 @@ int gfal_get_async_results_errstringG(gfal_handle handle, GList** turls_errstrin
 	if( ret <0)
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_results_errstringG]");
 	return ret;
-  }
-  
+ }
+
+
+/**
+ * convert the results in a struct gfal_srm_result struct
+ * 
+ */
+void gfal_srm_to_srm_result(char * turl, int err_code, char* err_string, gfal_srm_result* result){
+	memset(result,0, sizeof(struct _gfal_srm_result));
+	if(turl)
+		g_strlcpy(result->turl,turl, GFAL_URL_MAX_LEN);
+	result->err_code = err_code;
+	if(err_string)
+		g_strlcpy(result->err_str, err_string, GFAL_ERRMSG_LEN);
+}
+ 
+/**
+ * @brief get
+ * @param handle
+ * @param tab_struct : struct gfal_srm_result*, give a table of a struct gfal_srm_result
+ * @return return number of results in table if success else return negative value
+ * @warning the *tab_struct need to be free() 
+ * */
+int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_struct, GError** err){
+	g_return_val_err_if_fail(handle && tab_struct , -1, err, "[gfal_get_async_results_errstringG] arg invalid value");	
+	int ret = -1,i;
+	GError * tmp_err=NULL;
+	GList* resu=NULL, *err_code=NULL, *err_string=NULL;
+	ret = gfal_convert_filestatut(handle, &resu, &err_code, &err_string, &tmp_err);
+	if(ret >0 && !tmp_err){
+		*tab_struct = malloc(sizeof(struct _gfal_srm_result)*ret);
+		GList* tmp_resu = resu, *tmp_err_code= err_code, *tmp_err_string = err_string;
+		for(i=0; i<ret; ++i, tmp_resu = g_list_next(tmp_resu), tmp_err_code = g_list_next(tmp_err_code), tmp_err_string = g_list_next(tmp_err_string))
+			gfal_srm_to_srm_result(tmp_resu->data, GPOINTER_TO_INT(tmp_err_code->data), tmp_err_string->data, (*tab_struct)+i);
+			
+		g_list_free_full(resu,free);
+		g_list_free_full(err_string,free);
+		g_list_free(err_code);
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_results_errstringG]");
+	return ret;	
+}  
   
 /**
  * @brief wait for the current request
  * @param handle
  * @param timeout : maximum time to wait before error
  * @param err : Error report system
- *  @return return 0 if finished correctly, return 1 if timeout is reached, return -1 if error
+ *  @return return 0 if finished correctly, return -1 if timeout is reached or if error ( err is set )
  */
  int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err){
 	 time_t timeo = time(NULL) + timeout;
@@ -619,11 +663,12 @@ int gfal_get_async_results_errstringG(gfal_handle handle, GList** turls_errstrin
 		 if(  gfal_async_request_is_finishedG(handle, &tmp_err)  == TRUE)
 			return 0;
 		 if(tmp_err){
-			g_propagate_prefixed_error(err,tmp_err,"[gfal_wait_async_requestG]");
-			return 1;
+			g_propagate_prefixed_error(err,tmp_err,"[%s]",__func__);
+			return -1;
 		}
 		usleep(uswait<<=1);
 	 }
+	 g_set_error(err, 0, ETIME, "[%s] timeout expired : %d ", __func__, timeout);
 	 return -1;
  }
  

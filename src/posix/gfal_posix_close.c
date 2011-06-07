@@ -55,7 +55,10 @@ static int gfal_posix_file_handle_close(gfal_handle handle, gfal_file_handle fha
 	int ret = -1;
 	switch(fhandle->module_id){
 		case GFAL_MODULEID_LOCAL:
-			ret = gfal_local_close(fhandle->fdesc, &tmp_err);
+			ret = gfal_local_close(fhandle, &tmp_err);
+			break;
+		case GFAL_MODULEID_SRM:
+			ret = gfal_srm_closeG(fhandle, &tmp_err);
 			break;
 		case GFAL_EXTERNAL_MODULE_OFFSET:
 			ret = gfal_catalog_closeG(handle, fhandle, &tmp_err);

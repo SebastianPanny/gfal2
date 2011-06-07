@@ -221,6 +221,43 @@ GError * tmp_err=NULL;
 }
 END_TEST
 
+START_TEST(test_gfal_common_lfc_getSURL)
+{
+	GError * tmp_err=NULL;
+	char** ret =NULL;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		fail("error must be initiated");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	if(tmp_err){
+		fail("must be a valid init");
+		gfal_release_GError(&tmp_err);
+		return;
+	}	
+	ret = i.getSURLG(i.handle, TEST_LFC_VALID_ACCESS, &tmp_err);
+	if(ret == NULL || tmp_err){
+		g_printerr(" errno : %s ", strerror(tmp_err->code));
+		fail("must be a successfull convert");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	char** p = ret;
+	while(*p != NULL){
+		fail_if( strncmp(*p,"srm://",6) !=0, " begin of the surl is incorrect : %s ", p);
+		p++;
+	}
+	g_strfreev(ret);
+	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
+	free(op->lfc_endpoint);
+	free(op);	
+	gfal_handle_freeG(handle);	
+	
+}
+END_TEST
+
 
 START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 {

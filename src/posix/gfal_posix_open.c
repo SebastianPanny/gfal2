@@ -59,16 +59,17 @@ static int gfal_posix_file_handle_store(gfal_handle handle, gfal_file_handle fha
  * 
  */ 
 static gfal_file_handle gfal_posix_catalog_open(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err){
-	GList* res_surl=NULL;
+	char** res_surl=NULL;
 	GError* tmp_err=NULL;
 	gfal_file_handle ret = NULL;
 	if( (res_surl = gfal_catalog_getSURL(handle, path, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
-		
-		g_set_error(&tmp_err, 0, ENOSYS, "not implemented");		
-		g_list_free_full(res_surl, free);	
-	}else if(!tmp_err){ // try std open on the catalogs
-		g_set_error(&tmp_err, 0, ENOSYS, "not implemented");		
-		//ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
+		if(gfal_surl_checker(path, NULL) == 0 )
+			ret = gfal_srm_openG(handle, res_url, flag, mode, &tmp_err);
+		else
+			g_set_error(&tmp_err, 0, ECOMM, "bad surl value retrived from catalog : %s ", res_surl);
+		g_strfreev(res_surl);
+	}else if(!tmp_err){ // try std open on the catalogs		
+		ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
 	}
 
 	if(tmp_err)

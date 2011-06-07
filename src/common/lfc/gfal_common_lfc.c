@@ -240,6 +240,21 @@ static int lfc_closedirG(catalog_handle handle, DIR* d, GError** err){
 }
 
 /**
+ * resolve the lfc link to the surls
+ */
+static char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err){
+	g_return_val_err_if_fail( handle && path , -1, err, "[lfc_getSURLG] Invalid value in args handle/path");
+	GError* tmp_err=NULL;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	char * lfn = lfc_urlconverter(path,  GFAL_LFC_PREFIX);
+	char** resu = gfal_lfc_getSURL(ops, lfn, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	free(lfn);
+	return resu;
+}
+
+/**
  * Convert a guid to a catalog url if possible
  *  return the link in a catalog's url string or err and NULL if not found
  */
@@ -298,6 +313,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 	lfc_catalog.opendirG = &lfc_opendirG;
 	lfc_catalog.closedirG = &lfc_closedirG;
 	lfc_catalog.readdirG = &lfc_readdirG;
+	lfc_catalog.getSURLG = lfc_getSURLG;
 	return lfc_catalog;
 }
 

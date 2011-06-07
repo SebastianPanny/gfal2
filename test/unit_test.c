@@ -68,6 +68,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_cata, test_catalog_guid_resolve);
   tcase_add_test(tc_cata, test__catalog_stat);
   tcase_add_test(tc_cata, test__catalog_lstat);
+  tcase_add_test(tc_cata, test_gfal_common_lfc_getSURL);
   suite_add_tcase (s, tc_cata);
   // voms /
   TCase *tc_voms = tcase_create ("Voms");
@@ -100,6 +101,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_srm, test_full_gfal_get_request);
   tcase_add_test(tc_srm, test_gfal_async_results_errcode);
   tcase_add_test(tc_srm, test_full_gfal_get_request_multi);  
+  tcase_add_test(tc_srm, test_gfal_get_request_struct);
   suite_add_tcase (s, tc_srm);
   TCase* tc_srm_access= tcase_create("SRM_ACCESS");
   tcase_add_test(tc_srm_access, test_create_srm_access_check_file);

@@ -348,4 +348,26 @@ int gfal_lfc_ifce_mkdirpG(struct lfc_ops* ops,const char* path, mode_t mode, gbo
 		errno = 0;
 	return ret;
 }
+/**
+ * return a list of surls from a getreplica request
+ * 
+ */
+char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err){
+	struct lfc_filereplica* list = NULL;
+	char **replicas = NULL;
+	int size=0,i;
+	
+	if (ops->getreplica (path, NULL, NULL, &size, &list) < 0) {
+		errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err, 0, errno, "[%s] error reported from lfc : %s", __func__, ops->sstrerror (*ops->serrno));
+		return NULL;
+	}
+	replicas = malloc( sizeof(char)* (size+1));
+	replicas[size]= NULL;
+	for(i=0; i< size; ++i){
+		replicas[i] = strndup(list[i].sfn, GFAL_URL_MAX_LEN);
+	}
+	return replicas;
+	
+}
 

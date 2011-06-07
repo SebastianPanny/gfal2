@@ -100,7 +100,7 @@ struct _gfal_catalog_interface{
 	 int (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
 	 int (*closeG)(catalog_handle, int fd, GError **);
 	 
-	 GList* (*getSURL)(catalog_handle, const char*, GError**);
+	 char** (*getSURLG)(catalog_handle, const char*, GError**);
 	/**
 	 * return a valid url if is able to resolve the guid or return NULL pointer
 	 */
@@ -151,7 +151,8 @@ int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err
 
 int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
 
-GList* gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err);
+char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err);
+
 
 struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GError** err);
  	

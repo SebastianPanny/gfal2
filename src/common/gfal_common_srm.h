@@ -25,17 +25,22 @@
  * */
 
 
- 
+
 #include "gfal_types.h"
 #include "gfal_common_internal.h"
-#include <regex.h>
-#include <time.h>
+#include "gfal_prototypes.h"
+#include "gfal_constants.h"
+
 
 #define GFAL_PREFIX_SRM "srm://"
 #define GFAL_ENDPOINT_DEFAULT_PREFIX "httpg://"
 
 
-
+struct _gfal_srm_result{
+	char turl[GFAL_URL_MAX_LEN+1];
+	int err_code;
+	char err_str[GFAL_ERRMSG_LEN+1];
+};
 
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);
 
@@ -47,7 +52,11 @@ int gfal_get_async_results_errcodesG(gfal_handle handle, GList** turl_errcode, G
 
 int gfal_get_async_results_errstringG(gfal_handle handle, GList** turl_errstring, GError** err);
 
+int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_struct, GError** err);
+
 int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err);
+
+
 
 
 

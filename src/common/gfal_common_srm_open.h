@@ -28,3 +28,6 @@
 #include "gfal_common_filedescriptor.h"
 
 gfal_file_handle gfal_srm_openG(gfal_handle handle, const char* path, int flag, mode_t mode, GError** err);
+
+
+int gfal_srm_closeG(gfal_file_handle fh, GError** err);
