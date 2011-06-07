@@ -29,9 +29,13 @@
 #include <gfal_srm_ifce_types.h> 
 
 
-gfal_file_handle gfal_srm_open(gfal_handle handle, const char* path, int flag, mode_t mode, GError** err){
+gfal_file_handle gfal_srm_openG(gfal_handle handle, const char* path, int flag, mode_t mode, GError** err){
 	gfal_file_handle fh = NULL;
 	GError * tmp_err=NULL;
+	int ret=-1;
+	char* full_endpoint=NULL;
+	enum gfal_srm_proto srm_types;
+	
 	g_set_error(&tmp_err, 0, ENOSYS, "not implmented");
 	
 	if(tmp_err)

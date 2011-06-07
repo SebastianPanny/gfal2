@@ -32,7 +32,9 @@
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_file_handle.h"
 #include "../common/gfal_common_catalog.h"
+#include "../common/gfal_common_srm_open.h"
 #include "gfal_posix_local_file.h"
+
 
 
 /**
@@ -65,7 +67,8 @@ static gfal_file_handle gfal_posix_catalog_open(gfal_handle handle, const char *
 		g_set_error(&tmp_err, 0, ENOSYS, "not implemented");		
 		g_list_free_full(res_surl, free);	
 	}else if(!tmp_err){ // try std open on the catalogs
-		ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
+		g_set_error(&tmp_err, 0, ENOSYS, "not implemented");		
+		//ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
 	}
 
 	if(tmp_err)
@@ -101,8 +104,7 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 			fhandle = NULL;
 			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
 		}else if( gfal_surl_checker(path, NULL) == 0 ){
-			fhandle = NULL;
-			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
+			fhandle = gfal_srm_openG(handle, path, flag, mode, &tmp_err);
 		}else{
 			fhandle = gfal_posix_catalog_open(handle, path, flag, mode, &tmp_err);
 		}

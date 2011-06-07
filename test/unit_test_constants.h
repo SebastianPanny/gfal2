@@ -187,3 +187,7 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 #define TEST_LOCAL_OPEN_NOEXIST "file:///tmp/testopen0012"
 #define TEST_LOCAL_OPEN_NOACCESS  "file:///tmp/testopen0013"
 
+#define TEST_SRM_OPEN_EXIST TEST_SRM_ONLY_READ_ACCESS
+#define TEST_SRM_OPEN_NOEXIST TEST_SRM_NOEXIST_ACCESS
+#define TEST_SRM_OPEN_NOACCESS TEST_CONCAT_LFC_PREFIX("/testopen0011/testopen0012")
+

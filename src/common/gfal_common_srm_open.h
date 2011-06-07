@@ -25,6 +25,6 @@
  * */
 #include <glib.h>
 #include "gfal_types.h"
-#include "gfal_common_file_descriptor.h"
+#include "gfal_common_filedescriptor.h"
 
-gfal_file_handle gfal_srm_open(gfal_handle handle, const char* path, int flag, mode_t mode, GError** err);
+gfal_file_handle gfal_srm_openG(gfal_handle handle, const char* path, int flag, mode_t mode, GError** err);
