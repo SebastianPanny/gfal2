@@ -199,19 +199,19 @@ GError * tmp_err=NULL;
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gboolean b = i.check_catalog_url(i.handle, TEST_LFC_VALID_ACCESS, GFAL_CATALOG_ALL, &tmp_err);
+	gboolean b = i.check_catalog_url(i.handle, TEST_LFC_VALID_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
 	if(!b || tmp_err){
 		fail(" must be a valid lfn url");
 		return;
 	}
-	b = i.check_catalog_url(i.handle, TEST_LFC_NOEXIST_ACCESS, GFAL_CATALOG_ALL, &tmp_err);
+	b = i.check_catalog_url(i.handle, TEST_LFC_NOEXIST_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
 	if(!b || tmp_err){
 		fail(" must be a valid lfn url 2");
 		return;
 	}
-	b = i.check_catalog_url(i.handle, TEST_LFC_URL_SYNTAX_ERROR, GFAL_CATALOG_ALL, &tmp_err);
+	b = i.check_catalog_url(i.handle, TEST_LFC_URL_SYNTAX_ERROR, GFAL_CATALOG_ACCESS, &tmp_err);
 	if(b){
-		fail(" must an invalid lfn url");
+		fail(" must an invalid lfn url 3");
 		return;
 	}
 	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
