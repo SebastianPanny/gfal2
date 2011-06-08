@@ -63,17 +63,17 @@ static gfal_file_handle gfal_posix_catalog_open(gfal_handle handle, const char *
 	GError* tmp_err=NULL;
 	gfal_file_handle ret = NULL;
 	if( (res_surl = gfal_catalog_getSURL(handle, path, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
-		if(gfal_surl_checker(path, NULL) == 0 )
-			ret = gfal_srm_openG(handle, res_url, flag, mode, &tmp_err);
+		if(gfal_surl_checker(*res_surl, NULL) == 0 )
+			ret = gfal_srm_openG(handle, *res_surl, flag, mode, &tmp_err);
 		else
-			g_set_error(&tmp_err, 0, ECOMM, "bad surl value retrived from catalog : %s ", res_surl);
+			g_set_error(&tmp_err, 0, ECOMM, "bad surl value retrived from catalog : %s ", *res_surl);
 		g_strfreev(res_surl);
 	}else if(!tmp_err){ // try std open on the catalogs		
 		ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
 	}
 
 	if(tmp_err)
-		gfal_posix_register_internal_error(handle, "[gfal_open]", tmp_err);	
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;
 }
 
@@ -118,8 +118,7 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 	if(tmp_err){
 		gfal_posix_register_internal_error(handle, "[gfal_open]", tmp_err);
 		errno = tmp_err->code;	
-	}else{
+	}else
 		errno=0;
-	}
 	return key; 	
 }

@@ -335,6 +335,7 @@ gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
 		case GFAL_CATALOG_MKDIR:
 		case GFAL_CATALOG_RMDIR:
 		case GFAL_CATALOG_OPENDIR:
+		case GFAL_CATALOG_GETSURL:
 			ret = regcomp(&rex, "^lfn:/([:alnum:]|-|/|\.|_)+", REG_ICASE | REG_EXTENDED);
 			g_return_val_err_if_fail(ret ==0,-1,err,"[gfal_lfc_check_lfn_url] fail to compile regex, report this bug");
 			ret= regexec(&rex, lfn_url, 0, NULL, 0);

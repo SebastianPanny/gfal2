@@ -149,6 +149,8 @@ gfal_file_handle gfal_catalog_opendirG(gfal_handle handle, const char* name, GEr
 
 int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err);
 
+gfal_file_handle gfal_catalog_openG(gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err);
+
 int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
 
 char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err);

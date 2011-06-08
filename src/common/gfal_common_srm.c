@@ -560,15 +560,17 @@ gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err)
 	gboolean ret = FALSE;
 	gfal_request_state* last_request = handle->last_request_state;
 	if(last_request == NULL){
-		g_set_error(err,0, EINVAL, "[gfal_get_request_statusG] gfal_get_asyncG executed before");
+		g_set_error(tmp_err,0, EINVAL, " gfal_get_asyncG must be executed before");
 		return -2;
 	}
-	if(last_request->finished == TRUE){
-		ret= TRUE;
+	if(last_request->finished){
+		return TRUE;
 	}else{
 		gfal_get_request_statusG(handle, &tmp_err);
 		ret = last_request->finished;
 	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;
 }
 

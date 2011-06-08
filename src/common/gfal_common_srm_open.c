@@ -53,7 +53,7 @@ static gfal_file_handle gfal_open_read_internal(gfal_handle handle,
 	int ret = gfal_get_asyncG(handle, l, &tmp_err);
 	if(ret >=0){
 		gfal_srm_result* results=NULL;
-		gfal_wait_async_requestG(handle, 5, &tmp_err);
+		gfal_wait_async_requestG(handle, 50, &tmp_err);
 		if(!tmp_err){
 			ret = gfal_get_async_results_structG(handle, &results, &tmp_err);
 			if(ret >=0)
