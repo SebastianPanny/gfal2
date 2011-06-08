@@ -3,16 +3,17 @@
 file for the internal open function for the posix interface 
 
 {\tt \#include $<$glib.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
 {\tt \#include \char`\"{}../common/gfal\_\-types.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-posix\_\-internal.h\char`\"{}}\par
 {\tt \#include \char`\"{}../common/gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}../common/gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 {\tt \#include \char`\"{}../common/gfal\_\-common\_\-file\_\-handle.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-common\_\-catalog.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-common\_\-srm\_\-open.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-posix\_\-local\_\-file.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
-\item 
-gfal\_\-file\_\-handle \textbf{gfal\_\-posix\_\-catalog\_\-open} (gfal\_\-handle handle, const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)\label{gfal__posix__open_8c_26019b1a84c6ab6694296705ddaf453b}
-
 \item 
 int \bf{gfal\_\-posix\_\-internal\_\-open} (const char $\ast$path, int flag, mode\_\-t mode)
 \end{CompactItemize}

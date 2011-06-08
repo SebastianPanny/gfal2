@@ -40,7 +40,7 @@ enum \textbf{\_\-catalog\_\-mode} \{ \par
 \par
 \textbf{GFAL\_\-CATALOG\_\-OPENDIR}, 
 \textbf{GFAL\_\-CATALOG\_\-OPEN}, 
-\textbf{GFAL\_\-CATALOG\_\-SURL}
+\textbf{GFAL\_\-CATALOG\_\-GETSURL}
  \}
 \end{CompactItemize}
 \subsection*{Functions}
@@ -70,7 +70,11 @@ gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-opendir\-G} (gfal\_\-handle handle
 \item 
 int \bf{gfal\_\-catalog\_\-closedir\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
 \item 
+gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-open\-G} (gfal\_\-handle handle, const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)
+\item 
 int \bf{gfal\_\-catalog\_\-close\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
+\item 
+char $\ast$$\ast$ \bf{gfal\_\-catalog\_\-get\-SURL} (gfal\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
 dirent $\ast$ \bf{gfal\_\-catalog\_\-readdir\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
 \item 
@@ -131,7 +135,16 @@ close the given dir handle in the proper catalog \index{gfal_common_catalog.h@{g
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-close\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_27712f4ef0fd4a8d3d5b63b90936d295}
 
 
-close the fiven file handle in the proper catalog \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}}
+close the given file handle in the proper catalog \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_getSURL@{gfal\_\-catalog\_\-getSURL}}
+\index{gfal_catalog_getSURL@{gfal\_\-catalog\_\-getSURL}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ gfal\_\-catalog\_\-get\-SURL (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_eeef83dd1c788197ed7ae4a933d8e8d3}
+
+
+Resolve a link on the catalog to a list of surl \begin{Desc}
+\item[Returns:]pointer to a table of string with all the surls, table end with NULL, or return NULL if error \end{Desc}
+\begin{Desc}
+\item[Warning:]must be free with g\_\-list\_\-free\_\-full \end{Desc}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}}
 \index{gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-lstat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_1ad1b1f96272dbf43a15e7ea5d35389d}
 
@@ -162,7 +175,12 @@ Execute a opendir function on the first compatible catalog ( checked with check 
 \end{Desc}
 \begin{Desc}
 \item[Returns:]gfal\_\-file\_\-handle pointer given to the handle or NULL if error \end{Desc}
-\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_readdirG@{gfal\_\-catalog\_\-readdirG}}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_openG@{gfal\_\-catalog\_\-openG}}
+\index{gfal_catalog_openG@{gfal\_\-catalog\_\-openG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-catalog\_\-open\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, int {\em flag}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_cd4cabbd5effdf20bc0b20345c5cc4ab}
+
+
+open the file specified by path on the proper catalog with the specified flag and mode \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_readdirG@{gfal\_\-catalog\_\-readdirG}}
 \index{gfal_catalog_readdirG@{gfal\_\-catalog\_\-readdirG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct dirent$\ast$ gfal\_\-catalog\_\-readdir\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_9ba0d48d73fe53d42d3a715e57473adb}
 

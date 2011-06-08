@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "1 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "8 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -10,11 +10,18 @@
 .br
 \fC#include 'gfal_common_internal.h'\fP
 .br
-\fC#include <regex.h>\fP
+\fC#include 'gfal_prototypes.h'\fP
 .br
-\fC#include <time.h>\fP
+\fC#include 'gfal_constants.h'\fP
 .br
 
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fB_gfal_srm_result\fP"
+.br
+.in -1c
 .SS "Defines"
 
 .in +1c
@@ -35,6 +42,7 @@
 .ti -1c
 .RI "int \fBgfal_get_async_resultsG\fP (gfal_handle handle, GList **turls, GError **err)"
 .br
+.RI "\fIget the result to the last get_async request \fP"
 .ti -1c
 .RI "gboolean \fBgfal_async_request_is_finishedG\fP (gfal_handle handle, GError **err)"
 .br
@@ -46,7 +54,11 @@
 .ti -1c
 .RI "int \fBgfal_get_async_results_errstringG\fP (gfal_handle handle, GList **turl_errstring, GError **err)"
 .br
-.RI "\fIstring of each request errcode \fP"
+.RI "\fIget the error string of each request \fP"
+.ti -1c
+.RI "int \fBgfal_get_async_results_structG\fP (gfal_handle handle, gfal_srm_result **tab_struct, GError **err)"
+.br
+.RI "\fIget \fP"
 .ti -1c
 .RI "int \fBgfal_wait_async_requestG\fP (gfal_handle handle, long timeout, GError **err)"
 .br
@@ -122,7 +134,7 @@ return number of request turl if success else return negative value
 
 .SS "int gfal_get_async_results_errstringG (gfal_handle handle, GList ** turls_errstring, GError ** err)"
 .PP
-string of each request errcode 
+get the error string of each request 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -134,6 +146,28 @@ string of each request errcode
 \fBReturns:\fP
 .RS 4
 return number of request turl if success else return negative value 
+.RE
+.PP
+
+.SS "int gfal_get_async_results_structG (gfal_handle handle, gfal_srm_result ** tab_struct, GError ** err)"
+.PP
+get 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP 
+.br
+\fItab_struct\fP : struct gfal_srm_result*, give a table of a struct gfal_srm_result 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return number of results in table if success else return negative value 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+the *tab_struct need to be free() 
 .RE
 .PP
 
@@ -198,7 +232,7 @@ wait for the current request
 .PP
 \fBReturns:\fP
 .RS 4
-return 0 if finished correctly, return 1 if timeout is reached, return -1 if error 
+return 0 if finished correctly, return -1 if timeout is reached or if error ( err is set ) 
 .RE
 .PP
 

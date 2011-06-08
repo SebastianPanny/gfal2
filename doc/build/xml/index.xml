@@ -20,7 +20,7 @@
     <member refid="struct__gfal__catalog__interface_1bf740aa63017e3858208578b88dc7828" kind="variable"><name>readdirG</name></member>
     <member refid="struct__gfal__catalog__interface_197a3c4f46c9d955828097be45395c879" kind="variable"><name>openG</name></member>
     <member refid="struct__gfal__catalog__interface_12c84c719248ee63e84420afd54e9ad7c" kind="variable"><name>closeG</name></member>
-    <member refid="struct__gfal__catalog__interface_11a4fb09519d0cb85eae2a5c6c44bc8d5" kind="variable"><name>getSURL</name></member>
+    <member refid="struct__gfal__catalog__interface_18a79a58a74fb3f7e4da85247d60d0323" kind="variable"><name>getSURLG</name></member>
     <member refid="struct__gfal__catalog__interface_103064e4d29e97a4017d6a0797bfc6c77" kind="variable"><name>resolve_guid</name></member>
   </compound>
   <compound refid="struct__gfal__descriptors__container" kind="struct"><name>_gfal_descriptors_container</name>
@@ -62,6 +62,11 @@
     <member refid="struct__gfal__request__state_19125ea45c8376bf0d5e960726319934e" kind="variable"><name>request_endpoint</name></member>
     <member refid="struct__gfal__request__state_171c0a480bb4277273a43d9b18af07929" kind="variable"><name>finished</name></member>
     <member refid="struct__gfal__request__state_1c09e0133946fddd499f424d21a87a65b" kind="variable"><name>number</name></member>
+  </compound>
+  <compound refid="struct__gfal__srm__result" kind="struct"><name>_gfal_srm_result</name>
+    <member refid="struct__gfal__srm__result_1d775e2ef78c5b87aff1a0e65f3fa875f" kind="variable"><name>turl</name></member>
+    <member refid="struct__gfal__srm__result_1f286d4128c1fd3df882fd8bb1eb7983b" kind="variable"><name>err_code</name></member>
+    <member refid="struct__gfal__srm__result_13dd69604896e9d5435770cd13130594c" kind="variable"><name>err_str</name></member>
   </compound>
   <compound refid="struct__gfal__srmv2__opt" kind="struct"><name>_gfal_srmv2_opt</name>
     <member refid="struct__gfal__srmv2__opt_1a03ba571a6a587efb2feb0889e184a12" kind="variable"><name>opt_srmv2_desiredpintime</name></member>
@@ -547,8 +552,10 @@
     <member refid="gfal__common__catalog_8c_19cd4da87728df80003fe8618c4f63e13" kind="function"><name>gfal_catalog_rmdirG</name></member>
     <member refid="gfal__common__catalog_8c_1eb89b1d37a16ef8ecb50ac603366285c" kind="function"><name>gfal_catalog_opendirG</name></member>
     <member refid="gfal__common__catalog_8c_1348fe15690faed2e2731d15eb6cc7856" kind="function"><name>gfal_catalog_closedirG</name></member>
+    <member refid="gfal__common__catalog_8c_1cd4cabbd5effdf20bc0b20345c5cc4ab" kind="function"><name>gfal_catalog_openG</name></member>
     <member refid="gfal__common__catalog_8c_127712f4ef0fd4a8d3d5b63b90936d295" kind="function"><name>gfal_catalog_closeG</name></member>
     <member refid="gfal__common__catalog_8c_19ba0d48d73fe53d42d3a715e57473adb" kind="function"><name>gfal_catalog_readdirG</name></member>
+    <member refid="gfal__common__catalog_8c_1eeef83dd1c788197ed7ae4a933d8e8d3" kind="function"><name>gfal_catalog_getSURL</name></member>
     <member refid="gfal__common__catalog_8c_14955825d7c275f3dfae9a57232642370" kind="function"><name>gfal_catalog_resolve_guid</name></member>
     <member refid="gfal__common__catalog_8c_1eb649d00e3f4fe888f0f6dbea48d2988" kind="function"><name>get_default_cat</name></member>
     <member refid="gfal__common__catalog_8c_1c20aa1a376c802d0c60208854537851e" kind="function"><name>gfal_get_cat_type</name></member>
@@ -568,7 +575,7 @@
     <member refid="gfal__common__catalog_8h_183501e3daceec53b5d82eb2c423aebe4f61d84ac609ac66029b9ef8a914a6d23" kind="enumvalue"><name>GFAL_CATALOG_RMDIR</name></member>
     <member refid="gfal__common__catalog_8h_183501e3daceec53b5d82eb2c423aebe4a14477cd6c3c2c75a4113d32c8f2f735" kind="enumvalue"><name>GFAL_CATALOG_OPENDIR</name></member>
     <member refid="gfal__common__catalog_8h_183501e3daceec53b5d82eb2c423aebe4ea66bf232dde27944fdfb1bdd196293f" kind="enumvalue"><name>GFAL_CATALOG_OPEN</name></member>
-    <member refid="gfal__common__catalog_8h_183501e3daceec53b5d82eb2c423aebe4e2f8befefb8b09c3ffde127e5ed28a86" kind="enumvalue"><name>GFAL_CATALOG_SURL</name></member>
+    <member refid="gfal__common__catalog_8h_183501e3daceec53b5d82eb2c423aebe497584b444e49f0d80ab378caa2072d48" kind="enumvalue"><name>GFAL_CATALOG_GETSURL</name></member>
     <member refid="gfal__common__catalog_8h_1791ad55a9c8aaca0bb8ae74a3538c202" kind="function"><name>gfal_get_cat_type</name></member>
     <member refid="gfal__common__catalog_8h_1d272f75eb549a72064524ecce3c25fe7" kind="function"><name>gfal_catalogs_instance</name></member>
     <member refid="gfal__common__catalog_8h_14fd85b35f2134b73207c12b54e85959d" kind="function"><name>gfal_catalogs_accessG</name></member>
@@ -580,7 +587,9 @@
     <member refid="gfal__common__catalog_8h_14955825d7c275f3dfae9a57232642370" kind="function"><name>gfal_catalog_resolve_guid</name></member>
     <member refid="gfal__common__catalog_8h_1eb89b1d37a16ef8ecb50ac603366285c" kind="function"><name>gfal_catalog_opendirG</name></member>
     <member refid="gfal__common__catalog_8h_1348fe15690faed2e2731d15eb6cc7856" kind="function"><name>gfal_catalog_closedirG</name></member>
+    <member refid="gfal__common__catalog_8h_1cd4cabbd5effdf20bc0b20345c5cc4ab" kind="function"><name>gfal_catalog_openG</name></member>
     <member refid="gfal__common__catalog_8h_127712f4ef0fd4a8d3d5b63b90936d295" kind="function"><name>gfal_catalog_closeG</name></member>
+    <member refid="gfal__common__catalog_8h_1eeef83dd1c788197ed7ae4a933d8e8d3" kind="function"><name>gfal_catalog_getSURL</name></member>
     <member refid="gfal__common__catalog_8h_19ba0d48d73fe53d42d3a715e57473adb" kind="function"><name>gfal_catalog_readdirG</name></member>
     <member refid="gfal__common__catalog_8h_1c304a754c49bedeec6c1c9b1445b937d" kind="function"><name>get_default_se</name></member>
     <member refid="gfal__common__catalog_8h_1c25d6ed82e636c14d640318a2ad5f3b5" kind="function"><name>purify_surl</name></member>
@@ -729,6 +738,8 @@
     <member refid="gfal__common__srm_8c_1b628e9ad3599f656f022f9101020f519" kind="function"><name>gfal_async_request_is_finishedG</name></member>
     <member refid="gfal__common__srm_8c_11c3a2a23f764ce8bf5cdd73108e4d9ca" kind="function"><name>gfal_get_async_resultsG</name></member>
     <member refid="gfal__common__srm_8c_1e07b69adfaea1c486a6c6165970b2b35" kind="function"><name>gfal_get_async_results_errstringG</name></member>
+    <member refid="gfal__common__srm_8c_1b3bf59c26b8c65912e4e9353bfa93d5b" kind="function"><name>gfal_srm_to_srm_result</name></member>
+    <member refid="gfal__common__srm_8c_1171b068add7188f1c08509edf5f4b01d" kind="function"><name>gfal_get_async_results_structG</name></member>
     <member refid="gfal__common__srm_8c_186890a00f72d9af9ab88f42a69e3bf8c" kind="function"><name>gfal_wait_async_requestG</name></member>
     <member refid="gfal__common__srm_8c_1f99941385e0c258e1548f1331f139d14" kind="function"><name>gfal_get_async_results_errcodesG</name></member>
     <member refid="gfal__common__srm_8c_158ac4e2053d2c689cfe00c767b332fb8" kind="variable"><name>gfal_proto_list_pref</name></member>
@@ -741,6 +752,7 @@
     <member refid="gfal__common__srm_8h_1b628e9ad3599f656f022f9101020f519" kind="function"><name>gfal_async_request_is_finishedG</name></member>
     <member refid="gfal__common__srm_8h_10d1a5a270a56e0123960a0087bc33c08" kind="function"><name>gfal_get_async_results_errcodesG</name></member>
     <member refid="gfal__common__srm_8h_1089643e4b8996a1e8896009f266ccdf0" kind="function"><name>gfal_get_async_results_errstringG</name></member>
+    <member refid="gfal__common__srm_8h_1171b068add7188f1c08509edf5f4b01d" kind="function"><name>gfal_get_async_results_structG</name></member>
     <member refid="gfal__common__srm_8h_186890a00f72d9af9ab88f42a69e3bf8c" kind="function"><name>gfal_wait_async_requestG</name></member>
     <member refid="gfal__common__srm_8h_1f0881b420a0b33b1e0f289ee8a7fe578" kind="function"><name>gfal_delete_srmv2_pinstatuses</name></member>
     <member refid="gfal__common__srm_8h_12e7ac01f03bbd88580d25496aa16631f" kind="function"><name>gfal_delete_srmv2_statuses</name></member>
@@ -759,6 +771,18 @@
   </compound>
   <compound refid="gfal__common__srm__mkdir_8h" kind="file"><name>gfal_common_srm_mkdir.h</name>
     <member refid="gfal__common__srm__mkdir_8h_1b7f321a0f5aea284d6c711e0b88749e3" kind="function"><name>gfal_srm_mkdirG</name></member>
+  </compound>
+  <compound refid="gfal__common__srm__open_8c" kind="file"><name>gfal_common_srm_open.c</name>
+    <member refid="gfal__common__srm__open_8c_153abf256730d533302d1910e5fb61efe" kind="define"><name>_GNU_SOURCE</name></member>
+    <member refid="gfal__common__srm__open_8c_10b8327a05a450eed64022716913f8a95" kind="function"><name>gfal_srm_results_to_filehandle</name></member>
+    <member refid="gfal__common__srm__open_8c_1720862e56a4c08df263c3559240c8b46" kind="function"><name>gfal_open_read_internal</name></member>
+    <member refid="gfal__common__srm__open_8c_1e5a0c072f37cee7109450668fcd00412" kind="function"><name>gfal_open_create_internal</name></member>
+    <member refid="gfal__common__srm__open_8c_1bb27bc48091a2a9a4ca124a35d3847a5" kind="function"><name>gfal_srm_openG</name></member>
+    <member refid="gfal__common__srm__open_8c_11b78856858fbfc8244d098fef0231d7d" kind="function"><name>gfal_srm_closeG</name></member>
+  </compound>
+  <compound refid="gfal__common__srm__open_8h" kind="file"><name>gfal_common_srm_open.h</name>
+    <member refid="gfal__common__srm__open_8h_1bb27bc48091a2a9a4ca124a35d3847a5" kind="function"><name>gfal_srm_openG</name></member>
+    <member refid="gfal__common__srm__open_8h_11b78856858fbfc8244d098fef0231d7d" kind="function"><name>gfal_srm_closeG</name></member>
   </compound>
   <compound refid="gfal__common__srm__rmdir_8c" kind="file"><name>gfal_common_srm_rmdir.c</name>
     <member refid="gfal__common__srm__rmdir_8c_122d081b3d5ca26d2e9cce6de8ee3be1c" kind="function"><name>gfal_srmv2_rmdir_internal</name></member>
@@ -819,6 +843,7 @@
     <member refid="gfal__constants_8h_19adb5dc8efeaa3454b32e2f67309e36f" kind="define"><name>GFAL_GUID_PREFIX</name></member>
     <member refid="gfal__constants_8h_18aeca034bb7345f07b3b736501168cdd" kind="define"><name>GFAL_URL_MAX_LEN</name></member>
     <member refid="gfal__constants_8h_16843a99bf27c1e7f0ea245ba0a4b4638" kind="define"><name>GFAL_MODULEID_LOCAL</name></member>
+    <member refid="gfal__constants_8h_181086ad079cc0d38b02e33018b11cb78" kind="define"><name>GFAL_MODULEID_SRM</name></member>
     <member refid="gfal__constants_8h_1c3acf68b834fb0400f412735badbe8bb" kind="define"><name>GFAL_EXTERNAL_MODULE_OFFSET</name></member>
   </compound>
   <compound refid="gfal__file_8c" kind="file"><name>gfal_file.c</name>
@@ -859,6 +884,7 @@
   <compound refid="gfal__prototypes_8h" kind="file"><name>gfal_prototypes.h</name>
     <member refid="gfal__prototypes_8h_182d251a2ad00cefd56bd19ca8c7baca7" kind="typedef"><name>gfal_request_state</name></member>
     <member refid="gfal__prototypes_8h_14777f159ca1f07c81596174380223c57" kind="typedef"><name>gfal_srmv2_opt</name></member>
+    <member refid="gfal__prototypes_8h_1175d6ba71cc49d88fbb79c60aa7520f0" kind="typedef"><name>gfal_srm_result</name></member>
     <member refid="gfal__prototypes_8h_1ccf8ff9edf728ffec47d06b4a620e033" kind="typedef"><name>catalog_opts</name></member>
     <member refid="gfal__prototypes_8h_142c1ba97be53162926aa4e18b0bf079e" kind="typedef"><name>gfal_catalog_interface</name></member>
     <member refid="gfal__prototypes_8h_178324a0d011e8cec89ab7fbe9c5527b6" kind="typedef"><name>catalog_mode</name></member>
@@ -930,6 +956,7 @@
     <member refid="gfal__common__lfc_8c_178aaa52e332c6fff95cf83bd2fd650b1" kind="function"><name>lfc_opendirG</name></member>
     <member refid="gfal__common__lfc_8c_1899cb1b8efdb4529f861af14dbbb4755" kind="function"><name>lfc_readdirG</name></member>
     <member refid="gfal__common__lfc_8c_1e7fc582212adeb6984ef99c42324451b" kind="function"><name>lfc_closedirG</name></member>
+    <member refid="gfal__common__lfc_8c_1f12315d5064512cfa02b421f3645e418" kind="function"><name>lfc_getSURLG</name></member>
     <member refid="gfal__common__lfc_8c_1b8943f8f5fd7211851bf7732d9c3b50b" kind="function"><name>lfc_resolve_guid</name></member>
     <member refid="gfal__common__lfc_8c_118fc1e787694363fd5457f9b8f020cf8" kind="function"><name>lfc_initG</name></member>
     <member refid="gfal__common__lfc_8c_18baa624b528deb15ff4ee61fa9948ac8" kind="function"><name>gfal_lfc_check_lfn_url</name></member>
@@ -1016,6 +1043,7 @@
     <member refid="lfc__ifce__ng_8c_199f899901f228d37f290f23a19398012" kind="function"><name>gfal_lfc_mkdir</name></member>
     <member refid="lfc__ifce__ng_8c_10d7c361d951ac79fee504d5125485033" kind="function"><name>gfal_lfc_mkdir_rec</name></member>
     <member refid="lfc__ifce__ng_8c_19fa43925882e2e196e0020b529827d3c" kind="function"><name>gfal_lfc_ifce_mkdirpG</name></member>
+    <member refid="lfc__ifce__ng_8c_126c355c9cf576886a743ab1917de295d" kind="function"><name>gfal_lfc_getSURL</name></member>
   </compound>
   <compound refid="lfc__ifce__ng_8h" kind="file"><name>lfc_ifce_ng.h</name>
     <member refid="lfc__ifce__ng_8h_14ba01f362057d237e7234f527da40cdb" kind="define"><name>GFAL_MAX_LFCHOST_LEN</name></member>
@@ -1024,6 +1052,7 @@
     <member refid="lfc__ifce__ng_8h_1c4daecd5aa0938a99eb86c367a0050f1" kind="function"><name>gfal_convert_guid_to_lfn</name></member>
     <member refid="lfc__ifce__ng_8h_179cceda78f871c9bd8568a636dd31206" kind="function"><name>gfal_lfc_convert_statg</name></member>
     <member refid="lfc__ifce__ng_8h_19fa43925882e2e196e0020b529827d3c" kind="function"><name>gfal_lfc_ifce_mkdirpG</name></member>
+    <member refid="lfc__ifce__ng_8h_126c355c9cf576886a743ab1917de295d" kind="function"><name>gfal_lfc_getSURL</name></member>
   </compound>
   <compound refid="gfal__common__mds_8c" kind="file"><name>gfal_common_mds.c</name>
     <member refid="gfal__common__mds_8c_1a3975dda72e623713566e510b0317796" kind="function"><name>gfal_set_nobdiiG</name></member>
@@ -1177,7 +1206,7 @@
     <member refid="gfal__posix__local__file_8c_156dc809549c9ff1f7f245619fae1dea5" kind="function"><name>gfal_local_opendir</name></member>
     <member refid="gfal__posix__local__file_8c_1154d6466ff14a02bd004a735823963fe" kind="function"><name>gfal_local_readdir</name></member>
     <member refid="gfal__posix__local__file_8c_1b596322ecc96fdc80c6c21802483f1d4" kind="function"><name>gfal_local_open</name></member>
-    <member refid="gfal__posix__local__file_8c_164e0b053464f31cafcaa4278b08ba3e8" kind="function"><name>gfal_local_close</name></member>
+    <member refid="gfal__posix__local__file_8c_1145bf9e9edbe0321103e13a665c08d8a" kind="function"><name>gfal_local_close</name></member>
     <member refid="gfal__posix__local__file_8c_1a89a8db8cb79bf7c575b08305704c248" kind="function"><name>gfal_local_rmdir</name></member>
     <member refid="gfal__posix__local__file_8c_148c8b58b85db67426dbaf28fb4080ff0" kind="function"><name>gfal_local_closedir</name></member>
     <member refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kind="function"><name>gfal_check_local_url</name></member>
@@ -1194,6 +1223,7 @@
     <member refid="gfal__posix__local__file_8h_1154d6466ff14a02bd004a735823963fe" kind="function"><name>gfal_local_readdir</name></member>
     <member refid="gfal__posix__local__file_8h_156dc809549c9ff1f7f245619fae1dea5" kind="function"><name>gfal_local_opendir</name></member>
     <member refid="gfal__posix__local__file_8h_1b596322ecc96fdc80c6c21802483f1d4" kind="function"><name>gfal_local_open</name></member>
+    <member refid="gfal__posix__local__file_8h_1145bf9e9edbe0321103e13a665c08d8a" kind="function"><name>gfal_local_close</name></member>
   </compound>
   <compound refid="gfal__posix__mkdir_8c" kind="file"><name>gfal_posix_mkdir.c</name>
     <member refid="gfal__posix__mkdir_8c_14389d46c4fffcc478b9f2f1312364184" kind="function"><name>gfal_posix_internal_mkdir</name></member>
@@ -1218,7 +1248,7 @@
   </compound>
   <compound refid="gfal__posix__open_8c" kind="file"><name>gfal_posix_open.c</name>
     <member refid="gfal__posix__open_8c_1ecc6445c451015344af547c616ae7463" kind="function"><name>gfal_posix_file_handle_store</name></member>
-    <member refid="gfal__posix__open_8c_126019b1a84c6ab6694296705ddaf453b" kind="function"><name>gfal_posix_catalog_open</name></member>
+    <member refid="gfal__posix__open_8c_1e0f60d6e321bec547f6fd0a9dd4fbea4" kind="function"><name>gfal_posix_catalog_open</name></member>
     <member refid="gfal__posix__open_8c_1ada7cd81ad685011082167f02d3c2149" kind="function"><name>gfal_posix_internal_open</name></member>
   </compound>
   <compound refid="gfal__posix__opendir_8c" kind="file"><name>gfal_posix_opendir.c</name>

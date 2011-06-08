@@ -4,8 +4,13 @@ the header file with the main srm funcs of the common API
 
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-internal.h\char`\"{}}\par
-{\tt \#include $<$regex.h$>$}\par
-{\tt \#include $<$time.h$>$}\par
+{\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+struct \textbf{\_\-gfal\_\-srm\_\-result}
+\end{CompactItemize}
 \subsection*{Defines}
 \begin{CompactItemize}
 \item 
@@ -21,13 +26,15 @@ the header file with the main srm funcs of the common API
 int \bf{gfal\_\-get\_\-async\-G} (gfal\_\-handle handle, GList $\ast$surls, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em launch a surls-$>$ turls translation in asynchronous mode \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-async\_\-results\-G} (gfal\_\-handle handle, GList $\ast$$\ast$turls, GError $\ast$$\ast$err)
-\item 
+\begin{CompactList}\small\item\em get the result to the last get\_\-async request \item\end{CompactList}\item 
 gboolean \bf{gfal\_\-async\_\-request\_\-is\_\-finished\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em progress of the last request \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-async\_\-results\_\-errcodes\-G} (gfal\_\-handle handle, GList $\ast$$\ast$turl\_\-errcode, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em errcode of each turls request \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-async\_\-results\_\-errstring\-G} (gfal\_\-handle handle, GList $\ast$$\ast$turl\_\-errstring, GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em string of each request errcode \item\end{CompactList}\item 
+\begin{CompactList}\small\item\em get the error string of each request \item\end{CompactList}\item 
+int \bf{gfal\_\-get\_\-async\_\-results\_\-struct\-G} (gfal\_\-handle handle, gfal\_\-srm\_\-result $\ast$$\ast$tab\_\-struct, GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em get \item\end{CompactList}\item 
 int \bf{gfal\_\-wait\_\-async\_\-request\-G} (gfal\_\-handle handle, long timeout, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em wait for the current request \item\end{CompactList}\item 
 void \bf{gfal\_\-delete\_\-srmv2\_\-pinstatuses} (struct srmv2\_\-pinfilestatus $\ast$srmv2\_\-pinstatuses, int n)\label{gfal__common__srm_8h_f0881b420a0b33b1e0f289ee8a7fe578}
@@ -86,7 +93,7 @@ errcode of each turls request
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-results\_\-errstring\-G (gfal\_\-handle {\em handle}, GList $\ast$$\ast$ {\em turls\_\-errstring}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_089643e4b8996a1e8896009f266ccdf0}
 
 
-string of each request errcode 
+get the error string of each request 
 
 \begin{Desc}
 \item[Parameters:]
@@ -95,12 +102,30 @@ string of each request errcode
 \end{Desc}
 \begin{Desc}
 \item[Returns:]return number of request turl if success else return negative value \end{Desc}
+\index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_get_async_results_structG@{gfal\_\-get\_\-async\_\-results\_\-structG}}
+\index{gfal_get_async_results_structG@{gfal\_\-get\_\-async\_\-results\_\-structG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-results\_\-struct\-G (gfal\_\-handle {\em handle}, gfal\_\-srm\_\-result $\ast$$\ast$ {\em tab\_\-struct}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_171b068add7188f1c08509edf5f4b01d}
+
+
+get 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]\item[{\em tab\_\-struct}]: struct gfal\_\-srm\_\-result$\ast$, give a table of a struct gfal\_\-srm\_\-result \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return number of results in table if success else return negative value \end{Desc}
+\begin{Desc}
+\item[Warning:]the $\ast$tab\_\-struct need to be free() \end{Desc}
 \index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_get_async_resultsG@{gfal\_\-get\_\-async\_\-resultsG}}
 \index{gfal_get_async_resultsG@{gfal\_\-get\_\-async\_\-resultsG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-results\-G (gfal\_\-handle {\em handle}, GList $\ast$$\ast$ {\em turls}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_1c3a2a23f764ce8bf5cdd73108e4d9ca}
 
 
-get the result to the last get\_\-async request \begin{Desc}
+get the result to the last get\_\-async request 
+
+\begin{Desc}
 \item[Returns:]return the number of response in turls or negative value if error \end{Desc}
 \begin{Desc}
 \item[Parameters:]
@@ -138,4 +163,4 @@ wait for the current request
 \item[{\em handle}]\item[{\em timeout}]: maximum time to wait before error \item[{\em err}]: Error report system \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return 0 if finished correctly, return 1 if timeout is reached, return -1 if error \end{Desc}
+\item[Returns:]return 0 if finished correctly, return -1 if timeout is reached or if error ( err is set ) \end{Desc}

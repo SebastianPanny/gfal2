@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "1 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "8 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -68,6 +68,9 @@
 .ti -1c
 .RI "int \fBgfal_lfc_ifce_mkdirpG\fP (struct lfc_ops *ops, const char *path, mode_t mode, gboolean pflag, GError **err)"
 .br
+.ti -1c
+.RI "char ** \fBgfal_lfc_getSURL\fP (struct lfc_ops *ops, const char *path, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -110,6 +113,9 @@ convert a guid to a lfn link with a call to the lfclib
 .RE
 .PP
 
+.SS "char** gfal_lfc_getSURL (struct lfc_ops * ops, const char * path, GError ** err)"
+.PP
+return a list of surls from a getreplica request 
 .SS "int gfal_lfc_ifce_mkdirpG (struct lfc_ops * ops, const char * path, mode_t mode, gboolean pflag, GError ** err)"
 .PP
 Implementation of mkdir -p call on the lfc 

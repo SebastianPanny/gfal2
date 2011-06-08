@@ -44,6 +44,8 @@ int \textbf{gfal\_\-lfc\_\-convert\_\-lstat} (struct stat $\ast$output, struct l
 int \bf{gfal\_\-lfc\_\-mkdir\_\-rec} (struct lfc\_\-ops $\ast$ops, char $\ast$browser\_\-path, const char $\ast$full\_\-path, mode\_\-t mode, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-lfc\_\-ifce\_\-mkdirp\-G} (struct lfc\_\-ops $\ast$ops, const char $\ast$path, mode\_\-t mode, gboolean pflag, GError $\ast$$\ast$err)
+\item 
+char $\ast$$\ast$ \bf{gfal\_\-lfc\_\-get\-SURL} (struct lfc\_\-ops $\ast$ops, const char $\ast$path, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -71,7 +73,12 @@ convert a guid to a lfn link with a call to the lfclib \begin{Desc}
 \end{Desc}
 \begin{Desc}
 \item[Returns:]: string of the lfn if success or NULL char$\ast$ if error \end{Desc}
-\index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_ifce_mkdirpG@{gfal\_\-lfc\_\-ifce\_\-mkdirpG}}
+\index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_getSURL@{gfal\_\-lfc\_\-getSURL}}
+\index{gfal_lfc_getSURL@{gfal\_\-lfc\_\-getSURL}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ gfal\_\-lfc\_\-get\-SURL (struct lfc\_\-ops $\ast$ {\em ops}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_26c355c9cf576886a743ab1917de295d}
+
+
+return a list of surls from a getreplica request \index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_ifce_mkdirpG@{gfal\_\-lfc\_\-ifce\_\-mkdirpG}}
 \index{gfal_lfc_ifce_mkdirpG@{gfal\_\-lfc\_\-ifce\_\-mkdirpG}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-lfc\_\-ifce\_\-mkdirp\-G (struct lfc\_\-ops $\ast$ {\em ops}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, gboolean {\em pflag}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_9fa43925882e2e196e0020b529827d3c}
 
