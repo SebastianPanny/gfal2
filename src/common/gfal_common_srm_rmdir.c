@@ -26,7 +26,7 @@
 #include "gfal_common_srm_rmdir.h"
 #include "gfal_constants.h"
 #include "gfal_common_errverbose.h"
-#include <gfal_srm_ifce_types.h> 
+#include "gfal_common_srm_internal_layer.h"
 
 
 int gfal_srmv2_rmdir_internal(gfal_handle handle, char* endpoint, const char* surl, GError** err){
@@ -41,7 +41,7 @@ int gfal_srmv2_rmdir_internal(gfal_handle handle, char* endpoint, const char* su
 	rmdir_input.recursive = 0;
 	rmdir_input.surl = (char*)surl;
 
-	if( (ret = srm_rmdir(&context, &rmdir_input, &rmdir_output)) >=0){
+	if( (ret = gfal_srm_external_call.srm_rmdir(&context, &rmdir_input, &rmdir_output)) >=0){
 		const int sav_errno = rmdir_output.statuses[0].status;
 		if( sav_errno ){
 			g_set_error(&tmp_err, 0, sav_errno, " Error report from the srm_ifce %s ", strerror(sav_errno));

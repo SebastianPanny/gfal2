@@ -22,3 +22,14 @@
  * @version 2.0
  * @date 09/06/2011
  * */
+
+
+#include "gfal_common_srm_internal_layer.h"
+
+
+
+struct _gfal_srm_external_call gfal_srm_external_call = { 
+	
+	.srm_ls = &srm_ls,
+	.srm_rmdir = &srm_rmdir
+};

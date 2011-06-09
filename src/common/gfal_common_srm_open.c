@@ -35,6 +35,7 @@
 #include "gfal_common_srm_open.h"
 #include "gfal_constants.h"
 #include "gfal_common_errverbose.h"
+#include "gfal_common_filedescriptor.h"
 
 static gfal_file_handle gfal_srm_results_to_filehandle(gfal_srm_result* results, GError** err){
 	g_return_val_err_if_fail(results && err, NULL, err, "[gfal_turl_to_filehandle] invalid args");

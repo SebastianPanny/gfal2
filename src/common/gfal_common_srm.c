@@ -561,7 +561,7 @@ gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err)
 	gboolean ret = FALSE;
 	gfal_request_state* last_request = handle->last_request_state;
 	if(last_request == NULL){
-		g_set_error(tmp_err,0, EINVAL, " gfal_get_asyncG must be executed before");
+		g_set_error(&tmp_err,0, EINVAL, " gfal_get_asyncG must be executed before");
 		return -2;
 	}
 	if(last_request->finished){

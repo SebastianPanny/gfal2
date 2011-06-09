@@ -146,7 +146,7 @@ gfal_file_handle gfal_local_open(const char* path, int flag, mode_t mode, GError
 
 int gfal_local_close(gfal_file_handle fh, GError** err){
 	errno =0;
-	const int ret = close(fh->fdesc);
+	const int ret = close(GPOINTER_TO_INT(fh->fdesc));
 	if(ret !=0){
 		g_set_error(err,0 ,errno , "[%s] errno reported by local system call %s", __func__, strerror(errno));		
 	}

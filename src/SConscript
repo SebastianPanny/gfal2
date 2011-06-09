@@ -12,7 +12,7 @@ import os
 gfal_libs = ['ldap', 'vomsc','gfal_srm_ifce','is_ifce'] #+ globus_libs		# libraries linked
 common_src= ['common/gfal_common.c', 'common/gfal_common_catalog.c','common/gfal_common_errverbose.c', 'common/gfal_file.c',  'common/gfal_checksum.c', 'common/gfal_timeouts.c', 'common/checkprotolib.c','common/gfal_common_storage.c']
 common_utils = ['common/gfal_common_all.c' ]
-common_srm = ['common/gfal_common_srm.c', 'common/gfal_common_srm_access.c', 'common/gfal_common_srm_stat.c', 'common/gfal_common_srm_mkdir.c', 'common/gfal_common_srm_rmdir.c', 'common/gfal_common_srm_open.c']
+common_srm = ['common/gfal_common_srm.c', 'common/gfal_common_srm_access.c', 'common/gfal_common_srm_stat.c', 'common/gfal_common_srm_mkdir.c', 'common/gfal_common_srm_rmdir.c', 'common/gfal_common_srm_open.c',  'common/gfal_common_srm_opendir.c', 'common/gfal_common_srm_internal_layer.c']
 common_guid = ['common/gfal_common_guid.c']
 common_interface = ['common/gfal_common_interface.c']
 common_voms = ['common/voms/gfal_voms_if.c']

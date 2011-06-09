@@ -143,7 +143,7 @@ int gfal_guid_lstatG(gfal_handle handle, const char* guid, struct stat* buf, GEr
  * 
  * */
 gfal_file_handle gfal_guid_openG(gfal_handle handle, const char* guid, int flag, mode_t mode, GError** err){
-	g_return_val_err_if_fail(handle && guid, -1, err, "[gfal_guid_lstatG] Invalid args");
+	g_return_val_err_if_fail(handle && guid, NULL, err, "[gfal_guid_lstatG] Invalid args");
 	GError* tmp_err=NULL;
 	gfal_file_handle ret =NULL;
 	const char * cata_link= gfal_catalog_resolve_guid(handle, guid, &tmp_err);	

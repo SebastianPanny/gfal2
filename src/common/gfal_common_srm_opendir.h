@@ -24,6 +24,7 @@
  * @date 09/06/2011
  * */
 
-
+#include <glib.h>
+#include "gfal_common_filedescriptor.h"
 
 gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* path, GError ** err);

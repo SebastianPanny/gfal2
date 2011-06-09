@@ -23,6 +23,8 @@
  * @date 09/06/2011
  * */
 
+#include "gfal_common_srm_opendir.h"
+#include <dirent.h>
 
 __thread struct dirent current_dir;
 

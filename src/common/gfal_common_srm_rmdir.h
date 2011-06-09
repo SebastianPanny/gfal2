@@ -25,6 +25,7 @@
  * */
 
 #include <glib.h>
-#include "gfal_types.h" 
+#include "gfal_types.h"
+#include "gfal_common_srm_internal_layer.h" 
 
 int gfal_srm_rmdirG(gfal_handle handle, const char* surl, GError** err); 

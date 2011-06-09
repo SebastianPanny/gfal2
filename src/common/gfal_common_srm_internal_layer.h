@@ -23,3 +23,25 @@
  * @version 2.0
  * @date 09/06/2011
  * */
+
+#include <gfal_srm_ifce.h> 
+#include <gfal_srm_ifce_types.h> 
+#include <glib.h>
+
+/**
+ * structure for mock abylity in the srm part
+ *
+ */
+struct _gfal_srm_external_call{
+	int (*srm_ls)(struct srm_context *context,
+		struct srm_ls_input *input,struct srm_ls_output *output);
+		
+	int (*srm_rmdir)(struct srm_context *context,
+		struct srm_rmdir_input *input,struct srm_rmdir_output *output);
+		
+	
+	
+	
+};
+
+extern struct _gfal_srm_external_call gfal_srm_external_call;
