@@ -138,3 +138,23 @@ int gfal_guid_lstatG(gfal_handle handle, const char* guid, struct stat* buf, GEr
 	return ret;
 }
 
+/**
+ * Execute a guid open on the first compatible catalog
+ * 
+ * */
+gfal_file_handle gfal_guid_openG(gfal_handle handle, const char* guid, int flag, mode_t mode, GError** err){
+	g_return_val_err_if_fail(handle && guid, -1, err, "[gfal_guid_lstatG] Invalid args");
+	GError* tmp_err=NULL;
+	gfal_file_handle ret =NULL;
+	const char * cata_link= gfal_catalog_resolve_guid(handle, guid, &tmp_err);	
+	if(cata_link){
+		ret = gfal_catalog_open_globalG(handle, cata_link, flag, mode, &tmp_err);
+		free(cata_link);	
+	}
+		
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+
+	return ret;	
+}
+

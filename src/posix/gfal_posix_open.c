@@ -53,29 +53,7 @@ static int gfal_posix_file_handle_store(gfal_handle handle, gfal_file_handle fha
 	return key;
 }
 
-/**
- * Try to resolve the file to a surl link, if fail try to open directly on the catalog layer
- *  @return pointer to file handle if success else error
- * 
- */ 
-static gfal_file_handle gfal_posix_catalog_open(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err){
-	char** res_surl=NULL;
-	GError* tmp_err=NULL;
-	gfal_file_handle ret = NULL;
-	if( (res_surl = gfal_catalog_getSURL(handle, path, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
-		if(gfal_surl_checker(*res_surl, NULL) == 0 )
-			ret = gfal_srm_openG(handle, *res_surl, flag, mode, &tmp_err);
-		else
-			g_set_error(&tmp_err, 0, ECOMM, "bad surl value retrived from catalog : %s ", *res_surl);
-		g_strfreev(res_surl);
-	}else if(!tmp_err){ // try std open on the catalogs		
-		ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
-	}
 
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return ret;
-}
 
 
 
@@ -102,15 +80,13 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 		if( gfal_check_local_url(path, NULL) == TRUE){
 			fhandle = gfal_local_open(path, flag, mode, &tmp_err);
 		}else if(gfal_guid_checker(path, NULL) == TRUE){
-			fhandle = NULL;
-			g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
+			fhandle = gfal_guid_openG(handle, path, flag, mode, &tmp_err);
 		}else if( gfal_surl_checker(path, NULL) == 0 ){
 			fhandle = gfal_srm_openG(handle, path, flag, mode, &tmp_err);
 		}else{
-			fhandle = gfal_posix_catalog_open(handle, path, flag, mode, &tmp_err);
+			fhandle = gfal_catalog_open_globalG(handle, path, flag, mode, &tmp_err);
 		}
 	}
-
 
 	if(fhandle)
 		key = gfal_posix_file_handle_store(handle, fhandle, &tmp_err);

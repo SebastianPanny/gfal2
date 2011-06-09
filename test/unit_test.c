@@ -202,6 +202,7 @@ Suite* posix_suite (void)
   tcase_add_test(tc_open, test_open_posix_local_simple);
   tcase_add_test(tc_open, test_open_posix_lfc_simple);
   tcase_add_test(tc_open, test_open_posix_srm_simple);
+  tcase_add_test(tc_open, test_open_posix_guid_simple);
   suite_add_tcase(s, tc_open);
   return s;
 }

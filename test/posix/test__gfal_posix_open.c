@@ -136,13 +136,42 @@ START_TEST(test_open_posix_srm_simple)
 		gfal_posix_release_error();
 		return;
 	}		
-	/*gfal_posix_clear_error();
-	fd = gfal_open(TEST_SRM_OPEN_NOACCESS, O_RDONLY, 555);
-	if(fd >0 || gfal_posix_code_error() != EACCES || errno != EACCES ){
-		fail("must be a non accessible file %d %d %d", fd, gfal_posix_code_error(), errno); --> NOACCESS cannot be checked on srm
-		gfal_posix_release_error();
-		return;
-	}*/
+	gfal_posix_clear_error();
 	
 }
 END_TEST
+
+
+START_TEST(test_open_posix_guid_simple)
+{
+
+	int ret = -1;
+	int fd = gfal_open(TEST_GUID_OPEN_EXIST, O_RDONLY, 555);
+	if(fd <=0 || gfal_posix_code_error() != 0 || errno != 0 ){
+		fail(" must be a valid file descriptor %d %d %d", ret, gfal_posix_code_error(), errno);
+		gfal_posix_release_error();
+		return;
+	}
+	ret = gfal_close(fd);
+	if(ret !=0 || gfal_posix_code_error() != 0 || errno != 0 ){
+		fail(" must be a valid close");
+		gfal_posix_release_error();
+		return;
+	}
+	ret = gfal_close(fd);
+	if(ret ==0 || gfal_posix_code_error() != EBADF || errno != EBADF){
+		fail(" must be an non existant file descriptor  %d %d %d", ret, gfal_posix_code_error(), errno);
+		gfal_posix_release_error();
+		return;		
+	}
+	gfal_posix_clear_error();
+	fd = gfal_open(TEST_GUID_OPEN_NONEXIST, O_RDONLY, 555);
+	if(fd >0 || gfal_posix_code_error() != ENOENT || errno != ENOENT ){
+		fail(" must be a non existing file %d %d %d", fd, gfal_posix_code_error(), errno);
+		gfal_posix_release_error();
+		return;
+	}		
+	gfal_posix_clear_error();
+}
+END_TEST
+

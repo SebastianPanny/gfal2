@@ -29,7 +29,7 @@
 #include <lber.h>
 #include <ldap.h>
 #include "gfal_internals.h"
-#include "ServiceDiscovery.h"
+#include "ServiceDiscoveryIfce.h"
 
 
 
@@ -54,7 +54,7 @@ get_rls_endpoints (char **lrc_endpoint, char **rmc_endpoint, char *errbuf, int e
  * */
 get_ce_ap (const char *host, char **ce_ap, char *errbuf, int errbufsz)
 {
-	return sd_get_ce_ap(host, ce_ap);
+	return sd_get_ce_ap(host, ce_ap,errbuf, 0);
 }
 
 
@@ -71,7 +71,7 @@ get_lfc_endpoint (char **lfc_endpoint, char *errbuf, int errbufsz)
 	set_gfal_vo(get_vo);
 	set_gfal_fqan(fqan, fqan_val);
 	   
-	return sd_get_lfc_endpoint(lfc_endpoint);
+	return sd_get_lfc_endpoint(lfc_endpoint,errbuf, errbufsz);
 }
 
 
@@ -86,7 +86,7 @@ get_storage_path (const char *host, const char *spacetokendesc, char **sa_path, 
 	set_gfal_vo(get_vo);
 	set_gfal_fqan(fqan, fqan_val);
 	   
-	return sd_get_storage_path(host, spacetokendesc, sa_path, sa_root);
+	return sd_get_storage_path(host, spacetokendesc, sa_path, sa_root,NULL,0);
 }
 
 
@@ -94,7 +94,7 @@ get_storage_path (const char *host, const char *spacetokendesc, char **sa_path, 
  * */
 get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpoints, char *errbuf, int errbufsz)
 {
-	return sd_get_se_types_and_endpoints(host, se_types, se_endpoints);
+	return sd_get_se_types_and_endpoints(host, se_types, se_endpoints, errbuf, errbufsz);
 }
 
 /** get from the BDII the list of supported protocols with their associated
@@ -102,5 +102,5 @@ get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpo
  */
 get_seap_info (const char *host, char ***access_protocol, int **port, char *errbuf, int errbufsz)
 {
-	return sd_get_seap_info(host, access_protocol, port);
+	return sd_get_seap_info(host, access_protocol, port,NULL,0);
 }

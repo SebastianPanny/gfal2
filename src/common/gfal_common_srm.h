@@ -64,11 +64,11 @@ int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err);
 /*
  *  Internal one, support not provided
  * */
-void gfal_delete_srmv2_pinstatuses(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n);
+void gfal_srmv2_pinstatuses_delete(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n);
 
-void gfal_delete_srmv2_statuses(struct srmv2_filestatus*  srmv2_statuses, int n);
+void gfal_srmv2_statuses_delete(struct srmv2_filestatus*  srmv2_statuses, int n);
 
-void gfal_delete_srmv2_mdfilestatus(struct srmv2_mdfilestatus* mdfilestatus, int n);
+void gfal_srmv2_mdfilestatus_delete(struct srmv2_mdfilestatus* mdfilestatus, int n);
   
 
 

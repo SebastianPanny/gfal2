@@ -424,6 +424,32 @@ char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** e
 
 
 /**
+ *  Complete openG func with catalog->surl resolution
+ *  This func try to resolve the path to a valid surl and open surl with the srm module
+ *  else open is call on the first compatible catalog like in the normal way.
+ *  @return pointer to file handle if success else NULL if error
+ * 
+ */ 
+gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err){
+	char** res_surl=NULL;
+	GError* tmp_err=NULL;
+	gfal_file_handle ret = NULL;
+	if( (res_surl = gfal_catalog_getSURL(handle, path, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
+		if(gfal_surl_checker(*res_surl, NULL) == 0 )
+			ret = gfal_srm_openG(handle, *res_surl, flag, mode, &tmp_err);
+		else
+			g_set_error(&tmp_err, 0, ECOMM, "bad surl value retrived from catalog : %s ", *res_surl);
+		g_strfreev(res_surl);
+	}else if(!tmp_err){ // try std open on the catalogs		
+		ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
+	}
+
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return ret;
+}
+
+/**
  * return the catalog type configured at compilation time
  */
 static char* get_default_cat(){

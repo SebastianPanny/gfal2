@@ -22,6 +22,8 @@
 #define TEST_SRM_DPM_FULLENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/srm/managerv2?SFN=/dpm/lal.in2p3.fr/home/dteam" 
 #define TEST_SRM_DPM_FULLENDPOINT_URL "httpg://grid05.lal.in2p3.fr:8446/srm/managerv2"
 #define TEST_LFC_PREFIX "lfn:/grid/dteam"
+
+#define TEST_GUID_VALID_FILE "guid:b7ba213b-829d-4a2e-b744-7c9cc685fe2d"
 // macros
 
 #define TEST_FUSION_STRING(x,y) x y
@@ -95,7 +97,7 @@
 #define TEST_GFAL_SRM_FILE_STAT_GID_VALUE 2
 
 
-#define TEST_GFAL_GUID_FILE_STAT_OK "guid:b7ba213b-829d-4a2e-b744-7c9cc685fe2d"
+#define TEST_GFAL_GUID_FILE_STAT_OK TEST_GUID_VALID_FILE 
 
 #define TEST_GFAL_LFC_FILE_STAT_SIZE_VALUE 2048
 #define TEST_GFAL_LFC_FILE_STAT_MODE_VALUE 0100555
@@ -194,4 +196,7 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 #define TEST_LFC_OPEN_EXIST TEST_LFC_ONLY_READ_ACCESS
 #define TEST_LFC_OPEN_NOEXIST TEST_LFC_NOEXIST_ACCESS
 #define TEST_LFC_OPEN_NOACCESS TEST_CONCAT_LFC_PREFIX("/testopen0011/testopen0012")
+
+#define TEST_GUID_OPEN_EXIST TEST_GUID_VALID_FILE
+#define TEST_GUID_OPEN_NONEXIST TEST_GUID_NOEXIST_ACCESS
 

@@ -23,9 +23,7 @@
   * @date 18/04/2011
   * */
 
-#include "gfal_common.h"
-#include "gfal_common_internal.h"
-#include "../voms/gfal_voms_if.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,6 +32,10 @@
 #include <sys/time.h>
 #include <lber.h>
 #include <ldap.h>
+#include "ServiceDiscoveryIfce.h"
+#include "gfal_common.h"
+#include "gfal_common_internal.h"
+#include "../voms/gfal_voms_if.h"
 
 /**
  * set the bdii value of the handle specified
@@ -50,7 +52,7 @@ gboolean gfal_get_nobdiiG(gfal_handle handle){
 
 int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpoints, GError** err){
 	
-	const int ret = sd_get_se_types_and_endpoints(host, se_types, se_endpoints);
+	const int ret = sd_get_se_types_and_endpoints(host, se_types, se_endpoints, NULL,0);
 	if(ret)
 		if(errno == ECOMM){
 			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return a COMM error, maybe the LCG_GFAL_INFOSYS env var is not set properly ");			
@@ -92,7 +94,7 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		set_gfal_vo(vo);
 		set_gfal_fqan(fqantab, g_list_length(fqan));
 		//g_printerr(" vo : %s, fqann %d, fqan : %s \n", vo, g_list_length(fqan), *fqantab); 
-		const int ret =  sd_get_lfc_endpoint(&lfc_host);
+		const int ret =  sd_get_lfc_endpoint(&lfc_host, NULL, 0);
 		if(!lfc_host || ret <=0){
 			g_set_error(err, 0, errno, "[gfal_get_lfchost_bdii] Error while get lfc endpoint from bdii system : %d & %s ", ret, strerror(errno) );
 			lfc_host = NULL;

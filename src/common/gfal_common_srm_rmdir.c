@@ -49,7 +49,7 @@ int gfal_srmv2_rmdir_internal(gfal_handle handle, char* endpoint, const char* su
 		}else{
 			ret =0;
 		}
-		gfal_delete_srmv2_statuses(rmdir_output.statuses,1);
+		gfal_srmv2_statuses_delete(rmdir_output.statuses,1);
 	}else{
 		g_set_error(&tmp_err, 0, ECOMM, " COMM error reported with the srm_ifce %s",  strerror(errno));
 		ret=-1;		

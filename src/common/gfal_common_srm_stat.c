@@ -70,7 +70,7 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
 		ret=-1;
 	}
-	gfal_delete_srmv2_mdfilestatus(srmv2_mdstatuses, 1);
+	gfal_srmv2_mdfilestatus_delete(srmv2_mdstatuses, 1);
 	return ret;	
 }
 

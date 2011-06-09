@@ -29,7 +29,7 @@
 #include <glib.h>
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
-#include "ServiceDiscovery.h"
+
 
 int gfal_mds_get_se_types_and_endpoints(const char *host, char ***se_types, char ***se_endpoints, GError** err);
 
