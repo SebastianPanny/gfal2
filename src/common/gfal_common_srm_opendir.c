@@ -22,3 +22,14 @@
  * @version 2.0
  * @date 09/06/2011
  * */
+
+
+__thread struct dirent current_dir;
+
+
+
+gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* path, GError ** err){
+	
+	
+	
+}

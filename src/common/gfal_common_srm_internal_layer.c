@@ -1,4 +1,3 @@
-#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -17,13 +16,9 @@
  */
 
 /**
- * @file gfal_common_srm_opendir.h
- * @brief header file for the opendir function on the srm url type
+ * @file gfal_common_srm_internal_layer.c
+ * @brief file for the srm external function mapping for mocking purpose
  * @author Devresse Adrien
  * @version 2.0
  * @date 09/06/2011
  * */
-
-
-
-gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* path, GError ** err);
