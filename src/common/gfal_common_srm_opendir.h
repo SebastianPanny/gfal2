@@ -17,17 +17,9 @@
  */
 
 /**
- * @file gfal_common_srm_open.h
- * @brief header file for the open function on the srm url type
+ * @file gfal_common_srm_opendir.h
+ * @brief header file for the opendir function on the srm url type
  * @author Devresse Adrien
  * @version 2.0
- * @date 06/06/2011
+ * @date 09/06/2011
  * */
-#include <glib.h>
-#include "gfal_types.h"
-#include "gfal_common_filedescriptor.h"
-
-gfal_file_handle gfal_srm_openG(gfal_handle handle, const char* path, int flag, mode_t mode, GError** err);
-
-
-int gfal_srm_closeG(gfal_file_handle fh, GError** err);

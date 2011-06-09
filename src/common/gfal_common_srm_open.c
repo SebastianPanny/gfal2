@@ -20,7 +20,7 @@
  * @brief file for the open function on the srm url type
  * @author Devresse Adrien
  * @version 2.0
- * @date 06/07/2011
+ * @date 06/06/2011
  * */
  
  #define _GNU_SOURCE
