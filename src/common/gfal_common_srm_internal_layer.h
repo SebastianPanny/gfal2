@@ -39,8 +39,11 @@ struct _gfal_srm_external_call{
 	int (*srm_rmdir)(struct srm_context *context,
 		struct srm_rmdir_input *input,struct srm_rmdir_output *output);
 		
-	
-	
+	int (*srm_getpermission) (struct srm_context *context,
+		struct srm_getpermission_input *input,struct srm_getpermission_output *output);
+
+	int (*srm_check_permission)(struct srm_context *context,
+		struct srm_checkpermission_input *input,struct srmv2_filestatus **statuses);	
 	
 };
 

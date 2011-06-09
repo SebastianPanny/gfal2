@@ -39,55 +39,7 @@ static enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PRO
 
 
 
-/**
- *  @brief delete properly a number n of of struct srmv2_pinstatuses
- **/ 
-void gfal_srmv2_pinstatuses_delete(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n){
-	if(srmv2_pinstatuses){
-		int i ;
-		for(i=0; i < n; ++i){
-			free(srmv2_pinstatuses[i].surl);
-			free(srmv2_pinstatuses[i].turl);
-			free(srmv2_pinstatuses[i].explanation);
-		}
-		free(srmv2_pinstatuses);	
-	}
-}
 
-/**
- *  @brief delete properly  a number n of struct srmv2_mdfilestatus 
- *  if pointer and NULL, return instantannly
- **/ 
-void gfal_srmv2_mdfilestatus_delete(struct srmv2_mdfilestatus* mdfilestatus, int n){
-	if(mdfilestatus){
-		int i,j ;
-		for(i=0; i < n; ++i){
-			free(mdfilestatus[i].surl);
-			free(mdfilestatus[i].explanation);		
-			free(mdfilestatus[i].checksum);
-			free(mdfilestatus[i].checksumtype);	
-			for(j=0; j < mdfilestatus[i].nbspacetokens;++j){
-				free(mdfilestatus[i].spacetokens[i]);
-			}	
-		}
-		free(mdfilestatus);
-	}
-}
-
-/**
- *   @brief delete properly a number n of struct srmv2_pinstatuses
- **/ 
-void gfal_srmv2_statuses_delete(struct srmv2_filestatus*  srmv2_statuses, int n){
-	if(srmv2_statuses){
-		int i ;
-		for(i=0; i < n; ++i){
-			free(srmv2_statuses[i].surl);
-			free(srmv2_statuses[i].turl);
-			free(srmv2_statuses[i].explanation);
-		}
-		free(srmv2_statuses);	
-	}
-}
 
 
 /**
@@ -303,7 +255,7 @@ void gfal_delete_request_state(gfal_request_state* request_state){
 		 free(request_state->request_endpoint);
 		 free(request_state->srmv2_token);
 		 free(request_state->srmv2_statuses);
-		 gfal_srmv2_pinstatuses_delete(request_state->srmv2_pinstatuses, request_state->number);
+		 srm_srmv2_pinfilestatus_delete(request_state->srmv2_pinstatuses, request_state->number);
 		 free(request_state);
 	 }
  }
@@ -494,7 +446,7 @@ static int gfal_convert_filestatut(gfal_handle handle, GList** turls, GList** tu
  */
 static int gfal_convert_to_handle(int ret, gfal_request_state* request_info, struct srmv2_pinfilestatus *filestatus, GError** err){
 	g_return_val_err_if_fail(ret && request_info && filestatus, -1, err, "[gfal_convert_to_handle] invalid args");
-	gfal_srmv2_pinstatuses_delete(request_info->srmv2_pinstatuses, request_info->number);
+	srm_srmv2_pinfilestatus_delete(request_info->srmv2_pinstatuses, request_info->number);
 	request_info->srmv2_pinstatuses = filestatus;
 	int i;
 	gboolean finished = TRUE;
