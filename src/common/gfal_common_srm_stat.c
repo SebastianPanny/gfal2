@@ -26,7 +26,7 @@
 #include "gfal_common_srm_access.h"
 #include "gfal_constants.h"
 #include "gfal_common_errverbose.h"
-#include <gfal_srm_ifce_types.h> 
+#include "gfal_common_srm_internal_layer.h" 
 
 
 
@@ -70,7 +70,7 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
 		ret=-1;
 	}
-	srm_srmv2_mdfilestatus_delete(srmv2_mdstatuses, 1);
+	gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(srmv2_mdstatuses, 1);
 	return ret;	
 }
 

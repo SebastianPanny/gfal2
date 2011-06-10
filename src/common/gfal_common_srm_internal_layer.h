@@ -44,6 +44,12 @@ struct _gfal_srm_external_call{
 
 	int (*srm_check_permission)(struct srm_context *context,
 		struct srm_checkpermission_input *input,struct srmv2_filestatus **statuses);	
+		
+	void (*srm_srmv2_pinfilestatus_delete)(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n);
+	
+	void (*srm_srmv2_mdfilestatus_delete)(struct srmv2_mdfilestatus* mdfilestatus, int n);
+	
+	void (*srm_srmv2_filestatus_delete)(struct srmv2_filestatus*  srmv2_statuses, int n);
 	
 };
 

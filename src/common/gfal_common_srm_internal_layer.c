@@ -33,5 +33,8 @@ struct _gfal_srm_external_call gfal_srm_external_call = {
 	.srm_ls = &srm_ls,
 	.srm_rmdir = &srm_rmdir,
 	.srm_getpermission = &srm_getpermission,
-	.srm_check_permission = &srm_check_permission
+	.srm_check_permission = &srm_check_permission,
+	.srm_srmv2_pinfilestatus_delete = &srm_srmv2_pinfilestatus_delete,
+	.srm_srmv2_mdfilestatus_delete = &srm_srmv2_mdfilestatus_delete,
+	.srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete
 };

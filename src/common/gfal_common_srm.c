@@ -31,6 +31,7 @@
 #include "gfal_common_srm.h"
 #include "gfal_common_internal.h"
 #include "gfal_common_errverbose.h"
+#include "gfal_common_srm_internal_layer.h"
 
 /**
  * list of the protols in the order of preference
@@ -255,7 +256,7 @@ void gfal_delete_request_state(gfal_request_state* request_state){
 		 free(request_state->request_endpoint);
 		 free(request_state->srmv2_token);
 		 free(request_state->srmv2_statuses);
-		 srm_srmv2_pinfilestatus_delete(request_state->srmv2_pinstatuses, request_state->number);
+		 gfal_srm_external_call.srm_srmv2_pinfilestatus_delete(request_state->srmv2_pinstatuses, request_state->number);
 		 free(request_state);
 	 }
  }
@@ -446,7 +447,7 @@ static int gfal_convert_filestatut(gfal_handle handle, GList** turls, GList** tu
  */
 static int gfal_convert_to_handle(int ret, gfal_request_state* request_info, struct srmv2_pinfilestatus *filestatus, GError** err){
 	g_return_val_err_if_fail(ret && request_info && filestatus, -1, err, "[gfal_convert_to_handle] invalid args");
-	srm_srmv2_pinfilestatus_delete(request_info->srmv2_pinstatuses, request_info->number);
+	gfal_srm_external_call.srm_srmv2_pinfilestatus_delete(request_info->srmv2_pinstatuses, request_info->number);
 	request_info->srmv2_pinstatuses = filestatus;
 	int i;
 	gboolean finished = TRUE;

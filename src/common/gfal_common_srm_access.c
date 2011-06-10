@@ -66,7 +66,7 @@ static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, char* 
 		ret = resu[i].status;
 	}
 	//g_printerr(" resu : %d , status %d, strerror : %s, explanation : %s \n", ret, resu[0].status, strerror(resu[0].status), resu[0].explanation);
-	srm_srmv2_filestatus_delete(resu, nb_request);
+	gfal_srm_external_call.srm_srmv2_filestatus_delete(resu, nb_request);
 	return ret;
 }
 
