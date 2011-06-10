@@ -37,5 +37,6 @@ struct _gfal_srm_external_call gfal_srm_external_call = {
 	.srm_check_permission = &srm_check_permission,
 	.srm_srmv2_pinfilestatus_delete = &srm_srmv2_pinfilestatus_delete,
 	.srm_srmv2_mdfilestatus_delete = &srm_srmv2_mdfilestatus_delete,
-	.srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete
+	.srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete,
+	.srm_srm2__TReturnStatus_delete = &srm_srm2__TReturnStatus_delete
 };

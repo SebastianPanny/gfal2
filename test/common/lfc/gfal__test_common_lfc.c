@@ -290,6 +290,7 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
+	free(ret);
 	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
 	free(op->lfc_endpoint);
 	free(op);	

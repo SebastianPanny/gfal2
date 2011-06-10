@@ -330,6 +330,7 @@ static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls,
     	req_state->current_request_proto = PROTO_SRMv2;	
     	req_state->request_endpoint = strndup(endpoint, 2048);
     	req_state->finished = FALSE;
+    	gfal_srm_external_call.srm_srm2__TReturnStatus_delete(preparetoget_output.retstatus);
 	}
 	free(surls_tab);
 	return ret;	
@@ -490,6 +491,7 @@ static int gfal_get_request_statusG(gfal_handle handle, GError** err){
 			if ( (ret = gfal_convert_to_handle(ret, request_info, preparetoget_output.filestatuses, &tmp_err)) <0){
 				g_propagate_prefixed_error(err, tmp_err, "[gfal_get_request_statusG_srmv2]");
 			}
+			gfal_srm_external_call.srm_srm2__TReturnStatus_delete(preparetoget_output.retstatus);
 		} 
 		
 	}else if( request_info->current_request_proto == PROTO_SRM){

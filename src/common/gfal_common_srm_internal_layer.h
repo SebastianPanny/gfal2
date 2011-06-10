@@ -57,6 +57,8 @@ struct _gfal_srm_external_call{
 	
 	void (*srm_srmv2_filestatus_delete)(struct srmv2_filestatus*  srmv2_statuses, int n);
 	
+	void (*srm_srm2__TReturnStatus_delete)(struct srm2__TReturnStatus* status);
+	
 };
 
 extern struct _gfal_srm_external_call gfal_srm_external_call;

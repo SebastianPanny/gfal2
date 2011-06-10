@@ -19,7 +19,14 @@ extern const char* srm_noent_dir;
 extern const char* srm_noaccess_dir;
 
 
+void mock_all_srm();
+void unmock_all_srm();
+
 void mock_srm_context();
 
 
 void unmock_srm_context();
+
+void mock_srm_ls();
+
+void unmock_srm_ls();

@@ -261,7 +261,7 @@ END_TEST
 
 START_TEST(test_gfal_select_best_protocol_and_endpoint)
 {
-	char *endpoint;
+	char *endpoint=NULL;
 	enum gfal_srm_proto srm_type;
 	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
 	GError * err= NULL;
@@ -277,7 +277,8 @@ START_TEST(test_gfal_select_best_protocol_and_endpoint)
 	if(ret){
 			fail(" must successfull");
 			gfal_release_GError(&err);
-	}	
+	}
+	free(endpoint);	
 	fail_if(strcmp(endpoint,"montblanc")!=0, " reponse not match correctly");
 	// try with another version by default
 	gfal_set_default_storageG(handle, PROTO_SRM);

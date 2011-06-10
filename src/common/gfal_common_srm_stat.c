@@ -71,6 +71,7 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 		ret=-1;
 	}
 	gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(srmv2_mdstatuses, 1);
+	gfal_srm_external_call.srm_srm2__TReturnStatus_delete(output.retstatus);
 	return ret;	
 }
 
