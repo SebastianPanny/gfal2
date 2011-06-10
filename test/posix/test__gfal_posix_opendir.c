@@ -6,14 +6,16 @@
 #include <check.h>
 #include <time.h>
 #include <string.h>
+#include <errno.h>
+#include <stdio.h>
 #include "gfal_constants.h"
 #include "gfal_prototypes.h"
 #include "gfal_types.h"
 #include <glib.h>
 #include "../unit_test_constants.h"
-#include <stdio.h>
 #include "gfal_posix_api.h"
-#include <errno.h>
+#include "../mock/gfal_srm_mock_test.h"
+
 
 
 
@@ -227,22 +229,24 @@ END_TEST
 
 START_TEST(test__opendir_posix_srm_simple_mock)
 {
+	mock_srm_context();
+	
 	gfal_posix_clear_error();
-	DIR* d = gfal_opendir(TEST_LOCAL_OPENDIR_OPEN_INVALID);
+	DIR* d = gfal_opendir(srm_noent_dir);
 	if(d!=NULL|| gfal_posix_code_error() != ENOENT || errno != ENOENT){
 		fail(" error, must be a non existing dir %ld %d %d",d,gfal_posix_code_error(), errno);
 		gfal_posix_release_error();
 		return;
 	}
 	gfal_posix_clear_error();
-	d = gfal_opendir(TEST_LOCAL_OPENDIR_OPEN_NOACCESS);
+	d = gfal_opendir(srm_noaccess_dir);
 	if(d!=NULL|| gfal_posix_code_error() != EACCES || errno != EACCES){
 		fail(" error, must be a non accessible dir  %ld %d %d",d,gfal_posix_code_error(), errno);
 		gfal_posix_release_error();
 		return;
 	}		
 	gfal_posix_clear_error();	
-	d = gfal_opendir(TEST_LOCAL_OPENDIR_OPEN);
+	d = gfal_opendir(srm_valid_dir);
 	if(d==NULL|| gfal_posix_code_error() != 0){
 		fail(" error, must be a valid open");
 		gfal_posix_release_error();

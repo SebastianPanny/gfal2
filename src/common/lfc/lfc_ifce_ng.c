@@ -367,6 +367,7 @@ char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err){
 	for(i=0; i< size; ++i){
 		replicas[i] = strndup(list[i].sfn, GFAL_URL_MAX_LEN);
 	}
+	free(list);
 	return replicas;
 	
 }
