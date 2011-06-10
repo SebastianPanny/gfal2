@@ -362,7 +362,7 @@ char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err){
 		g_set_error(err, 0, errno, "[%s] error reported from lfc : %s", __func__, ops->sstrerror (*ops->serrno));
 		return NULL;
 	}
-	replicas = malloc( sizeof(char)* (size+1));
+	replicas = malloc( sizeof(char*)* (size+1));
 	replicas[size]= NULL;
 	for(i=0; i< size; ++i){
 		replicas[i] = strndup(list[i].sfn, GFAL_URL_MAX_LEN);
