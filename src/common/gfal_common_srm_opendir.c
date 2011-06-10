@@ -23,15 +23,17 @@
  * @date 09/06/2011
  * */
 
-#include "gfal_common_srm_opendir.h"
+
 #include <dirent.h>
+#include "gfal_common_srm_opendir.h"
+#include "gfal_common_errverbose.h"
+
 
 __thread struct dirent current_dir;
 
 
 
 gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* path, GError ** err){
-	
-	
-	
+	g_return_val_err_if_fail(handle && path, NULL, err, "[gfal_srm_opendirG] Invalid args");	
+	return NULL;
 }
