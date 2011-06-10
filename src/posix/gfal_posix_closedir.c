@@ -60,6 +60,9 @@ static int gfal_posix_dir_handle_close(gfal_handle handle, gfal_file_handle fh, 
 		case GFAL_MODULEID_LOCAL:
 			ret = gfal_local_closedir(fh->fdesc, &tmp_err);
 			break;
+		case GFAL_MODULEID_SRM:
+			g_set_error(&tmp_err, 0, ENOSYS, "npt implemented");	
+			break;	
 		case GFAL_EXTERNAL_MODULE_OFFSET:
 			ret = gfal_catalog_closedirG(handle, fh, &tmp_err);
 			break;

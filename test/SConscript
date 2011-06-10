@@ -12,9 +12,10 @@ import shutil
 import commands
 
 src_tests_link = ['gfal_srm_ifce','ldap','is_ifce']
+src_tests_mocks = Glob('mock/*.c')
 src_tests_global = ["#src/common/gfal_common_errverbose.c", "#src/common/gfal_common_all.c", "#src/common/gfal_common_guid.c", "unit_test_util.c"]
 src_tests_voms = ["common/voms/gfal__test_voms.c","#src/common/voms/gfal_voms_if.c" ]
-src_tests_srm = ["#src/common/gfal_common_srm.c", "common/gfal__test_common_srm.c" , "common/gfal__test_common_srm_no_glib.c", "mock/gfal_srm_mock_test.c"]
+src_tests_srm = ["#src/common/gfal_common_srm.c", "common/gfal__test_common_srm.c" , "common/gfal__test_common_srm_no_glib.c"]
 src_tests_srm_access = ["common/gfal__test_common_srm_access.c", "#src/common/gfal_common_srm_access.c"]
 src_tests_srm_stat = ["#src/common/gfal_common_srm_stat.c"]
 src_tests_srm_mkdir = ["#src/common/gfal_common_srm_mkdir.c"]
@@ -22,7 +23,7 @@ src_tests_srm_rmdir = ["#src/common/gfal_common_srm_rmdir.c"]
 src_tests_srm_open =  ['#src/common/gfal_common_srm_open.c']
 src_tests_srm_layer = ['#src/common/gfal_common_srm_internal_layer.c']
 src_tests_srm_opendir = ['#src/common/gfal_common_srm_opendir.c']
-src_tests_srm_all = src_tests_srm + src_tests_srm_access + src_tests_srm_stat + src_tests_srm_mkdir + src_tests_srm_rmdir + src_tests_srm_open + src_tests_srm_opendir+ src_tests_srm_layer
+src_tests_srm_all = src_tests_srm + src_tests_srm_access + src_tests_srm_stat + src_tests_srm_mkdir + src_tests_srm_rmdir + src_tests_srm_open + src_tests_srm_opendir+ src_tests_srm_layer 
 src_tests_filedescriptor = ["#src/common/gfal_common_filedescriptor.c", "#src/common/gfal_common_dir_handle.c", "#src/common/gfal_common_file_handle.c", "common/gfal__test_common_dir_file_descriptor.c"]
 src_tests_lfc = ["#src/common/lfc/gfal_common_lfc.c", "common/lfc/gfal__test_common_lfc.c", "#src/common/lfc/lfc_ifce_ng.c"]
 src_tests_mds = ["#src/common/mds/gfal_common_mds.c", "common/mds/gfal__test_common_mds.c", "#src/common/mds/gfal_common_mds_layer.c"]
@@ -37,7 +38,7 @@ src_tests_posix_opendir = ['#src/posix/gfal_posix_opendir.c', '#src/posix/gfal_p
 src_tests_posix = [ '#src/posix/gfal_posix_ng.c', '#src/posix/gfal_posix_internal.c', '#src/posix/gfal_posix_local_file.c']
 src_tests_posix_all = src_tests_posix + src_tests_posix_access + src_tests_posix_chmod + src_tests_posix_rename + src_tests_posix_stat + src_tests_posix_mkdir + src_tests_posix_rmdir + src_tests_posix_opendir + src_tests_posix_open
 src_tests= ["common/gfal__test_verbose.c", "common/gfal__test_catalog.c","#src/common/gfal_common_catalog.c" ,"unit_test.c" ]
-src_tests_all = src_tests+ src_tests_voms + src_tests_global + src_tests_srm_all  + src_tests_mds + src_tests_lfc + src_tests_posix_all + src_tests_filedescriptor
+src_tests_all = src_tests_mocks+ src_tests+ src_tests_voms + src_tests_global + src_tests_srm_all  + src_tests_mds + src_tests_lfc + src_tests_posix_all + src_tests_filedescriptor
 ## build test config
 
 lfc_gfal_infosys = (os.getenv("LCG_GFAL_INFOSYS") is None) and "" or os.getenv("LCG_GFAL_INFOSYS") # get the var env or ""

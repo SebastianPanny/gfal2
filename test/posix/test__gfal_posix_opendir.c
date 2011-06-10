@@ -229,27 +229,35 @@ END_TEST
 
 START_TEST(test__opendir_posix_srm_simple_mock)
 {
-	mock_srm_context();
-	
+	mock_all_srm();
+	mock_endpointres_mock();
+
+	void finish_mock(){
+		unmock_all_srm();
+		unmock_endpointres_mock();	
+	}
 	gfal_posix_clear_error();
-	DIR* d = gfal_opendir(srm_noent_dir);
+	DIR* d = gfal_opendir(srm_noent_dir());
 	if(d!=NULL|| gfal_posix_code_error() != ENOENT || errno != ENOENT){
 		fail(" error, must be a non existing dir %ld %d %d",d,gfal_posix_code_error(), errno);
 		gfal_posix_release_error();
+		finish_mock();
 		return;
 	}
 	gfal_posix_clear_error();
-	d = gfal_opendir(srm_noaccess_dir);
+	d = gfal_opendir(srm_noaccess_dir());
 	if(d!=NULL|| gfal_posix_code_error() != EACCES || errno != EACCES){
 		fail(" error, must be a non accessible dir  %ld %d %d",d,gfal_posix_code_error(), errno);
 		gfal_posix_release_error();
+		finish_mock();
 		return;
 	}		
 	gfal_posix_clear_error();	
-	d = gfal_opendir(srm_valid_dir);
+	d = gfal_opendir(srm_valid_dir());
 	if(d==NULL|| gfal_posix_code_error() != 0){
 		fail(" error, must be a valid open");
 		gfal_posix_release_error();
+		finish_mock();
 		return;
 	}
 	
@@ -257,6 +265,7 @@ START_TEST(test__opendir_posix_srm_simple_mock)
 	if( ret != 0 || gfal_posix_code_error() != 0 || errno != 0){
 		fail(" must be a valid closedir %d %d %d", ret,gfal_posix_code_error(), errno);
 		gfal_posix_release_error();
+		finish_mock();
 		return;
 	}
 	
@@ -264,9 +273,12 @@ START_TEST(test__opendir_posix_srm_simple_mock)
 	if( ret == 0 || gfal_posix_code_error() == 0 || errno == 0){
 		fail(" must be a non existing dir descriptor closedir %d %d %d", ret,gfal_posix_code_error(), errno);
 		gfal_posix_release_error();
+		finish_mock();
 		return;
 	}	
-	gfal_posix_clear_error();	
+	gfal_posix_clear_error();
+	finish_mock();
+
 }
 END_TEST
 

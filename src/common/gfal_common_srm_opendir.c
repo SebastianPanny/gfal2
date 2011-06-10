@@ -25,15 +25,84 @@
 
 
 #include <dirent.h>
+#include "gfal_common_srm.h"
 #include "gfal_common_srm_opendir.h"
 #include "gfal_common_errverbose.h"
-
+#include "gfal_common_srm_internal_layer.h"
 
 __thread struct dirent current_dir;
 
 
 
-gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* path, GError ** err){
-	g_return_val_err_if_fail(handle && path, NULL, err, "[gfal_srm_opendirG] Invalid args");	
-	return NULL;
+static gfal_file_handle gfal_srmv2_opendir_internal(gfal_handle handle, char* endpoint, const char* surl, GError** err){
+	g_return_val_err_if_fail(handle && endpoint && surl, NULL, err, "[gfal_srmv2_opendir_internal] invaldi args");
+	struct srm_context context;
+	struct srm_ls_input input;
+	struct srm_ls_output output;
+	struct srmv2_mdfilestatus *srmv2_mdstatuses=NULL;
+	char errbuf[GFAL_ERRMSG_LEN];
+	int i;
+	gfal_file_handle resu=NULL;
+	int ret =-1;
+	char* tab_surl[] = { (char*)surl, NULL};
+	const int nb_request=1;
+	int tab_resu[nb_request];
+	
+	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());	// init context
+	
+	input.nbfiles = nb_request;
+	input.surls = tab_surl;
+	input.numlevels = 1;
+	input.offset = 0;
+	input.count = 0;
+
+	ret = gfal_srm_external_call.srm_ls(&context,&input,&output);					// execute ls
+
+	if(ret >=0){
+		srmv2_mdstatuses = output.statuses;
+		if(srmv2_mdstatuses->status != 0){
+			g_set_error(err, 0, srmv2_mdstatuses->status, "[%s] Error reported from srm_ifce : %d %s", __func__, 
+							srmv2_mdstatuses->status, srmv2_mdstatuses->explanation);
+			resu = NULL;
+		} else {
+			resu = gfal_file_handle_new(GFAL_MODULEID_SRM, (gpointer)srmv2_mdstatuses);
+		}
+	}else{
+		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
+		resu=NULL;
+	}
+	//gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(srmv2_mdstatuses, 1);
+	gfal_srm_external_call.srm_srm2__TReturnStatus_delete(output.retstatus);
+	return resu;	
+}
+	
+
+
+gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* surl, GError ** err){
+	g_return_val_err_if_fail(handle && surl, NULL, err, "[gfal_srm_opendirG] Invalid args");
+	
+	gfal_file_handle resu = NULL;
+	char* endpoint=NULL;
+	GError* tmp_err=NULL;
+	int ret = -1;
+	enum gfal_srm_proto srm_type;
+	
+	ret = gfal_auto_get_srm_endpoint_for_surl(handle, &endpoint, &srm_type, surl, &tmp_err);
+	if( ret >=0 ){
+		if(srm_type == PROTO_SRMv2){
+			resu = gfal_srmv2_opendir_internal(handle, endpoint, surl, &tmp_err);
+		}else if (srm_type == PROTO_SRM){
+			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
+			resu = NULL;
+		}else {
+			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] Unknow version of the protocol SRM , failure");
+			resu = NULL;			
+		}
+		
+	}
+	
+	free(endpoint);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return resu;
 }

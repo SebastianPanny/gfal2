@@ -7,18 +7,39 @@
 
 
 #include "gfal_srm_mock_test.h"
+#include <string.h>
+#include <errno.h>
+#include <stdlib.h>
 
 
+static char buff_valid_dir[2048];
+static char buff_noent_dir[2048];
+static char buff_access_dir[2048];
+
+static char* tab[]= { "testdir001", "testdir002", "testdir003", "testdir004", NULL };
+
+char** list_dir_srm(){
+	return tab;
+}
 
 
-char** list_dir_srm= { "testdir001", "testdir002", "testdir003", "testdir004", NULL };
+char* srm_valid_dir(){
+	strcpy(buff_valid_dir, surl_valid_endpoint);
+	strcat(buff_valid_dir, "/grid/dteam/testdirvalid001");
+	return buff_valid_dir;
+}
 
+char* srm_noent_dir(){
+	strcpy(buff_noent_dir, surl_valid_endpoint);
+	strcat(buff_noent_dir, "/grid/dteam/testdirinvalid001");
+	return buff_noent_dir;
+}
 
-extern const char* srm_valid_dir = "srm://mockendpoint.fr/grid/dteam/testdirvalid001";
-
-extern const char* srm_noent_dir = "srm://mockendpoint.fr/grid/dteam/testdirinvalid001";
-
-extern const char* srm_noaccess_dir = "srm://mockendpoint.fr/grid/dteam/testdirinvalid0012";
+char* srm_noaccess_dir(){
+	strcpy(buff_access_dir, surl_valid_endpoint);
+	strcat(buff_access_dir, "/grid/dteam/testdirinvalid0012");
+	return buff_access_dir;
+}
 
 
 static void srm_context_mock_implem(struct srm_context *context,char *srm_endpoint,char *errbuf,int errbufsz,int verbose){
@@ -34,9 +55,60 @@ void unmock_srm_context(){
 }
 
 
-int srm_ls_mock_implem(struct srm_context *context,
+static int srm_ls_mock_implem(struct srm_context *context,
 		struct srm_ls_input *input,struct srm_ls_output *output){
-			
+	int ret = -1,i;
+	if( !context  || !input || !output){
+		g_printerr(" bad call to the srm_ls mock");
+		errno = EINVAL;
+		return -1;
+	} 
+	if(input->nbfiles != 1)	{
+		g_printerr(" bad number of file in the mock call");
+		errno = EINVAL;
+		return -1;		
+	}
+	if(!input->surls){
+		g_printerr(" no valdi surl in the moch call");
+		errno = EINVAL;
+		return -1;		
+	}
+	if(input->numlevels != 1){
+		g_printerr(" bad flag level in input");
+		errno = EINVAL;
+		return -1;			
+	}
+	if( strcmp(*input->surls, srm_valid_dir()) ==0  ){
+		memset(output,0, sizeof(struct srm_ls_output));
+		output->statuses = calloc(sizeof(struct srmv2_mdfilestatus),1);
+		output->statuses->surl = *input->surls;
+		output->statuses->nbsubpaths= 4;
+		output->statuses->subpaths = calloc(sizeof(struct srmv2_mdfilestatus),4);
+		char** list_dir = list_dir_srm();
+		for(i=0; i< 4; ++i){
+			output->statuses->subpaths[i].surl = strdup(list_dir[i]);
+		}
+		ret =0;
+	}else if( strcmp(*input->surls, srm_noaccess_dir()) ==0 ){
+		memset(output,0, sizeof(struct srm_ls_output));
+		output->statuses = calloc(sizeof(struct srmv2_mdfilestatus),1);
+		output->statuses->surl = *input->surls;
+		output->statuses->explanation = strdup(" error enoent from mock srm");
+		output->statuses->status= EACCES;	
+		ret =0;	
+	}else if(strncmp(*input->surls, "srm://",6) == 0){
+		memset(output,0, sizeof(struct srm_ls_output));
+		output->statuses = calloc(sizeof(struct srmv2_mdfilestatus),1);
+		output->statuses->surl = *input->surls;
+		output->statuses->explanation = strdup(" error eacces from mock srm");
+		output->statuses->status= ENOENT;	
+		ret =0;	
+	}else{
+		g_printerr(" incorrect surl input");
+		errno = EINVAL;
+		return -1;			
+	}
+	return ret;
 }
 
 void mock_srm_ls(){
