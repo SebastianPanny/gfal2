@@ -315,7 +315,7 @@ static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls,
 	preparetoget_input.protocols = opts->opt_srmv2_protocols;
 	preparetoget_input.spacetokendesc = opts->opt_srmv2_spacetokendesc;
 	preparetoget_input.surls = surls_tab;	
-	srm_context_init(&context, endpoint, errbuf, size, gfal_get_verbose());	
+	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, size, gfal_get_verbose());	
 	
 	
 	ret = srm_prepare_to_get_async(&context,&preparetoget_input,&preparetoget_output);
@@ -480,7 +480,7 @@ static int gfal_get_request_statusG(gfal_handle handle, GError** err){
 		struct srm_preparetoget_input preparetoget_input;
 		struct srm_preparetoget_output preparetoget_output;
 		
-		srm_context_init(&context, request_info->request_endpoint, err_buff,max_buffer_size, gfal_get_verbose());
+		gfal_srm_external_call.srm_context_init(&context, request_info->request_endpoint, err_buff,max_buffer_size, gfal_get_verbose());
 		
 		preparetoget_output.token = request_info->srmv2_token;			// set the token of the last request
 		int ret = srm_status_of_get_request_async(&context,&preparetoget_input,&preparetoget_output);

@@ -26,7 +26,7 @@
 #include "gfal_common_srm_mkdir.h"
 #include "gfal_constants.h"
 #include "gfal_common_errverbose.h"
-#include <gfal_srm_ifce_types.h> 
+#include "gfal_common_srm_internal_layer.h"
 
 
 int gfal_mkdir_srmv2_internal(gfal_handle handle, char* endpoint, const char* path, mode_t mode, GError** err){
@@ -35,9 +35,9 @@ int gfal_mkdir_srmv2_internal(gfal_handle handle, char* endpoint, const char* pa
 	int res = -1;
 
 	errno =0;	
-    srm_context_init(&context, endpoint, NULL, 0, gfal_get_verbose());	  
+    gfal_srm_external_call.srm_context_init(&context, endpoint, NULL, 0, gfal_get_verbose());	  
     mkdir_input.dir_name = (char*) path;
-   	res  = srm_mkdir(&context, &mkdir_input);
+   	res  = gfal_srm_external_call.srm_mkdir(&context, &mkdir_input);
 
    	if(res <0){
 		g_set_error(err,0, errno, "[%s] Error reported by srm_ifce ", __func__);

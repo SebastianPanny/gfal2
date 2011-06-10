@@ -33,11 +33,17 @@
  *
  */
 struct _gfal_srm_external_call{
+	
+	void (*srm_context_init)(struct srm_context *context,char *srm_endpoint,char *errbuf,int errbufsz,int verbose);
+	
 	int (*srm_ls)(struct srm_context *context,
 		struct srm_ls_input *input,struct srm_ls_output *output);
 		
 	int (*srm_rmdir)(struct srm_context *context,
 		struct srm_rmdir_input *input,struct srm_rmdir_output *output);
+		
+	int (*srm_mkdir)(struct srm_context *context,
+		struct srm_mkdir_input *input);
 		
 	int (*srm_getpermission) (struct srm_context *context,
 		struct srm_getpermission_input *input,struct srm_getpermission_output *output);

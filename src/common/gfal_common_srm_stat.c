@@ -46,7 +46,7 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 	char* tab_surl[] = { (char*)surl, NULL};
 	int tab_resu[nb_request];
 	
-	srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());	// init context
+	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());	// init context
 	
 	input.nbfiles = nb_request;
 	input.surls = tab_surl;
@@ -54,7 +54,7 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 	input.offset = 0;
 	input.count = 0;
 
-	ret = srm_ls(&context,&input,&output);					// execute ls
+	ret = gfal_srm_external_call.srm_ls(&context,&input,&output);					// execute ls
 
 	if(ret >=0){
 		srmv2_mdstatuses = output.statuses;

@@ -36,7 +36,7 @@ int gfal_srmv2_rmdir_internal(gfal_handle handle, char* endpoint, const char* su
 	GError* tmp_err=NULL;
 	int ret = -1;
 	
-	srm_context_init(&context, endpoint, NULL, 0, gfal_get_verbose());
+	gfal_srm_external_call.srm_context_init(&context, endpoint, NULL, 0, gfal_get_verbose());
 
 	rmdir_input.recursive = 0;
 	rmdir_input.surl = (char*)surl;

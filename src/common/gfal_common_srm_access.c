@@ -41,7 +41,7 @@ static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, char* 
 	int tab_resu[nb_request];
 
 
-	srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());
+	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());
 
 	checkpermission_input.nbfiles = nb_request;
 	checkpermission_input.amode = mode;
