@@ -43,6 +43,23 @@ static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_i
 static const int size_catalog = 1;
 
 /**
+ *  load the module of gfal
+ * 
+static int gfal_modules_search(GError** err){
+	char* gfal_plugin_lst = getenv(GFAL_PLUGIN_ENVAR);
+	int n;
+	if( gfal_plugin_lst == NULL){
+		g_set_error(err, 0, ENAMETOOLONG, "[%s] env var %s not defined, no plugin loaded for gfal !", __func__, GFAL_PLUGIN_ENVAR);
+		return -1;		
+	}
+	if( (n=strnlen(gfal_plugin_lst, GFAL_MAX_PLUGIN_LIST)) >= GFAL_MAX_PLUGIN_LIST){
+		g_set_error(err, 0, ENAMETOOLONG, "[%s] plugin list in %s env var too long", __func__, GFAL_PLUGIN_ENVAR);
+		return -1;
+	}
+	
+}*/
+
+/**
  * Instance all catalogs for use if it's not the case
  *  return the number of catalog available
  */
