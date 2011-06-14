@@ -25,6 +25,9 @@
  
 
 #include <regex.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include "gfal_common_errverbose.h"
 #include "gfal_common_guid.h"
  
@@ -146,12 +149,16 @@ gfal_file_handle gfal_guid_openG(gfal_handle handle, const char* guid, int flag,
 	g_return_val_err_if_fail(handle && guid, NULL, err, "[gfal_guid_lstatG] Invalid args");
 	GError* tmp_err=NULL;
 	gfal_file_handle ret =NULL;
-	const char * cata_link= gfal_catalog_resolve_guid(handle, guid, &tmp_err);	
-	if(cata_link){
-		ret = gfal_catalog_open_globalG(handle, cata_link, flag, mode, &tmp_err);
-		free(cata_link);	
+	if( (flag & O_WRONLY ) || (flag & O_CREAT) == TRUE){
+		g_set_error(&tmp_err, 0, EROFS, " Unable to create or write in a guid open mode");
+	}else{
+		const char * cata_link= gfal_catalog_resolve_guid(handle, guid, &tmp_err);	
+		if(cata_link){
+			ret = gfal_catalog_open_globalG(handle, cata_link, flag, mode, &tmp_err);
+			free(cata_link);	
+		}
 	}
-		
+	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 

@@ -436,9 +436,9 @@ gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path
 	GError* tmp_err=NULL;
 	gfal_file_handle ret = NULL;
 	if( (res_surl = gfal_catalog_getSURL(handle, path, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
-		if(gfal_surl_checker(*res_surl, NULL) == 0 )
+		if(gfal_surl_checker(*res_surl, &tmp_err) == 0 && !tmp_err)
 			ret = gfal_srm_openG(handle, *res_surl, flag, mode, &tmp_err);
-		else
+		else if(!tmp_err)
 			g_set_error(&tmp_err, 0, ECOMM, "bad surl value retrived from catalog : %s ", *res_surl);
 		g_strfreev(res_surl);
 	}else if(!tmp_err){ // try std open on the catalogs		
