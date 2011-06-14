@@ -25,6 +25,10 @@ void mock_all_mds(){
 	
 }
 
+void unmock_all_mds(){
+	unmock_endpointres_mock()	;
+}
+
 
 int mock_sd_get_se_types_and_endpoints(const char *host, char ***se_types, char ***se_endpoints,char *errbuf, int errbufsz){
 	int ret = -1;

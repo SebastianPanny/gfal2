@@ -17,21 +17,13 @@
  */
 
 /**
- * @file gfal_common_srm_opendir.h
- * @brief header file for the opendir function on the srm url type
+ * @file gfal_common_srm_readdir.h
+ * @brief header file for the readdir function on the srm url type
  * @author Devresse Adrien
  * @version 2.0
- * @date 09/06/2011
+ * @date 14/06/2011
  * */
 
 #include <glib.h>
+#include <dirent.h>
 #include "gfal_common_filedescriptor.h"
-
-typedef struct _gfal_srm_opendir_handle{
-	struct srmv2_mdfilestatus *srm_ls_resu;
-	struct dirent current_readdir;
-	int dir_offset;
-	
-}* gfal_srm_opendir_handle;
-
-gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* path, GError ** err);

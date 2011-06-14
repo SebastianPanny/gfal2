@@ -12,6 +12,8 @@
 
 char** list_dir_srm();
 
+int count_dir_srm();
+
 char* srm_valid_dir();
 
 char* srm_noent_dir();

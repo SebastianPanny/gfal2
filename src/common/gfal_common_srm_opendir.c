@@ -30,7 +30,7 @@
 #include "gfal_common_errverbose.h"
 #include "gfal_common_srm_internal_layer.h"
 
-__thread struct dirent current_dir;
+
 
 
 
@@ -65,13 +65,15 @@ static gfal_file_handle gfal_srmv2_opendir_internal(gfal_handle handle, char* en
 							srmv2_mdstatuses->status, srmv2_mdstatuses->explanation);
 			resu = NULL;
 		} else {
-			resu = gfal_file_handle_new(GFAL_MODULEID_SRM, (gpointer)srmv2_mdstatuses);
+			gfal_srm_opendir_handle oh = calloc(sizeof(struct _gfal_srm_opendir_handle),1);
+			oh->srm_ls_resu = srmv2_mdstatuses;
+			resu = gfal_file_handle_new(GFAL_MODULEID_SRM, (gpointer) oh);
 		}
 	}else{
 		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
 		resu=NULL;
 	}
-	//gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(srmv2_mdstatuses, 1);
+
 	gfal_srm_external_call.srm_srm2__TReturnStatus_delete(output.retstatus);
 	return resu;	
 }
@@ -105,4 +107,13 @@ gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* surl, GError 
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return resu;
+}
+
+
+int gfal_srm_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err){
+	g_return_val_err_if_fail(handle && fh, NULL, err, "[gfal_srm_opendirG] Invalid args");
+	gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh->fdesc;	
+	gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(oh->srm_ls_resu, 1);
+	free(oh);
+	return 0;
 }

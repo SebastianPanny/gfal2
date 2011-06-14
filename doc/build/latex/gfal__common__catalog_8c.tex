@@ -10,6 +10,7 @@ the file of the common lib for the catalog management
 {\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-filedescriptor.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-open.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
@@ -48,6 +49,8 @@ char $\ast$$\ast$ \bf{gfal\_\-catalog\_\-get\-SURL} (gfal\_\-handle handle, cons
 \item 
 char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_4955825d7c275f3dfae9a57232642370}
 
+\item 
+gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-open\_\-global\-G} (gfal\_\-handle handle, const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\end{CompactItemize}
@@ -110,6 +113,13 @@ Execute a mkdir function on the first compatible catalog ( checked with check ur
 \item[Warning:]no check on the path, please check the path before \end{Desc}
 \begin{Desc}
 \item[Returns:]return 0 if success else return -1 \end{Desc}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_open_globalG@{gfal\_\-catalog\_\-open\_\-globalG}}
+\index{gfal_catalog_open_globalG@{gfal\_\-catalog\_\-open\_\-globalG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-catalog\_\-open\_\-global\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, int {\em flag}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_6698bf5c6d4e83f3734ac0793664894f}
+
+
+Complete open\-G func with catalog-$>$surl resolution This func try to resolve the path to a valid surl and open surl with the srm module else open is call on the first compatible catalog like in the normal way. \begin{Desc}
+\item[Returns:]pointer to file handle if success else NULL if error \end{Desc}
 \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}}
 \index{gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-catalog\_\-opendir\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_eb89b1d37a16ef8ecb50ac603366285c}

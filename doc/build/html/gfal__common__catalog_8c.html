@@ -28,6 +28,7 @@
 <code>#include &quot;gfal_constants.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">gfal_common_errverbose.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">gfal_common_filedescriptor.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__srm__open_8h-source.html">gfal_common_srm_open.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
@@ -66,6 +67,8 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_operatio
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4955825d7c275f3dfae9a57232642370"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_resolve_guid" ref="4955825d7c275f3dfae9a57232642370" args="(gfal_handle handle, const char *guid, GError **err)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolve_guid</b> (gfal_handle handle, const char *guid, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#6698bf5c6d4e83f3734ac0793664894f">gfal_catalog_open_globalG</a> (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#c20aa1a376c802d0c60208854537851e">gfal_get_cat_type</a> (GError **err)</td></tr>
 
@@ -323,6 +326,54 @@ Execute a mkdir function on the first compatible catalog ( checked with check ur
 </dl>
 <dl compact><dt><b>Warning:</b></dt><dd>no check on the path, please check the path before </dd></dl>
 <dl compact><dt><b>Returns:</b></dt><dd>return 0 if success else return -1 </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="6698bf5c6d4e83f3734ac0793664894f"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_open_globalG" ref="6698bf5c6d4e83f3734ac0793664894f" args="(gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gfal_file_handle gfal_catalog_open_globalG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>flag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&nbsp;</td>
+          <td class="paramname"> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Complete openG func with catalog-&gt;surl resolution This func try to resolve the path to a valid surl and open surl with the srm module else open is call on the first compatible catalog like in the normal way. <dl compact><dt><b>Returns:</b></dt><dd>pointer to file handle if success else NULL if error </dd></dl>
 
 </div>
 </div><p>
@@ -701,7 +752,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Wed Jun 8 14:38:48 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 14 09:28:05 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

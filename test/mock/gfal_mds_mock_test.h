@@ -16,6 +16,7 @@ extern const char* surl_valid_endpoint ;
 void mock_all_mds();
 
 
+void unmock_all_mds();
 
 void mock_endpointres_mock();
 

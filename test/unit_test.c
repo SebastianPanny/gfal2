@@ -197,6 +197,7 @@ Suite* posix_suite (void)
   tcase_add_test(tc_opendir, test__readdir_posix_local_simple);
   tcase_add_test(tc_opendir, test__readdir_posix_lfc_simple);
   tcase_add_test(tc_opendir, test__opendir_posix_srm_simple_mock);
+  tcase_add_test(tc_opendir, test__readdir_posix_srm_simple_mock);
   suite_add_tcase(s, tc_opendir);
   TCase* tc_open = tcase_create("OPEN/READ/WRITE/CLOSE");
   tcase_add_test(tc_open, test_open_posix_all_simple);

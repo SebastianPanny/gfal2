@@ -22,6 +22,13 @@ char** list_dir_srm(){
 	return tab;
 }
 
+int count_dir_srm(){
+	int i =0;
+	while(tab[i] != NULL)
+		++i;
+	return i;
+}
+
 
 char* srm_valid_dir(){
 	strcpy(buff_valid_dir, surl_valid_endpoint);
@@ -55,6 +62,7 @@ void unmock_srm_context(){
 }
 
 
+
 static int srm_ls_mock_implem(struct srm_context *context,
 		struct srm_ls_input *input,struct srm_ls_output *output){
 	int ret = -1,i;
@@ -81,7 +89,7 @@ static int srm_ls_mock_implem(struct srm_context *context,
 	if( strcmp(*input->surls, srm_valid_dir()) ==0  ){
 		memset(output,0, sizeof(struct srm_ls_output));
 		output->statuses = calloc(sizeof(struct srmv2_mdfilestatus),1);
-		output->statuses->surl = *input->surls;
+		output->statuses->surl = strdup(*input->surls);
 		output->statuses->nbsubpaths= 4;
 		output->statuses->subpaths = calloc(sizeof(struct srmv2_mdfilestatus),4);
 		char** list_dir = list_dir_srm();
@@ -92,14 +100,14 @@ static int srm_ls_mock_implem(struct srm_context *context,
 	}else if( strcmp(*input->surls, srm_noaccess_dir()) ==0 ){
 		memset(output,0, sizeof(struct srm_ls_output));
 		output->statuses = calloc(sizeof(struct srmv2_mdfilestatus),1);
-		output->statuses->surl = *input->surls;
+		output->statuses->surl = strdup(*input->surls);
 		output->statuses->explanation = strdup(" error enoent from mock srm");
 		output->statuses->status= EACCES;	
 		ret =0;	
 	}else if(strncmp(*input->surls, "srm://",6) == 0){
 		memset(output,0, sizeof(struct srm_ls_output));
 		output->statuses = calloc(sizeof(struct srmv2_mdfilestatus),1);
-		output->statuses->surl = *input->surls;
+		output->statuses->surl = strdup(*input->surls);
 		output->statuses->explanation = strdup(" error eacces from mock srm");
 		output->statuses->status= ENOENT;	
 		ret =0;	

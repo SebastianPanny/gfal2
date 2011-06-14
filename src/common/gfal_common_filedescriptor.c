@@ -114,6 +114,7 @@ gfal_file_handle gfal_file_handle_new(int id_module, gpointer fdesc){
 	gfal_file_handle f = g_new(struct _gfal_file_handle_,1);
 	f->module_id = id_module;
 	f->fdesc = fdesc;
+	f->ext_data = NULL;
 	return f;
 }
 /**

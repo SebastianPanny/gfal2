@@ -5,127 +5,140 @@
     <includes refid="gfal__common__srm__access_8h" local="yes">gfal_common_srm_access.h</includes>
     <includes refid="gfal__constants_8h" local="yes">gfal_constants.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
-    <includes local="no">gfal_srm_ifce_types.h</includes>
+    <includes refid="gfal__common__srm__internal__layer_8h" local="yes">gfal_common_srm_internal_layer.h</includes>
     <incdepgraph>
-      <node id="511">
+      <node id="522">
         <label>sys/stat.h</label>
       </node>
-      <node id="504">
+      <node id="515">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</label>
         <link refid="gfal_common_srm_access.c"/>
-        <childnode refid="505" relation="include">
+        <childnode refid="516" relation="include">
         </childnode>
-        <childnode refid="519" relation="include">
+        <childnode refid="530" relation="include">
         </childnode>
-        <childnode refid="520" relation="include">
+        <childnode refid="531" relation="include">
         </childnode>
-        <childnode refid="512" relation="include">
+        <childnode refid="533" relation="include">
         </childnode>
       </node>
-      <node id="505">
+      <node id="516">
         <label>gfal_common_srm_access.h</label>
         <link refid="gfal__common__srm__access_8h"/>
-        <childnode refid="506" relation="include">
+        <childnode refid="517" relation="include">
         </childnode>
-        <childnode refid="507" relation="include">
+        <childnode refid="518" relation="include">
         </childnode>
       </node>
-      <node id="515">
+      <node id="526">
         <label>stdarg.h</label>
       </node>
-      <node id="520">
+      <node id="533">
+        <label>gfal_common_srm_internal_layer.h</label>
+        <link refid="gfal__common__srm__internal__layer_8h"/>
+        <childnode refid="534" relation="include">
+        </childnode>
+        <childnode refid="523" relation="include">
+        </childnode>
+        <childnode refid="517" relation="include">
+        </childnode>
+      </node>
+      <node id="531">
         <label>gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="519" relation="include">
+        <childnode refid="530" relation="include">
         </childnode>
-        <childnode refid="515" relation="include">
+        <childnode refid="526" relation="include">
+        </childnode>
+        <childnode refid="532" relation="include">
+        </childnode>
+        <childnode refid="529" relation="include">
+        </childnode>
+        <childnode refid="528" relation="include">
+        </childnode>
+        <childnode refid="517" relation="include">
+        </childnode>
+      </node>
+      <node id="524">
+        <label>gfal_prototypes.h</label>
+        <link refid="gfal__prototypes_8h-source"/>
+        <childnode refid="517" relation="include">
+        </childnode>
+      </node>
+      <node id="528">
+        <label>errno.h</label>
+      </node>
+      <node id="523">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="527">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="520">
+        <label>sys/types.h</label>
+      </node>
+      <node id="529">
+        <label>string.h</label>
+      </node>
+      <node id="519">
+        <label>unistd.h</label>
+      </node>
+      <node id="517">
+        <label>glib.h</label>
+      </node>
+      <node id="534">
+        <label>gfal_srm_ifce.h</label>
+      </node>
+      <node id="525">
+        <label>gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="526" relation="include">
+        </childnode>
+        <childnode refid="527" relation="include">
+        </childnode>
+        <childnode refid="517" relation="include">
+        </childnode>
+        <childnode refid="528" relation="include">
+        </childnode>
+        <childnode refid="529" relation="include">
         </childnode>
         <childnode refid="521" relation="include">
         </childnode>
-        <childnode refid="518" relation="include">
+        <childnode refid="522" relation="include">
         </childnode>
-        <childnode refid="517" relation="include">
-        </childnode>
-        <childnode refid="506" relation="include">
-        </childnode>
-      </node>
-      <node id="513">
-        <label>gfal_prototypes.h</label>
-        <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="506" relation="include">
-        </childnode>
-      </node>
-      <node id="517">
-        <label>errno.h</label>
-      </node>
-      <node id="512">
-        <label>gfal_srm_ifce_types.h</label>
-      </node>
-      <node id="516">
-        <label>uuid/uuid.h</label>
-      </node>
-      <node id="509">
-        <label>sys/types.h</label>
-      </node>
-      <node id="518">
-        <label>string.h</label>
-      </node>
-      <node id="508">
-        <label>unistd.h</label>
-      </node>
-      <node id="506">
-        <label>glib.h</label>
-      </node>
-      <node id="514">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="515" relation="include">
-        </childnode>
-        <childnode refid="516" relation="include">
-        </childnode>
-        <childnode refid="506" relation="include">
-        </childnode>
-        <childnode refid="517" relation="include">
+        <childnode refid="524" relation="include">
         </childnode>
         <childnode refid="518" relation="include">
         </childnode>
-        <childnode refid="510" relation="include">
-        </childnode>
-        <childnode refid="511" relation="include">
-        </childnode>
-        <childnode refid="513" relation="include">
-        </childnode>
-        <childnode refid="507" relation="include">
-        </childnode>
       </node>
-      <node id="519">
+      <node id="530">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="521">
+      <node id="532">
         <label>stdio.h</label>
       </node>
-      <node id="507">
+      <node id="518">
         <label>gfal_types.h</label>
         <link refid="gfal__types_8h-source"/>
-        <childnode refid="508" relation="include">
+        <childnode refid="519" relation="include">
         </childnode>
-        <childnode refid="506" relation="include">
+        <childnode refid="517" relation="include">
         </childnode>
-        <childnode refid="509" relation="include">
+        <childnode refid="520" relation="include">
         </childnode>
-        <childnode refid="510" relation="include">
+        <childnode refid="521" relation="include">
         </childnode>
-        <childnode refid="511" relation="include">
+        <childnode refid="522" relation="include">
         </childnode>
-        <childnode refid="512" relation="include">
+        <childnode refid="523" relation="include">
         </childnode>
-        <childnode refid="513" relation="include">
+        <childnode refid="524" relation="include">
         </childnode>
-        <childnode refid="514" relation="include">
+        <childnode refid="525" relation="include">
         </childnode>
       </node>
-      <node id="510">
+      <node id="521">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
@@ -252,7 +265,7 @@
 <codeline lineno="26"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__access_8h" kindref="compound">gfal_common_srm_access.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__errverbose_8h" kindref="compound">gfal_common_errverbose.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gfal_srm_ifce_types.h&gt;</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__internal__layer_8h" kindref="compound">gfal_common_srm_internal_layer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_access_srmv2_internal(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>endpoint,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/><sp/>GError**<sp/>err){</highlight></codeline>
@@ -267,13 +280,13 @@
 <codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>tab_resu[nb_request];</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_context_init(&amp;context,<sp/>endpoint,<sp/>errbuf,<sp/>GFAL_ERRMSG_LEN,<sp/><ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose</ref>());</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srm_external_call.<ref refid="struct__gfal__srm__external__call_1c8feab1503dbbb4d457c5c008bf19c0c" kindref="member">srm_context_init</ref>(&amp;context,<sp/>endpoint,<sp/>errbuf,<sp/>GFAL_ERRMSG_LEN,<sp/><ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose</ref>());</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>checkpermission_input.nbfiles<sp/>=<sp/>nb_request;</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>checkpermission_input.amode<sp/>=<sp/>mode;</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>checkpermission_input.surls<sp/>=<sp/>tab_surl;</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>srm_check_permission(&amp;context,&amp;checkpermission_input,<sp/>&amp;resu);<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_srm_external_call.<ref refid="struct__gfal__srm__external__call_12ace1e445ffd7f345b8b824d7a291873" kindref="member">srm_check_permission</ref>(&amp;context,&amp;checkpermission_input,<sp/>&amp;resu);<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>nb_request){</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,ECOMM,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_access_srmv2_internal]<sp/>Bad<sp/>answer<sp/>of<sp/>the<sp/>libgfal_srm_ifce,<sp/>Maybe<sp/>voms-proxy<sp/>is<sp/>not<sp/>set<sp/>properly<sp/>:<sp/>%d&quot;</highlight><highlight class="normal">,<sp/>ret);</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ECOMM;</highlight></codeline>
@@ -292,7 +305,7 @@
 <codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>resu[i].status;</highlight></codeline>
 <codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//g_printerr(&quot;<sp/>resu<sp/>:<sp/>%d<sp/>,<sp/>status<sp/>%d,<sp/>strerror<sp/>:<sp/>%s,<sp/>explanation<sp/>:<sp/>%s<sp/>\n&quot;,<sp/>ret,<sp/>resu[0].status,<sp/>strerror(resu[0].status),<sp/>resu[0].explanation);</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_delete_srmv2_statuses(resu,<sp/>nb_request);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srm_external_call.<ref refid="struct__gfal__srm__external__call_1a3bd168b26c0c5b613f2ebd66d903fb2" kindref="member">srm_srmv2_filestatus_delete</ref>(resu,<sp/>nb_request);</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
 <codeline lineno="71"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"></highlight></codeline>
