@@ -64,6 +64,7 @@ static gfal_file_handle gfal_srmv2_opendir_internal(gfal_handle handle, char* en
 			g_set_error(err, 0, srmv2_mdstatuses->status, "[%s] Error reported from srm_ifce : %d %s", __func__, 
 							srmv2_mdstatuses->status, srmv2_mdstatuses->explanation);
 			resu = NULL;
+			gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(output.statuses,1);
 		} else {
 			gfal_srm_opendir_handle oh = calloc(sizeof(struct _gfal_srm_opendir_handle),1);
 			oh->srm_ls_resu = srmv2_mdstatuses;

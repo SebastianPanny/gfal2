@@ -15,6 +15,7 @@
 static char buff_valid_dir[2048];
 static char buff_noent_dir[2048];
 static char buff_access_dir[2048];
+static char buff_empty_dir[2048];
 
 static char* tab[]= { "testdir001", "testdir002", "testdir003", "testdir004", NULL };
 
@@ -34,6 +35,12 @@ char* srm_valid_dir(){
 	strcpy(buff_valid_dir, surl_valid_endpoint);
 	strcat(buff_valid_dir, "/grid/dteam/testdirvalid001");
 	return buff_valid_dir;
+}
+
+char* srm_valid_empty_dir(){
+	strcpy(buff_empty_dir, surl_valid_endpoint);	
+	strcat(buff_empty_dir, "/grid/dteam/testdirempty001");	
+	return buff_empty_dir;
 }
 
 char* srm_noent_dir(){
@@ -97,6 +104,14 @@ static int srm_ls_mock_implem(struct srm_context *context,
 			output->statuses->subpaths[i].surl = strdup(list_dir[i]);
 		}
 		ret =0;
+	}else if(strcmp(*input->surls, srm_valid_empty_dir()) ==0){
+		memset(output,0, sizeof(struct srm_ls_output));
+		output->statuses = calloc(sizeof(struct srmv2_mdfilestatus),1);
+		output->statuses->surl = strdup(*input->surls);
+		output->statuses->nbsubpaths= 0;
+		output->statuses->subpaths = NULL;
+		ret =0;
+		
 	}else if( strcmp(*input->surls, srm_noaccess_dir()) ==0 ){
 		memset(output,0, sizeof(struct srm_ls_output));
 		output->statuses = calloc(sizeof(struct srmv2_mdfilestatus),1);
