@@ -1,0 +1,53 @@
+.TH "_gfal_srm_external_call" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+_gfal_srm_external_call \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <gfal_common_srm_internal_layer.h>\fP
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "void(* \fBsrm_context_init\fP )(struct srm_context *context, char *srm_endpoint, char *errbuf, int errbufsz, int verbose)"
+.br
+.ti -1c
+.RI "int(* \fBsrm_ls\fP )(struct srm_context *context, struct srm_ls_input *input, struct srm_ls_output *output)"
+.br
+.ti -1c
+.RI "int(* \fBsrm_rmdir\fP )(struct srm_context *context, struct srm_rmdir_input *input, struct srm_rmdir_output *output)"
+.br
+.ti -1c
+.RI "int(* \fBsrm_mkdir\fP )(struct srm_context *context, struct srm_mkdir_input *input)"
+.br
+.ti -1c
+.RI "int(* \fBsrm_getpermission\fP )(struct srm_context *context, struct srm_getpermission_input *input, struct srm_getpermission_output *output)"
+.br
+.ti -1c
+.RI "int(* \fBsrm_check_permission\fP )(struct srm_context *context, struct srm_checkpermission_input *input, struct srmv2_filestatus **statuses)"
+.br
+.ti -1c
+.RI "void(* \fBsrm_srmv2_pinfilestatus_delete\fP )(struct srmv2_pinfilestatus *srmv2_pinstatuses, int n)"
+.br
+.ti -1c
+.RI "void(* \fBsrm_srmv2_mdfilestatus_delete\fP )(struct srmv2_mdfilestatus *mdfilestatus, int n)"
+.br
+.ti -1c
+.RI "void(* \fBsrm_srmv2_filestatus_delete\fP )(struct srmv2_filestatus *srmv2_statuses, int n)"
+.br
+.ti -1c
+.RI "void(* \fBsrm_srm2__TReturnStatus_delete\fP )(struct srm2__TReturnStatus *status)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+structure for mock abylity in the srm part 
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

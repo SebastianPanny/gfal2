@@ -1,0 +1,56 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c \- file for the opendir function on the srm url type 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <dirent.h>\fP
+.br
+\fC#include 'gfal_common_srm.h'\fP
+.br
+\fC#include 'gfal_common_srm_opendir.h'\fP
+.br
+\fC#include 'gfal_common_errverbose.h'\fP
+.br
+\fC#include 'gfal_common_srm_internal_layer.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "gfal_file_handle \fBgfal_srm_opendirG\fP (gfal_handle handle, const char *surl, GError **err)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "__thread struct dirent \fBcurrent_dir\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+file for the opendir function on the srm url type 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+2.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+09/06/2011 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

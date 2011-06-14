@@ -1,0 +1,44 @@
+\section{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-srm\_\-internal\_\-layer.c File Reference}
+\label{gfal__common__srm__internal__layer_8c}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_internal_layer.c@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-srm\_\-internal\_\-layer.c}}
+file for the srm external function mapping for mocking purpose 
+
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-internal\_\-layer.h\char`\"{}}\par
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+\bf{\_\-gfal\_\-srm\_\-external\_\-call} \textbf{gfal\_\-srm\_\-external\_\-call}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+file for the srm external function mapping for mocking purpose 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]2.0 \end{Desc}
+\begin{Desc}
+\item[Date:]09/06/2011 \end{Desc}
+
+
+\subsection{Variable Documentation}
+\index{gfal_common_srm_internal_layer.c@{gfal\_\-common\_\-srm\_\-internal\_\-layer.c}!gfal_srm_external_call@{gfal\_\-srm\_\-external\_\-call}}
+\index{gfal_srm_external_call@{gfal\_\-srm\_\-external\_\-call}!gfal_common_srm_internal_layer.c@{gfal\_\-common\_\-srm\_\-internal\_\-layer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct \bf{\_\-gfal\_\-srm\_\-external\_\-call} gfal\_\-srm\_\-external\_\-call}\label{gfal__common__srm__internal__layer_8c_67b12c7342043451fc5ce31b1a3d74fb}
+
+
+\textbf{Initial value:}
+
+\begin{Code}\begin{verbatim} { 
+        .srm_context_init = &srm_context_init,
+        .srm_ls = &srm_ls,
+        .srm_rmdir = &srm_rmdir,
+        .srm_mkdir = &srm_mkdir,
+        .srm_getpermission = &srm_getpermission,
+        .srm_check_permission = &srm_check_permission,
+        .srm_srmv2_pinfilestatus_delete = &srm_srmv2_pinfilestatus_delete,
+        .srm_srmv2_mdfilestatus_delete = &srm_srmv2_mdfilestatus_delete,
+        .srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete,
+        .srm_srm2__TReturnStatus_delete = &srm_srm2__TReturnStatus_delete
+}
+\end{verbatim}\end{Code}

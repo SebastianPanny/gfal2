@@ -198,6 +198,7 @@ Suite* posix_suite (void)
   tcase_add_test(tc_opendir, test__readdir_posix_lfc_simple);
   tcase_add_test(tc_opendir, test__opendir_posix_srm_simple_mock);
   tcase_add_test(tc_opendir, test__readdir_posix_srm_simple_mock);
+  tcase_add_test(tc_opendir, test__readdir_posix_srm_empty_mock);
   suite_add_tcase(s, tc_opendir);
   TCase* tc_open = tcase_create("OPEN/READ/WRITE/CLOSE");
   tcase_add_test(tc_open, test_open_posix_all_simple);
@@ -209,6 +210,17 @@ Suite* posix_suite (void)
   return s;
 }
 
+
+
+Suite* posix_real_suite (void)
+{
+  Suite *s = suite_create ("Posix REAL tests:");
+  TCase* tc_opendir = tcase_create("OPENDIR/CLOSEDIR/READIR_REAL");
+  suite_add_tcase(s, tc_opendir);
+  return s;
+}
+
+
 int main (int argc, char** argv)
 {
   //fprintf(stderr, " tests : %s ", getenv("LD_LIBRARY_PATH"));
@@ -216,6 +228,11 @@ int main (int argc, char** argv)
   Suite *s = common_suite ();
   SRunner *sr = srunner_create (s);
   srunner_add_suite(sr, posix_suite());
+  
+#if defined GFAL_REAL_TEST // preprocessor for non mocked test which need a grid env
+  srunner_add_suite(sr, posix_real_suite());	
+#endif
+
   srunner_set_fork_status(sr, CK_NOFORK); // no fork mode for gdb
   srunner_run_all (sr, CK_VERBOSE);
   number_failed = srunner_ntests_failed (sr);

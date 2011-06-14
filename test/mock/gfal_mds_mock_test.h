@@ -9,7 +9,7 @@
 
 extern const char* surl_valid_endpoint ;
 
-
+char* srm_valid_empty_dir();
 
 
 

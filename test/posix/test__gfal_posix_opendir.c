@@ -353,3 +353,47 @@ START_TEST(test__readdir_posix_srm_simple_mock)
 END_TEST
 
 
+
+
+
+START_TEST(test__readdir_posix_srm_empty_mock)
+{
+	mock_all_srm();
+	mock_all_mds();
+
+	int ret;
+	gfal_posix_clear_error();	
+	DIR* d = gfal_opendir(srm_valid_empty_dir());
+	if(d==NULL|| gfal_posix_code_error() != 0){
+		fail(" error, must be a valid open");
+		gfal_posix_release_error();
+		unmock_all_mds();
+		unmock_all_srm();
+		return;
+	}
+	
+	struct dirent* resu = gfal_readdir(d);
+	fail_if(resu != NULL || gfal_posix_code_error() != 0 || errno != 0, " must return an empty dir");
+	
+	ret = gfal_closedir(d);
+	if( ret != 0 || gfal_posix_code_error() != 0 || errno != 0){
+		fail(" must be a valid closedir %d %d %d", ret,gfal_posix_code_error(), errno);
+		gfal_posix_release_error();
+		unmock_all_mds();
+		unmock_all_srm();
+		return;
+	}
+	
+	gfal_posix_clear_error();
+	unmock_all_mds();
+	unmock_all_srm();
+
+}
+END_TEST
+
+
+
+
+
+
+

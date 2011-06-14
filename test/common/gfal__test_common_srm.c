@@ -278,8 +278,8 @@ START_TEST(test_gfal_select_best_protocol_and_endpoint)
 			fail(" must successfull");
 			gfal_release_GError(&err);
 	}
-	free(endpoint);	
 	fail_if(strcmp(endpoint,"montblanc")!=0, " reponse not match correctly");
+	free(endpoint);	
 	// try with another version by default
 	gfal_set_default_storageG(handle, PROTO_SRM);
 	ret = gfal_select_best_protocol_and_endpoint(handle, &endpoint, &srm_type, se_type_list, endpoint_list, &err);
