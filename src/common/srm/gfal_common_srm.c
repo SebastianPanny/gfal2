@@ -31,6 +31,7 @@
 #include "gfal_common_srm.h"
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
+#include "../gfal_common_catalog.h"
 #include "gfal_common_srm_internal_layer.h"
 
 /**
@@ -39,8 +40,43 @@
 static enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
 
 
+/**
+ * parse a surl to check the validity
+ */
+int gfal_surl_checker(const char* surl, GError** err){
+	g_return_val_err_if_fail(surl != NULL,-1,err,"[gfal_surl_checker_] check URL failed : surl is empty");
+	regex_t rex;
+	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");
+	ret=  regexec(&rex,surl,0,NULL,0);
+	if(ret) 
+		g_set_error(err,0,EINVAL,"[gfal_surl_checker] Incorrect surl, impossible to parse surl %s :", surl);
+	regfree(&rex);
+	return ret;
+} 
+
+static gboolean gfal_srm_check_url(const char* url, catalog_mode mode, GError** err){
+	switch(mode){
+		case GFAL_CATALOG_GETTURL:
+			return gfal_surl_checker(url,  err);
+		default:
+			return FALSE;		
+	}
+}
+
+gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err){
+	gfal_catalog_interface srm_catalog;
+	GError* tmp_err=NULL;
+	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
+	
+	srm_catalog.check_catalog_url = gfal_srm_check_url;
+	return srm_catalog;
+}
 
 
+static int gfal_srm_destroyG(catalog_handle handle, GError** err){
+	
+}
 
 
 /**
@@ -54,18 +90,7 @@ static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
 }
 
 
-/**
- *  return 0 if a full endpoint is contained in surl  
- * 
-*/
-int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
-	regex_t rex;
-	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+:[0-9]+/([:alnum:]|-|/|\.|_)+?SFN=",REG_ICASE | REG_EXTENDED);
-	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_fullendpoint_in_surl] fail to compile regex, report this bug");
-	ret=  regexec(&rex,surl,0,NULL,0);
-	regfree(&rex);
-	return ret;	
-}
+
 
 /**
  *  @brief create a full endpath from a surl with full endpath
@@ -273,20 +298,7 @@ void gfal_new_request_state(gfal_handle handle){
 }
 
 
-/**
- * parse a surl to check the validity
- */
-int gfal_surl_checker(const char* surl, GError** err){
-	g_return_val_err_if_fail(surl != NULL,-1,err,"[gfal_surl_checker_] check URL failed : surl is empty");
-	regex_t rex;
-	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
-	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");
-	ret=  regexec(&rex,surl,0,NULL,0);
-	if(ret) 
-		g_set_error(err,0,EINVAL,"[gfal_surl_checker] Incorrect surl, impossible to parse surl %s :", surl);
-	regfree(&rex);
-	return ret;
-} 
+
 
 
 /**
@@ -336,7 +348,18 @@ static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls,
 	return ret;	
 }
 
-
+/**
+ *  return 0 if a full endpoint is contained in surl  
+ * 
+*/
+int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
+	regex_t rex;
+	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+:[0-9]+/([:alnum:]|-|/|\.|_)+?SFN=",REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_fullendpoint_in_surl] fail to compile regex, report this bug");
+	ret=  regexec(&rex,surl,0,NULL,0);
+	regfree(&rex);
+	return ret;	
+}
 
 /**
  * @brief launch a surls-> turls translation in asynchronous mode

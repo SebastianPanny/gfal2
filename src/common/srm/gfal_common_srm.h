@@ -42,6 +42,8 @@ struct _gfal_srm_result{
 	char err_str[GFAL_ERRMSG_LEN+1];
 };
 
+gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err);
+
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);
 
 int gfal_get_async_resultsG(gfal_handle handle, GList** turls,  GError** err);
