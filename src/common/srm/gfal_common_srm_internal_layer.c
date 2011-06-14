@@ -1,4 +1,3 @@
-#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -17,33 +16,27 @@
  */
 
 /**
- * @file gfal_common_internal.h
- * @brief internal declaration for gfal, USE DIRECTLY THIS FUNCTIONS IS  NOT RECOMMANDED
+ * @file gfal_common_srm_internal_layer.c
+ * @brief file for the srm external function mapping for mocking purpose
  * @author Devresse Adrien
  * @version 2.0
- * @date 12/04/2011
+ * @date 09/06/2011
  * */
 
-#include "srm/gfal_common_srm.h"
-#include "gfal_common.h"
 
-
-char** gfal_GList_to_tab(GList* surls);
-
-
-int* gfal_GList_to_tab_int(GList* int_list);
-
-
-void gfal_delete_request_state(gfal_request_state* request_state);
-
-
-void gfal_new_request_state(gfal_handle handle);
-
-
-int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int num, GError** err);
+#include "gfal_common_srm_internal_layer.h"
 
 
 
- gboolean is_valid_access_result(int status);
- 
- void gfal_generate_guidG(char* buf);
+struct _gfal_srm_external_call gfal_srm_external_call = { 
+	.srm_context_init = &srm_context_init,
+	.srm_ls = &srm_ls,
+	.srm_rmdir = &srm_rmdir,
+	.srm_mkdir = &srm_mkdir,
+	.srm_getpermission = &srm_getpermission,
+	.srm_check_permission = &srm_check_permission,
+	.srm_srmv2_pinfilestatus_delete = &srm_srmv2_pinfilestatus_delete,
+	.srm_srmv2_mdfilestatus_delete = &srm_srmv2_mdfilestatus_delete,
+	.srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete,
+	.srm_srm2__TReturnStatus_delete = &srm_srm2__TReturnStatus_delete
+};

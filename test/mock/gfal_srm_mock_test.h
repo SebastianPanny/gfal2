@@ -6,7 +6,7 @@
  */
  
 #include "gfal_mds_mock_test.h" 
-#include "gfal_common_srm_internal_layer.h"
+#include "srm/gfal_common_srm_internal_layer.h"
 
 
 

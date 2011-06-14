@@ -17,33 +17,17 @@
  */
 
 /**
- * @file gfal_common_internal.h
- * @brief internal declaration for gfal, USE DIRECTLY THIS FUNCTIONS IS  NOT RECOMMANDED
+ * @file gfal_common_srm_open.h
+ * @brief header file for the open function on the srm url type
  * @author Devresse Adrien
  * @version 2.0
- * @date 12/04/2011
+ * @date 06/06/2011
  * */
+#include <glib.h>
+#include "../gfal_types.h"
+#include "../gfal_common_filedescriptor.h"
 
-#include "srm/gfal_common_srm.h"
-#include "gfal_common.h"
-
-
-char** gfal_GList_to_tab(GList* surls);
-
-
-int* gfal_GList_to_tab_int(GList* int_list);
+gfal_file_handle gfal_srm_openG(gfal_handle handle, const char* path, int flag, mode_t mode, GError** err);
 
 
-void gfal_delete_request_state(gfal_request_state* request_state);
-
-
-void gfal_new_request_state(gfal_handle handle);
-
-
-int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int num, GError** err);
-
-
-
- gboolean is_valid_access_result(int status);
- 
- void gfal_generate_guidG(char* buf);
+int gfal_srm_closeG(gfal_file_handle fh, GError** err);

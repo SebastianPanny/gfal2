@@ -9,7 +9,8 @@ common_src = Glob("common/*.c")
 common_voms = Glob("common/voms/*.c")
 common_mds = Glob("common/mds/*.c") 
 common_lfc = Glob("common/lfc/*.c")
-common_src_all = common_src + common_lfc + common_mds + common_voms
+common_srm = Glob("common/srm/*.c")
+common_src_all = common_src + common_lfc + common_mds + common_voms + common_srm
 
 gfal_main_libs = ['gfalcommon']
 posix_src_all = Glob("posix/*.c")

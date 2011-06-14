@@ -3,7 +3,7 @@
 
 
 #include <check.h>
-#include "gfal_common_srm_access.h"
+#include "srm/gfal_common_srm_access.h"
 #include <time.h>
 #include <string.h>
 #include <unistd.h>

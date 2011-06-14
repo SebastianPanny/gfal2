@@ -33,7 +33,7 @@
 #include "gfal_constants.h"
 #include "gfal_common_errverbose.h"
 #include "gfal_common_filedescriptor.h"
-#include "gfal_common_srm_open.h"
+#include "srm/gfal_common_srm_open.h"
 
 
 /**

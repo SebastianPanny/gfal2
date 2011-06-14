@@ -17,33 +17,21 @@
  */
 
 /**
- * @file gfal_common_internal.h
- * @brief internal declaration for gfal, USE DIRECTLY THIS FUNCTIONS IS  NOT RECOMMANDED
+ * @file gfal_common_srm_opendir.h
+ * @brief header file for the opendir function on the srm url type
  * @author Devresse Adrien
  * @version 2.0
- * @date 12/04/2011
+ * @date 09/06/2011
  * */
 
-#include "srm/gfal_common_srm.h"
-#include "gfal_common.h"
+#include <glib.h>
+#include "../gfal_common_filedescriptor.h"
 
+typedef struct _gfal_srm_opendir_handle{
+	struct srmv2_mdfilestatus *srm_ls_resu;
+	struct dirent current_readdir;
+	int dir_offset;
+	
+}* gfal_srm_opendir_handle;
 
-char** gfal_GList_to_tab(GList* surls);
-
-
-int* gfal_GList_to_tab_int(GList* int_list);
-
-
-void gfal_delete_request_state(gfal_request_state* request_state);
-
-
-void gfal_new_request_state(gfal_handle handle);
-
-
-int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int num, GError** err);
-
-
-
- gboolean is_valid_access_result(int status);
- 
- void gfal_generate_guidG(char* buf);
+gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* path, GError ** err);
