@@ -39,8 +39,15 @@
 <a name="l00027"></a>00027 <span class="preprocessor">#include &lt;glib.h&gt;</span>
 <a name="l00028"></a>00028 <span class="preprocessor">#include "<a class="code" href="gfal__common__filedescriptor_8h.html">gfal_common_filedescriptor.h</a>"</span>
 <a name="l00029"></a>00029 
-<a name="l00030"></a>00030 gfal_file_handle gfal_srm_opendirG(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError ** err);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 14 09:28:05 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00030"></a>00030 <span class="keyword">typedef</span> <span class="keyword">struct </span>_gfal_srm_opendir_handle{
+<a name="l00031"></a>00031         <span class="keyword">struct </span>srmv2_mdfilestatus *srm_ls_resu;
+<a name="l00032"></a>00032         <span class="keyword">struct </span>dirent current_readdir;
+<a name="l00033"></a>00033         <span class="keywordtype">int</span> dir_offset;
+<a name="l00034"></a>00034         
+<a name="l00035"></a>00035 }* gfal_srm_opendir_handle;
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 gfal_file_handle gfal_srm_opendirG(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError ** err);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 14 16:29:39 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -11,50 +11,51 @@
     <includedby refid="gfal__common__filedescriptor_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c</includedby>
     <includedby refid="gfal__common__srm__open_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_open.c</includedby>
     <includedby refid="gfal__common__srm__opendir_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.h</includedby>
+    <includedby refid="gfal__common__srm__readdir_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_readdir.h</includedby>
     <includedby refid="gfal__posix__close_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c</includedby>
     <includedby refid="gfal__posix__closedir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</includedby>
     <includedby refid="gfal__posix__local__file_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</includedby>
     <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
     <includedby refid="gfal__posix__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</includedby>
     <incdepgraph>
-      <node id="337">
+      <node id="338">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="336" relation="include">
-        </childnode>
-      </node>
-      <node id="335">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h</label>
-        <link refid="gfal_common_filedescriptor.h"/>
-        <childnode refid="336" relation="include">
-        </childnode>
         <childnode refid="337" relation="include">
         </childnode>
       </node>
       <node id="336">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h</label>
+        <link refid="gfal_common_filedescriptor.h"/>
+        <childnode refid="337" relation="include">
+        </childnode>
+        <childnode refid="338" relation="include">
+        </childnode>
+      </node>
+      <node id="337">
         <label>glib.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="350">
+      <node id="354">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
         <link refid="gfal__posix__closedir_8c"/>
       </node>
-      <node id="341">
+      <node id="342">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_open.c</label>
         <link refid="gfal__common__srm__open_8c"/>
       </node>
-      <node id="340">
+      <node id="341">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_open.h</label>
         <link refid="gfal__common__srm__open_8h"/>
-        <childnode refid="339" relation="include">
-        </childnode>
-        <childnode refid="341" relation="include">
+        <childnode refid="340" relation="include">
         </childnode>
         <childnode refid="342" relation="include">
         </childnode>
+        <childnode refid="343" relation="include">
+        </childnode>
       </node>
-      <node id="342">
+      <node id="343">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</label>
         <link refid="gfal__posix__open_8c"/>
       </node>
@@ -62,71 +63,87 @@
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
         <link refid="gfal__posix__readdir_8c"/>
       </node>
-      <node id="347">
+      <node id="348">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c</label>
         <link refid="gfal__common__srm__opendir_8c"/>
       </node>
-      <node id="346">
+      <node id="347">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.h</label>
         <link refid="gfal__common__srm__opendir_8h"/>
-        <childnode refid="347" relation="include">
-        </childnode>
         <childnode refid="348" relation="include">
-        </childnode>
-      </node>
-      <node id="351">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</label>
-        <link refid="gfal__posix__local__file_8c"/>
-      </node>
-      <node id="349">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c</label>
-        <link refid="gfal__posix__close_8c"/>
-      </node>
-      <node id="343">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</label>
-        <link refid="gfal__common__dir__handle_8c"/>
-      </node>
-      <node id="345">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c</label>
-        <link refid="gfal__common__filedescriptor_8c"/>
-      </node>
-      <node id="338">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h</label>
-        <link refid="gfal_common_filedescriptor.h"/>
-        <childnode refid="339" relation="include">
-        </childnode>
-        <childnode refid="340" relation="include">
-        </childnode>
-        <childnode refid="343" relation="include">
-        </childnode>
-        <childnode refid="344" relation="include">
-        </childnode>
-        <childnode refid="345" relation="include">
-        </childnode>
-        <childnode refid="341" relation="include">
-        </childnode>
-        <childnode refid="346" relation="include">
         </childnode>
         <childnode refid="349" relation="include">
         </childnode>
         <childnode refid="350" relation="include">
         </childnode>
-        <childnode refid="351" relation="include">
-        </childnode>
-        <childnode refid="348" relation="include">
+      </node>
+      <node id="349">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_readdir.c</label>
+        <link refid="gfal__common__srm__readdir_8c"/>
+      </node>
+      <node id="351">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_readdir.h</label>
+        <link refid="gfal__common__srm__readdir_8h"/>
+        <childnode refid="349" relation="include">
         </childnode>
         <childnode refid="352" relation="include">
         </childnode>
       </node>
+      <node id="355">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</label>
+        <link refid="gfal__posix__local__file_8c"/>
+      </node>
+      <node id="353">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c</label>
+        <link refid="gfal__posix__close_8c"/>
+      </node>
       <node id="344">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</label>
+        <link refid="gfal__common__dir__handle_8c"/>
+      </node>
+      <node id="346">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c</label>
+        <link refid="gfal__common__filedescriptor_8c"/>
+      </node>
+      <node id="339">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h</label>
+        <link refid="gfal_common_filedescriptor.h"/>
+        <childnode refid="340" relation="include">
+        </childnode>
+        <childnode refid="341" relation="include">
+        </childnode>
+        <childnode refid="344" relation="include">
+        </childnode>
+        <childnode refid="345" relation="include">
+        </childnode>
+        <childnode refid="346" relation="include">
+        </childnode>
+        <childnode refid="342" relation="include">
+        </childnode>
+        <childnode refid="347" relation="include">
+        </childnode>
+        <childnode refid="351" relation="include">
+        </childnode>
+        <childnode refid="353" relation="include">
+        </childnode>
+        <childnode refid="354" relation="include">
+        </childnode>
+        <childnode refid="355" relation="include">
+        </childnode>
+        <childnode refid="350" relation="include">
+        </childnode>
+        <childnode refid="352" relation="include">
+        </childnode>
+      </node>
+      <node id="345">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_file_handle.c</label>
         <link refid="gfal__common__file__handle_8c"/>
       </node>
-      <node id="339">
+      <node id="340">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
         <link refid="gfal__common__catalog_8c"/>
       </node>
-      <node id="348">
+      <node id="350">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
         <link refid="gfal__posix__opendir_8c"/>
       </node>
@@ -250,7 +267,7 @@
 <para>delete the handle associated with the given key, return TRUE if success else FALSE</para><para>* </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="170" bodyend="178"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="171" bodyend="179"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__filedescriptor_8h_19cfac852697441bd0289e9900960854c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -279,7 +296,7 @@
 <para>create a file handle with a given module_id ( id of the catalog) and a given file descriptor</para><para>* </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="149" bodyend="160"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="150" bodyend="161"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__filedescriptor_8h_1b1a9b764baa7c997a354d18bbe43e2cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
@@ -305,7 +322,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="134" bodyend="142"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="135" bodyend="143"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__filedescriptor_8h_19d05f277c63dea4b06fb518237a5da11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
@@ -326,7 +343,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="65" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="113" bodyend="118"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="65" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="113" bodyend="119"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__filedescriptor_8h_1b2ae28c9bade093c2f1fea46f549fbee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
@@ -351,7 +368,7 @@
 <para>same than gfal_file_handle but with external data storage support </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="122" bodyend="126"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.h" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" bodystart="123" bodyend="127"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
