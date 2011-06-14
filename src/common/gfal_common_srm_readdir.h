@@ -27,3 +27,7 @@
 #include <glib.h>
 #include <dirent.h>
 #include "gfal_common_filedescriptor.h"
+
+
+
+struct dirent* gfal_srm_readdirG(gfal_handle handle, gpointer fh, GError** err);

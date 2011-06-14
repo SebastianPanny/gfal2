@@ -18,6 +18,8 @@
 /*
  * @(#)$RCSfile: mds_ifce.c,v $ $Revision: 1.87 $ $Date: 2009/10/01 09:53:37 $ CERN Jean-Philippe Baud
  */
+ 
+#if 0  // disable file
 
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -104,3 +106,5 @@ get_seap_info (const char *host, char ***access_protocol, int **port, char *errb
 {
 	return sd_get_seap_info(host, access_protocol, port,NULL,0);
 }
+
+#endif

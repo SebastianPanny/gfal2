@@ -34,11 +34,11 @@
 #include <dlfcn.h>
 #include <stdlib.h>
 #include "../gfal_constants.h"
-#include "gfal_types.h"
+#include "../gfal_types.h"
 #include "../mds/gfal_common_mds.h"
-#include "gfal_common_interface.h"
+#include "../gfal_common_interface.h"
 #include "lfc_ifce_ng.h"
-#include "gfal_common_errverbose.h"
+#include "../gfal_common_errverbose.h"
 
 
 static int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
