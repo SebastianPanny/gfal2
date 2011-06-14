@@ -60,7 +60,7 @@ static int purifydisabled = -1;
 
 
 
-
+#if 0
 
 // fix it to remove !
     int
@@ -2654,7 +2654,7 @@ gfal_get_errno () {
 }
 
 
-
+#endif
  
  
  

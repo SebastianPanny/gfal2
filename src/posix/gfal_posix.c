@@ -36,6 +36,8 @@
 
 
 static __thread int nobdii = 0;
+
+#if 0
 /*
 int gfal_access (const char *path, int amode){
     int rc = 0, sav_errno = 0;
@@ -1425,4 +1427,4 @@ int gfal_is_nobdii (){
 }
 
 
-
+#endif

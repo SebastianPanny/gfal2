@@ -25,7 +25,7 @@
 
 #include "gfal_common_storage.h"
 
-
+#if 0
 
 struct dir_info *di_array[GFAL_OPEN_MAX];
 struct xfer_info *xi_array[GFAL_OPEN_MAX];
@@ -97,5 +97,5 @@ free_xi (int fd)
     return (0);
 }
 
-
+#endif
 

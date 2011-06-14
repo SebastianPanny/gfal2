@@ -11,8 +11,11 @@ import random
 import shutil
 import commands
 
-src_tests_link = ['gfal_srm_ifce','ldap','is_ifce']
+
+src_tests_link = ['gfal', 'gfalcommon']
 src_tests_mocks = Glob('mock/*.c')
+src_tests_main = Glob("*.c") + Glob("common/*.c") + Glob("posix/*.c")
+"""
 src_tests_global = ["#src/common/gfal_common_errverbose.c", "#src/common/gfal_common_all.c", "#src/common/gfal_common_guid.c", "unit_test_util.c"]
 src_tests_voms = ["common/voms/gfal__test_voms.c","#src/common/voms/gfal_voms_if.c" ]
 src_tests_srm = ["#src/common/gfal_common_srm.c", "common/gfal__test_common_srm.c" , "common/gfal__test_common_srm_no_glib.c",  '#src/common/gfal_common_srm_readdir.c']
@@ -38,7 +41,8 @@ src_tests_posix_opendir = ['#src/posix/gfal_posix_opendir.c', '#src/posix/gfal_p
 src_tests_posix = [ '#src/posix/gfal_posix_ng.c', '#src/posix/gfal_posix_internal.c', '#src/posix/gfal_posix_local_file.c']
 src_tests_posix_all = src_tests_posix + src_tests_posix_access + src_tests_posix_chmod + src_tests_posix_rename + src_tests_posix_stat + src_tests_posix_mkdir + src_tests_posix_rmdir + src_tests_posix_opendir + src_tests_posix_open
 src_tests= ["common/gfal__test_verbose.c", "common/gfal__test_catalog.c","#src/common/gfal_common_catalog.c" ,"unit_test.c" ]
-src_tests_all = src_tests_mocks+ src_tests+ src_tests_voms + src_tests_global + src_tests_srm_all  + src_tests_mds + src_tests_lfc + src_tests_posix_all + src_tests_filedescriptor
+src_tests_all = src_tests_mocks+ src_tests+ src_tests_voms + src_tests_global + src_tests_srm_all  + src_tests_mds + src_tests_lfc + src_tests_posix_all + src_tests_filedescriptor"""
+src_tests_all = src_tests_mocks + src_tests_main
 ## build test config
 
 lfc_gfal_infosys = (os.getenv("LCG_GFAL_INFOSYS") is None) and "" or os.getenv("LCG_GFAL_INFOSYS") # get the var env or ""

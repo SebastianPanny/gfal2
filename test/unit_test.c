@@ -30,7 +30,7 @@
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../unit_test_constants.h"
+#include "unit_test_constants.h"
 #include "common/gfal_common.h"
 #include "common/gfal_common_errverbose.h"
 #include "common/gfal__test_verbose.c"

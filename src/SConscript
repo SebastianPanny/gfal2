@@ -11,9 +11,8 @@ common_mds = Glob("common/mds/*.c")
 common_lfc = Glob("common/lfc/*.c")
 common_src_all = common_src + common_lfc + common_mds + common_voms
 
-gfal_main_libs = ['libgfalcommon']
+gfal_main_libs = ['gfalcommon']
 posix_src_all = Glob("posix/*.c")
-
 other_headers=['common/']
 
 ##
@@ -25,8 +24,8 @@ commonlib = env_common.SharedLibrary("#build/libs/libgfalcommon", common_src_all
 commonlib_static = env_common.StaticLibrary("#build/libs/libgfalcommon", common_src_all);
 
 env_posix = env.Clone()
-env_posix .Append(LIBS=gfal_main_libs)
-env_posix .Append(CPPPATH=other_headers)
+env_posix.Append(LIBS=gfal_main_libs)
+env_posix.Append(CPPPATH=other_headers)
 
 mainlib = env_posix.SharedLibrary('#build/libs/libgfal', posix_src_all)
 staticlib = env_posix.StaticLibrary('#build/libs/libgfal', posix_src_all)

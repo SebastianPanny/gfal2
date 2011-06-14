@@ -37,6 +37,7 @@ struct fc_ops fcops;
 char lfc_endpoint[GFAL_HOSTNAME_MAXLEN] = "";
 char lfc_env[GFAL_HOSTNAME_MAXLEN];
 
+#if 0
 static int lfc_mkdirp_trans (const char *, mode_t, char *, int, int);
 
 static int 
@@ -1347,3 +1348,4 @@ lfc_remove (gfal_file gfile, char *errbuf, int errbufsz)
 	fcops.endsess ();
 	return (nberrors ? -1 : 0);
 }
+#endif

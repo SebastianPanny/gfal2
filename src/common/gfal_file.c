@@ -39,7 +39,7 @@ static const char *gfal_file_catalog_names[] = {
 	"EDG"
 };
 
-
+#if 0
 gfal_file
 gfal_file_new (const char *file, const char *defproto, int bool_tobecreated, char *errbuf, int errbufsz) {
 	gfal_file gf;
@@ -324,3 +324,5 @@ gfal_file_next_replica (gfal_file gf)
 
 	return (0);
 }
+
+#endif
