@@ -55,8 +55,6 @@ int gfal_posix_internal_stat(const char* path, struct stat* buf){
 			ret = gfal_local_stat(path, buf, &tmp_err);
 		} else if( gfal_guid_checker(path, NULL) ){
 			ret = gfal_guid_statG(handle, path, buf, &tmp_err);
-		} else if( gfal_surl_checker(path, NULL) == 0){
-			ret = gfal_srm_statG(handle, path, buf, &tmp_err);
 		} else {
 			ret = gfal_catalog_statG(handle, path, buf, &tmp_err);
 		}

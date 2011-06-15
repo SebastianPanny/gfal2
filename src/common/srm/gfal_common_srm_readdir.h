@@ -30,4 +30,4 @@
 
 
 
-struct dirent* gfal_srm_readdirG(gfal_handle handle, gpointer fh, GError** err);
+struct dirent* gfal_srm_readdirG(catalog_handle handle, DIR* fh, GError** err);

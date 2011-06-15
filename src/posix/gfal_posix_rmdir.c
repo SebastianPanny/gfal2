@@ -57,8 +57,6 @@
 			res = gfal_local_rmdir(path, &tmp_err);
 		}else if(gfal_guid_checker(path, NULL) == TRUE){
 			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported for directory deletion");
-		}else if( gfal_surl_checker(path, NULL) == 0 ){
-			res = gfal_srm_rmdirG(handle, path, &tmp_err);
 		}else{
 			res = gfal_catalog_rmdirG(handle, path, &tmp_err);
 		}

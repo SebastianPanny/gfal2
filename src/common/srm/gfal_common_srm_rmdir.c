@@ -63,10 +63,11 @@ int gfal_srmv2_rmdir_internal(gfal_handle handle, char* endpoint, const char* su
 }
 
 
-int gfal_srm_rmdirG(gfal_handle handle, const char* surl, GError** err){
+int gfal_srm_rmdirG(catalog_handle ch, const char* surl, GError** err){
 	int ret = -1;
 	char* endpoint=NULL;
 	GError* tmp_err=NULL;
+	gfal_handle handle = (gfal_handle) ch;
 	enum gfal_srm_proto srm_type;
 	
 	ret = gfal_auto_get_srm_endpoint_for_surl(handle, &endpoint, &srm_type, surl, &tmp_err);

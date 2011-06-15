@@ -27,4 +27,4 @@
 #include <glib.h>
 #include "../gfal_types.h" 
 
-int gfal_srm_mkdirG(gfal_handle handle, char* surl, int mode, GError** err); 
+int gfal_srm_mkdirG(catalog_handle handle, const char* surl, mode_t mode, gboolean pflag, GError** err); 

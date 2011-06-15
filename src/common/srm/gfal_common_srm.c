@@ -34,6 +34,12 @@
 #include "../gfal_common_catalog.h"
 #include "gfal_common_srm_access.h"
 #include "gfal_common_srm_internal_layer.h"
+#include "gfal_common_srm_access.h"
+#include "gfal_common_srm_mkdir.h"
+#include "gfal_common_srm_stat.h"
+#include "gfal_common_srm_rmdir.h"
+#include "gfal_common_srm_opendir.h"
+#include "gfal_common_srm_readdir.h"
 
 /**
  * list of the protols in the order of preference
@@ -50,8 +56,6 @@ int gfal_surl_checker(const char* surl, GError** err){
 	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");
 	ret=  regexec(&rex,surl,0,NULL,0);
-	if(ret) 
-		g_set_error(err,0,EINVAL,"[gfal_surl_checker] Incorrect surl, impossible to parse surl %s :", surl);
 	regfree(&rex);
 	return ret;
 } 
@@ -64,6 +68,10 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 	switch(mode){
 		case GFAL_CATALOG_GETTURL:
 		case GFAL_CATALOG_ACCESS:
+		case GFAL_CATALOG_MKDIR:
+		case GFAL_CATALOG_STAT:
+		case GFAL_CATALOG_RMDIR:
+		case GFAL_CATALOG_OPENDIR:
 			return (gfal_surl_checker(url,  err)==0)?TRUE:FALSE;
 		default:
 			return FALSE;		
@@ -88,6 +96,12 @@ gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err){
 	srm_catalog.check_catalog_url = &gfal_srm_check_url;
 	srm_catalog.catalog_delete = &gfal_srm_destroyG;
 	srm_catalog.accessG = &gfal_srm_accessG;
+	srm_catalog.mkdirpG = &gfal_srm_mkdirG;
+	srm_catalog.statG= &gfal_srm_statG;
+	srm_catalog.rmdirG = &gfal_srm_rmdirG;
+	srm_catalog.opendirG = &gfal_srm_opendirG;
+	srm_catalog.readdirG = &gfal_srm_readdirG;
+	srm_catalog.closedirG = &gfal_srm_closedirG;
 	return srm_catalog;
 }
 

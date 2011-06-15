@@ -48,9 +48,6 @@ static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handle, gfal
 		case GFAL_MODULEID_LOCAL:
 			ret = gfal_local_readdir(fh->fdesc, &tmp_err);
 			break;
-		case GFAL_MODULEID_SRM:
-			ret = gfal_srm_readdirG(handle, fh->fdesc, &tmp_err);
-			break;
 		case GFAL_EXTERNAL_MODULE_OFFSET:
 			ret = gfal_catalog_readdirG(handle, fh, &tmp_err);
 			break;

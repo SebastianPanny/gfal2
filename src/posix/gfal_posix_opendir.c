@@ -66,8 +66,6 @@ DIR* gfal_posix_internal_opendir(const char* name){
 		}else if(gfal_guid_checker(name, NULL) == TRUE){
 			ret = NULL;
 			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported by opendir");
-		}else if( gfal_surl_checker(name, NULL) == 0 ){
-			ret = gfal_srm_opendirG(handle, name, &tmp_err);
 		}else{
 			ret = gfal_catalog_opendirG(handle, name, &tmp_err);
 		}

@@ -60,8 +60,6 @@
 		}else if(gfal_guid_checker(path, NULL) == TRUE){
 			res = -1;
 			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported for directory creation");
-		}else if( gfal_surl_checker(path, NULL) == 0 ){
-			res = gfal_srm_mkdirG(handle, path, mode, &tmp_err);	
 		}else{
 			res = gfal_catalog_mkdirp(handle, path, mode, TRUE, &tmp_err);
 		}

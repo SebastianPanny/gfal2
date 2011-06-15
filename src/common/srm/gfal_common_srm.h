@@ -32,6 +32,7 @@
 #include "../gfal_constants.h"
 
 
+
 #define GFAL_PREFIX_SRM "srm://"
 #define GFAL_ENDPOINT_DEFAULT_PREFIX "httpg://"
 

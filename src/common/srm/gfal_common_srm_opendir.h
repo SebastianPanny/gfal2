@@ -34,4 +34,6 @@ typedef struct _gfal_srm_opendir_handle{
 	
 }* gfal_srm_opendir_handle;
 
-gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* path, GError ** err);
+DIR* gfal_srm_opendirG(catalog_handle handle, const char* path, GError ** err);
+
+int gfal_srm_closedirG(catalog_handle handle, DIR* fh, GError** err);

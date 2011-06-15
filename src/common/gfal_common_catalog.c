@@ -41,7 +41,7 @@
  *  Note that hte default catalog is the first one
  */
 static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG, &gfal_srm_initG}; // JUST MODIFY THIS TWO LINES IN ORDER TO ADD CATALOG
-static const int size_catalog = 1;
+static const int size_catalog = 2;
 
 /**
  *  load the module of gfal

@@ -25,6 +25,7 @@
 
 
 #include <dirent.h>
+#include <stdio.h>
 #include "gfal_common_srm.h"
 #include "gfal_common_srm_opendir.h"
 #include "../gfal_common_errverbose.h"
@@ -34,7 +35,7 @@
 
 
 
-static gfal_file_handle gfal_srmv2_opendir_internal(gfal_handle handle, char* endpoint, const char* surl, GError** err){
+DIR* gfal_srmv2_opendir_internal(gfal_handle handle, char* endpoint, const char* surl, GError** err){
 	g_return_val_err_if_fail(handle && endpoint && surl, NULL, err, "[gfal_srmv2_opendir_internal] invaldi args");
 	struct srm_context context;
 	struct srm_ls_input input;
@@ -42,7 +43,7 @@ static gfal_file_handle gfal_srmv2_opendir_internal(gfal_handle handle, char* en
 	struct srmv2_mdfilestatus *srmv2_mdstatuses=NULL;
 	char errbuf[GFAL_ERRMSG_LEN];
 	int i;
-	gfal_file_handle resu=NULL;
+	DIR* resu=NULL;
 	int ret =-1;
 	char* tab_surl[] = { (char*)surl, NULL};
 	const int nb_request=1;
@@ -68,7 +69,7 @@ static gfal_file_handle gfal_srmv2_opendir_internal(gfal_handle handle, char* en
 		} else {
 			gfal_srm_opendir_handle oh = calloc(sizeof(struct _gfal_srm_opendir_handle),1);
 			oh->srm_ls_resu = srmv2_mdstatuses;
-			resu = gfal_file_handle_new(GFAL_MODULEID_SRM, (gpointer) oh);
+			resu = (DIR*) oh;
 		}
 	}else{
 		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
@@ -81,10 +82,10 @@ static gfal_file_handle gfal_srmv2_opendir_internal(gfal_handle handle, char* en
 	
 
 
-gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* surl, GError ** err){
-	g_return_val_err_if_fail(handle && surl, NULL, err, "[gfal_srm_opendirG] Invalid args");
-	
-	gfal_file_handle resu = NULL;
+DIR* gfal_srm_opendirG(catalog_handle ch, const char* surl, GError ** err){
+	g_return_val_err_if_fail(ch && surl, NULL, err, "[gfal_srm_opendirG] Invalid args");
+	gfal_handle handle = ch;
+	DIR* resu = NULL;
 	char* endpoint=NULL;
 	GError* tmp_err=NULL;
 	int ret = -1;
@@ -111,9 +112,9 @@ gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* surl, GError 
 }
 
 
-int gfal_srm_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err){
+int gfal_srm_closedirG(catalog_handle handle, DIR* fh, GError** err){
 	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_srm_opendirG] Invalid args");
-	gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh->fdesc;	
+	gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh;	
 	gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(oh->srm_ls_resu, 1);
 	free(oh);
 	return 0;
