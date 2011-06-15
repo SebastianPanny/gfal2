@@ -32,6 +32,7 @@
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
+#include "gfal_common_srm_access.h"
 #include "gfal_common_srm_internal_layer.h"
 
 /**
@@ -55,28 +56,42 @@ int gfal_surl_checker(const char* surl, GError** err){
 	return ret;
 } 
 
-static gboolean gfal_srm_check_url(const char* url, catalog_mode mode, GError** err){
+/**
+ * url checker for the srm module, surl part
+ * 
+ * */
+static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catalog_mode mode, GError** err){
 	switch(mode){
 		case GFAL_CATALOG_GETTURL:
-			return gfal_surl_checker(url,  err);
+			return (gfal_surl_checker(url,  err)==0)?TRUE:FALSE;
 		default:
 			return FALSE;		
 	}
 }
+/**
+ * destroyer function, call when the module is unload
+ * */
+static void gfal_srm_destroyG(catalog_handle handle){
+	
+}
 
+/**
+ * Init function, called before all
+ * */
 gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err){
 	gfal_catalog_interface srm_catalog;
 	GError* tmp_err=NULL;
 	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
-	
-	srm_catalog.check_catalog_url = gfal_srm_check_url;
+
+	srm_catalog.handle = (void*) handle;	
+	srm_catalog.check_catalog_url = &gfal_srm_check_url;
+	srm_catalog.catalog_delete = &gfal_srm_destroyG;
+	srm_catalog.accessG = &gfal_srm_accessG;
 	return srm_catalog;
 }
 
 
-static int gfal_srm_destroyG(catalog_handle handle, GError** err){
-	
-}
+
 
 
 /**

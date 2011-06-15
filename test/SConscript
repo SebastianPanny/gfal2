@@ -12,7 +12,7 @@ import shutil
 import commands
 
 
-src_tests_link = ['gfal', 'gfalcommon']
+src_tests_link = ['gfal']
 src_tests_mocks = Glob('mock/*.c')
 src_tests_main = Glob("*.c") + Glob("common/*.c") + Glob("posix/*.c")
 src_tests_all = src_tests_mocks + src_tests_main

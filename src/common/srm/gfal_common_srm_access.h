@@ -27,7 +27,7 @@
 #include <glib.h>
 #include "../gfal_types.h" 
 
-int gfal_srm_accessG(gfal_handle handle, char* surl, int mode, GError** err); 
+int gfal_srm_accessG(catalog_handle handle, const char* surl, int mode, GError** err); 
 
 
 

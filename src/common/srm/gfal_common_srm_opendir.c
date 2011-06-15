@@ -112,7 +112,7 @@ gfal_file_handle gfal_srm_opendirG(gfal_handle handle, const char* surl, GError 
 
 
 int gfal_srm_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err){
-	g_return_val_err_if_fail(handle && fh, NULL, err, "[gfal_srm_opendirG] Invalid args");
+	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_srm_opendirG] Invalid args");
 	gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh->fdesc;	
 	gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(oh->srm_ls_resu, 1);
 	free(oh);

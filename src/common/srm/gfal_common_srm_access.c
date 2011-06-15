@@ -26,10 +26,11 @@
 #include "gfal_common_srm_access.h"
 #include "../gfal_constants.h"
 #include "../gfal_common_errverbose.h"
+#include "../gfal_common_catalog.h"
 #include "gfal_common_srm_internal_layer.h"
 
 
-static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, char* surl, int mode,  GError** err){
+static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, const char* surl, int mode,  GError** err){
 	struct srm_context context;
 	struct srm_checkpermission_input checkpermission_input;
 	struct srmv2_filestatus *resu;
@@ -80,7 +81,7 @@ static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, char* 
  * @param err : GError error reprot system
  * @warning : not safe, surl must be verified
  */ 
-int gfal_srm_accessG(gfal_handle handle, char* surl, int mode, GError** err){			// execute an access method on a srm url
+int gfal_srm_accessG(catalog_handle handle, const char* surl, int mode, GError** err){			// execute an access method on a srm url
 	g_return_val_err_if_fail(handle && surl, EINVAL, err, "[gfal_srm_accessG] Invalid value handle and/or surl");
 	GError* tmp_err=NULL;
 	int ret=-1;

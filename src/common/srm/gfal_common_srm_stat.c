@@ -46,7 +46,7 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 	char* tab_surl[] = { (char*)surl, NULL};
 	int tab_resu[nb_request];
 	
-	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());	// init context
+	gfal_srm_external_call.srm_context_init(&context, (char*)endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());	// init context
 	
 	input.nbfiles = nb_request;
 	input.surls = tab_surl;
@@ -75,12 +75,13 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 	return ret;	
 }
 
-int gfal_srm_statG(gfal_handle handle, const char* surl, struct stat* buf, GError** err){
-	g_return_val_err_if_fail( handle && surl && buf, -1, err, "[gfal_srm_statG] Invalid args in handle/surl/bugg");
+int gfal_srm_statG(catalog_handle ch, const char* surl, struct stat* buf, GError** err){
+	g_return_val_err_if_fail( ch && surl && buf, -1, err, "[gfal_srm_statG] Invalid args in handle/surl/bugg");
 	GError* tmp_err = NULL;
 	int ret =-1;
 	char* endpoint=NULL;
 	enum gfal_srm_proto srm_type;
+	gfal_handle handle = (gfal_handle) ch;
 	
 	ret = gfal_auto_get_srm_endpoint_for_surl(handle, &endpoint, &srm_type, surl, &tmp_err);
 	if( ret >=0 ){

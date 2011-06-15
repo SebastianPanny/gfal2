@@ -4,32 +4,26 @@
 Import('*')	# import SConstruct exported var
 import os
 
-gfal_common_libs = ['ldap', 'vomsc','gfal_srm_ifce','is_ifce'] #+ globus_libs		# libraries linked
+gfal_common_libs = ['ldap', 'vomsc','gfal_srm_ifce','is_ifce'] 		# libraries linked
+other_headers=['common/']
 common_src = Glob("common/*.c") 
 common_voms = Glob("common/voms/*.c")
 common_mds = Glob("common/mds/*.c") 
 common_lfc = Glob("common/lfc/*.c")
 common_srm = Glob("common/srm/*.c")
-common_src_all = common_src + common_lfc + common_mds + common_voms + common_srm
-
-gfal_main_libs = ['gfalcommon']
 posix_src_all = Glob("posix/*.c")
-other_headers=['common/']
+src_all = common_src + common_lfc + common_mds + common_voms + common_srm + posix_src_all
+
 
 ##
 # Clone the env for the link flag
-env_common = env.Clone()
-env_common.Append(LIBS=gfal_common_libs)
-
-commonlib = env_common.SharedLibrary("#build/libs/libgfalcommon", common_src_all);
-commonlib_static = env_common.StaticLibrary("#build/libs/libgfalcommon", common_src_all);
 
 env_posix = env.Clone()
-env_posix.Append(LIBS=gfal_main_libs)
+env_posix.Append(LIBS=gfal_common_libs)
 env_posix.Append(CPPPATH=other_headers)
 
-mainlib = env_posix.SharedLibrary('#build/libs/libgfal', posix_src_all)
-staticlib = env_posix.StaticLibrary('#build/libs/libgfal', posix_src_all)
+mainlib = env_posix.SharedLibrary('#build/libs/libgfal', src_all)
+staticlib = env_posix.StaticLibrary('#build/libs/libgfal', src_all)
 
-Default(commonlib, commonlib_static, mainlib,staticlib)
+Default(mainlib,staticlib)
 
