@@ -63,6 +63,7 @@ int gfal_surl_checker(const char* surl, GError** err){
 static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catalog_mode mode, GError** err){
 	switch(mode){
 		case GFAL_CATALOG_GETTURL:
+		case GFAL_CATALOG_ACCESS:
 			return (gfal_surl_checker(url,  err)==0)?TRUE:FALSE;
 		default:
 			return FALSE;		

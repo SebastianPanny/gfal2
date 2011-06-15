@@ -34,12 +34,13 @@
 #include "gfal_common_errverbose.h"
 #include "gfal_common_filedescriptor.h"
 #include "srm/gfal_common_srm_open.h"
+#include "srm/gfal_common_srm.h"
 
 
 /**
  *  Note that hte default catalog is the first one
  */
-static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG}; // JUST MODIFY THIS TWO LINES IN ORDER TO ADD CATALOG
+static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG, &gfal_srm_initG}; // JUST MODIFY THIS TWO LINES IN ORDER TO ADD CATALOG
 static const int size_catalog = 1;
 
 /**
