@@ -280,7 +280,7 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
  *  lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map.
  * 
  * */
-gfal_catalog_interface lfc_initG(gfal_handle handle, GError** err){
+gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	gfal_catalog_interface lfc_catalog;
 	GError* tmp_err=NULL;
 	memset(&lfc_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog

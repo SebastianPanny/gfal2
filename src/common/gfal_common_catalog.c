@@ -28,37 +28,110 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dlfcn.h>
+#include "gfal_types.h"
 #include "gfal_common_catalog.h"
-#include "lfc/gfal_common_lfc.h"
 #include "gfal_constants.h"
 #include "gfal_common_errverbose.h"
 #include "gfal_common_filedescriptor.h"
-#include "srm/gfal_common_srm_open.h"
-#include "srm/gfal_common_srm.h"
 
 
 /**
  *  Note that hte default catalog is the first one
  */
-static gfal_catalog_interface (*constructor[])(gfal_handle,GError**)  = { &lfc_initG, &gfal_srm_initG}; // JUST MODIFY THIS TWO LINES IN ORDER TO ADD CATALOG
-static const int size_catalog = 2;
+//static gfal_catalog_interface (*constructor[50])(gfal_handle,GError**); // JUST MODIFY THIS TWO LINES IN ORDER TO ADD CATALOG
+//static int size_catalog = 0;
 
 /**
- *  load the module of gfal
- * 
-static int gfal_modules_search(GError** err){
-	char* gfal_plugin_lst = getenv(GFAL_PLUGIN_ENVAR);
-	int n;
-	if( gfal_plugin_lst == NULL){
-		g_set_error(err, 0, ENAMETOOLONG, "[%s] env var %s not defined, no plugin loaded for gfal !", __func__, GFAL_PLUGIN_ENVAR);
-		return -1;		
+ * resolve and execute init func in a given module
+ */
+static int gfal_module_init(gfal_handle handle, void* dlhandle, const char* module_name, GError** err){
+	GError* tmp_err=NULL;
+	static gfal_catalog_interface (*constructor)(gfal_handle,GError**);
+	int* n = &handle->catalog_opt.catalog_number;
+	int ret =-1;
+	constructor= (gfal_catalog_interface (*)(gfal_handle,GError**)) dlsym(dlhandle, GFAL_PLUGIN_INIT_SYM);
+	if(constructor == NULL){
+		g_set_error(&tmp_err, 0, EINVAL, "No symbol %s found in the plugin %s, failure", __func__,  GFAL_PLUGIN_INIT_SYM, module_name);
+		*n=0;	
+	}	
+	handle->catalog_opt.catalog_list[*n] = constructor(handle, &tmp_err);
+	if(tmp_err){
+		g_propagate_prefixed_error(err, tmp_err, " Unable to load plugin %s : ", module_name);		
+		*n=0;		
+	}else{
+		*n+=1;
+		gfal_print_verbose(GFAL_VERBOSE_NORMAL, " [gfal_module_load] plugin %s loaded with success %s", module_name);
 	}
-	if( (n=strnlen(gfal_plugin_lst, GFAL_MAX_PLUGIN_LIST)) >= GFAL_MAX_PLUGIN_LIST){
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return 0;	
+}
+
+/**
+ *  load the gfal_plugins in the listed library
+ */ 
+static int gfal_module_load(gfal_handle handle, char* module_name, GError** err){
+	void* dlhandle = dlopen(module_name, RTLD_LAZY);
+	GError * tmp_err=NULL;
+	int ret = -1;
+	if (dlhandle==NULL)
+		g_set_error(&tmp_err, 0, EINVAL, "[%s] Unable to open the %s plugin specified in the %s en var, failure : %s", __func__, module_name, GFAL_PLUGIN_ENVAR, dlerror());
+	else
+		ret = gfal_module_init(handle, dlhandle, module_name, &tmp_err);
+		
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return ret;
+}
+
+/**
+ * 	search the plugin list for gfal
+ *  tab must be free with g_strfreev
+ */
+static char** gfal_search_plugin_list(GError** err){
+	GError* tmp_err = NULL;
+	char* gfal_plugin_lst = getenv(GFAL_PLUGIN_ENVAR);
+	if( gfal_plugin_lst == NULL ){
+		g_set_error(err, 0, EINVAL, "[%s] env var %s not defined, no plugin loaded for gfal !", __func__, GFAL_PLUGIN_ENVAR);
+		return NULL;		
+	}
+	int n = strnlen(gfal_plugin_lst, GFAL_MAX_PLUGIN_LIST);	
+	if(n >= GFAL_MAX_PLUGIN_LIST){
 		g_set_error(err, 0, ENAMETOOLONG, "[%s] plugin list in %s env var too long", __func__, GFAL_PLUGIN_ENVAR);
-		return -1;
+		return NULL;
+	}
+	char** str_tab=  g_strsplit(gfal_plugin_lst, ":", 0);	
+	if( *str_tab != NULL )
+		return str_tab;
+	return NULL;
+}
+
+/**
+ *  search and load the modules of gfal in checking the GFAL_PLUGIN_ENVAR
+ */
+static int gfal_modules_resolve(gfal_handle handle, GError** err){
+	GError* tmp_err = NULL;
+	int ret=-1, count=0;
+	char** tab_args;
+	
+	if( (tab_args = gfal_search_plugin_list(&tmp_err)) != NULL){
+		char** p= tab_args;
+		while(*p  != NULL ){
+			if( gfal_module_load(handle, *p, &tmp_err) != 0){
+				ret = -1;
+				break;
+			}
+			ret =0;
+			p++;
+		}
+		g_strfreev(tab_args);
 	}
 	
-}*/
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return ret;
+}
 
 /**
  * Instance all catalogs for use if it's not the case
@@ -69,16 +142,10 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
 	const int catalog_number = handle->catalog_opt.catalog_number;
 	if(catalog_number <= 0){
 		GError* tmp_err=NULL;
-		int i;
-		for(i=0; i < size_catalog ;++i){
-			gfal_catalog_interface catalog = constructor[i](handle, &tmp_err);
-			handle->catalog_opt.catalog_list[i] = catalog;
-			if(tmp_err){
-				g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-				return -1;
-			}
-		}
-		handle->catalog_opt.catalog_number=i;
+		gfal_modules_resolve(handle, &tmp_err);
+		if(tmp_err)
+			g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+		
 	}
 	return handle->catalog_opt.catalog_number;
 }

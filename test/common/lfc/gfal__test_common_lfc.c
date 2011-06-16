@@ -12,7 +12,7 @@
 #include "../../unit_test_constants.h"
 
 
-
+#if 0
 
 START_TEST(test_gfal_common_lfc_define_env)
 {
@@ -334,3 +334,4 @@ START_TEST(test__gfal_common_lfc_rename)
 }
 END_TEST
 
+#endif

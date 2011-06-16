@@ -68,7 +68,6 @@ Suite* common_suite (void)
   tcase_add_test(tc_cata, test_catalog_guid_resolve);
   tcase_add_test(tc_cata, test__catalog_stat);
   tcase_add_test(tc_cata, test__catalog_lstat);
-  tcase_add_test(tc_cata, test_gfal_common_lfc_getSURL);
   suite_add_tcase (s, tc_cata);
   // voms /
   TCase *tc_voms = tcase_create ("Voms");
@@ -116,7 +115,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_mds, gfal__test_get_lfchost_bdii_with_nobdii);
   suite_add_tcase(s, tc_mds);
   TCase *tc_lfc= tcase_create("LFC");
-  tcase_add_test(tc_lfc, test_gfal_common_lfc_define_env);
+ /* tcase_add_test(tc_lfc, test_gfal_common_lfc_define_env);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_init);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_resolve_sym);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_access);
@@ -124,6 +123,7 @@ Suite* common_suite (void)
   tcase_add_test(tc_lfc, test_gfal_common_lfc_check_filename);
   tcase_add_test(tc_lfc, test_gfal_common_lfc_access_guid_file_exist);
   tcase_add_test(tc_lfc, test__gfal_common_lfc_rename);
+  tcase_add_test(tc_lfc, test_gfal_common_lfc_getSURL);*/
   suite_add_tcase(s, tc_lfc);
   TCase *tc_filedesc = tcase_create("FILE DESCRIPTORS");
   tcase_add_test(tc_filedesc, test__dir_file_descriptor_low);

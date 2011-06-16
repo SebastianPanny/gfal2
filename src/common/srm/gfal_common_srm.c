@@ -80,14 +80,16 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 /**
  * destroyer function, call when the module is unload
  * */
-static void gfal_srm_destroyG(catalog_handle handle){
-	
+static void gfal_srm_destroyG(catalog_handle ch){
+	gfal_handle handle = (gfal_handle) ch;
+	gfal_delete_request_state(handle->last_request_state);
+	handle->last_request_state = NULL;
 }
 
 /**
  * Init function, called before all
  * */
-gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err){
+gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	gfal_catalog_interface srm_catalog;
 	GError* tmp_err=NULL;
 	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	

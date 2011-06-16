@@ -49,8 +49,9 @@ gfal_handle gfal_initG (GError** err)
 	handle->err= NULL;
 	handle->srm_proto_type = PROTO_SRMv2;
 	handle->initiated = 1;
-	handle->catalog_opt.catalog_number=-1;
+	handle->catalog_opt.catalog_number= 0;
 	handle->srmv2_opt = calloc(1,sizeof(struct _gfal_srmv2_opt));	// define the srmv2 option struct and clear it
+	handle->last_request_state = NULL;
 	return handle;
 }
 
@@ -64,8 +65,7 @@ void gfal_handle_freeG (gfal_handle handle){
 	g_clear_error(&(handle->err));
 	free(handle->srmv2_opt);
 	gfal_catalogs_delete(handle, NULL);
-	gfal_delete_request_state(handle->last_request_state);
-	handle->last_request_state = NULL;
+
 	gfal_dir_handle_container_delete(&(handle->fdescs));
 	free(handle);
 	handle = NULL;
