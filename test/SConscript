@@ -12,10 +12,10 @@ import shutil
 import commands
 
 
-src_tests_link = ['gfal', 'gfal_plugin_lfc', 'gfal_plugin_srm']
-src_tests_mocks = Glob('mock/*.c')
-src_tests_main = Glob("*.c") + Glob("common/*.c") + Glob("posix/*.c")
-src_tests_all = src_tests_mocks + src_tests_main
+src_tests_link = ['gfal', 'gfal_plugin_lfc', 'gfal_plugin_srm', 'cgreen']
+#src_tests_mocks = Glob('mock/*.c')
+src_tests_main = Glob("*.c") + Glob("common/*.c") + Glob("common/lfc/*.c") + Glob("common/voms/*.c") + Glob("common/mds/*.c") #+ Glob("posix/*.c")
+src_tests_all = src_tests_main
 ## build test config
 
 lfc_gfal_infosys = (os.getenv("LCG_GFAL_INFOSYS") is None) and "" or os.getenv("LCG_GFAL_INFOSYS") # get the var env or ""
@@ -25,7 +25,9 @@ env_test.PrependENVPath('LCG_GFAL_INFOSYS', lfc_gfal_infosys); # setup the bdii 
 env_test.PrependENVPath('LFC_HOST', lfc_host); # setup the bdii access point
 env_test.PrependENVPath('GFAL_PLUGIN_LIST', "libgfal_plugin_lfc.so:libgfal_plugin_srm.so"); # setup the GFAL PLUGIN SEARCH PATH
 env_test.Append(LIBS=src_tests_link);
-test1 =env_test.Program("test_verbose",  src_tests_all+ [ccheck_lib])
+
+
+test1 =env_test.Program("test_verbose",  src_tests_all)
 run_test= env_test.Alias("test_run_verbose.passed", test1, test1[0].abspath)
 test_alias= env_test.Alias("test", ["test_run_verbose.passed"])	
 AlwaysBuild(test_alias)

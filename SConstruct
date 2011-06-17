@@ -57,7 +57,7 @@ print "ETICS WORKSPACE : " + etics_build_dir
 print "ETICS compiled lib dir : " + etics_lib_dir
 
 headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, srm_ifce_location, dpm_header, dcap_header]
-libs=[ '#'+build_dir+'/libs' , etics_lib_dir, voms_location ]
+libs=[ '#'+build_dir+'/libs' , etics_lib_dir, voms_location, "/usr/local/lib" ]
 cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
 r = os.getenv('LD_LIBRARY_PATH')	# get ld path

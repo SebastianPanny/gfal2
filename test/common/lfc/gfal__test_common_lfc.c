@@ -4,7 +4,7 @@
  * */
  
  
-#include <check.h>
+#include <cgreen/cgreen.h>
 #include <glib.h>
 #include "lfc/gfal_common_lfc.h"
 #include "lfc/lfc_ifce_ng.h"
@@ -13,9 +13,9 @@
 #include "../../mock/gfal_lfc_mock_test.h"
 
 
+/*
 
-
-START_TEST(test_gfal_common_lfc_define_env)
+void test_gfal_common_lfc_define_env()
 {
 	char* old_host = getenv("LFC_HOST");
 	char* old_port = getenv("LFC_PORT");
@@ -64,9 +64,9 @@ START_TEST(test_gfal_common_lfc_define_env)
 	free(resu);
 	gfal_handle_freeG(handle);
 }
-END_TEST
 
-START_TEST(test_gfal_common_lfc_resolve_sym)
+
+void test_gfal_common_lfc_resolve_sym()
 {
 	GError* err = NULL;
 	struct lfc_ops* st = gfal_load_lfc("liblfc.so", &err);
@@ -85,11 +85,11 @@ START_TEST(test_gfal_common_lfc_resolve_sym)
 	}
 	free(st);
 }
-END_TEST
 
 
 
-START_TEST(test_gfal_common_lfc_init)
+
+void test_gfal_common_lfc_init()
 {
 	GError * tmp_err=NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
@@ -108,10 +108,10 @@ START_TEST(test_gfal_common_lfc_init)
 	free(op);
 	gfal_handle_freeG(handle);
 }
-END_TEST
 
 
-START_TEST(test_gfal_common_lfc_access){
+
+void test_gfal_common_lfc_access(){
 	GError * tmp_err=NULL;
 	int ret =-1;
 	gfal_handle handle = gfal_initG(&tmp_err);
@@ -146,10 +146,10 @@ START_TEST(test_gfal_common_lfc_access){
 	free(op);
 	gfal_handle_freeG(handle);	
 }
-END_TEST
 
 
-START_TEST(test_gfal_common_lfc_no_exist)
+
+void test_gfal_common_lfc_no_exist()
 {
 	GError * tmp_err=NULL;
 	int ret =-1;
@@ -184,10 +184,10 @@ START_TEST(test_gfal_common_lfc_no_exist)
 	free(op);		
 	gfal_handle_freeG(handle);
 }
-END_TEST
 
 
-START_TEST(test_gfal_common_lfc_check_filename)
+
+void test_gfal_common_lfc_check_filename()
 {
 GError * tmp_err=NULL;
 	int ret =-1;
@@ -223,9 +223,9 @@ GError * tmp_err=NULL;
 	free(op);
 	gfal_handle_freeG(handle);	
 }
-END_TEST
 
-START_TEST(test_gfal_common_lfc_getSURL)
+
+void test_gfal_common_lfc_getSURL()
 {
 	GError * tmp_err=NULL;
 	char** ret =NULL;
@@ -260,10 +260,10 @@ START_TEST(test_gfal_common_lfc_getSURL)
 	gfal_handle_freeG(handle);	
 	
 }
-END_TEST
 
 
-START_TEST(test_gfal_common_lfc_access_guid_file_exist)
+
+void test_gfal_common_lfc_access_guid_file_exist()
 {
 	GError * tmp_err=NULL;
 	char* ret =NULL;
@@ -300,10 +300,10 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 	free(op);	
 	gfal_handle_freeG(handle);
 }
-END_TEST
 
 
-START_TEST(test__gfal_common_lfc_rename)
+
+void test__gfal_common_lfc_rename_mock()
 {
 	GError * tmp_err=NULL;
 	int ret =-1;
@@ -319,13 +319,20 @@ START_TEST(test__gfal_common_lfc_rename)
 		gfal_release_GError(&tmp_err);
 		return;
 	}	
-	ret = i.renameG(i.handle, TEST_LFC_RENAME_VALID_SRC, TEST_LFC_RENAME_VALID_DEST, &tmp_err);
+	ret = i.renameG(i.handle, lfc_created_val(), lfc_valid_val(), &tmp_err);
 	if( ret < 0 || tmp_err){
 		fail(" must be a success on the first rename");
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	ret = i.renameG(i.handle, TEST_LFC_RENAME_VALID_DEST, TEST_LFC_RENAME_VALID_SRC, &tmp_err);
+	ret = i.renameG(i.handle, lfc_created(), lfc_valid_val(), &tmp_err);
+	if( ret < 0 || tmp_err){
+		fail(" must be a success on the second rename ");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+
+	ret = i.renameG(i.handle, lfc_valid_val(), lfc_enoent_val(), &tmp_err);
 	if( ret < 0 || tmp_err){
 		fail(" must be a success on the second rename ");
 		gfal_release_GError(&tmp_err);
@@ -336,12 +343,12 @@ START_TEST(test__gfal_common_lfc_rename)
 	free(op);	
 	gfal_handle_freeG(handle);
 }
-END_TEST
 
 
 
 
-START_TEST(test__gfal_common_lfc_statg_mock)
+
+void test__gfal_common_lfc_statg_mock()
 {
 	GError * tmp_err=NULL;
 	int ret =-1;
@@ -386,5 +393,5 @@ START_TEST(test__gfal_common_lfc_statg_mock)
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);
 }
-END_TEST
+*/
 

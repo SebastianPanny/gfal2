@@ -18,15 +18,9 @@
 /* unit test for common_errverbose */
 
 
-#include <cgreen/cgreen.h>
 #include "gfal_common_errverbose.h"
 
 
  	
 
-void test_verbose_set_get()
-{
-	gfal_set_verbose(GFAL_VERBOSE_DEBUG);
-	int r = gfal_get_verbose();
-	assert_true_with_message(r==GFAL_VERBOSE_DEBUG, " verbose set /get failed, must be the same value");
-}
+void test_verbose_set_get();
