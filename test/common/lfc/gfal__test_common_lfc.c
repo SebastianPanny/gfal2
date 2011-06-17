@@ -10,9 +10,10 @@
 #include "lfc/lfc_ifce_ng.h"
 #include "gfal_common_internal.h"
 #include "../../unit_test_constants.h"
+#include "../../mock/gfal_lfc_mock_test.h"
 
 
-#if 0
+
 
 START_TEST(test_gfal_common_lfc_define_env)
 {
@@ -86,6 +87,8 @@ START_TEST(test_gfal_common_lfc_resolve_sym)
 }
 END_TEST
 
+
+
 START_TEST(test_gfal_common_lfc_init)
 {
 	GError * tmp_err=NULL;
@@ -95,7 +98,7 @@ START_TEST(test_gfal_common_lfc_init)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);
+	gfal_catalog_interface i = mock_lfc_interface(handle, &tmp_err);
 	if(tmp_err){
 		fail(" must not fail, valid value");
 		return;
@@ -107,6 +110,7 @@ START_TEST(test_gfal_common_lfc_init)
 }
 END_TEST
 
+
 START_TEST(test_gfal_common_lfc_access){
 	GError * tmp_err=NULL;
 	int ret =-1;
@@ -116,7 +120,7 @@ START_TEST(test_gfal_common_lfc_access){
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	gfal_catalog_interface i = mock_lfc_interface(handle, &tmp_err);	
 	if(tmp_err){
 		fail(" must be a valid init");
 		gfal_release_GError(&tmp_err);
@@ -155,7 +159,7 @@ START_TEST(test_gfal_common_lfc_no_exist)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	gfal_catalog_interface i = mock_lfc_interface(handle, &tmp_err);	
 	if(tmp_err){
 		fail(" must be a valid init");
 		gfal_release_GError(&tmp_err);
@@ -193,7 +197,7 @@ GError * tmp_err=NULL;
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	gfal_catalog_interface i = mock_lfc_interface(handle, &tmp_err);	
 	if(tmp_err){
 		fail(" must be a valid init");
 		gfal_release_GError(&tmp_err);
@@ -231,7 +235,7 @@ START_TEST(test_gfal_common_lfc_getSURL)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	gfal_catalog_interface i = mock_lfc_interface(handle, &tmp_err);	
 	if(tmp_err){
 		fail("must be a valid init");
 		gfal_release_GError(&tmp_err);
@@ -269,7 +273,7 @@ START_TEST(test_gfal_common_lfc_access_guid_file_exist)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	gfal_catalog_interface i = mock_lfc_interface(handle, &tmp_err);	
 	if(tmp_err){
 		fail("must be a valid init");
 		gfal_release_GError(&tmp_err);
@@ -309,7 +313,7 @@ START_TEST(test__gfal_common_lfc_rename)
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = lfc_initG(handle, &tmp_err);	
+	gfal_catalog_interface i = mock_lfc_interface(handle, &tmp_err);	
 	if(tmp_err){
 		fail("must be a valid init");
 		gfal_release_GError(&tmp_err);
@@ -334,4 +338,53 @@ START_TEST(test__gfal_common_lfc_rename)
 }
 END_TEST
 
-#endif
+
+
+
+START_TEST(test__gfal_common_lfc_statg_mock)
+{
+	GError * tmp_err=NULL;
+	int ret =-1;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		fail("error must be initiated");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_catalog_interface i = mock_lfc_interface(handle, &tmp_err);	
+	if(tmp_err){
+		fail("must be a valid init");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	struct stat buff;	
+	ret = i.statG(i.handle, lfc_valid_val(), &buff , &tmp_err);
+	if( ret < 0 || tmp_err){
+		fail(" must be a success on the lfc valid %d ", ret);
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	fail_if( buff.st_gid != lfc_valid_gid(), "must be a valid gid");
+	fail_if(buff.st_uid != lfc_valid_uid(), "must be a valid uid");
+	fail_if(buff.st_mode != lfc_valid_mode(), "must be a valid uid");
+	memset(&buff,0, sizeof(struct stat));
+		
+	ret = i.statG(i.handle, lfc_enoent_val(), &buff , &tmp_err);
+	if( ret == 0 || !tmp_err || tmp_err->code != ENOENT){
+		fail(" must be a non existing file ");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	g_clear_error(&tmp_err);
+		
+	ret = i.statG(i.handle, lfc_eacces_val(), &buff , &tmp_err);
+	if( ret == 0 || !tmp_err || tmp_err->code != EACCES){
+		fail(" must be a non existing accessible file ");
+		gfal_release_GError(&tmp_err);
+		return;
+	}		
+	g_clear_error(&tmp_err);
+	gfal_handle_freeG(handle);
+}
+END_TEST
+

@@ -61,7 +61,7 @@ static int gfal_module_init(gfal_handle handle, void* dlhandle, const char* modu
 		*n=0;		
 	}else{
 		*n+=1;
-		gfal_print_verbose(GFAL_VERBOSE_NORMAL, " [gfal_module_load] plugin %s loaded with success %s", module_name);
+		gfal_print_verbose(GFAL_VERBOSE_NORMAL, " [gfal_module_load] plugin %s loaded with success ", module_name);
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
@@ -258,10 +258,11 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
 	if(catalog_number > 0){
 			int i;
 			for(i=0; i< catalog_number; ++i){
-				handle->catalog_opt.catalog_list[i].catalog_delete( handle->catalog_opt.catalog_list[i].handle );
+				if(handle->catalog_opt.catalog_list[i].catalog_delete)
+					handle->catalog_opt.catalog_list[i].catalog_delete( handle->catalog_opt.catalog_list[i].handle );
 			}
 		
-		handle->catalog_opt.catalog_number =-1;
+		handle->catalog_opt.catalog_number =0;
 	}
 	return 0;
 }
