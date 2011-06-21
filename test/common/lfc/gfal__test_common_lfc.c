@@ -36,6 +36,7 @@ gfal_catalog_interface get_lfc_interface(gfal_handle handle, GError** err){
 	ops->statg = &lfc_mock_statg;
 	ops->rename = &lfc_mock_rename;
 	ops->serrno = &lfc_last_err;
+	ops->access = &lfc_mock_access;
 	ops->sstrerror = &strerror;
 #endif
 	return i;
@@ -135,30 +136,28 @@ void test_gfal_common_lfc_access(){
 	GError * tmp_err=NULL;
 	int ret =-1;
 	gfal_handle handle = gfal_initG(&tmp_err);
-	if(handle==NULL){
-		assert_true_with_message(FALSE, " error must be initiated");
-		gfal_release_GError(&tmp_err);
+	assert_true_with_message(handle != NULL, " error must be initiated %ld",handle);
+	if(!handle)
 		return;
-	}
+
 	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
-	if(tmp_err){
-		assert_true_with_message(FALSE, " must be a valid init");
-		gfal_release_GError(&tmp_err);
+	assert_true_with_message(tmp_err == NULL, " must be a valid init %ld ", tmp_err);
+	if(tmp_err)
 		return;
-	}
+
+#if USE_MOCK
+	will_respond(lfc_mock_access, 0, want_string(path, TEST_LFC_VALID_ACCESS+4), want(mode, R_OK));
+	will_respond(lfc_mock_access, EACCES, want_string(path, TEST_LFC_VALID_ACCESS+4), want(mode, W_OK));
+	always_return(lfc_mock_access, EINVAL);
+#endif
+
 	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, R_OK, &tmp_err);
-	if(ret !=0){
-		assert_true_with_message(FALSE, " must be a valid access");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
+	assert_true_with_message(ret == 0 && tmp_err== NULL, " must be a valid access %d %ld ",ret, tmp_err);
+
 	g_clear_error(&tmp_err);
 	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, W_OK, &tmp_err);	
-	if(ret == 0 || tmp_err->code != EACCES){
-		assert_true_with_message(FALSE, " must fail, unable to write this file");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
+	assert_true_with_message(ret != 0 && tmp_err->code == EACCES, " must fail, unable to write this file %d %d", ret, tmp_err->code);
+
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);	
 }
@@ -324,11 +323,11 @@ void test__gfal_common_lfc_rename()
 	GError * tmp_err=NULL;
 	int ret =-1;
 	gfal_handle handle = gfal_initG(&tmp_err);
-	assert_true_with_message(handle!=NULL, "error must be initiated %s", gfal_string_GError(&tmp_err) );
+	assert_true_with_message(handle!=NULL, "error must be initiated ");
 	if(!handle)
 		return;
 	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
-	assert_true_with_message(tmp_err == NULL, "must be a valid init %s", gfal_string_GError(&tmp_err) );
+	assert_true_with_message(tmp_err == NULL, "must be a valid init ");
 	if(tmp_err)
 		return;
 
@@ -387,7 +386,7 @@ void test__gfal_common_lfc_statg()
 	
 	struct stat buff;
 	ret = i.statG(i.handle, TEST_LFC_VALID_ACCESS, &buff , &tmp_err);
-	assert_true_with_message(ret >= 0 && tmp_err == NULL, " must be a success on the lfc valid %d ", ret);
+	assert_true_with_message(ret >= 0 && tmp_err == NULL, " must be a success on the lfc valid %d %s ", ret);
 
 	assert_false_with_message( buff.st_gid != TEST_GFAL_LFC_FILE_STAT_GID_VALUE , "must be a valid gid");
 	assert_false_with_message(buff.st_uid != TEST_GFAL_LFC_FILE_STAT_UID_VALUE , "must be a valid uid");
@@ -395,11 +394,11 @@ void test__gfal_common_lfc_statg()
 	memset(&buff,0, sizeof(struct stat));
 	g_clear_error(&tmp_err);	
 	ret = i.statG(i.handle, TEST_LFC_NOEXIST_ACCESS, &buff , &tmp_err);
-	assert_true_with_message( ret != 0 && tmp_err && tmp_err->code == ENOENT, "must be a non existing file : :%s ", gfal_string_GError(&tmp_err));
+	assert_true_with_message( ret != 0 && tmp_err && tmp_err->code == ENOENT, "must be a non existing file ");
 	g_clear_error(&tmp_err);
 		
 	ret = i.statG(i.handle, TEST_LFC_ONLY_READ_ACCESS, &buff , &tmp_err);
-	assert_true_with_message(ret != 0 && tmp_err && tmp_err->code == EACCES, " must be a non existing accessible file : %d %ld %s ", ret, tmp_err, gfal_string_GError(&tmp_err));
+	assert_true_with_message(ret != 0 && tmp_err && tmp_err->code == EACCES, " must be a non existing accessible file : %d %ld", ret, tmp_err);
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);
 }
