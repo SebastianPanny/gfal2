@@ -5,7 +5,7 @@
 */
 
 
- void test_gfal_common_lfc_define_env();
+void test_gfal_common_lfc_define_env();
 void test_gfal_common_lfc_resolve_sym();
 void test_gfal_common_lfc_init();
 void test_gfal_common_lfc_access();

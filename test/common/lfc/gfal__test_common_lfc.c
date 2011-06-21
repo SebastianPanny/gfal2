@@ -39,6 +39,7 @@ gfal_catalog_interface get_lfc_interface(gfal_handle handle, GError** err){
 	ops->access = &lfc_mock_access;
 	ops->sstrerror = &strerror;
 	ops->getreplica = &lfc_mock_getreplica;
+	ops->getlinks= &lfc_mock_getlinks;
 #endif
 	return i;
 }
@@ -272,38 +273,36 @@ void test_gfal_common_lfc_getSURL()
 void test_gfal_common_lfc_access_guid_file_exist()
 {
 	GError * tmp_err=NULL;
+	int i1;
 	char* ret =NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
-	if(handle==NULL){
-		assert_true_with_message(FALSE, "error must be initiated");
-		gfal_release_GError(&tmp_err);
+
+	assert_true_with_message(handle != NULL, "error must be initiated");
+	if(handle==NULL)
 		return;
-	}
 	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
-	if(tmp_err){
-		assert_true_with_message(FALSE, "must be a valid init");
-		gfal_release_GError(&tmp_err);
+	assert_true_with_message(tmp_err==NULL, "must be a valid init");
+	if(tmp_err)
 		return;
-	}
+#if USE_MOCK
+	will_respond(lfc_mock_getlinks, ENOENT, want_string(guid, TEST_GUID_NOEXIST_ACCESS+5), want(path,NULL), want_non_null(nbentries), want_non_null(linkinfos));
+	define_linkinfos= calloc(sizeof(struct lfc_linkinfo),3);
+	define_numberlinkinfos=3;
+	for(i1=0; i1< define_numberlinkinfos; ++i1)
+		g_strlcpy(define_linkinfos[i1].path, "lfn:/test/obiwankenobi", GFAL_URL_MAX_LEN);
+	will_respond(lfc_mock_getlinks, 0, want_string(guid, TEST_GUID_VALID_ACCESS+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	always_return(lfc_mock_getlinks, EINVAL);
+#endif
 	ret = i.resolve_guid(i.handle, TEST_GUID_NOEXIST_ACCESS, &tmp_err);
-	if(ret !=NULL || tmp_err->code != ENOENT){
-		assert_true_with_message(FALSE, "must fail, this file not exist");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
+	assert_true_with_message(ret ==NULL && tmp_err->code == ENOENT, "must fail, this file not exist");
+
 	free(ret);
 	g_clear_error(&tmp_err);
 	ret = i.resolve_guid(i.handle, TEST_GUID_VALID_ACCESS, &tmp_err);
-	if(ret == NULL || tmp_err){
-		g_printerr(" errno : %s ", strerror(tmp_err->code));
-		assert_true_with_message(FALSE, "must be a success, file is present");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
-	free(ret);
-	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
-	free(op->lfc_endpoint);
-	free(op);	
+	gfal_release_GError(&tmp_err);
+	assert_true_with_message(ret != NULL && tmp_err==NULL, "must be a success, file is present");
+
+	free(ret);	
 	gfal_handle_freeG(handle);
 }
 
