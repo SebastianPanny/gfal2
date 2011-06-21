@@ -22,7 +22,7 @@ void test_check_bdii_endpoints_srm()
 	int i1;
 	GError * err=NULL;
 	int ret=-1;
-	char* endpoints[] = { "grid-cert-03.roma1.infn.it",
+	char* endpoints[] = { TEST_MDS_VALID_ENDPOINT_URL,
 						NULL };
 	char** ptr = endpoints;
 	
@@ -48,12 +48,13 @@ void test_check_bdii_endpoints_srm()
 		assert_true_with_message(ret == 0 && strings_are_equal(*se_types, "srm_v1") && strings_are_equal(*se_endpoints, TEST_MDS_VALID_ENDPOINT_RESU), " check if result is valid");
 		g_strfreev(se_types);
 		g_strfreev(se_endpoints);
+		g_clear_error(&err);
 		ptr++;
 	}
 
 	se_types=NULL;
 	se_endpoints=NULL;	
-	ret = gfal_mds_get_se_types_and_endpoints ("google.com", &se_types, &se_endpoints, &err);		
+	ret = gfal_mds_get_se_types_and_endpoints (TEST_MDS_INVALID_ENDPOINT_URL, &se_types, &se_endpoints, &err);		
 	assert_true_with_message(ret != 0 &&  err->code == EINVAL , "must fail, invalid url");
 	g_clear_error(&err);
 	g_strfreev(se_types);
@@ -68,20 +69,22 @@ void gfal__test_get_lfchost_bdii()
 	GError* tmp_err =NULL;
 	errno = 0;
 	gfal_handle handle = gfal_initG(&tmp_err);
-	if(tmp_err){
-		gfal_release_GError(&tmp_err);
-		assert_true_with_message(FALSE, "Error while init handle");
+	assert_true_with_message(handle !=NULL && tmp_err == NULL, "Error while init handle");
+	if(tmp_err)
 		return;		
-	}
+	
+#if USE_MOCK
+	gfal_mds_external_call.sd_get_lfc_endpoint = &mds_mock_sd_get_lfc_endpoint;
+	define_lfc_endpoint = strdup("avalid.lfc.value.fr");	
+	will_respond(mds_mock_sd_get_lfc_endpoint, 0, want_non_null(lfc_endpoint));
+	always_return(mds_mock_sd_get_lfc_endpoint, EFAULT);
+#endif
 	char* lfc = gfal_get_lfchost_bdii(handle, &tmp_err);
-	if(!lfc){
-		gfal_release_GError(&tmp_err);
-		assert_true_with_message(FALSE, " must return correct lfc value");
-		return;
-	}
-	//g_printerr(" lfc name : %s ", lfc);
+	assert_true_with_message(lfc==NULL, "must return correct lfc value");
+
 	free(lfc);
 	gfal_handle_freeG(handle);	
+	gfal_mds_external_call.sd_get_lfc_endpoint = &sd_get_lfc_endpoint;
 }
 
 
@@ -91,22 +94,21 @@ void gfal__test_get_lfchost_bdii_with_nobdii()
 	GError* tmp_err =NULL;
 	errno = 0;
 	gfal_handle handle = gfal_initG(&tmp_err);
-	if(tmp_err){
-		gfal_release_GError(&tmp_err);
-		assert_true_with_message(FALSE, "Error while init handle");
-		return;		
-	}
-	gfal_set_nobdiiG(handle, TRUE);
-	char* lfc = gfal_get_lfchost_bdii(handle, &tmp_err);
-	if(lfc || tmp_err->code!= EPROTONOSUPPORT ){
-		gfal_release_GError(&tmp_err);
-		assert_true_with_message(FALSE, " must return an error, nobdii option checked");
-		free(lfc);
+	assert_true_with_message(tmp_err==NULL, "Error while init handle");	
+	if(tmp_err)
 		return;
-	}
+	gfal_set_nobdiiG(handle, TRUE);	
+#if USE_MOCK
+	gfal_mds_external_call.sd_get_lfc_endpoint = &mds_mock_sd_get_lfc_endpoint;
+	always_return(mds_mock_sd_get_lfc_endpoint, EFAULT);
+#endif
+
+	char* lfc = gfal_get_lfchost_bdii(handle, &tmp_err); // No bdii connected
+	assert_true_with_message(lfc == NULL && tmp_err != NULL && tmp_err->code== EPROTONOSUPPORT, " must return an error, nobdii option checked");
+
 	//g_printerr(" lfc name : %s ", lfc);
 	free(lfc);	
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);
-	
+	gfal_mds_external_call.sd_get_lfc_endpoint = &sd_get_lfc_endpoint;
 }
