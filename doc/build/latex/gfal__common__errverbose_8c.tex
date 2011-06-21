@@ -16,6 +16,10 @@ void \bf{gfal\_\-print\_\-verbose} (int verbose\_\-lvl, const char $\ast$msg,...
 void \bf{gfal\_\-release\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8c_1441ea4b8176eb0cf3099009b950a3e9}
 
 \begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\item 
+char $\ast$ \bf{gfal\_\-str\_\-GError} (GError $\ast$$\ast$err)
+\item 
+char $\ast$ \bf{gfal\_\-str\_\-GError\_\-r} (GError $\ast$$\ast$err, char $\ast$buff, size\_\-t s\_\-buff)
+\item 
 void \textbf{g\_\-propagate\_\-prefixed\_\-error} (GError $\ast$$\ast$dest, GError $\ast$src, const gchar $\ast$format,...)\label{gfal__common__errverbose_8c_ba441719ee1fd49a708add03c0eea22f}
 
 \item 
@@ -43,4 +47,18 @@ the file of the common lib for error management and verbose display
 
 display a verbose message 
 
-msg is displayed if current verbose level is superior to verbose mode specified 
+msg is displayed if current verbose level is superior to verbose mode specified \index{gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}!gfal_str_GError@{gfal\_\-str\_\-GError}}
+\index{gfal_str_GError@{gfal\_\-str\_\-GError}!gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-str\_\-GError (GError $\ast$$\ast$ {\em err})}\label{gfal__common__errverbose_8c_c35c45ff43533cc6e7c176b0fa0b3128}
+
+
+return a valid string of the current error, \begin{Desc}
+\item[Warning:]Modifications or free() on this string can lead to an undefined behaviors. 
+
+: like strerror, not thread safe. \end{Desc}
+\index{gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}!gfal_str_GError_r@{gfal\_\-str\_\-GError\_\-r}}
+\index{gfal_str_GError_r@{gfal\_\-str\_\-GError\_\-r}!gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-str\_\-GError\_\-r (GError $\ast$$\ast$ {\em err}, char $\ast$ {\em buff}, size\_\-t {\em s\_\-buff})}\label{gfal__common__errverbose_8c_6e7f412b0a892e49a7f2277562c59b4d}
+
+
+return a valid string of the current error in the given buffer, re-entrant function 

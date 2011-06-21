@@ -29,47 +29,6 @@
 <code>#include &lt;dlfcn.h&gt;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
-<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g5fcdc6f3e7911787be049e20b6ab19b8">gfal_creat</a> (const char *filename, mode_t mode)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">creates a new file or truncates an existing one  <a href="group__posix__group.html#g5fcdc6f3e7911787be049e20b6ab19b8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g48783e60cafa1a3bf9aa2170b99f9b08"></a><!-- doxytag: member="gfal_posix.c::gfal_creat64" ref="g48783e60cafa1a3bf9aa2170b99f9b08" args="(const char *filename, mode_t mode)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g48783e60cafa1a3bf9aa2170b99f9b08">gfal_creat64</a> (const char *filename, mode_t mode)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">same as create for large file <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">off_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g8ba4e1df5f2e6439641c56f245d5ce73">gfal_lseek</a> (int fd, off_t offset, int whence)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">gfal_lseek - position a file  <a href="group__posix__group.html#g8ba4e1df5f2e6439641c56f245d5ce73"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g39c7d0b6d366fdb0f218439ed3c3bb37"></a><!-- doxytag: member="gfal_posix.c::gfal_lseek64" ref="g39c7d0b6d366fdb0f218439ed3c3bb37" args="(int fd, off64_t offset, int whence)" -->
-off64_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lseek64</b> (int fd, off64_t offset, int whence)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gaa6bfe36f33b86e489b798aed96912de"></a><!-- doxytag: member="gfal_posix.c::gfal_read" ref="gaa6bfe36f33b86e489b798aed96912de" args="(int fd, void *buf, size_t size)" -->
-ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_read</b> (int fd, void *buf, size_t size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="678840d435b1b1a34645fa21d34e1102"></a><!-- doxytag: member="gfal_posix.c::gfal_stat_generic" ref="678840d435b1b1a34645fa21d34e1102" args="(const char *filename, int bool_link, struct stat64 *statbuf)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_stat_generic</b> (const char *filename, int bool_link, struct stat64 *statbuf)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gdeb4c6cc47f507da3e3b498374e308fb"></a><!-- doxytag: member="gfal_posix.c::gfal_unlink" ref="gdeb4c6cc47f507da3e3b498374e308fb" args="(const char *filename)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_unlink</b> (const char *filename)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g00c2d64894ae81c05846b06c84727ae9"></a><!-- doxytag: member="gfal_posix.c::gfal_write" ref="g00c2d64894ae81c05846b06c84727ae9" args="(int fd, const void *buf, size_t size)" -->
-ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_write</b> (int fd, const void *buf, size_t size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="72e48640200202bb9e9cf47e8a71f942"></a><!-- doxytag: member="gfal_posix.c::gfal_deletesurls" ref="72e48640200202bb9e9cf47e8a71f942" args="(gfal_handle req, char *errbuf, int errbufsz)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_deletesurls</b> (gfal_handle req, char *errbuf, int errbufsz)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8482ace6bde89a99f66d52bb66e012d9"></a><!-- doxytag: member="gfal_posix.c::gfal_removedir" ref="8482ace6bde89a99f66d52bb66e012d9" args="(gfal_handle req, char *errbuf, int errbufsz)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_removedir</b> (gfal_handle req, char *errbuf, int errbufsz)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2a4f0aab963f1f1006953333907ecdbb"></a><!-- doxytag: member="gfal_posix.c::gfal_create_subdirs" ref="2a4f0aab963f1f1006953333907ecdbb" args="(gfal_handle req, char *errbuf, int errbufsz)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_create_subdirs</b> (gfal_handle req, char *errbuf, int errbufsz)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common__group.html#g267920b468d7578c10aa25469f8cadf7">gfal_set_nobdii</a> (int value)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">define if bdii System is ignored or not  <a href="group__common__group.html#g267920b468d7578c10aa25469f8cadf7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g0d2a0557bdb571ccb85c6ab5c05ae56f"></a><!-- doxytag: member="gfal_posix.c::gfal_is_nobdii" ref="g0d2a0557bdb571ccb85c6ab5c05ae56f" args="()" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_is_nobdii</b> ()</td></tr>
-
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 main file of the posix lib 
@@ -77,7 +36,7 @@ main file of the posix lib
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>11/04/2011 </dd></dl>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 14 16:29:39 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 21 18:21:32 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

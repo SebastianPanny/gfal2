@@ -1,16 +1,16 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.c" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.c \- file for the mkdir function on the srm url type 
+/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c \- file for the mkdir function on the srm url type 
 .SH SYNOPSIS
 .br
 .PP
 \fC#include 'gfal_common_srm_mkdir.h'\fP
 .br
-\fC#include 'gfal_constants.h'\fP
+\fC#include '../gfal_constants.h'\fP
 .br
-\fC#include 'gfal_common_errverbose.h'\fP
+\fC#include '../gfal_common_errverbose.h'\fP
 .br
 \fC#include 'gfal_common_srm_internal_layer.h'\fP
 .br
@@ -22,7 +22,7 @@
 .RI "int \fBgfal_mkdir_srmv2_internal\fP (gfal_handle handle, char *endpoint, const char *path, mode_t mode, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_srm_mkdirG\fP (gfal_handle handle, char *surl, int mode, GError **err)"
+.RI "int \fBgfal_srm_mkdirG\fP (catalog_handle ch, const char *surl, mode_t mode, gboolean pflag, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"

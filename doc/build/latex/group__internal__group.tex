@@ -50,7 +50,8 @@ int \textbf{gfal\_\-unregister\_\-pfns} (int, const char $\ast$$\ast$, const cha
 char $\ast$$\ast$ \textbf{gfal\_\-get\_\-replicas} (const char $\ast$, const char $\ast$, char $\ast$, int)\label{group__internal__group_gbd0a581309f65e07a5e28d442f07b169}
 
 \item 
-char $\ast$ \bf{gfal\_\-get\_\-hostname} (const char $\ast$, char $\ast$, int)
+char $\ast$ \textbf{gfal\_\-get\_\-hostname} (const char $\ast$, char $\ast$, int)\label{group__internal__group_gfbe1d2da151f9bd6a0ab1ec1abf0ac81}
+
 \item 
 gfal\_\-file \textbf{gfal\_\-file\_\-new} (const char $\ast$, const char $\ast$, int, char $\ast$, int)\label{group__internal__group_g4c083c77e3b95b63f7a66d9cad7d24b4}
 
@@ -109,12 +110,3 @@ int \textbf{gfal\_\-get\_\-seap\_\-info} (const char $\ast$, char $\ast$$\ast$$\
 int \textbf{gfal\_\-get\_\-se\_\-types\_\-and\_\-endpoints} (const char $\ast$, char $\ast$$\ast$$\ast$, char $\ast$$\ast$$\ast$, char $\ast$, int)\label{group__internal__group_g2c87f70238deffb3907d5a612e847fd4}
 
 \end{CompactItemize}
-
-
-\subsection{Function Documentation}
-\index{internal_group@{internal\_\-group}!gfal_get_hostname@{gfal\_\-get\_\-hostname}}
-\index{gfal_get_hostname@{gfal\_\-get\_\-hostname}!internal_group@{internal\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-get\_\-hostname (const char $\ast$ {\em path}, char $\ast$ {\em errbuf}, int {\em errbufsz})}\label{group__internal__group_gfbe1d2da151f9bd6a0ab1ec1abf0ac81}
-
-
-extract a hostname from a SURL. We search for \char`\"{}://\char`\"{} to get the start of the hostname. Then we keep going to the next slash, colon or end of the SURL. 

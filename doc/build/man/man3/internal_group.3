@@ -1,4 +1,4 @@
-.TH "internal functions" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "internal functions" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -117,8 +117,3 @@ internal functions \-
 .RI "int \fBgfal_get_se_types_and_endpoints\fP (const char *, char ***, char ***, char *, int)"
 .br
 .in -1c
-.SH "Function Documentation"
-.PP 
-.SS "char* gfal_get_hostname (const char * path, char * errbuf, int errbufsz)"
-.PP
-extract a hostname from a SURL. We search for '://' to get the start of the hostname. Then we keep going to the next slash, colon or end of the SURL. 

@@ -1,18 +1,20 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c \- file for the opendir function on the srm url type 
+/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c \- file for the opendir function on the srm url type 
 .SH SYNOPSIS
 .br
 .PP
 \fC#include <dirent.h>\fP
 .br
+\fC#include <stdio.h>\fP
+.br
 \fC#include 'gfal_common_srm.h'\fP
 .br
 \fC#include 'gfal_common_srm_opendir.h'\fP
 .br
-\fC#include 'gfal_common_errverbose.h'\fP
+\fC#include '../gfal_common_errverbose.h'\fP
 .br
 \fC#include 'gfal_common_srm_internal_layer.h'\fP
 .br
@@ -21,10 +23,13 @@
 
 .in +1c
 .ti -1c
-.RI "gfal_file_handle \fBgfal_srm_opendirG\fP (gfal_handle handle, const char *surl, GError **err)"
+.RI "DIR * \fBgfal_srmv2_opendir_internal\fP (gfal_handle handle, char *endpoint, const char *surl, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_srm_closedirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
+.RI "DIR * \fBgfal_srm_opendirG\fP (catalog_handle ch, const char *surl, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_srm_closedirG\fP (catalog_handle handle, DIR *fh, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"

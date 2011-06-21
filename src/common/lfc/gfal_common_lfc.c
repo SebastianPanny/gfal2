@@ -33,7 +33,12 @@
 #include "../gfal_common_errverbose.h"
 #include "lfc_ifce_ng.h"
 
-
+/**
+ * just return the name of the layer
+ */
+static const char* lfc_getName(){
+	return "lfc_plugin";
+}
 
 /**
  * convert the lfn url for internal usage
@@ -312,7 +317,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.opendirG = &lfc_opendirG;
 	lfc_catalog.closedirG = &lfc_closedirG;
 	lfc_catalog.readdirG = &lfc_readdirG;
-	lfc_catalog.getSURLG = lfc_getSURLG;
+	lfc_catalog.getSURLG = &lfc_getSURLG;
+	lfc_catalog.getName = &lfc_getName;
 	return lfc_catalog;
 }
 

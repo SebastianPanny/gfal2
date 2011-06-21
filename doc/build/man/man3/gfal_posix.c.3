@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -21,53 +21,6 @@
 \fC#include <dlfcn.h>\fP
 .br
 
-.SS "Functions"
-
-.in +1c
-.ti -1c
-.RI "int \fBgfal_creat\fP (const char *filename, mode_t mode)"
-.br
-.RI "\fIcreates a new file or truncates an existing one \fP"
-.ti -1c
-.RI "int \fBgfal_creat64\fP (const char *filename, mode_t mode)"
-.br
-.RI "\fIsame as create for large file \fP"
-.ti -1c
-.RI "off_t \fBgfal_lseek\fP (int fd, off_t offset, int whence)"
-.br
-.RI "\fIgfal_lseek - position a file \fP"
-.ti -1c
-.RI "off64_t \fBgfal_lseek64\fP (int fd, off64_t offset, int whence)"
-.br
-.ti -1c
-.RI "ssize_t \fBgfal_read\fP (int fd, void *buf, size_t size)"
-.br
-.ti -1c
-.RI "int \fBgfal_stat_generic\fP (const char *filename, int bool_link, struct stat64 *statbuf)"
-.br
-.ti -1c
-.RI "int \fBgfal_unlink\fP (const char *filename)"
-.br
-.ti -1c
-.RI "ssize_t \fBgfal_write\fP (int fd, const void *buf, size_t size)"
-.br
-.ti -1c
-.RI "int \fBgfal_deletesurls\fP (gfal_handle req, char *errbuf, int errbufsz)"
-.br
-.ti -1c
-.RI "int \fBgfal_removedir\fP (gfal_handle req, char *errbuf, int errbufsz)"
-.br
-.ti -1c
-.RI "int \fBgfal_create_subdirs\fP (gfal_handle req, char *errbuf, int errbufsz)"
-.br
-.ti -1c
-.RI "void \fBgfal_set_nobdii\fP (int value)"
-.br
-.RI "\fIdefine if bdii System is ignored or not \fP"
-.ti -1c
-.RI "int \fBgfal_is_nobdii\fP ()"
-.br
-.in -1c
 .SH "Detailed Description"
 .PP 
 main file of the posix lib 

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -28,6 +28,12 @@
 .RI "void \fBgfal_release_GError\fP (GError **err)"
 .br
 .RI "\fIdisplay the full GError message on stderr and free the memory associated \fP"
+.ti -1c
+.RI "char * \fBgfal_str_GError\fP (GError **err)"
+.br
+.ti -1c
+.RI "char * \fBgfal_str_GError_r\fP (GError **err, char *buff, size_t s_buff)"
+.br
 .ti -1c
 .RI "void \fBg_propagate_prefixed_error\fP (GError **dest, GError *src, const gchar *format,...)"
 .br
@@ -62,6 +68,21 @@ Devresse Adrien
 display a verbose message 
 .PP
 msg is displayed if current verbose level is superior to verbose mode specified 
+.SS "char* gfal_str_GError (GError ** err)"
+.PP
+return a valid string of the current error, 
+.PP
+\fBWarning:\fP
+.RS 4
+Modifications or free() on this string can lead to an undefined behaviors. 
+.PP
+: like strerror, not thread safe. 
+.RE
+.PP
+
+.SS "char* gfal_str_GError_r (GError ** err, char * buff, size_t s_buff)"
+.PP
+return a valid string of the current error in the given buffer, re-entrant function 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

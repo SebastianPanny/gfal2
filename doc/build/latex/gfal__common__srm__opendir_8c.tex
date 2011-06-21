@@ -1,19 +1,23 @@
-\section{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-srm\_\-opendir.c File Reference}
-\label{gfal__common__srm__opendir_8c}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-srm\_\-opendir.c}}
+\section{/home/adevress/myworkspace/gfal/src/common/srm/gfal\_\-common\_\-srm\_\-opendir.c File Reference}
+\label{gfal__common__srm__opendir_8c}\index{/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c@{/home/adevress/myworkspace/gfal/src/common/srm/gfal\_\-common\_\-srm\_\-opendir.c}}
 file for the opendir function on the srm url type 
 
 {\tt \#include $<$dirent.h$>$}\par
+{\tt \#include $<$stdio.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-srm.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-opendir.h\char`\"{}}\par
-{\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-internal\_\-layer.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-gfal\_\-file\_\-handle \textbf{gfal\_\-srm\_\-opendir\-G} (gfal\_\-handle handle, const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_7084d6727c84907e67b1190ce7b15f94}
+DIR $\ast$ \textbf{gfal\_\-srmv2\_\-opendir\_\-internal} (gfal\_\-handle handle, char $\ast$endpoint, const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_b49293dea5de17fd7bba94b2c604ae36}
 
 \item 
-int \textbf{gfal\_\-srm\_\-closedir\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_951e2b6d3e746e60537d8b3475840bb0}
+DIR $\ast$ \textbf{gfal\_\-srm\_\-opendir\-G} (catalog\_\-handle ch, const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_5011b06c09c56864815f6bf642b11c24}
+
+\item 
+int \textbf{gfal\_\-srm\_\-closedir\-G} (catalog\_\-handle handle, DIR $\ast$fh, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_b13933375563a6c4cc44eb6d206c6fd9}
 
 \end{CompactItemize}
 

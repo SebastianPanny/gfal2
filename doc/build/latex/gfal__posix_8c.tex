@@ -9,45 +9,6 @@ main file of the posix lib
 {\tt \#include \char`\"{}gfal\_\-posix\_\-api.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-posix\_\-internal.h\char`\"{}}\par
 {\tt \#include $<$dlfcn.h$>$}\par
-\subsection*{Functions}
-\begin{CompactItemize}
-\item 
-int \bf{gfal\_\-creat} (const char $\ast$filename, mode\_\-t mode)
-\begin{CompactList}\small\item\em creates a new file or truncates an existing one \item\end{CompactList}\item 
-int \bf{gfal\_\-creat64} (const char $\ast$filename, mode\_\-t mode)\label{group__posix__group_g48783e60cafa1a3bf9aa2170b99f9b08}
-
-\begin{CompactList}\small\item\em same as create for large file \item\end{CompactList}\item 
-off\_\-t \bf{gfal\_\-lseek} (int fd, off\_\-t offset, int whence)
-\begin{CompactList}\small\item\em gfal\_\-lseek - position a file \item\end{CompactList}\item 
-off64\_\-t \textbf{gfal\_\-lseek64} (int fd, off64\_\-t offset, int whence)\label{group__posix__group_g39c7d0b6d366fdb0f218439ed3c3bb37}
-
-\item 
-ssize\_\-t \textbf{gfal\_\-read} (int fd, void $\ast$buf, size\_\-t size)\label{group__posix__group_gaa6bfe36f33b86e489b798aed96912de}
-
-\item 
-int \textbf{gfal\_\-stat\_\-generic} (const char $\ast$filename, int bool\_\-link, struct stat64 $\ast$statbuf)\label{gfal__posix_8c_678840d435b1b1a34645fa21d34e1102}
-
-\item 
-int \textbf{gfal\_\-unlink} (const char $\ast$filename)\label{group__posix__group_gdeb4c6cc47f507da3e3b498374e308fb}
-
-\item 
-ssize\_\-t \textbf{gfal\_\-write} (int fd, const void $\ast$buf, size\_\-t size)\label{group__posix__group_g00c2d64894ae81c05846b06c84727ae9}
-
-\item 
-int \textbf{gfal\_\-deletesurls} (gfal\_\-handle req, char $\ast$errbuf, int errbufsz)\label{gfal__posix_8c_72e48640200202bb9e9cf47e8a71f942}
-
-\item 
-int \textbf{gfal\_\-removedir} (gfal\_\-handle req, char $\ast$errbuf, int errbufsz)\label{gfal__posix_8c_8482ace6bde89a99f66d52bb66e012d9}
-
-\item 
-int \textbf{gfal\_\-create\_\-subdirs} (gfal\_\-handle req, char $\ast$errbuf, int errbufsz)\label{gfal__posix_8c_2a4f0aab963f1f1006953333907ecdbb}
-
-\item 
-void \bf{gfal\_\-set\_\-nobdii} (int value)
-\begin{CompactList}\small\item\em define if bdii System is ignored or not \item\end{CompactList}\item 
-int \textbf{gfal\_\-is\_\-nobdii} ()\label{group__internal__group_g0d2a0557bdb571ccb85c6ab5c05ae56f}
-
-\end{CompactItemize}
 
 
 \subsection{Detailed Description}

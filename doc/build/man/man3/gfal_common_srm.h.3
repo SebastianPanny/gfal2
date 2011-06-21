@@ -1,18 +1,20 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h \- the header file with the main srm funcs of the common API 
+/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h \- the header file with the main srm funcs of the common API 
 .SH SYNOPSIS
 .br
 .PP
-\fC#include 'gfal_types.h'\fP
+\fC#include '../gfal_types.h'\fP
 .br
-\fC#include 'gfal_common_internal.h'\fP
+\fC#include '../gfal_common_internal.h'\fP
 .br
-\fC#include 'gfal_prototypes.h'\fP
+\fC#include '../gfal_prototypes.h'\fP
 .br
-\fC#include 'gfal_constants.h'\fP
+\fC#include '../gfal_constants.h'\fP
+.br
+\fC#include '../gfal_common_internal.h'\fP
 .br
 
 .SS "Data Structures"
@@ -35,6 +37,9 @@
 .SS "Functions"
 
 .in +1c
+.ti -1c
+.RI "gfal_catalog_interface \fBgfal_srm_initG\fP (gfal_handle handle, GError **err)"
+.br
 .ti -1c
 .RI "int \fBgfal_get_asyncG\fP (gfal_handle handle, GList *surls, GError **err)"
 .br

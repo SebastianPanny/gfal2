@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -49,10 +49,20 @@
 .br
 .RI "\fIdisplay the full GError message on stderr and free the memory associated \fP"
 .ti -1c
+.RI "char * \fBgfal_str_GError\fP (GError **err)"
+.br
+.ti -1c
 .RI "void \fBg_propagate_prefixed_error\fP (GError **dest, GError *src, const gchar *format,...) G_GNUC_PRINTF(3"
 .br
 .ti -1c
 .RI "void void \fBg_list_free_full\fP (GList *list, GDestroyNotify free_func)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const char * \fBno_err\fP"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -82,6 +92,18 @@ Devresse Adrien
 display a verbose message 
 .PP
 msg is displayed if current verbose level is superior to verbose mode specified 
+.SS "char* gfal_str_GError (GError ** err)"
+.PP
+return a valid string of the current error, 
+.PP
+\fBWarning:\fP
+.RS 4
+Modifications or free() on this string can lead to an undefined behaviors. 
+.PP
+: like strerror, not thread safe. 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

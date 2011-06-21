@@ -3,57 +3,58 @@
   <compounddef id="gfal__common__srm__opendir_8h" kind="file">
     <compoundname>gfal_common_srm_opendir.h</compoundname>
     <includes local="no">glib.h</includes>
-    <includes refid="gfal__common__filedescriptor_8h" local="yes">gfal_common_filedescriptor.h</includes>
-    <includedby refid="gfal__common__srm__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c</includedby>
-    <includedby refid="gfal__common__srm__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_readdir.c</includedby>
+    <includes refid="gfal__common__filedescriptor_8h" local="yes">../gfal_common_filedescriptor.h</includes>
+    <includedby refid="gfal__common__srm_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c</includedby>
+    <includedby refid="gfal__common__srm__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c</includedby>
+    <includedby refid="gfal__common__srm__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</includedby>
     <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
     <incdepgraph>
-      <node id="694">
+      <node id="1184">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.h</label>
+        <link refid="gfal_common_srm_opendir.h"/>
+        <childnode refid="1185" relation="include">
+        </childnode>
+        <childnode refid="1186" relation="include">
+        </childnode>
+      </node>
+      <node id="1187">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="692" relation="include">
+        <childnode refid="1185" relation="include">
         </childnode>
       </node>
-      <node id="691">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.h</label>
-        <link refid="gfal_common_srm_opendir.h"/>
-        <childnode refid="692" relation="include">
-        </childnode>
-        <childnode refid="693" relation="include">
-        </childnode>
-      </node>
-      <node id="693">
-        <label>gfal_common_filedescriptor.h</label>
+      <node id="1186">
+        <label>../gfal_common_filedescriptor.h</label>
         <link refid="gfal__common__filedescriptor_8h"/>
-        <childnode refid="692" relation="include">
+        <childnode refid="1185" relation="include">
         </childnode>
-        <childnode refid="694" relation="include">
+        <childnode refid="1187" relation="include">
         </childnode>
       </node>
-      <node id="692">
+      <node id="1185">
         <label>glib.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="696">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c</label>
+      <node id="1189">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c</label>
         <link refid="gfal__common__srm__opendir_8c"/>
       </node>
-      <node id="695">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.h</label>
+      <node id="1188">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.h</label>
         <link refid="gfal_common_srm_opendir.h"/>
-        <childnode refid="696" relation="include">
+        <childnode refid="1189" relation="include">
         </childnode>
-        <childnode refid="697" relation="include">
+        <childnode refid="1190" relation="include">
         </childnode>
-        <childnode refid="698" relation="include">
+        <childnode refid="1191" relation="include">
         </childnode>
       </node>
-      <node id="697">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_readdir.c</label>
+      <node id="1190">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</label>
         <link refid="gfal__common__srm__readdir_8c"/>
       </node>
-      <node id="698">
+      <node id="1191">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
         <link refid="gfal__posix__opendir_8c"/>
       </node>
@@ -71,17 +72,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.h" line="35"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.h" line="35"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__srm__opendir_8h_13cf645c42428854975e385025b020285" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>gfal_file_handle</type>
-        <definition>gfal_file_handle gfal_srm_opendirG</definition>
-        <argsstring>(gfal_handle handle, const char *path, GError **err)</argsstring>
+      <memberdef kind="function" id="gfal__common__srm__opendir_8h_1eb260930171b394886ba9846eb9523af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DIR *</type>
+        <definition>DIR* gfal_srm_opendirG</definition>
+        <argsstring>(catalog_handle handle, const char *path, GError **err)</argsstring>
         <name>gfal_srm_opendirG</name>
         <param>
-          <type>gfal_handle</type>
+          <type>catalog_handle</type>
           <declname>handle</declname>
         </param>
         <param>
@@ -98,7 +99,32 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.h" line="37" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c" bodystart="84" bodyend="111"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.h" line="37" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c" bodystart="85" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__srm__opendir_8h_1b13933375563a6c4cc44eb6d206c6fd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_srm_closedirG</definition>
+        <argsstring>(catalog_handle handle, DIR *fh, GError **err)</argsstring>
+        <name>gfal_srm_closedirG</name>
+        <param>
+          <type>catalog_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>DIR *</type>
+          <declname>fh</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.h" line="39" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c" bodystart="115" bodyend="121"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -128,7 +154,7 @@
 <codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__filedescriptor_8h" kindref="compound">gfal_common_filedescriptor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_filedescriptor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_srm_opendir_handle{</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">srmv2_mdfilestatus<sp/>*srm_ls_resu;</highlight></codeline>
@@ -137,8 +163,10 @@
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="35"><highlight class="normal">}*<sp/>gfal_srm_opendir_handle;</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal">gfal_file_handle<sp/>gfal_srm_opendirG(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError<sp/>**<sp/>err);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">DIR*<sp/>gfal_srm_opendirG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>GError<sp/>**<sp/>err);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_closedirG(catalog_handle<sp/>handle,<sp/>DIR*<sp/>fh,<sp/>GError**<sp/>err);</highlight></codeline>
     </programlisting>
-    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.h"/>
+    <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.h"/>
   </compounddef>
 </doxygen>

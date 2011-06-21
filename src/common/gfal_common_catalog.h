@@ -68,7 +68,8 @@ enum _catalog_mode{
 struct _gfal_catalog_interface{
 	// handle
 	catalog_handle handle;
-	// delete
+	// to have name/id of the catalog
+	const char* (*getName)();
 	/**
 	 * Called before the destruction of the catalog interface
 	 */

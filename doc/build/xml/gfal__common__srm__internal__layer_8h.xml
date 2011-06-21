@@ -5,96 +5,96 @@
     <includes local="no">gfal_srm_ifce.h</includes>
     <includes local="no">gfal_srm_ifce_types.h</includes>
     <includes local="no">glib.h</includes>
-    <includedby refid="gfal__common__srm_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.c</includedby>
-    <includedby refid="gfal__common__srm__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</includedby>
-    <includedby refid="gfal__common__srm__internal__layer_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_internal_layer.c</includedby>
-    <includedby refid="gfal__common__srm__mkdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.c</includedby>
-    <includedby refid="gfal__common__srm__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c</includedby>
-    <includedby refid="gfal__common__srm__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_readdir.c</includedby>
-    <includedby refid="gfal__common__srm__rmdir_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_rmdir.h</includedby>
-    <includedby refid="gfal__common__srm__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_rmdir.c</includedby>
-    <includedby refid="gfal__common__srm__stat_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.c</includedby>
+    <includedby refid="gfal__common__srm_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c</includedby>
+    <includedby refid="gfal__common__srm__rmdir_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.h</includedby>
+    <includedby refid="gfal__common__srm__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.c</includedby>
+    <includedby refid="gfal__common__srm__internal__layer_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.c</includedby>
+    <includedby refid="gfal__common__srm__mkdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c</includedby>
+    <includedby refid="gfal__common__srm__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c</includedby>
+    <includedby refid="gfal__common__srm__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</includedby>
+    <includedby refid="gfal__common__srm__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.c</includedby>
+    <includedby refid="gfal__common__srm__stat_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.c</includedby>
     <incdepgraph>
-      <node id="565">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_internal_layer.h</label>
-        <link refid="gfal_common_srm_internal_layer.h"/>
-        <childnode refid="566" relation="include">
-        </childnode>
-        <childnode refid="567" relation="include">
-        </childnode>
-        <childnode refid="568" relation="include">
-        </childnode>
-      </node>
-      <node id="567">
+      <node id="1059">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="568">
+      <node id="1060">
         <label>glib.h</label>
       </node>
-      <node id="566">
+      <node id="1058">
         <label>gfal_srm_ifce.h</label>
+      </node>
+      <node id="1057">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h</label>
+        <link refid="gfal_common_srm_internal_layer.h"/>
+        <childnode refid="1058" relation="include">
+        </childnode>
+        <childnode refid="1059" relation="include">
+        </childnode>
+        <childnode refid="1060" relation="include">
+        </childnode>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="570">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_access.c</label>
-        <link refid="gfal__common__srm__access_8c"/>
-      </node>
-      <node id="571">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_internal_layer.c</label>
-        <link refid="gfal__common__srm__internal__layer_8c"/>
-      </node>
-      <node id="569">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_internal_layer.h</label>
-        <link refid="gfal_common_srm_internal_layer.h"/>
-        <childnode refid="570" relation="include">
-        </childnode>
-        <childnode refid="571" relation="include">
-        </childnode>
-        <childnode refid="572" relation="include">
-        </childnode>
-        <childnode refid="573" relation="include">
-        </childnode>
-        <childnode refid="574" relation="include">
-        </childnode>
-        <childnode refid="575" relation="include">
-        </childnode>
-        <childnode refid="576" relation="include">
-        </childnode>
-        <childnode refid="578" relation="include">
-        </childnode>
-      </node>
-      <node id="573">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_opendir.c</label>
+      <node id="1068">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c</label>
         <link refid="gfal__common__srm__opendir_8c"/>
       </node>
-      <node id="574">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_readdir.c</label>
+      <node id="1069">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</label>
         <link refid="gfal__common__srm__readdir_8c"/>
       </node>
-      <node id="572">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_mkdir.c</label>
+      <node id="1067">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c</label>
         <link refid="gfal__common__srm__mkdir_8c"/>
       </node>
-      <node id="577">
+      <node id="1063">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.c</label>
+        <link refid="gfal__common__srm__rmdir_8c"/>
+      </node>
+      <node id="1062">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.h</label>
+        <link refid="gfal__common__srm__rmdir_8h"/>
+        <childnode refid="1063" relation="include">
+        </childnode>
+        <childnode refid="1064" relation="include">
+        </childnode>
+      </node>
+      <node id="1065">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.c</label>
+        <link refid="gfal__common__srm__access_8c"/>
+      </node>
+      <node id="1070">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.c</label>
+        <link refid="gfal__common__srm__stat_8c"/>
+      </node>
+      <node id="1064">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</label>
         <link refid="gfal__posix__rmdir_8c"/>
       </node>
-      <node id="576">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_rmdir.c</label>
-        <link refid="gfal__common__srm__rmdir_8c"/>
+      <node id="1066">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.c</label>
+        <link refid="gfal__common__srm__internal__layer_8c"/>
       </node>
-      <node id="575">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_rmdir.h</label>
-        <link refid="gfal__common__srm__rmdir_8h"/>
-        <childnode refid="576" relation="include">
+      <node id="1061">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h</label>
+        <link refid="gfal_common_srm_internal_layer.h"/>
+        <childnode refid="1062" relation="include">
         </childnode>
-        <childnode refid="577" relation="include">
+        <childnode refid="1065" relation="include">
         </childnode>
-      </node>
-      <node id="578">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_stat.c</label>
-        <link refid="gfal__common__srm__stat_8c"/>
+        <childnode refid="1066" relation="include">
+        </childnode>
+        <childnode refid="1067" relation="include">
+        </childnode>
+        <childnode refid="1068" relation="include">
+        </childnode>
+        <childnode refid="1069" relation="include">
+        </childnode>
+        <childnode refid="1063" relation="include">
+        </childnode>
+        <childnode refid="1070" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="struct__gfal__srm__external__call" prot="public">_gfal_srm_external_call</innerclass>
@@ -110,7 +110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_internal_layer.h" line="64" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_internal_layer.c" bodystart="31" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="64" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.c" bodystart="31" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -174,6 +174,6 @@
 <codeline lineno="63"><highlight class="normal"></highlight></codeline>
 <codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct__gfal__srm__external__call" kindref="compound">_gfal_srm_external_call</ref><sp/>gfal_srm_external_call;</highlight></codeline>
     </programlisting>
-    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_internal_layer.h"/>
+    <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h"/>
   </compounddef>
 </doxygen>

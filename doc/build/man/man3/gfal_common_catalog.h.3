@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -97,6 +97,9 @@
 .br
 .ti -1c
 .RI "char ** \fBgfal_catalog_getSURL\fP (gfal_handle handle, const char *path, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgetTURLG\fP (catalog_handle, const char *surl, char *buff_turl, int size_turl, GError **err)"
 .br
 .ti -1c
 .RI "dirent * \fBgfal_catalog_readdirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"

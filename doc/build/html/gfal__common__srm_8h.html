@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
-<title>CERN org.glite.Gfal: /home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h File Reference</title>
+<title>CERN org.glite.Gfal: /home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h File Reference</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -18,12 +18,13 @@
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/adevress/myworkspace/gfal/src/common/gfal_common_srm.h File Reference</h1>the header file with the main srm funcs of the common API <a href="#_details">More...</a>
+<h1>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h File Reference</h1>the header file with the main srm funcs of the common API <a href="#_details">More...</a>
 <p>
-<code>#include &quot;gfal_types.h&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__internal_8h-source.html">gfal_common_internal.h</a>&quot;</code><br>
-<code>#include &quot;gfal_prototypes.h&quot;</code><br>
-<code>#include &quot;gfal_constants.h&quot;</code><br>
+<code>#include &quot;../gfal_types.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__internal_8h-source.html">../gfal_common_internal.h</a>&quot;</code><br>
+<code>#include &quot;../gfal_prototypes.h&quot;</code><br>
+<code>#include &quot;../gfal_constants.h&quot;</code><br>
+<code>#include &quot;../gfal_common_internal.h&quot;</code><br>
 
 <p>
 <a href="gfal__common__srm_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -39,6 +40,9 @@
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>GFAL_ENDPOINT_DEFAULT_PREFIX</b>&nbsp;&nbsp;&nbsp;&quot;httpg://&quot;</td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0f8ff443c68a9f6177d717ad52b7d5a5"></a><!-- doxytag: member="gfal_common_srm.h::gfal_srm_initG" ref="0f8ff443c68a9f6177d717ad52b7d5a5" args="(gfal_handle handle, GError **err)" -->
+gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_initG</b> (gfal_handle handle, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#95ffd4de24c18af334c1d9c270de7d81">gfal_get_asyncG</a> (gfal_handle handle, GList *surls, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">launch a surls-&gt; turls translation in asynchronous mode  <a href="#95ffd4de24c18af334c1d9c270de7d81"></a><br></td></tr>
@@ -375,7 +379,7 @@ wait for the current request
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 14 16:29:39 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 21 18:21:32 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

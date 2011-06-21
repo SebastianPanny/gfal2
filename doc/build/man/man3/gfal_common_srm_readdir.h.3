@@ -1,8 +1,8 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_readdir.h" 3 "14 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.h" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/adevress/myworkspace/gfal/src/common/gfal_common_srm_readdir.h \- header file for the readdir function on the srm url type 
+/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.h \- header file for the readdir function on the srm url type 
 .SH SYNOPSIS
 .br
 .PP
@@ -10,14 +10,14 @@
 .br
 \fC#include <dirent.h>\fP
 .br
-\fC#include 'gfal_common_filedescriptor.h'\fP
+\fC#include '../gfal_common_filedescriptor.h'\fP
 .br
 
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "dirent * \fBgfal_srm_readdirG\fP (gfal_handle handle, gpointer fh, GError **err)"
+.RI "dirent * \fBgfal_srm_readdirG\fP (catalog_handle handle, DIR *fh, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"

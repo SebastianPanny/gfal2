@@ -177,7 +177,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="41" bodyend="55"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="41" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__all_8c_19dbd943eaed291897d852fc3ae560058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -194,7 +194,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="61" bodyend="72"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="62" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__all_8c_1a7e1120eb32c4c7f293f6fbcb4f0ea33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char **</type>
@@ -397,19 +397,19 @@
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;err=<sp/>NULL;</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;srm_proto_type<sp/>=<sp/>PROTO_SRMv2;</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;initiated<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;catalog_opt.catalog_number=-1;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;catalog_opt.catalog_number=<sp/>0;</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;srmv2_opt<sp/>=<sp/>calloc(1,</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>_gfal_srmv2_opt));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>define<sp/>the<sp/>srmv2<sp/>option<sp/>struct<sp/>and<sp/>clear<sp/>it</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>handle;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common_8h_19dbd943eaed291897d852fc3ae560058" kindref="member">gfal_handle_freeG</ref><sp/>(gfal_handle<sp/>handle){</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle<sp/>==<sp/>NULL)</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;(handle-&gt;err));</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(handle-&gt;srmv2_opt);</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__catalog_8c_1c0412247b6ddd6ceac7fb171c56adaad" kindref="member">gfal_catalogs_delete</ref>(handle,<sp/>NULL);</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__internal_8h_19dc1d8d09085708dad268d80688d2a59" kindref="member">gfal_delete_request_state</ref>(handle-&gt;last_request_state);</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;last_request_state<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;last_request_state<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>handle;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common_8h_19dbd943eaed291897d852fc3ae560058" kindref="member">gfal_handle_freeG</ref><sp/>(gfal_handle<sp/>handle){</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle<sp/>==<sp/>NULL)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;(handle-&gt;err));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(handle-&gt;srmv2_opt);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__catalog_8c_1c0412247b6ddd6ceac7fb171c56adaad" kindref="member">gfal_catalogs_delete</ref>(handle,<sp/>NULL);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_dir_handle_container_delete(&amp;(handle-&gt;fdescs));</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(handle);</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle<sp/>=<sp/>NULL;</highlight></codeline>

@@ -46,6 +46,13 @@
  */
 static enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
 
+/**
+ * 
+ * srm plugin id
+ */
+static const char* gfal_srm_getName(){
+	return "srm_plugin";
+}
 
 /**
  * parse a surl to check the validity
@@ -104,6 +111,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_catalog.opendirG = &gfal_srm_opendirG;
 	srm_catalog.readdirG = &gfal_srm_readdirG;
 	srm_catalog.closedirG = &gfal_srm_closedirG;
+	srm_catalog.getName= &gfal_srm_getName;
 	return srm_catalog;
 }
 
