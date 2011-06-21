@@ -38,6 +38,7 @@ gfal_catalog_interface get_lfc_interface(gfal_handle handle, GError** err){
 	ops->serrno = &lfc_last_err;
 	ops->access = &lfc_mock_access;
 	ops->sstrerror = &strerror;
+	ops->getreplica = &lfc_mock_getreplica;
 #endif
 	return i;
 }
@@ -156,7 +157,7 @@ void test_gfal_common_lfc_access(){
 
 	g_clear_error(&tmp_err);
 	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, W_OK, &tmp_err);	
-	assert_true_with_message(ret != 0 && tmp_err->code == EACCES, " must fail, unable to write this file %d %d", ret, tmp_err->code);
+	assert_true_with_message(ret != 0 && tmp_err->code == EACCES, " must fail, unable to write this file %d %ld", ret, tmp_err);
 
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);	
@@ -169,34 +170,28 @@ void test_gfal_common_lfc_no_exist()
 	GError * tmp_err=NULL;
 	int ret =-1;
 	gfal_handle handle = gfal_initG(&tmp_err);
-	if(handle==NULL){
-		assert_true_with_message(FALSE, " error must be initiated");
-		gfal_release_GError(&tmp_err);
+
+	assert_true_with_message(handle != NULL, " error must be initiated");
+	if(handle == NULL)
 		return;
-	}
+	
 	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
-	if(tmp_err){
-		assert_true_with_message(FALSE, " must be a valid init");
-		gfal_release_GError(&tmp_err);
+	assert_true_with_message(tmp_err==NULL, " must be a valid init");
+	if(tmp_err)
 		return;
-	}
+		
+#if USE_MOCK
+	will_respond(lfc_mock_access, ENOENT, want_string(path, TEST_LFC_NOEXIST_ACCESS+4), want(mode, F_OK));
+	will_respond(lfc_mock_access, 0, want_string(path, TEST_LFC_VALID_ACCESS+4), want(mode, F_OK));
+	always_return(lfc_mock_access, EINVAL);
+#endif	
 	ret = i.accessG(i.handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);
-	if(ret ==0 || tmp_err->code != ENOENT){
-		assert_true_with_message(FALSE, " must fail, this file not exist");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
+	assert_true_with_message(ret !=0 && tmp_err->code == ENOENT, " must fail, this file not exist");
+
 	g_clear_error(&tmp_err);	
 	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, F_OK, &tmp_err);
-	if(ret !=0){
-		assert_true_with_message(FALSE, "must be a success, file is present");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
-	
-	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
-	free(op->lfc_endpoint);
-	free(op);		
+	assert_true_with_message(ret ==0, "must be a success, file is present");
+		
 	gfal_handle_freeG(handle);
 }
 
@@ -213,29 +208,21 @@ GError * tmp_err=NULL;
 		return;
 	}
 	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
-	if(tmp_err){
-		assert_true_with_message(FALSE, " must be a valid init");
-		gfal_release_GError(&tmp_err);
+	assert_true_with_message(tmp_err== NULL, " must be a valid init");
+	if(tmp_err)	
 		return;
-	}
+		
 	gboolean b = i.check_catalog_url(i.handle, TEST_LFC_VALID_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
-	if(!b || tmp_err){
-		assert_true_with_message(FALSE, " must be a valid lfn url");
-		return;
-	}
+	assert_true_with_message(b && tmp_err==NULL, " must be a valid lfn url");
+
+	g_clear_error(&tmp_err);
 	b = i.check_catalog_url(i.handle, TEST_LFC_NOEXIST_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
-	if(!b || tmp_err){
-		assert_true_with_message(FALSE, " must be a valid lfn url 2");
-		return;
-	}
+	assert_true_with_message(b && tmp_err==NULL, " must be a valid lfn url 2");
+	g_clear_error(&tmp_err);
 	b = i.check_catalog_url(i.handle, TEST_LFC_URL_SYNTAX_ERROR, GFAL_CATALOG_ACCESS, &tmp_err);
-	if(b){
-		assert_true_with_message(FALSE, " must an invalid lfn url 3");
-		return;
-	}
-	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
-	free(op->lfc_endpoint);
-	free(op);
+	assert_true_with_message(b==FALSE && tmp_err==NULL, " must an invalid lfn url 3 but must not report error");
+	g_clear_error(&tmp_err);
+
 	gfal_handle_freeG(handle);	
 }
 
@@ -243,35 +230,39 @@ GError * tmp_err=NULL;
 void test_gfal_common_lfc_getSURL()
 {
 	GError * tmp_err=NULL;
+	int i1;
 	char** ret =NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
-	if(handle==NULL){
-		assert_true_with_message(FALSE, "error must be initiated");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
+	assert_true_with_message(handle!=NULL, "error must be initiated");
+
 	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
-	if(tmp_err){
-		assert_true_with_message(FALSE, "must be a valid init");
-		gfal_release_GError(&tmp_err);
+	assert_true_with_message(tmp_err ==NULL, "must be a valid init");
+	if(tmp_err)
 		return;
-	}	
+
+#if USE_MOCK
+	will_respond(lfc_mock_getreplica, ENOENT, want_string(path, TEST_LFC_NOEXIST_ACCESS+4), want(guid,NULL), want_non_null(nbentries), want_non_null(rep_entries));
+	define_lastfilereplica = calloc(sizeof(struct lfc_filereplica),3);
+	define_numberreplica = 3;
+	for(i1=0; i1 < define_numberreplica; ++i1)
+		g_strlcpy(define_lastfilereplica[i1].sfn, "srm://thepath.to/themoon", GFAL_URL_MAX_LEN);
+		
+	will_respond(lfc_mock_getreplica, 0, want_string(path, TEST_LFC_VALID_ACCESS+4), want(guid,NULL), want_non_null(nbentries), want_non_null(rep_entries));
+	always_return(lfc_mock_getreplica, EINVAL);
+#endif	
+		
+	ret = i.getSURLG(i.handle, TEST_LFC_NOEXIST_ACCESS, &tmp_err);
+	assert_true_with_message( ret == NULL && tmp_err!=NULL, " must be a false convertion, file not exist");
+	g_clear_error(&tmp_err);
 	ret = i.getSURLG(i.handle, TEST_LFC_VALID_ACCESS, &tmp_err);
-	if(ret == NULL || tmp_err){
-		g_printerr(" errno : %s ", strerror(tmp_err->code));
-		assert_true_with_message(FALSE, "must be a successfull convert");
-		gfal_release_GError(&tmp_err);
-		return;
-	}
+	assert_true_with_message(ret != NULL && tmp_err==NULL, "must be a successfull convert");
+
 	char** p = ret;
 	while(*p != NULL){
-		assert_false_with_message( strncmp(*p,"srm://",6) !=0, " begin of the surl is incorrect : %s ", p);
+		assert_true_with_message( strncmp(*p,"srm://",6) ==0, " begin of the surl is incorrect : %s ", p);
 		p++;
 	}
 	g_strfreev(ret);
-	struct lfc_ops* op = (struct lfc_ops*) i.handle; // manual deletion
-	free(op->lfc_endpoint);
-	free(op);	
 	gfal_handle_freeG(handle);	
 	
 }
