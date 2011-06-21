@@ -14,5 +14,5 @@ void test_gfal_common_lfc_check_filename();
 void test_gfal_common_lfc_getSURL();
 void test_gfal_common_lfc_access_guid_file_exist();
 void test__gfal_common_lfc_rename();
-void test__gfal_common_lfc_statg_mock(); 
+void test__gfal_common_lfc_statg(); 
 

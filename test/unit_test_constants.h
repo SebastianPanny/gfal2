@@ -16,6 +16,9 @@
  * limitations under the License.
  */
 
+// set to 1 if mock need to be used else to 0
+#define USE_MOCK 1
+
 
 // to define
 #define TEST_SRM_DPM_ENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/dpm/lal.in2p3.fr/home/dteam/"

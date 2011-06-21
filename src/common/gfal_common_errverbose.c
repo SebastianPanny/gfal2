@@ -31,7 +31,7 @@
  *   CLI has to set it to '0' to get normal error messages
  */
 static int gfal_verbose = -1;
-
+// internal err buff for print
 
 /**
  * \brief return verbose mode level
@@ -70,7 +70,8 @@ extern int gfal_set_verbose (int value)
  /**
  * \brief display the full GError message on stderr and free the memory associated
  */
- extern void gfal_release_GError(GError** err){
+ extern void gfal_release_GError(GError** err)
+ {
 	 if(err==NULL || *err==NULL){
 		 gfal_print_verbose(GFAL_VERBOSE_DEBUG," release NULL error");
 		 return;
@@ -78,6 +79,18 @@ extern int gfal_set_verbose (int value)
 	 fprintf(stderr,"[gfal] %s\n", (*err)->message);
 	 g_clear_error(err);
 	 *err=NULL;	 
+ }
+ 
+ 
+  /**
+ * \brief display the full GError message on stderr and free the memory associated
+ */
+char* gfal_string_GError(GError** err){
+	 if(err==NULL || *err==NULL){
+		 gfal_print_verbose(GFAL_VERBOSE_DEBUG,"copy string NULL error");
+		 return strdup("[gfal] No error reported");
+	}
+	return ((*err)->message);
  }
  
 #if (GLIB_CHECK_VERSION(2,16,0) != TRUE)			// add code of glib 2.16 for link with a very old glib version

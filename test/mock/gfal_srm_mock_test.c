@@ -32,25 +32,25 @@ int count_dir_srm(){
 
 
 char* srm_valid_dir(){
-	strcpy(buff_valid_dir, surl_valid_endpoint);
+	strcpy(buff_valid_dir, "hello");
 	strcat(buff_valid_dir, "/grid/dteam/testdirvalid001");
 	return buff_valid_dir;
 }
 
 char* srm_valid_empty_dir(){
-	strcpy(buff_empty_dir, surl_valid_endpoint);	
+	strcpy(buff_empty_dir, "hello");	
 	strcat(buff_empty_dir, "/grid/dteam/testdirempty001");	
 	return buff_empty_dir;
 }
 
 char* srm_noent_dir(){
-	strcpy(buff_noent_dir, surl_valid_endpoint);
+	strcpy(buff_noent_dir, "hello");
 	strcat(buff_noent_dir, "/grid/dteam/testdirinvalid001");
 	return buff_noent_dir;
 }
 
 char* srm_noaccess_dir(){
-	strcpy(buff_access_dir, surl_valid_endpoint);
+	strcpy(buff_access_dir, "hello");
 	strcat(buff_access_dir, "/grid/dteam/testdirinvalid0012");
 	return buff_access_dir;
 }

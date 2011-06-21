@@ -52,6 +52,8 @@ int gfal_get_verbose();
 
 void gfal_release_GError(GError** err);
 
+char* gfal_string_GError(GError** err);
+
 
 #if (GLIB_CHECK_VERSION(2,16,0) != TRUE)			// add a advanced functions of glib for old version of glib
 

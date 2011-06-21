@@ -9,7 +9,7 @@
 #include "gfal_mds_mock_test.h" 
 #include "mds/gfal_common_mds_layer.h"
 
-
+/*
 const char* surl_valid_endpoint = "srm://testendpointvalid.fr";
 
 
@@ -52,5 +52,5 @@ void unmock_endpointres_mock(){
 	gfal_mds_external_call.sd_get_se_types_and_endpoints = &sd_get_se_types_and_endpoints;
 }
 
-
+*/
 
