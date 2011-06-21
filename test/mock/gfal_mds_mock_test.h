@@ -7,20 +7,8 @@
 
 
 
-extern const char* surl_valid_endpoint ;
-
-char* srm_valid_empty_dir();
-
+extern char** define_se_endpoints;
+extern char** define_se_types;
 
 
-void mock_all_mds();
-
-
-void unmock_all_mds();
-
-void mock_endpointres_mock();
-
-
-void unmock_endpointres_mock();
-
-char* valid_endpoint_value();
+int mds_mock_sd_get_se_types_and_endpoints(const char *host, char ***se_types, char ***se_endpoints,char *errbuf, int errbufsz);
