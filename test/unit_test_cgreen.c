@@ -81,6 +81,7 @@ TestSuite* srm_Suite(){
 	TestSuite *tc_srm = create_test_suite();
 	add_test(tc_srm, test_create_srm_handle);
 	add_test(tc_srm, test__gfal_convert_full_surl);
+	add_test(tc_srm, test_gfal_get_hostname_from_surl);
 	/*add_test(tc_srm, test_gfal_get_async_1);
 	add_test(tc_srm, test_gfal_check_surl);
 	add_test(tc_srm, test_gfal_full_endpoint_check);
@@ -89,7 +90,6 @@ TestSuite* srm_Suite(){
 	add_test(tc_srm, test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii_negative);
 	add_test(tc_srm, test_gfal_auto_get_srm_endpoint_no_full_with_bdii);
 	add_test(tc_srm, test_gfal_get_fullendpoint);
-	add_test(tc_srm, test_gfal_get_hostname_from_surl);
 	add_test(tc_srm, test_gfal_get_endpoint_and_setype_from_bdii);
 	add_test(tc_srm, test_gfal_select_best_protocol_and_endpoint);
 	add_test(tc_srm, gfal_get_asyncG_empty_req);

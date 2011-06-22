@@ -207,23 +207,17 @@ void test_gfal_get_fullendpoint(){
 
 void test_gfal_get_hostname_from_surl()
 {
-	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);	
 	GError * tmp_err=NULL;
-	char* resu;
-	assert_true_with_message( (resu = gfal_get_hostname_from_surl(list->data, &tmp_err)) && !tmp_err, " must be a success");
-	if(resu){
-		char* p = strchr(TEST_SRM_DPM_ENDPOINT_PREFIX+7, '/');
-		if(!p)
-			assert_true_with_message(FALSE, " no / contained in the url");
-		assert_true_with_message( strncmp(TEST_SRM_DPM_ENDPOINT_PREFIX+6,resu, p-TEST_SRM_DPM_ENDPOINT_PREFIX-7) == 0, " must be the same string");
-		free(resu); 
-	}
-	g_list_free(list);
-	list = g_list_append(NULL,"http://google.com/");	
-	assert_false_with_message( (resu = gfal_get_hostname_from_surl(list->data, &tmp_err)) && !tmp_err, " must be an error");
-	g_clear_error(&tmp_err);
-	g_list_free(list);
-	free(resu);
+	char hostname[2048];
+	memset(hostname, '\0', 2048);
+	int ret= gfal_get_hostname_from_surlG(TEST_SRM_VALID_SURL_EXAMPLE1, hostname, 2048, &tmp_err);
+	assert_true_with_message( ret==0  && tmp_err==NULL && *hostname!='\0', " must be a success");
+	
+	char* p = strchr(TEST_SRM_DPM_ENDPOINT_PREFIX+7, '/');
+	assert_true_with_message(p!=NULL, " no / contained in the url");
+	if(!p)	
+		return;
+	assert_true_with_message( strncmp(TEST_SRM_DPM_ENDPOINT_PREFIX+6,hostname, p-TEST_SRM_DPM_ENDPOINT_PREFIX-7) == 0, " must be the same string");
 }
 
 
