@@ -10,9 +10,11 @@
 #include "gfal_common_internal.h"
 #include "../unit_test_constants.h"
 #include "mds/gfal_common_mds.h"
+#include "srm/gfal_common_srm_endpoint.h"
 #include <regex.h>
 #include <time.h> 
 
+#define TEST_SRM_
 
 void test_create_srm_handle()
 {
@@ -23,26 +25,18 @@ void test_create_srm_handle()
 	gfal_handle_freeG(handle);
 }
 
-
-void test_glist_to_surls()
+void test__gfal_convert_full_surl()
 {
-		GList* list = g_list_append(NULL,"bob");
-		list = g_list_append(list, "gilles");
-		list = g_list_append(list, "john");
-		int n = g_list_length(list);
-		assert_true_with_message(n == 3, " size error, see internal glist doc");
-		char** surls =gfal_GList_to_tab(list);
-		int i;
-		for(i=0; i< n; ++i){
-			char * str= list->data;
-			assert_true_with_message(strncmp(str,surls[i],100) == 0, " must be the same string");
-			list = g_list_next(list);
-		}
-		assert_true_with_message(surls[n]==NULL, " last element+1 must be null");
-		free(surls);
-		g_list_free(list);
+	int res = -1;
+	char buff[2048];
+	GError* tmp_err=NULL;
+	res=  gfal_get_fullendpointG(TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff, 2048, &tmp_err);
+	assert_true_with_message( res == 0 && strings_are_equal(buff, TEST_SRM_DPM_FULLENDPOINT_URL) && tmp_err==NULL, " must be a successfull endpoint convertion");
+	g_clear_error(&tmp_err);
+	res=  gfal_get_fullendpointG(TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff, 2, &tmp_err);	
+	assert_true_with_message( res != 0 && tmp_err!=NULL && tmp_err->code == ENOBUFS, " must be a buffer to small");	
+	g_clear_error(&tmp_err);
 }
-
 
 
 void test_gfal_get_async_1()

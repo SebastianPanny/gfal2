@@ -79,9 +79,9 @@ TestSuite* voms_Suite(){
  
 TestSuite* srm_Suite(){
 	TestSuite *tc_srm = create_test_suite();
-/*	add_test(tc_srm, test_create_srm_handle);
-	add_test(tc_srm, test_glist_to_surls);
-	add_test(tc_srm, test_gfal_get_async_1);
+	add_test(tc_srm, test_create_srm_handle);
+	add_test(tc_srm, test__gfal_convert_full_surl);
+	/*add_test(tc_srm, test_gfal_get_async_1);
 	add_test(tc_srm, test_gfal_check_surl);
 	add_test(tc_srm, test_gfal_full_endpoint_check);
 	add_test(tc_srm, test_gfal_auto_get_srm_endpoint_full_endpoint);
@@ -241,7 +241,7 @@ int main (int argc, char** argv)
 	add_suite(global, verbose_suite());
 	add_suite(global, catalog_suite());
 	add_suite(global, voms_Suite());
-	//add_suite(global, srm_Suite());
+	add_suite(global, srm_Suite());
 	//add_suite(global, no_glib_suite());
 	add_suite(global, lfc_suite());
 	add_suite(global, mds_suite());

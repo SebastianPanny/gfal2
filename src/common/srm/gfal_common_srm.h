@@ -30,6 +30,7 @@
 #include "../gfal_common_internal.h"
 #include "../gfal_prototypes.h"
 #include "../gfal_constants.h"
+#include "gfal_common_srm_endpoint.h"
 
 
 
@@ -42,6 +43,8 @@ struct _gfal_srm_result{
 	int err_code;
 	char err_str[GFAL_ERRMSG_LEN+1];
 };
+
+typedef void* srm_request_handle;
 
 gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err);
 

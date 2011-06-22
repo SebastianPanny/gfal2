@@ -62,3 +62,5 @@ struct _gfal_srm_external_call{
 };
 
 extern struct _gfal_srm_external_call gfal_srm_external_call;
+
+int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err);

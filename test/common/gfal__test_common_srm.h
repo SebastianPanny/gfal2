@@ -5,8 +5,9 @@
 */
 
 
- void test_create_srm_handle();
-void test_glist_to_surls();
+void test_create_srm_handle();
+void test__gfal_convert_full_surl();
+ 
 void test_gfal_get_async_1();
 void test_gfal_check_surl();
 void test_gfal_full_endpoint_check();
