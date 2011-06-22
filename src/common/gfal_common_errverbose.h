@@ -52,6 +52,8 @@ int gfal_get_verbose();
 
 void gfal_release_GError(GError** err);
 
+gboolean gfal_check_GError(GError** err);
+
 char* gfal_str_GError(GError** err);
 
 

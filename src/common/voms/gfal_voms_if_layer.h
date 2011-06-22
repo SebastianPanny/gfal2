@@ -1,3 +1,4 @@
+#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -16,26 +17,23 @@
  */
 
 /**
- * @file gfal_voms_if.c
- * @brief header file containing the interface to the voms system
+ * @file gfal_voms_if_layer.h
+ * @brief file containing the layer for the voms external call (mock purpose )
  * @author Devresse Adrien
  * @version 2.0
- * @date 12/04/2011
+ * @date 22/06/2011
  * */
-#define _GNU_SOURCE
- 
-#include <glib.h>
-#include "../gfal_common.h"
- 
-
-char *gfal_get_userdnG (GError** err);
 
 
+#include "voms_apic.h"
 
-char *gfal_get_voG (GError** err);
+struct _gfal_voms_external{
+	void (*VOMS_Destroy)(struct vomsdata *vd);
+	struct vomsdata *(*VOMS_Init)(char *voms, char *cert);
+	char *(*VOMS_ErrorMessage)(struct vomsdata *vd, int error, char *buffer, int len);
+	int (*VOMS_SetVerificationType)(int type, struct vomsdata *vd, int *error);
+	int (*VOMS_RetrieveFromProxy)(int how, struct vomsdata *vd, int *error);
+};
 
 
-GList* gfal_get_fqanG(GError** err);
-
-void  gfal_voms_destroy();
- 
+extern struct _gfal_voms_external gfal_voms_external;

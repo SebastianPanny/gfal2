@@ -76,7 +76,7 @@ extern int gfal_set_verbose (int value)
 		 gfal_print_verbose(GFAL_VERBOSE_DEBUG," release NULL error");
 		 return;
 	 }
-	 fprintf(stderr,"[gfal] %s\n", (*err)->message);
+	 g_printerr("[gfal] %s\n", (*err)->message);
 	 g_clear_error(err);
 	 *err=NULL;	 
  }
@@ -96,18 +96,16 @@ char* gfal_str_GError(GError** err){
  }
 
 /**
- *  return a valid string of the current error in the given buffer, re-entrant function
- * 
+ *  @brief convenient way to manage Gerror
+ *  If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE
  * */
-char* gfal_str_GError_r(GError** err, char* buff, size_t s_buff){
-	 if(err==NULL || *err==NULL){
-		 gfal_print_verbose(GFAL_VERBOSE_DEBUG,"copy string NULL error");
-		 g_strlcpy(buff, "[gfal] No Error reported", s_buff);
-	}else
-		 g_strlcpy(buff, (*err)->message, s_buff);		
-	 return buff;
- }
- 
+gboolean gfal_check_GError(GError** err){
+	if(err==NULL || *err==NULL)
+		return FALSE;
+	g_printerr("[gfal] %s\n", (*err)->message);
+	g_clear_error(err);
+	return TRUE;
+}
  
 #if (GLIB_CHECK_VERSION(2,16,0) != TRUE)			// add code of glib 2.16 for link with a very old glib version
 static void

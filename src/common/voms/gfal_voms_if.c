@@ -24,6 +24,7 @@
  * */
  
 #include "gfal_voms_if.h"
+#include "gfal_voms_if_layer.h"
 
 typedef struct{
 	GList* fqan;
@@ -37,24 +38,24 @@ static __thread gfal_voms_info_* gfal_voms_info=NULL;
 static int gfal_voms_init(struct vomsdata **vd, GError **err){
     char errmsg[GFAL_ERRMSG_LEN];	
     int error;
-    if( (*vd = VOMS_Init ("", "")) ==NULL){
+    if( (*vd = gfal_voms_external.VOMS_Init ("", "")) ==NULL){
 		g_set_error(err,0, EINVAL, " [parse_vomsdataG][VOMS_Init] VOMS_Init failed, \
 maybe voms-proxy is not initiated correctly");
-		VOMS_Destroy(*vd);
+		gfal_voms_external.VOMS_Destroy(*vd);
 		return -1;				
 	}
-	if( !VOMS_SetVerificationType (VERIFY_NONE, *vd, &error)){
-        VOMS_ErrorMessage (*vd, error, errmsg, GFAL_ERRMSG_LEN);	
+	if( !gfal_voms_external.VOMS_SetVerificationType (VERIFY_NONE, *vd, &error)){
+        gfal_voms_external.VOMS_ErrorMessage (*vd, error, errmsg, GFAL_ERRMSG_LEN);	
  		g_set_error(err, 0, EINVAL, "[parse_vomsdataG][VOMS_SetVerificationType] error : %s, \
 maybe is not initiated correctly", errmsg);      
- 		VOMS_Destroy(*vd); 	
+ 		gfal_voms_external.VOMS_Destroy(*vd); 	
 		return -2;
 	}	
-	if( !VOMS_RetrieveFromProxy (RECURSE_CHAIN, *vd, &error)){
-        VOMS_ErrorMessage (*vd, error, errmsg, GFAL_ERRMSG_LEN);	
+	if( !gfal_voms_external.VOMS_RetrieveFromProxy (RECURSE_CHAIN, *vd, &error)){
+        gfal_voms_external.VOMS_ErrorMessage (*vd, error, errmsg, GFAL_ERRMSG_LEN);	
  		g_set_error(err,0, EINVAL, "[parse_vomsdataG][VOMS_RetrieveFromProxy] error : %s, \
 maybe voms-proxy is not initiated correctly", errmsg);      
- 		VOMS_Destroy(*vd); 	
+ 		gfal_voms_external.VOMS_Destroy(*vd); 	
 		return -3;			
 	}
 	if( !(*vd)->data || !(*vd)->data[0]) {
@@ -86,18 +87,19 @@ int gfal_parse_vomsdataG (GError ** err){
             if ((str = strndup (vd->data[0]->fqan[i],2048)) == NULL){
  				g_set_error(err,0, EINVAL, "[parse_vomsdataG] fqan value retrived from VOMS invalid");   
  				gfal_voms_info = NULL ;  
-				VOMS_Destroy(vd); 					
+				gfal_voms_external.VOMS_Destroy(vd); 					
                 return (-1);
 			}
 			if(*str != '/'){
  				g_set_error(err,0, EINVAL, "[parse_vomsdataG] fqan first char retrived from VOMS invalid");    
  				gfal_voms_info = NULL;  
-				VOMS_Destroy(vd); 					
+ 				free(str);
+				gfal_voms_external.VOMS_Destroy(vd); 					
                 return (-1);				
 			}
 			gfal_voms_info->fqan = g_list_append(gfal_voms_info->fqan,(gpointer) str);
 	}
-    VOMS_Destroy (vd);	
+    gfal_voms_external.VOMS_Destroy (vd);	
     return (0);
 }
 /**
@@ -145,6 +147,21 @@ GList* gfal_get_fqanG (GError** err){
 		return NULL;
 	} 
     return gfal_voms_info->fqan;
+}
+
+
+/**
+ *  Free the memory of the voms parameters
+ * */
+void gfal_voms_destroy(){
+	if(gfal_voms_info){
+		g_list_free_full(gfal_voms_info->fqan, free);
+		free(gfal_voms_info->userdn);
+		free(gfal_voms_info->vo);
+		free(gfal_voms_info);
+		gfal_voms_info=NULL;
+		
+	}
 }
 
 

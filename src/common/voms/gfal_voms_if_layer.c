@@ -16,26 +16,21 @@
  */
 
 /**
- * @file gfal_voms_if.c
- * @brief header file containing the interface to the voms system
+ * @file gfal_voms_if_layer.c
+ * @brief file containing the layer for the voms external call (mock purpose )
  * @author Devresse Adrien
  * @version 2.0
- * @date 12/04/2011
+ * @date 22/06/2011
  * */
-#define _GNU_SOURCE
- 
-#include <glib.h>
-#include "../gfal_common.h"
- 
 
-char *gfal_get_userdnG (GError** err);
+#include "gfal_voms_if_layer.h"
 
-
-
-char *gfal_get_voG (GError** err);
-
-
-GList* gfal_get_fqanG(GError** err);
-
-void  gfal_voms_destroy();
- 
+struct _gfal_voms_external  gfal_voms_external = {
+	
+	.VOMS_Destroy = VOMS_Destroy,
+	.VOMS_Init = VOMS_Init,
+	.VOMS_ErrorMessage = VOMS_ErrorMessage,
+	.VOMS_SetVerificationType = VOMS_SetVerificationType,
+	.VOMS_RetrieveFromProxy = VOMS_RetrieveFromProxy
+};
+	
