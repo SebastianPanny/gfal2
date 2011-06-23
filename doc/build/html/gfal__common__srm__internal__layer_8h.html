@@ -23,12 +23,19 @@
 <code>#include &lt;gfal_srm_ifce.h&gt;</code><br>
 <code>#include &lt;gfal_srm_ifce_types.h&gt;</code><br>
 <code>#include &lt;glib.h&gt;</code><br>
+<code>#include &quot;../gfal_types.h&quot;</code><br>
 
 <p>
 <a href="gfal__common__srm__internal__layer_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Data Structures</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__srm__external__call.html">_gfal_srm_external_call</a></td></tr>
+
+<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__internal__layer_8h.html#d12926fb068b66769f28f2c4fc177bd2">gfal_check_fullendpoint_in_surl</a> (const char *surl, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="07842f2edba0cfe563392ac479102b34"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_getTURLS_internal" ref="07842f2edba0cfe563392ac479102b34" args="(gfal_handle handle, char **surls, gfal_srm_result **resu, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_getTURLS_internal</b> (gfal_handle handle, char **surls, gfal_srm_result **resu, GError **err)</td></tr>
 
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="67b12c7342043451fc5ce31b1a3d74fb"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_external_call" ref="67b12c7342043451fc5ce31b1a3d74fb" args="" -->
@@ -41,7 +48,37 @@ header file for the srm external function mapping for mocking purpose
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>09/06/2011 </dd></dl>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 21 18:21:32 2011 for CERN org.glite.Gfal by&nbsp;
+<hr><h2>Function Documentation</h2>
+<a class="anchor" name="d12926fb068b66769f28f2c4fc177bd2"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_check_fullendpoint_in_surl" ref="d12926fb068b66769f28f2c4fc177bd2" args="(const char *surl, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_check_fullendpoint_in_surl           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>surl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+return 0 if a full endpoint is contained in surl 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 23 17:38:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

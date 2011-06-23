@@ -39,38 +39,46 @@
 <a name="l00027"></a>00027 <span class="preprocessor">#include &lt;gfal_srm_ifce.h&gt;</span> 
 <a name="l00028"></a>00028 <span class="preprocessor">#include &lt;gfal_srm_ifce_types.h&gt;</span> 
 <a name="l00029"></a>00029 <span class="preprocessor">#include &lt;glib.h&gt;</span>
-<a name="l00030"></a>00030 
-<a name="l00035"></a><a class="code" href="struct__gfal__srm__external__call.html">00035</a> <span class="keyword">struct </span><a class="code" href="struct__gfal__srm__external__call.html">_gfal_srm_external_call</a>{
-<a name="l00036"></a>00036         
-<a name="l00037"></a>00037         void (*srm_context_init)(<span class="keyword">struct </span>srm_context *context,<span class="keywordtype">char</span> *srm_endpoint,<span class="keywordtype">char</span> *errbuf,<span class="keywordtype">int</span> errbufsz,<span class="keywordtype">int</span> verbose);
-<a name="l00038"></a>00038         
-<a name="l00039"></a>00039         int (*srm_ls)(<span class="keyword">struct </span>srm_context *context,
-<a name="l00040"></a>00040                 <span class="keyword">struct </span>srm_ls_input *input,<span class="keyword">struct </span>srm_ls_output *output);
-<a name="l00041"></a>00041                 
-<a name="l00042"></a>00042         int (*srm_rmdir)(<span class="keyword">struct </span>srm_context *context,
-<a name="l00043"></a>00043                 <span class="keyword">struct </span>srm_rmdir_input *input,<span class="keyword">struct </span>srm_rmdir_output *output);
-<a name="l00044"></a>00044                 
-<a name="l00045"></a>00045         int (*srm_mkdir)(<span class="keyword">struct </span>srm_context *context,
-<a name="l00046"></a>00046                 <span class="keyword">struct </span>srm_mkdir_input *input);
-<a name="l00047"></a>00047                 
-<a name="l00048"></a>00048         int (*srm_getpermission) (<span class="keyword">struct </span>srm_context *context,
-<a name="l00049"></a>00049                 <span class="keyword">struct </span>srm_getpermission_input *input,<span class="keyword">struct </span>srm_getpermission_output *output);
-<a name="l00050"></a>00050 
-<a name="l00051"></a>00051         int (*srm_check_permission)(<span class="keyword">struct </span>srm_context *context,
-<a name="l00052"></a>00052                 <span class="keyword">struct </span>srm_checkpermission_input *input,<span class="keyword">struct </span>srmv2_filestatus **statuses);    
-<a name="l00053"></a>00053                 
-<a name="l00054"></a>00054         void (*srm_srmv2_pinfilestatus_delete)(<span class="keyword">struct </span>srmv2_pinfilestatus*  srmv2_pinstatuses, <span class="keywordtype">int</span> n);
-<a name="l00055"></a>00055         
-<a name="l00056"></a>00056         void (*srm_srmv2_mdfilestatus_delete)(<span class="keyword">struct </span>srmv2_mdfilestatus* mdfilestatus, <span class="keywordtype">int</span> n);
-<a name="l00057"></a>00057         
-<a name="l00058"></a>00058         void (*srm_srmv2_filestatus_delete)(<span class="keyword">struct </span>srmv2_filestatus*  srmv2_statuses, <span class="keywordtype">int</span> n);
+<a name="l00030"></a>00030 <span class="preprocessor">#include "../gfal_types.h"</span>
+<a name="l00031"></a>00031 
+<a name="l00036"></a><a class="code" href="struct__gfal__srm__external__call.html">00036</a> <span class="keyword">struct </span><a class="code" href="struct__gfal__srm__external__call.html">_gfal_srm_external_call</a>{
+<a name="l00037"></a>00037         
+<a name="l00038"></a>00038         void (*srm_context_init)(<span class="keyword">struct </span>srm_context *context,<span class="keywordtype">char</span> *srm_endpoint,<span class="keywordtype">char</span> *errbuf,<span class="keywordtype">int</span> errbufsz,<span class="keywordtype">int</span> verbose);
+<a name="l00039"></a>00039         
+<a name="l00040"></a>00040         int (*srm_ls)(<span class="keyword">struct </span>srm_context *context,
+<a name="l00041"></a>00041                 <span class="keyword">struct </span>srm_ls_input *input,<span class="keyword">struct </span>srm_ls_output *output);
+<a name="l00042"></a>00042                 
+<a name="l00043"></a>00043         int (*srm_rmdir)(<span class="keyword">struct </span>srm_context *context,
+<a name="l00044"></a>00044                 <span class="keyword">struct </span>srm_rmdir_input *input,<span class="keyword">struct </span>srm_rmdir_output *output);
+<a name="l00045"></a>00045                 
+<a name="l00046"></a>00046         int (*srm_mkdir)(<span class="keyword">struct </span>srm_context *context,
+<a name="l00047"></a>00047                 <span class="keyword">struct </span>srm_mkdir_input *input);
+<a name="l00048"></a>00048                 
+<a name="l00049"></a>00049         int (*srm_getpermission) (<span class="keyword">struct </span>srm_context *context,
+<a name="l00050"></a>00050                 <span class="keyword">struct </span>srm_getpermission_input *input,<span class="keyword">struct </span>srm_getpermission_output *output);
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052         int (*srm_check_permission)(<span class="keyword">struct </span>srm_context *context,
+<a name="l00053"></a>00053                 <span class="keyword">struct </span>srm_checkpermission_input *input,<span class="keyword">struct </span>srmv2_filestatus **statuses);    
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055         int (*srm_prepare_to_get)(<span class="keyword">struct </span>srm_context *context,
+<a name="l00056"></a>00056                 <span class="keyword">struct </span>srm_preparetoget_input *input,<span class="keyword">struct </span>srm_preparetoget_output *output);
+<a name="l00057"></a>00057                 
+<a name="l00058"></a>00058         void (*srm_srmv2_pinfilestatus_delete)(<span class="keyword">struct </span>srmv2_pinfilestatus*  srmv2_pinstatuses, <span class="keywordtype">int</span> n);
 <a name="l00059"></a>00059         
-<a name="l00060"></a>00060         void (*srm_srm2__TReturnStatus_delete)(<span class="keyword">struct </span>srm2__TReturnStatus* status);
+<a name="l00060"></a>00060         void (*srm_srmv2_mdfilestatus_delete)(<span class="keyword">struct </span>srmv2_mdfilestatus* mdfilestatus, <span class="keywordtype">int</span> n);
 <a name="l00061"></a>00061         
-<a name="l00062"></a>00062 };
-<a name="l00063"></a>00063 
-<a name="l00064"></a>00064 <span class="keyword">extern</span> <span class="keyword">struct </span><a class="code" href="struct__gfal__srm__external__call.html">_gfal_srm_external_call</a> gfal_srm_external_call;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 21 18:21:32 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00062"></a>00062         void (*srm_srmv2_filestatus_delete)(<span class="keyword">struct </span>srmv2_filestatus*  srmv2_statuses, <span class="keywordtype">int</span> n);
+<a name="l00063"></a>00063         
+<a name="l00064"></a>00064         void (*srm_srm2__TReturnStatus_delete)(<span class="keyword">struct </span>srm2__TReturnStatus* status);
+<a name="l00065"></a>00065         
+<a name="l00066"></a>00066 };
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068 <span class="keyword">extern</span> <span class="keyword">struct </span><a class="code" href="struct__gfal__srm__external__call.html">_gfal_srm_external_call</a> gfal_srm_external_call;
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 <span class="keywordtype">int</span> gfal_check_fullendpoint_in_surl(<span class="keyword">const</span> <span class="keywordtype">char</span> * surl, GError ** err);
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 <span class="keywordtype">int</span> gfal_srm_getTURLS_internal(gfal_handle handle, <span class="keywordtype">char</span>** surls, gfal_srm_result** resu, GError** err);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 23 17:38:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

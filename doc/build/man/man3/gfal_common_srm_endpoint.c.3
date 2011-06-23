@@ -1,0 +1,114 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c \- file for internal use in the srm part, endpoint determination 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <time.h>\fP
+.br
+\fC#include <string.h>\fP
+.br
+\fC#include <unistd.h>\fP
+.br
+\fC#include <regex.h>\fP
+.br
+\fC#include <stdlib.h>\fP
+.br
+\fC#include <errno.h>\fP
+.br
+\fC#include '../gfal_common_internal.h'\fP
+.br
+\fC#include 'gfal_common_srm_endpoint.h'\fP
+.br
+\fC#include '../gfal_common_errverbose.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBgfal_srm_determine_endpoint\fP (gfal_handle handle, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)"
+.br
+.RI "\fIextract endpoint and srm_type from a surl determine the best endpoint associated with the surl and the param of the actual handle (no bdii check or not) see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations \fP"
+.ti -1c
+.RI "gboolean \fBgfal_check_fullendpoint_in_surlG\fP (const char *surl, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_fullendpointG\fP (const char *surl, char *buff_endpoint, size_t s_buff, GError **err)"
+.br
+.RI "\fIcreate a full endpoint from a 'full-surl' \fP"
+.ti -1c
+.RI "int \fBgfal_select_best_protocol_and_endpointG\fP (gfal_handle handle, char **tab_se_type, char **tab_endpoint, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_hostname_from_surlG\fP (const char *surl, char *buff_hostname, size_t s_buff, GError **err)"
+.br
+.RI "\fIget the hostname from a surl \fP"
+.ti -1c
+.RI "int \fBgfal_get_endpoint_and_setype_from_bdiiG\fP (gfal_handle handle, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)"
+.br
+.RI "\fIget endpoint from the bdii system only \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+file for internal use in the srm part, endpoint determination 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+2.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+22/06/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "gboolean gfal_check_fullendpoint_in_surlG (const char * surl, GError ** err)"
+.PP
+return TRUE if a full endpoint is contained in surl else FALSE 
+.SS "int gfal_get_endpoint_and_setype_from_bdiiG (gfal_handle handle, const char * surl, char * buff_endpoint, size_t s_buff, enum gfal_srm_proto * srm_type, GError ** err)"
+.PP
+get endpoint from the bdii system only 
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success with endpoint and srm_type set correctly else -1 and err set 
+.RE
+.PP
+
+.SS "int gfal_get_hostname_from_surlG (const char * surl, char * buff_hostname, size_t s_buff, GError ** err)"
+.PP
+get the hostname from a surl 
+.PP
+\fBReturns:\fP
+.RS 4
+return 0 if success else -1 and err is set 
+.RE
+.PP
+
+.SS "int gfal_select_best_protocol_and_endpointG (gfal_handle handle, char ** tab_se_type, char ** tab_endpoint, char * buff_endpoint, size_t s_buff, enum gfal_srm_proto * srm_type, GError ** err)"
+.PP
+select the best protocol choice and the best endpoint choice from a list of protocol and endpoints obtained by the bdii 
+.SS "int gfal_srm_determine_endpoint (gfal_handle handle, const char * surl, char * buff_endpoint, size_t s_buff, enum gfal_srm_proto * srm_type, GError ** err)"
+.PP
+extract endpoint and srm_type from a surl determine the best endpoint associated with the surl and the param of the actual handle (no bdii check or not) see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations 
+.PP
+\fBReturns:\fP
+.RS 4
+return 0 with endpoint and types set if success else -1 and set Error 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

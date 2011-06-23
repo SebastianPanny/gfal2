@@ -40,8 +40,10 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">display the full GError message on stderr and free the memory associated <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8c.html#c35c45ff43533cc6e7c176b0fa0b3128">gfal_str_GError</a> (GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8c.html#6e7f412b0a892e49a7f2277562c59b4d">gfal_str_GError_r</a> (GError **err, char *buff, size_t s_buff)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9167aee5bda42b71a982f863e88f7bfd"></a><!-- doxytag: member="gfal_common_errverbose.c::gfal_check_GError" ref="9167aee5bda42b71a982f863e88f7bfd" args="(GError **err)" -->
+gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8c.html#9167aee5bda42b71a982f863e88f7bfd">gfal_check_GError</a> (GError **err)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">convenient way to manage Gerror If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ba441719ee1fd49a708add03c0eea22f"></a><!-- doxytag: member="gfal_common_errverbose.c::g_propagate_prefixed_error" ref="ba441719ee1fd49a708add03c0eea22f" args="(GError **dest, GError *src, const gchar *format,...)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>g_propagate_prefixed_error</b> (GError **dest, GError *src, const gchar *format,...)</td></tr>
 
@@ -115,42 +117,7 @@ return a valid string of the current error, <dl compact><dt><b>Warning:</b></dt>
 
 </div>
 </div><p>
-<a class="anchor" name="6e7f412b0a892e49a7f2277562c59b4d"></a><!-- doxytag: member="gfal_common_errverbose.c::gfal_str_GError_r" ref="6e7f412b0a892e49a7f2277562c59b4d" args="(GError **err, char *buff, size_t s_buff)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char* gfal_str_GError_r           </td>
-          <td>(</td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&nbsp;</td>
-          <td class="paramname"> <em>buff</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&nbsp;</td>
-          <td class="paramname"> <em>s_buff</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return a valid string of the current error in the given buffer, re-entrant function 
-</div>
-</div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 21 18:21:32 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 23 17:38:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

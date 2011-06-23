@@ -18,8 +18,9 @@ void \bf{gfal\_\-release\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common_
 \begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\item 
 char $\ast$ \bf{gfal\_\-str\_\-GError} (GError $\ast$$\ast$err)
 \item 
-char $\ast$ \bf{gfal\_\-str\_\-GError\_\-r} (GError $\ast$$\ast$err, char $\ast$buff, size\_\-t s\_\-buff)
-\item 
+gboolean \bf{gfal\_\-check\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8c_9167aee5bda42b71a982f863e88f7bfd}
+
+\begin{CompactList}\small\item\em convenient way to manage Gerror If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE \item\end{CompactList}\item 
 void \textbf{g\_\-propagate\_\-prefixed\_\-error} (GError $\ast$$\ast$dest, GError $\ast$src, const gchar $\ast$format,...)\label{gfal__common__errverbose_8c_ba441719ee1fd49a708add03c0eea22f}
 
 \item 
@@ -56,9 +57,3 @@ return a valid string of the current error, \begin{Desc}
 \item[Warning:]Modifications or free() on this string can lead to an undefined behaviors. 
 
 : like strerror, not thread safe. \end{Desc}
-\index{gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}!gfal_str_GError_r@{gfal\_\-str\_\-GError\_\-r}}
-\index{gfal_str_GError_r@{gfal\_\-str\_\-GError\_\-r}!gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-str\_\-GError\_\-r (GError $\ast$$\ast$ {\em err}, char $\ast$ {\em buff}, size\_\-t {\em s\_\-buff})}\label{gfal__common__errverbose_8c_6e7f412b0a892e49a7f2277562c59b4d}
-
-
-return a valid string of the current error in the given buffer, re-entrant function 

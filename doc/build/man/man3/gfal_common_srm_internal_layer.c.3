@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.c" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.c" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -53,7 +53,8 @@ Devresse Adrien
         .srm_srmv2_pinfilestatus_delete = &srm_srmv2_pinfilestatus_delete,
         .srm_srmv2_mdfilestatus_delete = &srm_srmv2_mdfilestatus_delete,
         .srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete,
-        .srm_srm2__TReturnStatus_delete = &srm_srm2__TReturnStatus_delete
+        .srm_srm2__TReturnStatus_delete = &srm_srm2__TReturnStatus_delete,
+        .srm_prepare_to_get= &srm_prepare_to_get
 }
 .fi
 .SH "Author"

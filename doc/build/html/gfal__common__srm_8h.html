@@ -24,6 +24,7 @@
 <code>#include &quot;<a class="el" href="gfal__common__internal_8h-source.html">../gfal_common_internal.h</a>&quot;</code><br>
 <code>#include &quot;../gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;../gfal_constants.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__srm__endpoint_8h-source.html">gfal_common_srm_endpoint.h</a>&quot;</code><br>
 <code>#include &quot;../gfal_common_internal.h&quot;</code><br>
 
 <p>
@@ -39,13 +40,17 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="496c8a18054866dcb27ae3f3397ac303"></a><!-- doxytag: member="gfal_common_srm.h::GFAL_ENDPOINT_DEFAULT_PREFIX" ref="496c8a18054866dcb27ae3f3397ac303" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>GFAL_ENDPOINT_DEFAULT_PREFIX</b>&nbsp;&nbsp;&nbsp;&quot;httpg://&quot;</td></tr>
 
+<tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="87f5a32879caba96e260c7e70c16888f"></a><!-- doxytag: member="gfal_common_srm.h::srm_request_handle" ref="87f5a32879caba96e260c7e70c16888f" args="" -->
+typedef void *&nbsp;</td><td class="memItemRight" valign="bottom"><b>srm_request_handle</b></td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0f8ff443c68a9f6177d717ad52b7d5a5"></a><!-- doxytag: member="gfal_common_srm.h::gfal_srm_initG" ref="0f8ff443c68a9f6177d717ad52b7d5a5" args="(gfal_handle handle, GError **err)" -->
 gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_initG</b> (gfal_handle handle, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#95ffd4de24c18af334c1d9c270de7d81">gfal_get_asyncG</a> (gfal_handle handle, GList *surls, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="95ffd4de24c18af334c1d9c270de7d81"></a><!-- doxytag: member="gfal_common_srm.h::gfal_get_asyncG" ref="95ffd4de24c18af334c1d9c270de7d81" args="(gfal_handle handle, GList *surls, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_asyncG</b> (gfal_handle handle, GList *surls, GError **err)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">launch a surls-&gt; turls translation in asynchronous mode  <a href="#95ffd4de24c18af334c1d9c270de7d81"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#1c3a2a23f764ce8bf5cdd73108e4d9ca">gfal_get_async_resultsG</a> (gfal_handle handle, GList **turls, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get the result to the last get_async request  <a href="#1c3a2a23f764ce8bf5cdd73108e4d9ca"></a><br></td></tr>
@@ -288,52 +293,6 @@ get the result to the last get_async request
 
 </div>
 </div><p>
-<a class="anchor" name="95ffd4de24c18af334c1d9c270de7d81"></a><!-- doxytag: member="gfal_common_srm.h::gfal_get_asyncG" ref="95ffd4de24c18af334c1d9c270de7d81" args="(gfal_handle handle, GList *surls, GError **err)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int gfal_get_asyncG           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GList *&nbsp;</td>
-          <td class="paramname"> <em>surls</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-launch a surls-&gt; turls translation in asynchronous mode 
-<p>
-<dl compact><dt><b>Warning:</b></dt><dd>need a initiaed gfal_handle </dd></dl>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: the gfal_handle initiated ( gfal_init ) </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>surls</em>&nbsp;</td><td>: GList of string of the differents surls to convert </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: GError** for error report </td></tr>
-  </table>
-</dl>
-<dl compact><dt><b>Returns:</b></dt><dd>return positive if success else -1, check GError for more information </dd></dl>
-
-</div>
-</div><p>
 <a class="anchor" name="86890a00f72d9af9ab88f42a69e3bf8c"></a><!-- doxytag: member="gfal_common_srm.h::gfal_wait_async_requestG" ref="86890a00f72d9af9ab88f42a69e3bf8c" args="(gfal_handle handle, long timeout, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -379,7 +338,7 @@ wait for the current request
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 21 18:21:32 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 23 17:38:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -1,4 +1,4 @@
-.TH "_gfal_srm_external_call" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "_gfal_srm_external_call" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -28,6 +28,9 @@ _gfal_srm_external_call \-
 .br
 .ti -1c
 .RI "int(* \fBsrm_check_permission\fP )(struct srm_context *context, struct srm_checkpermission_input *input, struct srmv2_filestatus **statuses)"
+.br
+.ti -1c
+.RI "int(* \fBsrm_prepare_to_get\fP )(struct srm_context *context, struct srm_preparetoget_input *input, struct srm_preparetoget_output *output)"
 .br
 .ti -1c
 .RI "void(* \fBsrm_srmv2_pinfilestatus_delete\fP )(struct srmv2_pinfilestatus *srmv2_pinstatuses, int n)"

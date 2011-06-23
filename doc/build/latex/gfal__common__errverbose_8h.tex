@@ -30,6 +30,9 @@ int \bf{gfal\_\-get\_\-verbose} ()\label{gfal__common__errverbose_8h_135b3fdd775
 void \bf{gfal\_\-release\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8h_1441ea4b8176eb0cf3099009b950a3e9}
 
 \begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\item 
+gboolean \bf{gfal\_\-check\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8h_9167aee5bda42b71a982f863e88f7bfd}
+
+\begin{CompactList}\small\item\em convenient way to manage Gerror If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE \item\end{CompactList}\item 
 char $\ast$ \bf{gfal\_\-str\_\-GError} (GError $\ast$$\ast$err)
 \item 
 void \textbf{g\_\-propagate\_\-prefixed\_\-error} (GError $\ast$$\ast$dest, GError $\ast$src, const gchar $\ast$format,...) G\_\-GNUC\_\-PRINTF(3\label{gfal__common__errverbose_8h_f9695e2ac1722715b687c1818cb2993d}

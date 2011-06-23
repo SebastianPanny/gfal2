@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,12 +12,24 @@
 .br
 \fC#include <glib.h>\fP
 .br
+\fC#include '../gfal_types.h'\fP
+.br
 
 .SS "Data Structures"
 
 .in +1c
 .ti -1c
 .RI "struct \fB_gfal_srm_external_call\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBgfal_check_fullendpoint_in_surl\fP (const char *surl, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_srm_getTURLS_internal\fP (gfal_handle handle, char **surls, gfal_srm_result **resu, GError **err)"
 .br
 .in -1c
 .SS "Variables"
@@ -47,6 +59,11 @@ Devresse Adrien
 .RE
 .PP
 
+.SH "Function Documentation"
+.PP 
+.SS "int gfal_check_fullendpoint_in_surl (const char * surl, GError ** err)"
+.PP
+return 0 if a full endpoint is contained in surl 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

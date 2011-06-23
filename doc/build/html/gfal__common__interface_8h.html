@@ -39,12 +39,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0071cb3665f7dca9648fa46bebeca524"></a><!-- doxytag: member="gfal_common_interface.h::gfal_handle_free" ref="0071cb3665f7dca9648fa46bebeca524" args="(gfal_handle handle)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_handle_free</b> (gfal_handle handle)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#68ef05f37b4971c8306b1cc6ee529647">gfal_get_async</a> (gfal_handle handle, char **surls)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="68ef05f37b4971c8306b1cc6ee529647"></a><!-- doxytag: member="gfal_common_interface.h::gfal_get_async" ref="68ef05f37b4971c8306b1cc6ee529647" args="(gfal_handle handle, char **surls)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_async</b> (gfal_handle handle, char **surls)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">launch a surls-&gt; turls translation in asynchronous mode  <a href="#68ef05f37b4971c8306b1cc6ee529647"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#ce6fcac8e92ad2e1d699eed2ce74a257">gfal_async_request_is_finished</a> (gfal_handle handle)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">progress of the last request  <a href="#ce6fcac8e92ad2e1d699eed2ce74a257"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">launch a surls-&gt; turls translation in asynchronous mode progress of the last request  <a href="#ce6fcac8e92ad2e1d699eed2ce74a257"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8h.html#0c654545b837b8e1928842ee762ce5e9">gfal_get_async_results</a> (gfal_handle handle, char ***turls)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a3161f12f9d5c8151f44df4f132602cb"></a><!-- doxytag: member="gfal_common_interface.h::gfal_get_async_get_results_errcodes" ref="a3161f12f9d5c8151f44df4f132602cb" args="(gfal_handle handle, int **turl_errcode)" -->
@@ -87,7 +87,7 @@ The main Interface file for the SRM interface.
 <div class="memdoc">
 
 <p>
-progress of the last request 
+launch a surls-&gt; turls translation in asynchronous mode progress of the last request 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>return positive value if the current request is finished, 0 if false or -1 if error occured Wrapper of gfal_async_request_is_finishedG for the "without GLib" use case. </dd></dl>
 
@@ -111,45 +111,6 @@ progress of the last request
 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>clear the current error registered in the handle </dd></dl>
-
-</div>
-</div><p>
-<a class="anchor" name="68ef05f37b4971c8306b1cc6ee529647"></a><!-- doxytag: member="gfal_common_interface.h::gfal_get_async" ref="68ef05f37b4971c8306b1cc6ee529647" args="(gfal_handle handle, char **surls)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int gfal_get_async           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char **&nbsp;</td>
-          <td class="paramname"> <em>surls</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-launch a surls-&gt; turls translation in asynchronous mode 
-<p>
-<dl compact><dt><b>Warning:</b></dt><dd>need a initiaed gfal_handle </dd></dl>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>: the gfal_handle initiated ( gfal_init ) </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>surls</em>&nbsp;</td><td>: table of string of the differents surls to convert, NULL pointer must be the end of the table </td></tr>
-  </table>
-</dl>
-<dl compact><dt><b>Returns:</b></dt><dd>return positive if success else -1, check GError for more information Wrapper of gfal_get_asyncG for the "without GLib" use case. </dd></dl>
 
 </div>
 </div><p>
@@ -293,7 +254,7 @@ wait for the current request
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 21 18:21:32 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 23 17:38:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

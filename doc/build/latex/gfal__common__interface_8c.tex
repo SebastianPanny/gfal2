@@ -9,10 +9,8 @@ Wrapper file for the NON \char`\"{}G\char`\"{} functions.
 \item 
 gfal\_\-handle \bf{gfal\_\-handle\_\-new} ()
 \begin{CompactList}\small\item\em get a initiated gfal\_\-handle \item\end{CompactList}\item 
-int \bf{gfal\_\-get\_\-async} (gfal\_\-handle handle, char $\ast$$\ast$surls)
-\begin{CompactList}\small\item\em launch a surls-$>$ turls translation in asynchronous mode \item\end{CompactList}\item 
 int \bf{gfal\_\-async\_\-request\_\-is\_\-finished} (gfal\_\-handle handle)
-\begin{CompactList}\small\item\em progress of the last request \item\end{CompactList}\item 
+\begin{CompactList}\small\item\em launch a surls-$>$ turls translation in asynchronous mode progress of the last request \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-async\_\-results} (gfal\_\-handle handle, char $\ast$$\ast$$\ast$turls)
 \item 
 int \bf{gfal\_\-get\_\-async\_\-results\_\-errcodes} (gfal\_\-handle handle, int $\ast$$\ast$turl\_\-errcode)
@@ -48,7 +46,7 @@ Wrapper file for the NON \char`\"{}G\char`\"{} functions.
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-async\_\-request\_\-is\_\-finished (gfal\_\-handle {\em handle})}\label{gfal__common__interface_8c_ce6fcac8e92ad2e1d699eed2ce74a257}
 
 
-progress of the last request 
+launch a surls-$>$ turls translation in asynchronous mode progress of the last request 
 
 \begin{Desc}
 \item[Returns:]return positive value if the current request is finished, 0 if false or -1 if error occured Wrapper of gfal\_\-async\_\-request\_\-is\_\-finished\-G for the \char`\"{}without GLib\char`\"{} use case. \end{Desc}
@@ -59,22 +57,6 @@ progress of the last request
 
 \begin{Desc}
 \item[Returns:]clear the current error registered in the handle \end{Desc}
-\index{gfal_common_interface.c@{gfal\_\-common\_\-interface.c}!gfal_get_async@{gfal\_\-get\_\-async}}
-\index{gfal_get_async@{gfal\_\-get\_\-async}!gfal_common_interface.c@{gfal\_\-common\_\-interface.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async (gfal\_\-handle {\em handle}, char $\ast$$\ast$ {\em surls})}\label{gfal__common__interface_8c_68ef05f37b4971c8306b1cc6ee529647}
-
-
-launch a surls-$>$ turls translation in asynchronous mode 
-
-\begin{Desc}
-\item[Warning:]need a initiaed gfal\_\-handle \end{Desc}
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em handle}]: the gfal\_\-handle initiated ( gfal\_\-init ) \item[{\em surls}]: table of string of the differents surls to convert, NULL pointer must be the end of the table \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Returns:]return positive if success else -1, check GError for more information Wrapper of gfal\_\-get\_\-async\-G for the \char`\"{}without GLib\char`\"{} use case. \end{Desc}
 \index{gfal_common_interface.c@{gfal\_\-common\_\-interface.c}!gfal_get_async_results@{gfal\_\-get\_\-async\_\-results}}
 \index{gfal_get_async_results@{gfal\_\-get\_\-async\_\-results}!gfal_common_interface.c@{gfal\_\-common\_\-interface.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\_\-results (gfal\_\-handle {\em handle}, char $\ast$$\ast$$\ast$ {\em turls})}\label{gfal__common__interface_8c_0c654545b837b8e1928842ee762ce5e9}

@@ -6,6 +6,7 @@ the header file with the main srm funcs of the common API
 {\tt \#include \char`\"{}../gfal\_\-common\_\-internal.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-constants.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-endpoint.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-common\_\-internal.h\char`\"{}}\par
 \subsection*{Data Structures}
 \begin{CompactItemize}
@@ -21,14 +22,21 @@ struct \textbf{\_\-gfal\_\-srm\_\-result}
 \#define \textbf{GFAL\_\-ENDPOINT\_\-DEFAULT\_\-PREFIX}~\char`\"{}httpg://\char`\"{}\label{gfal__common__srm_8h_496c8a18054866dcb27ae3f3397ac303}
 
 \end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef void $\ast$ \textbf{srm\_\-request\_\-handle}\label{gfal__common__srm_8h_87f5a32879caba96e260c7e70c16888f}
+
+\end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
 gfal\_\-catalog\_\-interface \textbf{gfal\_\-srm\_\-init\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)\label{gfal__common__srm_8h_0f8ff443c68a9f6177d717ad52b7d5a5}
 
 \item 
-int \bf{gfal\_\-get\_\-async\-G} (gfal\_\-handle handle, GList $\ast$surls, GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em launch a surls-$>$ turls translation in asynchronous mode \item\end{CompactList}\item 
+int \textbf{gfal\_\-get\_\-async\-G} (gfal\_\-handle handle, GList $\ast$surls, GError $\ast$$\ast$err)\label{gfal__common__srm_8h_95ffd4de24c18af334c1d9c270de7d81}
+
+\item 
 int \bf{gfal\_\-get\_\-async\_\-results\-G} (gfal\_\-handle handle, GList $\ast$$\ast$turls, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em get the result to the last get\_\-async request \item\end{CompactList}\item 
 gboolean \bf{gfal\_\-async\_\-request\_\-is\_\-finished\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)
@@ -129,22 +137,6 @@ get the result to the last get\_\-async request
 \end{Desc}
 \begin{Desc}
 \item[Warning:]turls need to be free manually \end{Desc}
-\index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_get_asyncG@{gfal\_\-get\_\-asyncG}}
-\index{gfal_get_asyncG@{gfal\_\-get\_\-asyncG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-async\-G (gfal\_\-handle {\em handle}, GList $\ast$ {\em surls}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_95ffd4de24c18af334c1d9c270de7d81}
-
-
-launch a surls-$>$ turls translation in asynchronous mode 
-
-\begin{Desc}
-\item[Warning:]need a initiaed gfal\_\-handle \end{Desc}
-\begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em handle}]: the gfal\_\-handle initiated ( gfal\_\-init ) \item[{\em surls}]: GList of string of the differents surls to convert \item[{\em err}]: GError$\ast$$\ast$ for error report \end{description}
-\end{Desc}
-\begin{Desc}
-\item[Returns:]return positive if success else -1, check GError for more information \end{Desc}
 \index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_wait_async_requestG@{gfal\_\-wait\_\-async\_\-requestG}}
 \index{gfal_wait_async_requestG@{gfal\_\-wait\_\-async\_\-requestG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-wait\_\-async\_\-request\-G (gfal\_\-handle {\em handle}, long {\em timeout}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_86890a00f72d9af9ab88f42a69e3bf8c}

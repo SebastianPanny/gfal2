@@ -52,6 +52,10 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal_
 void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8h.html#1441ea4b8176eb0cf3099009b950a3e9">gfal_release_GError</a> (GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">display the full GError message on stderr and free the memory associated <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9167aee5bda42b71a982f863e88f7bfd"></a><!-- doxytag: member="gfal_common_errverbose.h::gfal_check_GError" ref="9167aee5bda42b71a982f863e88f7bfd" args="(GError **err)" -->
+gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8h.html#9167aee5bda42b71a982f863e88f7bfd">gfal_check_GError</a> (GError **err)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">convenient way to manage Gerror If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8h.html#c35c45ff43533cc6e7c176b0fa0b3128">gfal_str_GError</a> (GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f9695e2ac1722715b687c1818cb2993d"></a><!-- doxytag: member="gfal_common_errverbose.h::g_propagate_prefixed_error" ref="f9695e2ac1722715b687c1818cb2993d" args="(GError **dest, GError *src, const gchar *format,...) G_GNUC_PRINTF(3" -->
@@ -131,7 +135,7 @@ return a valid string of the current error, <dl compact><dt><b>Warning:</b></dt>
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 21 18:21:32 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 23 17:38:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

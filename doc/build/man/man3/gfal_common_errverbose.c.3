@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -32,8 +32,9 @@
 .RI "char * \fBgfal_str_GError\fP (GError **err)"
 .br
 .ti -1c
-.RI "char * \fBgfal_str_GError_r\fP (GError **err, char *buff, size_t s_buff)"
+.RI "gboolean \fBgfal_check_GError\fP (GError **err)"
 .br
+.RI "\fIconvenient way to manage Gerror If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE \fP"
 .ti -1c
 .RI "void \fBg_propagate_prefixed_error\fP (GError **dest, GError *src, const gchar *format,...)"
 .br
@@ -80,9 +81,6 @@ Modifications or free() on this string can lead to an undefined behaviors.
 .RE
 .PP
 
-.SS "char* gfal_str_GError_r (GError ** err, char * buff, size_t s_buff)"
-.PP
-return a valid string of the current error in the given buffer, re-entrant function 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

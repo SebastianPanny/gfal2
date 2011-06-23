@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" 3 "21 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,6 +13,8 @@
 \fC#include '../gfal_prototypes.h'\fP
 .br
 \fC#include '../gfal_constants.h'\fP
+.br
+\fC#include 'gfal_common_srm_endpoint.h'\fP
 .br
 \fC#include '../gfal_common_internal.h'\fP
 .br
@@ -34,6 +36,13 @@
 .RI "#define \fBGFAL_ENDPOINT_DEFAULT_PREFIX\fP   'httpg://'"
 .br
 .in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef void * \fBsrm_request_handle\fP"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
@@ -43,7 +52,6 @@
 .ti -1c
 .RI "int \fBgfal_get_asyncG\fP (gfal_handle handle, GList *surls, GError **err)"
 .br
-.RI "\fIlaunch a surls-> turls translation in asynchronous mode \fP"
 .ti -1c
 .RI "int \fBgfal_get_async_resultsG\fP (gfal_handle handle, GList **turls, GError **err)"
 .br
@@ -183,30 +191,6 @@ return the number of response in turls or negative value if error
 \fBWarning:\fP
 .RS 4
 turls need to be free manually 
-.RE
-.PP
-
-.SS "int gfal_get_asyncG (gfal_handle handle, GList * surls, GError ** err)"
-.PP
-launch a surls-> turls translation in asynchronous mode 
-.PP
-\fBWarning:\fP
-.RS 4
-need a initiaed gfal_handle 
-.RE
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP : the gfal_handle initiated ( \fBgfal_init\fP ) 
-.br
-\fIsurls\fP : GList of string of the differents surls to convert 
-.br
-\fIerr\fP : GError** for error report 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return positive if success else -1, check GError for more information 
 .RE
 .PP
 
