@@ -93,7 +93,7 @@ static int gfal_srm_getTURLS_srmv2_internal(gfal_handle handle, char* endpoint, 
 	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, err_size, gfal_get_verbose());	
 	
 	
-	ret = srm_prepare_to_get(&context,&preparetoget_input,&preparetoget_output);
+	ret = gfal_srm_external_call.srm_prepare_to_get(&context,&preparetoget_input,&preparetoget_output);
 	if(ret < 0){
 		g_set_error(&tmp_err,0,errno,"call to srm_ifce error: %s",errbuf);
 	} else{
