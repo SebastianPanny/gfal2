@@ -17,6 +17,7 @@ struct srm_ls_output defined_srm_ls_output;
 struct srm_rmdir_output defined_srm_rmdir_output;
 struct srm_getpermission_output defined_srm_getpermission_output;
 struct srmv2_filestatus* defined_srmv2_filestatus=NULL;
+struct srmv2_pinfilestatus * defined_get_output=NULL;
 
 
 void srm_mock_srm_context_init(struct srm_context *context,char *srm_endpoint,char *errbuf,int errbufsz,int verbose){
@@ -48,34 +49,46 @@ int srm_mock_srm_rmdir(struct srm_context *context,
 int srm_mock_srm_mkdir(struct srm_context *context,
 	struct srm_mkdir_input *input){
 	int a = mock(context, input);
-	if(a){
+	if(a<0){
 		errno = a;
 		return -1;
 	}
-	return 0;		
+	return a;		
 }
 	
 int srm_mock_srm_getpermission (struct srm_context *context,
 	struct srm_getpermission_input *input,struct srm_getpermission_output *output){
 	int a = mock(context, input, output);
-	if(a){
+	if(a<0){
 		errno = a;
 		return -1;
 	}
 	memcpy(output, &defined_srm_getpermission_output, sizeof(struct srm_getpermission_output));
-	return 0;			
+	return a;			
 }
 
 int srm_mock_srm_check_permission(struct srm_context *context,
 	struct srm_checkpermission_input *input,struct srmv2_filestatus **statuses){
 	int a = mock(context, input, statuses);
-	if(a){
+	if(a <0){
 		errno = a;
 		return -1;
 	}
 	*statuses = defined_srmv2_filestatus; 
-	return 0;				
-}	
+	return a;				
+}
+
+int srm_mock_srm_prepare_to_get(struct srm_context *context,
+		struct srm_preparetoget_input *input,struct srm_preparetoget_output *output){
+	int a = mock(context, input, output);
+	if(a <0 ){
+		errno = a;
+		return -1;
+	}
+	output->filestatuses = defined_get_output;
+	return a;				
+			
+}
 	
 void srm_mock_srm_srmv2_pinfilestatus_delete(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n){
 	mock(srmv2_pinstatuses, n);	

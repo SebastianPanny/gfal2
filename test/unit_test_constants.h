@@ -24,6 +24,7 @@
 #define TEST_SRM_DPM_ENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/dpm/lal.in2p3.fr/home/dteam/"
 #define TEST_SRM_DPM_FULLENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/srm/managerv2?SFN=/dpm/lal.in2p3.fr/home/dteam" 
 #define TEST_SRM_DPM_FULLENDPOINT_URL "httpg://grid05.lal.in2p3.fr:8446/srm/managerv2"
+#define TEST_SRM_DPM_CORE_URL "grid05.lal.in2p3.fr:8446"
 #define TEST_LFC_PREFIX "lfn:/grid/dteam"
 
 #define TEST_GUID_VALID_FILE "guid:b7ba213b-829d-4a2e-b744-7c9cc685fe2d"

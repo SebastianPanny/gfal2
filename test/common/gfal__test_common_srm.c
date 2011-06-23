@@ -10,13 +10,23 @@
 #include <regex.h>
 #include <time.h> 
 #include "gfal_common_internal.h"
+#include "srm/gfal_common_srm_internal_layer.h"
 #include "../unit_test_constants.h"
 #include "mds/gfal_common_mds_layer.h"
 #include "srm/gfal_common_srm_endpoint.h"
 #include "../mock/gfal_mds_mock_test.h"
+#include "../mock/gfal_srm_mock_test.h"
 
 #define TEST_SRM_
 
+void setup_mock_srm(){
+#if USE_MOCK
+	gfal_srm_external_call.srm_prepare_to_get = &srm_mock_srm_prepare_to_get;
+	gfal_srm_external_call.srm_context_init = &srm_mock_srm_context_init;
+	gfal_srm_external_call.srm_srmv2_pinfilestatus_delete = &srm_mock_srm_srmv2_pinfilestatus_delete;
+	gfal_srm_external_call.srm_srm2__TReturnStatus_delete = &srm_mock_srm_srm2__TReturnStatus_delete;
+#endif
+}
 
 void setup_mock_bdii(){
 	gfal_mds_external_call.sd_get_se_types_and_endpoints = &mds_mock_sd_get_se_types_and_endpoints;	
@@ -255,6 +265,26 @@ void test_gfal_select_best_protocol_and_endpointG()
 
 void test_gfal_srm_getTURLS_one_success()
 {
+	setup_mock_srm();
+	setup_mock_bdii();
+	int i1;
+#if USE_MOCK
+	define_se_endpoints = calloc(sizeof(char*), 4); // set the response of the MDS layer for endpoint
+	for(i1=0;i1 <3; ++i1)
+		define_se_endpoints[i1]= strdup(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_se_types= calloc(sizeof(char*), 4);
+	char* types[] = { "srm_v1", "srm_v2", "srm_v1"};
+	for(i1=0;i1 <3; ++i1)
+		define_se_types[i1]= strdup(types[i1]);	
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	always_return(mds_mock_sd_get_se_types_and_endpoints, EINVAL);
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	defined_get_output = calloc(sizeof(struct srmv2_pinfilestatus),1);
+	defined_get_output[0].turl= strdup(TEST_SRM_TURL_EXAMPLE1);
+	will_respond(srm_mock_srm_prepare_to_get, 1, want_non_null(context), want_non_null(input), want_non_null(output));
+	always_return(srm_mock_srm_srmv2_filestatus_delete,0);
+	always_return(srm_mock_srm_srmv2_pinfilestatus_delete,0);
+#endif
 	GError* tmp_err=NULL;
 	gfal_handle handle  = gfal_initG(&tmp_err);
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
@@ -291,6 +321,29 @@ void test_gfal_srm_getTURLS_bad_urls()
 
 void test_gfal_srm_getTURLS_pipeline_success()
 {
+	setup_mock_srm();
+	setup_mock_bdii();
+	int i1;
+#if USE_MOCK
+	define_se_endpoints = calloc(sizeof(char*), 4); // set the response of the MDS layer for endpoint
+	for(i1=0;i1 <3; ++i1)
+		define_se_endpoints[i1]= strdup(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_se_types= calloc(sizeof(char*), 4);
+	char* types[] = { "srm_v1", "srm_v2", "srm_v1"};
+	for(i1=0;i1 <3; ++i1)
+		define_se_types[i1]= strdup(types[i1]);	
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	always_return(mds_mock_sd_get_se_types_and_endpoints, EINVAL);
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	defined_get_output = calloc(sizeof(struct srmv2_pinfilestatus),3);
+	defined_get_output[0].turl= strdup(TEST_SRM_TURL_EXAMPLE1);
+	defined_get_output[1].status= ENOENT;
+	defined_get_output[1].explanation = strdup("err msg");
+	defined_get_output[2].turl = strdup(TEST_SRM_TURL_EXAMPLE1);
+	will_respond(srm_mock_srm_prepare_to_get, 3, want_non_null(context), want_non_null(input), want_non_null(output));
+	always_return(srm_mock_srm_srmv2_filestatus_delete,0);
+	always_return(srm_mock_srm_srmv2_pinfilestatus_delete,0);
+#endif
 	GError* tmp_err=NULL;
 	gfal_handle handle  = gfal_initG(&tmp_err);
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
