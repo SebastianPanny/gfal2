@@ -58,7 +58,10 @@ static const char* gfal_srm_getName(){
  * parse a surl to check the validity
  */
 int gfal_surl_checker(const char* surl, GError** err){
-	g_return_val_err_if_fail(surl != NULL,-1,err,"[gfal_surl_checker_] check URL failed : surl is empty");
+	if(surl == NULL || strnlen(surl, GFAL_URL_MAX_LEN) == GFAL_URL_MAX_LEN){
+		g_set_error(err, 0, EINVAL, "[%s] Invalid surl, surl too long or NULL",__func__);
+		return -1;
+	}	
 	regex_t rex;
 	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");
@@ -122,7 +125,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 /**
  * check the validity of the current handle
  */
-static gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
+gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
 	if(handle->initiated == 1)
 		return TRUE;
 	g_set_error(err,0, EINVAL,"[gboolean gfal_handle_checkG] gfal_handle not set correctly");
@@ -344,7 +347,7 @@ void gfal_new_request_state(gfal_handle handle){
 /**
  *  @brief execute a srmv2 request async "GET" on the srm_ifce
 */
-static int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls, GError** err){
+int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls, GError** err){
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
 			
 	GError* tmp_err=NULL;
@@ -401,58 +404,6 @@ int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
 	return ret;	
 }
 
-/**
- * @brief launch a surls-> turls translation in asynchronous mode
- * @warning need a initiaed gfal_handle
- * @param handle : the gfal_handle initiated ( \ref gfal_init )
- * @param surls : GList of string of the differents surls to convert
- * @param err : GError** for error report
- * @return return positive if success else -1, check GError for more information
- */
-int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err){
-	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_get_asyncG] handle passed is null");
-	g_return_val_err_if_fail(surls!=NULL ,-2,err,"[gfal_get_asyncG] surls arg passed is null");
-	g_return_val_err_if_fail(g_list_last(surls) != NULL,-3,err,"[gfal_get_asyncG] surls arg passed is empty");
-	
-	GError* tmp_err=NULL;
-	GList* tmp_list = surls;
-	int ret=0;
-	
-	
-	if( !gfal_handle_checkG(handle, &tmp_err) ){	// check handle validity
-		g_propagate_prefixed_error(err,tmp_err,"[gfal_get_asyncG]");
-		return -1;
-	}
-	while(tmp_list != NULL){							// check all urls if valids
-		if( gfal_surl_checker(tmp_list->data,&tmp_err) != 0){
-			g_propagate_prefixed_error(err,tmp_err,"[gfal_get_asyncG]");	
-			return -1;
-		}
-		tmp_list = g_list_next(tmp_list);		
-	}
-			
-	char* full_endpoint=NULL;
-	enum gfal_srm_proto srm_types;
-	if((ret = gfal_auto_get_srm_endpoint(handle, &full_endpoint,&srm_types, surls, &tmp_err)) != 0){		// check & get endpoint										
-		g_propagate_prefixed_error(err,tmp_err, "[gfal_get_asyncG]");
-		return -1;
-	}
-	gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_get_asyncG] endpoint %s", full_endpoint);
-	
-	if (srm_types == PROTO_SRMv2){
-		ret= gfal_getasync_srmv2(handle, full_endpoint, surls,&tmp_err);
-		if(ret <0)
-			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_asyncG]");
-	} else if(srm_types == PROTO_SRM){
-			g_set_error(err,0, EPROTONOSUPPORT, "[gfal_get_asyncG] support for SRMv1 is removed in 2.0, failure");
-			ret =  -1;
-	} else{
-		ret=-1;
-		g_set_error(err,0,EPROTONOSUPPORT, "[gfal_get_asyncG] Unknow SRM protocol, failure ");
-	}
-	free(full_endpoint);
-	return ret;	
-}
 
 
 /**

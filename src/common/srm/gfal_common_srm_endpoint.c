@@ -51,19 +51,18 @@ int gfal_srm_determine_endpoint(gfal_handle handle, const char* surl, char* buff
 	char * tmp_endpoint=NULL;
 	gboolean isFullEndpoint = gfal_check_fullendpoint_in_surlG(surl, &tmp_err);		// check if a full endpoint exist
 	if(!tmp_err){
-			char full_endpoint[GFAL_URL_MAX_LEN];
+
 			if( isFullEndpoint == TRUE  ){ // if full endpoint contained in url, get it and set type to default type
-				if( gfal_get_fullendpoint(surl,&tmp_err)  == 0){
-					g_strlcpy(buff_endpoint, full_endpoint , s_buff);
+				if( gfal_get_fullendpointG(surl, buff_endpoint, s_buff, &tmp_err)  == 0){
 					*srm_type= handle->srm_proto_type;
 					return 0;
 				}
 
 			}
 			if(handle->no_bdii_check == FALSE){
-				/*ret = gfal_get_endpoint_and_setype_from_bdii(handle, endpoint, srm_type, surls, &tmp_err)  */
+				ret = gfal_get_endpoint_and_setype_from_bdiiG(handle, surl, buff_endpoint, s_buff, srm_type, &tmp_err);  
 			}else
-				g_set_error(&tmp_err,0,EINVAL," no_bdii_check option need a full endpoint in the first surl");				
+				g_set_error(&tmp_err,0,EINVAL," no_bdii_check option is set, need a full endpoint in the first surl");				
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
@@ -96,8 +95,8 @@ int gfal_get_fullendpointG(const char* surl, char* buff_endpoint, size_t s_buff,
 
 	size_t need_size = p- surl-len_prefix +len_endpoint_prefix;
 	if(s_buff > need_size){
-		strncpy(buff_endpoint, GFAL_ENDPOINT_DEFAULT_PREFIX, len_endpoint_prefix);	// copy prefix
-		strncpy(buff_endpoint + len_endpoint_prefix, surl+len_prefix, p- surl-len_prefix);		// copy endpoint
+		memcpy(buff_endpoint, GFAL_ENDPOINT_DEFAULT_PREFIX, len_endpoint_prefix);	// copy prefix
+		*((char*)mempcpy(buff_endpoint + len_endpoint_prefix, surl+len_prefix, p- surl-len_prefix))= '\0';		// copy endpoint
 		return 0;
 	}
 	g_set_error(err, 0, ENOBUFS, "[%s] buffer too small", __func__);	

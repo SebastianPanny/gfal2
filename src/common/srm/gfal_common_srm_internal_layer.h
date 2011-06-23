@@ -27,6 +27,7 @@
 #include <gfal_srm_ifce.h> 
 #include <gfal_srm_ifce_types.h> 
 #include <glib.h>
+#include "../gfal_types.h"
 
 /**
  * structure for mock abylity in the srm part
@@ -64,3 +65,5 @@ struct _gfal_srm_external_call{
 extern struct _gfal_srm_external_call gfal_srm_external_call;
 
 int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err);
+
+int gfal_srm_getTURLS_internal(gfal_handle handle, char** surls, gfal_srm_result** resu, GError** err);

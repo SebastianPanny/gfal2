@@ -46,6 +46,8 @@ struct _gfal_srm_result{
 
 typedef void* srm_request_handle;
 
+
+
 gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err);
 
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);
