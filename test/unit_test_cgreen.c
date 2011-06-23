@@ -82,28 +82,15 @@ TestSuite* srm_Suite(){
 	add_test(tc_srm, test_create_srm_handle);
 	add_test(tc_srm, test__gfal_convert_full_surl);
 	add_test(tc_srm, test_gfal_get_hostname_from_surl);
-	/*add_test(tc_srm, test_gfal_get_async_1);
-	add_test(tc_srm, test_gfal_check_surl);
-	add_test(tc_srm, test_gfal_full_endpoint_check);
-	add_test(tc_srm, test_gfal_auto_get_srm_endpoint_full_endpoint);
-	add_test(tc_srm, test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii);
-	add_test(tc_srm, test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii_negative);
-	add_test(tc_srm, test_gfal_auto_get_srm_endpoint_no_full_with_bdii);
-	add_test(tc_srm, test_gfal_get_fullendpoint);
-	add_test(tc_srm, test_gfal_get_endpoint_and_setype_from_bdii);
-	add_test(tc_srm, test_gfal_select_best_protocol_and_endpoint);
-	add_test(tc_srm, gfal_get_asyncG_empty_req);
-	add_test(tc_srm, gfal_get_asyncG_empty_old_nonexist_surl);
-	add_test(tc_srm, test_gfal_is_finished);
-	add_test(tc_srm, test_gfal_waiting_async);
-	add_test(tc_srm, test_gfal_get_async_resultsG);
-	add_test(tc_srm, test_gfal_get_async_resultsG_empty);
-	add_test(tc_srm, test_full_gfal_get_request);
-	add_test(tc_srm, test_gfal_async_results_errcode);
-	add_test(tc_srm, test_full_gfal_get_request_multi);  
-	add_test(tc_srm, test_gfal_get_request_struct);
-	add_test(tc_srm, test_create_srm_access_check_file);
-	add_test(tc_srm, test_create_srm_access_read_file);*/
+	add_test(tc_srm, test_gfal_full_endpoint_checkG);
+	add_test(tc_srm, test_gfal_get_endpoint_and_setype_from_bdiiG);
+	add_test(tc_srm, test_gfal_select_best_protocol_and_endpointG);
+	add_test(tc_srm, test_gfal_srm_determine_endpoint_full_endpointG);
+	add_test(tc_srm, test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG);
+	add_test(tc_srm, test_gfal_srm_determine_endpoint_not_fullG);
+	add_test(tc_srm, test_gfal_srm_getTURLS_one_success);
+	add_test(tc_srm, test_gfal_srm_getTURLS_bad_urls);
+	add_test(tc_srm, test_gfal_srm_getTURLS_pipeline_success);
 	return tc_srm;
 
 }

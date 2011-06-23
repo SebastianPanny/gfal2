@@ -7,14 +7,20 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
-#include "gfal_common_internal.h"
-#include "../unit_test_constants.h"
-#include "mds/gfal_common_mds.h"
-#include "srm/gfal_common_srm_endpoint.h"
 #include <regex.h>
 #include <time.h> 
+#include "gfal_common_internal.h"
+#include "../unit_test_constants.h"
+#include "mds/gfal_common_mds_layer.h"
+#include "srm/gfal_common_srm_endpoint.h"
+#include "../mock/gfal_mds_mock_test.h"
 
 #define TEST_SRM_
+
+
+void setup_mock_bdii(){
+	gfal_mds_external_call.sd_get_se_types_and_endpoints = &mds_mock_sd_get_se_types_and_endpoints;	
+}
 
 void test_create_srm_handle()
 {
@@ -38,7 +44,7 @@ void test__gfal_convert_full_surl()
 	g_clear_error(&tmp_err);
 }
 
-
+/*
 void test_gfal_get_async_1()
 {
 	GError* err=NULL;
@@ -56,7 +62,7 @@ void test_gfal_get_async_1()
 	}	
 	gfal_handle_freeG(handle);
 }
-
+*/
 
 
 
@@ -65,143 +71,139 @@ void test_gfal_check_surl()
 	GError* err=NULL;
 	int ret;
 	assert_true_with_message((ret = gfal_surl_checker(TEST_SRM_VALID_SURL_EXAMPLE1,&err) ) == 0, " error in url parse");
-	if(ret)
-		gfal_release_GError(&err);
+	gfal_check_GError(&err);
 	assert_true_with_message((ret = gfal_surl_checker(TEST_SRM_VALID_SURL_EXAMPLE1,&err) ) == 0, " error in url parse 2");
-	if(ret)
-		gfal_release_GError(&err);
+	gfal_check_GError(&err);
 	assert_false_with_message( (ret = gfal_surl_checker("http://google.com",&err ))== 0, " must fail , bad url");
 	g_clear_error(&err);
 }
 
 
 
-void test_gfal_full_endpoint_check()
+void test_gfal_full_endpoint_checkG()
 {
 	GError* err = NULL;
-	int ret = -1;
-	assert_false_with_message( (ret= gfal_check_fullendpoint_in_surl( "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b-aaba-0e1341f30663",&err)) ," fail, must be a success" );
-	if(ret)
-		gfal_release_GError(&err);
-	assert_false_with_message( (ret = gfal_check_fullendpoint_in_surl("srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it", &err)) != REG_NOMATCH, " fail, must be a failure : bad url");
-	assert_false_with_message( (ret= gfal_check_fullendpoint_in_surl( "srm://lxb5409.cern.ch:8446/srm/managerv2?SFN=/dpm/cern.ch/home/dteam/srmv2_tests/test_lfc_3897",&err)) ," fail, must be a success" );
-	if(ret)
-		gfal_release_GError(&err);
+	assert_true_with_message( gfal_check_fullendpoint_in_surlG( "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b-aaba-0e1341f30663",&err) ," fail, must be a success" );
+	gfal_check_GError(&err);
+	assert_true_with_message( gfal_check_fullendpoint_in_surlG("srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it", &err) == FALSE, " fail, must be a failure : bad url");
+	gfal_check_GError(&err);
+	assert_true_with_message( gfal_check_fullendpoint_in_surlG( "srm://lxb5409.cern.ch:8446/srm/managerv2?SFN=/dpm/cern.ch/home/dteam/srmv2_tests/test_lfc_3897",&err) ," fail, must be a success" );
+	gfal_check_GError(&err);
 }
 	
+void test_gfal_get_endpoint_and_setype_from_bdiiG(){
+	GError* err= NULL;
+	int i1;
+	char buff_endpoint[2048];
+	memset(buff_endpoint, '\0', sizeof(char)*2048);
+	enum gfal_srm_proto proto;
+	
+#if USE_MOCK
+	setup_mock_bdii();
+	char buff_tmp[2048];
+	char* p = TEST_SRM_DPM_ENDPOINT_PREFIX+ strlen(GFAL_PREFIX_SRM);
+	g_strlcpy(buff_tmp, p, strchr(p, '/')-p+1);
+	define_se_endpoints = calloc(sizeof(char*), 4);
+	for(i1=0;i1 <3; ++i1)
+		define_se_endpoints[i1]= strdup(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_se_types= calloc(sizeof(char*), 4);
+	char* types[] = { "srm_v1", "srm_v2", "srm_v1"};
+	for(i1=0;i1 <3; ++i1)
+		define_se_types[i1]= strdup(types[i1]);	
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, buff_tmp), want_non_null(se_types), want_non_null(se_endpoints));
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, EINVAL, want_non_null(host), want_non_null(se_types), want_non_null(se_endpoints));
+	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);
+
+#endif
+	gfal_handle handle = gfal_initG(&err);
+	assert_true_with_message(handle != NULL, " handle is not properly allocated");	
+	if(handle==NULL)
+		return;
+	char* surl = TEST_SRM_DPM_ENDPOINT_PREFIX;
+	int ret = gfal_get_endpoint_and_setype_from_bdiiG(handle, surl, buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret ==0 && err== NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL) && proto== PROTO_SRMv2, " must be a valid endpoint resolution");
+	gfal_check_GError(&err);
+	memset(buff_endpoint, '\0', sizeof(char)*2048);
+	ret = gfal_get_endpoint_and_setype_from_bdiiG(handle, "srm://lxb540dfshhhh9.cern.ch:8446/test/invalid", buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message(ret != 0 && err != NULL && err->code==EINVAL && *buff_endpoint== '\0', " must fail, invalid point");
+	g_clear_error(&err);
+	gfal_handle_freeG(handle);
+}
 
 
-void test_gfal_auto_get_srm_endpoint_full_endpoint()
+void test_gfal_srm_determine_endpoint_full_endpointG()
 {
 	GError* err = NULL;
-	char * endpoint=NULL;
+	char buff_endpoint[2048];
 	enum gfal_srm_proto proto;
 	gfal_handle handle = gfal_initG(&err);
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
+	if(handle==NULL)
+		return;
 	int ret =-1;
-		
-	GList* list = g_list_append(NULL,"srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b");
-	assert_true_with_message(gfal_auto_get_srm_endpoint(handle, NULL, &proto, list, &err) || err ==NULL, "must fail, einval");	// test the params checker
-	g_clear_error(&err);
-	assert_true_with_message(gfal_auto_get_srm_endpoint(handle, &endpoint, NULL, list, &err) || err ==NULL, "must fail, einval");
-	g_clear_error(&err);
-	assert_true_with_message(gfal_auto_get_srm_endpoint(handle, &endpoint, NULL, list, &err) || err ==NULL, "must fail, einval");
-	g_clear_error(&err);
+	ret = gfal_srm_determine_endpoint(handle, TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL), " must be a succesfull endpoint determination %d %ld %s", ret, err, buff_endpoint);
+	gfal_check_GError(&err);	
 	
-	ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) ;
-	assert_false_with_message(ret , " must return the correct endpoint");
-	assert_false_with_message( endpoint == NULL || strstr(endpoint,"httpg://srm-pps:8443/srm/managerv2") == NULL, " must contain the endpoint");
-	assert_false_with_message(proto != handle->srm_proto_type, " srm must be the default version of srm");
+	ret = gfal_srm_determine_endpoint(handle, "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b", buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, "httpg://srm-pps:8443/srm/managerv2"), " must be a succesfull endpoint determination 2 %d %ld %s", ret, err, buff_endpoint);
+	gfal_check_GError(&err);
 	gfal_handle_freeG(handle);	
-	g_list_free(list);
-	free(endpoint);
 }
 
 
 
 
-void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii()
+void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
 {
 	GError* err = NULL;
-	char * endpoint=NULL;
+	char buff_endpoint[2048];
 	enum gfal_srm_proto proto;
 	gfal_handle handle = gfal_initG(&err);
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
-	int ret =-1;
-	
+	if(handle==NULL)
+		return;
 	gfal_set_nobdiiG(handle, TRUE);
-	assert_true_with_message(handle->no_bdii_check, " nobdii must be true");
-		
-	GList* list = g_list_append(NULL,TEST_SRM_DPM_FULLENDPOINT_PREFIX);	
-	ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err);
-	assert_false_with_message( ret , " must return the correct endpoint");
-	assert_false_with_message( endpoint == NULL || strstr(endpoint,TEST_SRM_DPM_FULLENDPOINT_URL) == 0, " must contain the endpoint");
-	assert_false_with_message(proto != handle->srm_proto_type, " srm must be the default version of srm");
+	int ret =-1;
+	ret = gfal_srm_determine_endpoint(handle, TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL), " must be a succesfull endpoint determination %d %ld %s", ret, err, buff_endpoint);
+	gfal_check_GError(&err);	
+	
+	ret = gfal_srm_determine_endpoint(handle, "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b", buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, "httpg://srm-pps:8443/srm/managerv2"), " must be a succesfull endpoint determination 2 %d %ld %s", ret, err, buff_endpoint);
+	gfal_check_GError(&err);
+	memset(buff_endpoint,0, sizeof(char)*2048);
+	ret = gfal_srm_determine_endpoint(handle, TEST_SRM_VALID_SURL_EXAMPLE1, buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret !=0 && err != NULL && err->code== EINVAL && *buff_endpoint=='\0', " must be a reported error, bdii is disable");
+	g_clear_error(&err);
 	gfal_handle_freeG(handle);	
-	g_list_free(list);
-	free(endpoint);
 }
 
 
 
-void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdii_negative()
+void test_gfal_srm_determine_endpoint_not_fullG()
 {
 	GError* err = NULL;
-	char * endpoint=NULL;
+	char buff_endpoint[2048];
 	enum gfal_srm_proto proto;
 	gfal_handle handle = gfal_initG(&err);
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
+	if(handle==NULL)
+		return;
 	int ret =-1;
+	ret = gfal_srm_determine_endpoint(handle, TEST_SRM_DPM_ENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL), " must be a succesfull endpoint determination %d %ld %s", ret, err, buff_endpoint);
+	gfal_check_GError(&err);	
 	
-	gfal_set_nobdiiG(handle, TRUE);
-	assert_true_with_message(handle->no_bdii_check, " nobdii must be true");
-		
-	GList* list = g_list_append(NULL,TEST_SRM_VALID_SURL_EXAMPLE1);
-	
-	assert_true_with_message( ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err) , " must return error because not a full srm");
+	ret = gfal_srm_determine_endpoint(handle, "http://google.com", buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret !=0 && err != NULL, "error must be reported");
 	g_clear_error(&err);
 	gfal_handle_freeG(handle);	
-	g_list_free(list);
-	free(endpoint);
 }
 
 
 
-void test_gfal_auto_get_srm_endpoint_no_full_with_bdii()
-{
-	GError* err = NULL;
-	char * endpoint=NULL;
-	enum gfal_srm_proto proto;
-	gfal_handle handle = gfal_initG(&err);
-	assert_true_with_message(handle != NULL, " handle is not properly allocated");
-	int ret =-1;
-	
-	assert_false_with_message(handle->no_bdii_check, " nobdii must be false");
-		
-	GList* list = g_list_append(NULL,TEST_SRM_DPM_FULLENDPOINT_PREFIX);
-	ret = gfal_auto_get_srm_endpoint(handle, &endpoint, &proto, list, &err);
-	assert_false_with_message( ret , " must return the correct endpoint");
-	assert_false_with_message( endpoint == NULL || strcmp(endpoint,TEST_SRM_DPM_FULLENDPOINT_URL) != 0, " must contain the endpoint");
-	assert_false_with_message(proto != handle->srm_proto_type, " srm must be the default version of srm");
-	gfal_handle_freeG(handle);	
-	g_list_free(list);
-	free(endpoint);
-}
 
-
-
-void test_gfal_get_fullendpoint(){
-	const char * surl = "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b";
-	GError* err=NULL;
-	char* endpoint = gfal_get_fullendpoint(surl,&err);
-	assert_false_with_message( endpoint == NULL || err || strcmp(endpoint,"httpg://srm-pps:8443/srm/managerv2"), " must be successfull");
-	//fprintf(stderr, " endpoint from surl %s ", endpoint);
-	free(endpoint);
-	const char * surl2 = "srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04";	
-	assert_false_with_message( (endpoint = gfal_get_fullendpoint(surl2,&err)) !=NULL || err==NULL , " must fail");	
-	g_clear_error(&err);
-	free(endpoint);
-}
 
 
 
@@ -222,69 +224,96 @@ void test_gfal_get_hostname_from_surl()
 
 
 
-void test_gfal_get_endpoint_and_setype_from_bdii()
+void test_gfal_select_best_protocol_and_endpointG()
 {
-	char *endpoint;
+	char endpoint[2048];
+	memset(endpoint, '\0', sizeof(char)*2048);
 	enum gfal_srm_proto srm_type;
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
 	GError * err= NULL;
 	gfal_handle handle  = gfal_initG(&err);
-	if(handle == NULL){
-		assert_true_with_message(FALSE, " handle is not properly allocated");
+	assert_true_with_message(handle != NULL, " handle is not properly allocated");
+	if(handle==NULL)
 		return;
-	}
-	
-	int ret = gfal_get_endpoint_and_setype_from_bdii(handle, &endpoint, &srm_type, list, &err);
-	if(ret){
-		assert_true_with_message(FALSE,  " fail, must be a valid return");		
-		gfal_release_GError(&err);
-		return;
-	}
-	assert_true_with_message( srm_type == PROTO_SRMv2, " must be the default protocol");
-	assert_true_with_message( strcmp(endpoint, "httpg://grid-cert-03.roma1.infn.it:8446/srm/managerv2") == 0, "must be this endpoint ");	
-	g_list_free(list);
-	free(endpoint);
-	gfal_handle_freeG(handle);
-}
 
-
-
-void test_gfal_select_best_protocol_and_endpoint()
-{
-	char *endpoint=NULL;
-	enum gfal_srm_proto srm_type;
-	GList* list = g_list_append(NULL,"srm://grid-cert-03.roma1.infn.it/dpm/roma1.infn.it/home/dteam/generated/2006-07-04/file75715ccc-1c54-4d18-8824-bdd3716a2b54");	
-	GError * err= NULL;
-	gfal_handle handle  = gfal_initG(&err);
-	if(handle == NULL){
-		assert_true_with_message(FALSE, " handle is not properly allocated");
-		return;
-	}
 	gfal_set_default_storageG(handle, PROTO_SRMv2);
-	const char* endpoint_list[] = { "everest", "montblanc", NULL};
-	const char* se_type_list[] = { "srm_v1", "srm_v2", NULL };
-	int ret = gfal_select_best_protocol_and_endpoint(handle, &endpoint, &srm_type, se_type_list, endpoint_list, &err);
-	if(ret){
-			assert_true_with_message(FALSE, " must successfull");
-			gfal_release_GError(&err);
-	}
-	assert_false_with_message(strcmp(endpoint,"montblanc")!=0, " reponse not match correctly");
-	free(endpoint);	
+	char* endpoint_list[] = { "everest", "montblanc", NULL};
+	char* se_type_list[] = { "srm_v1", "srm_v2", NULL };
+	int ret = gfal_select_best_protocol_and_endpointG(handle, se_type_list, endpoint_list, &endpoint, 2048, &srm_type, &err);
+	assert_true_with_message(ret ==0 && err == NULL, " must be a succefull call to the best select");
+	gfal_check_GError(&err);
+
+	assert_true_with_message(strings_are_equal(endpoint,"montblanc"), " reponse not match correctly");
 	// try with another version by default
 	gfal_set_default_storageG(handle, PROTO_SRM);
-	ret = gfal_select_best_protocol_and_endpoint(handle, &endpoint, &srm_type, se_type_list, endpoint_list, &err);
-	if(ret){
-			assert_true_with_message(FALSE, " must successfull");
-			gfal_release_GError(&err);
-	}	
-	assert_true_with_message(strcmp(endpoint,"everest") ==0, "must be a valid check");	
-	free(endpoint);	
+	ret = gfal_select_best_protocol_and_endpointG(handle, se_type_list, endpoint_list, &endpoint, 2048, &srm_type, &err);
+	assert_true_with_message(ret ==0 && err == NULL, " must be a succefull call to the best select");
+	gfal_check_GError(&err);
+	assert_true_with_message(strings_are_equal(endpoint,"everest") , "must be a valid check");	
 	gfal_handle_freeG(handle);
 }
 
 
+void test_gfal_srm_getTURLS_one_success()
+{
+	GError* tmp_err=NULL;
+	gfal_handle handle  = gfal_initG(&tmp_err);
+	assert_true_with_message(handle != NULL, " handle is not properly allocated");
+	if(handle==NULL)
+		return;
+	gfal_srm_result* resu=NULL;
+	char* surls[] = {TEST_SRM_VALID_SURL_EXAMPLE1, NULL};
+	int ret = gfal_srm_getTURLS(handle, surls, &resu, &tmp_err);
+	assert_true_with_message(ret ==1 && resu != NULL && tmp_err == NULL, " must be a successfull request");
+	gfal_check_GError(&tmp_err);
+	assert_true_with_message(resu[0].err_code == 0 && *(resu[0].err_str)== '\0' && strings_are_equal(resu[0].turl, TEST_SRM_TURL_EXAMPLE1), 
+				" must be a valid turl, maybe the turl has changed %d %ld %s",resu[0].err_code, resu[0].err_str, resu[0].turl);	
+	free(resu);
+	gfal_handle_freeG(handle);
+}
 
 
+void test_gfal_srm_getTURLS_bad_urls()
+{
+	GError* tmp_err=NULL;
+	gfal_handle handle  = gfal_initG(&tmp_err);
+	assert_true_with_message(handle != NULL, " handle is not properly allocated");
+	if(handle==NULL)
+		return;
+	gfal_srm_result* resu=NULL;
+	char* surls[] = {NULL, NULL};
+	int ret = gfal_srm_getTURLS(handle, surls, &resu, &tmp_err);
+	assert_true_with_message(ret <=0 && resu == NULL && tmp_err != NULL, " must be a failure, invalid SURLs ");
+	g_clear_error(&tmp_err);
+	free(resu);
+	gfal_handle_freeG(handle);
+}
+
+
+void test_gfal_srm_getTURLS_pipeline_success()
+{
+	GError* tmp_err=NULL;
+	gfal_handle handle  = gfal_initG(&tmp_err);
+	assert_true_with_message(handle != NULL, " handle is not properly allocated");
+	if(handle==NULL)
+		return;
+	gfal_srm_result* resu=NULL;
+	char* surls[] = {TEST_SRM_VALID_SURL_EXAMPLE1, TEST_SRM_INVALID_SURL_EXAMPLE2, TEST_SRM_VALID_SURL_EXAMPLE1, NULL};
+	int ret = gfal_srm_getTURLS(handle, surls, &resu, &tmp_err);
+	assert_true_with_message(ret ==g_strv_length(surls) && resu != NULL && tmp_err == NULL, " must be a successfull request");
+	gfal_check_GError(&tmp_err);
+	assert_true_with_message(resu[0].err_code == 0 && *(resu[0].err_str)== '\0' && strings_are_equal(resu[0].turl, TEST_SRM_TURL_EXAMPLE1), 
+				" must be a valid turl, maybe the turl has changed %d %ld %s",resu[0].err_code, resu[0].err_str, resu[0].turl);	
+
+	assert_true_with_message(resu[1].err_code == ENOENT && *(resu[1].err_str)!= '\0' && *(resu[1].turl) == '\0', 
+				" must be a invalid turl 2 ");	
+	assert_true_with_message(resu[2].err_code == 0 && *(resu[2].err_str)== '\0' && strings_are_equal(resu[2].turl, TEST_SRM_TURL_EXAMPLE1), 
+				" must be a valid turl 3, maybe the turl has changed ");	
+	free(resu);
+	gfal_handle_freeG(handle);
+}
+
+
+/*
 void gfal_get_asyncG_empty_req()
 {
 	GError *err = NULL;
@@ -684,4 +713,4 @@ void test_full_gfal_get_request_multi()
 	g_list_free_full(list_resu_err, &free);
 	gfal_handle_freeG(handle);
 
-}
+}*/

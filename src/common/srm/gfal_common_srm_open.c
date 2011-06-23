@@ -47,9 +47,9 @@ static gfal_file_handle gfal_srm_results_to_filehandle(gfal_srm_result* results,
 
 static gfal_file_handle gfal_open_read_internal(gfal_handle handle,  
 									const char *path, int flag, mode_t mode, GError** err){
-	gfal_file_handle fh = NULL;
+gfal_file_handle fh = NULL;
 	GError* tmp_err=NULL;
-	GList* l = g_list_append(NULL, (char*)path);
+/*		GList* l = g_list_append(NULL, (char*)path);
 
 	int ret = gfal_get_asyncG(handle, l, &tmp_err);
 	if(ret >=0){
@@ -62,7 +62,8 @@ static gfal_file_handle gfal_open_read_internal(gfal_handle handle,
 			free(results);
 		}
 	}
-	g_list_free(l);
+	g_list_free(l);*/
+	g_set_error(&tmp_err, 0, ENOSYS, " not implemented");
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return fh;

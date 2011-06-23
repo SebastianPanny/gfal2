@@ -44,7 +44,7 @@ gfal_handle gfal_handle_new(){
  * @param surls : table of string of the differents surls to convert, NULL pointer must be the end of the table
  * @return return positive if success else -1, check GError for more information
  * Wrapper of gfal_get_asyncG for the "without GLib" use case.
- */
+
 int gfal_get_async(gfal_handle handle, char** surls){
 	g_return_val_if_fail(handle != NULL,-1);
 	GList *list=NULL;
@@ -54,7 +54,7 @@ int gfal_get_async(gfal_handle handle, char** surls){
 	} 
 	return gfal_get_asyncG(handle, list, &(handle->err));
 }
-
+ */
 
 /**
  * @brief progress of the last request

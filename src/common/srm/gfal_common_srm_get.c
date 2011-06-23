@@ -41,8 +41,8 @@ static gboolean gfal_srm_surl_group_checker(char** surls, GError** err){
 		g_set_error(err, 0, EINVAL, "[%s] Invalid argument surls ", __func__);
 		return FALSE;
 	}
-	while(surls != NULL){
-		if( gfal_surl_checkerG(*surls, &tmp_err) != 0){
+	while(*surls != NULL){
+		if( gfal_surl_checker(*surls, &tmp_err) != 0){
 			g_propagate_prefixed_error(err,tmp_err,"[%s]",__func__);	
 			return FALSE;
 		}
@@ -52,13 +52,15 @@ static gboolean gfal_srm_surl_group_checker(char** surls, GError** err){
 }
 
 
-int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_filestatus* statuses, int n, gfal_srm_result** resu, GError** err){
+int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_pinfilestatus* statuses, int n, gfal_srm_result** resu, GError** err){
 	g_return_val_err_if_fail(statuses && n && resu, -1, err, "[gfal_srm_convert_filestatuses_to_srm_result] args invalids");
 	*resu = calloc(n, sizeof(gfal_srm_result));
 	int i=0;
 	for(i=0; i< n; ++i){
-		g_strlcpy((*resu)[i].turl, statuses[i].turl, GFAL_URL_MAX_LEN);
-		g_strlcpy((*resu)[i].err_str, statuses[i].explanation, GFAL_URL_MAX_LEN);
+		if(statuses[i].turl)
+			g_strlcpy((*resu)[i].turl, statuses[i].turl, GFAL_URL_MAX_LEN);
+		if(statuses[i].explanation)
+			g_strlcpy((*resu)[i].err_str, statuses[i].explanation, GFAL_URL_MAX_LEN);
 		(*resu)[i].err_code = statuses[i].status;	
 	}
 	return 0;
@@ -67,7 +69,7 @@ int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_filestatus* statuse
 /**
  *  @brief execute a srmv2 request sync "GET" on the srm_ifce
 */
-static int gfal_srm_getTURLS_srmv2_internal(gfal_handle handle, char*endpoint, char** surls, gfal_srm_result** resu, GError** err){
+static int gfal_srm_getTURLS_srmv2_internal(gfal_handle handle, char* endpoint, char** surls, gfal_srm_result** resu, GError** err){
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
 			
 	GError* tmp_err=NULL;
@@ -96,7 +98,7 @@ static int gfal_srm_getTURLS_srmv2_internal(gfal_handle handle, char*endpoint, c
 		g_set_error(&tmp_err,0,errno,"call to srm_ifce error: %s",errbuf);
 	} else{
 		gfal_srm_convert_filestatuses_to_srm_result(preparetoget_output.filestatuses, ret, resu, &tmp_err);
-    	gfal_srm_external_call.srm_srmv2_filestatus_delete( preparetoget_output.filestatuses, ret);
+    	gfal_srm_external_call.srm_srmv2_pinfilestatus_delete(preparetoget_output.filestatuses, ret);
     	gfal_srm_external_call.srm_srm2__TReturnStatus_delete(preparetoget_output.retstatus);
 	}
 	if(tmp_err)
@@ -115,11 +117,11 @@ int gfal_srm_getTURLS_internal(gfal_handle handle, char** surls, gfal_srm_result
 
 	char full_endpoint[2048];
 	enum gfal_srm_proto srm_types;
-	if((gfal_srm_determine_endpoint(handle, *surls, &full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
+	if((gfal_srm_determine_endpoint(handle, *surls, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
 		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_get_asyncG] endpoint %s", full_endpoint);
 
 		if (srm_types == PROTO_SRMv2){
-			ret= gfal_getTURLS_srmv2_internal(handle, full_endpoint, surls, resu, &tmp_err);
+			ret= gfal_srm_getTURLS_srmv2_internal(handle, full_endpoint, surls, resu, &tmp_err);
 		} else if(srm_types == PROTO_SRM){
 			g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in gfal 2.0, failure");
 		} else{
