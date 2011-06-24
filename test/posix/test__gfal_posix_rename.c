@@ -2,7 +2,7 @@
 /* unit test for posix access func */
 
 
-#include <check.h>
+#include <cgreen/cgreen.h>
 #include <unistd.h>
 #include "gfal_constants.h"
 #include "gfal_prototypes.h"
@@ -13,96 +13,96 @@
 #include <errno.h>
 
 
-START_TEST(test__gfal_posix_rename_catalog)
+void test__gfal_posix_rename_catalog()
 {
 	int res = gfal_access(TEST_LFC_RENAME_VALID_SRC, F_OK);
 	if(res !=0){
-		fail("source file not present on the lfc");
+		assert_true_with_message(FALSE, "source file not present on the lfc");
 		gfal_posix_release_error();
 		return;
 	}
 	res = gfal_rename(TEST_LFC_RENAME_VALID_SRC, TEST_LFC_RENAME_VALID_DEST);
 	if(res !=0){
-		fail(" this move file must be a success");
+		assert_true_with_message(FALSE, " this move file must be a success");
 		gfal_posix_release_error();
 		return;
 	}
 	res = gfal_access(TEST_LFC_RENAME_VALID_DEST, F_OK);
 	if(res != 0){
-		fail("dest file must be present if corrctly moved");
+		assert_true_with_message(FALSE, "dest file must be present if corrctly moved");
 		gfal_posix_release_error();
 		return;
 	}
 	res = gfal_rename( TEST_LFC_RENAME_VALID_DEST, TEST_LFC_RENAME_VALID_SRC);
 	if(res !=0){
-		fail(" this move file must be a success");
+		assert_true_with_message(FALSE, " this move file must be a success");
 		gfal_posix_release_error();
 		return;
 	}
 	res = gfal_access(TEST_LFC_RENAME_VALID_SRC, F_OK);
 	if(res !=0){
-		fail("the soruce file must be in the init position");
+		assert_true_with_message(FALSE, "the soruce file must be in the init position");
 		gfal_posix_release_error();
 		return;
 	}
 }
-END_TEST
 
-START_TEST(test__gfal_posix_move_dir_catalog)
+
+void test__gfal_posix_move_dir_catalog()
 {
 	int res = gfal_access(TEST_LFC_MOVABLE_DIR_SRC, F_OK);
 	if(res !=0){
-		fail("source dir not present on the lfc");
+		assert_true_with_message(FALSE, "source dir not present on the lfc");
 		gfal_posix_release_error();
 		return;
 	}
 	res = gfal_rename(TEST_LFC_MOVABLE_DIR_SRC, TEST_LFC_MOVABLE_DIR_DEST);
 	if(res !=0){
-		fail(" this move dir must be a success");
+		assert_true_with_message(FALSE, " this move dir must be a success");
 		gfal_posix_release_error();
 		return;
 	}	
 	res = gfal_access(TEST_LFC_MOVABLE_DIR_DEST, F_OK);
 	if(res !=0){
-		fail("dest dir not present on the lfc");
+		assert_true_with_message(FALSE, "dest dir not present on the lfc");
 		gfal_posix_release_error();
 		return;
 	}	
 	res = gfal_rename(TEST_LFC_MOVABLE_DIR_DEST, TEST_LFC_MOVABLE_DIR_SRC );
 	if(res !=0){
-		fail(" this move dir must be a success");
+		assert_true_with_message(FALSE, " this move dir must be a success");
 		gfal_posix_release_error();
 		return;
 	}		
 	res = gfal_access(TEST_LFC_MOVABLE_DIR_SRC, F_OK);
 	if(res !=0){
-		fail("source dir not present on the lfc after move");
+		assert_true_with_message(FALSE, "source dir not present on the lfc after move");
 		gfal_posix_release_error();
 		return;
 	}		
 }
-END_TEST
 
 
-START_TEST(test__gfal_posix_rename_url_check)
+
+void test__gfal_posix_rename_url_check()
 {
 	int res = gfal_rename( TEST_LFC_NOEXIST_ACCESS, TEST_LFC_RENAME_VALID_DEST);
 	if(res ==0 || errno != ENOENT || gfal_posix_code_error() != ENOENT){
-		fail("this move dir cannot succed, src url does not exist");
+		assert_true_with_message(FALSE, "this move dir cannot succed, src url does not exist");
 		gfal_posix_release_error();
 		return;
 	}
 	gfal_posix_clear_error();		
 	res = gfal_rename( TEST_LFC_NOEXIST_ACCESS, "google.com");
 	if(res ==0 || errno != EPROTONOSUPPORT || gfal_posix_code_error() != EPROTONOSUPPORT){
-		fail("unknow protocol, must fail");
+		assert_true_with_message(FALSE, "unknow protocol, must fail");
 		gfal_posix_release_error();
 		return;
 	}	
 }
-END_TEST
 
-START_TEST(test__gfal_posix_rename_local)
+
+void test__gfal_posix_rename_local()
 {
 		// create local file
 	const char * msg = "hello";
@@ -111,7 +111,7 @@ START_TEST(test__gfal_posix_rename_local)
 	strcpy(nfile2, "file://");
 	FILE* f = fopen(TEST_GFAL_LOCAL_FILE_RENAME_SRC, "w+");
 	if(f == NULL){
-		fail(" file must be created");
+		assert_true_with_message(FALSE, " file must be created");
 		return;
 	}
 	fwrite(msg, sizeof(char), 5, f);
@@ -121,32 +121,32 @@ START_TEST(test__gfal_posix_rename_local)
 
 	int res = gfal_access(nfile, F_OK);
 	if(res !=0){
-		fail("src file not present ");
+		assert_true_with_message(FALSE, "src file not present ");
 		gfal_posix_release_error();
 		return;
 	}	
 	
 	res = gfal_rename(nfile, nfile2);
 	if(res !=0){
-		fail("must be a valid rename");
+		assert_true_with_message(FALSE, "must be a valid rename");
 		gfal_posix_release_error();
 		return;
 	}
 	res = gfal_access(nfile2, F_OK);
 	if(res !=0){
-		fail("dst file not present ");
+		assert_true_with_message(FALSE, "dst file not present ");
 		gfal_posix_release_error();
 		return;
 	}	
 	res = gfal_rename(nfile2, nfile);
 	if(res !=0){
-		fail("must be a valid reverse-rename");
+		assert_true_with_message(FALSE, "must be a valid reverse-rename");
 		gfal_posix_release_error();
 		return;
 	}
 	res = gfal_access(nfile, F_OK);
 	if(res !=0){
-		fail("src file is not present as initial ");
+		assert_true_with_message(FALSE, "src file is not present as initial ");
 		gfal_posix_release_error();
 		return;
 	}			
@@ -154,4 +154,3 @@ START_TEST(test__gfal_posix_rename_local)
 	
 	
 }
-END_TEST

@@ -29,7 +29,9 @@ void setup_mock_srm(){
 }
 
 void setup_mock_bdii(){
+#if USE_MOCK
 	gfal_mds_external_call.sd_get_se_types_and_endpoints = &mds_mock_sd_get_se_types_and_endpoints;	
+#endif
 }
 
 void test_create_srm_handle()

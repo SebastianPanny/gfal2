@@ -62,8 +62,8 @@ int gfal_srm_mkdirG(catalog_handle ch, const char* surl, mode_t mode, gboolean p
 			ret= gfal_mkdir_srmv2_internal(handle, full_endpoint, (char*)surl, mode, &tmp_err);	// execute the SRMv2 access test
 	
 		} else if(srm_types == PROTO_SRM){
-				g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in 2.0, failure");
-				ret =  -1;
+			g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in 2.0, failure");
+			ret =  -1;
 		} else{
 			g_set_error(&tmp_err,0,EPROTONOSUPPORT, "Unknow version of the protocol SRM , failure ");
 			ret=-1;

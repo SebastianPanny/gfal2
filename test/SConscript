@@ -14,7 +14,7 @@ import commands
 
 src_tests_link = ['gfal', 'gfal_plugin_lfc', 'gfal_plugin_srm', 'cgreen']
 src_tests_mocks = Glob('mock/*.c')
-src_tests_main = Glob("*.c") + Glob("common/*.c") + Glob("common/lfc/*.c") + Glob("common/voms/*.c") + Glob("common/mds/*.c") #+ Glob("posix/*.c")
+src_tests_main = Glob("*.c") + Glob("common/*.c") + Glob("common/lfc/*.c") + Glob("common/voms/*.c") + Glob("common/mds/*.c") + Glob("posix/*.c")
 src_tests_all = src_tests_main + src_tests_mocks
 ## build test config
 

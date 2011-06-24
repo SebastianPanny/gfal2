@@ -42,6 +42,7 @@
 #include "common/lfc/gfal__test_common_lfc.h"
 #include "common/gfal__test_common_srm_no_glib.h"
 #include "common/gfal__test_common_dir_file_descriptor.h"
+#include "posix/test__gfal_posix_access.h"
 
 
 TestSuite * verbose_suite (void)
@@ -132,12 +133,12 @@ TestSuite* filedesc_suite(){
 	return tc_filedesc;
 }
 
-/*
-Suite* posix_suite (void)
+
+TestSuite* posix_suite (void)
 {
-  Suite *s = suite_create ("Posix :");
   TestSuite* tc_access = create_test_suite();
-  add_test(tc_access, test_access_posix_guid_exist);  
+  add_test(tc_access, test_access_posix_guid_exist);
+ /* add_test(tc_access, test_access_posix_guid_exist);  
   add_test(tc_access, test_access_posix_guid_read);
   add_test(tc_access, test_access_posix_guid_write);
   add_test(tc_access, test_access_posix_lfn_exist);
@@ -206,10 +207,10 @@ Suite* posix_suite (void)
   add_test(tc_open, test_open_posix_lfc_simple);
   add_test(tc_open, test_open_posix_srm_simple);
   add_test(tc_open, test_open_posix_guid_simple);
-  suite_add_tcase(s, tc_open);
-  return s;
+  suite_add_tcase(s, tc_open);*/
+  return tc_access;
 }
-*/
+
 
 /*
 Suite* posix_real_suite (void)
