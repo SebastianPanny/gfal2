@@ -134,10 +134,11 @@ TestSuite* filedesc_suite(){
 }
 
 
-TestSuite* posix_suite (void)
+TestSuite* posix_access_suite (void)
 {
   TestSuite* tc_access = create_test_suite();
   add_test(tc_access, test_access_posix_guid_exist);
+  add_test(tc_access, test_access_posix_guid_read);
  /* add_test(tc_access, test_access_posix_guid_exist);  
   add_test(tc_access, test_access_posix_guid_read);
   add_test(tc_access, test_access_posix_guid_write);
@@ -233,7 +234,7 @@ int main (int argc, char** argv)
 	//add_suite(global, no_glib_suite());
 	add_suite(global, lfc_suite());
 	add_suite(global, mds_suite());
-	add_suite(global, posix_suite());
+	add_suite(global, posix_access_suite());
 	//add_suite(global, filedesc_suite());
     if (argc > 1) {
         return run_single_test(global, argv[1], create_text_reporter());

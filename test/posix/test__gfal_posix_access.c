@@ -59,25 +59,13 @@ void test_access_posix_guid_read()
 	int ret;
 
 	ret = gfal_access(TEST_GUID_ONLY_READ_ACCESS, R_OK);
-	if(ret != 0){
-		assert_true_with_message(FALSE, " must be a valid access to the guid %s", strerror(errno));
-		gfal_posix_release_error();
-		return;
-	}	
+	assert_true_with_message(ret==0 && gfal_posix_code_error()==0 && errno == 0, " must be a valid access to the guid %d %d %d",ret, errno, gfal_posix_code_error());
+	gfal_posix_check_error();
 	ret = gfal_access(TEST_GUID_NOEXIST_ACCESS, R_OK);
-	if(ret != -1 || errno != ENOENT){
-		assert_true_with_message(FALSE, "must be a non exist guid %s", strerror(errno));
-		gfal_posix_release_error();
-		return;
-	}
-	gfal_posix_clear_error();	
+	assert_true_with_message(ret == -1 && gfal_posix_code_error() == ENOENT && errno == ENOENT, " must be a non existing guid %d %d %d",ret, errno, gfal_posix_code_error());
+	gfal_posix_clear_error();
 	ret = gfal_access(TEST_GUID_NO_READ_ACCESS, R_OK);
-	if(ret != -1 || errno != EACCES){
-		assert_true_with_message(FALSE, "must be an unaccessible file %s", strerror(errno));
-		gfal_posix_release_error();
-		return;		
-	}	
-	
+	assert_true_with_message( ret == -1 && errno == EACCES && gfal_posix_code_error() == EACCES, "must be an unaccessible file %d %d %d",ret, errno, gfal_posix_code_error());
 	gfal_posix_clear_error();
 	
 }
