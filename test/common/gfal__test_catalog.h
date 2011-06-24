@@ -1,10 +1,11 @@
-
+#pragma once
 
 /* unit test for common_catalog */
 
+#include <stdio.h>
+#include "lfc/lfc_ifce_ng.h"
 
-
-
+struct lfc_ops* find_lfc_ops(gfal_handle handle, GError** err);
 
 void test_get_cat_type();
 

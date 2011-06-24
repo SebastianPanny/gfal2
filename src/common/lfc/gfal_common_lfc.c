@@ -91,7 +91,8 @@ int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
 	if(ret <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err, 0, sav_errno, "[lfc_accessG] lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, ops->sstrerror(sav_errno) );
-	}
+	}else
+		errno=0;
 	free(url);
 	return ret;
 }

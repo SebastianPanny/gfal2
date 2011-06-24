@@ -146,7 +146,8 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err,0,sav_errno, "[gfal_convert_guid_to_lfn] Error while getlinks() with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint,guid, ops->sstrerror(*ops->serrno));
 		return NULL;
-	}
+	}else
+		errno=0;
 	if(!links || strnlen(links[0].path, GFAL_LFN_MAX_LEN) >= GFAL_LFN_MAX_LEN){
 		g_set_error(err,0,EINVAL, "[gfal_convert_guid_to_lfn] Error no links associated with this guid or corrupted one : %s", guid);
 		return NULL;

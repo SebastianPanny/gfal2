@@ -32,7 +32,6 @@ char* gfal_last_error_string(gfal_handle handle);
 
 int gfal_has_error(gfal_handle handle);
 
-void gfal_clear_error(gfal_handle handle);
 
 gfal_handle gfal_handle_new();
 

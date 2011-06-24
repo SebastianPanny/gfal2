@@ -15,11 +15,7 @@
 #include "../mock/gfal_lfc_mock_test.h"
 
 
-
-// mocking function internal to gfal
-void mock_catalog(gfal_handle handle, GError** err){
-
-#if USE_MOCK
+struct lfc_ops* find_lfc_ops(gfal_handle handle, GError** err){
 	int n = handle->catalog_opt.catalog_number;
 	int i;
 	gboolean found=FALSE;
@@ -31,9 +27,18 @@ void mock_catalog(gfal_handle handle, GError** err){
 	}
 	if(!found){
 		g_set_error(err, 0, EINVAL, "[gfal] [mock] unable to load and replace the ops ");
+		return NULL;
 	}
 	handle->catalog_opt.catalog_list[i].handle = calloc(1, sizeof(struct lfc_ops));
-	struct lfc_ops* ops = (struct lfc_ops*) handle->catalog_opt.catalog_list[i].handle; 
+	struct lfc_ops* ops = (struct lfc_ops*) handle->catalog_opt.catalog_list[i].handle; 	
+	return ops;
+}
+
+// mocking function internal to gfal
+void mock_catalog(gfal_handle handle, GError** err){
+
+#if USE_MOCK
+	struct lfc_ops* ops = find_lfc_ops(handle, err); 
 	ops->lfc_endpoint = NULL;
 	ops->statg = &lfc_mock_statg;
 	ops->rename = &lfc_mock_rename;

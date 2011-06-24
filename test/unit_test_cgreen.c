@@ -233,6 +233,7 @@ int main (int argc, char** argv)
 	//add_suite(global, no_glib_suite());
 	add_suite(global, lfc_suite());
 	add_suite(global, mds_suite());
+	add_suite(global, posix_suite());
 	//add_suite(global, filedesc_suite());
     if (argc > 1) {
         return run_single_test(global, argv[1], create_text_reporter());

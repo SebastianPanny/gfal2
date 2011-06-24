@@ -166,12 +166,3 @@ int gfal_has_error(gfal_handle handle){
 }
 
 
-/**
- * @return clear the current error registered in the handle
- * 
- * */
-void gfal_clear_error(gfal_handle handle){
-	if(handle && handle->err){
-			g_clear_error(&(handle->err));		
-	}
-}

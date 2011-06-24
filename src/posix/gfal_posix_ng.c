@@ -294,6 +294,10 @@ void gfal_posix_clear_error(){
 
 }
 
+/**
+ *  return the current error code registered or if not exist
+ * 
+ * */
 int gfal_posix_code_error(){
 	gfal_handle handle;
 	GError* err=NULL;
@@ -304,5 +308,24 @@ int gfal_posix_code_error(){
 		ret = ((err = handle->err) != NULL)? err->code :0 ;
 	}
 	return ret;
+}
+
+/**
+ *  check the current error, if no error report return 0 else return 1 and print the error on stderr
+ *  @warning this does not clear the error
+ * */
+int gfal_posix_check_error(){
+	gfal_handle handle;
+	GError* err=NULL;
+	int ret = -1;
+	if((handle = gfal_posix_instance()) == NULL){
+		g_printerr("[gfal_posix_code_error] Initialisation error gfal_posix_instance() failure\n");
+		return -1;
+	}
+	if((err = handle->err) != NULL) {
+		g_printerr("[gfal]%s\n", err->message);
+		return 1;
+	}
+	return 0;
 }
 

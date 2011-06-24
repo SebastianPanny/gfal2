@@ -15,6 +15,7 @@ extern struct lfc_linkinfo *define_linkinfos;
 extern int define_numberlinkinfos;
 extern int define_numberreplica;
 
+
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f);
 
 int	lfc_mock_lstatg(const char * lfn, struct lfc_filestat * f);
