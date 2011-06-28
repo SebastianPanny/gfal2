@@ -38,6 +38,7 @@
 
 
 
+
 /**
  *  store a gfal_file_handle in the base, in a key/value model
  *  @return the key, else 0 if error occured and err is set correctly
@@ -53,8 +54,6 @@ static int gfal_posix_file_handle_store(gfal_handle handle, gfal_file_handle fha
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return key;
 }
-
-
 
 
 
@@ -82,8 +81,6 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 			fhandle = gfal_local_open(path, flag, mode, &tmp_err);
 		}else if(gfal_guid_checker(path, NULL) == TRUE){
 			fhandle = gfal_guid_openG(handle, path, flag, mode, &tmp_err);
-		}else if( gfal_surl_checker(path, NULL) == 0 ){
-			fhandle = gfal_srm_openG(handle, path, flag, mode, &tmp_err);
 		}else{
 			fhandle = gfal_catalog_open_globalG(handle, path, flag, mode, &tmp_err);
 		}
