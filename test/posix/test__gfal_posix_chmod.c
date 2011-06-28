@@ -16,89 +16,89 @@
 
 
 void test__gfal_posix_chmod_read_lfn(){
-	
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	if( gfal_check_GError(&mock_err))
+		return;
+	will_respond(lfc_mock_chmod, 0, want_string(path, TEST_LFC_MOD_READ_FILE+4), want(mode, 0));
+	will_respond(lfc_mock_access, EACCES, want_string(path, TEST_LFC_MOD_READ_FILE+4), want(mode, R_OK));
+	will_respond(lfc_mock_chmod, ENOENT, want_string(path, TEST_LFC_MOD_UNEXIST_FILE+4), want(mode, 0));
+	will_respond(lfc_mock_chmod, 0, want_string(path, TEST_LFC_MOD_READ_FILE+4), want(mode, 0555));
+	will_respond(lfc_mock_access, 0, want_string(path, TEST_LFC_MOD_READ_FILE+4), want(mode, R_OK));
+	always_return(lfc_mock_chmod, EINVAL);
+#endif
 	int res = gfal_chmod(TEST_LFC_MOD_READ_FILE, 0);	// reduce the right to the file to 0
-	if( res != 0){
-		assert_true_with_message(FALSE, " must be a success");
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success %d %d %d",res, errno, gfal_posix_code_error());
+ 	gfal_posix_check_error();
 	res = gfal_access(TEST_LFC_MOD_READ_FILE, R_OK);
-	if(res ==0 || errno!=EACCES || gfal_posix_code_error() != EACCES){	
-		assert_true_with_message(FALSE, " must be a failure : read right is removed %d %d %d ",res,errno, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-		
+	assert_true_with_message( res == -1 && errno == EACCES && gfal_posix_code_error() == EACCES, "must be a non accessible file");		
 	gfal_posix_clear_error();
 	res = gfal_chmod(TEST_LFC_MOD_UNEXIST_FILE, 0);
-	if(res == 0 || gfal_posix_code_error() != ENOENT || errno != ENOENT ){
-		assert_true_with_message(FALSE, " must report an error");
-		return;
-	}
+	assert_true_with_message( res == -1 && errno == ENOENT && gfal_posix_code_error() == ENOENT, "must be a non-existing file");		
 	gfal_posix_clear_error();
 	res = gfal_chmod("google.com", 0);
-	if( res == 0 || gfal_posix_code_error() != EPROTONOSUPPORT || errno != EPROTONOSUPPORT ){
-		assert_true_with_message(FALSE, " must be a incorrect protocole");
-		return;
-	}
+	assert_true_with_message( res == -1 && errno == EPROTONOSUPPORT && gfal_posix_code_error() == EPROTONOSUPPORT, "must be a bad url");		
 	gfal_posix_clear_error();
 	res = gfal_chmod(TEST_LFC_MOD_READ_FILE, 0555);		// reset the right of the file
-	if(res !=0 ){
-		gfal_posix_release_error();
-		assert_true_with_message(FALSE, " must report an error");
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success");
+ 	gfal_posix_check_error();
 	res = gfal_access(TEST_LFC_MOD_READ_FILE, R_OK);
-	if(res != 0){
-		gfal_posix_release_error();
-		assert_true_with_message(FALSE, " must be a valid access to the file with new right %d %d",errno, gfal_posix_code_error());
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success");
+ 	gfal_posix_check_error();
 
 }
 
 
 void test__gfal_posix_chmod_read_guid(){
-	
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	if( gfal_check_GError(&mock_err))
+		return;
+	char* tab_res1[]= { "/dteam/test0011", NULL };
+	define_mock_linkinfos(1,tab_res1);
+	will_respond(lfc_mock_getlinks, 0, want_string(guid, TEST_GUID_MODE_READ_FILE+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	will_respond(lfc_mock_chmod, 0, want_string(path, "/dteam/test0011"), want(mode, 0));
+
+#endif	
 	int res = gfal_chmod(TEST_GUID_MODE_READ_FILE, 0);	// reduce the right to the file to 0
-	if( res != 0){
-		assert_true_with_message(FALSE, " must be a success");
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success %d %d %d",res, errno, gfal_posix_code_error());
+ 	gfal_posix_check_error();
+#if USE_MOCK
+	define_mock_linkinfos(1,tab_res1);
+	will_respond(lfc_mock_getlinks, 0, want_string(guid, TEST_GUID_MODE_READ_FILE+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	will_respond(lfc_mock_access, EACCES, want_string(path, "/dteam/test0011"), want(mode, R_OK));
+#endif
 	res = gfal_access(TEST_GUID_MODE_READ_FILE, R_OK);
-	if(res ==0 || errno!=EACCES || gfal_posix_code_error() != EACCES){	
-		assert_true_with_message(FALSE, " must be a failure : read right is removed %d %d %d ",res,errno, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-		
+	assert_true_with_message( res == -1 && errno == EACCES && gfal_posix_code_error() == EACCES, "must be a non accessible file");		
 	gfal_posix_clear_error();
+#if USE_MOCK
+	define_mock_linkinfos(1,tab_res1);
+	will_respond(lfc_mock_getlinks, ENOENT, want_string(guid, TEST_GUID_NOEXIST_ACCESS+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	will_respond(lfc_mock_getlinks, 0, want_string(guid, TEST_GUID_MODE_READ_FILE+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	will_respond(lfc_mock_chmod, 0, want_string(path, "/dteam/test0011"), want(mode, 0555));
+#endif
+
 	res = gfal_chmod(TEST_GUID_NOEXIST_ACCESS, 0);
-	if(res == 0 || gfal_posix_code_error() != ENOENT || errno != ENOENT ){
-		assert_true_with_message(FALSE, " must report an error");
-		return;
-	}
-	gfal_posix_clear_error();
-	res = gfal_chmod("google.com", 0);
-	if( res == 0 || gfal_posix_code_error() != EPROTONOSUPPORT || errno != EPROTONOSUPPORT ){
-		assert_true_with_message(FALSE, " must be a incorrect protocole");
-		return;
-	}
+	assert_true_with_message( res == -1 && errno == ENOENT && gfal_posix_code_error() == ENOENT, "must be a non-existing file");		
 	gfal_posix_clear_error();
 	res = gfal_chmod(TEST_GUID_MODE_READ_FILE, 0555);		// reset the right of the file
-	if(res !=0 ){
-		gfal_posix_release_error();
-		assert_true_with_message(FALSE, " must report an error");
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success");
+ 	gfal_posix_check_error();
+#if USE_MOCK
+ 	define_mock_linkinfos(1,tab_res1);
+	will_respond(lfc_mock_getlinks, 0, want_string(guid, TEST_GUID_MODE_READ_FILE+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	will_respond(lfc_mock_access, 0, want_string(path, "/dteam/test0011"), want(mode, R_OK));
+	always_return(lfc_mock_chmod, EINVAL);
+#endif
 	res = gfal_access(TEST_GUID_MODE_READ_FILE, R_OK);
-	if(res != 0){
-		gfal_posix_release_error();
-		assert_true_with_message(FALSE, " must be a valid access to the file with new right %d %d",errno, gfal_posix_code_error());
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success");
+ 	gfal_posix_check_error();
 
 }
 
@@ -115,77 +115,65 @@ void test__gfal_posix_chmod_read_local(){
 	}
 	fwrite(msg, sizeof(char), 5, f);
 	fclose(f);
-	
+	errno = 0;
 	strcat(nfile,TEST_GFAL_LOCAL_FILE_CHMOD_READ);
 	int res= gfal_chmod(nfile, 0);
-	if(res != 0){
-		assert_true_with_message(FALSE, " must be a valid chmod 0 on the file : %s %d %d %d", nfile, res, errno, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success %d %d %d",res, errno, gfal_posix_code_error());		
+	gfal_posix_clear_error();
 	
 	res = gfal_access(nfile, R_OK); // must not be accessible
-	if(res ==0 || errno!=EACCES || gfal_posix_code_error() != EACCES){	
-		assert_true_with_message(FALSE, " must be a failure : read right is removed %d %d %d ",res,errno, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message( res == -1 && errno == EACCES && gfal_posix_code_error() == EACCES, "must be a non accessible file");		
 	gfal_posix_clear_error();
+	
 	res= gfal_chmod(nfile, 0777);
-	if(res != 0){
-		assert_true_with_message(FALSE, " must be a valid chmod 555 on the file : %s %d %d", nfile, errno, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a valid re-modification");		
+	gfal_posix_clear_error();
+	
 	res = gfal_access(nfile, R_OK); // must be accessible
-	if(res != 0){	
-		assert_true_with_message(FALSE, " must be a failure : must be a readable file");
-		gfal_posix_release_error();
-		return;
-	}	
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a re-modification");		
+	gfal_posix_clear_error();
 }
 
 
 
 void test__gfal_posix_chmod_write_lfn(){
-	
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	if( gfal_check_GError(&mock_err))
+		return;
+	will_respond(lfc_mock_chmod, 0, want_string(path, TEST_LFC_MOD_WRITE_FILE+4), want(mode, 0));
+	will_respond(lfc_mock_access, EACCES, want_string(path, TEST_LFC_MOD_WRITE_FILE+4), want(mode, W_OK));
+	will_respond(lfc_mock_chmod, ENOENT, want_string(path, TEST_LFC_MOD_UNEXIST_FILE+4), want(mode, 0));
+	will_respond(lfc_mock_chmod, 0, want_string(path, TEST_LFC_MOD_WRITE_FILE+4), want(mode, 0666));
+	will_respond(lfc_mock_access, 0, want_string(path, TEST_LFC_MOD_WRITE_FILE+4), want(mode, W_OK));
+	always_return(lfc_mock_chmod, EINVAL);
+#endif	
 	int res = gfal_chmod(TEST_LFC_MOD_WRITE_FILE, 0);	// reduce the right to the file to 0
-	if( res != 0){
-		assert_true_with_message(FALSE, " must be a success");
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success %d %d %d",res, errno, gfal_posix_code_error());
+ 	gfal_posix_check_error();
 	res = gfal_access(TEST_LFC_MOD_WRITE_FILE, W_OK);
-	if(res ==0 || errno!=EACCES || gfal_posix_code_error() != EACCES){	
-		assert_true_with_message(FALSE, " must be a failure : write right is removed %d %d %d ",res,errno, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message( res == -1 && errno == EACCES && gfal_posix_code_error() == EACCES, "must be a non accessible file");		
+	gfal_posix_clear_error();
 		
 	gfal_posix_clear_error();
 	res = gfal_chmod(TEST_LFC_MOD_UNEXIST_FILE, 0);
-	if(res == 0 || gfal_posix_code_error() != ENOENT || errno != ENOENT ){
-		assert_true_with_message(FALSE, " must report an error");
-		return;
-	}
+	assert_true_with_message( res == -1 && errno == ENOENT && gfal_posix_code_error() == ENOENT, "must be a non accessible file");		
 	gfal_posix_clear_error();
+
+
 	res = gfal_chmod("google.com", 0);
-	if( res == 0 || gfal_posix_code_error() != EPROTONOSUPPORT || errno != EPROTONOSUPPORT ){
-		assert_true_with_message(FALSE, " must be a incorrect protocole");
-		return;
-	}
+	assert_true_with_message( res == -1 && errno == EPROTONOSUPPORT && gfal_posix_code_error() == EPROTONOSUPPORT, "must be a non accessible file");		
 	gfal_posix_clear_error();
+	
 	res = gfal_chmod(TEST_LFC_MOD_WRITE_FILE, 0666);		// reset the right of the file
-	if(res !=0 ){
-		gfal_posix_release_error();
-		assert_true_with_message(FALSE, " must report an error");
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success %d %d %d",res, errno, gfal_posix_code_error());
+ 	gfal_posix_check_error();
+ 	
 	res = gfal_access(TEST_LFC_MOD_WRITE_FILE, W_OK);
-	if(res != 0){
-		gfal_posix_release_error();
-		assert_true_with_message(FALSE, " must be a valid write access to the file with new rights %d %d",errno, gfal_posix_code_error());
-		return;
-	}
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success %d %d %d",res, errno, gfal_posix_code_error());
+ 	gfal_posix_check_error();
 
 }

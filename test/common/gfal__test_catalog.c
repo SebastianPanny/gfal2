@@ -48,6 +48,7 @@ void mock_catalog(gfal_handle handle, GError** err){
 	ops->getreplica = &lfc_mock_getreplica;
 	ops->getlinks= &lfc_mock_getlinks;
 	ops->lstat= &lfc_mock_lstatg;
+	ops->chmod = &lfc_mock_chmod;
 #endif
 	return;
 }

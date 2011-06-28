@@ -7,6 +7,8 @@
 
 struct lfc_ops* find_lfc_ops(gfal_handle handle, GError** err);
 
+void mock_catalog(gfal_handle handle, GError** err);
+
 void test_get_cat_type();
 
 

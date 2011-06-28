@@ -15,6 +15,11 @@ extern struct lfc_linkinfo *define_linkinfos;
 extern int define_numberlinkinfos;
 extern int define_numberreplica;
 
+// convenience functions
+void define_mock_linkinfos(int number, char** resu);
+
+
+// mock
 
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f);
 
@@ -23,6 +28,8 @@ int	lfc_mock_lstatg(const char * lfn, struct lfc_filestat * f);
 int lfc_mock_rename(const char * oldpath, const char* newpath);
 
 int lfc_mock_access(const char* path, int mode);
+
+int lfc_mock_chmod(const char* path, mode_t mode);
 
 
 int lfc_mock_getreplica(const char *path, const char *guid, const char *se, int *nbentries, struct lfc_filereplica **rep_entries);

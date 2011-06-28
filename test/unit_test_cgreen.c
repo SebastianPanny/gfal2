@@ -43,7 +43,7 @@
 #include "common/gfal__test_common_srm_no_glib.h"
 #include "common/gfal__test_common_dir_file_descriptor.h"
 #include "posix/test__gfal_posix_access.h"
-
+#include "posix/test__gfal_posix_chmod.h"
 
 TestSuite * verbose_suite (void)
 {
@@ -133,6 +133,14 @@ TestSuite* filedesc_suite(){
 	return tc_filedesc;
 }
 
+TestSuite* posix_chmod_suite(void){
+	TestSuite* tc_chmod = create_test_suite();	
+	add_test(tc_chmod, test__gfal_posix_chmod_read_lfn);
+	add_test(tc_chmod, test__gfal_posix_chmod_read_guid);
+	add_test(tc_chmod, test__gfal_posix_chmod_read_local);
+	add_test(tc_chmod, test__gfal_posix_chmod_write_lfn);
+	return tc_chmod;
+}
 
 TestSuite* posix_access_suite (void)
 {
@@ -146,16 +154,7 @@ TestSuite* posix_access_suite (void)
   add_test(tc_access, test_access_posix_srm_exist);
   add_test(tc_access, test_access_posix_srm_read);
   add_test(tc_access, test_access_posix_srm_write);
- /* add_test(tc_access, test_access_posix_guid_exist);  
-  add_test(tc_access, test_access_posix_guid_read);
-  add_test(tc_access, test_access_posix_guid_write);
-  add_test(tc_access, test_access_posix_lfn_exist);
-  add_test(tc_access, test_access_posix_lfn_read);
-  add_test(tc_access, test_access_posix_lfn_write);
-  add_test(tc_access, test_access_posix_srm_exist);
-  add_test(tc_access, test_access_posix_srm_read);
-  add_test(tc_access, test_access_posix_srm_write);
-  suite_add_tcase(s, tc_access);
+/*
   TestSuite* tc_chmod = create_test_suite();
   add_test(tc_chmod, test__gfal_posix_chmod_read_lfn);
   add_test(tc_chmod, test__gfal_posix_chmod_read_guid);
@@ -242,6 +241,7 @@ int main (int argc, char** argv)
 	add_suite(global, lfc_suite());
 	add_suite(global, mds_suite());
 	add_suite(global, posix_access_suite());
+	add_suite(global, posix_chmod_suite());
 	//add_suite(global, filedesc_suite());
     if (argc > 1) {
         return run_single_test(global, argv[1], create_text_reporter());

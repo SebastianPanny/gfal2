@@ -72,7 +72,8 @@ int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** er
 	if(ret < 0){
 		const int myerrno = *(ops->serrno);
 		g_set_error(err, 0, myerrno, "[lfc_chmodG] Errno reported from lfc : %s ", ops->sstrerror(myerrno));
-	}
+	}else
+		errno =0;
 	free(url);
 	return ret;
 }

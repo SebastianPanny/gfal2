@@ -27,7 +27,15 @@ struct lfc_linkinfo *define_linkinfos=NULL;
 int define_numberlinkinfos;
 int define_numberreplica;
 
-
+void define_mock_linkinfos(int number, char** resu){
+	int i;
+	define_linkinfos= calloc(sizeof(struct lfc_linkinfo), number);
+	for(i=0; i < number; ++i){
+		g_strlcpy(define_linkinfos[i].path, resu[i], 1024);
+	}
+	define_numberlinkinfos= number;
+	
+}
 
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f){
 	int val = (int) mock(lfn, guid, f);
@@ -93,7 +101,14 @@ int lfc_mock_getlinks(const char *path, const char *guid, int *nbentries, struct
 	return 0;		
 }
 
-
+int lfc_mock_chmod(const char* path, mode_t mode){
+	int a=  mock(path, mode);
+	if(a){
+		lfc_last_err = a;
+		return -1;
+	}	
+	return 0;	
+}
 
 
 
