@@ -478,6 +478,30 @@ char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err){
 	return resu;
 }
 
+
+/**
+ * Resolve a surl to a "GET" turl
+ * @return pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
+ * @warning must be free with g_list_free_full
+ */
+int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, GError** err){
+	GError* tmp_err=NULL;
+	char** resu = NULL;
+	
+	gboolean getTURLG_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, surl, GFAL_CATALOG_GETTURL, terr);
+	}	
+	int getTURLG_executor(gfal_catalog_interface* cata_list, GError** terr){
+		resu= cata_list->getTURLG(cata_list->handle, surl, buff_turl, size_turl, terr);
+		return (resu)?0:-1;
+	}	
+	
+	gfal_catalogs_operation_executor(handle, &getTURLG_checker, &getTURLG_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
+	return resu;	
+}
+
 /***
  *  Try to resolve the guid to a compatible catalog URL in all the catalogs.
  *  @return string of the new catalog URL or NULL value if error and set GError to the correct errno and msg
@@ -543,11 +567,16 @@ extern char* gfal_get_cat_type(GError** err) {
 static gfal_file_handle gfal_catalog_open_surl(gfal_handle handle, char** surls, int flag, mode_t mode, GError** err){
 	gfal_file_handle ret = NULL;	
 	GError* tmp_err=NULL;
-	/*while(surls != NULL){
-		gfal_catalog_getTURL(
+	while(surls != NULL){
+		char turl[GFAL_URL_MAX_LEN];
+		g_clear_error(&tmp_err);
+		if( gfal_catalog_getTURLG(handle, surls[0], turl, GFAL_URL_MAX_LEN, &tmp_err)  == 0){
+			ret = gfal_catalog_openG(handle, turl, flag, mode, &tmp_err);
+			break;
+		}
+
 		surls++;
-	}*/
-	g_set_error(&tmp_err, ENOSYS, 0, "not implemented");
+	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;	

@@ -32,7 +32,6 @@
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_file_handle.h"
 #include "../common/gfal_common_catalog.h"
-#include "../common/srm/gfal_common_srm_open.h"
 #include "../common/gfal_common_guid.h"
 #include "gfal_posix_local_file.h"
 

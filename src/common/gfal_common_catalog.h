@@ -161,7 +161,7 @@ int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
 
 char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err);
 
-int gfal_catalog_getTURLG(catalog_handle, const char* surl, char* buff_turl, int size_turl, GError** err);
+int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, GError** err);
 
 
 struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GError** err);

@@ -76,12 +76,12 @@ int gfal_surl_checker(const char* surl, GError** err){
  * */
 static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catalog_mode mode, GError** err){
 	switch(mode){
-		case GFAL_CATALOG_GETTURL:
 		case GFAL_CATALOG_ACCESS:
 		case GFAL_CATALOG_MKDIR:
 		case GFAL_CATALOG_STAT:
 		case GFAL_CATALOG_RMDIR:
 		case GFAL_CATALOG_OPENDIR:
+		case GFAL_CATALOG_GETTURL:
 			return (gfal_surl_checker(url,  err)==0)?TRUE:FALSE;
 		default:
 			return FALSE;		
@@ -115,6 +115,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_catalog.readdirG = &gfal_srm_readdirG;
 	srm_catalog.closedirG = &gfal_srm_closedirG;
 	srm_catalog.getName= &gfal_srm_getName;
+	srm_catalog.getTURLG = &gfal_srm_getTURLS_catalog;
 	return srm_catalog;
 }
 

@@ -135,6 +135,31 @@ int gfal_srm_getTURLS_internal(gfal_handle handle, char** surls, gfal_srm_result
 }
 
 /**
+ *  simple wrapper to getTURLs for the gfal_module layer
+ * */
+int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, GError** err){
+	gfal_handle handle = (gfal_handle)ch;
+	gfal_srm_result* resu=NULL;
+	GError* tmp_err=NULL;
+	char* surls[]= { (char*)surl, NULL };
+	int ret = -1;
+	ret= gfal_srm_getTURLS_internal(handle, surls, &resu, &tmp_err);
+	if(ret >=0){
+		if(resu[0].err_code == 0){
+			g_strlcpy(buff_turl, resu[0].turl, size_turl);
+			ret=0;			
+		}else{
+			g_set_error(&tmp_err,0 , resu[0].err_code, " error on the turl request : %s ", resu[0].err_str);
+			ret = -1;
+		}
+	
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return ret;			
+}
+
+/**
  * @brief launch a surls-> turls translation in the synchronous mode
  * @warning need a initiaed gfal_handle
  * @param handle : the gfal_handle initiated ( \ref gfal_init )
