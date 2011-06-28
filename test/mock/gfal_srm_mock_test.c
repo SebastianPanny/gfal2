@@ -20,6 +20,21 @@ struct srmv2_filestatus* defined_srmv2_filestatus=NULL;
 struct srmv2_pinfilestatus * defined_get_output=NULL;
 
 
+void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, char** turl, int* status){
+	int i;
+	defined_srmv2_filestatus= calloc(sizeof(struct srmv2_filestatus), number);
+	for(i=0; i < number; ++i){
+		if(surl)
+			defined_srmv2_filestatus[i].surl = strdup(surl[i]);
+		if(explanation)
+			defined_srmv2_filestatus[i].explanation = strdup(explanation[i]);
+		if(turl)
+			defined_srmv2_filestatus[i].turl = strdup(turl[i]);
+		if(status)
+			defined_srmv2_filestatus[i].status = status[i];
+	}
+}
+
 void srm_mock_srm_context_init(struct srm_context *context,char *srm_endpoint,char *errbuf,int errbufsz,int verbose){
 	mock(context, srm_endpoint, errbuf, errbufsz, verbose);
 }
@@ -79,7 +94,7 @@ int srm_mock_srm_check_permission(struct srm_context *context,
 }
 
 int srm_mock_srm_prepare_to_get(struct srm_context *context,
-		struct srm_preparetoget_input *input,struct srm_preparetoget_output *output){
+	struct srm_preparetoget_input *input,struct srm_preparetoget_output *output){
 	int a = mock(context, input, output);
 	if(a <0 ){
 		errno = a;
@@ -105,3 +120,6 @@ void srm_mock_srm_srmv2_filestatus_delete(struct srmv2_filestatus*  srmv2_status
 void srm_mock_srm_srm2__TReturnStatus_delete(struct srm2__TReturnStatus* status){
 	mock(status);
 }
+
+
+// convenience functions

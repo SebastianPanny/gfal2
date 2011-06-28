@@ -16,6 +16,10 @@ extern struct srmv2_filestatus* defined_srmv2_filestatus;
 extern struct srmv2_pinfilestatus * defined_get_output;
 
 
+// convenience functions
+void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, char** turl, int* status);
+// mock functions
+
 
 void srm_mock_srm_context_init(struct srm_context *context,char *srm_endpoint,char *errbuf,int errbufsz,int verbose);
 
