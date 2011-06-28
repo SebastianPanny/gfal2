@@ -49,6 +49,10 @@ void mock_catalog(gfal_handle handle, GError** err){
 	ops->getlinks= &lfc_mock_getlinks;
 	ops->lstat= &lfc_mock_lstatg;
 	ops->chmod = &lfc_mock_chmod;
+	ops->mkdirg = &lfc_mock_mkdir;
+	ops->starttrans= &lfc_mock_starttrans;
+	ops->endtrans= &lfc_mock_endtrans;
+	ops->aborttrans= &lfc_mock_aborttrans;
 #endif
 	return;
 }

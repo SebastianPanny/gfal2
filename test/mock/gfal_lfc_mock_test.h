@@ -18,6 +18,7 @@ extern int define_numberreplica;
 // convenience functions
 void define_mock_linkinfos(int number, char** resu);
 
+void define_mock_filestatg(mode_t mode, int gid, int uid);
 
 // mock
 
@@ -30,6 +31,14 @@ int lfc_mock_rename(const char * oldpath, const char* newpath);
 int lfc_mock_access(const char* path, int mode);
 
 int lfc_mock_chmod(const char* path, mode_t mode);
+
+int lfc_mock_mkdir(const char* path, const char* guid,  mode_t mode);
+
+int	lfc_mock_starttrans(const char *server, const char *comment);
+
+int	lfc_mock_endtrans();
+
+int lfc_mock_aborttrans();
 
 
 int lfc_mock_getreplica(const char *path, const char *guid, const char *se, int *nbentries, struct lfc_filereplica **rep_entries);

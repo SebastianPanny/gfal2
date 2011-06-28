@@ -44,6 +44,7 @@
 #include "common/gfal__test_common_dir_file_descriptor.h"
 #include "posix/test__gfal_posix_access.h"
 #include "posix/test__gfal_posix_chmod.h"
+#include "posix/test__gfal_posix_mkdir.h"
 
 TestSuite * verbose_suite (void)
 {
@@ -140,6 +141,12 @@ TestSuite* posix_chmod_suite(void){
 	add_test(tc_chmod, test__gfal_posix_chmod_read_local);
 	add_test(tc_chmod, test__gfal_posix_chmod_write_lfn);
 	return tc_chmod;
+}
+
+TestSuite* posix_mkdir_suite(void){
+	TestSuite* tc_mkdir = create_test_suite();
+	add_test(tc_mkdir, test__mkdir_posix_lfc_simple);
+	return tc_mkdir;
 }
 
 TestSuite* posix_access_suite (void)
@@ -242,6 +249,7 @@ int main (int argc, char** argv)
 	add_suite(global, mds_suite());
 	add_suite(global, posix_access_suite());
 	add_suite(global, posix_chmod_suite());
+	add_suite(global, posix_mkdir_suite());
 	//add_suite(global, filedesc_suite());
     if (argc > 1) {
         return run_single_test(global, argv[1], create_text_reporter());

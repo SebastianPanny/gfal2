@@ -37,6 +37,13 @@ void define_mock_linkinfos(int number, char** resu){
 	
 }
 
+void define_mock_filestatg(mode_t mode, int gid, int uid){
+	defined_filestatg= calloc(sizeof(struct lfc_filestatg),1);
+	defined_filestatg->filemode = mode;
+	defined_filestatg->uid = gid ;
+	defined_filestatg->gid= uid ;		
+}
+
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f){
 	int val = (int) mock(lfn, guid, f);
 	if( val == 0){
@@ -56,6 +63,33 @@ int lfc_mock_rename(const char * oldpath, const char* newpath){
 		return -1;
 	}else
 		return 0;
+}
+
+int	lfc_mock_starttrans(const char * server, const char * comment){
+	int a=  mock(server,comment);
+	if(a){
+		lfc_last_err = a;
+		return -1;
+	}	
+	return 0;	
+}
+
+int lfc_mock_aborttrans(){
+	int a=  mock();
+	if(a){
+		lfc_last_err = a;
+		return -1;
+	}	
+	return 0;		
+}
+
+int	lfc_mock_endtrans(){
+	int a=  mock();
+	if(a){
+		lfc_last_err = a;
+		return -1;
+	}	
+	return 0;	
 }
 
 int	lfc_mock_lstatg(const char * lfn, struct lfc_filestat * f){
@@ -103,6 +137,15 @@ int lfc_mock_getlinks(const char *path, const char *guid, int *nbentries, struct
 
 int lfc_mock_chmod(const char* path, mode_t mode){
 	int a=  mock(path, mode);
+	if(a){
+		lfc_last_err = a;
+		return -1;
+	}	
+	return 0;	
+}
+
+int lfc_mock_mkdir(const char* path, const char* guid, mode_t mode){
+	int a=  mock(path, guid,  mode);
 	if(a){
 		lfc_last_err = a;
 		return -1;

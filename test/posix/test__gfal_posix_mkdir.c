@@ -17,44 +17,48 @@
 
 void test__mkdir_posix_lfc_simple()
 {
-	struct stat st;
-	int ret = gfal_mkdir(TEST_LFC_EEXIST_MKDIR, 0664);
-	if( ret == 0 || errno != EEXIST || gfal_posix_code_error() != EEXIST){
-		assert_true_with_message(FALSE, " must be an existing dir %d %d %d", ret, errno, gfal_posix_code_error());
-		gfal_posix_clear_error();
-		return;
-	}
-	gfal_posix_clear_error();
-	errno ==0;
-	
 	char filename[2048];
 	time_t tt;
 	time(&tt);
 	char *t = ctime(&tt);
 	strcpy(filename, TEST_LFC_BASE_FOLDER_URL_MKDIR1);
 	strcat(filename, t); // generate a new unique dir identifier&
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	define_mock_filestatg(040664, 1,2);
+	always_return(lfc_mock_endtrans,0);
+	always_return(lfc_mock_starttrans,0);
+	will_respond(lfc_mock_mkdir, EEXIST, want_string(path, TEST_LFC_EEXIST_MKDIR+4), want_non_null(guid), want(mode, 0664));
+	will_respond(lfc_mock_mkdir, 0, want_string(path, filename+4), want_non_null(guid), want(mode, 0664));
+	will_respond(lfc_mock_statg, 0, want_string(path, filename+4), want(mode, 0664));
+	will_respond(lfc_mock_mkdir, EACCES, want_string(path, TEST_LFC_UNACCESS_MKDIR+4), want_non_null(guid), want(mode, 0664));
+	always_return(lfc_mock_mkdir, EINVAL);
+	always_return(lfc_mock_statg, EINVAL);
+#endif
+	struct stat st;
+	int ret = gfal_mkdir(TEST_LFC_EEXIST_MKDIR, 0664);
+	assert_true_with_message(ret ==-1 && errno==EEXIST && gfal_posix_code_error()==EEXIST, " must be an already exist file");
+	gfal_posix_clear_error();
+	errno ==0;
+	
+
 	ret = gfal_mkdir(filename, 0664);
-	if(ret != 0 || errno !=0 || gfal_posix_code_error() != 0){
-		assert_true_with_message(FALSE, " must be a valid create dir %d %d %d", ret, errno, gfal_posix_code_error());
-		gfal_posix_clear_error();
-		return;		
-	}
+	assert_true_with_message( ret ==0 && errno==0 && gfal_posix_code_error() ==0, " must be a valid mkdir");
+	gfal_posix_check_error();
 	gfal_posix_clear_error();
 	errno ==0;
 	
 	ret = gfal_stat(filename,&st);
-	if( ret != 0 || st.st_mode != 040664){
-		assert_true_with_message(FALSE, " bad right on the new created directory %d %o ", ret,st.st_mode );
-		gfal_posix_clear_error();
-		return;			
-	}
+	assert_true_with_message(ret ==0 && st.st_mode== 040664, " must be the correct right and dir must exist");
 	
-	ret = gfal_mkdir(TEST_LFC_UNACCESS_MKDIR, 06640);
-	if( ret ==0 || errno != EACCES || gfal_posix_code_error() != EACCES){
-		assert_true_with_message(FALSE, " must be a non-access dir %d %d %d", ret, errno, gfal_posix_code_error());
-		gfal_posix_clear_error();
-		return;			
-	}
+	ret = gfal_mkdir(TEST_LFC_UNACCESS_MKDIR, 0664);
+	assert_true_with_message(ret == -1 && errno== EACCES && gfal_posix_code_error()== EACCES, " must be a bad access right");
 	gfal_posix_clear_error();
 	errno ==0;	
 	
