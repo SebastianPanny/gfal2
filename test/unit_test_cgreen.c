@@ -144,6 +144,8 @@ TestSuite* posix_access_suite (void)
   add_test(tc_access, test_access_posix_lfn_read);
   add_test(tc_access, test_access_posix_lfn_write);
   add_test(tc_access, test_access_posix_srm_exist);
+  add_test(tc_access, test_access_posix_srm_read);
+  add_test(tc_access, test_access_posix_srm_write);
  /* add_test(tc_access, test_access_posix_guid_exist);  
   add_test(tc_access, test_access_posix_guid_read);
   add_test(tc_access, test_access_posix_guid_write);

@@ -14,6 +14,41 @@
 #include "../mock/gfal_lfc_mock_test.h"
 
 
+void mock_srm_access_right_response(char* surl){
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	char* surls[] = { surl, NULL };
+	char* turls[] = { "nawak", NULL };
+	int status[] = { 0, 0 };
+
+	define_mock_srmv2_filestatus(1, surls, NULL,  turls, status);
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));		
+}
+
+void mock_srm_access_error_response(char* surl, int merror){
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;	
+	char* explanation2[] = { "enoent mock", NULL };
+	int status2[] = { merror, 0 };
+	char* surls[] = { surl, NULL };	
+	define_mock_srmv2_filestatus(1, surls, explanation2, NULL, status2);
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));	
+}
+
+
 void test_access_posix_guid_exist()
 {
 	int i1;
@@ -224,31 +259,13 @@ void test_access_posix_srm_exist()
 	// test exist guid
 	int ret;
 #if USE_MOCK
-	GError* mock_err=NULL;
-	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
-	mock_catalog(handle, &mock_err);
-	setup_mock_srm();
-	if( gfal_check_GError(&mock_err))
-		return;
-
-	char* surls[] = { TEST_SRM_ONLY_READ_ACCESS, NULL };
-	char* turls[] = { "nawak", NULL };
-	int status[] = { 0, 0 };
-
-	define_mock_srmv2_filestatus(1, surls, NULL,  turls, status);
-	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
-	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));
+	mock_srm_access_right_response(TEST_SRM_ONLY_READ_ACCESS);
 #endif
 	ret = gfal_access(TEST_SRM_ONLY_READ_ACCESS, F_OK);
 	assert_true_with_message(ret == 0 && errno ==0 && gfal_posix_code_error() == 0 , " must be a valid check access %d %d %d", ret, errno, gfal_posix_code_error());
 	gfal_posix_check_error();
 #if USE_MOCK
-	char* explanation2[] = { "enoent mock", NULL };
-	int status2[] = { ENOENT, 0 };
-	define_mock_srmv2_filestatus(1, surls, explanation2, NULL, status2);
-	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
-	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));
+	mock_srm_access_error_response(TEST_SRM_NOEXIST_ACCESS,ENOENT);
 #endif
 	ret = gfal_access(TEST_SRM_NOEXIST_ACCESS, F_OK);
 	assert_true_with_message(ret == -1 && errno ==ENOENT && gfal_posix_code_error() == ENOENT , " must be a non-existing  file");
@@ -265,25 +282,23 @@ void test_access_posix_srm_read()
 {
 	// test exist guid
 	int ret;
-
+#if USE_MOCK
+	mock_srm_access_right_response(TEST_SRM_ONLY_READ_ACCESS);
+#endif
 	ret = gfal_access(TEST_SRM_ONLY_READ_ACCESS, R_OK);
-	if(ret != 0){
-		assert_true_with_message(FALSE, " must be a valid access to the guid %s", strerror(errno));
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message(ret == 0 && errno ==0 && gfal_posix_code_error() == 0 , " must be a valid check access %d %d %d", ret, errno, gfal_posix_code_error());
+	gfal_posix_check_error();
+#if USE_MOCK
+	mock_srm_access_error_response(TEST_SRM_NOEXIST_ACCESS,ENOENT);
+#endif
 	ret = gfal_access(TEST_SRM_NOEXIST_ACCESS, R_OK);
-	if(ret >=0 || errno != ENOENT){
-		assert_true_with_message(FALSE, "must be a non exist guid %s", strerror(errno));
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message(ret == -1 && errno ==ENOENT && gfal_posix_code_error() == ENOENT , " must be a non-existing  file");
 	gfal_posix_clear_error();
+#if USE_MOCK
+	mock_srm_access_error_response(TEST_SRM_NOEXIST_ACCESS,EACCES);
+#endif
 	ret = gfal_access(TEST_SRM_NO_READ_ACCESS, R_OK);
-	if(ret >=0 || errno != EACCES){
-		assert_true_with_message(FALSE, " must be an invalid read access error %s", strerror(errno));		
-		gfal_posix_release_error();
-	}
+	assert_true_with_message(ret == -1 && errno ==EACCES && gfal_posix_code_error() == EACCES , " must be a valid check access");
 	gfal_posix_clear_error();
 }
 
@@ -293,24 +308,22 @@ void test_access_posix_srm_write()
 {
 	// test exist guid
 	int ret;
-
+#if USE_MOCK
+	mock_srm_access_right_response(TEST_SRM_WRITE_ACCESS);
+#endif
 	ret = gfal_access(TEST_SRM_WRITE_ACCESS, W_OK);
-	if(ret != 0){
-		assert_true_with_message(FALSE, " must be a valid access to the guid %s", strerror(errno));
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message(ret == 0 && errno ==0 && gfal_posix_code_error() == 0 , " must be a valid check access %d %d %d", ret, errno, gfal_posix_code_error());
+	gfal_posix_check_error();
+#if USE_MOCK
+	mock_srm_access_error_response(TEST_SRM_NOEXIST_ACCESS,ENOENT);
+#endif
 	ret = gfal_access(TEST_SRM_NOEXIST_ACCESS, W_OK);
-	if(ret >=0  || errno != ENOENT){
-		assert_true_with_message(FALSE, "must be a non exist guid %s", strerror(errno));
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message(ret == -1 && errno ==ENOENT && gfal_posix_code_error() == ENOENT , " must be a non-existing  file");
 	gfal_posix_clear_error();
+#if USE_MOCK
+	mock_srm_access_error_response(TEST_SRM_NO_WRITE_ACCESS,EACCES);
+#endif
 	ret = gfal_access(TEST_SRM_NO_WRITE_ACCESS, W_OK);
-	if(ret >=0 || errno != EACCES){
-		assert_true_with_message(FALSE, " must be an invalid write access %s", strerror(errno));		
-		gfal_posix_release_error();
-	}
+	assert_true_with_message(ret == -1 && errno ==EACCES && gfal_posix_code_error() == EACCES , " must be a valid check access");
 	gfal_posix_clear_error();
 }
