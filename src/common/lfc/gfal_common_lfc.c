@@ -135,6 +135,7 @@ int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError**
 		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  ops->sstrerror(sav_errno) );
 	}else{
 		ret= gfal_lfc_convert_statg(st, &statbuf, err);
+		errno=0;
 	}
 	free(lfn);
 	return ret;
@@ -155,6 +156,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s", __func__, ops->sstrerror(sav_errno) );
 	}else{
 		ret= gfal_lfc_convert_lstat(st, &statbuf, err);
+		errno=0;
 	}
 	free(lfn);
 	return ret;

@@ -40,8 +40,8 @@ void define_mock_linkinfos(int number, char** resu){
 void define_mock_filestatg(mode_t mode, int gid, int uid){
 	defined_filestatg= calloc(sizeof(struct lfc_filestatg),1);
 	defined_filestatg->filemode = mode;
-	defined_filestatg->uid = gid ;
-	defined_filestatg->gid= uid ;		
+	defined_filestatg->uid = uid ;
+	defined_filestatg->gid= gid ;		
 }
 
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f){
