@@ -253,31 +253,23 @@ void test__gfal_posix_lstat_guid()
 
 void test__gfal_posix_lstat_local()
 {
+	errno =0;
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
 	system(TEST_GFAL_LOCAL_STAT_COMMAND);
 	system(TEST_GFAL_LOCAL_LINK_COMMAND);
 	int res = gfal_lstat(TEST_GFAL_LOCAL_STAT_OK, &buff);
-	if(res != 0){
-		assert_true_with_message(FALSE, " must be a valid lstat on a file");
-		gfal_posix_release_error();
-		return;
-	}
-	
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
 	gfal_posix_clear_error();
+	
+	
 	res = gfal_lstat(TEST_GFAL_LOCAL_LINK_OK, &buff);
-	if(res != 0){
-		assert_true_with_message(FALSE, " must be a valid lstat on a link");
-		gfal_posix_release_error();
-		return;
-	}	
-
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
+	gfal_posix_clear_error();
+	
 	res = gfal_lstat(TEST_GFAL_LOCAL_STAT_NONEXIST, &buff);
-	if(res == 0 || gfal_posix_code_error() != ENOENT || errno != ENOENT){
-		assert_true_with_message(FALSE, " must be a invalid lstat %d %d %d", res, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}	
+	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat");
+	gfal_posix_clear_error();	
 	gfal_posix_clear_error();	
 }
 
@@ -290,10 +282,6 @@ void test__gfal_posix_lstat_srm()
 	memset(&buff,0, sizeof(struct stat));
 
 	int res = gfal_lstat(TEST_GFAL_SRM_FILE_STAT_OK, &buff);
-	if(res == 0 || gfal_posix_code_error() != EPROTONOSUPPORT || errno != EPROTONOSUPPORT){
-		assert_true_with_message(FALSE, " must be a invalid lstat %d %d %d", res, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}	
+	assert_true_with_message(res ==-1 && gfal_posix_code_error() == EPROTONOSUPPORT && errno == EPROTONOSUPPORT, " must not be supported");
 	gfal_posix_clear_error();	
 }

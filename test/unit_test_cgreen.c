@@ -158,6 +158,8 @@ TestSuite* posix_stat_suite(void){
 	add_test(tc_stat, test__gfal_posix_stat_srm);
 	add_test(tc_stat, test__gfal_posix_lstat_lfc);
 	add_test(tc_stat, test__gfal_posix_lstat_guid);
+	add_test(tc_stat, test__gfal_posix_lstat_local);
+	add_test(tc_stat, test__gfal_posix_lstat_srm);
 	return tc_stat;
 }
 
@@ -174,28 +176,12 @@ TestSuite* posix_access_suite (void)
   add_test(tc_access, test_access_posix_srm_read);
   add_test(tc_access, test_access_posix_srm_write);
 /*
-  TestSuite* tc_chmod = create_test_suite();
-  add_test(tc_chmod, test__gfal_posix_chmod_read_lfn);
-  add_test(tc_chmod, test__gfal_posix_chmod_read_guid);
-  add_test(tc_chmod, test__gfal_posix_chmod_read_local);
-  add_test(tc_chmod, test__gfal_posix_chmod_write_lfn);
-  suite_add_tcase(s, tc_chmod);
   TestSuite* tc_rename = create_test_suite();
   add_test(tc_rename, test__gfal_posix_rename_catalog);
   add_test(tc_rename, test__gfal_posix_move_dir_catalog);
   add_test(tc_rename, test__gfal_posix_rename_url_check);
   add_test(tc_rename, test__gfal_posix_rename_local);
   suite_add_tcase(s, tc_rename);
-  TestSuite* tc_stat = create_test_suite();
-  add_test(tc_stat, test__gfal_posix_stat_lfc);
-  add_test(tc_stat, test__gfal_posix_stat_guid);
-  add_test(tc_stat, test__gfal_posix_stat_local);
-  add_test(tc_stat, test__gfal_posix_stat_srm);
-  add_test(tc_stat, test__gfal_posix_lstat_lfc);
-  add_test(tc_stat, test__gfal_posix_lstat_guid);
-  add_test(tc_stat, test__gfal_posix_lstat_local);
-  add_test(tc_stat, test__gfal_posix_lstat_srm);
-  suite_add_tcase(s, tc_stat);
   TestSuite* tc_mkdir = create_test_suite();
   add_test(tc_mkdir, test__mkdir_posix_lfc_simple);
   add_test(tc_mkdir, test__mkdir_posix_lfc_rec);
