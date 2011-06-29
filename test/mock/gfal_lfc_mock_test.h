@@ -20,6 +20,8 @@ void define_mock_linkinfos(int number, char** resu);
 
 void define_mock_filestatg(mode_t mode, int gid, int uid);
 
+void define_mock_filelstat(mode_t mode, int gid, int uid);
+
 // mock
 
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f);

@@ -185,50 +185,28 @@ void test__gfal_posix_lstat_lfc()
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
 	int res = gfal_lstat(TEST_GFAL_LFC_FILE_STAT_OK, &buff);
-	if(res != 0){
-		assert_true_with_message(FALSE, " must be a valid lstat");
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
 	
-	if(buff.st_mode != TEST_GFAL_LFC_FILE_STAT_MODE_VALUE 
-		|| buff.st_uid != TEST_GFAL_LFC_FILE_STAT_UID_VALUE
-		|| buff.st_gid != TEST_GFAL_LFC_FILE_STAT_GID_VALUE
-		 || buff.st_size != TEST_GFAL_LFC_FILE_STAT_SIZE_VALUE){
-		assert_true_with_message(FALSE, " this is not the correct value for the lfc lstat on file mode %o, uid %d, gid %d, size %d", 
+	assert_true_with_message( buff.st_mode == TEST_GFAL_LFC_FILE_STAT_MODE_VALUE &&
+		buff.st_uid==TEST_GFAL_LFC_FILE_STAT_UID_VALUE &&
+		buff.st_gid==TEST_GFAL_LFC_FILE_STAT_GID_VALUE,
+		" this is not the correct value for the lfc stat mode %o, uid %d, gid %d, size %d", 
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
-		//g_printerr(" %o %o ", TEST_GFAL_LFC_FILE_STAT_MODE_VALUE , buff.st_mode);
-		gfal_posix_release_error();
-		return;			
-	}
 	
 	gfal_posix_clear_error();
 	
 	res = gfal_lstat(TEST_GFAL_LFC_LINK_STAT_OK, &buff);
-	if(res != 0){
-		assert_true_with_message(FALSE, " must be a valid lstat on a link");
-		gfal_posix_release_error();
-		return;
-	}
-
-	if(buff.st_mode != TEST_GFAL_LFC_LINK_STAT_MODE_VALUE 
-		|| buff.st_uid != TEST_GFAL_LFC_LINK_STAT_UID_VALUE
-		|| buff.st_gid != TEST_GFAL_LFC_LINK_STAT_GID_VALUE
-		 || buff.st_size != TEST_GFAL_LFC_LINK_STAT_SIZE_VALUE){
-		assert_true_with_message(FALSE, " this is not the correct value for the lfc lstat on link mode %o, uid %d, gid %d, size %d", 
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
+	
+	assert_true_with_message( buff.st_mode == TEST_GFAL_LFC_LINK_STAT_MODE_VALUE &&
+		buff.st_uid==TEST_GFAL_LFC_LINK_STAT_UID_VALUE &&
+		buff.st_gid==TEST_GFAL_LFC_LINK_STAT_GID_VALUE,
+		" this is not the correct value for the lfc stat mode %o, uid %d, gid %d, size %d", 
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
-		//g_printerr(" %o %o ", TEST_GFAL_LFC_FILE_STAT_MODE_VALUE , buff.st_mode);
-		gfal_posix_release_error();
-		return;			
-	}
 	
 	res = gfal_lstat(TEST_GFAL_LFC_FILE_STAT_NONEXIST, &buff);
-	if(res == 0 || gfal_posix_code_error() != ENOENT || errno != ENOENT){
-		assert_true_with_message(FALSE, " must be a invalid lstat %d %d %d", res, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}	
-	gfal_posix_clear_error();	
+	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat");
+	gfal_posix_clear_error();		
 }
 
 
@@ -236,35 +214,38 @@ void test__gfal_posix_lstat_lfc()
 
 void test__gfal_posix_lstat_guid()
 {
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	char* tab[]={ "/dtea/testmock", NULL};
+	define_mock_linkinfos(1, tab);
+	define_mock_filelstat(TEST_GFAL_LFC_FILE_STAT_MODE_VALUE, TEST_GFAL_LFC_FILE_STAT_GID_VALUE, TEST_GFAL_LFC_FILE_STAT_UID_VALUE);
+	will_respond(lfc_mock_getlinks, 0, want_string(guid, TEST_GFAL_GUID_FILE_STAT_OK+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	will_respond(lfc_mock_lstatg, 0, want_string(path, tab[0]), want_non_null(linkinfos));
+	will_respond(lfc_mock_getlinks, ENOENT, want_string(guid, TEST_GUID_NOEXIST_ACCESS+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	always_return(lfc_mock_getlinks, EINVAL);
+#endif
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
 	int res = gfal_lstat(TEST_GFAL_GUID_FILE_STAT_OK, &buff);
-	if(res != 0){
-		assert_true_with_message(FALSE, " must be a valid lstat");
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
 	
-	if(buff.st_mode != TEST_GFAL_LFC_FILE_STAT_MODE_VALUE 
-		|| buff.st_uid != TEST_GFAL_LFC_FILE_STAT_UID_VALUE
-		|| buff.st_gid != TEST_GFAL_LFC_FILE_STAT_GID_VALUE
-		 || buff.st_size != TEST_GFAL_LFC_FILE_STAT_SIZE_VALUE){
-		assert_true_with_message(FALSE, " this is not the correct value for the lfc lstat on file mode %o, uid %d, gid %d, size %d", 
+	assert_true_with_message( buff.st_mode == TEST_GFAL_LFC_FILE_STAT_MODE_VALUE &&
+		buff.st_uid==TEST_GFAL_LFC_FILE_STAT_UID_VALUE &&
+		buff.st_gid==TEST_GFAL_LFC_FILE_STAT_GID_VALUE,
+		" this is not the correct value for the lfc stat mode %o, uid %d, gid %d, size %d", 
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
-		//g_printerr(" %o %o ", TEST_GFAL_LFC_FILE_STAT_MODE_VALUE , buff.st_mode);
-		gfal_posix_release_error();
-		return;			
-	}
 	
 	gfal_posix_clear_error();
 	
 
 	res = gfal_lstat(TEST_GUID_NOEXIST_ACCESS, &buff);
-	if(res == 0 || gfal_posix_code_error() != ENOENT || errno != ENOENT){
-		assert_true_with_message(FALSE, " must be a invalid lstat %d %d %d", res, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}	
+	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat");
 	gfal_posix_clear_error();	
 }
 

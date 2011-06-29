@@ -44,6 +44,13 @@ void define_mock_filestatg(mode_t mode, int gid, int uid){
 	defined_filestatg->gid= gid ;		
 }
 
+void define_mock_filelstat(mode_t mode, int gid, int uid){
+	defined_filestat = g_new0(struct lfc_filestat, 1);
+	defined_filestat->filemode = mode;
+	defined_filestat->uid = uid;
+	defined_filestat->gid = gid;
+}
+
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f){
 	int val = (int) mock(lfn, guid, f);
 	if( val == 0){
