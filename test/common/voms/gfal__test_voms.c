@@ -48,6 +48,27 @@ void voms_mock_configure(){
 }
 
 
+void voms_mock_configure_all(){
+#if USE_MOCK
+	g_strlcpy(defined_Error_Message, "Voms mock internal error", 2048);
+	always_return(voms_mock_VOMS_ErrorMessage, 1);
+	always_return(voms_mock_VOMS_Init, 1);
+	always_return(voms_mock_VOMS_SetVerificationType, 1);
+	always_return(voms_mock_VOMS_RetrieveFromProxy, 1);
+	defined_vd.data = calloc(sizeof(struct voms*),2);
+	defined_vd.data[0] = calloc(sizeof(struct voms),1);
+	defined_vd.data[0]->fqan= calloc(sizeof(char*), 3);
+	defined_vd.data[0]->fqan[0]= strdup(FQAN_TEST);	
+	defined_vd.data[0]->fqan[1]= strdup(FQAN_TEST);
+	defined_vd.data[0]->user= strdup(DN_TEST);	
+	defined_vd.data[0]->voname = strdup(VO_TEST);	
+	always_return(voms_mock_VOMS_Destroy, 0);
+	
+#endif	
+	
+}
+
+
 
 
 // check if initiated properly

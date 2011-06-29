@@ -93,29 +93,17 @@ void test__gfal_posix_stat_local()
 	
 	// create a fil of the given size
 	system(TEST_GFAL_LOCAL_STAT_COMMAND);
-	
+	errno=0;
 	int res = gfal_stat(TEST_GFAL_LOCAL_STAT_OK, &buff);
-	if(res != 0){
-		assert_true_with_message(FALSE, " must be a valid stat");
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success");
 	
-	if(buff.st_mode != TEST_GFAL_LOCAL_FILE_STAT_MODE_VALUE 
-		 || buff.st_size != TEST_GFAL_LOCAL_FILE_STAT_SIZE_VALUE){
-		assert_true_with_message(FALSE, " this is not the correct value for the local stat mode %o, uid %d, gid %d, size %d", 
+	assert_true_with_message( buff.st_mode == TEST_GFAL_LOCAL_FILE_STAT_MODE_VALUE,
+		" this is not the correct value for the lfc stat mode %o, uid %d, gid %d, size %d", 
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
-		gfal_posix_release_error();
-		return;			
-	}
 	
 	res = gfal_stat(TEST_GFAL_LOCAL_STAT_NONEXIST, &buff);
-	if(res == 0 || gfal_posix_code_error() != ENOENT || errno != ENOENT){
-		assert_true_with_message(FALSE, " must be a invalid stat %d %d %d", res, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}	
-	gfal_posix_clear_error();		
+	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat");
+	gfal_posix_clear_error();			
 }
 
 
@@ -124,32 +112,28 @@ void test__gfal_posix_stat_srm()
 {
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
-	
-	
-	int res = gfal_stat(TEST_GFAL_SRM_FILE_STAT_OK, &buff);
-	if(res != 0){
-		assert_true_with_message(FALSE, " must be a valid stat");
-		gfal_posix_release_error();
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
 		return;
-	}
+#endif	
+	int res = gfal_stat(TEST_GFAL_SRM_FILE_STAT_OK, &buff);
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success");
 	
-	if(buff.st_mode != TEST_GFAL_SRM_FILE_STAT_MODE_VALUE 
-		|| buff.st_uid != TEST_GFAL_SRM_FILE_STAT_UID_VALUE
-		|| buff.st_gid != TEST_GFAL_SRM_FILE_STAT_GID_VALUE
-		 || buff.st_size != TEST_GFAL_SRM_FILE_STAT_SIZE_VALUE){
-		assert_true_with_message(FALSE, " this is not the correct value for the srm stat mode %o, uid %d, gid %d, size %d", 
+	assert_true_with_message(buff.st_mode == TEST_GFAL_SRM_FILE_STAT_MODE_VALUE 
+		&& buff.st_uid == TEST_GFAL_SRM_FILE_STAT_UID_VALUE
+		&& buff.st_gid == TEST_GFAL_SRM_FILE_STAT_GID_VALUE,
+		" this is not the correct value for the srm stat mode %o, uid %d, gid %d, size %d", 
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
-		gfal_posix_release_error();
-		return;			
-	}	
+	gfal_posix_check_error();
 
 	
 	res = gfal_stat(TEST_GFAL_LOCAL_STAT_NONEXIST, &buff);
-	if(res == 0 || gfal_posix_code_error() != ENOENT || errno != ENOENT){
-		assert_true_with_message(FALSE, " must be a invalid stat %d %d %d", res, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat");
 	gfal_posix_clear_error();	
 	
 }

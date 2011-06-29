@@ -74,14 +74,19 @@ void gfal__test_get_lfchost_bdii()
 		return;		
 	
 #if USE_MOCK
+	voms_mock_init();
+	voms_mock_configure_all();
 	gfal_mds_external_call.sd_get_lfc_endpoint = &mds_mock_sd_get_lfc_endpoint;
 	define_lfc_endpoint = strdup("avalid.lfc.value.fr");	
 	will_respond(mds_mock_sd_get_lfc_endpoint, 0, want_non_null(lfc_endpoint));
 	always_return(mds_mock_sd_get_lfc_endpoint, EFAULT);
 #endif
 	char* lfc = gfal_get_lfchost_bdii(handle, &tmp_err);
-	assert_true_with_message(lfc==NULL, "must return correct lfc value");
-
+	assert_true_with_message(lfc!=NULL && strings_are_equal(lfc, "avalid.lfc.value.fr"), "must return correct lfc value");
+	gfal_check_GError(&tmp_err);
+	lfc = gfal_get_lfchost_bdii(handle, &tmp_err);
+	assert_true_with_message(lfc== NULL, "must return correct lfc value");
+	g_clear_error(&tmp_err);
 	free(lfc);
 	gfal_handle_freeG(handle);	
 	gfal_mds_external_call.sd_get_lfc_endpoint = &sd_get_lfc_endpoint;

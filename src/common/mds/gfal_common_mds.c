@@ -93,7 +93,7 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		gfal_mds_external_call.set_gfal_fqan(fqantab, g_list_length(fqan));
 		//g_printerr(" vo : %s, fqann %d, fqan : %s \n", vo, g_list_length(fqan), *fqantab); 
 		const int ret =  gfal_mds_external_call.sd_get_lfc_endpoint(&lfc_host, NULL, 0);
-		if(!lfc_host || ret <=0){
+		if(!lfc_host || ret <0){
 			g_set_error(err, 0, errno, "[gfal_get_lfchost_bdii] Error while get lfc endpoint from bdii system : %d & %s ", ret, strerror(errno) );
 			lfc_host = NULL;
 		}

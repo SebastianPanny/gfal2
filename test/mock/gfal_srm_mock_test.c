@@ -19,6 +19,15 @@ struct srm_getpermission_output defined_srm_getpermission_output;
 struct srmv2_filestatus* defined_srmv2_filestatus=NULL;
 struct srmv2_pinfilestatus * defined_get_output=NULL;
 
+void define_mock_stat_file_valid(char* surl, mode_t mode, int uid, int gid){
+	defined_srm_ls_output.statuses= g_new0(struct srmv2_mdfilestatus,1);
+	defined_srm_ls_output.statuses->surl = strdup(surl);
+	memset(&defined_srm_ls_output.statuses->stat, 0, sizeof(struct stat));
+	defined_srm_ls_output.statuses->stat.st_mode = mode;
+	defined_srm_ls_output.statuses->stat.st_uid = uid;
+	defined_srm_ls_output.statuses->stat.st_gid= gid;
+	
+}
 
 void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, char** turl, int* status){
 	int i;

@@ -4,6 +4,10 @@
  
 */
 
+void voms_mock_init();
+
+void voms_mock_configure();
+void voms_mock_configure_all();
 
  void test_voms_parse_args();
 void test_voms_info_is_null();

@@ -155,6 +155,7 @@ TestSuite* posix_stat_suite(void){
 	add_test(tc_stat, test__gfal_posix_stat_lfc);
 	add_test(tc_stat, test__gfal_posix_stat_guid);
 	add_test(tc_stat, test__gfal_posix_stat_local);
+	add_test(tc_stat, test__gfal_posix_stat_srm);
 	return tc_stat;
 }
 
