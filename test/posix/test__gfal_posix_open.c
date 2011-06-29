@@ -16,11 +16,7 @@
 void test_open_posix_all_simple()
 {
 	int ret = gfal_open(NULL, O_RDONLY, 555);
-	if(ret > 0 || gfal_posix_code_error() != EFAULT || errno != EFAULT ){
-		assert_true_with_message(FALSE, " must be a failure, null path", ret, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}
+	assert_true_with_message( ret < 0 && gfal_posix_code_error() == EFAULT && errno==EFAULT, " must be a EFAULT response");
 	gfal_posix_clear_error();
 	
 }

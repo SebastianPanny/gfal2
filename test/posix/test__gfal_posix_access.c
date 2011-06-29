@@ -12,6 +12,7 @@
 #include "gfal_posix_api.h"
 #include "lfc/lfc_ifce_ng.h"
 #include "../mock/gfal_lfc_mock_test.h"
+#include "../../src/posix/gfal_posix_internal.h"
 
 
 void mock_srm_access_right_response(char* surl){
