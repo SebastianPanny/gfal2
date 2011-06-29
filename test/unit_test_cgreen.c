@@ -167,7 +167,7 @@ TestSuite* posix_stat_suite(void){
 TestSuite* posix_open_suite(void){
 	TestSuite* tc_open = create_test_suite();
 	add_test(tc_open, test_open_posix_all_simple);
-	
+	add_test(tc_open, test_open_posix_local_simple);
 	return tc_open;
 }
 
