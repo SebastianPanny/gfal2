@@ -99,7 +99,7 @@ struct _gfal_catalog_interface{
 	 int (*closedirG)(catalog_handle, DIR*, GError**);
 	 struct dirent* (*readdirG)(catalog_handle, DIR*, GError**);
 
-	 int (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
+	 gpointer (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
 	 int (*closeG)(catalog_handle, int fd, GError **);
 	 
 	 char** (*getSURLG)(catalog_handle, const char*, GError**);

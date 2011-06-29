@@ -420,10 +420,27 @@ int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err
  * */
 gfal_file_handle gfal_catalog_openG(gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err){
 	GError* tmp_err=NULL;
-	g_set_error(&tmp_err,0, ENOSYS, "not implemented");
+	gpointer fh = NULL;
+	int ret =-1;
+	gfal_file_handle resu =NULL;
+	gfal_catalog_interface* pcata=NULL;
+	
+	gboolean openG_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_OPEN, terr);
+	}	
+	int openG_executor(gfal_catalog_interface* cata_list, GError** terr){
+		fh = cata_list->openG(cata_list->handle, path, flag, mode, terr);
+		pcata= cata_list;
+		return (fh)?0:-1;
+	}	
+	
+	ret = gfal_catalogs_operation_executor(handle, &openG_checker, &openG_executor, &tmp_err);
+	if(!ret){
+		resu = gfal_file_handle_ext_new(GFAL_EXTERNAL_MODULE_OFFSET, fh, pcata);
+	}
 	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
-	return NULL;
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
+	return resu;
 }
 
 /**
@@ -486,17 +503,17 @@ char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err){
  */
 int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, GError** err){
 	GError* tmp_err=NULL;
-	char** resu = NULL;
+	int resu =-1;
 	
 	gboolean getTURLG_checker(gfal_catalog_interface* cata_list, GError** terr){
 		return cata_list->check_catalog_url(cata_list->handle, surl, GFAL_CATALOG_GETTURL, terr);
 	}	
 	int getTURLG_executor(gfal_catalog_interface* cata_list, GError** terr){
-		resu= cata_list->getTURLG(cata_list->handle, surl, buff_turl, size_turl, terr);
-		return (resu)?0:-1;
+		int ret= cata_list->getTURLG(cata_list->handle, surl, buff_turl, size_turl, terr);
+		return (ret);
 	}	
 	
-	gfal_catalogs_operation_executor(handle, &getTURLG_checker, &getTURLG_executor, &tmp_err);
+	resu= gfal_catalogs_operation_executor(handle, &getTURLG_checker, &getTURLG_executor, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
 	return resu;	
