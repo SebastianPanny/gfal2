@@ -120,9 +120,17 @@ void test__gfal_posix_stat_srm()
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;
+
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_mock_stat_file_valid(TEST_GFAL_SRM_FILE_STAT_OK, TEST_GFAL_SRM_FILE_STAT_MODE_VALUE, TEST_GFAL_SRM_FILE_STAT_UID_VALUE, TEST_GFAL_SRM_FILE_STAT_GID_VALUE);
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	will_respond(srm_mock_srm_ls, 0, want_non_null(context), want_non_null(inut), want_non_null(output));
+	always_return(srm_mock_srm_ls, EINVAL);		
+
 #endif	
 	int res = gfal_stat(TEST_GFAL_SRM_FILE_STAT_OK, &buff);
-	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success");
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
 	
 	assert_true_with_message(buff.st_mode == TEST_GFAL_SRM_FILE_STAT_MODE_VALUE 
 		&& buff.st_uid == TEST_GFAL_SRM_FILE_STAT_UID_VALUE

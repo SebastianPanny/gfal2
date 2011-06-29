@@ -65,6 +65,7 @@ static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const
 		} else {
 			memcpy(buf, &(srmv2_mdstatuses->stat), sizeof(struct stat));
 			ret = 0;
+			errno =0;
 		}
 	}else{
 		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
