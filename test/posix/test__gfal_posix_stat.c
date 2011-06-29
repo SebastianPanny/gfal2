@@ -13,6 +13,48 @@
 #include "gfal_posix_api.h"
 #include <errno.h>
 
+void create_srm_stat_env_mock(){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_mock_stat_file_valid(TEST_GFAL_SRM_FILE_STAT_OK, TEST_GFAL_SRM_FILE_STAT_MODE_VALUE, TEST_GFAL_SRM_FILE_STAT_UID_VALUE, TEST_GFAL_SRM_FILE_STAT_GID_VALUE);
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	will_respond(srm_mock_srm_ls, 0, want_non_null(context), want_non_null(inut), want_non_null(output));	
+
+#endif		
+	
+	
+}
+
+void create_srm_stat_env_mock_noent(){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_mock_stat_file_error(TEST_GFAL_SRM_FILE_STAT_NONEXIST, ENOENT, "epic fail");
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	will_respond(srm_mock_srm_ls, 0, want_non_null(context), want_non_null(inut), want_non_null(output));	
+
+#endif		
+	
+	
+}
+
 
 void test__gfal_posix_stat_lfc()
 {
@@ -113,20 +155,7 @@ void test__gfal_posix_stat_srm()
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
 #if USE_MOCK
-	GError* mock_err=NULL;
-	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
-	mock_catalog(handle, &mock_err);
-	setup_mock_srm();
-	if( gfal_check_GError(&mock_err))
-		return;
-
-	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
-	define_mock_stat_file_valid(TEST_GFAL_SRM_FILE_STAT_OK, TEST_GFAL_SRM_FILE_STAT_MODE_VALUE, TEST_GFAL_SRM_FILE_STAT_UID_VALUE, TEST_GFAL_SRM_FILE_STAT_GID_VALUE);
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
-	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
-	will_respond(srm_mock_srm_ls, 0, want_non_null(context), want_non_null(inut), want_non_null(output));
-	always_return(srm_mock_srm_ls, EINVAL);		
+	create_srm_stat_env_mock();	
 
 #endif	
 	int res = gfal_stat(TEST_GFAL_SRM_FILE_STAT_OK, &buff);
@@ -139,8 +168,10 @@ void test__gfal_posix_stat_srm()
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
 	gfal_posix_check_error();
 
-	
-	res = gfal_stat(TEST_GFAL_LOCAL_STAT_NONEXIST, &buff);
+#if USE_MOCK
+	create_srm_stat_env_mock_noent();
+#endif	
+	res = gfal_stat(TEST_GFAL_SRM_FILE_STAT_NONEXIST, &buff);
 	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat");
 	gfal_posix_clear_error();	
 	

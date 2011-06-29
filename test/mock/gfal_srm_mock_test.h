@@ -19,6 +19,7 @@ extern struct srmv2_pinfilestatus * defined_get_output;
 // convenience functions
 void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, char** turl, int* status);
 void define_mock_stat_file(mode_t mode, int uid, int gid);
+void define_mock_stat_file_error(char* surl, int status, char* err);
 // mock functions
 
 

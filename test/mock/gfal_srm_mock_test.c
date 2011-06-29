@@ -29,6 +29,14 @@ void define_mock_stat_file_valid(char* surl, mode_t mode, int uid, int gid){
 	
 }
 
+void define_mock_stat_file_error(char* surl, int status, char* err){
+	defined_srm_ls_output.statuses= g_new0(struct srmv2_mdfilestatus,1);
+	defined_srm_ls_output.statuses->surl = strdup(surl);
+	memset(&defined_srm_ls_output.statuses->stat, 0, sizeof(struct stat));
+	defined_srm_ls_output.statuses->status = status;
+	defined_srm_ls_output.statuses->explanation = strdup(err);
+}
+
 void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, char** turl, int* status){
 	int i;
 	defined_srmv2_filestatus= calloc(sizeof(struct srmv2_filestatus), number);
