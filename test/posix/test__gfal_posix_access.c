@@ -28,6 +28,8 @@ void mock_srm_access_right_response(char* surl){
 	int status[] = { 0, 0 };
 
 	define_mock_srmv2_filestatus(1, surls, NULL,  turls, status);
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));		
 }
@@ -44,6 +46,8 @@ void mock_srm_access_error_response(char* surl, int merror){
 	int status2[] = { merror, 0 };
 	char* surls[] = { surl, NULL };	
 	define_mock_srmv2_filestatus(1, surls, explanation2, NULL, status2);
+define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));	
 }

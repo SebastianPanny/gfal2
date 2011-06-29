@@ -19,7 +19,7 @@ void test_check_bdii_endpoints_srm()
 
 	char **se_types=NULL;
 	char **se_endpoints=NULL;
-	int i1;
+
 	GError * err=NULL;
 	int ret=-1;
 	char* endpoints[] = { TEST_MDS_VALID_ENDPOINT_URL,
@@ -28,13 +28,8 @@ void test_check_bdii_endpoints_srm()
 	
 #if USE_MOCK
 	gfal_mds_external_call.sd_get_se_types_and_endpoints = &mds_mock_sd_get_se_types_and_endpoints;
-	define_se_endpoints = calloc(sizeof(char*), 4);
-	for(i1=0;i1 <3; ++i1)
-		define_se_endpoints[i1]= strdup(TEST_MDS_VALID_ENDPOINT_RESU);
-	define_se_types= calloc(sizeof(char*), 4);
-	char* types[] = { "srm_v1", "srm_v2", "srm_v1"};
-	for(i1=0;i1 <3; ++i1)
-		define_se_types[i1]= strdup(types[i1]);	
+	define_mock_endpoints(TEST_MDS_VALID_ENDPOINT_RESU);
+
 	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_MDS_VALID_ENDPOINT_URL), want_non_null(se_types), want_non_null(se_endpoints));
 	will_respond(mds_mock_sd_get_se_types_and_endpoints, EINVAL, want_string(host, TEST_MDS_INVALID_ENDPOINT_URL), want_non_null(se_types), want_non_null(se_endpoints));
 	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);

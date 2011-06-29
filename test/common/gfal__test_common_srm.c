@@ -21,6 +21,7 @@
 
 void setup_mock_srm(){
 #if USE_MOCK
+	setup_mock_bdii();
 	gfal_srm_external_call.srm_prepare_to_get = &srm_mock_srm_prepare_to_get;
 	gfal_srm_external_call.srm_context_init = &srm_mock_srm_context_init;
 	gfal_srm_external_call.srm_check_permission= &srm_mock_srm_check_permission;
@@ -34,6 +35,9 @@ void setup_mock_bdii(){
 	gfal_mds_external_call.sd_get_se_types_and_endpoints = &mds_mock_sd_get_se_types_and_endpoints;	
 #endif
 }
+
+
+
 
 void test_create_srm_handle()
 {
