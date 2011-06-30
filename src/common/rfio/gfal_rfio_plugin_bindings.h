@@ -18,7 +18,7 @@
 
 /**
  * @file gfal_rfio_plugin_main.c
- * @brief header file for the external rfio's plugin for gfal ( based on the old rfio part in gfal legacy )
+ * @brief header file for bindings for rfio funcs
  * @author Devresse Adrien
  * @version 0.1
  * @date 30/06/2011
@@ -28,21 +28,10 @@
 
 #include <regex.h>
 #include <time.h> 
+#include <stdio.h>
 #include "../gfal_common_catalog.h"
-#include "../gfal_types.h"
-
-typedef struct _gfal_plugin_rfio_handle{
-	gfal_handle handle;
-	struct rfio_proto_ops* rf;
-}* gfal_plugin_rfio_handle;
 
 
-gboolean gfal_rfio_check_url(catalog_handle, const char* url,  catalog_mode mode, GError** err);
+gpointer gfal_rfio_openG(catalog_handle ch , const char* path, int flag, mode_t mode, GError**);
 
-gboolean gfal_rfio_internal_check_url(char* surl, GError** err);
-
-
-gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err);
-
-
-
+int gfal_rfio_closeG(catalog_handle handle, int fd, GError ** err);

@@ -18,7 +18,7 @@
 
 /**
  * @file gfal_rfio_plugin_main.c
- * @brief file for the external plugion rfio for gfal ( based on the old rfio part in gfal legacy )
+ * @brief file for the external rfio's plugin  for gfal ( based on the old rfio part in gfal legacy )
  * @author Devresse Adrien
  * @version 0.1
  * @date 30/06/2011
@@ -33,16 +33,14 @@
 #include "../gfal_common_catalog.h"
 #include "../gfal_types.h"
 #include "gfal_rfio_plugin_layer.h"
+#include "gfal_rfio_plugin_main.h"
+#include "gfal_rfio_plugin_bindings.h"
 
 gboolean gfal_rfio_check_url(catalog_handle, const char* url,  catalog_mode mode, GError** err);
 gboolean gfal_rfio_internal_check_url(char* surl, GError** err);
 const char* gfal_rfio_getName();
 void gfal_rfio_destroyG(catalog_handle handle);
 
-typedef struct _gfal_plugin_rfio_handle{
-	gfal_handle handle;
-	struct rfio_proto_ops* rf;
-}* gfal_plugin_rfio_handle;
 
 /**
  * Init function, called before all
@@ -58,6 +56,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	rfio_catalog.check_catalog_url = &gfal_rfio_check_url;
 	rfio_catalog.getName= &gfal_rfio_getName;
 	rfio_catalog.catalog_delete= &gfal_rfio_destroyG;
+	rfio_catalog.openG= &gfal_rfio_openG;
+	rfio_catalog.closeG= &gfal_rfio_closeG;
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return rfio_catalog;
@@ -85,7 +85,9 @@ gboolean gfal_rfio_check_url(catalog_handle ch, const char* url,  catalog_mode m
 	int ret;
 	GError* tmp_err=NULL;
 	switch(mode){
-		
+			case GFAL_CATALOG_OPEN:
+				ret = gfal_rfio_internal_check_url(url, &tmp_err);
+				break;
 			default:
 				ret =  FALSE;
 				break;
