@@ -97,8 +97,7 @@ static int gfal_module_load(gfal_handle handle, char* module_name, GError** err)
 	if (dlhandle==NULL)
 		g_set_error(&tmp_err, 0, EINVAL, "[%s] Unable to open the %s plugin specified in the %s en var, failure : %s", __func__, module_name, GFAL_PLUGIN_ENVAR, dlerror());
 	else
-		ret = gfal_module_init(handle, dlhandle, module_name, &tmp_err);
-		
+		ret = gfal_module_init(handle, dlhandle, module_name, &tmp_err);	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;
@@ -141,6 +140,7 @@ static int gfal_modules_resolve(gfal_handle handle, GError** err){
 				ret = -1;
 				break;
 			}
+			gfal_print_verbose(GFAL_VERBOSE_VERBOSE, " gfal_plugin loaded succesfully : %s", *p);
 			ret =0;
 			p++;
 		}
@@ -632,7 +632,7 @@ gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path
 	if( (res_surl = gfal_catalog_getSURL(handle, path, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
 		ret = gfal_catalog_open_surl(handle, res_surl, flag, mode, &tmp_err);		
 		g_strfreev(res_surl);
-	}else{ // try std open on the catalogs
+	}else if( tmp_err && tmp_err->code==EPROTONOSUPPORT){ // try std open on the catalogs
 		g_clear_error(&tmp_err);
 		ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
 	}

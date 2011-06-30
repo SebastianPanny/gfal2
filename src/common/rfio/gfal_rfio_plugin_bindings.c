@@ -57,7 +57,7 @@ int gfal_rfio_closeG(catalog_handle handle, int fd, GError ** err){
 	int ret= h->rf->close(fd);
 	if(ret != 0)
 		rfio_report_error(h, __func__, err);
-	return GINT_TO_POINTER(fd);	
+	return ret;	
 }
 
 

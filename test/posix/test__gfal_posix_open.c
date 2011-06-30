@@ -25,10 +25,10 @@ static void test_generic_open_simple(char* url_exist, char* url_noent, char* url
 	int ret = -1;
 	int fd = gfal_open(url_exist, O_RDONLY, 555);
 	assert_true_with_message(fd >0 && gfal_posix_code_error()==0 && errno==0, " must be a valid open %d %d %d", fd, gfal_posix_code_error(), errno);
-
+	gfal_posix_check_error();
 	ret = gfal_close(fd);
 	assert_true_with_message(fd !=0 && ret==0 && gfal_posix_code_error()==0 && errno==0, " must be a valid close %d %d %d", ret, gfal_posix_code_error(), errno);
-	
+	gfal_posix_check_error();	
 	ret = gfal_close(fd);
 	assert_true_with_message( ret==-1 && gfal_posix_code_error()==EBADF && errno==EBADF, " must be a bad descriptor %d %d %d", ret, gfal_posix_code_error(), errno);
 
