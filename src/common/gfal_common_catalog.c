@@ -70,6 +70,23 @@ static int gfal_module_init(gfal_handle handle, void* dlhandle, const char* modu
 	return ret;	
 }
 
+char** gfal_catalogs_get_list(gfal_handle handle, GError** err){
+	GError* tmp_err=NULL;
+	char** resu =NULL;
+	int n = gfal_catalogs_instance(handle, &tmp_err);
+	if(n > 0){
+		resu =g_new0(char*,n+1);
+		int i;
+		gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
+		for(i=0; i < n; ++i, ++cata_list){
+			resu[i] = strndup(cata_list->getName(), GFAL_URL_MAX_LEN);
+		}	
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, &tmp_err, "[%s]", __func__);
+	return resu;
+}
+
 /**
  *  load the gfal_plugins in the listed library
  */ 

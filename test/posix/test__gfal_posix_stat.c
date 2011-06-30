@@ -182,6 +182,18 @@ void test__gfal_posix_stat_srm()
 
 void test__gfal_posix_lstat_lfc()
 {
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	mock_catalog(handle, &mock_err);
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	char* tab[]={ "/dtea/testmock", NULL};
+	define_mock_filelstat(TEST_GFAL_LFC_FILE_STAT_MODE_VALUE, TEST_GFAL_LFC_FILE_STAT_GID_VALUE, TEST_GFAL_LFC_FILE_STAT_UID_VALUE);
+	will_respond(lfc_mock_lstatg, 0, want_string(path, tab[0]), want_non_null(linkinfos));
+#endif
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
 	int res = gfal_lstat(TEST_GFAL_LFC_FILE_STAT_OK, &buff);
@@ -192,9 +204,14 @@ void test__gfal_posix_lstat_lfc()
 		buff.st_gid==TEST_GFAL_LFC_FILE_STAT_GID_VALUE,
 		" this is not the correct value for the lfc stat mode %o, uid %d, gid %d, size %d", 
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
-	
 	gfal_posix_clear_error();
 	
+#if USE_MOCK
+	define_mock_filelstat(TEST_GFAL_LFC_LINK_STAT_MODE_VALUE, TEST_GFAL_LFC_LINK_STAT_GID_VALUE, TEST_GFAL_LFC_LINK_STAT_UID_VALUE);
+	will_respond(lfc_mock_lstatg, 0, want_string(path, tab[0]), want_non_null(linkinfos));
+	will_respond(lfc_mock_lstatg, ENOENT, want_string(path, tab[0]), want_non_null(linkinfos));
+#endif	
+
 	res = gfal_lstat(TEST_GFAL_LFC_LINK_STAT_OK, &buff);
 	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
 	

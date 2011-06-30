@@ -68,7 +68,7 @@ enum _catalog_mode{
 struct _gfal_catalog_interface{
 	// handle
 	catalog_handle handle;
-	// to have name/id of the catalog
+	// to have name/id of the catalog MUST be IMPLEMENTED
 	const char* (*getName)();
 	/**
 	 * Called before the destruction of the catalog interface
@@ -132,6 +132,8 @@ extern char* gfal_get_cat_type(GError**);
 
 
 int gfal_catalogs_instance(gfal_handle, GError** err);
+
+char** gfal_catalogs_get_list(gfal_handle, GError** err);
 
 int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError** err);
 

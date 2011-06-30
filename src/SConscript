@@ -14,6 +14,7 @@ src_all = common_src + common_mds + common_voms + posix_src_all
 
 plugin_lfc = Glob("common/lfc/*.c")
 plugin_srm = Glob("common/srm/*.c")
+plugin_rfio = Glob("common/rfio/*.c")
 
 
 ##
@@ -30,6 +31,7 @@ env_plugin = env.Clone();
 env_plugin.Append(LIBS=["gfal"])
 plugin_lfc_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_lfc', plugin_lfc)
 plugin_srm_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm)
+plugin_rfio_lib= env_plugin.SharedLibrary('#build/libs/libgfal_plugin_rfio', plugin_rfio);
 
-Default(plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib)
+Default(plugin_rfio_lib,plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib)
 

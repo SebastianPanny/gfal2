@@ -73,6 +73,8 @@
 
 #define TEST_SRM_TURL_EXAMPLE1 "rfio://grid28.lal.in2p3.fr//dpmpart/part1/dteam/2011-05-26/file75715ccc-1c54-4d18-8824-bdd3716a2b54.51704540.0"
 #define TEST_SRM_IFCE_INVALID_PATH_REP "[SE][StatusOfPutRequest][SRM_INVALID_PATH] <none>"
+// rfio
+#define TEST_SRM_RFIO_EXAMPLE1 TEST_SRM_TURL_EXAMPLE1
 
 // chmod 
 #define TEST_LFC_MOD_READ_FILE "lfn:/grid/dteam/testchmodread0011"

@@ -47,6 +47,7 @@
 #include "posix/test__gfal_posix_mkdir.h"
 #include "posix/test__gfal_posix_stat.h"
 #include "posix/test__gfal_posix_open.h"
+#include "common/rfio/test__gfal_rfio_plugin.h"
 
 TestSuite * verbose_suite (void)
 {
@@ -172,6 +173,12 @@ TestSuite* posix_open_suite(void){
 	return tc_open;
 }
 
+TestSuite* posix_rfio_plugin_suite(){
+	TestSuite* tc_rfio = create_test_suite();
+	add_test(tc_rfio, test_load_plugin);
+	return tc_rfio;	
+}
+
 TestSuite* posix_access_suite (void)
 {
   TestSuite* tc_access = create_test_suite();
@@ -259,6 +266,7 @@ int main (int argc, char** argv)
 	add_suite(global, posix_mkdir_suite());
 	add_suite(global, posix_stat_suite());
 	add_suite(global, posix_open_suite());
+	add_suite(global, posix_rfio_plugin_suite());
 	//add_suite(global, filedesc_suite());
     if (argc > 1) {
         return run_single_test(global, argv[1], create_text_reporter());
