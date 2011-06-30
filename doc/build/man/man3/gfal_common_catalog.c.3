@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "30 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -28,6 +28,9 @@
 .SS "Functions"
 
 .in +1c
+.ti -1c
+.RI "char ** \fBgfal_catalogs_get_list\fP (gfal_handle handle, GError **err)"
+.br
 .ti -1c
 .RI "int \fBgfal_catalogs_instance\fP (gfal_handle handle, GError **err)"
 .br
@@ -77,15 +80,18 @@
 .RI "char ** \fBgfal_catalog_getSURL\fP (gfal_handle handle, const char *path, GError **err)"
 .br
 .ti -1c
-.RI "char * \fBgfal_catalog_resolve_guid\fP (gfal_handle handle, const char *guid, GError **err)"
+.RI "int \fBgfal_catalog_getTURLG\fP (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, GError **err)"
 .br
 .ti -1c
-.RI "gfal_file_handle \fBgfal_catalog_open_globalG\fP (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)"
+.RI "char * \fBgfal_catalog_resolve_guid\fP (gfal_handle handle, const char *guid, GError **err)"
 .br
 .ti -1c
 .RI "char * \fBgfal_get_cat_type\fP (GError **err)"
 .br
 .RI "\fIcatalog type getter \fP"
+.ti -1c
+.RI "gfal_file_handle \fBgfal_catalog_open_globalG\fP (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -128,6 +134,21 @@ close the given file handle in the proper catalog
 .SS "char** gfal_catalog_getSURL (gfal_handle handle, const char * path, GError ** err)"
 .PP
 Resolve a link on the catalog to a list of surl 
+.PP
+\fBReturns:\fP
+.RS 4
+pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+must be free with g_list_free_full 
+.RE
+.PP
+
+.SS "int gfal_catalog_getTURLG (gfal_handle handle, const char * surl, char * buff_turl, int size_turl, GError ** err)"
+.PP
+Resolve a surl to a 'GET' turl 
 .PP
 \fBReturns:\fP
 .RS 4

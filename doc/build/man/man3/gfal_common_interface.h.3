@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h" 3 "30 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -19,9 +19,6 @@
 .br
 .ti -1c
 .RI "int \fBgfal_has_error\fP (gfal_handle handle)"
-.br
-.ti -1c
-.RI "void \fBgfal_clear_error\fP (gfal_handle handle)"
 .br
 .ti -1c
 .RI "gfal_handle \fBgfal_handle_new\fP ()"
@@ -87,14 +84,6 @@ launch a surls-> turls translation in asynchronous mode progress of the last req
 \fBReturns:\fP
 .RS 4
 return positive value if the current request is finished, 0 if false or -1 if error occured Wrapper of gfal_async_request_is_finishedG for the 'without GLib' use case. 
-.RE
-.PP
-
-.SS "void gfal_clear_error (gfal_handle handle)"
-.PP
-\fBReturns:\fP
-.RS 4
-clear the current error registered in the handle 
 .RE
 .PP
 

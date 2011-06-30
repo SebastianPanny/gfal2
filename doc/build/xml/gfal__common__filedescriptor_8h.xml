@@ -10,8 +10,6 @@
     <includedby refid="gfal__common__filedescriptor_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c</includedby>
     <includedby refid="gfal__common__srm__opendir_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.h</includedby>
     <includedby refid="gfal__common__srm__readdir_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.h</includedby>
-    <includedby refid="gfal__common__srm__open_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.h</includedby>
-    <includedby refid="gfal__common__srm__open_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c</includedby>
     <includedby refid="gfal__posix__close_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c</includedby>
     <includedby refid="gfal__posix__closedir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</includedby>
     <includedby refid="gfal__posix__local__file_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</includedby>
@@ -51,13 +49,9 @@
         <childnode refid="354" relation="include">
         </childnode>
       </node>
-      <node id="361">
+      <node id="358">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
         <link refid="gfal__posix__closedir_8c"/>
-      </node>
-      <node id="359">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</label>
-        <link refid="gfal__posix__open_8c"/>
       </node>
       <node id="353">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</label>
@@ -75,23 +69,11 @@
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
         <link refid="gfal__posix__readdir_8c"/>
       </node>
-      <node id="358">
-        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c</label>
-        <link refid="gfal__common__srm__open_8c"/>
-      </node>
-      <node id="357">
-        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.h</label>
-        <link refid="gfal__common__srm__open_8h"/>
-        <childnode refid="358" relation="include">
-        </childnode>
-        <childnode refid="359" relation="include">
-        </childnode>
-      </node>
-      <node id="362">
+      <node id="359">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</label>
         <link refid="gfal__posix__local__file_8c"/>
       </node>
-      <node id="360">
+      <node id="357">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c</label>
         <link refid="gfal__posix__close_8c"/>
       </node>
@@ -122,11 +104,7 @@
         </childnode>
         <childnode refid="358" relation="include">
         </childnode>
-        <childnode refid="360" relation="include">
-        </childnode>
-        <childnode refid="361" relation="include">
-        </childnode>
-        <childnode refid="362" relation="include">
+        <childnode refid="359" relation="include">
         </childnode>
         <childnode refid="354" relation="include">
         </childnode>

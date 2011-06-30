@@ -1,0 +1,71 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c" 3 "30 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c \- file for the external plugion rfio for gfal ( based on the old rfio part in gfal legacy ) 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <regex.h>\fP
+.br
+\fC#include <time.h>\fP
+.br
+\fC#include '../gfal_common_internal.h'\fP
+.br
+\fC#include '../gfal_common_errverbose.h'\fP
+.br
+\fC#include '../gfal_common_catalog.h'\fP
+.br
+\fC#include '../gfal_types.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "gboolean \fBgfal_rfio_check_url\fP (catalog_handle, const char *url, catalog_mode mode, GError **err)"
+.br
+.ti -1c
+.RI "gboolean \fBgfal_rfio_internal_check_url\fP (char *surl, GError **err)"
+.br
+.ti -1c
+.RI "const char * \fBgfal_rfio_getName\fP ()"
+.br
+.ti -1c
+.RI "void \fBgfal_rfio_destroyG\fP (catalog_handle handle)"
+.br
+.ti -1c
+.RI "gfal_catalog_interface \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+file for the external plugion rfio for gfal ( based on the old rfio part in gfal legacy ) 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+0.1 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+30/06/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "gfal_catalog_interface gfal_plugin_init (gfal_handle handle, GError ** err)"
+.PP
+Init function, called before all 
+.SS "gboolean gfal_rfio_check_url (catalog_handle ch, const char * url, catalog_mode mode, GError ** err)"
+.PP
+Check the rfio url in the gfal module way 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

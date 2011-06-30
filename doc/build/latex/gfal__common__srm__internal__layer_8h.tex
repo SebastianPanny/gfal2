@@ -18,6 +18,8 @@ int \bf{gfal\_\-check\_\-fullendpoint\_\-in\_\-surl} (const char $\ast$surl, GEr
 \item 
 int \textbf{gfal\_\-srm\_\-get\-TURLS\_\-internal} (gfal\_\-handle handle, char $\ast$$\ast$surls, gfal\_\-srm\_\-result $\ast$$\ast$resu, GError $\ast$$\ast$err)\label{gfal__common__srm__internal__layer_8h_07842f2edba0cfe563392ac479102b34}
 
+\item 
+int \bf{gfal\_\-srm\_\-get\-TURLS\_\-catalog} (catalog\_\-handle ch, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, GError $\ast$$\ast$err)
 \end{CompactItemize}
 \subsection*{Variables}
 \begin{CompactItemize}
@@ -44,4 +46,9 @@ header file for the srm external function mapping for mocking purpose
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-check\_\-fullendpoint\_\-in\_\-surl (const char $\ast$ {\em surl}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_d12926fb068b66769f28f2c4fc177bd2}
 
 
-return 0 if a full endpoint is contained in surl 
+return 0 if a full endpoint is contained in surl \index{gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}!gfal_srm_getTURLS_catalog@{gfal\_\-srm\_\-getTURLS\_\-catalog}}
+\index{gfal_srm_getTURLS_catalog@{gfal\_\-srm\_\-getTURLS\_\-catalog}!gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-get\-TURLS\_\-catalog (catalog\_\-handle {\em ch}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_696b46d517fcc84154af45e43ecd73f9}
+
+
+simple wrapper to get\-TURLs for the gfal\_\-module layer 

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "30 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -76,6 +76,12 @@
 .ti -1c
 .RI "int \fBgfal_posix_code_error\fP ()"
 .br
+.ti -1c
+.RI "int \fBgfal_posix_check_error\fP ()"
+.br
+.ti -1c
+.RI "char * \fBgfal_posix_strerror\fP ()"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -99,15 +105,31 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
+.SS "int gfal_posix_check_error ()"
+.PP
+check the current error, if no error report return 0 else return 1 and print the error on stderr 
+.PP
+\fBWarning:\fP
+.RS 4
+this does not clear the error 
+.RE
+.PP
+
 .SS "void gfal_posix_clear_error ()"
 .PP
 clear the last error reported by a gfal posix function 
+.SS "int gfal_posix_code_error ()"
+.PP
+return the current error code registered or if not exist 
 .SS "void gfal_posix_print_error ()"
 .PP
 Display the last string error reported by the gfal error system for the posix API Errors are printed on stderr 
 .SS "void gfal_posix_release_error ()"
 .PP
 Display and clear the last string error reported by the gfal error system for the posix API and similar to a \fBgfal_posix_print_error()\fP and a \fBgfal_posix_clear_error()\fP 
+.SS "char* gfal_posix_strerror ()"
+.PP
+get the current error string 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

@@ -14,6 +14,9 @@ the file of the common lib for the catalog management
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
+char $\ast$$\ast$ \textbf{gfal\_\-catalogs\_\-get\_\-list} (gfal\_\-handle handle, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_20c2d1d8a7a1ece12f74640325e0be89}
+
+\item 
 int \bf{gfal\_\-catalogs\_\-instance} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 int \textbf{gfal\_\-catalogs\_\-operation\_\-executor} (gfal\_\-handle handle, gboolean($\ast$checker)(gfal\_\-catalog\_\-interface $\ast$, GError $\ast$$\ast$), int($\ast$executor)(gfal\_\-catalog\_\-interface $\ast$, GError $\ast$$\ast$), GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_50865ab5cba98b1c7e7f48d982120e3d}
@@ -47,13 +50,15 @@ dirent $\ast$ \bf{gfal\_\-catalog\_\-readdir\-G} (gfal\_\-handle handle, gfal\_\
 \item 
 char $\ast$$\ast$ \bf{gfal\_\-catalog\_\-get\-SURL} (gfal\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
+int \bf{gfal\_\-catalog\_\-get\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, GError $\ast$$\ast$err)
+\item 
 char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_4955825d7c275f3dfae9a57232642370}
 
 \item 
-gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-open\_\-global\-G} (gfal\_\-handle handle, const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)
-\item 
 char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\item 
+gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-open\_\-global\-G} (gfal\_\-handle handle, const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)
+\end{CompactItemize}
 
 
 \subsection{Detailed Description}
@@ -91,6 +96,15 @@ close the given file handle in the proper catalog \index{gfal_common_catalog.c@{
 
 
 Resolve a link on the catalog to a list of surl \begin{Desc}
+\item[Returns:]pointer to a table of string with all the surls, table end with NULL, or return NULL if error \end{Desc}
+\begin{Desc}
+\item[Warning:]must be free with g\_\-list\_\-free\_\-full \end{Desc}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_getTURLG@{gfal\_\-catalog\_\-getTURLG}}
+\index{gfal_catalog_getTURLG@{gfal\_\-catalog\_\-getTURLG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-get\-TURLG (gfal\_\-handle {\em handle}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_a9e232448a5906afb93e9f17dcce697c}
+
+
+Resolve a surl to a \char`\"{}GET\char`\"{} turl \begin{Desc}
 \item[Returns:]pointer to a table of string with all the surls, table end with NULL, or return NULL if error \end{Desc}
 \begin{Desc}
 \item[Warning:]must be free with g\_\-list\_\-free\_\-full \end{Desc}

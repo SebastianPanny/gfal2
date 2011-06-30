@@ -46,8 +46,6 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8c.html#ad28f1c5d1a0ed623834e6133bb7dd2e">gfal_has_error</a> (gfal_handle handle)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__interface_8c.html#4ca376cf47166fabd46a45fccb863ebe">gfal_clear_error</a> (gfal_handle handle)</td></tr>
-
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Wrapper file for the NON "G" functions. 
@@ -76,27 +74,6 @@ Wrapper file for the NON "G" functions.
 launch a surls-&gt; turls translation in asynchronous mode progress of the last request 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>return positive value if the current request is finished, 0 if false or -1 if error occured Wrapper of gfal_async_request_is_finishedG for the "without GLib" use case. </dd></dl>
-
-</div>
-</div><p>
-<a class="anchor" name="4ca376cf47166fabd46a45fccb863ebe"></a><!-- doxytag: member="gfal_common_interface.c::gfal_clear_error" ref="4ca376cf47166fabd46a45fccb863ebe" args="(gfal_handle handle)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void gfal_clear_error           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>clear the current error registered in the handle </dd></dl>
 
 </div>
 </div><p>
@@ -345,7 +322,7 @@ wait for the current request
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 23 17:38:45 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 30 15:47:27 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

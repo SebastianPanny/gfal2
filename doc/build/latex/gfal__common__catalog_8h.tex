@@ -51,6 +51,9 @@ char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$)
 \begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\item 
 int \bf{gfal\_\-catalogs\_\-instance} (gfal\_\-handle, GError $\ast$$\ast$err)
 \item 
+char $\ast$$\ast$ \textbf{gfal\_\-catalogs\_\-get\_\-list} (gfal\_\-handle, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_01278095d52a0e33643de8c084ccba76}
+
+\item 
 int \bf{gfal\_\-catalogs\_\-access\-G} (gfal\_\-handle handle, const char $\ast$path, int mode, GError $\ast$$\ast$err)
 \item 
 int \textbf{gfal\_\-catalogs\_\-guid\_\-access\-G} (gfal\_\-handle handle, char $\ast$guid, int mode, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_fdd144370f8c6df2564eaddbf26e2fd5}
@@ -79,8 +82,7 @@ int \bf{gfal\_\-catalog\_\-close\-G} (gfal\_\-handle handle, gfal\_\-file\_\-han
 \item 
 char $\ast$$\ast$ \bf{gfal\_\-catalog\_\-get\-SURL} (gfal\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
-int \textbf{get\-TURLG} (catalog\_\-handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_e07359623ebe9f9b44bf4badb4884386}
-
+int \bf{gfal\_\-catalog\_\-get\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, GError $\ast$$\ast$err)
 \item 
 dirent $\ast$ \bf{gfal\_\-catalog\_\-readdir\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
 \item 
@@ -147,6 +149,15 @@ close the given file handle in the proper catalog \index{gfal_common_catalog.h@{
 
 
 Resolve a link on the catalog to a list of surl \begin{Desc}
+\item[Returns:]pointer to a table of string with all the surls, table end with NULL, or return NULL if error \end{Desc}
+\begin{Desc}
+\item[Warning:]must be free with g\_\-list\_\-free\_\-full \end{Desc}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_getTURLG@{gfal\_\-catalog\_\-getTURLG}}
+\index{gfal_catalog_getTURLG@{gfal\_\-catalog\_\-getTURLG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-get\-TURLG (gfal\_\-handle {\em handle}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_a9e232448a5906afb93e9f17dcce697c}
+
+
+Resolve a surl to a \char`\"{}GET\char`\"{} turl \begin{Desc}
 \item[Returns:]pointer to a table of string with all the surls, table end with NULL, or return NULL if error \end{Desc}
 \begin{Desc}
 \item[Warning:]must be free with g\_\-list\_\-free\_\-full \end{Desc}

@@ -39,8 +39,11 @@ void \bf{gfal\_\-posix\_\-release\_\-error} ()
 \item 
 void \bf{gfal\_\-posix\_\-clear\_\-error} ()
 \item 
-int \textbf{gfal\_\-posix\_\-code\_\-error} ()\label{gfal__posix__ng_8c_c6149b0b3c9c8af05789169a18832634}
-
+int \bf{gfal\_\-posix\_\-code\_\-error} ()
+\item 
+int \bf{gfal\_\-posix\_\-check\_\-error} ()
+\item 
+char $\ast$ \bf{gfal\_\-posix\_\-strerror} ()
 \end{CompactItemize}
 
 
@@ -56,12 +59,24 @@ main file of the posix lib ng
 
 
 \subsection{Function Documentation}
+\index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_check_error@{gfal\_\-posix\_\-check\_\-error}}
+\index{gfal_posix_check_error@{gfal\_\-posix\_\-check\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-check\_\-error ()}\label{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373}
+
+
+check the current error, if no error report return 0 else return 1 and print the error on stderr \begin{Desc}
+\item[Warning:]this does not clear the error \end{Desc}
 \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_clear_error@{gfal\_\-posix\_\-clear\_\-error}}
 \index{gfal_posix_clear_error@{gfal\_\-posix\_\-clear\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-posix\_\-clear\_\-error ()}\label{gfal__posix__ng_8c_a8252652c1dc86d71ba37b401fb675f9}
 
 
-clear the last error reported by a gfal posix function \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_print_error@{gfal\_\-posix\_\-print\_\-error}}
+clear the last error reported by a gfal posix function \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_code_error@{gfal\_\-posix\_\-code\_\-error}}
+\index{gfal_posix_code_error@{gfal\_\-posix\_\-code\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-code\_\-error ()}\label{gfal__posix__ng_8c_c6149b0b3c9c8af05789169a18832634}
+
+
+return the current error code registered or if not exist \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_print_error@{gfal\_\-posix\_\-print\_\-error}}
 \index{gfal_posix_print_error@{gfal\_\-posix\_\-print\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-posix\_\-print\_\-error ()}\label{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024}
 
@@ -71,4 +86,9 @@ Display the last string error reported by the gfal error system for the posix AP
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-posix\_\-release\_\-error ()}\label{gfal__posix__ng_8c_85337290460234042db0adfd54514df9}
 
 
-Display and clear the last string error reported by the gfal error system for the posix API and similar to a \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} and a \doxyref{gfal\_\-posix\_\-clear\_\-error()}{p.}{gfal__posix__ng_8c_a8252652c1dc86d71ba37b401fb675f9} 
+Display and clear the last string error reported by the gfal error system for the posix API and similar to a \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} and a \doxyref{gfal\_\-posix\_\-clear\_\-error()}{p.}{gfal__posix__ng_8c_a8252652c1dc86d71ba37b401fb675f9} \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_strerror@{gfal\_\-posix\_\-strerror}}
+\index{gfal_posix_strerror@{gfal\_\-posix\_\-strerror}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-posix\_\-strerror ()}\label{gfal__posix__ng_8c_f1e9108a1ffb0c7a28bdfd62bb8f75e2}
+
+
+get the current error string 

@@ -67,6 +67,9 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#791ad55a9c8aaca0bb8ae74a3538c202"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#d272f75eb549a72064524ecce3c25fe7">gfal_catalogs_instance</a> (gfal_handle, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="01278095d52a0e33643de8c084ccba76"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_get_list" ref="01278095d52a0e33643de8c084ccba76" args="(gfal_handle, GError **err)" -->
+char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_get_list</b> (gfal_handle, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#4fd85b35f2134b73207c12b54e85959d">gfal_catalogs_accessG</a> (gfal_handle handle, const char *path, int mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fdd144370f8c6df2564eaddbf26e2fd5"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_guid_accessG" ref="fdd144370f8c6df2564eaddbf26e2fd5" args="(gfal_handle handle, char *guid, int mode, GError **err)" -->
@@ -95,8 +98,7 @@ char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolv
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#eeef83dd1c788197ed7ae4a933d8e8d3">gfal_catalog_getSURL</a> (gfal_handle handle, const char *path, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e07359623ebe9f9b44bf4badb4884386"></a><!-- doxytag: member="gfal_common_catalog.h::getTURLG" ref="e07359623ebe9f9b44bf4badb4884386" args="(catalog_handle, const char *surl, char *buff_turl, int size_turl, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>getTURLG</b> (catalog_handle, const char *surl, char *buff_turl, int size_turl, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#a9e232448a5906afb93e9f17dcce697c">gfal_catalog_getTURLG</a> (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#9ba0d48d73fe53d42d3a715e57473adb">gfal_catalog_readdirG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
 
@@ -244,6 +246,55 @@ close the given file handle in the proper catalog
 
 <p>
 Resolve a link on the catalog to a list of surl <dl compact><dt><b>Returns:</b></dt><dd>pointer to a table of string with all the surls, table end with NULL, or return NULL if error </dd></dl>
+<dl compact><dt><b>Warning:</b></dt><dd>must be free with g_list_free_full </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="a9e232448a5906afb93e9f17dcce697c"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_getTURLG" ref="a9e232448a5906afb93e9f17dcce697c" args="(gfal_handle handle, const char *surl, char *buff_turl, int size_turl, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_getTURLG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>surl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>buff_turl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>size_turl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Resolve a surl to a "GET" turl <dl compact><dt><b>Returns:</b></dt><dd>pointer to a table of string with all the surls, table end with NULL, or return NULL if error </dd></dl>
 <dl compact><dt><b>Warning:</b></dt><dd>must be free with g_list_free_full </dd></dl>
 
 </div>
@@ -684,7 +735,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 23 17:38:45 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 30 15:47:27 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

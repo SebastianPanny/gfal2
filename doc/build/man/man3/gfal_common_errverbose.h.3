@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "30 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -59,7 +59,10 @@
 .RI "void \fBg_propagate_prefixed_error\fP (GError **dest, GError *src, const gchar *format,...) G_GNUC_PRINTF(3"
 .br
 .ti -1c
-.RI "void void \fBg_list_free_full\fP (GList *list, GDestroyNotify free_func)"
+.RI "void void \fBg_prefix_error\fP (GError **err, const gchar *format,...)"
+.br
+.ti -1c
+.RI "void \fBg_list_free_full\fP (GList *list, GDestroyNotify free_func)"
 .br
 .in -1c
 .SS "Variables"

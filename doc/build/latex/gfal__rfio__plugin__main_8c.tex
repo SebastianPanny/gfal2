@@ -1,0 +1,51 @@
+\section{/home/adevress/myworkspace/gfal/src/common/rfio/gfal\_\-rfio\_\-plugin\_\-main.c File Reference}
+\label{gfal__rfio__plugin__main_8c}\index{/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c@{/home/adevress/myworkspace/gfal/src/common/rfio/gfal\_\-rfio\_\-plugin\_\-main.c}}
+file for the external plugion rfio for gfal ( based on the old rfio part in gfal legacy ) 
+
+{\tt \#include $<$regex.h$>$}\par
+{\tt \#include $<$time.h$>$}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-internal.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-catalog.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-types.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+gboolean \bf{gfal\_\-rfio\_\-check\_\-url} (catalog\_\-handle, const char $\ast$url, catalog\_\-mode mode, GError $\ast$$\ast$err)
+\item 
+gboolean \textbf{gfal\_\-rfio\_\-internal\_\-check\_\-url} (char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__rfio__plugin__main_8c_c5e436536797abe10805df63cd82d9eb}
+
+\item 
+const char $\ast$ \textbf{gfal\_\-rfio\_\-get\-Name} ()\label{gfal__rfio__plugin__main_8c_621cd96c7d439a5ae88cbc03960b3e8d}
+
+\item 
+void \textbf{gfal\_\-rfio\_\-destroy\-G} (catalog\_\-handle handle)\label{gfal__rfio__plugin__main_8c_5d5e134df56b9dab9254ac9ba04c7671}
+
+\item 
+gfal\_\-catalog\_\-interface \bf{gfal\_\-plugin\_\-init} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+file for the external plugion rfio for gfal ( based on the old rfio part in gfal legacy ) 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]0.1 \end{Desc}
+\begin{Desc}
+\item[Date:]30/06/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_rfio_plugin_main.c@{gfal\_\-rfio\_\-plugin\_\-main.c}!gfal_plugin_init@{gfal\_\-plugin\_\-init}}
+\index{gfal_plugin_init@{gfal\_\-plugin\_\-init}!gfal_rfio_plugin_main.c@{gfal\_\-rfio\_\-plugin\_\-main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-catalog\_\-interface gfal\_\-plugin\_\-init (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__rfio__plugin__main_8c_5c9edde4d67d96432a319d940a4799f1}
+
+
+Init function, called before all \index{gfal_rfio_plugin_main.c@{gfal\_\-rfio\_\-plugin\_\-main.c}!gfal_rfio_check_url@{gfal\_\-rfio\_\-check\_\-url}}
+\index{gfal_rfio_check_url@{gfal\_\-rfio\_\-check\_\-url}!gfal_rfio_plugin_main.c@{gfal\_\-rfio\_\-plugin\_\-main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-rfio\_\-check\_\-url (catalog\_\-handle {\em ch}, const char $\ast$ {\em url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__rfio__plugin__main_8c_4ccb47b2adefd1e120cf7bc297c7ddc6}
+
+
+Check the rfio url in the gfal module way 

@@ -44,29 +44,28 @@
 <a name="l00032"></a>00032 
 <a name="l00033"></a>00033 <span class="keywordtype">int</span> <a class="code" href="gfal__common__interface_8c.html#ad28f1c5d1a0ed623834e6133bb7dd2e">gfal_has_error</a>(gfal_handle handle);
 <a name="l00034"></a>00034 
-<a name="l00035"></a>00035 <span class="keywordtype">void</span> <a class="code" href="gfal__common__interface_8c.html#4ca376cf47166fabd46a45fccb863ebe">gfal_clear_error</a>(gfal_handle handle);
-<a name="l00036"></a>00036 
-<a name="l00037"></a>00037 gfal_handle <a class="code" href="gfal__common__interface_8c.html#4211faf02a3c5cc696c7c9f974415d11">gfal_handle_new</a>();
-<a name="l00038"></a>00038 
-<a name="l00039"></a>00039 <span class="keywordtype">void</span> gfal_handle_free(gfal_handle handle);
-<a name="l00040"></a>00040 
-<a name="l00041"></a>00041 <span class="keywordtype">int</span> gfal_get_async(gfal_handle handle, <span class="keywordtype">char</span>** surls);
-<a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="keywordtype">int</span> <a class="code" href="gfal__common__interface_8c.html#ce6fcac8e92ad2e1d699eed2ce74a257">gfal_async_request_is_finished</a>(gfal_handle handle);
-<a name="l00044"></a>00044 
-<a name="l00045"></a>00045 <span class="keywordtype">int</span> <a class="code" href="gfal__common__interface_8c.html#0c654545b837b8e1928842ee762ce5e9">gfal_get_async_results</a>(gfal_handle handle, <span class="keywordtype">char</span>*** turls);
-<a name="l00046"></a>00046 
-<a name="l00047"></a>00047 <span class="keywordtype">int</span> gfal_get_async_get_results_errcodes(gfal_handle handle, <span class="keywordtype">int</span>** turl_errcode);
-<a name="l00048"></a>00048 
-<a name="l00049"></a>00049 <span class="keywordtype">int</span> gfal_get_async_get_results_errstring(gfal_handle handle, <span class="keywordtype">char</span>*** turl_errstring);
-<a name="l00050"></a>00050 
-<a name="l00051"></a>00051 <span class="keywordtype">int</span> <a class="code" href="gfal__common__interface_8c.html#08c8573e050334d5342a31a48b7db4cb">gfal_wait_async_request</a>(gfal_handle handle, <span class="keywordtype">long</span> timeout);
-<a name="l00052"></a>00052   
-<a name="l00053"></a>00053 <span class="keywordtype">void</span> <a class="code" href="gfal__common__interface_8c.html#95450f539ccc18d88b0d7dede8519bef">gfal_set_nobdii_srm</a>(gfal_handle handle, gboolean no_bdii_chk);
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 gfal_handle <a class="code" href="gfal__common__interface_8c.html#4211faf02a3c5cc696c7c9f974415d11">gfal_handle_new</a>();
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="keywordtype">void</span> gfal_handle_free(gfal_handle handle);
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 <span class="keywordtype">int</span> gfal_get_async(gfal_handle handle, <span class="keywordtype">char</span>** surls);
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 <span class="keywordtype">int</span> <a class="code" href="gfal__common__interface_8c.html#ce6fcac8e92ad2e1d699eed2ce74a257">gfal_async_request_is_finished</a>(gfal_handle handle);
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 <span class="keywordtype">int</span> <a class="code" href="gfal__common__interface_8c.html#0c654545b837b8e1928842ee762ce5e9">gfal_get_async_results</a>(gfal_handle handle, <span class="keywordtype">char</span>*** turls);
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 <span class="keywordtype">int</span> gfal_get_async_get_results_errcodes(gfal_handle handle, <span class="keywordtype">int</span>** turl_errcode);
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 <span class="keywordtype">int</span> gfal_get_async_get_results_errstring(gfal_handle handle, <span class="keywordtype">char</span>*** turl_errstring);
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050 <span class="keywordtype">int</span> <a class="code" href="gfal__common__interface_8c.html#08c8573e050334d5342a31a48b7db4cb">gfal_wait_async_request</a>(gfal_handle handle, <span class="keywordtype">long</span> timeout);
+<a name="l00051"></a>00051   
+<a name="l00052"></a>00052 <span class="keywordtype">void</span> <a class="code" href="gfal__common__interface_8c.html#95450f539ccc18d88b0d7dede8519bef">gfal_set_nobdii_srm</a>(gfal_handle handle, gboolean no_bdii_chk);
+<a name="l00053"></a>00053 
 <a name="l00054"></a>00054 
-<a name="l00055"></a>00055 
-<a name="l00056"></a>00056 <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="group__common__group.html#ga5a8df616e6a5e6fc1d94e2374c7ccf2">gfal_version</a> ();
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 23 17:38:45 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00055"></a>00055 <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="group__common__group.html#ga5a8df616e6a5e6fc1d94e2374c7ccf2">gfal_version</a> ();
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 30 15:47:27 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "23 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "30 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -37,6 +37,9 @@
 .RI "\fIconvenient way to manage Gerror If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE \fP"
 .ti -1c
 .RI "void \fBg_propagate_prefixed_error\fP (GError **dest, GError *src, const gchar *format,...)"
+.br
+.ti -1c
+.RI "void \fBg_prefix_error\fP (GError **err, const gchar *format,...)"
 .br
 .ti -1c
 .RI "void \fBg_list_free_full\fP (GList *list, GDestroyNotify free_func)"
