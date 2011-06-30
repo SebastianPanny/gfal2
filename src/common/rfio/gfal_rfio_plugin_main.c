@@ -32,11 +32,17 @@
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
 #include "../gfal_types.h"
+#include "gfal_rfio_plugin_layer.h"
 
 gboolean gfal_rfio_check_url(catalog_handle, const char* url,  catalog_mode mode, GError** err);
 gboolean gfal_rfio_internal_check_url(char* surl, GError** err);
 const char* gfal_rfio_getName();
 void gfal_rfio_destroyG(catalog_handle handle);
+
+typedef struct _gfal_plugin_rfio_handle{
+	gfal_handle handle;
+	struct rfio_proto_ops* rf;
+}* gfal_plugin_rfio_handle;
 
 /**
  * Init function, called before all
@@ -45,11 +51,15 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	gfal_catalog_interface rfio_catalog;
 	GError* tmp_err=NULL;
 	memset(&rfio_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
-
-	rfio_catalog.handle = (void*) handle;	
+	gfal_plugin_rfio_handle h = g_new(struct _gfal_plugin_rfio_handle,1);
+	h->handle = handle;
+	h->rf = gfal_rfio_internal_loader(&tmp_err);
+	rfio_catalog.handle = (void*) h;	
 	rfio_catalog.check_catalog_url = &gfal_rfio_check_url;
 	rfio_catalog.getName= &gfal_rfio_getName;
 	rfio_catalog.catalog_delete= &gfal_rfio_destroyG;
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return rfio_catalog;
 }
 
@@ -86,7 +96,9 @@ gboolean gfal_rfio_check_url(catalog_handle ch, const char* url,  catalog_mode m
 }
 
 void gfal_rfio_destroyG(catalog_handle handle){
-	
+	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
+	g_free(h->rf);
+	g_free(h);
 }
 
 const char* gfal_rfio_getName(){
