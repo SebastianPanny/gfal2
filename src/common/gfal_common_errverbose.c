@@ -140,6 +140,21 @@ g_propagate_prefixed_error (GError      **dest,
       va_end (ap);
     }
 }
+
+void
+g_prefix_error (GError      **err,
+                const gchar  *format,
+                ...)
+{
+  if (err && *err)
+    {
+      va_list ap;
+
+      va_start (ap, format);
+      g_error_add_prefix (&(*err)->message, format, ap);
+      va_end (ap);
+    }
+}
  
  #endif
  

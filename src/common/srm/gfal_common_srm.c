@@ -45,7 +45,11 @@
  * list of the protols in the order of preference
  */
 static enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
-
+/**
+ * 
+ * list of the turls supported protocols
+ */
+static char* srm_turls_sup_protocols[] = { "file", "rfio", "dcap", "kdcap", "gsidcap", NULL };
 /**
  * 
  * srm plugin id
@@ -92,6 +96,8 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
  * */
 static void gfal_srm_destroyG(catalog_handle ch){
 	gfal_handle handle = (gfal_handle) ch;
+	free(handle->srmv2_opt);
+	handle->srmv2_opt=NULL;
 	gfal_delete_request_state(handle->last_request_state);
 	handle->last_request_state = NULL;
 }
@@ -103,7 +109,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	gfal_catalog_interface srm_catalog;
 	GError* tmp_err=NULL;
 	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
-
+	handle->srmv2_opt = calloc(1,sizeof(struct _gfal_srmv2_opt));	// define the srmv2 option struct and clear it
+	handle->srmv2_opt->opt_srmv2_protocols = srm_turls_sup_protocols;
 	srm_catalog.handle = (void*) handle;	
 	srm_catalog.check_catalog_url = &gfal_srm_check_url;
 	srm_catalog.catalog_delete = &gfal_srm_destroyG;

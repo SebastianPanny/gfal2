@@ -40,6 +40,7 @@ static const char *gfalversion = VERSION;
  */
 gfal_handle gfal_initG (GError** err)
 {
+	GError* tmp_err=NULL;
 	gfal_handle handle = calloc(1,sizeof(struct gfal_handle_));// clear allocation of the struct and set defautl options
 	if(handle == NULL){
 		errno= ENOMEM;
@@ -50,8 +51,10 @@ gfal_handle gfal_initG (GError** err)
 	handle->srm_proto_type = PROTO_SRMv2;
 	handle->initiated = 1;
 	handle->catalog_opt.catalog_number= 0;
-	handle->srmv2_opt = calloc(1,sizeof(struct _gfal_srmv2_opt));	// define the srmv2 option struct and clear it
 	handle->last_request_state = NULL;
+	gfal_catalogs_instance(handle, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return handle;
 }
 
@@ -63,9 +66,7 @@ void gfal_handle_freeG (gfal_handle handle){
 	if(handle == NULL)
 		return;
 	g_clear_error(&(handle->err));
-	free(handle->srmv2_opt);
 	gfal_catalogs_delete(handle, NULL);
-
 	gfal_dir_handle_container_delete(&(handle->fdescs));
 	free(handle);
 	handle = NULL;

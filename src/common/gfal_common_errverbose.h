@@ -65,6 +65,11 @@ void     g_propagate_prefixed_error   (GError       **dest,
 								   GError        *src,
 								   const gchar   *format,
 								   ...) G_GNUC_PRINTF (3, 4);
+
+void g_prefix_error(GError **err,
+						const gchar *format,
+					...);
+
  
 #endif
 

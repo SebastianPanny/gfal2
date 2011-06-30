@@ -53,19 +53,21 @@ static int gfal_module_init(gfal_handle handle, void* dlhandle, const char* modu
 	constructor= (gfal_catalog_interface (*)(gfal_handle,GError**)) dlsym(dlhandle, GFAL_PLUGIN_INIT_SYM);
 	if(constructor == NULL){
 		g_set_error(&tmp_err, 0, EINVAL, "No symbol %s found in the plugin %s, failure", __func__,  GFAL_PLUGIN_INIT_SYM, module_name);
-		*n=0;	
-	}	
-	handle->catalog_opt.catalog_list[*n] = constructor(handle, &tmp_err);
-	if(tmp_err){
-		g_propagate_prefixed_error(err, tmp_err, " Unable to load plugin %s : ", module_name);		
-		*n=0;		
-	}else{
-		*n+=1;
-		gfal_print_verbose(GFAL_VERBOSE_NORMAL, " [gfal_module_load] plugin %s loaded with success ", module_name);
+		*n=0;
+	}else{	
+		handle->catalog_opt.catalog_list[*n] = constructor(handle, &tmp_err);
+		if(tmp_err){
+			g_prefix_error(&tmp_err, " Unable to load plugin %s : ", module_name);		
+			*n=0;		
+		}else{
+			*n+=1;
+			gfal_print_verbose(GFAL_VERBOSE_NORMAL, " [gfal_module_load] plugin %s loaded with success ", module_name);
+			ret=0;
+		}
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return 0;	
+	return ret;	
 }
 
 /**

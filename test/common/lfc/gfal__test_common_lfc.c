@@ -62,7 +62,7 @@ void test_gfal_common_lfc_define_env()
 	assert_true_with_message(handle != NULL, " handle must be initiated properly ");
 	if(!handle)
 		return;
-		
+	g_clear_error(&tmp_err);		
 	resu = gfal_setup_lfchost(handle, &tmp_err);
 	assert_true_with_message(!resu, " must fail, port invalid");
 	errno = 0;

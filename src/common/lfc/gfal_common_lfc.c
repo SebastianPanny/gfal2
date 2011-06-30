@@ -302,7 +302,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	
 	struct lfc_ops* ops = gfal_load_lfc( "liblfc.so", &tmp_err);
 	if(ops ==NULL){
-		g_propagate_prefixed_error(err, tmp_err,"[lfc_initG]");
+		g_propagate_prefixed_error(err, tmp_err,"[%s]", __func__);
 		return lfc_catalog;
 	}
 	ops->lfc_endpoint = endpoint;

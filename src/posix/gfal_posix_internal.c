@@ -33,7 +33,7 @@
 
 
  
-static __thread gfal_handle handle=NULL;
+static volatile gfal_handle handle=NULL;
 
 gfal_handle gfal_posix_instance(){
 	if(handle == NULL)

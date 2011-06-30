@@ -71,7 +71,7 @@
 #define TEST_SRM_WRITE_ACCESS TEST_CONCAT_SRM_PREFIX("testwrite0011")
 #define TEST_SRM_NO_WRITE_ACCESS TEST_CONCAT_SRM_PREFIX("testnowrite0011")
 
-#define TEST_SRM_TURL_EXAMPLE1 "gsiftp://grid28.lal.in2p3.fr/grid28.lal.in2p3.fr:/dpmpart/part1/dteam/2011-05-26/file75715ccc-1c54-4d18-8824-bdd3716a2b54.51704540.0"
+#define TEST_SRM_TURL_EXAMPLE1 "rfio://grid28.lal.in2p3.fr//dpmpart/part1/dteam/2011-05-26/file75715ccc-1c54-4d18-8824-bdd3716a2b54.51704540.0"
 #define TEST_SRM_IFCE_INVALID_PATH_REP "[SE][StatusOfPutRequest][SRM_INVALID_PATH] <none>"
 
 // chmod 

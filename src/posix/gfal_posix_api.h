@@ -54,6 +54,8 @@ void gfal_posix_clear_error();
 
 void gfal_posix_release_error();
 
+ char* gfal_posix_strerror();
+
 void gfal_posix_print_error();
 
 int gfal_posix_code_error();

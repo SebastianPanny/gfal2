@@ -26,8 +26,10 @@ env_posix.Append(CPPPATH=other_headers)
 mainlib = env_posix.SharedLibrary('#build/libs/libgfal', src_all)
 staticlib = env_posix.StaticLibrary('#build/libs/libgfal', src_all)
 
-plugin_lfc_lib = env.SharedLibrary('#build/libs/libgfal_plugin_lfc', plugin_lfc)
-plugin_srm_lib = env.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm)
+env_plugin = env.Clone();
+env_plugin.Append(LIBS=["gfal"])
+plugin_lfc_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_lfc', plugin_lfc)
+plugin_srm_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm)
 
 Default(plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib)
 

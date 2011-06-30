@@ -329,3 +329,18 @@ int gfal_posix_check_error(){
 	return 0;
 }
 
+/**
+ * get the current error string
+ * 
+ */
+ char* gfal_posix_strerror(){
+	gfal_handle handle;
+	GError* err=NULL;
+	int ret = -1;
+	if((handle = gfal_posix_instance()) == NULL){
+		g_printerr("[gfal_posix_code_error] Initialisation error gfal_posix_instance() failure\n");
+		return NULL;
+	}	 
+	return gfal_str_GError(&(handle->err));
+ }
+
