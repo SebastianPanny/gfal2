@@ -27,7 +27,7 @@ void test__mkdir_posix_lfc_simple()
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_catalogs_instance(handle,NULL);
-	mock_catalog(handle, &mock_err);
+	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
 

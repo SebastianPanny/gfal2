@@ -24,7 +24,7 @@ void test__gfal_posix_chmod_read_lfn(){
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_catalogs_instance(handle,NULL);
-	mock_catalog(handle, &mock_err);
+	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
 	will_respond(lfc_mock_chmod, 0, want_string(path, TEST_LFC_MOD_READ_FILE+4), want(mode, 0));
@@ -61,7 +61,7 @@ void test__gfal_posix_chmod_read_guid(){
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_catalogs_instance(handle,NULL);
-	mock_catalog(handle, &mock_err);
+	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
 	char* tab_res1[]= { "/dteam/test0011", NULL };
@@ -145,7 +145,7 @@ void test__gfal_posix_chmod_write_lfn(){
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_catalogs_instance(handle,NULL);
-	mock_catalog(handle, &mock_err);
+	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
 	will_respond(lfc_mock_chmod, 0, want_string(path, TEST_LFC_MOD_WRITE_FILE+4), want(mode, 0));

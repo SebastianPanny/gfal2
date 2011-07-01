@@ -11,6 +11,27 @@
 #include "gfal_posix_api.h"
 #include <errno.h>
 
+void test_mock_lfc_open(const char* lfc_url){ 
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	test_mock_lfc(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;	
+	char** tab= { TEST_SRM_VALID_SURL_EXAMPLE1, NULL };	
+	char** tab_turl = { TEST_SRM_TURL_EXAMPLE1, NULL };
+	int res[] = { 0, 0 };
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL); // mock the mds for the srm endpoitn resolution
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	define_mock_filereplica(1, tab);
+	will_respond(lfc_mock_getreplica, 0, want_string(path, lfc_url+4), want_non_null(nbentries), want_non_null(rep_entries));	
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	define_mock_srmv2_filestatus(1, TEST_SRM_VALID_SURL_EXAMPLE1, NULL, tab_turl, res);
+	will_respond(srm_mock_srm_prepare_to_get, 1, want_non_null(context), want_non_null(input), want_non_null(output));
+#endif
+}
 
 
 void test_open_posix_all_simple()
@@ -57,6 +78,7 @@ void test_open_posix_local_simple()
 
 void test_open_posix_lfc_simple()
 {
+	test_mock_lfc_open(TEST_LFC_OPEN_EXIST);
 	test_generic_open_simple(TEST_LFC_OPEN_EXIST, TEST_LFC_OPEN_NOEXIST, TEST_LFC_OPEN_NOACCESS);
 
 }
@@ -100,7 +122,6 @@ void test_open_posix_srm_simple()
 
 void test_open_posix_guid_simple()
 {
-
 	int ret = -1;
 	int fd = gfal_open(TEST_GUID_OPEN_EXIST, O_RDONLY, 555);
 	if(fd <=0 || gfal_posix_code_error() != 0 || errno != 0 ){

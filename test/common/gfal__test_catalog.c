@@ -35,7 +35,7 @@ struct lfc_ops* find_lfc_ops(gfal_handle handle, GError** err){
 }
 
 // mocking function internal to gfal
-void mock_catalog(gfal_handle handle, GError** err){
+void test_mock_lfc(gfal_handle handle, GError** err){
 
 #if USE_MOCK
 	struct lfc_ops* ops = find_lfc_ops(handle, err); 
@@ -94,7 +94,7 @@ void test_catalog_access_file()
 	assert_true_with_message(tmp_err== NULL, " must be instance properly");
 	if(tmp_err)
 		return;
-	mock_catalog(handle, &tmp_err);
+	test_mock_lfc(handle, &tmp_err);
 	assert_true_with_message(tmp_err== NULL, " must be mocked properly");
 	if(tmp_err)
 			return;
@@ -154,7 +154,7 @@ void test_catalog_guid_resolve()
 	assert_true_with_message(tmp_err==NULL, " must be a valid instance call");
 	if(tmp_err)
 		return;
-	mock_catalog(handle, &tmp_err);
+	test_mock_lfc(handle, &tmp_err);
 	assert_true_with_message(tmp_err==NULL, " must be a valid mock call");
 	if(tmp_err)
 		return;		
@@ -202,7 +202,7 @@ void test__catalog_stat()
 	assert_true_with_message(tmp_err==NULL, " must be a valid instance call");
 	if(tmp_err)
 		return;
-	mock_catalog(handle, &tmp_err);
+	test_mock_lfc(handle, &tmp_err);
 	assert_true_with_message(tmp_err==NULL, " must be a valid mock call");
 	if(tmp_err)
 		return;	
@@ -251,7 +251,7 @@ void test__catalog_lstat()
 	assert_true_with_message(tmp_err==NULL, " must be a valid instance call");
 	if(tmp_err)
 		return;
-	mock_catalog(handle, &tmp_err);
+	test_mock_lfc(handle, &tmp_err);
 	assert_true_with_message(tmp_err==NULL, " must be a valid mock call");
 	if(tmp_err)
 		return;	

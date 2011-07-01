@@ -3,6 +3,7 @@
 
 
 #include <cgreen/cgreen.h>
+#include <string.h>
 #include <unistd.h>
 #include "gfal_constants.h"
 #include "gfal_prototypes.h"

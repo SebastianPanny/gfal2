@@ -32,7 +32,7 @@
 #define GFAL_FILENAME_MAX FILENAME_MAX
 
 struct dirent* gfal_srm_readdirG(catalog_handle ch, DIR* fh, GError** err){
-	g_return_val_err_if_fail( ch && fh, NULL, err, "[gfal_srm_readdirG] Invaldi args");
+	g_return_val_err_if_fail( ch && fh, NULL, err, "[gfal_srm_readdirG] Invalid args");
 	GError* tmp_err=NULL;
 	gfal_handle handle = ch;
 	gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh;
@@ -40,11 +40,19 @@ struct dirent* gfal_srm_readdirG(catalog_handle ch, DIR* fh, GError** err){
 	const int nbsub = oh->srm_ls_resu->nbsubpaths;
 	const int dir_offset = oh->dir_offset;
 	if( dir_offset < nbsub){
-		if( g_strlcpy(current->d_name, oh->srm_ls_resu->subpaths[dir_offset].surl, GFAL_FILENAME_MAX) >= GFAL_FILENAME_MAX){
-			g_set_error(&tmp_err, 0, ENAMETOOLONG, "filename truncated, name too long : %s", current->d_name);	
+		long bsize;
+		char* psurl = oh->srm_ls_resu->subpaths[dir_offset].surl;
+		char* p;
+		if( (bsize= strnlen(psurl, GFAL_FILENAME_MAX)) ==GFAL_FILENAME_MAX){
+			g_set_error(&tmp_err, 0, ENAMETOOLONG, "filename truncated, name too long : %s", current->d_name);			
 			current = NULL;
-		}else
+		}else if( (p= g_strrstr(psurl, "//")) == NULL){
+			g_set_error(&tmp_err, 0, EINVAL, " Incorrect syntax in dirname returned : %s",psurl );			
+			current = NULL;
+		}else{
+			g_strlcpy(current->d_name, p+2, NAME_MAX) ;
 			oh->dir_offset +=1;
+		}
 	}else
 		current = NULL;
 	if(tmp_err)

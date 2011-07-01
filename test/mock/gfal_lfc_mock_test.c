@@ -51,6 +51,15 @@ void define_mock_filelstat(mode_t mode, int gid, int uid){
 	defined_filestat->gid = gid;
 }
 
+void define_mock_filereplica(int n, char** rep_turls){
+	define_numberreplica =n;
+	define_lastfilereplica = g_new0(struct lfc_filereplica, n);
+	int i;
+	for(i=0; i< n; ++i)
+		strcpy(define_lastfilereplica[i].sfn, rep_turls[i]);
+	
+ }
+
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f){
 	int val = (int) mock(lfn, guid, f);
 	if( val == 0){
