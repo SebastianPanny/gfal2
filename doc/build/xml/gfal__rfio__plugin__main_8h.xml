@@ -6,104 +6,134 @@
     <includes local="no">time.h</includes>
     <includes refid="gfal__common__catalog_8h" local="yes">../gfal_common_catalog.h</includes>
     <includes refid="gfal__types_8h" local="yes">../gfal_types.h</includes>
+    <includedby refid="gfal__rfio__plugin__bindings_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c</includedby>
+    <includedby refid="gfal__rfio__plugin__main_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c</includedby>
     <incdepgraph>
-      <node id="1013">
+      <node id="1109">
         <label>sys/stat.h</label>
       </node>
-      <node id="1007">
+      <node id="1103">
         <label>stdarg.h</label>
       </node>
-      <node id="1014">
+      <node id="1110">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="1009" relation="include">
+        <childnode refid="1105" relation="include">
         </childnode>
       </node>
-      <node id="1010">
+      <node id="1106">
         <label>errno.h</label>
       </node>
-      <node id="1018">
+      <node id="1114">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="1008">
+      <node id="1104">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="1017">
+      <node id="1113">
         <label>sys/types.h</label>
       </node>
-      <node id="1011">
+      <node id="1107">
         <label>string.h</label>
       </node>
-      <node id="1016">
+      <node id="1112">
         <label>unistd.h</label>
       </node>
-      <node id="1009">
+      <node id="1105">
         <label>glib.h</label>
       </node>
-      <node id="1005">
+      <node id="1101">
         <label>time.h</label>
       </node>
-      <node id="1003">
+      <node id="1099">
         <label>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h</label>
         <link refid="gfal_rfio_plugin_main.h"/>
-        <childnode refid="1004" relation="include">
+        <childnode refid="1100" relation="include">
         </childnode>
-        <childnode refid="1005" relation="include">
+        <childnode refid="1101" relation="include">
         </childnode>
-        <childnode refid="1006" relation="include">
+        <childnode refid="1102" relation="include">
         </childnode>
-        <childnode refid="1015" relation="include">
+        <childnode refid="1111" relation="include">
         </childnode>
       </node>
-      <node id="1006">
+      <node id="1102">
         <label>../gfal_common_catalog.h</label>
         <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1007" relation="include">
+        <childnode refid="1103" relation="include">
         </childnode>
-        <childnode refid="1008" relation="include">
+        <childnode refid="1104" relation="include">
         </childnode>
-        <childnode refid="1009" relation="include">
+        <childnode refid="1105" relation="include">
         </childnode>
-        <childnode refid="1010" relation="include">
+        <childnode refid="1106" relation="include">
         </childnode>
-        <childnode refid="1011" relation="include">
+        <childnode refid="1107" relation="include">
         </childnode>
-        <childnode refid="1012" relation="include">
+        <childnode refid="1108" relation="include">
         </childnode>
-        <childnode refid="1013" relation="include">
+        <childnode refid="1109" relation="include">
         </childnode>
-        <childnode refid="1014" relation="include">
+        <childnode refid="1110" relation="include">
         </childnode>
-        <childnode refid="1015" relation="include">
+        <childnode refid="1111" relation="include">
         </childnode>
       </node>
-      <node id="1004">
+      <node id="1100">
         <label>regex.h</label>
       </node>
-      <node id="1015">
+      <node id="1111">
         <label>gfal_types.h</label>
         <link refid="gfal__types_8h-source"/>
-        <childnode refid="1016" relation="include">
+        <childnode refid="1112" relation="include">
         </childnode>
-        <childnode refid="1009" relation="include">
+        <childnode refid="1105" relation="include">
         </childnode>
-        <childnode refid="1017" relation="include">
+        <childnode refid="1113" relation="include">
         </childnode>
-        <childnode refid="1012" relation="include">
+        <childnode refid="1108" relation="include">
         </childnode>
-        <childnode refid="1013" relation="include">
+        <childnode refid="1109" relation="include">
         </childnode>
-        <childnode refid="1018" relation="include">
+        <childnode refid="1114" relation="include">
         </childnode>
-        <childnode refid="1014" relation="include">
+        <childnode refid="1110" relation="include">
         </childnode>
-        <childnode refid="1006" relation="include">
+        <childnode refid="1102" relation="include">
         </childnode>
       </node>
-      <node id="1012">
+      <node id="1108">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="1116">
+        <label>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c</label>
+        <link refid="gfal__rfio__plugin__main_8c"/>
+      </node>
+      <node id="1115">
+        <label>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h</label>
+        <link refid="gfal_rfio_plugin_main.h"/>
+        <childnode refid="1116" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct__gfal__plugin__rfio__handle" prot="public">_gfal_plugin_rfio_handle</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="gfal__rfio__plugin__main_8h_102cdb9bec150e61af31b41281cee3e23" prot="public" static="no">
+        <type>_gfal_plugin_rfio_handle *</type>
+        <definition>typedef struct _gfal_plugin_rfio_handle*  gfal_plugin_rfio_handle</definition>
+        <argsstring></argsstring>
+        <name>gfal_plugin_rfio_handle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h" line="37"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="func">
       <memberdef kind="function" id="gfal__rfio__plugin__main_8h_14ccb47b2adefd1e120cf7bc297c7ddc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
@@ -131,15 +161,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h" line="34"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h" line="40"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__rfio__plugin__main_8h_1c5e436536797abe10805df63cd82d9eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__rfio__plugin__main_8h_142f38c81dceec6a03f5ef4194bf302de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
         <definition>gboolean gfal_rfio_internal_check_url</definition>
-        <argsstring>(char *surl, GError **err)</argsstring>
+        <argsstring>(const char *surl, GError **err)</argsstring>
         <name>gfal_rfio_internal_check_url</name>
         <param>
-          <type>char *</type>
+          <type>const char *</type>
           <declname>surl</declname>
         </param>
         <param>
@@ -152,7 +182,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h" line="36"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h" line="42"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__main_8h_15c9edde4d67d96432a319d940a4799f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_catalog_interface</type>
@@ -173,7 +203,7 @@
 <para>Init function, called before all </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h" line="39" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="292" bodyend="327"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h" line="45" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="292" bodyend="327"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -204,15 +234,21 @@
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal">gboolean<sp/><ref refid="gfal__rfio__plugin__main_8c_14ccb47b2adefd1e120cf7bc297c7ddc6" kindref="member">gfal_rfio_check_url</ref>(catalog_handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>url,<sp/><sp/>catalog_mode<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal">gboolean<sp/>gfal_rfio_internal_check_url(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/>GError**<sp/>err);</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_plugin_rfio_handle{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">rfio_proto_ops*<sp/>rf;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}*<sp/>gfal_plugin_rfio_handle;</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal">gfal_catalog_interface<sp/><ref refid="gfal__common__lfc_8c_15c9edde4d67d96432a319d940a4799f1" kindref="member">gfal_plugin_init</ref>(gfal_handle<sp/>handle,<sp/>GError**<sp/>err);</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">gboolean<sp/><ref refid="gfal__rfio__plugin__main_8c_14ccb47b2adefd1e120cf7bc297c7ddc6" kindref="member">gfal_rfio_check_url</ref>(catalog_handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>url,<sp/><sp/>catalog_mode<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="41"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">gboolean<sp/>gfal_rfio_internal_check_url(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">gfal_catalog_interface<sp/><ref refid="gfal__common__lfc_8c_15c9edde4d67d96432a319d940a4799f1" kindref="member">gfal_plugin_init</ref>(gfal_handle<sp/>handle,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.h"/>
   </compounddef>

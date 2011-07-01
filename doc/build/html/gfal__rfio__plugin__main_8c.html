@@ -18,7 +18,7 @@
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c File Reference</h1>file for the external plugion rfio for gfal ( based on the old rfio part in gfal legacy ) <a href="#_details">More...</a>
+<h1>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c File Reference</h1>header file for bindings for rfio funcs <a href="#_details">More...</a>
 <p>
 <code>#include &lt;regex.h&gt;</code><br>
 <code>#include &lt;time.h&gt;</code><br>
@@ -26,13 +26,16 @@
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">../gfal_common_errverbose.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__catalog_8h-source.html">../gfal_common_catalog.h</a>&quot;</code><br>
 <code>#include &quot;../gfal_types.h&quot;</code><br>
+<code>#include &quot;gfal_rfio_plugin_layer.h&quot;</code><br>
+<code>#include &quot;gfal_rfio_plugin_main.h&quot;</code><br>
+<code>#include &quot;gfal_rfio_plugin_bindings.h&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__rfio__plugin__main_8c.html#4ccb47b2adefd1e120cf7bc297c7ddc6">gfal_rfio_check_url</a> (catalog_handle, const char *url, catalog_mode mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c5e436536797abe10805df63cd82d9eb"></a><!-- doxytag: member="gfal_rfio_plugin_main.c::gfal_rfio_internal_check_url" ref="c5e436536797abe10805df63cd82d9eb" args="(char *surl, GError **err)" -->
-gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rfio_internal_check_url</b> (char *surl, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="42f38c81dceec6a03f5ef4194bf302de"></a><!-- doxytag: member="gfal_rfio_plugin_main.c::gfal_rfio_internal_check_url" ref="42f38c81dceec6a03f5ef4194bf302de" args="(const char *surl, GError **err)" -->
+gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rfio_internal_check_url</b> (const char *surl, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="621cd96c7d439a5ae88cbc03960b3e8d"></a><!-- doxytag: member="gfal_rfio_plugin_main.c::gfal_rfio_getName" ref="621cd96c7d439a5ae88cbc03960b3e8d" args="()" -->
 const char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rfio_getName</b> ()</td></tr>
@@ -44,7 +47,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rfio_destroyG</b
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-file for the external plugion rfio for gfal ( based on the old rfio part in gfal legacy ) 
+header file for bindings for rfio funcs 
 <p>
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>0.1 </dd></dl>
@@ -120,7 +123,7 @@ Init function, called before all
 Check the rfio url in the gfal module way 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 30 15:47:27 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 1 11:12:50 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

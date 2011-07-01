@@ -22,13 +22,13 @@
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>file</parametername>
+<parametername>path</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>can be in supported protocols lfn, srm, file, guid </para></parameterdescription>
+<para>can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref>  to check it. <linebreak/>
+<simplesect kind="return"><para>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it. <linebreak/>
 <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
@@ -63,7 +63,7 @@
 <parametername>path</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>: path of the file or the folder concerned : must be a Catalog URL ( lfn: ), a guid, or a local file URL ( file: ) </para></parameterdescription>
+<para>: path of the file or the folder concerned in supported protocols (lfn, file, guid,..) </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
@@ -73,7 +73,7 @@
 <para>: right to configure </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref>  to check it<itemizedlist>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
@@ -93,20 +93,31 @@
         <name>gfal_close</name>
         <param>
           <type>int</type>
+          <defname>fd</defname>
         </param>
         <briefdescription>
 <para>close the current file descriptor </para>        </briefdescription>
         <detaileddescription>
-<para>close the file whose descriptor fd is the one returned by gfal_open. <simplesect kind="return"><para>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.<itemizedlist>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: descriptor or the file given by <ref refid="group__posix__group_1g6a431a0bdd01baf8cadbdcaa98b1c622" kindref="member">gfal_open</ref>  </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately<itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
-<listitem><para>EBADF: fd is not a valid file descriptor</para></listitem><listitem><para>ECOMM: Communication error.</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported. </para></listitem></itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>EBADF: fd is not a valid file descriptor.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="248" bodyend="250"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="270" bodyend="272"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g1c97c21d23c919b2647f17bbc8b79db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -262,7 +273,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>: right of the directory ( depend of the implementation ) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return 0 if success else -1 and errno is set ( and <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> )<itemizedlist>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
@@ -284,12 +295,15 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         <name>gfal_open</name>
         <param>
           <type>const char *</type>
+          <defname>path</defname>
         </param>
         <param>
           <type>int</type>
+          <defname>flag</defname>
         </param>
         <param>
           <type>mode_t</type>
+          <defname>mode</defname>
         </param>
         <briefdescription>
 <para>opens a file according to the value of flags </para>        </briefdescription>
@@ -299,39 +313,28 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <parametername>filename</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>specifies the file name: either a logical file name, a guid, an SURL or a TURL </para></parameterdescription>
+<para>: url of the filename to open, can be a surl, lfn, guid, local or turl the urls supported by the modules </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>flags</parametername>
+<parametername>flag</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>value is built by OR’ing the bits defined in &lt;fcntl.h&gt; but one and only one of the first three flags below must be used<itemizedlist>
-<listitem><para>O_RDONLY open for reading only<itemizedlist>
-<listitem><para>O_WRONLY open for writing only</para></listitem></itemizedlist>
-</para></listitem><listitem><para>O_RDWR open for reading and writing<itemizedlist>
-<listitem><para>O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail.</para></listitem><listitem><para>O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></parameterdescription>
+<para>: same flag supported value is built by OR’ing the bits defined in &lt;fcntl.h&gt; but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
 <parametername>mode</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>usef only if file is created </para></parameterdescription>
+<para>is used only if the file is created. </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine returns the file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid.</para></listitem><listitem><para>ECOMM: Communication error.</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported. </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
+<simplesect kind="return"><para>return the file descriptor or -1 if error ( errno is set ( gfal_posix_error_print() ) ) </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="146" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="244" bodyend="246"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="146" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="256" bodyend="258"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gbed417acea7f862ea1977417ed842ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -481,7 +484,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>: the new path of the file </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>: return 0 if success, else -1 and errno / gfal_posix_error_print() <itemizedlist>
+<simplesect kind="return"><para>: return 0 if success, else -1 and errno / <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref> <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
@@ -518,7 +521,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>specifies the directory name, can be a surl ( srm://), local (<ulink url="file://">file://</ulink>) or a catalog url ( lfc:, ....) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return 0 is success else -1 and errno is set ( and <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> )<itemizedlist>
+<simplesect kind="return"><para>return 0 is success else -1 and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
@@ -684,7 +687,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>: pointer to an allocated struct stat </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return 0 if success else -1 and errno is set ( and <ref refid="gfal__posix__ng_8c_103fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> )</para></simplesect>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it</para></simplesect>
 <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>

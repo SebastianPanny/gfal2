@@ -31,10 +31,11 @@
 
 
 
+
 /**
  * \brief test access to the given file
- * \param file can be in supported protocols lfn, srm, file, guid
- * \return This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \ref gfal_posix_print_error() to check it. \n
+ * \param path can be in supported protocols (lfn, srm, file, guid,..)
+ * \return This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call @ref gfal_posix_check_error() to check it. \n
  *  - ERRNO list : \n
  *    	- usual errors:
  *    		- ENOENT: The named file/directory does not exist.
@@ -52,9 +53,9 @@ int gfal_access (const char *path, int amode){
 
 /**
  * @brief change the right for a file or a folder
- * @param path : path of the file or the folder concerned : must be a Catalog URL ( lfn: ), a guid,  or a local file URL ( file: )
+ * @param path : path of the file or the folder concerned in supported protocols (lfn, file, guid,..)
  * @param mode : right to configure
- * @return return 0 if success else -1 and errno is set, call \ref gfal_posix_print_error() to check it
+ * @return return 0 if success else -1 and errno is set, call @ref gfal_posix_check_error() to check it
  *  - ERRNO list : \n
  *    	- usual errors:
  *    		- ENOENT: The named file/directory does not exist.
@@ -75,7 +76,7 @@ int gfal_chmod(const char* path, mode_t mode){
  * this functions work only with catalogs (lfc ) and local files
  * @param oldpath : the old path of the file
  * @param newpath : the new path of the file
- * @return : return 0 if success, else -1 and errno / \ref gfal_posix_error_print()
+ * @return : return 0 if success, else -1 and errno / @ref gfal_posix_check_error()
  *  - ERRNO list : \n
  *    	- usual errors:
  *    		- ENOENT: The named file/directory does not exist.
@@ -101,7 +102,7 @@ int gfal_rename(const char *oldpath, const char *newpath){
  *     required on all of the directories in path that lead to the file.
  * @param path : path of a file. Can be a SURL, a Catalog URL or a guid
  * @param buff : pointer to an allocated struct stat
- * @return return 0 if success else -1 and errno is set ( and gfal_posix_print_error() )
+ * @return return 0 if success else -1 and errno is set, call @ref gfal_posix_check_error() to check it
  * 
  *  - ERRNO list : \n
  *    	- usual errors:
@@ -132,7 +133,7 @@ int gfal_lstat(const char* path, struct stat* buf){
  *  The default behavior of this command is recursive, like "mkdir -p".
  * @param path : url of the directory. Can be surl ( srm://), local (file://), or catalog's url (lfc:, ....)
  * @param mode : right of the directory ( depend of the implementation )
- * @return return 0 if success else -1 and errno is set ( and gfal_posix_print_error() )
+ * @return return 0 if success else -1 and errno is set call @ref gfal_posix_check_error() to check it
  *  - ERRNO list : \n
  *    	- usual errors:
  *    		- ENOENT: The named file/directory does not exist.
@@ -153,7 +154,7 @@ int gfal_mkdir( const char* path, mode_t mode){
  * @brief  removes a directory if it is empty
  * remove an existing directory, return error if the dir is not empty
  *  @param path specifies the directory name, can be a surl ( srm://), local (file://) or a catalog url ( lfc:, ....)
- *  @return return 0 is success else -1 and errno is set ( and gfal_posix_print_error() )
+ *  @return return 0 is success else -1 and errno is set call @ref gfal_posix_check_error() to check it
  *  - ERRNO list : \n
  *    	- usual errors:
  *    		- ENOENT: The named file/directory does not exist.
@@ -240,11 +241,38 @@ struct dirent* gfal_readdir(DIR* dir){
 int gfal_closedir(DIR* d){
 	return gfal_posix_internal_closedir(d);
 }
-
+/**
+ *  @brief open a file
+ * 	opens a file according to the value of flags.
+ *  @param filename : url of the filename to open, can be a surl, lfn, guid, local or turl  the urls supported by the modules
+ *  @param flag : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used
+ *            O_RDONLY    open for reading only
+ *            O_WRONLY    open for writing only
+ *            O_RDWR      open for reading and writing
+ *            O_CREAT     If the file exists already and O_EXCL is also set, gfal_open will fail.
+ *            O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened.
+ *  @param mode is used only if the file is created.
+ *  @return return the file descriptor or -1 if error ( errno is set ( gfal_posix_error_print() ) )
+ * */
 int gfal_open(const char * path, int flag, mode_t mode){
 	return gfal_posix_internal_open(path, flag, mode);
 }
 
+int gfal_read(int fd, void* buff, size_t s_buff){
+	return gfal_posix_internal_read(fd, buff, s_buff);
+}
+
+/**
+ *  @brief  close a file
+ * 	closes the file whose descriptor fd is the one returned by gfal_open.
+ *  @param fd : descriptor or the file given by @ref gfal_open
+ *  @return This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately
+ *  - ERRNO list : \n
+ *    	- usual errors:
+ *    		- EBADF:  fd is not a valid file descriptor.
+ *   		- ECOMM: Communication error
+ *   		- EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported
+ * */
 int gfal_close(int fd){
 	return gfal_posix_internal_close(fd);
 }

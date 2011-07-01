@@ -70,6 +70,10 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_operatio
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#a9e232448a5906afb93e9f17dcce697c">gfal_catalog_getTURLG</a> (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#a0bc8955dc41f743a56c8d2fc68e2e1c">gfal_catalog_readG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#e9c3e214dbb01960295148aa66c42cb8">gfal_catalog_writeG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4955825d7c275f3dfae9a57232642370"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_resolve_guid" ref="4955825d7c275f3dfae9a57232642370" args="(gfal_handle handle, const char *guid, GError **err)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolve_guid</b> (gfal_handle handle, const char *guid, GError **err)</td></tr>
 
@@ -280,7 +284,6 @@ Resolve a link on the catalog to a list of surl <dl compact><dt><b>Returns:</b><
 
 <p>
 Resolve a surl to a "GET" turl <dl compact><dt><b>Returns:</b></dt><dd>pointer to a table of string with all the surls, table end with NULL, or return NULL if error </dd></dl>
-<dl compact><dt><b>Warning:</b></dt><dd>must be free with g_list_free_full </dd></dl>
 
 </div>
 </div><p>
@@ -556,6 +559,54 @@ open the file specified by path on the proper catalog with the specified flag an
 execute a readdir for the given file handle on the appropriate catalog 
 </div>
 </div><p>
+<a class="anchor" name="a0bc8955dc41f743a56c8d2fc68e2e1c"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_readG" ref="a0bc8955dc41f743a56c8d2fc68e2e1c" args="(gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_readG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>s_buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+do a read operation on the catalog, read s_buff chars on the fd device <dl compact><dt><b>Returns:</b></dt><dd>return number of bytes readed else -1 if errors and GError is set </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="99ffb13510951a6fe79f3c33305ea189"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_renameG" ref="99ffb13510951a6fe79f3c33305ea189" args="(gfal_handle handle, const char *oldpath, const char *newpath, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -683,6 +734,54 @@ Execute a rmdir function on the first compatible catalog ( checked with check ur
 Execute a stat function on the lfc catalog 
 </div>
 </div><p>
+<a class="anchor" name="e9c3e214dbb01960295148aa66c42cb8"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_writeG" ref="e9c3e214dbb01960295148aa66c42cb8" args="(gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_writeG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>s_buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+do a write operation on the catalog, write s_buff chars on the fd device <dl compact><dt><b>Returns:</b></dt><dd>return number of bytes readed else -1 if errors and GError is set </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="4fd85b35f2134b73207c12b54e85959d"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalogs_accessG" ref="4fd85b35f2134b73207c12b54e85959d" args="(gfal_handle handle, const char *path, int mode, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -806,7 +905,7 @@ catalog type getter
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 30 15:47:27 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 1 11:12:50 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -198,6 +198,32 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="102"/>
       </memberdef>
+      <memberdef kind="variable" id="struct__gfal__catalog__interface_1e7f3bc2188537c9b13e98a881529b491" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* _gfal_catalog_interface::readG)(catalog_handle, int fd, void *buff, size_t count, GError **)</definition>
+        <argsstring>)(catalog_handle, int fd, void *buff, size_t count, GError **)</argsstring>
+        <name>readG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct__gfal__catalog__interface_1be2066544e16ae5b48b8391ae043dee3" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* _gfal_catalog_interface::writeG)(catalog_handle, int fd, void *buff, size_t count, GError **)</definition>
+        <argsstring>)(catalog_handle, int fd, void *buff, size_t count, GError **)</argsstring>
+        <name>writeG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="104"/>
+      </memberdef>
       <memberdef kind="variable" id="struct__gfal__catalog__interface_12c84c719248ee63e84420afd54e9ad7c" prot="public" static="no" mutable="no">
         <type>int(*</type>
         <definition>int(* _gfal_catalog_interface::closeG)(catalog_handle, int fd, GError **)</definition>
@@ -209,7 +235,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="103"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="105"/>
       </memberdef>
       <memberdef kind="variable" id="struct__gfal__catalog__interface_18a79a58a74fb3f7e4da85247d60d0323" prot="public" static="no" mutable="no">
         <type>char **(*</type>
@@ -222,7 +248,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="105"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="107"/>
       </memberdef>
       <memberdef kind="variable" id="struct__gfal__catalog__interface_104974a577356abfbd3686d37c687f304" prot="public" static="no" mutable="no">
         <type>int(*</type>
@@ -235,7 +261,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="107"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="109"/>
       </memberdef>
       <memberdef kind="variable" id="struct__gfal__catalog__interface_103064e4d29e97a4017d6a0797bfc6c77" prot="public" static="no" mutable="no">
         <type>char *(*</type>
@@ -248,14 +274,14 @@
 <para>return a valid url if is able to resolve the guid or return NULL pointer </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="111"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="113"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="68" bodyend="113"/>
+    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="68" bodyend="115"/>
     <listofallmembers>
       <member refid="struct__gfal__catalog__interface_1c4ca96a6e83a9d3e906563771bf648f1" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>accessG</name></member>
       <member refid="struct__gfal__catalog__interface_15eb6aff7c054d09bcd584dfdc8a3d88e" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>catalog_delete</name></member>
@@ -272,10 +298,12 @@
       <member refid="struct__gfal__catalog__interface_1f94ccde8f496fb7f631babdb582b46ef" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>opendirG</name></member>
       <member refid="struct__gfal__catalog__interface_1845ebbd3dfd2befcd3b650c6320e2417" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>openG</name></member>
       <member refid="struct__gfal__catalog__interface_1bf740aa63017e3858208578b88dc7828" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>readdirG</name></member>
+      <member refid="struct__gfal__catalog__interface_1e7f3bc2188537c9b13e98a881529b491" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>readG</name></member>
       <member refid="struct__gfal__catalog__interface_13ff4627bf8b55f2a650e03e2be21637a" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>renameG</name></member>
       <member refid="struct__gfal__catalog__interface_103064e4d29e97a4017d6a0797bfc6c77" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>resolve_guid</name></member>
       <member refid="struct__gfal__catalog__interface_1bcfed6ce5edc988e207fdedce2249ca4" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>rmdirG</name></member>
       <member refid="struct__gfal__catalog__interface_1c93cfe7bbdd166977a30c0821188256d" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>statG</name></member>
+      <member refid="struct__gfal__catalog__interface_1be2066544e16ae5b48b8391ae043dee3" prot="public" virt="non-virtual"><scope>_gfal_catalog_interface</scope><name>writeG</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

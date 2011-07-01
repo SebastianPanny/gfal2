@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h" 3 "30 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h" 3 "1 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -23,7 +23,6 @@
 .ti -1c
 .RI "gfal_handle \fBgfal_handle_new\fP ()"
 .br
-.RI "\fIget a initiated gfal_handle \fP"
 .ti -1c
 .RI "void \fBgfal_handle_free\fP (gfal_handle handle)"
 .br
@@ -33,7 +32,6 @@
 .ti -1c
 .RI "int \fBgfal_async_request_is_finished\fP (gfal_handle handle)"
 .br
-.RI "\fIlaunch a surls-> turls translation in asynchronous mode progress of the last request \fP"
 .ti -1c
 .RI "int \fBgfal_get_async_results\fP (gfal_handle handle, char ***turls)"
 .br
@@ -46,7 +44,6 @@
 .ti -1c
 .RI "int \fBgfal_wait_async_request\fP (gfal_handle handle, long timeout)"
 .br
-.RI "\fIwait for the current request \fP"
 .ti -1c
 .RI "void \fBgfal_set_nobdii_srm\fP (gfal_handle handle, gboolean no_bdii_chk)"
 .br
@@ -72,88 +69,6 @@ Devresse Adrien
 \fBDate:\fP
 .RS 4
 12/04/2011 
-.RE
-.PP
-
-.SH "Function Documentation"
-.PP 
-.SS "int gfal_async_request_is_finished (gfal_handle handle)"
-.PP
-launch a surls-> turls translation in asynchronous mode progress of the last request 
-.PP
-\fBReturns:\fP
-.RS 4
-return positive value if the current request is finished, 0 if false or -1 if error occured Wrapper of gfal_async_request_is_finishedG for the 'without GLib' use case. 
-.RE
-.PP
-
-.SS "int gfal_get_async_results (gfal_handle handle, char *** turls)"
-.PP
-get the result to the last get_async request 
-.PP
-\fBReturns:\fP
-.RS 4
-return the number of responses in turls or negative value if error 
-.RE
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP : handle of the current context 
-.br
-\fIchar***\fP turls : char** turls with the full list of answer, an answer with error is a NULL pointer 
-.RE
-.PP
-\fBWarning:\fP
-.RS 4
-turls need to be free manually 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return the number of turls in the table, else negative value if error Wrapper for the 'without GLib' use case. 
-.RE
-.PP
-
-.SS "gfal_handle gfal_handle_new ()"
-.PP
-get a initiated gfal_handle 
-.PP
-\fBReturns:\fP
-.RS 4
-a gfal_handle, need to be free after usage. return NULL if errors Wrapper of gfal_initG for the 'without GLib' use case. 
-.RE
-.PP
-
-.SS "int gfal_has_error (gfal_handle handle)"
-.PP
-\fBReturns:\fP
-.RS 4
-return TRUE value if error occured else FALSE 
-.RE
-.PP
-
-.SS "char* gfal_last_error_string (gfal_handle handle)"
-.PP
-\fBReturns:\fP
-.RS 4
-string of the last error reported or NULL if no error is reported 
-.RE
-.PP
-
-.SS "int gfal_wait_async_request (gfal_handle handle, long timeout)"
-.PP
-wait for the current request 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP 
-.br
-\fItimeout\fP : maximum time to wait before error 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return 0 if finished correctly, return 1 if timeout is reached, return -1 if error Wrapper for gfal_wait_async_requestG for the 'without GLib' use case. 
 .RE
 .PP
 

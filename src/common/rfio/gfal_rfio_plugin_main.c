@@ -37,7 +37,7 @@
 #include "gfal_rfio_plugin_bindings.h"
 
 gboolean gfal_rfio_check_url(catalog_handle, const char* url,  catalog_mode mode, GError** err);
-gboolean gfal_rfio_internal_check_url(char* surl, GError** err);
+gboolean gfal_rfio_internal_check_url(const char* surl, GError** err);
 const char* gfal_rfio_getName();
 void gfal_rfio_destroyG(catalog_handle handle);
 
@@ -58,13 +58,15 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	rfio_catalog.catalog_delete= &gfal_rfio_destroyG;
 	rfio_catalog.openG= &gfal_rfio_openG;
 	rfio_catalog.closeG= &gfal_rfio_closeG;
+	rfio_catalog.readG= &gfal_rfio_readG;
+	rfio_catalog.writeG= &gfal_rfio_writeG;
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return rfio_catalog;
 }
 
 
-gboolean gfal_rfio_internal_check_url(char* surl, GError** err){
+gboolean gfal_rfio_internal_check_url(const char* surl, GError** err){
 	if(surl == NULL || strnlen(surl, GFAL_URL_MAX_LEN) == GFAL_URL_MAX_LEN){
 		g_set_error(err, 0, EINVAL, "[%s] Invalid surl, surl too long or NULL",__func__);
 		return FALSE;

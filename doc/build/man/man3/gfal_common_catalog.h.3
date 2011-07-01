@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "30 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "1 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -64,6 +64,12 @@
 .br
 .ti -1c
 .RI "int \fBgfal_catalogs_accessG\fP (gfal_handle handle, const char *path, int mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_readG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_writeG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_catalogs_guid_accessG\fP (gfal_handle handle, char *guid, int mode, GError **err)"
@@ -193,11 +199,6 @@ Resolve a surl to a 'GET' turl
 pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
 .RE
 .PP
-\fBWarning:\fP
-.RS 4
-must be free with g_list_free_full 
-.RE
-.PP
 
 .SS "int gfal_catalog_lstatG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
@@ -265,9 +266,29 @@ open the file specified by path on the proper catalog with the specified flag an
 .SS "struct dirent* gfal_catalog_readdirG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
 .PP
 execute a readdir for the given file handle on the appropriate catalog 
+.SS "int gfal_catalog_readG (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
+.PP
+do a read operation on the catalog, read s_buff chars on the fd device 
+.PP
+\fBReturns:\fP
+.RS 4
+return number of bytes readed else -1 if errors and GError is set 
+.RE
+.PP
+
 .SS "int gfal_catalog_statG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 Execute a stat function on the lfc catalog 
+.SS "int gfal_catalog_writeG (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
+.PP
+do a write operation on the catalog, write s_buff chars on the fd device 
+.PP
+\fBReturns:\fP
+.RS 4
+return number of bytes readed else -1 if errors and GError is set 
+.RE
+.PP
+
 .SS "int gfal_catalogs_accessG (gfal_handle handle, const char * path, int mode, GError ** err)"
 .PP
 Execute an access function on the first catalog compatible in the catalog list return the result of the first valid catalog for a given URL 

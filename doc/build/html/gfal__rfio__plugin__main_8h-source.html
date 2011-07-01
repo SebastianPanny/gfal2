@@ -41,16 +41,22 @@
 <a name="l00031"></a>00031 <span class="preprocessor">#include "../gfal_common_catalog.h"</span>
 <a name="l00032"></a>00032 <span class="preprocessor">#include "../gfal_types.h"</span>
 <a name="l00033"></a>00033 
-<a name="l00034"></a>00034 gboolean <a class="code" href="gfal__rfio__plugin__main_8c.html#4ccb47b2adefd1e120cf7bc297c7ddc6">gfal_rfio_check_url</a>(catalog_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* url,  catalog_mode mode, GError** err);
-<a name="l00035"></a>00035 
-<a name="l00036"></a>00036 gboolean gfal_rfio_internal_check_url(<span class="keywordtype">char</span>* surl, GError** err);
-<a name="l00037"></a>00037 
+<a name="l00034"></a>00034 <span class="keyword">typedef</span> <span class="keyword">struct </span>_gfal_plugin_rfio_handle{
+<a name="l00035"></a>00035         gfal_handle handle;
+<a name="l00036"></a>00036         <span class="keyword">struct </span>rfio_proto_ops* rf;
+<a name="l00037"></a>00037 }* gfal_plugin_rfio_handle;
 <a name="l00038"></a>00038 
-<a name="l00039"></a>00039 gfal_catalog_interface <a class="code" href="gfal__common__lfc_8c.html#5c9edde4d67d96432a319d940a4799f1">gfal_plugin_init</a>(gfal_handle handle, GError** err);
-<a name="l00040"></a>00040 
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 gboolean <a class="code" href="gfal__rfio__plugin__main_8c.html#4ccb47b2adefd1e120cf7bc297c7ddc6">gfal_rfio_check_url</a>(catalog_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* url,  catalog_mode mode, GError** err);
 <a name="l00041"></a>00041 
-<a name="l00042"></a>00042 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 30 15:47:27 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00042"></a>00042 gboolean gfal_rfio_internal_check_url(<span class="keyword">const</span> <span class="keywordtype">char</span>* surl, GError** err);
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 gfal_catalog_interface <a class="code" href="gfal__common__lfc_8c.html#5c9edde4d67d96432a319d940a4799f1">gfal_plugin_init</a>(gfal_handle handle, GError** err);
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jul 1 11:12:50 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

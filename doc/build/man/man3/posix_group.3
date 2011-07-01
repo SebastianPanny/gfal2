@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "30 Jun 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "1 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -99,12 +99,12 @@ test access to the given file
 .PP
 \fBParameters:\fP
 .RS 4
-\fIfile\fP can be in supported protocols lfn, srm, file, guid 
+\fIpath\fP can be in supported protocols (lfn, srm, file, guid,..) 
 .RE
 .PP
 \fBReturns:\fP
 .RS 4
-This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \fBgfal_posix_print_error()\fP to check it. 
+This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \fBgfal_posix_check_error()\fP to check it. 
 .br
 .IP "\(bu" 2
 ERRNO list : 
@@ -139,14 +139,14 @@ set rights of the file/dir
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpath\fP : path of the file or the folder concerned : must be a Catalog URL ( lfn: ), a guid, or a local file URL ( file: ) 
+\fIpath\fP : path of the file or the folder concerned in supported protocols (lfn, file, guid,..) 
 .br
 \fImode\fP : right to configure 
 .RE
 .PP
 \fBReturns:\fP
 .RS 4
-return 0 if success else -1 and errno is set, call \fBgfal_posix_print_error()\fP to check it
+return 0 if success else -1 and errno is set, call \fBgfal_posix_check_error()\fP to check it
 .IP "\(bu" 2
 ERRNO list : 
 .br
@@ -174,24 +174,31 @@ EINVAL: path has an invalid syntax or amode is invalid.
 .RE
 .PP
 
-.SS "int gfal_close (int)"
+.SS "int gfal_close (int fd)"
 .PP
 close the current file descriptor 
 .PP
-close the file whose descriptor fd is the one returned by gfal_open. 
+\fBParameters:\fP
+.RS 4
+\fIfd\fP : descriptor or the file given by \fBgfal_open\fP 
+.RE
 .PP
 \fBReturns:\fP
 .RS 4
-This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.
+This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately
 .IP "\(bu" 2
 ERRNO list : 
 .br
 .IP "  \(bu" 4
-EBADF: fd is not a valid file descriptor
-.IP "  \(bu" 4
-ECOMM: Communication error.
-.IP "  \(bu" 4
-EPROTONOSUPPORT: Access method not supported. 
+usual errors:
+.IP "    \(bu" 6
+EBADF: fd is not a valid file descriptor.
+.IP "    \(bu" 6
+ECOMM: Communication error
+.IP "    \(bu" 6
+EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported 
+.PP
+
 .PP
 
 .PP
@@ -316,7 +323,7 @@ create a new directory creates a new directory with permission bits taken from m
 .PP
 \fBReturns:\fP
 .RS 4
-return 0 if success else -1 and errno is set ( and \fBgfal_posix_print_error()\fP )
+return 0 if success else -1 and errno is set call \fBgfal_posix_check_error()\fP to check it
 .IP "\(bu" 2
 ERRNO list : 
 .br
@@ -348,55 +355,22 @@ EINVAL: oldpath or newpath has an invalid syntax .
 .RE
 .PP
 
-.SS "int gfal_open (const char *, int, mode_t)"
+.SS "int gfal_open (const char * path, int flag, mode_t mode)"
 .PP
 opens a file according to the value of flags 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIfilename\fP specifies the file name: either a logical file name, a guid, an SURL or a TURL 
+\fIfilename\fP : url of the filename to open, can be a surl, lfn, guid, local or turl the urls supported by the modules 
 .br
-\fIflags\fP value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used
-.IP "\(bu" 2
-O_RDONLY open for reading only
-.IP "  \(bu" 4
-O_WRONLY open for writing only
-.PP
-
-.IP "\(bu" 2
-O_RDWR open for reading and writing
-.IP "  \(bu" 4
-O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail.
-.IP "  \(bu" 4
-O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened 
-.PP
-
-.PP
+\fIflag\fP : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. 
 .br
-\fImode\fP usef only if file is created 
+\fImode\fP is used only if the file is created. 
 .RE
 .PP
 \fBReturns:\fP
 .RS 4
-This routine returns the file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately
-.IP "\(bu" 2
-ERRNO list : 
-.br
-.IP "  \(bu" 4
-EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
-.IP "  \(bu" 4
-EFAULT: path is a NULL pointer.
-.IP "  \(bu" 4
-ENOTDIR: A component of path prefix is not a directory.
-.IP "  \(bu" 4
-EINVAL: path has an invalid syntax or amode is invalid.
-.IP "  \(bu" 4
-ECOMM: Communication error.
-.IP "  \(bu" 4
-EPROTONOSUPPORT: Access method not supported. 
-.PP
-
-.PP
+return the file descriptor or -1 if error ( errno is set ( gfal_posix_error_print() ) ) 
 .RE
 .PP
 
@@ -500,7 +474,7 @@ change the name or location of a file oldpath and newpath need to be on the same
 .PP
 \fBReturns:\fP
 .RS 4
-: return 0 if success, else -1 and errno / \fBgfal_posix_error_print()\fP
+: return 0 if success, else -1 and errno / \fBgfal_posix_check_error()\fP
 .IP "\(bu" 2
 ERRNO list : 
 .br
@@ -549,7 +523,7 @@ removes a directory if it is empty remove an existing directory, return error if
 .PP
 \fBReturns:\fP
 .RS 4
-return 0 is success else -1 and errno is set ( and \fBgfal_posix_print_error()\fP )
+return 0 is success else -1 and errno is set call \fBgfal_posix_check_error()\fP to check it
 .IP "\(bu" 2
 ERRNO list : 
 .br
@@ -594,7 +568,7 @@ informations about a file These functions return information about a file. No pe
 .PP
 \fBReturns:\fP
 .RS 4
-return 0 if success else -1 and errno is set ( and \fBgfal_posix_print_error()\fP )
+return 0 if success else -1 and errno is set, call \fBgfal_posix_check_error()\fP to check it
 .RE
 .PP
 .IP "\(bu" 2

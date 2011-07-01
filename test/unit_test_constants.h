@@ -25,6 +25,7 @@
 #define TEST_SRM_DPM_FULLENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/srm/managerv2?SFN=/dpm/lal.in2p3.fr/home/dteam" 
 #define TEST_SRM_DPM_FULLENDPOINT_URL "httpg://grid05.lal.in2p3.fr:8446/srm/managerv2"
 #define TEST_SRM_DPM_CORE_URL "grid05.lal.in2p3.fr:8446"
+#define TEST_SRM_FILE_CONTENT "Hello world\n"
 #define TEST_LFC_PREFIX "lfn:/grid/dteam"
 
 #define TEST_GUID_VALID_FILE "guid:b7ba213b-829d-4a2e-b744-7c9cc685fe2d"
@@ -195,10 +196,11 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 
 
 // open
-#define TEST_LOCAL_OPEN_CREATE_COMMAND "echo \" Hello World \" > /tmp/testopen0011 && touch /tmp/testopen0013 && chmod 000 /tmp/testopen0013"
+#define TEST_LOCAL_OPEN_CREATE_COMMAND "echo -e \"Hello world\n\" > /tmp/testopen0011 && touch /tmp/testopen0013 && chmod 000 /tmp/testopen0013"
 #define TEST_LOCAL_OPEN_EXIST "file:///tmp/testopen0011"
 #define TEST_LOCAL_OPEN_NOEXIST "file:///tmp/testopen0012"
 #define TEST_LOCAL_OPEN_NOACCESS  "file:///tmp/testopen0013"
+#define TEST_LOCAL_READ_CONTENT "Hello world\n"
 
 #define TEST_SRM_OPEN_EXIST TEST_SRM_ONLY_READ_ACCESS
 #define TEST_SRM_OPEN_NOEXIST TEST_SRM_NOEXIST_ACCESS

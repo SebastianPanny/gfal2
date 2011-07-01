@@ -695,7 +695,7 @@ gfal_opendir (const char *dirname)
     errno = 0;
     return (dir);
 }*/
-
+/*
     ssize_t
 gfal_read (int fd, void *buf, size_t size)
 {
@@ -709,7 +709,7 @@ gfal_read (int fd, void *buf, size_t size)
     else
         errno = 0;
     return (rc);
-}
+}*/
 /*
     struct dirent *
 gfal_readdir (DIR *dir)

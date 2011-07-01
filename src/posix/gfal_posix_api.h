@@ -160,7 +160,7 @@ int gfal_open64 (const char *, int, mode_t);
 
 DIR *gfal_opendir (const char *);
 
-ssize_t gfal_read (int, void *, size_t);
+int gfal_read (int, void *, size_t);
 
 struct dirent *gfal_readdir (DIR *);
 
@@ -172,7 +172,7 @@ ssize_t gfal_setfilchg (int, const void *, size_t);
 
 int gfal_unlink (const char *);
 
-ssize_t gfal_write (int, const void *, size_t);
+int gfal_write (int, const void *, size_t);
 
 
 

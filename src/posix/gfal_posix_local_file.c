@@ -32,10 +32,15 @@
 
 #define GFAL_LOCAL_PREFIX "file:"
 
+
+void gfal_local_report_error(const char* funcname, GError** err){
+	g_set_error(err,0,errno, "[%s] errno reported by local system call %s", funcname, strerror(errno));	
+}
+
  int gfal_local_access(const char *path, int amode, GError** err){
 	const int res = access(path+strlen(GFAL_LOCAL_PREFIX), amode);
 	if(res <0){
-		g_set_error(err,0,errno, "[%s] errno reported by local system call %s", __func__, strerror(errno));
+		gfal_local_report_error(__func__, err);
 	}
 	return res;
  }
@@ -43,7 +48,7 @@
 int gfal_local_chmod(const char* path, mode_t mode,GError** err){
 	const int res = chmod(path+strlen(GFAL_LOCAL_PREFIX),mode);
 	if(res <0){
-		g_set_error(err,0,errno, "[%s] errno reported by local system call %s", __func__, strerror(errno));
+		gfal_local_report_error(__func__, err);
 	}
 	return res;
 }
@@ -52,7 +57,7 @@ int gfal_local_chmod(const char* path, mode_t mode,GError** err){
 int gfal_local_rename(const char* oldpath, const char* newpath, GError** err){
 	const int res = rename(oldpath+strlen(GFAL_LOCAL_PREFIX), newpath + strlen(GFAL_LOCAL_PREFIX));
 	if(res <0){
-		g_set_error(err, 0, errno, "[%s] errno reported by local system call %s", __func__, strerror(errno));
+		gfal_local_report_error(__func__, err);
 	}
 	return res;
  }
@@ -60,7 +65,7 @@ int gfal_local_rename(const char* oldpath, const char* newpath, GError** err){
 int gfal_local_stat(const char* path, struct stat* buf, GError ** err){
 	const int res = stat(path + strlen(GFAL_LOCAL_PREFIX) , buf);
 	if(res <0){
-		g_set_error(err, 0, errno, "[%s] errno reported by local system call %s", __func__, strerror(errno));
+		gfal_local_report_error(__func__, err);
 	}
 	return res;
 } 
@@ -68,7 +73,7 @@ int gfal_local_stat(const char* path, struct stat* buf, GError ** err){
 int gfal_local_lstat(const char* path, struct stat* buf, GError ** err){
 	const int res = lstat(path + strlen(GFAL_LOCAL_PREFIX), buf);
 	if(res <0){
-		g_set_error(err, 0, errno, "[%s] errno reported by local system call %s", __func__, strerror(errno));
+		gfal_local_report_error(__func__, err);
 	}
 	return res;
 }
@@ -108,7 +113,7 @@ int gfal_local_mkdir_rec(const char* full_path, mode_t mode){
 int gfal_local_mkdir(const char* path, mode_t mode, GError** err){
 	const int res = gfal_local_mkdir_rec(path + strlen(GFAL_LOCAL_PREFIX), mode);
 	if(res <0){
-		g_set_error(err, 0, errno, "[%s] errno reported by local system call %s", __func__, strerror(errno));
+		gfal_local_report_error(__func__, err);
 	}
 	return res;	
 }
@@ -117,7 +122,7 @@ gfal_file_handle gfal_local_opendir(const char* path, GError** err){
 	DIR* ret = opendir(path+strlen(GFAL_LOCAL_PREFIX));
 	gfal_file_handle resu = NULL;
 	if(ret == NULL){
-		g_set_error(err, 0, errno, "[%s] errno reported by local system call %s", __func__, strerror(errno));
+		gfal_local_report_error(__func__, err);
 	}
 	if(ret)
 		resu = gfal_file_handle_new(GFAL_MODULEID_LOCAL, (gpointer) ret);
@@ -128,7 +133,7 @@ struct dirent* gfal_local_readdir(DIR* d, GError** err){
 	errno=0;
 	struct dirent* res = readdir(d);
 	if(res== NULL && errno){
-		g_set_error(err,0 ,errno , "[%s] errno reported by local system call %s", __func__, strerror(errno));
+		gfal_local_report_error(__func__, err);
 	}
 	return res;	 	
 }
@@ -137,18 +142,26 @@ gfal_file_handle gfal_local_open(const char* path, int flag, mode_t mode, GError
 	errno =0;
 	const int ret = open(path + strlen(GFAL_LOCAL_PREFIX), flag, mode);
 	if(ret <=0){
-		g_set_error(err,0 ,errno , "[%s] errno reported by local system call %s", __func__, strerror(errno));	
+		gfal_local_report_error(__func__, err);	
 		return NULL;	
 	}else{
 		return gfal_file_handle_new(GFAL_MODULEID_LOCAL, GINT_TO_POINTER(ret));
 	}
 }
 
+int gfal_local_read(gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
+	errno=0;
+	const int ret = read(GPOINTER_TO_INT(fh->fdesc), buff, s_buff);
+	if(ret <0)
+		gfal_local_report_error(__func__, err);
+	return ret;
+}
+
 int gfal_local_close(gfal_file_handle fh, GError** err){
 	errno =0;
 	const int ret = close(GPOINTER_TO_INT(fh->fdesc));
 	if(ret !=0){
-		g_set_error(err,0 ,errno , "[%s] errno reported by local system call %s", __func__, strerror(errno));		
+		gfal_local_report_error(__func__, err);		
 	}
 	return ret;
 }

@@ -48,6 +48,8 @@ DIR* gfal_posix_internal_opendir(const char* name);
 
 int gfal_posix_internal_open(const char* path, int flag, mode_t mode);
 
+int gfal_posix_internal_read(int fd, void* buff, size_t s_buff);
+
 int gfal_posix_internal_close(int fd);
 
 int gfal_posix_internal_closedir(DIR* d);

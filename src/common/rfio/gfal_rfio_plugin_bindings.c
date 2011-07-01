@@ -37,7 +37,7 @@
 #include "gfal_rfio_plugin_main.h"
 #include "gfal_rfio_plugin_layer.h"
 
-static void rfio_report_error(gfal_plugin_rfio_handle h,  char * func_name, GError** err){
+static void rfio_report_error(gfal_plugin_rfio_handle h,  const char * func_name, GError** err){
 	char buff_error[2048];
 	const int status = h->rf->geterror();
 	g_set_error(err, 0, status, "[%s] Error reported by the external library rfio : %s", func_name, strerror_r(status, buff_error, 2048));
@@ -50,6 +50,25 @@ gpointer gfal_rfio_openG(catalog_handle handle , const char* path, int flag, mod
 		rfio_report_error(h, __func__, err);
 	return GINT_TO_POINTER(fd);
 }
+
+int gfal_rfio_readG(catalog_handle handle , int fd, void* buff, size_t s_buff, GError** err){
+	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
+	int ret = h->rf->read(fd, buff, s_buff);
+	if(ret <0)
+		rfio_report_error(h, __func__, err);
+	else
+		errno=0;
+	return ret;
+}
+
+int gfal_rfio_writeG(catalog_handle handle , int fd, void* buff, size_t s_buff, GError** err){
+	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
+	int ret = h->rf->write(fd, buff, s_buff);
+	if(ret <0)
+		rfio_report_error(h, __func__, err);
+	return ret;
+}
+
 
 
 

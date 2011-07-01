@@ -35,3 +35,7 @@
 gpointer gfal_rfio_openG(catalog_handle ch , const char* path, int flag, mode_t mode, GError**);
 
 int gfal_rfio_closeG(catalog_handle handle, int fd, GError ** err);
+
+int gfal_rfio_writeG(catalog_handle handle , int fd, void* buff, size_t s_buff, GError** err);
+
+int gfal_rfio_readG(catalog_handle handle , int fd, void* buff, size_t s_buff, GError** err);

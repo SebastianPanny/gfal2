@@ -547,7 +547,7 @@ int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size
 	GError* tmp_err=NULL;
 	int ret = -1;
 	gfal_catalog_interface* if_cata = fh->ext_data;
-	ret = if_cata->readG(if_cata->handle, G_POINTER_TO_INT(fh->fdesc),buff, s_buff,  &tmp_err);
+	ret = if_cata->readG(if_cata->handle, GPOINTER_TO_INT(fh->fdesc),buff, s_buff,  &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 	
@@ -563,7 +563,7 @@ int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, siz
 	GError* tmp_err=NULL;
 	int ret = -1;
 	gfal_catalog_interface* if_cata = fh->ext_data;
-	ret = if_cata->writeG(if_cata->handle, G_POINTER_TO_INT(fh->fdesc),buff, s_buff, &tmp_err);
+	ret = if_cata->writeG(if_cata->handle, GPOINTER_TO_INT(fh->fdesc),buff, s_buff, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 	

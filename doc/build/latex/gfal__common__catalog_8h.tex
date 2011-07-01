@@ -56,6 +56,10 @@ char $\ast$$\ast$ \textbf{gfal\_\-catalogs\_\-get\_\-list} (gfal\_\-handle, GErr
 \item 
 int \bf{gfal\_\-catalogs\_\-access\-G} (gfal\_\-handle handle, const char $\ast$path, int mode, GError $\ast$$\ast$err)
 \item 
+int \bf{gfal\_\-catalog\_\-read\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-catalog\_\-write\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
+\item 
 int \textbf{gfal\_\-catalogs\_\-guid\_\-access\-G} (gfal\_\-handle handle, char $\ast$guid, int mode, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_fdd144370f8c6df2564eaddbf26e2fd5}
 
 \item 
@@ -159,8 +163,6 @@ Resolve a link on the catalog to a list of surl \begin{Desc}
 
 Resolve a surl to a \char`\"{}GET\char`\"{} turl \begin{Desc}
 \item[Returns:]pointer to a table of string with all the surls, table end with NULL, or return NULL if error \end{Desc}
-\begin{Desc}
-\item[Warning:]must be free with g\_\-list\_\-free\_\-full \end{Desc}
 \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}}
 \index{gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-lstat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_1ad1b1f96272dbf43a15e7ea5d35389d}
@@ -209,12 +211,26 @@ open the file specified by path on the proper catalog with the specified flag an
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct dirent$\ast$ gfal\_\-catalog\_\-readdir\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_9ba0d48d73fe53d42d3a715e57473adb}
 
 
-execute a readdir for the given file handle on the appropriate catalog \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_statG@{gfal\_\-catalog\_\-statG}}
+execute a readdir for the given file handle on the appropriate catalog \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_readG@{gfal\_\-catalog\_\-readG}}
+\index{gfal_catalog_readG@{gfal\_\-catalog\_\-readG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-read\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_a0bc8955dc41f743a56c8d2fc68e2e1c}
+
+
+do a read operation on the catalog, read s\_\-buff chars on the fd device \begin{Desc}
+\item[Returns:]return number of bytes readed else -1 if errors and GError is set \end{Desc}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_statG@{gfal\_\-catalog\_\-statG}}
 \index{gfal_catalog_statG@{gfal\_\-catalog\_\-statG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-stat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_28ca68c00e4a67bc158975ef3e4f8013}
 
 
-Execute a stat function on the lfc catalog \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}}
+Execute a stat function on the lfc catalog \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_writeG@{gfal\_\-catalog\_\-writeG}}
+\index{gfal_catalog_writeG@{gfal\_\-catalog\_\-writeG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-write\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_e9c3e214dbb01960295148aa66c42cb8}
+
+
+do a write operation on the catalog, write s\_\-buff chars on the fd device \begin{Desc}
+\item[Returns:]return number of bytes readed else -1 if errors and GError is set \end{Desc}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}}
 \index{gfal_catalogs_accessG@{gfal\_\-catalogs\_\-accessG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-access\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_4fd85b35f2134b73207c12b54e85959d}
 
