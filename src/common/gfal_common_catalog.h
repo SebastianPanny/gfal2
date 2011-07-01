@@ -100,6 +100,8 @@ struct _gfal_catalog_interface{
 	 struct dirent* (*readdirG)(catalog_handle, DIR*, GError**);
 
 	 gpointer (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
+	 int (*readG)(catalog_handle, int fd, void* buff, size_t count, GError**);
+	 int (*writeG)(catalog_handle, int fd, void* buff, size_t count, GError**);
 	 int (*closeG)(catalog_handle, int fd, GError **);
 	 
 	 char** (*getSURLG)(catalog_handle, const char*, GError**);
@@ -136,6 +138,11 @@ int gfal_catalogs_instance(gfal_handle, GError** err);
 char** gfal_catalogs_get_list(gfal_handle, GError** err);
 
 int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError** err);
+
+int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
+
+int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
+
 
 int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err);
 

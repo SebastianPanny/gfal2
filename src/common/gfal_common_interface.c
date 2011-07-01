@@ -19,6 +19,7 @@
 #include "gfal_common_interface.h"
 #include "gfal_common_internal.h"
 
+#if 0
 /**
  * @file gfal_common_interface.c
  * @brief Wrapper file for the NON "G" functions
@@ -164,5 +165,5 @@ char* gfal_last_error_string(gfal_handle handle){
 int gfal_has_error(gfal_handle handle){
 	return (handle && handle->err)?TRUE:FALSE;	
 }
-
+#endif
 

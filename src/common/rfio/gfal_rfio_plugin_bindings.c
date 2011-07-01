@@ -52,6 +52,7 @@ gpointer gfal_rfio_openG(catalog_handle handle , const char* path, int flag, mod
 }
 
 
+
 int gfal_rfio_closeG(catalog_handle handle, int fd, GError ** err){
 	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
 	int ret= h->rf->close(fd);

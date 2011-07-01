@@ -83,7 +83,7 @@ char** gfal_catalogs_get_list(gfal_handle handle, GError** err){
 		}	
 	}
 	if(tmp_err)
-		g_propagate_prefixed_error(err, &tmp_err, "[%s]", __func__);
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return resu;
 }
 
@@ -518,7 +518,6 @@ char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err){
 /**
  * Resolve a surl to a "GET" turl
  * @return pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
- * @warning must be free with g_list_free_full
  */
 int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, GError** err){
 	GError* tmp_err=NULL;
@@ -536,6 +535,38 @@ int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl,
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
 	return resu;	
+}
+
+/**
+ * do a read operation on the catalog, read s_buff chars on the fd device
+ * @return return number of bytes readed else -1 if errors and GError is set
+ * 
+ * */
+int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
+	g_return_val_err_if_fail(handle && fh && buff && s_buff> 0, -1,err, "[gfal_catalog_readG] Invalid args ");	
+	GError* tmp_err=NULL;
+	int ret = -1;
+	gfal_catalog_interface* if_cata = fh->ext_data;
+	ret = if_cata->readG(if_cata->handle, G_POINTER_TO_INT(fh->fdesc),buff, s_buff,  &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret; 	
+}
+
+/**
+ * do a write operation on the catalog, write s_buff chars on the fd device
+ * @return return number of bytes readed else -1 if errors and GError is set
+ * 
+ * */
+int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
+	g_return_val_err_if_fail(handle && fh && buff && s_buff> 0, NULL,err, "[gfal_catalog_readG] Invalid args ");	
+	GError* tmp_err=NULL;
+	int ret = -1;
+	gfal_catalog_interface* if_cata = fh->ext_data;
+	ret = if_cata->writeG(if_cata->handle, G_POINTER_TO_INT(fh->fdesc),buff, s_buff, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret; 	
 }
 
 /***
