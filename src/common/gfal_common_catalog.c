@@ -631,18 +631,18 @@ extern char* gfal_get_cat_type(GError** err) {
 
 
 
-static gfal_file_handle gfal_catalog_open_surl(gfal_handle handle, char** surls, int flag, mode_t mode, GError** err){
+static gfal_file_handle gfal_catalog_open_surl(gfal_handle handle, char** res_surl, int flag, mode_t mode, GError** err){
 	gfal_file_handle ret = NULL;	
 	GError* tmp_err=NULL;
-	while(surls != NULL){
+	char** p = res_surl;
+	while(*p != NULL){
 		char turl[GFAL_URL_MAX_LEN];
 		g_clear_error(&tmp_err);
-		if( gfal_catalog_getTURLG(handle, surls[0], turl, GFAL_URL_MAX_LEN, &tmp_err)  == 0){
+		if( gfal_catalog_getTURLG(handle, *p, turl, GFAL_URL_MAX_LEN, &tmp_err)  == 0){
 			ret = gfal_catalog_openG(handle, turl, flag, mode, &tmp_err);
 			break;
 		}
-
-		surls++;
+		p++;
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
