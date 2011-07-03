@@ -559,7 +559,7 @@ int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size
  * 
  * */
 int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
-	g_return_val_err_if_fail(handle && fh && buff && s_buff> 0, NULL,err, "[gfal_catalog_readG] Invalid args ");	
+	g_return_val_err_if_fail(handle && fh && buff && s_buff> 0, -1,err, "[gfal_catalog_readG] Invalid args ");	
 	GError* tmp_err=NULL;
 	int ret = -1;
 	gfal_catalog_interface* if_cata = fh->ext_data;
@@ -663,9 +663,14 @@ gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path
 	if( (res_surl = gfal_catalog_getSURL(handle, path, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
 		ret = gfal_catalog_open_surl(handle, res_surl, flag, mode, &tmp_err);		
 		g_strfreev(res_surl);
-	}else if( tmp_err && tmp_err->code==EPROTONOSUPPORT){ // try std open on the catalogs
+	}else if( tmp_err && tmp_err->code==EPROTONOSUPPORT){ // try to surl open
+		char* surls[] = { (char*)path, NULL };
 		g_clear_error(&tmp_err);
-		ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
+		ret= gfal_catalog_open_surl(handle, surls, flag, mode, &tmp_err);
+		if( tmp_err && tmp_err->code == EPROTONOSUPPORT){
+			g_clear_error(&tmp_err);
+			ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
+		}
 	}
 
 	if(tmp_err)

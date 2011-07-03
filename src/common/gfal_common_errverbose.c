@@ -32,6 +32,7 @@
  */
 static int gfal_verbose = -1;
 // internal err buff for print
+__thread char _gfal_err_buff[GFAL_ERRMSG_LEN];
 
 /**
  * \brief return verbose mode level
@@ -90,9 +91,12 @@ extern int gfal_set_verbose (int value)
 char* gfal_str_GError(GError** err){
 	 if(err==NULL || *err==NULL){
 		 gfal_print_verbose(GFAL_VERBOSE_DEBUG,"copy string NULL error");
-		 return "[gfal] No Error reported";
-	}else
-	 return (*err)->message;
+		 return strcpy(_gfal_err_buff,"[gfal] No Error reported");
+	}else{
+	 strcpy(_gfal_err_buff,"[gfal]");
+	 g_strlcat(_gfal_err_buff, (*err)->message, GFAL_ERRMSG_LEN);
+	 return _gfal_err_buff;	 
+	}
  }
 
 /**
