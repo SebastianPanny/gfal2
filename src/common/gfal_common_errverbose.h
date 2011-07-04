@@ -56,6 +56,8 @@ gboolean gfal_check_GError(GError** err);
 
 char* gfal_str_GError(GError** err);
 
+char* gfal_str_GError_r(GError** err, char* buff_err, size_t s_err);
+
 
 #if (GLIB_CHECK_VERSION(2,16,0) != TRUE)			// add a advanced functions of glib for old version of glib
 

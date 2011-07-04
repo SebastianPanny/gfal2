@@ -42,15 +42,15 @@ struct dirent* gfal_srm_readdirG(catalog_handle ch, DIR* fh, GError** err){
 	if( dir_offset < nbsub){
 		long bsize;
 		char* psurl = oh->srm_ls_resu->subpaths[dir_offset].surl;
-		char* p;
-		if( (bsize= strnlen(psurl, GFAL_FILENAME_MAX)) ==GFAL_FILENAME_MAX){
+		char* p = psurl + strnlen(oh->srm_ls_resu->surl, GFAL_URL_MAX_LEN)+1;
+		if( (bsize= strnlen(psurl, GFAL_URL_MAX_LEN)) ==GFAL_URL_MAX_LEN){
 			g_set_error(&tmp_err, 0, ENAMETOOLONG, "filename truncated, name too long : %s", current->d_name);			
 			current = NULL;
-		}else if( (p= g_strrstr(psurl, "//")) == NULL){
-			g_set_error(&tmp_err, 0, EINVAL, " Incorrect syntax in dirname returned : %s",psurl );			
+		}else if( psurl >= p + bsize){
+			g_set_error(&tmp_err, 0, EINVAL, " Incorrect syntax in dirname returned ");			
 			current = NULL;
 		}else{
-			g_strlcpy(current->d_name, p+2, NAME_MAX) ;
+			g_strlcpy(current->d_name, p, NAME_MAX) ;
 			oh->dir_offset +=1;
 		}
 	}else

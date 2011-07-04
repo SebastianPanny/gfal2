@@ -23,7 +23,10 @@
  * @date 8/04/2011
  * */
 
+#include <malloc.h>
+#include <glib.h>
 #include "gfal_common_errverbose.h"
+
 
 /*
  * Verbose level
@@ -32,7 +35,7 @@
  */
 static int gfal_verbose = -1;
 // internal err buff for print
-__thread char _gfal_err_buff[GFAL_ERRMSG_LEN];
+char* _gfal_err=NULL;
 
 /**
  * \brief return verbose mode level
@@ -89,16 +92,25 @@ extern int gfal_set_verbose (int value)
  *  @warning : like strerror, not thread safe.
  * */
 char* gfal_str_GError(GError** err){
-	 if(err==NULL || *err==NULL){
-		 gfal_print_verbose(GFAL_VERBOSE_DEBUG,"copy string NULL error");
-		 return strcpy(_gfal_err_buff,"[gfal] No Error reported");
-	}else{
-	 strcpy(_gfal_err_buff,"[gfal]");
-	 g_strlcat(_gfal_err_buff, (*err)->message, GFAL_ERRMSG_LEN);
-	 return _gfal_err_buff;	 
-	}
+	if(_gfal_err==NULL)
+		_gfal_err = malloc(sizeof(char)* GFAL_ERRMSG_LEN);
+	return gfal_str_GError_r(err, _gfal_err, GFAL_ERRMSG_LEN);
  }
 
+/**
+ *  set buff_err to the current gfal error, reentrant function
+ *  @return pointer to buff_err for convenience
+ */
+char* gfal_str_GError_r(GError** err, char* buff_err, size_t s_err){
+	if(err==NULL || *err==NULL){
+		 gfal_print_verbose(GFAL_VERBOSE_DEBUG,"copy string NULL error");
+		 g_strlcpy(buff_err,"[gfal] No Error reported", s_err);
+	}else{
+		 g_strlcpy(buff_err,"[gfal]", s_err);
+		 g_strlcat(buff_err, (*err)->message, s_err);
+	}
+	return buff_err;	
+ }
 /**
  *  @brief convenient way to manage Gerror
  *  If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE

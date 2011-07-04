@@ -31,7 +31,6 @@ typedef struct _gfal_srm_opendir_handle{
 	struct srmv2_mdfilestatus *srm_ls_resu;
 	struct dirent current_readdir;
 	int dir_offset;
-	
 }* gfal_srm_opendir_handle;
 
 DIR* gfal_srm_opendirG(catalog_handle handle, const char* path, GError ** err);

@@ -361,7 +361,7 @@ int gfal_posix_check_error(){
  * get the current error string
  * 
  */
- char* gfal_posix_strerror(){
+char* gfal_posix_strerror_r(char* buff_err, size_t s_err){
 	gfal_handle handle;
 	GError* err=NULL;
 	int ret = -1;
@@ -369,6 +369,6 @@ int gfal_posix_check_error(){
 		g_printerr("[gfal_posix_code_error] Initialisation error gfal_posix_instance() failure\n");
 		return NULL;
 	}	 
-	return gfal_str_GError(&(handle->err));
+	return (char*)gfal_str_GError_r(&(handle->err), buff_err, s_err);
  }
 

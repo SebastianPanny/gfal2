@@ -91,5 +91,5 @@ struct rfio_proto_ops * gfal_rfio_internal_loader_base(GError** err){
 }
 
 
-extern  struct rfio_proto_ops * (*gfal_rfio_internal_loader)(GError** err)= &gfal_rfio_internal_loader_base;
+struct rfio_proto_ops * (*gfal_rfio_internal_loader)(GError** err)= &gfal_rfio_internal_loader_base;
 
