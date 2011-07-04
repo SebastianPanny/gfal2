@@ -16,29 +16,62 @@
 #include "../mock/gfal_voms_mock_test.h"
 #include "../../src/posix/gfal_posix_internal.h"
 
-void test_mock_lfc_open_valid(const char* lfc_url){ 
+
+void test_mock_srm_open_valid(char** tab, char** tab_turl, int* res){
 #if USE_MOCK
 	test_rfio_mock_all();
+	setup_mock_srm();
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_catalogs_instance(handle,NULL);
-	test_mock_lfc(handle, &mock_err);
-	setup_mock_srm();
-	if( gfal_check_GError(&mock_err))
-		return;	
-	char* tab[]= { TEST_SRM_VALID_SURL_EXAMPLE1, NULL };	
-	char* tab_turl[] = { TEST_SRM_TURL_EXAMPLE1, NULL };
-	int res[] = { 0, 0 };
+	
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL); // mock the mds for the srm endpoitn resolution
 	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
-	define_mock_filereplica(1, tab);
-	will_respond(lfc_mock_getreplica, 0, want_string(path, lfc_url+4), want_non_null(nbentries), want_non_null(rep_entries));	
+
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	define_mock_srmv2_pinfilestatus(1, tab, NULL, tab_turl, res);
 	will_respond(srm_mock_srm_prepare_to_get, 1, want_non_null(context), want_non_null(input), want_non_null(output));
 
 	will_respond(rfio_mock_open, 15, want_non_null(path));
 	will_respond(rfio_mock_close, 0, want(fd, 15));
+#endif
+}
+
+void test_mock_srm_open_invalid(char** tab, char** tab_exp, int* res){
+#if USE_MOCK
+	test_rfio_mock_all();
+	setup_mock_srm();
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL); // mock the mds for the srm endpoitn resolution
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	define_mock_srmv2_pinfilestatus(1, tab, tab_exp, NULL , res);
+	will_respond(srm_mock_srm_prepare_to_get, 1, want_non_null(context), want_non_null(input), want_non_null(output));
+#endif
+}
+
+
+void test_mock_lfc_open_valid(const char* lfc_url){ 
+#if USE_MOCK
+	char* tab[]= { TEST_SRM_VALID_SURL_EXAMPLE1, NULL };	
+	char* tab_turl[] = { TEST_SRM_TURL_EXAMPLE1, NULL };
+	int res[] = { 0, 0 };
+	test_mock_srm_open_valid(tab, tab_turl, res);
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	test_mock_lfc(handle, &mock_err);
+
+	if( gfal_check_GError(&mock_err))
+		return;	
+
+	define_mock_filereplica(1, tab);
+	will_respond(lfc_mock_getreplica, 0, want_string(path, lfc_url+4), want_non_null(nbentries), want_non_null(rep_entries));	
+
 #endif
 }
 
@@ -81,24 +114,30 @@ void test_open_posix_all_simple()
 
 static void test_generic_open_simple(char* url_exist, char* url_noent, char* url_noaccess){
 	int ret = -1;
-	int fd = gfal_open(url_exist, O_RDONLY, 555);
-	assert_true_with_message(fd >0 && gfal_posix_code_error()==0 && errno==0, " must be a valid open %d %d %d", fd, gfal_posix_code_error(), errno);
-	gfal_posix_check_error();
-	ret = gfal_close(fd);
-	assert_true_with_message(fd !=0 && ret==0 && gfal_posix_code_error()==0 && errno==0, " must be a valid close %d %d %d", ret, gfal_posix_code_error(), errno);
-	gfal_posix_check_error();	
-	ret = gfal_close(fd);
-	assert_true_with_message( ret==-1 && gfal_posix_code_error()==EBADF && errno==EBADF, " must be a bad descriptor %d %d %d", ret, gfal_posix_code_error(), errno);
-
-	gfal_posix_clear_error();
-	fd = gfal_open(url_noent, O_RDONLY, 555);
-	assert_true_with_message( fd <=0 && gfal_posix_code_error()==ENOENT && errno==ENOENT, " must be a non existing file %d %d %d", ret, gfal_posix_code_error(), errno);
+	int fd;
+	if(url_exist){
+		fd = gfal_open(url_exist, O_RDONLY, 555);
+		assert_true_with_message(fd >0 && gfal_posix_code_error()==0 && errno==0, " must be a valid open %d %d %d", fd, gfal_posix_code_error(), errno);
+		gfal_posix_check_error();
+		ret = gfal_close(fd);
+		assert_true_with_message(fd !=0 && ret==0 && gfal_posix_code_error()==0 && errno==0, " must be a valid close %d %d %d", ret, gfal_posix_code_error(), errno);
+		gfal_posix_check_error();	
+		ret = gfal_close(fd);
+		assert_true_with_message( ret==-1 && gfal_posix_code_error()==EBADF && errno==EBADF, " must be a bad descriptor %d %d %d", ret, gfal_posix_code_error(), errno);
+	}
 	
-		
-	gfal_posix_clear_error();
-	fd = gfal_open(url_noaccess, O_RDONLY, 555);
-	assert_true_with_message( fd <=0 && gfal_posix_code_error()==EACCES && errno==EACCES, " must be a non accessible file %d %d %d", ret, gfal_posix_code_error(), errno);
-	gfal_posix_clear_error();		
+	if(url_noent){
+		gfal_posix_clear_error();
+		fd = gfal_open(url_noent, O_RDONLY, 555);
+		assert_true_with_message( fd <=0 && gfal_posix_code_error()==ENOENT && errno==ENOENT, " must be a non existing file %d %d %d", ret, gfal_posix_code_error(), errno);
+	}
+	
+	if(url_noaccess){	
+		gfal_posix_clear_error();
+		fd = gfal_open(url_noaccess, O_RDONLY, 555);
+		assert_true_with_message( fd <=0 && gfal_posix_code_error()==EACCES && errno==EACCES, " must be a non accessible file %d %d %d", ret, gfal_posix_code_error(), errno);
+		gfal_posix_clear_error();	
+	}	
 	
 }
 
@@ -126,34 +165,15 @@ void test_open_posix_lfc_simple()
 
 void test_open_posix_srm_simple()
 {
-
-	int ret = -1;
-	int fd = gfal_open(TEST_SRM_OPEN_EXIST, O_RDONLY, 555);
-	if(fd <=0 || gfal_posix_code_error() != 0 || errno != 0 ){
-		assert_true_with_message(FALSE, " must be a valid file descriptor %d %d %d", ret, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}
-	ret = gfal_close(fd);
-	if(ret !=0 || gfal_posix_code_error() != 0 || errno != 0 ){
-		assert_true_with_message(FALSE, " must be a valid close");
-		gfal_posix_release_error();
-		return;
-	}
-	ret = gfal_close(fd);
-	if(ret ==0 || gfal_posix_code_error() != EBADF || errno != EBADF){
-		assert_true_with_message(FALSE, " must be an non existant file descriptor  %d %d %d", ret, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;		
-	}
-	gfal_posix_clear_error();
-	fd = gfal_open(TEST_SRM_OPEN_NOEXIST, O_RDONLY, 555);
-	if(fd >0 || gfal_posix_code_error() != ENOENT || errno != ENOENT ){
-		assert_true_with_message(FALSE, " must be a non existing file %d %d %d", fd, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}		
-	gfal_posix_clear_error();
+	char* tab[]= { TEST_SRM_VALID_SURL_EXAMPLE1, NULL };	
+	char* tab_turl[] = { TEST_SRM_TURL_EXAMPLE1, NULL };
+	int res[] = { 0, 0 };
+	int res2[] = { ENOENT, 0 };
+	char* exp[] = { "mock enoent", NULL };
+	test_mock_srm_open_valid(tab, tab_turl, res);
+	test_generic_open_simple(TEST_SRM_OPEN_EXIST, NULL, NULL);
+	test_mock_srm_open_invalid(tab, exp, res2);
+	test_generic_open_simple(NULL, TEST_SRM_OPEN_NOEXIST,NULL);
 	
 }
 

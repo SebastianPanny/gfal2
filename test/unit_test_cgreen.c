@@ -171,6 +171,7 @@ TestSuite* posix_open_suite(void){
 	add_test(tc_open, test_open_posix_all_simple);
 	add_test(tc_open, test_open_posix_local_simple);
 	add_test(tc_open, test_open_posix_lfc_simple);
+	add_test(tc_open, test_open_posix_srm_simple);
 	return tc_open;
 }
 
