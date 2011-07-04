@@ -17,8 +17,15 @@
 #include "gfal_constants.h"
 
 
+extern char defined_buff_read[2048];
+extern int defined_buff_read_size;
+
+ssize_t rfio_mock_read(int fd, void* buff, size_t size);
 
 
+int rfio_mock_close(int fd);
+
+int rfio_mock_open(const char* path, int flag, ...);
 
 
 

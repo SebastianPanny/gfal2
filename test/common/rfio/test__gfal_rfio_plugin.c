@@ -9,8 +9,25 @@
 #include <dlfcn.h>
 #include <lfc_api.h>
 #include "rfio/gfal_rfio_plugin_main.h"
+#include "rfio/gfal_rfio_plugin_layer.h"
 #include "../../unit_test_constants.h"
 #include "gfal_common.h"
+#include "test__gfal_rfio_plugin.h"
+
+static struct rfio_proto_ops rf = { 
+		.open =  rfio_mock_open,
+		.read = rfio_mock_read,
+		.close= rfio_mock_close
+	};
+
+struct rfio_proto_ops * gfal_rfio_mock_loader(GError** err){
+	return &rf;
+ }
+
+void test_rfio_mock_all(){
+	gfal_rfio_internal_loader= gfal_rfio_mock_loader;
+	
+}
 
 void test_load_plugin(){
 	GError* err=NULL;

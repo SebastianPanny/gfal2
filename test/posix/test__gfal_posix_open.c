@@ -16,8 +16,9 @@
 #include "../mock/gfal_voms_mock_test.h"
 #include "../../src/posix/gfal_posix_internal.h"
 
-void test_mock_lfc_open(const char* lfc_url){ 
+void test_mock_lfc_open_valid(const char* lfc_url){ 
 #if USE_MOCK
+	test_rfio_mock_all();
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_catalogs_instance(handle,NULL);
@@ -35,7 +36,38 @@ void test_mock_lfc_open(const char* lfc_url){
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	define_mock_srmv2_pinfilestatus(1, tab, NULL, tab_turl, res);
 	will_respond(srm_mock_srm_prepare_to_get, 1, want_non_null(context), want_non_null(input), want_non_null(output));
+
+	will_respond(rfio_mock_open, 15, want_non_null(path));
+	will_respond(rfio_mock_close, 0, want(fd, 15));
 #endif
+}
+
+void test_mock_lfc_open_enoent(const char* lfc_url){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	test_mock_lfc(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;	
+	will_respond(lfc_mock_getreplica, ENOENT, want_string(path, lfc_url+4), want_non_null(nbentries), want_non_null(rep_entries));	
+	
+#endif	
+}
+
+void test_mock_lfc_open_eacces(const char* lfc_url){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	test_mock_lfc(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;	
+	will_respond(lfc_mock_getreplica, EACCES, want_string(path, lfc_url+4), want_non_null(nbentries), want_non_null(rep_entries));	
+	
+#endif	
 }
 
 
@@ -83,7 +115,9 @@ void test_open_posix_local_simple()
 
 void test_open_posix_lfc_simple()
 {
-	test_mock_lfc_open(TEST_LFC_OPEN_EXIST);
+	test_mock_lfc_open_valid(TEST_LFC_OPEN_EXIST);
+	test_mock_lfc_open_enoent(TEST_LFC_OPEN_NOEXIST);
+	test_mock_lfc_open_eacces(TEST_LFC_OPEN_NOACCESS);
 	test_generic_open_simple(TEST_LFC_OPEN_EXIST, TEST_LFC_OPEN_NOEXIST, TEST_LFC_OPEN_NOACCESS);
 
 }

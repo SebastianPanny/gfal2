@@ -55,7 +55,7 @@ void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, c
 
 void define_mock_srmv2_pinfilestatus(int number, char** surl, char** explanation, char** turl, int* status){
 	int i;
-	defined_get_output= calloc(sizeof(struct srmv2_filestatus), number);
+	defined_get_output= calloc(sizeof(struct srmv2_pinfilestatus), number);
 	for(i=0; i < number; ++i){
 		if(surl)
 			defined_get_output[i].surl = strdup(surl[i]);
