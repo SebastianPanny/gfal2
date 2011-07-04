@@ -4,6 +4,7 @@
     <compoundname>gfal_posix_internal.h</compoundname>
     <includes refid="gfal__prototypes_8h" local="yes">gfal_prototypes.h</includes>
     <includes refid="gfal__types_8h" local="yes">gfal_types.h</includes>
+    <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
     <includedby refid="gfal__posix_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</includedby>
     <includedby refid="gfal__posix__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</includedby>
     <includedby refid="gfal__posix__chmod_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c</includedby>
@@ -13,178 +14,210 @@
     <includedby refid="gfal__posix__ng_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</includedby>
     <includedby refid="gfal__posix__open_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</includedby>
     <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
+    <includedby refid="gfal__posix__read_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_read.c</includedby>
     <includedby refid="gfal__posix__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</includedby>
     <includedby refid="gfal__posix__rename_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</includedby>
     <includedby refid="gfal__posix__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</includedby>
     <includedby refid="gfal__posix__stat_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</includedby>
     <incdepgraph>
-      <node id="1773">
+      <node id="1797">
         <label>sys/stat.h</label>
       </node>
-      <node id="1776">
+      <node id="1800">
         <label>stdarg.h</label>
       </node>
-      <node id="1767">
-        <label>gfal_prototypes.h</label>
-        <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="1768" relation="include">
+      <node id="1804">
+        <label>gfal_common_errverbose.h</label>
+        <link refid="gfal__common__errverbose_8h"/>
+        <childnode refid="1805" relation="include">
         </childnode>
-      </node>
-      <node id="1778">
-        <label>errno.h</label>
-      </node>
-      <node id="1774">
-        <label>gfal_srm_ifce_types.h</label>
-      </node>
-      <node id="1766">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h</label>
-        <link refid="gfal_posix_internal.h"/>
-        <childnode refid="1767" relation="include">
+        <childnode refid="1800" relation="include">
         </childnode>
-        <childnode refid="1769" relation="include">
+        <childnode refid="1806" relation="include">
         </childnode>
-      </node>
-      <node id="1777">
-        <label>uuid/uuid.h</label>
-      </node>
-      <node id="1771">
-        <label>sys/types.h</label>
-      </node>
-      <node id="1779">
-        <label>string.h</label>
-      </node>
-      <node id="1770">
-        <label>unistd.h</label>
-      </node>
-      <node id="1768">
-        <label>glib.h</label>
-      </node>
-      <node id="1775">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1776" relation="include">
+        <childnode refid="1803" relation="include">
         </childnode>
-        <childnode refid="1777" relation="include">
-        </childnode>
-        <childnode refid="1768" relation="include">
-        </childnode>
-        <childnode refid="1778" relation="include">
-        </childnode>
-        <childnode refid="1779" relation="include">
-        </childnode>
-        <childnode refid="1772" relation="include">
-        </childnode>
-        <childnode refid="1773" relation="include">
-        </childnode>
-        <childnode refid="1767" relation="include">
-        </childnode>
-        <childnode refid="1769" relation="include">
-        </childnode>
-      </node>
-      <node id="1769">
-        <label>gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
-        <childnode refid="1770" relation="include">
-        </childnode>
-        <childnode refid="1768" relation="include">
-        </childnode>
-        <childnode refid="1771" relation="include">
-        </childnode>
-        <childnode refid="1772" relation="include">
-        </childnode>
-        <childnode refid="1773" relation="include">
-        </childnode>
-        <childnode refid="1774" relation="include">
-        </childnode>
-        <childnode refid="1767" relation="include">
-        </childnode>
-        <childnode refid="1775" relation="include">
-        </childnode>
-      </node>
-      <node id="1772">
-        <label>dirent.h</label>
-      </node>
-    </incdepgraph>
-    <invincdepgraph>
-      <node id="1783">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c</label>
-        <link refid="gfal__posix__chmod_8c"/>
-      </node>
-      <node id="1787">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</label>
-        <link refid="gfal__posix__ng_8c"/>
-      </node>
-      <node id="1785">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
-        <link refid="gfal__posix__closedir_8c"/>
-      </node>
-      <node id="1781">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
-        <link refid="gfal__posix_8c"/>
-      </node>
-      <node id="1786">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
-        <link refid="gfal__posix__mkdir_8c"/>
-      </node>
-      <node id="1788">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</label>
-        <link refid="gfal__posix__open_8c"/>
-      </node>
-      <node id="1790">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
-        <link refid="gfal__posix__readdir_8c"/>
-      </node>
-      <node id="1793">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</label>
-        <link refid="gfal__posix__stat_8c"/>
-      </node>
-      <node id="1780">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h</label>
-        <link refid="gfal_posix_internal.h"/>
-        <childnode refid="1781" relation="include">
-        </childnode>
-        <childnode refid="1782" relation="include">
-        </childnode>
-        <childnode refid="1783" relation="include">
-        </childnode>
-        <childnode refid="1784" relation="include">
-        </childnode>
-        <childnode refid="1785" relation="include">
-        </childnode>
-        <childnode refid="1786" relation="include">
-        </childnode>
-        <childnode refid="1787" relation="include">
-        </childnode>
-        <childnode refid="1788" relation="include">
-        </childnode>
-        <childnode refid="1789" relation="include">
-        </childnode>
-        <childnode refid="1790" relation="include">
-        </childnode>
-        <childnode refid="1791" relation="include">
+        <childnode refid="1802" relation="include">
         </childnode>
         <childnode refid="1792" relation="include">
+        </childnode>
+      </node>
+      <node id="1791">
+        <label>gfal_prototypes.h</label>
+        <link refid="gfal__prototypes_8h-source"/>
+        <childnode refid="1792" relation="include">
+        </childnode>
+      </node>
+      <node id="1802">
+        <label>errno.h</label>
+      </node>
+      <node id="1798">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="1790">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h</label>
+        <link refid="gfal_posix_internal.h"/>
+        <childnode refid="1791" relation="include">
+        </childnode>
+        <childnode refid="1793" relation="include">
+        </childnode>
+        <childnode refid="1804" relation="include">
+        </childnode>
+      </node>
+      <node id="1801">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="1795">
+        <label>sys/types.h</label>
+      </node>
+      <node id="1803">
+        <label>string.h</label>
+      </node>
+      <node id="1794">
+        <label>unistd.h</label>
+      </node>
+      <node id="1792">
+        <label>glib.h</label>
+      </node>
+      <node id="1799">
+        <label>gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="1800" relation="include">
+        </childnode>
+        <childnode refid="1801" relation="include">
+        </childnode>
+        <childnode refid="1792" relation="include">
+        </childnode>
+        <childnode refid="1802" relation="include">
+        </childnode>
+        <childnode refid="1803" relation="include">
+        </childnode>
+        <childnode refid="1796" relation="include">
+        </childnode>
+        <childnode refid="1797" relation="include">
+        </childnode>
+        <childnode refid="1791" relation="include">
         </childnode>
         <childnode refid="1793" relation="include">
         </childnode>
       </node>
-      <node id="1784">
+      <node id="1805">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h-source"/>
+      </node>
+      <node id="1806">
+        <label>stdio.h</label>
+      </node>
+      <node id="1793">
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="1794" relation="include">
+        </childnode>
+        <childnode refid="1792" relation="include">
+        </childnode>
+        <childnode refid="1795" relation="include">
+        </childnode>
+        <childnode refid="1796" relation="include">
+        </childnode>
+        <childnode refid="1797" relation="include">
+        </childnode>
+        <childnode refid="1798" relation="include">
+        </childnode>
+        <childnode refid="1791" relation="include">
+        </childnode>
+        <childnode refid="1799" relation="include">
+        </childnode>
+      </node>
+      <node id="1796">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1810">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c</label>
+        <link refid="gfal__posix__chmod_8c"/>
+      </node>
+      <node id="1814">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</label>
+        <link refid="gfal__posix__ng_8c"/>
+      </node>
+      <node id="1812">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
+        <link refid="gfal__posix__closedir_8c"/>
+      </node>
+      <node id="1808">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
+        <link refid="gfal__posix_8c"/>
+      </node>
+      <node id="1813">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
+        <link refid="gfal__posix__mkdir_8c"/>
+      </node>
+      <node id="1815">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</label>
+        <link refid="gfal__posix__open_8c"/>
+      </node>
+      <node id="1818">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
+        <link refid="gfal__posix__readdir_8c"/>
+      </node>
+      <node id="1821">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</label>
+        <link refid="gfal__posix__stat_8c"/>
+      </node>
+      <node id="1807">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h</label>
+        <link refid="gfal_posix_internal.h"/>
+        <childnode refid="1808" relation="include">
+        </childnode>
+        <childnode refid="1809" relation="include">
+        </childnode>
+        <childnode refid="1810" relation="include">
+        </childnode>
+        <childnode refid="1811" relation="include">
+        </childnode>
+        <childnode refid="1812" relation="include">
+        </childnode>
+        <childnode refid="1813" relation="include">
+        </childnode>
+        <childnode refid="1814" relation="include">
+        </childnode>
+        <childnode refid="1815" relation="include">
+        </childnode>
+        <childnode refid="1816" relation="include">
+        </childnode>
+        <childnode refid="1817" relation="include">
+        </childnode>
+        <childnode refid="1818" relation="include">
+        </childnode>
+        <childnode refid="1819" relation="include">
+        </childnode>
+        <childnode refid="1820" relation="include">
+        </childnode>
+        <childnode refid="1821" relation="include">
+        </childnode>
+      </node>
+      <node id="1817">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_read.c</label>
+        <link refid="gfal__posix__read_8c"/>
+      </node>
+      <node id="1811">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c</label>
         <link refid="gfal__posix__close_8c"/>
       </node>
-      <node id="1791">
+      <node id="1819">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</label>
         <link refid="gfal__posix__rename_8c"/>
       </node>
-      <node id="1782">
+      <node id="1809">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
         <link refid="gfal__posix__access_8c"/>
       </node>
-      <node id="1792">
+      <node id="1820">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</label>
         <link refid="gfal__posix__rmdir_8c"/>
       </node>
-      <node id="1789">
+      <node id="1816">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
         <link refid="gfal__posix__opendir_8c"/>
       </node>
@@ -367,6 +400,31 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="49" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c" bodystart="64" bodyend="97"/>
       </memberdef>
+      <memberdef kind="function" id="gfal__posix__internal_8h_11f42df17317461c2831cd270cde9819e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_posix_internal_read</definition>
+        <argsstring>(int fd, void *buff, size_t s_buff)</argsstring>
+        <name>gfal_posix_internal_read</name>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>buff</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>s_buff</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementation of the read functions </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_read.c" bodystart="67" bodyend="92"/>
+      </memberdef>
       <memberdef kind="function" id="gfal__posix__internal_8h_19cfa5dfe3dff862999ce8f5c5b62a0c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_posix_internal_close</definition>
@@ -382,7 +440,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c" bodystart="73" bodyend="100"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c" bodystart="73" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__internal_8h_13137761fa72f5cd168e84d82800a08be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -399,7 +457,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c" bodystart="75" bodyend="103"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c" bodystart="75" bodyend="103"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__internal_8h_1e8c201ec9e7b66c815761bb6b460d6bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>dirent *</type>
@@ -416,7 +474,7 @@
 <para>Implementation of the readdir functions </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c" bodystart="67" bodyend="92"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="57" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c" bodystart="67" bodyend="92"/>
       </memberdef>
       <memberdef kind="function" id="gfal__posix__internal_8h_1f19b799252be42cf1250bb49f88f76a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -442,7 +500,7 @@
 <para>register the last error in the handle and display a VERBOSE warning if an error was registered and not deleted </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.c" bodystart="48" bodyend="55"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.c" bodystart="48" bodyend="55"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -471,7 +529,7 @@
 <codeline lineno="19"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="29"><highlight class="preprocessor">#include<sp/>&quot;gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__errverbose_8h" kindref="compound">gfal_common_errverbose.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal">gfal_handle<sp/>gfal_posix_instance();</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/></highlight></codeline>
@@ -491,16 +549,18 @@
 <codeline lineno="48"><highlight class="normal"></highlight></codeline>
 <codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__posix__open_8c_1ada7cd81ad685011082167f02d3c2149" kindref="member">gfal_posix_internal_open</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode);</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_posix_internal_close(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__posix__read_8c_11f42df17317461c2831cd270cde9819e" kindref="member">gfal_posix_internal_read</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff);</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_posix_internal_closedir(DIR*<sp/>d);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_posix_internal_close(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd);</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/><ref refid="gfal__posix__readdir_8c_1e8c201ec9e7b66c815761bb6b460d6bf" kindref="member">gfal_posix_internal_readdir</ref>(DIR*<sp/>dir);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_posix_internal_closedir(DIR*<sp/>d);</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"></highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_posix_register_internal_error(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>prefix,<sp/>GError<sp/>*<sp/>tmp_err);</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/><ref refid="gfal__posix__readdir_8c_1e8c201ec9e7b66c815761bb6b460d6bf" kindref="member">gfal_posix_internal_readdir</ref>(DIR*<sp/>dir);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_posix_register_internal_error(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>prefix,<sp/>GError<sp/>*<sp/>tmp_err);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h"/>
   </compounddef>

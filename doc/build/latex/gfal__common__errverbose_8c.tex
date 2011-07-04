@@ -2,6 +2,8 @@
 \label{gfal__common__errverbose_8c}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-errverbose.c}}
 the file of the common lib for error management and verbose display 
 
+{\tt \#include $<$malloc.h$>$}\par
+{\tt \#include $<$glib.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
@@ -18,6 +20,8 @@ void \bf{gfal\_\-release\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common_
 \begin{CompactList}\small\item\em display the full GError message on stderr and free the memory associated \item\end{CompactList}\item 
 char $\ast$ \bf{gfal\_\-str\_\-GError} (GError $\ast$$\ast$err)
 \item 
+char $\ast$ \bf{gfal\_\-str\_\-GError\_\-r} (GError $\ast$$\ast$err, char $\ast$buff\_\-err, size\_\-t s\_\-err)
+\item 
 gboolean \bf{gfal\_\-check\_\-GError} (GError $\ast$$\ast$err)\label{gfal__common__errverbose_8c_9167aee5bda42b71a982f863e88f7bfd}
 
 \begin{CompactList}\small\item\em convenient way to manage Gerror If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE \item\end{CompactList}\item 
@@ -28,6 +32,12 @@ void \textbf{g\_\-prefix\_\-error} (GError $\ast$$\ast$err, const gchar $\ast$fo
 
 \item 
 void \textbf{g\_\-list\_\-free\_\-full} (GList $\ast$list, GDestroy\-Notify free\_\-func)\label{gfal__common__errverbose_8c_0d507092f75c2411862d210dbecbc4e5}
+
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+char $\ast$ \textbf{\_\-gfal\_\-err} = NULL\label{gfal__common__errverbose_8c_edaf93b87fe65f43cf349705f1ce6e59}
 
 \end{CompactItemize}
 
@@ -60,3 +70,10 @@ return a valid string of the current error, \begin{Desc}
 \item[Warning:]Modifications or free() on this string can lead to an undefined behaviors. 
 
 : like strerror, not thread safe. \end{Desc}
+\index{gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}!gfal_str_GError_r@{gfal\_\-str\_\-GError\_\-r}}
+\index{gfal_str_GError_r@{gfal\_\-str\_\-GError\_\-r}!gfal_common_errverbose.c@{gfal\_\-common\_\-errverbose.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-str\_\-GError\_\-r (GError $\ast$$\ast$ {\em err}, char $\ast$ {\em buff\_\-err}, size\_\-t {\em s\_\-err})}\label{gfal__common__errverbose_8c_4dec12f0df920db39c004776d7f04e6e}
+
+
+set buff\_\-err to the current gfal error, reentrant function \begin{Desc}
+\item[Returns:]pointer to buff\_\-err for convenience \end{Desc}

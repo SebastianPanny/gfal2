@@ -956,10 +956,10 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="616" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="616" bodyend="629"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__catalog_8c_177608fc4d4fb472e61cbfaa34f1c5995" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__catalog_8c_1142acc2bbbfa1e98979bbb78a90d916b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
         <definition>static gfal_file_handle gfal_catalog_open_surl</definition>
-        <argsstring>(gfal_handle handle, char **surls, int flag, mode_t mode, GError **err)</argsstring>
+        <argsstring>(gfal_handle handle, char **res_surl, int flag, mode_t mode, GError **err)</argsstring>
         <name>gfal_catalog_open_surl</name>
         <param>
           <type>gfal_handle</type>
@@ -967,7 +967,7 @@
         </param>
         <param>
           <type>char **</type>
-          <declname>surls</declname>
+          <declname>res_surl</declname>
         </param>
         <param>
           <type>int</type>
@@ -1021,7 +1021,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="659" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="659" bodyend="674"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" line="659" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="659" bodyend="679"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1481,7 +1481,7 @@
 <codeline lineno="554"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="555"><highlight class="normal"></highlight></codeline>
 <codeline lineno="561"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_1e9c3e214dbb01960295148aa66c42cb8" kindref="member">gfal_catalog_writeG</ref>(gfal_handle<sp/>handle,<sp/>gfal_file_handle<sp/>fh,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(handle<sp/>&amp;&amp;<sp/>fh<sp/>&amp;&amp;<sp/>buff<sp/>&amp;&amp;<sp/>s_buff&gt;<sp/>0,<sp/>NULL,err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_catalog_readG]<sp/>Invalid<sp/>args<sp/>&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(handle<sp/>&amp;&amp;<sp/>fh<sp/>&amp;&amp;<sp/>buff<sp/>&amp;&amp;<sp/>s_buff&gt;<sp/>0,<sp/>-1,err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_catalog_readG]<sp/>Invalid<sp/>args<sp/>&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
 <codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>-1;</highlight></codeline>
 <codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_catalog_interface*<sp/>if_cata<sp/>=<sp/>fh-&gt;ext_data;</highlight></codeline>
@@ -1550,18 +1550,18 @@
 <codeline lineno="631"><highlight class="normal"></highlight></codeline>
 <codeline lineno="632"><highlight class="normal"></highlight></codeline>
 <codeline lineno="633"><highlight class="normal"></highlight></codeline>
-<codeline lineno="634"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gfal_file_handle<sp/>gfal_catalog_open_surl(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>surls,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gfal_file_handle<sp/>gfal_catalog_open_surl(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>res_surl,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="635"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>ret<sp/>=<sp/>NULL;<sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
-<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(surls<sp/>!=<sp/>NULL){</highlight></codeline>
-<codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>turl[GFAL_URL_MAX_LEN];</highlight></codeline>
-<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;tmp_err);</highlight></codeline>
-<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/><ref refid="gfal__common__catalog_8c_1a9e232448a5906afb93e9f17dcce697c" kindref="member">gfal_catalog_getTURLG</ref>(handle,<sp/>surls[0],<sp/>turl,<sp/>GFAL_URL_MAX_LEN,<sp/>&amp;tmp_err)<sp/><sp/>==<sp/>0){</highlight></codeline>
-<codeline lineno="641"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_1cd4cabbd5effdf20bc0b20345c5cc4ab" kindref="member">gfal_catalog_openG</ref>(handle,<sp/>turl,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="644"><highlight class="normal"></highlight></codeline>
-<codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>surls++;</highlight></codeline>
+<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>p<sp/>=<sp/>res_surl;</highlight></codeline>
+<codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(*p<sp/>!=<sp/>NULL){</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>turl[GFAL_URL_MAX_LEN];</highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;tmp_err);</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/><ref refid="gfal__common__catalog_8c_1a9e232448a5906afb93e9f17dcce697c" kindref="member">gfal_catalog_getTURLG</ref>(handle,<sp/>*p,<sp/>turl,<sp/>GFAL_URL_MAX_LEN,<sp/>&amp;tmp_err)<sp/><sp/>==<sp/>0){</highlight></codeline>
+<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_1cd4cabbd5effdf20bc0b20345c5cc4ab" kindref="member">gfal_catalog_openG</ref>(handle,<sp/>turl,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p++;</highlight></codeline>
 <codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
 <codeline lineno="648"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
@@ -1575,15 +1575,20 @@
 <codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(res_surl<sp/>=<sp/><ref refid="gfal__common__catalog_8c_1eeef83dd1c788197ed7ae4a933d8e8d3" kindref="member">gfal_catalog_getSURL</ref>(handle,<sp/>path,<sp/>&amp;tmp_err))<sp/>!=<sp/>NULL){<sp/></highlight><highlight class="comment">//<sp/>try<sp/>a<sp/>surl<sp/>resolution<sp/>on<sp/>the<sp/>catalogs</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_catalog_open_surl(handle,<sp/>res_surl,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strfreev(res_surl);</highlight></codeline>
-<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>tmp_err<sp/>&amp;&amp;<sp/>tmp_err-&gt;code==EPROTONOSUPPORT){<sp/></highlight><highlight class="comment">//<sp/>try<sp/>std<sp/>open<sp/>on<sp/>the<sp/>catalogs</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;tmp_err);</highlight></codeline>
-<codeline lineno="668"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_1cd4cabbd5effdf20bc0b20345c5cc4ab" kindref="member">gfal_catalog_openG</ref>(handle,<sp/>path,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="669"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="670"><highlight class="normal"></highlight></codeline>
-<codeline lineno="671"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
-<codeline lineno="672"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
-<codeline lineno="673"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
-<codeline lineno="674"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>tmp_err<sp/>&amp;&amp;<sp/>tmp_err-&gt;code==EPROTONOSUPPORT){<sp/></highlight><highlight class="comment">//<sp/>try<sp/>to<sp/>surl<sp/>open</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surls[]<sp/>=<sp/>{<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)path,<sp/>NULL<sp/>};</highlight></codeline>
+<codeline lineno="668"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;tmp_err);</highlight></codeline>
+<codeline lineno="669"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret=<sp/>gfal_catalog_open_surl(handle,<sp/>surls,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="670"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>tmp_err<sp/>&amp;&amp;<sp/>tmp_err-&gt;code<sp/>==<sp/>EPROTONOSUPPORT){</highlight></codeline>
+<codeline lineno="671"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;tmp_err);</highlight></codeline>
+<codeline lineno="672"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_1cd4cabbd5effdf20bc0b20345c5cc4ab" kindref="member">gfal_catalog_openG</ref>(handle,<sp/>path,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="673"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="674"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="675"><highlight class="normal"></highlight></codeline>
+<codeline lineno="676"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="677"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
+<codeline lineno="678"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="679"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c"/>
   </compounddef>

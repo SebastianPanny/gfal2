@@ -27,23 +27,21 @@
     <includedby refid="gfal__common__srm__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</includedby>
     <includedby refid="gfal__common__srm__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.c</includedby>
     <includedby refid="gfal__common__srm__stat_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.c</includedby>
+    <includedby refid="gfal__posix__internal_8h" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h</includedby>
     <includedby refid="gfal__posix__close_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c</includedby>
     <includedby refid="gfal__posix__closedir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</includedby>
     <includedby refid="gfal__posix__local__file_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</includedby>
     <includedby refid="gfal__posix__open_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</includedby>
     <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
+    <includedby refid="gfal__posix__read_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_read.c</includedby>
     <includedby refid="gfal__posix__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</includedby>
     <incdepgraph>
-      <node id="270">
+      <node id="272">
         <label>stdarg.h</label>
       </node>
-      <node id="268">
+      <node id="270">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h</label>
         <link refid="gfal_common_errverbose.h"/>
-        <childnode refid="269" relation="include">
-        </childnode>
-        <childnode refid="270" relation="include">
-        </childnode>
         <childnode refid="271" relation="include">
         </childnode>
         <childnode refid="272" relation="include">
@@ -52,44 +50,52 @@
         </childnode>
         <childnode refid="274" relation="include">
         </childnode>
+        <childnode refid="275" relation="include">
+        </childnode>
+        <childnode refid="276" relation="include">
+        </childnode>
       </node>
-      <node id="273">
+      <node id="275">
         <label>errno.h</label>
       </node>
-      <node id="272">
+      <node id="274">
         <label>string.h</label>
       </node>
-      <node id="274">
+      <node id="276">
         <label>glib.h</label>
       </node>
-      <node id="269">
+      <node id="271">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="271">
+      <node id="273">
         <label>stdio.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="288">
+      <node id="290">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c</label>
         <link refid="gfal__common__srm__opendir_8c"/>
       </node>
-      <node id="293">
+      <node id="297">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c</label>
+        <link refid="gfal__posix__chmod_8c"/>
+      </node>
+      <node id="301">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</label>
+        <link refid="gfal__posix__ng_8c"/>
+      </node>
+      <node id="299">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
         <link refid="gfal__posix__closedir_8c"/>
       </node>
-      <node id="278">
+      <node id="280">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</label>
         <link refid="gfal__common__errverbose_8c"/>
       </node>
-      <node id="275">
+      <node id="277">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h</label>
         <link refid="gfal_common_errverbose.h"/>
-        <childnode refid="276" relation="include">
-        </childnode>
-        <childnode refid="277" relation="include">
-        </childnode>
         <childnode refid="278" relation="include">
         </childnode>
         <childnode refid="279" relation="include">
@@ -124,86 +130,154 @@
         </childnode>
         <childnode refid="294" relation="include">
         </childnode>
+        <childnode refid="298" relation="include">
+        </childnode>
+        <childnode refid="299" relation="include">
+        </childnode>
+        <childnode refid="309" relation="include">
+        </childnode>
+        <childnode refid="302" relation="include">
+        </childnode>
+        <childnode refid="303" relation="include">
+        </childnode>
+        <childnode refid="304" relation="include">
+        </childnode>
+        <childnode refid="305" relation="include">
+        </childnode>
+      </node>
+      <node id="295">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix.c</label>
+        <link refid="gfal__posix_8c"/>
+      </node>
+      <node id="300">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
+        <link refid="gfal__posix__mkdir_8c"/>
+      </node>
+      <node id="288">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c</label>
+        <link refid="gfal__common__srm__endpoint_8c"/>
+      </node>
+      <node id="302">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</label>
+        <link refid="gfal__posix__open_8c"/>
+      </node>
+      <node id="291">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</label>
+        <link refid="gfal__common__srm__readdir_8c"/>
+      </node>
+      <node id="305">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
+        <link refid="gfal__posix__readdir_8c"/>
+      </node>
+      <node id="289">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c</label>
+        <link refid="gfal__common__srm__mkdir_8c"/>
+      </node>
+      <node id="308">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</label>
+        <link refid="gfal__posix__stat_8c"/>
+      </node>
+      <node id="294">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_internal.h</label>
+        <link refid="gfal__posix__internal_8h-source"/>
         <childnode refid="295" relation="include">
         </childnode>
         <childnode refid="296" relation="include">
         </childnode>
         <childnode refid="297" relation="include">
         </childnode>
+        <childnode refid="298" relation="include">
+        </childnode>
+        <childnode refid="299" relation="include">
+        </childnode>
+        <childnode refid="300" relation="include">
+        </childnode>
+        <childnode refid="301" relation="include">
+        </childnode>
+        <childnode refid="302" relation="include">
+        </childnode>
+        <childnode refid="303" relation="include">
+        </childnode>
+        <childnode refid="304" relation="include">
+        </childnode>
+        <childnode refid="305" relation="include">
+        </childnode>
+        <childnode refid="306" relation="include">
+        </childnode>
+        <childnode refid="307" relation="include">
+        </childnode>
+        <childnode refid="308" relation="include">
+        </childnode>
       </node>
-      <node id="286">
-        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c</label>
-        <link refid="gfal__common__srm__endpoint_8c"/>
-      </node>
-      <node id="295">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</label>
-        <link refid="gfal__posix__open_8c"/>
-      </node>
-      <node id="289">
-        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</label>
-        <link refid="gfal__common__srm__readdir_8c"/>
-      </node>
-      <node id="297">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
-        <link refid="gfal__posix__readdir_8c"/>
-      </node>
-      <node id="287">
-        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c</label>
-        <link refid="gfal__common__srm__mkdir_8c"/>
-      </node>
-      <node id="294">
+      <node id="309">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c</label>
         <link refid="gfal__posix__local__file_8c"/>
       </node>
-      <node id="292">
+      <node id="304">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_read.c</label>
+        <link refid="gfal__posix__read_8c"/>
+      </node>
+      <node id="298">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_close.c</label>
         <link refid="gfal__posix__close_8c"/>
       </node>
-      <node id="279">
+      <node id="306">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</label>
+        <link refid="gfal__posix__rename_8c"/>
+      </node>
+      <node id="281">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c</label>
         <link refid="gfal__common__filedescriptor_8c"/>
       </node>
-      <node id="282">
+      <node id="284">
         <label>/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c</label>
         <link refid="lfc__ifce__ng_8c"/>
       </node>
-      <node id="283">
+      <node id="285">
         <label>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c</label>
         <link refid="gfal__rfio__plugin__layer_8c"/>
       </node>
-      <node id="290">
+      <node id="292">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.c</label>
         <link refid="gfal__common__srm__rmdir_8c"/>
       </node>
-      <node id="284">
+      <node id="296">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
+        <link refid="gfal__posix__access_8c"/>
+      </node>
+      <node id="286">
         <label>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c</label>
         <link refid="gfal__rfio__plugin__main_8c"/>
       </node>
-      <node id="285">
+      <node id="287">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.c</label>
         <link refid="gfal__common__srm__access_8c"/>
       </node>
-      <node id="277">
+      <node id="279">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c</label>
         <link refid="gfal__common__catalog_8c"/>
       </node>
-      <node id="291">
+      <node id="293">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.c</label>
         <link refid="gfal__common__srm__stat_8c"/>
       </node>
-      <node id="280">
+      <node id="307">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</label>
+        <link refid="gfal__posix__rmdir_8c"/>
+      </node>
+      <node id="282">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.c</label>
         <link refid="gfal__common__guid_8c"/>
       </node>
-      <node id="276">
+      <node id="278">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</label>
         <link refid="gfal__common__all_8c"/>
       </node>
-      <node id="296">
+      <node id="303">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
         <link refid="gfal__posix__opendir_8c"/>
       </node>
-      <node id="281">
+      <node id="283">
         <label>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c</label>
         <link refid="gfal__common__lfc_8c"/>
       </node>
@@ -233,7 +307,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" bodystart="62" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="64" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" bodystart="64" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -259,7 +333,7 @@
 <para>msg is displayed if current verbose level is superior to verbose mode specified </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="58" bodyend="68"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="62" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="group__common__group_1g331e181c2fadd801321ad43033835052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -284,7 +358,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="44" bodyend="50"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="48" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8h_1135b3fdd775aa7215e2ab4de1eea495f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -297,7 +371,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="39" bodyend="41"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="43" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8h_11441ea4b8176eb0cf3099009b950a3e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -314,7 +388,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="73" bodyend="82"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="77" bodyend="86"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8h_19167aee5bda42b71a982f863e88f7bfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
@@ -331,7 +405,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="102" bodyend="108"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="55" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="118" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8h_1c35c45ff43533cc6e7c176b0fa0b3128" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -349,7 +423,33 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="57" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="90" bodyend="96"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="57" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__errverbose_8h_14dec12f0df920db39c004776d7f04e6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char* gfal_str_GError_r</definition>
+        <argsstring>(GError **err, char *buff_err, size_t s_err)</argsstring>
+        <name>gfal_str_GError_r</name>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>buff_err</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>s_err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>set buff_err to the current gfal error, reentrant function <simplesect kind="return"><para>pointer to buff_err for convenience </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="104" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8h_1f9695e2ac1722715b687c1818cb2993d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -377,7 +477,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="67"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="69"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8h_1e78cdd895b743d7b44904377b3f4c4ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void void</type>
@@ -401,7 +501,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="71" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="145" bodyend="157"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="73" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="161" bodyend="173"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__errverbose_8h_10d507092f75c2411862d210dbecbc4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -422,7 +522,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="80" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="166" bodyend="174"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" line="82" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="182" bodyend="190"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -489,30 +589,32 @@
 <codeline lineno="56"><highlight class="normal"></highlight></codeline>
 <codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="gfal__common__errverbose_8c_1c35c45ff43533cc6e7c176b0fa0b3128" kindref="member">gfal_str_GError</ref>(GError**<sp/>err);</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>(GLIB_CHECK_VERSION(2,16,0)<sp/>!=<sp/>TRUE)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>add<sp/>a<sp/>advanced<sp/>functions<sp/>of<sp/>glib<sp/>for<sp/>old<sp/>version<sp/>of<sp/>glib</highlight></codeline>
-<codeline lineno="61"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>ERROR_OVERWRITTEN_WARNING<sp/>&quot;GError<sp/>set<sp/>over<sp/>the<sp/>top<sp/>of<sp/>a<sp/>previous<sp/>GError<sp/>or<sp/>uninitialized<sp/>memory.\n&quot;</highlight></codeline>
-<codeline lineno="63"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error<sp/><sp/><sp/>(GError<sp/><sp/><sp/><sp/><sp/><sp/><sp/>**dest,</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*src,</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>gchar<sp/><sp/><sp/>*format,</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...)<sp/>G_GNUC_PRINTF<sp/>(3,<sp/>4);</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>g_prefix_error(GError<sp/>**err,</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>gchar<sp/>*format,</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...);</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
-<codeline lineno="75"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>(GLIB_CHECK_VERSION(2,28,0)<sp/>!=<sp/>TRUE)</highlight></codeline>
-<codeline lineno="78"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>g_list_free_full(GList<sp/>*list,<sp/>GDestroyNotify<sp/>free_func);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="gfal__common__errverbose_8c_14dec12f0df920db39c004776d7f04e6e" kindref="member">gfal_str_GError_r</ref>(GError**<sp/>err,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_err,<sp/>size_t<sp/>s_err);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>(GLIB_CHECK_VERSION(2,16,0)<sp/>!=<sp/>TRUE)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>add<sp/>a<sp/>advanced<sp/>functions<sp/>of<sp/>glib<sp/>for<sp/>old<sp/>version<sp/>of<sp/>glib</highlight></codeline>
+<codeline lineno="63"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>ERROR_OVERWRITTEN_WARNING<sp/>&quot;GError<sp/>set<sp/>over<sp/>the<sp/>top<sp/>of<sp/>a<sp/>previous<sp/>GError<sp/>or<sp/>uninitialized<sp/>memory.\n&quot;</highlight></codeline>
+<codeline lineno="65"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error<sp/><sp/><sp/>(GError<sp/><sp/><sp/><sp/><sp/><sp/><sp/>**dest,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*src,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>gchar<sp/><sp/><sp/>*format,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...)<sp/>G_GNUC_PRINTF<sp/>(3,<sp/>4);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>g_prefix_error(GError<sp/>**err,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>gchar<sp/>*format,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="77"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>(GLIB_CHECK_VERSION(2,28,0)<sp/>!=<sp/>TRUE)</highlight></codeline>
+<codeline lineno="80"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>g_list_free_full(GList<sp/>*list,<sp/>GDestroyNotify<sp/>free_func);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h"/>
   </compounddef>

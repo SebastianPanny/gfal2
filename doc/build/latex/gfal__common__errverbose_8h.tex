@@ -35,6 +35,8 @@ gboolean \bf{gfal\_\-check\_\-GError} (GError $\ast$$\ast$err)\label{gfal__commo
 \begin{CompactList}\small\item\em convenient way to manage Gerror If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE \item\end{CompactList}\item 
 char $\ast$ \bf{gfal\_\-str\_\-GError} (GError $\ast$$\ast$err)
 \item 
+char $\ast$ \bf{gfal\_\-str\_\-GError\_\-r} (GError $\ast$$\ast$err, char $\ast$buff\_\-err, size\_\-t s\_\-err)
+\item 
 void \textbf{g\_\-propagate\_\-prefixed\_\-error} (GError $\ast$$\ast$dest, GError $\ast$src, const gchar $\ast$format,...) G\_\-GNUC\_\-PRINTF(3\label{gfal__common__errverbose_8h_f9695e2ac1722715b687c1818cb2993d}
 
 \item 
@@ -80,3 +82,10 @@ return a valid string of the current error, \begin{Desc}
 \item[Warning:]Modifications or free() on this string can lead to an undefined behaviors. 
 
 : like strerror, not thread safe. \end{Desc}
+\index{gfal_common_errverbose.h@{gfal\_\-common\_\-errverbose.h}!gfal_str_GError_r@{gfal\_\-str\_\-GError\_\-r}}
+\index{gfal_str_GError_r@{gfal\_\-str\_\-GError\_\-r}!gfal_common_errverbose.h@{gfal\_\-common\_\-errverbose.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-str\_\-GError\_\-r (GError $\ast$$\ast$ {\em err}, char $\ast$ {\em buff\_\-err}, size\_\-t {\em s\_\-err})}\label{gfal__common__errverbose_8h_4dec12f0df920db39c004776d7f04e6e}
+
+
+set buff\_\-err to the current gfal error, reentrant function \begin{Desc}
+\item[Returns:]pointer to buff\_\-err for convenience \end{Desc}

@@ -31,6 +31,9 @@ int \bf{gfal\_\-closedir} (DIR $\ast$d)
 \begin{CompactList}\small\item\em gfal\_\-closedir - close a directory \item\end{CompactList}\item 
 int \bf{gfal\_\-open} (const char $\ast$path, int flag, mode\_\-t mode)
 \begin{CompactList}\small\item\em opens a file according to the value of flags \item\end{CompactList}\item 
+int \textbf{gfal\_\-read} (int fd, void $\ast$buff, size\_\-t s\_\-buff)\label{group__posix__group_gaa6bfe36f33b86e489b798aed96912de}
+
+\item 
 int \bf{gfal\_\-close} (int fd)
 \begin{CompactList}\small\item\em close the current file descriptor \item\end{CompactList}\item 
 void \bf{gfal\_\-posix\_\-print\_\-error} ()
@@ -43,7 +46,7 @@ int \bf{gfal\_\-posix\_\-code\_\-error} ()
 \item 
 int \bf{gfal\_\-posix\_\-check\_\-error} ()
 \item 
-char $\ast$ \bf{gfal\_\-posix\_\-strerror} ()
+char $\ast$ \bf{gfal\_\-posix\_\-strerror\_\-r} (char $\ast$buff\_\-err, size\_\-t s\_\-err)
 \end{CompactItemize}
 
 
@@ -86,9 +89,9 @@ Display the last string error reported by the gfal error system for the posix AP
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-posix\_\-release\_\-error ()}\label{gfal__posix__ng_8c_85337290460234042db0adfd54514df9}
 
 
-Display and clear the last string error reported by the gfal error system for the posix API and similar to a \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} and a \doxyref{gfal\_\-posix\_\-clear\_\-error()}{p.}{gfal__posix__ng_8c_a8252652c1dc86d71ba37b401fb675f9} \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_strerror@{gfal\_\-posix\_\-strerror}}
-\index{gfal_posix_strerror@{gfal\_\-posix\_\-strerror}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-posix\_\-strerror ()}\label{gfal__posix__ng_8c_f1e9108a1ffb0c7a28bdfd62bb8f75e2}
+Display and clear the last string error reported by the gfal error system for the posix API and similar to a \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} and a \doxyref{gfal\_\-posix\_\-clear\_\-error()}{p.}{gfal__posix__ng_8c_a8252652c1dc86d71ba37b401fb675f9} \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_strerror_r@{gfal\_\-posix\_\-strerror\_\-r}}
+\index{gfal_posix_strerror_r@{gfal\_\-posix\_\-strerror\_\-r}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-posix\_\-strerror\_\-r (char $\ast$ {\em buff\_\-err}, size\_\-t {\em s\_\-err})}\label{gfal__posix__ng_8c_2a9e2951c934dd1c3205a89c0d25ac29}
 
 
 get the current error string 

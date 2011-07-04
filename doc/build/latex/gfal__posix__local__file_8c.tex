@@ -18,6 +18,9 @@ file for the internal func of the posix interface
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
+void \textbf{gfal\_\-local\_\-report\_\-error} (const char $\ast$funcname, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_2de9f8c077a2d44c1f4c1656ac5a20fc}
+
+\item 
 int \textbf{gfal\_\-local\_\-access} (const char $\ast$path, int amode, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_a98ca73fb3083a78f5d85b1f298a8b97}
 
 \item 
@@ -46,6 +49,9 @@ dirent $\ast$ \textbf{gfal\_\-local\_\-readdir} (DIR $\ast$d, GError $\ast$$\ast
 
 \item 
 gfal\_\-file\_\-handle \textbf{gfal\_\-local\_\-open} (const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_b596322ecc96fdc80c6c21802483f1d4}
+
+\item 
+int \textbf{gfal\_\-local\_\-read} (gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_45d46420d93abbaa7bbeb345bd8a6584}
 
 \item 
 int \textbf{gfal\_\-local\_\-close} (gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_145bf9e9edbe0321103e13a665c08d8a}

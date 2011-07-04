@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "1 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.h" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -56,6 +56,9 @@
 .RI "char * \fBgfal_str_GError\fP (GError **err)"
 .br
 .ti -1c
+.RI "char * \fBgfal_str_GError_r\fP (GError **err, char *buff_err, size_t s_err)"
+.br
+.ti -1c
 .RI "void \fBg_propagate_prefixed_error\fP (GError **dest, GError *src, const gchar *format,...) G_GNUC_PRINTF(3"
 .br
 .ti -1c
@@ -108,6 +111,16 @@ return a valid string of the current error,
 Modifications or free() on this string can lead to an undefined behaviors. 
 .PP
 : like strerror, not thread safe. 
+.RE
+.PP
+
+.SS "char* gfal_str_GError_r (GError ** err, char * buff_err, size_t s_err)"
+.PP
+set buff_err to the current gfal error, reentrant function 
+.PP
+\fBReturns:\fP
+.RS 4
+pointer to buff_err for convenience 
 .RE
 .PP
 

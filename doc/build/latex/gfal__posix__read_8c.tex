@@ -1,0 +1,45 @@
+\section{/home/adevress/myworkspace/gfal/src/posix/gfal\_\-posix\_\-read.c File Reference}
+\label{gfal__posix__read_8c}\index{/home/adevress/myworkspace/gfal/src/posix/gfal_posix_read.c@{/home/adevress/myworkspace/gfal/src/posix/gfal\_\-posix\_\-read.c}}
+file for the internal read function for the posix interface 
+
+{\tt \#include $<$glib.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include \char`\"{}../common/gfal\_\-types.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-common\_\-filedescriptor.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-file\_\-handle.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-posix\_\-internal.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include \char`\"{}../common/gfal\_\-common\_\-catalog.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-posix\_\-local\_\-file.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \bf{gfal\_\-posix\_\-gfalfilehandle\_\-read} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-posix\_\-internal\_\-read} (int fd, void $\ast$buff, size\_\-t s\_\-buff)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+file for the internal read function for the posix interface 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]2.0 \end{Desc}
+\begin{Desc}
+\item[Date:]01/07/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_posix_read.c@{gfal\_\-posix\_\-read.c}!gfal_posix_gfalfilehandle_read@{gfal\_\-posix\_\-gfalfilehandle\_\-read}}
+\index{gfal_posix_gfalfilehandle_read@{gfal\_\-posix\_\-gfalfilehandle\_\-read}!gfal_posix_read.c@{gfal\_\-posix\_\-read.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-gfalfilehandle\_\-read (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, GError $\ast$$\ast$ {\em err})}\label{gfal__posix__read_8c_457f702a225b897e723c0787e42b4ade}
+
+
+map the file handle to the correct call \index{gfal_posix_read.c@{gfal\_\-posix\_\-read.c}!gfal_posix_internal_read@{gfal\_\-posix\_\-internal\_\-read}}
+\index{gfal_posix_internal_read@{gfal\_\-posix\_\-internal\_\-read}!gfal_posix_read.c@{gfal\_\-posix\_\-read.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-internal\_\-read (int {\em fd}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff})}\label{gfal__posix__read_8c_1f42df17317461c2831cd270cde9819e}
+
+
+Implementation of the read functions 

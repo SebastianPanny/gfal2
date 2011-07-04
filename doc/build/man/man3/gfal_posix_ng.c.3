@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "1 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -61,6 +61,9 @@
 .br
 .RI "\fIopens a file according to the value of flags \fP"
 .ti -1c
+.RI "int \fBgfal_read\fP (int fd, void *buff, size_t s_buff)"
+.br
+.ti -1c
 .RI "int \fBgfal_close\fP (int fd)"
 .br
 .RI "\fIclose the current file descriptor \fP"
@@ -80,7 +83,7 @@
 .RI "int \fBgfal_posix_check_error\fP ()"
 .br
 .ti -1c
-.RI "char * \fBgfal_posix_strerror\fP ()"
+.RI "char * \fBgfal_posix_strerror_r\fP (char *buff_err, size_t s_err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -127,7 +130,7 @@ Display the last string error reported by the gfal error system for the posix AP
 .SS "void gfal_posix_release_error ()"
 .PP
 Display and clear the last string error reported by the gfal error system for the posix API and similar to a \fBgfal_posix_print_error()\fP and a \fBgfal_posix_clear_error()\fP 
-.SS "char* gfal_posix_strerror ()"
+.SS "char* gfal_posix_strerror_r (char * buff_err, size_t s_err)"
 .PP
 get the current error string 
 .SH "Author"

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "1 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,6 +6,10 @@
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <malloc.h>\fP
+.br
+\fC#include <glib.h>\fP
+.br
 \fC#include 'gfal_common_errverbose.h'\fP
 .br
 
@@ -32,6 +36,9 @@
 .RI "char * \fBgfal_str_GError\fP (GError **err)"
 .br
 .ti -1c
+.RI "char * \fBgfal_str_GError_r\fP (GError **err, char *buff_err, size_t s_err)"
+.br
+.ti -1c
 .RI "gboolean \fBgfal_check_GError\fP (GError **err)"
 .br
 .RI "\fIconvenient way to manage Gerror If error does not exist, just return FALSE else print error on stderr, clear it and return TRUE \fP"
@@ -43,6 +50,13 @@
 .br
 .ti -1c
 .RI "void \fBg_list_free_full\fP (GList *list, GDestroyNotify free_func)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "char * \fB_gfal_err\fP = NULL"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -81,6 +95,16 @@ return a valid string of the current error,
 Modifications or free() on this string can lead to an undefined behaviors. 
 .PP
 : like strerror, not thread safe. 
+.RE
+.PP
+
+.SS "char* gfal_str_GError_r (GError ** err, char * buff_err, size_t s_err)"
+.PP
+set buff_err to the current gfal error, reentrant function 
+.PP
+\fBReturns:\fP
+.RS 4
+pointer to buff_err for convenience 
 .RE
 .PP
 

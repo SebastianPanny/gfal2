@@ -64,7 +64,7 @@
 <a name="l00054"></a>00054 
 <a name="l00055"></a>00055 <span class="keywordtype">void</span> <a class="code" href="gfal__posix__ng_8c.html#85337290460234042db0adfd54514df9">gfal_posix_release_error</a>();
 <a name="l00056"></a>00056 
-<a name="l00057"></a>00057  <span class="keywordtype">char</span>* <a class="code" href="gfal__posix__ng_8c.html#f1e9108a1ffb0c7a28bdfd62bb8f75e2">gfal_posix_strerror</a>();
+<a name="l00057"></a>00057 <span class="keywordtype">char</span>* <a class="code" href="gfal__posix__ng_8c.html#2a9e2951c934dd1c3205a89c0d25ac29">gfal_posix_strerror_r</a>(<span class="keywordtype">char</span>* buff_err, size_t s_err);
 <a name="l00058"></a>00058 
 <a name="l00059"></a>00059 <span class="keywordtype">void</span> <a class="code" href="gfal__posix__ng_8c.html#03fcc29bc5d79dc2f65010846b0db024">gfal_posix_print_error</a>();
 <a name="l00060"></a>00060 
@@ -83,7 +83,7 @@
 <a name="l00160"></a>00160 
 <a name="l00161"></a>00161 DIR *<a class="code" href="group__posix__group.html#g7e6d16651dbce5d684c53f82349e0306">gfal_opendir</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
 <a name="l00162"></a>00162 
-<a name="l00163"></a>00163 ssize_t gfal_read (<span class="keywordtype">int</span>, <span class="keywordtype">void</span> *, size_t);
+<a name="l00163"></a>00163 <span class="keywordtype">int</span> gfal_read (<span class="keywordtype">int</span>, <span class="keywordtype">void</span> *, size_t);
 <a name="l00164"></a>00164 
 <a name="l00165"></a>00165 <span class="keyword">struct </span>dirent *<a class="code" href="group__posix__group.html#gad7e253fad72213c19e72c02b869ba7e">gfal_readdir</a> (DIR *);
 <a name="l00166"></a>00166 
@@ -95,7 +95,7 @@
 <a name="l00172"></a>00172 
 <a name="l00173"></a>00173 <span class="keywordtype">int</span> gfal_unlink (<span class="keyword">const</span> <span class="keywordtype">char</span> *);
 <a name="l00174"></a>00174 
-<a name="l00175"></a>00175 ssize_t gfal_write (<span class="keywordtype">int</span>, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
+<a name="l00175"></a>00175 <span class="keywordtype">int</span> gfal_write (<span class="keywordtype">int</span>, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
 <a name="l00176"></a>00176 
 <a name="l00177"></a>00177 
 <a name="l00178"></a>00178 
@@ -148,7 +148,7 @@
 <a name="l00264"></a>00264 <span class="keywordtype">int</span> gfal_is_nobdii ();
 <a name="l00265"></a>00265 
 <a name="l00266"></a>00266 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jul 1 11:12:50 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

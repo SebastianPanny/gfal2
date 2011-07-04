@@ -34,6 +34,9 @@
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>GFAL_LOCAL_PREFIX</b>&nbsp;&nbsp;&nbsp;&quot;file:&quot;</td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2de9f8c077a2d44c1f4c1656ac5a20fc"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_report_error" ref="2de9f8c077a2d44c1f4c1656ac5a20fc" args="(const char *funcname, GError **err)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_report_error</b> (const char *funcname, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a98ca73fb3083a78f5d85b1f298a8b97"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_access" ref="a98ca73fb3083a78f5d85b1f298a8b97" args="(const char *path, int amode, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_access</b> (const char *path, int amode, GError **err)</td></tr>
 
@@ -63,6 +66,9 @@ dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_readdi
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b596322ecc96fdc80c6c21802483f1d4"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_open" ref="b596322ecc96fdc80c6c21802483f1d4" args="(const char *path, int flag, mode_t mode, GError **err)" -->
 gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_open</b> (const char *path, int flag, mode_t mode, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="45d46420d93abbaa7bbeb345bd8a6584"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_read" ref="45d46420d93abbaa7bbeb345bd8a6584" args="(gfal_file_handle fh, void *buff, size_t s_buff, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_read</b> (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="145bf9e9edbe0321103e13a665c08d8a"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_close" ref="145bf9e9edbe0321103e13a665c08d8a" args="(gfal_file_handle fh, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_close</b> (gfal_file_handle fh, GError **err)</td></tr>
@@ -168,7 +174,7 @@ local closedir mapper
 local rmdir mapper 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 1 11:12:50 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

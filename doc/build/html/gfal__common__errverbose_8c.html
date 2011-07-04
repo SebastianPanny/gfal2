@@ -20,6 +20,8 @@
   </ul></div>
 <h1>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c File Reference</h1>the file of the common lib for error management and verbose display <a href="#_details">More...</a>
 <p>
+<code>#include &lt;malloc.h&gt;</code><br>
+<code>#include &lt;glib.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">gfal_common_errverbose.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
@@ -40,6 +42,8 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">display the full GError message on stderr and free the memory associated <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8c.html#c35c45ff43533cc6e7c176b0fa0b3128">gfal_str_GError</a> (GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8c.html#4dec12f0df920db39c004776d7f04e6e">gfal_str_GError_r</a> (GError **err, char *buff_err, size_t s_err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9167aee5bda42b71a982f863e88f7bfd"></a><!-- doxytag: member="gfal_common_errverbose.c::gfal_check_GError" ref="9167aee5bda42b71a982f863e88f7bfd" args="(GError **err)" -->
 gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8c.html#9167aee5bda42b71a982f863e88f7bfd">gfal_check_GError</a> (GError **err)</td></tr>
 
@@ -52,6 +56,10 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>g_prefix_error</b> (G
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0d507092f75c2411862d210dbecbc4e5"></a><!-- doxytag: member="gfal_common_errverbose.c::g_list_free_full" ref="0d507092f75c2411862d210dbecbc4e5" args="(GList *list, GDestroyNotify free_func)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>g_list_free_full</b> (GList *list, GDestroyNotify free_func)</td></tr>
+
+<tr><td colspan="2"><br><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="edaf93b87fe65f43cf349705f1ce6e59"></a><!-- doxytag: member="gfal_common_errverbose.c::_gfal_err" ref="edaf93b87fe65f43cf349705f1ce6e59" args="" -->
+char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>_gfal_err</b> = NULL</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -120,7 +128,43 @@ return a valid string of the current error, <dl compact><dt><b>Warning:</b></dt>
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 1 11:12:50 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="4dec12f0df920db39c004776d7f04e6e"></a><!-- doxytag: member="gfal_common_errverbose.c::gfal_str_GError_r" ref="4dec12f0df920db39c004776d7f04e6e" args="(GError **err, char *buff_err, size_t s_err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* gfal_str_GError_r           </td>
+          <td>(</td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>buff_err</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>s_err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+set buff_err to the current gfal error, reentrant function <dl compact><dt><b>Returns:</b></dt><dd>pointer to buff_err for convenience </dd></dl>
+
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
