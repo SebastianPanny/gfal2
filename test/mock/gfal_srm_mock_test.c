@@ -52,6 +52,22 @@ void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, c
 	}
 }
 
+
+void define_mock_srmv2_pinfilestatus(int number, char** surl, char** explanation, char** turl, int* status){
+	int i;
+	defined_get_output= calloc(sizeof(struct srmv2_filestatus), number);
+	for(i=0; i < number; ++i){
+		if(surl)
+			defined_get_output[i].surl = strdup(surl[i]);
+		if(explanation)
+			defined_get_output[i].explanation = strdup(explanation[i]);
+		if(turl)
+			defined_get_output[i].turl = strdup(turl[i]);
+		if(status)
+			defined_get_output[i].status = status[i];
+	}
+}
+
 void srm_mock_srm_context_init(struct srm_context *context,char *srm_endpoint,char *errbuf,int errbufsz,int verbose){
 	mock(context, srm_endpoint, errbuf, errbufsz, verbose);
 }

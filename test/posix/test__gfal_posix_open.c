@@ -10,6 +10,11 @@
 #include <stdio.h>
 #include "gfal_posix_api.h"
 #include <errno.h>
+#include "../mock/gfal_lfc_mock_test.h"
+#include "../mock/gfal_srm_mock_test.h"
+#include "../mock/gfal_mds_mock_test.h"
+#include "../mock/gfal_voms_mock_test.h"
+#include "../../src/posix/gfal_posix_internal.h"
 
 void test_mock_lfc_open(const char* lfc_url){ 
 #if USE_MOCK
@@ -20,15 +25,15 @@ void test_mock_lfc_open(const char* lfc_url){
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;	
-	char** tab= { TEST_SRM_VALID_SURL_EXAMPLE1, NULL };	
-	char** tab_turl = { TEST_SRM_TURL_EXAMPLE1, NULL };
+	char* tab[]= { TEST_SRM_VALID_SURL_EXAMPLE1, NULL };	
+	char* tab_turl[] = { TEST_SRM_TURL_EXAMPLE1, NULL };
 	int res[] = { 0, 0 };
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL); // mock the mds for the srm endpoitn resolution
 	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
 	define_mock_filereplica(1, tab);
 	will_respond(lfc_mock_getreplica, 0, want_string(path, lfc_url+4), want_non_null(nbentries), want_non_null(rep_entries));	
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
-	define_mock_srmv2_filestatus(1, TEST_SRM_VALID_SURL_EXAMPLE1, NULL, tab_turl, res);
+	define_mock_srmv2_pinfilestatus(1, tab, NULL, tab_turl, res);
 	will_respond(srm_mock_srm_prepare_to_get, 1, want_non_null(context), want_non_null(input), want_non_null(output));
 #endif
 }
