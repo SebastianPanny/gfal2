@@ -53,6 +53,11 @@ void test_read_posix_lfc_simple()
 
 }
 
+void test_read_posix_guid_simple(){
+	test_generic_read_simple(TEST_GUID_ONLY_READ_ACCESS, TEST_SRM_FILE_CONTENT);	
+	
+}
+
 
 
 
