@@ -631,6 +631,7 @@ extern char* gfal_get_cat_type(GError** err) {
 
 
 
+
 static gfal_file_handle gfal_catalog_open_surl(gfal_handle handle, char** res_surl, int flag, mode_t mode, GError** err){
 	gfal_file_handle ret = NULL;	
 	GError* tmp_err=NULL;
@@ -648,6 +649,27 @@ static gfal_file_handle gfal_catalog_open_surl(gfal_handle handle, char** res_su
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;	
 }
+/**
+ * 
+ *  if url is guid, resolve it and put the result in buffer,
+ *  else put the url in the buffer
+ * */
+void gfal_catalog_open_resolve_guid(gfal_handle handle, const char* path, char* buff, size_t s_buff, GError** err){
+	GError* tmp_err=NULL;
+	char* resu = NULL;
+	if( gfal_guid_checker(path, &tmp_err) == TRUE){
+		resu = gfal_catalog_resolve_guid(handle, path, &tmp_err);
+		if(resu){
+			g_strlcpy(buff, resu, s_buff);
+			g_free(resu);
+			return;
+		}
+	}
+	g_strlcpy(buff, path, s_buff);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return;
+}
 
 /**
  *  Complete openG func with catalog->surl resolution
@@ -659,17 +681,22 @@ static gfal_file_handle gfal_catalog_open_surl(gfal_handle handle, char** res_su
 gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err){
 	char** res_surl=NULL;
 	GError* tmp_err=NULL;
+	char path_buffer[GFAL_URL_MAX_LEN];
 	gfal_file_handle ret = NULL;
-	if( (res_surl = gfal_catalog_getSURL(handle, path, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
-		ret = gfal_catalog_open_surl(handle, res_surl, flag, mode, &tmp_err);		
-		g_strfreev(res_surl);
-	}else if( tmp_err && tmp_err->code==EPROTONOSUPPORT){ // try to surl open
-		char* surls[] = { (char*)path, NULL };
-		g_clear_error(&tmp_err);
-		ret= gfal_catalog_open_surl(handle, surls, flag, mode, &tmp_err);
-		if( tmp_err && tmp_err->code == EPROTONOSUPPORT){
+	gfal_catalog_open_resolve_guid(handle, path, path_buffer, GFAL_URL_MAX_LEN, &tmp_err);
+	if(!tmp_err){
+
+		if( (res_surl = gfal_catalog_getSURL(handle, path_buffer, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
+			ret = gfal_catalog_open_surl(handle, res_surl, flag, mode, &tmp_err);		
+			g_strfreev(res_surl);
+		}else if( tmp_err && tmp_err->code==EPROTONOSUPPORT){ // try to surl open
+			char* surls[] = { (char*)path, NULL };
 			g_clear_error(&tmp_err);
-			ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
+			ret= gfal_catalog_open_surl(handle, surls, flag, mode, &tmp_err);
+			if( tmp_err && tmp_err->code == EPROTONOSUPPORT){ // try the global open if failure again
+				g_clear_error(&tmp_err);
+				ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
+			}
 		}
 	}
 

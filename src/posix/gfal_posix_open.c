@@ -78,8 +78,6 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 	}else{
 		if( gfal_check_local_url(path, NULL) == TRUE){
 			fhandle = gfal_local_open(path, flag, mode, &tmp_err);
-		}else if(gfal_guid_checker(path, NULL) == TRUE){
-			fhandle = gfal_guid_openG(handle, path, flag, mode, &tmp_err);
 		}else{
 			fhandle = gfal_catalog_open_globalG(handle, path, flag, mode, &tmp_err);
 		}

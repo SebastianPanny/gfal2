@@ -17,6 +17,7 @@
 #include "../../src/posix/gfal_posix_internal.h"
 
 
+
 void test_mock_srm_open_valid(char** tab, char** tab_turl, int* res){
 #if USE_MOCK
 	test_rfio_mock_all();
@@ -103,6 +104,28 @@ void test_mock_lfc_open_eacces(const char* lfc_url){
 #endif	
 }
 
+void test_mock_guid_open_valid(const char * guid1){
+#if USE_MOCK
+	int i1;
+	test_mock_lfc_open_valid(TEST_LFC_OPEN_EXIST);
+	define_linkinfos= calloc(sizeof(struct lfc_linkinfo),3);
+	define_numberlinkinfos=3;
+	for(i1=0; i1< define_numberlinkinfos; ++i1)
+		g_strlcpy(define_linkinfos[i1].path, TEST_LFC_OPEN_EXIST+4, 2048);
+	will_respond(lfc_mock_getlinks, 0, want_string(guid, guid1+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+#endif	
+}
+
+void test_mock_guid_open_invalid(const char * guid1){
+#if USE_MOCK
+	int i1;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	GError* mock_err=NULL;
+		
+	will_respond(lfc_mock_getlinks, ENOENT, want_string(guid, guid1+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+#endif	
+}
 
 void test_open_posix_all_simple()
 {
@@ -182,30 +205,8 @@ void test_open_posix_srm_simple()
 void test_open_posix_guid_simple()
 {
 	int ret = -1;
-	int fd = gfal_open(TEST_GUID_OPEN_EXIST, O_RDONLY, 555);
-	if(fd <=0 || gfal_posix_code_error() != 0 || errno != 0 ){
-		assert_true_with_message(FALSE, " must be a valid file descriptor %d %d %d", ret, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}
-	ret = gfal_close(fd);
-	if(ret !=0 || gfal_posix_code_error() != 0 || errno != 0 ){
-		assert_true_with_message(FALSE, " must be a valid close");
-		gfal_posix_release_error();
-		return;
-	}
-	ret = gfal_close(fd);
-	if(ret ==0 || gfal_posix_code_error() != EBADF || errno != EBADF){
-		assert_true_with_message(FALSE, " must be an non existant file descriptor  %d %d %d", ret, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;		
-	}
-	gfal_posix_clear_error();
-	fd = gfal_open(TEST_GUID_OPEN_NONEXIST, O_RDONLY, 555);
-	if(fd >0 || gfal_posix_code_error() != ENOENT || errno != ENOENT ){
-		assert_true_with_message(FALSE, " must be a non existing file %d %d %d", fd, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;
-	}		
-	gfal_posix_clear_error();
+	test_mock_guid_open_valid(TEST_GUID_OPEN_EXIST);
+	test_generic_open_simple(TEST_GUID_OPEN_EXIST, NULL, NULL);
+	test_mock_guid_open_invalid(TEST_GUID_OPEN_NONEXIST);
+	test_generic_open_simple(NULL, TEST_GUID_NOEXIST_ACCESS, NULL);
 }

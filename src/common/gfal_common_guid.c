@@ -40,8 +40,6 @@ gboolean gfal_guid_checker(const char* guid, GError** err){
 	int ret = regcomp(&rex, "^guid:([0-9]|[a-z]|[A-Z]){8}-([0-9]|[a-z]|[A-Z]){4}-([0-9]|[a-z]|[A-Z]){4}-([0-9]|[a-z]|[A-Z]){4}-([0-9]|[a-z]|[A-Z]){12}",REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret==0,FALSE,err,"[gfal_guid_checker] fail to compile regex, report this bug");
 	ret=  regexec(&rex,guid,0,NULL,0);
-	if(ret) 
-		g_set_error(err,0,EINVAL,"[gfal_guid_checker] Incorrect guid, impossible to parse guid %s :", guid);
 	regfree(&rex);
 	return (!ret)?TRUE:FALSE;
 } 
@@ -141,27 +139,4 @@ int gfal_guid_lstatG(gfal_handle handle, const char* guid, struct stat* buf, GEr
 	return ret;
 }
 
-/**
- * Execute a guid open on the first compatible catalog
- * 
- * */
-gfal_file_handle gfal_guid_openG(gfal_handle handle, const char* guid, int flag, mode_t mode, GError** err){
-	g_return_val_err_if_fail(handle && guid, NULL, err, "[gfal_guid_lstatG] Invalid args");
-	GError* tmp_err=NULL;
-	gfal_file_handle ret =NULL;
-	if( (flag & O_WRONLY ) || (flag & O_CREAT) == TRUE){
-		g_set_error(&tmp_err, 0, EROFS, " Unable to create or write in a guid open mode");
-	}else{
-		const char * cata_link= gfal_catalog_resolve_guid(handle, guid, &tmp_err);	
-		if(cata_link){
-			ret = gfal_catalog_open_globalG(handle, cata_link, flag, mode, &tmp_err);
-			free(cata_link);	
-		}
-	}
-	
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-
-	return ret;	
-}
 

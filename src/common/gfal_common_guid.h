@@ -35,5 +35,3 @@ int gfal_guid_accessG(gfal_handle handle, const char* guid, int mode, GError** e
 int gfal_guid_chmodG(gfal_handle handle, const char* guid, mode_t mode, GError** err);
 
 int gfal_guid_statG(gfal_handle handle, const char* guid, struct stat* buf, GError** err);
-
-gfal_file_handle gfal_guid_openG(gfal_handle handle, const char* guid, int flag, mode_t mode, GError** err);
