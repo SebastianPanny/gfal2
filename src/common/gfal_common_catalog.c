@@ -559,7 +559,7 @@ int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size
  * 
  * */
 int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
-	g_return_val_err_if_fail(handle && fh && buff && s_buff> 0, -1,err, "[gfal_catalog_readG] Invalid args ");	
+	g_return_val_err_if_fail(handle && fh && buff && s_buff> 0, -1,err, "[gfal_catalog_writeG] Invalid args ");	
 	GError* tmp_err=NULL;
 	int ret = -1;
 	gfal_catalog_interface* if_cata = fh->ext_data;

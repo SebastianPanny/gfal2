@@ -51,4 +51,6 @@ gfal_file_handle gfal_local_open(const char* path, int flag, mode_t mode, GError
 
 int gfal_local_read(gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
 
+int gfal_local_write(gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
+
 int gfal_local_close(gfal_file_handle fh, GError** err);
