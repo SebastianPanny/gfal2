@@ -24,6 +24,16 @@ void test_mock_read_posix_lfc(const char * url, const char* filename){
 #endif
 }
 
+void test_mock_read_posix_guid(const char* guid1, const char* filename){
+#if USE_MOCK
+	strcpy(defined_buff_read, filename);
+	defined_buff_read_size = strlen(filename)+1;	
+	will_respond(rfio_mock_read, strlen(filename), want_non_null(buff), want_non_null(size), want_non_null(fd));
+	test_mock_guid_open_valid(guid1);
+#endif
+	
+}
+
 static void test_generic_read_simple(char* url_exist, const char* filename){
 	char buff[2048];
 	int ret = -1;
@@ -62,6 +72,7 @@ void test_read_posix_lfc_simple()
 }
 
 void test_read_posix_guid_simple(){
+	test_mock_read_posix_guid(TEST_GUID_ONLY_READ_ACCESS, TEST_SRM_FILE_CONTENT);
 	test_generic_read_simple(TEST_GUID_ONLY_READ_ACCESS, TEST_SRM_FILE_CONTENT);	
 	
 }
