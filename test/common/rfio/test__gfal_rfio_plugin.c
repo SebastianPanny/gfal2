@@ -26,7 +26,6 @@ struct rfio_proto_ops * gfal_rfio_mock_loader(GError** err){
 
 void test_rfio_mock_all(){
 	gfal_rfio_internal_loader= gfal_rfio_mock_loader;
-	
 }
 
 void test_load_plugin(){

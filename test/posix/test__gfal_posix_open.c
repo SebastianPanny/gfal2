@@ -71,7 +71,7 @@ void test_mock_lfc_open_valid(const char* lfc_url){
 		return;	
 
 	define_mock_filereplica(1, tab);
-	will_respond(lfc_mock_getreplica, 0, want_string(path, lfc_url+4), want_non_null(nbentries), want_non_null(rep_entries));	
+	will_respond(lfc_mock_getreplica, 0, want_string(path, ((char*)lfc_url)+4), want_non_null(nbentries), want_non_null(rep_entries));	
 
 #endif
 }
@@ -85,7 +85,7 @@ void test_mock_lfc_open_enoent(const char* lfc_url){
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;	
-	will_respond(lfc_mock_getreplica, ENOENT, want_string(path, lfc_url+4), want_non_null(nbentries), want_non_null(rep_entries));	
+	will_respond(lfc_mock_getreplica, ENOENT, want_string(path, ((char*)lfc_url)+4), want_non_null(nbentries), want_non_null(rep_entries));	
 	
 #endif	
 }
@@ -99,7 +99,7 @@ void test_mock_lfc_open_eacces(const char* lfc_url){
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;	
-	will_respond(lfc_mock_getreplica, EACCES, want_string(path, lfc_url+4), want_non_null(nbentries), want_non_null(rep_entries));	
+	will_respond(lfc_mock_getreplica, EACCES, want_string(path, ((char*)lfc_url)+4), want_non_null(nbentries), want_non_null(rep_entries));	
 	
 #endif	
 }
@@ -112,7 +112,7 @@ void test_mock_guid_open_valid(const char * guid1){
 	define_numberlinkinfos=3;
 	for(i1=0; i1< define_numberlinkinfos; ++i1)
 		g_strlcpy(define_linkinfos[i1].path, TEST_LFC_OPEN_EXIST+4, 2048);
-	will_respond(lfc_mock_getlinks, 0, want_string(guid, guid1+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	will_respond(lfc_mock_getlinks, 0, want_string(guid, ((char*)guid1)+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
 #endif	
 }
 
@@ -123,7 +123,7 @@ void test_mock_guid_open_invalid(const char * guid1){
 	gfal_catalogs_instance(handle,NULL);
 	GError* mock_err=NULL;
 		
-	will_respond(lfc_mock_getlinks, ENOENT, want_string(guid, guid1+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
+	will_respond(lfc_mock_getlinks, ENOENT, want_string(guid, ((char*)guid1)+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
 #endif	
 }
 

@@ -6,6 +6,7 @@
 #include "gfal_constants.h"
 #include "gfal_prototypes.h"
 #include "gfal_types.h"
+#include "../mock/gfal_rfio_mock_test.h"
 #include "../unit_test_constants.h"
 #include <stdio.h>
 #include "gfal_posix_api.h"
@@ -14,7 +15,14 @@
 
 
 
-
+void test_mock_read_posix_lfc(const char * url, const char* filename){
+#if USE_MOCK
+	strcpy(defined_buff_read, filename);
+	defined_buff_read_size = strlen(filename)+1;
+	will_respond(rfio_mock_read, strlen(filename), want_non_null(buff), want_non_null(size), want_non_null(fd));
+	test_mock_lfc_open_valid(url);
+#endif
+}
 
 static void test_generic_read_simple(char* url_exist, const char* filename){
 	char buff[2048];
@@ -41,7 +49,6 @@ static void test_generic_read_simple(char* url_exist, const char* filename){
 void test_read_posix_local_simple()
 {
 	system(TEST_LOCAL_OPEN_CREATE_COMMAND);
-
 	test_generic_read_simple(TEST_LOCAL_OPEN_EXIST, TEST_LOCAL_READ_CONTENT);
 
 }
@@ -49,6 +56,7 @@ void test_read_posix_local_simple()
 
 void test_read_posix_lfc_simple()
 {
+	test_mock_read_posix_lfc(TEST_LFC_ONLY_READ_ACCESS, TEST_SRM_FILE_CONTENT);
 	test_generic_read_simple(TEST_LFC_ONLY_READ_ACCESS, TEST_SRM_FILE_CONTENT);
 
 }
