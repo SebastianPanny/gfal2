@@ -17,7 +17,7 @@
  */
 
 // set to 1 if mock need to be used else to 0
-#define USE_MOCK 1
+#define USE_MOCK 0
 
 
 // to define
@@ -208,6 +208,7 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 #define TEST_SRM_OPEN_EXIST TEST_SRM_ONLY_READ_ACCESS
 #define TEST_SRM_OPEN_NOEXIST TEST_SRM_NOEXIST_ACCESS
 #define TEST_SRM_OPEN_NOACCESS TEST_CONCAT_SRM_PREFIX("testopen0011/testopen0012")
+#define TEST_SRM_OPEN_WRITE TEST_CONCAT_SRM_PREFIX("testwritetmp0011")
 
 #define TEST_LFC_OPEN_EXIST TEST_LFC_ONLY_READ_ACCESS
 #define TEST_LFC_OPEN_NOEXIST TEST_LFC_NOEXIST_ACCESS

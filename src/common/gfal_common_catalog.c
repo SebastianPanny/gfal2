@@ -538,6 +538,29 @@ int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl,
 }
 
 /**
+ * Resolve a surl to a "PUT" turl
+ * @return0 if success else -1 if error,  
+ */
+int gfal_catalog_putTURLG(gfal_handle handle, const char* surl, char* turl_buff, int size_turl, GError** err){
+	GError* tmp_err=NULL;
+	int resu =-1;
+	
+	gboolean putTURLG_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, surl, GFAL_CATALOG_PUTTURL, terr);
+	}	
+	int putTURLG_executor(gfal_catalog_interface* cata_list, GError** terr){
+		int ret= cata_list->putTURLG(cata_list->handle, surl, turl_buff, size_turl, terr);
+		return (ret);
+	}	
+	
+	resu= gfal_catalogs_operation_executor(handle, &putTURLG_checker, &putTURLG_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
+	return resu;	
+}
+
+
+/**
  * do a read operation on the catalog, read s_buff chars on the fd device
  * @return return number of bytes readed else -1 if errors and GError is set
  * 
