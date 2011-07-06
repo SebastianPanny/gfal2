@@ -49,7 +49,7 @@ void test_generic_read_simple(char* url_exist, const char* filename){
 	int ret = -1;
 	errno=0;
 	int fd = gfal_open(url_exist, O_RDONLY, 555);
-	assert_true_with_message(fd >0 && gfal_posix_code_error()==0 && errno==0, " must be a valid open %d %d %d", ret, gfal_posix_code_error(), errno);
+	assert_true_with_message(fd >0 && gfal_posix_code_error()==0 && errno==0, " must be a valid open for read %d %d %d", ret, gfal_posix_code_error(), errno);
 	gfal_posix_check_error();
 	
 	ret = gfal_read(fd, buff, strlen(TEST_SRM_FILE_CONTENT)+1);

@@ -39,5 +39,6 @@ struct _gfal_srm_external_call gfal_srm_external_call = {
 	.srm_srmv2_mdfilestatus_delete = &srm_srmv2_mdfilestatus_delete,
 	.srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete,
 	.srm_srm2__TReturnStatus_delete = &srm_srm2__TReturnStatus_delete,
-	.srm_prepare_to_get= &srm_prepare_to_get
+	.srm_prepare_to_get= &srm_prepare_to_get,
+	.srm_prepare_to_put= &srm_prepare_to_put
 };

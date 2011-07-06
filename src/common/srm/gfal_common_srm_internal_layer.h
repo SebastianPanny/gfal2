@@ -63,12 +63,16 @@ struct _gfal_srm_external_call{
 	
 	void (*srm_srm2__TReturnStatus_delete)(struct srm2__TReturnStatus* status);
 	
+	int (*srm_prepare_to_put)(struct srm_context *context,
+		struct srm_preparetoput_input *input,struct srm_preparetoput_output *output);
+	
 };
 
 extern struct _gfal_srm_external_call gfal_srm_external_call;
 
 int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err);
 
-int gfal_srm_getTURLS_internal(gfal_handle handle, char** surls, gfal_srm_result** resu, GError** err);
 
 int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, GError** err);
+
+int gfal_srm_putTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, GError** err);

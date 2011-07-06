@@ -183,7 +183,7 @@ struct _gfal_srmv2_opt{
 	int opt_srmv2_desiredpintime;			//	optional desired default endpoint
 	char** opt_srmv2_protocols;				// optional protocols list for manual set
 	char * opt_srmv2_spacetokendesc;		// optional spacetokens desc for srmv2	 
-	 
+	gint64 filesizes;
 };
 
  /**

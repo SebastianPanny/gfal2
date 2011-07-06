@@ -86,6 +86,7 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 		case GFAL_CATALOG_RMDIR:
 		case GFAL_CATALOG_OPENDIR:
 		case GFAL_CATALOG_GETTURL:
+		case GFAL_CATALOG_PUTTURL:
 			return (gfal_surl_checker(url,  err)==0)?TRUE:FALSE;
 		default:
 			return FALSE;		
@@ -109,8 +110,10 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	gfal_catalog_interface srm_catalog;
 	GError* tmp_err=NULL;
 	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
-	handle->srmv2_opt = calloc(1,sizeof(struct _gfal_srmv2_opt));	// define the srmv2 option struct and clear it
-	handle->srmv2_opt->opt_srmv2_protocols = srm_turls_sup_protocols;
+	gfal_srmv2_opt* opts = g_new0(struct _gfal_srmv2_opt,1);	// define the srmv2 option struct and clear it
+	opts->opt_srmv2_protocols = srm_turls_sup_protocols;
+	opts->filesizes = GFAL_NEWFILE_SIZE;
+	handle->srmv2_opt = opts;
 	srm_catalog.handle = (void*) handle;	
 	srm_catalog.check_catalog_url = &gfal_srm_check_url;
 	srm_catalog.catalog_delete = &gfal_srm_destroyG;
@@ -123,6 +126,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_catalog.closedirG = &gfal_srm_closedirG;
 	srm_catalog.getName= &gfal_srm_getName;
 	srm_catalog.getTURLG = &gfal_srm_getTURLS_catalog;
+	srm_catalog.putTURLG= &gfal_srm_putTURLS_catalog;
 	return srm_catalog;
 }
 

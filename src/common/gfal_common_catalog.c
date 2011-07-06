@@ -29,6 +29,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dlfcn.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <fcntl.h>
 #include "gfal_types.h"
 #include "gfal_common_catalog.h"
 #include "gfal_constants.h"
@@ -662,7 +665,12 @@ static gfal_file_handle gfal_catalog_open_surl(gfal_handle handle, char** res_su
 	while(*p != NULL){
 		char turl[GFAL_URL_MAX_LEN];
 		g_clear_error(&tmp_err);
-		if( gfal_catalog_getTURLG(handle, *p, turl, GFAL_URL_MAX_LEN, &tmp_err)  == 0){
+		int tmp_ret;
+		if(flag & O_CREAT) // create turl if file is not existing else get one for this file
+			tmp_ret= gfal_srm_putTURLS_catalog(handle, *p, turl, GFAL_URL_MAX_LEN, &tmp_err);
+		else
+			tmp_ret= gfal_catalog_getTURLG(handle, *p, turl, GFAL_URL_MAX_LEN, &tmp_err);
+		if(tmp_ret == 0){
 			ret = gfal_catalog_openG(handle, turl, flag, mode, &tmp_err);
 			break;
 		}
