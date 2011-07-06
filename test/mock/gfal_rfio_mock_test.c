@@ -19,6 +19,8 @@
 
 char defined_buff_read[2048];
 int defined_buff_read_size;
+char defined_buff_write[2048];
+int defined_buff_write_size;
 
 int rfio_mock_open(const char* path, int flag, ...){
 	int i = mock(path, flag);
@@ -32,6 +34,17 @@ int rfio_mock_open(const char* path, int flag, ...){
 
 
 ssize_t rfio_mock_read(int fd, void* buff, size_t size){
+	int i = mock(fd, buff, size);
+	if(i < 0){
+		errno=i;
+		return -1;
+	}
+	memcpy(buff, (void*) defined_buff_read, defined_buff_read_size);
+	return (ssize_t)i;
+}
+
+
+ssize_t rfio_mock_write(int fd, void* buff, size_t size){
 	int i = mock(fd, buff, size);
 	if(i < 0){
 		errno=i;
