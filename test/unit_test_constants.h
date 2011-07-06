@@ -197,9 +197,11 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 
 // open
 #define TEST_LOCAL_OPEN_CREATE_COMMAND "echo  \"Hello world\" > /tmp/testopen0011 && touch /tmp/testopen0013 && chmod 000 /tmp/testopen0013"
+#define TEST_LOCAL_WRITE_CREATE_COMMAND "rm -f /tmp/testwrite001"
 #define TEST_LOCAL_OPEN_EXIST "file:///tmp/testopen0011"
 #define TEST_LOCAL_OPEN_NOEXIST "file:///tmp/testopen0012"
 #define TEST_LOCAL_OPEN_NOACCESS  "file:///tmp/testopen0013"
+#define TEST_LOCAL_WRITE_VALID "file:///tmp/testwrite001"
 #define TEST_LOCAL_READ_CONTENT "Hello world\n"
 
 #define TEST_SRM_OPEN_EXIST TEST_SRM_ONLY_READ_ACCESS
@@ -212,4 +214,6 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 
 #define TEST_GUID_OPEN_EXIST TEST_GUID_VALID_FILE
 #define TEST_GUID_OPEN_NONEXIST TEST_GUID_NOEXIST_ACCESS
+
+
 

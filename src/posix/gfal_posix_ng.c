@@ -178,7 +178,7 @@ int gfal_rmdir(const char* path){
  * opens a directory to be used in subsequent gfal_readdir operations
  * the url supported are : local files, surls, catalog url ( lfc,...)
  * @param name of the directory to open
- * @return file descriptor DIR* if success else NULL if error and errno is set ( gfal_posix_error_print() )
+ * @return file descriptor DIR* if success else NULL if error and errno is set call @ref gfal_posix_check_error() to check it
  * 
  *  - ERRNO list : \n
  *    	- usual errors:
@@ -213,7 +213,7 @@ DIR* gfal_opendir(const char* name){
  *
  * 
  * @param d file handle ( return by opendir ) to read
- * @return pointer to struct dirent with file information or NULL if end of list or error ( errno is set ( gfal_posix_error_print() ) )
+ * @return pointer to struct dirent with file information or NULL if end of list or error, errno is set call @ref gfal_posix_check_error() to check it
  * @warning struct dirents are allocated statically, do not use free() on them
  * 
  * 
@@ -252,14 +252,32 @@ int gfal_closedir(DIR* d){
  *            O_CREAT     If the file exists already and O_EXCL is also set, gfal_open will fail.
  *            O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened.
  *  @param mode is used only if the file is created.
- *  @return return the file descriptor or -1 if error ( errno is set ( gfal_posix_error_print() ) )
+ *  @return return the file descriptor or -1 if errno is set call @ref gfal_posix_check_error() to check it
  * */
 int gfal_open(const char * path, int flag, mode_t mode){
 	return gfal_posix_internal_open(path, flag, mode);
 }
-
+/**
+ *  @brief read a file
+ * 	gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff
+ *  @param fd file descriptor
+ *  @param buff, buffer of the data to read
+ *  @param s_buff size of the data read in bytes
+ *  @return number of byte read or -1 if error, errno is set call @ref gfal_posix_check_error() to check it 
+ */
 int gfal_read(int fd, void* buff, size_t s_buff){
 	return gfal_posix_internal_read(fd, buff, s_buff);
+}
+/**
+ *  @brief write a file
+ * gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd.
+ *  @param fd file descriptor
+ *  @param buff, buffer of the data to write
+ *  @param s_buff size of the data write in bytes
+ *  @return number of byte write or -1 if error, errno is set call @ref gfal_posix_check_error() to check it   
+ */
+int gfal_write(int fd, const void *buff, size_t s_buff){
+	return gfal_posix_internal_write(fd, (void*) buff, s_buff);
 }
 
 /**

@@ -48,6 +48,7 @@
 #include "posix/test__gfal_posix_stat.h"
 #include "posix/test__gfal_posix_open.h"
 #include "posix/test__gfal_posix_read.h"
+#include "posix/test__gfal_posix_write.h"
 #include "common/rfio/test__gfal_rfio_plugin.h"
 
 TestSuite * verbose_suite (void)
@@ -184,6 +185,12 @@ TestSuite* posix_read_suite(void){
 	return tc_read;
 }
 
+TestSuite* posix_write_suite(void){
+	TestSuite* tc_write = create_test_suite();
+	add_test(tc_write, test_write_posix_local_simple);
+	return tc_write;
+}
+
 
 TestSuite* posix_rfio_plugin_suite(){
 	TestSuite* tc_rfio = create_test_suite();
@@ -280,6 +287,7 @@ int main (int argc, char** argv)
 	add_suite(global, posix_open_suite());
 	add_suite(global, posix_rfio_plugin_suite());
 	add_suite(global, posix_read_suite());
+	add_suite(global, posix_write_suite());
 	//add_suite(global, filedesc_suite());
     if (argc > 1) {
         return run_single_test(global, argv[1], create_text_reporter());
