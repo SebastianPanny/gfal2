@@ -31,11 +31,11 @@
  
 #define GFAL_FILENAME_MAX FILENAME_MAX
 
-struct dirent* gfal_srm_readdirG(catalog_handle ch, DIR* fh, GError** err){
+struct dirent* gfal_srm_readdirG(catalog_handle ch, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail( ch && fh, NULL, err, "[gfal_srm_readdirG] Invalid args");
 	GError* tmp_err=NULL;
 	gfal_handle handle = ch;
-	gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh;
+	gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh->fdesc;
 	struct dirent* current = &oh->current_readdir;
 	const int nbsub = oh->srm_ls_resu->nbsubpaths;
 	const int dir_offset = oh->dir_offset;

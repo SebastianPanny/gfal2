@@ -105,6 +105,3 @@ void gfal_rfio_destroyG(catalog_handle handle){
 	g_free(h);
 }
 
-const char* gfal_rfio_getName(){
-	return "rfio";
-}

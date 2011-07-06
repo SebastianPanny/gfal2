@@ -43,16 +43,11 @@ int gfal_posix_gfalfilehandle_read(gfal_handle handle, gfal_file_handle fh, void
 	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_posix_gfalfilehandle_read] incorrect args");
 	GError *tmp_err=NULL;
 	int ret = -1;
-	switch(fh->module_id){
-		case GFAL_MODULEID_LOCAL:
-			ret = gfal_local_read(fh, buff, s_buff, &tmp_err);
-			break;
-		case GFAL_EXTERNAL_MODULE_OFFSET:
-			ret = gfal_catalog_readG(handle, fh, buff, s_buff, &tmp_err);
-			break;
-		default:
-			g_set_error(&tmp_err, 0, EBADF, "Bad value container in file descriptor");
-	}
+	if( gfal_is_local_call(fh->module_name) )
+		ret = gfal_local_read(fh, buff, s_buff, &tmp_err);
+	else
+		ret = gfal_catalog_readG(handle, fh, buff, s_buff, &tmp_err);
+
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	}

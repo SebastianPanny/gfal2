@@ -28,14 +28,14 @@
  
 #include <glib.h>
 #include "gfal_prototypes.h"
-
+#include "gfal_constants.h"
 
 struct _gfal_file_descriptor_container{
 	GHashTable* container;	
 };
 
 struct _gfal_file_handle_{
-	int module_id; // the module id is the mapper to find the correct module type : id < 10 -> internal storage, id >10 -> id-10 == offset of the module in the module list
+	char module_name[GFAL_MODULE_NAME_SIZE]; // This MUST be the Name of the catalog associated with this handle !
 	gpointer ext_data;
 	gpointer fdesc;	
 };
@@ -55,14 +55,13 @@ gpointer gfal_get_file_desc(gfal_fdesc_container_handle fhandle, int key, GError
 gboolean gfal_file_handle_delete(gfal_fdesc_container_handle h, int file_desc, GError** err);
 
 
-int gfal_file_handle_create(gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError** err);
 
 
 gfal_file_handle gfal_file_handle_bind(gfal_fdesc_container_handle h, int file_desc, GError** err);
 
 // convenience funcs
 
-gfal_file_handle gfal_file_handle_new(int id_module, gpointer fdesc);
+gfal_file_handle gfal_file_handle_new(const char* module_name, gpointer fdesc);
 
 
-gfal_file_handle gfal_file_handle_ext_new(int id_module, gpointer fdesc, gpointer ext_data);
+gfal_file_handle gfal_file_handle_ext_new(const char* module_name, gpointer fdesc, gpointer ext_data);

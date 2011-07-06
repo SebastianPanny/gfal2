@@ -59,7 +59,8 @@ enum _catalog_mode{
 	GFAL_CATALOG_OPEN,
 	GFAL_CATALOG_GETSURL,
 	GFAL_CATALOG_GETTURL,
-	GFAL_CATALOG_PUTTURL
+	GFAL_CATALOG_PUTTURL,
+	GFAL_CATALOG_RESOLVE_GUID,
 	
 };
 
@@ -96,14 +97,14 @@ struct _gfal_catalog_interface{
 	int (*mkdirpG)(catalog_handle, const char*, mode_t, gboolean pflag, GError**);
 	int (*rmdirG )(catalog_handle, const char*, GError**);
 
-	 DIR* (*opendirG)(catalog_handle, const char*, GError**); 
-	 int (*closedirG)(catalog_handle, DIR*, GError**);
-	 struct dirent* (*readdirG)(catalog_handle, DIR*, GError**);
+	 gfal_file_handle (*opendirG)(catalog_handle, const char*, GError**); 
+	 int (*closedirG)(catalog_handle, gfal_file_handle, GError**);
+	 struct dirent* (*readdirG)(catalog_handle, gfal_file_handle, GError**);
 
-	 gpointer (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
-	 int (*readG)(catalog_handle, int fd, void* buff, size_t count, GError**);
-	 int (*writeG)(catalog_handle, int fd, void* buff, size_t count, GError**);
-	 int (*closeG)(catalog_handle, int fd, GError **);
+	 gfal_file_handle (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
+	 int (*readG)(catalog_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
+	 int (*writeG)(catalog_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
+	 int (*closeG)(catalog_handle, gfal_file_handle fd, GError **);
 	 
 	 char** (*getSURLG)(catalog_handle, const char*, GError**);
 

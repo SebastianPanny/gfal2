@@ -110,9 +110,9 @@ gboolean gfal_remove_file_desc(gfal_fdesc_container_handle fhandle, int key, GEr
  *  @param fdesc : original descriptor
  *  @warning need to be free manually
  * */
-gfal_file_handle gfal_file_handle_new(int id_module, gpointer fdesc){
+gfal_file_handle gfal_file_handle_new(const char*  module_name, gpointer fdesc){
 	gfal_file_handle f = g_new(struct _gfal_file_handle_,1);
-	f->module_id = id_module;
+	g_strlcpy(f->module_name, module_name, GFAL_MODULE_NAME_SIZE);
 	f->fdesc = fdesc;
 	f->ext_data = NULL;
 	return f;
@@ -120,8 +120,8 @@ gfal_file_handle gfal_file_handle_new(int id_module, gpointer fdesc){
 /**
  * same than gfal_file_handle but with external data storage support
  */
-gfal_file_handle gfal_file_handle_ext_new(int id_module, gpointer fdesc, gpointer ext_data){
-	gfal_file_handle f = gfal_file_handle_new(id_module, fdesc);
+gfal_file_handle gfal_file_handle_ext_new(const char*  module_name, gpointer fdesc, gpointer ext_data){
+	gfal_file_handle f = gfal_file_handle_new(module_name, fdesc);
 	f->ext_data = ext_data;
 	return f;
 }
@@ -140,24 +140,6 @@ gfal_file_handle gfal_file_handle_bind(gfal_fdesc_container_handle h, int file_d
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return resu;
-}
-
-/**
- * 
- *  create a file handle with a given module_id ( id of the catalog) and a given file descriptor 
- * 
- *  * */
-int gfal_file_handle_create(gfal_fdesc_container_handle h, int module_id, gpointer real_file_desc, GError** err){
-	g_return_val_err_if_fail(module_id && real_file_desc, 0, err, "[gfal_dir_handle_create] invalid dir descriptor");
-	GError* tmp_err = NULL;
-	int resu=-1;
-	gfal_file_handle dir = malloc(sizeof(struct _gfal_file_handle_));
-	dir->module_id = module_id;
-	dir->fdesc= real_file_desc;
-	resu = gfal_add_new_file_desc(h, dir, &tmp_err);			
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return resu;	
 }
 
 

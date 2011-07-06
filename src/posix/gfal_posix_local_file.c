@@ -149,6 +149,10 @@ gfal_file_handle gfal_local_open(const char* path, int flag, mode_t mode, GError
 	}
 }
 
+gboolean gfal_is_local_call(const char * module_name){
+	return (strncmp(module_name, GFAL_MODULEID_LOCAL, GFAL_MODULE_NAME_SIZE) == 0);
+}
+
 int gfal_local_read(gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
 	errno=0;
 	const int ret = read(GPOINTER_TO_INT(fh->fdesc), buff, s_buff);

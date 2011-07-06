@@ -27,7 +27,8 @@
  
  
  gboolean gfal_check_local_url(const char* path, GError* err);
- 
+
+gboolean gfal_is_local_call(const char * module_name); 
  
 int gfal_local_access(const char *path, int amode, GError** err);
  

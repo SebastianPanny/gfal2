@@ -54,7 +54,7 @@ static char* srm_turls_sup_protocols[] = { "file", "rfio", "dcap", "kdcap", "gsi
  * 
  * srm plugin id
  */
-static const char* gfal_srm_getName(){
+const char* gfal_srm_getName(){
 	return "srm_plugin";
 }
 

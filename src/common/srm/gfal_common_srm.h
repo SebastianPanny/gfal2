@@ -47,6 +47,7 @@ struct _gfal_srm_result{
 typedef void* srm_request_handle;
 
 
+const char* gfal_srm_getName();
 
 gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err);
 

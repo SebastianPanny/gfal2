@@ -44,16 +44,11 @@ static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handle, gfal
 	g_return_val_err_if_fail(handle && fh, NULL, err, "[gfal_posix_gfalfilehandle_readdir] incorrect args");
 	GError *tmp_err=NULL;
 	struct dirent* ret = NULL;
-	switch(fh->module_id){
-		case GFAL_MODULEID_LOCAL:
-			ret = gfal_local_readdir(fh->fdesc, &tmp_err);
-			break;
-		case GFAL_EXTERNAL_MODULE_OFFSET:
-			ret = gfal_catalog_readdirG(handle, fh, &tmp_err);
-			break;
-		default:
-			g_set_error(&tmp_err, 0, EBADF, "Bad value container in file descriptor");
-	}
+	if( gfal_is_local_call(fh->module_name) )
+		ret = gfal_local_readdir(fh->fdesc, &tmp_err);
+	else
+		ret = gfal_catalog_readdirG(handle, fh, &tmp_err);
+
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	}

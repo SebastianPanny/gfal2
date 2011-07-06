@@ -33,6 +33,6 @@ typedef struct _gfal_srm_opendir_handle{
 	int dir_offset;
 }* gfal_srm_opendir_handle;
 
-DIR* gfal_srm_opendirG(catalog_handle handle, const char* path, GError ** err);
+gfal_file_handle gfal_srm_opendirG(catalog_handle handle, const char* path, GError ** err);
 
-int gfal_srm_closedirG(catalog_handle handle, DIR* fh, GError** err);
+int gfal_srm_closedirG(catalog_handle handle, gfal_file_handle fh, GError** err);

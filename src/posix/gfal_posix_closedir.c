@@ -56,16 +56,11 @@ static int gfal_posix_dir_handle_close(gfal_handle handle, gfal_file_handle fh, 
 	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_posix_gfalfilehandle_close] invalid args");
 	GError *tmp_err=NULL;
 	int ret = -1;
-	switch(fh->module_id){
-		case GFAL_MODULEID_LOCAL:
-			ret = gfal_local_closedir(fh->fdesc, &tmp_err);
-			break;
-		case GFAL_EXTERNAL_MODULE_OFFSET:
-			ret = gfal_catalog_closedirG(handle, fh, &tmp_err);
-			break;
-		default:
-			g_set_error(&tmp_err, 0, EBADF, "Bad value container in file descriptor");
-	}
+	if( gfal_is_local_call(fh->module_name) )
+		ret = gfal_local_closedir(fh->fdesc, &tmp_err);
+	else
+		ret = gfal_catalog_closedirG(handle, fh, &tmp_err);
+
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	}

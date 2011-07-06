@@ -31,6 +31,7 @@
 #include "../gfal_common_internal.h"
 #include "../gfal_constants.h"
 #include "../gfal_common_errverbose.h"
+#include "../gfal_common_filedescriptor.h"
 #include "lfc_ifce_ng.h"
 
 /**
@@ -200,7 +201,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 /**
  * execute an opendir func to the lfc
  * */
-static DIR* lfc_opendirG(catalog_handle handle, const char* name, GError** err){
+static gfal_file_handle lfc_opendirG(catalog_handle handle, const char* name, GError** err){
 	g_return_val_err_if_fail( handle && name , NULL, err, "[lfc_rmdirG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
@@ -212,18 +213,18 @@ static DIR* lfc_opendirG(catalog_handle handle, const char* name, GError** err){
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
 	}	
 	free(lfn);
-	return d;		
+	return gfal_file_handle_new(lfc_getName(), (gpointer) d);		
 }
 
 /**
  * Execute a readdir func on the lfc
  * */
-static struct dirent* lfc_readdirG(catalog_handle handle, DIR* d, GError** err){
-	g_return_val_err_if_fail( handle && d , NULL, err, "[lfc_rmdirG] Invalid value in args handle/path");
+static struct dirent* lfc_readdirG(catalog_handle handle, gfal_file_handle fh, GError** err){
+	g_return_val_err_if_fail( handle && fh , NULL, err, "[lfc_rmdirG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;	
 	struct lfc_ops *ops = (struct lfc_ops*) handle;
 	
-	struct dirent* ret = ops->readdir( (lfc_DIR*)d);
+	struct dirent* ret = ops->readdir( (lfc_DIR*)fh->fdesc);
 	if(ret ==NULL && *ops->serrno ){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
@@ -234,12 +235,12 @@ static struct dirent* lfc_readdirG(catalog_handle handle, DIR* d, GError** err){
 /**
  * execute an closedir func on the lfc
  * */
-static int lfc_closedirG(catalog_handle handle, DIR* d, GError** err){
-	g_return_val_err_if_fail( handle && d , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");
+static int lfc_closedirG(catalog_handle handle, gfal_file_handle fh, GError** err){
+	g_return_val_err_if_fail( handle && fh , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
 
-	int ret = ops->closedir(d);	
+	int ret = ops->closedir(fh->fdesc);	
 	if(ret != 0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
@@ -337,6 +338,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	regex_t rex;
 	int ret;
 	switch(mode){
+		case GFAL_CATALOG_RESOLVE_GUID:
+			return TRUE;
 		case GFAL_CATALOG_ACCESS:
 		case GFAL_CATALOG_CHMOD:
 		case GFAL_CATALOG_RENAME:

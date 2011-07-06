@@ -73,6 +73,32 @@ static int gfal_module_init(gfal_handle handle, void* dlhandle, const char* modu
 	return ret;	
 }
 
+
+/**
+ * 
+ * return the proper catalog linked to this file handle
+ */
+static gfal_catalog_interface* gfal_catalog_getModuleFromHandle(gfal_handle handle, gfal_file_handle fh, GError** err){
+	GError* tmp_err=NULL;
+	int i;
+	gfal_catalog_interface* cata_list=NULL;
+	int n = gfal_catalogs_instance(handle, &tmp_err);
+	if(n > 0){
+		cata_list = handle->catalog_opt.catalog_list;
+		for(i=0; i < n; ++i){
+			if( strncmp(cata_list[i].getName(),fh->module_name, GFAL_MODULE_NAME_SIZE)==0 )
+				return &(cata_list[i]);
+		}
+		g_set_error(&tmp_err, 0, EBADF, "No gfal_module with the handle name : %s", fh->module_name);	
+	}else{
+		g_set_error(&tmp_err, 0, EINVAL, "No gfal_module loaded");
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return cata_list;
+}
+
+
 char** gfal_catalogs_get_list(gfal_handle handle, GError** err){
 	GError* tmp_err=NULL;
 	char** resu =NULL;
@@ -398,24 +424,17 @@ int gfal_catalog_rmdirG(gfal_handle handle, const char* path, GError** err){
  gfal_file_handle gfal_catalog_opendirG(gfal_handle handle, const char* name, GError** err){
 	g_return_val_err_if_fail(handle && name, NULL, err,  "[gfal_catalog_opendir] invalid value");
 	GError* tmp_err=NULL;	
-	DIR* d=NULL;
 	gfal_file_handle resu=NULL;
-	gfal_catalog_interface* pcata = NULL;
 	
 	gboolean opendir_checker(gfal_catalog_interface* cata_list, GError** terr){
 		return cata_list->check_catalog_url(cata_list->handle, name, GFAL_CATALOG_OPENDIR, terr);
 	}
 	int opendir_executor(gfal_catalog_interface* cata_list, GError** terr){
-		d= cata_list->opendirG(cata_list->handle, name, terr);
-		pcata= cata_list;
-		return (d)?0:-1;
+		resu= cata_list->opendirG(cata_list->handle, name, terr);
+		return (resu)?0:-1;
 	}
 	
-
 	int ret = gfal_catalogs_operation_executor(handle, &opendir_checker, &opendir_executor, &tmp_err);
-	if(!ret){
-		resu = gfal_file_handle_ext_new(GFAL_EXTERNAL_MODULE_OFFSET, (gpointer) d, pcata);
-	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return resu;  
@@ -429,8 +448,9 @@ int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err
 	g_return_val_err_if_fail(handle && fh, -1,err, "[gfal_catalog_closedirG] Invalid args ");	
 	GError* tmp_err=NULL;
 	int ret = -1;
-	gfal_catalog_interface* if_cata = fh->ext_data;
-	ret = if_cata->closedirG(if_cata->handle, (DIR*) fh->fdesc, &tmp_err);
+	gfal_catalog_interface* if_cata = gfal_catalog_getModuleFromHandle(handle, fh, &tmp_err);
+	if(!tmp_err)
+		ret = if_cata->closedirG(if_cata->handle, fh, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret;  	
@@ -442,7 +462,6 @@ int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err
  * */
 gfal_file_handle gfal_catalog_openG(gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err){
 	GError* tmp_err=NULL;
-	gpointer fh = NULL;
 	int ret =-1;
 	gfal_file_handle resu =NULL;
 	gfal_catalog_interface* pcata=NULL;
@@ -451,15 +470,11 @@ gfal_file_handle gfal_catalog_openG(gfal_handle handle, const char * path, int f
 		return cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_OPEN, terr);
 	}	
 	int openG_executor(gfal_catalog_interface* cata_list, GError** terr){
-		fh = cata_list->openG(cata_list->handle, path, flag, mode, terr);
-		pcata= cata_list;
-		return (fh)?0:-1;
+		resu = cata_list->openG(cata_list->handle, path, flag, mode, terr);
+		return (resu)?0:-1;
 	}	
 	
 	ret = gfal_catalogs_operation_executor(handle, &openG_checker, &openG_executor, &tmp_err);
-	if(!ret){
-		resu = gfal_file_handle_ext_new(GFAL_EXTERNAL_MODULE_OFFSET, fh, pcata);
-	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
 	return resu;
@@ -472,8 +487,9 @@ int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail(handle && fh, -1,err, "[gfal_catalog_closeG] Invalid args ");	
 	GError* tmp_err=NULL;
 	int ret = -1;
-	gfal_catalog_interface* if_cata = fh->ext_data;
-	ret = if_cata->closeG(if_cata->handle, GPOINTER_TO_INT(fh->fdesc), &tmp_err);
+	gfal_catalog_interface* if_cata = gfal_catalog_getModuleFromHandle(handle, fh, &tmp_err);
+	if(!tmp_err)
+		ret = if_cata->closeG(if_cata->handle, fh, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret;  	
@@ -487,8 +503,9 @@ struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GE
 	g_return_val_err_if_fail(handle && fh, NULL,err, "[gfal_catalog_readdirG] Invalid args ");	
 	GError* tmp_err=NULL;
 	struct dirent* ret = NULL;
-	gfal_catalog_interface* if_cata = fh->ext_data;
-	ret = if_cata->readdirG(if_cata->handle, (DIR*) fh->fdesc, &tmp_err);
+	gfal_catalog_interface* if_cata = gfal_catalog_getModuleFromHandle(handle, fh, &tmp_err);
+	if(!tmp_err)
+		ret = if_cata->readdirG(if_cata->handle, fh, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 
@@ -572,8 +589,9 @@ int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size
 	g_return_val_err_if_fail(handle && fh && buff && s_buff> 0, -1,err, "[gfal_catalog_readG] Invalid args ");	
 	GError* tmp_err=NULL;
 	int ret = -1;
-	gfal_catalog_interface* if_cata = fh->ext_data;
-	ret = if_cata->readG(if_cata->handle, GPOINTER_TO_INT(fh->fdesc),buff, s_buff,  &tmp_err);
+	gfal_catalog_interface* if_cata = gfal_catalog_getModuleFromHandle(handle, fh, &tmp_err);
+	if(!tmp_err)
+		ret = if_cata->readG(if_cata->handle, fh, buff, s_buff,  &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 	
@@ -588,8 +606,9 @@ int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, siz
 	g_return_val_err_if_fail(handle && fh && buff && s_buff> 0, -1,err, "[gfal_catalog_writeG] Invalid args ");	
 	GError* tmp_err=NULL;
 	int ret = -1;
-	gfal_catalog_interface* if_cata = fh->ext_data;
-	ret = if_cata->writeG(if_cata->handle, GPOINTER_TO_INT(fh->fdesc),buff, s_buff, &tmp_err);
+	gfal_catalog_interface* if_cata = gfal_catalog_getModuleFromHandle(handle, fh, &tmp_err);
+	if(!tmp_err)
+		ret = if_cata->writeG(if_cata->handle, fh,buff, s_buff, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 	
@@ -604,25 +623,20 @@ char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** e
 	g_return_val_err_if_fail(handle && guid, NULL,err, "[gfal_catalog_resolve_guid] Invalid args ");
 	GError *tmp_err=NULL;
 	char* ret = NULL;
-	int i;
+	int resu;
+
 	
-	const int n_catalogs = gfal_catalogs_instance(handle, &tmp_err);
-	if(n_catalogs > 0 && !tmp_err){
-		gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
-		for(i=0; i< n_catalogs; ++i, ++cata_list){
-				ret = cata_list->resolve_guid(cata_list->handle, guid, &tmp_err);
-				if(ret || tmp_err)
-					break;		
-			}
-	}
-		
-	if(tmp_err){ 			// error reported
+	gboolean resolveGUID_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, guid, GFAL_CATALOG_RESOLVE_GUID, terr);
+	}	
+	int resolveGUID_executor(gfal_catalog_interface* cata_list, GError** terr){
+		ret= cata_list->resolve_guid(cata_list->handle, guid, terr);
+		return (ret)?0:-1;
+	}	
+	
+	resu= gfal_catalogs_operation_executor(handle, &resolveGUID_checker, &resolveGUID_executor, &tmp_err);
+	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
-		ret = NULL;
-	}else if(ret==NULL){ 		// no error and no valid url 
-		g_set_error(err, 0, EPROTONOSUPPORT, "[%s] Error : Protocol not supported or invalidpath/url ",__func__);
-		ret =NULL;
-	}
 	return ret;		
 }
 

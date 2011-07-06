@@ -32,7 +32,7 @@
 
 /* used to check wether there is enough space on the SE */
 #define GFAL_NEWFILE_SIZE         1024
-
+#define GFAL_MODULE_NAME_SIZE 	1024
 #define GFAL_OPEN_MAX             1024
 #define GFAL_DEFAULT_CATALOG_TYPE "lfc"
 #define GFAL_FQAN_MAX             64
@@ -64,7 +64,7 @@
 
 #define GFAL_URL_MAX_LEN 2048
 
-#define GFAL_MODULEID_LOCAL 1
+#define GFAL_MODULEID_LOCAL "local_file_module"
 #define GFAL_MODULEID_SRM 2
 #define GFAL_EXTERNAL_MODULE_OFFSET 10
 

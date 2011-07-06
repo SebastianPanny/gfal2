@@ -32,10 +32,12 @@
 #include "../gfal_common_catalog.h"
 
 
-gpointer gfal_rfio_openG(catalog_handle ch , const char* path, int flag, mode_t mode, GError**);
+gfal_file_handle gfal_rfio_openG(catalog_handle ch , const char* path, int flag, mode_t mode, GError**);
 
-int gfal_rfio_closeG(catalog_handle handle, int fd, GError ** err);
+int gfal_rfio_closeG(catalog_handle handle, gfal_file_handle fd, GError ** err);
 
-int gfal_rfio_writeG(catalog_handle handle , int fd, void* buff, size_t s_buff, GError** err);
+int gfal_rfio_writeG(catalog_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
 
-int gfal_rfio_readG(catalog_handle handle , int fd, void* buff, size_t s_buff, GError** err);
+int gfal_rfio_readG(catalog_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
+
+const char* gfal_rfio_getName();
