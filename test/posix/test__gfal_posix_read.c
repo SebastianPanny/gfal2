@@ -13,7 +13,17 @@
 #include <errno.h>
 
 
-
+void test_mock_read_posix_srm(const char* filename){
+#if USE_MOCK
+	char* tab[]= { TEST_SRM_VALID_SURL_EXAMPLE1, NULL };	
+	char* tab_turl[] = { TEST_SRM_TURL_EXAMPLE1, NULL };
+	int res[] = { 0, 0 };
+	strcpy(defined_buff_read, filename);
+	defined_buff_read_size = strlen(filename)+1;
+	will_respond(rfio_mock_read, strlen(filename), want_non_null(buff), want_non_null(size), want_non_null(fd));
+	test_mock_srm_open_valid(tab, tab_turl, res);
+#endif
+}
 
 void test_mock_read_posix_lfc(const char * url, const char* filename){
 #if USE_MOCK
@@ -34,7 +44,7 @@ void test_mock_read_posix_guid(const char* guid1, const char* filename){
 	
 }
 
-static void test_generic_read_simple(char* url_exist, const char* filename){
+void test_generic_read_simple(char* url_exist, const char* filename){
 	char buff[2048];
 	int ret = -1;
 	errno=0;
@@ -61,6 +71,11 @@ void test_read_posix_local_simple()
 	system(TEST_LOCAL_OPEN_CREATE_COMMAND);
 	test_generic_read_simple(TEST_LOCAL_OPEN_EXIST, TEST_LOCAL_READ_CONTENT);
 
+}
+
+void test_read_posix_srm_simple(){
+	test_mock_read_posix_srm(TEST_SRM_FILE_CONTENT);
+	test_generic_read_simple(TEST_SRM_ONLY_READ_HELLO, TEST_SRM_FILE_CONTENT);	
 }
 
 

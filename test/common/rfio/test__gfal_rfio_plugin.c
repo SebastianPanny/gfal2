@@ -17,6 +17,7 @@
 static struct rfio_proto_ops rf = { 
 		.open =  rfio_mock_open,
 		.read = rfio_mock_read,
+		.write = rfio_mock_write,
 		.close= rfio_mock_close
 	};
 

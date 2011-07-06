@@ -180,6 +180,7 @@ TestSuite* posix_open_suite(void){
 TestSuite* posix_read_suite(void){
 	TestSuite* tc_read = create_test_suite();
 	add_test(tc_read, test_read_posix_local_simple);
+	add_test(tc_read, test_read_posix_srm_simple);
 	add_test(tc_read, test_read_posix_lfc_simple);
 	add_test(tc_read, test_read_posix_guid_simple);
 	return tc_read;
@@ -188,6 +189,7 @@ TestSuite* posix_read_suite(void){
 TestSuite* posix_write_suite(void){
 	TestSuite* tc_write = create_test_suite();
 	add_test(tc_write, test_write_posix_local_simple);
+	add_test(tc_write, test_write_posix_lfc_simple);
 	return tc_write;
 }
 

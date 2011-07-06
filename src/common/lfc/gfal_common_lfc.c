@@ -253,9 +253,10 @@ static int lfc_closedirG(catalog_handle handle, DIR* d, GError** err){
 static char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err){
 	g_return_val_err_if_fail( handle && path , NULL, err, "[lfc_getSURLG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;
+	char** resu = NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	char * lfn = lfc_urlconverter(path,  GFAL_LFC_PREFIX);
-	char** resu = gfal_lfc_getSURL(ops, lfn, &tmp_err);
+	resu = gfal_lfc_getSURL(ops, lfn, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	free(lfn);
