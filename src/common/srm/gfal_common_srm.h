@@ -38,12 +38,16 @@
 #define GFAL_ENDPOINT_DEFAULT_PREFIX "httpg://"
 
 
+
+
+
 struct _gfal_srm_result{
-	char turl[GFAL_URL_MAX_LEN+1];
-	char *reqtoken;
-	int err_code;
-	char err_str[GFAL_ERRMSG_LEN+1];
+	char turl[GFAL_URL_MAX_LEN+1]; // turl associated with the request ( main result )
+	char *reqtoken; // token of the request ( common to all result of a request )
+	int err_code;		// errcode, !=0 if error
+	char err_str[GFAL_ERRMSG_LEN+1];	// explanation about the error
 };
+
 
 typedef void* srm_request_handle;
 

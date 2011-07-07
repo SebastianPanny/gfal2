@@ -16,35 +16,22 @@
  * limitations under the License.
  */
 
+#define _GNU_SOURCE
  
  /**
   * 
-  @file gfal_common_lfc.h
-  @brief header file for the lfc catalog module
+  @file gfal_common_lfc_open.c
+  @brief header for lfc implementation for open/read/write/close
   @author Adrien Devresse
-  @version 0.0.1
-  @date 29/04/2011
+  @date 06/07/2011
  */
 
-#define _GNU_SOURCE
-
-#include <sys/types.h>
+#include <regex.h>
 #include <glib.h>
-#include "../gfal_common_catalog.h"
-#include "../gfal_prototypes.h"
-#include "../gfal_types.h"
-
-
-// protos
-
-
-gfal_catalog_interface lfc_initG(gfal_handle, GError**);
-
-
-gboolean gfal_lfc_check_lfn_url(catalog_handle handle, const char* lfn_url, catalog_mode mode, GError** err);
-
-char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err);
+#include "gfal_common_lfc.h"
+#include "lfc_ifce_ng.h"
 
 
 
+gfal_file_handle lfc_openG(catalog_handle ch, const char* path, int flag, mode_t mode, GError** err);
 

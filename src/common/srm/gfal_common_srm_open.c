@@ -27,26 +27,29 @@
 #include <regex.h>
 #include <time.h> 
 #include <fcntl.h> 
-#include "gfal_common_srm.h"
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
 #include "../gfal_common_filedescriptor.h"
+#include "gfal_common_srm_internal_layer.h"
 #include "gfal_common_srm.h"
 
 
 typedef struct _gfal_srm_handle_open{
 	gfal_file_handle internal_handle;
 	char surl[GFAL_URL_MAX_LEN];
+	srm_req_type req_type;
 	char* reqtoken;
 }*gfal_srm_handle_open;
 
-static gfal_file_handle gfal_srm_file_handle_create(gfal_file_handle fh, char* surl, char* reqtoken){
+static gfal_file_handle gfal_srm_file_handle_create(gfal_file_handle fh, char* surl, char* reqtoken, srm_req_type req_type){
 	if(fh== NULL)
 		return NULL;
 	gfal_srm_handle_open sh = g_new(struct _gfal_srm_handle_open,1);
 	sh->internal_handle = fh;
 	g_strlcpy(sh->surl, surl, GFAL_URL_MAX_LEN);
+	sh->reqtoken= reqtoken;
+	sh->req_type = req_type;
 	return gfal_file_handle_new(gfal_srm_getName(), sh);
 }
 
@@ -69,14 +72,18 @@ gfal_file_handle gfal_srm_openG(catalog_handle ch, const char* path, int flag, m
 	char* p = (char*)path;
 	char turl[GFAL_URL_MAX_LEN];
 	char* reqtoken=NULL;
+	srm_req_type req_type;
 	int tmp_ret;
-	if(flag & O_CREAT) // create turl if file is not existing else get one for this file
+	if(flag & O_CREAT){ // create turl if file is not existing else get one for this file
 		tmp_ret= gfal_srm_putTURLS_catalog(ch, p, turl, GFAL_URL_MAX_LEN, &reqtoken, &tmp_err);
-	else
+		req_type= SRM_PUT;
+	}else{
 		tmp_ret= gfal_srm_getTURLS_catalog(ch, p, turl, GFAL_URL_MAX_LEN, &reqtoken, &tmp_err);
+		req_type= SRM_GET;
+	}
 	if(tmp_ret == 0){
 		ret = gfal_catalog_openG(handle, turl, flag, mode, &tmp_err);
-		ret= gfal_srm_file_handle_create(ret, p, reqtoken);
+		ret= gfal_srm_file_handle_create(ret, p, reqtoken, req_type);
 	}
 
 	if(tmp_err)
@@ -114,7 +121,10 @@ int gfal_srm_closeG(catalog_handle ch, gfal_file_handle fh, GError ** err){
 	GError* tmp_err=NULL;
 	int ret = gfal_catalog_closeG(handle, gfal_srm_file_handle_map(fh), &tmp_err);
 	if(ret ==0){
-		// put done !!
+		gfal_srm_handle_open sh = (gfal_srm_handle_open)fh->fdesc;
+		char* surls[] = { sh->surl, NULL };
+		if(sh->req_type == SRM_PUT)
+			ret = gfal_srm_putdone(handle, surls, sh->reqtoken, &tmp_err); // end the transaction on the srm server in case of pu
 		gfal_srm_file_handle_delete(fh);
 	}
 	if(tmp_err)

@@ -34,10 +34,8 @@
 #include "../gfal_common_catalog.h"
 #include "gfal_common_srm_internal_layer.h"
 
-typedef enum _srm_req_type{
-	SRM_GET,
-	SRM_PUT
-} srm_req_type;
+
+
 
 static gboolean gfal_srm_surl_group_checker(char** surls, GError** err){
 	GError* tmp_err=NULL;
@@ -182,7 +180,7 @@ int gfal_srm_mTURLS_internal(gfal_handle handle, srm_req_type req_type, char** s
 	char full_endpoint[2048];
 	enum gfal_srm_proto srm_types;
 	if((gfal_srm_determine_endpoint(handle, *surls, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
-		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_get_asyncG] endpoint %s", full_endpoint);
+		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_srm_mTURLS_internal] endpoint %s", full_endpoint);
 
 		if (srm_types == PROTO_SRMv2){
 			if(req_type == SRM_GET)
@@ -192,7 +190,7 @@ int gfal_srm_mTURLS_internal(gfal_handle handle, srm_req_type req_type, char** s
 		} else if(srm_types == PROTO_SRM){
 			g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in gfal 2.0, failure");
 		} else{
-			g_set_error(&tmp_err,0,EPROTONOSUPPORT, "[gfal_get_asyncG] Unknow SRM protocol, failure ");
+			g_set_error(&tmp_err,0,EPROTONOSUPPORT, "Unknow SRM protocol, failure ");
 		}		
 	}
 
@@ -237,7 +235,7 @@ int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_tu
  * @return return positive if success else -1, check GError for more information
  */
 int gfal_srm_getTURLS(gfal_handle handle, char** surls, gfal_srm_result** resu,  GError** err){
-	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_get_asyncG] handle passed is null");
+	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_srm_getTURLS] handle passed is null");
 	
 	GError* tmp_err=NULL;
 	int ret=-1;
@@ -307,7 +305,7 @@ int gfal_srm_putTURLS(gfal_handle handle, char** surls, gfal_srm_result** resu, 
  *  execute a srm put done on the specified surl and token, return 0 if success else -1 and errno is set
 */
 static int gfal_srm_putdone_srmv2_internal(gfal_handle handle, char* endpoint, char** surls, char* token,  GError** err){
-	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
+	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srm_putdone_srmv2_internal] invalid args ");
 			
 	GError* tmp_err=NULL;
 	char** p;
@@ -340,6 +338,30 @@ static int gfal_srm_putdone_srmv2_internal(gfal_handle handle, char* endpoint, c
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;	
+}
+
+int gfal_srm_putdone(gfal_handle handle, char** surls, char* token,  GError** err){
+	GError* tmp_err=NULL;
+	int ret=-1;	
+
+	char full_endpoint[2048];
+	enum gfal_srm_proto srm_types;
+	if((gfal_srm_determine_endpoint(handle, *surls, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
+		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_srm_putdone] endpoint %s", full_endpoint);
+
+		if (srm_types == PROTO_SRMv2){
+			ret = gfal_srm_putdone_srmv2_internal(handle, full_endpoint, surls, token, &tmp_err);
+		} else if(srm_types == PROTO_SRM){
+			g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in gfal 2.0, failure");
+		} else{
+			g_set_error(&tmp_err,0,EPROTONOSUPPORT, "Unknow SRM protocol, failure ");
+		}		
+	}
+
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return ret;		
+	
 }
 
 

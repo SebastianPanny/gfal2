@@ -29,6 +29,13 @@
 #include <glib.h>
 #include "../gfal_types.h"
 
+// request type for surl <-> turl translation 
+typedef enum _srm_req_type{
+	SRM_GET,
+	SRM_PUT
+} srm_req_type;
+
+
 /**
  * structure for mock abylity in the srm part
  *
@@ -79,3 +86,5 @@ int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err);
 int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
 
 int gfal_srm_putTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
+
+int gfal_srm_putdone(gfal_handle handle, char** surls, char* token,  GError** err);

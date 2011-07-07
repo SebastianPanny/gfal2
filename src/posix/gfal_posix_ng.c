@@ -258,6 +258,23 @@ int gfal_open(const char * path, int flag, mode_t mode){
 	return gfal_posix_internal_open(path, flag, mode);
 }
 /**
+ *  @brief  create a new file or truncate an existing one
+ * 	opens a file according to the value of flags.
+ *  @param filename : url of the filename to create, can be a surl, lfn, guid, local or turl  the urls supported by the modules
+ *  @param flag : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used
+ *            O_RDONLY    open for reading only
+ *            O_WRONLY    open for writing only
+ *            O_RDWR      open for reading and writing
+ *            O_CREAT     If the file exists already and O_EXCL is also set, gfal_open will fail.
+ *            O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened.
+ *  @param mode is used only if the file is created.
+ *  @return return the file descriptor or -1 if errno is set call @ref gfal_posix_check_error() to check it
+ * */
+int gfal_creat (const char *filename, mode_t mode){
+    return (gfal_open (filename, O_WRONLY|O_CREAT|O_TRUNC, mode));
+}
+
+/**
  *  @brief read a file
  * 	gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff
  *  @param fd file descriptor

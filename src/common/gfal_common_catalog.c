@@ -722,21 +722,9 @@ gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path
 	char path_buffer[GFAL_URL_MAX_LEN];
 	gfal_file_handle ret = NULL;
 	gfal_catalog_open_resolve_guid(handle, path, path_buffer, GFAL_URL_MAX_LEN, &tmp_err);
-	if(!tmp_err){
-
-		if( (res_surl = gfal_catalog_getSURL(handle, path_buffer, &tmp_err)) != NULL){ // try a surl resolution on the catalogs
-			ret = gfal_catalog_open_surl(handle, res_surl, flag, mode, &tmp_err);		
-			g_strfreev(res_surl);
-		}else if( tmp_err && tmp_err->code==EPROTONOSUPPORT){ // try to surl open
-			char* surls[] = { (char*)path, NULL };
-			g_clear_error(&tmp_err);
-			ret= gfal_catalog_open_surl(handle, surls, flag, mode, &tmp_err);
-			if( tmp_err && tmp_err->code == EPROTONOSUPPORT){ // try the global open if failure again
-				g_clear_error(&tmp_err);
-				ret = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
-			}
-		}
-	}
+	if(!tmp_err)
+		ret = gfal_catalog_openG(handle, path_buffer, flag, mode, &tmp_err);
+	
 
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

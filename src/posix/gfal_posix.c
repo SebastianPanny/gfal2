@@ -292,13 +292,10 @@ int gfal_closedir (DIR *dir){
     return (rc);
 }
 */
-int gfal_creat (const char *filename, mode_t mode){
-    return (gfal_open (filename, O_WRONLY|O_CREAT|O_TRUNC, mode));
-}
-
+/*
 int gfal_creat64 (const char *filename, mode_t mode){
     return (gfal_open64 (filename, O_WRONLY|O_CREAT|O_TRUNC, mode));
-}
+}*/
 
 
 

@@ -60,46 +60,10 @@ void gfal_posix_print_error();
 
 int gfal_posix_code_error();
 
-/**
- * \brief close the current file descriptor 
- * 
- *   close the file whose descriptor fd is the one returned by gfal_open.
- *  \return  This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.
- *  - ERRNO list : \n
- *    - EBADF:  fd is not a valid file descriptor
- *    - ECOMM: Communication error.
- *    - EPROTONOSUPPORT: Access method not supported.
-*/
 int gfal_close (int);
-/**
- * \brief gfal_closedir - close a directory  
- * 
- * gfal_closedir closes the directory opened by gfal_opendir and associated with the DIR structure pointed by dirp
- * \param file descriptor
- * \return This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.  
 
-	- ERRORS :
-		-EBADF :File descriptor in DIR structure is invalid. 
-		- ECOMM : Communication error. 
-		- EPROTONOSUPPORT : Access method not supported. 
- * */
 int gfal_closedir (DIR *);
-/**
- * \brief creates a new file or truncates an existing one
- * 
- * \param filename specifies the file name: either a logical file name, a guid, an SURL or a TURL
- * \param mode   is used only if the file is created
- *  \return This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately
- *  - ERRNO list : \n
- *    - ENOENT: The named file/directory does not exist.
- *    - EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
- *    - EFAULT: path is a NULL pointer.
- *    - EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream
- *    - ENOTDIR: A component of path prefix is not a directory.
- *    - EINVAL: path has an invalid syntax or amode is invalid.
- *    - ECOMM: Communication error.
- *    - EPROTONOSUPPORT: Access method not supported.
- */
+
 int gfal_creat (const char *, mode_t);
 /**
  * \brief same as create for large file

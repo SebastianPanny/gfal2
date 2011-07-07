@@ -39,7 +39,7 @@
 
 struct lfc_ops {
 	char* lfc_endpoint;
-	
+	gfal_handle handle;
 	int	*serrno;
 	char	*(*sstrerror)(int);
 	int	(*addreplica)(const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *);

@@ -23,11 +23,12 @@
   @brief file for the lfc catalog module
   @author Adrien Devresse
   @version 0.0.1
-  @date 29/04/2011
+  @date 06/07/2011
  */
 
 #include <regex.h>
 #include "gfal_common_lfc.h"
+#include "gfal_common_lfc_open.h"
 #include "../gfal_common_internal.h"
 #include "../gfal_constants.h"
 #include "../gfal_common_errverbose.h"
@@ -252,7 +253,7 @@ static int lfc_closedirG(catalog_handle handle, gfal_file_handle fh, GError** er
 /**
  * resolve the lfc link to the surls
  */
-static char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err){
+char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err){
 	g_return_val_err_if_fail( handle && path , NULL, err, "[lfc_getSURLG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;
 	char** resu = NULL;
@@ -309,6 +310,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 		return lfc_catalog;
 	}
 	ops->lfc_endpoint = endpoint;
+	ops->handle = handle;
 	gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[gfal][lfc] lfc endpoint : %s", endpoint);
 	lfc_catalog.handle = (void*) ops;
 	lfc_catalog.check_catalog_url= &gfal_lfc_check_lfn_url;
@@ -326,6 +328,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.readdirG = &lfc_readdirG;
 	lfc_catalog.getSURLG = &lfc_getSURLG;
 	lfc_catalog.getName = &lfc_getName;
+	lfc_catalog.openG = &lfc_openG;
 	return lfc_catalog;
 }
 
@@ -349,6 +352,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 		case GFAL_CATALOG_MKDIR:
 		case GFAL_CATALOG_RMDIR:
 		case GFAL_CATALOG_OPENDIR:
+		case GFAL_CATALOG_OPEN:
 		case GFAL_CATALOG_GETSURL:
 			ret = regcomp(&rex, "^lfn:/([:alnum:]|-|/|\.|_)+", REG_ICASE | REG_EXTENDED);
 			g_return_val_err_if_fail(ret ==0,-1,err,"[gfal_lfc_check_lfn_url] fail to compile regex, report this bug");
