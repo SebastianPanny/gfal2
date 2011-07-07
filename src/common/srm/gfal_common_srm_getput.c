@@ -56,7 +56,7 @@ static gboolean gfal_srm_surl_group_checker(char** surls, GError** err){
 }
 
 
-int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_pinfilestatus* statuses, char* reqtoken, int n, gfal_srm_result** resu, GError** err){
+static int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_pinfilestatus* statuses, char* reqtoken, int n, gfal_srm_result** resu, GError** err){
 	g_return_val_err_if_fail(statuses && n && resu, -1, err, "[gfal_srm_convert_filestatuses_to_srm_result] args invalids");
 	*resu = calloc(n, sizeof(gfal_srm_result));
 	int i=0;
@@ -69,6 +69,20 @@ int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_pinfilestatus* stat
 		(*resu)[i].reqtoken = reqtoken;
 	}
 	return 0;
+}
+
+static int gfal_srm_convert_filestatuses_to_GError(struct srmv2_filestatus* statuses, int n, GError** err){
+	g_return_val_err_if_fail(statuses && n, -1, err, "[gfal_srm_convert_filestatuses_to_GError] args invalids");	
+	int i;
+	int ret =0;
+	for(i=0; i< n; ++i){
+		if(statuses[i].status != 0){
+			g_set_error(err, 0, statuses[i].status, "[%s] Error on the surl %s while putdone : %s", __func__,
+				statuses[i].surl, statuses[i].explanation);
+			ret = -1;			
+		}
+	}
+	return ret;
 }
 
 /**
@@ -287,6 +301,47 @@ int gfal_srm_putTURLS(gfal_handle handle, char** surls, gfal_srm_result** resu, 
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;	
 }
+
+
+/**
+ *  execute a srm put done on the specified surl and token, return 0 if success else -1 and errno is set
+*/
+static int gfal_srm_putdone_srmv2_internal(gfal_handle handle, char* endpoint, char** surls, char* token,  GError** err){
+	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
+			
+	GError* tmp_err=NULL;
+	char** p;
+	struct srm_context context;
+	int ret=0,i=0;
+	struct srm_putdone_input putdone_input;
+	struct srmv2_filestatus *statuses;
+	const int err_size = 2048;
+	gfal_srm_result* resu=NULL;
+	
+	char errbuf[err_size] ; memset(errbuf,0,err_size*sizeof(char));
+	const gfal_srmv2_opt* opts = handle->srmv2_opt;							// get default opts for srmv2
+	size_t n_surl = g_strv_length (surls);									// n of surls
+		
+	// set the structures datafields	
+	putdone_input.nbfiles = n_surl;
+	putdone_input.reqtoken = token;
+	putdone_input.surls = surls;
+
+	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, err_size, gfal_get_verbose());	
+	
+	
+	ret = gfal_srm_external_call.srm_put_done(&context,&putdone_input, &statuses);
+	if(ret < 0){
+		g_set_error(&tmp_err,0,errno,"call to srm_ifce error: %s",errbuf);
+	} else{
+    	gfal_srm_external_call.srm_srmv2_filestatus_delete(statuses, n_surl);
+    	return gfal_srm_convert_filestatuses_to_GError(statuses, ret, &tmp_err);
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return ret;	
+}
+
 
 
 

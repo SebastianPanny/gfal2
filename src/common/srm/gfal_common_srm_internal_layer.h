@@ -65,6 +65,9 @@ struct _gfal_srm_external_call{
 	
 	int (*srm_prepare_to_put)(struct srm_context *context,
 		struct srm_preparetoput_input *input,struct srm_preparetoput_output *output);
+
+	int (*srm_put_done)(struct srm_context *context,
+			struct srm_putdone_input *input, struct srmv2_filestatus **statuses);
 	
 };
 
