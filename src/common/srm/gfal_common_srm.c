@@ -39,6 +39,7 @@
 #include "gfal_common_srm_stat.h"
 #include "gfal_common_srm_rmdir.h"
 #include "gfal_common_srm_opendir.h"
+#include "gfal_common_srm_open.h"
 #include "gfal_common_srm_readdir.h"
 
 /**
@@ -87,6 +88,7 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 		case GFAL_CATALOG_OPENDIR:
 		case GFAL_CATALOG_GETTURL:
 		case GFAL_CATALOG_PUTTURL:
+		case GFAL_CATALOG_OPEN:
 			return (gfal_surl_checker(url,  err)==0)?TRUE:FALSE;
 		default:
 			return FALSE;		
@@ -127,6 +129,10 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_catalog.getName= &gfal_srm_getName;
 	srm_catalog.getTURLG = &gfal_srm_getTURLS_catalog;
 	srm_catalog.putTURLG= &gfal_srm_putTURLS_catalog;
+	srm_catalog.openG = &gfal_srm_openG;
+	srm_catalog.closeG = &gfal_srm_closeG;
+	srm_catalog.readG= &gfal_srm_readG;
+	srm_catalog.writeG= &gfal_srm_writeG;
 	return srm_catalog;
 }
 

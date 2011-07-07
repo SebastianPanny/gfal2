@@ -677,17 +677,10 @@ static gfal_file_handle gfal_catalog_open_surl(gfal_handle handle, char** res_su
 	GError* tmp_err=NULL;
 	char** p = res_surl;
 	while(*p != NULL){
-		char turl[GFAL_URL_MAX_LEN];
 		g_clear_error(&tmp_err);
-		int tmp_ret;
-		if(flag & O_CREAT) // create turl if file is not existing else get one for this file
-			tmp_ret= gfal_srm_putTURLS_catalog(handle, *p, turl, GFAL_URL_MAX_LEN, &tmp_err);
-		else
-			tmp_ret= gfal_catalog_getTURLG(handle, *p, turl, GFAL_URL_MAX_LEN, &tmp_err);
-		if(tmp_ret == 0){
-			ret = gfal_catalog_openG(handle, turl, flag, mode, &tmp_err);
+		ret = gfal_catalog_openG(handle, *p, flag, mode, &tmp_err);
+		if(ret != NULL)
 			break;
-		}
 		p++;
 	}
 	if(tmp_err)
