@@ -73,6 +73,6 @@ extern struct _gfal_srm_external_call gfal_srm_external_call;
 int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err);
 
 
-int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, GError** err);
+int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
 
-int gfal_srm_putTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, GError** err);
+int gfal_srm_putTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);

@@ -539,7 +539,7 @@ char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err){
  * Resolve a surl to a "GET" turl
  * @return pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
  */
-int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, GError** err){
+int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err){
 	GError* tmp_err=NULL;
 	int resu =-1;
 	
@@ -547,11 +547,11 @@ int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl,
 		return cata_list->check_catalog_url(cata_list->handle, surl, GFAL_CATALOG_GETTURL, terr);
 	}	
 	int getTURLG_executor(gfal_catalog_interface* cata_list, GError** terr){
-		int ret= cata_list->getTURLG(cata_list->handle, surl, buff_turl, size_turl, terr);
+		int ret= cata_list->getTURLG(cata_list->handle, surl, buff_turl, size_turl, reqtoken, terr);
 		return (ret);
 	}	
 	
-	resu= gfal_catalogs_operation_executor(handle, &getTURLG_checker, &getTURLG_executor, &tmp_err);
+	resu= gfal_catalogs_operation_executor(handle, &getTURLG_checker, &getTURLG_executor,  &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
 	return resu;	
@@ -561,7 +561,7 @@ int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl,
  * Resolve a surl to a "PUT" turl
  * @return0 if success else -1 if error,  
  */
-int gfal_catalog_putTURLG(gfal_handle handle, const char* surl, char* turl_buff, int size_turl, GError** err){
+int gfal_catalog_putTURLG(gfal_handle handle, const char* surl, char* turl_buff, int size_turl, char** reqtoken, GError** err){
 	GError* tmp_err=NULL;
 	int resu =-1;
 	
@@ -569,7 +569,7 @@ int gfal_catalog_putTURLG(gfal_handle handle, const char* surl, char* turl_buff,
 		return cata_list->check_catalog_url(cata_list->handle, surl, GFAL_CATALOG_PUTTURL, terr);
 	}	
 	int putTURLG_executor(gfal_catalog_interface* cata_list, GError** terr){
-		int ret= cata_list->putTURLG(cata_list->handle, surl, turl_buff, size_turl, terr);
+		int ret= cata_list->putTURLG(cata_list->handle, surl, turl_buff, size_turl, reqtoken, terr);
 		return (ret);
 	}	
 	

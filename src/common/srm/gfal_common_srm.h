@@ -40,6 +40,7 @@
 
 struct _gfal_srm_result{
 	char turl[GFAL_URL_MAX_LEN+1];
+	char *reqtoken;
 	int err_code;
 	char err_str[GFAL_ERRMSG_LEN+1];
 };
