@@ -43,6 +43,9 @@ int srm_mock_srm_check_permission(struct srm_context *context,
 	
 int srm_mock_srm_prepare_to_get(struct srm_context *context,
 		struct srm_preparetoget_input *input,struct srm_preparetoget_output *output);
+		
+int srm_mock_srm_put_done(struct srm_context *context,
+		struct srm_putdone_input *input, struct srmv2_filestatus **statuses);
 	
 void srm_mock_srm_srmv2_pinfilestatus_delete(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n);
 

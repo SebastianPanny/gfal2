@@ -41,6 +41,7 @@
 #include "gfal_common_srm_opendir.h"
 #include "gfal_common_srm_open.h"
 #include "gfal_common_srm_readdir.h"
+#include "gfal_common_srm_chmod.h"
 
 /**
  * list of the protols in the order of preference
@@ -89,6 +90,7 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 		case GFAL_CATALOG_GETTURL:
 		case GFAL_CATALOG_PUTTURL:
 		case GFAL_CATALOG_OPEN:
+		case GFAL_CATALOG_CHMOD:
 			return (gfal_surl_checker(url,  err)==0)?TRUE:FALSE;
 		default:
 			return FALSE;		
@@ -133,6 +135,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_catalog.closeG = &gfal_srm_closeG;
 	srm_catalog.readG= &gfal_srm_readG;
 	srm_catalog.writeG= &gfal_srm_writeG;
+	srm_catalog.chmodG= &gfal_srm_chmodG;
 	return srm_catalog;
 }
 
@@ -679,5 +682,20 @@ int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_str
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_results_errcodesG]");
 	return ret;	  
  }
+ 
+ 
+ int gfal_srm_convert_filestatuses_to_GError(struct srmv2_filestatus* statuses, int n, GError** err){
+	g_return_val_err_if_fail(statuses && n, -1, err, "[gfal_srm_convert_filestatuses_to_GError] args invalids");	
+	int i;
+	int ret =0;
+	for(i=0; i< n; ++i){
+		if(statuses[i].status != 0){
+			g_set_error(err, 0, statuses[i].status, "[%s] Error on the surl %s while putdone : %s", __func__,
+				statuses[i].surl, statuses[i].explanation);
+			ret = -1;			
+		}
+	}
+	return ret;
+}
  
 

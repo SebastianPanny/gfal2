@@ -41,7 +41,8 @@
 static void rfio_report_error(gfal_plugin_rfio_handle h,  const char * func_name, GError** err){
 	char buff_error[2048];
 	const int status = h->rf->geterror();
-	g_set_error(err, 0, status, "[%s] Error reported by the external library rfio : %s", func_name, strerror_r(status, buff_error, 2048));
+	strerror_r(status, buff_error, 2048);
+	g_set_error(err, 0, status, "[%s] Error reported by the external library rfio : %s", func_name, buff_error);
 }
 
 gfal_file_handle gfal_rfio_openG(catalog_handle handle , const char* path, int flag, mode_t mode, GError** err){

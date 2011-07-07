@@ -69,19 +69,7 @@ static int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_pinfilestatu
 	return 0;
 }
 
-static int gfal_srm_convert_filestatuses_to_GError(struct srmv2_filestatus* statuses, int n, GError** err){
-	g_return_val_err_if_fail(statuses && n, -1, err, "[gfal_srm_convert_filestatuses_to_GError] args invalids");	
-	int i;
-	int ret =0;
-	for(i=0; i< n; ++i){
-		if(statuses[i].status != 0){
-			g_set_error(err, 0, statuses[i].status, "[%s] Error on the surl %s while putdone : %s", __func__,
-				statuses[i].surl, statuses[i].explanation);
-			ret = -1;			
-		}
-	}
-	return ret;
-}
+
 
 /**
  *  @brief execute a srmv2 request sync "GET" on the srm_ifce
@@ -332,8 +320,8 @@ static int gfal_srm_putdone_srmv2_internal(gfal_handle handle, char* endpoint, c
 	if(ret < 0){
 		g_set_error(&tmp_err,0,errno,"call to srm_ifce error: %s",errbuf);
 	} else{
-    	gfal_srm_external_call.srm_srmv2_filestatus_delete(statuses, n_surl);
-    	return gfal_srm_convert_filestatuses_to_GError(statuses, ret, &tmp_err);
+    	 ret = gfal_srm_convert_filestatuses_to_GError(statuses, ret, &tmp_err);
+    	 gfal_srm_external_call.srm_srmv2_filestatus_delete(statuses, n_surl);
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

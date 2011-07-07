@@ -40,6 +40,7 @@ void test_mock_lfc(gfal_handle handle, GError** err){
 #if USE_MOCK
 	struct lfc_ops* ops = find_lfc_ops(handle, err); 
 	ops->lfc_endpoint = NULL;
+	ops->handle = handle;
 	ops->statg = &lfc_mock_statg;
 	ops->rename = &lfc_mock_rename;
 	ops->serrno = &lfc_last_err;

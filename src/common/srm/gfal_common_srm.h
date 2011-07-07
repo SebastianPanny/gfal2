@@ -71,6 +71,9 @@ int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_str
 int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err);
 
 
+int gfal_srm_convert_filestatuses_to_GError(struct srmv2_filestatus* statuses, int n, GError** err);
+
+
 
 
 
