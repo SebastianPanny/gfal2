@@ -57,7 +57,7 @@ static int gfal_posix_dir_handle_close(gfal_handle handle, gfal_file_handle fh, 
 	GError *tmp_err=NULL;
 	int ret = -1;
 	if( gfal_is_local_call(fh->module_name) )
-		ret = gfal_local_closedir(fh->fdesc, &tmp_err);
+		ret = gfal_local_closedir(fh, &tmp_err);
 	else
 		ret = gfal_catalog_closedirG(handle, fh, &tmp_err);
 

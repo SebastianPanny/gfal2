@@ -129,9 +129,9 @@ gfal_file_handle gfal_local_opendir(const char* path, GError** err){
 	return resu;
 }
 
-struct dirent* gfal_local_readdir(DIR* d, GError** err){
+struct dirent* gfal_local_readdir(gfal_file_handle fh, GError** err){
 	errno=0;
-	struct dirent* res = readdir(d);
+	struct dirent* res = readdir(fh->fdesc);
 	if(res== NULL && errno){
 		gfal_local_report_error(__func__, err);
 	}
@@ -174,7 +174,8 @@ int gfal_local_close(gfal_file_handle fh, GError** err){
 	const int ret = close(GPOINTER_TO_INT(fh->fdesc));
 	if(ret !=0){
 		gfal_local_report_error(__func__, err);		
-	}
+	}else
+		free(fh);
 	return ret;
 }
 
@@ -194,11 +195,12 @@ int gfal_local_rmdir(const char* path, GError** err){
  *  local closedir mapper
  * 
  * */
-int gfal_local_closedir(DIR* d, GError** err){
-	const int res = closedir(d);
+int gfal_local_closedir(gfal_file_handle fh, GError** err){
+	const int res = closedir(fh->fdesc);
 	if(res<0){
 			g_set_error(err,0 ,errno , "[%s] errno reported by local system call", __func__, strerror(errno));
-	}
+	}else
+		free(fh);
 	return res;	 
  }
  

@@ -244,7 +244,8 @@ static int lfc_closedirG(catalog_handle handle, gfal_file_handle fh, GError** er
 	if(ret != 0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
-	}	
+	}else
+		free(fh);
 	return ret;		
 }
 

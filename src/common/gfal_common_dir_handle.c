@@ -45,7 +45,7 @@ gfal_fdesc_container_handle gfal_dir_handle_container_instance(gfal_descriptors_
 	if(dir_handle != NULL)
 		return dir_handle;
 	else{
-		dir_handle = fdescs->dir_container = gfal_file_descriptor_handle_create(&free);
+		dir_handle = fdescs->dir_container = gfal_file_descriptor_handle_create(NULL);
 		if(!dir_handle)
 			g_set_error(err, 0, EIO, "[%s] Error while init directories file descriptor container");
 		return dir_handle;	

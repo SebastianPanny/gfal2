@@ -118,5 +118,6 @@ int gfal_srm_closedirG(catalog_handle handle, gfal_file_handle fh, GError** err)
 	gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh->fdesc;	
 	gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(oh->srm_ls_resu, 1);
 	free(oh);
+	free(fh);
 	return 0;
 }

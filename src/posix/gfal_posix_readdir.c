@@ -45,7 +45,7 @@ static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handle, gfal
 	GError *tmp_err=NULL;
 	struct dirent* ret = NULL;
 	if( gfal_is_local_call(fh->module_name) )
-		ret = gfal_local_readdir(fh->fdesc, &tmp_err);
+		ret = gfal_local_readdir(fh, &tmp_err);
 	else
 		ret = gfal_catalog_readdirG(handle, fh, &tmp_err);
 

@@ -76,8 +76,10 @@ int gfal_rfio_writeG(catalog_handle handle , gfal_file_handle fd, void* buff, si
 int gfal_rfio_closeG(catalog_handle handle, gfal_file_handle fd, GError ** err){
 	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
 	int ret= h->rf->close(GPOINTER_TO_INT(fd->fdesc));
-	if(ret != 0)
+	if(ret != 0){
 		rfio_report_error(h, __func__, err);
+	}else
+		free(fd);
 	return ret;	
 }
 
