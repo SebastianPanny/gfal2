@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+#if 0
 /*
  * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.67 $ $Date: 2010/01/22 15:25:54 $ CERN James Casey
  */
@@ -37,7 +37,7 @@ struct fc_ops fcops;
 char lfc_endpoint[GFAL_HOSTNAME_MAXLEN] = "";
 char lfc_env[GFAL_HOSTNAME_MAXLEN];
 
-#if 0
+
 static int lfc_mkdirp_trans (const char *, mode_t, char *, int, int);
 
 static int 

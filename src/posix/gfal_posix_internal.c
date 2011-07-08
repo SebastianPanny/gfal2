@@ -28,16 +28,19 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <glib.h> 
+#include <pthread.h>
 #include "gfal_common.h"
 
 
 
- 
-static volatile gfal_handle handle=NULL;
+pthread_mutex_t m_instance =PTHREAD_MUTEX_INITIALIZER; 
+static __thread gfal_handle handle=NULL;
 
 gfal_handle gfal_posix_instance(){
+	pthread_mutex_lock(&m_instance);
 	if(handle == NULL)
 		handle= gfal_initG(NULL);
+	pthread_mutex_unlock(&m_instance);
 	return handle;	
 }
 

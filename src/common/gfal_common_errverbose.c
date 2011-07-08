@@ -35,7 +35,7 @@
  */
 static int gfal_verbose = -1;
 // internal err buff for print
-char* _gfal_err=NULL;
+__thread char _gfal_err[GFAL_ERRMSG_LEN];
 
 /**
  * \brief return verbose mode level
@@ -92,8 +92,6 @@ extern int gfal_set_verbose (int value)
  *  @warning : like strerror, not thread safe.
  * */
 char* gfal_str_GError(GError** err){
-	if(_gfal_err==NULL)
-		_gfal_err = malloc(sizeof(char)* GFAL_ERRMSG_LEN);
 	return gfal_str_GError_r(err, _gfal_err, GFAL_ERRMSG_LEN);
  }
 

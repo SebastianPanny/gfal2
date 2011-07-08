@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+#if 0
 /* * @(#)$RCSfile: lfc_ifce.c,v $ $Revision: 1.67 $ $Date: 2010/01/22 15:25:54 $ CERN James Casey
  */
 #ifndef GFAL_LFC_IFCE_H_
@@ -117,3 +117,4 @@ int lfc_remove (gfal_file gfile, char *errbuf, int errbufsz);
 
 #endif /* #define GFAL_LFC_IFCE_H_ */
 
+#endif

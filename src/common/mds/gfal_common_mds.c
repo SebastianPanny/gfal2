@@ -30,10 +30,13 @@
 #include <errno.h>
 #include <ctype.h>
 #include <sys/time.h>
+#include <pthread.h>
 #include "gfal_common_mds_layer.h"
 #include "../gfal_common.h"
 #include "../gfal_common_internal.h"
 #include "../voms/gfal_voms_if.h"
+
+pthread_mutex_t m_mds =PTHREAD_MUTEX_INITIALIZER; 
 
 /**
  * set the bdii value of the handle specified
@@ -49,7 +52,7 @@ gboolean gfal_get_nobdiiG(gfal_handle handle){
 
 
 int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpoints, GError** err){
-	
+	pthread_mutex_lock(&m_mds);
 	const int ret = gfal_mds_external_call.sd_get_se_types_and_endpoints(host, se_types, se_endpoints, NULL,0);
 	if(ret)
 		if(errno == ECOMM){
@@ -59,6 +62,7 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		}else{
 			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return an error ( maybe voms-proxy is no initiated properly ? )");
 		}
+	pthread_mutex_unlock(&m_mds);
 	return ret;	
 }
 
@@ -68,6 +72,7 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
  * 
  */
  char * gfal_get_lfchost_bdii(gfal_handle handle, GError** err){
+	 	pthread_mutex_lock(&m_mds);
 		char* lfc_host = NULL;
 		GError* tmp_err = NULL;
 		char* vo = gfal_get_voG(&tmp_err);		// get vo and fqans from voms module
@@ -75,17 +80,20 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		if( gfal_get_nobdiiG(handle) ){		// check the bdii
 			g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_setup_lfchost] no_bdii_set : you must define the LFC_HOST env var correctly");
 			free(vo);
+			pthread_mutex_unlock(&m_mds);
 			return NULL;
 		}
 		if(!vo || tmp_err){
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost_bdii]");
 			free(vo);
+			pthread_mutex_unlock(&m_mds);
 			return NULL;
 		}
 		GList* fqan = gfal_get_fqanG(&tmp_err);
 		if(!fqan || tmp_err){
 			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost_bdii]");
 			free(vo);	
+			pthread_mutex_unlock(&m_mds);
 			return NULL;		
 		}
 		char** fqantab= gfal_GList_to_tab(fqan);
@@ -98,7 +106,8 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 			lfc_host = NULL;
 		}
 		free(fqantab);
-		free(vo);				  
+		free(vo);	
+		pthread_mutex_unlock(&m_mds);			  
 		return lfc_host;
  } 
 
