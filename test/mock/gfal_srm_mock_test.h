@@ -45,6 +45,9 @@ int srm_mock_srm_check_permission(struct srm_context *context,
 int srm_mock_srm_prepare_to_get(struct srm_context *context,
 		struct srm_preparetoget_input *input,struct srm_preparetoget_output *output);
 		
+int srm_mock_srm_prepare_to_put(struct srm_context *context,
+		struct srm_preparetoput_input *input,struct srm_preparetoput_output *output);
+		
 int srm_mock_srm_put_done(struct srm_context *context,
 		struct srm_putdone_input *input, struct srmv2_filestatus **statuses);
 		

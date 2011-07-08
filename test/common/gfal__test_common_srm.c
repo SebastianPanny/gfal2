@@ -29,6 +29,7 @@ void setup_mock_srm(){
 #if USE_MOCK
 	setup_mock_bdii();
 	gfal_srm_external_call.srm_prepare_to_get = &srm_mock_srm_prepare_to_get;
+	gfal_srm_external_call.srm_prepare_to_put = &srm_mock_srm_prepare_to_put;
 	gfal_srm_external_call.srm_context_init = &srm_mock_srm_context_init;
 	gfal_srm_external_call.srm_check_permission= &srm_mock_srm_check_permission;
 	gfal_srm_external_call.srm_ls = &srm_mock_srm_ls;
@@ -80,6 +81,7 @@ void mock_srm_access_error_response(char* surl, int merror){
 	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));	
 #endif
 }
+
 
 
 void test_srm_mock_chmod(char* url, int retcode){

@@ -31,8 +31,8 @@ int mds_mock_sd_get_se_types_and_endpoints(const char *host, char ***se_types, c
 		errno = ret;
 		return -1;
 	}
-	*se_types= define_se_types;
-	*se_endpoints = define_se_endpoints;
+	*se_types= g_strdupv (define_se_types);
+	*se_endpoints = g_strdupv (define_se_endpoints);
 	return 0;	
 }
 

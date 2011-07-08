@@ -13,14 +13,14 @@
 #include <errno.h>
 
 
-void test_mock_read_posix_srm(const char* filename){
+void test_mock_read_posix_srm(const char* content){
 #if USE_MOCK
 	char* tab[]= { TEST_SRM_VALID_SURL_EXAMPLE1, NULL };	
 	char* tab_turl[] = { TEST_SRM_TURL_EXAMPLE1, NULL };
 	int res[] = { 0, 0 };
-	strcpy(defined_buff_read, filename);
-	defined_buff_read_size = strlen(filename)+1;
-	will_respond(rfio_mock_read, strlen(filename), want_non_null(buff), want_non_null(size), want_non_null(fd));
+	strcpy(defined_buff_read, content);
+	defined_buff_read_size = strlen(content)+1;
+	will_respond(rfio_mock_read, strlen(content), want_non_null(buff), want_non_null(size), want_non_null(fd));
 	test_mock_srm_open_valid(tab, tab_turl, res);
 #endif
 }
