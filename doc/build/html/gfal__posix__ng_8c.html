@@ -60,9 +60,15 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622">gfal_open</a> (const char *path, int flag, mode_t mode)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">opens a file according to the value of flags  <a href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gaa6bfe36f33b86e489b798aed96912de"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_read" ref="gaa6bfe36f33b86e489b798aed96912de" args="(int fd, void *buff, size_t s_buff)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_read</b> (int fd, void *buff, size_t s_buff)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g5fcdc6f3e7911787be049e20b6ab19b8">gfal_creat</a> (const char *filename, mode_t mode)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">creates a new file or truncates an existing one  <a href="group__posix__group.html#g5fcdc6f3e7911787be049e20b6ab19b8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gaa6bfe36f33b86e489b798aed96912de">gfal_read</a> (int fd, void *buff, size_t s_buff)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff  <a href="group__posix__group.html#gaa6bfe36f33b86e489b798aed96912de"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g00c2d64894ae81c05846b06c84727ae9">gfal_write</a> (int fd, const void *buff, size_t s_buff)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">write a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd.  <a href="group__posix__group.html#g00c2d64894ae81c05846b06c84727ae9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g83b88bd27def4c4e2fdfea3c5bbf88b4">gfal_close</a> (int fd)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">close the current file descriptor  <a href="group__posix__group.html#g83b88bd27def4c4e2fdfea3c5bbf88b4"></a><br></td></tr>
@@ -211,7 +217,7 @@ Display and clear the last string error reported by the gfal error system for th
 get the current error string 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 10:00:52 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

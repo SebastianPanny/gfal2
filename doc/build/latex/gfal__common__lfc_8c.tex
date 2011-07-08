@@ -4,9 +4,11 @@ file for the lfc catalog module
 
 {\tt \#include $<$regex.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-lfc.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-lfc\_\-open.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-common\_\-internal.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-filedescriptor.h\char`\"{}}\par
 {\tt \#include \char`\"{}lfc\_\-ifce\_\-ng.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
@@ -18,6 +20,8 @@ int \bf{lfc\_\-access\-G} (catalog\_\-handle handle, const char $\ast$lfn, int m
 int \bf{lfc\_\-rename\-G} (catalog\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
 \item 
 int \bf{lfc\_\-stat\-G} (catalog\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)
+\item 
+char $\ast$$\ast$ \bf{lfc\_\-get\-SURLG} (catalog\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \bf{lfc\_\-resolve\_\-guid} (catalog\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
@@ -35,7 +39,7 @@ file for the lfc catalog module
 \begin{Desc}
 \item[Version:]0.0.1 \end{Desc}
 \begin{Desc}
-\item[Date:]29/04/2011 \end{Desc}
+\item[Date:]06/07/2011 \end{Desc}
 
 
 \subsection{Function Documentation}
@@ -59,7 +63,12 @@ implementation of the access call with the lfc catalog return 0 or -1 if error a
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-chmod\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_f40927feaad58de76b5406eb828102a6}
 
 
-Implementation of the chmod function with the LFC catalog return 0 or the errno if error, or set GError if serious error \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_renameG@{lfc\_\-renameG}}
+Implementation of the chmod function with the LFC catalog return 0 or the errno if error, or set GError if serious error \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getSURLG@{lfc\_\-getSURLG}}
+\index{lfc_getSURLG@{lfc\_\-getSURLG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ lfc\_\-get\-SURLG (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_7c1d8699d8ad924234db163860dadf40}
+
+
+resolve the lfc link to the surls \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_renameG@{lfc\_\-renameG}}
 \index{lfc_renameG@{lfc\_\-renameG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-rename\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_cb750f4f936abd772a5f53f5b1fbdaec}
 

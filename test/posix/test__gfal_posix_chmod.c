@@ -19,6 +19,7 @@
 #define TEST_GFAL_LOCAL_FILE_CHMOD_READ  "/tmp/testchmodread0011"
 
 
+
 void test__gfal_posix_chmod_read_lfn(){
 #if USE_MOCK
 	GError* mock_err=NULL;
@@ -178,6 +179,41 @@ void test__gfal_posix_chmod_write_lfn(){
  	
 	res = gfal_access(TEST_LFC_MOD_WRITE_FILE, W_OK);
 	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success %d %d %d",res, errno, gfal_posix_code_error());
+ 	gfal_posix_check_error();
+
+}
+
+
+
+
+
+void test__gfal_posix_chmod_srm(){
+
+	errno =0;
+	test_srm_mock_chmod(TEST_SRM_CHMOD_FILE_EXIST, 0);
+	int res = gfal_chmod(TEST_SRM_CHMOD_FILE_EXIST, 0);	// reduce the right to the file to 0
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success %d %d %d",res, errno, gfal_posix_code_error());
+ 	gfal_posix_check_error();
+ 	gfal_posix_clear_error();
+ 	mock_srm_access_error_response(TEST_SRM_CHMOD_FILE_EXIST, EACCES);
+	res = gfal_access(TEST_SRM_CHMOD_FILE_EXIST, R_OK);
+	assert_true_with_message( res == -1 && errno == EACCES && gfal_posix_code_error() == EACCES, "must be a non accessible file");		
+	gfal_posix_clear_error();
+	test_srm_mock_chmod(TEST_SRM_CHMOD_FILE_ENOENT, ENOENT);
+	res = gfal_chmod(TEST_SRM_CHMOD_FILE_ENOENT, 0);
+	assert_true_with_message( res == -1 && errno == ENOENT && gfal_posix_code_error() == ENOENT, "must be a non-existing file %d %d %d",res, errno, gfal_posix_code_error());		
+	gfal_posix_clear_error();
+	res = gfal_chmod("google.com", 0);
+	assert_true_with_message( res == -1 && errno == EPROTONOSUPPORT && gfal_posix_code_error() == EPROTONOSUPPORT, "must be a bad url");		
+	gfal_posix_clear_error();
+	test_srm_mock_chmod(TEST_SRM_CHMOD_FILE_EXIST, 0);
+	res = gfal_chmod(TEST_SRM_CHMOD_FILE_EXIST, 0555);		// reset the right of the file
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success");
+ 	gfal_posix_check_error();
+  	gfal_posix_clear_error();
+   	mock_srm_access_right_response(TEST_SRM_CHMOD_FILE_EXIST);
+	res = gfal_access(TEST_SRM_CHMOD_FILE_EXIST, R_OK);
+	assert_true_with_message( res == 0 && errno == 0 && gfal_posix_code_error() == 0, "must be a success");
  	gfal_posix_check_error();
 
 }

@@ -45,10 +45,10 @@
 <a name="l00033"></a>00033         <span class="keywordtype">int</span> dir_offset;
 <a name="l00034"></a>00034 }* gfal_srm_opendir_handle;
 <a name="l00035"></a>00035 
-<a name="l00036"></a>00036 DIR* gfal_srm_opendirG(catalog_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError ** err);
+<a name="l00036"></a>00036 gfal_file_handle gfal_srm_opendirG(catalog_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError ** err);
 <a name="l00037"></a>00037 
-<a name="l00038"></a>00038 <span class="keywordtype">int</span> gfal_srm_closedirG(catalog_handle handle, DIR* fh, GError** err);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00038"></a>00038 <span class="keywordtype">int</span> gfal_srm_closedirG(catalog_handle handle, gfal_file_handle fh, GError** err);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 10:00:52 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

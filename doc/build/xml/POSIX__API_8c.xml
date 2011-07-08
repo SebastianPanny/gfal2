@@ -116,7 +116,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="276" bodyend="278"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="311" bodyend="313"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g1c97c21d23c919b2647f17bbc8b79db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -160,9 +160,11 @@
         <name>gfal_creat</name>
         <param>
           <type>const char *</type>
+          <defname>filename</defname>
         </param>
         <param>
           <type>mode_t</type>
+          <defname>mode</defname>
         </param>
         <briefdescription>
 <para>creates a new file or truncates an existing one </para>        </briefdescription>
@@ -172,26 +174,28 @@
 <parametername>filename</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>specifies the file name: either a logical file name, a guid, an SURL or a TURL </para></parameterdescription>
+<para>: url of the filename to create, can be a surl, lfn, guid, local or turl the urls supported by the modules </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: same flag supported value is built by OR’ing the bits defined in &lt;fcntl.h&gt; but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
 <parametername>mode</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>is used only if the file is created </para></parameterdescription>
+<para>is used only if the file is created. </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid.</para></listitem><listitem><para>ECOMM: Communication error.</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported. </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
+<simplesect kind="return"><para>return the file descriptor or -1 if errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="92"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="92" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="273" bodyend="275"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g48783e60cafa1a3bf9aa2170b99f9b08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -329,7 +333,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>is used only if the file is created. </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return the file descriptor or -1 if error ( errno is set ( gfal_posix_error_print() ) ) </para></simplesect>
+<simplesect kind="return"><para>return the file descriptor or -1 if errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -377,7 +381,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>of the directory to open </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>file descriptor DIR* if success else NULL if error and errno is set ( gfal_posix_error_print() )</para></simplesect>
+<simplesect kind="return"><para>file descriptor DIR* if success else NULL if error and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it</para></simplesect>
 <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
@@ -401,20 +405,47 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         <name>gfal_read</name>
         <param>
           <type>int</type>
+          <defname>fd</defname>
         </param>
         <param>
           <type>void *</type>
+          <defname>buff</defname>
         </param>
         <param>
           <type>size_t</type>
+          <defname>s_buff</defname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>read a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file descriptor </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buff</parametername>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the data to read </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s_buff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of the data read in bytes </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>number of byte read or -1 if error, errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="152" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="261" bodyend="263"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="152" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="285" bodyend="287"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gad7e253fad72213c19e72c02b869ba7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>dirent *</type>
@@ -436,7 +467,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>file handle ( return by opendir ) to read </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>pointer to struct dirent with file information or NULL if end of list or error ( errno is set ( gfal_posix_error_print() ) ) </para></simplesect>
+<simplesect kind="return"><para>pointer to struct dirent with file information or NULL if end of list or error, errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 <simplesect kind="warning"><para>struct dirents are allocated statically, do not use free() on them</para></simplesect>
 <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
@@ -580,20 +611,47 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
         <name>gfal_write</name>
         <param>
           <type>int</type>
+          <defname>fd</defname>
         </param>
         <param>
           <type>const void *</type>
+          <defname>buff</defname>
         </param>
         <param>
           <type>size_t</type>
+          <defname>s_buff</defname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>write a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file descriptor </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buff</parametername>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the data to write </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s_buff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of the data write in bytes </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>number of byte write or -1 if error, errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="164"/>
+        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="164" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="296" bodyend="298"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g39c7d0b6d366fdb0f218439ed3c3bb37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>off64_t</type>
@@ -749,7 +807,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="149"><highlight class="normal"></highlight></codeline>
 <codeline lineno="150"><highlight class="normal">DIR<sp/>*<ref refid="group__posix__group_1g7e6d16651dbce5d684c53f82349e0306" kindref="member">gfal_opendir</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
 <codeline lineno="151"><highlight class="normal"></highlight></codeline>
-<codeline lineno="152"><highlight class="normal">ssize_t<sp/>gfal_read<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">ssize_t<sp/><ref refid="group__posix__group_1gaa6bfe36f33b86e489b798aed96912de" kindref="member">gfal_read</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t);</highlight></codeline>
 <codeline lineno="153"><highlight class="normal"></highlight></codeline>
 <codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent<sp/>*<ref refid="group__posix__group_1gad7e253fad72213c19e72c02b869ba7e" kindref="member">gfal_readdir</ref><sp/>(DIR<sp/>*);</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
@@ -761,7 +819,7 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <codeline lineno="161"><highlight class="normal"></highlight></codeline>
 <codeline lineno="162"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_unlink<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
 <codeline lineno="163"><highlight class="normal"></highlight></codeline>
-<codeline lineno="164"><highlight class="normal">ssize_t<sp/>gfal_write<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">ssize_t<sp/><ref refid="group__posix__group_1g00c2d64894ae81c05846b06c84727ae9" kindref="member">gfal_write</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t);</highlight></codeline>
 <codeline lineno="165"><highlight class="normal"></highlight></codeline>
 <codeline lineno="166"><highlight class="normal">off64_t<sp/>gfal_lseek64<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>off64_t,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="167"><highlight class="normal"></highlight></codeline>

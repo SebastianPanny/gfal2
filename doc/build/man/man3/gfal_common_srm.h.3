@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -47,6 +47,9 @@
 
 .in +1c
 .ti -1c
+.RI "const char * \fBgfal_srm_getName\fP ()"
+.br
+.ti -1c
 .RI "gfal_catalog_interface \fBgfal_srm_initG\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
@@ -76,6 +79,9 @@
 .RI "int \fBgfal_wait_async_requestG\fP (gfal_handle handle, long timeout, GError **err)"
 .br
 .RI "\fIwait for the current request \fP"
+.ti -1c
+.RI "int \fBgfal_srm_convert_filestatuses_to_GError\fP (struct srmv2_filestatus *statuses, int n, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -194,6 +200,9 @@ turls need to be free manually
 .RE
 .PP
 
+.SS "const char* gfal_srm_getName ()"
+.PP
+srm plugin id 
 .SS "int gfal_wait_async_requestG (gfal_handle handle, long timeout, GError ** err)"
 .PP
 wait for the current request 

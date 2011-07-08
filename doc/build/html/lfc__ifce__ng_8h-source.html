@@ -50,7 +50,7 @@
 <a name="l00039"></a>00039 
 <a name="l00040"></a>00040 <span class="keyword">struct </span>lfc_ops {
 <a name="l00041"></a>00041         <span class="keywordtype">char</span>* lfc_endpoint;
-<a name="l00042"></a>00042         
+<a name="l00042"></a>00042         gfal_handle handle;
 <a name="l00043"></a>00043         <span class="keywordtype">int</span>     *serrno;
 <a name="l00044"></a>00044         <span class="keywordtype">char</span>    *(*sstrerror)(int);
 <a name="l00045"></a>00045         int     (*addreplica)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>lfc_fileid *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> char, <span class="keyword">const</span> char, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
@@ -96,7 +96,7 @@
 <a name="l00085"></a>00085 
 <a name="l00086"></a>00086 <span class="keywordtype">char</span> ** <a class="code" href="lfc__ifce__ng_8c.html#26c355c9cf576886a743ab1917de295d">gfal_lfc_getSURL</a>(<span class="keyword">struct</span> lfc_ops* ops, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
 <a name="l00087"></a>00087 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 10:00:52 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

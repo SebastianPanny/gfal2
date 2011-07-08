@@ -20,14 +20,12 @@ gboolean \bf{gfal\_\-remove\_\-file\_\-desc} (gfal\_\-fdesc\_\-container\_\-hand
 gfal\_\-fdesc\_\-container\_\-handle \textbf{gfal\_\-file\_\-descriptor\_\-handle\_\-create} (GDestroy\-Notify destroyer)\label{gfal__common__filedescriptor_8c_13934d51ad328aabb0721ef7793ad233}
 
 \item 
-gfal\_\-file\_\-handle \textbf{gfal\_\-file\_\-handle\_\-new} (int id\_\-module, gpointer fdesc)\label{gfal__common__filedescriptor_8c_9d05f277c63dea4b06fb518237a5da11}
+gfal\_\-file\_\-handle \textbf{gfal\_\-file\_\-handle\_\-new} (const char $\ast$module\_\-name, gpointer fdesc)\label{gfal__common__filedescriptor_8c_5891a96d47726421216140dba73f5e27}
 
 \item 
-gfal\_\-file\_\-handle \bf{gfal\_\-file\_\-handle\_\-ext\_\-new} (int id\_\-module, gpointer fdesc, gpointer ext\_\-data)
+gfal\_\-file\_\-handle \bf{gfal\_\-file\_\-handle\_\-ext\_\-new} (const char $\ast$module\_\-name, gpointer fdesc, gpointer ext\_\-data)
 \item 
 gfal\_\-file\_\-handle \bf{gfal\_\-file\_\-handle\_\-bind} (gfal\_\-fdesc\_\-container\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)
-\item 
-int \bf{gfal\_\-file\_\-handle\_\-create} (gfal\_\-fdesc\_\-container\_\-handle h, int module\_\-id, gpointer real\_\-file\_\-desc, GError $\ast$$\ast$err)
 \item 
 gboolean \bf{gfal\_\-file\_\-handle\_\-delete} (gfal\_\-fdesc\_\-container\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)
 \end{CompactItemize}
@@ -59,14 +57,7 @@ Add the given file handle to the and return a file descriptor \begin{Desc}
 
 return the file handle associated with the file\_\-desc \begin{Desc}
 \item[Warning:]does not free the handle \end{Desc}
-\index{gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}!gfal_file_handle_create@{gfal\_\-file\_\-handle\_\-create}}
-\index{gfal_file_handle_create@{gfal\_\-file\_\-handle\_\-create}!gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-file\_\-handle\_\-create (gfal\_\-fdesc\_\-container\_\-handle {\em h}, int {\em module\_\-id}, gpointer {\em real\_\-file\_\-desc}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8c_9cfac852697441bd0289e9900960854c}
-
-
-create a file handle with a given module\_\-id ( id of the catalog) and a given file descriptor
-
-$\ast$ \index{gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}!gfal_file_handle_delete@{gfal\_\-file\_\-handle\_\-delete}}
+\index{gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}!gfal_file_handle_delete@{gfal\_\-file\_\-handle\_\-delete}}
 \index{gfal_file_handle_delete@{gfal\_\-file\_\-handle\_\-delete}!gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-file\_\-handle\_\-delete (gfal\_\-fdesc\_\-container\_\-handle {\em h}, int {\em file\_\-desc}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8c_5434be84154718254a4e90dbcc196359}
 
@@ -75,7 +66,7 @@ delete the handle associated with the given key, return TRUE if success else FAL
 
 $\ast$ \index{gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}!gfal_file_handle_ext_new@{gfal\_\-file\_\-handle\_\-ext\_\-new}}
 \index{gfal_file_handle_ext_new@{gfal\_\-file\_\-handle\_\-ext\_\-new}!gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-file\_\-handle\_\-ext\_\-new (int {\em id\_\-module}, gpointer {\em fdesc}, gpointer {\em ext\_\-data})}\label{gfal__common__filedescriptor_8c_b2ae28c9bade093c2f1fea46f549fbee}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-file\_\-handle\_\-ext\_\-new (const char $\ast$ {\em module\_\-name}, gpointer {\em fdesc}, gpointer {\em ext\_\-data})}\label{gfal__common__filedescriptor_8c_a55408b4cba00997f0c034d5aeffa641}
 
 
 same than gfal\_\-file\_\-handle but with external data storage support \index{gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}!gfal_get_file_desc@{gfal\_\-get\_\-file\_\-desc}}

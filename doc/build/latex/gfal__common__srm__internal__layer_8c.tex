@@ -40,6 +40,9 @@ file for the srm external function mapping for mocking purpose
         .srm_srmv2_mdfilestatus_delete = &srm_srmv2_mdfilestatus_delete,
         .srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete,
         .srm_srm2__TReturnStatus_delete = &srm_srm2__TReturnStatus_delete,
-        .srm_prepare_to_get= &srm_prepare_to_get
+        .srm_prepare_to_get= &srm_prepare_to_get,
+        .srm_prepare_to_put= &srm_prepare_to_put,
+        .srm_put_done = &srm_put_done,
+        .srm_setpermission= &srm_setpermission
 }
 \end{verbatim}\end{Code}

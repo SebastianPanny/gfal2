@@ -45,6 +45,8 @@
 typedef void *&nbsp;</td><td class="memItemRight" valign="bottom"><b>srm_request_handle</b></td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#9eaea5b630099808082807628bd08e5f">gfal_srm_getName</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0f8ff443c68a9f6177d717ad52b7d5a5"></a><!-- doxytag: member="gfal_common_srm.h::gfal_srm_initG" ref="0f8ff443c68a9f6177d717ad52b7d5a5" args="(gfal_handle handle, GError **err)" -->
 gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_initG</b> (gfal_handle handle, GError **err)</td></tr>
 
@@ -69,6 +71,9 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_asyncG</b> (g
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm_8h.html#86890a00f72d9af9ab88f42a69e3bf8c">gfal_wait_async_requestG</a> (gfal_handle handle, long timeout, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">wait for the current request  <a href="#86890a00f72d9af9ab88f42a69e3bf8c"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9177e8f96da30fda27c71daead3ff4e8"></a><!-- doxytag: member="gfal_common_srm.h::gfal_srm_convert_filestatuses_to_GError" ref="9177e8f96da30fda27c71daead3ff4e8" args="(struct srmv2_filestatus *statuses, int n, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_convert_filestatuses_to_GError</b> (struct srmv2_filestatus *statuses, int n, GError **err)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 the header file with the main srm funcs of the common API 
@@ -293,6 +298,25 @@ get the result to the last get_async request
 
 </div>
 </div><p>
+<a class="anchor" name="9eaea5b630099808082807628bd08e5f"></a><!-- doxytag: member="gfal_common_srm.h::gfal_srm_getName" ref="9eaea5b630099808082807628bd08e5f" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* gfal_srm_getName           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+srm plugin id 
+</div>
+</div><p>
 <a class="anchor" name="86890a00f72d9af9ab88f42a69e3bf8c"></a><!-- doxytag: member="gfal_common_srm.h::gfal_wait_async_requestG" ref="86890a00f72d9af9ab88f42a69e3bf8c" args="(gfal_handle handle, long timeout, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -338,7 +362,7 @@ wait for the current request
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 10:00:52 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

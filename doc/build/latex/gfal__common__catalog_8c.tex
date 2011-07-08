@@ -6,6 +6,9 @@ the file of the common lib for the catalog management
 {\tt \#include $<$stdlib.h$>$}\par
 {\tt \#include $<$string.h$>$}\par
 {\tt \#include $<$dlfcn.h$>$}\par
+{\tt \#include $<$unistd.h$>$}\par
+{\tt \#include $<$sys/types.h$>$}\par
+{\tt \#include $<$fcntl.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-catalog.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
@@ -50,7 +53,9 @@ dirent $\ast$ \bf{gfal\_\-catalog\_\-readdir\-G} (gfal\_\-handle handle, gfal\_\
 \item 
 char $\ast$$\ast$ \bf{gfal\_\-catalog\_\-get\-SURL} (gfal\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
-int \bf{gfal\_\-catalog\_\-get\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, GError $\ast$$\ast$err)
+int \bf{gfal\_\-catalog\_\-get\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-catalog\_\-put\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$turl\_\-buff, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalog\_\-read\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
 \item 
@@ -61,6 +66,8 @@ char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, 
 \item 
 char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\item 
+void \bf{gfal\_\-catalog\_\-open\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$path, char $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
+\item 
 gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-open\_\-global\-G} (gfal\_\-handle handle, const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
@@ -105,7 +112,7 @@ Resolve a link on the catalog to a list of surl \begin{Desc}
 \item[Warning:]must be free with g\_\-list\_\-free\_\-full \end{Desc}
 \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_getTURLG@{gfal\_\-catalog\_\-getTURLG}}
 \index{gfal_catalog_getTURLG@{gfal\_\-catalog\_\-getTURLG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-get\-TURLG (gfal\_\-handle {\em handle}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_a9e232448a5906afb93e9f17dcce697c}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-get\-TURLG (gfal\_\-handle {\em handle}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, char $\ast$$\ast$ {\em reqtoken}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_6e670ae4258db2d05c8b5bc1c66f054a}
 
 
 Resolve a surl to a \char`\"{}GET\char`\"{} turl \begin{Desc}
@@ -136,7 +143,12 @@ Execute a mkdir function on the first compatible catalog ( checked with check ur
 
 Complete open\-G func with catalog-$>$surl resolution This func try to resolve the path to a valid surl and open surl with the srm module else open is call on the first compatible catalog like in the normal way. \begin{Desc}
 \item[Returns:]pointer to file handle if success else NULL if error \end{Desc}
-\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_open_resolve_guid@{gfal\_\-catalog\_\-open\_\-resolve\_\-guid}}
+\index{gfal_catalog_open_resolve_guid@{gfal\_\-catalog\_\-open\_\-resolve\_\-guid}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalog\_\-open\_\-resolve\_\-guid (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, char $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_453f66b6e25bc2e9171d710357b8e899}
+
+
+if url is guid, resolve it and put the result in buffer, else put the url in the buffer \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}}
 \index{gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-catalog\_\-opendir\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_eb89b1d37a16ef8ecb50ac603366285c}
 
@@ -153,7 +165,12 @@ Execute a opendir function on the first compatible catalog ( checked with check 
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-catalog\_\-open\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, int {\em flag}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_cd4cabbd5effdf20bc0b20345c5cc4ab}
 
 
-open the file specified by path on the proper catalog with the specified flag and mode \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_readdirG@{gfal\_\-catalog\_\-readdirG}}
+open the file specified by path on the proper catalog with the specified flag and mode \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_putTURLG@{gfal\_\-catalog\_\-putTURLG}}
+\index{gfal_catalog_putTURLG@{gfal\_\-catalog\_\-putTURLG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-put\-TURLG (gfal\_\-handle {\em handle}, const char $\ast$ {\em surl}, char $\ast$ {\em turl\_\-buff}, int {\em size\_\-turl}, char $\ast$$\ast$ {\em reqtoken}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_5531c279371aff9b96c007ce9cb55d1b}
+
+
+Resolve a surl to a \char`\"{}PUT\char`\"{} turl  if success else -1 if error, \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_readdirG@{gfal\_\-catalog\_\-readdirG}}
 \index{gfal_catalog_readdirG@{gfal\_\-catalog\_\-readdirG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct dirent$\ast$ gfal\_\-catalog\_\-readdir\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_9ba0d48d73fe53d42d3a715e57473adb}
 

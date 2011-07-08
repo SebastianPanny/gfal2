@@ -7,17 +7,18 @@ file for the opendir function on the srm url type
 {\tt \#include \char`\"{}gfal\_\-common\_\-srm.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-opendir.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-filedescriptor.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-internal\_\-layer.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-DIR $\ast$ \textbf{gfal\_\-srmv2\_\-opendir\_\-internal} (gfal\_\-handle handle, char $\ast$endpoint, const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_b49293dea5de17fd7bba94b2c604ae36}
+gfal\_\-file\_\-handle \textbf{gfal\_\-srmv2\_\-opendir\_\-internal} (gfal\_\-handle handle, char $\ast$endpoint, const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_58227a1ecd5a6d7095f5e5ef18e1973e}
 
 \item 
-DIR $\ast$ \textbf{gfal\_\-srm\_\-opendir\-G} (catalog\_\-handle ch, const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_5011b06c09c56864815f6bf642b11c24}
+gfal\_\-file\_\-handle \textbf{gfal\_\-srm\_\-opendir\-G} (catalog\_\-handle ch, const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_98735cc394e8308aff0d47bb13fda64f}
 
 \item 
-int \textbf{gfal\_\-srm\_\-closedir\-G} (catalog\_\-handle handle, DIR $\ast$fh, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_b13933375563a6c4cc44eb6d206c6fd9}
+int \textbf{gfal\_\-srm\_\-closedir\-G} (catalog\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)\label{gfal__common__srm__opendir_8c_a9f63a5ff1be26668963f98f2fba9733}
 
 \end{CompactItemize}
 

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -61,8 +61,17 @@
 .br
 .RI "\fIopens a file according to the value of flags \fP"
 .ti -1c
+.RI "int \fBgfal_creat\fP (const char *filename, mode_t mode)"
+.br
+.RI "\fIcreates a new file or truncates an existing one \fP"
+.ti -1c
 .RI "int \fBgfal_read\fP (int fd, void *buff, size_t s_buff)"
 .br
+.RI "\fIread a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff \fP"
+.ti -1c
+.RI "int \fBgfal_write\fP (int fd, const void *buff, size_t s_buff)"
+.br
+.RI "\fIwrite a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. \fP"
 .ti -1c
 .RI "int \fBgfal_close\fP (int fd)"
 .br

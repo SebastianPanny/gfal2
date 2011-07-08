@@ -48,38 +48,47 @@
 <a name="l00038"></a>00038 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_ENDPOINT_DEFAULT_PREFIX "httpg://"</span>
 <a name="l00039"></a>00039 <span class="preprocessor"></span>
 <a name="l00040"></a>00040 
-<a name="l00041"></a>00041 <span class="keyword">struct </span>_gfal_srm_result{
-<a name="l00042"></a>00042         <span class="keywordtype">char</span> turl[GFAL_URL_MAX_LEN+1];
-<a name="l00043"></a>00043         <span class="keywordtype">int</span> err_code;
-<a name="l00044"></a>00044         <span class="keywordtype">char</span> err_str[GFAL_ERRMSG_LEN+1];
-<a name="l00045"></a>00045 };
-<a name="l00046"></a>00046 
-<a name="l00047"></a>00047 <span class="keyword">typedef</span> <span class="keywordtype">void</span>* srm_request_handle;
-<a name="l00048"></a>00048 
-<a name="l00049"></a>00049 
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 <span class="keyword">struct </span>_gfal_srm_result{
+<a name="l00045"></a>00045         <span class="keywordtype">char</span> turl[GFAL_URL_MAX_LEN+1]; <span class="comment">// turl associated with the request ( main result )</span>
+<a name="l00046"></a>00046         <span class="keywordtype">char</span> *reqtoken; <span class="comment">// token of the request ( common to all result of a request )</span>
+<a name="l00047"></a>00047         <span class="keywordtype">int</span> err_code;           <span class="comment">// errcode, !=0 if error</span>
+<a name="l00048"></a>00048         <span class="keywordtype">char</span> err_str[GFAL_ERRMSG_LEN+1];        <span class="comment">// explanation about the error</span>
+<a name="l00049"></a>00049 };
 <a name="l00050"></a>00050 
-<a name="l00051"></a>00051 gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err);
-<a name="l00052"></a>00052 
-<a name="l00053"></a>00053 <span class="keywordtype">int</span> gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 <span class="keyword">typedef</span> <span class="keywordtype">void</span>* srm_request_handle;
+<a name="l00053"></a>00053 
 <a name="l00054"></a>00054 
-<a name="l00055"></a>00055 <span class="keywordtype">int</span> gfal_get_async_resultsG(gfal_handle handle, GList** turls,  GError** err);
+<a name="l00055"></a>00055 <span class="keyword">const</span> <span class="keywordtype">char</span>* gfal_srm_getName();
 <a name="l00056"></a>00056 
-<a name="l00057"></a>00057 gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err);
+<a name="l00057"></a>00057 gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err);
 <a name="l00058"></a>00058 
-<a name="l00059"></a>00059 <span class="keywordtype">int</span> gfal_get_async_results_errcodesG(gfal_handle handle, GList** turl_errcode, GError** err);
+<a name="l00059"></a>00059 <span class="keywordtype">int</span> gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);
 <a name="l00060"></a>00060 
-<a name="l00061"></a>00061 <span class="keywordtype">int</span> gfal_get_async_results_errstringG(gfal_handle handle, GList** turl_errstring, GError** err);
+<a name="l00061"></a>00061 <span class="keywordtype">int</span> gfal_get_async_resultsG(gfal_handle handle, GList** turls,  GError** err);
 <a name="l00062"></a>00062 
-<a name="l00063"></a>00063 <span class="keywordtype">int</span> gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_struct, GError** err);
+<a name="l00063"></a>00063 gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err);
 <a name="l00064"></a>00064 
-<a name="l00065"></a>00065 <span class="keywordtype">int</span> gfal_wait_async_requestG(gfal_handle handle, <span class="keywordtype">long</span> timeout, GError** err);
+<a name="l00065"></a>00065 <span class="keywordtype">int</span> gfal_get_async_results_errcodesG(gfal_handle handle, GList** turl_errcode, GError** err);
 <a name="l00066"></a>00066 
-<a name="l00067"></a>00067 
+<a name="l00067"></a>00067 <span class="keywordtype">int</span> gfal_get_async_results_errstringG(gfal_handle handle, GList** turl_errstring, GError** err);
 <a name="l00068"></a>00068 
-<a name="l00069"></a>00069 
+<a name="l00069"></a>00069 <span class="keywordtype">int</span> gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_struct, GError** err);
 <a name="l00070"></a>00070 
-<a name="l00071"></a>00071 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00071"></a>00071 <span class="keywordtype">int</span> gfal_wait_async_requestG(gfal_handle handle, <span class="keywordtype">long</span> timeout, GError** err);
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 <span class="keywordtype">int</span> gfal_srm_convert_filestatuses_to_GError(<span class="keyword">struct</span> srmv2_filestatus* statuses, <span class="keywordtype">int</span> n, GError** err);
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 10:00:52 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

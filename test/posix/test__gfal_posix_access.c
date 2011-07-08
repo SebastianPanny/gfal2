@@ -15,43 +15,7 @@
 #include "../../src/posix/gfal_posix_internal.h"
 
 
-void mock_srm_access_right_response(char* surl){
-	GError* mock_err=NULL;
-	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
-	test_mock_lfc(handle, &mock_err);
-	setup_mock_srm();
-	if( gfal_check_GError(&mock_err))
-		return;
 
-	char* surls[] = { surl, NULL };
-	char* turls[] = { "nawak", NULL };
-	int status[] = { 0, 0 };
-
-	define_mock_srmv2_filestatus(1, surls, NULL,  turls, status);
-	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
-	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
-	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));		
-}
-
-void mock_srm_access_error_response(char* surl, int merror){
-	GError* mock_err=NULL;
-	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
-	test_mock_lfc(handle, &mock_err);
-	setup_mock_srm();
-	if( gfal_check_GError(&mock_err))
-		return;	
-	char* explanation2[] = { "enoent mock", NULL };
-	int status2[] = { merror, 0 };
-	char* surls[] = { surl, NULL };	
-	define_mock_srmv2_filestatus(1, surls, explanation2, NULL, status2);
-define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
-	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
-	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));	
-}
 
 
 void test_access_posix_guid_exist()

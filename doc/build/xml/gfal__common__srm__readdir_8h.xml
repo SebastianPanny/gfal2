@@ -9,67 +9,73 @@
     <includedby refid="gfal__common__srm__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</includedby>
     <includedby refid="gfal__posix__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</includedby>
     <incdepgraph>
-      <node id="1484">
+      <node id="1730">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="1481" relation="include">
+        <childnode refid="1727" relation="include">
         </childnode>
       </node>
-      <node id="1480">
+      <node id="1726">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.h</label>
         <link refid="gfal_common_srm_readdir.h"/>
-        <childnode refid="1481" relation="include">
+        <childnode refid="1727" relation="include">
         </childnode>
-        <childnode refid="1482" relation="include">
+        <childnode refid="1728" relation="include">
         </childnode>
-        <childnode refid="1483" relation="include">
+        <childnode refid="1729" relation="include">
         </childnode>
       </node>
-      <node id="1483">
+      <node id="1729">
         <label>../gfal_common_filedescriptor.h</label>
         <link refid="gfal__common__filedescriptor_8h"/>
-        <childnode refid="1481" relation="include">
+        <childnode refid="1727" relation="include">
         </childnode>
-        <childnode refid="1484" relation="include">
+        <childnode refid="1730" relation="include">
+        </childnode>
+        <childnode refid="1731" relation="include">
         </childnode>
       </node>
-      <node id="1481">
+      <node id="1727">
         <label>glib.h</label>
       </node>
-      <node id="1482">
+      <node id="1731">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h-source"/>
+      </node>
+      <node id="1728">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="1486">
+      <node id="1733">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</label>
         <link refid="gfal__common__srm__readdir_8c"/>
       </node>
-      <node id="1485">
+      <node id="1732">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.h</label>
         <link refid="gfal_common_srm_readdir.h"/>
-        <childnode refid="1486" relation="include">
+        <childnode refid="1733" relation="include">
         </childnode>
-        <childnode refid="1487" relation="include">
+        <childnode refid="1734" relation="include">
         </childnode>
       </node>
-      <node id="1487">
+      <node id="1734">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
         <link refid="gfal__posix__readdir_8c"/>
       </node>
     </invincdepgraph>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__srm__readdir_8h_110ca24ea6cbadedb53871ed7b895056f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__readdir_8h_14ea39d54f0ac7e18351372cc212f76f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>dirent *</type>
         <definition>struct dirent* gfal_srm_readdirG</definition>
-        <argsstring>(catalog_handle handle, DIR *fh, GError **err)</argsstring>
+        <argsstring>(catalog_handle handle, gfal_file_handle fh, GError **err)</argsstring>
         <name>gfal_srm_readdirG</name>
         <param>
           <type>catalog_handle</type>
           <declname>handle</declname>
         </param>
         <param>
-          <type>DIR *</type>
+          <type>gfal_file_handle</type>
           <declname>fh</declname>
         </param>
         <param>
@@ -117,7 +123,7 @@
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>gfal_srm_readdirG(catalog_handle<sp/>handle,<sp/>DIR*<sp/>fh,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>gfal_srm_readdirG(catalog_handle<sp/>handle,<sp/>gfal_file_handle<sp/>fh,<sp/>GError**<sp/>err);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.h"/>
   </compounddef>

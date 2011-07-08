@@ -2,239 +2,247 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
   <compounddef id="gfal__common__srm__open_8c" kind="file">
     <compoundname>gfal_common_srm_open.c</compoundname>
-    <includes local="no">gfal_srm_ifce_types.h</includes>
-    <includes local="no">string.h</includes>
-    <includes local="no">glib.h</includes>
-    <includes local="no">stdio.h</includes>
-    <includes local="no">stdlib.h</includes>
+    <includes local="no">regex.h</includes>
+    <includes local="no">time.h</includes>
     <includes local="no">fcntl.h</includes>
-    <includes refid="gfal__common__srm_8h" local="yes">gfal_common_srm.h</includes>
-    <includes refid="gfal__common__srm__open_8h" local="yes">gfal_common_srm_open.h</includes>
-    <includes refid="gfal__constants_8h" local="yes">../gfal_constants.h</includes>
+    <includes refid="gfal__common__internal_8h" local="yes">../gfal_common_internal.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../gfal_common_errverbose.h</includes>
+    <includes refid="gfal__common__catalog_8h" local="yes">../gfal_common_catalog.h</includes>
     <includes refid="gfal__common__filedescriptor_8h" local="yes">../gfal_common_filedescriptor.h</includes>
+    <includes refid="gfal__common__srm__internal__layer_8h" local="yes">gfal_common_srm_internal_layer.h</includes>
+    <includes refid="gfal__common__srm_8h" local="yes">gfal_common_srm.h</includes>
     <incdepgraph>
-      <node id="1270">
+      <node id="1612">
         <label>sys/stat.h</label>
       </node>
-      <node id="1283">
+      <node id="1623">
         <label>../gfal_common_internal.h</label>
       </node>
-      <node id="1273">
+      <node id="1616">
         <label>stdarg.h</label>
       </node>
-      <node id="1276">
+      <node id="1605">
         <label>../gfal_common_internal.h</label>
         <link refid="gfal__common__internal_8h"/>
-        <childnode refid="1265" relation="include">
+        <childnode refid="1606" relation="include">
         </childnode>
-        <childnode refid="1277" relation="include">
+        <childnode refid="1624" relation="include">
         </childnode>
       </node>
-      <node id="1263">
+      <node id="1622">
         <label>stdlib.h</label>
       </node>
-      <node id="1286">
+      <node id="1628">
         <label>../gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="1278" relation="include">
+        <childnode refid="1620" relation="include">
         </childnode>
-        <childnode refid="1273" relation="include">
+        <childnode refid="1616" relation="include">
         </childnode>
-        <childnode refid="1262" relation="include">
+        <childnode refid="1629" relation="include">
         </childnode>
-        <childnode refid="1260" relation="include">
+        <childnode refid="1619" relation="include">
         </childnode>
-        <childnode refid="1275" relation="include">
+        <childnode refid="1618" relation="include">
         </childnode>
-        <childnode refid="1261" relation="include">
+        <childnode refid="1609" relation="include">
         </childnode>
       </node>
-      <node id="1271">
+      <node id="1614">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="1261" relation="include">
+        <childnode refid="1609" relation="include">
         </childnode>
       </node>
-      <node id="1275">
+      <node id="1618">
         <label>errno.h</label>
       </node>
-      <node id="1264">
+      <node id="1604">
         <label>fcntl.h</label>
       </node>
-      <node id="1282">
+      <node id="1621">
         <label>gfal_common_srm_endpoint.h</label>
         <link refid="gfal__common__srm__endpoint_8h"/>
-        <childnode refid="1265" relation="include">
+        <childnode refid="1606" relation="include">
         </childnode>
-        <childnode refid="1278" relation="include">
+        <childnode refid="1620" relation="include">
         </childnode>
-        <childnode refid="1266" relation="include">
+        <childnode refid="1607" relation="include">
         </childnode>
-        <childnode refid="1263" relation="include">
+        <childnode refid="1622" relation="include">
         </childnode>
       </node>
-      <node id="1259">
+      <node id="1613">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="1274">
+      <node id="1617">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="1258">
+      <node id="1601">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c</label>
         <link refid="gfal_common_srm_open.c"/>
-        <childnode refid="1259" relation="include">
+        <childnode refid="1602" relation="include">
         </childnode>
-        <childnode refid="1260" relation="include">
+        <childnode refid="1603" relation="include">
         </childnode>
-        <childnode refid="1261" relation="include">
+        <childnode refid="1604" relation="include">
         </childnode>
-        <childnode refid="1262" relation="include">
+        <childnode refid="1605" relation="include">
         </childnode>
-        <childnode refid="1263" relation="include">
+        <childnode refid="1628" relation="include">
         </childnode>
-        <childnode refid="1264" relation="include">
+        <childnode refid="1615" relation="include">
         </childnode>
-        <childnode refid="1265" relation="include">
+        <childnode refid="1630" relation="include">
         </childnode>
-        <childnode refid="1284" relation="include">
+        <childnode refid="1631" relation="include">
         </childnode>
-        <childnode refid="1278" relation="include">
-        </childnode>
-        <childnode refid="1286" relation="include">
-        </childnode>
-        <childnode refid="1285" relation="include">
+        <childnode refid="1606" relation="include">
         </childnode>
       </node>
-      <node id="1284">
-        <label>gfal_common_srm_open.h</label>
-        <link refid="gfal__common__srm__open_8h"/>
-        <childnode refid="1261" relation="include">
-        </childnode>
-        <childnode refid="1266" relation="include">
-        </childnode>
-        <childnode refid="1285" relation="include">
-        </childnode>
-      </node>
-      <node id="1265">
-        <label>gfal_common_srm.h</label>
+      <node id="1606">
+        <label>srm/gfal_common_srm.h</label>
         <link refid="gfal__common__srm_8h"/>
-        <childnode refid="1266" relation="include">
+        <childnode refid="1607" relation="include">
         </childnode>
-        <childnode refid="1276" relation="include">
+        <childnode refid="1605" relation="include">
         </childnode>
-        <childnode refid="1271" relation="include">
+        <childnode refid="1614" relation="include">
         </childnode>
-        <childnode refid="1278" relation="include">
+        <childnode refid="1620" relation="include">
         </childnode>
-        <childnode refid="1282" relation="include">
+        <childnode refid="1621" relation="include">
         </childnode>
-        <childnode refid="1283" relation="include">
+        <childnode refid="1623" relation="include">
         </childnode>
       </node>
-      <node id="1268">
+      <node id="1610">
         <label>sys/types.h</label>
       </node>
-      <node id="1260">
+      <node id="1619">
         <label>string.h</label>
       </node>
-      <node id="1280">
+      <node id="1626">
         <label>lfc_api.h</label>
       </node>
-      <node id="1279">
+      <node id="1625">
         <label>lfc/lfc_ifce.h</label>
         <link refid="lfc__ifce_8h-source"/>
-        <childnode refid="1268" relation="include">
+        <childnode refid="1610" relation="include">
         </childnode>
-        <childnode refid="1280" relation="include">
+        <childnode refid="1626" relation="include">
         </childnode>
-        <childnode refid="1266" relation="include">
+        <childnode refid="1607" relation="include">
         </childnode>
       </node>
-      <node id="1285">
+      <node id="1630">
         <label>../gfal_common_filedescriptor.h</label>
         <link refid="gfal__common__filedescriptor_8h"/>
-        <childnode refid="1261" relation="include">
+        <childnode refid="1609" relation="include">
         </childnode>
-        <childnode refid="1271" relation="include">
+        <childnode refid="1614" relation="include">
+        </childnode>
+        <childnode refid="1620" relation="include">
         </childnode>
       </node>
-      <node id="1267">
+      <node id="1608">
         <label>unistd.h</label>
       </node>
-      <node id="1261">
+      <node id="1609">
         <label>glib.h</label>
       </node>
-      <node id="1277">
+      <node id="1603">
+        <label>time.h</label>
+      </node>
+      <node id="1624">
         <label>gfal_common.h</label>
         <link refid="gfal__common_8h"/>
-        <childnode refid="1278" relation="include">
+        <childnode refid="1620" relation="include">
         </childnode>
-        <childnode refid="1271" relation="include">
+        <childnode refid="1614" relation="include">
         </childnode>
-        <childnode refid="1266" relation="include">
+        <childnode refid="1607" relation="include">
         </childnode>
-        <childnode refid="1279" relation="include">
+        <childnode refid="1625" relation="include">
         </childnode>
-        <childnode refid="1281" relation="include">
+        <childnode refid="1627" relation="include">
         </childnode>
       </node>
-      <node id="1272">
+      <node id="1632">
+        <label>gfal_srm_ifce.h</label>
+      </node>
+      <node id="1615">
         <label>gfal_common_catalog.h</label>
         <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1273" relation="include">
+        <childnode refid="1616" relation="include">
         </childnode>
-        <childnode refid="1274" relation="include">
+        <childnode refid="1617" relation="include">
         </childnode>
-        <childnode refid="1261" relation="include">
+        <childnode refid="1609" relation="include">
         </childnode>
-        <childnode refid="1275" relation="include">
+        <childnode refid="1618" relation="include">
         </childnode>
-        <childnode refid="1260" relation="include">
+        <childnode refid="1619" relation="include">
         </childnode>
-        <childnode refid="1269" relation="include">
+        <childnode refid="1611" relation="include">
         </childnode>
-        <childnode refid="1270" relation="include">
+        <childnode refid="1612" relation="include">
         </childnode>
-        <childnode refid="1271" relation="include">
+        <childnode refid="1614" relation="include">
         </childnode>
-        <childnode refid="1266" relation="include">
+        <childnode refid="1607" relation="include">
         </childnode>
       </node>
-      <node id="1278">
-        <label>gfal_constants.h</label>
+      <node id="1620">
+        <label>../gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="1281">
+      <node id="1627">
         <label>voms_apic.h</label>
       </node>
-      <node id="1262">
+      <node id="1602">
+        <label>regex.h</label>
+      </node>
+      <node id="1629">
         <label>stdio.h</label>
       </node>
-      <node id="1266">
-        <label>../gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
-        <childnode refid="1267" relation="include">
+      <node id="1631">
+        <label>gfal_common_srm_internal_layer.h</label>
+        <link refid="gfal__common__srm__internal__layer_8h"/>
+        <childnode refid="1632" relation="include">
         </childnode>
-        <childnode refid="1261" relation="include">
+        <childnode refid="1613" relation="include">
         </childnode>
-        <childnode refid="1268" relation="include">
+        <childnode refid="1609" relation="include">
         </childnode>
-        <childnode refid="1269" relation="include">
-        </childnode>
-        <childnode refid="1270" relation="include">
-        </childnode>
-        <childnode refid="1259" relation="include">
-        </childnode>
-        <childnode refid="1271" relation="include">
-        </childnode>
-        <childnode refid="1272" relation="include">
+        <childnode refid="1607" relation="include">
         </childnode>
       </node>
-      <node id="1269">
+      <node id="1607">
+        <label>../gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="1608" relation="include">
+        </childnode>
+        <childnode refid="1609" relation="include">
+        </childnode>
+        <childnode refid="1610" relation="include">
+        </childnode>
+        <childnode refid="1611" relation="include">
+        </childnode>
+        <childnode refid="1612" relation="include">
+        </childnode>
+        <childnode refid="1613" relation="include">
+        </childnode>
+        <childnode refid="1614" relation="include">
+        </childnode>
+        <childnode refid="1615" relation="include">
+        </childnode>
+      </node>
+      <node id="1611">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
+    <innerclass refid="struct__gfal__srm__handle__open" prot="public">_gfal_srm_handle_open</innerclass>
       <sectiondef kind="define">
       <memberdef kind="define" id="gfal__common__srm__open_8c_153abf256730d533302d1910e5fb61efe" prot="public" static="no">
         <name>_GNU_SOURCE</name>
@@ -244,22 +252,45 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="26" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="26" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="25" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="gfal__common__srm__open_8c_18628320f8835bf7c25d99198d38ba618" prot="public" static="no">
+        <type>_gfal_srm_handle_open *</type>
+        <definition>typedef struct _gfal_srm_handle_open* gfal_srm_handle_open</definition>
+        <argsstring></argsstring>
+        <name>gfal_srm_handle_open</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="43"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__srm__open_8c_10b8327a05a450eed64022716913f8a95" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__open_8c_19368780539a73c49e3a24b4a8c658f82" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
-        <definition>static gfal_file_handle gfal_srm_results_to_filehandle</definition>
-        <argsstring>(gfal_srm_result *results, GError **err)</argsstring>
-        <name>gfal_srm_results_to_filehandle</name>
+        <definition>static gfal_file_handle gfal_srm_file_handle_create</definition>
+        <argsstring>(gfal_file_handle fh, char *surl, char *reqtoken, srm_req_type req_type)</argsstring>
+        <name>gfal_srm_file_handle_create</name>
         <param>
-          <type>gfal_srm_result *</type>
-          <declname>results</declname>
+          <type>gfal_file_handle</type>
+          <declname>fh</declname>
         </param>
         <param>
-          <type>GError **</type>
-          <declname>err</declname>
+          <type>char *</type>
+          <declname>surl</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>reqtoken</declname>
+        </param>
+        <param>
+          <type>srm_req_type</type>
+          <declname>req_type</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -267,32 +298,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="40" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="40" bodyend="46"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="45" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="45" bodyend="54"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__open_8c_1720862e56a4c08df263c3559240c8b46" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__open_8c_13b66a9798dd77eed0c096f1b2843c9dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
-        <definition>static gfal_file_handle gfal_open_read_internal</definition>
-        <argsstring>(gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)</argsstring>
-        <name>gfal_open_read_internal</name>
+        <definition>static gfal_file_handle gfal_srm_file_handle_map</definition>
+        <argsstring>(gfal_file_handle fh)</argsstring>
+        <name>gfal_srm_file_handle_map</name>
         <param>
-          <type>gfal_handle</type>
-          <declname>handle</declname>
-        </param>
-        <param>
-          <type>const char *</type>
-          <declname>path</declname>
-        </param>
-        <param>
-          <type>int</type>
-          <declname>flag</declname>
-        </param>
-        <param>
-          <type>mode_t</type>
-          <declname>mode</declname>
-        </param>
-        <param>
-          <type>GError **</type>
-          <declname>err</declname>
+          <type>gfal_file_handle</type>
+          <declname>fh</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -300,32 +315,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="49" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="48" bodyend="70"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="56" bodyend="58"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__open_8c_1e5a0c072f37cee7109450668fcd00412" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>gfal_file_handle</type>
-        <definition>static gfal_file_handle gfal_open_create_internal</definition>
-        <argsstring>(gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)</argsstring>
-        <name>gfal_open_create_internal</name>
+      <memberdef kind="function" id="gfal__common__srm__open_8c_1a3ea9fa3da4c4ef4e4f595e5477585bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>static</type>
+        <definition>static gfal_srm_file_handle_delete</definition>
+        <argsstring>(gfal_file_handle fh)</argsstring>
+        <name>gfal_srm_file_handle_delete</name>
         <param>
-          <type>gfal_handle</type>
-          <declname>handle</declname>
-        </param>
-        <param>
-          <type>const char *</type>
-          <declname>path</declname>
-        </param>
-        <param>
-          <type>int</type>
-          <declname>flag</declname>
-        </param>
-        <param>
-          <type>mode_t</type>
-          <declname>mode</declname>
-        </param>
-        <param>
-          <type>GError **</type>
-          <declname>err</declname>
+          <type>gfal_file_handle</type>
+          <declname>fh</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -333,16 +332,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="73" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="72" bodyend="77"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="60" bodyend="63"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__open_8c_1bb27bc48091a2a9a4ca124a35d3847a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__open_8c_1488755cf363d09c45fbaace947f53fc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
         <definition>gfal_file_handle gfal_srm_openG</definition>
-        <argsstring>(gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)</argsstring>
+        <argsstring>(catalog_handle ch, const char *path, int flag, mode_t mode, GError **err)</argsstring>
         <name>gfal_srm_openG</name>
         <param>
-          <type>gfal_handle</type>
-          <declname>handle</declname>
+          <type>catalog_handle</type>
+          <declname>ch</declname>
         </param>
         <param>
           <type>const char *</type>
@@ -363,16 +362,86 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>open function for the srm plugin </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="83" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="83" bodyend="96"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="68" bodyend="93"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__open_8c_11b78856858fbfc8244d098fef0231d7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__open_8c_1d7229cbb62e7b66c1dfae744a308f1ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_srm_readG</definition>
+        <argsstring>(catalog_handle ch, gfal_file_handle fd, void *buff, size_t count, GError **err)</argsstring>
+        <name>gfal_srm_readG</name>
+        <param>
+          <type>catalog_handle</type>
+          <declname>ch</declname>
+        </param>
+        <param>
+          <type>gfal_file_handle</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>buff</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>read function for the srm plugin </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="98" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="98" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__srm__open_8c_1ff9a0658975a17a33e69babc09ad8c38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_srm_writeG</definition>
+        <argsstring>(catalog_handle ch, gfal_file_handle fd, void *buff, size_t count, GError **err)</argsstring>
+        <name>gfal_srm_writeG</name>
+        <param>
+          <type>catalog_handle</type>
+          <declname>ch</declname>
+        </param>
+        <param>
+          <type>gfal_file_handle</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>buff</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>write function for the srm plugin </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="110" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="110" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__srm__open_8c_1b0ba3101a777a0212bf45680ea3d146f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_srm_closeG</definition>
-        <argsstring>(gfal_file_handle fh, GError **err)</argsstring>
+        <argsstring>(catalog_handle ch, gfal_file_handle fh, GError **err)</argsstring>
         <name>gfal_srm_closeG</name>
+        <param>
+          <type>catalog_handle</type>
+          <declname>ch</declname>
+        </param>
         <param>
           <type>gfal_file_handle</type>
           <declname>fh</declname>
@@ -387,16 +456,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="99" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="99" bodyend="102"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" line="119" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c" bodystart="119" bodyend="134"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para>file for the open function on the srm url type </para>    </briefdescription>
+    </briefdescription>
     <detaileddescription>
-<para><simplesect kind="author"><para>Devresse Adrien </para></simplesect>
-<simplesect kind="version"><para>2.0 </para></simplesect>
-<simplesect kind="date"><para>06/06/2011 </para></simplesect>
-</para>    </detaileddescription>
+    </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
 <codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(c)<sp/>Members<sp/>of<sp/>the<sp/>EGEE<sp/>Collaboration.<sp/>2004.</highlight></codeline>
@@ -415,83 +481,109 @@
 <codeline lineno="15"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
 <codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="preprocessor"><sp/>#define<sp/>_GNU_SOURCE</highlight></codeline>
-<codeline lineno="27"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gfal_srm_ifce_types.h&gt;</highlight><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fcntl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm_8h" kindref="compound">gfal_common_srm.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__open_8h" kindref="compound">gfal_common_srm_open.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_filedescriptor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gfal_file_handle<sp/>gfal_srm_results_to_filehandle(gfal_srm_result*<sp/>results,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(results<sp/>&amp;&amp;<sp/>err,<sp/>NULL,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_turl_to_filehandle]<sp/>invalid<sp/>args&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(results-&gt;err_code<sp/>==0)<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gfal_file_handle_new(GFAL_MODULEID_SRM,<sp/>strndup(results-&gt;turl,<sp/>GFAL_URL_MAX_LEN));</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>results-&gt;err_code,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>error<sp/>from<sp/>srmifce<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>__func__,<sp/>results-&gt;err_str);</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
-<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gfal_file_handle<sp/>gfal_open_read_internal(gfal_handle<sp/>handle,<sp/><sp/></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="50"><highlight class="normal">gfal_file_handle<sp/>fh<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GList*<sp/>l<sp/>=<sp/>g_list_append(NULL,<sp/>(char*)path);</highlight></codeline>
-<codeline lineno="53"><highlight class="comment"></highlight></codeline>
-<codeline lineno="54"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int<sp/>ret<sp/>=<sp/>gfal_get_asyncG(handle,<sp/>l,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="55"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(ret<sp/>&gt;=0){</highlight></codeline>
-<codeline lineno="56"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srm_result*<sp/>results=NULL;</highlight></codeline>
-<codeline lineno="57"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_wait_async_requestG(handle,<sp/>50,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="58"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(!tmp_err){</highlight></codeline>
-<codeline lineno="59"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_get_async_results_structG(handle,<sp/>&amp;results,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="60"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(ret<sp/>&gt;=0)</highlight></codeline>
-<codeline lineno="61"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fh<sp/>=<sp/>gfal_srm_results_to_filehandle(results,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="62"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(results);</highlight></codeline>
-<codeline lineno="63"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="64"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="65"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_list_free(l);*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(&amp;tmp_err,<sp/>0,<sp/>ENOSYS,<sp/></highlight><highlight class="stringliteral">&quot;<sp/>not<sp/>implemented&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fh;</highlight></codeline>
-<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gfal_file_handle<sp/>gfal_open_create_internal(gfal_handle<sp/>handle,<sp/></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>ENOSYS,<sp/></highlight><highlight class="stringliteral">&quot;Not<sp/>implemented&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal">gfal_file_handle<sp/>gfal_srm_openG(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(<sp/>path<sp/>&amp;&amp;<sp/>handle<sp/>,<sp/>NULL,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_srm_openG]<sp/>Invalid<sp/>args&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>fh<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError<sp/>*<sp/>tmp_err=NULL;</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(flag<sp/>&amp;<sp/>O_ACCMODE)<sp/>==0)</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fh<sp/>=<sp/>gfal_open_read_internal(handle,<sp/>path,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fh<sp/>=<sp/>gfal_open_create_internal(handle,<sp/>path,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="25"><highlight class="preprocessor"><sp/>#define<sp/>_GNU_SOURCE<sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fcntl.h&gt;</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_filedescriptor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__internal__layer_8h" kindref="compound">gfal_common_srm_internal_layer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm_8h" kindref="compound">gfal_common_srm.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_srm_handle_open{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>internal_handle;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>surl[GFAL_URL_MAX_LEN];</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_req_type<sp/>req_type;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>reqtoken;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}*gfal_srm_handle_open;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gfal_file_handle<sp/>gfal_srm_file_handle_create(gfal_file_handle<sp/>fh,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>reqtoken,<sp/>srm_req_type<sp/>req_type){</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(fh==<sp/>NULL)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srm_handle_open<sp/>sh<sp/>=<sp/>g_new(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>_gfal_srm_handle_open,1);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sh-&gt;internal_handle<sp/>=<sp/>fh;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strlcpy(sh-&gt;surl,<sp/>surl,<sp/>GFAL_URL_MAX_LEN);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sh-&gt;reqtoken=<sp/>reqtoken;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sh-&gt;req_type<sp/>=<sp/>req_type;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gfal_file_handle_new(gfal_srm_getName(),<sp/>sh);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gfal_file_handle<sp/>gfal_srm_file_handle_map(gfal_file_handle<sp/>fh){</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((gfal_srm_handle_open)<sp/>fh-&gt;fdesc)-&gt;internal_handle;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gfal_srm_file_handle_delete(gfal_file_handle<sp/>fh){</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(fh-&gt;fdesc);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(fh);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">gfal_file_handle<sp/>gfal_srm_openG(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle<sp/>=<sp/>(gfal_handle)<sp/><sp/><sp/><sp/><sp/><sp/>ch;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>p<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)path;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>turl[GFAL_URL_MAX_LEN];</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>reqtoken=NULL;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_req_type<sp/>req_type;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>tmp_ret;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(flag<sp/>&amp;<sp/>O_CREAT){<sp/></highlight><highlight class="comment">//<sp/>create<sp/>turl<sp/>if<sp/>file<sp/>is<sp/>not<sp/>existing<sp/>else<sp/>get<sp/>one<sp/>for<sp/>this<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmp_ret=<sp/>gfal_srm_putTURLS_catalog(ch,<sp/>p,<sp/>turl,<sp/>GFAL_URL_MAX_LEN,<sp/>&amp;reqtoken,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req_type=<sp/>SRM_PUT;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmp_ret=<sp/>gfal_srm_getTURLS_catalog(ch,<sp/>p,<sp/>turl,<sp/>GFAL_URL_MAX_LEN,<sp/>&amp;reqtoken,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req_type=<sp/>SRM_GET;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_ret<sp/>==<sp/>0){</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_1cd4cabbd5effdf20bc0b20345c5cc4ab" kindref="member">gfal_catalog_openG</ref>(handle,<sp/>turl,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret=<sp/>gfal_srm_file_handle_create(ret,<sp/>p,<sp/>reqtoken,<sp/>req_type);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fh;</highlight></codeline>
-<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_closeG(gfal_file_handle<sp/>fh,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(fh-&gt;fdesc);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
-<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_readG(catalog_handle<sp/>ch,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>count,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle<sp/>=<sp/>(gfal_handle)<sp/><sp/><sp/><sp/><sp/><sp/>ch;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/><sp/><ref refid="gfal__common__catalog_8c_1a0bc8955dc41f743a56c8d2fc68e2e1c" kindref="member">gfal_catalog_readG</ref>(handle,<sp/>gfal_srm_file_handle_map(fd),<sp/>buff,<sp/>count,<sp/>&amp;tmp_err);<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_writeG(catalog_handle<sp/>ch,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>count,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle<sp/>=<sp/>(gfal_handle)<sp/><sp/><sp/><sp/><sp/><sp/>ch;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_1e9c3e214dbb01960295148aa66c42cb8" kindref="member">gfal_catalog_writeG</ref>(handle,<sp/>gfal_srm_file_handle_map(fd),<sp/>buff,<sp/>count,<sp/>&amp;tmp_err);<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_closeG(catalog_handle<sp/>ch,<sp/>gfal_file_handle<sp/>fh,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle<sp/>=<sp/>(gfal_handle)<sp/><sp/><sp/><sp/><sp/><sp/>ch;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_127712f4ef0fd4a8d3d5b63b90936d295" kindref="member">gfal_catalog_closeG</ref>(handle,<sp/>gfal_srm_file_handle_map(fh),<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>==0){</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srm_handle_open<sp/>sh<sp/>=<sp/>(gfal_srm_handle_open)fh-&gt;fdesc;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surls[]<sp/>=<sp/>{<sp/>sh-&gt;surl,<sp/>NULL<sp/>};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(sh-&gt;req_type<sp/>==<sp/>SRM_PUT)</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_srm_putdone(handle,<sp/>surls,<sp/>sh-&gt;reqtoken,<sp/>&amp;tmp_err);<sp/></highlight><highlight class="comment">//<sp/>end<sp/>the<sp/>transaction<sp/>on<sp/>the<sp/>srm<sp/>server<sp/>in<sp/>case<sp/>of<sp/>pu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srm_file_handle_delete(fh);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c"/>
   </compounddef>

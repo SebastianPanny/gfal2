@@ -11,15 +11,30 @@ header file for the srm external function mapping for mocking purpose
 \item 
 struct \bf{\_\-gfal\_\-srm\_\-external\_\-call}
 \end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef enum \_\-srm\_\-req\_\-type \textbf{srm\_\-req\_\-type}\label{gfal__common__srm__internal__layer_8h_916c9454af7600d1ab17c17a22fbc0fa}
+
+\end{CompactItemize}
+\subsection*{Enumerations}
+\begin{CompactItemize}
+\item 
+enum \textbf{\_\-srm\_\-req\_\-type} \{ \textbf{SRM\_\-GET}, 
+\textbf{SRM\_\-PUT}
+ \}
+\end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
 int \bf{gfal\_\-check\_\-fullendpoint\_\-in\_\-surl} (const char $\ast$surl, GError $\ast$$\ast$err)
 \item 
-int \textbf{gfal\_\-srm\_\-get\-TURLS\_\-internal} (gfal\_\-handle handle, char $\ast$$\ast$surls, gfal\_\-srm\_\-result $\ast$$\ast$resu, GError $\ast$$\ast$err)\label{gfal__common__srm__internal__layer_8h_07842f2edba0cfe563392ac479102b34}
-
+int \bf{gfal\_\-srm\_\-get\-TURLS\_\-catalog} (catalog\_\-handle ch, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
 \item 
-int \bf{gfal\_\-srm\_\-get\-TURLS\_\-catalog} (catalog\_\-handle ch, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, GError $\ast$$\ast$err)
+int \bf{gfal\_\-srm\_\-put\-TURLS\_\-catalog} (catalog\_\-handle ch, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
+\item 
+int \textbf{gfal\_\-srm\_\-putdone} (gfal\_\-handle handle, char $\ast$$\ast$surls, char $\ast$token, GError $\ast$$\ast$err)\label{gfal__common__srm__internal__layer_8h_67937971ffcef75f51d9fe7a778a0374}
+
 \end{CompactItemize}
 \subsection*{Variables}
 \begin{CompactItemize}
@@ -48,7 +63,12 @@ header file for the srm external function mapping for mocking purpose
 
 return 0 if a full endpoint is contained in surl \index{gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}!gfal_srm_getTURLS_catalog@{gfal\_\-srm\_\-getTURLS\_\-catalog}}
 \index{gfal_srm_getTURLS_catalog@{gfal\_\-srm\_\-getTURLS\_\-catalog}!gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-get\-TURLS\_\-catalog (catalog\_\-handle {\em ch}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_696b46d517fcc84154af45e43ecd73f9}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-get\-TURLS\_\-catalog (catalog\_\-handle {\em ch}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, char $\ast$$\ast$ {\em reqtoken}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_c51b90df2c43b149ad2f80afeb9200ed}
 
 
-simple wrapper to get\-TURLs for the gfal\_\-module layer 
+simple wrapper to get\-TURLs for the gfal\_\-module layer \index{gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}!gfal_srm_putTURLS_catalog@{gfal\_\-srm\_\-putTURLS\_\-catalog}}
+\index{gfal_srm_putTURLS_catalog@{gfal\_\-srm\_\-putTURLS\_\-catalog}!gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-put\-TURLS\_\-catalog (catalog\_\-handle {\em ch}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, char $\ast$$\ast$ {\em reqtoken}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_96bb61a1e4df92a074a6e173b8c02b4d}
+
+
+simple wrapper to put\-TURLs for the gfal\_\-module layer 

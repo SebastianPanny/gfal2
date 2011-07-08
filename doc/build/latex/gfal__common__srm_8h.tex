@@ -31,6 +31,8 @@ typedef void $\ast$ \textbf{srm\_\-request\_\-handle}\label{gfal__common__srm_8h
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
+const char $\ast$ \bf{gfal\_\-srm\_\-get\-Name} ()
+\item 
 gfal\_\-catalog\_\-interface \textbf{gfal\_\-srm\_\-init\-G} (gfal\_\-handle handle, GError $\ast$$\ast$err)\label{gfal__common__srm_8h_0f8ff443c68a9f6177d717ad52b7d5a5}
 
 \item 
@@ -48,7 +50,10 @@ int \bf{gfal\_\-get\_\-async\_\-results\_\-errstring\-G} (gfal\_\-handle handle,
 int \bf{gfal\_\-get\_\-async\_\-results\_\-struct\-G} (gfal\_\-handle handle, gfal\_\-srm\_\-result $\ast$$\ast$tab\_\-struct, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em get \item\end{CompactList}\item 
 int \bf{gfal\_\-wait\_\-async\_\-request\-G} (gfal\_\-handle handle, long timeout, GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em wait for the current request \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em wait for the current request \item\end{CompactList}\item 
+int \textbf{gfal\_\-srm\_\-convert\_\-filestatuses\_\-to\_\-GError} (struct srmv2\_\-filestatus $\ast$statuses, int n, GError $\ast$$\ast$err)\label{gfal__common__srm_8h_9177e8f96da30fda27c71daead3ff4e8}
+
+\end{CompactItemize}
 
 
 \subsection{Detailed Description}
@@ -137,7 +142,12 @@ get the result to the last get\_\-async request
 \end{Desc}
 \begin{Desc}
 \item[Warning:]turls need to be free manually \end{Desc}
-\index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_wait_async_requestG@{gfal\_\-wait\_\-async\_\-requestG}}
+\index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_srm_getName@{gfal\_\-srm\_\-getName}}
+\index{gfal_srm_getName@{gfal\_\-srm\_\-getName}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ gfal\_\-srm\_\-get\-Name ()}\label{gfal__common__srm_8h_9eaea5b630099808082807628bd08e5f}
+
+
+srm plugin id \index{gfal_common_srm.h@{gfal\_\-common\_\-srm.h}!gfal_wait_async_requestG@{gfal\_\-wait\_\-async\_\-requestG}}
 \index{gfal_wait_async_requestG@{gfal\_\-wait\_\-async\_\-requestG}!gfal_common_srm.h@{gfal\_\-common\_\-srm.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-wait\_\-async\_\-request\-G (gfal\_\-handle {\em handle}, long {\em timeout}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm_8h_86890a00f72d9af9ab88f42a69e3bf8c}
 

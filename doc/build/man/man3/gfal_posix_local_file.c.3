@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -59,13 +59,19 @@
 .RI "gfal_file_handle \fBgfal_local_opendir\fP (const char *path, GError **err)"
 .br
 .ti -1c
-.RI "dirent * \fBgfal_local_readdir\fP (DIR *d, GError **err)"
+.RI "dirent * \fBgfal_local_readdir\fP (gfal_file_handle fh, GError **err)"
 .br
 .ti -1c
 .RI "gfal_file_handle \fBgfal_local_open\fP (const char *path, int flag, mode_t mode, GError **err)"
 .br
 .ti -1c
+.RI "gboolean \fBgfal_is_local_call\fP (const char *module_name)"
+.br
+.ti -1c
 .RI "int \fBgfal_local_read\fP (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_local_write\fP (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_local_close\fP (gfal_file_handle fh, GError **err)"
@@ -74,7 +80,7 @@
 .RI "int \fBgfal_local_rmdir\fP (const char *path, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_local_closedir\fP (DIR *d, GError **err)"
+.RI "int \fBgfal_local_closedir\fP (gfal_file_handle fh, GError **err)"
 .br
 .ti -1c
 .RI "gboolean \fBgfal_check_local_url\fP (const char *path, GError **err)"
@@ -105,7 +111,7 @@ Devresse Adrien
 .SS "gboolean gfal_check_local_url (const char * path, GError ** err)"
 .PP
 check the validity of a classique file url 
-.SS "int gfal_local_closedir (DIR * d, GError ** err)"
+.SS "int gfal_local_closedir (gfal_file_handle fh, GError ** err)"
 .PP
 local closedir mapper 
 .SS "int gfal_local_rmdir (const char * path, GError ** err)"

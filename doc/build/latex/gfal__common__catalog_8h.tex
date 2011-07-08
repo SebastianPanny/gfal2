@@ -41,7 +41,10 @@ enum \textbf{\_\-catalog\_\-mode} \{ \par
 \textbf{GFAL\_\-CATALOG\_\-OPENDIR}, 
 \textbf{GFAL\_\-CATALOG\_\-OPEN}, 
 \textbf{GFAL\_\-CATALOG\_\-GETSURL}, 
-\textbf{GFAL\_\-CATALOG\_\-GETTURL}
+\textbf{GFAL\_\-CATALOG\_\-GETTURL}, 
+\par
+\textbf{GFAL\_\-CATALOG\_\-PUTTURL}, 
+\textbf{GFAL\_\-CATALOG\_\-RESOLVE\_\-GUID}
  \}
 \end{CompactItemize}
 \subsection*{Functions}
@@ -86,7 +89,9 @@ int \bf{gfal\_\-catalog\_\-close\-G} (gfal\_\-handle handle, gfal\_\-file\_\-han
 \item 
 char $\ast$$\ast$ \bf{gfal\_\-catalog\_\-get\-SURL} (gfal\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
-int \bf{gfal\_\-catalog\_\-get\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, GError $\ast$$\ast$err)
+int \bf{gfal\_\-catalog\_\-get\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-catalog\_\-put\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$turl\_\-buff, int turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
 \item 
 dirent $\ast$ \bf{gfal\_\-catalog\_\-readdir\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
 \item 
@@ -158,7 +163,7 @@ Resolve a link on the catalog to a list of surl \begin{Desc}
 \item[Warning:]must be free with g\_\-list\_\-free\_\-full \end{Desc}
 \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_getTURLG@{gfal\_\-catalog\_\-getTURLG}}
 \index{gfal_catalog_getTURLG@{gfal\_\-catalog\_\-getTURLG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-get\-TURLG (gfal\_\-handle {\em handle}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_a9e232448a5906afb93e9f17dcce697c}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-get\-TURLG (gfal\_\-handle {\em handle}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, char $\ast$$\ast$ {\em reqtoken}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_6e670ae4258db2d05c8b5bc1c66f054a}
 
 
 Resolve a surl to a \char`\"{}GET\char`\"{} turl \begin{Desc}
@@ -206,7 +211,12 @@ Execute a opendir function on the first compatible catalog ( checked with check 
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-catalog\_\-open\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, int {\em flag}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_cd4cabbd5effdf20bc0b20345c5cc4ab}
 
 
-open the file specified by path on the proper catalog with the specified flag and mode \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_readdirG@{gfal\_\-catalog\_\-readdirG}}
+open the file specified by path on the proper catalog with the specified flag and mode \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_putTURLG@{gfal\_\-catalog\_\-putTURLG}}
+\index{gfal_catalog_putTURLG@{gfal\_\-catalog\_\-putTURLG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-put\-TURLG (gfal\_\-handle {\em handle}, const char $\ast$ {\em surl}, char $\ast$ {\em turl\_\-buff}, int {\em size\_\-turl}, char $\ast$$\ast$ {\em reqtoken}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_63abbdba7f909e0c2e68f72dd5ea9a0c}
+
+
+Resolve a surl to a \char`\"{}PUT\char`\"{} turl  if success else -1 if error, \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_readdirG@{gfal\_\-catalog\_\-readdirG}}
 \index{gfal_catalog_readdirG@{gfal\_\-catalog\_\-readdirG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct dirent$\ast$ gfal\_\-catalog\_\-readdir\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_9ba0d48d73fe53d42d3a715e57473adb}
 

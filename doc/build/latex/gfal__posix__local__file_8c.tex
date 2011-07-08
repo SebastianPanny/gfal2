@@ -45,13 +45,19 @@ int \textbf{gfal\_\-local\_\-mkdir} (const char $\ast$path, mode\_\-t mode, GErr
 gfal\_\-file\_\-handle \textbf{gfal\_\-local\_\-opendir} (const char $\ast$path, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_56dc809549c9ff1f7f245619fae1dea5}
 
 \item 
-dirent $\ast$ \textbf{gfal\_\-local\_\-readdir} (DIR $\ast$d, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_154d6466ff14a02bd004a735823963fe}
+dirent $\ast$ \textbf{gfal\_\-local\_\-readdir} (gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_62b4c61d92b03111251803bc1f0a56b5}
 
 \item 
 gfal\_\-file\_\-handle \textbf{gfal\_\-local\_\-open} (const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_b596322ecc96fdc80c6c21802483f1d4}
 
 \item 
+gboolean \textbf{gfal\_\-is\_\-local\_\-call} (const char $\ast$module\_\-name)\label{gfal__posix__local__file_8c_41bf6452e794fbfd86b1cfd95fe61f5b}
+
+\item 
 int \textbf{gfal\_\-local\_\-read} (gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_45d46420d93abbaa7bbeb345bd8a6584}
+
+\item 
+int \textbf{gfal\_\-local\_\-write} (gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_b9335b2236704108f4492032685d5ba2}
 
 \item 
 int \textbf{gfal\_\-local\_\-close} (gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_145bf9e9edbe0321103e13a665c08d8a}
@@ -59,7 +65,7 @@ int \textbf{gfal\_\-local\_\-close} (gfal\_\-file\_\-handle fh, GError $\ast$$\a
 \item 
 int \bf{gfal\_\-local\_\-rmdir} (const char $\ast$path, GError $\ast$$\ast$err)
 \item 
-int \bf{gfal\_\-local\_\-closedir} (DIR $\ast$d, GError $\ast$$\ast$err)
+int \bf{gfal\_\-local\_\-closedir} (gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
 \item 
 gboolean \bf{gfal\_\-check\_\-local\_\-url} (const char $\ast$path, GError $\ast$$\ast$err)
 \end{CompactItemize}
@@ -84,7 +90,7 @@ file for the internal func of the posix interface
 
 check the validity of a classique file url \index{gfal_posix_local_file.c@{gfal\_\-posix\_\-local\_\-file.c}!gfal_local_closedir@{gfal\_\-local\_\-closedir}}
 \index{gfal_local_closedir@{gfal\_\-local\_\-closedir}!gfal_posix_local_file.c@{gfal\_\-posix\_\-local\_\-file.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-local\_\-closedir (DIR $\ast$ {\em d}, GError $\ast$$\ast$ {\em err})}\label{gfal__posix__local__file_8c_48c8b58b85db67426dbaf28fb4080ff0}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-local\_\-closedir (gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__posix__local__file_8c_483fdd49a5459dc85237e75fd03280bf}
 
 
 local closedir mapper \index{gfal_posix_local_file.c@{gfal\_\-posix\_\-local\_\-file.c}!gfal_local_rmdir@{gfal\_\-local\_\-rmdir}}

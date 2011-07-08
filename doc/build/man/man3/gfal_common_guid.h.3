@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_guid.h" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -27,9 +27,6 @@
 .br
 .ti -1c
 .RI "int \fBgfal_guid_statG\fP (gfal_handle handle, const char *guid, struct stat *buf, GError **err)"
-.br
-.ti -1c
-.RI "gfal_file_handle \fBgfal_guid_openG\fP (gfal_handle handle, const char *guid, int flag, mode_t mode, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -99,9 +96,6 @@ Execute a guid chmod on the first compatible catalog configure the right of the 
 .RE
 .PP
 
-.SS "gfal_file_handle gfal_guid_openG (gfal_handle handle, const char * guid, int flag, mode_t mode, GError ** err)"
-.PP
-Execute a guid open on the first compatible catalog 
 .SS "int gfal_guid_statG (gfal_handle handle, const char * guid, struct stat * buf, GError ** err)"
 .PP
 Execute a guid chmod on the first compatible catalog configure the right of the element associated with the guid 

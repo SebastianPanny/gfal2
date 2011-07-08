@@ -27,9 +27,8 @@ int \textbf{gfal\_\-open64} (const char $\ast$, int, mode\_\-t)\label{group__pos
 \item 
 DIR $\ast$ \bf{gfal\_\-opendir} (const char $\ast$)
 \begin{CompactList}\small\item\em open a directory \item\end{CompactList}\item 
-ssize\_\-t \textbf{gfal\_\-read} (int, void $\ast$, size\_\-t)\label{group__posix__group_gaa6bfe36f33b86e489b798aed96912de}
-
-\item 
+ssize\_\-t \bf{gfal\_\-read} (int, void $\ast$, size\_\-t)
+\begin{CompactList}\small\item\em read a file gfal\_\-read reads up to size bytes from the file descriptor fd into the buffer pointed by buff \item\end{CompactList}\item 
 dirent $\ast$ \bf{gfal\_\-readdir} (DIR $\ast$)
 \begin{CompactList}\small\item\em read a directory \item\end{CompactList}\item 
 int \bf{gfal\_\-rename} (const char $\ast$, const char $\ast$)
@@ -42,9 +41,8 @@ ssize\_\-t \textbf{gfal\_\-setfilchg} (int, const void $\ast$, size\_\-t)\label{
 int \textbf{gfal\_\-unlink} (const char $\ast$)\label{group__posix__group_gdeb4c6cc47f507da3e3b498374e308fb}
 
 \item 
-ssize\_\-t \textbf{gfal\_\-write} (int, const void $\ast$, size\_\-t)\label{group__posix__group_g00c2d64894ae81c05846b06c84727ae9}
-
-\item 
+ssize\_\-t \bf{gfal\_\-write} (int, const void $\ast$, size\_\-t)
+\begin{CompactList}\small\item\em write a file gfal\_\-write writes size bytes from the buffer pointed by buff to the file descriptor fd. \item\end{CompactList}\item 
 off64\_\-t \textbf{gfal\_\-lseek64} (int, off64\_\-t, int)\label{group__posix__group_g39c7d0b6d366fdb0f218439ed3c3bb37}
 
 \item 
@@ -151,7 +149,7 @@ gfal\_\-closedir - close a directory
 \end{itemize}
 \index{posix_group@{posix\_\-group}!gfal_creat@{gfal\_\-creat}}
 \index{gfal_creat@{gfal\_\-creat}!posix_group@{posix\_\-group}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-creat (const char $\ast$, mode\_\-t)}\label{group__posix__group_g5fcdc6f3e7911787be049e20b6ab19b8}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-creat (const char $\ast$ {\em filename}, mode\_\-t {\em mode})}\label{group__posix__group_g5fcdc6f3e7911787be049e20b6ab19b8}
 
 
 creates a new file or truncates an existing one 
@@ -159,15 +157,10 @@ creates a new file or truncates an existing one
 \begin{Desc}
 \item[Parameters:]
 \begin{description}
-\item[{\em filename}]specifies the file name: either a logical file name, a guid, an SURL or a TURL \item[{\em mode}]is used only if the file is created \end{description}
+\item[{\em filename}]: url of the filename to create, can be a surl, lfn, guid, local or turl the urls supported by the modules \item[{\em flag}]: same flag supported value is built by OR\^{a}€™ing the bits defined in $<$fcntl.h$>$ but one and only one of the first three flags below must be used O\_\-RDONLY open for reading only O\_\-WRONLY open for writing only O\_\-RDWR open for reading and writing O\_\-CREAT If the file exists already and O\_\-EXCL is also set, gfal\_\-open will fail. O\_\-LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. \item[{\em mode}]is used only if the file is created. \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately\begin{itemize}
-\item ERRNO list : \par
-\begin{itemize}
-\item ENOENT: The named file/directory does not exist.\item EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.\item EFAULT: path is a NULL pointer.\item EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream\item ENOTDIR: A component of path prefix is not a directory.\item EINVAL: path has an invalid syntax or amode is invalid.\item ECOMM: Communication error.\item EPROTONOSUPPORT: Access method not supported. \end{itemize}
-\end{itemize}
-\end{Desc}
+\item[Returns:]return the file descriptor or -1 if errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_lseek@{gfal\_\-lseek}}
 \index{gfal_lseek@{gfal\_\-lseek}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}off\_\-t gfal\_\-lseek (int, off\_\-t, int)}\label{group__posix__group_g8ba4e1df5f2e6439641c56f245d5ce73}
@@ -223,7 +216,7 @@ opens a file according to the value of flags
 \item[{\em filename}]: url of the filename to open, can be a surl, lfn, guid, local or turl the urls supported by the modules \item[{\em flag}]: same flag supported value is built by OR\^{a}€™ing the bits defined in $<$fcntl.h$>$ but one and only one of the first three flags below must be used O\_\-RDONLY open for reading only O\_\-WRONLY open for writing only O\_\-RDWR open for reading and writing O\_\-CREAT If the file exists already and O\_\-EXCL is also set, gfal\_\-open will fail. O\_\-LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. \item[{\em mode}]is used only if the file is created. \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return the file descriptor or -1 if error ( errno is set ( gfal\_\-posix\_\-error\_\-print() ) ) \end{Desc}
+\item[Returns:]return the file descriptor or -1 if errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_opendir@{gfal\_\-opendir}}
 \index{gfal_opendir@{gfal\_\-opendir}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}DIR $\ast$ gfal\_\-opendir (const char $\ast$ {\em name})}\label{group__posix__group_g7e6d16651dbce5d684c53f82349e0306}
@@ -237,7 +230,7 @@ opens a directory to be used in subsequent gfal\_\-readdir operations the url su
 \item[{\em name}]of the directory to open \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]file descriptor DIR$\ast$ if success else NULL if error and errno is set ( gfal\_\-posix\_\-error\_\-print() )\end{Desc}
+\item[Returns:]file descriptor DIR$\ast$ if success else NULL if error and errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it\end{Desc}
 \begin{itemize}
 \item ERRNO list : \par
 \begin{itemize}
@@ -249,6 +242,20 @@ opens a directory to be used in subsequent gfal\_\-readdir operations the url su
 \item ECOMM: Communication error\item EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported\item EINVAL: path has an invalid syntax . \end{itemize}
 \end{itemize}
 \end{itemize}
+\index{posix_group@{posix\_\-group}!gfal_read@{gfal\_\-read}}
+\index{gfal_read@{gfal\_\-read}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-read (int {\em fd}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff})}\label{group__posix__group_gaa6bfe36f33b86e489b798aed96912de}
+
+
+read a file gfal\_\-read reads up to size bytes from the file descriptor fd into the buffer pointed by buff 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em fd}]file descriptor \item[{\em buff,buffer}]of the data to read \item[{\em s\_\-buff}]size of the data read in bytes \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]number of byte read or -1 if error, errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_readdir@{gfal\_\-readdir}}
 \index{gfal_readdir@{gfal\_\-readdir}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct dirent $\ast$ gfal\_\-readdir (DIR $\ast$ {\em dir})}\label{group__posix__group_gad7e253fad72213c19e72c02b869ba7e}
@@ -264,7 +271,7 @@ The readdir() function returns a pointer to a dirent structure representing the 
 \item[{\em d}]file handle ( return by opendir ) to read \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]pointer to struct dirent with file information or NULL if end of list or error ( errno is set ( gfal\_\-posix\_\-error\_\-print() ) ) \end{Desc}
+\item[Returns:]pointer to struct dirent with file information or NULL if end of list or error, errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \begin{Desc}
 \item[Warning:]struct dirents are allocated statically, do not use free() on them\end{Desc}
 \begin{itemize}
@@ -345,3 +352,17 @@ informations about a file These functions return information about a file. No pe
 \item ENOENT: The named file/directory does not exist.\item EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)\item EFAULT: oldpath or newpath is a NULL pointer.\item ENOTDIR: A component of path prefix is not a directory.\item ECOMM: Communication error\item EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported\item EINVAL: oldpath or newpath has an invalid syntax . \end{itemize}
 \end{itemize}
 \end{itemize}
+\index{posix_group@{posix\_\-group}!gfal_write@{gfal\_\-write}}
+\index{gfal_write@{gfal\_\-write}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-write (int {\em fd}, const void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff})}\label{group__posix__group_g00c2d64894ae81c05846b06c84727ae9}
+
+
+write a file gfal\_\-write writes size bytes from the buffer pointed by buff to the file descriptor fd. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em fd}]file descriptor \item[{\em buff,buffer}]of the data to write \item[{\em s\_\-buff}]size of the data write in bytes \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]number of byte write or -1 if error, errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}

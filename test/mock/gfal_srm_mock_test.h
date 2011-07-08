@@ -21,6 +21,7 @@ void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, c
 void define_mock_stat_file(mode_t mode, int uid, int gid);
 void define_mock_stat_file_error(char* surl, int status, char* err);
 void define_mock_srmv2_pinfilestatus(int number, char** surl, char** explanation, char** turl, int* status);
+void define_put_done(int number, char** surl, char** explanation, char** turl, int* status);
 // mock functions
 
 
@@ -46,6 +47,10 @@ int srm_mock_srm_prepare_to_get(struct srm_context *context,
 		
 int srm_mock_srm_put_done(struct srm_context *context,
 		struct srm_putdone_input *input, struct srmv2_filestatus **statuses);
+		
+
+int srm_mock_srm_setpermission (struct srm_context *context,
+		struct srm_setpermission_input *input);
 	
 void srm_mock_srm_srmv2_pinfilestatus_delete(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n);
 
@@ -54,3 +59,5 @@ void srm_mock_srm_srmv2_mdfilestatus_delete(struct srmv2_mdfilestatus* mdfilesta
 void srm_mock_srm_srmv2_filestatus_delete(struct srmv2_filestatus*  srmv2_statuses, int n);
 
 void srm_mock_srm_srm2__TReturnStatus_delete(struct srm2__TReturnStatus* status);
+
+

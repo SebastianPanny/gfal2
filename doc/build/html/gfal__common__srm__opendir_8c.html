@@ -25,18 +25,19 @@
 <code>#include &quot;<a class="el" href="gfal__common__srm_8h-source.html">gfal_common_srm.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__srm__opendir_8h-source.html">gfal_common_srm_opendir.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">../gfal_common_errverbose.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">../gfal_common_filedescriptor.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__srm__internal__layer_8h-source.html">gfal_common_srm_internal_layer.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b49293dea5de17fd7bba94b2c604ae36"></a><!-- doxytag: member="gfal_common_srm_opendir.c::gfal_srmv2_opendir_internal" ref="b49293dea5de17fd7bba94b2c604ae36" args="(gfal_handle handle, char *endpoint, const char *surl, GError **err)" -->
-DIR *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srmv2_opendir_internal</b> (gfal_handle handle, char *endpoint, const char *surl, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="58227a1ecd5a6d7095f5e5ef18e1973e"></a><!-- doxytag: member="gfal_common_srm_opendir.c::gfal_srmv2_opendir_internal" ref="58227a1ecd5a6d7095f5e5ef18e1973e" args="(gfal_handle handle, char *endpoint, const char *surl, GError **err)" -->
+gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srmv2_opendir_internal</b> (gfal_handle handle, char *endpoint, const char *surl, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5011b06c09c56864815f6bf642b11c24"></a><!-- doxytag: member="gfal_common_srm_opendir.c::gfal_srm_opendirG" ref="5011b06c09c56864815f6bf642b11c24" args="(catalog_handle ch, const char *surl, GError **err)" -->
-DIR *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_opendirG</b> (catalog_handle ch, const char *surl, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="98735cc394e8308aff0d47bb13fda64f"></a><!-- doxytag: member="gfal_common_srm_opendir.c::gfal_srm_opendirG" ref="98735cc394e8308aff0d47bb13fda64f" args="(catalog_handle ch, const char *surl, GError **err)" -->
+gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_opendirG</b> (catalog_handle ch, const char *surl, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b13933375563a6c4cc44eb6d206c6fd9"></a><!-- doxytag: member="gfal_common_srm_opendir.c::gfal_srm_closedirG" ref="b13933375563a6c4cc44eb6d206c6fd9" args="(catalog_handle handle, DIR *fh, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_closedirG</b> (catalog_handle handle, DIR *fh, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a9f63a5ff1be26668963f98f2fba9733"></a><!-- doxytag: member="gfal_common_srm_opendir.c::gfal_srm_closedirG" ref="a9f63a5ff1be26668963f98f2fba9733" args="(catalog_handle handle, gfal_file_handle fh, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_closedirG</b> (catalog_handle handle, gfal_file_handle fh, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -45,7 +46,7 @@ file for the opendir function on the srm url type
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>09/06/2011 </dd></dl>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 10:00:52 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

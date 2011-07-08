@@ -31,9 +31,12 @@ int \bf{gfal\_\-closedir} (DIR $\ast$d)
 \begin{CompactList}\small\item\em gfal\_\-closedir - close a directory \item\end{CompactList}\item 
 int \bf{gfal\_\-open} (const char $\ast$path, int flag, mode\_\-t mode)
 \begin{CompactList}\small\item\em opens a file according to the value of flags \item\end{CompactList}\item 
-int \textbf{gfal\_\-read} (int fd, void $\ast$buff, size\_\-t s\_\-buff)\label{group__posix__group_gaa6bfe36f33b86e489b798aed96912de}
-
-\item 
+int \bf{gfal\_\-creat} (const char $\ast$filename, mode\_\-t mode)
+\begin{CompactList}\small\item\em creates a new file or truncates an existing one \item\end{CompactList}\item 
+int \bf{gfal\_\-read} (int fd, void $\ast$buff, size\_\-t s\_\-buff)
+\begin{CompactList}\small\item\em read a file gfal\_\-read reads up to size bytes from the file descriptor fd into the buffer pointed by buff \item\end{CompactList}\item 
+int \bf{gfal\_\-write} (int fd, const void $\ast$buff, size\_\-t s\_\-buff)
+\begin{CompactList}\small\item\em write a file gfal\_\-write writes size bytes from the buffer pointed by buff to the file descriptor fd. \item\end{CompactList}\item 
 int \bf{gfal\_\-close} (int fd)
 \begin{CompactList}\small\item\em close the current file descriptor \item\end{CompactList}\item 
 void \bf{gfal\_\-posix\_\-print\_\-error} ()

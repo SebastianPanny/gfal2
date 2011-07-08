@@ -6,6 +6,8 @@
 
 void setup_mock_srm();
 
+void test_srm_mock_chmod(char* url, int retcode);
+
 void test_create_srm_handle();
 void test__gfal_convert_full_surl();
 void test_gfal_get_hostname_from_surl();

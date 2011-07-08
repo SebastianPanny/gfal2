@@ -22,9 +22,11 @@
 <p>
 <code>#include &lt;regex.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__lfc_8h-source.html">gfal_common_lfc.h</a>&quot;</code><br>
+<code>#include &quot;gfal_common_lfc_open.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__internal_8h-source.html">../gfal_common_internal.h</a>&quot;</code><br>
 <code>#include &quot;../gfal_constants.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">../gfal_common_errverbose.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">../gfal_common_filedescriptor.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="lfc__ifce__ng_8h-source.html">lfc_ifce_ng.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
@@ -36,6 +38,8 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#cb750f4f936abd772a5f53f5b1fbdaec">lfc_renameG</a> (catalog_handle handle, const char *oldpath, const char *newpath, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#51eb57986d959b753dbad4737f3e1b6f">lfc_statG</a> (catalog_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#7c1d8699d8ad924234db163860dadf40">lfc_getSURLG</a> (catalog_handle handle, const char *path, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#b8943f8f5fd7211851bf7732d9c3b50b">lfc_resolve_guid</a> (catalog_handle handle, const char *guid, GError **err)</td></tr>
 
@@ -49,7 +53,7 @@ file for the lfc catalog module
 <p>
 <dl compact><dt><b>Author:</b></dt><dd>Adrien Devresse </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
-<dl compact><dt><b>Date:</b></dt><dd>29/04/2011 </dd></dl>
+<dl compact><dt><b>Date:</b></dt><dd>06/07/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
 <a class="anchor" name="8baa624b528deb15ff4ee61fa9948ac8"></a><!-- doxytag: member="gfal_common_lfc.c::gfal_lfc_check_lfn_url" ref="8baa624b528deb15ff4ee61fa9948ac8" args="(catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)" -->
 <div class="memitem">
@@ -203,6 +207,41 @@ implementation of the access call with the lfc catalog return 0 or -1 if error a
 Implementation of the chmod function with the LFC catalog return 0 or the errno if error, or set GError if serious error 
 </div>
 </div><p>
+<a class="anchor" name="7c1d8699d8ad924234db163860dadf40"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_getSURLG" ref="7c1d8699d8ad924234db163860dadf40" args="(catalog_handle handle, const char *path, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** lfc_getSURLG           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+resolve the lfc link to the surls 
+</div>
+</div><p>
 <a class="anchor" name="cb750f4f936abd772a5f53f5b1fbdaec"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_renameG" ref="cb750f4f936abd772a5f53f5b1fbdaec" args="(catalog_handle handle, const char *oldpath, const char *newpath, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -320,7 +359,7 @@ Convert a guid to a catalog url if possible return the link in a catalog's url s
 execute a posix stat request on the lfc return 0 and set struct if correct answer, else return negative value and set GError 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 10:00:52 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -3,11 +3,11 @@
   <compounddef id="struct__gfal__file__handle__" kind="struct" prot="public">
     <compoundname>_gfal_file_handle_</compoundname>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="struct__gfal__file__handle___1611e0706bdd63504627ebc6dd9047425" prot="public" static="no" mutable="no">
-        <type>int</type>
-        <definition>int _gfal_file_handle_::module_id</definition>
-        <argsstring></argsstring>
-        <name>module_id</name>
+      <memberdef kind="variable" id="struct__gfal__file__handle___1241b1b349640fa60e3312334f2f0ab4c" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char _gfal_file_handle_::module_name[GFAL_MODULE_NAME_SIZE]</definition>
+        <argsstring>[GFAL_MODULE_NAME_SIZE]</argsstring>
+        <name>module_name</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -51,7 +51,7 @@
     <listofallmembers>
       <member refid="struct__gfal__file__handle___19879cd640f0f43cf126039288affb8d5" prot="public" virt="non-virtual"><scope>_gfal_file_handle_</scope><name>ext_data</name></member>
       <member refid="struct__gfal__file__handle___17073b03099de1618ab6d9ac1349094d9" prot="public" virt="non-virtual"><scope>_gfal_file_handle_</scope><name>fdesc</name></member>
-      <member refid="struct__gfal__file__handle___1611e0706bdd63504627ebc6dd9047425" prot="public" virt="non-virtual"><scope>_gfal_file_handle_</scope><name>module_id</name></member>
+      <member refid="struct__gfal__file__handle___1241b1b349640fa60e3312334f2f0ab4c" prot="public" virt="non-virtual"><scope>_gfal_file_handle_</scope><name>module_name</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -26,6 +26,9 @@
 .ti -1c
 .RI "gboolean \fBgfal_lfc_check_lfn_url\fP (catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)"
 .br
+.ti -1c
+.RI "char ** \fBlfc_getSURLG\fP (catalog_handle handle, const char *path, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -52,6 +55,9 @@ Adrien Devresse
 .SS "gboolean gfal_lfc_check_lfn_url (catalog_handle handle, const char * lfn_url, catalog_mode mode, GError ** err)"
 .PP
 Check if the passed url and operation is compatible with lfc 
+.SS "char** lfc_getSURLG (catalog_handle handle, const char * path, GError ** err)"
+.PP
+resolve the lfc link to the surls 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

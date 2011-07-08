@@ -106,5 +106,7 @@ int	gfal_srm_chmodG(catalog_handle ch, const char * path , mode_t mode, GError**
 
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	else 
+		errno =0;
 	return ret;			
 }

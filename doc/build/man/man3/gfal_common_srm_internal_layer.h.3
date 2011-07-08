@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -22,6 +22,20 @@
 .RI "struct \fB_gfal_srm_external_call\fP"
 .br
 .in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef enum _srm_req_type \fBsrm_req_type\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fB_srm_req_type\fP { \fBSRM_GET\fP, \fBSRM_PUT\fP }"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
@@ -29,10 +43,13 @@
 .RI "int \fBgfal_check_fullendpoint_in_surl\fP (const char *surl, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_srm_getTURLS_internal\fP (gfal_handle handle, char **surls, gfal_srm_result **resu, GError **err)"
+.RI "int \fBgfal_srm_getTURLS_catalog\fP (catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_srm_getTURLS_catalog\fP (catalog_handle ch, const char *surl, char *buff_turl, int size_turl, GError **err)"
+.RI "int \fBgfal_srm_putTURLS_catalog\fP (catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_srm_putdone\fP (gfal_handle handle, char **surls, char *token, GError **err)"
 .br
 .in -1c
 .SS "Variables"
@@ -67,9 +84,12 @@ Devresse Adrien
 .SS "int gfal_check_fullendpoint_in_surl (const char * surl, GError ** err)"
 .PP
 return 0 if a full endpoint is contained in surl 
-.SS "int gfal_srm_getTURLS_catalog (catalog_handle ch, const char * surl, char * buff_turl, int size_turl, GError ** err)"
+.SS "int gfal_srm_getTURLS_catalog (catalog_handle ch, const char * surl, char * buff_turl, int size_turl, char ** reqtoken, GError ** err)"
 .PP
 simple wrapper to getTURLs for the gfal_module layer 
+.SS "int gfal_srm_putTURLS_catalog (catalog_handle ch, const char * surl, char * buff_turl, int size_turl, char ** reqtoken, GError ** err)"
+.PP
+simple wrapper to putTURLs for the gfal_module layer 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

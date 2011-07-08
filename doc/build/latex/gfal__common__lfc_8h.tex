@@ -14,6 +14,8 @@ gfal\_\-catalog\_\-interface \textbf{lfc\_\-init\-G} (gfal\_\-handle, GError $\a
 
 \item 
 gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$lfn\_\-url, catalog\_\-mode mode, GError $\ast$$\ast$err)
+\item 
+char $\ast$$\ast$ \bf{lfc\_\-get\-SURLG} (catalog\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -34,4 +36,9 @@ header file for the lfc catalog module
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (catalog\_\-handle {\em handle}, const char $\ast$ {\em lfn\_\-url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8h_8baa624b528deb15ff4ee61fa9948ac8}
 
 
-Check if the passed url and operation is compatible with lfc 
+Check if the passed url and operation is compatible with lfc \index{gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}!lfc_getSURLG@{lfc\_\-getSURLG}}
+\index{lfc_getSURLG@{lfc\_\-getSURLG}!gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ lfc\_\-get\-SURLG (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8h_7c1d8699d8ad924234db163860dadf40}
+
+
+resolve the lfc link to the surls 

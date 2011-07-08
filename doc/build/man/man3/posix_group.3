@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -52,6 +52,7 @@ all POSIX style function \-
 .ti -1c
 .RI "ssize_t \fBgfal_read\fP (int, void *, size_t)"
 .br
+.RI "\fIread a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff \fP"
 .ti -1c
 .RI "dirent * \fBgfal_readdir\fP (DIR *)"
 .br
@@ -73,6 +74,7 @@ all POSIX style function \-
 .ti -1c
 .RI "ssize_t \fBgfal_write\fP (int, const void *, size_t)"
 .br
+.RI "\fIwrite a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. \fP"
 .ti -1c
 .RI "off64_t \fBgfal_lseek64\fP (int, off64_t, int)"
 .br
@@ -236,42 +238,22 @@ ECOMM : Communication error
 
 .PP
 
-.SS "int gfal_creat (const char *, mode_t)"
+.SS "int gfal_creat (const char * filename, mode_t mode)"
 .PP
 creates a new file or truncates an existing one 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIfilename\fP specifies the file name: either a logical file name, a guid, an SURL or a TURL 
+\fIfilename\fP : url of the filename to create, can be a surl, lfn, guid, local or turl the urls supported by the modules 
 .br
-\fImode\fP is used only if the file is created 
+\fIflag\fP : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. 
+.br
+\fImode\fP is used only if the file is created. 
 .RE
 .PP
 \fBReturns:\fP
 .RS 4
-This routine returns a write-only file descriptor if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately
-.IP "\(bu" 2
-ERRNO list : 
-.br
-.IP "  \(bu" 4
-ENOENT: The named file/directory does not exist.
-.IP "  \(bu" 4
-EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.
-.IP "  \(bu" 4
-EFAULT: path is a NULL pointer.
-.IP "  \(bu" 4
-EBUSY: Device or resource busy. Happens if you try to open in write mode a CASTOR file that is in an active migration stream
-.IP "  \(bu" 4
-ENOTDIR: A component of path prefix is not a directory.
-.IP "  \(bu" 4
-EINVAL: path has an invalid syntax or amode is invalid.
-.IP "  \(bu" 4
-ECOMM: Communication error.
-.IP "  \(bu" 4
-EPROTONOSUPPORT: Access method not supported. 
-.PP
-
-.PP
+return the file descriptor or -1 if errno is set call \fBgfal_posix_check_error()\fP to check it 
 .RE
 .PP
 
@@ -370,7 +352,7 @@ opens a file according to the value of flags
 .PP
 \fBReturns:\fP
 .RS 4
-return the file descriptor or -1 if error ( errno is set ( gfal_posix_error_print() ) ) 
+return the file descriptor or -1 if errno is set call \fBgfal_posix_check_error()\fP to check it 
 .RE
 .PP
 
@@ -387,7 +369,7 @@ opens a directory to be used in subsequent gfal_readdir operations the url suppo
 .PP
 \fBReturns:\fP
 .RS 4
-file descriptor DIR* if success else NULL if error and errno is set ( gfal_posix_error_print() )
+file descriptor DIR* if success else NULL if error and errno is set call \fBgfal_posix_check_error()\fP to check it
 .RE
 .PP
 .IP "\(bu" 2
@@ -423,6 +405,25 @@ EINVAL: path has an invalid syntax .
 
 .PP
 
+.SS "ssize_t gfal_read (int fd, void * buff, size_t s_buff)"
+.PP
+read a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfd\fP file descriptor 
+.br
+\fIbuff,buffer\fP of the data to read 
+.br
+\fIs_buff\fP size of the data read in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+number of byte read or -1 if error, errno is set call \fBgfal_posix_check_error()\fP to check it 
+.RE
+.PP
+
 .SS "struct dirent * gfal_readdir (DIR * dir)"
 .PP
 read a directory 
@@ -436,7 +437,7 @@ The readdir() function returns a pointer to a dirent structure representing the 
 .PP
 \fBReturns:\fP
 .RS 4
-pointer to struct dirent with file information or NULL if end of list or error ( errno is set ( gfal_posix_error_print() ) ) 
+pointer to struct dirent with file information or NULL if end of list or error, errno is set call \fBgfal_posix_check_error()\fP to check it 
 .RE
 .PP
 \fBWarning:\fP
@@ -594,5 +595,24 @@ EINVAL: oldpath or newpath has an invalid syntax .
 
 .PP
 
+.PP
+
+.SS "ssize_t gfal_write (int fd, const void * buff, size_t s_buff)"
+.PP
+write a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfd\fP file descriptor 
+.br
+\fIbuff,buffer\fP of the data to write 
+.br
+\fIs_buff\fP size of the data write in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+number of byte write or -1 if error, errno is set call \fBgfal_posix_check_error()\fP to check it 
+.RE
 .PP
 

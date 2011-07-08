@@ -38,6 +38,21 @@ void define_mock_stat_file_error(char* surl, int status, char* err){
 	defined_srm_ls_output.statuses->explanation = strdup(err);
 }
 
+void define_put_done(int number, char** surl, char** explanation, char** turl, int* status){
+	int i;
+	defined_put_done= calloc(sizeof(struct srmv2_filestatus), number);
+	for(i=0; i < number; ++i){
+		if(surl)
+			defined_put_done[i].surl = strdup(surl[i]);
+		if(explanation)
+			defined_put_done[i].explanation = strdup(explanation[i]);
+		if(turl)
+			defined_put_done[i].turl = strdup(turl[i]);
+		if(status)
+			defined_put_done[i].status = status[i];
+	}
+}
+
 void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, char** turl, int* status){
 	int i;
 	defined_srmv2_filestatus= calloc(sizeof(struct srmv2_filestatus), number);
@@ -148,6 +163,16 @@ int srm_mock_srm_put_done(struct srm_context *context,
 		}
 	*statuses = defined_put_done;
 	return a;		
+}
+
+int srm_mock_srm_setpermission (struct srm_context *context,
+		struct srm_setpermission_input *input){
+	int a = mock(context, input);
+	if(a!=0){
+		errno = a;
+		return -1;
+	}
+	return 0;
 }
 	
 void srm_mock_srm_srmv2_pinfilestatus_delete(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n){

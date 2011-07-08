@@ -31,13 +31,24 @@
 <tr><td colspan="2"><br><h2>Data Structures</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__srm__external__call.html">_gfal_srm_external_call</a></td></tr>
 
+<tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="916c9454af7600d1ab17c17a22fbc0fa"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::srm_req_type" ref="916c9454af7600d1ab17c17a22fbc0fa" args="" -->
+typedef enum _srm_req_type&nbsp;</td><td class="memItemRight" valign="bottom"><b>srm_req_type</b></td></tr>
+
+<tr><td colspan="2"><br><h2>Enumerations</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><b>_srm_req_type</b> { <b>SRM_GET</b>, 
+<b>SRM_PUT</b>
+ }</td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__internal__layer_8h.html#d12926fb068b66769f28f2c4fc177bd2">gfal_check_fullendpoint_in_surl</a> (const char *surl, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="07842f2edba0cfe563392ac479102b34"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_getTURLS_internal" ref="07842f2edba0cfe563392ac479102b34" args="(gfal_handle handle, char **surls, gfal_srm_result **resu, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_getTURLS_internal</b> (gfal_handle handle, char **surls, gfal_srm_result **resu, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__internal__layer_8h.html#c51b90df2c43b149ad2f80afeb9200ed">gfal_srm_getTURLS_catalog</a> (catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__internal__layer_8h.html#696b46d517fcc84154af45e43ecd73f9">gfal_srm_getTURLS_catalog</a> (catalog_handle ch, const char *surl, char *buff_turl, int size_turl, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__internal__layer_8h.html#96bb61a1e4df92a074a6e173b8c02b4d">gfal_srm_putTURLS_catalog</a> (catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="67937971ffcef75f51d9fe7a778a0374"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_putdone" ref="67937971ffcef75f51d9fe7a778a0374" args="(gfal_handle handle, char **surls, char *token, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_putdone</b> (gfal_handle handle, char **surls, char *token, GError **err)</td></tr>
 
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="67b12c7342043451fc5ce31b1a3d74fb"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_external_call" ref="67b12c7342043451fc5ce31b1a3d74fb" args="" -->
@@ -80,7 +91,7 @@ header file for the srm external function mapping for mocking purpose
 return 0 if a full endpoint is contained in surl 
 </div>
 </div><p>
-<a class="anchor" name="696b46d517fcc84154af45e43ecd73f9"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_getTURLS_catalog" ref="696b46d517fcc84154af45e43ecd73f9" args="(catalog_handle ch, const char *surl, char *buff_turl, int size_turl, GError **err)" -->
+<a class="anchor" name="c51b90df2c43b149ad2f80afeb9200ed"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_getTURLS_catalog" ref="c51b90df2c43b149ad2f80afeb9200ed" args="(catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -111,6 +122,12 @@ return 0 if a full endpoint is contained in surl
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">char **&nbsp;</td>
+          <td class="paramname"> <em>reqtoken</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">GError **&nbsp;</td>
           <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
         </tr>
@@ -127,7 +144,60 @@ return 0 if a full endpoint is contained in surl
 simple wrapper to getTURLs for the gfal_module layer 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 4 14:21:55 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="96bb61a1e4df92a074a6e173b8c02b4d"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_putTURLS_catalog" ref="96bb61a1e4df92a074a6e173b8c02b4d" args="(catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_srm_putTURLS_catalog           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>surl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>buff_turl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>size_turl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&nbsp;</td>
+          <td class="paramname"> <em>reqtoken</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+simple wrapper to putTURLs for the gfal_module layer 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 10:00:52 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

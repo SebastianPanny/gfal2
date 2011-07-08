@@ -1,4 +1,4 @@
-.TH "_gfal_srm_external_call" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "_gfal_srm_external_call" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -43,6 +43,15 @@ _gfal_srm_external_call \-
 .br
 .ti -1c
 .RI "void(* \fBsrm_srm2__TReturnStatus_delete\fP )(struct srm2__TReturnStatus *status)"
+.br
+.ti -1c
+.RI "int(* \fBsrm_prepare_to_put\fP )(struct srm_context *context, struct srm_preparetoput_input *input, struct srm_preparetoput_output *output)"
+.br
+.ti -1c
+.RI "int(* \fBsrm_put_done\fP )(struct srm_context *context, struct srm_putdone_input *input, struct srmv2_filestatus **statuses)"
+.br
+.ti -1c
+.RI "int(* \fBsrm_setpermission\fP )(struct srm_context *context, struct srm_setpermission_input *input)"
 .br
 .in -1c
 .SH "Detailed Description"

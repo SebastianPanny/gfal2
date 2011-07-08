@@ -145,6 +145,7 @@ TestSuite* posix_chmod_suite(void){
 	add_test(tc_chmod, test__gfal_posix_chmod_read_guid);
 	add_test(tc_chmod, test__gfal_posix_chmod_read_local);
 	add_test(tc_chmod, test__gfal_posix_chmod_write_lfn);
+	add_test(tc_chmod, test__gfal_posix_chmod_srm);
 	return tc_chmod;
 }
 

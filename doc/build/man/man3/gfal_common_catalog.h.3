@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "4 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -46,7 +46,7 @@
 
 .in +1c
 .ti -1c
-.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_GETSURL\fP, \fBGFAL_CATALOG_GETTURL\fP }"
+.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_GETSURL\fP, \fBGFAL_CATALOG_GETTURL\fP, \fBGFAL_CATALOG_PUTTURL\fP, \fBGFAL_CATALOG_RESOLVE_GUID\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -108,7 +108,10 @@
 .RI "char ** \fBgfal_catalog_getSURL\fP (gfal_handle handle, const char *path, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_catalog_getTURLG\fP (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, GError **err)"
+.RI "int \fBgfal_catalog_getTURLG\fP (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_putTURLG\fP (gfal_handle handle, const char *surl, char *turl_buff, int turl, char **reqtoken, GError **err)"
 .br
 .ti -1c
 .RI "dirent * \fBgfal_catalog_readdirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
@@ -190,7 +193,7 @@ must be free with g_list_free_full
 .RE
 .PP
 
-.SS "int gfal_catalog_getTURLG (gfal_handle handle, const char * surl, char * buff_turl, int size_turl, GError ** err)"
+.SS "int gfal_catalog_getTURLG (gfal_handle handle, const char * surl, char * buff_turl, int size_turl, char ** reqtoken, GError ** err)"
 .PP
 Resolve a surl to a 'GET' turl 
 .PP
@@ -263,6 +266,9 @@ gfal_file_handle pointer given to the handle or NULL if error
 .SS "gfal_file_handle gfal_catalog_openG (gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err)"
 .PP
 open the file specified by path on the proper catalog with the specified flag and mode 
+.SS "int gfal_catalog_putTURLG (gfal_handle handle, const char * surl, char * turl_buff, int size_turl, char ** reqtoken, GError ** err)"
+.PP
+Resolve a surl to a 'PUT' turl  if success else -1 if error, 
 .SS "struct dirent* gfal_catalog_readdirG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
 .PP
 execute a readdir for the given file handle on the appropriate catalog 
