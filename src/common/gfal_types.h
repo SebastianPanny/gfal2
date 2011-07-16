@@ -245,7 +245,6 @@ struct gfal_handle_ {
 	int returncode; // size of the new results
 	int results_size; // size of the old results
 	gfal_filestatus *results;
-	GError* err;							// Last error reported
 	enum gfal_srm_proto srm_proto_type;		// define the protocole version of SRM choosen by default
 	gboolean initiated; 					// 1 if initiated, else error
 	// pointer to srmv2 set option

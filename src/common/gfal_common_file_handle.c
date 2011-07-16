@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <glib.h>
+#include <pthread.h>
 #include "gfal_constants.h" 
 #include "gfal_types.h"
 #include "gfal_common_filedescriptor.h"

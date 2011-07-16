@@ -27,11 +27,13 @@
  * */
  
 #include <glib.h>
+#include <pthread.h>
 #include "gfal_prototypes.h"
 #include "gfal_constants.h"
 
 struct _gfal_file_descriptor_container{
-	GHashTable* container;	
+	GHashTable* container;
+	pthread_mutex_t m_container;	
 };
 
 struct _gfal_file_handle_{
@@ -53,8 +55,6 @@ gpointer gfal_get_file_desc(gfal_fdesc_container_handle fhandle, int key, GError
 
 // high level funcs
 gboolean gfal_file_handle_delete(gfal_fdesc_container_handle h, int file_desc, GError** err);
-
-
 
 
 gfal_file_handle gfal_file_handle_bind(gfal_fdesc_container_handle h, int file_desc, GError** err);

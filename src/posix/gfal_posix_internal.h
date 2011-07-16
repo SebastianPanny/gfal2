@@ -31,6 +31,8 @@
 #include "gfal_common_errverbose.h"
 
 gfal_handle gfal_posix_instance();
+
+GError** gfal_posix_get_last_error();
  
 int gfal_posix_internal_access (const char *path, int amode);
 
@@ -55,6 +57,8 @@ int gfal_posix_internal_close(int fd);
 int gfal_posix_internal_closedir(DIR* d);
 
 struct dirent* gfal_posix_internal_readdir(DIR* dir);
+
+int gfal_posix_internal_symlink(const char * oldpath, const char *newpath);
 
 
 void gfal_posix_register_internal_error(gfal_handle handle, const char* prefix, GError * tmp_err);

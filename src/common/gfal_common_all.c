@@ -47,7 +47,6 @@ gfal_handle gfal_initG (GError** err)
 		g_set_error(err,0,ENOMEM, "[gfal_initG] bad allocation, no more memory free");
 		return NULL;
 	}
-	handle->err= NULL;
 	handle->srm_proto_type = PROTO_SRMv2;
 	handle->initiated = 1;
 	handle->catalog_opt.catalog_number= 0;
@@ -65,7 +64,6 @@ gfal_handle gfal_initG (GError** err)
 void gfal_handle_freeG (gfal_handle handle){
 	if(handle == NULL)
 		return;
-	g_clear_error(&(handle->err));
 	gfal_catalogs_delete(handle, NULL);
 	gfal_dir_handle_container_delete(&(handle->fdescs));
 	free(handle);
@@ -132,12 +130,7 @@ const char * gfal_version (){
     return gfalversion;
 }
 
-/**
- *  return a pointer to the internal last error of the handle
- * */
-GError** gfal_get_last_gerror(gfal_handle handle){
-	return &(handle->err);
-}
+
 
 /***
  * check the validity of a result for a "access" standard call

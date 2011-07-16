@@ -34,7 +34,6 @@
 #include "ServiceDiscoveryIfce.h"
 
 
-
 /** @brief  get BDII hostname and port number 
 *  @deprecated THIS LOGIC IS IMPLEMENTED IN THE NEW SD LIBRARY *
 * */

@@ -185,9 +185,8 @@ int gfal_local_close(gfal_file_handle fh, GError** err){
  * */
 int gfal_local_rmdir(const char* path, GError** err){
 	const int res = rmdir(path+ strlen(GFAL_LOCAL_PREFIX));
-	if(res<0){
-			g_set_error(err,0 ,errno , "[%s] errno reported by local system call %s", __func__, strerror(errno));
-	}
+	if(res<0)
+		gfal_local_report_error(__func__, err);	
 	return res;
 }
 
@@ -197,12 +196,19 @@ int gfal_local_rmdir(const char* path, GError** err){
  * */
 int gfal_local_closedir(gfal_file_handle fh, GError** err){
 	const int res = closedir(fh->fdesc);
-	if(res<0){
-			g_set_error(err,0 ,errno , "[%s] errno reported by local system call", __func__, strerror(errno));
-	}else
+	if(res<0)
+		gfal_local_report_error(__func__, err);	
+	else
 		free(fh);
 	return res;	 
  }
+ 
+int gfal_local_symlink(const char* oldpath, const char* newpath, GError** err){
+	const int res = symlink(oldpath, newpath);
+	if(res !=0)
+		gfal_local_report_error(__func__, err);
+	return res;		
+}
  
 /**
  * check the validity of a classique file url

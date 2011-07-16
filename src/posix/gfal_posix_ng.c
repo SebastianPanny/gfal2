@@ -312,6 +312,17 @@ int gfal_close(int fd){
 	return gfal_posix_internal_close(fd);
 }
 
+/**
+ * @brief make a new name for a file
+ *  symlink() creates a symbolic link named newpath which contains the string oldpath.
+ * @param newpath : path of the link
+ * @param oldpath : path of the linked file
+ * @return 0 if success else -1.  if failure, errno is set, you can call @ref gfal_posix_check_error() for a more complete description. 
+*/
+int gfal_symlink(const char* oldpath, const char * newpath){
+	return gfal_posix_internal_symlink(oldpath, newpath);
+}
+
 
 /**
  * Display the last string error reported by the gfal error system for the posix API
@@ -322,7 +333,7 @@ void gfal_posix_print_error(){
 	GError* err=NULL;
 	if((handle = gfal_posix_instance()) == NULL){
 		g_printerr("[gfal] Initialisation error gfal_posix_instance() failure\n");
-	}else if ( (err = handle->err) != NULL){
+	}else if ( (err = *gfal_posix_get_last_error()) != NULL){
 		g_printerr("[gfal]%s \n", err->message);
 	}else if(errno !=0){
 		char* sterr = strerror(errno);
@@ -351,7 +362,7 @@ void gfal_posix_clear_error(){
 	if((handle = gfal_posix_instance()) == NULL){
 		g_printerr("[gfal][gfal_posix_clear_error] Initialisation error gfal_posix_instance() failure\n");
 	}else{
-		g_clear_error( &(handle->err));
+		g_clear_error( gfal_posix_get_last_error());
 		errno =0;
 	}	
 
@@ -368,7 +379,7 @@ int gfal_posix_code_error(){
 	if((handle = gfal_posix_instance()) == NULL){
 		g_printerr("[gfal_posix_code_error] Initialisation error gfal_posix_instance() failure\n");
 	}else  {
-		ret = ((err = handle->err) != NULL)? err->code :0 ;
+		ret = ((err = *gfal_posix_get_last_error()) != NULL)? err->code :0 ;
 	}
 	return ret;
 }
@@ -385,7 +396,7 @@ int gfal_posix_check_error(){
 		g_printerr("[gfal_posix_code_error] Initialisation error gfal_posix_instance() failure\n");
 		return -1;
 	}
-	if((err = handle->err) != NULL) {
+	if((err = *gfal_posix_get_last_error()) != NULL) {
 		g_printerr("[gfal]%s\n", err->message);
 		return 1;
 	}
@@ -404,6 +415,6 @@ char* gfal_posix_strerror_r(char* buff_err, size_t s_err){
 		g_printerr("[gfal_posix_code_error] Initialisation error gfal_posix_instance() failure\n");
 		return NULL;
 	}	 
-	return (char*)gfal_str_GError_r(&(handle->err), buff_err, s_err);
+	return (char*)gfal_str_GError_r(gfal_posix_get_last_error(), buff_err, s_err);
  }
 

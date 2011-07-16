@@ -56,8 +56,6 @@ void gfal_handle_freeG(gfal_handle handle);
  
 
 
-GError** gfal_get_last_gerror(gfal_handle);
-
 /**
  * end next gen
  * */

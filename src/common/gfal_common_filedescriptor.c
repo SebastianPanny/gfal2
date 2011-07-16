@@ -28,6 +28,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <pthread.h>
 #include "gfal_common_errverbose.h"
 #include "gfal_types.h"
 #include "gfal_common_filedescriptor.h"
@@ -57,6 +58,7 @@ static int gfal_file_key_generatorG(gfal_fdesc_container_handle fhandle, GError*
  * */
 int gfal_add_new_file_desc(gfal_fdesc_container_handle fhandle, gpointer pfile, GError** err){
 	g_return_val_err_if_fail(fhandle && pfile, 0, err, "[gfal_add_new_file_desc] Invalid  arg fhandle and/or pfile");
+	pthread_mutex_lock(&(fhandle->m_container));
 	GError* tmp_err=NULL;
 	GHashTable* c = fhandle->container;
 	int key = gfal_file_key_generatorG(fhandle, &tmp_err);
@@ -66,6 +68,7 @@ int gfal_add_new_file_desc(gfal_fdesc_container_handle fhandle, gpointer pfile, 
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	}
+	pthread_mutex_unlock(&(fhandle->m_container));
 	return key;
 }
 
@@ -73,10 +76,12 @@ int gfal_add_new_file_desc(gfal_fdesc_container_handle fhandle, gpointer pfile, 
  *  return the associated file handle for the given file descriptor or NULL if the key is not present and err is set
  * */
 gpointer gfal_get_file_desc(gfal_fdesc_container_handle fhandle, int key, GError** err){
+	pthread_mutex_lock(&(fhandle->m_container));
 	GHashTable* c = fhandle->container;	
 	gpointer p =  g_hash_table_lookup(c, GINT_TO_POINTER(key));
 	if(!p)
 		g_set_error(err,0, EBADF, "[%s] bad file descriptor",__func__);
+	pthread_mutex_unlock(&(fhandle->m_container));
 	return p;
 }
 
@@ -85,10 +90,12 @@ gpointer gfal_get_file_desc(gfal_fdesc_container_handle fhandle, int key, GError
  * return true if success else false
  * */
 gboolean gfal_remove_file_desc(gfal_fdesc_container_handle fhandle, int key, GError** err){
+	pthread_mutex_lock(&(fhandle->m_container));
 	GHashTable* c = fhandle->container;	
 	gboolean p =  g_hash_table_remove(c, GINT_TO_POINTER(key));
 	if(!p)
 		g_set_error(err,0, EBADF, "[%s] bad file descriptor",__func__);
+	pthread_mutex_unlock(&(fhandle->m_container));
 	return p;	  
  }
  
@@ -99,6 +106,7 @@ gboolean gfal_remove_file_desc(gfal_fdesc_container_handle fhandle, int key, GEr
  gfal_fdesc_container_handle gfal_file_descriptor_handle_create(GDestroyNotify destroyer){
 	  gfal_fdesc_container_handle d = calloc(1, sizeof(struct _gfal_file_descriptor_container));
 	  d->container = g_hash_table_new_full(NULL, NULL, NULL, destroyer);
+	  pthread_mutex_init(&(d->m_container),NULL); 
 	  return d;	 
  }
  
