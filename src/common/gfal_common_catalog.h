@@ -51,6 +51,7 @@ enum _catalog_mode{
 	GFAL_CATALOG_ACCESS,
 	GFAL_CATALOG_CHMOD,
 	GFAL_CATALOG_RENAME,
+	GFAL_CATALOG_SYMLINK,
 	GFAL_CATALOG_STAT,
 	GFAL_CATALOG_LSTAT,
 	GFAL_CATALOG_MKDIR,
@@ -89,6 +90,7 @@ struct _gfal_catalog_interface{
 	 * */
 	int	(*chmodG)(catalog_handle, const char *, mode_t, GError** err);
 	int	(*renameG)(catalog_handle, const char *, const char *, GError** err);
+	int (*symlinkG)(catalog_handle, const char*, const char*, GError** err);
 	int (*statG)(catalog_handle, const char*, struct stat *buf, GError** err);
 	int (*lstatG)(catalog_handle, const char*, struct stat *buf, GError** err);
 	/**
@@ -182,14 +184,3 @@ int gfal_catalog_putTURLG(gfal_handle handle, const char* surl, char* turl_buff,
 struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GError** err);
  	
 
-char *get_default_se(char *, int);
-int purify_surl (const char *, char *, const int);
-int setypesandendpointsfromsurl (const char *, char ***, char ***, char *, int);
-int setypesandendpoints (const char *, char ***, char ***, char *, int);
-int canonical_url (const char *, const char *, char *, int, char *, int);
-int parseturl (const char *, char *, int, char *, int, char*, int);
-int replica_exists(const char*, char*, int);
-int getdomainnm (char *name, int namelen);
-char **get_sup_proto ();
-struct proto_ops *find_pops (const char *);
-int mapposixerror (struct proto_ops *, int);

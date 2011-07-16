@@ -18,6 +18,8 @@
 /*
  * @(#)$RCSfile: checkprotolib.c,v $ $Revision: 1.11 $ $Date: 2008/11/10 12:36:15 $ CERN Jean-Philippe Baud
  */
+ 
+ #if 0
 
 #include <sys/types.h>
 #include <errno.h>
@@ -294,3 +296,5 @@ mapposixerror (struct proto_ops *pops, int ioflag)
 {
 	return (errno);
 }
+
+#endif
