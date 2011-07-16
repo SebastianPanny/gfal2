@@ -156,6 +156,10 @@ int gfal_catalogs_delete(gfal_handle, GError** err);
 
 int gfal_catalog_statG(gfal_handle handle,const char* path, struct stat* st, GError** err);
 
+int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err);
+
+int gfal_catalog_symlinkG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err);
+
 int gfal_catalog_lstatG(gfal_handle handle,const char* path, struct stat* st, GError** err);
 
 int gfal_catalog_mkdirp(gfal_handle handle, const char* path, mode_t mode, gboolean pflag,  GError** err);

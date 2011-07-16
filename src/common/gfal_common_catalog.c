@@ -360,6 +360,30 @@ int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* ne
 	return ret; 
 	
 }
+
+/**
+ * Execute the symlink function on the first compatible catalog
+ */
+int gfal_catalog_symlinkG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err){
+	g_return_val_err_if_fail(oldpath && newpath, -1, err, "[gfal_catalog_symlinkG] invalid value in args oldpath, handle or newpath");
+	GError* tmp_err=NULL;
+	int i;
+	
+	gboolean symlink_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return (cata_list->check_catalog_url(cata_list->handle, oldpath, GFAL_CATALOG_SYMLINK, terr) &&
+					cata_list->check_catalog_url(cata_list->handle, newpath, GFAL_CATALOG_SYMLINK, terr));
+	}
+	int symlink_executor(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->symlinkG(cata_list->handle, oldpath, newpath, terr);
+	}
+	
+	const int ret = gfal_catalogs_operation_executor(handle, &symlink_checker, &symlink_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret; 	
+	
+}
+
 /**
  * Execute a mkdir function on the first compatible catalog ( checked with check url func )
  *  @param handle handle of the current context

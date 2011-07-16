@@ -50,8 +50,7 @@ int gfal_posix_internal_symlink(const char* oldpath, const char* newpath){
 				&& gfal_check_local_url(newpath, NULL)){
 			ret = gfal_local_symlink(oldpath, newpath, &tmp_err);			
 		}else{
-			g_set_error(&tmp_err, 0, ENOSYS, " not implemented");
-			//ret = gfal_catalog_symlinkG(handle, oldpath, newpath, &tmp_err);
+			ret = gfal_catalog_symlinkG(handle, oldpath, newpath, &tmp_err);
 		}
 	}
 	
