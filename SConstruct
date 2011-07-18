@@ -72,6 +72,11 @@ if ARGUMENTS.get('debug','0') =='yes':
 if ARGUMENTS.get('profile','0') =='yes':
 	print "PROFILE MODE"
 	env.Append(CFLAGS='-pg', LINKFLAGS=['-pg'])
+	
+# debug mode
+if ARGUMENTS.get('production','0') =='yes':
+	print "prod MODE"
+	env.Append(CFLAGS='-O3')
 
 #main build
 VariantDir(build_dir_src, 'src')

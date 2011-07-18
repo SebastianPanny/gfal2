@@ -17,9 +17,8 @@
 
 /**
  * @file gfal_posix.c
- * @brief main file of the posix lib
+ * @brief old file for posix i
  * @author Devresse Adrien
- * @version 2.0
  * @date 11/04/2011
  * */
 

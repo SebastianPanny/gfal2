@@ -40,8 +40,10 @@ static __thread GError* last_error=NULL;
 
 gfal_handle gfal_posix_instance(){
 	pthread_mutex_lock(&m_instance);
-	if(handle == NULL)
+	if(handle == NULL){
 		handle= gfal_initG(NULL);
+		gfal_local_initG(NULL);
+	}
 	pthread_mutex_unlock(&m_instance);
 	return handle;	
 }

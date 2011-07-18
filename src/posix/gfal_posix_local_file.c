@@ -32,6 +32,13 @@
 
 #define GFAL_LOCAL_PREFIX "file:"
 
+static regex_t rex;
+
+int gfal_local_initG(GError** err){
+	int ret = regcomp(&rex, "^file:([:print:]|/)+",REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_local_url] fail to compile regex, report this bug");
+	return ret;
+}
 
 void gfal_local_report_error(const char* funcname, GError** err){
 	g_set_error(err,0,errno, "[%s] errno reported by local system call %s", funcname, strerror(errno));	
@@ -214,10 +221,6 @@ int gfal_local_symlink(const char* oldpath, const char* newpath, GError** err){
  * check the validity of a classique file url
  * */ 
 gboolean gfal_check_local_url(const char* path, GError** err){
-	regex_t rex;
-	int ret = regcomp(&rex, "^file:([:print:]|/)+",REG_ICASE | REG_EXTENDED);
-	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_check_local_url] fail to compile regex, report this bug");
-	ret=  regexec(&rex, path,0,NULL,0);
-	regfree(&rex);
+	int ret=  regexec(&rex, path,0,NULL,0);
 	return (!ret)?TRUE:FALSE;		
 }

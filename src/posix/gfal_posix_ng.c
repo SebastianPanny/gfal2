@@ -17,9 +17,8 @@
 
 /**
  * @file gfal_posix_ng.c
- * @brief main file of the posix lib ng
+ * @brief new file for the posix interface
  * @author Devresse Adrien
- * @version 2.0
  * @date 09/05/2011
  * */
 

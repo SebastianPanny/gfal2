@@ -85,6 +85,7 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 		case GFAL_CATALOG_ACCESS:
 		case GFAL_CATALOG_MKDIR:
 		case GFAL_CATALOG_STAT:
+		case GFAL_CATALOG_LSTAT:
 		case GFAL_CATALOG_RMDIR:
 		case GFAL_CATALOG_OPENDIR:
 		case GFAL_CATALOG_GETTURL:
@@ -124,6 +125,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_catalog.accessG = &gfal_srm_accessG;
 	srm_catalog.mkdirpG = &gfal_srm_mkdirG;
 	srm_catalog.statG= &gfal_srm_statG;
+	srm_catalog.lstatG = &gfal_srm_statG; // no management for symlink in srm protocol/srm-ifce, just map to stat
 	srm_catalog.rmdirG = &gfal_srm_rmdirG;
 	srm_catalog.opendirG = &gfal_srm_opendirG;
 	srm_catalog.readdirG = &gfal_srm_readdirG;
