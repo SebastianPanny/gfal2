@@ -168,6 +168,14 @@ int gfal_local_read(gfal_file_handle fh, void* buff, size_t s_buff, GError** err
 	return ret;
 }
 
+int gfal_local_lseek(gfal_file_handle fh, off_t offset, int whence, GError** err){
+	errno=0;
+	const int ret = lseek(GPOINTER_TO_INT(fh->fdesc), offset, whence);
+	if(ret <0)
+		gfal_local_report_error(__func__, err);
+	return ret;
+}
+
 int gfal_local_write(gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
 	errno=0;
 	const int ret = write(GPOINTER_TO_INT(fh->fdesc), buff, s_buff);

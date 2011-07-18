@@ -321,13 +321,13 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	GError* tmp_err=NULL;
 	memset(&lfc_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog
 	
-	char* endpoint = gfal_setup_lfchost(handle, &tmp_err);
+	char* endpoint = gfal_setup_lfchost(handle, &tmp_err); // load the endpoint
 	if(endpoint==NULL){
 		g_propagate_prefixed_error(err, tmp_err, "[lfc_initG]");
 		return lfc_catalog;
 	}
 	
-	struct lfc_ops* ops = gfal_load_lfc( "liblfc.so", &tmp_err);
+	struct lfc_ops* ops = gfal_load_lfc( "liblfc.so", &tmp_err); // load library
 	if(ops ==NULL){
 		g_propagate_prefixed_error(err, tmp_err,"[%s]", __func__);
 		return lfc_catalog;
