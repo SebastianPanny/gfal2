@@ -100,6 +100,8 @@ int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
 	return ret;
 }
 
+
+
 /**
  * Implementation of the rename call for the lfc catalog
  * return 0 if success else -1 if error and set GError
@@ -114,6 +116,27 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 	if(ret <0){
 		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
 		g_set_error(err,0,sav_errno, "[lfc_renameG] Error report from LFC : %s",  ops->sstrerror(sav_errno) );
+	}
+	free(surl);
+	free(durl);
+	return ret;	
+}
+
+
+/**
+ * Implementation of the symlinkG call for the lfc catalog
+ * return 0 if success else -1 if error and set GError
+ * 
+ * */
+int lfc_symlinkG(catalog_handle handle, const char* oldpath, const char* newpath, GError** err){
+	g_return_val_err_if_fail(handle && oldpath && newpath, -1, err, "[lfc_symlinkG] Invalid value in args handle/oldpath/newpath");
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	char* surl = lfc_urlconverter(oldpath, GFAL_LFC_PREFIX);
+	char* durl = lfc_urlconverter(newpath, GFAL_LFC_PREFIX);
+	int ret  = ops->symlink(surl, durl);
+	if(ret <0){
+		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		g_set_error(err,0,sav_errno, "[lfc_symlinkG] Error report from LFC : %s",  ops->sstrerror(sav_errno) );
 	}
 	free(surl);
 	free(durl);
@@ -329,6 +352,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.getSURLG = &lfc_getSURLG;
 	lfc_catalog.getName = &lfc_getName;
 	lfc_catalog.openG = &lfc_openG;
+	lfc_catalog.symlinkG= &lfc_symlinkG;
 	return lfc_catalog;
 }
 
@@ -354,6 +378,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 		case GFAL_CATALOG_OPENDIR:
 		case GFAL_CATALOG_OPEN:
 		case GFAL_CATALOG_GETSURL:
+		case GFAL_CATALOG_SYMLINK:
 			ret = regcomp(&rex, "^lfn:/([:alnum:]|-|/|\.|_)+", REG_ICASE | REG_EXTENDED);
 			g_return_val_err_if_fail(ret ==0,-1,err,"[gfal_lfc_check_lfn_url] fail to compile regex, report this bug");
 			ret= regexec(&rex, lfn_url, 0, NULL, 0);

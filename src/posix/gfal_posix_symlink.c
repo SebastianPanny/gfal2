@@ -55,7 +55,7 @@ int gfal_posix_internal_symlink(const char* oldpath, const char* newpath){
 	}
 	
 	if(tmp_err){
-		gfal_posix_register_internal_error(handle, "[gfal_rename]", tmp_err);
+		gfal_posix_register_internal_error(handle, "[gfal_symlink]", tmp_err);
 		errno = tmp_err->code;
 	} 
 
