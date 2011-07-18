@@ -107,6 +107,7 @@ struct _gfal_catalog_interface{
 	 int (*readG)(catalog_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
 	 int (*writeG)(catalog_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
 	 int (*closeG)(catalog_handle, gfal_file_handle fd, GError **);
+	 int (*lseekG)(catalog_handle, gfal_file_handle fd, off_t offset, int whence, GError** err);
 	 
 	 char** (*getSURLG)(catalog_handle, const char*, GError**);
 
@@ -149,6 +150,7 @@ int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size
 
 int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
 
+int gfal_catalog_lseekG(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err);
 
 int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err);
 
@@ -159,6 +161,8 @@ int gfal_catalog_statG(gfal_handle handle,const char* path, struct stat* st, GEr
 int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err);
 
 int gfal_catalog_symlinkG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err);
+
+
 
 int gfal_catalog_lstatG(gfal_handle handle,const char* path, struct stat* st, GError** err);
 

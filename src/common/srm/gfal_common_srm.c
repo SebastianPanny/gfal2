@@ -138,6 +138,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_catalog.readG= &gfal_srm_readG;
 	srm_catalog.writeG= &gfal_srm_writeG;
 	srm_catalog.chmodG= &gfal_srm_chmodG;
+	srm_catalog.lseekG= &gfal_srm_lseekG;
 	return srm_catalog;
 }
 

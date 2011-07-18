@@ -44,4 +44,9 @@ int gfal_srm_writeG(catalog_handle, gfal_file_handle fd, void* buff, size_t coun
 
 int gfal_srm_closeG(catalog_handle, gfal_file_handle fd, GError **);
 
+/**
+ * lseek function for the srm  plugin
+ */
+int gfal_srm_lseekG(catalog_handle ch, gfal_file_handle fd, off_t offset, int whence, GError** err);
+
 

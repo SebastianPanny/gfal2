@@ -24,11 +24,30 @@
  * 
  **/
  
- #include <stdio.h>
- #include <errno.h>
- #include <glib.h>
- #include "../common/gfal_prototypes.h"
- #include "gfal_posix_internal.h"
+#include <stdio.h>
+#include <errno.h>
+#include <glib.h>
+#include "../common/gfal_prototypes.h"
+#include "../common/gfal_common_filedescriptor.h"
+#include "../common/gfal_types.h"
+#include "../common/gfal_common_errverbose.h"
+#include "../common/gfal_common_file_handle.h"
+#include "gfal_posix_internal.h"
+ 
+static gfal_posix_gfalfilehandle_lseek(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err){
+	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_posix_gfalfilehandle_lseek] incorrect args");
+	GError *tmp_err=NULL;
+	int ret = -1;
+	if( gfal_is_local_call(fh->module_name) )
+		ret = gfal_local_lseek(fh, offset, whence, &tmp_err);
+	else
+		ret = gfal_catalog_lseekG(handle, fh, offset, whence, &tmp_err);
+
+	if(tmp_err){
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	}
+	return ret;		
+}
  
  /**
   * 
@@ -43,7 +62,7 @@
 		errno = EIO;
 		return -1;
 	}
-	/*
+	
 	if(fd <=0){
 		g_set_error(&tmp_err, 0, EBADF, "Incorrect file descriptor");
 	}else{
@@ -51,10 +70,9 @@
 		const int key = fd;
 		gfal_file_handle fh = gfal_file_handle_bind(container, key, &tmp_err);
 		if( fh != NULL){
-			res = gfal_posix_gfalfilehandle_read(handle, fh, buff, s_buff, &tmp_err);
+			res = gfal_posix_gfalfilehandle_lseek(handle, fh, offset, whence, &tmp_err);
 		}
-	}*/
-	g_set_error(&tmp_err, 0, ENOSYS, " not implemented");
+	}
 	if(tmp_err){
 		gfal_posix_register_internal_error(handle, "[gfal_lseek]", tmp_err);
 		errno = tmp_err->code;	

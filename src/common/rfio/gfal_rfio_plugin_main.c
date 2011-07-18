@@ -60,6 +60,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	rfio_catalog.closeG= &gfal_rfio_closeG;
 	rfio_catalog.readG= &gfal_rfio_readG;
 	rfio_catalog.writeG= &gfal_rfio_writeG;
+	rfio_catalog.lseekG = &gfal_rfio_lseekG;
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return rfio_catalog;

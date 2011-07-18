@@ -40,6 +40,9 @@
 #include "lfc_ifce_ng.h"
 #include "../gfal_common_errverbose.h"
 
+void gfal_lfc_init_thread(){
+	
+}
 
 static int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
 	if (ops->startsess (ops->lfc_endpoint, (char*) gfal_version ()) < 0){

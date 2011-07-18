@@ -40,4 +40,6 @@ int gfal_rfio_writeG(catalog_handle handle , gfal_file_handle fd, void* buff, si
 
 int gfal_rfio_readG(catalog_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
 
+int gfal_rfio_lseekG(catalog_handle handle , gfal_file_handle fd, off_t offset, int whence, GError** err);
+
 const char* gfal_rfio_getName();

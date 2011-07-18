@@ -622,6 +622,24 @@ int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size
 }
 
 /**
+ * do a lseek operation on the catalog
+ * @return return number of bytes readed else -1 if errors and GError is set
+ * 
+ * */
+int gfal_catalog_lseekG(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err){
+	g_return_val_err_if_fail(handle && fh , -1,err, "[gfal_catalog_lseekG] Invalid args ");	
+	GError* tmp_err=NULL;
+	int ret = -1;
+	gfal_catalog_interface* if_cata = gfal_catalog_getModuleFromHandle(handle, fh, &tmp_err);
+	if(!tmp_err)
+		ret = if_cata->lseekG(if_cata->handle, fh, offset, whence,  &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret;	
+	
+}
+
+/**
  * do a write operation on the catalog, write s_buff chars on the fd device
  * @return return number of bytes readed else -1 if errors and GError is set
  * 

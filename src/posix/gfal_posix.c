@@ -297,7 +297,7 @@ int gfal_creat64 (const char *filename, mode_t mode){
 }*/
 
 
-
+/*
     off_t
 gfal_lseek (int fd, off_t offset, int whence)
 {
@@ -324,7 +324,7 @@ gfal_lseek64 (int fd, off64_t offset, int whence)
         errno = xi->pops->maperror (xi->pops, 1);
     else errno = 0;
     return (offset_out);
-}
+}*/
 /*
     int
 gfal_mkdir (const char *dirname, mode_t mode)
