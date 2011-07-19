@@ -4,7 +4,7 @@
 Import('*')	# import SConstruct exported var
 import os
 
-gfal_common_libs = ['ldap', 'vomsc','gfal_srm_ifce','is_ifce'] 		# libraries linked
+gfal_common_libs = ['ldap', 'vomsc','is_ifce'] 		# libraries linked
 other_headers=['common/']
 common_src = Glob("common/*.c") 
 common_voms = Glob("common/voms/*.c")
@@ -29,9 +29,13 @@ staticlib = env_posix.StaticLibrary('#build/libs/libgfal', src_all)
 
 env_plugin = env.Clone();
 env_plugin.Append(LIBS=["gfal"])
-plugin_lfc_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_lfc', plugin_lfc)
-plugin_srm_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm)
-plugin_rfio_lib= env_plugin.SharedLibrary('#build/libs/libgfal_plugin_rfio', plugin_rfio);
+env_plugin_srm = env_plugin.Clone()
+env_plugin_srm.Append(LIBS=["gfal_srm_ifce"])
+env_plugin_lfc = env_plugin.Clone();
+env_plugin_lfc.Append(CFLAGS="-D_REENTRANT")
+plugin_lfc_lib = env_plugin_lfc.SharedLibrary('#build/libs/libgfal_plugin_lfc', plugin_lfc)
+plugin_rfio_lib= env_plugin.SharedLibrary('#build/libs/libgfal_plugin_rfio', plugin_rfio)
+plugin_srm_lib = env_plugin_srm.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm)
 
 Default(plugin_rfio_lib,plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib)
 

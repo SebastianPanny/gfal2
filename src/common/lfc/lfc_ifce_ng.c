@@ -33,6 +33,7 @@
 #include <sys/types.h>
 #include <dlfcn.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include "../gfal_constants.h"
 #include "../gfal_types.h"
 #include "../mds/gfal_common_mds.h"
@@ -40,15 +41,20 @@
 #include "lfc_ifce_ng.h"
 #include "../gfal_common_errverbose.h"
 
-void gfal_lfc_init_thread(){
-	
+static __thread gboolean __local_thread_init=FALSE;
+
+void gfal_lfc_init_thread(struct lfc_ops* ops){
+	if(__local_thread_init==FALSE){
+		ops->_Cthread_addcid (NULL, 0, NULL, 0, pthread_self(), 0, NULL, 0); 
+		__local_thread_init= TRUE;
+	}
 }
 
 static int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
 	if (ops->startsess (ops->lfc_endpoint, (char*) gfal_version ()) < 0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno,"[%s] Error while start session with lfc, lfc_endpoint: %s, Error : %s ",
-								__func__, ops->lfc_endpoint, ops->sstrerror(*ops->serrno));
+								__func__, ops->lfc_endpoint, gfal_lfc_get_strerror(ops));
 		return -1;
 	}
 	return 0;
@@ -56,9 +62,9 @@ static int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){
 
 static int gfal_lfc_startTransaction(struct lfc_ops* ops, GError ** err){ 
 	if (ops->starttrans(ops->lfc_endpoint, (char*) gfal_version ()) < 0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno,"[%s] Error while start transaction with lfc, lfc_endpoint: %s, Error : %s ",
-										__func__, ops->lfc_endpoint, ops->sstrerror(*ops->serrno));
+										__func__, ops->lfc_endpoint, gfal_lfc_get_strerror(ops));
 		return -1;
 	}
 	return 0;
@@ -66,9 +72,9 @@ static int gfal_lfc_startTransaction(struct lfc_ops* ops, GError ** err){
 
 static int gfal_lfc_endTransaction(struct lfc_ops* ops, GError ** err){ 
 	if (ops->endtrans() < 0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno,"[%s] Error while start transaction with lfc, Error : %s ",
-										__func__, ops->sstrerror(*ops->serrno));
+										__func__, gfal_lfc_get_strerror(ops));
 		return -1;
 	}
 	return 0;
@@ -77,9 +83,9 @@ static int gfal_lfc_endTransaction(struct lfc_ops* ops, GError ** err){
 
 static int gfal_lfc_abortTransaction(struct lfc_ops* ops, GError ** err){ 
 	if (ops->aborttrans() < 0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno,"[%s] Error while abort transaction with lfc,  Error : %s ",
-										__func__,  ops->sstrerror(*ops->serrno));
+										__func__,  gfal_lfc_get_strerror(ops));
 		return -1;
 	}
 	return 0;
@@ -146,8 +152,8 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	struct lfc_linkinfo* links = NULL;
 	if(ops->getlinks(NULL, guid, &size, &links) <0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0,sav_errno, "[gfal_convert_guid_to_lfn] Error while getlinks() with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint,guid, ops->sstrerror(*ops->serrno));
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno, "[gfal_convert_guid_to_lfn] Error while getlinks() with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint,guid, gfal_lfc_get_strerror(ops));
 		return NULL;
 	}else
 		errno=0;
@@ -228,13 +234,14 @@ struct lfc_ops* gfal_load_lfc(const char* name, GError** err){
 							(void**) &(lfc_sym->mkdirg), (void**) &(lfc_sym->seterrbuf), (void**) &(lfc_sym->setfsizeg), (void**) &(lfc_sym->setfsize), (void**) &(lfc_sym->starttrans),
 							(void**) &(lfc_sym->statg), (void**) &(lfc_sym->statr), (void**) &(lfc_sym->symlink), (void**) &(lfc_sym->unlink), (void**) &(lfc_sym->access), (void**) &(lfc_sym->chmod),
 							(void**) &(lfc_sym->rename), (void**) &(lfc_sym->opendirg), (void**) &(lfc_sym->rmdir), (void**) &(lfc_sym->startsess), (void**) &(lfc_sym->endsess), 
-							(void**) &(lfc_sym->closedir), (void**) &(lfc_sym->readdir) };
-	const char* sym_list[] = { "serrno", "sstrerror", "lfc_creatg", "lfc_delreplica", "lfc_aborttrans",
+							(void**) &(lfc_sym->closedir), (void**) &(lfc_sym->readdir), (void**) &(lfc_sym->Cthread_init), (void**) &(lfc_sym->_Cthread_addcid) };
+	const char* sym_list[] = { "C__serrno", "sstrerror", "lfc_creatg", "lfc_delreplica", "lfc_aborttrans",
 						"lfc_endtrans", "lfc_getpath", "lfc_getlinks", "lfc_getreplica", "lfc_lstat", 
 						"lfc_mkdirg", "lfc_seterrbuf", "lfc_setfsizeg", "lfc_setfsize", "lfc_starttrans",
 						"lfc_statg", "lfc_statr", "lfc_symlink", "lfc_unlink", "lfc_access", "lfc_chmod",
-						"lfc_rename", "lfc_opendirg", "lfc_rmdir", "lfc_startsess", "lfc_endsess", "lfc_closedir", "lfc_readdir" };
-	ret = resolve_dlsym_listG(dlhandle, f_list, sym_list, 28, &tmp_err);
+						"lfc_rename", "lfc_opendirg", "lfc_rmdir", "lfc_startsess", "lfc_endsess", "lfc_closedir", "lfc_readdir",
+						"Cthread_init", "_Cthread_addcid" };
+	ret = resolve_dlsym_listG(dlhandle, f_list, sym_list, 30, &tmp_err);
 	if(ret != 0){
 		g_propagate_prefixed_error(err, tmp_err,"[gfal_load_lfc]");
 		free(lfc_sym);
@@ -288,7 +295,7 @@ static int gfal_lfc_mkdir(struct lfc_ops* ops, const char* path, mode_t mode, GE
 	gfal_generate_guidG(struid,NULL);
 	
 	if(ops->mkdirg (path, struid, mode)){ 
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno,"[%s] Error while mkdir call in the lfc %s", __func__,strerror(sav_errno));
 		return -1;
 	}				
@@ -362,8 +369,8 @@ char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err){
 	int size=0,i;
 	
 	if (ops->getreplica (path, NULL, NULL, &size, &list) < 0) {
-		errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err, 0, errno, "[%s] error reported from lfc : %s", __func__, ops->sstrerror (*ops->serrno));
+		errno = gfal_lfc_get_errno(ops);
+		g_set_error(err, 0, errno, "[%s] error reported from lfc : %s", __func__, gfal_lfc_get_strerror(ops));
 		return NULL;
 	}
 	replicas = malloc( sizeof(char*)* (size+1));
@@ -374,5 +381,22 @@ char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err){
 	free(list);
 	return replicas;
 	
+}
+
+
+int gfal_lfc_get_errno(struct lfc_ops* ops){
+#if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) && (defined(_MT) || defined(_DLL)))
+	return errno = (*(ops->serrno()) < 1000) ? (*(ops->serrno())) : ECOMM;
+#else
+	return errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+#endif
+}
+
+char*  gfal_lfc_get_strerror(struct lfc_ops* ops){
+#if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) && (defined(_MT) || defined(_DLL)))
+	return ops->sstrerror (*(ops->serrno()));
+#else
+	return ops->sstrerror (*ops->serrno);
+#endif
 }
 

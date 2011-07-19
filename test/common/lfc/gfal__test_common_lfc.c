@@ -3,6 +3,7 @@
  * 
  * */
  
+
  
 #include <cgreen/cgreen.h>
 #include <glib.h>
@@ -35,7 +36,7 @@ gfal_catalog_interface get_lfc_interface(gfal_handle handle, GError** err){
 	ops->lfc_endpoint = NULL;
 	ops->statg = &lfc_mock_statg;
 	ops->rename = &lfc_mock_rename;
-	ops->serrno = &lfc_last_err;
+	ops->serrno = &lfc_mock_C__serrno;
 	ops->access = &lfc_mock_access;
 	ops->sstrerror = &strerror;
 	ops->getreplica = &lfc_mock_getreplica;
@@ -149,7 +150,7 @@ void test_gfal_common_lfc_access(){
 
 #if USE_MOCK
 	will_respond(lfc_mock_access, 0, want_string(path, TEST_LFC_VALID_ACCESS+4), want(mode, R_OK));
-	will_respond(lfc_mock_access, EACCES, want_string(path, TEST_LFC_VALID_ACCESS+4), want(mode, W_OK));
+	will_respond(lfc_mock_access, EACCES, want_string(path, TEST_LFC_ONLY_READ_ACCESS+4), want(mode, W_OK));
 	always_return(lfc_mock_access, EINVAL);
 #endif
 
@@ -157,7 +158,7 @@ void test_gfal_common_lfc_access(){
 	assert_true_with_message(ret == 0 && tmp_err== NULL, " must be a valid access %d %ld ",ret, tmp_err);
 
 	g_clear_error(&tmp_err);
-	ret = i.accessG(i.handle, TEST_LFC_VALID_ACCESS, W_OK, &tmp_err);	
+	ret = i.accessG(i.handle, TEST_LFC_ONLY_READ_ACCESS, W_OK, &tmp_err);	
 	assert_true_with_message(ret != 0 && tmp_err->code == EACCES, " must fail, unable to write this file %d %ld", ret, tmp_err);
 
 	g_clear_error(&tmp_err);
@@ -370,7 +371,7 @@ void test__gfal_common_lfc_statg()
 	will_respond(lfc_mock_statg, 0, want_string(lfn, TEST_LFC_VALID_ACCESS+4));
 	defined_filestatg = &f;
 	will_respond(lfc_mock_statg, ENOENT, want_string(lfn, TEST_LFC_NOEXIST_ACCESS+4));
-	will_respond(lfc_mock_statg, EACCES, want_string(lfn,  TEST_LFC_ONLY_READ_ACCESS+4));
+	will_respond(lfc_mock_statg, EACCES, want_string(lfn,  TEST_LFC_OPEN_NOACCESS+4));
 	always_return(lfc_mock_statg, EINVAL);
 #endif	
 	
@@ -387,7 +388,7 @@ void test__gfal_common_lfc_statg()
 	assert_true_with_message( ret != 0 && tmp_err && tmp_err->code == ENOENT, "must be a non existing file ");
 	g_clear_error(&tmp_err);
 		
-	ret = i.statG(i.handle, TEST_LFC_ONLY_READ_ACCESS, &buff , &tmp_err);
+	ret = i.statG(i.handle, TEST_LFC_OPEN_NOACCESS, &buff , &tmp_err);
 	assert_true_with_message(ret != 0 && tmp_err && tmp_err->code == EACCES, " must be a non existing accessible file : %d %ld", ret, tmp_err);
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);

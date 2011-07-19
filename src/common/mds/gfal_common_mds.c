@@ -77,6 +77,9 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 	 	pthread_mutex_lock(&m_mds);
 		char* lfc_host = NULL;
 		GError* tmp_err = NULL;
+		size_t s_errbuff = GFAL_ERRMSG_LEN;
+		char errbuff[s_errbuff];
+		memset(errbuff, '\0', sizeof(char)*s_errbuff);
 		char* vo = gfal_get_voG(&tmp_err);		// get vo and fqans from voms module
 
 		if( gfal_get_nobdiiG(handle) ){		// check the bdii
@@ -102,9 +105,9 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		gfal_mds_external_call.set_gfal_vo(vo);
 		gfal_mds_external_call.set_gfal_fqan(fqantab, g_list_length(fqan));
 		//g_printerr(" vo : %s, fqann %d, fqan : %s \n", vo, g_list_length(fqan), *fqantab); 
-		const int ret =  gfal_mds_external_call.sd_get_lfc_endpoint(&lfc_host, NULL, 0);
+		const int ret =  gfal_mds_external_call.sd_get_lfc_endpoint(&lfc_host, errbuff, s_errbuff);
 		if(!lfc_host || ret <0){
-			g_set_error(err, 0, errno, "[gfal_get_lfchost_bdii] Error while get lfc endpoint from bdii system : %d & %s ", ret, strerror(errno) );
+			g_set_error(err, 0, errno, "[gfal_get_lfchost_bdii] Error while get lfc endpoint from bdii system : %d & %s, %s", ret, strerror(errno), errbuff );
 			lfc_host = NULL;
 		}
 		free(fqantab);

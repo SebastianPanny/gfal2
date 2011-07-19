@@ -58,6 +58,8 @@ int gfal_rfio_readG(catalog_handle handle , gfal_file_handle fd, void* buff, siz
 	int ret = h->rf->read(GPOINTER_TO_INT(fd->fdesc), buff, s_buff);
 	if(ret <0)
 		rfio_report_error(h, __func__, err);
+	else
+		errno =0;
 	return ret;
 }
 
@@ -66,6 +68,8 @@ int gfal_rfio_lseekG(catalog_handle handle , gfal_file_handle fd, off_t offset, 
 	int ret = (off_t) h->rf->lseek64(GPOINTER_TO_INT(fd->fdesc), (off64_t) offset, (int) whence);
 	if(ret <0)
 		rfio_report_error(h, __func__, err);
+	else
+		errno =0;
 	return ret;
 }
 
@@ -74,6 +78,8 @@ int gfal_rfio_writeG(catalog_handle handle , gfal_file_handle fd, void* buff, si
 	int ret = h->rf->write(GPOINTER_TO_INT(fd->fdesc), buff, s_buff);
 	if(ret <0)
 		rfio_report_error(h, __func__, err);
+	else
+		errno =0;
 	return ret;
 }
 

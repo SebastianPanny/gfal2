@@ -297,8 +297,24 @@ void test__gfal_posix_lstat_srm()
 {
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
+#if USE_MOCK
+	create_srm_stat_env_mock();	
 
+#endif	
 	int res = gfal_lstat(TEST_GFAL_SRM_FILE_STAT_OK, &buff);
-	assert_true_with_message(res ==-1 && gfal_posix_code_error() == EPROTONOSUPPORT && errno == EPROTONOSUPPORT, " must not be supported");
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
+	
+	assert_true_with_message(buff.st_mode == TEST_GFAL_SRM_FILE_STAT_MODE_VALUE 
+		&& buff.st_uid == TEST_GFAL_SRM_FILE_STAT_UID_VALUE
+		&& buff.st_gid == TEST_GFAL_SRM_FILE_STAT_GID_VALUE,
+		"this is not the correct value for the srm stat mode %o, uid %d, gid %d, size %d", 
+								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
+	gfal_posix_check_error();
+
+#if USE_MOCK
+	create_srm_stat_env_mock_noent();
+#endif	
+	res = gfal_lstat(TEST_GFAL_SRM_FILE_STAT_NONEXIST, &buff);
+	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid lstat");
 	gfal_posix_clear_error();	
 }

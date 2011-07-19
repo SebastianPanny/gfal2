@@ -34,7 +34,7 @@
 
 
 
-static __thread int nobdii = 0;
+
 
 #if 0
 /*
@@ -1414,13 +1414,7 @@ int gfal_create_subdirs(gfal_handle req, char *errbuf, int errbufsz)
 }
 
 
-void gfal_set_nobdii (int value){
-    nobdii = value;
-}
 
-int gfal_is_nobdii (){
-    return (nobdii);
-}
 
 
 #endif

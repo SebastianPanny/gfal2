@@ -27,6 +27,12 @@ struct lfc_linkinfo *define_linkinfos=NULL;
 int define_numberlinkinfos;
 int define_numberreplica;
 
+
+int* lfc_mock_C__serrno(){
+	return &lfc_last_err;
+}
+
+
 void define_mock_linkinfos(int number, char** resu){
 	int i;
 	define_linkinfos= calloc(sizeof(struct lfc_linkinfo), number);

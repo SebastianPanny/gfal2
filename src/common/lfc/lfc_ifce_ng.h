@@ -29,6 +29,8 @@
 #define GFAL_MAX_LFCHOST_LEN 1024
 
 #include <lfc_api.h>
+#include <Cthread_api.h>
+#include <Cthread_typedef.h>
 
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
@@ -40,7 +42,11 @@
 struct lfc_ops {
 	char* lfc_endpoint;
 	gfal_handle handle;
-	int	*serrno;
+#if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) && (defined(_MT) || defined(_DLL)))
+	int*	(*serrno)(void);
+#else
+	int	serrno;
+#endif
 	char	*(*sstrerror)(int);
 	int	(*addreplica)(const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *);
 	int	(*creatg)(const char *, const char *, mode_t);
@@ -69,13 +75,17 @@ struct lfc_ops {
 	int	(*rmdir)(const char *);
 	int (*startsess) (char *, char *); 
 	int (*endsess) ();
+	void (*Cthread_init)();
+	void (*_Cthread_addcid)(char *, int, char *, int, Cth_pid_t *, unsigned, void *(*)(void *), int);
 };
 
 char* gfal_setup_lfchost(gfal_handle handle, GError ** err);
 
-
 struct lfc_ops* gfal_load_lfc(const char* name, GError** err);
 
+int gfal_lfc_get_errno(struct lfc_ops* ops);
+
+char*  gfal_lfc_get_strerror(struct lfc_ops* ops);
 
 char* gfal_convert_guid_to_lfn(catalog_handle handle, char* guid, GError ** err);
 
@@ -84,4 +94,6 @@ int gfal_lfc_convert_statg(struct stat* output, struct lfc_filestatg* input, GEr
 int gfal_lfc_ifce_mkdirpG(struct lfc_ops* ops,const char* path, mode_t mode, gboolean pflag, GError**  err);
 
 char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err);
+
+void gfal_lfc_init_thread(struct lfc_ops* ops);
 

@@ -27,6 +27,7 @@
  */
 
 #include <regex.h>
+#include <pthread.h>
 #include "gfal_common_lfc.h"
 #include "gfal_common_lfc_open.h"
 #include "../gfal_common_internal.h"
@@ -34,6 +35,9 @@
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_filedescriptor.h"
 #include "lfc_ifce_ng.h"
+
+static gboolean init_thread = FALSE;
+pthread_mutex_t m_lfcinit=PTHREAD_MUTEX_INITIALIZER;
 
 /**
  * just return the name of the layer
@@ -72,8 +76,8 @@ int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** er
 	char* url = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	ret = ops->chmod(url, mode);
 	if(ret < 0){
-		const int myerrno = *(ops->serrno);
-		g_set_error(err, 0, myerrno, "[lfc_chmodG] Errno reported from lfc : %s ", ops->sstrerror(myerrno));
+		const int myerrno = gfal_lfc_get_errno(ops);
+		g_set_error(err, 0, myerrno, "[lfc_chmodG] Errno reported from lfc : %s ", gfal_lfc_get_strerror(ops));
 	}else
 		errno =0;
 	free(url);
@@ -92,8 +96,8 @@ int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
 	char* url = lfc_urlconverter(lfn, GFAL_LFC_PREFIX);
 	int ret = ops->access(url, mode);
 	if(ret <0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err, 0, sav_errno, "[lfc_accessG] lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, ops->sstrerror(sav_errno) );
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err, 0, sav_errno, "[lfc_accessG] lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, gfal_lfc_get_strerror(ops) );
 	}else
 		errno=0;
 	free(url);
@@ -114,8 +118,8 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 	char* durl = lfc_urlconverter(newpath, GFAL_LFC_PREFIX);
 	int ret  = ops->rename(surl, durl);
 	if(ret <0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0,sav_errno, "[lfc_renameG] Error report from LFC : %s",  ops->sstrerror(sav_errno) );
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno, "[lfc_renameG] Error report from LFC : %s",  gfal_lfc_get_strerror(ops) );
 	}
 	free(surl);
 	free(durl);
@@ -135,8 +139,8 @@ int lfc_symlinkG(catalog_handle handle, const char* oldpath, const char* newpath
 	char* durl = lfc_urlconverter(newpath, GFAL_LFC_PREFIX);
 	int ret  = ops->symlink(surl, durl);
 	if(ret <0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0,sav_errno, "[lfc_symlinkG] Error report from LFC : %s",  ops->sstrerror(sav_errno) );
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno, "[lfc_symlinkG] Error report from LFC : %s",  gfal_lfc_get_strerror(ops) );
 	}
 	free(surl);
 	free(durl);
@@ -156,8 +160,8 @@ int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError**
 	
 	int ret = ops->statg(lfn, NULL, &statbuf);
 	if(ret != 0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  ops->sstrerror(sav_errno) );
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  gfal_lfc_get_strerror(ops) );
 	}else{
 		ret= gfal_lfc_convert_statg(st, &statbuf, err);
 		errno=0;
@@ -177,8 +181,8 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	
 	int ret = ops->lstat(lfn, &statbuf);
 	if(ret != 0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s", __func__, ops->sstrerror(sav_errno) );
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
 	}else{
 		ret= gfal_lfc_convert_lstat(st, &statbuf, err);
 		errno=0;
@@ -214,9 +218,9 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	const int ret = ops->rmdir(lfn);
 	if( ret < 0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+		int sav_errno = gfal_lfc_get_errno(ops);
 		sav_errno = (sav_errno==EEXIST)?ENOTEMPTY:sav_errno;		// convert wrong reponse code
-		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
+		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
 	}
 	free(lfn);
 	return ret;	 
@@ -233,8 +237,8 @@ static gfal_file_handle lfc_opendirG(catalog_handle handle, const char* name, GE
 	char* lfn = lfc_urlconverter(name, GFAL_LFC_PREFIX);
 	DIR* d  = (DIR*) ops->opendirg(lfn,NULL);	
 	if(d==NULL){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
 	}	
 	free(lfn);
 	return gfal_file_handle_new(lfc_getName(), (gpointer) d);		
@@ -250,8 +254,8 @@ static struct dirent* lfc_readdirG(catalog_handle handle, gfal_file_handle fh, G
 	
 	struct dirent* ret = ops->readdir( (lfc_DIR*)fh->fdesc);
 	if(ret ==NULL && *ops->serrno ){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
 	}
 	return ret;
 }
@@ -266,8 +270,8 @@ static int lfc_closedirG(catalog_handle handle, gfal_file_handle fh, GError** er
 
 	int ret = ops->closedir(fh->fdesc);	
 	if(ret != 0){
-		int sav_errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
-		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, ops->sstrerror(sav_errno) );
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
 	}else
 		free(fh);
 	return ret;		
@@ -317,6 +321,7 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
  * 
  * */
 gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
+	pthread_mutex_lock(&m_lfcinit);
 	gfal_catalog_interface lfc_catalog;
 	GError* tmp_err=NULL;
 	memset(&lfc_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog
@@ -324,12 +329,14 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	char* endpoint = gfal_setup_lfchost(handle, &tmp_err); // load the endpoint
 	if(endpoint==NULL){
 		g_propagate_prefixed_error(err, tmp_err, "[lfc_initG]");
+		pthread_mutex_unlock(&m_lfcinit);
 		return lfc_catalog;
 	}
 	
 	struct lfc_ops* ops = gfal_load_lfc( "liblfc.so", &tmp_err); // load library
 	if(ops ==NULL){
 		g_propagate_prefixed_error(err, tmp_err,"[%s]", __func__);
+		pthread_mutex_unlock(&m_lfcinit);
 		return lfc_catalog;
 	}
 	ops->lfc_endpoint = endpoint;
@@ -353,6 +360,13 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.getName = &lfc_getName;
 	lfc_catalog.openG = &lfc_openG;
 	lfc_catalog.symlinkG= &lfc_symlinkG;
+	
+	if(init_thread== FALSE){ // initiate Cthread system
+		ops->Cthread_init();	// must be called one time for DPM thread safety	
+		init_thread = TRUE;
+	}
+	gfal_lfc_init_thread(ops);	
+	pthread_mutex_unlock(&m_lfcinit);
 	return lfc_catalog;
 }
 

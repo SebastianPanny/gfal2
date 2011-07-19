@@ -43,7 +43,7 @@ void test_mock_lfc(gfal_handle handle, GError** err){
 	ops->handle = handle;
 	ops->statg = &lfc_mock_statg;
 	ops->rename = &lfc_mock_rename;
-	ops->serrno = &lfc_last_err;
+	ops->serrno = &lfc_mock_C__serrno;
 	ops->access = &lfc_mock_access;
 	ops->sstrerror = &strerror;
 	ops->getreplica = &lfc_mock_getreplica;
@@ -109,7 +109,7 @@ void test_catalog_access_file()
 
 	
 	ret = gfal_catalogs_accessG(handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);	
-	assert_true_with_message(ret!=0 && tmp_err!=0 && tmp_err->code == ENOENT, " must be a non-existing file");
+	assert_true_with_message(ret!=0 && tmp_err!=0 && tmp_err->code == ENOENT, " must be a non-existing file %d %ld %d", (int)ret, (long)tmp_err, (int) (tmp_err)?(tmp_err->code):0);
 	
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);

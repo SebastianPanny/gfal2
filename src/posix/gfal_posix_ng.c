@@ -28,7 +28,7 @@
 #include "gfal_posix_internal.h"
 
 
-
+static int nobdii = 0;
 
 
 /**
@@ -438,4 +438,13 @@ char* gfal_posix_strerror_r(char* buff_err, size_t s_err){
 	}	 
 	return (char*)gfal_str_GError_r(gfal_posix_get_last_error(), buff_err, s_err);
  }
+ 
+ 
+ void gfal_set_nobdii (int value){
+    nobdii = value;
+}
+
+int gfal_is_nobdii (){
+    return (nobdii);
+}
 
