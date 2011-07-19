@@ -56,6 +56,9 @@ int gfal_posix_internal_close(int fd);
 
 int gfal_posix_internal_closedir(DIR* d);
 
+ssize_t gfal_posix_internal_getxattr (const char *path, const char *name,
+                        void *value, size_t size);
+
 struct dirent* gfal_posix_internal_readdir(DIR* dir);
 
 int gfal_posix_internal_symlink(const char * oldpath, const char *newpath);

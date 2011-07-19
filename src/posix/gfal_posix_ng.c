@@ -342,6 +342,22 @@ off_t gfal_lseek (int fd, off_t offset, int whence){
 	return gfal_posix_internal_lseek(fd, offset, whence);
 }
 
+/**
+ * @brief  retrieve an extended attribute value
+ *      gfal_getxattr  retrieves an extended value from an url managed by gfal
+
+ * @param path : url of the file/folder
+ * @param name: name of the attribute to get
+ * @param value:  pointer to buffer to get the value
+ * @param size : size of the buffer
+ * @return  return the size of the data returned, or -1 if error. In the  latter  case,  errno  is  set
+       appropriately, you can call @ref gfal_posix_check_error() for a more complete description. 
+*/
+ssize_t gfal_getxattr (const char *path, const char *name,
+                        void *value, size_t size){
+	return gfal_posix_internal_getxattr(path,name, value, size);
+}
+
 
 /**
  * Display the last string error reported by the gfal error system for the posix API

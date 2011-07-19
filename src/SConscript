@@ -4,7 +4,7 @@
 Import('*')	# import SConstruct exported var
 import os
 
-gfal_common_libs = ['ldap', 'vomsc','is_ifce'] 		# libraries linked
+gfal_common_libs = [ 'vomsc','is_ifce'] 		# libraries linked
 other_headers=['common/']
 common_src = Glob("common/*.c") 
 common_voms = Glob("common/voms/*.c")

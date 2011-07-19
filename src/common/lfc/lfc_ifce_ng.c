@@ -41,12 +41,15 @@
 #include "lfc_ifce_ng.h"
 #include "../gfal_common_errverbose.h"
 
-static __thread gboolean __local_thread_init=FALSE;
+static __thread int _local_thread_init=FALSE;
 
+/**
+ * Routine for internal lfc hack, need to be call for the thread safety 
+ * */
 void gfal_lfc_init_thread(struct lfc_ops* ops){
-	if(__local_thread_init==FALSE){
-		ops->_Cthread_addcid (NULL, 0, NULL, 0, pthread_self(), 0, NULL, 0); 
-		__local_thread_init= TRUE;
+	if(_local_thread_init==FALSE){
+		ops->_Cthread_addcid (NULL, 0, NULL, 0, (void*)pthread_self(), 0, NULL, 0); 
+		_local_thread_init= TRUE;
 	}
 }
 
@@ -150,6 +153,7 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 	char* lfn=NULL;
 	int size = 0;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	gfal_lfc_init_thread(ops);
 	struct lfc_linkinfo* links = NULL;
 	if(ops->getlinks(NULL, guid, &size, &links) <0){
 		int sav_errno = gfal_lfc_get_errno(ops);

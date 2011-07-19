@@ -72,6 +72,7 @@ static void lfc_destroyG(catalog_handle handle){
 int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** err){
 	g_return_val_err_if_fail(handle && path, -1, err, "[lfc_chmodG] Invalid valid value in handle/path ");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	gfal_lfc_init_thread(ops);
 	int  ret=-1;
 	char* url = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	ret = ops->chmod(url, mode);
@@ -93,6 +94,7 @@ int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
 	g_return_val_err_if_fail(handle && lfn, -1, err, "[lfc_accessG] Invalid value in arguments handle  or/and path");
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
+	gfal_lfc_init_thread(ops); 
 	char* url = lfc_urlconverter(lfn, GFAL_LFC_PREFIX);
 	int ret = ops->access(url, mode);
 	if(ret <0){
@@ -114,6 +116,7 @@ int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
 int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath, GError** err){
 	g_return_val_err_if_fail(handle && oldpath && newpath, -1, err, "[lfc_renameG] Invalid value in args handle/oldpath/newpath");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	gfal_lfc_init_thread(ops);
 	char* surl = lfc_urlconverter(oldpath, GFAL_LFC_PREFIX);
 	char* durl = lfc_urlconverter(newpath, GFAL_LFC_PREFIX);
 	int ret  = ops->rename(surl, durl);
@@ -135,6 +138,7 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 int lfc_symlinkG(catalog_handle handle, const char* oldpath, const char* newpath, GError** err){
 	g_return_val_err_if_fail(handle && oldpath && newpath, -1, err, "[lfc_symlinkG] Invalid value in args handle/oldpath/newpath");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	gfal_lfc_init_thread(ops);
 	char* surl = lfc_urlconverter(oldpath, GFAL_LFC_PREFIX);
 	char* durl = lfc_urlconverter(newpath, GFAL_LFC_PREFIX);
 	int ret  = ops->symlink(surl, durl);
@@ -155,6 +159,7 @@ int lfc_symlinkG(catalog_handle handle, const char* oldpath, const char* newpath
 int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path && st, -1, err, "[lfc_statG] Invalid value in args handle/path/stat");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
+	gfal_lfc_init_thread(ops);
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	struct lfc_filestatg statbuf;
 	
@@ -175,7 +180,8 @@ int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError**
  */
 static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path && st, -1, err, "[lfc_lstatG] Invalid value in args handle/path/stat");
-	struct lfc_ops* ops = (struct lfc_ops*) handle;		
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	gfal_lfc_init_thread(ops);	
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	struct lfc_filestat statbuf;
 	
@@ -199,6 +205,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	g_return_val_err_if_fail(handle && path , -1, err, "[lfc_mkdirpG] Invalid value in args handle/path");	
 	GError* tmp_err = NULL; 
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
+	gfal_lfc_init_thread(ops);
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	
 	int ret =gfal_lfc_ifce_mkdirpG(ops, lfn, mode, pflag, &tmp_err);
@@ -215,6 +222,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
  static int lfc_rmdirG(catalog_handle handle, const char* path, GError** err){
 	 g_return_val_err_if_fail( handle && path , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");	
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
+	gfal_lfc_init_thread(ops);
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	const int ret = ops->rmdir(lfn);
 	if( ret < 0){
@@ -233,7 +241,7 @@ static gfal_file_handle lfc_opendirG(catalog_handle handle, const char* name, GE
 	g_return_val_err_if_fail( handle && name , NULL, err, "[lfc_rmdirG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
-
+	gfal_lfc_init_thread(ops);
 	char* lfn = lfc_urlconverter(name, GFAL_LFC_PREFIX);
 	DIR* d  = (DIR*) ops->opendirg(lfn,NULL);	
 	if(d==NULL){
@@ -251,7 +259,7 @@ static struct dirent* lfc_readdirG(catalog_handle handle, gfal_file_handle fh, G
 	g_return_val_err_if_fail( handle && fh , NULL, err, "[lfc_rmdirG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;	
 	struct lfc_ops *ops = (struct lfc_ops*) handle;
-	
+	gfal_lfc_init_thread(ops);
 	struct dirent* ret = ops->readdir( (lfc_DIR*)fh->fdesc);
 	if(ret ==NULL && *ops->serrno ){
 		int sav_errno = gfal_lfc_get_errno(ops);
@@ -267,7 +275,7 @@ static int lfc_closedirG(catalog_handle handle, gfal_file_handle fh, GError** er
 	g_return_val_err_if_fail( handle && fh , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
-
+	gfal_lfc_init_thread(ops);
 	int ret = ops->closedir(fh->fdesc);	
 	if(ret != 0){
 		int sav_errno = gfal_lfc_get_errno(ops);
@@ -285,6 +293,7 @@ char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err){
 	GError* tmp_err=NULL;
 	char** resu = NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	gfal_lfc_init_thread(ops);
 	char * lfn = lfc_urlconverter(path,  GFAL_LFC_PREFIX);
 	resu = gfal_lfc_getSURL(ops, lfn, &tmp_err);
 	if(tmp_err)

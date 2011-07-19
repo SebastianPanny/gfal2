@@ -38,16 +38,11 @@ build_dir = 'build'
 
 #related var for headers:
 header_folder='/stage/include/'
-ccheck_header= ccheck_location+ "/include"
 build_dir_src = build_dir +'/src'
 build_dir_test= build_dir +'/test/src'
-ccheck_header= ccheck_location+ "/include"
 glib_header_dir = [ glib_location + '/lib64/glib-2.0/include/', glib_location+ '/include/glib-2.0/' ]
 dpm_header= dpm_location+ "/usr/include/dpm"
 dcap_header= dcap_location + "/include"
-
-# related var for static library
-ccheck_lib= ccheck_location+ "/lib64/libcheck.a"
 
 		
 etics_lib_dir= glob.glob(etics_build_dir+'/repository/vdt/globus/*/*/lib/')[0]
@@ -87,9 +82,9 @@ SConscript('testing/SConscript', ['env', 'headers', 'libs'])
 
 #unit tests
 env_test = env.Clone()
-env_test.Append(CPPPATH=[ccheck_header, "#src/common", "#src/", "#src/posix"])
+env_test.Append(CPPPATH=[ "#src/common", "#src/", "#src/posix"])
 VariantDir(build_dir_test, 'test')
-SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','ccheck_header','ccheck_lib'])
+SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src'])
 	
 
 	
