@@ -43,6 +43,11 @@
 
 static __thread int _local_thread_init=FALSE;
 
+int gfal_lfc_regex_compile(regex_t* rex, GError** err){
+	int ret = regcomp(rex, "^lfn:/([:alnum:]|-|/|\.|_)+", REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret ==0,-1,err,"[gfal_lfc_check_lfn_url] fail to compile regex, report this bug");
+	return ret;
+}
 /**
  * Routine for internal lfc hack, need to be call for the thread safety 
  * */
@@ -53,7 +58,7 @@ void gfal_lfc_init_thread(struct lfc_ops* ops){
 	}
 }
 
-static int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
+int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
 	if (ops->startsess (ops->lfc_endpoint, (char*) gfal_version ()) < 0){
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno,"[%s] Error while start session with lfc, lfc_endpoint: %s, Error : %s ",
@@ -385,6 +390,34 @@ char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err){
 	free(list);
 	return replicas;
 	
+}
+
+int gfal_lfc_statg(struct lfc_ops* ops, const char* lfn, struct lfc_filestatg* statbuf, GError** err){
+	int ret = ops->statg(lfn, NULL, statbuf);
+	if(ret != 0){
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  gfal_lfc_get_strerror(ops) );
+	}	
+	return ret;
+}
+
+ssize_t g_strv_catbuff(char** strv, char* buff, size_t size){
+	if(strv == NULL)
+		return -1;
+	const size_t sbuff = g_strv_length(strv);
+	ssize_t resu=0;
+	size_t i;
+	char* p = buff;
+	for(i=0; i < sbuff; ++i){
+		const size_t s_str= strnlen(strv[i], GFAL_URL_MAX_LEN);
+		resu += s_str+1;
+		if(buff && size){
+			*(p = (char*) mempcpy(p,strv[i], MIN(size, s_str) ))= '\0';
+			++p;
+		}
+		size = (size >= s_str+1)?(size-s_str-1):0;
+	}
+	return resu;
 }
 
 

@@ -569,7 +569,7 @@ ssize_t gfal_catalog_getxattrG(gfal_handle handle, const char* path, const char*
 		return cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_GETXATTR, terr);
 	}	
 	int getxattr_executor(gfal_catalog_interface* cata_list, GError** terr){
-		resu= cata_list->getxattrG(cata_list, path, name, buff, s_buff, terr);
+		resu= cata_list->getxattrG(cata_list->handle, path, name, buff, s_buff, terr);
 		return (int)resu;
 	}
 	

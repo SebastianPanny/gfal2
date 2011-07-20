@@ -27,7 +27,9 @@
  */
 
 #define _GNU_SOURCE
-
+#define LFC_XATTR_GUID "lfc.guid"
+#define LFC_XATTR_SURLS "lfc.replicas"
+#define LFC_MAX_XATTR_LEN 2048
 
 #include <sys/types.h>
 #include <glib.h>

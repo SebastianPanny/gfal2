@@ -34,6 +34,7 @@ gfal_catalog_interface get_lfc_interface(gfal_handle handle, GError** err){
 	i.handle = calloc(1, sizeof(struct lfc_ops));
 	struct lfc_ops* ops = (struct lfc_ops*) i.handle; 
 	ops->lfc_endpoint = NULL;
+	gfal_lfc_regex_compile(&(ops->rex), err);
 	ops->statg = &lfc_mock_statg;
 	ops->rename = &lfc_mock_rename;
 	ops->serrno = &lfc_mock_C__serrno;

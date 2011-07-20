@@ -31,6 +31,7 @@
 #include <lfc_api.h>
 #include <Cthread_api.h>
 #include <Cthread_typedef.h>
+#include <regex.h>
 
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
@@ -41,6 +42,7 @@
 
 struct lfc_ops {
 	char* lfc_endpoint;
+	regex_t rex; // regular expression compiled 
 	gfal_handle handle;
 #if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) && (defined(_MT) || defined(_DLL)))
 	int*	(*serrno)(void);
@@ -85,9 +87,13 @@ struct lfc_ops* gfal_load_lfc(const char* name, GError** err);
 
 int gfal_lfc_get_errno(struct lfc_ops* ops);
 
+int gfal_lfc_regex_compile(regex_t* rex, GError** err);
+
 char*  gfal_lfc_get_strerror(struct lfc_ops* ops);
 
 char* gfal_convert_guid_to_lfn(catalog_handle handle, char* guid, GError ** err);
+
+int gfal_lfc_statg(struct lfc_ops* ops, const char*, struct lfc_filestatg* resu, GError** err);
 
 int gfal_lfc_convert_statg(struct stat* output, struct lfc_filestatg* input, GError** err);
 
@@ -96,4 +102,8 @@ int gfal_lfc_ifce_mkdirpG(struct lfc_ops* ops,const char* path, mode_t mode, gbo
 char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err);
 
 void gfal_lfc_init_thread(struct lfc_ops* ops);
+
+int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err); 
+
+ssize_t g_strv_catbuff(char** strv, char* buff, size_t size);
 

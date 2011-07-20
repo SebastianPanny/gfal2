@@ -28,6 +28,9 @@
 
 #include <regex.h>
 #include <pthread.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <attr/xattr.h>
 #include "gfal_common_lfc.h"
 #include "gfal_common_lfc_open.h"
 #include "../gfal_common_internal.h"
@@ -62,6 +65,7 @@ static void lfc_destroyG(catalog_handle handle){
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
 	if(ops){
 		free(ops->lfc_endpoint);
+		regfree(&(ops->rex));
 		free(ops);
 	}
 }
@@ -158,20 +162,20 @@ int lfc_symlinkG(catalog_handle handle, const char* oldpath, const char* newpath
  */
 int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path && st, -1, err, "[lfc_statG] Invalid value in args handle/path/stat");
+	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
 	gfal_lfc_init_thread(ops);
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	struct lfc_filestatg statbuf;
 	
-	int ret = ops->statg(lfn, NULL, &statbuf);
-	if(ret != 0){
-		int sav_errno = gfal_lfc_get_errno(ops);
-		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  gfal_lfc_get_strerror(ops) );
-	}else{
+	int ret = gfal_lfc_statg(ops, lfn, &statbuf, &tmp_err);
+	if(ret == 0){
 		ret= gfal_lfc_convert_statg(st, &statbuf, err);
 		errno=0;
 	}
 	free(lfn);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;
 }
 /**
@@ -303,6 +307,68 @@ char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err){
 }
 
 /**
+ * lfc getxattr for the path -> surls resolution
+ * */
+ssize_t lfc_getxattr_getsurl(catalog_handle handle, const char* path, void* buff, size_t size, GError** err){
+	GError* tmp_err=NULL;
+	ssize_t res = -1;
+
+	char** tmp_ret = lfc_getSURLG(handle, path, &tmp_err);
+	if(tmp_ret != NULL){
+		res = g_strv_catbuff(tmp_ret, buff, size);
+		g_strfreev(tmp_ret);
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
+	return res;
+}
+
+
+/**
+ * lfc getxattr for the path -> guid resolution
+ * */
+ssize_t lfc_getxattr_getguid(struct lfc_ops* ops, const char* path, void* buff, size_t size, GError** err){
+	GError* tmp_err=NULL;
+	ssize_t res = -1;
+	if(size == 0 || buff ==NULL){ // just return the size of a guid
+		res = sizeof(char) * 36; // strng uuid are 36 bytes long
+	}else{
+		char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+		struct lfc_filestatg statbuf;
+		int tmp_ret = gfal_lfc_statg(ops, lfn, &statbuf, &tmp_err);
+		if(tmp_ret == 0){
+			res = strnlen(statbuf.guid, GFAL_URL_MAX_LEN);
+			g_strlcpy(buff,statbuf.guid, size);
+		}
+		free(lfn);
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return res;
+}
+
+/**
+ * lfc getxattr implem 
+ * */
+ssize_t lfc_getxattrG(catalog_handle handle, const char* path, const char* name, void* buff, size_t size, GError** err){
+	GError* tmp_err=NULL;
+	ssize_t res = -1;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	gfal_lfc_init_thread(ops);
+	if( strncmp(name, LFC_XATTR_GUID, LFC_MAX_XATTR_LEN) == 0){
+		res = lfc_getxattr_getguid(ops, path, buff, size, &tmp_err );
+	}else if(strncmp(name, LFC_XATTR_SURLS, LFC_MAX_XATTR_LEN) == 0){
+		res = lfc_getxattr_getsurl(handle, path, buff, size, &tmp_err);
+	}else{
+		g_set_error(&tmp_err,0, ENOATTR, "axttr not found");
+		res = -1;
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return res;
+}
+
+/**
  * Convert a guid to a catalog url if possible
  *  return the link in a catalog's url string or err and NULL if not found
  */
@@ -325,8 +391,8 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 
 /**
  * Map function for the lfc interface
- *  this function provide the generic CATALOG interface for the LFC catalog.
- *  lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map.
+ * this function provide the generic CATALOG interface for the LFC catalog.
+ * lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map.
  * 
  * */
 gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
@@ -350,6 +416,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	}
 	ops->lfc_endpoint = endpoint;
 	ops->handle = handle;
+	gfal_lfc_regex_compile(&(ops->rex), err);
 	gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[gfal][lfc] lfc endpoint : %s", endpoint);
 	lfc_catalog.handle = (void*) ops;
 	lfc_catalog.check_catalog_url= &gfal_lfc_check_lfn_url;
@@ -369,12 +436,14 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.getName = &lfc_getName;
 	lfc_catalog.openG = &lfc_openG;
 	lfc_catalog.symlinkG= &lfc_symlinkG;
+	lfc_catalog.getxattrG= &lfc_getxattrG;
 	
 	if(init_thread== FALSE){ // initiate Cthread system
 		ops->Cthread_init();	// must be called one time for DPM thread safety	
 		init_thread = TRUE;
 	}
 	gfal_lfc_init_thread(ops);	
+	//gfal_lfc_startSession(ops, err);
 	pthread_mutex_unlock(&m_lfcinit);
 	return lfc_catalog;
 }
@@ -386,7 +455,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
  * 
  * */
  gboolean gfal_lfc_check_lfn_url(catalog_handle handle, const char* lfn_url, catalog_mode mode, GError** err){
-	regex_t rex;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	int ret;
 	switch(mode){
 		case GFAL_CATALOG_RESOLVE_GUID:
@@ -402,10 +471,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 		case GFAL_CATALOG_OPEN:
 		case GFAL_CATALOG_GETSURL:
 		case GFAL_CATALOG_SYMLINK:
-			ret = regcomp(&rex, "^lfn:/([:alnum:]|-|/|\.|_)+", REG_ICASE | REG_EXTENDED);
-			g_return_val_err_if_fail(ret ==0,-1,err,"[gfal_lfc_check_lfn_url] fail to compile regex, report this bug");
-			ret= regexec(&rex, lfn_url, 0, NULL, 0);
-			regfree(&rex);
+		case GFAL_CATALOG_GETXATTR:
+			ret= regexec(&(ops->rex), lfn_url, 0, NULL, 0);
 			return (!ret)?TRUE:FALSE;	
 		default:
 			return FALSE;
