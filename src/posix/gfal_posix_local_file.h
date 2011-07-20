@@ -23,10 +23,14 @@
  * @version 2.0
  * @date 06/05/2011
  * */
- 
+
+#include <sys/types.h>
+#include <glib.h>
+#include "../common/gfal_types.h"
  
 int gfal_local_initG(GError** err);
- gboolean gfal_check_local_url(const char* path, GError* err);
+
+gboolean gfal_check_local_url(const char* path, GError** err);
 
 gboolean gfal_is_local_call(const char * module_name); 
  
@@ -43,6 +47,8 @@ int gfal_local_lstat(const char* path, struct stat* buf, GError ** err);
 int gfal_local_lseek(gfal_file_handle fh, off_t offset, int whence, GError** err);
 
 int gfal_local_mkdir(const char* path, mode_t mode, GError** err);
+
+ssize_t gfal_local_getxattr(const char* path, const char* name, void* buff, size_t s_buff, GError** err);
 
 int gfal_local_rmdir(const char* path, GError** err);
 

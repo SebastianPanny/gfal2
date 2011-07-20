@@ -62,6 +62,7 @@ enum _catalog_mode{
 	GFAL_CATALOG_GETTURL,
 	GFAL_CATALOG_PUTTURL,
 	GFAL_CATALOG_RESOLVE_GUID,
+	GFAL_CATALOG_GETXATTR,
 	
 };
 
@@ -93,25 +94,26 @@ struct _gfal_catalog_interface{
 	int (*symlinkG)(catalog_handle, const char*, const char*, GError** err);
 	int (*statG)(catalog_handle, const char*, struct stat *buf, GError** err);
 	int (*lstatG)(catalog_handle, const char*, struct stat *buf, GError** err);
-	/**
-	 * function pointer for the mkdir call, if pflag is set, the call is considered like a recursive call for a full path creation
-	 * */
-	int (*mkdirpG)(catalog_handle, const char*, mode_t, gboolean pflag, GError**);
-	int (*rmdirG )(catalog_handle, const char*, GError**);
 
+	// directory management
 	 gfal_file_handle (*opendirG)(catalog_handle, const char*, GError**); 
 	 int (*closedirG)(catalog_handle, gfal_file_handle, GError**);
 	 struct dirent* (*readdirG)(catalog_handle, gfal_file_handle, GError**);
+	int (*mkdirpG)(catalog_handle, const char*, mode_t, gboolean pflag, GError**);  //function pointer for the mkdir call, if pflag is set, the call is considered like a recursive call for a full path creation
+	int (*rmdirG )(catalog_handle, const char*, GError**);	 
+	 
 
+	 // basic file operation, 
 	 gfal_file_handle (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
 	 int (*readG)(catalog_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
 	 int (*writeG)(catalog_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
 	 int (*closeG)(catalog_handle, gfal_file_handle fd, GError **);
 	 int (*lseekG)(catalog_handle, gfal_file_handle fd, off_t offset, int whence, GError** err);
 	 
-	 char** (*getSURLG)(catalog_handle, const char*, GError**);
-
+	 // advanced attributes management
+	 ssize_t (*getxattrG)(catalog_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
 	 
+	 char** (*getSURLG)(catalog_handle, const char*, GError**);	 
 	 int (*getTURLG)(catalog_handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
 	 int (*putTURLG)(catalog_handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
 	/**
@@ -131,64 +133,50 @@ struct _catalog_opts{
 
 #include "gfal_types.h"
 
-/**
-	\brief catalog type getter
-	
-	@return return a string of the type of the catalog
-	 return NULL if an error occured and set the GError correctly
-*/
+
 extern char* gfal_get_cat_type(GError**);
 
 
 int gfal_catalogs_instance(gfal_handle, GError** err);
-
 char** gfal_catalogs_get_list(gfal_handle, GError** err);
+int gfal_catalogs_delete(gfal_handle, GError** err);
+
 
 int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError** err);
 
-int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
-
-int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
-
-int gfal_catalog_lseekG(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err);
 
 int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err);
 
-int gfal_catalogs_delete(gfal_handle, GError** err);
+
+
 
 int gfal_catalog_statG(gfal_handle handle,const char* path, struct stat* st, GError** err);
-
 int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err);
-
 int gfal_catalog_symlinkG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err);
-
-
-
 int gfal_catalog_lstatG(gfal_handle handle,const char* path, struct stat* st, GError** err);
-
 int gfal_catalog_mkdirp(gfal_handle handle, const char* path, mode_t mode, gboolean pflag,  GError** err);
 
 
+gfal_file_handle gfal_catalog_opendirG(gfal_handle handle, const char* name, GError** err);
+int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err);
+struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GError** err);
+ 	
+
+gfal_file_handle gfal_catalog_openG(gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err);
+gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err);
+int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
+int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
+int gfal_catalog_lseekG(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err);
+int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
+
+
+ssize_t gfal_catalog_getxattrG(gfal_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
+
+char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err);
+int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
+int gfal_catalog_putTURLG(gfal_handle handle, const char* surl, char* turl_buff, int turl, char** reqtoken, GError** err);
 
 char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
 
-gfal_file_handle gfal_catalog_opendirG(gfal_handle handle, const char* name, GError** err);
 
-int gfal_catalog_closedirG(gfal_handle handle, gfal_file_handle fh, GError** err);
-
-gfal_file_handle gfal_catalog_openG(gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err);
-
-gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err);
-
-int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
-
-char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err);
-
-int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
-
-int gfal_catalog_putTURLG(gfal_handle handle, const char* surl, char* turl_buff, int turl, char** reqtoken, GError** err);
-
-
-struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GError** err);
- 	
 

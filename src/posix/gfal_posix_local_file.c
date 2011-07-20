@@ -26,9 +26,11 @@
 #include <glib.h>
 #include <sys/stat.h>
 #include <regex.h>
+#include <attr/xattr.h>
+
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_filedescriptor.h"
-#include "../common/gfal_types.h"
+#include "gfal_posix_local_file.h"
 
 #define GFAL_LOCAL_PREFIX "file:"
 
@@ -59,6 +61,15 @@ int gfal_local_chmod(const char* path, mode_t mode,GError** err){
 	}
 	return res;
 }
+
+ssize_t gfal_local_getxattr(const char* path, const char* name, void* buff, size_t s_buff, GError** err){
+	const ssize_t res = getxattr(path+ + strlen(GFAL_LOCAL_PREFIX), name, buff, s_buff);
+	if(res <0){
+		gfal_local_report_error(__func__, err);
+	}
+	return res;
+}
+
 
 
 int gfal_local_rename(const char* oldpath, const char* newpath, GError** err){
@@ -219,7 +230,7 @@ int gfal_local_closedir(gfal_file_handle fh, GError** err){
  }
  
 int gfal_local_symlink(const char* oldpath, const char* newpath, GError** err){
-	const int res = symlink(oldpath, newpath);
+	const int res = symlink(oldpath + strlen(GFAL_LOCAL_PREFIX), newpath + strlen(GFAL_LOCAL_PREFIX));
 	if(res !=0)
 		gfal_local_report_error(__func__, err);
 	return res;		

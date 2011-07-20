@@ -35,7 +35,7 @@ ssize_t gfal_posix_internal_getxattr (const char *path, const char *name,
                         void *value, size_t size){
 	 GError* tmp_err=NULL;
 	 gfal_handle handle;
-	 int res= -1;
+	 ssize_t res= -1;
 
 	if((handle = gfal_posix_instance()) == NULL){
 		errno = EIO;
@@ -45,17 +45,15 @@ ssize_t gfal_posix_internal_getxattr (const char *path, const char *name,
 	if(path == NULL){
 		g_set_error(&tmp_err, 0, EFAULT, " path is an incorrect argument");
 	}else{
-		/*if( gfal_check_local_url(path, NULL) == TRUE){
-			res = gfal_local_chmod(path, mode, &tmp_err);
-		}else if(gfal_guid_checker(path, NULL) == TRUE){
-			res = gfal_guid_chmodG(handle, path, mode, &tmp_err);
+		if( gfal_check_local_url(path, NULL) == TRUE){
+			res = gfal_local_getxattr(path, name, value, size, &tmp_err);
 		}else{
-			res = gfal_catalog_chmodG(handle, path, mode, &tmp_err);
-		}*/
-		g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
+			res = gfal_catalog_getxattrG(handle, path, name, value, size, &tmp_err);
+		}
+
 	}
 	if(tmp_err){
-		gfal_posix_register_internal_error(handle, "[gfal_chmod]", tmp_err);
+		gfal_posix_register_internal_error(handle, "[gfal_getxattr]", tmp_err);
 		errno = tmp_err->code;	
 	}
 	return res; 							

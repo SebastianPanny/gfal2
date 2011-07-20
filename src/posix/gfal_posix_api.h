@@ -38,6 +38,9 @@ int gfal_access (const char *, int);
 
 int gfal_chmod(const char* path, mode_t mode);
 
+ssize_t gfal_getxattr (const char *path, const char *name,
+                        void *value, size_t size);
+
 int gfal_rename (const char *oldpath, const char * newpath);
 
 int gfal_stat (const char *, struct stat *);

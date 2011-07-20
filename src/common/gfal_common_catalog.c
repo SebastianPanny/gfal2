@@ -558,6 +558,28 @@ char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err){
 	return resu;
 }
 
+/**
+ * @brief implementation in the catalog of the get extended attribute function
+ * */
+ssize_t gfal_catalog_getxattrG(gfal_handle handle, const char* path, const char*name , void* buff, size_t s_buff, GError** err){
+	GError* tmp_err=NULL;
+	ssize_t resu = -1;
+	
+	gboolean getxattr_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_GETXATTR, terr);
+	}	
+	int getxattr_executor(gfal_catalog_interface* cata_list, GError** terr){
+		resu= cata_list->getxattrG(cata_list, path, name, buff, s_buff, terr);
+		return (int)resu;
+	}
+	
+	gfal_catalogs_operation_executor(handle, &getxattr_checker, &getxattr_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
+	return resu;	
+	
+}
+
 
 /**
  * Resolve a surl to a "GET" turl
