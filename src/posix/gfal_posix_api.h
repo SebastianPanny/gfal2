@@ -24,110 +24,67 @@
  * */
  
  
-
-#include "../common/gfal_types.h"
-#include <glib.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
-int gfal_access (const char *, int);
+
+
+
 
 int gfal_chmod(const char* path, mode_t mode);
-
-ssize_t gfal_getxattr (const char *path, const char *name,
-                        void *value, size_t size);
-
 int gfal_rename (const char *oldpath, const char * newpath);
 
+// access and stat purpose
 int gfal_stat (const char *, struct stat *);
-
 int gfal_lstat (const char *, struct stat *);
+int gfal_access (const char *, int);
 
-int gfal_mkdir(const char *, mode_t mode);
 
-DIR* gfal_opendir(const char* name);
-
-struct dirent* gfal_readdir(DIR* dir);
-
-void gfal_posix_clear_error();
-
-void gfal_posix_release_error();
-
-char* gfal_posix_strerror_r(char* buff_err, size_t s_err);
-
-void gfal_posix_print_error();
-
-int gfal_posix_code_error();
-
-int gfal_close (int);
-
-int gfal_closedir (DIR *);
-
+//classical read/write operations
 int gfal_creat (const char *, mode_t);
-
-
-off_t gfal_lseek (int, off_t, int);
-
-int gfal_mkdir (const char *, mode_t);
-	   
 int gfal_open (const char *, int, mode_t);
-
-DIR *gfal_opendir (const char *);
-
+off_t gfal_lseek (int, off_t, int);
+int gfal_close (int);
 int gfal_read (int, void *, size_t);
-
-struct dirent *gfal_readdir (DIR *);
-
-
-
-int gfal_rmdir (const char *);
-
-ssize_t gfal_setfilchg (int, const void *, size_t);
-
-int gfal_unlink (const char *);
-
 int gfal_write (int, const void *, size_t);
 
 
+// advanced use purpose ( set properties, guid, replicas )
+ssize_t gfal_getxattr (const char *path, const char *name,
+                        void *value, size_t size);
 
-#if defined(linux) || defined(sun)
+
+
+
+// directory management purpose
+int gfal_mkdir (const char *, mode_t);
+DIR *gfal_opendir (const char *);
+int gfal_closedir (DIR *);
 struct dirent *gfal_readdir (DIR *);
-#endif
-
-#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 
 
-off64_t gfal_lseek64 (int, off64_t, int);
+int gfal_rmdir (const char *);
+int gfal_unlink (const char *);
 
 
+// error management
+void gfal_posix_clear_error();
+void gfal_posix_release_error();
+char* gfal_posix_strerror_r(char* buff_err, size_t s_err);
+void gfal_posix_print_error();
+int gfal_posix_code_error();
 
 
-
-int gfal_lstat64 (const char *, struct stat64 *);
-
-
-
-
-
-int gfal_stat64 (const char *, struct stat64 *);
-
-
-#if defined(linux) || defined(sun)
-struct dirent64 *gfal_readdir64 (DIR *);
-#endif
-#endif
-
-
-
-/**
- * \brief set the verbose global level
- * \param values : { \ref GFAL_VERBOSE_QUIET, \ref GFAL_VERBOSE_NORMAL , \ref GFAL_VERBOSE_VERBOSE , \ref GFAL_VERBOSE_DEBUG  }
- */
+// define the verbose mode
 int gfal_set_verbose (int);
+
+
+
 /**
  * \brief set the vo used by gfal
  */
@@ -174,11 +131,5 @@ void gfal_set_timeout_srm (int);
  * */
 int gfal_get_timeout_srm ();
 
-
-const char *gfal_get_checksum_algname (enum gfal_cksm_type);
-
-enum gfal_cksm_type gfal_parse_checksum_algname (const char *);
-
 int gfal_is_nobdii ();
-
 
