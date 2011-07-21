@@ -38,7 +38,6 @@
 #include "gfal_constants.h"
 #include "gfal_prototypes.h"
 #include "gfal_types.h"
-#include "lfc/lfc_ifce.h" 
 #include "voms_apic.h"
 
 

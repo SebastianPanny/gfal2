@@ -378,8 +378,8 @@ char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err){
 	int size=0,i;
 	
 	if (ops->getreplica (path, NULL, NULL, &size, &list) < 0) {
-		errno = gfal_lfc_get_errno(ops);
-		g_set_error(err, 0, errno, "[%s] error reported from lfc : %s", __func__, gfal_lfc_get_strerror(ops));
+		int myerrno = gfal_lfc_get_errno(ops);
+		g_set_error(err, 0, myerrno, "[%s] error reported from lfc : %s", __func__, gfal_lfc_get_strerror(ops));
 		return NULL;
 	}
 	replicas = malloc( sizeof(char*)* (size+1));

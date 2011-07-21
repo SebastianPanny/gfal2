@@ -40,7 +40,7 @@
 gfal_file_handle lfc_openG(catalog_handle ch, const char* path, int flag, mode_t mode, GError** err){
 	gfal_handle handle = ((struct lfc_ops*)ch)->handle;
 	GError* tmp_err=NULL;
-	gfal_file_handle res;
+	gfal_file_handle res=NULL;
 	char** surls = lfc_getSURLG(ch, path, &tmp_err);
 	char** p = surls;
 	while( p != NULL){

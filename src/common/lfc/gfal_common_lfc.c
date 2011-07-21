@@ -443,7 +443,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 		init_thread = TRUE;
 	}
 	gfal_lfc_init_thread(ops);	
-	//gfal_lfc_startSession(ops, err);
+	gfal_lfc_startSession(ops, err);
 	pthread_mutex_unlock(&m_lfcinit);
 	return lfc_catalog;
 }

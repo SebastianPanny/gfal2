@@ -41,6 +41,7 @@ void test__gfal_posix_chmod_read_lfn(){
 	res = gfal_access(TEST_LFC_MOD_READ_FILE, R_OK);
 	assert_true_with_message( res == -1 && errno == EACCES && gfal_posix_code_error() == EACCES, "must be a non accessible file");		
 	gfal_posix_clear_error();
+	errno =0;
 	res = gfal_chmod(TEST_LFC_MOD_UNEXIST_FILE, 0);
 	assert_true_with_message( res == -1 && errno == ENOENT && gfal_posix_code_error() == ENOENT, "must be a non-existing file");		
 	gfal_posix_clear_error();
@@ -118,6 +119,7 @@ void test__gfal_posix_chmod_read_local(){
 		assert_true_with_message(FALSE, " file must be created");
 		return;
 	}
+	errno =0;
 	fwrite(msg, sizeof(char), 5, f);
 	fclose(f);
 	errno = 0;

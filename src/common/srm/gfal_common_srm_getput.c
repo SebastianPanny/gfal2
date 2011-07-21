@@ -207,7 +207,7 @@ int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_tu
 			g_set_error(&tmp_err,0 , resu[0].err_code, " error on the turl request : %s ", resu[0].err_str);
 			ret = -1;
 		}
-	
+		free(resu);
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
