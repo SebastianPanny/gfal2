@@ -26,7 +26,8 @@
 
 #include "gfal_common_srm.h"
 #include "gfal_constants.h"
-#include "gfal_types.h"
+#include "../gfal_prototypes.h"
+#include "../gfal_types.h"
 #include <stdlib.h>
 
 int gfal_srm_determine_endpoint(gfal_handle handle, const char* surl, char* buff_endpoint, size_t s_buff, enum gfal_srm_proto* srm_type, GError** err);

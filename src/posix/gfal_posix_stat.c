@@ -32,8 +32,6 @@
 #include "gfal_posix_internal.h"
 #include "../common/gfal_types.h"
 #include "../common/gfal_common_guid.h"
-#include "../common/srm/gfal_common_srm.h"
-#include "../common/srm/gfal_common_srm_stat.h"
 
  /**
   *  internal implementation of gfal_access
