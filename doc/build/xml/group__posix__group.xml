@@ -4,18 +4,18 @@
     <compoundname>posix_group</compoundname>
     <title>all POSIX style function</title>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__posix__group_1g33d6a4a93117a6c07405aa6ac0d42122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g538a007e9811ed489ff2ecf5afd9ab15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_access</definition>
-        <argsstring>(const char *, int)</argsstring>
+        <argsstring>(const char *path, int amode)</argsstring>
         <name>gfal_access</name>
         <param>
           <type>const char *</type>
-          <defname>path</defname>
+          <declname>path</declname>
         </param>
         <param>
           <type>int</type>
-          <defname>amode</defname>
+          <declname>amode</declname>
         </param>
         <briefdescription>
 <para>test access to the given file </para>        </briefdescription>
@@ -25,10 +25,17 @@
 <parametername>path</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+<para>path of the file to access, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>amode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>access mode to check (R_OK, W_OK, X_OK or F_OK) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it. <linebreak/>
+<simplesect kind="return"><para>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it. <linebreak/>
 <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
@@ -40,30 +47,30 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="32" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="50" bodyend="52"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="59" bodyend="61"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gdfeeecb2052d81e65bcc09903655991b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1geed11d6e570d3a22977d860c2b000285" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_chmod</definition>
-        <argsstring>(const char *, mode_t)</argsstring>
+        <argsstring>(const char *path, mode_t mode)</argsstring>
         <name>gfal_chmod</name>
         <param>
           <type>const char *</type>
-          <defname>path</defname>
+          <declname>path</declname>
         </param>
         <param>
           <type>mode_t</type>
-          <defname>mode</defname>
+          <declname>mode</declname>
         </param>
         <briefdescription>
-<para>set rights of the file/dir </para>        </briefdescription>
+<para>change the right for a file or a folder </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>path</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>: path of the file or the folder concerned in supported protocols (lfn, file, guid,..) </para></parameterdescription>
+<para>: path of the file or the folder, can be in all supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
@@ -73,7 +80,7 @@
 <para>: right to configure </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
@@ -84,52 +91,307 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="69" bodyend="71"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="78" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="78" bodyend="80"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g83b88bd27def4c4e2fdfea3c5bbf88b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1gc56b24046cef203517f30023a999bf1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_close</definition>
-        <argsstring>(int)</argsstring>
-        <name>gfal_close</name>
+        <definition>int gfal_rename</definition>
+        <argsstring>(const char *oldpath, const char *newpath)</argsstring>
+        <name>gfal_rename</name>
         <param>
-          <type>int</type>
-          <defname>fd</defname>
+          <type>const char *</type>
+          <declname>oldpath</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>newpath</declname>
         </param>
         <briefdescription>
-<para>close the current file descriptor </para>        </briefdescription>
+<para>change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>fd</parametername>
+<parametername>oldpath</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>: descriptor or the file given by <ref refid="group__posix__group_1g6a431a0bdd01baf8cadbdcaa98b1c622" kindref="member">gfal_open</ref>  </para></parameterdescription>
+<para>: the old path of the file, can be in supported protocols but need to be in the same adress space than newpath </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newpath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: the new path of the file, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately<itemizedlist>
+<simplesect kind="return"><para>: return 0 if success, else -1 and errno / <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref> <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
-<listitem><para>EBADF: fd is not a valid file descriptor.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported </para></listitem></itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.<itemizedlist>
+<listitem><para>EISDIR: newpath is an existing directory but oldpath is not a directory</para></listitem><listitem><para>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.<itemizedlist>
+<listitem><para>EXDEV oldpath and newpath are not on the same mounted file system.</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="311" bodyend="313"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="104" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="104" bodyend="106"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g1c97c21d23c919b2647f17bbc8b79db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1ga10c3c326c192d3a020bad7787b54845" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_stat</definition>
+        <argsstring>(const char *path, struct stat *buff)</argsstring>
+        <name>gfal_stat</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>struct stat *</type>
+          <declname>buff</declname>
+        </param>
+        <briefdescription>
+<para>informations about a file These functions return information about a file. No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is required on all of the directories in path that lead to the file. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: path of the file, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: pointer to an allocated struct stat </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it</para></simplesect>
+<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="127" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g11b70df7b76efe90901b5cd09535d6d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_lstat</definition>
+        <argsstring>(const char *path, struct stat *buff)</argsstring>
+        <name>gfal_lstat</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>struct stat *</type>
+          <declname>buff</declname>
+        </param>
+        <briefdescription>
+<para>gfal_lstat is identical to <ref refid="group__posix__group_1ga10c3c326c192d3a020bad7787b54845" kindref="member">gfal_stat</ref>  except for symbolic links. In this case, the link itself is statted and not followed. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="136" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g412d6606fcf2f735747f278eab8af19a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_mkdirp</definition>
+        <argsstring>(const char *path, mode_t mode)</argsstring>
+        <name>gfal_mkdirp</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>mode_t</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like &quot;mkdir -p&quot;. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: url of the directory, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: right of the directory ( depend of the implementation ) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.<itemizedlist>
+<listitem><para>EEXIST: file already exist</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="158" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g6389fe2808bf2e65e8ef633630b9eb31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_mkdir</definition>
+        <argsstring>(const char *path, mode_t mode)</argsstring>
+        <name>gfal_mkdir</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>mode_t</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Wrapper to mkdir for comptibility, same behavior than <ref refid="group__posix__group_1g412d6606fcf2f735747f278eab8af19a" kindref="member">gfal_mkdirp</ref>  ( but subject to change in order to follow POSIX mkdir in the futur ) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="165" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="165" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g29e44bed837fbb03e5de38cddc04b105" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_rmdir</definition>
+        <argsstring>(const char *path)</argsstring>
+        <name>gfal_rmdir</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>removes a directory if it is empty remove an existing directory, return error if the dir is not empty </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>specifies the directory name, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return 0 is success else -1 and errno is set call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
+<listitem><para>ENOTEMPTY : path is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="188" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g219a2a2e9a6cd6ea3d154df5bfc8c6b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DIR *</type>
+        <definition>DIR* gfal_opendir</definition>
+        <argsstring>(const char *name)</argsstring>
+        <name>gfal_opendir</name>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>open a directory </para>        </briefdescription>
+        <detaileddescription>
+<para>opens a directory to be used in subsequent gfal_readdir operations the url supported are : local files, surls, catalog url ( lfc,...) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the directory to open, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>file descriptor DIR* if success else NULL if error and errno is set call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it</para></simplesect>
+<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
+<listitem><para>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ENOTDIR: path or a component in path is not a directory.<itemizedlist>
+<listitem><para>EMFILE: too many file open by the process</para></listitem></itemizedlist>
+</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="213" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="213" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1gf501fb0827325e574ea6b300c62c7498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dirent *</type>
+        <definition>struct dirent* gfal_readdir</definition>
+        <argsstring>(DIR *d)</argsstring>
+        <name>gfal_readdir</name>
+        <param>
+          <type>DIR *</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+<para>read a directory </para>        </briefdescription>
+        <detaileddescription>
+<para>The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred. struct dirent { ino_t d_ino; // inode number off_t d_off; // offset to the next dirent unsigned short d_reclen; // length of this record unsigned char d_type; // type of file; not supported // by all file system types char d_name[256]; // filename };</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file handle ( return by opendir ) to read </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>pointer to struct dirent with file information or NULL if end of list or error, errno is set call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
+<simplesect kind="warning"><para>struct dirents are allocated statically, do not use free() on them</para></simplesect>
+<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>EBADF : bad file descriptor<itemizedlist>
+<listitem><para>ECOMM : Communication error </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="242" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="242" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g2b6b93ac22a6b998ff48bec9d2535745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_closedir</definition>
-        <argsstring>(DIR *)</argsstring>
+        <argsstring>(DIR *d)</argsstring>
         <name>gfal_closedir</name>
         <param>
           <type>DIR *</type>
-          <defname>d</defname>
+          <declname>d</declname>
         </param>
         <briefdescription>
-<para>gfal_closedir - close a directory </para>        </briefdescription>
+<para>read a directory close the file descriptor of an opendir call </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -152,172 +414,34 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="241" bodyend="243"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="258" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="258" bodyend="260"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g5fcdc6f3e7911787be049e20b6ab19b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1gd2cb77ba96df312c4c30242c3dec377c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_creat</definition>
-        <argsstring>(const char *, mode_t)</argsstring>
-        <name>gfal_creat</name>
+        <definition>int gfal_open</definition>
+        <argsstring>(const char *path, int flag, mode_t mode)</argsstring>
+        <name>gfal_open</name>
         <param>
           <type>const char *</type>
-          <defname>filename</defname>
-        </param>
-        <param>
-          <type>mode_t</type>
-          <defname>mode</defname>
-        </param>
-        <briefdescription>
-<para>creates a new file or truncates an existing one </para>        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>filename</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>: url of the filename to create, can be a surl, lfn, guid, local or turl the urls supported by the modules </para></parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>flag</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>: same flag supported value is built by OR’ing the bits defined in &lt;fcntl.h&gt; but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. </para></parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>mode</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>is used only if the file is created. </para></parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>return the file descriptor or -1 if errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
-</para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="92" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="273" bodyend="275"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g48783e60cafa1a3bf9aa2170b99f9b08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_creat64</definition>
-        <argsstring>(const char *, mode_t)</argsstring>
-        <name>gfal_creat64</name>
-        <param>
-          <type>const char *</type>
-        </param>
-        <param>
-          <type>mode_t</type>
-        </param>
-        <briefdescription>
-<para>same as create for large file </para>        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="96"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g8ba4e1df5f2e6439641c56f245d5ce73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>off_t</type>
-        <definition>off_t gfal_lseek</definition>
-        <argsstring>(int, off_t, int)</argsstring>
-        <name>gfal_lseek</name>
-        <param>
-          <type>int</type>
-        </param>
-        <param>
-          <type>off_t</type>
+          <declname>path</declname>
         </param>
         <param>
           <type>int</type>
-        </param>
-        <briefdescription>
-<para>gfal_lseek - position a file </para>        </briefdescription>
-        <detaileddescription>
-<para>gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value:</para><para><itemizedlist>
-<listitem><para>SEEK_SET The offset is set from beginning of file.</para></listitem><listitem><para>SEEK_CUR The offset is added to current position.</para></listitem><listitem><para>SEEK_END The offset is added to current file size.</para></listitem></itemizedlist>
-</para><para><simplesect kind="return"><para>This routine returns the actual offset from the beginning of the file if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.<itemizedlist>
-<listitem><para>ERRORS :<itemizedlist>
-<listitem><para>EBADF fd is not a valid file descriptor.</para></listitem><listitem><para>EINVAL incorrect value for whence.</para></listitem><listitem><para>EFBIG Resulting offset is too big to fit in off_t.</para></listitem><listitem><para>ECOMM Communication error.</para></listitem><listitem><para>EPROTONOSUPPORT Access method not supported.</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
-gfal_lseek64 performs the same function on large files using off64_t rather than off_t. </para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="124"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g6f6affcf386900efc5443a9c97556a57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_mkdir</definition>
-        <argsstring>(const char *, mode_t)</argsstring>
-        <name>gfal_mkdir</name>
-        <param>
-          <type>const char *</type>
-          <defname>path</defname>
+          <declname>flag</declname>
         </param>
         <param>
           <type>mode_t</type>
-          <defname>mode</defname>
+          <declname>mode</declname>
         </param>
         <briefdescription>
-<para>create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like &quot;mkdir -p&quot;. </para>        </briefdescription>
+<para>open a file opens a file according to the value of flags. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>path</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>: url of the directory. Can be surl ( srm://), local (<ulink url="file://">file://</ulink>), or catalog&apos;s url (lfc:, ....) </para></parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>mode</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>: right of the directory ( depend of the implementation ) </para></parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>return 0 if success else -1 and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.<itemizedlist>
-<listitem><para>EEXIST: file already exist</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
-</para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="126" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="149" bodyend="152"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g6a431a0bdd01baf8cadbdcaa98b1c622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_open</definition>
-        <argsstring>(const char *, int, mode_t)</argsstring>
-        <name>gfal_open</name>
-        <param>
-          <type>const char *</type>
-          <defname>path</defname>
-        </param>
-        <param>
-          <type>int</type>
-          <defname>flag</defname>
-        </param>
-        <param>
-          <type>mode_t</type>
-          <defname>mode</defname>
-        </param>
-        <briefdescription>
-<para>opens a file according to the value of flags </para>        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>filename</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>: url of the filename to open, can be a surl, lfn, guid, local or turl the urls supported by the modules </para></parameterdescription>
+<para>: url of the filename to open. can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
@@ -334,87 +458,65 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>is used only if the file is created. </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return the file descriptor or -1 if errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
+<simplesect kind="return"><para>return the file descriptor or -1 if errno is set call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="146" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="257" bodyend="259"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="275" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="275" bodyend="277"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gbed417acea7f862ea1977417ed842ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g49e67e884fa98ccb3f4790cdfe7e2aae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_open64</definition>
-        <argsstring>(const char *, int, mode_t)</argsstring>
-        <name>gfal_open64</name>
+        <definition>int gfal_creat</definition>
+        <argsstring>(const char *filename, mode_t mode)</argsstring>
+        <name>gfal_creat</name>
         <param>
           <type>const char *</type>
-        </param>
-        <param>
-          <type>int</type>
+          <declname>filename</declname>
         </param>
         <param>
           <type>mode_t</type>
+          <declname>mode</declname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>create a new file or truncate an existing one opens a file according to the value of flags. </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="148"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g7e6d16651dbce5d684c53f82349e0306" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>DIR *</type>
-        <definition>DIR * gfal_opendir</definition>
-        <argsstring>(const char *)</argsstring>
-        <name>gfal_opendir</name>
-        <param>
-          <type>const char *</type>
-          <defname>name</defname>
-        </param>
-        <briefdescription>
-<para>open a directory </para>        </briefdescription>
-        <detaileddescription>
-<para>opens a directory to be used in subsequent gfal_readdir operations the url supported are : local files, surls, catalog url ( lfc,...) <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>name</parametername>
+<parametername>filename</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>of the directory to open </para></parameterdescription>
+<para>: url of the filename to create, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is used only if the file is created. </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>file descriptor DIR* if success else NULL if error and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it</para></simplesect>
-<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
-<listitem><para>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ENOTDIR: path or a component in path is not a directory.<itemizedlist>
-<listitem><para>EMFILE: too many file open by the process</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
+<simplesect kind="return"><para>return the file descriptor or -1 if errno is set call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="150" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="196" bodyend="198"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="285" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="285" bodyend="287"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gaa6bfe36f33b86e489b798aed96912de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>ssize_t</type>
-        <definition>ssize_t gfal_read</definition>
-        <argsstring>(int, void *, size_t)</argsstring>
+      <memberdef kind="function" id="group__posix__group_1g51127a65a25197f44faba20d06b16475" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_read</definition>
+        <argsstring>(int fd, void *buff, size_t s_buff)</argsstring>
         <name>gfal_read</name>
         <param>
           <type>int</type>
-          <defname>fd</defname>
+          <declname>fd</declname>
         </param>
         <param>
           <type>void *</type>
-          <defname>buff</defname>
+          <declname>buff</declname>
         </param>
         <param>
           <type>size_t</type>
-          <defname>s_buff</defname>
+          <declname>s_buff</declname>
         </param>
         <briefdescription>
 <para>read a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff </para>        </briefdescription>
@@ -429,10 +531,9 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <parameteritem>
 <parameternamelist>
 <parametername>buff</parametername>
-<parametername>buffer</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>of the data to read </para></parameterdescription>
+<para>buffer of the data to read </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
@@ -442,185 +543,28 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>size of the data read in bytes </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>number of byte read or -1 if error, errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
+<simplesect kind="return"><para>number of byte read or -1 if error, errno is set call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="152" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="285" bodyend="287"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="297" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="297" bodyend="299"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gad7e253fad72213c19e72c02b869ba7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>dirent *</type>
-        <definition>struct dirent * gfal_readdir</definition>
-        <argsstring>(DIR *)</argsstring>
-        <name>gfal_readdir</name>
-        <param>
-          <type>DIR *</type>
-          <defname>dir</defname>
-        </param>
-        <briefdescription>
-<para>read a directory </para>        </briefdescription>
-        <detaileddescription>
-<para>The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred. struct dirent { ino_t d_ino; // inode number off_t d_off; // offset to the next dirent unsigned short d_reclen; // length of this record unsigned char d_type; // type of file; not supported // by all file system types char d_name[256]; // filename };</para><para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>d</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>file handle ( return by opendir ) to read </para></parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>pointer to struct dirent with file information or NULL if end of list or error, errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
-<simplesect kind="warning"><para>struct dirents are allocated statically, do not use free() on them</para></simplesect>
-<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>EBADF : bad file descriptor<itemizedlist>
-<listitem><para>ECOMM : Communication error </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="154" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="225" bodyend="227"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g34dc6129530d6bf9e5836ef22c0d2792" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g7f06dd013a0a27f192db63efca360a9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_rename</definition>
-        <argsstring>(const char *, const char *)</argsstring>
-        <name>gfal_rename</name>
-        <param>
-          <type>const char *</type>
-          <defname>oldpath</defname>
-        </param>
-        <param>
-          <type>const char *</type>
-          <defname>newpath</defname>
-        </param>
-        <briefdescription>
-<para>change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files </para>        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>oldpath</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>: the old path of the file </para></parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>newpath</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>: the new path of the file </para></parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>: return 0 if success, else -1 and errno / <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref> <itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.<itemizedlist>
-<listitem><para>EISDIR: newpath is an existing directory but oldpath is not a directory</para></listitem><listitem><para>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.<itemizedlist>
-<listitem><para>EXDEV oldpath and newpath are not on the same mounted file system.</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
-</para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="156" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="95" bodyend="97"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gcc4b6347640a722674c2d6df437490df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_rmdir</definition>
-        <argsstring>(const char *)</argsstring>
-        <name>gfal_rmdir</name>
-        <param>
-          <type>const char *</type>
-          <defname>path</defname>
-        </param>
-        <briefdescription>
-<para>removes a directory if it is empty remove an existing directory, return error if the dir is not empty </para>        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>path</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>specifies the directory name, can be a surl ( srm://), local (<ulink url="file://">file://</ulink>) or a catalog url ( lfc:, ....) </para></parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>return 0 is success else -1 and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
-<listitem><para>ENOTEMPTY : path is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
-</para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="171" bodyend="173"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g45a23756f2c79a7e07488bb3fb2fc35e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>ssize_t</type>
-        <definition>ssize_t gfal_setfilchg</definition>
-        <argsstring>(int, const void *, size_t)</argsstring>
-        <name>gfal_setfilchg</name>
-        <param>
-          <type>int</type>
-        </param>
-        <param>
-          <type>const void *</type>
-        </param>
-        <param>
-          <type>size_t</type>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="160"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gdeb4c6cc47f507da3e3b498374e308fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_unlink</definition>
-        <argsstring>(const char *)</argsstring>
-        <name>gfal_unlink</name>
-        <param>
-          <type>const char *</type>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="162"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g00c2d64894ae81c05846b06c84727ae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>ssize_t</type>
-        <definition>ssize_t gfal_write</definition>
-        <argsstring>(int, const void *, size_t)</argsstring>
+        <definition>int gfal_write</definition>
+        <argsstring>(int fd, const void *buff, size_t s_buff)</argsstring>
         <name>gfal_write</name>
         <param>
           <type>int</type>
-          <defname>fd</defname>
+          <declname>fd</declname>
         </param>
         <param>
           <type>const void *</type>
-          <defname>buff</defname>
+          <declname>buff</declname>
         </param>
         <param>
           <type>size_t</type>
-          <defname>s_buff</defname>
+          <declname>s_buff</declname>
         </param>
         <briefdescription>
 <para>write a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. </para>        </briefdescription>
@@ -635,10 +579,9 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <parameteritem>
 <parameternamelist>
 <parametername>buff</parametername>
-<parametername>buffer</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>of the data to write </para></parameterdescription>
+<para>buffer of the data to write </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
@@ -648,134 +591,279 @@ gfal_lseek64 performs the same function on large files using off64_t rather than
 <para>size of the data write in bytes </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>number of byte write or -1 if error, errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
+<simplesect kind="return"><para>number of byte write or -1 if error, errno is set call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="164" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="296" bodyend="298"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="308" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="308" bodyend="310"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g39c7d0b6d366fdb0f218439ed3c3bb37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>off64_t</type>
-        <definition>off64_t gfal_lseek64</definition>
-        <argsstring>(int, off64_t, int)</argsstring>
-        <name>gfal_lseek64</name>
+      <memberdef kind="function" id="group__posix__group_1g8077757b4b1c9ffe6cfcb4a9aca46061" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_close</definition>
+        <argsstring>(int fd)</argsstring>
+        <name>gfal_close</name>
         <param>
           <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>close a file closes the file whose descriptor fd is the one returned by gfal_open. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: descriptor or the file given by <ref refid="group__posix__group_1gd2cb77ba96df312c4c30242c3dec377c" kindref="member">gfal_open</ref>  </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately<itemizedlist>
+<listitem><para>ERRNO list : <linebreak/>
+<itemizedlist>
+<listitem><para>usual errors:<itemizedlist>
+<listitem><para>EBADF: fd is not a valid file descriptor.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported </para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></listitem></itemizedlist>
+</para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="323" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="323" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1gc9b6944315e891beca5a56d15292658f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_symlink</definition>
+        <argsstring>(const char *oldpath, const char *newpath)</argsstring>
+        <name>gfal_symlink</name>
+        <param>
+          <type>const char *</type>
+          <declname>oldpath</declname>
         </param>
         <param>
-          <type>off64_t</type>
+          <type>const char *</type>
+          <declname>newpath</declname>
+        </param>
+        <briefdescription>
+<para>make a new name for a file symlink() creates a symbolic link named newpath which contains the string oldpath. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newpath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: path of the link, can be in supported protocols but need to be in the same adress space than newpath </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>oldpath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: path of the linked file, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 if success else -1. if failure, errno is set, you can call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="334" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="334" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1gcbdf64c01648b79b2c5ed066485e4565" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>off_t</type>
+        <definition>off_t gfal_lseek</definition>
+        <argsstring>(int fd, off_t offset, int whence)</argsstring>
+        <name>gfal_lseek</name>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>off_t</type>
+          <declname>offset</declname>
         </param>
         <param>
           <type>int</type>
+          <declname>whence</declname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>set position in a file gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value: </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>SEEK_SET The offset is set from beginning of file.</para><para>SEEK_CUR The offset is added to current position.</para><para>SEEK_END The offset is added to current file size. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: file descriptor to lseek </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+<parametername>:</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>offset in byte </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>whence</parametername>
+<parametername>:</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>flag </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>This routine returns the actual offset from the beginning of the file if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately, you can call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="166"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="354" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="354" bodyend="356"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g347f867802a33bc04fdfb769da857103" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_lstat</definition>
-        <argsstring>(const char *, struct stat *)</argsstring>
-        <name>gfal_lstat</name>
+      <memberdef kind="function" id="group__posix__group_1gc793467bb55cd10d991ee1023b321dae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t gfal_getxattr</definition>
+        <argsstring>(const char *path, const char *name, void *value, size_t size)</argsstring>
+        <name>gfal_getxattr</name>
         <param>
           <type>const char *</type>
+          <declname>path</declname>
         </param>
-        <param>
-          <type>struct stat *</type>
-        </param>
-        <briefdescription>
-<para>gfal_lstat is identical to <ref refid="group__posix__group_1g1d8c86d522d5dd26ee7ddcd9c6925964" kindref="member">gfal_stat</ref>  except for symbolic links. In this case, the link itself is statted and not followed. </para>        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="168" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="127" bodyend="129"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g739ca4985a67e0fc4fc253f42df2638c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_lstat64</definition>
-        <argsstring>(const char *, struct stat64 *)</argsstring>
-        <name>gfal_lstat64</name>
         <param>
           <type>const char *</type>
+          <declname>name</declname>
         </param>
         <param>
-          <type>struct stat64 *</type>
+          <type>void *</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
         </param>
         <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="170"/>
-      </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g1d8c86d522d5dd26ee7ddcd9c6925964" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gfal_stat</definition>
-        <argsstring>(const char *, struct stat *)</argsstring>
-        <name>gfal_stat</name>
-        <param>
-          <type>const char *</type>
-          <defname>path</defname>
-        </param>
-        <param>
-          <type>struct stat *</type>
-          <defname>buf</defname>
-        </param>
-        <briefdescription>
-<para>informations about a file These functions return information about a file. No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is required on all of the directories in path that lead to the file. </para>        </briefdescription>
+<para>retrieve an extended attribute value gfal_getxattr retrieves an extended value from an url managed by gfal </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>path</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>: path of a file. Can be a SURL, a Catalog URL or a guid </para></parameterdescription>
+<para>: path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>buff</parametername>
+<parametername>name</parametername>
+<parametername>:</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>: pointer to an allocated struct stat </para></parameterdescription>
+<para>name of the attribute to get </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+<parametername>:</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to buffer to get the value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: size of the buffer </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it</para></simplesect>
-<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
+<simplesect kind="return"><para>return the size of the data returned, or -1 if error. In the latter case, errno is set appropriately, you can call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="172" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="118" bodyend="120"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="370" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="369" bodyend="372"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gb40e2d23618763284ab4a1fb1a06a880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g03fcc29bc5d79dc2f65010846b0db024" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gfal_posix_print_error</definition>
+        <argsstring>()</argsstring>
+        <name>gfal_posix_print_error</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Display the last string error reported by the gfal error system for the posix API Errors are printed on stderr </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="379" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="379" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g85337290460234042db0adfd54514df9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gfal_posix_release_error</definition>
+        <argsstring>()</argsstring>
+        <name>gfal_posix_release_error</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Display and clear the last string error reported by the gfal error system for the posix API and similar to a <ref refid="group__posix__group_1g03fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> and a <ref refid="group__posix__group_1ga8252652c1dc86d71ba37b401fb675f9" kindref="member">gfal_posix_clear_error()</ref> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="398" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="398" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1ga8252652c1dc86d71ba37b401fb675f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gfal_posix_clear_error</definition>
+        <argsstring>()</argsstring>
+        <name>gfal_posix_clear_error</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>clear the last error reported by a gfal posix function </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="409" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="409" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1gc6149b0b3c9c8af05789169a18832634" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_stat64</definition>
-        <argsstring>(const char *, struct stat64 *)</argsstring>
-        <name>gfal_stat64</name>
+        <definition>int gfal_posix_code_error</definition>
+        <argsstring>()</argsstring>
+        <name>gfal_posix_code_error</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>return the current error code registered or if not exist </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="425" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="425" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_posix_check_error</definition>
+        <argsstring>()</argsstring>
+        <name>gfal_posix_check_error</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>check the current error, if no error report return 0 else return 1 and print the error on stderr <simplesect kind="warning"><para>this does not clear the error </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="441" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="441" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g2a9e2951c934dd1c3205a89c0d25ac29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char* gfal_posix_strerror_r</definition>
+        <argsstring>(char *buff_err, size_t s_err)</argsstring>
+        <name>gfal_posix_strerror_r</name>
         <param>
-          <type>const char *</type>
+          <type>char *</type>
+          <declname>buff_err</declname>
         </param>
         <param>
-          <type>struct stat64 *</type>
+          <type>size_t</type>
+          <declname>s_err</declname>
         </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>get the current error string </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/doc/src/POSIX_API.c" line="174"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="460" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="460" bodyend="469"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

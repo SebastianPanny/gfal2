@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -14,11 +14,13 @@
 .br
 \fC#include <regex.h>\fP
 .br
+\fC#include <attr/xattr.h>\fP
+.br
 \fC#include '../common/gfal_common_errverbose.h'\fP
 .br
 \fC#include '../common/gfal_common_filedescriptor.h'\fP
 .br
-\fC#include '../common/gfal_types.h'\fP
+\fC#include 'gfal_posix_local_file.h'\fP
 .br
 
 .SS "Defines"
@@ -32,6 +34,9 @@
 
 .in +1c
 .ti -1c
+.RI "int \fBgfal_local_initG\fP (GError **err)"
+.br
+.ti -1c
 .RI "void \fBgfal_local_report_error\fP (const char *funcname, GError **err)"
 .br
 .ti -1c
@@ -39,6 +44,9 @@
 .br
 .ti -1c
 .RI "int \fBgfal_local_chmod\fP (const char *path, mode_t mode, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_local_getxattr\fP (const char *path, const char *name, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_local_rename\fP (const char *oldpath, const char *newpath, GError **err)"
@@ -71,6 +79,9 @@
 .RI "int \fBgfal_local_read\fP (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_local_lseek\fP (gfal_file_handle fh, off_t offset, int whence, GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_local_write\fP (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
@@ -81,6 +92,9 @@
 .br
 .ti -1c
 .RI "int \fBgfal_local_closedir\fP (gfal_file_handle fh, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_local_symlink\fP (const char *oldpath, const char *newpath, GError **err)"
 .br
 .ti -1c
 .RI "gboolean \fBgfal_check_local_url\fP (const char *path, GError **err)"

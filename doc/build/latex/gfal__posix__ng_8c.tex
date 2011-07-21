@@ -1,6 +1,6 @@
 \section{/home/adevress/myworkspace/gfal/src/posix/gfal\_\-posix\_\-ng.c File Reference}
 \label{gfal__posix__ng_8c}\index{/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c@{/home/adevress/myworkspace/gfal/src/posix/gfal\_\-posix\_\-ng.c}}
-main file of the posix lib ng 
+new file for the posix interface 
 
 {\tt \#include \char`\"{}../common/gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-posix\_\-api.h\char`\"{}}\par
@@ -11,34 +11,42 @@ main file of the posix lib ng
 int \bf{gfal\_\-access} (const char $\ast$path, int amode)
 \begin{CompactList}\small\item\em test access to the given file \item\end{CompactList}\item 
 int \bf{gfal\_\-chmod} (const char $\ast$path, mode\_\-t mode)
-\begin{CompactList}\small\item\em set rights of the file/dir \item\end{CompactList}\item 
+\begin{CompactList}\small\item\em change the right for a file or a folder \item\end{CompactList}\item 
 int \bf{gfal\_\-rename} (const char $\ast$oldpath, const char $\ast$newpath)
 \begin{CompactList}\small\item\em change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files \item\end{CompactList}\item 
-int \bf{gfal\_\-stat} (const char $\ast$path, struct stat $\ast$buf)
+int \bf{gfal\_\-stat} (const char $\ast$path, struct stat $\ast$buff)
 \begin{CompactList}\small\item\em informations about a file These functions return information about a file. No permissions are required on the file itself, but \^{a}€” in the case of stat() and lstat() \^{a}€” execute (search) permission is required on all of the directories in path that lead to the file. \item\end{CompactList}\item 
-int \bf{gfal\_\-lstat} (const char $\ast$path, struct stat $\ast$buf)\label{group__posix__group_g347f867802a33bc04fdfb769da857103}
+int \bf{gfal\_\-lstat} (const char $\ast$path, struct stat $\ast$buff)\label{group__posix__group_g11b70df7b76efe90901b5cd09535d6d7}
 
-\begin{CompactList}\small\item\em gfal\_\-lstat is identical to \doxyref{gfal\_\-stat}{p.}{group__posix__group_g1d8c86d522d5dd26ee7ddcd9c6925964} except for symbolic links. In this case, the link itself is statted and not followed. \item\end{CompactList}\item 
-int \bf{gfal\_\-mkdir} (const char $\ast$path, mode\_\-t mode)
+\begin{CompactList}\small\item\em gfal\_\-lstat is identical to \doxyref{gfal\_\-stat}{p.}{group__posix__group_ga10c3c326c192d3a020bad7787b54845} except for symbolic links. In this case, the link itself is statted and not followed. \item\end{CompactList}\item 
+int \bf{gfal\_\-mkdirp} (const char $\ast$path, mode\_\-t mode)
 \begin{CompactList}\small\item\em create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like \char`\"{}mkdir -p\char`\"{}. \item\end{CompactList}\item 
+int \bf{gfal\_\-mkdir} (const char $\ast$path, mode\_\-t mode)
+\item 
 int \bf{gfal\_\-rmdir} (const char $\ast$path)
 \begin{CompactList}\small\item\em removes a directory if it is empty remove an existing directory, return error if the dir is not empty \item\end{CompactList}\item 
 DIR $\ast$ \bf{gfal\_\-opendir} (const char $\ast$name)
 \begin{CompactList}\small\item\em open a directory \item\end{CompactList}\item 
-dirent $\ast$ \bf{gfal\_\-readdir} (DIR $\ast$dir)
+dirent $\ast$ \bf{gfal\_\-readdir} (DIR $\ast$d)
 \begin{CompactList}\small\item\em read a directory \item\end{CompactList}\item 
 int \bf{gfal\_\-closedir} (DIR $\ast$d)
-\begin{CompactList}\small\item\em gfal\_\-closedir - close a directory \item\end{CompactList}\item 
+\begin{CompactList}\small\item\em read a directory close the file descriptor of an opendir call \item\end{CompactList}\item 
 int \bf{gfal\_\-open} (const char $\ast$path, int flag, mode\_\-t mode)
-\begin{CompactList}\small\item\em opens a file according to the value of flags \item\end{CompactList}\item 
+\begin{CompactList}\small\item\em open a file opens a file according to the value of flags. \item\end{CompactList}\item 
 int \bf{gfal\_\-creat} (const char $\ast$filename, mode\_\-t mode)
-\begin{CompactList}\small\item\em creates a new file or truncates an existing one \item\end{CompactList}\item 
+\begin{CompactList}\small\item\em create a new file or truncate an existing one opens a file according to the value of flags. \item\end{CompactList}\item 
 int \bf{gfal\_\-read} (int fd, void $\ast$buff, size\_\-t s\_\-buff)
 \begin{CompactList}\small\item\em read a file gfal\_\-read reads up to size bytes from the file descriptor fd into the buffer pointed by buff \item\end{CompactList}\item 
 int \bf{gfal\_\-write} (int fd, const void $\ast$buff, size\_\-t s\_\-buff)
 \begin{CompactList}\small\item\em write a file gfal\_\-write writes size bytes from the buffer pointed by buff to the file descriptor fd. \item\end{CompactList}\item 
 int \bf{gfal\_\-close} (int fd)
-\begin{CompactList}\small\item\em close the current file descriptor \item\end{CompactList}\item 
+\begin{CompactList}\small\item\em close a file closes the file whose descriptor fd is the one returned by gfal\_\-open. \item\end{CompactList}\item 
+int \bf{gfal\_\-symlink} (const char $\ast$oldpath, const char $\ast$newpath)
+\begin{CompactList}\small\item\em make a new name for a file symlink() creates a symbolic link named newpath which contains the string oldpath. \item\end{CompactList}\item 
+off\_\-t \bf{gfal\_\-lseek} (int fd, off\_\-t offset, int whence)
+\begin{CompactList}\small\item\em set position in a file gfal\_\-lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal\_\-open. whence indicates how to interpret the offset value: \item\end{CompactList}\item 
+ssize\_\-t \bf{gfal\_\-getxattr} (const char $\ast$path, const char $\ast$name, void $\ast$value, size\_\-t size)
+\begin{CompactList}\small\item\em retrieve an extended attribute value gfal\_\-getxattr retrieves an extended value from an url managed by gfal \item\end{CompactList}\item 
 void \bf{gfal\_\-posix\_\-print\_\-error} ()
 \item 
 void \bf{gfal\_\-posix\_\-release\_\-error} ()
@@ -50,51 +58,18 @@ int \bf{gfal\_\-posix\_\-code\_\-error} ()
 int \bf{gfal\_\-posix\_\-check\_\-error} ()
 \item 
 char $\ast$ \bf{gfal\_\-posix\_\-strerror\_\-r} (char $\ast$buff\_\-err, size\_\-t s\_\-err)
+\item 
+void \bf{gfal\_\-set\_\-nobdii} (int value)
+\begin{CompactList}\small\item\em define if bdii System is ignored or not \item\end{CompactList}\item 
+int \textbf{gfal\_\-is\_\-nobdii} ()\label{group__internal__group_g0d2a0557bdb571ccb85c6ab5c05ae56f}
+
 \end{CompactItemize}
 
 
 \subsection{Detailed Description}
-main file of the posix lib ng 
+new file for the posix interface 
 
 \begin{Desc}
 \item[Author:]Devresse Adrien \end{Desc}
 \begin{Desc}
-\item[Version:]2.0 \end{Desc}
-\begin{Desc}
 \item[Date:]09/05/2011 \end{Desc}
-
-
-\subsection{Function Documentation}
-\index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_check_error@{gfal\_\-posix\_\-check\_\-error}}
-\index{gfal_posix_check_error@{gfal\_\-posix\_\-check\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-check\_\-error ()}\label{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373}
-
-
-check the current error, if no error report return 0 else return 1 and print the error on stderr \begin{Desc}
-\item[Warning:]this does not clear the error \end{Desc}
-\index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_clear_error@{gfal\_\-posix\_\-clear\_\-error}}
-\index{gfal_posix_clear_error@{gfal\_\-posix\_\-clear\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-posix\_\-clear\_\-error ()}\label{gfal__posix__ng_8c_a8252652c1dc86d71ba37b401fb675f9}
-
-
-clear the last error reported by a gfal posix function \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_code_error@{gfal\_\-posix\_\-code\_\-error}}
-\index{gfal_posix_code_error@{gfal\_\-posix\_\-code\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-code\_\-error ()}\label{gfal__posix__ng_8c_c6149b0b3c9c8af05789169a18832634}
-
-
-return the current error code registered or if not exist \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_print_error@{gfal\_\-posix\_\-print\_\-error}}
-\index{gfal_posix_print_error@{gfal\_\-posix\_\-print\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-posix\_\-print\_\-error ()}\label{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024}
-
-
-Display the last string error reported by the gfal error system for the posix API Errors are printed on stderr \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_release_error@{gfal\_\-posix\_\-release\_\-error}}
-\index{gfal_posix_release_error@{gfal\_\-posix\_\-release\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-posix\_\-release\_\-error ()}\label{gfal__posix__ng_8c_85337290460234042db0adfd54514df9}
-
-
-Display and clear the last string error reported by the gfal error system for the posix API and similar to a \doxyref{gfal\_\-posix\_\-print\_\-error()}{p.}{gfal__posix__ng_8c_03fcc29bc5d79dc2f65010846b0db024} and a \doxyref{gfal\_\-posix\_\-clear\_\-error()}{p.}{gfal__posix__ng_8c_a8252652c1dc86d71ba37b401fb675f9} \index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_strerror_r@{gfal\_\-posix\_\-strerror\_\-r}}
-\index{gfal_posix_strerror_r@{gfal\_\-posix\_\-strerror\_\-r}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-posix\_\-strerror\_\-r (char $\ast$ {\em buff\_\-err}, size\_\-t {\em s\_\-err})}\label{gfal__posix__ng_8c_2a9e2951c934dd1c3205a89c0d25ac29}
-
-
-get the current error string 

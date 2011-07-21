@@ -39,34 +39,34 @@
 <a name="l00019"></a>00019  
 <a name="l00020"></a>00020  
 <a name="l00029"></a>00029 <span class="preprocessor">#include &lt;glib.h&gt;</span>
-<a name="l00030"></a>00030 <span class="preprocessor">#include "gfal_prototypes.h"</span>
-<a name="l00031"></a>00031 <span class="preprocessor">#include "gfal_constants.h"</span>
-<a name="l00032"></a>00032 
-<a name="l00033"></a>00033 <span class="keyword">struct </span>_gfal_file_descriptor_container{
-<a name="l00034"></a>00034         GHashTable* container;  
-<a name="l00035"></a>00035 };
-<a name="l00036"></a>00036 
-<a name="l00037"></a>00037 <span class="keyword">struct </span>_gfal_file_handle_{
-<a name="l00038"></a>00038         <span class="keywordtype">char</span> module_name[GFAL_MODULE_NAME_SIZE]; <span class="comment">// This MUST be the Name of the catalog associated with this handle !</span>
-<a name="l00039"></a>00039         gpointer ext_data;
-<a name="l00040"></a>00040         gpointer fdesc; 
-<a name="l00041"></a>00041 };
-<a name="l00042"></a>00042 
-<a name="l00043"></a>00043  <span class="comment">// low level funcs</span>
-<a name="l00044"></a>00044 gfal_fdesc_container_handle gfal_file_descriptor_handle_create(GDestroyNotify destroyer);
-<a name="l00045"></a>00045 
-<a name="l00046"></a>00046 <span class="keywordtype">int</span> <a class="code" href="gfal__common__filedescriptor_8c.html#8ab30d677c0c3d4a635a35c395524fea">gfal_add_new_file_desc</a>(gfal_fdesc_container_handle fhandle, gpointer pfile, GError** err);
+<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;pthread.h&gt;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include "gfal_prototypes.h"</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include "gfal_constants.h"</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="keyword">struct </span>_gfal_file_descriptor_container{
+<a name="l00035"></a>00035         GHashTable* container;
+<a name="l00036"></a>00036         pthread_mutex_t m_container;    
+<a name="l00037"></a>00037 };
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 <span class="keyword">struct </span>_gfal_file_handle_{
+<a name="l00040"></a>00040         <span class="keywordtype">char</span> module_name[GFAL_MODULE_NAME_SIZE]; <span class="comment">// This MUST be the Name of the catalog associated with this handle !</span>
+<a name="l00041"></a>00041         gpointer ext_data;
+<a name="l00042"></a>00042         gpointer fdesc; 
+<a name="l00043"></a>00043 };
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045  <span class="comment">// low level funcs</span>
+<a name="l00046"></a>00046 gfal_fdesc_container_handle gfal_file_descriptor_handle_create(GDestroyNotify destroyer);
 <a name="l00047"></a>00047 
-<a name="l00048"></a>00048 gboolean <a class="code" href="gfal__common__filedescriptor_8c.html#4b10e1d3a5ffde849302fffdba207835">gfal_remove_file_desc</a>(gfal_fdesc_container_handle fhandle, <span class="keywordtype">int</span> key, GError** err);
+<a name="l00048"></a>00048 <span class="keywordtype">int</span> <a class="code" href="gfal__common__filedescriptor_8c.html#8ab30d677c0c3d4a635a35c395524fea">gfal_add_new_file_desc</a>(gfal_fdesc_container_handle fhandle, gpointer pfile, GError** err);
 <a name="l00049"></a>00049 
-<a name="l00050"></a>00050 
-<a name="l00051"></a>00051 gpointer <a class="code" href="gfal__common__filedescriptor_8c.html#91568ee8206643b36d685269b012eb45">gfal_get_file_desc</a>(gfal_fdesc_container_handle fhandle, <span class="keywordtype">int</span> key, GError** err);
+<a name="l00050"></a>00050 gboolean <a class="code" href="gfal__common__filedescriptor_8c.html#4b10e1d3a5ffde849302fffdba207835">gfal_remove_file_desc</a>(gfal_fdesc_container_handle fhandle, <span class="keywordtype">int</span> key, GError** err);
+<a name="l00051"></a>00051 
 <a name="l00052"></a>00052 
-<a name="l00053"></a>00053 
-<a name="l00054"></a>00054 <span class="comment">// high level funcs</span>
-<a name="l00055"></a>00055 gboolean <a class="code" href="gfal__common__filedescriptor_8c.html#5434be84154718254a4e90dbcc196359">gfal_file_handle_delete</a>(gfal_fdesc_container_handle h, <span class="keywordtype">int</span> file_desc, GError** err);
-<a name="l00056"></a>00056 
-<a name="l00057"></a>00057 
+<a name="l00053"></a>00053 gpointer <a class="code" href="gfal__common__filedescriptor_8c.html#91568ee8206643b36d685269b012eb45">gfal_get_file_desc</a>(gfal_fdesc_container_handle fhandle, <span class="keywordtype">int</span> key, GError** err);
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 <span class="comment">// high level funcs</span>
+<a name="l00057"></a>00057 gboolean <a class="code" href="gfal__common__filedescriptor_8c.html#5434be84154718254a4e90dbcc196359">gfal_file_handle_delete</a>(gfal_fdesc_container_handle h, <span class="keywordtype">int</span> file_desc, GError** err);
 <a name="l00058"></a>00058 
 <a name="l00059"></a>00059 
 <a name="l00060"></a>00060 gfal_file_handle <a class="code" href="gfal__common__filedescriptor_8c.html#b1a9b764baa7c997a354d18bbe43e2cb">gfal_file_handle_bind</a>(gfal_fdesc_container_handle h, <span class="keywordtype">int</span> file_desc, GError** err);
@@ -77,7 +77,7 @@
 <a name="l00065"></a>00065 
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067 gfal_file_handle <a class="code" href="gfal__common__filedescriptor_8c.html#a55408b4cba00997f0c034d5aeffa641">gfal_file_handle_ext_new</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* module_name, gpointer fdesc, gpointer ext_data);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 14:00:10 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

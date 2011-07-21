@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -17,6 +17,8 @@
 \fC#include <dlfcn.h>\fP
 .br
 \fC#include <stdlib.h>\fP
+.br
+\fC#include <pthread.h>\fP
 .br
 \fC#include '../gfal_constants.h'\fP
 .br
@@ -45,6 +47,15 @@
 
 .in +1c
 .ti -1c
+.RI "int \fBgfal_lfc_regex_compile\fP (regex_t *rex, GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_lfc_init_thread\fP (struct lfc_ops *ops)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_startSession\fP (struct lfc_ops *ops, GError **err)"
+.br
+.ti -1c
 .RI "char * \fBgfal_get_lfchost_envar\fP (GError **err)"
 .br
 .ti -1c
@@ -70,6 +81,18 @@
 .br
 .ti -1c
 .RI "char ** \fBgfal_lfc_getSURL\fP (struct lfc_ops *ops, const char *path, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_statg\fP (struct lfc_ops *ops, const char *lfn, struct lfc_filestatg *statbuf, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBg_strv_catbuff\fP (char **strv, char *buff, size_t size)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_get_errno\fP (struct lfc_ops *ops)"
+.br
+.ti -1c
+.RI "char * \fBgfal_lfc_get_strerror\fP (struct lfc_ops *ops)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -119,6 +142,9 @@ return a list of surls from a getreplica request
 .SS "int gfal_lfc_ifce_mkdirpG (struct lfc_ops * ops, const char * path, mode_t mode, gboolean pflag, GError ** err)"
 .PP
 Implementation of mkdir -p call on the lfc 
+.SS "void gfal_lfc_init_thread (struct lfc_ops * ops)"
+.PP
+Routine for internal lfc hack, need to be call for the thread safety 
 .SS "int gfal_lfc_mkdir_rec (struct lfc_ops * ops, char * browser_path, const char * full_path, mode_t mode, GError ** err)"
 .PP
 Begin a recursive call on mkdir to create a full tree path 

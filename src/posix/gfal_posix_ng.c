@@ -30,10 +30,20 @@
 
 static int nobdii = 0;
 
+/**
+	\defgroup posix_group all POSIX style function
+*/
+
+/**
+	\addtogroup posix_group
+	@{
+*/
+
 
 /**
  * \brief test access to the given file
- * \param path can be in supported protocols (lfn, srm, file, guid,..)
+ * \param path path of the file to access, can be in supported protocols (lfn, srm, file, guid,..)
+ * \param amode access mode to check (R_OK, W_OK, X_OK or F_OK)
  * \return This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call @ref gfal_posix_check_error() to check it. \n
  *  - ERRNO list : \n
  *    	- usual errors:
@@ -52,7 +62,7 @@ int gfal_access (const char *path, int amode){
 
 /**
  * @brief change the right for a file or a folder
- * @param path : path of the file or the folder concerned in supported protocols (lfn, file, guid,..)
+ * @param path : path of the file or the folder, can be in all supported protocols (lfn, srm, file, guid,..)
  * @param mode : right to configure
  * @return return 0 if success else -1 and errno is set, call @ref gfal_posix_check_error() to check it
  *  - ERRNO list : \n
@@ -73,8 +83,8 @@ int gfal_chmod(const char* path, mode_t mode){
  * @brief  change the name or location of a file
  * oldpath and newpath need to be on the same catalog
  * this functions work only with catalogs (lfc ) and local files
- * @param oldpath : the old path of the file
- * @param newpath : the new path of the file
+ * @param oldpath : the old path of the file, can be in supported protocols but need to be in the same adress space than newpath
+ * @param newpath : the new path of the file, can be in supported protocols (lfn, srm, file, guid,..)
  * @return : return 0 if success, else -1 and errno / @ref gfal_posix_check_error()
  *  - ERRNO list : \n
  *    	- usual errors:
@@ -99,7 +109,7 @@ int gfal_rename(const char *oldpath, const char *newpath){
  *  @brief  informations about a file 
  * These functions return information about a file.  No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is
  *     required on all of the directories in path that lead to the file.
- * @param path : path of a file. Can be a SURL, a Catalog URL or a guid
+ * @param path : path of the file, can be in supported protocols (lfn, srm, file, guid,..)
  * @param buff : pointer to an allocated struct stat
  * @return return 0 if success else -1 and errno is set, call @ref gfal_posix_check_error() to check it
  * 
@@ -114,8 +124,8 @@ int gfal_rename(const char *oldpath, const char *newpath){
  *   		- EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported
  *   		- EINVAL: oldpath or newpath has an invalid syntax .
  * */
-int gfal_stat(const char* path, struct stat* buf){
-	return gfal_posix_internal_stat(path, buf);
+int gfal_stat(const char* path, struct stat* buff){
+	return gfal_posix_internal_stat(path, buff);
 }
 
 /**
@@ -123,14 +133,14 @@ int gfal_stat(const char* path, struct stat* buf){
  * In this case, the link itself is statted and not
        followed.
 */
-int gfal_lstat(const char* path, struct stat* buf){
-	return gfal_posix_internal_lstat(path, buf);
+int gfal_lstat(const char* path, struct stat* buff){
+	return gfal_posix_internal_lstat(path, buff);
 }
 /**
  * @brief  create a new directory
  * creates a new directory with permission bits taken from mode.
  *  The default behavior of this command is recursive, like "mkdir -p".
- * @param path : url of the directory. Can be surl ( srm://), local (file://), or catalog's url (lfc:, ....)
+ * @param path : url of the directory, can be in supported protocols (lfn, srm, file, guid,..)
  * @param mode : right of the directory ( depend of the implementation )
  * @return return 0 if success else -1 and errno is set call @ref gfal_posix_check_error() to check it
  *  - ERRNO list : \n
@@ -145,14 +155,22 @@ int gfal_lstat(const char* path, struct stat* buf){
  *   		- EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported
  *   		- EINVAL: oldpath or newpath has an invalid syntax .
  */
-int gfal_mkdir( const char* path, mode_t mode){
+int gfal_mkdirp( const char* path, mode_t mode){
 	return  gfal_posix_internal_mkdir( path, mode);
 	
 }
 /**
+ * Wrapper to mkdir for comptibility, same behavior than \ref gfal_mkdirp ( but subject to change in order to follow POSIX mkdir in the futur )
+ */
+int gfal_mkdir( const char* path, mode_t mode){
+	return  gfal_mkdirp( path, mode);
+	
+}
+
+/**
  * @brief  removes a directory if it is empty
  * remove an existing directory, return error if the dir is not empty
- *  @param path specifies the directory name, can be a surl ( srm://), local (file://) or a catalog url ( lfc:, ....)
+ *  @param path specifies the directory name, can be in supported protocols (lfn, srm, file, guid,..)
  *  @return return 0 is success else -1 and errno is set call @ref gfal_posix_check_error() to check it
  *  - ERRNO list : \n
  *    	- usual errors:
@@ -176,7 +194,7 @@ int gfal_rmdir(const char* path){
  * 
  * opens a directory to be used in subsequent gfal_readdir operations
  * the url supported are : local files, surls, catalog url ( lfc,...)
- * @param name of the directory to open
+ * @param name of the directory to open, can be in supported protocols (lfn, srm, file, guid,..)
  * @return file descriptor DIR* if success else NULL if error and errno is set call @ref gfal_posix_check_error() to check it
  * 
  *  - ERRNO list : \n
@@ -221,8 +239,8 @@ DIR* gfal_opendir(const char* name){
  *    		- EBADF : bad file descriptor
  * 			- ECOMM : Communication error
  * */
-struct dirent* gfal_readdir(DIR* dir){
-	return gfal_posix_internal_readdir(dir);	
+struct dirent* gfal_readdir(DIR* d){
+	return gfal_posix_internal_readdir(d);	
 }
 
 /**
@@ -240,10 +258,11 @@ struct dirent* gfal_readdir(DIR* dir){
 int gfal_closedir(DIR* d){
 	return gfal_posix_internal_closedir(d);
 }
+
 /**
  *  @brief open a file
  * 	opens a file according to the value of flags.
- *  @param filename : url of the filename to open, can be a surl, lfn, guid, local or turl  the urls supported by the modules
+ *  @param path : url of the filename to open. can be in supported protocols (lfn, srm, file, guid,..)
  *  @param flag : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used
  *            O_RDONLY    open for reading only
  *            O_WRONLY    open for writing only
@@ -259,13 +278,7 @@ int gfal_open(const char * path, int flag, mode_t mode){
 /**
  *  @brief  create a new file or truncate an existing one
  * 	opens a file according to the value of flags.
- *  @param filename : url of the filename to create, can be a surl, lfn, guid, local or turl  the urls supported by the modules
- *  @param flag : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used
- *            O_RDONLY    open for reading only
- *            O_WRONLY    open for writing only
- *            O_RDWR      open for reading and writing
- *            O_CREAT     If the file exists already and O_EXCL is also set, gfal_open will fail.
- *            O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened.
+ *  @param filename : url of the filename to create, can be in supported protocols (lfn, srm, file, guid,..)
  *  @param mode is used only if the file is created.
  *  @return return the file descriptor or -1 if errno is set call @ref gfal_posix_check_error() to check it
  * */
@@ -277,7 +290,7 @@ int gfal_creat (const char *filename, mode_t mode){
  *  @brief read a file
  * 	gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff
  *  @param fd file descriptor
- *  @param buff, buffer of the data to read
+ *  @param buff buffer of the data to read
  *  @param s_buff size of the data read in bytes
  *  @return number of byte read or -1 if error, errno is set call @ref gfal_posix_check_error() to check it 
  */
@@ -288,7 +301,7 @@ int gfal_read(int fd, void* buff, size_t s_buff){
  *  @brief write a file
  * gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd.
  *  @param fd file descriptor
- *  @param buff, buffer of the data to write
+ *  @param buff buffer of the data to write
  *  @param s_buff size of the data write in bytes
  *  @return number of byte write or -1 if error, errno is set call @ref gfal_posix_check_error() to check it   
  */
@@ -314,8 +327,8 @@ int gfal_close(int fd){
 /**
  * @brief make a new name for a file
  *  symlink() creates a symbolic link named newpath which contains the string oldpath.
- * @param newpath : path of the link
- * @param oldpath : path of the linked file
+ * @param newpath : path of the link, can be in supported protocols but need to be in the same adress space than newpath
+ * @param oldpath : path of the linked file, can be in supported protocols (lfn, srm, file, guid,..)
  * @return 0 if success else -1.  if failure, errno is set, you can call @ref gfal_posix_check_error() for a more complete description. 
 */
 int gfal_symlink(const char* oldpath, const char * newpath){
@@ -346,7 +359,7 @@ off_t gfal_lseek (int fd, off_t offset, int whence){
  * @brief  retrieve an extended attribute value
  *      gfal_getxattr  retrieves an extended value from an url managed by gfal
 
- * @param path : url of the file/folder
+ * @param path : path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..)
  * @param name: name of the attribute to get
  * @param value:  pointer to buffer to get the value
  * @param size : size of the buffer
@@ -455,6 +468,12 @@ char* gfal_posix_strerror_r(char* buff_err, size_t s_err){
 	return (char*)gfal_str_GError_r(gfal_posix_get_last_error(), buff_err, s_err);
  }
  
+/**
+	@} 
+	End of the POSIX groupe
+*/
+
+
  
  void gfal_set_nobdii (int value){
     nobdii = value;

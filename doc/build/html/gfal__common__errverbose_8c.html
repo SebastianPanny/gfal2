@@ -32,7 +32,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal_
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return verbose mode level <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common__group.html#g331e181c2fadd801321ad43033835052">gfal_set_verbose</a> (int value)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set the verbose global level  <a href="group__common__group.html#g331e181c2fadd801321ad43033835052"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set the verbose mode for the current program  <a href="group__common__group.html#g331e181c2fadd801321ad43033835052"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__errverbose_8c.html#8b05640b4b43a776603bd93703c29d30">gfal_print_verbose</a> (int verbose_lvl, const char *msg,...)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">display a verbose message  <a href="#8b05640b4b43a776603bd93703c29d30"></a><br></td></tr>
@@ -58,8 +58,8 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>g_prefix_error</b> (G
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>g_list_free_full</b> (GList *list, GDestroyNotify free_func)</td></tr>
 
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="edaf93b87fe65f43cf349705f1ce6e59"></a><!-- doxytag: member="gfal_common_errverbose.c::_gfal_err" ref="edaf93b87fe65f43cf349705f1ce6e59" args="" -->
-char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>_gfal_err</b> = NULL</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e2d33dc17390b0f831960c3682469046"></a><!-- doxytag: member="gfal_common_errverbose.c::_gfal_err" ref="e2d33dc17390b0f831960c3682469046" args="[GFAL_ERRMSG_LEN]" -->
+__thread char&nbsp;</td><td class="memItemRight" valign="bottom"><b>_gfal_err</b> [GFAL_ERRMSG_LEN]</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -164,7 +164,7 @@ set buff_err to the current gfal error, reentrant function <dl compact><dt><b>Re
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 14:00:10 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

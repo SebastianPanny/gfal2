@@ -2,162 +2,143 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
   <compounddef id="gfal__common__all_8c" kind="file">
     <compoundname>gfal_common_all.c</compoundname>
-    <includes refid="gfal__common_8h" local="yes">gfal_common.h</includes>
-    <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
     <includes local="no">dlfcn.h</includes>
     <includes local="no">regex.h</includes>
+    <includes local="no">stdlib.h</includes>
     <includes local="no">uuid/uuid.h</includes>
+    <includes refid="gfal__prototypes_8h" local="yes">gfal_prototypes.h</includes>
+    <includes refid="gfal__types_8h" local="yes">gfal_types.h</includes>
+    <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
     <incdepgraph>
-      <node id="128">
+      <node id="24">
         <label>sys/stat.h</label>
       </node>
-      <node id="131">
+      <node id="28">
         <label>stdarg.h</label>
       </node>
-      <node id="138">
+      <node id="16">
+        <label>stdlib.h</label>
+      </node>
+      <node id="31">
         <label>gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="121" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="131" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="139" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="134" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="133" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="123" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="122">
+      <node id="18">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="123" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="133">
+      <node id="29">
         <label>errno.h</label>
       </node>
-      <node id="129">
+      <node id="25">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="132">
+      <node id="17">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="126">
+      <node id="22">
         <label>sys/types.h</label>
       </node>
-      <node id="134">
+      <node id="30">
         <label>string.h</label>
       </node>
-      <node id="136">
-        <label>lfc_api.h</label>
-      </node>
-      <node id="135">
-        <label>lfc/lfc_ifce.h</label>
-        <link refid="lfc__ifce_8h-source"/>
-        <childnode refid="126" relation="include">
-        </childnode>
-        <childnode refid="136" relation="include">
-        </childnode>
-        <childnode refid="124" relation="include">
-        </childnode>
-      </node>
-      <node id="125">
+      <node id="21">
         <label>unistd.h</label>
       </node>
-      <node id="123">
+      <node id="19">
         <label>glib.h</label>
       </node>
-      <node id="120">
-        <label>gfal_common.h</label>
-        <link refid="gfal__common_8h"/>
-        <childnode refid="121" relation="include">
-        </childnode>
-        <childnode refid="122" relation="include">
-        </childnode>
-        <childnode refid="124" relation="include">
-        </childnode>
-        <childnode refid="135" relation="include">
-        </childnode>
-        <childnode refid="137" relation="include">
-        </childnode>
-      </node>
-      <node id="130">
+      <node id="27">
         <label>gfal_common_catalog.h</label>
         <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="131" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="132" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="123" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="133" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="134" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="127" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="128" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="124" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="121">
+      <node id="26">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="119">
+      <node id="13">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</label>
         <link refid="gfal_common_all.c"/>
-        <childnode refid="120" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="138" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="140" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="141" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="132" relation="include">
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
         </childnode>
       </node>
-      <node id="137">
-        <label>voms_apic.h</label>
-      </node>
-      <node id="141">
+      <node id="15">
         <label>regex.h</label>
       </node>
-      <node id="139">
+      <node id="32">
         <label>stdio.h</label>
       </node>
-      <node id="124">
+      <node id="20">
         <label>gfal_types.h</label>
         <link refid="gfal__types_8h-source"/>
-        <childnode refid="125" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="123" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="126" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="127" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="128" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="129" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="130" relation="include">
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
-      <node id="140">
-        <label>dlfcn.h</label>
-      </node>
-      <node id="127">
+      <node id="23">
         <label>dirent.h</label>
+      </node>
+      <node id="14">
+        <label>dlfcn.h</label>
       </node>
     </incdepgraph>
       <sectiondef kind="func">
@@ -177,7 +158,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="41" bodyend="59"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="44" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="43" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__all_8c_19dbd943eaed291897d852fc3ae560058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -194,7 +175,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="65" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="65" bodyend="73"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="66" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="66" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__all_8c_1a7e1120eb32c4c7f293f6fbcb4f0ea33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char **</type>
@@ -278,23 +259,6 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="131" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="131" bodyend="133"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__all_8c_1c90af0780f11aa512dce46955c844704" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>GError **</type>
-        <definition>GError** gfal_get_last_gerror</definition>
-        <argsstring>(gfal_handle handle)</argsstring>
-        <name>gfal_get_last_gerror</name>
-        <param>
-          <type>gfal_handle</type>
-          <declname>handle</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para>return a pointer to the internal last error of the handle </para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="138" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="138" bodyend="140"/>
-      </memberdef>
       <memberdef kind="function" id="gfal__common__all_8c_1aed64917ebc1c60ab8ccd2c4dfbd2c3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
         <definition>gboolean is_valid_access_result</definition>
@@ -310,7 +274,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="146" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="146" bodyend="162"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="141" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="141" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__all_8c_14cb5e50a1af5612463aaa525162a2e9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -332,7 +296,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="170" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="170" bodyend="176"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="165" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="165" bodyend="171"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -348,7 +312,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="35" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="35" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="37" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="37" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -376,40 +340,41 @@
 <codeline lineno="15"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
 <codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common_8h" kindref="compound">gfal_common.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__errverbose_8h" kindref="compound">gfal_common_errverbose.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;dlfcn.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;uuid/uuid.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="preprocessor">#include<sp/>&lt;dlfcn.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;uuid/uuid.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__errverbose_8h" kindref="compound">gfal_common_errverbose.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>the<sp/>version<sp/>should<sp/>be<sp/>set<sp/>by<sp/>a<sp/>&quot;define&quot;<sp/>at<sp/>the<sp/>makefile<sp/>level<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*gfalversion<sp/>=<sp/>VERSION;</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal">gfal_handle<sp/><ref refid="gfal__common_8h_18410ba458f920d8f8a8f0e5594170fe4" kindref="member">gfal_initG</ref><sp/>(GError**<sp/>err)</highlight></codeline>
-<codeline lineno="42"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle<sp/>=<sp/>calloc(1,</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>gfal_handle_));</highlight><highlight class="comment">//<sp/>clear<sp/>allocation<sp/>of<sp/>the<sp/>struct<sp/>and<sp/>set<sp/>defautl<sp/>options</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle<sp/>==<sp/>NULL){</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno=<sp/>ENOMEM;</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,ENOMEM,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_initG]<sp/>bad<sp/>allocation,<sp/>no<sp/>more<sp/>memory<sp/>free&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;err=<sp/>NULL;</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;srm_proto_type<sp/>=<sp/>PROTO_SRMv2;</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;initiated<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;catalog_opt.catalog_number=<sp/>0;</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;last_request_state<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__catalog_8c_196ebd098ad2447a81f096207879b9d3a" kindref="member">gfal_catalogs_instance</ref>(handle,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>handle;</highlight></codeline>
-<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common_8h_19dbd943eaed291897d852fc3ae560058" kindref="member">gfal_handle_freeG</ref><sp/>(gfal_handle<sp/>handle){</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle<sp/>==<sp/>NULL)</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_clear_error(&amp;(handle-&gt;err));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>the<sp/>version<sp/>should<sp/>be<sp/>set<sp/>by<sp/>a<sp/>&quot;define&quot;<sp/>at<sp/>the<sp/>makefile<sp/>level<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*gfalversion<sp/>=<sp/>VERSION;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">gfal_handle<sp/><ref refid="gfal__common__all_8c_18410ba458f920d8f8a8f0e5594170fe4" kindref="member">gfal_initG</ref><sp/>(GError**<sp/>err)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle<sp/>=<sp/>calloc(1,</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>gfal_handle_));</highlight><highlight class="comment">//<sp/>clear<sp/>allocation<sp/>of<sp/>the<sp/>struct<sp/>and<sp/>set<sp/>defautl<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle<sp/>==<sp/>NULL){</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno=<sp/>ENOMEM;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,ENOMEM,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_initG]<sp/>bad<sp/>allocation,<sp/>no<sp/>more<sp/>memory<sp/>free&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;srm_proto_type<sp/>=<sp/>PROTO_SRMv2;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;initiated<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;catalog_opt.catalog_number=<sp/>0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;last_request_state<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__catalog_8c_196ebd098ad2447a81f096207879b9d3a" kindref="member">gfal_catalogs_instance</ref>(handle,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>handle;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__all_8c_19dbd943eaed291897d852fc3ae560058" kindref="member">gfal_handle_freeG</ref><sp/>(gfal_handle<sp/>handle){</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle<sp/>==<sp/>NULL)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__catalog_8c_1c0412247b6ddd6ceac7fb171c56adaad" kindref="member">gfal_catalogs_delete</ref>(handle,<sp/>NULL);</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_dir_handle_container_delete(&amp;(handle-&gt;fdescs));</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(handle);</highlight></codeline>
@@ -458,42 +423,40 @@
 <codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gfalversion;</highlight></codeline>
 <codeline lineno="133"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="134"><highlight class="normal"></highlight></codeline>
-<codeline lineno="138"><highlight class="normal">GError**<sp/><ref refid="gfal__common_8h_15db6cc7aef8f56e6b1b69f903d9c5411" kindref="member">gfal_get_last_gerror</ref>(gfal_handle<sp/>handle){</highlight></codeline>
-<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;(handle-&gt;err);</highlight></codeline>
-<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">/***</highlight></codeline>
-<codeline lineno="143"><highlight class="comment"><sp/>*<sp/>check<sp/>the<sp/>validity<sp/>of<sp/>a<sp/>result<sp/>for<sp/>a<sp/>&quot;access&quot;<sp/>standard<sp/>call</highlight></codeline>
-<codeline lineno="144"><highlight class="comment"><sp/>*<sp/>@return<sp/>TRUE<sp/>if<sp/>status<sp/>is<sp/>a<sp/>valid<sp/>and<sp/>standard<sp/>access<sp/>methode<sp/>error,<sp/>else<sp/>return<sp/>FALSE</highlight></codeline>
-<codeline lineno="145"><highlight class="comment"><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal"><sp/>gboolean<sp/>is_valid_access_result(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status){</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal">(status){</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>0:</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ENOENT:</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>EACCES:</highlight></codeline>
-<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ELOOP:</highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ENAMETOOLONG:</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ENOTDIR:</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>EROFS:{</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TRUE;</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:{</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>FALSE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="163"><highlight class="normal"></highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__all_8c_14cb5e50a1af5612463aaa525162a2e9e" kindref="member">gfal_generate_guidG</ref>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buf,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>uuid_t<sp/>uuid;</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"></highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>uuid_generate<sp/>(uuid);</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>uuid_unparse<sp/>(uuid,<sp/>buf);</highlight></codeline>
-<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>uuid_clear(uuid);</highlight></codeline>
-<codeline lineno="176"><highlight class="normal"><sp/>}</highlight></codeline>
-<codeline lineno="177"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="178"><highlight class="normal"></highlight></codeline>
-<codeline lineno="179"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">/***</highlight></codeline>
+<codeline lineno="138"><highlight class="comment"><sp/>*<sp/>check<sp/>the<sp/>validity<sp/>of<sp/>a<sp/>result<sp/>for<sp/>a<sp/>&quot;access&quot;<sp/>standard<sp/>call</highlight></codeline>
+<codeline lineno="139"><highlight class="comment"><sp/>*<sp/>@return<sp/>TRUE<sp/>if<sp/>status<sp/>is<sp/>a<sp/>valid<sp/>and<sp/>standard<sp/>access<sp/>methode<sp/>error,<sp/>else<sp/>return<sp/>FALSE</highlight></codeline>
+<codeline lineno="140"><highlight class="comment"><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/>gboolean<sp/>is_valid_access_result(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status){</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal">(status){</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>0:</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ENOENT:</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>EACCES:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ELOOP:</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ENAMETOOLONG:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ENOTDIR:</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>EROFS:{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TRUE;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>FALSE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__all_8c_14cb5e50a1af5612463aaa525162a2e9e" kindref="member">gfal_generate_guidG</ref>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buf,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>uuid_t<sp/>uuid;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>uuid_generate<sp/>(uuid);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>uuid_unparse<sp/>(uuid,<sp/>buf);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>uuid_clear(uuid);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c"/>
   </compounddef>

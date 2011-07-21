@@ -42,36 +42,43 @@
 <a name="l00031"></a>00031 <span class="preprocessor">#include "<a class="code" href="gfal__common__errverbose_8h.html">gfal_common_errverbose.h</a>"</span>
 <a name="l00032"></a>00032 
 <a name="l00033"></a>00033 gfal_handle gfal_posix_instance();
-<a name="l00034"></a>00034  
-<a name="l00035"></a>00035 <span class="keywordtype">int</span> gfal_posix_internal_access (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> amode);
-<a name="l00036"></a>00036 
-<a name="l00037"></a>00037 <span class="keywordtype">int</span> gfal_posix_internal_chmod(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode);
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 GError** gfal_posix_get_last_error();
+<a name="l00036"></a>00036  
+<a name="l00037"></a>00037 <span class="keywordtype">int</span> gfal_posix_internal_access (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> amode);
 <a name="l00038"></a>00038 
-<a name="l00039"></a>00039 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__stat_8c.html#d0ea9a538a524c4b0216d306773b5b0f">gfal_posix_internal_stat</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* buf);
+<a name="l00039"></a>00039 <span class="keywordtype">int</span> gfal_posix_internal_chmod(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode);
 <a name="l00040"></a>00040 
-<a name="l00041"></a>00041 <span class="keywordtype">int</span> gfal_posix_internal_lstat(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* buf);
+<a name="l00041"></a>00041 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__stat_8c.html#d0ea9a538a524c4b0216d306773b5b0f">gfal_posix_internal_stat</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* buf);
 <a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__mkdir_8c.html#4389d46c4fffcc478b9f2f1312364184">gfal_posix_internal_mkdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode);
+<a name="l00043"></a>00043 <span class="keywordtype">int</span> gfal_posix_internal_lstat(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* buf);
 <a name="l00044"></a>00044 
-<a name="l00045"></a>00045 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__rmdir_8c.html#bb2b0fb8b7cc5c2c1ef27a1dea280ca0">gfal_posix_internal_rmdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path);
+<a name="l00045"></a>00045 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__mkdir_8c.html#4389d46c4fffcc478b9f2f1312364184">gfal_posix_internal_mkdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode);
 <a name="l00046"></a>00046 
-<a name="l00047"></a>00047 DIR* gfal_posix_internal_opendir(<span class="keyword">const</span> <span class="keywordtype">char</span>* name);
+<a name="l00047"></a>00047 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__rmdir_8c.html#bb2b0fb8b7cc5c2c1ef27a1dea280ca0">gfal_posix_internal_rmdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path);
 <a name="l00048"></a>00048 
-<a name="l00049"></a>00049 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__open_8c.html#ada7cd81ad685011082167f02d3c2149">gfal_posix_internal_open</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> flag, mode_t mode);
+<a name="l00049"></a>00049 DIR* gfal_posix_internal_opendir(<span class="keyword">const</span> <span class="keywordtype">char</span>* name);
 <a name="l00050"></a>00050 
-<a name="l00051"></a>00051 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__read_8c.html#1f42df17317461c2831cd270cde9819e">gfal_posix_internal_read</a>(<span class="keywordtype">int</span> fd, <span class="keywordtype">void</span>* buff, size_t s_buff);
+<a name="l00051"></a>00051 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__open_8c.html#ada7cd81ad685011082167f02d3c2149">gfal_posix_internal_open</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> flag, mode_t mode);
 <a name="l00052"></a>00052 
-<a name="l00053"></a>00053 <span class="keywordtype">int</span> gfal_posix_internal_close(<span class="keywordtype">int</span> fd);
+<a name="l00053"></a>00053 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__read_8c.html#1f42df17317461c2831cd270cde9819e">gfal_posix_internal_read</a>(<span class="keywordtype">int</span> fd, <span class="keywordtype">void</span>* buff, size_t s_buff);
 <a name="l00054"></a>00054 
-<a name="l00055"></a>00055 <span class="keywordtype">int</span> gfal_posix_internal_closedir(DIR* d);
+<a name="l00055"></a>00055 <span class="keywordtype">int</span> gfal_posix_internal_close(<span class="keywordtype">int</span> fd);
 <a name="l00056"></a>00056 
-<a name="l00057"></a>00057 <span class="keyword">struct </span>dirent* <a class="code" href="gfal__posix__readdir_8c.html#e8c201ec9e7b66c815761bb6b460d6bf">gfal_posix_internal_readdir</a>(DIR* dir);
+<a name="l00057"></a>00057 <span class="keywordtype">int</span> gfal_posix_internal_closedir(DIR* d);
 <a name="l00058"></a>00058 
-<a name="l00059"></a>00059 
-<a name="l00060"></a>00060 <span class="keywordtype">void</span> gfal_posix_register_internal_error(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* prefix, GError * tmp_err);
-<a name="l00061"></a>00061  
-<a name="l00062"></a>00062 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 14:00:10 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00059"></a>00059 ssize_t gfal_posix_internal_getxattr (<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keyword">const</span> <span class="keywordtype">char</span> *name,
+<a name="l00060"></a>00060                         <span class="keywordtype">void</span> *value, size_t size);
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062 <span class="keyword">struct </span>dirent* <a class="code" href="gfal__posix__readdir_8c.html#e8c201ec9e7b66c815761bb6b460d6bf">gfal_posix_internal_readdir</a>(DIR* dir);
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__symlink_8c.html#dc9e646bbdc504844fab47bdcb1699f0">gfal_posix_internal_symlink</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * oldpath, <span class="keyword">const</span> <span class="keywordtype">char</span> *newpath);
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 <span class="keywordtype">void</span> gfal_posix_register_internal_error(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* prefix, GError * tmp_err);
+<a name="l00068"></a>00068  
+<a name="l00069"></a>00069 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

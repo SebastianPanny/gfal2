@@ -5,6 +5,7 @@ file for the directory handle management
 {\tt \#include $<$stdlib.h$>$}\par
 {\tt \#include $<$errno.h$>$}\par
 {\tt \#include $<$glib.h$>$}\par
+{\tt \#include $<$pthread.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-filedescriptor.h\char`\"{}}\par
@@ -15,6 +16,12 @@ file for the directory handle management
 gfal\_\-fdesc\_\-container\_\-handle \bf{gfal\_\-dir\_\-handle\_\-container\_\-instance} (gfal\_\-descriptors\_\-container $\ast$fdescs, GError $\ast$$\ast$err)
 \item 
 void \textbf{gfal\_\-dir\_\-handle\_\-container\_\-delete} (gfal\_\-descriptors\_\-container $\ast$fdescs)\label{gfal__common__dir__handle_8c_266f240b644154dade8bdb39e4c20efc}
+
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+pthread\_\-mutex\_\-t \textbf{m\_\-dir\_\-container} = PTHREAD\_\-MUTEX\_\-INITIALIZER\label{gfal__common__dir__handle_8c_4cfbc4b2dd6aa3816f19a63d2c0932ca}
 
 \end{CompactItemize}
 

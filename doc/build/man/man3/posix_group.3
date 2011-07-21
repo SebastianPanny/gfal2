@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,90 +7,97 @@ all POSIX style function \-
 
 .in +1c
 .ti -1c
-.RI "int \fBgfal_access\fP (const char *, int)"
+.RI "int \fBgfal_access\fP (const char *path, int amode)"
 .br
 .RI "\fItest access to the given file \fP"
 .ti -1c
-.RI "int \fBgfal_chmod\fP (const char *, mode_t)"
+.RI "int \fBgfal_chmod\fP (const char *path, mode_t mode)"
 .br
-.RI "\fIset rights of the file/dir \fP"
+.RI "\fIchange the right for a file or a folder \fP"
 .ti -1c
-.RI "int \fBgfal_close\fP (int)"
-.br
-.RI "\fIclose the current file descriptor \fP"
-.ti -1c
-.RI "int \fBgfal_closedir\fP (DIR *)"
-.br
-.RI "\fIgfal_closedir - close a directory \fP"
-.ti -1c
-.RI "int \fBgfal_creat\fP (const char *, mode_t)"
-.br
-.RI "\fIcreates a new file or truncates an existing one \fP"
-.ti -1c
-.RI "int \fBgfal_creat64\fP (const char *, mode_t)"
-.br
-.RI "\fIsame as create for large file \fP"
-.ti -1c
-.RI "off_t \fBgfal_lseek\fP (int, off_t, int)"
-.br
-.RI "\fIgfal_lseek - position a file \fP"
-.ti -1c
-.RI "int \fBgfal_mkdir\fP (const char *, mode_t)"
-.br
-.RI "\fIcreate a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like 'mkdir -p'. \fP"
-.ti -1c
-.RI "int \fBgfal_open\fP (const char *, int, mode_t)"
-.br
-.RI "\fIopens a file according to the value of flags \fP"
-.ti -1c
-.RI "int \fBgfal_open64\fP (const char *, int, mode_t)"
-.br
-.ti -1c
-.RI "DIR * \fBgfal_opendir\fP (const char *)"
-.br
-.RI "\fIopen a directory \fP"
-.ti -1c
-.RI "ssize_t \fBgfal_read\fP (int, void *, size_t)"
-.br
-.RI "\fIread a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff \fP"
-.ti -1c
-.RI "dirent * \fBgfal_readdir\fP (DIR *)"
-.br
-.RI "\fIread a directory \fP"
-.ti -1c
-.RI "int \fBgfal_rename\fP (const char *, const char *)"
+.RI "int \fBgfal_rename\fP (const char *oldpath, const char *newpath)"
 .br
 .RI "\fIchange the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files \fP"
 .ti -1c
-.RI "int \fBgfal_rmdir\fP (const char *)"
-.br
-.RI "\fIremoves a directory if it is empty remove an existing directory, return error if the dir is not empty \fP"
-.ti -1c
-.RI "ssize_t \fBgfal_setfilchg\fP (int, const void *, size_t)"
-.br
-.ti -1c
-.RI "int \fBgfal_unlink\fP (const char *)"
-.br
-.ti -1c
-.RI "ssize_t \fBgfal_write\fP (int, const void *, size_t)"
-.br
-.RI "\fIwrite a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. \fP"
-.ti -1c
-.RI "off64_t \fBgfal_lseek64\fP (int, off64_t, int)"
-.br
-.ti -1c
-.RI "int \fBgfal_lstat\fP (const char *, struct stat *)"
-.br
-.RI "\fIgfal_lstat is identical to \fBgfal_stat\fP except for symbolic links. In this case, the link itself is statted and not followed. \fP"
-.ti -1c
-.RI "int \fBgfal_lstat64\fP (const char *, struct stat64 *)"
-.br
-.ti -1c
-.RI "int \fBgfal_stat\fP (const char *, struct stat *)"
+.RI "int \fBgfal_stat\fP (const char *path, struct stat *buff)"
 .br
 .RI "\fIinformations about a file These functions return information about a file. No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is required on all of the directories in path that lead to the file. \fP"
 .ti -1c
-.RI "int \fBgfal_stat64\fP (const char *, struct stat64 *)"
+.RI "int \fBgfal_lstat\fP (const char *path, struct stat *buff)"
+.br
+.RI "\fIgfal_lstat is identical to \fBgfal_stat\fP except for symbolic links. In this case, the link itself is statted and not followed. \fP"
+.ti -1c
+.RI "int \fBgfal_mkdirp\fP (const char *path, mode_t mode)"
+.br
+.RI "\fIcreate a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like 'mkdir -p'. \fP"
+.ti -1c
+.RI "int \fBgfal_mkdir\fP (const char *path, mode_t mode)"
+.br
+.ti -1c
+.RI "int \fBgfal_rmdir\fP (const char *path)"
+.br
+.RI "\fIremoves a directory if it is empty remove an existing directory, return error if the dir is not empty \fP"
+.ti -1c
+.RI "DIR * \fBgfal_opendir\fP (const char *name)"
+.br
+.RI "\fIopen a directory \fP"
+.ti -1c
+.RI "dirent * \fBgfal_readdir\fP (DIR *d)"
+.br
+.RI "\fIread a directory \fP"
+.ti -1c
+.RI "int \fBgfal_closedir\fP (DIR *d)"
+.br
+.RI "\fIread a directory close the file descriptor of an opendir call \fP"
+.ti -1c
+.RI "int \fBgfal_open\fP (const char *path, int flag, mode_t mode)"
+.br
+.RI "\fIopen a file opens a file according to the value of flags. \fP"
+.ti -1c
+.RI "int \fBgfal_creat\fP (const char *filename, mode_t mode)"
+.br
+.RI "\fIcreate a new file or truncate an existing one opens a file according to the value of flags. \fP"
+.ti -1c
+.RI "int \fBgfal_read\fP (int fd, void *buff, size_t s_buff)"
+.br
+.RI "\fIread a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff \fP"
+.ti -1c
+.RI "int \fBgfal_write\fP (int fd, const void *buff, size_t s_buff)"
+.br
+.RI "\fIwrite a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. \fP"
+.ti -1c
+.RI "int \fBgfal_close\fP (int fd)"
+.br
+.RI "\fIclose a file closes the file whose descriptor fd is the one returned by gfal_open. \fP"
+.ti -1c
+.RI "int \fBgfal_symlink\fP (const char *oldpath, const char *newpath)"
+.br
+.RI "\fImake a new name for a file symlink() creates a symbolic link named newpath which contains the string oldpath. \fP"
+.ti -1c
+.RI "off_t \fBgfal_lseek\fP (int fd, off_t offset, int whence)"
+.br
+.RI "\fIset position in a file gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value: \fP"
+.ti -1c
+.RI "ssize_t \fBgfal_getxattr\fP (const char *path, const char *name, void *value, size_t size)"
+.br
+.RI "\fIretrieve an extended attribute value gfal_getxattr retrieves an extended value from an url managed by gfal \fP"
+.ti -1c
+.RI "void \fBgfal_posix_print_error\fP ()"
+.br
+.ti -1c
+.RI "void \fBgfal_posix_release_error\fP ()"
+.br
+.ti -1c
+.RI "void \fBgfal_posix_clear_error\fP ()"
+.br
+.ti -1c
+.RI "int \fBgfal_posix_code_error\fP ()"
+.br
+.ti -1c
+.RI "int \fBgfal_posix_check_error\fP ()"
+.br
+.ti -1c
+.RI "char * \fBgfal_posix_strerror_r\fP (char *buff_err, size_t s_err)"
 .br
 .in -1c
 .SH "Function Documentation"
@@ -101,7 +108,9 @@ test access to the given file
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpath\fP can be in supported protocols (lfn, srm, file, guid,..) 
+\fIpath\fP path of the file to access, can be in supported protocols (lfn, srm, file, guid,..) 
+.br
+\fIamode\fP access mode to check (R_OK, W_OK, X_OK or F_OK) 
 .RE
 .PP
 \fBReturns:\fP
@@ -137,11 +146,11 @@ EINVAL: path has an invalid syntax or amode is invalid.
 
 .SS "int gfal_chmod (const char * path, mode_t mode)"
 .PP
-set rights of the file/dir 
+change the right for a file or a folder 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpath\fP : path of the file or the folder concerned in supported protocols (lfn, file, guid,..) 
+\fIpath\fP : path of the file or the folder, can be in all supported protocols (lfn, srm, file, guid,..) 
 .br
 \fImode\fP : right to configure 
 .RE
@@ -178,7 +187,7 @@ EINVAL: path has an invalid syntax or amode is invalid.
 
 .SS "int gfal_close (int fd)"
 .PP
-close the current file descriptor 
+close a file closes the file whose descriptor fd is the one returned by gfal_open. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -209,7 +218,7 @@ EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not suppor
 
 .SS "int gfal_closedir (DIR * d)"
 .PP
-gfal_closedir - close a directory 
+read a directory close the file descriptor of an opendir call 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -240,13 +249,11 @@ ECOMM : Communication error
 
 .SS "int gfal_creat (const char * filename, mode_t mode)"
 .PP
-creates a new file or truncates an existing one 
+create a new file or truncate an existing one opens a file according to the value of flags. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIfilename\fP : url of the filename to create, can be a surl, lfn, guid, local or turl the urls supported by the modules 
-.br
-\fIflag\fP : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. 
+\fIfilename\fP : url of the filename to create, can be in supported protocols (lfn, srm, file, guid,..) 
 .br
 \fImode\fP is used only if the file is created. 
 .RE
@@ -257,48 +264,62 @@ return the file descriptor or -1 if errno is set call \fBgfal_posix_check_error(
 .RE
 .PP
 
-.SS "off_t gfal_lseek (int, off_t, int)"
+.SS "ssize_t gfal_getxattr (const char * path, const char * name, void * value, size_t size)"
 .PP
-gfal_lseek - position a file 
+retrieve an extended attribute value gfal_getxattr retrieves an extended value from an url managed by gfal 
 .PP
-gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value:
-.PP
-.IP "\(bu" 2
-SEEK_SET The offset is set from beginning of file.
-.IP "\(bu" 2
-SEEK_CUR The offset is added to current position.
-.IP "\(bu" 2
-SEEK_END The offset is added to current file size.
-.PP
+\fBParameters:\fP
+.RS 4
+\fIpath\fP : path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..) 
+.br
+\fIname,:\fP name of the attribute to get 
+.br
+\fIvalue,:\fP pointer to buffer to get the value 
+.br
+\fIsize\fP : size of the buffer 
+.RE
 .PP
 \fBReturns:\fP
 .RS 4
-This routine returns the actual offset from the beginning of the file if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately.
-.IP "\(bu" 2
-ERRORS :
-.IP "  \(bu" 4
-EBADF fd is not a valid file descriptor.
-.IP "  \(bu" 4
-EINVAL incorrect value for whence.
-.IP "  \(bu" 4
-EFBIG Resulting offset is too big to fit in off_t.
-.IP "  \(bu" 4
-ECOMM Communication error.
-.IP "  \(bu" 4
-EPROTONOSUPPORT Access method not supported.
-.PP
-
-.PP
+return the size of the data returned, or -1 if error. In the latter case, errno is set appropriately, you can call \fBgfal_posix_check_error()\fP for a more complete description. 
 .RE
 .PP
-gfal_lseek64 performs the same function on large files using off64_t rather than off_t. 
+
+.SS "off_t gfal_lseek (int fd, off_t offset, int whence)"
+.PP
+set position in a file gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value: 
+.PP
+SEEK_SET The offset is set from beginning of file.
+.PP
+SEEK_CUR The offset is added to current position.
+.PP
+SEEK_END The offset is added to current file size. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfd\fP : file descriptor to lseek 
+.br
+\fIoffset,:\fP offset in byte 
+.br
+\fIwhence,:\fP flag 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+This routine returns the actual offset from the beginning of the file if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately, you can call \fBgfal_posix_check_error()\fP for a more complete description. 
+.RE
+.PP
+
 .SS "int gfal_mkdir (const char * path, mode_t mode)"
+.PP
+Wrapper to mkdir for comptibility, same behavior than \fBgfal_mkdirp\fP ( but subject to change in order to follow POSIX mkdir in the futur ) 
+.SS "int gfal_mkdirp (const char * path, mode_t mode)"
 .PP
 create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like 'mkdir -p'. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpath\fP : url of the directory. Can be surl ( srm://), local (file://), or catalog's url (lfc:, ....) 
+\fIpath\fP : url of the directory, can be in supported protocols (lfn, srm, file, guid,..) 
 .br
 \fImode\fP : right of the directory ( depend of the implementation ) 
 .RE
@@ -339,11 +360,11 @@ EINVAL: oldpath or newpath has an invalid syntax .
 
 .SS "int gfal_open (const char * path, int flag, mode_t mode)"
 .PP
-opens a file according to the value of flags 
+open a file opens a file according to the value of flags. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIfilename\fP : url of the filename to open, can be a surl, lfn, guid, local or turl the urls supported by the modules 
+\fIpath\fP : url of the filename to open. can be in supported protocols (lfn, srm, file, guid,..) 
 .br
 \fIflag\fP : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. 
 .br
@@ -356,7 +377,7 @@ return the file descriptor or -1 if errno is set call \fBgfal_posix_check_error(
 .RE
 .PP
 
-.SS "DIR * gfal_opendir (const char * name)"
+.SS "DIR* gfal_opendir (const char * name)"
 .PP
 open a directory 
 .PP
@@ -364,7 +385,7 @@ opens a directory to be used in subsequent gfal_readdir operations the url suppo
 .PP
 \fBParameters:\fP
 .RS 4
-\fIname\fP of the directory to open 
+\fIname\fP of the directory to open, can be in supported protocols (lfn, srm, file, guid,..) 
 .RE
 .PP
 \fBReturns:\fP
@@ -405,7 +426,32 @@ EINVAL: path has an invalid syntax .
 
 .PP
 
-.SS "ssize_t gfal_read (int fd, void * buff, size_t s_buff)"
+.SS "int gfal_posix_check_error ()"
+.PP
+check the current error, if no error report return 0 else return 1 and print the error on stderr 
+.PP
+\fBWarning:\fP
+.RS 4
+this does not clear the error 
+.RE
+.PP
+
+.SS "void gfal_posix_clear_error ()"
+.PP
+clear the last error reported by a gfal posix function 
+.SS "int gfal_posix_code_error ()"
+.PP
+return the current error code registered or if not exist 
+.SS "void gfal_posix_print_error ()"
+.PP
+Display the last string error reported by the gfal error system for the posix API Errors are printed on stderr 
+.SS "void gfal_posix_release_error ()"
+.PP
+Display and clear the last string error reported by the gfal error system for the posix API and similar to a \fBgfal_posix_print_error()\fP and a \fBgfal_posix_clear_error()\fP 
+.SS "char* gfal_posix_strerror_r (char * buff_err, size_t s_err)"
+.PP
+get the current error string 
+.SS "int gfal_read (int fd, void * buff, size_t s_buff)"
 .PP
 read a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff 
 .PP
@@ -413,7 +459,7 @@ read a file gfal_read reads up to size bytes from the file descriptor fd into th
 .RS 4
 \fIfd\fP file descriptor 
 .br
-\fIbuff,buffer\fP of the data to read 
+\fIbuff\fP buffer of the data to read 
 .br
 \fIs_buff\fP size of the data read in bytes 
 .RE
@@ -424,7 +470,7 @@ number of byte read or -1 if error, errno is set call \fBgfal_posix_check_error(
 .RE
 .PP
 
-.SS "struct dirent * gfal_readdir (DIR * dir)"
+.SS "struct dirent* gfal_readdir (DIR * d)"
 .PP
 read a directory 
 .PP
@@ -468,9 +514,9 @@ change the name or location of a file oldpath and newpath need to be on the same
 .PP
 \fBParameters:\fP
 .RS 4
-\fIoldpath\fP : the old path of the file 
+\fIoldpath\fP : the old path of the file, can be in supported protocols but need to be in the same adress space than newpath 
 .br
-\fInewpath\fP : the new path of the file 
+\fInewpath\fP : the new path of the file, can be in supported protocols (lfn, srm, file, guid,..) 
 .RE
 .PP
 \fBReturns:\fP
@@ -519,7 +565,7 @@ removes a directory if it is empty remove an existing directory, return error if
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpath\fP specifies the directory name, can be a surl ( srm://), local (file://) or a catalog url ( lfc:, ....) 
+\fIpath\fP specifies the directory name, can be in supported protocols (lfn, srm, file, guid,..) 
 .RE
 .PP
 \fBReturns:\fP
@@ -556,13 +602,13 @@ EINVAL: path has an invalid syntax .
 .RE
 .PP
 
-.SS "int gfal_stat (const char * path, struct stat * buf)"
+.SS "int gfal_stat (const char * path, struct stat * buff)"
 .PP
 informations about a file These functions return information about a file. No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is required on all of the directories in path that lead to the file. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpath\fP : path of a file. Can be a SURL, a Catalog URL or a guid 
+\fIpath\fP : path of the file, can be in supported protocols (lfn, srm, file, guid,..) 
 .br
 \fIbuff\fP : pointer to an allocated struct stat 
 .RE
@@ -597,7 +643,24 @@ EINVAL: oldpath or newpath has an invalid syntax .
 
 .PP
 
-.SS "ssize_t gfal_write (int fd, const void * buff, size_t s_buff)"
+.SS "int gfal_symlink (const char * oldpath, const char * newpath)"
+.PP
+make a new name for a file symlink() creates a symbolic link named newpath which contains the string oldpath. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInewpath\fP : path of the link, can be in supported protocols but need to be in the same adress space than newpath 
+.br
+\fIoldpath\fP : path of the linked file, can be in supported protocols (lfn, srm, file, guid,..) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success else -1. if failure, errno is set, you can call \fBgfal_posix_check_error()\fP for a more complete description. 
+.RE
+.PP
+
+.SS "int gfal_write (int fd, const void * buff, size_t s_buff)"
 .PP
 write a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. 
 .PP
@@ -605,7 +668,7 @@ write a file gfal_write writes size bytes from the buffer pointed by buff to the
 .RS 4
 \fIfd\fP file descriptor 
 .br
-\fIbuff,buffer\fP of the data to write 
+\fIbuff\fP buffer of the data to write 
 .br
 \fIs_buff\fP size of the data write in bytes 
 .RE

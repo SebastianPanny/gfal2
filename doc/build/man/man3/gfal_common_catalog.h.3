@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -46,7 +46,7 @@
 
 .in +1c
 .ti -1c
-.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_GETSURL\fP, \fBGFAL_CATALOG_GETTURL\fP, \fBGFAL_CATALOG_PUTTURL\fP, \fBGFAL_CATALOG_RESOLVE_GUID\fP }"
+.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_SYMLINK\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_GETSURL\fP, \fBGFAL_CATALOG_GETTURL\fP, \fBGFAL_CATALOG_PUTTURL\fP, \fBGFAL_CATALOG_RESOLVE_GUID\fP, \fBGFAL_CATALOG_GETXATTR\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -55,7 +55,6 @@
 .ti -1c
 .RI "char * \fBgfal_get_cat_type\fP (GError **)"
 .br
-.RI "\fIcatalog type getter \fP"
 .ti -1c
 .RI "int \fBgfal_catalogs_instance\fP (gfal_handle, GError **err)"
 .br
@@ -63,22 +62,22 @@
 .RI "char ** \fBgfal_catalogs_get_list\fP (gfal_handle, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_catalogs_delete\fP (gfal_handle, GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_catalogs_accessG\fP (gfal_handle handle, const char *path, int mode, GError **err)"
-.br
-.ti -1c
-.RI "int \fBgfal_catalog_readG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
-.br
-.ti -1c
-.RI "int \fBgfal_catalog_writeG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_catalogs_guid_accessG\fP (gfal_handle handle, char *guid, int mode, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_catalogs_delete\fP (gfal_handle, GError **err)"
+.RI "int \fBgfal_catalog_statG\fP (gfal_handle handle, const char *path, struct stat *st, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_catalog_statG\fP (gfal_handle handle, const char *path, struct stat *st, GError **err)"
+.RI "int \fBgfal_catalog_renameG\fP (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_symlinkG\fP (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_catalog_lstatG\fP (gfal_handle handle, const char *path, struct stat *st, GError **err)"
@@ -87,13 +86,13 @@
 .RI "int \fBgfal_catalog_mkdirp\fP (gfal_handle handle, const char *path, mode_t mode, gboolean pflag, GError **err)"
 .br
 .ti -1c
-.RI "char * \fBgfal_catalog_resolve_guid\fP (gfal_handle handle, const char *guid, GError **err)"
-.br
-.ti -1c
 .RI "gfal_file_handle \fBgfal_catalog_opendirG\fP (gfal_handle handle, const char *name, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_catalog_closedirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
+.br
+.ti -1c
+.RI "dirent * \fBgfal_catalog_readdirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
 .br
 .ti -1c
 .RI "gfal_file_handle \fBgfal_catalog_openG\fP (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)"
@@ -105,6 +104,19 @@
 .RI "int \fBgfal_catalog_closeG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_catalog_writeG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_lseekG\fP (gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_readG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_catalog_getxattrG\fP (gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)"
+.br
+.RI "\fIimplementation in the catalog of the get extended attribute function \fP"
+.ti -1c
 .RI "char ** \fBgfal_catalog_getSURL\fP (gfal_handle handle, const char *path, GError **err)"
 .br
 .ti -1c
@@ -114,40 +126,7 @@
 .RI "int \fBgfal_catalog_putTURLG\fP (gfal_handle handle, const char *surl, char *turl_buff, int turl, char **reqtoken, GError **err)"
 .br
 .ti -1c
-.RI "dirent * \fBgfal_catalog_readdirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
-.br
-.ti -1c
-.RI "char * \fBget_default_se\fP (char *, int)"
-.br
-.ti -1c
-.RI "int \fBpurify_surl\fP (const char *, char *, const int)"
-.br
-.ti -1c
-.RI "int \fBsetypesandendpointsfromsurl\fP (const char *, char ***, char ***, char *, int)"
-.br
-.ti -1c
-.RI "int \fBsetypesandendpoints\fP (const char *, char ***, char ***, char *, int)"
-.br
-.ti -1c
-.RI "int \fBcanonical_url\fP (const char *, const char *, char *, int, char *, int)"
-.br
-.ti -1c
-.RI "int \fBparseturl\fP (const char *, char *, int, char *, int, char *, int)"
-.br
-.ti -1c
-.RI "int \fBreplica_exists\fP (const char *, char *, int)"
-.br
-.ti -1c
-.RI "int \fBgetdomainnm\fP (char *name, int namelen)"
-.br
-.ti -1c
-.RI "char ** \fBget_sup_proto\fP ()"
-.br
-.ti -1c
-.RI "proto_ops * \fBfind_pops\fP (const char *)"
-.br
-.ti -1c
-.RI "int \fBmapposixerror\fP (struct proto_ops *, int)"
+.RI "char * \fBgfal_catalog_resolve_guid\fP (gfal_handle handle, const char *guid, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -200,6 +179,16 @@ Resolve a surl to a 'GET' turl
 \fBReturns:\fP
 .RS 4
 pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
+.RE
+.PP
+
+.SS "int gfal_catalog_lseekG (gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError ** err)"
+.PP
+do a lseek operation on the catalog 
+.PP
+\fBReturns:\fP
+.RS 4
+return number of bytes readed else -1 if errors and GError is set 
 .RE
 .PP
 
@@ -282,9 +271,22 @@ return number of bytes readed else -1 if errors and GError is set
 .RE
 .PP
 
+.SS "int gfal_catalog_renameG (gfal_handle handle, const char * oldpath, const char * newpath, GError ** err)"
+.PP
+Execute the rename function on the first compatible catalog ( checked with check_url func ) 
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success or -1 and set the GError to the correct errno value with a description msg 
+.RE
+.PP
+
 .SS "int gfal_catalog_statG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 Execute a stat function on the lfc catalog 
+.SS "int gfal_catalog_symlinkG (gfal_handle handle, const char * oldpath, const char * newpath, GError ** err)"
+.PP
+Execute the symlink function on the first compatible catalog 
 .SS "int gfal_catalog_writeG (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
 .PP
 do a write operation on the catalog, write s_buff chars on the fd device 
@@ -311,16 +313,6 @@ Delete all instance of catalogs
 .SS "int gfal_catalogs_instance (gfal_handle handle, GError ** err)"
 .PP
 Instance all catalogs for use if it's not the case return the number of catalog available 
-.SS "char* gfal_get_cat_type (GError **)"
-.PP
-catalog type getter 
-.PP
-\fBReturns:\fP
-.RS 4
-return a string of the type of the catalog return NULL if an error occured and set the GError correctly 
-.RE
-.PP
-
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

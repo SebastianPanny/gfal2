@@ -5,19 +5,19 @@
     <title>Gfal Documentation</title>
     <detaileddescription>
 <para><simplesect kind="author"><para>Devresse Adrien ( <ulink url="mailto:adev88@gmail.com">adev88@gmail.com</ulink> )</para></simplesect>
-<heading level="1">SUMMARY : </heading>
-</para><para><heading level="2">I.Report of the Scheduled changes : </heading>
-</para><para><itemizedlist>
-<listitem><para>The list of changes from 1.X to 2.X are resumed <ref refid="api_change" kindref="compound">api_change</ref> </para></listitem></itemizedlist>
-</para><para><heading level="2">II. How to compile </heading>
-</para><para><itemizedlist>
+<heading level="1">Main API description here : </heading>
+</para><para><bold> <center> <ref refid="group__posix__group" kindref="compound">all POSIX style function</ref>  </center></bold></para><para><bold><heading level="1">I.Report of the Scheduled changes : </heading>
+</bold></para><para><bold><itemizedlist>
+<listitem><para>Changes between 1.X and 2.X are resumed <ref refid="api_change" kindref="compound">api_change</ref> </para></listitem></itemizedlist>
+</bold></para><para><bold><heading level="1">II. How to compile locally</heading>
+</bold></para><para><bold><itemizedlist>
 <listitem><para>Compile :<itemizedlist>
-<listitem><para>follow gfal hello world tutorial to have an etics installation</para></listitem><listitem><para>Install scons ( <ulink url="http://www.scons.org,">http://www.scons.org,</ulink> python script )</para></listitem><listitem><para>checkout the source from the svn : git svn clone <ulink url="http://svnweb.cern.ch/guest/lcgutil/gfal">http://svnweb.cern.ch/guest/lcgutil/gfal</ulink></para></listitem><listitem><para>&quot;cd CERNgfal&quot;</para></listitem><listitem><para>&quot;scons &quot;</para></listitem><listitem><para>configure env vars ETICS_WORKSPACE if asked.</para></listitem></itemizedlist>
+<listitem><para>follow tutorial to have an etics installation and a gfal build on your pc</para></listitem><listitem><para>Install scons ( <ulink url="http://www.scons.org,">http://www.scons.org,</ulink> python script )</para></listitem><listitem><para>checkout the source from the svn : git svn clone <ulink url="http://svnweb.cern.ch/guest/lcgutil/gfal">http://svnweb.cern.ch/guest/lcgutil/gfal</ulink></para></listitem><listitem><para>&quot;cd CERNgfal&quot;</para></listitem><listitem><para>&quot;scons -j 8&quot;</para></listitem><listitem><para>configure env vars ETICS_WORKSPACE if asked.</para></listitem></itemizedlist>
 </para></listitem><listitem><para>Compile tests :<itemizedlist>
-<listitem><para>Install python &gt;=2.4</para></listitem><listitem><para>Install scons</para></listitem><listitem><para>execute &quot;scons testing&quot; in the CERNgfal dir</para></listitem></itemizedlist>
+<listitem><para>Install python &gt;=2.4</para></listitem><listitem><para>Install scons</para></listitem><listitem><para>execute &quot;scons test&quot; in the CERNgfal dir</para></listitem></itemizedlist>
 </para></listitem><listitem><para>Clean builds :<itemizedlist>
 <listitem><para>scons -c </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
-</para>    </detaileddescription>
+</bold></para>    </detaileddescription>
   </compounddef>
 </doxygen>

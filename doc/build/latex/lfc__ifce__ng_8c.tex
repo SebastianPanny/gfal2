@@ -8,6 +8,7 @@ main internal file of the lfc catalog module
 {\tt \#include $<$sys/types.h$>$}\par
 {\tt \#include $<$dlfcn.h$>$}\par
 {\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$pthread.h$>$}\par
 {\tt \#include \char`\"{}../gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-types.h\char`\"{}}\par
 {\tt \#include \char`\"{}../mds/gfal\_\-common\_\-mds.h\char`\"{}}\par
@@ -25,6 +26,14 @@ main internal file of the lfc catalog module
 \end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
+\item 
+int \textbf{gfal\_\-lfc\_\-regex\_\-compile} (regex\_\-t $\ast$rex, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_4ecadc4bf36b4b23af7beb949f6190be}
+
+\item 
+void \bf{gfal\_\-lfc\_\-init\_\-thread} (struct lfc\_\-ops $\ast$ops)
+\item 
+int \textbf{gfal\_\-lfc\_\-start\-Session} (struct lfc\_\-ops $\ast$ops, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_191824f5c6bfee67e81f0c495e9bb778}
+
 \item 
 char $\ast$ \textbf{gfal\_\-get\_\-lfchost\_\-envar} (GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_9a5b8e8e30853b920e3bbe41062e1d25}
 
@@ -46,6 +55,18 @@ int \bf{gfal\_\-lfc\_\-mkdir\_\-rec} (struct lfc\_\-ops $\ast$ops, char $\ast$br
 int \bf{gfal\_\-lfc\_\-ifce\_\-mkdirp\-G} (struct lfc\_\-ops $\ast$ops, const char $\ast$path, mode\_\-t mode, gboolean pflag, GError $\ast$$\ast$err)
 \item 
 char $\ast$$\ast$ \bf{gfal\_\-lfc\_\-get\-SURL} (struct lfc\_\-ops $\ast$ops, const char $\ast$path, GError $\ast$$\ast$err)
+\item 
+int \textbf{gfal\_\-lfc\_\-statg} (struct lfc\_\-ops $\ast$ops, const char $\ast$lfn, struct lfc\_\-filestatg $\ast$statbuf, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_220714510c3f197e656ddea9f04ffec3}
+
+\item 
+ssize\_\-t \textbf{g\_\-strv\_\-catbuff} (char $\ast$$\ast$strv, char $\ast$buff, size\_\-t size)\label{lfc__ifce__ng_8c_bc04cd8d7342170700f02f6297fc4105}
+
+\item 
+int \textbf{gfal\_\-lfc\_\-get\_\-errno} (struct lfc\_\-ops $\ast$ops)\label{lfc__ifce__ng_8c_caa53981228e722b2175cfd7b4ca051c}
+
+\item 
+char $\ast$ \textbf{gfal\_\-lfc\_\-get\_\-strerror} (struct lfc\_\-ops $\ast$ops)\label{lfc__ifce__ng_8c_58172b62403dfd7a7b742548f074cd44}
+
 \end{CompactItemize}
 
 
@@ -83,7 +104,12 @@ return a list of surls from a getreplica request \index{lfc_ifce_ng.c@{lfc\_\-if
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-lfc\_\-ifce\_\-mkdirp\-G (struct lfc\_\-ops $\ast$ {\em ops}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, gboolean {\em pflag}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_9fa43925882e2e196e0020b529827d3c}
 
 
-Implementation of mkdir -p call on the lfc \index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_mkdir_rec@{gfal\_\-lfc\_\-mkdir\_\-rec}}
+Implementation of mkdir -p call on the lfc \index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_init_thread@{gfal\_\-lfc\_\-init\_\-thread}}
+\index{gfal_lfc_init_thread@{gfal\_\-lfc\_\-init\_\-thread}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-lfc\_\-init\_\-thread (struct lfc\_\-ops $\ast$ {\em ops})}\label{lfc__ifce__ng_8c_aed5d8ab4c88e918990444e53930bfa4}
+
+
+Routine for internal lfc hack, need to be call for the thread safety \index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_mkdir_rec@{gfal\_\-lfc\_\-mkdir\_\-rec}}
 \index{gfal_lfc_mkdir_rec@{gfal\_\-lfc\_\-mkdir\_\-rec}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-lfc\_\-mkdir\_\-rec (struct lfc\_\-ops $\ast$ {\em ops}, char $\ast$ {\em browser\_\-path}, const char $\ast$ {\em full\_\-path}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_0d7c361d951ac79fee504d5125485033}
 

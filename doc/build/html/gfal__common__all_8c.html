@@ -20,11 +20,13 @@
   </ul></div>
 <h1>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c File Reference</h1>core file for the utility function of gfal common part <a href="#_details">More...</a>
 <p>
-<code>#include &quot;<a class="el" href="gfal__common_8h-source.html">gfal_common.h</a>&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">gfal_common_errverbose.h</a>&quot;</code><br>
 <code>#include &lt;dlfcn.h&gt;</code><br>
 <code>#include &lt;regex.h&gt;</code><br>
+<code>#include &lt;stdlib.h&gt;</code><br>
 <code>#include &lt;uuid/uuid.h&gt;</code><br>
+<code>#include &quot;gfal_prototypes.h&quot;</code><br>
+<code>#include &quot;gfal_types.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">gfal_common_errverbose.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
@@ -47,8 +49,6 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal_
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common__group.html#ga5a8df616e6a5e6fc1d94e2374c7ccf2">gfal_version</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return a string of the current gfal_version define at the compilation time  <a href="group__common__group.html#ga5a8df616e6a5e6fc1d94e2374c7ccf2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GError **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__all_8c.html#c90af0780f11aa512dce46955c844704">gfal_get_last_gerror</a> (gfal_handle handle)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="aed64917ebc1c60ab8ccd2c4dfbd2c3a"></a><!-- doxytag: member="gfal_common_all.c::is_valid_access_result" ref="aed64917ebc1c60ab8ccd2c4dfbd2c3a" args="(int status)" -->
 gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><b>is_valid_access_result</b> (int status)</td></tr>
 
@@ -93,26 +93,6 @@ generate an uiid string Generate a uuid string and cpy it in the buf,
 <p>
 <dl compact><dt><b>Warning:</b></dt><dd>buff must be &gt; uuid size ( 37 bytes ) </dd></dl>
 
-</div>
-</div><p>
-<a class="anchor" name="c90af0780f11aa512dce46955c844704"></a><!-- doxytag: member="gfal_common_all.c::gfal_get_last_gerror" ref="c90af0780f11aa512dce46955c844704" args="(gfal_handle handle)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">GError** gfal_get_last_gerror           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return a pointer to the internal last error of the handle 
 </div>
 </div><p>
 <a class="anchor" name="a7e1120eb32c4c7f293f6fbcb4f0ea33"></a><!-- doxytag: member="gfal_common_all.c::gfal_GList_to_tab" ref="a7e1120eb32c4c7f293f6fbcb4f0ea33" args="(GList *surls)" -->
@@ -182,7 +162,7 @@ initiate a gfal's context with default parameters for use <dl compact><dt><b>Ret
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 14:00:10 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -23,7 +23,7 @@
 .ti -1c
 .RI "int \fBgfal_set_verbose\fP (int value)"
 .br
-.RI "\fIset the verbose global level \fP"
+.RI "\fIset the verbose mode for the current program \fP"
 .ti -1c
 .RI "void \fBgfal_print_verbose\fP (int verbose_lvl, const char *msg,...)"
 .br
@@ -56,7 +56,7 @@
 
 .in +1c
 .ti -1c
-.RI "char * \fB_gfal_err\fP = NULL"
+.RI "__thread char \fB_gfal_err\fP [GFAL_ERRMSG_LEN]"
 .br
 .in -1c
 .SH "Detailed Description"

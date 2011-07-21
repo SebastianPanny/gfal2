@@ -2,11 +2,16 @@
 \label{gfal__common__internal_8h}\index{/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h@{/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-internal.h}}
 internal declaration for gfal, USE DIRECTLY THIS FUNCTIONS IS NOT RECOMMANDED 
 
-{\tt \#include \char`\"{}srm/gfal\_\-common\_\-srm.h\char`\"{}}\par
-{\tt \#include \char`\"{}gfal\_\-common.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
+gfal\_\-handle \bf{gfal\_\-init\-G} (GError $\ast$$\ast$err)
+\item 
+void \bf{gfal\_\-handle\_\-free\-G} (gfal\_\-handle handle)\label{gfal__common__internal_8h_9dbd943eaed291897d852fc3ae560058}
+
+\begin{CompactList}\small\item\em free a gfal's handle, safe if null \item\end{CompactList}\item 
 char $\ast$$\ast$ \bf{gfal\_\-GList\_\-to\_\-tab} (GList $\ast$surls)
 \begin{CompactList}\small\item\em convert glist of surl char$\ast$ to char$\ast$$\ast$ \item\end{CompactList}\item 
 int $\ast$ \bf{gfal\_\-GList\_\-to\_\-tab\_\-int} (GList $\ast$int\_\-list)
@@ -61,6 +66,13 @@ convert glist of int to a table of int
 
 \begin{Desc}
 \item[Returns:]return NULL if error or pointer to int$\ast$ \end{Desc}
+\index{gfal_common_internal.h@{gfal\_\-common\_\-internal.h}!gfal_initG@{gfal\_\-initG}}
+\index{gfal_initG@{gfal\_\-initG}!gfal_common_internal.h@{gfal\_\-common\_\-internal.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-handle gfal\_\-init\-G (GError $\ast$$\ast$ {\em err})}\label{gfal__common__internal_8h_8410ba458f920d8f8a8f0e5594170fe4}
+
+
+initiate a gfal's context with default parameters for use \begin{Desc}
+\item[Returns:]a gfal\_\-handle, need to be free after usage. return NULL if errors \end{Desc}
 \index{gfal_common_internal.h@{gfal\_\-common\_\-internal.h}!gfal_new_request_state@{gfal\_\-new\_\-request\_\-state}}
 \index{gfal_new_request_state@{gfal\_\-new\_\-request\_\-state}!gfal_common_internal.h@{gfal\_\-common\_\-internal.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-new\_\-request\_\-state (gfal\_\-handle {\em handle})}\label{gfal__common__internal_8h_3453c8a22faa54f7bf3278d5ecd7785d}

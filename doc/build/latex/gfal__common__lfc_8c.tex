@@ -3,6 +3,10 @@
 file for the lfc catalog module 
 
 {\tt \#include $<$regex.h$>$}\par
+{\tt \#include $<$pthread.h$>$}\par
+{\tt \#include $<$errno.h$>$}\par
+{\tt \#include $<$sys/types.h$>$}\par
+{\tt \#include $<$attr/xattr.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-lfc.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-lfc\_\-open.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-common\_\-internal.h\char`\"{}}\par
@@ -19,15 +23,29 @@ int \bf{lfc\_\-access\-G} (catalog\_\-handle handle, const char $\ast$lfn, int m
 \item 
 int \bf{lfc\_\-rename\-G} (catalog\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
 \item 
+int \bf{lfc\_\-symlink\-G} (catalog\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
+\item 
 int \bf{lfc\_\-stat\-G} (catalog\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)
 \item 
 char $\ast$$\ast$ \bf{lfc\_\-get\-SURLG} (catalog\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
+\item 
+ssize\_\-t \bf{lfc\_\-getxattr\_\-getsurl} (catalog\_\-handle handle, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
+\item 
+ssize\_\-t \bf{lfc\_\-getxattr\_\-getguid} (struct lfc\_\-ops $\ast$ops, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
+\item 
+ssize\_\-t \bf{lfc\_\-getxattr\-G} (catalog\_\-handle handle, const char $\ast$path, const char $\ast$name, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \bf{lfc\_\-resolve\_\-guid} (catalog\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
 gfal\_\-catalog\_\-interface \bf{gfal\_\-plugin\_\-init} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$lfn\_\-url, catalog\_\-mode mode, GError $\ast$$\ast$err)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+pthread\_\-mutex\_\-t \textbf{m\_\-lfcinit} = PTHREAD\_\-MUTEX\_\-INITIALIZER\label{gfal__common__lfc_8c_a683cb37b7f14c7d477e4653816d20df}
+
 \end{CompactItemize}
 
 
@@ -68,7 +86,22 @@ Implementation of the chmod function with the LFC catalog return 0 or the errno 
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ lfc\_\-get\-SURLG (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_7c1d8699d8ad924234db163860dadf40}
 
 
-resolve the lfc link to the surls \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_renameG@{lfc\_\-renameG}}
+resolve the lfc link to the surls \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattr_getguid@{lfc\_\-getxattr\_\-getguid}}
+\index{lfc_getxattr_getguid@{lfc\_\-getxattr\_\-getguid}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-getguid (struct lfc\_\-ops $\ast$ {\em ops}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_7190518fdee00f531882d241dc5b5ee2}
+
+
+lfc getxattr for the path -$>$ guid resolution \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattr_getsurl@{lfc\_\-getxattr\_\-getsurl}}
+\index{lfc_getxattr_getsurl@{lfc\_\-getxattr\_\-getsurl}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-getsurl (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_3b14a6913fa0483a07076140d46bbf99}
+
+
+lfc getxattr for the path -$>$ surls resolution \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattrG@{lfc\_\-getxattrG}}
+\index{lfc_getxattrG@{lfc\_\-getxattrG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, const char $\ast$ {\em name}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b4cd844c617093e2a9d612583fb334f7}
+
+
+lfc getxattr implem \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_renameG@{lfc\_\-renameG}}
 \index{lfc_renameG@{lfc\_\-renameG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-rename\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_cb750f4f936abd772a5f53f5b1fbdaec}
 
@@ -83,4 +116,9 @@ Convert a guid to a catalog url if possible return the link in a catalog's url s
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-stat\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_51eb57986d959b753dbad4737f3e1b6f}
 
 
-execute a posix stat request on the lfc return 0 and set struct if correct answer, else return negative value and set GError 
+execute a posix stat request on the lfc return 0 and set struct if correct answer, else return negative value and set GError \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_symlinkG@{lfc\_\-symlinkG}}
+\index{lfc_symlinkG@{lfc\_\-symlinkG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-symlink\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_28bfec8a5e66b63c082c444997ec5702}
+
+
+Implementation of the symlink\-G call for the lfc catalog return 0 if success else -1 if error and set GError 

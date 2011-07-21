@@ -1,20 +1,23 @@
 \begin{Desc}
 \item[Author:]Devresse Adrien ( \tt{adev88@gmail.com} )\end{Desc}
-\section*{SUMMARY : }
+\section*{Main API description here : }
 
-\subsection*{I.Report of the Scheduled changes : }
+{\bf  \begin{center} \doxyref{all POSIX style function}{p.}{group__posix__group} \end{center} }
 
-\begin{itemize}
-\item The list of changes from 1.X to 2.X are resumed \doxyref{api\_\-change}{p.}{api_change}\end{itemize}
+{\bf \section*{I.Report of the Scheduled changes : }}
 
+{\bf \begin{itemize}
+\item Changes between 1.X and 2.X are resumed \doxyref{api\_\-change}{p.}{api_change}\end{itemize}
+}
 
-\subsection*{II. How to compile }
+{\bf \section*{II. How to compile locally}}
 
-\begin{itemize}
+{\bf \begin{itemize}
 \item Compile :\begin{itemize}
-\item follow gfal hello world tutorial to have an etics installation\item Install scons ( \tt{http://www.scons.org,} python script )\item checkout the source from the svn : git svn clone \tt{http://svnweb.cern.ch/guest/lcgutil/gfal}\item \char`\"{}cd CERNgfal\char`\"{}\item \char`\"{}scons \char`\"{}\item configure env vars ETICS\_\-WORKSPACE if asked.\end{itemize}
+\item follow tutorial to have an etics installation and a gfal build on your pc\item Install scons ( \tt{http://www.scons.org,} python script )\item checkout the source from the svn : git svn clone \tt{http://svnweb.cern.ch/guest/lcgutil/gfal}\item \char`\"{}cd CERNgfal\char`\"{}\item \char`\"{}scons -j 8\char`\"{}\item configure env vars ETICS\_\-WORKSPACE if asked.\end{itemize}
 \item Compile tests :\begin{itemize}
-\item Install python $>$=2.4\item Install scons\item execute \char`\"{}scons testing\char`\"{} in the CERNgfal dir\end{itemize}
+\item Install python $>$=2.4\item Install scons\item execute \char`\"{}scons test\char`\"{} in the CERNgfal dir\end{itemize}
 \item Clean builds :\begin{itemize}
 \item scons -c \end{itemize}
 \end{itemize}
+}

@@ -6,9 +6,10 @@ file for the internal func of the posix interface
 {\tt \#include $<$glib.h$>$}\par
 {\tt \#include $<$sys/stat.h$>$}\par
 {\tt \#include $<$regex.h$>$}\par
+{\tt \#include $<$attr/xattr.h$>$}\par
 {\tt \#include \char`\"{}../common/gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 {\tt \#include \char`\"{}../common/gfal\_\-common\_\-filedescriptor.h\char`\"{}}\par
-{\tt \#include \char`\"{}../common/gfal\_\-types.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-posix\_\-local\_\-file.h\char`\"{}}\par
 \subsection*{Defines}
 \begin{CompactItemize}
 \item 
@@ -18,6 +19,9 @@ file for the internal func of the posix interface
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
+int \textbf{gfal\_\-local\_\-init\-G} (GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_3018fb6ca27f7e5da4056bcfc5b76713}
+
+\item 
 void \textbf{gfal\_\-local\_\-report\_\-error} (const char $\ast$funcname, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_2de9f8c077a2d44c1f4c1656ac5a20fc}
 
 \item 
@@ -25,6 +29,9 @@ int \textbf{gfal\_\-local\_\-access} (const char $\ast$path, int amode, GError $
 
 \item 
 int \textbf{gfal\_\-local\_\-chmod} (const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_d6c6d5590083bbcef4833f8186a629f3}
+
+\item 
+ssize\_\-t \textbf{gfal\_\-local\_\-getxattr} (const char $\ast$path, const char $\ast$name, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_6f5556fe718ce94ebbf6ae370b0ef682}
 
 \item 
 int \textbf{gfal\_\-local\_\-rename} (const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_360b4701633deaae52f9f77c94173405}
@@ -57,6 +64,9 @@ gboolean \textbf{gfal\_\-is\_\-local\_\-call} (const char $\ast$module\_\-name)\
 int \textbf{gfal\_\-local\_\-read} (gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_45d46420d93abbaa7bbeb345bd8a6584}
 
 \item 
+int \textbf{gfal\_\-local\_\-lseek} (gfal\_\-file\_\-handle fh, off\_\-t offset, int whence, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_3e1930273b0fa1021de561b1f1598f4a}
+
+\item 
 int \textbf{gfal\_\-local\_\-write} (gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_b9335b2236704108f4492032685d5ba2}
 
 \item 
@@ -66,6 +76,9 @@ int \textbf{gfal\_\-local\_\-close} (gfal\_\-file\_\-handle fh, GError $\ast$$\a
 int \bf{gfal\_\-local\_\-rmdir} (const char $\ast$path, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-local\_\-closedir} (gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)
+\item 
+int \textbf{gfal\_\-local\_\-symlink} (const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_dbae707b88f01b0a663165bbe43d314c}
+
 \item 
 gboolean \bf{gfal\_\-check\_\-local\_\-url} (const char $\ast$path, GError $\ast$$\ast$err)
 \end{CompactItemize}

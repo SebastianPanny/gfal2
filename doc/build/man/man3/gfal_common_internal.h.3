@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,14 +6,21 @@
 .SH SYNOPSIS
 .br
 .PP
-\fC#include 'srm/gfal_common_srm.h'\fP
+\fC#include 'gfal_prototypes.h'\fP
 .br
-\fC#include 'gfal_common.h'\fP
+\fC#include 'gfal_types.h'\fP
 .br
 
 .SS "Functions"
 
 .in +1c
+.ti -1c
+.RI "gfal_handle \fBgfal_initG\fP (GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_handle_freeG\fP (gfal_handle handle)"
+.br
+.RI "\fIfree a gfal's handle, safe if null \fP"
 .ti -1c
 .RI "char ** \fBgfal_GList_to_tab\fP (GList *surls)"
 .br
@@ -81,6 +88,16 @@ convert glist of int to a table of int
 \fBReturns:\fP
 .RS 4
 return NULL if error or pointer to int* 
+.RE
+.PP
+
+.SS "gfal_handle gfal_initG (GError ** err)"
+.PP
+initiate a gfal's context with default parameters for use 
+.PP
+\fBReturns:\fP
+.RS 4
+a gfal_handle, need to be free after usage. return NULL if errors 
 .RE
 .PP
 

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,15 +6,19 @@
 .SH SYNOPSIS
 .br
 .PP
-\fC#include 'gfal_common.h'\fP
-.br
-\fC#include 'gfal_common_errverbose.h'\fP
-.br
 \fC#include <dlfcn.h>\fP
 .br
 \fC#include <regex.h>\fP
 .br
+\fC#include <stdlib.h>\fP
+.br
 \fC#include <uuid/uuid.h>\fP
+.br
+\fC#include 'gfal_prototypes.h'\fP
+.br
+\fC#include 'gfal_types.h'\fP
+.br
+\fC#include 'gfal_common_errverbose.h'\fP
 .br
 
 .SS "Functions"
@@ -43,9 +47,6 @@
 .RI "const char * \fBgfal_version\fP ()"
 .br
 .RI "\fIreturn a string of the current gfal_version define at the compilation time \fP"
-.ti -1c
-.RI "GError ** \fBgfal_get_last_gerror\fP (gfal_handle handle)"
-.br
 .ti -1c
 .RI "gboolean \fBis_valid_access_result\fP (int status)"
 .br
@@ -86,9 +87,6 @@ buff must be > uuid size ( 37 bytes )
 .RE
 .PP
 
-.SS "GError** gfal_get_last_gerror (gfal_handle handle)"
-.PP
-return a pointer to the internal last error of the handle 
 .SS "char** gfal_GList_to_tab (GList * surls)"
 .PP
 convert glist of surl char* to char** 

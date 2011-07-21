@@ -50,8 +50,10 @@
 <a name="l00040"></a>00040 
 <a name="l00041"></a>00041 <span class="keywordtype">int</span> gfal_rfio_readG(catalog_handle handle , gfal_file_handle fd, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
 <a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="keyword">const</span> <span class="keywordtype">char</span>* gfal_rfio_getName();
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 14:00:10 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00043"></a>00043 <span class="keywordtype">int</span> gfal_rfio_lseekG(catalog_handle handle , gfal_file_handle fd, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 <span class="keyword">const</span> <span class="keywordtype">char</span>* gfal_rfio_getName();
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -62,6 +62,9 @@
 .RI "int \fBgfal_catalog_renameG\fP (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_catalog_symlinkG\fP (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_catalog_mkdirp\fP (gfal_handle handle, const char *path, mode_t mode, gboolean pflag, GError **err)"
 .br
 .ti -1c
@@ -86,6 +89,10 @@
 .RI "char ** \fBgfal_catalog_getSURL\fP (gfal_handle handle, const char *path, GError **err)"
 .br
 .ti -1c
+.RI "ssize_t \fBgfal_catalog_getxattrG\fP (gfal_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)"
+.br
+.RI "\fIimplementation in the catalog of the get extended attribute function \fP"
+.ti -1c
 .RI "int \fBgfal_catalog_getTURLG\fP (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
 .br
 .ti -1c
@@ -93,6 +100,9 @@
 .br
 .ti -1c
 .RI "int \fBgfal_catalog_readG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_catalog_lseekG\fP (gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_catalog_writeG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
@@ -103,7 +113,6 @@
 .ti -1c
 .RI "char * \fBgfal_get_cat_type\fP (GError **err)"
 .br
-.RI "\fIcatalog type getter \fP"
 .ti -1c
 .RI "void \fBgfal_catalog_open_resolve_guid\fP (gfal_handle handle, const char *path, char *buff, size_t s_buff, GError **err)"
 .br
@@ -171,6 +180,16 @@ Resolve a surl to a 'GET' turl
 \fBReturns:\fP
 .RS 4
 pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
+.RE
+.PP
+
+.SS "int gfal_catalog_lseekG (gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError ** err)"
+.PP
+do a lseek operation on the catalog 
+.PP
+\fBReturns:\fP
+.RS 4
+return number of bytes readed else -1 if errors and GError is set 
 .RE
 .PP
 
@@ -293,6 +312,9 @@ return 0 if success else return -1
 .SS "int gfal_catalog_statG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 Execute a stat function on the lfc catalog 
+.SS "int gfal_catalog_symlinkG (gfal_handle handle, const char * oldpath, const char * newpath, GError ** err)"
+.PP
+Execute the symlink function on the first compatible catalog 
 .SS "int gfal_catalog_writeG (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
 .PP
 do a write operation on the catalog, write s_buff chars on the fd device 
@@ -319,16 +341,6 @@ Delete all instance of catalogs
 .SS "int gfal_catalogs_instance (gfal_handle handle, GError ** err)"
 .PP
 Instance all catalogs for use if it's not the case return the number of catalog available 
-.SS "char* gfal_get_cat_type (GError **)"
-.PP
-catalog type getter 
-.PP
-\fBReturns:\fP
-.RS 4
-return a string of the type of the catalog return NULL if an error occured and set the GError correctly 
-.RE
-.PP
-
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

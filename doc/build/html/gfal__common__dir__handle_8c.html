@@ -23,6 +23,7 @@
 <code>#include &lt;stdlib.h&gt;</code><br>
 <code>#include &lt;errno.h&gt;</code><br>
 <code>#include &lt;glib.h&gt;</code><br>
+<code>#include &lt;pthread.h&gt;</code><br>
 <code>#include &quot;gfal_constants.h&quot;</code><br>
 <code>#include &quot;gfal_types.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">gfal_common_filedescriptor.h</a>&quot;</code><br>
@@ -34,6 +35,10 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="266f240b644154dade8bdb39e4c20efc"></a><!-- doxytag: member="gfal_common_dir_handle.c::gfal_dir_handle_container_delete" ref="266f240b644154dade8bdb39e4c20efc" args="(gfal_descriptors_container *fdescs)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_dir_handle_container_delete</b> (gfal_descriptors_container *fdescs)</td></tr>
+
+<tr><td colspan="2"><br><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4cfbc4b2dd6aa3816f19a63d2c0932ca"></a><!-- doxytag: member="gfal_common_dir_handle.c::m_dir_container" ref="4cfbc4b2dd6aa3816f19a63d2c0932ca" args="" -->
+pthread_mutex_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_dir_container</b> = PTHREAD_MUTEX_INITIALIZER</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -72,7 +77,7 @@ file for the directory handle management
 return the singleton of the file descriptor container for the directories 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 14:00:10 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -49,53 +49,54 @@
 <b>GFAL_CATALOG_CHMOD</b>, 
 <b>GFAL_CATALOG_RENAME</b>, 
 <br>
-&nbsp;&nbsp;<b>GFAL_CATALOG_STAT</b>, 
+&nbsp;&nbsp;<b>GFAL_CATALOG_SYMLINK</b>, 
+<b>GFAL_CATALOG_STAT</b>, 
 <b>GFAL_CATALOG_LSTAT</b>, 
 <b>GFAL_CATALOG_MKDIR</b>, 
-<b>GFAL_CATALOG_RMDIR</b>, 
 <br>
-&nbsp;&nbsp;<b>GFAL_CATALOG_OPENDIR</b>, 
+&nbsp;&nbsp;<b>GFAL_CATALOG_RMDIR</b>, 
+<b>GFAL_CATALOG_OPENDIR</b>, 
 <b>GFAL_CATALOG_OPEN</b>, 
 <b>GFAL_CATALOG_GETSURL</b>, 
-<b>GFAL_CATALOG_GETTURL</b>, 
 <br>
-&nbsp;&nbsp;<b>GFAL_CATALOG_PUTTURL</b>, 
-<b>GFAL_CATALOG_RESOLVE_GUID</b>
+&nbsp;&nbsp;<b>GFAL_CATALOG_GETTURL</b>, 
+<b>GFAL_CATALOG_PUTTURL</b>, 
+<b>GFAL_CATALOG_RESOLVE_GUID</b>, 
+<b>GFAL_CATALOG_GETXATTR</b>
 <br>
  }</td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#791ad55a9c8aaca0bb8ae74a3538c202">gfal_get_cat_type</a> (GError **)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="791ad55a9c8aaca0bb8ae74a3538c202"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_get_cat_type" ref="791ad55a9c8aaca0bb8ae74a3538c202" args="(GError **)" -->
+char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_cat_type</b> (GError **)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">catalog type getter  <a href="#791ad55a9c8aaca0bb8ae74a3538c202"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#d272f75eb549a72064524ecce3c25fe7">gfal_catalogs_instance</a> (gfal_handle, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="01278095d52a0e33643de8c084ccba76"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_get_list" ref="01278095d52a0e33643de8c084ccba76" args="(gfal_handle, GError **err)" -->
 char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_get_list</b> (gfal_handle, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#405974336e7b4ebaafeea02577d7d4d5">gfal_catalogs_delete</a> (gfal_handle, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#4fd85b35f2134b73207c12b54e85959d">gfal_catalogs_accessG</a> (gfal_handle handle, const char *path, int mode, GError **err)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#a0bc8955dc41f743a56c8d2fc68e2e1c">gfal_catalog_readG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#e9c3e214dbb01960295148aa66c42cb8">gfal_catalog_writeG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fdd144370f8c6df2564eaddbf26e2fd5"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalogs_guid_accessG" ref="fdd144370f8c6df2564eaddbf26e2fd5" args="(gfal_handle handle, char *guid, int mode, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_guid_accessG</b> (gfal_handle handle, char *guid, int mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#405974336e7b4ebaafeea02577d7d4d5">gfal_catalogs_delete</a> (gfal_handle, GError **err)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#28ca68c00e4a67bc158975ef3e4f8013">gfal_catalog_statG</a> (gfal_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#99ffb13510951a6fe79f3c33305ea189">gfal_catalog_renameG</a> (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#b4055bd8f8a33a10ef7a5814a0c1e1bf">gfal_catalog_symlinkG</a> (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#1ad1b1f96272dbf43a15e7ea5d35389d">gfal_catalog_lstatG</a> (gfal_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#93da9b37bece0b034d80c17131761110">gfal_catalog_mkdirp</a> (gfal_handle handle, const char *path, mode_t mode, gboolean pflag, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4955825d7c275f3dfae9a57232642370"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_resolve_guid" ref="4955825d7c275f3dfae9a57232642370" args="(gfal_handle handle, const char *guid, GError **err)" -->
-char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolve_guid</b> (gfal_handle handle, const char *guid, GError **err)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#eb89b1d37a16ef8ecb50ac603366285c">gfal_catalog_opendirG</a> (gfal_handle handle, const char *name, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#348fe15690faed2e2731d15eb6cc7856">gfal_catalog_closedirG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#9ba0d48d73fe53d42d3a715e57473adb">gfal_catalog_readdirG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#cd4cabbd5effdf20bc0b20345c5cc4ab">gfal_catalog_openG</a> (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)</td></tr>
 
@@ -103,46 +104,24 @@ char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolv
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#27712f4ef0fd4a8d3d5b63b90936d295">gfal_catalog_closeG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#e9c3e214dbb01960295148aa66c42cb8">gfal_catalog_writeG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#f401436fd332c96ff3f9562d4e8be903">gfal_catalog_lseekG</a> (gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#a0bc8955dc41f743a56c8d2fc68e2e1c">gfal_catalog_readG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="27fe5dcada7d1a0884baf3df98cf34c8"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_getxattrG" ref="27fe5dcada7d1a0884baf3df98cf34c8" args="(gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)" -->
+ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#27fe5dcada7d1a0884baf3df98cf34c8">gfal_catalog_getxattrG</a> (gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">implementation in the catalog of the get extended attribute function <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#eeef83dd1c788197ed7ae4a933d8e8d3">gfal_catalog_getSURL</a> (gfal_handle handle, const char *path, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#6e670ae4258db2d05c8b5bc1c66f054a">gfal_catalog_getTURLG</a> (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#63abbdba7f909e0c2e68f72dd5ea9a0c">gfal_catalog_putTURLG</a> (gfal_handle handle, const char *surl, char *turl_buff, int turl, char **reqtoken, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#9ba0d48d73fe53d42d3a715e57473adb">gfal_catalog_readdirG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c304a754c49bedeec6c1c9b1445b937d"></a><!-- doxytag: member="gfal_common_catalog.h::get_default_se" ref="c304a754c49bedeec6c1c9b1445b937d" args="(char *, int)" -->
-char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>get_default_se</b> (char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c25d6ed82e636c14d640318a2ad5f3b5"></a><!-- doxytag: member="gfal_common_catalog.h::purify_surl" ref="c25d6ed82e636c14d640318a2ad5f3b5" args="(const char *, char *, const int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>purify_surl</b> (const char *, char *, const int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f398c539d03eaea6dcb6b45067cb21f2"></a><!-- doxytag: member="gfal_common_catalog.h::setypesandendpointsfromsurl" ref="f398c539d03eaea6dcb6b45067cb21f2" args="(const char *, char ***, char ***, char *, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>setypesandendpointsfromsurl</b> (const char *, char ***, char ***, char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f06de10d100ffd8ad880619661708810"></a><!-- doxytag: member="gfal_common_catalog.h::setypesandendpoints" ref="f06de10d100ffd8ad880619661708810" args="(const char *, char ***, char ***, char *, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>setypesandendpoints</b> (const char *, char ***, char ***, char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="845c890f2d493921bd587158fab72d65"></a><!-- doxytag: member="gfal_common_catalog.h::canonical_url" ref="845c890f2d493921bd587158fab72d65" args="(const char *, const char *, char *, int, char *, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>canonical_url</b> (const char *, const char *, char *, int, char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="70868bce152313f31e24982453f10723"></a><!-- doxytag: member="gfal_common_catalog.h::parseturl" ref="70868bce152313f31e24982453f10723" args="(const char *, char *, int, char *, int, char *, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>parseturl</b> (const char *, char *, int, char *, int, char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ac34379d44fb4037af134b34a9aae030"></a><!-- doxytag: member="gfal_common_catalog.h::replica_exists" ref="ac34379d44fb4037af134b34a9aae030" args="(const char *, char *, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>replica_exists</b> (const char *, char *, int)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="446a829e4f333d3a0364ab0f2b5a2dc7"></a><!-- doxytag: member="gfal_common_catalog.h::getdomainnm" ref="446a829e4f333d3a0364ab0f2b5a2dc7" args="(char *name, int namelen)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>getdomainnm</b> (char *name, int namelen)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="03347619db3b30ef54ae6a98e351e21f"></a><!-- doxytag: member="gfal_common_catalog.h::get_sup_proto" ref="03347619db3b30ef54ae6a98e351e21f" args="()" -->
-char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>get_sup_proto</b> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="40d4c392e45e16062bc90caf0ebfa436"></a><!-- doxytag: member="gfal_common_catalog.h::find_pops" ref="40d4c392e45e16062bc90caf0ebfa436" args="(const char *)" -->
-proto_ops *&nbsp;</td><td class="memItemRight" valign="bottom"><b>find_pops</b> (const char *)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c8360922877ec368815d412209e862a2"></a><!-- doxytag: member="gfal_common_catalog.h::mapposixerror" ref="c8360922877ec368815d412209e862a2" args="(struct proto_ops *, int)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>mapposixerror</b> (struct proto_ops *, int)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4955825d7c275f3dfae9a57232642370"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_resolve_guid" ref="4955825d7c275f3dfae9a57232642370" args="(gfal_handle handle, const char *guid, GError **err)" -->
+char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolve_guid</b> (gfal_handle handle, const char *guid, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -310,6 +289,54 @@ Resolve a link on the catalog to a list of surl <dl compact><dt><b>Returns:</b><
 
 <p>
 Resolve a surl to a "GET" turl <dl compact><dt><b>Returns:</b></dt><dd>pointer to a table of string with all the surls, table end with NULL, or return NULL if error </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="f401436fd332c96ff3f9562d4e8be903"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_lseekG" ref="f401436fd332c96ff3f9562d4e8be903" args="(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_lseekG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">off_t&nbsp;</td>
+          <td class="paramname"> <em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>whence</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+do a lseek operation on the catalog <dl compact><dt><b>Returns:</b></dt><dd>return number of bytes readed else -1 if errors and GError is set </dd></dl>
 
 </div>
 </div><p>
@@ -686,6 +713,48 @@ do a read operation on the catalog, read s_buff chars on the fd device <dl compa
 
 </div>
 </div><p>
+<a class="anchor" name="99ffb13510951a6fe79f3c33305ea189"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_renameG" ref="99ffb13510951a6fe79f3c33305ea189" args="(gfal_handle handle, const char *oldpath, const char *newpath, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_renameG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>oldpath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>newpath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Execute the rename function on the first compatible catalog ( checked with check_url func ) <dl compact><dt><b>Returns:</b></dt><dd>0 if success or -1 and set the GError to the correct errno value with a description msg </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="28ca68c00e4a67bc158975ef3e4f8013"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_statG" ref="28ca68c00e4a67bc158975ef3e4f8013" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -725,6 +794,47 @@ do a read operation on the catalog, read s_buff chars on the fd device <dl compa
 
 <p>
 Execute a stat function on the lfc catalog 
+</div>
+</div><p>
+<a class="anchor" name="b4055bd8f8a33a10ef7a5814a0c1e1bf"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_symlinkG" ref="b4055bd8f8a33a10ef7a5814a0c1e1bf" args="(gfal_handle handle, const char *oldpath, const char *newpath, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_catalog_symlinkG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>oldpath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>newpath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Execute the symlink function on the first compatible catalog 
 </div>
 </div><p>
 <a class="anchor" name="e9c3e214dbb01960295148aa66c42cb8"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_writeG" ref="e9c3e214dbb01960295148aa66c42cb8" args="(gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)" -->
@@ -875,30 +985,7 @@ Delete all instance of catalogs
 Instance all catalogs for use if it's not the case return the number of catalog available 
 </div>
 </div><p>
-<a class="anchor" name="791ad55a9c8aaca0bb8ae74a3538c202"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_get_cat_type" ref="791ad55a9c8aaca0bb8ae74a3538c202" args="(GError **)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char* gfal_get_cat_type           </td>
-          <td>(</td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-catalog type getter 
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>return a string of the type of the catalog return NULL if an error occured and set the GError correctly </dd></dl>
-
-</div>
-</div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jul 8 14:00:10 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -37,6 +37,8 @@ int \bf{gfal\_\-catalog\_\-chmod\-G} (gfal\_\-handle handle, const char $\ast$pa
 \item 
 int \bf{gfal\_\-catalog\_\-rename\-G} (gfal\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
 \item 
+int \bf{gfal\_\-catalog\_\-symlink\-G} (gfal\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
+\item 
 int \bf{gfal\_\-catalog\_\-mkdirp} (gfal\_\-handle handle, const char $\ast$path, mode\_\-t mode, gboolean pflag, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalog\_\-rmdir\-G} (gfal\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
@@ -53,19 +55,25 @@ dirent $\ast$ \bf{gfal\_\-catalog\_\-readdir\-G} (gfal\_\-handle handle, gfal\_\
 \item 
 char $\ast$$\ast$ \bf{gfal\_\-catalog\_\-get\-SURL} (gfal\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
+ssize\_\-t \bf{gfal\_\-catalog\_\-getxattr\-G} (gfal\_\-handle handle, const char $\ast$path, const char $\ast$name, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_27b4d14215f7f57a06066ec682569bf3}
+
+\begin{CompactList}\small\item\em implementation in the catalog of the get extended attribute function \item\end{CompactList}\item 
 int \bf{gfal\_\-catalog\_\-get\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalog\_\-put\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$turl\_\-buff, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalog\_\-read\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
 \item 
+int \bf{gfal\_\-catalog\_\-lseek\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, off\_\-t offset, int whence, GError $\ast$$\ast$err)
+\item 
 int \bf{gfal\_\-catalog\_\-write\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_4955825d7c275f3dfae9a57232642370}
 
 \item 
-char $\ast$ \bf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em catalog type getter \item\end{CompactList}\item 
+char $\ast$ \textbf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_c20aa1a376c802d0c60208854537851e}
+
+\item 
 void \bf{gfal\_\-catalog\_\-open\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$path, char $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
 \item 
 gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-open\_\-global\-G} (gfal\_\-handle handle, const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)
@@ -117,6 +125,13 @@ Resolve a link on the catalog to a list of surl \begin{Desc}
 
 Resolve a surl to a \char`\"{}GET\char`\"{} turl \begin{Desc}
 \item[Returns:]pointer to a table of string with all the surls, table end with NULL, or return NULL if error \end{Desc}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_lseekG@{gfal\_\-catalog\_\-lseekG}}
+\index{gfal_catalog_lseekG@{gfal\_\-catalog\_\-lseekG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-lseek\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, off\_\-t {\em offset}, int {\em whence}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_f401436fd332c96ff3f9562d4e8be903}
+
+
+do a lseek operation on the catalog \begin{Desc}
+\item[Returns:]return number of bytes readed else -1 if errors and GError is set \end{Desc}
 \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}}
 \index{gfal_catalog_lstatG@{gfal\_\-catalog\_\-lstatG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-lstat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_1ad1b1f96272dbf43a15e7ea5d35389d}
@@ -208,7 +223,12 @@ Execute a rmdir function on the first compatible catalog ( checked with check ur
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-stat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_28ca68c00e4a67bc158975ef3e4f8013}
 
 
-Execute a stat function on the lfc catalog \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_writeG@{gfal\_\-catalog\_\-writeG}}
+Execute a stat function on the lfc catalog \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_symlinkG@{gfal\_\-catalog\_\-symlinkG}}
+\index{gfal_catalog_symlinkG@{gfal\_\-catalog\_\-symlinkG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-symlink\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_b4055bd8f8a33a10ef7a5814a0c1e1bf}
+
+
+Execute the symlink function on the first compatible catalog \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_writeG@{gfal\_\-catalog\_\-writeG}}
 \index{gfal_catalog_writeG@{gfal\_\-catalog\_\-writeG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-write\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_e9c3e214dbb01960295148aa66c42cb8}
 
@@ -232,12 +252,4 @@ Delete all instance of catalogs \index{gfal_common_catalog.c@{gfal\_\-common\_\-
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_96ebd098ad2447a81f096207879b9d3a}
 
 
-Instance all catalogs for use if it's not the case return the number of catalog available \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}}
-\index{gfal_get_cat_type@{gfal\_\-get\_\-cat\_\-type}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-get\_\-cat\_\-type (GError $\ast$$\ast$)}\label{gfal__common__catalog_8c_c20aa1a376c802d0c60208854537851e}
-
-
-catalog type getter 
-
-\begin{Desc}
-\item[Returns:]return a string of the type of the catalog return NULL if an error occured and set the GError correctly \end{Desc}
+Instance all catalogs for use if it's not the case return the number of catalog available 

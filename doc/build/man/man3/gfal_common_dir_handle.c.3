@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c" 3 "8 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -11,6 +11,8 @@
 \fC#include <errno.h>\fP
 .br
 \fC#include <glib.h>\fP
+.br
+\fC#include <pthread.h>\fP
 .br
 \fC#include 'gfal_constants.h'\fP
 .br
@@ -29,6 +31,13 @@
 .br
 .ti -1c
 .RI "void \fBgfal_dir_handle_container_delete\fP (gfal_descriptors_container *fdescs)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "pthread_mutex_t \fBm_dir_container\fP = PTHREAD_MUTEX_INITIALIZER"
 .br
 .in -1c
 .SH "Detailed Description"
