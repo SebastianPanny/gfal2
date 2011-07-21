@@ -6,7 +6,6 @@
 #include <cgreen/cgreen.h>
 #include <glib.h>
 #include <string.h>
-#include "gfal_common.h"
 #include "mds/gfal_common_mds.h"
 #include "mds/gfal_common_mds_layer.h"
 #include "../../unit_test_constants.h"

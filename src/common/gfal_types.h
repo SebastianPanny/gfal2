@@ -17,7 +17,7 @@
  */
 
 /*
- * @(#)$RCSfile: gfal_types.h,v $ $Revision: 1.8 $ $Date: 2009/03/25 14:00:29 $ CERN Remi Mollon
+ * @(#)$RCSfile: gfal_types.h,v $ $Revision: 2.0 $ $Date: 2011/07/20 $ CERN Remi Mollon
  */
 
 #ifndef _GFAL_TYPES_H
@@ -81,34 +81,6 @@ enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
 enum gfal_srm_proto {PROTO_SRM=0, PROTO_SRMv2, PROTO_ERROR_UNKNOW};
 
-enum gfal_cksm_type
-{
-	GFAL_CKSM_NONE = 0,
-	GFAL_CKSM_CRC32,
-	GFAL_CKSM_ADLER32,
-	GFAL_CKSM_MD5,
-	GFAL_CKSM_SHA1
-};
-
-
-typedef struct gfal_filestatus_ {
-	char *surl;
-	char *turl;
-	int status;
-	char *explanation;
-	int	pinlifetime;
-#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
-	struct stat64 stat;
-#endif
-	struct gfal_filestatus_ *subpaths;
-	int nbsubpaths;
-	TFileLocality locality;
-	char *checksumtype;
-	char *checksum;
-    char **spacetokens;
-    int nbspacetokens;
-} gfal_filestatus;
-
 
 struct _gfal_descriptors_container{
 	gfal_fdesc_container_handle dir_container;
@@ -116,65 +88,6 @@ struct _gfal_descriptors_container{
 	
 } ;
 
-typedef struct gfal_request_ {
-	/* [optional]
-	 * if set to 1, 'surls' to NULL, and endpoint specified,
-	 * 'nbfiles' SURLs will be generated */
-	int							generatesurls;
-
-	/* [optional]
-	 * only used to generate SURLs, if specified */
-	char *						relative_path;
-
-	/* [required]
-	 * number of files in 'surls' */
-	int							nbfiles;
-
-	/* [required]
-	 * list of surls */
-	char **						surls;
-
-	/* [optional]
-	 * endpoint */
-	char *						endpoint;
-	
-	/* [required by gfal_turlsfromsurls]
-	 * 0 for get request, 1 for put request */
-	int							oflag;
-	
-	/* [optional]
-	 * list of file sizes
-	 * can be useful for gfal_turlsfromsurls with put request */
-	GFAL_LONG64 *				filesizes;
-	
-	/* [optional]
-	 * SE type to use *by default* */
-	enum se_type				defaultsetype;
-	
-	/* [optional]
-	 * SE type to use - will fail if this type cannot be used */
-	enum se_type				setype;
-	
-	/* [optional]
-	 * if set to 1, no bdii call will be done
-	 * endpoint must be set up for SRM-compliant SE */
-	int							no_bdii_check;
-
-	/* [optional]
-	 * timeout */
-	int							timeout;
-
-	/* [optional]
-	 * list of protocols to use */
-	char **						protocols;
-
-	/* [optional] only used with SRMv2 */
-	char *						srmv2_spacetokendesc;
-	int							srmv2_desiredpintime;
-	int							srmv2_lslevels;
-	int							srmv2_lsoffset;
-	int							srmv2_lscount;
-} *gfal_request;
  
  /**
   * @struct structure for the srmv2 option management
@@ -202,50 +115,6 @@ struct _gfal_request_state{
  };
  
 struct gfal_handle_ {
-	// INPUTS
-
-	int							generatesurls;
-	char *						relative_path;
-	int							nbfiles;
-	char **						surls;
-	char *						endpoint;
-	int							oflag;
-	GFAL_LONG64 *				filesizes;
-	enum se_type				defaultsetype;
-	enum se_type				setype;
-	int							no_bdii_check;
-	int							timeout;
-	char **						protocols;
-
-	// Only used with SRMv2
-	char *						srmv2_spacetokendesc;
-	int							srmv2_desiredpintime;
-	int							srmv2_lslevels;
-	int							srmv2_lsoffset;
-	int							srmv2_lscount;
-
-	// OUTPUTS
-
-	// For Classic SEs
-	struct sfn_filestatus *		sfn_statuses;
-
-	// For SRMv1 SEs
-	int							srm_reqid;
-	struct srm_filestatus *		srm_statuses;
-	struct srm_mdfilestatus *	srm_mdstatuses;
-
-	// For SRMv2.2 SEs
-	char *						srmv2_token;
-	struct srmv2_filestatus *	srmv2_statuses;
-	struct srmv2_pinfilestatus *srmv2_pinstatuses;
-	struct srmv2_mdfilestatus *	srmv2_mdstatuses;
-
-	int free_endpoint;
-
-	// Common results
-	int returncode; // size of the new results
-	int results_size; // size of the old results
-	gfal_filestatus *results;
 	enum gfal_srm_proto srm_proto_type;		// define the protocole version of SRM choosen by default
 	gboolean initiated; 					// 1 if initiated, else error
 	// pointer to srmv2 set option
@@ -256,6 +125,7 @@ struct gfal_handle_ {
 	struct _catalog_opts catalog_opt;
 	//struct for the file descriptors
 	gfal_descriptors_container fdescs;
+	int no_bdii_check;
 };
 
 

@@ -11,7 +11,6 @@
 #include "rfio/gfal_rfio_plugin_main.h"
 #include "rfio/gfal_rfio_plugin_layer.h"
 #include "../../unit_test_constants.h"
-#include "gfal_common.h"
 #include "test__gfal_rfio_plugin.h"
 
 static struct rfio_proto_ops rf = { 

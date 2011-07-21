@@ -3,13 +3,15 @@
 
 
 #include <cgreen/cgreen.h>
-#include "gfal_common.h"
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
 #include <regex.h>
 #include <time.h> 
 #include "gfal_common_internal.h"
+#include "gfal_posix_internal.h"
+#include "gfal_prototypes.h"
+#include "gfal_types.h"
 #include "srm/gfal_common_srm_internal_layer.h"
 #include "../unit_test_constants.h"
 #include "mds/gfal_common_mds_layer.h"

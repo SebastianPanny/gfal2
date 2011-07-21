@@ -9,7 +9,6 @@
 #include "gfal_constants.h"
 #include "gfal_common_catalog.h"
 #include "gfal_common_errverbose.h"
-#include "gfal_common.h"
 #include "lfc/lfc_ifce_ng.h"
 #include "../unit_test_constants.h"
 #include "../mock/gfal_lfc_mock_test.h"

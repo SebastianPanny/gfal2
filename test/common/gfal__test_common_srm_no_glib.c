@@ -3,9 +3,9 @@
 
 
 #include <cgreen/cgreen.h>
-#include "gfal_common.h"
 #include <time.h>
 #include <unistd.h>
+#include <glib.h>
 
 
 
