@@ -25,7 +25,6 @@
 
 #include "../common/gfal_common.h"
 #include "../common/gfal_constants.h" 
-#include "../common/gfal_file.h"
 #include "../common/gfal_common_storage.h"
 #include "gfal_posix_api.h"
 #include "gfal_posix_internal.h"

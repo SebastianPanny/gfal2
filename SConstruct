@@ -25,7 +25,7 @@ def get_etics_dir():
 
 # global var
 etics_build_dir=get_etics_dir()
-version= '0.1_alpha'
+version= '2.0_alpha'
 ccheck_location = etics_build_dir+ "/repository/externals/c-check/0.9.8/sl5_x86_64_gcc412"
 glib_location = etics_build_dir+ "/repository/externals/glib2-devel/2.12.3/sl5_x86_64_gcc412"
 voms_location = etics_build_dir+ "/stage/lib64"
