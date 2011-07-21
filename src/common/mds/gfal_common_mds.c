@@ -31,8 +31,9 @@
 #include <ctype.h>
 #include <sys/time.h>
 #include <pthread.h>
+#include "../gfal_prototypes.h"
+#include "../gfal_types.h"
 #include "gfal_common_mds_layer.h"
-#include "../gfal_common.h"
 #include "../gfal_common_internal.h"
 #include "../voms/gfal_voms_if.h"
 

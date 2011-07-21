@@ -48,6 +48,7 @@
 #define GFAL_MAX_CATALOG_ID_SIZE 512
 
 /* GFAL error level for gfal_errmsg */
+#define GFAL_ERRMSG_LEN			  1024
 #define GFAL_ERRLEVEL_ERROR       0
 #define GFAL_ERRLEVEL_WARN        1
 #define GFAL_ERRLEVEL_INFO        2

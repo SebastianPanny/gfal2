@@ -25,7 +25,7 @@
 #define _GNU_SOURCE
  
 #include <glib.h>
-#include "../gfal_common.h"
+#include "../gfal_types.h"
  
 
 char *gfal_get_userdnG (GError** err);

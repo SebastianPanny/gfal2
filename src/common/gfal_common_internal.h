@@ -24,26 +24,21 @@
  * @date 12/04/2011
  * */
 
-#include "srm/gfal_common_srm.h"
-#include "gfal_common.h"
+#include "gfal_prototypes.h"
+#include "gfal_types.h"
 
 
+gfal_handle gfal_initG(GError** err);
+void gfal_handle_freeG(gfal_handle handle);
+
+// conversion funcs
 char** gfal_GList_to_tab(GList* surls);
-
-
 int* gfal_GList_to_tab_int(GList* int_list);
 
 
+// convenience internal funcs
 void gfal_delete_request_state(gfal_request_state* request_state);
-
-
 void gfal_new_request_state(gfal_handle handle);
-
-
 int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int num, GError** err);
-
-
-
- gboolean is_valid_access_result(int status);
- 
- void gfal_generate_guidG(char* buf);
+gboolean is_valid_access_result(int status);
+void gfal_generate_guidG(char* buf);

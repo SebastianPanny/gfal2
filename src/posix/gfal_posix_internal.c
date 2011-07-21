@@ -29,7 +29,8 @@
 #include <errno.h>
 #include <glib.h> 
 #include <pthread.h>
-#include "gfal_common.h"
+#include "gfal_common_internal.h"
+#include "gfal_posix_internal.h"
 
 
 

@@ -40,6 +40,7 @@ extern "C"
 #include <dirent.h>
 #include <sys/stat.h>
 #include <gfal_srm_ifce_types.h>
+#include "gfal_constants.h"
 #include "gfal_prototypes.h"
 #include "gfal_common_catalog.h"
 

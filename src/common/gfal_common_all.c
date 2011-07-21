@@ -23,12 +23,14 @@
  * @date 02/05/2011
  * */
 
-
-#include "gfal_common.h"
-#include "gfal_common_errverbose.h"
 #include <dlfcn.h>
 #include <regex.h>
+#include <stdlib.h>
 #include <uuid/uuid.h>
+#include "gfal_prototypes.h"
+#include "gfal_types.h"
+#include "gfal_common_errverbose.h"
+
 
 
 /* the version should be set by a "define" at the makefile level */
