@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
-/*
- * @(#)$RCSfile: gfal_types.h,v $ $Revision: 2.0 $ $Date: 2011/07/20 $ CERN Remi Mollon
- */
-
+/***
+ * @brief  gfal_types.h
+ * @author  Adrien Devresse
+ * types declaration for gfal  
+ * */
 #ifndef _GFAL_TYPES_H
 #define _GFAL_TYPES_H
 
@@ -45,34 +46,6 @@ extern "C"
 #include "gfal_common_catalog.h"
 
 
-
-#ifndef GFAL_LONG64_FORMAT
-#if defined(__ia64__) || defined(__x86_64)
-#define GFAL_LONG64_FORMAT "%ld"
-#elif defined(_WIN32)
-#define GFAL_LONG64_FORMAT "%I64d"
-#else
-#define GFAL_LONG64_FORMAT "%lld"
-#endif
-#endif
-#ifndef GFAL_LONG64
-#if defined(__ia64__) || defined(__x86_64)
-#define GFAL_LONG64 long
-#elif defined(_WIN32)
-#define GFAL_LONG64 __i64
-#else
-#define GFAL_LONG64 long long
-#endif
-#endif
-
-/* Macro function to print debug info if LCG_GFAL_DEBUG is defined */
-#ifdef LCG_GFAL_DEBUG
-#define GFAL_DEBUG(format, ...) \
-	fprintf (stderr, format, ## __VA_ARGS__)
-#else
-#define GFAL_DEBUG(format, ...)
-#endif
-// protos
 
 
 //typedef struct srm_spacemd gfal_spacemd;
