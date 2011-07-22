@@ -24,13 +24,17 @@
  * 
  **/
 
-
+#include <regex.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
 #include "../gfal_types.h"
 
-
+typedef struct _gfal_plugin_dcap_handle{
+	gfal_handle handle;
+	struct dcap_proto_ops* ops;
+	regex_t rex;
+}* gfal_plugin_dcap_handle;
 
 
 /**

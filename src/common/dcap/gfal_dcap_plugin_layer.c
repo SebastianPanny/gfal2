@@ -47,6 +47,7 @@ struct dcap_proto_ops * gfal_dcap_internal_loader_base(GError** err){
 	}	
 
 	if(dlhandle){
+		pops = g_new0(struct dcap_proto_ops, 1);
 		pops->geterror = (int (*) ()) dlsym (dlhandle, "__dc_errno");
 		pops->access = (int (*) (const char *, int)) dlsym (dlhandle, "dc_access");
 		pops->chmod = (int (*) (const char *, mode_t)) dlsym (dlhandle, "dc_chmod");

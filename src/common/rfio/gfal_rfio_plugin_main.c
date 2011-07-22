@@ -37,10 +37,16 @@
 #include "gfal_rfio_plugin_bindings.h"
 
 gboolean gfal_rfio_check_url(catalog_handle, const char* url,  catalog_mode mode, GError** err);
-gboolean gfal_rfio_internal_check_url(const char* surl, GError** err);
+gboolean gfal_rfio_internal_check_url(gfal_plugin_rfio_handle rh, const char* surl, GError** err);
 const char* gfal_rfio_getName();
 void gfal_rfio_destroyG(catalog_handle handle);
 
+
+int gfal_rfio_regex_compile(regex_t * rex, GError** err){
+	int ret = regcomp(rex, "^rfio://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_rfio_internal_check_url] fail to compile regex, report this bug");
+	return ret;	
+}
 
 /**
  * Init function, called before all
@@ -52,6 +58,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	gfal_plugin_rfio_handle h = g_new(struct _gfal_plugin_rfio_handle,1);
 	h->handle = handle;
 	h->rf = gfal_rfio_internal_loader(&tmp_err);
+	gfal_rfio_regex_compile(&h->rex, err);
 	rfio_catalog.handle = (void*) h;	
 	rfio_catalog.check_catalog_url = &gfal_rfio_check_url;
 	rfio_catalog.getName= &gfal_rfio_getName;
@@ -67,16 +74,12 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 }
 
 
-gboolean gfal_rfio_internal_check_url(const char* surl, GError** err){
+gboolean gfal_rfio_internal_check_url(gfal_plugin_rfio_handle rh, const char* surl, GError** err){
 	if(surl == NULL || strnlen(surl, GFAL_URL_MAX_LEN) == GFAL_URL_MAX_LEN){
 		g_set_error(err, 0, EINVAL, "[%s] Invalid surl, surl too long or NULL",__func__);
 		return FALSE;
 	}	
-	regex_t rex;
-	int ret = regcomp(&rex, "^rfio://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
-	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");
-	ret=  regexec(&rex,surl,0,NULL,0);
-	regfree(&rex);
+	int ret=  regexec(&rh->rex,surl,0,NULL,0);
 	return (ret==0)?TRUE:FALSE;
 }
 
@@ -87,9 +90,10 @@ gboolean gfal_rfio_internal_check_url(const char* surl, GError** err){
 gboolean gfal_rfio_check_url(catalog_handle ch, const char* url,  catalog_mode mode, GError** err){
 	int ret;
 	GError* tmp_err=NULL;
+	gfal_plugin_rfio_handle rh = (gfal_plugin_rfio_handle) ch;
 	switch(mode){
 			case GFAL_CATALOG_OPEN:
-				ret = gfal_rfio_internal_check_url(url, &tmp_err);
+				ret = gfal_rfio_internal_check_url(rh, url, &tmp_err);
 				break;
 			default:
 				ret =  FALSE;
@@ -103,6 +107,7 @@ gboolean gfal_rfio_check_url(catalog_handle ch, const char* url,  catalog_mode m
 void gfal_rfio_destroyG(catalog_handle handle){
 	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
 	g_free(h->rf);
+	regfree(&h->rex);
 	g_free(h);
 }
 

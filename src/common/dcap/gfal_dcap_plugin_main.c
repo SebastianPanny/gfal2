@@ -31,12 +31,27 @@
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
 #include "../gfal_types.h"
+#include "gfal_dcap_plugin_layer.h"
+#include "gfal_dcap_plugin_main.h"
 
 
 
 const char* gfal_dcap_getName();
 void gfal_dcap_destroyG(catalog_handle handle);
 
+static int gfal_dcap_regex_compile(regex_t * rex, GError** err){
+	int ret = regcomp(rex, "^dcap://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_dcap_regex_compile] fail to compile regex, report this bug");	
+	return ret;
+}
+
+static gfal_plugin_dcap_handle gfal_dcap_init_handle(gfal_handle handle, GError** err){
+	gfal_plugin_dcap_handle ret = g_new0(struct _gfal_plugin_dcap_handle, 1);
+	ret->ops = gfal_dcap_internal_loader(err);
+	ret->handle = handle;
+	gfal_dcap_regex_compile(&(ret->rex), err);
+	return ret;	
+}
 
 /**
  * Init function, called before all
@@ -46,6 +61,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	GError* tmp_err=NULL;
 	memset(&dcap_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
 	g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
+	
+	dcap_catalog.handle = (catalog_handle) gfal_dcap_init_handle(handle, &tmp_err);
 	
 	dcap_catalog.catalog_delete = &gfal_dcap_destroyG;
 	dcap_catalog.getName= &gfal_dcap_getName;
@@ -60,7 +77,12 @@ const char* gfal_dcap_getName(){
 }
 
 void gfal_dcap_destroyG(catalog_handle handle){
-
+	gfal_plugin_dcap_handle h = (gfal_plugin_dcap_handle) handle;
+	free(h->ops);
+	regfree(&(h->rex));
+	free(h);
 }
+
+
 
 

@@ -34,12 +34,12 @@
 typedef struct _gfal_plugin_rfio_handle{
 	gfal_handle handle;
 	struct rfio_proto_ops* rf;
+	regex_t rex;
 }* gfal_plugin_rfio_handle;
 
 
 gboolean gfal_rfio_check_url(catalog_handle, const char* url,  catalog_mode mode, GError** err);
 
-gboolean gfal_rfio_internal_check_url(const char* surl, GError** err);
 
 
 gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err);
