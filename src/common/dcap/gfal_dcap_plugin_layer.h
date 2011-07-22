@@ -17,22 +17,21 @@
 
 
 /**
- * @file gfal_rfio_plugin_layer.c
- * @brief header file for the external call, abstraction layer for mock purpose
+ * @file gfal_dcap_plugin_layer.h
+ * @brief file for the external call, abstraction layer for mock purpose
  * @author Devresse Adrien
- * @version 0.1
- * @date 30/06/2011
+ * @date 20/07/2011
  * 
  **/
- 
-#include <glib.h>
-#include <dirent.h>
-#include <stdio.h>
-#include <unistd.h>
 
-extern  struct rfio_proto_ops * (*gfal_rfio_internal_loader)(GError** err);
 
-struct rfio_proto_ops {
+
+#include "../gfal_common_internal.h"
+#include "../gfal_common_errverbose.h"
+#include "../gfal_common_catalog.h"
+#include "../gfal_types.h"
+
+struct dcap_proto_ops {
 	int	(*geterror)();
 	int	(*access)(const char *, int);
 	int	(*chmod)(const char *, mode_t);
@@ -64,4 +63,7 @@ struct rfio_proto_ops {
 	int	(*unlink)(const char *);
 	ssize_t	(*write)(int, const void *, size_t);
 };
+
+
+extern struct dcap_proto_ops * (*gfal_dcap_internal_loader)(GError** err);
 

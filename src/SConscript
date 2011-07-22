@@ -15,7 +15,7 @@ src_all = common_src + common_mds + common_voms + posix_src_all
 plugin_lfc = Glob("common/lfc/*.c")
 plugin_srm = Glob("common/srm/*.c")
 plugin_rfio = Glob("common/rfio/*.c")
-
+plugin_dcap = Glob("common/dcap/*.c")
 
 ##
 # Clone the env for the link flag
@@ -36,9 +36,11 @@ env_plugin_lfc = env_plugin.Clone();
 env_plugin_lfc.Append(CFLAGS="-D_REENTRANT")
 plugin_lfc_lib = env_plugin_lfc.SharedLibrary('#build/libs/libgfal_plugin_lfc', plugin_lfc)
 plugin_rfio_lib= env_plugin.SharedLibrary('#build/libs/libgfal_plugin_rfio', plugin_rfio)
+plugin_dcap_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_dcap', plugin_dcap)
 plugin_srm_lib = env_plugin_srm.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm)
+
 #gfal version
 version = env_plugin.Program("#build/gfal_version", Glob("version/*.c"))
 
-Default(plugin_rfio_lib,plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib, version)
+Default(plugin_rfio_lib, plugin_dcap_lib, plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib, version)
 
