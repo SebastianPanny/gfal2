@@ -49,6 +49,7 @@ struct dcap_proto_ops * gfal_dcap_internal_loader_base(GError** err){
 	if(dlhandle){
 		pops = g_new0(struct dcap_proto_ops, 1);
 		pops->geterror = (int (*) ()) dlsym (dlhandle, "__dc_errno");
+		pops->strerror = (const char* (*)(int)) dlsym (dlhandle, "dc_strerror");
 		pops->access = (int (*) (const char *, int)) dlsym (dlhandle, "dc_access");
 		pops->chmod = (int (*) (const char *, mode_t)) dlsym (dlhandle, "dc_chmod");
 		pops->close = (int (*) (int)) dlsym (dlhandle, "dc_close");
@@ -69,6 +70,8 @@ struct dcap_proto_ops * gfal_dcap_internal_loader_base(GError** err){
 		pops->stat64 = (int (*) (const char *, struct stat64 *)) dlsym (dlhandle, "dc_stat64");
 		pops->unlink = (int (*) (const char *)) dlsym (dlhandle, "dc_unlink");
 		pops->write = (ssize_t (*) (int, const void *, size_t)) dlsym (dlhandle, "dc_write");
+		pops->debug_level= (void(*)(int)) dlsym(dlhandle, "dc_setDebugLevel");
+		pops->debug_level(8);
 	}
 	if(tmp_err)
 			g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

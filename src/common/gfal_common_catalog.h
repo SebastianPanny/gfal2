@@ -63,6 +63,7 @@ enum _catalog_mode{
 	GFAL_CATALOG_PUTTURL,
 	GFAL_CATALOG_RESOLVE_GUID,
 	GFAL_CATALOG_GETXATTR,
+	GFAL_CATALOG_LISTXATTR
 	
 };
 
@@ -112,6 +113,7 @@ struct _gfal_catalog_interface{
 	 
 	 // advanced attributes management
 	 ssize_t (*getxattrG)(catalog_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
+	 ssize_t (*listxattrG)(catalog_handle, const char*, const char* list, size_t s_list, GError** err);
 	 
 	 char** (*getSURLG)(catalog_handle, const char*, GError**);	 
 	 int (*getTURLG)(catalog_handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
@@ -171,6 +173,7 @@ int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size
 
 
 ssize_t gfal_catalog_getxattrG(gfal_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
+ssize_t gfal_catalog_listxattrG(gfal_handle , const char*, const char* list, size_t s_list, GError** err);
 
 char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err);
 int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);

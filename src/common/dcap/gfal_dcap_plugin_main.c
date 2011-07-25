@@ -33,11 +33,10 @@
 #include "../gfal_types.h"
 #include "gfal_dcap_plugin_layer.h"
 #include "gfal_dcap_plugin_main.h"
+#include "gfal_dcap_plugin_bindings.h"
 
-
-
-const char* gfal_dcap_getName();
 void gfal_dcap_destroyG(catalog_handle handle);
+gboolean gfal_dcap_check_url(catalog_handle ch, const char* url,  catalog_mode mode, GError** err);
 
 static int gfal_dcap_regex_compile(regex_t * rex, GError** err){
 	int ret = regcomp(rex, "^dcap://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
@@ -60,21 +59,25 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	gfal_catalog_interface dcap_catalog;
 	GError* tmp_err=NULL;
 	memset(&dcap_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
-	g_set_error(&tmp_err, 0, ENOSYS, "not implemented");
 	
 	dcap_catalog.handle = (catalog_handle) gfal_dcap_init_handle(handle, &tmp_err);
 	
 	dcap_catalog.catalog_delete = &gfal_dcap_destroyG;
 	dcap_catalog.getName= &gfal_dcap_getName;
+	dcap_catalog.openG = &gfal_dcap_openG;
+	dcap_catalog.closeG = &gfal_dcap_closeG;
+	dcap_catalog.readG = &gfal_dcap_readG;
+	dcap_catalog.writeG= &gfal_dcap_writeG;
+	dcap_catalog.lseekG= &gfal_dcap_lseekG;
+	dcap_catalog.check_catalog_url = &gfal_dcap_check_url;
+	dcap_catalog.statG= &gfal_dcap_statG;
+	dcap_catalog.lstatG = &gfal_dcap_lstatG;
 	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return dcap_catalog;
 }
 
-const char* gfal_dcap_getName(){
-	return "plugin_dcap";
-}
 
 void gfal_dcap_destroyG(catalog_handle handle){
 	gfal_plugin_dcap_handle h = (gfal_plugin_dcap_handle) handle;
@@ -83,6 +86,38 @@ void gfal_dcap_destroyG(catalog_handle handle){
 	free(h);
 }
 
+
+gboolean gfal_dcap_internal_check_url(gfal_plugin_dcap_handle dh, const char* surl, GError** err){
+	if(surl == NULL || strnlen(surl, GFAL_URL_MAX_LEN) == GFAL_URL_MAX_LEN){
+		g_set_error(err, 0, EINVAL, "[%s] Invalid surl, surl too long or NULL",__func__);
+		return FALSE;
+	}	
+	int ret=  regexec(&dh->rex,surl,0,NULL,0);
+	return (ret==0)?TRUE:FALSE;
+}
+
+
+/**
+ *  Check the dcap url in the gfal module way
+ * */
+gboolean gfal_dcap_check_url(catalog_handle ch, const char* url,  catalog_mode mode, GError** err){
+	int ret;
+	GError* tmp_err=NULL;
+	gfal_plugin_dcap_handle rh = (gfal_plugin_dcap_handle) ch;
+	switch(mode){
+			case GFAL_CATALOG_OPEN:
+			case GFAL_CATALOG_LSTAT:
+			case GFAL_CATALOG_STAT:
+				ret = gfal_dcap_internal_check_url(rh, url, &tmp_err);
+				break;
+			default:
+				ret =  FALSE;
+				break;
+	}	
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return ret;
+}
 
 
 

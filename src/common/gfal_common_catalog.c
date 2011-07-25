@@ -580,6 +580,24 @@ ssize_t gfal_catalog_getxattrG(gfal_handle handle, const char* path, const char*
 	
 }
 
+ssize_t gfal_catalog_listxattrG(gfal_handle handle, const char* path, const char* list, size_t s_list, GError** err){
+	GError* tmp_err=NULL;
+	ssize_t resu = -1;
+	
+	gboolean listxattr_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_LISTXATTR, terr);
+	}	
+	int listxattr_executor(gfal_catalog_interface* cata_list, GError** terr){
+		resu= cata_list->listxattrG(cata_list->handle, path, list, s_list, terr);
+		return (int)resu;
+	}
+	
+	gfal_catalogs_operation_executor(handle, &listxattr_checker, &listxattr_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
+	return resu;		 
+}
+
 
 /**
  * Resolve a surl to a "GET" turl

@@ -50,6 +50,8 @@ int gfal_local_mkdir(const char* path, mode_t mode, GError** err);
 
 ssize_t gfal_local_getxattr(const char* path, const char* name, void* buff, size_t s_buff, GError** err);
 
+ssize_t gfal_local_listxattr(const char* path, const char* list, size_t s_list, GError** err);
+
 int gfal_local_rmdir(const char* path, GError** err);
 
 struct dirent* gfal_local_readdir(gfal_file_handle d, GError** err);

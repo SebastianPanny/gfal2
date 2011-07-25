@@ -33,10 +33,12 @@
 
 struct dcap_proto_ops {
 	int	(*geterror)();
+	const char*(*strerror)(int);
 	int	(*access)(const char *, int);
 	int	(*chmod)(const char *, mode_t);
 	int	(*close)(int);
 	int	(*closedir)(DIR *);
+	int (*debug_level)(int);
 	off_t	(*lseek)(int, off_t, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 	off64_t	(*lseek64)(int, off64_t, int);

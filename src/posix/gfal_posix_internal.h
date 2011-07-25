@@ -57,6 +57,7 @@ int gfal_posix_internal_closedir(DIR* d);
 
 ssize_t gfal_posix_internal_getxattr (const char *path, const char *name,
                         void *value, size_t size);
+ssize_t gfal_posix_internal_listxattr (const char *path, const char *list, size_t size);
 
 struct dirent* gfal_posix_internal_readdir(DIR* dir);
 

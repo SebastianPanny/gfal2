@@ -65,12 +65,21 @@ int gfal_local_chmod(const char* path, mode_t mode,GError** err){
 }
 
 ssize_t gfal_local_getxattr(const char* path, const char* name, void* buff, size_t s_buff, GError** err){
-	const ssize_t res = getxattr(path+ + strlen(GFAL_LOCAL_PREFIX), name, buff, s_buff);
+	const ssize_t res = getxattr(path + strlen(GFAL_LOCAL_PREFIX), name, buff, s_buff);
 	if(res <0){
 		gfal_local_report_error(__func__, err);
 	}else
 		errno =0;
 	return res;
+}
+
+ssize_t gfal_local_listxattr(const char* path, const char* list, size_t s_list, GError** err){
+	const ssize_t res = listxattr(path + strlen(GFAL_LOCAL_PREFIX), list, s_list);
+	if(res <0){
+		gfal_local_report_error(__func__, err);
+	}else
+		errno =0;
+	return res;	
 }
 
 

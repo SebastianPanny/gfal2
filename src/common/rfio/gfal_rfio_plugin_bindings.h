@@ -42,4 +42,8 @@ int gfal_rfio_readG(catalog_handle handle , gfal_file_handle fd, void* buff, siz
 
 int gfal_rfio_lseekG(catalog_handle handle , gfal_file_handle fd, off_t offset, int whence, GError** err);
 
+int gfal_rfio_statG(catalog_handle handle, const char* name, struct stat* buff, GError ** err);
+
+int gfal_rfio_lstatG(catalog_handle handle, const char* name, struct stat* buff, GError ** err);
+
 const char* gfal_rfio_getName();

@@ -68,6 +68,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	rfio_catalog.readG= &gfal_rfio_readG;
 	rfio_catalog.writeG= &gfal_rfio_writeG;
 	rfio_catalog.lseekG = &gfal_rfio_lseekG;
+	rfio_catalog.statG = &gfal_rfio_statG;
+	rfio_catalog.lstatG= &gfal_rfio_lstatG;
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return rfio_catalog;
@@ -93,6 +95,8 @@ gboolean gfal_rfio_check_url(catalog_handle ch, const char* url,  catalog_mode m
 	gfal_plugin_rfio_handle rh = (gfal_plugin_rfio_handle) ch;
 	switch(mode){
 			case GFAL_CATALOG_OPEN:
+			case GFAL_CATALOG_STAT:
+			case GFAL_CATALOG_LSTAT:
 				ret = gfal_rfio_internal_check_url(rh, url, &tmp_err);
 				break;
 			default:

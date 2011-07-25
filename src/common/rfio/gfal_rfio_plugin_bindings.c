@@ -47,10 +47,13 @@ static void rfio_report_error(gfal_plugin_rfio_handle h,  const char * func_name
 
 gfal_file_handle gfal_rfio_openG(catalog_handle handle , const char* path, int flag, mode_t mode, GError** err){
 	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
+	gfal_file_handle ret = NULL;
 	int fd= h->rf->open(path, flag, mode);
-	if(fd == 0)
+	if(fd <= 0)
 		rfio_report_error(h, __func__, err);
-	return gfal_file_handle_new(gfal_rfio_getName(), GINT_TO_POINTER(fd));
+	else
+		ret = gfal_file_handle_new(gfal_rfio_getName(), GINT_TO_POINTER(fd));
+	return ret;
 }
 
 int gfal_rfio_readG(catalog_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err){
@@ -65,12 +68,12 @@ int gfal_rfio_readG(catalog_handle handle , gfal_file_handle fd, void* buff, siz
 
 int gfal_rfio_lseekG(catalog_handle handle , gfal_file_handle fd, off_t offset, int whence, GError** err){
 	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
-	int ret = (off_t) h->rf->lseek64(GPOINTER_TO_INT(fd->fdesc), (off64_t) offset, (int) whence);
-	if(ret <0)
+	off_t ret = h->rf->lseek(GPOINTER_TO_INT(fd->fdesc), offset, (int) whence);
+	if(ret == ((off_t)0)-1)
 		rfio_report_error(h, __func__, err);
 	else
 		errno =0;
-	return ret;
+	return (int)ret;
 }
 
 int gfal_rfio_writeG(catalog_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err){
@@ -95,6 +98,26 @@ int gfal_rfio_closeG(catalog_handle handle, gfal_file_handle fd, GError ** err){
 		free(fd);
 	return ret;	
 }
+
+int gfal_rfio_statG(catalog_handle handle, const char* name, struct stat* buff, GError ** err){
+	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
+	int ret= h->rf->stat(name, buff);
+	if(ret != 0){
+		rfio_report_error(h, __func__, err);
+	}
+	return ret;	
+}
+
+int gfal_rfio_lstatG(catalog_handle handle, const char* name, struct stat* buff, GError ** err){
+	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
+	int ret= h->rf->lstat(name, buff);
+	if(ret != 0){
+		rfio_report_error(h, __func__, err);
+	}
+	return ret;	
+}
+
+
 
 const char* gfal_rfio_getName(){
 	return "rfio";

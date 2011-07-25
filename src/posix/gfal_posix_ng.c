@@ -373,6 +373,21 @@ ssize_t gfal_getxattr (const char *path, const char *name,
 
 
 /**
+ * @brief  list all extended attributes 
+ *      gfal_listxattr  list all extended atributes associated with a file
+
+ * @param path : path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..)
+ * @param list: lsit of the attribute ina stirng format, separated by '\0'. the size is equal of of the return
+ * @param size : size of the buffer
+ * @return  return the size of the data returned, or -1 if error. In the  latter  case,  errno  is  set
+       appropriately, you can call @ref gfal_posix_check_error() for a more complete description. 
+*/
+ssize_t gfal_listxattr (const char *path, const char *list, size_t size){
+	return gfal_posix_internal_listxattr(path, list, size);
+}
+
+
+/**
  * Display the last string error reported by the gfal error system for the posix API
  * Errors are printed on stderr
  */
