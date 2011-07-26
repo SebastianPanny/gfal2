@@ -19,7 +19,6 @@
  * @file gfal_common_catalog.c
  * @brief the file of the common lib for the catalog management
  * @author Devresse Adrien
- * @version 0.0.1
  * @date 8/04/2011
  * */
 
@@ -274,6 +273,28 @@ int gfal_catalog_statG(gfal_handle handle, const char* path, struct stat* st, GE
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__); 
 	return ret;	
 }
+
+/**
+ *  Execute a readlink function
+ * */
+int gfal_catalog_readlinkG(gfal_handle handle, const char* path, char* buff, size_t buffsiz, GError** err){
+	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalog_readlinkG] Invalid arguments");
+	GError* tmp_err=NULL;
+	int i;
+	
+	gboolean readlink_checker(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->check_catalog_url(cata_list->handle, path,  GFAL_CATALOG_READLINK, terr);
+	}
+	int readlink_executor(gfal_catalog_interface* cata_list, GError** terr){
+		return cata_list->readlinkG(cata_list->handle, path, buff, buffsiz, terr);
+	}
+	
+	int ret = gfal_catalogs_operation_executor(handle, &readlink_checker, &readlink_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__); 
+	return ret;	
+}
+
 
 
 /**

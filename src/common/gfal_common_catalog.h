@@ -57,13 +57,14 @@ enum _catalog_mode{
 	GFAL_CATALOG_MKDIR,
 	GFAL_CATALOG_RMDIR,
 	GFAL_CATALOG_OPENDIR, // concat of opendir readdir, closedir
-	GFAL_CATALOG_OPEN,
+	GFAL_CATALOG_OPEN, // concat of open read, close
 	GFAL_CATALOG_GETSURL,
 	GFAL_CATALOG_GETTURL,
 	GFAL_CATALOG_PUTTURL,
 	GFAL_CATALOG_RESOLVE_GUID,
 	GFAL_CATALOG_GETXATTR,
-	GFAL_CATALOG_LISTXATTR
+	GFAL_CATALOG_LISTXATTR,
+	GFAL_CATALOG_READLINK
 	
 };
 
@@ -95,6 +96,7 @@ struct _gfal_catalog_interface{
 	int (*symlinkG)(catalog_handle, const char*, const char*, GError** err);
 	int (*statG)(catalog_handle, const char*, struct stat *buf, GError** err);
 	int (*lstatG)(catalog_handle, const char*, struct stat *buf, GError** err);
+	ssize_t (*readlinkG)(catalog_handle, const char*, char* buff, size_t buffsiz, GError** );
 
 	// directory management
 	 gfal_file_handle (*opendirG)(catalog_handle, const char*, GError**); 
