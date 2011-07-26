@@ -382,7 +382,7 @@ ssize_t gfal_getxattr (const char *path, const char *name,
  * @return  return the size of the data returned, or -1 if error. In the  latter  case,  errno  is  set
        appropriately, you can call @ref gfal_posix_check_error() for a more complete description. 
 */
-ssize_t gfal_listxattr (const char *path, const char *list, size_t size){
+ssize_t gfal_listxattr (const char *path, char *list, size_t size){
 	return gfal_posix_internal_listxattr(path, list, size);
 }
 

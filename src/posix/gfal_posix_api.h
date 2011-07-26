@@ -57,7 +57,7 @@ int gfal_write (int, const void *, size_t);
 // advanced use purpose ( set properties, guid, replicas )
 ssize_t gfal_getxattr (const char *path, const char *name,
                         void *value, size_t size);
-ssize_t gfal_listxattr (const char *path, const char *list, size_t size);
+ssize_t gfal_listxattr (const char *path, char *list, size_t size);
 
 
 

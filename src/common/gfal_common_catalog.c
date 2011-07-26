@@ -580,7 +580,7 @@ ssize_t gfal_catalog_getxattrG(gfal_handle handle, const char* path, const char*
 	
 }
 
-ssize_t gfal_catalog_listxattrG(gfal_handle handle, const char* path, const char* list, size_t s_list, GError** err){
+ssize_t gfal_catalog_listxattrG(gfal_handle handle, const char* path, char* list, size_t s_list, GError** err){
 	GError* tmp_err=NULL;
 	ssize_t resu = -1;
 	

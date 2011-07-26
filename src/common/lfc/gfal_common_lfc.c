@@ -42,6 +42,7 @@
 static gboolean init_thread = FALSE;
 pthread_mutex_t m_lfcinit=PTHREAD_MUTEX_INITIALIZER;
 
+static char* file_xattr[] = { "lfc.guid", "lfc.replicas", NULL };
 /**
  * just return the name of the layer
  */
@@ -369,6 +370,25 @@ ssize_t lfc_getxattrG(catalog_handle handle, const char* path, const char* name,
 }
 
 /**
+ * lfc getxattr implem 
+ * */
+ssize_t lfc_listxattrG(catalog_handle handle, char* path, const char* list, size_t size, GError** err){
+	GError* tmp_err=NULL;
+	ssize_t res = 0;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	char** p= file_xattr;
+	char* plist= list;
+	while(*p != NULL){
+		const int size_str = strlen(*p)+1;
+		if( size > res && size - res >= size_str)
+			plist = mempcpy(plist, *p, size_str* sizeof(char) );
+		res += size_str;
+		p++;
+	}
+	return res;
+}
+
+/**
  * Convert a guid to a catalog url if possible
  *  return the link in a catalog's url string or err and NULL if not found
  */
@@ -437,6 +457,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.openG = &lfc_openG;
 	lfc_catalog.symlinkG= &lfc_symlinkG;
 	lfc_catalog.getxattrG= &lfc_getxattrG;
+	lfc_catalog.listxattrG = &lfc_listxattrG;
 	
 	if(init_thread== FALSE){ // initiate Cthread system
 		ops->Cthread_init();	// must be called one time for DPM thread safety	
@@ -471,6 +492,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 		case GFAL_CATALOG_GETSURL:
 		case GFAL_CATALOG_SYMLINK:
 		case GFAL_CATALOG_GETXATTR:
+		case GFAL_CATALOG_LISTXATTR:
 			ret= regexec(&(ops->rex), lfn_url, 0, NULL, 0);
 			return (!ret)?TRUE:FALSE;	
 		default:
