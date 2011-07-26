@@ -372,6 +372,10 @@ ssize_t gfal_getxattr (const char *path, const char *name,
 }
 
 
+ssize_t gfal_readlink(const char* path, char* buff, size_t buffsiz){
+	return gfal_posix_internal_readlink(path, buff, buffsiz);
+}
+
 /**
  * @brief  list all extended attributes 
  *      gfal_listxattr  list all extended atributes associated with a file

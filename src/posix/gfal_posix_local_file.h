@@ -44,6 +44,8 @@ int gfal_local_stat(const char* path, struct stat* buf, GError ** err);
  
 int gfal_local_lstat(const char* path, struct stat* buf, GError ** err);
 
+ssize_t gfal_local_readlink(const char* path, char* buff, size_t buffsiz, GError** err);
+
 int gfal_local_lseek(gfal_file_handle fh, off_t offset, int whence, GError** err);
 
 int gfal_local_mkdir(const char* path, mode_t mode, GError** err);

@@ -41,6 +41,8 @@ int gfal_posix_internal_stat(const char* path, struct stat* buf);
 
 int gfal_posix_internal_lstat(const char* path, struct stat* buf);
 
+ssize_t gfal_posix_internal_readlink(const char* path, char* buff, size_t buffsiz);
+
 int gfal_posix_internal_mkdir(const char* path, mode_t mode);
 
 int gfal_posix_internal_rmdir(const char* path);

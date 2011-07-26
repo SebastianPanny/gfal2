@@ -43,6 +43,7 @@ int gfal_rename (const char *oldpath, const char * newpath);
 int gfal_stat (const char *, struct stat *);
 int gfal_lstat (const char *, struct stat *);
 int gfal_access (const char *, int);
+ssize_t gfal_readlink(const char* path, char* buff, size_t buffsiz);
 
 
 //classical read/write operations

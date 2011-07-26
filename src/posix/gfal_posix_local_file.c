@@ -220,6 +220,14 @@ int gfal_local_close(gfal_file_handle fh, GError** err){
 	return ret;
 }
 
+ssize_t gfal_local_readlink(const char* path, char* buff, size_t buffsiz, GError** err){
+	const int res = readlink(path + strlen(GFAL_LOCAL_PREFIX), buff, buffsiz);
+	if(res <0){
+		gfal_local_report_error(__func__, err);
+	}else
+		errno =0;
+	return res;
+}
 
 /**
  * local rmdir mapper
