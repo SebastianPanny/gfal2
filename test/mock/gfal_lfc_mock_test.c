@@ -17,7 +17,7 @@
 #include "gfal_lfc_mock_test.h"
 
 
-
+#include "../../src/common/lfc/gfal_common_lfc.h"
 
 int lfc_last_err=0;
 struct lfc_filestatg* defined_filestatg=NULL;
@@ -173,6 +173,33 @@ int lfc_mock_mkdir(const char* path, const char* guid, mode_t mode){
 		return -1;
 	}	
 	return 0;	
+}
+
+DIR* lfc_mock_opendir(const char* path, const char* guid){
+	DIR* a=  mock(path, guid);
+	if((int) a <0 ){
+		lfc_last_err = - ((int)a);	
+		return NULL;
+	}	
+	return (a)?(gfal_file_handle_new("lfc_plugin", (gpointer) a)):NULL;	
+}
+
+struct dirent* lfc_mock_readdir(DIR* d){
+	struct dirent* a=  mock(d);
+	if(a == (struct dirent*) EBADF){
+		lfc_last_err = a;	
+		return NULL;
+	}	
+	return (struct dirent*)a;
+}
+
+int lfc_mock_closedir(DIR* dir){
+	int a=  mock(dir);
+	if(a <0 ){
+		lfc_last_err = -a;	
+		return NULL;
+	}	
+	return a;	
 }
 
 

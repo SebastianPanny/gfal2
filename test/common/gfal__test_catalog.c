@@ -54,6 +54,9 @@ void test_mock_lfc(gfal_handle handle, GError** err){
 	ops->starttrans= &lfc_mock_starttrans;
 	ops->endtrans= &lfc_mock_endtrans;
 	ops->aborttrans= &lfc_mock_aborttrans;
+	ops->opendirg = &lfc_mock_opendir;
+	ops->readdir = &lfc_mock_readdir;
+	ops->closedir = &lfc_mock_closedir;
 #endif
 	return;
 }

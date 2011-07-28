@@ -75,6 +75,7 @@ struct lfc_ops {
 	int	(*rename)(const char *, const char *);
 	lfc_DIR *(*opendirg)(const char *, const char *);
 	struct dirent* (*readdir)(lfc_DIR *);
+	struct lfc_direnstat* (*readdirx)(lfc_DIR *dirp);
 	int	(*rmdir)(const char *);
 	int (*startsess) (char *, char *); 
 	int (*endsess) ();

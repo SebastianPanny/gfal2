@@ -6,6 +6,10 @@
 */
 
 #include <lfc_api.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <dirent.h>
+
 
 extern int lfc_last_err;
 extern struct lfc_filestatg* defined_filestatg;
@@ -37,6 +41,12 @@ int lfc_mock_rename(const char * oldpath, const char* newpath);
 int lfc_mock_access(const char* path, int mode);
 
 int lfc_mock_chmod(const char* path, mode_t mode);
+
+DIR* lfc_mock_opendir(const char* path, const char* guid);
+
+int lfc_mock_closedir(DIR* dir);
+
+struct dirent* lfc_mock_readdir(DIR* d);
 
 int lfc_mock_mkdir(const char* path, const char* guid,  mode_t mode);
 

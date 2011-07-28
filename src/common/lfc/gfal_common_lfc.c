@@ -46,7 +46,7 @@ static char* file_xattr[] = { "lfc.guid", "lfc.replicas", NULL };
 /**
  * just return the name of the layer
  */
-static const char* lfc_getName(){
+const char* lfc_getName(){
 	return "lfc_plugin";
 }
 
@@ -254,7 +254,7 @@ static gfal_file_handle lfc_opendirG(catalog_handle handle, const char* name, GE
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
 	}	
 	free(lfn);
-	return gfal_file_handle_new(lfc_getName(), (gpointer) d);		
+	return (d)?(gfal_file_handle_new(lfc_getName(), (gpointer) d)):NULL;		
 }
 
 /**
@@ -265,7 +265,7 @@ static struct dirent* lfc_readdirG(catalog_handle handle, gfal_file_handle fh, G
 	GError* tmp_err=NULL;	
 	struct lfc_ops *ops = (struct lfc_ops*) handle;
 	gfal_lfc_init_thread(ops);
-	struct dirent* ret = ops->readdir( (lfc_DIR*)fh->fdesc);
+	struct dirent* ret=  ops->readdir( (lfc_DIR*)fh->fdesc);
 	if(ret ==NULL && *ops->serrno ){
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
@@ -368,6 +368,8 @@ ssize_t lfc_getxattrG(catalog_handle handle, const char* path, const char* name,
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return res;
 }
+
+	 ssize_t (*getxattrG)(catalog_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
 
 /**
  * lfc getxattr implem 
@@ -503,6 +505,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.listxattrG = &lfc_listxattrG;
 	lfc_catalog.readlinkG = &lfc_readlinkG;
 	lfc_catalog.unlinkG = &lfc_unlinkG;
+	//gfal_lfc_startSession(ops, "auto start sess gfal");
 	
 	if(init_thread== FALSE){ // initiate Cthread system
 		ops->Cthread_init();	// must be called one time for DPM thread safety	

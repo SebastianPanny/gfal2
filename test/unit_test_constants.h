@@ -17,7 +17,7 @@
  */
 
 // set to 1 if mock need to be used else to 0
-#define USE_MOCK 0
+#define USE_MOCK 1
 
 
 // to define
@@ -180,6 +180,9 @@
 #define TEST_LFC_OPENDIR_OPEN			TEST_CONCAT_LFC_PREFIX("/testopendir0011")
 #define TEST_LFC_OPENDIR_OPEN_NOACCESS TEST_CONCAT_LFC_PREFIX("/testopendir0012")
 
+#define TEST_SRM_OPENDIR_OPEN TEST_CONCAT_SRM_PREFIX("testopendir0011")
+#define TEST_SRML_OPENDIR_ENOENT TEST_CONCAT_SRM_PREFIX("iamthequeenornot")
+#define TEST_SRML_OPENDIR_EACCESS TEST_CONCAT_SRM_PREFIX("testopendireacces0011/testopendir0011")
 
 // readdir
 #define TEST_LOCAL_READDIR_CREATE_COMMAND "mkdir -p /tmp/testreaddir0011/testreaddir0012 &> /dev/null && \

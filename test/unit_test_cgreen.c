@@ -48,6 +48,7 @@
 #include "posix/test__gfal_posix_open.h"
 #include "posix/test__gfal_posix_read.h"
 #include "posix/test__gfal_posix_write.h"
+#include "posix/test__gfal_posix_opendir.h"
 #include "common/rfio/test__gfal_rfio_plugin.h"
 
 TestSuite * verbose_suite (void)
@@ -201,6 +202,18 @@ TestSuite* posix_rfio_plugin_suite(){
 	return tc_rfio;	
 }
 
+TestSuite* posix_opendir_suite(){
+	TestSuite* tc_opendir = create_test_suite();
+	  add_test(tc_opendir, test__opendir_posix_local_simple);
+	  add_test(tc_opendir, test__opendir_posix_lfc_simple);
+	  add_test(tc_opendir, test__readdir_posix_local_simple);
+	  add_test(tc_opendir, test__readdir_posix_lfc_simple);
+	 // add_test(tc_opendir, test__opendir_posix_srm_simple_mock);
+	 // add_test(tc_opendir, test__readdir_posix_srm_simple_mock);
+	 // add_test(tc_opendir, test__readdir_posix_srm_empty_mock);
+	return tc_opendir;	
+}
+
 TestSuite* posix_access_suite (void)
 {
   TestSuite* tc_access = create_test_suite();
@@ -291,6 +304,7 @@ int main (int argc, char** argv)
 	add_suite(global, posix_rfio_plugin_suite());
 	add_suite(global, posix_read_suite());
 	add_suite(global, posix_write_suite());
+	add_suite(global, posix_opendir_suite());
 	//add_suite(global, filedesc_suite());
     if (argc > 1) {
         return run_single_test(global, argv[1], create_text_reporter());

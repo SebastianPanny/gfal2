@@ -11,6 +11,7 @@
 #include "../unit_test_constants.h"
 #include <stdio.h>
 #include "gfal_posix_api.h"
+#include "gfal_posix_internal.h"
 #include <errno.h>
 
 void create_srm_stat_env_mock(){
