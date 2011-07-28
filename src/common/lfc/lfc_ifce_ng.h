@@ -59,6 +59,7 @@ struct lfc_ops {
 	int (*getlinks)(const char *, const char *, int *, struct lfc_linkinfo **);
 	int (*getreplica)(const char *, const char *, const char *, int *, struct lfc_filereplica **);
 	int	(*lstat)(const char *, struct lfc_filestat *);
+	int (*readlink)(const char *, char *, size_t);
 	int	(*mkdirg)(const char *, const char *, mode_t);
 	int	(*seterrbuf)(char *, int);
 	int	(*setfsizeg)(const char *, u_signed64, const char *, char *);

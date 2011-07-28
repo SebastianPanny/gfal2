@@ -27,9 +27,13 @@
  */
 
 #define _GNU_SOURCE
+
+#define GFAL_LFC_PREFIX "lfn:"
+#define GFAL_LFC_PREFIX_LEN 4
 #define LFC_XATTR_GUID "lfc.guid"
 #define LFC_XATTR_SURLS "lfc.replicas"
 #define LFC_MAX_XATTR_LEN 2048
+#define LFC_BUFF_SIZE 2048
 
 #include <sys/types.h>
 #include <glib.h>

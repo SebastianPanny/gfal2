@@ -64,7 +64,8 @@ enum _catalog_mode{
 	GFAL_CATALOG_RESOLVE_GUID,
 	GFAL_CATALOG_GETXATTR,
 	GFAL_CATALOG_LISTXATTR,
-	GFAL_CATALOG_READLINK
+	GFAL_CATALOG_READLINK,
+	GFAL_CATALOG_UNLINK
 	
 };
 
@@ -103,8 +104,7 @@ struct _gfal_catalog_interface{
 	 int (*closedirG)(catalog_handle, gfal_file_handle, GError**);
 	 struct dirent* (*readdirG)(catalog_handle, gfal_file_handle, GError**);
 	int (*mkdirpG)(catalog_handle, const char*, mode_t, gboolean pflag, GError**);  //function pointer for the mkdir call, if pflag is set, the call is considered like a recursive call for a full path creation
-	int (*rmdirG )(catalog_handle, const char*, GError**);	 
-	 
+	int (*rmdirG )(catalog_handle, const char*, GError**);	 	 
 
 	 // basic file operation, 
 	 gfal_file_handle (*openG)(catalog_handle, const char* path, int flag, mode_t mode, GError**);
@@ -112,6 +112,9 @@ struct _gfal_catalog_interface{
 	 int (*writeG)(catalog_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
 	 int (*closeG)(catalog_handle, gfal_file_handle fd, GError **);
 	 int (*lseekG)(catalog_handle, gfal_file_handle fd, off_t offset, int whence, GError** err);
+	 
+	 // remove operations
+	 int (*unlinkG)(catalog_handle, const char* path, GError**);
 	 
 	 // advanced attributes management
 	 ssize_t (*getxattrG)(catalog_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
@@ -172,6 +175,9 @@ int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
 int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
 int gfal_catalog_lseekG(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err);
 int gfal_catalog_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
+
+
+int gfal_catalog_unlinkG(catalog_handle handle, const char* path, GError** err);
 
 
 ssize_t gfal_catalog_getxattrG(gfal_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);

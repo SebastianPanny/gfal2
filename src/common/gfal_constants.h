@@ -60,7 +60,7 @@
 
 #define GFAL_CKSM_DEFAULT         GFAL_CKSM_ADLER32   // MD5 is the default algo
 
-#define GFAL_LFC_PREFIX "lfn:"
+
 #define GFAL_GUID_PREFIX "guid:"
 
 #define GFAL_URL_MAX_LEN 2048

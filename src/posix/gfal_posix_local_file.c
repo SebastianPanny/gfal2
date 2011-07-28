@@ -151,6 +151,16 @@ int gfal_local_mkdir(const char* path, mode_t mode, GError** err){
 	return res;	
 }
 
+
+int gfal_local_unlink(const char* path, GError** err){
+	const int res = unlink(path + strlen(GFAL_LOCAL_PREFIX));
+	if(res <0){
+		gfal_local_report_error(__func__, err);
+	}
+	return res;		
+}
+
+
 gfal_file_handle gfal_local_opendir(const char* path, GError** err){
 	DIR* ret = opendir(path+strlen(GFAL_LOCAL_PREFIX));
 	gfal_file_handle resu = NULL;
@@ -266,3 +276,4 @@ gboolean gfal_check_local_url(const char* path, GError** err){
 	int ret=  regexec(&rex, path,0,NULL,0);
 	return (!ret)?TRUE:FALSE;		
 }
+

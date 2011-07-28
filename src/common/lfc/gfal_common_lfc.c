@@ -372,7 +372,7 @@ ssize_t lfc_getxattrG(catalog_handle handle, const char* path, const char* name,
 /**
  * lfc getxattr implem 
  * */
-ssize_t lfc_listxattrG(catalog_handle handle, char* path, const char* list, size_t size, GError** err){
+ssize_t lfc_listxattrG(catalog_handle handle, char* path, char* list, size_t size, GError** err){
 	GError* tmp_err=NULL;
 	ssize_t res = 0;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
@@ -406,7 +406,50 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 	free(tmp_guid);
 	return res;
 }
+
+static int lfc_unlinkG(catalog_handle handle, const char* path, GError** err){
+	g_return_val_err_if_fail(path, -1, err, "[lfc_unlink] Invalid value in args handle/path/stat");	
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+	int ret = ops->unlink(lfn);
+	if(ret != 0){
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
+	}else
+		errno=0;
+
+	free(lfn);
+	return ret;
+}
   
+/**
+ * execute a posix readlink request on the lfc 
+ *  return size of the buffer if success and set the struct buf else return negative value and set GError
+ */
+static int lfc_readlinkG(catalog_handle handle, const char* path, char* buff, size_t buffsiz, GError** err){
+	g_return_val_err_if_fail(handle && path && buff, -1, err, "[lfc_readlinkG] Invalid value in args handle/path/stat");
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	char res_buff[LFC_BUFF_SIZE];
+	
+	gfal_lfc_init_thread(ops);	
+	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+
+	ssize_t ret = ops->readlink(lfn, res_buff, LFC_BUFF_SIZE );
+	if(ret == -1){
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
+	}else{
+		errno=0;
+		if(buffsiz > 0)
+			memcpy(buff, GFAL_LFC_PREFIX, MIN(buffsiz,GFAL_LFC_PREFIX_LEN) );
+		if(buffsiz - GFAL_LFC_PREFIX_LEN > 0)
+			memcpy(buff+ GFAL_LFC_PREFIX_LEN, res_buff, MIN(ret,buffsiz-GFAL_LFC_PREFIX_LEN) );
+		ret += GFAL_LFC_PREFIX_LEN;
+	}
+	
+	free(lfn);
+	return ret;
+}
 
 
 /**
@@ -458,6 +501,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.symlinkG= &lfc_symlinkG;
 	lfc_catalog.getxattrG= &lfc_getxattrG;
 	lfc_catalog.listxattrG = &lfc_listxattrG;
+	lfc_catalog.readlinkG = &lfc_readlinkG;
+	lfc_catalog.unlinkG = &lfc_unlinkG;
 	
 	if(init_thread== FALSE){ // initiate Cthread system
 		ops->Cthread_init();	// must be called one time for DPM thread safety	
@@ -467,6 +512,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	pthread_mutex_unlock(&m_lfcinit);
 	return lfc_catalog;
 }
+
 
 
 
@@ -493,6 +539,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 		case GFAL_CATALOG_SYMLINK:
 		case GFAL_CATALOG_GETXATTR:
 		case GFAL_CATALOG_LISTXATTR:
+		case GFAL_CATALOG_READLINK:
+		case GFAL_CATALOG_UNLINK:
 			ret= regexec(&(ops->rex), lfn_url, 0, NULL, 0);
 			return (!ret)?TRUE:FALSE;	
 		default:

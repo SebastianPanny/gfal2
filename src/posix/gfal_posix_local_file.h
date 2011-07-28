@@ -67,3 +67,5 @@ int gfal_local_read(gfal_file_handle fh, void* buff, size_t s_buff, GError** err
 int gfal_local_write(gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
 
 int gfal_local_close(gfal_file_handle fh, GError** err);
+
+int gfal_local_unlink(const char* path, GError** err);

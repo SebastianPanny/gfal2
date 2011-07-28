@@ -243,14 +243,14 @@ struct lfc_ops* gfal_load_lfc(const char* name, GError** err){
 							(void**) &(lfc_sym->mkdirg), (void**) &(lfc_sym->seterrbuf), (void**) &(lfc_sym->setfsizeg), (void**) &(lfc_sym->setfsize), (void**) &(lfc_sym->starttrans),
 							(void**) &(lfc_sym->statg), (void**) &(lfc_sym->statr), (void**) &(lfc_sym->symlink), (void**) &(lfc_sym->unlink), (void**) &(lfc_sym->access), (void**) &(lfc_sym->chmod),
 							(void**) &(lfc_sym->rename), (void**) &(lfc_sym->opendirg), (void**) &(lfc_sym->rmdir), (void**) &(lfc_sym->startsess), (void**) &(lfc_sym->endsess), 
-							(void**) &(lfc_sym->closedir), (void**) &(lfc_sym->readdir), (void**) &(lfc_sym->Cthread_init), (void**) &(lfc_sym->_Cthread_addcid) };
+							(void**) &(lfc_sym->closedir), (void**) &(lfc_sym->readdir), (void**) &(lfc_sym->Cthread_init), (void**) &(lfc_sym->_Cthread_addcid), (void**) &(lfc_sym->readlink)};
 	const char* sym_list[] = { "C__serrno", "sstrerror", "lfc_creatg", "lfc_delreplica", "lfc_aborttrans",
 						"lfc_endtrans", "lfc_getpath", "lfc_getlinks", "lfc_getreplica", "lfc_lstat", 
 						"lfc_mkdirg", "lfc_seterrbuf", "lfc_setfsizeg", "lfc_setfsize", "lfc_starttrans",
 						"lfc_statg", "lfc_statr", "lfc_symlink", "lfc_unlink", "lfc_access", "lfc_chmod",
 						"lfc_rename", "lfc_opendirg", "lfc_rmdir", "lfc_startsess", "lfc_endsess", "lfc_closedir", "lfc_readdir",
-						"Cthread_init", "_Cthread_addcid" };
-	ret = resolve_dlsym_listG(dlhandle, f_list, sym_list, 30, &tmp_err);
+						"Cthread_init", "_Cthread_addcid", "lfc_readlink" };
+	ret = resolve_dlsym_listG(dlhandle, f_list, sym_list, 31, &tmp_err);
 	if(ret != 0){
 		g_propagate_prefixed_error(err, tmp_err,"[gfal_load_lfc]");
 		free(lfc_sym);
