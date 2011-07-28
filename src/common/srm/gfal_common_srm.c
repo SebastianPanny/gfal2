@@ -92,6 +92,7 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 		case GFAL_CATALOG_PUTTURL:
 		case GFAL_CATALOG_OPEN:
 		case GFAL_CATALOG_CHMOD:
+		case GFAL_CATALOG_UNLINK:
 			return (gfal_surl_checker(url,  err)==0)?TRUE:FALSE;
 		default:
 			return FALSE;		
@@ -139,6 +140,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_catalog.writeG= &gfal_srm_writeG;
 	srm_catalog.chmodG= &gfal_srm_chmodG;
 	srm_catalog.lseekG= &gfal_srm_lseekG;
+	srm_catalog.unlinkG = &gfal_srm_unlinkG;
 	return srm_catalog;
 }
 

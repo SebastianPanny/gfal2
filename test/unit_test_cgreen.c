@@ -204,13 +204,12 @@ TestSuite* posix_rfio_plugin_suite(){
 
 TestSuite* posix_opendir_suite(){
 	TestSuite* tc_opendir = create_test_suite();
-	  add_test(tc_opendir, test__opendir_posix_local_simple);
-	  add_test(tc_opendir, test__opendir_posix_lfc_simple);
-	  add_test(tc_opendir, test__readdir_posix_local_simple);
-	  add_test(tc_opendir, test__readdir_posix_lfc_simple);
-	 // add_test(tc_opendir, test__opendir_posix_srm_simple_mock);
-	 // add_test(tc_opendir, test__readdir_posix_srm_simple_mock);
-	 // add_test(tc_opendir, test__readdir_posix_srm_empty_mock);
+	add_test(tc_opendir, test__opendir_posix_local_simple);
+	add_test(tc_opendir, test__opendir_posix_lfc_simple);
+	add_test(tc_opendir, test__readdir_posix_local_simple);
+	add_test(tc_opendir, test__readdir_posix_lfc_simple);
+	add_test(tc_opendir, test__opendir_posix_srm_simple_mock);
+	add_test(tc_opendir, test__readdir_posix_srm_simple_mock);
 	return tc_opendir;	
 }
 

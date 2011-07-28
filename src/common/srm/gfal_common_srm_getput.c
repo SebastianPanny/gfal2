@@ -165,7 +165,7 @@ int gfal_srm_mTURLS_internal(gfal_handle handle, srm_req_type req_type, char** s
 	GError* tmp_err=NULL;
 	int ret=-1;	
 
-	char full_endpoint[2048];
+	char full_endpoint[GFAL_URL_MAX_LEN];
 	enum gfal_srm_proto srm_types;
 	if((gfal_srm_determine_endpoint(handle, *surls, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
 		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_srm_mTURLS_internal] endpoint %s", full_endpoint);

@@ -30,7 +30,7 @@
 #include "gfal_common_srm_internal_layer.h"
 
 
-static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, const char* surl, int mode,  GError** err){
+int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, const char* surl, int mode,  GError** err){
 	struct srm_context context;
 	struct srm_checkpermission_input checkpermission_input;
 	struct srmv2_filestatus *resu;
@@ -51,7 +51,7 @@ static int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, const 
 	ret = gfal_srm_external_call.srm_check_permission(&context,&checkpermission_input, &resu);	
 	if(ret != nb_request){
 		g_set_error(err, 0,ECOMM, "[gfal_access_srmv2_internal] Bad answer of the libgfal_srm_ifce, Maybe voms-proxy is not set properly : %d", ret);
-		return ECOMM;
+		return -1;
 	}
 	for(i=0; i< nb_request; ++i){
 		if( resu[i].status ){

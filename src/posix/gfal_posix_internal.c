@@ -35,7 +35,7 @@
 
 
 pthread_mutex_t m_instance =PTHREAD_MUTEX_INITIALIZER; 
-static gfal_handle handle=NULL;
+static volatile gfal_handle handle=NULL;
 
 static __thread GError* last_error=NULL;
 

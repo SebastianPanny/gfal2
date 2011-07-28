@@ -36,9 +36,25 @@
 
 
 
-gfal_file_handle gfal_srmv2_opendir_internal(gfal_handle handle, char* endpoint, const char* surl, GError** err){
+gfal_file_handle gfal_srm_opendir_internal(gfal_handle handle, char* endpoint, const char* surl, GError** err){
 	g_return_val_err_if_fail(handle && endpoint && surl, NULL, err, "[gfal_srmv2_opendir_internal] invaldi args");
-	struct srm_context context;
+	GError* tmp_err=NULL;
+	gfal_file_handle resu = NULL;
+	int exist = gfal_access_srmv2_internal(handle, endpoint, surl, R_OK, &tmp_err);
+	
+	if(exist == 0){
+		gfal_srm_opendir_handle h = g_new0(struct _gfal_srm_opendir_handle,1);
+		g_strlcpy(h->surl, surl, GFAL_URL_MAX_LEN);
+		g_strlcpy(h->endpoint, endpoint, GFAL_URL_MAX_LEN);
+		h->dir_offset = 0;
+		resu = gfal_file_handle_new(gfal_srm_getName(), (gpointer) h);
+	}
+	
+	
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	
+	/*struct srm_context context;
 	struct srm_ls_input input;
 	struct srm_ls_output output;
 	struct srmv2_mdfilestatus *srmv2_mdstatuses=NULL;
@@ -77,7 +93,7 @@ gfal_file_handle gfal_srmv2_opendir_internal(gfal_handle handle, char* endpoint,
 		resu=NULL;
 	}
 
-	gfal_srm_external_call.srm_srm2__TReturnStatus_delete(output.retstatus);
+	gfal_srm_external_call.srm_srm2__TReturnStatus_delete(output.retstatus);*/
 	return resu;	
 }
 	
@@ -87,15 +103,15 @@ gfal_file_handle gfal_srm_opendirG(catalog_handle ch, const char* surl, GError *
 	g_return_val_err_if_fail(ch && surl, NULL, err, "[gfal_srm_opendirG] Invalid args");
 	gfal_handle handle = ch;
 	gfal_file_handle resu = NULL;
-	char* endpoint=NULL;
+	char endpoint[GFAL_URL_MAX_LEN];
 	GError* tmp_err=NULL;
 	int ret = -1;
 	enum gfal_srm_proto srm_type;
 	
-	ret = gfal_auto_get_srm_endpoint_for_surl(handle, &endpoint, &srm_type, surl, &tmp_err);
+	ret = gfal_srm_determine_endpoint(handle, surl, endpoint, GFAL_URL_MAX_LEN, &srm_type,  &tmp_err);
 	if( ret >=0 ){
 		if(srm_type == PROTO_SRMv2){
-			resu = gfal_srmv2_opendir_internal(handle, endpoint, surl, &tmp_err);
+			resu = gfal_srm_opendir_internal(handle, endpoint, surl, &tmp_err);
 		}else if (srm_type == PROTO_SRM){
 			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
 			resu = NULL;
@@ -106,7 +122,6 @@ gfal_file_handle gfal_srm_opendirG(catalog_handle ch, const char* surl, GError *
 		
 	}
 	
-	free(endpoint);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return resu;

@@ -152,171 +152,25 @@ void test__readdir_posix_lfc_simple()
 	test__readdir_generic_test_simple(TEST_LFC_READDIR_VALID, list_dir);
 }
 
-/*
+
 
 void test__opendir_posix_srm_simple_mock()
 {
-	mock_all_srm();
-	mock_all_mds();
-
-	gfal_posix_clear_error();
-	test__opendir_generic_test_simple()
-	
-	DIR* d = gfal_opendir(srm_noent_dir());
-	if(d!=NULL|| gfal_posix_code_error() != ENOENT || errno != ENOENT){
-		assert_true_with_message(FALSE, " error, must be a non existing dir %ld %d %d",d,gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}
-	gfal_posix_clear_error();
-	d = gfal_opendir(srm_noaccess_dir());
-	if(d!=NULL|| gfal_posix_code_error() != EACCES || errno != EACCES){
-		assert_true_with_message(FALSE, " error, must be a non accessible dir  %ld %d %d",d,gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}		
-	gfal_posix_clear_error();	
-	d = gfal_opendir(srm_valid_dir());
-	if(d==NULL|| gfal_posix_code_error() != 0){
-		assert_true_with_message(FALSE, " error, must be a valid open");
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}
-	
-	int ret = gfal_closedir(d);
-	if( ret != 0 || gfal_posix_code_error() != 0 || errno != 0){
-		assert_true_with_message(FALSE, " must be a valid closedir %d %d %d", ret,gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}
-	
-	ret = gfal_closedir(d);
-	if( ret == 0 || gfal_posix_code_error() == 0 || errno == 0){
-		assert_true_with_message(FALSE, " must be a non existing dir descriptor closedir %d %d %d", ret,gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}	
-	gfal_posix_clear_error();
-	unmock_all_mds();
-	unmock_all_srm();
-
+	test__opendir_generic_test_simple(TEST_SRML_OPENDIR_ENOENT, TEST_SRML_OPENDIR_EACCESS, TEST_SRM_OPENDIR_OPEN);
 }
 
 
 
 void test__readdir_posix_srm_simple_mock()
 {
-	mock_all_srm();
-	mock_all_mds();
-
-	int ret;
 	gfal_posix_clear_error();
-	DIR* d = gfal_opendir(srm_noent_dir()); // try to open a no existing dir
-	if(d!=NULL|| gfal_posix_code_error() != ENOENT || errno != ENOENT){
-		assert_true_with_message(FALSE, " error, must be a non existing dir %ld %d %d",d,gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}
-	gfal_posix_clear_error();
-	ret = gfal_closedir(d);		// try to close this dir, if success, error this file handle must not exist !
-	if( ret == 0 || gfal_posix_code_error() == 0 || errno == 0){
-		assert_true_with_message(FALSE, " must be a non existing dir descriptor closedir %d %d %d", ret,gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}		
-	gfal_posix_clear_error();	
-	d = gfal_opendir(srm_valid_dir());
-	if(d==NULL|| gfal_posix_code_error() != 0){
-		assert_true_with_message(FALSE, " error, must be a valid open");
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}
-	
-	struct dirent* resu;
-	int counter = 0;
-	char** tab_resu = list_dir_srm();
-	while( ( resu = gfal_readdir(d)) != NULL){
-		assert_false_with_message( strcmp(resu->d_name, tab_resu[counter]) != 0, "fail, must be the same string");
-		counter+=1;
-	}
-	assert_false_with_message(counter != count_dir_srm(), " bad number of file readed");
-	
-	ret = gfal_closedir(d);
-	if( ret != 0 || gfal_posix_code_error() != 0 || errno != 0){
-		assert_true_with_message(FALSE, " must be a valid closedir %d %d %d", ret,gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}
-	
-	ret = gfal_closedir(d);
-	if( ret == 0 || gfal_posix_code_error() == 0 || errno == 0){
-		assert_true_with_message(FALSE, " must be a non existing dir descriptor closedir %d %d %d", ret,gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}	
-	gfal_posix_clear_error();
-	unmock_all_mds();
-	unmock_all_srm();
-
-}
+	GList* list_dir = g_list_append(NULL, TEST_SRM_READDIR_1);
+	list_dir = g_list_append(list_dir, TEST_SRM_READDIR_2);
+	list_dir = g_list_append(list_dir, TEST_SRM_READDIR_3);
+	list_dir = g_list_append(list_dir, TEST_SRM_READDIR_4);
+	test__readdir_generic_test_simple(TEST_SRM_READDIR_VALID, list_dir);
+}	
 
 
 
 
-
-
-void test__readdir_posix_srm_empty_mock()
-{
-	mock_all_srm();
-	mock_all_mds();
-
-	int ret;
-	gfal_posix_clear_error();	
-	DIR* d = gfal_opendir(srm_valid_empty_dir());
-	if(d==NULL|| gfal_posix_code_error() != 0){
-		assert_true_with_message(FALSE, " error, must be a valid open");
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}
-	
-	struct dirent* resu = gfal_readdir(d);
-	assert_false_with_message(resu != NULL || gfal_posix_code_error() != 0 || errno != 0, " must return an empty dir");
-	
-	ret = gfal_closedir(d);
-	if( ret != 0 || gfal_posix_code_error() != 0 || errno != 0){
-		assert_true_with_message(FALSE, " must be a valid closedir %d %d %d", ret,gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		unmock_all_mds();
-		unmock_all_srm();
-		return;
-	}
-	
-	gfal_posix_clear_error();
-	unmock_all_mds();
-	unmock_all_srm();
-
-}
-
-*/

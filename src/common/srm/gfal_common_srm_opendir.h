@@ -28,6 +28,8 @@
 #include "../gfal_common_filedescriptor.h"
 
 typedef struct _gfal_srm_opendir_handle{
+	char surl[GFAL_URL_MAX_LEN];
+	char endpoint[GFAL_URL_MAX_LEN];
 	struct srmv2_mdfilestatus *srm_ls_resu;
 	struct dirent current_readdir;
 	int dir_offset;

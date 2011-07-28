@@ -201,6 +201,12 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 #define TEST_LFC_READDIR_3 "testreaddir0014"
 #define TEST_LFC_READDIR_4 "testreaddir0015"
 
+#define TEST_SRM_READDIR_VALID TEST_CONCAT_SRM_PREFIX("/testreaddir0011")
+#define TEST_SRM_READDIR_1 "testreaddir0012"
+#define TEST_SRM_READDIR_2 "testreaddir0013"
+#define TEST_SRM_READDIR_3 "testreaddir0014"
+#define TEST_SRM_READDIR_4 "testreaddir0015"
+
 
 // open
 #define TEST_LOCAL_OPEN_CREATE_COMMAND "echo  \"Hello world\" > /tmp/testopen0011 && touch /tmp/testopen0013 && chmod 000 /tmp/testopen0013"

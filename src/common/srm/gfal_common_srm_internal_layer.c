@@ -42,5 +42,6 @@ struct _gfal_srm_external_call gfal_srm_external_call = {
 	.srm_prepare_to_get= &srm_prepare_to_get,
 	.srm_prepare_to_put= &srm_prepare_to_put,
 	.srm_put_done = &srm_put_done,
-	.srm_setpermission= &srm_setpermission
+	.srm_setpermission= &srm_setpermission,
+	.srm_rm = &srm_rm
 };
