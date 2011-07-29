@@ -54,46 +54,6 @@ gfal_file_handle gfal_srm_opendir_internal(gfal_handle handle, char* endpoint, c
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	
-	/*struct srm_context context;
-	struct srm_ls_input input;
-	struct srm_ls_output output;
-	struct srmv2_mdfilestatus *srmv2_mdstatuses=NULL;
-	char errbuf[GFAL_ERRMSG_LEN];
-	int i;
-	gfal_file_handle resu=NULL;
-	int ret =-1;
-	char* tab_surl[] = { (char*)surl, NULL};
-	const int nb_request=1;
-	int tab_resu[nb_request];
-	
-	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());	// init context
-	
-	input.nbfiles = nb_request;
-	input.surls = tab_surl;
-	input.numlevels = 1;
-	input.offset = 0;
-	input.count = 0;
-
-	ret = gfal_srm_external_call.srm_ls(&context,&input,&output);					// execute ls
-
-	if(ret >=0){
-		srmv2_mdstatuses = output.statuses;
-		if(srmv2_mdstatuses->status != 0){
-			g_set_error(err, 0, srmv2_mdstatuses->status, "[%s] Error reported from srm_ifce : %d %s", __func__, 
-							srmv2_mdstatuses->status, srmv2_mdstatuses->explanation);
-			resu = NULL;
-			gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(output.statuses,1);
-		} else {
-			gfal_srm_opendir_handle oh = calloc(sizeof(struct _gfal_srm_opendir_handle),1);
-			oh->srm_ls_resu = srmv2_mdstatuses;
-			resu = gfal_file_handle_new(gfal_srm_getName(), (gpointer)oh);
-		}
-	}else{
-		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
-		resu=NULL;
-	}
-
-	gfal_srm_external_call.srm_srm2__TReturnStatus_delete(output.retstatus);*/
 	return resu;	
 }
 	

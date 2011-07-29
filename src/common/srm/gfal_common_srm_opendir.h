@@ -23,16 +23,18 @@
  * @version 2.0
  * @date 09/06/2011
  * */
-
+#include <stdlib.h>
+#include <dirent.h>
 #include <glib.h>
 #include "../gfal_common_filedescriptor.h"
 
 typedef struct _gfal_srm_opendir_handle{
 	char surl[GFAL_URL_MAX_LEN];
 	char endpoint[GFAL_URL_MAX_LEN];
+	off_t resu_offset;
 	struct srmv2_mdfilestatus *srm_ls_resu;
 	struct dirent current_readdir;
-	int dir_offset;
+	off_t dir_offset;
 }* gfal_srm_opendir_handle;
 
 gfal_file_handle gfal_srm_opendirG(catalog_handle handle, const char* path, GError ** err);

@@ -30,6 +30,7 @@
 #include <pthread.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <dirent.h>
 #include <attr/xattr.h>
 #include "gfal_common_lfc.h"
 #include "gfal_common_lfc_open.h"
@@ -254,7 +255,15 @@ static gfal_file_handle lfc_opendirG(catalog_handle handle, const char* name, GE
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
 	}	
 	free(lfn);
-	return (d)?(gfal_file_handle_new(lfc_getName(), (gpointer) d)):NULL;		
+	return (d)?(gfal_file_handle_ext_new(lfc_getName(), (gpointer) d, (gpointer) (g_new0(struct dirent,1)))):NULL;		
+}
+
+static struct dirent* lfc_convert_dirent_struct(struct dirent* dir , struct Cns_direnstat* filestat){
+	if(filestat == NULL)
+		return NULL;
+	dir->d_off +=1;
+	g_strlcpy(dir->d_name, filestat->d_name, NAME_MAX);
+	return dir;
 }
 
 /**
@@ -265,7 +274,7 @@ static struct dirent* lfc_readdirG(catalog_handle handle, gfal_file_handle fh, G
 	GError* tmp_err=NULL;	
 	struct lfc_ops *ops = (struct lfc_ops*) handle;
 	gfal_lfc_init_thread(ops);
-	struct dirent* ret=  ops->readdir( (lfc_DIR*)fh->fdesc);
+	struct dirent* ret=  lfc_convert_dirent_struct(((struct dirent*) fh->ext_data), (ops->readdirx( (lfc_DIR*)fh->fdesc)));
 	if(ret ==NULL && *ops->serrno ){
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
@@ -285,8 +294,10 @@ static int lfc_closedirG(catalog_handle handle, gfal_file_handle fh, GError** er
 	if(ret != 0){
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
-	}else
+	}else{
+		free(fh->ext_data);
 		free(fh);
+	}
 	return ret;		
 }
 
