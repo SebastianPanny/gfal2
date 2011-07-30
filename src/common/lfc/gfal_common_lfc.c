@@ -348,6 +348,7 @@ static struct dirent* lfc_readdirG(catalog_handle handle, gfal_file_handle fh, G
 	GError* tmp_err=NULL;	
 	struct lfc_ops *ops = (struct lfc_ops*) handle;
 	gfal_lfc_init_thread(ops);
+	gfal_auto_maintain_session(ops, &tmp_err);
 	lfc_opendir_handle oh = (lfc_opendir_handle )fh->ext_data;
 	struct dirent* ret=  lfc_convert_dirent_struct(ops, ((struct dirent*) &oh->current_dir), (ops->readdirx( (lfc_DIR*)fh->fdesc)), oh->url);
 	if(ret ==NULL && *ops->serrno ){

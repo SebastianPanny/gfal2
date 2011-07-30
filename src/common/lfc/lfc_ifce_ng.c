@@ -64,14 +64,16 @@ void gfal_lfc_init_thread(struct lfc_ops* ops){
 }
 
 void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err){
-	pthread_mutex_lock(&m_session);
 	time_t current = time(NULL);
 	if(session_timestamp < current){
-		session_timestamp = current + session_duration;
-		ops->endsess();
-		gfal_lfc_startSession(ops, err);
+		pthread_mutex_lock(&m_session);
+		if(session_timestamp < current){
+			session_timestamp = current + session_duration;
+			ops->endsess();
+			gfal_lfc_startSession(ops, err);
+		}
+		pthread_mutex_unlock(&m_session);	
 	}
-	pthread_mutex_unlock(&m_session);	
 }
 
 
