@@ -33,6 +33,7 @@
 #include "gfal_posix_local_file.h"
 
 #define GFAL_LOCAL_PREFIX "file:"
+#define GFAL_LOCAL_PREFIX_LEN 5
 
 static regex_t rex;
 
@@ -273,6 +274,7 @@ int gfal_local_symlink(const char* oldpath, const char* newpath, GError** err){
  * check the validity of a classique file url
  * */ 
 gboolean gfal_check_local_url(const char* path, GError** err){
+	const size_t str = strnlen(path, GFAL_URL_MAX_LEN);
 	int ret=  regexec(&rex, path,0,NULL,0);
 	return (!ret)?TRUE:FALSE;		
 }

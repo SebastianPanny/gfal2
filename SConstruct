@@ -39,6 +39,7 @@ build_dir = 'build'
 #related var for headers:
 header_folder='/stage/include/'
 build_dir_src = build_dir +'/src'
+build_dir_externals = build_dir_src + '/externals'
 build_dir_test= build_dir +'/test/src'
 glib_header_dir = [ glib_location + '/lib64/glib-2.0/include/', glib_location+ '/include/glib-2.0/' ]
 dpm_header= dpm_location+ "/usr/include/dpm"
@@ -51,7 +52,7 @@ etics_header_dir = [etics_build_dir+header_folder] + glob.glob(etics_build_dir+h
 print "ETICS WORKSPACE : " + etics_build_dir
 print "ETICS compiled lib dir : " + etics_lib_dir
 
-headers= ['.', '#.', '#build/src/',etics_header_dir, glib_header_dir, srm_ifce_location, dpm_header, dcap_header]
+headers= ['.', '#.', '#build/src/',etics_header_dir, srm_ifce_location, dpm_header, dcap_header]+ glib_header_dir
 libs=[ '#'+build_dir+'/libs' , etics_lib_dir, voms_location, "/usr/local/lib" ]
 cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 env = Environment(CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
@@ -72,10 +73,17 @@ if ARGUMENTS.get('profile','0') =='yes':
 if ARGUMENTS.get('production','0') =='yes':
 	print "prod MODE"
 	env.Append(CFLAGS='-O3')
+	
+
+#externals builds
+env_libgcache = env.Clone()
+VariantDir(build_dir_externals, 'src/externals/')
+gsimplecache = SConscript(build_dir_externals +'/gsimplecache/SConscript',['headers', 'libs', 'env_libgcache'])
 
 #main build
 VariantDir(build_dir_src, 'src')
 SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src'])
+
 
 # global testing build
 SConscript('testing/SConscript', ['env', 'headers', 'libs'])

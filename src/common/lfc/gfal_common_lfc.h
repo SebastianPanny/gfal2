@@ -40,6 +40,7 @@
 #include "../gfal_common_catalog.h"
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
+#include "../../externals/gsimplecache/gcachemain.h"
 
 
 // protos

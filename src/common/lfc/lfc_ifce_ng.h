@@ -35,6 +35,7 @@
 
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
+#include "../../externals/gsimplecache/gcachemain.h"
 
 
 
@@ -44,6 +45,7 @@ struct lfc_ops {
 	char* lfc_endpoint;
 	regex_t rex; // regular expression compiled 
 	gfal_handle handle;
+	GSimpleCache* cache;
 #if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) && (defined(_MT) || defined(_DLL)))
 	int*	(*serrno)(void);
 #else
@@ -106,6 +108,8 @@ char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err);
 void gfal_lfc_init_thread(struct lfc_ops* ops);
 
 int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err); 
+
+void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err); 
 
 ssize_t g_strv_catbuff(char** strv, char* buff, size_t size);
 

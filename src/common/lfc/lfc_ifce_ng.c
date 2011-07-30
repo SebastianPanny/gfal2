@@ -30,6 +30,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include <sys/types.h>
 #include <dlfcn.h>
 #include <stdlib.h>
@@ -42,6 +43,10 @@
 #include "../gfal_common_errverbose.h"
 
 static __thread int _local_thread_init=FALSE;
+
+static time_t session_timestamp= 0;
+static long session_duration = 10;
+static pthread_mutex_t m_session = PTHREAD_MUTEX_INITIALIZER;
 
 int gfal_lfc_regex_compile(regex_t* rex, GError** err){
 	int ret = regcomp(rex, "^lfn:/([:alnum:]|-|/|\.|_)+", REG_ICASE | REG_EXTENDED);
@@ -57,6 +62,18 @@ void gfal_lfc_init_thread(struct lfc_ops* ops){
 		_local_thread_init= TRUE;
 	}
 }
+
+void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err){
+	pthread_mutex_lock(&m_session);
+	time_t current = time(NULL);
+	if(session_timestamp < current){
+		session_timestamp = current + session_duration;
+		ops->endsess();
+		gfal_lfc_startSession(ops, err);
+	}
+	pthread_mutex_unlock(&m_session);	
+}
+
 
 int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
 	if (ops->startsess (ops->lfc_endpoint, (char*) gfal_version ()) < 0){
@@ -87,6 +104,17 @@ static int gfal_lfc_endTransaction(struct lfc_ops* ops, GError ** err){
 	}
 	return 0;
 }
+
+static int gfal_lfc_endSession(struct lfc_ops* ops, GError ** err){ 
+	if (ops->endsess() < 0){
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno,"[%s] Error while start transaction with lfc, Error : %s ",
+										__func__, gfal_lfc_get_strerror(ops));
+		return -1;
+	}
+	return 0;
+}
+
 
 
 static int gfal_lfc_abortTransaction(struct lfc_ops* ops, GError ** err){ 
