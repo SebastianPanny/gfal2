@@ -221,8 +221,6 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	g_return_val_err_if_fail(handle && path && st, -1, err, "[lfc_lstatG] Invalid value in args handle/path/stat");
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
-	gfal_lfc_init_thread(ops);
-	gfal_auto_maintain_session(ops, &tmp_err);
 	int ret;	
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	struct lfc_filestat statbuf;
@@ -231,13 +229,12 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	strcpy(buff_key, "lstat_");
 	strcat(buff_key, lfn);
 	
-	if( (buffered = (struct stat* ) gsimplecache_find_kstr(ops->cache, buff_key)) != NULL){ // take the version of the buffer
+	if( (buffered = (struct stat* ) gsimplecache_take_kstr (ops->cache, buff_key)) != NULL){ // take the version of the buffer
 		memcpy(st, buffered, sizeof(struct stat));
-		gsimplecache_remove_kstr(ops->cache, buff_key);
-		g_printerr(" cached mode !");
 		ret = 0;
 	}else{	
-		g_printerr(" real mode !");
+		gfal_lfc_init_thread(ops);
+		gfal_auto_maintain_session(ops, &tmp_err);
 		ret = ops->lstat(lfn, &statbuf);
 		if(ret != 0){
 			int sav_errno = gfal_lfc_get_errno(ops);

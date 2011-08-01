@@ -53,6 +53,8 @@ gboolean gfal_lfc_check_lfn_url(catalog_handle handle, const char* lfn_url, cata
 
 char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err);
 
+void lfc_set_session_timeout(int timeout);
+
 
 
 

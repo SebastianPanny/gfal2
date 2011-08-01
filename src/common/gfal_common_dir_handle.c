@@ -42,15 +42,16 @@ pthread_mutex_t m_dir_container =PTHREAD_MUTEX_INITIALIZER;
  * return the singleton of the file descriptor container for the directories
  */
 gfal_fdesc_container_handle gfal_dir_handle_container_instance(gfal_descriptors_container* fdescs, GError** err){
-	pthread_mutex_lock(&m_dir_container);
 	gfal_fdesc_container_handle dir_handle = fdescs->dir_container;
 	if(dir_handle == NULL){
-		dir_handle = fdescs->dir_container = gfal_file_descriptor_handle_create(NULL);
-		if(!dir_handle)
-			g_set_error(err, 0, EIO, "[%s] Error while init directories file descriptor container");
-
+		pthread_mutex_lock(&m_dir_container);
+		if(fdescs->dir_container == NULL){
+			dir_handle = fdescs->dir_container = gfal_file_descriptor_handle_create(NULL);
+			if(!dir_handle)
+				g_set_error(err, 0, EIO, "[%s] Error while init directories file descriptor container");
+		}
+		pthread_mutex_unlock(&m_dir_container);
 	}
-	pthread_mutex_unlock(&m_dir_container);
 	return dir_handle;	
 }
 

@@ -59,7 +59,7 @@ struct _gfal_descriptors_container{
 	gfal_fdesc_container_handle dir_container;
 	gfal_fdesc_container_handle file_container;
 	
-} ;
+};
 
  
  /**

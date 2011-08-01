@@ -51,12 +51,16 @@ inline gfal_handle gfal_posix_instance(){
 	return handle;	
 }
 
+inline GError** gfal_posix_get_last_error(){
+	return &last_error;
+}
+
 
 /**
  *  register the last error in the handle and display a VERBOSE warning if an error was registered and not deleted
  * */
 inline void gfal_posix_register_internal_error(gfal_handle mhandle, const char* prefix, GError * tmp_err){
-	GError** err = &(last_error);
+	GError** err = gfal_posix_get_last_error();
 	if(*err != NULL){
 		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "%s Warning : existing registered error replaced ! old err : %s ", prefix, (*err)->message);
 		g_clear_error(err);
@@ -64,6 +68,3 @@ inline void gfal_posix_register_internal_error(gfal_handle mhandle, const char* 
 	g_propagate_prefixed_error(err, tmp_err, "%s", prefix);
 }
 
-inline GError** gfal_posix_get_last_error(){
-	return &last_error;
-}

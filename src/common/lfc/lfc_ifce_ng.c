@@ -44,7 +44,7 @@
 
 static __thread int _local_thread_init=FALSE;
 
-static time_t session_timestamp= 0;
+static volatile time_t session_timestamp= 0;
 static long session_duration = 10;
 static pthread_mutex_t m_session = PTHREAD_MUTEX_INITIALIZER;
 
@@ -67,6 +67,7 @@ void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err){
 	time_t current = time(NULL);
 	if(session_timestamp < current){
 		pthread_mutex_lock(&m_session);
+		current = time(NULL);
 		if(session_timestamp < current){
 			session_timestamp = current + session_duration;
 			ops->endsess();
@@ -74,6 +75,11 @@ void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err){
 		}
 		pthread_mutex_unlock(&m_session);	
 	}
+}
+void lfc_set_session_timeout(int timeout){
+	pthread_mutex_lock(&m_session);	
+	session_duration = timeout;
+	pthread_mutex_unlock(&m_session);
 }
 
 

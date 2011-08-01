@@ -36,7 +36,7 @@
  /**
   *  internal implementation of gfal_access
   * */
-int gfal_posix_internal_stat(const char* path, struct stat* buf){
+inline int gfal_posix_internal_stat(const char* path, struct stat* buf){
 	gfal_handle handle;
 	GError* tmp_err = NULL;
 	int ret = -1;
@@ -65,7 +65,7 @@ int gfal_posix_internal_stat(const char* path, struct stat* buf){
 }
 
 
-int gfal_posix_internal_lstat(const char* path, struct stat* buf){
+inline int gfal_posix_internal_lstat(const char* path, struct stat* buf){
 	gfal_handle handle;
 	GError* tmp_err = NULL;
 	int ret = -1;

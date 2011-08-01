@@ -35,7 +35,7 @@
 #include "../common/gfal_common_errverbose.h"
 #include "gfal_posix_local_file.h"
 
-static int gfal_posix_dir_handle_store(gfal_handle handle, gfal_file_handle fhandle, GError** err){
+inline static int gfal_posix_dir_handle_store(gfal_handle handle, gfal_file_handle fhandle, GError** err){
 	g_return_val_err_if_fail(handle && fhandle, 0, err, "[gfal_posix_dir_handle_store] handle invalid");
 	GError* tmp_err=NULL;
 	int key = 0;
@@ -47,7 +47,7 @@ static int gfal_posix_dir_handle_store(gfal_handle handle, gfal_file_handle fhan
 	return key;
 }
 
-DIR* gfal_posix_internal_opendir(const char* name){
+inline DIR* gfal_posix_internal_opendir(const char* name){
 	GError* tmp_err=NULL;
 
 	gfal_handle handle;

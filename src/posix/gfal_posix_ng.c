@@ -432,7 +432,6 @@ void gfal_posix_release_error(){
 void gfal_posix_clear_error(){
 	g_clear_error( gfal_posix_get_last_error());
 	errno =0;	
-
 }
 
 /**
@@ -466,7 +465,6 @@ int gfal_posix_check_error(){
  * 
  */
 char* gfal_posix_strerror_r(char* buff_err, size_t s_err){
-	gfal_handle handle;
 	GError* err=NULL;
 	int ret = -1; 
 	return (char*)gfal_str_GError_r(gfal_posix_get_last_error(), buff_err, s_err);

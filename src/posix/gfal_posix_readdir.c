@@ -40,7 +40,7 @@
 /**
  *  map the file handle to the correct call
  */ 
-static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handle, gfal_file_handle fh, GError** err){
+inline static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handle, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail(handle && fh, NULL, err, "[gfal_posix_gfalfilehandle_readdir] incorrect args");
 	GError *tmp_err=NULL;
 	struct dirent* ret = NULL;
@@ -59,7 +59,7 @@ static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handle, gfal
  * Implementation of the readdir functions
  * 
  */
-struct dirent* gfal_posix_internal_readdir(DIR* dir){
+inline struct dirent* gfal_posix_internal_readdir(DIR* dir){
 	 GError* tmp_err=NULL;
 	 gfal_handle handle;
 	 struct dirent* res= NULL;

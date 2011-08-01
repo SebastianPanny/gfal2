@@ -36,12 +36,7 @@
  */
 gboolean gfal_guid_checker(const char* guid, GError** err){
 	g_return_val_err_if_fail(guid != NULL,FALSE,err,"[gfal_guid_checker] check URL failed : guid is empty");
-	regex_t rex;
-	int ret = regcomp(&rex, "^guid:([0-9]|[a-z]|[A-Z]){8}-([0-9]|[a-z]|[A-Z]){4}-([0-9]|[a-z]|[A-Z]){4}-([0-9]|[a-z]|[A-Z]){4}-([0-9]|[a-z]|[A-Z]){12}",REG_ICASE | REG_EXTENDED);
-	g_return_val_err_if_fail(ret==0,FALSE,err,"[gfal_guid_checker] fail to compile regex, report this bug");
-	ret=  regexec(&rex,guid,0,NULL,0);
-	regfree(&rex);
-	return (!ret)?TRUE:FALSE;
+	return ( strnlen(guid, GFAL_URL_MAX_LEN) < GFAL_URL_MAX_LEN && strncmp(guid, "guid:",5)== 0);
 } 
 
 

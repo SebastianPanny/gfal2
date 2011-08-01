@@ -184,7 +184,7 @@ static int gfal_modules_resolve(gfal_handle handle, GError** err){
  * Instance all catalogs for use if it's not the case
  *  return the number of catalog available
  */
-int gfal_catalogs_instance(gfal_handle handle, GError** err){
+inline int gfal_catalogs_instance(gfal_handle handle, GError** err){
 	g_return_val_err_if_fail(handle, -1, err, "[gfal_catalogs_instance]  invalid value of handle");
 	const int catalog_number = handle->catalog_opt.catalog_number;
 	if(catalog_number <= 0){
@@ -192,9 +192,9 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
 		gfal_modules_resolve(handle, &tmp_err);
 		if(tmp_err)
 			g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-		
+		return handle->catalog_opt.catalog_number;	
 	}
-	return handle->catalog_opt.catalog_number;
+	return catalog_number;
 }
 /***
  *  generic catalog operation executor
@@ -210,7 +210,7 @@ int gfal_catalogs_instance(gfal_handle handle, GError** err){
 	if(n_catalogs > 0){
 		gfal_catalog_interface* cata_list = handle->catalog_opt.catalog_list;
 		for(i=0; i < n_catalogs; ++i, ++cata_list){
-			gboolean comp =  checker(cata_list, &tmp_err);
+			const gboolean comp =  checker(cata_list, &tmp_err);
 			if(tmp_err)
 				break;
 				
