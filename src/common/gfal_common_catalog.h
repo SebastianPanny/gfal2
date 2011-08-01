@@ -144,7 +144,7 @@ struct _catalog_opts{
 extern char* gfal_get_cat_type(GError**);
 
 
-int gfal_catalogs_instance(gfal_handle, GError** err);
+inline int gfal_catalogs_instance(gfal_handle, GError** err);
 char** gfal_catalogs_get_list(gfal_handle, GError** err);
 int gfal_catalogs_delete(gfal_handle, GError** err);
 

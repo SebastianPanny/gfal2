@@ -8,11 +8,13 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
+#include <glib.h>
+#include <lfc_api.h>
+
 #include "gfal_constants.h"
 #include "gfal_prototypes.h"
 #include "gfal_types.h"
 #include "gfal_posix_internal.h"
-#include <glib.h>
 #include "../unit_test_constants.h"
 #include "gfal_posix_api.h"
 #include "../mock/gfal_srm_mock_test.h"
@@ -46,11 +48,12 @@ void test_mock_lfc_readdir(char* valid, GList* str_list){
 	will_respond(lfc_mock_opendir, 5, want_string(path, valid+4));
 	will_respond(lfc_mock_closedir, 0, want_non_null(dir));	
 	do{
-		struct dirent* p = g_new0(struct dirent, 1);
+		struct Cns_direnstat* p = malloc(sizeof(struct Cns_direnstat)*1+ 256*sizeof(char));
+		memset(p, 0,sizeof(struct Cns_direnstat));
 		g_strlcpy(p->d_name,str_list->data, 256 );
-		will_respond(lfc_mock_readdir, p, want_non_null(dir));
+		will_respond(lfc_mock_readdirx, p, want_non_null(dir));
 	}while( (str_list= g_list_next(str_list)) != NULL);
-	will_respond(lfc_mock_readdir, 0, want_non_null(dir));
+	will_respond(lfc_mock_readdirx, 0, want_non_null(dir));
 	always_respond(lfc_mock_opendir, EINVAL);	
 #endif
 }

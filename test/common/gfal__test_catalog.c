@@ -40,6 +40,7 @@ void test_mock_lfc(gfal_handle handle, GError** err){
 	struct lfc_ops* ops = find_lfc_ops(handle, err); 
 	ops->lfc_endpoint = NULL;
 	ops->handle = handle;
+	ops->cache= gsimplecache_new(50000000);
 	gfal_lfc_regex_compile(&(ops->rex), err);
 	ops->statg = &lfc_mock_statg;
 	ops->rename = &lfc_mock_rename;
@@ -57,6 +58,9 @@ void test_mock_lfc(gfal_handle handle, GError** err){
 	ops->opendirg = &lfc_mock_opendir;
 	ops->readdir = &lfc_mock_readdir;
 	ops->closedir = &lfc_mock_closedir;
+	ops->endsess= &lfc_mock_endsess;
+	ops->startsess = &lfc_mock_startsession;
+	ops->readdirx = &lfc_mock_readdirx;
 #endif
 	return;
 }

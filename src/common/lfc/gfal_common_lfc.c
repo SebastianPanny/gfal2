@@ -40,6 +40,8 @@
 #include "../gfal_common_filedescriptor.h"
 #include "lfc_ifce_ng.h"
 
+const char* lstat_key_prefix = "lstat_";
+
 static gboolean init_thread = FALSE;
 pthread_mutex_t m_lfcinit=PTHREAD_MUTEX_INITIALIZER;
 
@@ -75,6 +77,15 @@ static char* lfc_urlconverter(const char * lfn_url, const char* prefix){
 }
 
 /**
+ * create a key stored in buff from the lfn url and the prefix
+ */
+static inline char* create_key_from_lfn(const char* lfn, const char* prefix, char* buff, const size_t s_buff){
+	g_strlcpy(buff, "lstat_", s_buff);
+	g_strlcat(buff, lfn, s_buff);	
+	return buff;
+}
+
+/**
  *  Deleter to unload the lfc part
  * */
 static void lfc_destroyG(catalog_handle handle){
@@ -92,6 +103,7 @@ static void lfc_destroyG(catalog_handle handle){
  */
 int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** err){
 	g_return_val_err_if_fail(handle && path, -1, err, "[lfc_chmodG] Invalid valid value in handle/path ");
+	char buff_key[2048];
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	gfal_lfc_init_thread(ops);
@@ -102,8 +114,10 @@ int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** er
 	if(ret < 0){
 		const int myerrno = gfal_lfc_get_errno(ops);
 		g_set_error(&tmp_err, 0, myerrno, "Errno reported from lfc : %s ", gfal_lfc_get_strerror(ops));
-	}else
+	}else{
 		errno =0;
+		gsimplecache_remove_kstr(ops->cache, create_key_from_lfn(url, lstat_key_prefix, buff_key, GFAL_URL_MAX_LEN));	
+	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	free(url);
@@ -143,6 +157,7 @@ int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
  * */
 int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath, GError** err){
 	g_return_val_err_if_fail(handle && oldpath && newpath, -1, err, "[lfc_renameG] Invalid value in args handle/oldpath/newpath");
+	char buff_key[GFAL_URL_MAX_LEN];
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	GError* tmp_err=NULL;
 	gfal_lfc_init_thread(ops);
@@ -153,6 +168,8 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 	if(ret <0){
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(&tmp_err,0,sav_errno, "Error report from LFC : %s",  gfal_lfc_get_strerror(ops) );
+	}else{
+		gsimplecache_remove_kstr(ops->cache, create_key_from_lfn(surl, lstat_key_prefix, buff_key, GFAL_URL_MAX_LEN));
 	}
 	free(surl);
 	free(durl);
@@ -226,8 +243,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	struct lfc_filestat statbuf;
 	struct stat* buffered;
 	char buff_key[GFAL_URL_MAX_LEN];
-	strcpy(buff_key, "lstat_");
-	strcat(buff_key, lfn);
+	create_key_from_lfn(lfn, lstat_key_prefix, buff_key, GFAL_URL_MAX_LEN);
 	
 	if( (buffered = (struct stat* ) gsimplecache_take_kstr (ops->cache, buff_key)) != NULL){ // take the version of the buffer
 		memcpy(st, buffered, sizeof(struct stat));
@@ -318,7 +334,7 @@ static struct dirent* lfc_convert_dirent_struct(struct lfc_ops *ops , struct dir
 		return NULL;
 	GSimpleCache* cache = ops->cache;
 	char fullurl[GFAL_URL_MAX_LEN];
-	strcpy(fullurl, "lstat_");
+	strcpy(fullurl, lstat_key_prefix);
 	g_strlcat(fullurl, url, GFAL_URL_MAX_LEN);
 	g_strlcat(fullurl, "/", GFAL_URL_MAX_LEN);
 	g_strlcat(fullurl, filestat->d_name, GFAL_URL_MAX_LEN);
@@ -457,7 +473,7 @@ ssize_t lfc_getxattrG(catalog_handle handle, const char* path, const char* name,
 /**
  * lfc getxattr implem 
  * */
-ssize_t lfc_listxattrG(catalog_handle handle, char* path, char* list, size_t size, GError** err){
+ssize_t lfc_listxattrG(catalog_handle handle, const char* path, char* list, size_t size, GError** err){
 	GError* tmp_err=NULL;
 	ssize_t res = 0;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
@@ -494,14 +510,17 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 
 static int lfc_unlinkG(catalog_handle handle, const char* path, GError** err){
 	g_return_val_err_if_fail(path, -1, err, "[lfc_unlink] Invalid value in args handle/path/stat");	
+	char buff_key[GFAL_URL_MAX_LEN];
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	int ret = ops->unlink(lfn);
 	if(ret != 0){
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
-	}else
+	}else{
+		gsimplecache_remove_kstr(ops->cache, create_key_from_lfn(lfn, lstat_key_prefix, buff_key, GFAL_URL_MAX_LEN));	// remove the key associated in the buffer	
 		errno=0;
+	}
 
 	free(lfn);
 	return ret;

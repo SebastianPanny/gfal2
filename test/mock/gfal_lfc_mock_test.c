@@ -114,6 +114,24 @@ int	lfc_mock_endtrans(){
 	return 0;	
 }
 
+int	lfc_mock_endsess(){
+	int a=  mock();
+	if(a){
+		lfc_last_err = a;
+		return -1;
+	}	
+	return 0;	
+}
+
+int lfc_mock_startsession(char* server, char* comment){
+	int a=  mock(server, comment);
+	if(a){
+		lfc_last_err = a;
+		return -1;
+	}	
+	return 0;		
+}
+
 int	lfc_mock_lstatg(const char * lfn, struct lfc_filestat * f){
 	int val = (int) mock(lfn, f);
 	if( val == 0){
@@ -191,6 +209,15 @@ struct dirent* lfc_mock_readdir(DIR* d){
 		return NULL;
 	}	
 	return (struct dirent*)a;
+}
+
+struct Cns_direnstat* lfc_mock_readdirx(DIR* d){
+	struct Cns_direnstat* a=  mock(d);
+	if(a == (struct Cns_direnstat*) EBADF){
+		lfc_last_err = a;	
+		return NULL;
+	}	
+	return (struct Cns_direnstat*)a;	
 }
 
 int lfc_mock_closedir(DIR* dir){

@@ -582,7 +582,7 @@ char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err){
 /**
  * @brief implementation in the catalog of the get extended attribute function
  * */
-ssize_t gfal_catalog_getxattrG(gfal_handle handle, const char* path, const char*name , void* buff, size_t s_buff, GError** err){
+ssize_t gfal_catalog_getxattrG(gfal_handle handle, const char* path, const char*name, void* buff, size_t s_buff, GError** err){
 	GError* tmp_err=NULL;
 	ssize_t resu = -1;
 	

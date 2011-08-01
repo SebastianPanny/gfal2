@@ -36,6 +36,9 @@ gfal_catalog_interface get_lfc_interface(gfal_handle handle, GError** err){
 	ops->lfc_endpoint = NULL;
 	gfal_lfc_regex_compile(&(ops->rex), err);
 	ops->statg = &lfc_mock_statg;
+	ops->cache = gsimplecache_new(40000);
+	ops->startsess = &lfc_mock_startsession;
+	ops->endsess = &lfc_mock_endsess;
 	ops->rename = &lfc_mock_rename;
 	ops->serrno = &lfc_mock_C__serrno;
 	ops->access = &lfc_mock_access;

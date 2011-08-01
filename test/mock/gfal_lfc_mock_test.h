@@ -32,6 +32,10 @@ void define_mock_filereplica(int n, char** rep_turls);
 
 int* lfc_mock_C__serrno();
 
+int	lfc_mock_endsess();
+
+int lfc_mock_startsession(char* server, char* comment);
+
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f);
 
 int	lfc_mock_lstatg(const char * lfn, struct lfc_filestat * f);
@@ -47,6 +51,8 @@ DIR* lfc_mock_opendir(const char* path, const char* guid);
 int lfc_mock_closedir(DIR* dir);
 
 struct dirent* lfc_mock_readdir(DIR* d);
+
+struct Cns_direnstat* lfc_mock_readdirx(DIR* d);
 
 int lfc_mock_mkdir(const char* path, const char* guid,  mode_t mode);
 
