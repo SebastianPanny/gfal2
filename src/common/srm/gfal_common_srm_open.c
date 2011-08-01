@@ -67,7 +67,7 @@ static gfal_srm_file_handle_delete(gfal_file_handle fh){
  */
 gfal_file_handle gfal_srm_openG(catalog_handle ch, const char* path, int flag, mode_t mode, GError** err){
 	gfal_file_handle ret = NULL;
-	gfal_handle handle = (gfal_handle)	ch;
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;	
 	GError* tmp_err=NULL;
 	char* p = (char*)path;
 	char turl[GFAL_URL_MAX_LEN];
@@ -82,7 +82,7 @@ gfal_file_handle gfal_srm_openG(catalog_handle ch, const char* path, int flag, m
 		req_type= SRM_GET;
 	}
 	if(tmp_ret == 0){
-		ret = gfal_catalog_openG(handle, turl, flag, mode, &tmp_err);
+		ret = gfal_catalog_openG(opts->handle, turl, flag, mode, &tmp_err);
 		ret= gfal_srm_file_handle_create(ret, p, reqtoken, req_type);
 	}
 
@@ -96,9 +96,9 @@ gfal_file_handle gfal_srm_openG(catalog_handle ch, const char* path, int flag, m
  * read function for the srm  plugin
  */
 int gfal_srm_readG(catalog_handle ch, gfal_file_handle fd, void* buff, size_t count, GError** err){
-	gfal_handle handle = (gfal_handle)	ch;	
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;	
 	GError* tmp_err=NULL;
-	int ret =  gfal_catalog_readG(handle, gfal_srm_file_handle_map(fd), buff, count, &tmp_err);	
+	int ret =  gfal_catalog_readG(opts->handle, gfal_srm_file_handle_map(fd), buff, count, &tmp_err);	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;		
@@ -108,9 +108,9 @@ int gfal_srm_readG(catalog_handle ch, gfal_file_handle fd, void* buff, size_t co
  * write function for the srm  plugin
  */
 int gfal_srm_writeG(catalog_handle ch, gfal_file_handle fd, void* buff, size_t count, GError** err){
-	gfal_handle handle = (gfal_handle)	ch;	
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;	
 	GError* tmp_err=NULL;
-	int ret = gfal_catalog_writeG(handle, gfal_srm_file_handle_map(fd), buff, count, &tmp_err);	
+	int ret = gfal_catalog_writeG(opts->handle, gfal_srm_file_handle_map(fd), buff, count, &tmp_err);	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;	
@@ -120,23 +120,23 @@ int gfal_srm_writeG(catalog_handle ch, gfal_file_handle fd, void* buff, size_t c
  * lseek function for the srm  plugin
  */
 int gfal_srm_lseekG(catalog_handle ch, gfal_file_handle fd, off_t offset, int whence, GError** err){
-	gfal_handle handle = (gfal_handle)	ch;	
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;	
 	GError* tmp_err=NULL;
-	int ret = gfal_catalog_lseekG(handle, gfal_srm_file_handle_map(fd), offset, whence, &tmp_err);	
+	int ret = gfal_catalog_lseekG(opts->handle, gfal_srm_file_handle_map(fd), offset, whence, &tmp_err);	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;	
 }
 
 int gfal_srm_closeG(catalog_handle ch, gfal_file_handle fh, GError ** err){
-	gfal_handle handle = (gfal_handle)	ch;	
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*)	ch;	
 	GError* tmp_err=NULL;
-	int ret = gfal_catalog_closeG(handle, gfal_srm_file_handle_map(fh), &tmp_err);
+	int ret = gfal_catalog_closeG(opts->handle, gfal_srm_file_handle_map(fh), &tmp_err);
 	if(ret ==0){
 		gfal_srm_handle_open sh = (gfal_srm_handle_open)fh->fdesc;
 		char* surls[] = { sh->surl, NULL };
 		if(sh->req_type == SRM_PUT)
-			ret = gfal_srm_putdone(handle, surls, sh->reqtoken, &tmp_err); // end the transaction on the srm server in case of pu
+			ret = gfal_srm_putdone(opts, surls, sh->reqtoken, &tmp_err); // end the transaction on the srm server in case of pu
 		gfal_srm_file_handle_delete(fh);
 	}
 	if(tmp_err)

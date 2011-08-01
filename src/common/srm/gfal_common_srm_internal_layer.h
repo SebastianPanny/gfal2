@@ -27,6 +27,9 @@
 #include <gfal_srm_ifce.h> 
 #include <gfal_srm_ifce_types.h> 
 #include <glib.h>
+
+#include "gfal_common_srm.h"
+
 #include "../gfal_types.h"
 
 // request type for surl <-> turl translation 
@@ -93,6 +96,6 @@ int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_tu
 
 int gfal_srm_putTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
 
-int gfal_srm_putdone(gfal_handle handle, char** surls, char* token,  GError** err);
+int gfal_srm_putdone(gfal_srmv2_opt* opts, char** surls, char* token,  GError** err);
 
 int gfal_srm_unlinkG(catalog_handle ch, const char * path, GError** err);

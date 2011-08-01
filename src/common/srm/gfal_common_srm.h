@@ -25,37 +25,74 @@
  * */
 
 
-
-#include "../gfal_types.h"
-#include "../gfal_common_internal.h"
 #include "../gfal_prototypes.h"
+#include "../gfal_types.h"
 #include "../gfal_constants.h"
-#include "gfal_common_srm_endpoint.h"
 
 
 
 #define GFAL_PREFIX_SRM "srm://"
 #define GFAL_ENDPOINT_DEFAULT_PREFIX "httpg://"
 
+//typedef struct srm_spacemd gfal_spacemd;
+enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
+
+enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
+enum gfal_srm_proto {PROTO_SRM=0, PROTO_SRMv2, PROTO_ERROR_UNKNOW};
+
+
+ /**
+  * the state of the last request -> depreciated
+  *  needed to get the response
+  */ 
+typedef struct _gfal_request_state{
+	char *						srmv2_token;
+	struct srmv2_filestatus *	srmv2_statuses;
+	struct srmv2_pinfilestatus *srmv2_pinstatuses;
+	enum gfal_srm_proto current_request_proto;
+	char * 						request_endpoint; 
+	gboolean					finished;			// finished or not
+	int							number;				// number of files in request
+ } gfal_request_state;
+
+
+ 
+/**
+  * @struct structure for the srmv2 option management
+  *  set to 0 by default
+ */
+typedef struct _gfal_srmv2_opt{
+	enum gfal_srm_proto srm_proto_type;
+	int opt_srmv2_desiredpintime;			//	optional desired default endpoint
+	char** opt_srmv2_protocols;				// optional protocols list for manual set
+	char * opt_srmv2_spacetokendesc;		// optional spacetokens desc for srmv2	 
+	gfal_handle handle;
+	gint64 filesizes;
+	gfal_request_state* last_request_state;
+} gfal_srmv2_opt;
 
 
 
-
-struct _gfal_srm_result{
+typedef struct _gfal_srm_result{
 	char turl[GFAL_URL_MAX_LEN+1]; // turl associated with the request ( main result )
 	char *reqtoken; // token of the request ( common to all result of a request )
 	int err_code;		// errcode, !=0 if error
 	char err_str[GFAL_ERRMSG_LEN+1];	// explanation about the error
-};
+} gfal_srm_result;
 
 
 typedef void* srm_request_handle;
+
 
 
 const char* gfal_srm_getName();
 
 gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err);
 
+void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle);
+
+
+/*
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);
 
 int gfal_get_async_resultsG(gfal_handle handle, GList** turls,  GError** err);
@@ -68,7 +105,7 @@ int gfal_get_async_results_errstringG(gfal_handle handle, GList** turl_errstring
 
 int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_struct, GError** err);
 
-int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err);
+int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err);*/
 
 
 int gfal_srm_convert_filestatuses_to_GError(struct srmv2_filestatus* statuses, int n, GError** err);

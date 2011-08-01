@@ -28,9 +28,10 @@
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
 #include "gfal_common_srm_internal_layer.h"
+#include "gfal_common_srm_endpoint.h"
 
 
-int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, const char* surl, int mode,  GError** err){
+int gfal_access_srmv2_internal(gfal_srmv2_opt*  opts, char* endpoint, const char* surl, int mode,  GError** err){
 	struct srm_context context;
 	struct srm_checkpermission_input checkpermission_input;
 	struct srmv2_filestatus *resu;
@@ -76,7 +77,7 @@ int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, const char* s
 /**
  * @brief access method for SRMv2
  * check the right for a given SRM url, work only for SRMv2, V1 deprecated.
- * @param handle
+ * @param ch the handle of the catalog
  * @param surl srm url of a given file
  * @param mode, access mode to check
  * @param err : GError error reprot system
@@ -85,18 +86,18 @@ int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, const char* s
 int gfal_srm_accessG(catalog_handle ch, const char* surl, int mode, GError** err){			// execute an access method on a srm url
 	g_return_val_err_if_fail(ch && surl, EINVAL, err, "[gfal_srm_accessG] Invalid value handle and/or surl");
 	GError* tmp_err=NULL;
-	gfal_handle handle = (gfal_handle) ch;
+	gfal_srmv2_opt* opts= (gfal_srmv2_opt*) ch;
 	int ret=-1;
-	char* full_endpoint=NULL;
+	char full_endpoint[GFAL_URL_MAX_LEN];
 	enum gfal_srm_proto srm_types;
-	ret =gfal_auto_get_srm_endpoint_for_surl(handle, &full_endpoint, &srm_types, surl,  &tmp_err); // get the associated endpoint
+	ret =gfal_srm_determine_endpoint(opts, surl, &full_endpoint, GFAL_URL_MAX_LEN, &srm_types,   &tmp_err); // get the associated endpoint
 	if( ret != 0){		// check & get endpoint										
 		g_propagate_prefixed_error(err,tmp_err, "[%s]", __func__);
 		return -1;
 	}
 	
 	if (srm_types == PROTO_SRMv2){			// check the proto version
-		ret= gfal_access_srmv2_internal(handle, full_endpoint, surl, mode,&tmp_err);	// execute the SRMv2 access test
+		ret= gfal_access_srmv2_internal(opts, full_endpoint, surl, mode,&tmp_err);	// execute the SRMv2 access test
 		if(tmp_err)
 			g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	} else if(srm_types == PROTO_SRM){
@@ -106,6 +107,5 @@ int gfal_srm_accessG(catalog_handle ch, const char* surl, int mode, GError** err
 		g_set_error(err,0,EPROTONOSUPPORT, "[%s] Unknow version of the protocol SRM , failure ", __func__);
 		ret=-1;
 	}
-	free(full_endpoint);
 	return ret;
 }

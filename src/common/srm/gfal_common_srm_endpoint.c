@@ -43,8 +43,8 @@ static enum gfal_srm_proto gfal_proto_list_prefG[]= { PROTO_SRMv2, PROTO_SRM, PR
  *  see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations
  *  @return return 0 with endpoint and types set if success else -1 and set Error
  * */
-int gfal_srm_determine_endpoint(gfal_handle handle, const char* surl, char* buff_endpoint, size_t s_buff, enum gfal_srm_proto* srm_type, GError** err){
-	g_return_val_err_if_fail(handle && buff_endpoint && srm_type && surl && s_buff,-1, err, "[gfal_srm_determine_endpoint] invalid value in params"); // check params
+int gfal_srm_determine_endpoint(gfal_srmv2_opt* opts, const char* surl, char* buff_endpoint, size_t s_buff, enum gfal_srm_proto* srm_type, GError** err){
+	g_return_val_err_if_fail(opts && buff_endpoint && srm_type && surl && s_buff,-1, err, "[gfal_srm_determine_endpoint] invalid value in params"); // check params
 	
 	GError* tmp_err=NULL;
 	int ret = -1;
@@ -54,13 +54,13 @@ int gfal_srm_determine_endpoint(gfal_handle handle, const char* surl, char* buff
 
 			if( isFullEndpoint == TRUE  ){ // if full endpoint contained in url, get it and set type to default type
 				if( gfal_get_fullendpointG(surl, buff_endpoint, s_buff, &tmp_err)  == 0){
-					*srm_type= handle->srm_proto_type;
+					*srm_type= opts->srm_proto_type;
 					return 0;
 				}
 
 			}
-			if(handle->no_bdii_check == FALSE){
-				ret = gfal_get_endpoint_and_setype_from_bdiiG(handle, surl, buff_endpoint, s_buff, srm_type, &tmp_err);  
+			if(opts->handle->no_bdii_check == FALSE){
+				ret = gfal_get_endpoint_and_setype_from_bdiiG(opts, surl, buff_endpoint, s_buff, srm_type, &tmp_err);  
 			}else
 				g_set_error(&tmp_err,0,EINVAL," no_bdii_check option is set, need a full endpoint in the first surl");				
 	}
@@ -125,11 +125,11 @@ static enum gfal_srm_proto gfal_convert_proto_from_bdii(const char* se_type_bdii
  * select the best protocol choice and the best endpoint choice  from a list of protocol and endpoints obtained by the bdii
  * 
  */
-int gfal_select_best_protocol_and_endpointG(gfal_handle handle, char** tab_se_type, char** tab_endpoint, char* buff_endpoint, size_t s_buff, enum gfal_srm_proto* srm_type, GError** err){
-	g_return_val_err_if_fail(handle && buff_endpoint && s_buff && srm_type && tab_se_type && tab_endpoint, -1, err, "[gfal_select_best_protocol_and_endpoint] Invalid value");
+int gfal_select_best_protocol_and_endpointG(gfal_srmv2_opt* opts, char** tab_se_type, char** tab_endpoint, char* buff_endpoint, size_t s_buff, enum gfal_srm_proto* srm_type, GError** err){
+	g_return_val_err_if_fail(opts && buff_endpoint && s_buff && srm_type && tab_se_type && tab_endpoint, -1, err, "[gfal_select_best_protocol_and_endpoint] Invalid value");
 	int i=0;
 	char** pse =tab_se_type;
-	enum gfal_srm_proto* p_pref = &(handle->srm_proto_type);	
+	enum gfal_srm_proto* p_pref = &(opts->srm_proto_type);	
 	while( *p_pref != PROTO_ERROR_UNKNOW){
 		while(pse != NULL &&  tab_endpoint != NULL ){
 			if( *p_pref == gfal_convert_proto_from_bdii(*pse) ){ // test if the response is the actual preferred response
@@ -140,7 +140,7 @@ int gfal_select_best_protocol_and_endpointG(gfal_handle handle, char** tab_se_ty
 			tab_endpoint++;
 			pse++;
 		}	
-		if(p_pref == &(handle->srm_proto_type)) // switch desired proto to the list if the default choice is not in the list
+		if(p_pref == &(opts->srm_proto_type)) // switch desired proto to the list if the default choice is not in the list
 			p_pref=gfal_proto_list_prefG;
 		else
 			p_pref++;
@@ -180,8 +180,8 @@ int  gfal_get_hostname_from_surlG(const char * surl, char* buff_hostname, size_t
  * @return 0 if success with endpoint and srm_type set correctly else -1 and err set
  * 
  * */
-int gfal_get_endpoint_and_setype_from_bdiiG(gfal_handle handle, const char* surl, char* buff_endpoint, size_t s_buff, enum gfal_srm_proto* srm_type, GError** err){
-	g_return_val_err_if_fail(handle && buff_endpoint && srm_type && surl && s_buff, -1, err, "[gfal_get_endpoint_and_setype_from_bdiiG] invalid parameters");
+int gfal_get_endpoint_and_setype_from_bdiiG(gfal_srmv2_opt* opts, const char* surl, char* buff_endpoint, size_t s_buff, enum gfal_srm_proto* srm_type, GError** err){
+	g_return_val_err_if_fail(opts && buff_endpoint && srm_type && surl && s_buff, -1, err, "[gfal_get_endpoint_and_setype_from_bdiiG] invalid parameters");
 	char** tab_endpoint=NULL;
 	char** tab_se_type=NULL;
 	char hostname[GFAL_URL_MAX_LEN];
@@ -190,7 +190,7 @@ int gfal_get_endpoint_and_setype_from_bdiiG(gfal_handle handle, const char* surl
 	if( (ret = gfal_get_hostname_from_surlG(surl, hostname, GFAL_URL_MAX_LEN, &tmp_err)) == 0){ 		// get the hostname
 
 		if( (ret =gfal_mds_get_se_types_and_endpoints( hostname,  &tab_se_type, &tab_endpoint, &tmp_err)) == 0){ // questioning the bdii
-			gfal_select_best_protocol_and_endpointG(handle, tab_se_type, tab_endpoint, buff_endpoint, GFAL_URL_MAX_LEN, srm_type, &tmp_err); // map the response if correct
+			gfal_select_best_protocol_and_endpointG(opts, tab_se_type, tab_endpoint, buff_endpoint, GFAL_URL_MAX_LEN, srm_type, &tmp_err); // map the response if correct
 			g_strfreev(tab_endpoint);
 			g_strfreev(tab_se_type);
 			ret = 0;

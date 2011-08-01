@@ -23,13 +23,12 @@
  * @date 19/05/2011
  * */
 
+#include "gfal_common_srm.h"
 #include "gfal_common_srm_mkdir.h"
-#include "../gfal_constants.h"
-#include "../gfal_common_errverbose.h"
 #include "gfal_common_srm_internal_layer.h"
+#include "../gfal_common_errverbose.h"
 
-
-int gfal_mkdir_srmv2_internal(gfal_handle handle, char* endpoint, const char* path, mode_t mode, GError** err){
+int gfal_mkdir_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint, const char* path, mode_t mode, GError** err){
 	struct srm_mkdir_input mkdir_input;
 	struct srm_context context;	
 	int res = -1;
@@ -51,15 +50,14 @@ int gfal_mkdir_srmv2_internal(gfal_handle handle, char* endpoint, const char* pa
 
 int gfal_srm_mkdirG(catalog_handle ch, const char* surl, mode_t mode, gboolean pflag, GError** err){
 	int ret = -1;
-	char* full_endpoint=NULL;
+	char full_endpoint[GFAL_URL_MAX_LEN];
 	GError* tmp_err=NULL;
 	enum gfal_srm_proto srm_types;
-	gfal_handle handle = (gfal_handle) ch;
-	ret =gfal_auto_get_srm_endpoint_for_surl(handle, &full_endpoint, &srm_types, (char*)surl,  &tmp_err);
-	
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
+	ret =gfal_srm_determine_endpoint(opts, surl, &full_endpoint, GFAL_URL_MAX_LEN, &srm_types,   &tmp_err);
 	if(ret >=0){
 		if (srm_types == PROTO_SRMv2){			// check the proto version
-			ret= gfal_mkdir_srmv2_internal(handle, full_endpoint, (char*)surl, mode, &tmp_err);	// execute the SRMv2 access test
+			ret= gfal_mkdir_srmv2_internal(opts, full_endpoint, (char*)surl, mode, &tmp_err);	// execute the SRMv2 access test
 	
 		} else if(srm_types == PROTO_SRM){
 			g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in 2.0, failure");
@@ -70,7 +68,6 @@ int gfal_srm_mkdirG(catalog_handle ch, const char* surl, mode_t mode, gboolean p
 		}
 
 	}
-	free(full_endpoint);
 	if(tmp_err){		// check & get endpoint										
 		g_propagate_prefixed_error(err,tmp_err, "[%s]", __func__);
 		ret = -1;

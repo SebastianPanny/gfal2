@@ -83,8 +83,7 @@ int gfal_srm_readdir_internal(catalog_handle ch, gfal_srm_opendir_handle oh, int
 			oh->srm_ls_resu = &srmv2_mdstatuses[0];
 			//cache system
 			resu = 0;
-		}
-		//gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(output.statuses,ret);	
+		}	
 	}else{
 		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
 		resu=-1;
@@ -128,7 +127,6 @@ struct dirent* gfal_srm_readdirG(catalog_handle ch, gfal_file_handle fh, GError*
 	GError* tmp_err=NULL;
 	struct dirent* ret = NULL;
 	if(fh != NULL){
-		gfal_handle handle = ch;
 		gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh->fdesc;
 		ret = gfal_srm_readdir_pipeline(ch, oh, &tmp_err);		
 	}else{

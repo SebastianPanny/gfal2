@@ -22,7 +22,7 @@
  * @version 2.0
  * @date 16/05/2011
  * */
-
+#include "gfal_common_srm.h"
 #include "gfal_common_srm_access.h"
 #include "../gfal_constants.h"
 #include "../gfal_common_errverbose.h"
@@ -30,8 +30,8 @@
 
 
 
-static int gfal_statG_srmv2_internal(gfal_handle handle, struct stat* buf, const char* endpoint, const char* surl, GError** err){
-	g_return_val_err_if_fail( handle && endpoint && surl 
+static int gfal_statG_srmv2_internal(gfal_srmv2_opt* opts, struct stat* buf, const char* endpoint, const char* surl, GError** err){
+	g_return_val_err_if_fail( opts && endpoint && surl 
 								 && buf && (sizeof(struct stat) == sizeof(struct stat64)),
 								-1, err, "[gfal_statG_srmv2_internal] Invalid args handle/endpoint or invalid stat sturct size");
 	struct srm_context context;
@@ -80,14 +80,14 @@ int gfal_srm_statG(catalog_handle ch, const char* surl, struct stat* buf, GError
 	g_return_val_err_if_fail( ch && surl && buf, -1, err, "[gfal_srm_statG] Invalid args in handle/surl/bugg");
 	GError* tmp_err = NULL;
 	int ret =-1;
-	char* endpoint=NULL;
+	char full_endpoint[GFAL_URL_MAX_LEN];
 	enum gfal_srm_proto srm_type;
-	gfal_handle handle = (gfal_handle) ch;
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	
-	ret = gfal_auto_get_srm_endpoint_for_surl(handle, &endpoint, &srm_type, surl, &tmp_err);
+	ret =gfal_srm_determine_endpoint(opts, surl, &full_endpoint, GFAL_URL_MAX_LEN, &srm_type,   &tmp_err);
 	if( ret >=0 ){
 		if(srm_type == PROTO_SRMv2){
-			ret = gfal_statG_srmv2_internal(handle, buf, endpoint, surl, &tmp_err);
+			ret = gfal_statG_srmv2_internal(opts, buf, full_endpoint, surl, &tmp_err);
 		}else if (srm_type == PROTO_SRM){
 			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
 			ret = -1;
@@ -97,7 +97,6 @@ int gfal_srm_statG(catalog_handle ch, const char* surl, struct stat* buf, GError
 		}
 		
 	}
-	free(endpoint);
 	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

@@ -46,16 +46,16 @@ static TPermissionMode gfal_srmv2_mode_t_to_TPermissionMode(mode_t mode, mode_t 
 /*
  * Do a translation of a chmod right to a srm right 
  * */
-static void gfal_srmv2_configure_set_permission(gfal_handle handle, char* surl,  mode_t mode, struct srm_setpermission_input* perms_input){
+static void gfal_srmv2_configure_set_permission(gfal_srmv2_opt* opts, const char* surl,  mode_t mode, struct srm_setpermission_input* perms_input){
 	memset(perms_input, 0, sizeof(struct srm_setpermission_input));
-	perms_input->surl = surl;
+	perms_input->surl = (char*)surl;
 	perms_input->permission_type =SRM_PERMISSION_CHANGE;
 	perms_input->owner_permission = gfal_srmv2_mode_t_to_TPermissionMode(mode, 00700, 6);
 	perms_input->other_permission= gfal_srmv2_mode_t_to_TPermissionMode(mode, 007, 0);
 }
 
-static int gfal_srmv2_chmod_internal(gfal_handle handle, char* endpoint, const char* path, mode_t mode, GError** err){
-	g_return_val_err_if_fail(handle && endpoint && path,-1,err,"[gfal_srmv2_chmod_internal] invalid args ");
+static int gfal_srmv2_chmod_internal(gfal_srmv2_opt* opts, char* endpoint, const char* path, mode_t mode, GError** err){
+	g_return_val_err_if_fail(opts && endpoint && path,-1,err,"[gfal_srmv2_chmod_internal] invalid args ");
 			
 	GError* tmp_err=NULL;
 	char** p;
@@ -66,11 +66,10 @@ static int gfal_srmv2_chmod_internal(gfal_handle handle, char* endpoint, const c
 	gfal_srm_result* resu=NULL;
 	
 	char errbuf[err_size] ; memset(errbuf,0,err_size*sizeof(char));
-	const gfal_srmv2_opt* opts = handle->srmv2_opt;							// get default opts for srmv2
 	size_t n_surl = 1;														// n of surls
 		
 	// set the structures datafields	
-	gfal_srmv2_configure_set_permission(handle, path, mode, &perms_input);
+	gfal_srmv2_configure_set_permission(opts, path, mode, &perms_input);
 
 	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, err_size, gfal_get_verbose());	
 	
@@ -87,16 +86,16 @@ static int gfal_srmv2_chmod_internal(gfal_handle handle, char* endpoint, const c
 }
 
 int	gfal_srm_chmodG(catalog_handle ch, const char * path , mode_t mode, GError** err){
-	gfal_handle handle = (gfal_handle) ch;
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	GError* tmp_err=NULL;
 	int ret=-1;	
 	char full_endpoint[2048];
 	enum gfal_srm_proto srm_types;
-	if((gfal_srm_determine_endpoint(handle, path, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
+	if((gfal_srm_determine_endpoint(opts, path, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
 		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_srm_chmodG] endpoint %s", full_endpoint);
 
 		if (srm_types == PROTO_SRMv2){
-			ret = gfal_srmv2_chmod_internal(handle, full_endpoint, path, mode, &tmp_err);
+			ret = gfal_srmv2_chmod_internal(opts, full_endpoint, path, mode, &tmp_err);
 		} else if(srm_types == PROTO_SRM){
 			g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in gfal 2.0, failure");
 		} else{

@@ -51,7 +51,7 @@ void mock_srm_access_right_response(char* surl){
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;
-
+	gfal_catalogs_instance(handle, NULL);
 	char* surls[] = { surl, NULL };
 	char* turls[] = { "nawak", NULL };
 	int status[] = { 0, 0 };
@@ -202,8 +202,10 @@ void test_gfal_get_endpoint_and_setype_from_bdiiG(){
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");	
 	if(handle==NULL)
 		return;
+	gfal_srmv2_opt opts;
+	gfal_srm_opt_initG(&opts, handle);
 	char* surl = TEST_SRM_DPM_ENDPOINT_PREFIX;
-	int ret = gfal_get_endpoint_and_setype_from_bdiiG(handle, surl, buff_endpoint, 2048, &proto, &err);
+	int ret = gfal_get_endpoint_and_setype_from_bdiiG(&opts, surl, buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message( ret ==0 && err== NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL) && proto== PROTO_SRMv2, " must be a valid endpoint resolution");
 	gfal_check_GError(&err);
 	memset(buff_endpoint, '\0', sizeof(char)*2048);
@@ -223,8 +225,10 @@ void test_gfal_srm_determine_endpoint_full_endpointG()
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
 	if(handle==NULL)
 		return;
+	gfal_srmv2_opt opts;
+	gfal_srm_opt_initG(&opts, handle);
 	int ret =-1;
-	ret = gfal_srm_determine_endpoint(handle, TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
+	ret = gfal_srm_determine_endpoint(&opts, TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL), " must be a succesfull endpoint determination %d %ld %s", ret, err, buff_endpoint);
 	gfal_check_GError(&err);	
 	
@@ -246,13 +250,16 @@ void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
 	if(handle==NULL)
 		return;
+	gfal_catalogs_instance(handle, NULL);
 	gfal_set_nobdiiG(handle, TRUE);
+	gfal_srmv2_opt opts;
+	gfal_srm_opt_initG(&opts, handle);
 	int ret =-1;
-	ret = gfal_srm_determine_endpoint(handle, TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
+	ret = gfal_srm_determine_endpoint(&opts, TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL), " must be a succesfull endpoint determination %d %ld %s", ret, err, buff_endpoint);
 	gfal_check_GError(&err);	
 	
-	ret = gfal_srm_determine_endpoint(handle, "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b", buff_endpoint, 2048, &proto, &err);
+	ret = gfal_srm_determine_endpoint(&opts, "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b", buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, "httpg://srm-pps:8443/srm/managerv2"), " must be a succesfull endpoint determination 2 %d %ld %s", ret, err, buff_endpoint);
 	gfal_check_GError(&err);
 	memset(buff_endpoint,0, sizeof(char)*2048);
@@ -273,12 +280,15 @@ void test_gfal_srm_determine_endpoint_not_fullG()
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
 	if(handle==NULL)
 		return;
+	gfal_srmv2_opt opts;
+	gfal_srm_opt_initG(&opts, handle);
+	gfal_catalogs_instance(handle, NULL);
 	int ret =-1;
-	ret = gfal_srm_determine_endpoint(handle, TEST_SRM_DPM_ENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
+	ret = gfal_srm_determine_endpoint(&opts, TEST_SRM_DPM_ENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL), " must be a succesfull endpoint determination %d %ld %s", ret, err, buff_endpoint);
 	gfal_check_GError(&err);	
 	
-	ret = gfal_srm_determine_endpoint(handle, "http://google.com", buff_endpoint, 2048, &proto, &err);
+	ret = gfal_srm_determine_endpoint(&opts, "http://google.com", buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message( ret !=0 && err != NULL, "error must be reported");
 	g_clear_error(&err);
 	gfal_handle_freeG(handle);	
@@ -317,18 +327,20 @@ void test_gfal_select_best_protocol_and_endpointG()
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
 	if(handle==NULL)
 		return;
-
-	gfal_set_default_storageG(handle, PROTO_SRMv2);
+	gfal_catalogs_instance(handle, NULL);
+	gfal_srmv2_opt opts;
+	gfal_srm_opt_initG(&opts, handle);
+	gfal_set_default_storageG(&opts, PROTO_SRMv2);
 	char* endpoint_list[] = { "everest", "montblanc", NULL};
 	char* se_type_list[] = { "srm_v1", "srm_v2", NULL };
-	int ret = gfal_select_best_protocol_and_endpointG(handle, se_type_list, endpoint_list, &endpoint, 2048, &srm_type, &err);
+	int ret = gfal_select_best_protocol_and_endpointG(&opts, se_type_list, endpoint_list, &endpoint, 2048, &srm_type, &err);
 	assert_true_with_message(ret ==0 && err == NULL, " must be a succefull call to the best select");
 	gfal_check_GError(&err);
 
 	assert_true_with_message(strings_are_equal(endpoint,"montblanc"), " reponse not match correctly");
 	// try with another version by default
-	gfal_set_default_storageG(handle, PROTO_SRM);
-	ret = gfal_select_best_protocol_and_endpointG(handle, se_type_list, endpoint_list, &endpoint, 2048, &srm_type, &err);
+	gfal_set_default_storageG(&opts, PROTO_SRM);
+	ret = gfal_select_best_protocol_and_endpointG(&opts, se_type_list, endpoint_list, &endpoint, 2048, &srm_type, &err);
 	assert_true_with_message(ret ==0 && err == NULL, " must be a succefull call to the best select");
 	gfal_check_GError(&err);
 	assert_true_with_message(strings_are_equal(endpoint,"everest") , "must be a valid check");	
@@ -363,9 +375,12 @@ void test_gfal_srm_getTURLS_one_success()
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
 	if(handle==NULL)
 		return;
+	gfal_srmv2_opt opts;
+	gfal_srm_opt_initG(&opts, handle);
+	gfal_catalogs_instance(handle, NULL);
 	gfal_srm_result* resu=NULL;
 	char* surls[] = {TEST_SRM_VALID_SURL_EXAMPLE1, NULL};
-	int ret = gfal_srm_getTURLS(handle, surls, &resu, &tmp_err);
+	int ret = gfal_srm_getTURLS(&opts, surls, &resu, &tmp_err);
 	assert_true_with_message(ret ==1 && resu != NULL && tmp_err == NULL, " must be a successfull request");
 	gfal_check_GError(&tmp_err);
 	assert_true_with_message(resu[0].err_code == 0 && *(resu[0].err_str)== '\0' && strings_are_equal(resu[0].turl, TEST_SRM_TURL_EXAMPLE1), 
@@ -383,8 +398,10 @@ void test_gfal_srm_getTURLS_bad_urls()
 	if(handle==NULL)
 		return;
 	gfal_srm_result* resu=NULL;
+	gfal_srmv2_opt opts;
+	gfal_srm_opt_initG(&opts, handle);
 	char* surls[] = {NULL, NULL};
-	int ret = gfal_srm_getTURLS(handle, surls, &resu, &tmp_err);
+	int ret = gfal_srm_getTURLS(&opts, surls, &resu, &tmp_err);
 	assert_true_with_message(ret <=0 && resu == NULL && tmp_err != NULL, " must be a failure, invalid SURLs ");
 	g_clear_error(&tmp_err);
 	free(resu);
@@ -422,9 +439,12 @@ void test_gfal_srm_getTURLS_pipeline_success()
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
 	if(handle==NULL)
 		return;
+	gfal_srmv2_opt opts;
+	gfal_srm_opt_initG(&opts, handle);
+	gfal_catalogs_instance(handle, NULL);
 	gfal_srm_result* resu=NULL;
 	char* surls[] = {TEST_SRM_VALID_SURL_EXAMPLE1, TEST_SRM_INVALID_SURL_EXAMPLE2, TEST_SRM_VALID_SURL_EXAMPLE1, NULL};
-	int ret = gfal_srm_getTURLS(handle, surls, &resu, &tmp_err);
+	int ret = gfal_srm_getTURLS(&opts, surls, &resu, &tmp_err);
 	assert_true_with_message(ret ==g_strv_length(surls) && resu != NULL && tmp_err == NULL, " must be a successfull request");
 	gfal_check_GError(&tmp_err);
 	assert_true_with_message(resu[0].err_code == 0 && *(resu[0].err_str)== '\0' && strings_are_equal(resu[0].turl, TEST_SRM_TURL_EXAMPLE1), 

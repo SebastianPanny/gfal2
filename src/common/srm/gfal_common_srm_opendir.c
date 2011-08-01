@@ -36,11 +36,11 @@
 
 
 
-gfal_file_handle gfal_srm_opendir_internal(gfal_handle handle, char* endpoint, const char* surl, GError** err){
-	g_return_val_err_if_fail(handle && endpoint && surl, NULL, err, "[gfal_srmv2_opendir_internal] invaldi args");
+gfal_file_handle gfal_srm_opendir_internal(gfal_srmv2_opt* opts, char* endpoint, const char* surl, GError** err){
+	g_return_val_err_if_fail(opts && endpoint && surl, NULL, err, "[gfal_srmv2_opendir_internal] invaldi args");
 	GError* tmp_err=NULL;
 	gfal_file_handle resu = NULL;
-	int exist = gfal_access_srmv2_internal(handle, endpoint, surl, R_OK, &tmp_err);
+	int exist = gfal_access_srmv2_internal(opts, endpoint, surl, R_OK, &tmp_err);
 	
 	if(exist == 0){
 		gfal_srm_opendir_handle h = g_new0(struct _gfal_srm_opendir_handle,1);
@@ -61,17 +61,17 @@ gfal_file_handle gfal_srm_opendir_internal(gfal_handle handle, char* endpoint, c
 
 gfal_file_handle gfal_srm_opendirG(catalog_handle ch, const char* surl, GError ** err){
 	g_return_val_err_if_fail(ch && surl, NULL, err, "[gfal_srm_opendirG] Invalid args");
-	gfal_handle handle = ch;
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	gfal_file_handle resu = NULL;
 	char endpoint[GFAL_URL_MAX_LEN];
 	GError* tmp_err=NULL;
 	int ret = -1;
 	enum gfal_srm_proto srm_type;
 	
-	ret = gfal_srm_determine_endpoint(handle, surl, endpoint, GFAL_URL_MAX_LEN, &srm_type,  &tmp_err);
+	ret = gfal_srm_determine_endpoint(opts, surl, endpoint, GFAL_URL_MAX_LEN, &srm_type,  &tmp_err);
 	if( ret >=0 ){
 		if(srm_type == PROTO_SRMv2){
-			resu = gfal_srm_opendir_internal(handle, endpoint, surl, &tmp_err);
+			resu = gfal_srm_opendir_internal(opts, endpoint, surl, &tmp_err);
 		}else if (srm_type == PROTO_SRM){
 			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
 			resu = NULL;

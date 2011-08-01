@@ -25,11 +25,13 @@
  * */
 
 #include <glib.h>
+
+#include "gfal_common_srm.h"
 #include "../gfal_types.h" 
 
 int gfal_srm_accessG(catalog_handle handle, const char* surl, int mode, GError** err); 
 
-int gfal_access_srmv2_internal(gfal_handle handle, char* endpoint, const char* surl, int mode,  GError** err);
+int gfal_access_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint, const char* surl, int mode,  GError** err);
 
 
 

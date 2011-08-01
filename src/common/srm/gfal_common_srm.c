@@ -27,11 +27,10 @@
 
 #include <regex.h>
 #include <time.h> 
- 
+
+
+
 #include "gfal_common_srm.h"
-#include "../gfal_common_internal.h"
-#include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
 #include "gfal_common_srm_access.h"
 #include "gfal_common_srm_internal_layer.h"
 #include "gfal_common_srm_access.h"
@@ -42,6 +41,10 @@
 #include "gfal_common_srm_open.h"
 #include "gfal_common_srm_readdir.h"
 #include "gfal_common_srm_chmod.h"
+
+#include "../gfal_common_internal.h"
+#include "../gfal_common_errverbose.h"
+#include "../gfal_common_catalog.h"
 
 /**
  * list of the protols in the order of preference
@@ -102,11 +105,17 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
  * destroyer function, call when the module is unload
  * */
 static void gfal_srm_destroyG(catalog_handle ch){
-	gfal_handle handle = (gfal_handle) ch;
-	free(handle->srmv2_opt);
-	handle->srmv2_opt=NULL;
-	gfal_delete_request_state(handle->last_request_state);
-	handle->last_request_state = NULL;
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
+	free(opts);
+}
+/**
+ * Init an opts struct with the default parameters
+ * */
+void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle){
+	opts->opt_srmv2_protocols = srm_turls_sup_protocols;
+	opts->srm_proto_type = PROTO_SRMv2;
+	opts->handle = handle;
+	opts->filesizes = GFAL_NEWFILE_SIZE;	
 }
 
 /**
@@ -117,10 +126,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	GError* tmp_err=NULL;
 	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
 	gfal_srmv2_opt* opts = g_new0(struct _gfal_srmv2_opt,1);	// define the srmv2 option struct and clear it
-	opts->opt_srmv2_protocols = srm_turls_sup_protocols;
-	opts->filesizes = GFAL_NEWFILE_SIZE;
-	handle->srmv2_opt = opts;
-	srm_catalog.handle = (void*) handle;	
+	gfal_srm_opt_initG(opts, handle);
+	srm_catalog.handle = (void*) opts;	
 	srm_catalog.check_catalog_url = &gfal_srm_check_url;
 	srm_catalog.catalog_delete = &gfal_srm_destroyG;
 	srm_catalog.accessG = &gfal_srm_accessG;
@@ -150,7 +157,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 
 /**
  * check the validity of the current handle
- */
+ *//*
 gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
 	if(handle->initiated == 1)
 		return TRUE;
@@ -158,7 +165,7 @@ gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
 	return FALSE;
 }
 
-
+*/
 
 
 /**
@@ -210,7 +217,7 @@ static enum gfal_srm_proto gfal_get_proto_from_bdii(const char* se_type_bdii){
 /**
  * select the best protocol choice and the best endpoint choice  from a list of protocol and endpoints obtained by the bdii
  * 
- */
+ *//*
 int gfal_select_best_protocol_and_endpoint(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, char** tab_se_type, char** tab_endpoint, GError** err){
 	g_return_val_err_if_fail(handle && endpoint && srm_type && tab_se_type && tab_endpoint, -1, err, "[gfal_select_best_protocol_and_endpoint] Invalid value");
 	int i=0;
@@ -235,14 +242,14 @@ int gfal_select_best_protocol_and_endpoint(gfal_handle handle, char** endpoint, 
 	g_set_error(err,0, EINVAL, "[gfal_select_best_protocol_and_endpoint] cannot obtain a valid protocol from the bdii response, fatal error");
 	return -2;
 	
-}
+}*/
  
   
 /**
  * @brief get endpoint from the bdii system only
  * @return 0 if success with endpoint and srm_type set correctly else -1 and err set
  * 
- * */
+ * *//*
 int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, GList* surls, GError** err){
 	g_return_val_err_if_fail(handle && endpoint && srm_type && surls, -1, err, "[gfal_get_endpoint_and_setype_from_bdii] invalid parameters");
 	char** tab_endpoint=NULL;
@@ -276,14 +283,14 @@ int gfal_get_endpoint_and_setype_from_bdii(gfal_handle handle, char** endpoint, 
 	return 0;
 	
 }
-
+*/
 
 /**
  * @brief get endpoint and srm_associated type from a list of surls
  *  determine the best endpoint associated with the list of url and the params of the actual handle (no bdii check or not)
  *  see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations
  *  @return return 0 with endpoint and types set if success else -1 and set Error
- * */
+ * *//*
 int gfal_auto_get_srm_endpoint(gfal_handle handle, char** endpoint, enum gfal_srm_proto* srm_type, GList* surls, GError** err){
 	g_return_val_err_if_fail(handle && endpoint && srm_type && surls,-1, err, "[gfal_auto_get_srm_endpoint] invalid value in params"); // check params
 	
@@ -312,14 +319,14 @@ int gfal_auto_get_srm_endpoint(gfal_handle handle, char** endpoint, enum gfal_sr
 		return -1;
 	}
 	return 0;
-}
+}*/
 
 /**
  *  @brief get endpoint and srm_associated type from a a surl
  *  determine the best endpoint associated with the list of url and the params of the actual handle (no bdii check or not)
  *  see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations
  *  @return return 0 with endpoint and types set if success else -1 and set Error
- * */
+ * *//*
 int gfal_auto_get_srm_endpoint_for_surl(gfal_handle handle, char** endpoint,
 												enum gfal_srm_proto* srm_type, const char* surl, GError** err){
 	GList* list = g_list_append(NULL, (char*) surl);
@@ -327,15 +334,15 @@ int gfal_auto_get_srm_endpoint_for_surl(gfal_handle handle, char** endpoint,
 	g_list_free(list);
 	return ret;
 	
-}
+}*/
 
 
 
 /**
  * @brief accessor for the default storage type definition
  * */
-void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
-	handle->srm_proto_type = proto;
+void gfal_set_default_storageG(gfal_srmv2_opt* opts, enum gfal_srm_proto proto){
+	opts->srm_proto_type = proto;
 }
 
 
@@ -344,7 +351,7 @@ void gfal_set_default_storageG(gfal_handle handle, enum gfal_srm_proto proto){
 /**
  * delete properly a gfal_request_state structure
  * 
- * */
+ * *//*
 void gfal_delete_request_state(gfal_request_state* request_state){
 	 if(request_state){
 		 free(request_state->request_endpoint);
@@ -353,18 +360,18 @@ void gfal_delete_request_state(gfal_request_state* request_state){
 		 gfal_srm_external_call.srm_srmv2_pinfilestatus_delete(request_state->srmv2_pinstatuses, request_state->number);
 		 free(request_state);
 	 }
- }
+ }*/
  
 /**
  * create a new current request state and init it, delete the old one if exist
  * 
- * */
+ * *//*
 void gfal_new_request_state(gfal_handle handle){
 	if(handle->last_request_state){
 		gfal_delete_request_state(handle->last_request_state);
 	}
 	handle->last_request_state = calloc(1, sizeof(struct _gfal_request_state));		
-}
+}*/
 
 
 
@@ -372,7 +379,7 @@ void gfal_new_request_state(gfal_handle handle){
 
 /**
  *  @brief execute a srmv2 request async "GET" on the srm_ifce
-*/
+*//*
 int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls, GError** err){
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
 			
@@ -416,11 +423,11 @@ int gfal_getasync_srmv2(gfal_handle handle, char* endpoint, GList* surls, GError
 	free(surls_tab);
 	return ret;	
 }
-
+*/
 /**
  *  return 0 if a full endpoint is contained in surl  
  * 
-*/
+*//*
 int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
 	regex_t rex;
 	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+:[0-9]+/([:alnum:]|-|/|\.|_)+?SFN=",REG_ICASE | REG_EXTENDED);
@@ -428,7 +435,7 @@ int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
 	ret=  regexec(&rex,surl,0,NULL,0);
 	regfree(&rex);
 	return ret;	
-}
+}*/
 
 
 
@@ -439,7 +446,7 @@ int gfal_check_fullendpoint_in_surl(const char * surl, GError ** err){
  *  @param turls_code pointer GList<int> for the GList error code associated to the turls, need to be free. turls_errcode must be set to NULL if not used
  *  @param turls_errstring GList<char*> pointer for the GList error string associated to the turls, need to free . A empty turl (error case) cause an addition of a NULL pointer to the LIST. turls_errstring must be set to NULL if not used.
  *  @param err : global GError system
- * */
+ * *//*
 static int gfal_convert_filestatut(gfal_handle handle, GList** turls, GList** turls_code, GList** turls_errstring, GError** err){
 	g_return_val_err_if_fail( handle && handle->last_request_state, -1, err, "[gfal_convert_filestatut] invalid arguments");
 	gfal_request_state* last_req = handle->last_request_state;
@@ -480,12 +487,12 @@ static int gfal_convert_filestatut(gfal_handle handle, GList** turls, GList** tu
 	if(turls_errstring)
 		*turls_errstring = tmp_turls_errstring;
 	return ret;
-}
+}*/
 
 
 /**
  *  convert a srm_ifce result to the handle, update the last request info
- */
+ *//*
 static int gfal_convert_to_handle(int ret, gfal_request_state* request_info, struct srmv2_pinfilestatus *filestatus, GError** err){
 	g_return_val_err_if_fail(ret && request_info && filestatus, -1, err, "[gfal_convert_to_handle] invalid args");
 	gfal_srm_external_call.srm_srmv2_pinfilestatus_delete(request_info->srmv2_pinstatuses, request_info->number);
@@ -501,11 +508,11 @@ static int gfal_convert_to_handle(int ret, gfal_request_state* request_info, str
 	request_info->finished = finished;
 	request_info->number = ret;
 	return ret;
-}
+}*/
 
 /**
  * obtain the statut in the case of a srmv2 protocol request
- */
+ *//*
 static int gfal_get_request_statusG(gfal_handle handle, GError** err){
 
 	const int max_buffer_size = 2048;
@@ -542,13 +549,13 @@ static int gfal_get_request_statusG(gfal_handle handle, GError** err){
 		ret = -2;
 	}
 	return ret;
-}
+}*/
 
 /**
  * @brief progress of the last request
  * @return return TRUE if the current request is finished else FALSE
  * @param err : Gerror** err system
- */
+ *//*
 gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err)
 {
 	g_return_val_err_if_fail(handle , -1, err, "[gfal_get_request_statusG] arg invalid value, handle invalid");	
@@ -568,7 +575,7 @@ gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err)
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;
-}
+}*/
 
 /**
  * @brief get the result to the last get_async request
@@ -576,7 +583,7 @@ gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err)
  * @param handle : handle of the current context
  * @param GList** turls : GList<char*> turls with the full list of answer, an answer with error is a NULL pointer
  * @warning turls need to be free manually 
- */
+ *//*
 int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err){
 	g_return_val_err_if_fail(handle && turls , -1, err, "[gfal_get_request_statusG] arg invalid value");
 	int ret = -1;
@@ -586,14 +593,14 @@ int gfal_get_async_resultsG(gfal_handle handle, GList** turls, GError** err){
 	if( ret <0)
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_request_statusG]");
 	return ret;
-}
+}*/
 
   /**
   * @brief get the error string of each request 
   * @param handle
   * @param turl_errcode : GList<char*>, give a string error for each turl request, char* can be NULL if no error associated
   * @return return number of request turl if success else return negative value
-  * */
+  * *//*
 int gfal_get_async_results_errstringG(gfal_handle handle, GList** turls_errstring, GError** err){	
 	g_return_val_err_if_fail(handle && turls_errstring , -1, err, "[gfal_get_async_results_errstringG] arg invalid value");
 	int ret = -1;
@@ -602,13 +609,13 @@ int gfal_get_async_results_errstringG(gfal_handle handle, GList** turls_errstrin
 	if( ret <0)
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_results_errstringG]");
 	return ret;
- }
+ }*/
 
 
 /**
  * convert the results in a struct gfal_srm_result struct
  * 
- */
+ *//*
 void gfal_srm_to_srm_result(char * turl, int err_code, char* err_string, gfal_srm_result* result){
 	memset(result,0, sizeof(struct _gfal_srm_result));
 	if(turl)
@@ -616,7 +623,7 @@ void gfal_srm_to_srm_result(char * turl, int err_code, char* err_string, gfal_sr
 	result->err_code = err_code;
 	if(err_string)
 		g_strlcpy(result->err_str, err_string, GFAL_ERRMSG_LEN);
-}
+}*/
  
 /**
  * @brief get
@@ -624,7 +631,7 @@ void gfal_srm_to_srm_result(char * turl, int err_code, char* err_string, gfal_sr
  * @param tab_struct : struct gfal_srm_result*, give a table of a struct gfal_srm_result
  * @return return number of results in table if success else return negative value
  * @warning the *tab_struct need to be free() 
- * */
+ * *//*
 int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_struct, GError** err){
 	g_return_val_err_if_fail(handle && tab_struct , -1, err, "[gfal_get_async_results_errstringG] arg invalid value");	
 	int ret = -1,i;
@@ -644,7 +651,7 @@ int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_str
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_results_errstringG]");
 	return ret;	
-}  
+}  */
   
 /**
  * @brief wait for the current request
@@ -652,7 +659,7 @@ int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_str
  * @param timeout : maximum time to wait before error
  * @param err : Error report system
  *  @return return 0 if finished correctly, return -1 if timeout is reached or if error ( err is set )
- */
+ *//*
  int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err){
 	 time_t timeo = time(NULL) + timeout;
 	 GError* tmp_err=NULL;
@@ -668,7 +675,7 @@ int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_str
 	 }
 	 g_set_error(err, 0, ETIME, "[%s] timeout expired : %d ", __func__, timeout);
 	 return -1;
- }
+ }*/
  
  
  /**
@@ -677,7 +684,7 @@ int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_str
  *  @param turl_errcode :  GList<int> of all the errcode associated with the request
  *  @param err : Gerror** err system
  *  @return return number of request turl if success else return negative value
- **/
+ **//*
  int gfal_get_async_results_errcodesG(gfal_handle handle, GList** turls_errcode, GError** err){
 	g_return_val_err_if_fail(handle && turls_errcode , -1, err, "[gfal_get_async_results_errcodesG] arg invalid value");
 	int ret = -1;
@@ -686,7 +693,7 @@ int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_str
 	if( ret <0)
 		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_async_results_errcodesG]");
 	return ret;	  
- }
+ }*/
  
  
  int gfal_srm_convert_filestatuses_to_GError(struct srmv2_filestatus* statuses, int n, GError** err){

@@ -49,10 +49,8 @@ gfal_handle gfal_initG (GError** err)
 		g_set_error(err,0,ENOMEM, "[gfal_initG] bad allocation, no more memory free");
 		return NULL;
 	}
-	handle->srm_proto_type = PROTO_SRMv2;
-	handle->initiated = 1;
+	handle->no_bdii_check=FALSE;
 	handle->catalog_opt.catalog_number= 0;
-	handle->last_request_state = NULL;
 	gfal_catalogs_instance(handle, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

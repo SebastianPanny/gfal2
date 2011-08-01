@@ -27,6 +27,8 @@
 
 #include <regex.h>
 #include <time.h> 
+#include <stdio.h>
+#include <malloc.h>
  
 #include "gfal_common_srm.h"
 #include "../gfal_common_internal.h"
@@ -74,7 +76,7 @@ static int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_pinfilestatu
 /**
  *  @brief execute a srmv2 request sync "GET" on the srm_ifce
 */
-static int gfal_srm_getTURLS_srmv2_internal(gfal_handle handle, char* endpoint, char** surls, gfal_srm_result** resu,  GError** err){
+static int gfal_srm_getTURLS_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint, char** surls, gfal_srm_result** resu,  GError** err){
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
 			
 	GError* tmp_err=NULL;
@@ -86,7 +88,6 @@ static int gfal_srm_getTURLS_srmv2_internal(gfal_handle handle, char* endpoint, 
 	const int err_size = 2048;
 	
 	char errbuf[err_size] ; memset(errbuf,0,err_size*sizeof(char));
-	const gfal_srmv2_opt* opts = handle->srmv2_opt;							// get default opts for srmv2
 	size_t n_surl = g_strv_length (surls);									// n of surls
 		
 	// set the structures datafields	
@@ -115,7 +116,7 @@ static int gfal_srm_getTURLS_srmv2_internal(gfal_handle handle, char* endpoint, 
 /**
  *  @brief execute a srmv2 request sync "PUT" on the srm_ifce
 */
-static int gfal_srm_putTURLS_srmv2_internal(gfal_handle handle, char* endpoint, char** surls, gfal_srm_result** resu,  GError** err){
+static int gfal_srm_putTURLS_srmv2_internal(gfal_srmv2_opt* opts , char* endpoint, char** surls, gfal_srm_result** resu,  GError** err){
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srm_putTURLS_srmv2_internal] GList passed null");
 			
 	GError* tmp_err=NULL;
@@ -128,7 +129,6 @@ static int gfal_srm_putTURLS_srmv2_internal(gfal_handle handle, char* endpoint, 
 
 	
 	char errbuf[err_size] ; memset(errbuf,0,err_size*sizeof(char));
-	const gfal_srmv2_opt* opts = handle->srmv2_opt;							// get default opts for srmv2
 	size_t n_surl = g_strv_length (surls);									// n of surls
 	gint64 filesize_tab[n_surl];
 	for(i=0; i < n_surl;++i)
@@ -161,20 +161,20 @@ static int gfal_srm_putTURLS_srmv2_internal(gfal_handle handle, char* endpoint, 
  * Internal function of gfal_srm_getTurls without argument check for internal usage
  * 
  * */
-int gfal_srm_mTURLS_internal(gfal_handle handle, srm_req_type req_type, char** surls, gfal_srm_result** resu,   GError** err){
+int gfal_srm_mTURLS_internal(gfal_srmv2_opt* opts, srm_req_type req_type, char** surls, gfal_srm_result** resu,   GError** err){
 	GError* tmp_err=NULL;
 	int ret=-1;	
 
 	char full_endpoint[GFAL_URL_MAX_LEN];
 	enum gfal_srm_proto srm_types;
-	if((gfal_srm_determine_endpoint(handle, *surls, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
+	if((gfal_srm_determine_endpoint(opts, *surls, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
 		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_srm_mTURLS_internal] endpoint %s", full_endpoint);
 
 		if (srm_types == PROTO_SRMv2){
 			if(req_type == SRM_GET)
-				ret= gfal_srm_getTURLS_srmv2_internal(handle, full_endpoint, surls, resu,  &tmp_err);
+				ret= gfal_srm_getTURLS_srmv2_internal(opts, full_endpoint, surls, resu,  &tmp_err);
 			else
-				ret= gfal_srm_putTURLS_srmv2_internal(handle, full_endpoint, surls, resu,  &tmp_err);
+				ret= gfal_srm_putTURLS_srmv2_internal(opts, full_endpoint, surls, resu,  &tmp_err);
 		} else if(srm_types == PROTO_SRM){
 			g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in gfal 2.0, failure");
 		} else{
@@ -191,12 +191,12 @@ int gfal_srm_mTURLS_internal(gfal_handle handle, srm_req_type req_type, char** s
  *  simple wrapper to getTURLs for the gfal_module layer
  * */
 int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken,  GError** err){
-	gfal_handle handle = (gfal_handle)ch;
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*)ch;
 	gfal_srm_result* resu=NULL;
 	GError* tmp_err=NULL;
 	char* surls[]= { (char*)surl, NULL };
 	int ret = -1;
-	ret= gfal_srm_mTURLS_internal(handle, SRM_GET, surls, &resu, &tmp_err);
+	ret= gfal_srm_mTURLS_internal(opts, SRM_GET, surls, &resu, &tmp_err);
 	if(ret >=0){
 		if(resu[0].err_code == 0){
 			g_strlcpy(buff_turl, resu[0].turl, size_turl);			
@@ -216,21 +216,18 @@ int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_tu
 
 /**
  * @brief launch a surls-> turls translation in the synchronous mode
- * @warning need a initiaed gfal_handle
- * @param handle : the gfal_handle initiated ( \ref gfal_init )
+ * @param opts : srmv2 opts initiated
  * @param surls : tab of string, last char* must be NULL
  * @param err : GError** for error report
  * @return return positive if success else -1, check GError for more information
  */
-int gfal_srm_getTURLS(gfal_handle handle, char** surls, gfal_srm_result** resu,  GError** err){
-	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_srm_getTURLS] handle passed is null");
+int gfal_srm_getTURLS(gfal_srmv2_opt* opts, char** surls, gfal_srm_result** resu,  GError** err){
+	g_return_val_err_if_fail(opts!=NULL,-1,err,"[gfal_srm_getTURLS] handle passed is null");
 	
 	GError* tmp_err=NULL;
 	int ret=-1;
-	if( gfal_handle_checkG(handle, &tmp_err) ){	// check handle validity
-		if( gfal_srm_surl_group_checker	(surls, &tmp_err) == TRUE){				
-			ret = gfal_srm_mTURLS_internal(handle, SRM_GET, surls, resu,  &tmp_err);
-		}
+	if( gfal_srm_surl_group_checker	(surls, &tmp_err) == TRUE){				
+		ret = gfal_srm_mTURLS_internal(opts, SRM_GET, surls, resu,  &tmp_err);
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
@@ -242,12 +239,12 @@ int gfal_srm_getTURLS(gfal_handle handle, char** surls, gfal_srm_result** resu, 
  *  simple wrapper to putTURLs for the gfal_module layer
  * */
 int gfal_srm_putTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err){
-	gfal_handle handle = (gfal_handle)ch;
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*)ch;
 	gfal_srm_result* resu=NULL;
 	GError* tmp_err=NULL;
 	char* surls[]= { (char*)surl, NULL };
 	int ret = -1;
-	ret= gfal_srm_mTURLS_internal(handle, SRM_PUT, surls, &resu,  &tmp_err);
+	ret= gfal_srm_mTURLS_internal(opts, SRM_PUT, surls, &resu,  &tmp_err);
 	if(ret >=0){
 		if(resu[0].err_code == 0){
 			g_strlcpy(buff_turl, resu[0].turl, size_turl);
@@ -267,21 +264,18 @@ int gfal_srm_putTURLS_catalog(catalog_handle ch, const char* surl, char* buff_tu
 
 /**
  * @brief launch a surls-> turls translation in the synchronous mode for file creation
- * @warning need a initiaed gfal_handle
- * @param handle : the gfal_handle initiated ( \ref gfal_init )
+ * @param opts : srmv2 opts initiated
  * @param surls : tab of string, last char* must be NULL
  * @param err : GError** for error report
  * @return return positive if success else -1, check GError for more information
  */
-int gfal_srm_putTURLS(gfal_handle handle, char** surls, gfal_srm_result** resu,  GError** err){
-	g_return_val_err_if_fail(handle!=NULL,-1,err,"[gfal_srm_putTURLS] handle passed is null");
+int gfal_srm_putTURLS(gfal_srmv2_opt* opts , char** surls, gfal_srm_result** resu,  GError** err){
+	g_return_val_err_if_fail(opts!=NULL,-1,err,"[gfal_srm_putTURLS] handle passed is null");
 	
 	GError* tmp_err=NULL;
 	int ret=-1;
-	if( gfal_handle_checkG(handle, &tmp_err) ){	// check handle validity
-		if( gfal_srm_surl_group_checker	(surls, &tmp_err) == TRUE){				
-			ret = gfal_srm_mTURLS_internal(handle, SRM_PUT, surls, resu, &tmp_err);
-		}
+	if( gfal_srm_surl_group_checker	(surls, &tmp_err) == TRUE){				
+		ret = gfal_srm_mTURLS_internal(opts, SRM_PUT, surls, resu, &tmp_err);
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
@@ -292,7 +286,7 @@ int gfal_srm_putTURLS(gfal_handle handle, char** surls, gfal_srm_result** resu, 
 /**
  *  execute a srm put done on the specified surl and token, return 0 if success else -1 and errno is set
 */
-static int gfal_srm_putdone_srmv2_internal(gfal_handle handle, char* endpoint, char** surls, char* token,  GError** err){
+static int gfal_srm_putdone_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint, char** surls, char* token,  GError** err){
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srm_putdone_srmv2_internal] invalid args ");
 			
 	GError* tmp_err=NULL;
@@ -305,7 +299,6 @@ static int gfal_srm_putdone_srmv2_internal(gfal_handle handle, char* endpoint, c
 	gfal_srm_result* resu=NULL;
 	
 	char errbuf[err_size] ; memset(errbuf,0,err_size*sizeof(char));
-	const gfal_srmv2_opt* opts = handle->srmv2_opt;							// get default opts for srmv2
 	size_t n_surl = g_strv_length (surls);									// n of surls
 		
 	// set the structures datafields	
@@ -328,17 +321,17 @@ static int gfal_srm_putdone_srmv2_internal(gfal_handle handle, char* endpoint, c
 	return ret;	
 }
 
-int gfal_srm_putdone(gfal_handle handle, char** surls, char* token,  GError** err){
+int gfal_srm_putdone(gfal_srmv2_opt* opts , char** surls, char* token,  GError** err){
 	GError* tmp_err=NULL;
 	int ret=-1;	
 
 	char full_endpoint[2048];
 	enum gfal_srm_proto srm_types;
-	if((gfal_srm_determine_endpoint(handle, *surls, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
+	if((gfal_srm_determine_endpoint(opts, *surls, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
 		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_srm_putdone] endpoint %s", full_endpoint);
 
 		if (srm_types == PROTO_SRMv2){
-			ret = gfal_srm_putdone_srmv2_internal(handle, full_endpoint, surls, token, &tmp_err);
+			ret = gfal_srm_putdone_srmv2_internal(opts, full_endpoint, surls, token, &tmp_err);
 		} else if(srm_types == PROTO_SRM){
 			g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in gfal 2.0, failure");
 		} else{

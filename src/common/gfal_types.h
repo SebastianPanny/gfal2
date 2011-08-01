@@ -48,11 +48,7 @@ extern "C"
 
 
 
-//typedef struct srm_spacemd gfal_spacemd;
-enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
 
-enum se_type {TYPE_NONE = 0, TYPE_SRM, TYPE_SRMv2, TYPE_SE};
-enum gfal_srm_proto {PROTO_SRM=0, PROTO_SRMv2, PROTO_ERROR_UNKNOW};
 
 
 struct _gfal_descriptors_container{
@@ -61,39 +57,11 @@ struct _gfal_descriptors_container{
 	
 };
 
- 
- /**
-  * @struct structure for the srmv2 option management
-  *  set to 0 by default
-  */
-struct _gfal_srmv2_opt{
-	int opt_srmv2_desiredpintime;			//	optional desired default endpoint
-	char** opt_srmv2_protocols;				// optional protocols list for manual set
-	char * opt_srmv2_spacetokendesc;		// optional spacetokens desc for srmv2	 
-	gint64 filesizes;
-};
 
- /**
-  * symbolise the state of a request
-  *  needed to get the response
-  */ 
-struct _gfal_request_state{
-	char *						srmv2_token;
-	struct srmv2_filestatus *	srmv2_statuses;
-	struct srmv2_pinfilestatus *srmv2_pinstatuses;
-	enum gfal_srm_proto current_request_proto;
-	char * 						request_endpoint; 
-	gboolean					finished;			// finished or not
-	int							number;				// number of files in request
- };
  
-struct gfal_handle_ {
-	enum gfal_srm_proto srm_proto_type;		// define the protocole version of SRM choosen by default
+struct gfal_handle_ {		// define the protocole version of SRM choosen by default
 	gboolean initiated; 					// 1 if initiated, else error
-	// pointer to srmv2 set option
-	gfal_srmv2_opt* srmv2_opt;
 	// pointer to the last request resu
-	gfal_request_state* last_request_state;
 	// struct of the catalog opts
 	struct _catalog_opts catalog_opt;
 	//struct for the file descriptors

@@ -5,14 +5,17 @@
 #include <cgreen/cgreen.h>
 #include <time.h>
 #include <string.h>
-#include "gfal_constants.h"
-#include "gfal_prototypes.h"
-#include "gfal_types.h"
 #include <glib.h>
-#include "../unit_test_constants.h"
 #include <stdio.h>
-#include "gfal_posix_api.h"
 #include <errno.h>
+
+#include "../../src/common/gfal_prototypes.h"
+#include "../../src/common/gfal_types.h"
+#include "../../src/common/gfal_constants.h"
+
+#include "gfal_posix_api.h"
+#include "../unit_test_constants.h"
+
 
 
 void test__rmdir_posix_lfc_simple()
