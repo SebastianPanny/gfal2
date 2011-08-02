@@ -248,6 +248,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	if( (buffered = (struct stat* ) gsimplecache_take_kstr (ops->cache, buff_key)) != NULL){ // take the version of the buffer
 		memcpy(st, buffered, sizeof(struct stat));
 		ret = 0;
+		free(buffered);
 	}else{	
 		gfal_lfc_init_thread(ops);
 		gfal_auto_maintain_session(ops, &tmp_err);

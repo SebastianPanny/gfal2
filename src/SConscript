@@ -5,7 +5,7 @@ Import('*')	# import SConstruct exported var
 import os
 
 gfal_common_libs = [ 'vomsc','is_ifce'] 		# libraries linked
-gsimplecache = [Glob("externals/gsimplecache/*.c")]
+gsimplecache = ["externals/gsimplecache/gsimplecacheOS.os"]
 other_headers=['common/']
 common_src = Glob("common/*.c") 
 common_voms = Glob("common/voms/*.c")
@@ -38,7 +38,7 @@ env_plugin_lfc.Append(CFLAGS="-D_REENTRANT")
 plugin_lfc_lib = env_plugin_lfc.SharedLibrary('#build/libs/libgfal_plugin_lfc', plugin_lfc+ gsimplecache)
 plugin_rfio_lib= env_plugin.SharedLibrary('#build/libs/libgfal_plugin_rfio', plugin_rfio)
 plugin_dcap_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_dcap', plugin_dcap)
-plugin_srm_lib = env_plugin_srm.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm)
+plugin_srm_lib = env_plugin_srm.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm + gsimplecache)
 
 #gfal version
 version = env_plugin.Program("#build/gfal_version", Glob("version/*.c"))

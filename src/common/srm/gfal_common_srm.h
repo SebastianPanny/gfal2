@@ -24,15 +24,20 @@
  * @date 12/04/2011
  * */
 
+#include <string.h>
+#include <regex.h>
 
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
 #include "../gfal_constants.h"
+#include "../../externals/gsimplecache/gcachemain.h"
 
 
 
 #define GFAL_PREFIX_SRM "srm://"
 #define GFAL_ENDPOINT_DEFAULT_PREFIX "httpg://"
+
+#define GFAL_SRM_LSTAT_PREFIX "lstat_"
 
 //typedef struct srm_spacemd gfal_spacemd;
 enum status_type {DEFAULT_STATUS = 0, MD_STATUS, PIN_STATUS};
@@ -62,13 +67,16 @@ typedef struct _gfal_request_state{
   *  set to 0 by default
  */
 typedef struct _gfal_srmv2_opt{
-	enum gfal_srm_proto srm_proto_type;
+	enum gfal_srm_proto srm_proto_type;		// default protocol version
 	int opt_srmv2_desiredpintime;			//	optional desired default endpoint
 	char** opt_srmv2_protocols;				// optional protocols list for manual set
 	char * opt_srmv2_spacetokendesc;		// optional spacetokens desc for srmv2	 
+	regex_t rexurl;
+	regex_t rex_full;
 	gfal_handle handle;
 	gint64 filesizes;
 	gfal_request_state* last_request_state;
+	GSimpleCache* cache;
 } gfal_srmv2_opt;
 
 
@@ -91,6 +99,7 @@ gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err);
 
 void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle);
 
+inline char* gfal_srm_construct_key(const char* url, const char* prefix, char* buff, const size_t s_buff);
 
 /*
 int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);

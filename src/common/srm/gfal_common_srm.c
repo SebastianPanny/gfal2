@@ -63,20 +63,22 @@ const char* gfal_srm_getName(){
 	return "srm_plugin";
 }
 
+
+int gfal_checker_compile(gfal_srmv2_opt* opts, GError** err){
+	int ret = regcomp(&opts->rexurl, "^srm://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
+	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");	
+}
+
 /**
  * parse a surl to check the validity
  */
-int gfal_surl_checker(const char* surl, GError** err){
+int gfal_surl_checker(catalog_handle ch, const char* surl, GError** err){
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	if(surl == NULL || strnlen(surl, GFAL_URL_MAX_LEN) == GFAL_URL_MAX_LEN){
 		g_set_error(err, 0, EINVAL, "[%s] Invalid surl, surl too long or NULL",__func__);
 		return -1;
 	}	
-	regex_t rex;
-	int ret = regcomp(&rex, "^srm://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
-	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");
-	ret=  regexec(&rex,surl,0,NULL,0);
-	regfree(&rex);
-	return ret;
+	return regexec(&opts->rexurl,surl,0,NULL,0);
 } 
 
 /**
@@ -96,7 +98,7 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 		case GFAL_CATALOG_OPEN:
 		case GFAL_CATALOG_CHMOD:
 		case GFAL_CATALOG_UNLINK:
-			return (gfal_surl_checker(url,  err)==0)?TRUE:FALSE;
+			return (gfal_surl_checker(handle, url,  err)==0)?TRUE:FALSE;
 		default:
 			return FALSE;		
 	}
@@ -106,6 +108,9 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
  * */
 static void gfal_srm_destroyG(catalog_handle ch){
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
+	regfree(&opts->rexurl);
+	regfree(&opts->rex_full);
+	gsimplecache_delete(opts->cache);
 	free(opts);
 }
 /**
@@ -116,6 +121,7 @@ void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle){
 	opts->srm_proto_type = PROTO_SRMv2;
 	opts->handle = handle;
 	opts->filesizes = GFAL_NEWFILE_SIZE;	
+	opts->cache = gsimplecache_new(500000);
 }
 
 /**
@@ -126,6 +132,8 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	GError* tmp_err=NULL;
 	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
 	gfal_srmv2_opt* opts = g_new0(struct _gfal_srmv2_opt,1);	// define the srmv2 option struct and clear it
+	gfal_checker_compile(opts, err);
+	
 	gfal_srm_opt_initG(opts, handle);
 	srm_catalog.handle = (void*) opts;	
 	srm_catalog.check_catalog_url = &gfal_srm_check_url;
@@ -155,18 +163,16 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 
 
 
+
+
 /**
- * check the validity of the current handle
- *//*
-gboolean gfal_handle_checkG(gfal_handle handle, GError** err){
-	if(handle->initiated == 1)
-		return TRUE;
-	g_set_error(err,0, EINVAL,"[gboolean gfal_handle_checkG] gfal_handle not set correctly");
-	return FALSE;
+ * Construct a key for the cache system from a url and a prefix
+ * */
+inline char* gfal_srm_construct_key(const char* url, const char* prefix, char* buff, const size_t s_buff){
+	g_strlcpy(buff, prefix, s_buff);
+	g_strlcat(buff, url, s_buff);
+	return buff;
 }
-
-*/
-
 
 /**
  *  @brief create a full endpath from a surl with full endpath

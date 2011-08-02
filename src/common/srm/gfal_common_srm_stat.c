@@ -76,28 +76,40 @@ static int gfal_statG_srmv2_internal(gfal_srmv2_opt* opts, struct stat* buf, con
 	return ret;	
 }
 
+/**
+ * stat call, for the srm interface stat and lstat are the same call !! the default behavior is similar to stat by default and ignore links
+ * 
+ * */
 int gfal_srm_statG(catalog_handle ch, const char* surl, struct stat* buf, GError** err){
 	g_return_val_err_if_fail( ch && surl && buf, -1, err, "[gfal_srm_statG] Invalid args in handle/surl/bugg");
 	GError* tmp_err = NULL;
 	int ret =-1;
 	char full_endpoint[GFAL_URL_MAX_LEN];
+	char key_buff[GFAL_URL_MAX_LEN];
 	enum gfal_srm_proto srm_type;
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
+	struct stat* stat_tmp;
+	gfal_srm_construct_key(surl, GFAL_SRM_LSTAT_PREFIX, key_buff, GFAL_URL_MAX_LEN);
 	
-	ret =gfal_srm_determine_endpoint(opts, surl, &full_endpoint, GFAL_URL_MAX_LEN, &srm_type,   &tmp_err);
-	if( ret >=0 ){
-		if(srm_type == PROTO_SRMv2){
-			ret = gfal_statG_srmv2_internal(opts, buf, full_endpoint, surl, &tmp_err);
-		}else if (srm_type == PROTO_SRM){
-			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
-			ret = -1;
-		}else {
-			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] Unknow version of the protocol SRM , failure");
-			ret = -1;			
+	if( (stat_tmp = (struct stat*) gsimplecache_take_kstr(opts->cache, key_buff)) != NULL){
+		memcpy(buf, stat_tmp, sizeof(struct stat));
+		free(stat_tmp);
+		ret = 0;
+	}else{
+		ret =gfal_srm_determine_endpoint(opts, surl, &full_endpoint, GFAL_URL_MAX_LEN, &srm_type,   &tmp_err);
+		if( ret >=0 ){
+			if(srm_type == PROTO_SRMv2){
+				ret = gfal_statG_srmv2_internal(opts, buf, full_endpoint, surl, &tmp_err);
+			}else if (srm_type == PROTO_SRM){
+				g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
+				ret = -1;
+			}else {
+				g_set_error(err, 0, EPROTONOSUPPORT, "[%s] Unknow version of the protocol SRM , failure");
+				ret = -1;			
+			}
+			
 		}
-		
 	}
-	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;

@@ -24,6 +24,9 @@
  * */
 
 
+#define _GNU_SOURCE
+
+#include <string.h>
 #include <dirent.h>
 #include <stdio.h>
 #include "gfal_common_srm.h"
@@ -44,7 +47,10 @@ gfal_file_handle gfal_srm_opendir_internal(gfal_srmv2_opt* opts, char* endpoint,
 	
 	if(exist == 0){
 		gfal_srm_opendir_handle h = g_new0(struct _gfal_srm_opendir_handle,1);
-		g_strlcpy(h->surl, surl, GFAL_URL_MAX_LEN);
+		const size_t s = strnlen(surl, GFAL_URL_MAX_LEN);
+		char* p = (char*) mempcpy(h->surl, surl, MIN(s,GFAL_URL_MAX_LEN));
+		while( *(p-1) == '/') //remove last '/' char
+			*(p-1) = '\0';
 		g_strlcpy(h->endpoint, endpoint, GFAL_URL_MAX_LEN);
 		h->dir_offset = 0;
 		resu = gfal_file_handle_new(gfal_srm_getName(), (gpointer) h);

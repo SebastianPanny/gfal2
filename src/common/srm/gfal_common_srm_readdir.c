@@ -33,14 +33,43 @@
 #include "gfal_common_srm_internal_layer.h"
  
 
+inline static void gfal_srm_bufferize_request(catalog_handle ch, const char* surl, struct srmv2_mdfilestatus * statuses){
+	char buff_key[GFAL_URL_MAX_LEN];	
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
+	gfal_srm_construct_key(surl, GFAL_SRM_LSTAT_PREFIX, buff_key, GFAL_URL_MAX_LEN);
+	struct stat* st = g_new(struct stat, 1);
+	if(sizeof(struct stat64) == sizeof(struct stat))
+		memcpy(st, &statuses->stat, sizeof(struct stat));
+	else{
+		const struct stat64* stat_statuses = &statuses->stat;
+		st->st_dev = (dev_t) stat_statuses->st_dev;
+		st->st_ino = (ino_t) stat_statuses->st_ino;
+		st->st_mode = (mode_t) stat_statuses->st_mode;
+		st->st_nlink = (nlink_t) stat_statuses->st_nlink;
+		st->st_uid = (uid_t) stat_statuses->st_uid;
+		st->st_gid = (gid_t) stat_statuses->st_gid;
+		st->st_rdev = (dev_t) stat_statuses->st_rdev;
+		st->st_size = (off_t) stat_statuses->st_size;
+		st->st_blksize = (blkcnt_t) stat_statuses->st_blksize;
+		st->st_blocks = (blkcnt_t) stat_statuses->st_blocks;
+		st->st_atime = (time_t) stat_statuses->st_atime;
+		st->st_mtime = (time_t) stat_statuses->st_mtime;
+		st->st_ctime = (time_t) stat_statuses->st_ctime;
+	}
+	gsimplecache_add_item_kstr(opts->cache, buff_key, st, &free);
+}
 
-
-struct dirent* gfal_srm_readdir_convert_result(catalog_handle ch, struct srmv2_mdfilestatus * statuses,  struct dirent* output, GError ** err){
+inline static struct dirent* gfal_srm_readdir_convert_result(catalog_handle ch, const char* surl, struct srmv2_mdfilestatus * statuses,  struct dirent* output, GError ** err){
 	struct dirent* resu = NULL;
 	resu = output;
-	char* p = strrchr(statuses->surl,'/')+1;
-	if(p!=NULL)
-		g_strlcpy(resu->d_name, p, GFAL_URL_MAX_LEN);
+	char buff_surlfull[GFAL_URL_MAX_LEN];
+	char* p = strrchr(statuses->surl,'/'); // keep only the file name + /
+	if(p!=NULL){
+		g_strlcpy(buff_surlfull, surl, GFAL_URL_MAX_LEN);
+		g_strlcat(buff_surlfull, p, GFAL_URL_MAX_LEN);	
+		gfal_srm_bufferize_request(ch, buff_surlfull, statuses);
+		g_strlcpy(resu->d_name, p+1, GFAL_URL_MAX_LEN);	// without '/'
+	}
 	else
 		g_strlcpy(resu->d_name, statuses->surl, GFAL_URL_MAX_LEN);
 	return resu;
@@ -113,7 +142,7 @@ struct dirent* gfal_srm_readdir_pipeline(catalog_handle ch, gfal_srm_opendir_han
 		if(oh->srm_ls_resu->nbsubpaths == 0) // end of the list !!
 			return NULL;
 		const off_t myoffset = oh->dir_offset - oh->resu_offset;
-		ret = gfal_srm_readdir_convert_result(ch, &oh->srm_ls_resu->subpaths[myoffset], &oh->current_readdir, &tmp_err);
+		ret = gfal_srm_readdir_convert_result(ch, oh->surl, &oh->srm_ls_resu->subpaths[myoffset], &oh->current_readdir, &tmp_err);
 		oh->dir_offset += 1;
 	}
 	if(tmp_err)
