@@ -37,6 +37,8 @@
 #define GFAL_PREFIX_SRM "srm://"
 #define GFAL_ENDPOINT_DEFAULT_PREFIX "httpg://"
 
+#define SRM_XATTR_GETURL "srm.turl"
+
 #define GFAL_SRM_LSTAT_PREFIX "lstat_"
 
 //typedef struct srm_spacemd gfal_spacemd;

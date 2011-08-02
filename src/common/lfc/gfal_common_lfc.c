@@ -50,7 +50,7 @@ typedef struct _lfc_opendir_handle{
 	struct dirent current_dir;
 } *lfc_opendir_handle;
 
-static char* file_xattr[] = { "lfc.guid", "lfc.replicas", NULL };
+static char* file_xattr[] = { LFC_XATTR_GUID, LFC_XATTR_SURLS, NULL };
 /**
  * just return the name of the layer
  */

@@ -90,7 +90,7 @@ int gfal_srm_accessG(catalog_handle ch, const char* surl, int mode, GError** err
 	int ret=-1;
 	char full_endpoint[GFAL_URL_MAX_LEN];
 	enum gfal_srm_proto srm_types;
-	ret =gfal_srm_determine_endpoint(opts, surl, &full_endpoint, GFAL_URL_MAX_LEN, &srm_types,   &tmp_err); // get the associated endpoint
+	ret =gfal_srm_determine_endpoint(opts, surl, full_endpoint, GFAL_URL_MAX_LEN, &srm_types,  &tmp_err); // get the associated endpoint
 	if( ret != 0){		// check & get endpoint										
 		g_propagate_prefixed_error(err,tmp_err, "[%s]", __func__);
 		return -1;
