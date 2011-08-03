@@ -39,14 +39,14 @@
 
 
 
-static gboolean gfal_srm_surl_group_checker(char** surls, GError** err){
+static gboolean gfal_srm_surl_group_checker(gfal_srmv2_opt* opts,char** surls, GError** err){
 	GError* tmp_err=NULL;
 	if(surls == NULL ){
 		g_set_error(err, 0, EINVAL, "[%s] Invalid argument surls ", __func__);
 		return FALSE;
 	}
 	while(*surls != NULL){
-		if( gfal_surl_checker(*surls, &tmp_err) != 0){
+		if( gfal_surl_checker(opts, *surls, &tmp_err) != 0){
 			g_propagate_prefixed_error(err,tmp_err,"[%s]",__func__);	
 			return FALSE;
 		}
@@ -226,7 +226,7 @@ int gfal_srm_getTURLS(gfal_srmv2_opt* opts, char** surls, gfal_srm_result** resu
 	
 	GError* tmp_err=NULL;
 	int ret=-1;
-	if( gfal_srm_surl_group_checker	(surls, &tmp_err) == TRUE){				
+	if( gfal_srm_surl_group_checker	(opts, surls, &tmp_err) == TRUE){				
 		ret = gfal_srm_mTURLS_internal(opts, SRM_GET, surls, resu,  &tmp_err);
 	}
 	if(tmp_err)
@@ -274,7 +274,7 @@ int gfal_srm_putTURLS(gfal_srmv2_opt* opts , char** surls, gfal_srm_result** res
 	
 	GError* tmp_err=NULL;
 	int ret=-1;
-	if( gfal_srm_surl_group_checker	(surls, &tmp_err) == TRUE){				
+	if( gfal_srm_surl_group_checker	(opts, surls, &tmp_err) == TRUE){				
 		ret = gfal_srm_mTURLS_internal(opts, SRM_PUT, surls, resu, &tmp_err);
 	}
 	if(tmp_err)

@@ -40,7 +40,8 @@
 
 static void rfio_report_error(gfal_plugin_rfio_handle h,  const char * func_name, GError** err){
 	char buff_error[2048];
-	const int status = h->rf->geterror();
+	int status = h->rf->geterror();
+	status = (status > 1000)?ECOMM:status;
 	strerror_r(status, buff_error, 2048);
 	g_set_error(err, 0, status, "[%s] Error reported by the external library rfio : %s", func_name, buff_error);
 }
@@ -115,6 +116,16 @@ int gfal_rfio_lstatG(catalog_handle handle, const char* name, struct stat* buff,
 		rfio_report_error(h, __func__, err);
 	}
 	return ret;	
+}
+
+gfal_file_handle gfal_rfio_opendirG(catalog_handle handle, const char* name, GError ** err){
+	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
+	DIR * ret = h->rf->opendir(name);
+	if(ret == NULL){
+		rfio_report_error(h, __func__, err);
+		return NULL;
+	}
+	return gfal_file_handle_new(gfal_rfio_getName(), (gpointer) ret);
 }
 
 

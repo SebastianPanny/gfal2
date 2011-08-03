@@ -209,7 +209,7 @@ void test_gfal_get_endpoint_and_setype_from_bdiiG(){
 	assert_true_with_message( ret ==0 && err== NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL) && proto== PROTO_SRMv2, " must be a valid endpoint resolution");
 	gfal_check_GError(&err);
 	memset(buff_endpoint, '\0', sizeof(char)*2048);
-	ret = gfal_get_endpoint_and_setype_from_bdiiG(handle, "srm://lxb540dfshhhh9.cern.ch:8446/test/invalid", buff_endpoint, 2048, &proto, &err);
+	ret = gfal_get_endpoint_and_setype_from_bdiiG(&opts, "srm://lxb540dfshhhh9.cern.ch:8446/test/invalid", buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message(ret != 0 && err != NULL && err->code==EINVAL && *buff_endpoint== '\0', " must fail, invalid point");
 	g_clear_error(&err);
 	gfal_handle_freeG(handle);
@@ -218,6 +218,10 @@ void test_gfal_get_endpoint_and_setype_from_bdiiG(){
 
 void test_gfal_srm_determine_endpoint_full_endpointG()
 {
+#if USE_MOCK
+	setup_mock_bdii();
+	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);
+#endif
 	GError* err = NULL;
 	char buff_endpoint[2048];
 	enum gfal_srm_proto proto;
@@ -225,33 +229,6 @@ void test_gfal_srm_determine_endpoint_full_endpointG()
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
 	if(handle==NULL)
 		return;
-	gfal_srmv2_opt opts;
-	gfal_srm_opt_initG(&opts, handle);
-	int ret =-1;
-	ret = gfal_srm_determine_endpoint(&opts, TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
-	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL), " must be a succesfull endpoint determination %d %ld %s", ret, err, buff_endpoint);
-	gfal_check_GError(&err);	
-	
-	ret = gfal_srm_determine_endpoint(handle, "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b", buff_endpoint, 2048, &proto, &err);
-	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, "httpg://srm-pps:8443/srm/managerv2"), " must be a succesfull endpoint determination 2 %d %ld %s", ret, err, buff_endpoint);
-	gfal_check_GError(&err);
-	gfal_handle_freeG(handle);	
-}
-
-
-
-
-void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
-{
-	GError* err = NULL;
-	char buff_endpoint[2048];
-	enum gfal_srm_proto proto;
-	gfal_handle handle = gfal_initG(&err);
-	assert_true_with_message(handle != NULL, " handle is not properly allocated");
-	if(handle==NULL)
-		return;
-	gfal_catalogs_instance(handle, NULL);
-	gfal_set_nobdiiG(handle, TRUE);
 	gfal_srmv2_opt opts;
 	gfal_srm_opt_initG(&opts, handle);
 	int ret =-1;
@@ -262,8 +239,39 @@ void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
 	ret = gfal_srm_determine_endpoint(&opts, "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b", buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, "httpg://srm-pps:8443/srm/managerv2"), " must be a succesfull endpoint determination 2 %d %ld %s", ret, err, buff_endpoint);
 	gfal_check_GError(&err);
+	gfal_handle_freeG(handle);	
+}
+
+
+
+
+void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
+{
+#if USE_MOCK
+	setup_mock_bdii();
+	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);
+#endif
+	GError* err = NULL;
+	char buff_endpoint[2048];
+	enum gfal_srm_proto proto;
+	gfal_handle handle = gfal_initG(&err);
+	assert_true_with_message(handle != NULL, " handle is not properly allocated");
+	if(handle==NULL)
+		return;
+	gfal_catalogs_instance(handle, NULL);
+	gfal_srmv2_opt opts;
+	gfal_srm_opt_initG(&opts, handle);
+	gfal_set_nobdiiG(handle, TRUE);
+	int ret =-1;
+	ret = gfal_srm_determine_endpoint(&opts, TEST_SRM_DPM_FULLENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL), " must be a succesfull endpoint determination %d %ld %s", ret, err, buff_endpoint);
+	gfal_check_GError(&err);	
+	
+	ret = gfal_srm_determine_endpoint(&opts, "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b", buff_endpoint, 2048, &proto, &err);
+	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, "httpg://srm-pps:8443/srm/managerv2"), " must be a succesfull endpoint determination 2 %d %ld %s", ret, err, buff_endpoint);
+	gfal_check_GError(&err);
 	memset(buff_endpoint,0, sizeof(char)*2048);
-	ret = gfal_srm_determine_endpoint(handle, TEST_SRM_VALID_SURL_EXAMPLE1, buff_endpoint, 2048, &proto, &err);
+	ret = gfal_srm_determine_endpoint(&opts, TEST_SRM_VALID_SURL_EXAMPLE1, buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message( ret !=0 && err != NULL && err->code== EINVAL && *buff_endpoint=='\0', " must be a reported error, bdii is disable");
 	g_clear_error(&err);
 	gfal_handle_freeG(handle);	
@@ -273,6 +281,24 @@ void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
 
 void test_gfal_srm_determine_endpoint_not_fullG()
 {
+	
+#if USE_MOCK
+	int i1;
+	setup_mock_bdii();
+	char buff_tmp[2048];
+	char* p = TEST_SRM_DPM_ENDPOINT_PREFIX+ strlen(GFAL_PREFIX_SRM);
+	g_strlcpy(buff_tmp, p, strchr(p, '/')-p+1);
+	define_se_endpoints = calloc(sizeof(char*), 4);
+	for(i1=0;i1 <3; ++i1)
+		define_se_endpoints[i1]= strdup(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_se_types= calloc(sizeof(char*), 4);
+	char* types[] = { "srm_v1", "srm_v2", "srm_v1"};
+	for(i1=0;i1 <3; ++i1)
+		define_se_types[i1]= strdup(types[i1]);	
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, buff_tmp), want_non_null(se_types), want_non_null(se_endpoints));
+	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);
+
+#endif
 	GError* err = NULL;
 	char buff_endpoint[2048];
 	enum gfal_srm_proto proto;
@@ -376,8 +402,9 @@ void test_gfal_srm_getTURLS_one_success()
 	if(handle==NULL)
 		return;
 	gfal_srmv2_opt opts;
+	gfal_catalogs_instance(handle, NULL);	
 	gfal_srm_opt_initG(&opts, handle);
-	gfal_catalogs_instance(handle, NULL);
+
 	gfal_srm_result* resu=NULL;
 	char* surls[] = {TEST_SRM_VALID_SURL_EXAMPLE1, NULL};
 	int ret = gfal_srm_getTURLS(&opts, surls, &resu, &tmp_err);

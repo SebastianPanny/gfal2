@@ -46,4 +46,6 @@ int gfal_rfio_statG(catalog_handle handle, const char* name, struct stat* buff, 
 
 int gfal_rfio_lstatG(catalog_handle handle, const char* name, struct stat* buff, GError ** err);
 
+gfal_file_handle gfal_rfio_opendirG(catalog_handle handle, const char* name, GError ** err);
+
 const char* gfal_rfio_getName();

@@ -5,6 +5,8 @@
 */
 
 
+
+
  void test__gfal_posix_stat_lfc();
 void test__gfal_posix_stat_guid();
 void test__gfal_posix_stat_local();

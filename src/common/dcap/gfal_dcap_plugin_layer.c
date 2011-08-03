@@ -71,7 +71,7 @@ struct dcap_proto_ops * gfal_dcap_internal_loader_base(GError** err){
 		pops->unlink = (int (*) (const char *)) dlsym (dlhandle, "dc_unlink");
 		pops->write = (ssize_t (*) (int, const void *, size_t)) dlsym (dlhandle, "dc_write");
 		pops->debug_level= (void(*)(int)) dlsym(dlhandle, "dc_setDebugLevel");
-		pops->debug_level(8);
+		pops->debug_level(8 |6 | 32);
 	}
 	if(tmp_err)
 			g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

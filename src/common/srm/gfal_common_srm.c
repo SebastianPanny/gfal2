@@ -55,7 +55,7 @@ static enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PRO
  * 
  * list of the turls supported protocols
  */
-static char* srm_turls_sup_protocols[] = { "file", "rfio", "dcap", "kdcap", "gsidcap", NULL };
+static char* srm_turls_sup_protocols[] = { "file", "rfio", "gsidcap", "dcap",  "kdcap",  NULL };
 /**
  * 
  * srm plugin id
@@ -120,6 +120,7 @@ static void gfal_srm_destroyG(catalog_handle ch){
  * Init an opts struct with the default parameters
  * */
 void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle){
+	gfal_checker_compile(opts, NULL);
 	opts->opt_srmv2_protocols = srm_turls_sup_protocols;
 	opts->srm_proto_type = PROTO_SRMv2;
 	opts->handle = handle;
@@ -134,9 +135,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	gfal_catalog_interface srm_catalog;
 	GError* tmp_err=NULL;
 	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
-	gfal_srmv2_opt* opts = g_new0(struct _gfal_srmv2_opt,1);	// define the srmv2 option struct and clear it
-	gfal_checker_compile(opts, err);
-	
+	gfal_srmv2_opt* opts = g_new0(struct _gfal_srmv2_opt,1);	// define the srmv2 option struct and clear it	
 	gfal_srm_opt_initG(opts, handle);
 	srm_catalog.handle = (void*) opts;	
 	srm_catalog.check_catalog_url = &gfal_srm_check_url;

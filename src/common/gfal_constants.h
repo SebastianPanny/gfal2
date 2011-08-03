@@ -53,10 +53,11 @@
 #define GFAL_ERRLEVEL_WARN        1
 #define GFAL_ERRLEVEL_INFO        2
 
-#define GFAL_VERBOSE_QUIET       -1    /*!<  \def GFAL_VERBOSE_QUIET API-mode, no messages is printed */
-#define GFAL_VERBOSE_NORMAL       0    /*!< \def GFAL_VERBOSE_NORMAL only errors are printed */
-#define GFAL_VERBOSE_VERBOSE      1    /*!< \def GFAL_VERBOSE_VERBOSE a bit more verbose information is printed */
-#define GFAL_VERBOSE_DEBUG        2    /*!< \def GFAL_VERBOSE_DEBUG  extra information is printed */
+#define GFAL_VERBOSE_QUIET     -1    /*!<  \def GFAL_VERBOSE_QUIET API-mode, no messages is printed */
+#define GFAL_VERBOSE_NORMAL     0    /*!< \def GFAL_VERBOSE_NORMAL only errors are printed */
+#define GFAL_VERBOSE_VERBOSE    1    /*!< \def GFAL_VERBOSE_VERBOSE a bit more verbose information is printed */
+#define GFAL_VERBOSE_DEBUG      2    /*!< \def GFAL_VERBOSE_DEBUG  extra information is printed */
+#define GFAL_VERBOSE_TRACE		3	/*! < \def GFAL_VERBOSE_TRACE execution trace */
 
 #define GFAL_CKSM_DEFAULT         GFAL_CKSM_ADLER32   // MD5 is the default algo
 

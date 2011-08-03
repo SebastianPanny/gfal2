@@ -19,6 +19,103 @@
 #include "gfal_posix_api.h"
 #include "../mock/gfal_srm_mock_test.h"
 
+void test_mock_srm_opendir_enoent(char* surl){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_mock_stat_file_valid(TEST_GFAL_SRM_FILE_STAT_OK, TEST_GFAL_SRM_FILE_STAT_MODE_VALUE, TEST_GFAL_SRM_FILE_STAT_UID_VALUE, TEST_GFAL_SRM_FILE_STAT_GID_VALUE);
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	
+	char* surls[] = { surl, NULL };
+	char* expl[] = { "nawak", NULL };
+	int status[] = { ENOENT, 0 };
+
+	define_mock_srmv2_filestatus(1, surls, expl,  NULL, status);
+	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(input), want_non_null(output));	
+
+#endif
+	
+}
+
+
+void test_mock_srm_opendir_eacces(char* surl){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_mock_stat_file_valid(TEST_GFAL_SRM_FILE_STAT_OK, TEST_GFAL_SRM_FILE_STAT_MODE_VALUE, TEST_GFAL_SRM_FILE_STAT_UID_VALUE, TEST_GFAL_SRM_FILE_STAT_GID_VALUE);
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	
+	char* surls[] = { surl, NULL };
+	char* expl[] = { "nawak", NULL };
+	int status[] = { EACCES, 0 };
+
+	define_mock_srmv2_filestatus(1, surls, expl,  NULL, status);
+	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(input), want_non_null(output));	
+
+#endif
+	
+}
+
+void test_mock_srm_opendir_valid(char* surl){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
+	define_mock_stat_file_valid(TEST_GFAL_SRM_FILE_STAT_OK, TEST_GFAL_SRM_FILE_STAT_MODE_VALUE, TEST_GFAL_SRM_FILE_STAT_UID_VALUE, TEST_GFAL_SRM_FILE_STAT_GID_VALUE);
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	
+	char* surls[] = { surl, NULL };
+	char* turl[] = { "nawak", NULL };
+	int status[] = { 0, 0 };
+
+	define_mock_srmv2_filestatus(1, surls, NULL,  turl, status);
+	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(input), want_non_null(output));	
+
+#endif
+	
+}
+
+
+void test_mock_srm_readdir_valid(char** surls, mode_t* modes, uid_t* uids, gid_t* gids, int n){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	test_mock_lfc(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	define_mock_stat_file_valid(TEST_GFAL_SRM_FILE_STAT_OK, TEST_GFAL_SRM_FILE_STAT_MODE_VALUE, TEST_GFAL_SRM_FILE_STAT_UID_VALUE, TEST_GFAL_SRM_FILE_STAT_GID_VALUE);
+	define_mock_readdir_file_valid(surls, modes, uids, gids, n);
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	will_respond(srm_mock_srm_ls, 0, want_non_null(context), want_non_null(inut), want_non_null(output));	
+
+#endif		
+	
+	
+}
+
 void test_mock_lfc_opendir(){
 #if USE_MOCK
 	GError* mock_err=NULL;
@@ -62,24 +159,31 @@ void test_mock_lfc_readdir(char* valid, GList* str_list){
 
 
 void test__opendir_generic_test_simple(char* enoent, char* eaccess, char* valid){
-	gfal_posix_clear_error();
-	DIR* d = gfal_opendir(enoent);
-	assert_true_with_message(d== NULL && gfal_posix_code_error() == ENOENT && errno == ENOENT, " error, must be a non existing dir %ld %d %d",d,gfal_posix_code_error(), errno);
+	DIR* d;
+	if(enoent != NULL){
+		gfal_posix_clear_error();
+		d = gfal_opendir(enoent);
+		assert_true_with_message(d== NULL && gfal_posix_code_error() == ENOENT && errno == ENOENT, " error, must be a non existing dir %ld %d %d",d,gfal_posix_code_error(), errno);
+	}
 
-	gfal_posix_clear_error();
-	d = gfal_opendir(eaccess);
-	assert_true_with_message(d== NULL && gfal_posix_code_error() == EACCES && errno == EACCES, "error, must be a non accessible dir  %ld %d %d",d,gfal_posix_code_error(), errno);
-	gfal_posix_clear_error();	
-
-	d = gfal_opendir(valid);
-	assert_true_with_message(d !=NULL && gfal_posix_code_error() == 0 && errno == 0, "error, must be a non accessible dir  %ld %d %d",d,gfal_posix_code_error(), errno);
-
-	int ret = gfal_closedir(d);
-	assert_true_with_message(ret ==0 && gfal_posix_code_error() == 0 && errno ==0, " must be a valid closedir %d %d %d", ret,gfal_posix_code_error(), errno);
+	if(eaccess != NULL){	
+		gfal_posix_clear_error();
+		d = gfal_opendir(eaccess);
+		assert_true_with_message(d== NULL && gfal_posix_code_error() == EACCES && errno == EACCES, "error, must be a non accessible dir  %ld %d %d",d,gfal_posix_code_error(), errno);
+		gfal_posix_clear_error();	
+	}
 	
-	ret = gfal_closedir(d);
-	assert_true_with_message(ret !=0 && gfal_posix_code_error() != 0 && errno !=0, " must be a valid closedir %d %d %d", ret,gfal_posix_code_error(), errno);	
-	gfal_posix_clear_error();		
+	if(valid != NULL){
+		d = gfal_opendir(valid);
+		assert_true_with_message(d !=NULL && gfal_posix_code_error() == 0 && errno == 0, "error, must be a valid dir  %ld %d %d",d,gfal_posix_code_error(), errno);
+
+		int ret = gfal_closedir(d);
+		assert_true_with_message(ret ==0 && gfal_posix_code_error() == 0 && errno ==0, " must be a valid closedir %d %d %d", ret,gfal_posix_code_error(), errno);
+		
+		ret = gfal_closedir(d);
+		assert_true_with_message(ret !=0 && gfal_posix_code_error() != 0 && errno !=0, " must be a valid closedir %d %d %d", ret,gfal_posix_code_error(), errno);	
+		gfal_posix_clear_error();	
+	}	
 }
 
 void test__readdir_generic_test_simple(char * folder, GList* list_dir){
@@ -159,14 +263,24 @@ void test__readdir_posix_lfc_simple()
 
 void test__opendir_posix_srm_simple_mock()
 {
-	test__opendir_generic_test_simple(TEST_SRML_OPENDIR_ENOENT, TEST_SRML_OPENDIR_EACCESS, TEST_SRM_OPENDIR_OPEN);
+	test_mock_srm_opendir_enoent(TEST_SRML_OPENDIR_ENOENT);
+	test__opendir_generic_test_simple(TEST_SRML_OPENDIR_ENOENT, NULL, NULL);
+	test_mock_srm_opendir_eacces(TEST_SRML_OPENDIR_EACCESS);
+	test__opendir_generic_test_simple(NULL, TEST_SRML_OPENDIR_EACCESS, NULL);
+	test_mock_srm_opendir_valid(TEST_SRM_OPENDIR_OPEN);
+	test__opendir_generic_test_simple(NULL, NULL, TEST_SRM_OPENDIR_OPEN);
 }
 
 
 
 void test__readdir_posix_srm_simple_mock()
 {
+	int n = 4;
+	char* surls[] = { TEST_SRM_READDIR_1, TEST_SRM_READDIR_2, TEST_SRM_READDIR_3, TEST_SRM_READDIR_4 };
+	int none[] = { 0, 0, 0, 0 };
 	gfal_posix_clear_error();
+	test_mock_srm_opendir_valid(TEST_SRM_READDIR_VALID);
+	test_mock_srm_readdir_valid(surls, none, none, none, n)	;
 	GList* list_dir = g_list_append(NULL, TEST_SRM_READDIR_1);
 	list_dir = g_list_append(list_dir, TEST_SRM_READDIR_2);
 	list_dir = g_list_append(list_dir, TEST_SRM_READDIR_3);

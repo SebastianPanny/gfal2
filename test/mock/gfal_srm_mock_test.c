@@ -31,6 +31,19 @@ void define_mock_stat_file_valid(char* surl, mode_t mode, int uid, int gid){
 	
 }
 
+void define_mock_readdir_file_valid(char** surls, mode_t* mode, int* uid, int* gid, int n){
+	defined_srm_ls_output.statuses->subpaths = g_new0(struct srmv2_mdfilestatus,n);
+	defined_srm_ls_output.statuses->nbsubpaths= n;	
+	int i;
+	for(i=0; i< n; ++i){
+		defined_srm_ls_output.statuses->subpaths[i].surl = strdup(surls[i]);
+		memset(&defined_srm_ls_output.statuses->subpaths[i].stat, 0, sizeof(struct stat));
+		defined_srm_ls_output.statuses->subpaths[i].stat.st_mode = mode[i];
+		defined_srm_ls_output.statuses->subpaths[i].stat.st_uid = uid[i];
+		defined_srm_ls_output.statuses->subpaths[i].stat.st_gid= gid[i];
+	}
+}
+
 void define_mock_stat_file_error(char* surl, int status, char* err){
 	defined_srm_ls_output.statuses= g_new0(struct srmv2_mdfilestatus,1);
 	defined_srm_ls_output.statuses->surl = strdup(surl);
@@ -151,7 +164,7 @@ int srm_mock_srm_check_permission(struct srm_context *context,
 	struct srm_checkpermission_input *input,struct srmv2_filestatus **statuses){
 	int a = mock(context, input, statuses);
 	if(a <0){
-		errno = a;
+		errno = -a;
 		return -1;
 	}
 	*statuses = defined_srmv2_filestatus; 
@@ -162,7 +175,7 @@ int srm_mock_srm_prepare_to_get(struct srm_context *context,
 	struct srm_preparetoget_input *input,struct srm_preparetoget_output *output){
 	int a = mock(context, input, output);
 	if(a <0 ){
-		errno = a;
+		errno = -a;
 		return -1;
 	}
 	output->filestatuses = defined_get_output;

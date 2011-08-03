@@ -6,6 +6,7 @@
  */
  
 #include "gfal_mds_mock_test.h" 
+#include <gfal_srm_ifce_types.h>
 #include "srm/gfal_common_srm.h"
 #include "srm/gfal_common_srm_internal_layer.h"
 
@@ -18,6 +19,7 @@ extern struct srmv2_pinfilestatus * defined_get_output;
 
 
 // convenience functions
+void define_mock_readdir_file_valid(char** surls, mode_t* mode, int* uid, int* gid, int n);
 void define_mock_srmv2_filestatus(int number, char** surl, char** explanation, char** turl, int* status);
 void define_mock_stat_file(mode_t mode, int uid, int gid);
 void define_mock_stat_file_error(char* surl, int status, char* err);
