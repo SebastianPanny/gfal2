@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_internal.h" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -29,9 +29,6 @@
 .RI "int * \fBgfal_GList_to_tab_int\fP (GList *int_list)"
 .br
 .RI "\fIconvert glist of int to a table of int \fP"
-.ti -1c
-.RI "void \fBgfal_delete_request_state\fP (\fBgfal_request_state\fP *request_state)"
-.br
 .ti -1c
 .RI "void \fBgfal_new_request_state\fP (gfal_handle handle)"
 .br
@@ -68,9 +65,6 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "void gfal_delete_request_state (\fBgfal_request_state\fP * request_state)"
-.PP
-delete properly a gfal_request_state structure 
 .SS "char** gfal_GList_to_tab (GList * surls)"
 .PP
 convert glist of surl char* to char** 
@@ -101,9 +95,6 @@ a gfal_handle, need to be free after usage. return NULL if errors
 .RE
 .PP
 
-.SS "void gfal_new_request_state (gfal_handle handle)"
-.PP
-create a new current request state and init it, delete the old one if exist 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

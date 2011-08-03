@@ -8,6 +8,7 @@ internal header of the lfc catalog module
 {\tt \#include $<$regex.h$>$}\par
 {\tt \#include \char`\"{}../gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-types.h\char`\"{}}\par
+{\tt \#include \char`\"{}../../externals/gsimplecache/gcachemain.h\char`\"{}}\par
 \subsection*{Data Structures}
 \begin{CompactItemize}
 \item 
@@ -50,6 +51,9 @@ char $\ast$$\ast$ \bf{gfal\_\-lfc\_\-get\-SURL} (struct lfc\_\-ops $\ast$ops, co
 void \bf{gfal\_\-lfc\_\-init\_\-thread} (struct lfc\_\-ops $\ast$ops)
 \item 
 int \textbf{gfal\_\-lfc\_\-start\-Session} (struct lfc\_\-ops $\ast$ops, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8h_191824f5c6bfee67e81f0c495e9bb778}
+
+\item 
+void \textbf{gfal\_\-auto\_\-maintain\_\-session} (struct lfc\_\-ops $\ast$ops, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8h_9be7f93578b4772ec1498fe197f3c2c4}
 
 \item 
 ssize\_\-t \textbf{g\_\-strv\_\-catbuff} (char $\ast$$\ast$strv, char $\ast$buff, size\_\-t size)\label{lfc__ifce__ng_8h_bc04cd8d7342170700f02f6297fc4105}

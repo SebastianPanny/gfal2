@@ -5,6 +5,7 @@ main internal file of the lfc catalog module
 {\tt \#include $<$errno.h$>$}\par
 {\tt \#include $<$stdio.h$>$}\par
 {\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$time.h$>$}\par
 {\tt \#include $<$sys/types.h$>$}\par
 {\tt \#include $<$dlfcn.h$>$}\par
 {\tt \#include $<$stdlib.h$>$}\par
@@ -31,6 +32,12 @@ int \textbf{gfal\_\-lfc\_\-regex\_\-compile} (regex\_\-t $\ast$rex, GError $\ast
 
 \item 
 void \bf{gfal\_\-lfc\_\-init\_\-thread} (struct lfc\_\-ops $\ast$ops)
+\item 
+void \textbf{gfal\_\-auto\_\-maintain\_\-session} (struct lfc\_\-ops $\ast$ops, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_9be7f93578b4772ec1498fe197f3c2c4}
+
+\item 
+void \textbf{lfc\_\-set\_\-session\_\-timeout} (int timeout)\label{lfc__ifce__ng_8c_656ee4eb29a1bcf4e9e1d9a4aafd4c82}
+
 \item 
 int \textbf{gfal\_\-lfc\_\-start\-Session} (struct lfc\_\-ops $\ast$ops, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_191824f5c6bfee67e81f0c495e9bb778}
 

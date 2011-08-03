@@ -25,9 +25,13 @@
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">../gfal_common_errverbose.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__catalog_8h-source.html">../gfal_common_catalog.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__srm__internal__layer_8h-source.html">gfal_common_srm_internal_layer.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__srm__endpoint_8h-source.html">gfal_common_srm_endpoint.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="482394e183f4026d547f17575dc4b8dd"></a><!-- doxytag: member="gfal_common_srm_access.c::gfal_access_srmv2_internal" ref="482394e183f4026d547f17575dc4b8dd" args="(gfal_srmv2_opt *opts, char *endpoint, const char *surl, int mode, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_access_srmv2_internal</b> (gfal_srmv2_opt *opts, char *endpoint, const char *surl, int mode, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__access_8c.html#c97d6cdbdc19261f398fece514431491">gfal_srm_accessG</a> (catalog_handle ch, const char *surl, int mode, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated.  <a href="#c97d6cdbdc19261f398fece514431491"></a><br></td></tr>
@@ -81,7 +85,7 @@ access method for SRMv2 check the right for a given SRM url, work only for SRMv2
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ch</em>&nbsp;</td><td>the handle of the catalog </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>surl</em>&nbsp;</td><td>srm url of a given file </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>mode,access</em>&nbsp;</td><td>mode to check </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: GError error reprot system </td></tr>
@@ -91,7 +95,7 @@ access method for SRMv2 check the right for a given SRM url, work only for SRMv2
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Aug 3 18:13:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -7,10 +7,17 @@ header file for the lfc catalog module
 {\tt \#include \char`\"{}../gfal\_\-common\_\-catalog.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-types.h\char`\"{}}\par
+{\tt \#include \char`\"{}../../externals/gsimplecache/gcachemain.h\char`\"{}}\par
 \subsection*{Defines}
 \begin{CompactItemize}
 \item 
 \#define \textbf{\_\-GNU\_\-SOURCE}\label{gfal__common__lfc_8h_53abf256730d533302d1910e5fb61efe}
+
+\item 
+\#define \textbf{GFAL\_\-LFC\_\-PREFIX}~\char`\"{}lfn:\char`\"{}\label{gfal__common__lfc_8h_c00d877428b39b35b4f611656b2d5215}
+
+\item 
+\#define \textbf{GFAL\_\-LFC\_\-PREFIX\_\-LEN}~4\label{gfal__common__lfc_8h_0f0b96660a7e6440a6556909e7195109}
 
 \item 
 \#define \textbf{LFC\_\-XATTR\_\-GUID}~\char`\"{}lfc.guid\char`\"{}\label{gfal__common__lfc_8h_8f6afce6b30cd0685eaa45170f52c98e}
@@ -20,6 +27,9 @@ header file for the lfc catalog module
 
 \item 
 \#define \textbf{LFC\_\-MAX\_\-XATTR\_\-LEN}~2048\label{gfal__common__lfc_8h_cb8d26c67c686b15d05f59def23e1356}
+
+\item 
+\#define \textbf{LFC\_\-BUFF\_\-SIZE}~2048\label{gfal__common__lfc_8h_90255f6e7148a56a2c09cc15098643d5}
 
 \end{CompactItemize}
 \subsection*{Functions}
@@ -31,6 +41,9 @@ gfal\_\-catalog\_\-interface \textbf{lfc\_\-init\-G} (gfal\_\-handle, GError $\a
 gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$lfn\_\-url, catalog\_\-mode mode, GError $\ast$$\ast$err)
 \item 
 char $\ast$$\ast$ \bf{lfc\_\-get\-SURLG} (catalog\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
+\item 
+void \textbf{lfc\_\-set\_\-session\_\-timeout} (int timeout)\label{gfal__common__lfc_8h_656ee4eb29a1bcf4e9e1d9a4aafd4c82}
+
 \end{CompactItemize}
 
 

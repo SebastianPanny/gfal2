@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,20 +6,28 @@
 .SH SYNOPSIS
 .br
 .PP
-\fC#include '../gfal_types.h'\fP
+\fC#include <string.h>\fP
 .br
-\fC#include '../gfal_common_internal.h'\fP
+\fC#include <regex.h>\fP
 .br
 \fC#include '../gfal_prototypes.h'\fP
 .br
+\fC#include '../gfal_types.h'\fP
+.br
 \fC#include '../gfal_constants.h'\fP
 .br
-\fC#include 'gfal_common_srm_endpoint.h'\fP
+\fC#include '../../externals/gsimplecache/gcachemain.h'\fP
 .br
 
 .SS "Data Structures"
 
 .in +1c
+.ti -1c
+.RI "struct \fB_gfal_request_state\fP"
+.br
+.ti -1c
+.RI "struct \fB_gfal_srmv2_opt\fP"
+.br
 .ti -1c
 .RI "struct \fB_gfal_srm_result\fP"
 .br
@@ -33,12 +41,40 @@
 .ti -1c
 .RI "#define \fBGFAL_ENDPOINT_DEFAULT_PREFIX\fP   'httpg://'"
 .br
+.ti -1c
+.RI "#define \fBSRM_XATTR_GETURL\fP   'srm.turl'"
+.br
+.ti -1c
+.RI "#define \fBGFAL_SRM_LSTAT_PREFIX\fP   'lstat_'"
+.br
 .in -1c
 .SS "Typedefs"
 
 .in +1c
 .ti -1c
+.RI "typedef \fB_gfal_request_state\fP \fBgfal_request_state\fP"
+.br
+.ti -1c
+.RI "typedef _gfal_srmv2_opt \fBgfal_srmv2_opt\fP"
+.br
+.ti -1c
+.RI "typedef _gfal_srm_result \fBgfal_srm_result\fP"
+.br
+.ti -1c
 .RI "typedef void * \fBsrm_request_handle\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBstatus_type\fP { \fBDEFAULT_STATUS\fP =  0, \fBMD_STATUS\fP, \fBPIN_STATUS\fP }"
+.br
+.ti -1c
+.RI "enum \fBse_type\fP { \fBTYPE_NONE\fP =  0, \fBTYPE_SRM\fP, \fBTYPE_SRMv2\fP, \fBTYPE_SE\fP }"
+.br
+.ti -1c
+.RI "enum \fBgfal_srm_proto\fP { \fBPROTO_SRM\fP = 0, \fBPROTO_SRMv2\fP, \fBPROTO_ERROR_UNKNOW\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -51,32 +87,11 @@
 .RI "gfal_catalog_interface \fBgfal_srm_initG\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_asyncG\fP (gfal_handle handle, GList *surls, GError **err)"
+.RI "void \fBgfal_srm_opt_initG\fP (gfal_srmv2_opt *opts, gfal_handle handle)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_async_resultsG\fP (gfal_handle handle, GList **turls, GError **err)"
+.RI "char * \fBgfal_srm_construct_key\fP (const char *url, const char *prefix, char *buff, const size_t s_buff)"
 .br
-.RI "\fIget the result to the last get_async request \fP"
-.ti -1c
-.RI "gboolean \fBgfal_async_request_is_finishedG\fP (gfal_handle handle, GError **err)"
-.br
-.RI "\fIprogress of the last request \fP"
-.ti -1c
-.RI "int \fBgfal_get_async_results_errcodesG\fP (gfal_handle handle, GList **turl_errcode, GError **err)"
-.br
-.RI "\fIerrcode of each turls request \fP"
-.ti -1c
-.RI "int \fBgfal_get_async_results_errstringG\fP (gfal_handle handle, GList **turl_errstring, GError **err)"
-.br
-.RI "\fIget the error string of each request \fP"
-.ti -1c
-.RI "int \fBgfal_get_async_results_structG\fP (gfal_handle handle, gfal_srm_result **tab_struct, GError **err)"
-.br
-.RI "\fIget \fP"
-.ti -1c
-.RI "int \fBgfal_wait_async_requestG\fP (gfal_handle handle, long timeout, GError **err)"
-.br
-.RI "\fIwait for the current request \fP"
 .ti -1c
 .RI "int \fBgfal_srm_convert_filestatuses_to_GError\fP (struct srmv2_filestatus *statuses, int n, GError **err)"
 .br
@@ -101,125 +116,22 @@ Devresse Adrien
 .RE
 .PP
 
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fB_gfal_request_state\fP  \fBgfal_request_state\fP"
+.PP
+the state of the last request -> depreciated needed to get the response 
 .SH "Function Documentation"
 .PP 
-.SS "gboolean gfal_async_request_is_finishedG (gfal_handle handle, GError ** err)"
+.SS "char* gfal_srm_construct_key (const char * url, const char * prefix, char * buff, const size_t s_buff)\fC [inline]\fP"
 .PP
-progress of the last request 
-.PP
-\fBReturns:\fP
-.RS 4
-return TRUE if the current request is finished else FALSE 
-.RE
-.PP
-\fBParameters:\fP
-.RS 4
-\fIerr\fP : Gerror** err system 
-.RE
-.PP
-
-.SS "int gfal_get_async_results_errcodesG (gfal_handle handle, GList ** turls_errcode, GError ** err)"
-.PP
-errcode of each turls request 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP : handle associated with the request 
-.br
-\fIturl_errcode\fP : GList<int> of all the errcode associated with the request 
-.br
-\fIerr\fP : Gerror** err system 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return number of request turl if success else return negative value 
-.RE
-.PP
-
-.SS "int gfal_get_async_results_errstringG (gfal_handle handle, GList ** turls_errstring, GError ** err)"
-.PP
-get the error string of each request 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP 
-.br
-\fIturl_errcode\fP : GList<char*>, give a string error for each turl request, char* can be NULL if no error associated 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return number of request turl if success else return negative value 
-.RE
-.PP
-
-.SS "int gfal_get_async_results_structG (gfal_handle handle, gfal_srm_result ** tab_struct, GError ** err)"
-.PP
-get 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP 
-.br
-\fItab_struct\fP : struct gfal_srm_result*, give a table of a struct gfal_srm_result 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return number of results in table if success else return negative value 
-.RE
-.PP
-\fBWarning:\fP
-.RS 4
-the *tab_struct need to be free() 
-.RE
-.PP
-
-.SS "int gfal_get_async_resultsG (gfal_handle handle, GList ** turls, GError ** err)"
-.PP
-get the result to the last get_async request 
-.PP
-\fBReturns:\fP
-.RS 4
-return the number of response in turls or negative value if error 
-.RE
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP : handle of the current context 
-.br
-\fIGList**\fP turls : GList<char*> turls with the full list of answer, an answer with error is a NULL pointer 
-.RE
-.PP
-\fBWarning:\fP
-.RS 4
-turls need to be free manually 
-.RE
-.PP
-
+Construct a key for the cache system from a url and a prefix 
 .SS "const char* gfal_srm_getName ()"
 .PP
 srm plugin id 
-.SS "int gfal_wait_async_requestG (gfal_handle handle, long timeout, GError ** err)"
+.SS "void gfal_srm_opt_initG (gfal_srmv2_opt * opts, gfal_handle handle)"
 .PP
-wait for the current request 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIhandle\fP 
-.br
-\fItimeout\fP : maximum time to wait before error 
-.br
-\fIerr\fP : Error report system 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-return 0 if finished correctly, return -1 if timeout is reached or if error ( err is set ) 
-.RE
-.PP
-
+Init an opts struct with the default parameters 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

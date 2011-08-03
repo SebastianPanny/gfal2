@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,6 +13,8 @@
 \fC#include <errno.h>\fP
 .br
 \fC#include <sys/types.h>\fP
+.br
+\fC#include <dirent.h>\fP
 .br
 \fC#include <attr/xattr.h>\fP
 .br
@@ -31,9 +33,26 @@
 \fC#include 'lfc_ifce_ng.h'\fP
 .br
 
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fB_lfc_opendir_handle\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef _lfc_opendir_handle * \fBlfc_opendir_handle\fP"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
+.ti -1c
+.RI "const char * \fBlfc_getName\fP ()"
+.br
 .ti -1c
 .RI "int \fBlfc_chmodG\fP (catalog_handle handle, const char *path, mode_t mode, GError **err)"
 .br
@@ -62,6 +81,9 @@
 .RI "ssize_t \fBlfc_getxattrG\fP (catalog_handle handle, const char *path, const char *name, void *buff, size_t size, GError **err)"
 .br
 .ti -1c
+.RI "ssize_t \fBlfc_listxattrG\fP (catalog_handle handle, const char *path, char *list, size_t size, GError **err)"
+.br
+.ti -1c
 .RI "char * \fBlfc_resolve_guid\fP (catalog_handle handle, const char *guid, GError **err)"
 .br
 .ti -1c
@@ -74,6 +96,9 @@
 .SS "Variables"
 
 .in +1c
+.ti -1c
+.RI "const char * \fBlstat_key_prefix\fP = 'lstat_'"
+.br
 .ti -1c
 .RI "pthread_mutex_t \fBm_lfcinit\fP = PTHREAD_MUTEX_INITIALIZER"
 .br
@@ -112,6 +137,9 @@ implementation of the access call with the lfc catalog return 0 or -1 if error a
 .SS "int lfc_chmodG (catalog_handle handle, const char * path, mode_t mode, GError ** err)"
 .PP
 Implementation of the chmod function with the LFC catalog return 0 or the errno if error, or set GError if serious error 
+.SS "const char* lfc_getName ()"
+.PP
+just return the name of the layer 
 .SS "char** lfc_getSURLG (catalog_handle handle, const char * path, GError ** err)"
 .PP
 resolve the lfc link to the surls 
@@ -122,6 +150,9 @@ lfc getxattr for the path -> guid resolution
 .PP
 lfc getxattr for the path -> surls resolution 
 .SS "ssize_t lfc_getxattrG (catalog_handle handle, const char * path, const char * name, void * buff, size_t size, GError ** err)"
+.PP
+lfc getxattr implem 
+.SS "ssize_t lfc_listxattrG (catalog_handle handle, const char * path, char * list, size_t size, GError ** err)"
 .PP
 lfc getxattr implem 
 .SS "int lfc_renameG (catalog_handle handle, const char * oldpath, const char * newpath, GError ** err)"

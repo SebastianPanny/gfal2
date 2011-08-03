@@ -15,6 +15,9 @@ file for the internal func of the posix interface
 \item 
 \#define \textbf{GFAL\_\-LOCAL\_\-PREFIX}~\char`\"{}file:\char`\"{}\label{gfal__posix__local__file_8c_72e3f23638773071a6db4d9a354ccfdb}
 
+\item 
+\#define \textbf{GFAL\_\-LOCAL\_\-PREFIX\_\-LEN}~5\label{gfal__posix__local__file_8c_ff19b1b9a266e6b8e76d0262b53d7a1a}
+
 \end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
@@ -34,6 +37,9 @@ int \textbf{gfal\_\-local\_\-chmod} (const char $\ast$path, mode\_\-t mode, GErr
 ssize\_\-t \textbf{gfal\_\-local\_\-getxattr} (const char $\ast$path, const char $\ast$name, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_6f5556fe718ce94ebbf6ae370b0ef682}
 
 \item 
+ssize\_\-t \textbf{gfal\_\-local\_\-listxattr} (const char $\ast$path, char $\ast$list, size\_\-t s\_\-list, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_b394025dfe400fe90fd7a692fd7eafea}
+
+\item 
 int \textbf{gfal\_\-local\_\-rename} (const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_360b4701633deaae52f9f77c94173405}
 
 \item 
@@ -47,6 +53,9 @@ int \textbf{gfal\_\-local\_\-mkdir\_\-rec} (const char $\ast$full\_\-path, mode\
 
 \item 
 int \textbf{gfal\_\-local\_\-mkdir} (const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_29c13ce3294eab970124d188fab1c567}
+
+\item 
+int \textbf{gfal\_\-local\_\-unlink} (const char $\ast$path, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_4c00224b96c79f922500d9dc6a8d0a2c}
 
 \item 
 gfal\_\-file\_\-handle \textbf{gfal\_\-local\_\-opendir} (const char $\ast$path, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_56dc809549c9ff1f7f245619fae1dea5}
@@ -71,6 +80,9 @@ int \textbf{gfal\_\-local\_\-write} (gfal\_\-file\_\-handle fh, void $\ast$buff,
 
 \item 
 int \textbf{gfal\_\-local\_\-close} (gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_145bf9e9edbe0321103e13a665c08d8a}
+
+\item 
+ssize\_\-t \textbf{gfal\_\-local\_\-readlink} (const char $\ast$path, char $\ast$buff, size\_\-t buffsiz, GError $\ast$$\ast$err)\label{gfal__posix__local__file_8c_e3c2e173616085706cebd8f39a854685}
 
 \item 
 int \bf{gfal\_\-local\_\-rmdir} (const char $\ast$path, GError $\ast$$\ast$err)

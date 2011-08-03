@@ -34,14 +34,17 @@
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__rfio__plugin__main_8c.html#4ccb47b2adefd1e120cf7bc297c7ddc6">gfal_rfio_check_url</a> (catalog_handle, const char *url, catalog_mode mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="42f38c81dceec6a03f5ef4194bf302de"></a><!-- doxytag: member="gfal_rfio_plugin_main.c::gfal_rfio_internal_check_url" ref="42f38c81dceec6a03f5ef4194bf302de" args="(const char *surl, GError **err)" -->
-gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rfio_internal_check_url</b> (const char *surl, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4d6d0d6d7f4bdfa39ceac7ac58cceabc"></a><!-- doxytag: member="gfal_rfio_plugin_main.c::gfal_rfio_internal_check_url" ref="4d6d0d6d7f4bdfa39ceac7ac58cceabc" args="(gfal_plugin_rfio_handle rh, const char *surl, GError **err)" -->
+gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rfio_internal_check_url</b> (gfal_plugin_rfio_handle rh, const char *surl, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="52d0ae5bb90146d1c3859f7eafa517fa"></a><!-- doxytag: member="gfal_rfio_plugin_main.c::gfal_rfio_getName" ref="52d0ae5bb90146d1c3859f7eafa517fa" args="()" -->
 const char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rfio_getName</b> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5d5e134df56b9dab9254ac9ba04c7671"></a><!-- doxytag: member="gfal_rfio_plugin_main.c::gfal_rfio_destroyG" ref="5d5e134df56b9dab9254ac9ba04c7671" args="(catalog_handle handle)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rfio_destroyG</b> (catalog_handle handle)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8d2d826bd27dfab8db31fda65727b6a2"></a><!-- doxytag: member="gfal_rfio_plugin_main.c::gfal_rfio_regex_compile" ref="8d2d826bd27dfab8db31fda65727b6a2" args="(regex_t *rex, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_rfio_regex_compile</b> (regex_t *rex, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__rfio__plugin__main_8c.html#5c9edde4d67d96432a319d940a4799f1">gfal_plugin_init</a> (gfal_handle handle, GError **err)</td></tr>
 
@@ -123,7 +126,7 @@ Init function, called before all
 Check the rfio url in the gfal module way 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Aug 3 18:13:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

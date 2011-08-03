@@ -1,0 +1,38 @@
+\section{/home/adevress/myworkspace/gfal/src/common/srm/gfal\_\-common\_\-srm\_\-getxattr.h File Reference}
+\label{gfal__common__srm__getxattr_8h}\index{/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.h@{/home/adevress/myworkspace/gfal/src/common/srm/gfal\_\-common\_\-srm\_\-getxattr.h}}
+header for the getxattr function on the srm url type 
+
+{\tt \#include $<$sys/types.h$>$}\par
+{\tt \#include $<$attr/xattr.h$>$}\par
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+ssize\_\-t \bf{gfal\_\-srm\_\-getxattr\-G} (catalog\_\-handle handle, const char $\ast$path, const char $\ast$name, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
+\item 
+ssize\_\-t \bf{gfal\_\-srm\_\-listxattr\-G} (catalog\_\-handle handle, const char $\ast$path, char $\ast$list, size\_\-t size, GError $\ast$$\ast$err)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+header for the getxattr function on the srm url type 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Date:]02/08/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common_srm_getxattr.h@{gfal\_\-common\_\-srm\_\-getxattr.h}!gfal_srm_getxattrG@{gfal\_\-srm\_\-getxattrG}}
+\index{gfal_srm_getxattrG@{gfal\_\-srm\_\-getxattrG}!gfal_common_srm_getxattr.h@{gfal\_\-common\_\-srm\_\-getxattr.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-srm\_\-getxattr\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, const char $\ast$ {\em name}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__getxattr_8h_294634c95c41aced18458de57f4de555}
+
+
+implementation of the getxattr for turl resolution, pin management and spacetoken set/get \index{gfal_common_srm_getxattr.h@{gfal\_\-common\_\-srm\_\-getxattr.h}!gfal_srm_listxattrG@{gfal\_\-srm\_\-listxattrG}}
+\index{gfal_srm_listxattrG@{gfal\_\-srm\_\-listxattrG}!gfal_common_srm_getxattr.h@{gfal\_\-common\_\-srm\_\-getxattr.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-srm\_\-listxattr\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, char $\ast$ {\em list}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__getxattr_8h_5ed727e9131d092843d162ad577287f7}
+
+
+lfc getxattr implem 

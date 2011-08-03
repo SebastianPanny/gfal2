@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.c" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -57,7 +57,8 @@ Devresse Adrien
         .srm_prepare_to_get= &srm_prepare_to_get,
         .srm_prepare_to_put= &srm_prepare_to_put,
         .srm_put_done = &srm_put_done,
-        .srm_setpermission= &srm_setpermission
+        .srm_setpermission= &srm_setpermission,
+        .srm_rm = &srm_rm
 }
 .fi
 .SH "Author"

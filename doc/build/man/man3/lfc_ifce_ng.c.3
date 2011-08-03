@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -11,6 +11,8 @@
 \fC#include <stdio.h>\fP
 .br
 \fC#include <string.h>\fP
+.br
+\fC#include <time.h>\fP
 .br
 \fC#include <sys/types.h>\fP
 .br
@@ -51,6 +53,12 @@
 .br
 .ti -1c
 .RI "void \fBgfal_lfc_init_thread\fP (struct lfc_ops *ops)"
+.br
+.ti -1c
+.RI "void \fBgfal_auto_maintain_session\fP (struct lfc_ops *ops, GError **err)"
+.br
+.ti -1c
+.RI "void \fBlfc_set_session_timeout\fP (int timeout)"
 .br
 .ti -1c
 .RI "int \fBgfal_lfc_startSession\fP (struct lfc_ops *ops, GError **err)"

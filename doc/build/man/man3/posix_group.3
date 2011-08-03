@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -81,6 +81,16 @@ all POSIX style function \-
 .RI "ssize_t \fBgfal_getxattr\fP (const char *path, const char *name, void *value, size_t size)"
 .br
 .RI "\fIretrieve an extended attribute value gfal_getxattr retrieves an extended value from an url managed by gfal \fP"
+.ti -1c
+.RI "ssize_t \fBgfal_readlink\fP (const char *path, char *buff, size_t buffsiz)"
+.br
+.ti -1c
+.RI "int \fBgfal_unlink\fP (const char *path)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_listxattr\fP (const char *path, char *list, size_t size)"
+.br
+.RI "\fIlist all extended attributes gfal_listxattr list all extended atributes associated with a file \fP"
 .ti -1c
 .RI "void \fBgfal_posix_print_error\fP ()"
 .br
@@ -275,6 +285,25 @@ retrieve an extended attribute value gfal_getxattr retrieves an extended value f
 \fIname,:\fP name of the attribute to get 
 .br
 \fIvalue,:\fP pointer to buffer to get the value 
+.br
+\fIsize\fP : size of the buffer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return the size of the data returned, or -1 if error. In the latter case, errno is set appropriately, you can call \fBgfal_posix_check_error()\fP for a more complete description. 
+.RE
+.PP
+
+.SS "ssize_t gfal_listxattr (const char * path, char * list, size_t size)"
+.PP
+list all extended attributes gfal_listxattr list all extended atributes associated with a file 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpath\fP : path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..) 
+.br
+\fIlist,:\fP lsit of the attribute ina stirng format, separated by ''. the size is equal of of the return 
 .br
 \fIsize\fP : size of the buffer 
 .RE

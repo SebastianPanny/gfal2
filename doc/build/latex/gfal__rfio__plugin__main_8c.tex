@@ -16,13 +16,16 @@ header file for bindings for rfio funcs
 \item 
 gboolean \bf{gfal\_\-rfio\_\-check\_\-url} (catalog\_\-handle, const char $\ast$url, catalog\_\-mode mode, GError $\ast$$\ast$err)
 \item 
-gboolean \textbf{gfal\_\-rfio\_\-internal\_\-check\_\-url} (const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__rfio__plugin__main_8c_42f38c81dceec6a03f5ef4194bf302de}
+gboolean \textbf{gfal\_\-rfio\_\-internal\_\-check\_\-url} (gfal\_\-plugin\_\-rfio\_\-handle rh, const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__rfio__plugin__main_8c_4d6d0d6d7f4bdfa39ceac7ac58cceabc}
 
 \item 
 const char $\ast$ \textbf{gfal\_\-rfio\_\-get\-Name} ()\label{gfal__rfio__plugin__main_8c_52d0ae5bb90146d1c3859f7eafa517fa}
 
 \item 
 void \textbf{gfal\_\-rfio\_\-destroy\-G} (catalog\_\-handle handle)\label{gfal__rfio__plugin__main_8c_5d5e134df56b9dab9254ac9ba04c7671}
+
+\item 
+int \textbf{gfal\_\-rfio\_\-regex\_\-compile} (regex\_\-t $\ast$rex, GError $\ast$$\ast$err)\label{gfal__rfio__plugin__main_8c_8d2d826bd27dfab8db31fda65727b6a2}
 
 \item 
 gfal\_\-catalog\_\-interface \bf{gfal\_\-plugin\_\-init} (gfal\_\-handle handle, GError $\ast$$\ast$err)

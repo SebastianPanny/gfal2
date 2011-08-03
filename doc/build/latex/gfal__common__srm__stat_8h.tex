@@ -7,8 +7,7 @@ header file for the stat function on the srm url type
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-int \textbf{gfal\_\-srm\_\-stat\-G} (catalog\_\-handle handle, const char $\ast$surl, struct stat $\ast$buf, GError $\ast$$\ast$err)\label{gfal__common__srm__stat_8h_f7d374066f088638c5afe77ef8a1dd7c}
-
+int \bf{gfal\_\-srm\_\-stat\-G} (catalog\_\-handle handle, const char $\ast$surl, struct stat $\ast$buf, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -21,3 +20,12 @@ header file for the stat function on the srm url type
 \item[Version:]2.0 \end{Desc}
 \begin{Desc}
 \item[Date:]16/05/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common_srm_stat.h@{gfal\_\-common\_\-srm\_\-stat.h}!gfal_srm_statG@{gfal\_\-srm\_\-statG}}
+\index{gfal_srm_statG@{gfal\_\-srm\_\-statG}!gfal_common_srm_stat.h@{gfal\_\-common\_\-srm\_\-stat.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-stat\-G (catalog\_\-handle {\em ch}, const char $\ast$ {\em surl}, struct stat $\ast$ {\em buf}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__stat_8h_f7d374066f088638c5afe77ef8a1dd7c}
+
+
+stat call, for the srm interface stat and lstat are the same call !! the default behavior is similar to stat by default and ignore links 

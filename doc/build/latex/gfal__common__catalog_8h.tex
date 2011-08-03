@@ -46,7 +46,11 @@ enum \textbf{\_\-catalog\_\-mode} \{ \par
 \textbf{GFAL\_\-CATALOG\_\-GETTURL}, 
 \textbf{GFAL\_\-CATALOG\_\-PUTTURL}, 
 \textbf{GFAL\_\-CATALOG\_\-RESOLVE\_\-GUID}, 
-\textbf{GFAL\_\-CATALOG\_\-GETXATTR}
+\textbf{GFAL\_\-CATALOG\_\-GETXATTR}, 
+\par
+\textbf{GFAL\_\-CATALOG\_\-LISTXATTR}, 
+\textbf{GFAL\_\-CATALOG\_\-READLINK}, 
+\textbf{GFAL\_\-CATALOG\_\-UNLINK}
  \}
 \end{CompactItemize}
 \subsection*{Functions}
@@ -95,9 +99,15 @@ int \bf{gfal\_\-catalog\_\-lseek\-G} (gfal\_\-handle handle, gfal\_\-file\_\-han
 \item 
 int \bf{gfal\_\-catalog\_\-read\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
 \item 
+int \textbf{gfal\_\-catalog\_\-unlink\-G} (catalog\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_a1dcb0bef88f1cecc21ead5bf3812143}
+
+\item 
 ssize\_\-t \bf{gfal\_\-catalog\_\-getxattr\-G} (gfal\_\-handle, const char $\ast$, const char $\ast$, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_27fe5dcada7d1a0884baf3df98cf34c8}
 
 \begin{CompactList}\small\item\em implementation in the catalog of the get extended attribute function \item\end{CompactList}\item 
+ssize\_\-t \textbf{gfal\_\-catalog\_\-listxattr\-G} (gfal\_\-handle, const char $\ast$, char $\ast$list, size\_\-t s\_\-list, GError $\ast$$\ast$err)\label{gfal__common__catalog_8h_b2d17a25eefcd7217af8274578d44343}
+
+\item 
 char $\ast$$\ast$ \bf{gfal\_\-catalog\_\-get\-SURL} (gfal\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalog\_\-get\-TURLG} (gfal\_\-handle handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
@@ -252,7 +262,7 @@ Execute an access function on the first catalog compatible in the catalog list r
 
 Delete all instance of catalogs \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}}
 \index{gfal_catalogs_instance@{gfal\_\-catalogs\_\-instance}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_d272f75eb549a72064524ecce3c25fe7}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalogs\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})\hspace{0.3cm}{\tt  [inline]}}\label{gfal__common__catalog_8h_d272f75eb549a72064524ecce3c25fe7}
 
 
 Instance all catalogs for use if it's not the case return the number of catalog available 

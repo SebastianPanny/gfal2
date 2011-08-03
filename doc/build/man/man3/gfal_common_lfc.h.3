@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -16,12 +16,20 @@
 .br
 \fC#include '../gfal_types.h'\fP
 .br
+\fC#include '../../externals/gsimplecache/gcachemain.h'\fP
+.br
 
 .SS "Defines"
 
 .in +1c
 .ti -1c
 .RI "#define \fB_GNU_SOURCE\fP"
+.br
+.ti -1c
+.RI "#define \fBGFAL_LFC_PREFIX\fP   'lfn:'"
+.br
+.ti -1c
+.RI "#define \fBGFAL_LFC_PREFIX_LEN\fP   4"
 .br
 .ti -1c
 .RI "#define \fBLFC_XATTR_GUID\fP   'lfc.guid'"
@@ -31,6 +39,9 @@
 .br
 .ti -1c
 .RI "#define \fBLFC_MAX_XATTR_LEN\fP   2048"
+.br
+.ti -1c
+.RI "#define \fBLFC_BUFF_SIZE\fP   2048"
 .br
 .in -1c
 .SS "Functions"
@@ -44,6 +55,9 @@
 .br
 .ti -1c
 .RI "char ** \fBlfc_getSURLG\fP (catalog_handle handle, const char *path, GError **err)"
+.br
+.ti -1c
+.RI "void \fBlfc_set_session_timeout\fP (int timeout)"
 .br
 .in -1c
 .SH "Detailed Description"

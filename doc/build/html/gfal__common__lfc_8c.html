@@ -24,6 +24,7 @@
 <code>#include &lt;pthread.h&gt;</code><br>
 <code>#include &lt;errno.h&gt;</code><br>
 <code>#include &lt;sys/types.h&gt;</code><br>
+<code>#include &lt;dirent.h&gt;</code><br>
 <code>#include &lt;attr/xattr.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__lfc_8h-source.html">gfal_common_lfc.h</a>&quot;</code><br>
 <code>#include &quot;gfal_common_lfc_open.h&quot;</code><br>
@@ -34,7 +35,16 @@
 <code>#include &quot;<a class="el" href="lfc__ifce__ng_8h-source.html">lfc_ifce_ng.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
+<tr><td colspan="2"><br><h2>Data Structures</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><b>_lfc_opendir_handle</b></td></tr>
+
+<tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5cac68b08f5b09ea46c43428e0fc2cc2"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_opendir_handle" ref="5cac68b08f5b09ea46c43428e0fc2cc2" args="" -->
+typedef _lfc_opendir_handle *&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_opendir_handle</b></td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#67715cf749ea720de31abbc67f9f414e">lfc_getName</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#f40927feaad58de76b5406eb828102a6">lfc_chmodG</a> (catalog_handle handle, const char *path, mode_t mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#c5d7bae3ad9aea9f912d6b91f8d5731e">lfc_accessG</a> (catalog_handle handle, const char *lfn, int mode, GError **err)</td></tr>
@@ -53,6 +63,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#b4cd844c617093e2a9d612583fb334f7">lfc_getxattrG</a> (catalog_handle handle, const char *path, const char *name, void *buff, size_t size, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#e0af2e851445fcb0339ed760a9a78aff">lfc_listxattrG</a> (catalog_handle handle, const char *path, char *list, size_t size, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#b8943f8f5fd7211851bf7732d9c3b50b">lfc_resolve_guid</a> (catalog_handle handle, const char *guid, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#5c9edde4d67d96432a319d940a4799f1">gfal_plugin_init</a> (gfal_handle handle, GError **err)</td></tr>
@@ -60,6 +72,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#8baa624b528deb15ff4ee61fa9948ac8">gfal_lfc_check_lfn_url</a> (catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)</td></tr>
 
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7b9ab9eba66bd31a32acfacc42a87654"></a><!-- doxytag: member="gfal_common_lfc.c::lstat_key_prefix" ref="7b9ab9eba66bd31a32acfacc42a87654" args="" -->
+const char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>lstat_key_prefix</b> = &quot;lstat_&quot;</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a683cb37b7f14c7d477e4653816d20df"></a><!-- doxytag: member="gfal_common_lfc.c::m_lfcinit" ref="a683cb37b7f14c7d477e4653816d20df" args="" -->
 pthread_mutex_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_lfcinit</b> = PTHREAD_MUTEX_INITIALIZER</td></tr>
 
@@ -221,6 +236,25 @@ implementation of the access call with the lfc catalog return 0 or -1 if error a
 
 <p>
 Implementation of the chmod function with the LFC catalog return 0 or the errno if error, or set GError if serious error 
+</div>
+</div><p>
+<a class="anchor" name="67715cf749ea720de31abbc67f9f414e"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_getName" ref="67715cf749ea720de31abbc67f9f414e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* lfc_getName           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+just return the name of the layer 
 </div>
 </div><p>
 <a class="anchor" name="7c1d8699d8ad924234db163860dadf40"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_getSURLG" ref="7c1d8699d8ad924234db163860dadf40" args="(catalog_handle handle, const char *path, GError **err)" -->
@@ -405,6 +439,53 @@ lfc getxattr for the path -&gt; surls resolution
 lfc getxattr implem 
 </div>
 </div><p>
+<a class="anchor" name="e0af2e851445fcb0339ed760a9a78aff"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_listxattrG" ref="e0af2e851445fcb0339ed760a9a78aff" args="(catalog_handle handle, const char *path, char *list, size_t size, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t lfc_listxattrG           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+lfc getxattr implem 
+</div>
+</div><p>
 <a class="anchor" name="cb750f4f936abd772a5f53f5b1fbdaec"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_renameG" ref="cb750f4f936abd772a5f53f5b1fbdaec" args="(catalog_handle handle, const char *oldpath, const char *newpath, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -563,7 +644,7 @@ execute a posix stat request on the lfc return 0 and set struct if correct answe
 Implementation of the symlinkG call for the lfc catalog return 0 if success else -1 if error and set GError 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Aug 3 18:13:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

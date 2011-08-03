@@ -23,6 +23,7 @@
 <code>#include &lt;errno.h&gt;</code><br>
 <code>#include &lt;stdio.h&gt;</code><br>
 <code>#include &lt;string.h&gt;</code><br>
+<code>#include &lt;time.h&gt;</code><br>
 <code>#include &lt;sys/types.h&gt;</code><br>
 <code>#include &lt;dlfcn.h&gt;</code><br>
 <code>#include &lt;stdlib.h&gt;</code><br>
@@ -47,6 +48,12 @@
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_regex_compile</b> (regex_t *rex, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#aed5d8ab4c88e918990444e53930bfa4">gfal_lfc_init_thread</a> (struct lfc_ops *ops)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9be7f93578b4772ec1498fe197f3c2c4"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_auto_maintain_session" ref="9be7f93578b4772ec1498fe197f3c2c4" args="(struct lfc_ops *ops, GError **err)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_auto_maintain_session</b> (struct lfc_ops *ops, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="656ee4eb29a1bcf4e9e1d9a4aafd4c82"></a><!-- doxytag: member="lfc_ifce_ng.c::lfc_set_session_timeout" ref="656ee4eb29a1bcf4e9e1d9a4aafd4c82" args="(int timeout)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_set_session_timeout</b> (int timeout)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="191824f5c6bfee67e81f0c495e9bb778"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_startSession" ref="191824f5c6bfee67e81f0c495e9bb778" args="(struct lfc_ops *ops, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_startSession</b> (struct lfc_ops *ops, GError **err)</td></tr>
@@ -355,7 +362,7 @@ setup the lfc_host correctly for the lfc calls <dl compact><dt><b>Parameters:</b
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Aug 3 18:13:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

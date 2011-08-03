@@ -7,8 +7,12 @@ file for the access function on the srm url type
 {\tt \#include \char`\"{}../gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-common\_\-catalog.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-internal\_\-layer.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-endpoint.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
+\item 
+int \textbf{gfal\_\-access\_\-srmv2\_\-internal} (gfal\_\-srmv2\_\-opt $\ast$opts, char $\ast$endpoint, const char $\ast$surl, int mode, GError $\ast$$\ast$err)\label{gfal__common__srm__access_8c_482394e183f4026d547f17575dc4b8dd}
+
 \item 
 int \bf{gfal\_\-srm\_\-access\-G} (catalog\_\-handle ch, const char $\ast$surl, int mode, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated. \item\end{CompactList}\end{CompactItemize}
@@ -36,7 +40,7 @@ access method for SRMv2 check the right for a given SRM url, work only for SRMv2
 \begin{Desc}
 \item[Parameters:]
 \begin{description}
-\item[{\em handle}]\item[{\em surl}]srm url of a given file \item[{\em mode,access}]mode to check \item[{\em err}]: GError error reprot system \end{description}
+\item[{\em ch}]the handle of the catalog \item[{\em surl}]srm url of a given file \item[{\em mode,access}]mode to check \item[{\em err}]: GError error reprot system \end{description}
 \end{Desc}
 \begin{Desc}
 \item[Warning:]: not safe, surl must be verified \end{Desc}

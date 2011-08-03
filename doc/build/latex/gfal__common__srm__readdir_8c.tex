@@ -2,6 +2,7 @@
 \label{gfal__common__srm__readdir_8c}\index{/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c@{/home/adevress/myworkspace/gfal/src/common/srm/gfal\_\-common\_\-srm\_\-readdir.c}}
 file for the readdir function on the srm url type 
 
+{\tt \#include $<$string.h$>$}\par
 {\tt \#include $<$stdio.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-readdir.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-common\_\-errverbose.h\char`\"{}}\par
@@ -12,9 +13,18 @@ file for the readdir function on the srm url type
 \item 
 \#define \textbf{GFAL\_\-FILENAME\_\-MAX}~FILENAME\_\-MAX\label{gfal__common__srm__readdir_8c_595a5b00305895e25ce0e00b177fd8a8}
 
+\item 
+\#define \textbf{\_\-GNU\_\-SOURCE}\label{gfal__common__srm__readdir_8c_53abf256730d533302d1910e5fb61efe}
+
 \end{CompactItemize}
 \subsection*{Functions}
 \begin{CompactItemize}
+\item 
+int \textbf{gfal\_\-srm\_\-readdir\_\-internal} (catalog\_\-handle ch, gfal\_\-srm\_\-opendir\_\-handle oh, int nb\_\-files, GError $\ast$$\ast$err)\label{gfal__common__srm__readdir_8c_6cd12051a919c3d0e07a6c5e2ac91cb9}
+
+\item 
+dirent $\ast$ \textbf{gfal\_\-srm\_\-readdir\_\-pipeline} (catalog\_\-handle ch, gfal\_\-srm\_\-opendir\_\-handle oh, GError $\ast$$\ast$err)\label{gfal__common__srm__readdir_8c_22a02c9e8668edcc2b552ffbf6e9e433}
+
 \item 
 dirent $\ast$ \textbf{gfal\_\-srm\_\-readdir\-G} (catalog\_\-handle ch, gfal\_\-file\_\-handle fh, GError $\ast$$\ast$err)\label{gfal__common__srm__readdir_8c_fbf0023f141e4c099c13cbc506bdf2dd}
 

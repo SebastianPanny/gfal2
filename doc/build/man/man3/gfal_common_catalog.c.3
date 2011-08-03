@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -50,6 +50,9 @@
 .RI "int \fBgfal_catalog_statG\fP (gfal_handle handle, const char *path, struct stat *st, GError **err)"
 .br
 .ti -1c
+.RI "ssize_t \fBgfal_catalog_readlinkG\fP (gfal_handle handle, const char *path, char *buff, size_t buffsiz, GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_catalog_lstatG\fP (gfal_handle handle, const char *path, struct stat *st, GError **err)"
 .br
 .ti -1c
@@ -93,6 +96,9 @@
 .br
 .RI "\fIimplementation in the catalog of the get extended attribute function \fP"
 .ti -1c
+.RI "ssize_t \fBgfal_catalog_listxattrG\fP (gfal_handle handle, const char *path, char *list, size_t s_list, GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_catalog_getTURLG\fP (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
 .br
 .ti -1c
@@ -117,6 +123,9 @@
 .RI "void \fBgfal_catalog_open_resolve_guid\fP (gfal_handle handle, const char *path, char *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_catalog_unlinkG\fP (catalog_handle handle, const char *path, GError **err)"
+.br
+.ti -1c
 .RI "gfal_file_handle \fBgfal_catalog_open_globalG\fP (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)"
 .br
 .in -1c
@@ -127,11 +136,6 @@ the file of the common lib for the catalog management
 \fBAuthor:\fP
 .RS 4
 Devresse Adrien 
-.RE
-.PP
-\fBVersion:\fP
-.RS 4
-0.0.1 
 .RE
 .PP
 \fBDate:\fP
@@ -275,6 +279,9 @@ return number of bytes readed else -1 if errors and GError is set
 .RE
 .PP
 
+.SS "ssize_t gfal_catalog_readlinkG (gfal_handle handle, const char * path, char * buff, size_t buffsiz, GError ** err)"
+.PP
+Execute a readlink function 
 .SS "int gfal_catalog_renameG (gfal_handle handle, const char * oldpath, const char * newpath, GError ** err)"
 .PP
 Execute the rename function on the first compatible catalog ( checked with check_url func ) 
@@ -338,7 +345,7 @@ result of the access method or -1 if error and set GError with the correct value
 .SS "int gfal_catalogs_delete (gfal_handle handle, GError ** err)"
 .PP
 Delete all instance of catalogs 
-.SS "int gfal_catalogs_instance (gfal_handle handle, GError ** err)"
+.SS "int gfal_catalogs_instance (gfal_handle handle, GError ** err)\fC [inline]\fP"
 .PP
 Instance all catalogs for use if it's not the case return the number of catalog available 
 .SH "Author"

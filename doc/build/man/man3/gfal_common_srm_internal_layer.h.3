@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -11,6 +11,8 @@
 \fC#include <gfal_srm_ifce_types.h>\fP
 .br
 \fC#include <glib.h>\fP
+.br
+\fC#include 'gfal_common_srm.h'\fP
 .br
 \fC#include '../gfal_types.h'\fP
 .br
@@ -49,7 +51,10 @@
 .RI "int \fBgfal_srm_putTURLS_catalog\fP (catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_srm_putdone\fP (gfal_handle handle, char **surls, char *token, GError **err)"
+.RI "int \fBgfal_srm_putdone\fP (gfal_srmv2_opt *opts, char **surls, char *token, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_srm_unlinkG\fP (catalog_handle ch, const char *path, GError **err)"
 .br
 .in -1c
 .SS "Variables"
@@ -81,9 +86,6 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_check_fullendpoint_in_surl (const char * surl, GError ** err)"
-.PP
-return 0 if a full endpoint is contained in surl 
 .SS "int gfal_srm_getTURLS_catalog (catalog_handle ch, const char * surl, char * buff_turl, int size_turl, char ** reqtoken, GError ** err)"
 .PP
 simple wrapper to getTURLs for the gfal_module layer 

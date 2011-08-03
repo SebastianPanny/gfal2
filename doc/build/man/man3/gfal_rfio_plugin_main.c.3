@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -32,13 +32,16 @@
 .RI "gboolean \fBgfal_rfio_check_url\fP (catalog_handle, const char *url, catalog_mode mode, GError **err)"
 .br
 .ti -1c
-.RI "gboolean \fBgfal_rfio_internal_check_url\fP (const char *surl, GError **err)"
+.RI "gboolean \fBgfal_rfio_internal_check_url\fP (gfal_plugin_rfio_handle rh, const char *surl, GError **err)"
 .br
 .ti -1c
 .RI "const char * \fBgfal_rfio_getName\fP ()"
 .br
 .ti -1c
 .RI "void \fBgfal_rfio_destroyG\fP (catalog_handle handle)"
+.br
+.ti -1c
+.RI "int \fBgfal_rfio_regex_compile\fP (regex_t *rex, GError **err)"
 .br
 .ti -1c
 .RI "gfal_catalog_interface \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"

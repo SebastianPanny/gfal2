@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,6 +6,8 @@
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <string.h>\fP
+.br
 \fC#include <dirent.h>\fP
 .br
 \fC#include <stdio.h>\fP
@@ -25,7 +27,7 @@
 
 .in +1c
 .ti -1c
-.RI "gfal_file_handle \fBgfal_srmv2_opendir_internal\fP (gfal_handle handle, char *endpoint, const char *surl, GError **err)"
+.RI "gfal_file_handle \fBgfal_srm_opendir_internal\fP (gfal_srmv2_opt *opts, char *endpoint, const char *surl, GError **err)"
 .br
 .ti -1c
 .RI "gfal_file_handle \fBgfal_srm_opendirG\fP (catalog_handle ch, const char *surl, GError **err)"

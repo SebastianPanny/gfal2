@@ -1,0 +1,49 @@
+\section{/home/adevress/myworkspace/gfal/src/common/dcap/gfal\_\-dcap\_\-plugin\_\-main.c File Reference}
+\label{gfal__dcap__plugin__main_8c}\index{/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_main.c@{/home/adevress/myworkspace/gfal/src/common/dcap/gfal\_\-dcap\_\-plugin\_\-main.c}}
+file for bindings for dcap funcs 
+
+{\tt \#include $<$regex.h$>$}\par
+{\tt \#include $<$time.h$>$}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-internal.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-catalog.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-types.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-dcap\_\-plugin\_\-layer.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-dcap\_\-plugin\_\-main.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-dcap\_\-plugin\_\-bindings.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \textbf{gfal\_\-dcap\_\-destroy\-G} (catalog\_\-handle handle)\label{gfal__dcap__plugin__main_8c_3cf3ae23969060c6a7237d026e6b75b1}
+
+\item 
+gboolean \bf{gfal\_\-dcap\_\-check\_\-url} (catalog\_\-handle ch, const char $\ast$url, catalog\_\-mode mode, GError $\ast$$\ast$err)
+\item 
+gfal\_\-catalog\_\-interface \bf{gfal\_\-plugin\_\-init} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+\item 
+gboolean \textbf{gfal\_\-dcap\_\-internal\_\-check\_\-url} (gfal\_\-plugin\_\-dcap\_\-handle dh, const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__dcap__plugin__main_8c_73fbacad3f9f3025a24c39f4d1dfad2d}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+file for bindings for dcap funcs 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Date:]20/07/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_dcap_plugin_main.c@{gfal\_\-dcap\_\-plugin\_\-main.c}!gfal_dcap_check_url@{gfal\_\-dcap\_\-check\_\-url}}
+\index{gfal_dcap_check_url@{gfal\_\-dcap\_\-check\_\-url}!gfal_dcap_plugin_main.c@{gfal\_\-dcap\_\-plugin\_\-main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-dcap\_\-check\_\-url (catalog\_\-handle {\em ch}, const char $\ast$ {\em url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__dcap__plugin__main_8c_c323af210af0fad41d25089166cc5edd}
+
+
+Check the dcap url in the gfal module way \index{gfal_dcap_plugin_main.c@{gfal\_\-dcap\_\-plugin\_\-main.c}!gfal_plugin_init@{gfal\_\-plugin\_\-init}}
+\index{gfal_plugin_init@{gfal\_\-plugin\_\-init}!gfal_dcap_plugin_main.c@{gfal\_\-dcap\_\-plugin\_\-main.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-catalog\_\-interface gfal\_\-plugin\_\-init (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__dcap__plugin__main_8c_5c9edde4d67d96432a319d940a4799f1}
+
+
+Init function, called before all 

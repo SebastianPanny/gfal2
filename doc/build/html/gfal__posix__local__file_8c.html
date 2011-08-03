@@ -34,6 +34,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="72e3f23638773071a6db4d9a354ccfdb"></a><!-- doxytag: member="gfal_posix_local_file.c::GFAL_LOCAL_PREFIX" ref="72e3f23638773071a6db4d9a354ccfdb" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>GFAL_LOCAL_PREFIX</b>&nbsp;&nbsp;&nbsp;&quot;file:&quot;</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ff19b1b9a266e6b8e76d0262b53d7a1a"></a><!-- doxytag: member="gfal_posix_local_file.c::GFAL_LOCAL_PREFIX_LEN" ref="ff19b1b9a266e6b8e76d0262b53d7a1a" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>GFAL_LOCAL_PREFIX_LEN</b>&nbsp;&nbsp;&nbsp;5</td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3018fb6ca27f7e5da4056bcfc5b76713"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_initG" ref="3018fb6ca27f7e5da4056bcfc5b76713" args="(GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_initG</b> (GError **err)</td></tr>
@@ -50,6 +53,9 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_chmod</b> (
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6f5556fe718ce94ebbf6ae370b0ef682"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_getxattr" ref="6f5556fe718ce94ebbf6ae370b0ef682" args="(const char *path, const char *name, void *buff, size_t s_buff, GError **err)" -->
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_getxattr</b> (const char *path, const char *name, void *buff, size_t s_buff, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b394025dfe400fe90fd7a692fd7eafea"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_listxattr" ref="b394025dfe400fe90fd7a692fd7eafea" args="(const char *path, char *list, size_t s_list, GError **err)" -->
+ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_listxattr</b> (const char *path, char *list, size_t s_list, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="360b4701633deaae52f9f77c94173405"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_rename" ref="360b4701633deaae52f9f77c94173405" args="(const char *oldpath, const char *newpath, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_rename</b> (const char *oldpath, const char *newpath, GError **err)</td></tr>
 
@@ -64,6 +70,9 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_mkdir_rec</
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="29c13ce3294eab970124d188fab1c567"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_mkdir" ref="29c13ce3294eab970124d188fab1c567" args="(const char *path, mode_t mode, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_mkdir</b> (const char *path, mode_t mode, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4c00224b96c79f922500d9dc6a8d0a2c"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_unlink" ref="4c00224b96c79f922500d9dc6a8d0a2c" args="(const char *path, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_unlink</b> (const char *path, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="56dc809549c9ff1f7f245619fae1dea5"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_opendir" ref="56dc809549c9ff1f7f245619fae1dea5" args="(const char *path, GError **err)" -->
 gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_opendir</b> (const char *path, GError **err)</td></tr>
@@ -88,6 +97,9 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_write</b> (
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="145bf9e9edbe0321103e13a665c08d8a"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_close" ref="145bf9e9edbe0321103e13a665c08d8a" args="(gfal_file_handle fh, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_close</b> (gfal_file_handle fh, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e3c2e173616085706cebd8f39a854685"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_readlink" ref="e3c2e173616085706cebd8f39a854685" args="(const char *path, char *buff, size_t buffsiz, GError **err)" -->
+ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_readlink</b> (const char *path, char *buff, size_t buffsiz, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__local__file_8c.html#a89a8db8cb79bf7c575b08305704c248">gfal_local_rmdir</a> (const char *path, GError **err)</td></tr>
 
@@ -193,7 +205,7 @@ local closedir mapper
 local rmdir mapper 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Aug 3 18:13:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

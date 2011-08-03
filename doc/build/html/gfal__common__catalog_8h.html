@@ -62,7 +62,11 @@
 &nbsp;&nbsp;<b>GFAL_CATALOG_GETTURL</b>, 
 <b>GFAL_CATALOG_PUTTURL</b>, 
 <b>GFAL_CATALOG_RESOLVE_GUID</b>, 
-<b>GFAL_CATALOG_GETXATTR</b>
+<b>GFAL_CATALOG_GETXATTR</b>, 
+<br>
+&nbsp;&nbsp;<b>GFAL_CATALOG_LISTXATTR</b>, 
+<b>GFAL_CATALOG_READLINK</b>, 
+<b>GFAL_CATALOG_UNLINK</b>
 <br>
  }</td></tr>
 
@@ -110,10 +114,16 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_guid_acc
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#a0bc8955dc41f743a56c8d2fc68e2e1c">gfal_catalog_readG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a1dcb0bef88f1cecc21ead5bf3812143"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_unlinkG" ref="a1dcb0bef88f1cecc21ead5bf3812143" args="(catalog_handle handle, const char *path, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_unlinkG</b> (catalog_handle handle, const char *path, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="27fe5dcada7d1a0884baf3df98cf34c8"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_getxattrG" ref="27fe5dcada7d1a0884baf3df98cf34c8" args="(gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)" -->
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#27fe5dcada7d1a0884baf3df98cf34c8">gfal_catalog_getxattrG</a> (gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">implementation in the catalog of the get extended attribute function <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b2d17a25eefcd7217af8274578d44343"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_listxattrG" ref="b2d17a25eefcd7217af8274578d44343" args="(gfal_handle, const char *, char *list, size_t s_list, GError **err)" -->
+ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_listxattrG</b> (gfal_handle, const char *, char *list, size_t s_list, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#eeef83dd1c788197ed7ae4a933d8e8d3">gfal_catalog_getSURL</a> (gfal_handle handle, const char *path, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#6e670ae4258db2d05c8b5bc1c66f054a">gfal_catalog_getTURLG</a> (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</td></tr>
@@ -975,7 +985,7 @@ Delete all instance of catalogs
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td width="100%"></td>
+          <td></td><td></td><td width="100%"><code> [inline]</code></td>
         </tr>
       </table>
 </div>
@@ -985,7 +995,7 @@ Delete all instance of catalogs
 Instance all catalogs for use if it's not the case return the number of catalog available 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Aug 3 18:13:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

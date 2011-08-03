@@ -20,30 +20,30 @@
   </ul></div>
 <h1>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.h File Reference</h1>header file for internal use in the srm part, endpoint determination <a href="#_details">More...</a>
 <p>
-<code>#include &quot;<a class="el" href="gfal__common__srm_8h-source.html">gfal_common_srm.h</a>&quot;</code><br>
-<code>#include &quot;gfal_constants.h&quot;</code><br>
 <code>#include &quot;../gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;../gfal_types.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__srm_8h-source.html">gfal_common_srm.h</a>&quot;</code><br>
+<code>#include &quot;gfal_constants.h&quot;</code><br>
 <code>#include &lt;stdlib.h&gt;</code><br>
 
 <p>
 <a href="gfal__common__srm__endpoint_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__endpoint_8h.html#d4518c44afa2a953bea3701d26ae7e9e">gfal_srm_determine_endpoint</a> (gfal_handle handle, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__endpoint_8h.html#e0b7b0c302d9d514df5518cbf8b4c215">gfal_srm_determine_endpoint</a> (gfal_srmv2_opt *opts, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">extract endpoint and srm_type from a surl determine the best endpoint associated with the surl and the param of the actual handle (no bdii check or not) see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations  <a href="#d4518c44afa2a953bea3701d26ae7e9e"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">extract endpoint and srm_type from a surl determine the best endpoint associated with the surl and the param of the actual handle (no bdii check or not) see the diagram in doc/diagrams/surls_get_endpoint_activity_diagram.svg for more informations  <a href="#e0b7b0c302d9d514df5518cbf8b4c215"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__endpoint_8h.html#99a6995d5d222d54f28d7952499f60ba">gfal_check_fullendpoint_in_surlG</a> (const char *surl, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fbb46a068ea2a908160cb7b998377ffd"></a><!-- doxytag: member="gfal_common_srm_endpoint.h::gfal_get_fullendpointG" ref="fbb46a068ea2a908160cb7b998377ffd" args="(const char *surl, char *buff_endpoint, size_t s_buff, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__endpoint_8h.html#fbb46a068ea2a908160cb7b998377ffd">gfal_get_fullendpointG</a> (const char *surl, char *buff_endpoint, size_t s_buff, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create a full endpoint from a "full-surl" <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__endpoint_8h.html#6752ff0c9af50ac505ba7d1f42e43e2d">gfal_select_best_protocol_and_endpointG</a> (gfal_handle handle, char **tab_se_type, char **tab_endpoint, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__endpoint_8h.html#18f17508658a17b98000d81d5300306c">gfal_select_best_protocol_and_endpointG</a> (gfal_srmv2_opt *opts, char **tab_se_type, char **tab_endpoint, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__endpoint_8h.html#140721fdb18fe72533ed6f47122e939d">gfal_get_endpoint_and_setype_from_bdiiG</a> (gfal_handle handle, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__endpoint_8h.html#8ce7110e994216e73c28b439829b1d21">gfal_get_endpoint_and_setype_from_bdiiG</a> (gfal_srmv2_opt *opts, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get endpoint from the bdii system only  <a href="#140721fdb18fe72533ed6f47122e939d"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get endpoint from the bdii system only  <a href="#8ce7110e994216e73c28b439829b1d21"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__endpoint_8h.html#c986f73b04fffd801b49861414fd33b1">gfal_get_hostname_from_surlG</a> (const char *surl, char *buff_hostname, size_t s_buff, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get the hostname from a surl  <a href="#c986f73b04fffd801b49861414fd33b1"></a><br></td></tr>
@@ -84,15 +84,15 @@ header file for internal use in the srm part, endpoint determination
 return TRUE if a full endpoint is contained in surl else FALSE 
 </div>
 </div><p>
-<a class="anchor" name="140721fdb18fe72533ed6f47122e939d"></a><!-- doxytag: member="gfal_common_srm_endpoint.h::gfal_get_endpoint_and_setype_from_bdiiG" ref="140721fdb18fe72533ed6f47122e939d" args="(gfal_handle handle, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)" -->
+<a class="anchor" name="8ce7110e994216e73c28b439829b1d21"></a><!-- doxytag: member="gfal_common_srm_endpoint.h::gfal_get_endpoint_and_setype_from_bdiiG" ref="8ce7110e994216e73c28b439829b1d21" args="(gfal_srmv2_opt *opts, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int gfal_get_endpoint_and_setype_from_bdiiG           </td>
           <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
+          <td class="paramtype">gfal_srmv2_opt *&nbsp;</td>
+          <td class="paramname"> <em>opts</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -184,15 +184,15 @@ get the hostname from a surl
 
 </div>
 </div><p>
-<a class="anchor" name="6752ff0c9af50ac505ba7d1f42e43e2d"></a><!-- doxytag: member="gfal_common_srm_endpoint.h::gfal_select_best_protocol_and_endpointG" ref="6752ff0c9af50ac505ba7d1f42e43e2d" args="(gfal_handle handle, char **tab_se_type, char **tab_endpoint, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)" -->
+<a class="anchor" name="18f17508658a17b98000d81d5300306c"></a><!-- doxytag: member="gfal_common_srm_endpoint.h::gfal_select_best_protocol_and_endpointG" ref="18f17508658a17b98000d81d5300306c" args="(gfal_srmv2_opt *opts, char **tab_se_type, char **tab_endpoint, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int gfal_select_best_protocol_and_endpointG           </td>
           <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
+          <td class="paramtype">gfal_srmv2_opt *&nbsp;</td>
+          <td class="paramname"> <em>opts</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -243,15 +243,15 @@ get the hostname from a surl
 select the best protocol choice and the best endpoint choice from a list of protocol and endpoints obtained by the bdii 
 </div>
 </div><p>
-<a class="anchor" name="d4518c44afa2a953bea3701d26ae7e9e"></a><!-- doxytag: member="gfal_common_srm_endpoint.h::gfal_srm_determine_endpoint" ref="d4518c44afa2a953bea3701d26ae7e9e" args="(gfal_handle handle, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)" -->
+<a class="anchor" name="e0b7b0c302d9d514df5518cbf8b4c215"></a><!-- doxytag: member="gfal_common_srm_endpoint.h::gfal_srm_determine_endpoint" ref="e0b7b0c302d9d514df5518cbf8b4c215" args="(gfal_srmv2_opt *opts, const char *surl, char *buff_endpoint, size_t s_buff, enum gfal_srm_proto *srm_type, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int gfal_srm_determine_endpoint           </td>
           <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
+          <td class="paramtype">gfal_srmv2_opt *&nbsp;</td>
+          <td class="paramname"> <em>opts</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -299,7 +299,7 @@ extract endpoint and srm_type from a surl determine the best endpoint associated
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Aug 3 18:13:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

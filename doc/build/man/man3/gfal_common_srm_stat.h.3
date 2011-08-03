@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.h" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.h" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -38,6 +38,11 @@ Devresse Adrien
 .RE
 .PP
 
+.SH "Function Documentation"
+.PP 
+.SS "int gfal_srm_statG (catalog_handle ch, const char * surl, struct stat * buf, GError ** err)"
+.PP
+stat call, for the srm interface stat and lstat are the same call !! the default behavior is similar to stat by default and ignore links 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

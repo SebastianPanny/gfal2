@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -17,6 +17,8 @@
 \fC#include '../gfal_prototypes.h'\fP
 .br
 \fC#include '../gfal_types.h'\fP
+.br
+\fC#include '../../externals/gsimplecache/gcachemain.h'\fP
 .br
 
 .SS "Data Structures"
@@ -71,6 +73,9 @@
 .br
 .ti -1c
 .RI "int \fBgfal_lfc_startSession\fP (struct lfc_ops *ops, GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_auto_maintain_session\fP (struct lfc_ops *ops, GError **err)"
 .br
 .ti -1c
 .RI "ssize_t \fBg_strv_catbuff\fP (char **strv, char *buff, size_t size)"

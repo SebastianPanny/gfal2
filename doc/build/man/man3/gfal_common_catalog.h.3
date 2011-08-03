@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "21 Jul 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" 3 "3 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -46,7 +46,7 @@
 
 .in +1c
 .ti -1c
-.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_SYMLINK\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_GETSURL\fP, \fBGFAL_CATALOG_GETTURL\fP, \fBGFAL_CATALOG_PUTTURL\fP, \fBGFAL_CATALOG_RESOLVE_GUID\fP, \fBGFAL_CATALOG_GETXATTR\fP }"
+.RI "enum \fB_catalog_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_SYMLINK\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_GETSURL\fP, \fBGFAL_CATALOG_GETTURL\fP, \fBGFAL_CATALOG_PUTTURL\fP, \fBGFAL_CATALOG_RESOLVE_GUID\fP, \fBGFAL_CATALOG_GETXATTR\fP, \fBGFAL_CATALOG_LISTXATTR\fP, \fBGFAL_CATALOG_READLINK\fP, \fBGFAL_CATALOG_UNLINK\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -113,9 +113,15 @@
 .RI "int \fBgfal_catalog_readG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
+.RI "int \fBgfal_catalog_unlinkG\fP (catalog_handle handle, const char *path, GError **err)"
+.br
+.ti -1c
 .RI "ssize_t \fBgfal_catalog_getxattrG\fP (gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)"
 .br
 .RI "\fIimplementation in the catalog of the get extended attribute function \fP"
+.ti -1c
+.RI "ssize_t \fBgfal_catalog_listxattrG\fP (gfal_handle, const char *, char *list, size_t s_list, GError **err)"
+.br
 .ti -1c
 .RI "char ** \fBgfal_catalog_getSURL\fP (gfal_handle handle, const char *path, GError **err)"
 .br
@@ -310,7 +316,7 @@ result of the access method or -1 if error and set GError with the correct value
 .SS "int gfal_catalogs_delete (gfal_handle handle, GError ** err)"
 .PP
 Delete all instance of catalogs 
-.SS "int gfal_catalogs_instance (gfal_handle handle, GError ** err)"
+.SS "int gfal_catalogs_instance (gfal_handle handle, GError ** err)\fC [inline]\fP"
 .PP
 Instance all catalogs for use if it's not the case return the number of catalog available 
 .SH "Author"

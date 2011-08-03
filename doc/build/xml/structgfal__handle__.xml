@@ -380,19 +380,6 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/doc/src/API_CHANGE2.0.c" line="94" bodyfile="/home/adevress/myworkspace/gfal/doc/src/API_CHANGE2.0.c" bodystart="94" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structgfal__handle___10cda107d439be9411c84f8025b2ee39d" prot="public" static="no" mutable="no">
-        <type>enum gfal_srm_proto</type>
-        <definition>enum gfal_srm_proto gfal_handle_::srm_proto_type</definition>
-        <argsstring></argsstring>
-        <name>srm_proto_type</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="118" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="118" bodyend="-1"/>
-      </memberdef>
       <memberdef kind="variable" id="structgfal__handle___169fd842c25daf65a4db66509a7373fc1" prot="public" static="no" mutable="no">
         <type>gboolean</type>
         <definition>gboolean gfal_handle_::initiated</definition>
@@ -404,33 +391,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="119" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="119" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="structgfal__handle___1e74ab6821d24d35aa156111b9d4b8ba3" prot="public" static="no" mutable="no">
-        <type>gfal_srmv2_opt *</type>
-        <definition>gfal_srmv2_opt* gfal_handle_::srmv2_opt</definition>
-        <argsstring></argsstring>
-        <name>srmv2_opt</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="121" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="121" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="structgfal__handle___134237d78ba324b801deb7d49522109d7" prot="public" static="no" mutable="no">
-        <type><ref refid="struct__gfal__request__state" kindref="compound">gfal_request_state</ref> *</type>
-        <definition>gfal_request_state* gfal_handle_::last_request_state</definition>
-        <argsstring></argsstring>
-        <name>last_request_state</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="123" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="123" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="63" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structgfal__handle___1b8f35d2ad5f717a4b217ac9766bf56b2" prot="public" static="no" mutable="no">
         <type><ref refid="struct__catalog__opts" kindref="compound">_catalog_opts</ref></type>
@@ -443,7 +404,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="125" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="125" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="66" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structgfal__handle___113f26b9305ca69f6233b75af02213133" prot="public" static="no" mutable="no">
         <type>gfal_descriptors_container</type>
@@ -456,7 +417,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="127" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="127" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -464,22 +425,15 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="29">
+      <node id="40">
         <label>gfal_handle_</label>
-        <childnode refid="30" relation="usage">
+        <childnode refid="41" relation="usage">
           <edgelabel>catalog_opt</edgelabel>
         </childnode>
-        <childnode refid="31" relation="usage">
-          <edgelabel>last_request_state</edgelabel>
-        </childnode>
       </node>
-      <node id="30">
+      <node id="41">
         <label>_catalog_opts</label>
         <link refid="struct__catalog__opts"/>
-      </node>
-      <node id="31">
-        <label>_gfal_request_state</label>
-        <link refid="struct__gfal__request__state"/>
       </node>
     </collaborationgraph>
     <location file="/home/adevress/myworkspace/gfal/doc/src/API_CHANGE2.0.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/doc/src/API_CHANGE2.0.c" bodystart="50" bodyend="95"/>
@@ -492,7 +446,6 @@
       <member refid="structgfal__handle___13ad0e0a5175e92476249f305bc90c83d" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>free_endpoint</name></member>
       <member refid="structgfal__handle___162700e1a8efc6dbf6f46eb680abe7a20" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>generatesurls</name></member>
       <member refid="structgfal__handle___169fd842c25daf65a4db66509a7373fc1" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>initiated</name></member>
-      <member refid="structgfal__handle___134237d78ba324b801deb7d49522109d7" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>last_request_state</name></member>
       <member refid="structgfal__handle___16a01d990717dd315cf2822c1a2b79d38" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>nbfiles</name></member>
       <member refid="structgfal__handle___1e523f7915e9497b01f072461b8efe33a" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>no_bdii_check</name></member>
       <member refid="structgfal__handle___15af58b8bffe5c430a9eae46977946833" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>oflag</name></member>
@@ -504,7 +457,6 @@
       <member refid="structgfal__handle___1905014779e5bece4fc2bde9fe23ec1fd" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>setype</name></member>
       <member refid="structgfal__handle___1bf4fa6c0b5d4a23594bcb1ffb1297c4f" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>sfn_statuses</name></member>
       <member refid="structgfal__handle___1d207e36d3dcebdeebcfd239b16e09bf2" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srm_mdstatuses</name></member>
-      <member refid="structgfal__handle___10cda107d439be9411c84f8025b2ee39d" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srm_proto_type</name></member>
       <member refid="structgfal__handle___129c946e20a33a6b7d751b0a69bef2f22" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srm_reqid</name></member>
       <member refid="structgfal__handle___184c15a967855ddd613096448dd0ba4e6" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srm_statuses</name></member>
       <member refid="structgfal__handle___1ebe85b27ffc8384001eb769eb621b06d" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srmv2_desiredpintime</name></member>
@@ -512,7 +464,6 @@
       <member refid="structgfal__handle___1914e662f7820b5864444c06f0b7f392f" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srmv2_lslevels</name></member>
       <member refid="structgfal__handle___1773681625da690617f47484b450167eb" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srmv2_lsoffset</name></member>
       <member refid="structgfal__handle___1eda94944b159eee087bdf639a9749ee6" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srmv2_mdstatuses</name></member>
-      <member refid="structgfal__handle___1e74ab6821d24d35aa156111b9d4b8ba3" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srmv2_opt</name></member>
       <member refid="structgfal__handle___102c0e20f750d7ebd85ef2defa87ea9bc" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srmv2_pinstatuses</name></member>
       <member refid="structgfal__handle___16215c08b94d02f2a899241b3a07a40d2" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srmv2_spacetokendesc</name></member>
       <member refid="structgfal__handle___1758ab017367ec8ebd64cb90095b959b8" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>srmv2_statuses</name></member>

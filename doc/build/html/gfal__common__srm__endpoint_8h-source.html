@@ -36,25 +36,25 @@
 <a name="l00016"></a>00016 <span class="comment"> * limitations under the License.</span>
 <a name="l00017"></a>00017 <span class="comment"> */</span>
 <a name="l00018"></a>00018 
-<a name="l00027"></a>00027 <span class="preprocessor">#include "<a class="code" href="gfal__common__srm_8h.html">gfal_common_srm.h</a>"</span>
-<a name="l00028"></a>00028 <span class="preprocessor">#include "gfal_constants.h"</span>
-<a name="l00029"></a>00029 <span class="preprocessor">#include "../gfal_prototypes.h"</span>
-<a name="l00030"></a>00030 <span class="preprocessor">#include "../gfal_types.h"</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include "../gfal_prototypes.h"</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include "../gfal_types.h"</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include "<a class="code" href="gfal__common__srm_8h.html">gfal_common_srm.h</a>"</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include "gfal_constants.h"</span>
 <a name="l00031"></a>00031 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
 <a name="l00032"></a>00032 
-<a name="l00033"></a>00033 <span class="keywordtype">int</span> <a class="code" href="gfal__common__srm__endpoint_8c.html#d4518c44afa2a953bea3701d26ae7e9e">gfal_srm_determine_endpoint</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* surl, <span class="keywordtype">char</span>* buff_endpoint, size_t s_buff, <span class="keyword">enum</span> gfal_srm_proto* srm_type, GError** err);
+<a name="l00033"></a>00033 <span class="keywordtype">int</span> <a class="code" href="gfal__common__srm__endpoint_8c.html#e0b7b0c302d9d514df5518cbf8b4c215">gfal_srm_determine_endpoint</a>(gfal_srmv2_opt* opts, <span class="keyword">const</span> <span class="keywordtype">char</span>* surl, <span class="keywordtype">char</span>* buff_endpoint, size_t s_buff, <span class="keyword">enum</span> gfal_srm_proto* srm_type, GError** err);
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035 
 <a name="l00036"></a>00036 gboolean <a class="code" href="gfal__common__srm__endpoint_8c.html#99a6995d5d222d54f28d7952499f60ba">gfal_check_fullendpoint_in_surlG</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* surl, GError** err);
 <a name="l00037"></a>00037 
 <a name="l00038"></a>00038 <span class="keywordtype">int</span> <a class="code" href="gfal__common__srm__endpoint_8c.html#fbb46a068ea2a908160cb7b998377ffd">gfal_get_fullendpointG</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* surl, <span class="keywordtype">char</span>* buff_endpoint, size_t s_buff, GError** err);
 <a name="l00039"></a>00039 
-<a name="l00040"></a>00040 <span class="keywordtype">int</span> <a class="code" href="gfal__common__srm__endpoint_8c.html#6752ff0c9af50ac505ba7d1f42e43e2d">gfal_select_best_protocol_and_endpointG</a>(gfal_handle handle, <span class="keywordtype">char</span>** tab_se_type, <span class="keywordtype">char</span>** tab_endpoint, <span class="keywordtype">char</span>* buff_endpoint, size_t s_buff, <span class="keyword">enum</span> gfal_srm_proto* srm_type, GError** err);
+<a name="l00040"></a>00040 <span class="keywordtype">int</span> <a class="code" href="gfal__common__srm__endpoint_8c.html#18f17508658a17b98000d81d5300306c">gfal_select_best_protocol_and_endpointG</a>(gfal_srmv2_opt* opts, <span class="keywordtype">char</span>** tab_se_type, <span class="keywordtype">char</span>** tab_endpoint, <span class="keywordtype">char</span>* buff_endpoint, size_t s_buff, <span class="keyword">enum</span> gfal_srm_proto* srm_type, GError** err);
 <a name="l00041"></a>00041 
-<a name="l00042"></a>00042 <span class="keywordtype">int</span> <a class="code" href="gfal__common__srm__endpoint_8c.html#140721fdb18fe72533ed6f47122e939d">gfal_get_endpoint_and_setype_from_bdiiG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* surl, <span class="keywordtype">char</span>* buff_endpoint, size_t s_buff, <span class="keyword">enum</span> gfal_srm_proto* srm_type, GError** err);
+<a name="l00042"></a>00042 <span class="keywordtype">int</span> <a class="code" href="gfal__common__srm__endpoint_8c.html#8ce7110e994216e73c28b439829b1d21">gfal_get_endpoint_and_setype_from_bdiiG</a>(gfal_srmv2_opt* opts, <span class="keyword">const</span> <span class="keywordtype">char</span>* surl, <span class="keywordtype">char</span>* buff_endpoint, size_t s_buff, <span class="keyword">enum</span> gfal_srm_proto* srm_type, GError** err);
 <a name="l00043"></a>00043 
 <a name="l00044"></a>00044 <span class="keywordtype">int</span>  <a class="code" href="gfal__common__srm__endpoint_8c.html#c986f73b04fffd801b49861414fd33b1">gfal_get_hostname_from_surlG</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * surl, <span class="keywordtype">char</span>* buff_hostname, size_t s_buff, GError** err);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Aug 3 18:13:01 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

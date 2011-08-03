@@ -778,6 +778,97 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="370" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="369" bodyend="372"/>
       </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g3a5bc0f156017008ab7fdb92cb6f9c80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t gfal_readlink</definition>
+        <argsstring>(const char *path, char *buff, size_t buffsiz)</argsstring>
+        <name>gfal_readlink</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>buff</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>buffsiz</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="375" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="375" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1g62ca394b24df6a33810eadf083cf2468" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_unlink</definition>
+        <argsstring>(const char *path)</argsstring>
+        <name>gfal_unlink</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="379" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="379" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1gb3af1720532d8ad4798b08fa0868f4c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t gfal_listxattr</definition>
+        <argsstring>(const char *path, char *list, size_t size)</argsstring>
+        <name>gfal_listxattr</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>list all extended attributes gfal_listxattr list all extended atributes associated with a file </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>list</parametername>
+<parametername>:</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>lsit of the attribute ina stirng format, separated by &apos;&apos;. the size is equal of of the return </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: size of the buffer </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return the size of the data returned, or -1 if error. In the latter case, errno is set appropriately, you can call <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="393" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="393" bodyend="395"/>
+      </memberdef>
       <memberdef kind="function" id="group__posix__group_1g03fcc29bc5d79dc2f65010846b0db024" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void gfal_posix_print_error</definition>
@@ -789,7 +880,7 @@
 <para>Display the last string error reported by the gfal error system for the posix API Errors are printed on stderr </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="379" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="379" bodyend="392"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="402" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="402" bodyend="415"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g85337290460234042db0adfd54514df9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -802,7 +893,7 @@
 <para>Display and clear the last string error reported by the gfal error system for the posix API and similar to a <ref refid="group__posix__group_1g03fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> and a <ref refid="group__posix__group_1ga8252652c1dc86d71ba37b401fb675f9" kindref="member">gfal_posix_clear_error()</ref> </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="398" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="398" bodyend="401"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="421" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="421" bodyend="424"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1ga8252652c1dc86d71ba37b401fb675f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -815,7 +906,7 @@
 <para>clear the last error reported by a gfal posix function </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="409" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="409" bodyend="419"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="432" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="432" bodyend="435"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gc6149b0b3c9c8af05789169a18832634" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -828,7 +919,7 @@
 <para>return the current error code registered or if not exist </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="425" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="425" bodyend="435"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="441" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="441" bodyend="446"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -842,7 +933,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="441" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="441" bodyend="454"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="452" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="452" bodyend="461"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g2a9e2951c934dd1c3205a89c0d25ac29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -863,7 +954,7 @@
 <para>get the current error string </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="460" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="460" bodyend="469"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="467" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="467" bodyend="471"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

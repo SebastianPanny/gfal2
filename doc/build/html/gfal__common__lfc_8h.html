@@ -25,6 +25,7 @@
 <code>#include &quot;<a class="el" href="gfal__common__catalog_8h-source.html">../gfal_common_catalog.h</a>&quot;</code><br>
 <code>#include &quot;../gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;../gfal_types.h&quot;</code><br>
+<code>#include &quot;../../externals/gsimplecache/gcachemain.h&quot;</code><br>
 
 <p>
 <a href="gfal__common__lfc_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -32,6 +33,12 @@
 <tr><td colspan="2"><br><h2>Defines</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="53abf256730d533302d1910e5fb61efe"></a><!-- doxytag: member="gfal_common_lfc.h::_GNU_SOURCE" ref="53abf256730d533302d1910e5fb61efe" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>_GNU_SOURCE</b></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c00d877428b39b35b4f611656b2d5215"></a><!-- doxytag: member="gfal_common_lfc.h::GFAL_LFC_PREFIX" ref="c00d877428b39b35b4f611656b2d5215" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>GFAL_LFC_PREFIX</b>&nbsp;&nbsp;&nbsp;&quot;lfn:&quot;</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0f0b96660a7e6440a6556909e7195109"></a><!-- doxytag: member="gfal_common_lfc.h::GFAL_LFC_PREFIX_LEN" ref="0f0b96660a7e6440a6556909e7195109" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>GFAL_LFC_PREFIX_LEN</b>&nbsp;&nbsp;&nbsp;4</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8f6afce6b30cd0685eaa45170f52c98e"></a><!-- doxytag: member="gfal_common_lfc.h::LFC_XATTR_GUID" ref="8f6afce6b30cd0685eaa45170f52c98e" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>LFC_XATTR_GUID</b>&nbsp;&nbsp;&nbsp;&quot;lfc.guid&quot;</td></tr>
@@ -42,6 +49,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="cb8d26c67c686b15d05f59def23e1356"></a><!-- doxytag: member="gfal_common_lfc.h::LFC_MAX_XATTR_LEN" ref="cb8d26c67c686b15d05f59def23e1356" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>LFC_MAX_XATTR_LEN</b>&nbsp;&nbsp;&nbsp;2048</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="90255f6e7148a56a2c09cc15098643d5"></a><!-- doxytag: member="gfal_common_lfc.h::LFC_BUFF_SIZE" ref="90255f6e7148a56a2c09cc15098643d5" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>LFC_BUFF_SIZE</b>&nbsp;&nbsp;&nbsp;2048</td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0d4af55002fa4216f9915b5a1a721ef4"></a><!-- doxytag: member="gfal_common_lfc.h::lfc_initG" ref="0d4af55002fa4216f9915b5a1a721ef4" args="(gfal_handle, GError **)" -->
 gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_initG</b> (gfal_handle, GError **)</td></tr>
@@ -49,6 +59,9 @@ gfal_catalog_interface&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8h.html#8baa624b528deb15ff4ee61fa9948ac8">gfal_lfc_check_lfn_url</a> (catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8h.html#7c1d8699d8ad924234db163860dadf40">lfc_getSURLG</a> (catalog_handle handle, const char *path, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="656ee4eb29a1bcf4e9e1d9a4aafd4c82"></a><!-- doxytag: member="gfal_common_lfc.h::lfc_set_session_timeout" ref="656ee4eb29a1bcf4e9e1d9a4aafd4c82" args="(int timeout)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_set_session_timeout</b> (int timeout)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -134,7 +147,7 @@ Check if the passed url and operation is compatible with lfc
 resolve the lfc link to the surls 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 21 18:37:37 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Aug 3 18:13:02 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
