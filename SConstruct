@@ -82,7 +82,7 @@ gsimplecache = SConscript(build_dir_externals +'/gsimplecache/SConscript',['head
 
 #main build
 VariantDir(build_dir_src, 'src')
-SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src'])
+mainlib = SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src'])
 
 
 # global testing build
@@ -93,6 +93,21 @@ env_test = env.Clone()
 env_test.Append(CPPPATH=[ "#src/common", "#src/", "#src/posix"])
 VariantDir(build_dir_test, 'test')
 SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src'])
+
+#package staff
+env_pack= env.Clone()
+files = env_pack.Install('/usr/lib/', mainlib)
+package = env_pack.Package( 
+			 NAME     = 'gfal2',
+			 VERSION        = '2.0',
+			 PACKAGEVERSION = 1.0,
+			 PACKAGETYPE    = 'rpm',
+			 LICENSE        = 'Apache2.0',
+			 SUMMARY        = 'grid file access library 2.0',
+			 DESCRIPTION    = 'Provide a POSIX like API to manage file and directory with the multiples protocols of the grid',
+			 X_RPM_GROUP    = 'CERN/grid',
+			 source= [files]		
+			 )	
 	
 
 	

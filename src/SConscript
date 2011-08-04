@@ -26,11 +26,11 @@ env_posix.Append(LIBS=gfal_common_libs)
 env_posix.Append(CPPPATH=other_headers)
 
 #main gfal lib
-mainlib = env_posix.SharedLibrary('#build/libs/libgfal-2.0', src_all)
-staticlib = env_posix.StaticLibrary('#build/libs/libgfal-2.0', src_all)
+mainlib = env_posix.SharedLibrary('#build/libs/libgfal2', src_all)
+staticlib = env_posix.StaticLibrary('#build/libs/libgfal2', src_all)
 #plugins
 env_plugin = env.Clone();
-env_plugin.Append(LIBS=["gfal-2.0"])
+env_plugin.Append(LIBS=["gfal2"])
 env_plugin_srm = env_plugin.Clone()
 env_plugin_srm.Append(LIBS=["gfal_srm_ifce"] )
 env_plugin_lfc = env_plugin.Clone();
@@ -41,24 +41,10 @@ plugin_dcap_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_dcap', pl
 plugin_srm_lib = env_plugin_srm.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm + gsimplecache)
 
 #gfal version
-version = env_plugin.Program("#build/gfal_version", Glob("version/*.c"))
+version = env_plugin.Program("#build/gfal2_version", Glob("version/*.c"))
 
-if ARGUMENTS.get('package','0') =='yes':
-	print "PACKAGING mode MODE"
-	#print "Architecture : " +ctypes.sizeof(ctypes.c_voidp)*8 + "bits"
-	env_posix.Install('/usr/lib/', '#build/libs/libgfal-2.0.so')
-	env_posix.Package(
-				 NAME     = 'gfal-2.0',
-				 VERSION        = '2.0_preview',
-				 PACKAGEVERSION = 0,
-				 PACKAGETYPE    = 'rpm',
-				 LICENSE        = 'Apache',
-				 SUMMARY        = 'grid file access library 2.0',
-				 DESCRIPTION    = 'Provide a POSIX like API to manage file and directory with the multiples protocols of the grid',
-				 X_RPM_GROUP    = 'CERN/grid',
-				 SOURCE_URL     = 'https://svnweb.cern.ch/trac/lcgutil/wiki'
-			)
+
+
 
 
 Default(plugin_rfio_lib, plugin_dcap_lib, plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib, version)
-
