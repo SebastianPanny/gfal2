@@ -21,7 +21,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "gfal_api.h"
+#include "../gfal_api.h"
 
 main(int argc, char **argv)
 {

@@ -29,7 +29,6 @@
 #include "gfal_posix_internal.h"
 #include "../common/gfal_constants.h" 
 #include "../common/gfal_prototypes.h"
-#include "../common/srm/gfal_common_srm_opendir.h"
 #include "../common/gfal_common_filedescriptor.h"
 #include "../common/gfal_common_dir_handle.h"
 #include "../common/gfal_common_errverbose.h"

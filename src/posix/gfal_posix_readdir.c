@@ -33,7 +33,6 @@
 #include "../common/gfal_common_filedescriptor.h"
 #include "../common/gfal_common_dir_handle.h"
 #include "../common/gfal_common_errverbose.h"
-#include "../common/srm/gfal_common_srm_readdir.h"
 #include "gfal_posix_local_file.h"
 
 

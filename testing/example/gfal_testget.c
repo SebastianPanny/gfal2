@@ -25,21 +25,23 @@
 #include <string.h>
 #include <sys/types.h>
 #include <errno.h>
-#include "common/gfal_common.h"
 #include <sys/param.h>
 
 #define DEFPOLLINT 10
+#define TURL_MAX_SIZE 1024
 
-//#define gfal_handle_free(x) gfal_internal_free(x)
+#ifdef _GFAL_1_X
+#define gfal_handle_free(x) gfal_internal_free(x)
+
+
+#include <gfal_api.h>
 
 main(argc, argv)
 int argc;
 char **argv;
 {
-	int errsz = 500;
-	char err[errsz];
-	gfal_request req = NULL;
-	gfal_handle gobj = NULL;
+		gfal_request req = NULL;
+	gfal_internal gobj = NULL;
 	gfal_filestatus *filestatuses = NULL;
 	int sav_errno = 0, n = 0, i = 0, nberrors = 0;
 	static char *protos[] = {"rfio", "dcap", "gsiftp"};
@@ -49,7 +51,7 @@ char **argv;
 		exit (1);
 	}
 
-	gfal_set_verbose (GFAL_VERBOSE_VERBOSE);
+	gfal_set_verbose (0);
 
 	if ((req = gfal_request_new ()) == NULL)
 		exit (1);
@@ -66,25 +68,19 @@ char **argv;
 	}
 	free (req);
 
-	if (gfal_get (gobj, NULL, 0) < 0 ) {
+	if (gfal_turlsfromsurls (gobj, NULL, 0) < 0) {
 		sav_errno = errno;
-		gfal_handle_free (gobj);
+		gfal_internal_free (gobj);
 		errno = sav_errno;
 		perror (argv[0]);
 		exit (1);
 	}
-//	clock_t futur = clock () + 7 * CLOCKS_PER_SEC ;
-	
-	if( gfal_getstatus(gobj,err,errsz) <0){
-		fprintf(stderr, " %s error in getstatus : %s ", argv[0], strerror(errno));
-		exit(-1);		
-	}
-//	sleep(10);
+
 	if ((n = gfal_get_results (gobj, &filestatuses)) < 0) {
 		sav_errno = errno;
-		gfal_handle_free (gobj);
+		gfal_internal_free (gobj);
 		errno = sav_errno;
-		perror (" testget gfal_get_results");
+		perror (argv[0]);
 		exit (1);
 	}
 
@@ -105,6 +101,41 @@ char **argv;
 		}
 	}
 
-	gfal_handle_free (gobj);
+	gfal_internal_free (gobj);
 	exit (nberrors > 0 ? 1 : 0);
 }
+
+#else
+
+#include <gfal_api.h>
+
+// new system for simple turl resolution 
+
+int main(int argc,char **argv)
+{
+	int errsz = 500;
+	char err[errsz];
+
+	char turl_buff[TURL_MAX_SIZE];
+
+	if (argc < 2){
+		fprintf (stderr, "usage: %s SURLs\n", argv[0]);
+		exit (1);
+	}
+	gfal_set_verbose (GFAL_VERBOSE_VERBOSE);
+	
+	ssize_t res = gfal_getxattr(argv[1], "srm.turl", turl_buff,TURL_MAX_SIZE );
+	
+	if (res > 0)
+		printf("SURL %s Ready - TURL: %s\n", argv[1], turl_buff);
+	else {
+		printf("SURL %s Failed:\n%s\n", argv[1]);
+		perror(" gfal_getxattr");
+	}
+		
+	return((res>0)?0:-1);
+}
+
+
+
+#endif

@@ -19,6 +19,8 @@
  * @(#)$RCSfile: gfal_timeouts.c,v $ $Revision: 1.7 $ $Date: 2009/03/25 13:41:07 $ CERN Remi Mollon
  */
 
+#if 0
+
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
@@ -79,3 +81,5 @@ gfal_set_timeout_srm (int value) {
 int gfal_get_timeout_srm () {
 	return (gfal_timeout_srm);
 }
+
+#endif

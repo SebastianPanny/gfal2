@@ -7,66 +7,59 @@
     <includes refid="gfal__common__filedescriptor_8h" local="yes">../gfal_common_filedescriptor.h</includes>
     <includedby refid="gfal__common__srm_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c</includedby>
     <includedby refid="gfal__common__srm__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</includedby>
-    <includedby refid="gfal__posix__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</includedby>
     <incdepgraph>
-      <node id="1655">
+      <node id="1650">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="1651" relation="include">
+        <childnode refid="1646" relation="include">
         </childnode>
       </node>
-      <node id="1650">
+      <node id="1645">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.h</label>
         <link refid="gfal_common_srm_readdir.h"/>
-        <childnode refid="1651" relation="include">
+        <childnode refid="1646" relation="include">
         </childnode>
-        <childnode refid="1652" relation="include">
+        <childnode refid="1647" relation="include">
         </childnode>
-        <childnode refid="1653" relation="include">
+        <childnode refid="1648" relation="include">
         </childnode>
       </node>
-      <node id="1654">
+      <node id="1649">
         <label>pthread.h</label>
       </node>
-      <node id="1653">
+      <node id="1648">
         <label>../gfal_common_filedescriptor.h</label>
         <link refid="gfal__common__filedescriptor_8h"/>
+        <childnode refid="1646" relation="include">
+        </childnode>
+        <childnode refid="1649" relation="include">
+        </childnode>
+        <childnode refid="1650" relation="include">
+        </childnode>
         <childnode refid="1651" relation="include">
         </childnode>
-        <childnode refid="1654" relation="include">
-        </childnode>
-        <childnode refid="1655" relation="include">
-        </childnode>
-        <childnode refid="1656" relation="include">
-        </childnode>
       </node>
-      <node id="1651">
+      <node id="1646">
         <label>glib.h</label>
       </node>
-      <node id="1656">
+      <node id="1651">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="1652">
+      <node id="1647">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="1658">
+      <node id="1653">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</label>
         <link refid="gfal__common__srm__readdir_8c"/>
       </node>
-      <node id="1657">
+      <node id="1652">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.h</label>
         <link refid="gfal_common_srm_readdir.h"/>
-        <childnode refid="1658" relation="include">
+        <childnode refid="1653" relation="include">
         </childnode>
-        <childnode refid="1659" relation="include">
-        </childnode>
-      </node>
-      <node id="1659">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
-        <link refid="gfal__posix__readdir_8c"/>
       </node>
     </invincdepgraph>
       <sectiondef kind="func">

@@ -23,10 +23,6 @@
  */
 
 
-/*
- * @(#)$RCSfile: gfal_constants.h,v $ $Revision: 1.8 $ $Date: 2009/03/09 15:16:38 $ CERN Jean-Philippe Baud
- */
-
 #ifndef _GFAL_CONSTANTS_H
 #define _GFAL_CONSTANTS_H
 

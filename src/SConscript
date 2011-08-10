@@ -13,6 +13,12 @@ common_mds = Glob("common/mds/*.c")
 posix_src_all = Glob("posix/*.c")
 src_all = common_src + common_mds + common_voms + posix_src_all
 
+local_headers = Glob("common/*.h") + Glob("posix/*.h")  + Glob("common/mds/*.h")  + Glob("common/voms/*.h") + Glob("*.h")
+lfc_headers = local_headers + Glob("common/lfc/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
+srm_headers = local_headers + Glob("common/srm/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
+rfio_headers = local_headers + Glob("common/rfio/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
+dcap_headers = local_headers + Glob("common/dcap/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
+
 plugin_lfc = Glob("common/lfc/*.c")
 plugin_srm = Glob("common/srm/*.c")
 plugin_rfio = Glob("common/rfio/*.c")
@@ -25,26 +31,41 @@ env_posix = env.Clone()
 env_posix.Append(LIBS=gfal_common_libs)
 env_posix.Append(CPPPATH=other_headers)
 
+
 #main gfal lib
-mainlib = env_posix.SharedLibrary('#build/libs/libgfal2', src_all)
-staticlib = env_posix.StaticLibrary('#build/libs/libgfal2', src_all)
+mainlib = env_posix.SharedLibrary('../libs/libgfal2', src_all)
+env_posix.Depends(mainlib,local_headers )
+staticlib = env_posix.StaticLibrary('../libs/libgfal2', src_all)
+
 #plugins
 env_plugin = env.Clone();
 env_plugin.Append(LIBS=["gfal2"])
+
 env_plugin_srm = env_plugin.Clone()
 env_plugin_srm.Append(LIBS=["gfal_srm_ifce"] )
+plugin_srm_lib = env_plugin_srm.SharedLibrary('../libs/libgfal_plugin_srm', plugin_srm + gsimplecache)
+env_plugin_srm.Depends(plugin_srm_lib,srm_headers )
+
 env_plugin_lfc = env_plugin.Clone();
 env_plugin_lfc.Append(CFLAGS="-D_REENTRANT")
-plugin_lfc_lib = env_plugin_lfc.SharedLibrary('#build/libs/libgfal_plugin_lfc', plugin_lfc+ gsimplecache)
-plugin_rfio_lib= env_plugin.SharedLibrary('#build/libs/libgfal_plugin_rfio', plugin_rfio)
-plugin_dcap_lib = env_plugin.SharedLibrary('#build/libs/libgfal_plugin_dcap', plugin_dcap)
-plugin_srm_lib = env_plugin_srm.SharedLibrary('#build/libs/libgfal_plugin_srm', plugin_srm + gsimplecache)
+plugin_lfc_lib = env_plugin_lfc.SharedLibrary('../libs/libgfal_plugin_lfc', plugin_lfc+ gsimplecache)
+env_plugin_lfc.Depends(plugin_lfc_lib,lfc_headers )
+
+plugin_rfio_lib= env_plugin.SharedLibrary('../libs/libgfal_plugin_rfio', plugin_rfio)
+env_plugin.Depends(plugin_rfio_lib,rfio_headers )
+
+plugin_dcap_lib = env_plugin.SharedLibrary('../libs/libgfal_plugin_dcap', plugin_dcap)
+env_plugin.Depends(plugin_dcap_lib,dcap_headers )
+
 
 #gfal version
-version = env_plugin.Program("#build/gfal2_version", Glob("version/*.c"))
-
+version = env_plugin.Program("../libs/gfal2_version", Glob("version/*.c"))
+env_plugin.Depends(version, local_headers)
 
 
 
 
 Default(plugin_rfio_lib, plugin_dcap_lib, plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib, version)
+
+
+Return("mainlib", "staticlib", "version", "plugin_lfc_lib", "plugin_srm_lib", "plugin_rfio_lib", "plugin_dcap_lib")

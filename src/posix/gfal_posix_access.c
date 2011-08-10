@@ -33,7 +33,6 @@
 #include "gfal_posix_local_file.h"
 #include  "../common/gfal_common_catalog.h"
 #include "../common/gfal_common_guid.h"
-#include "../common/srm/gfal_common_srm_access.h"
 #include "../common/gfal_constants.h"
 
 
