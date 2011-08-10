@@ -213,6 +213,7 @@ def package_srm():
 			 DESCRIPTION    = 'Provide the srm access for gfal2.0',
 			 X_RPM_GROUP    = 'CERN/grid',
 			 X_RPM_REQUIRES = 'glib2, gfal2-core, gfal-srm-ifce ',
+			 X_RPM_AUTOREQPROV = "no",
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_srm, lib_plugin_srm_conf],
 			 )	
