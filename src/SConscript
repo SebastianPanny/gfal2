@@ -66,11 +66,6 @@ env_plugin.Depends(plugin_dcap_lib,dcap_headers )
 version = env_plugin.Program("../libs/gfal2_version", Glob("version/*.c"))
 env_plugin.Depends(version, local_headers)
 
-#gfal version
-version = env_plugin.Program("../libs/gfal2_version", Glob("version/*.c"))
-env_plugin.Depends(version, local_headers)
-
-
 
 
 Default(plugin_rfio_lib, plugin_dcap_lib, plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib, version)
