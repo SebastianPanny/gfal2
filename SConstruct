@@ -3,7 +3,8 @@
 # @file SConstruct build file
 # @author : Devresse Adrien
 # @version : v1
-# @date 08/07/2011
+# @date 11/08/2011
+# modification of the script ofr scons 1.3 from epel
 
 import os
 import subprocess
@@ -254,7 +255,7 @@ def package_dcap():
 			 SUMMARY        = 'plugin dcap for gfal 2.0',
 			 DESCRIPTION    = 'Provide the dcap access for gfal2.0',
 			 X_RPM_GROUP    = 'CERN/grid',
-			 X_RPM_REQUIRES = 'dpm-libs, glib2, gfal2-core ',
+			 X_RPM_REQUIRES = 'dcap-libs, glib2, gfal2-core ',
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_dcap, lib_plugin_dcap_conf],
 			 )	
@@ -275,7 +276,7 @@ def package_doc():
 				 DESCRIPTION    = 'Documentation package for gfal2.X',
 				 X_RPM_GROUP    = 'CERN/grid',
 				 X_RPM_REQUIRES = 'gfal2-core ',
-				 X_RPM_INSTALL= define_rpm_install(arguments_to_str()),
+				 X_RPM_INSTALL= define_rpm_install(arguments_to_str()),		 
 				 source= [docs_main] 
 				 )	
 	return p_doc
