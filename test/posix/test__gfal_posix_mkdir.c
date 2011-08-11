@@ -15,14 +15,7 @@
 #include <errno.h>
 
 
-void test__mkdir_posix_lfc_simple()
-{
-	char filename[2048];
-	time_t tt;
-	time(&tt);
-	char *t = ctime(&tt);
-	strcpy(filename, TEST_LFC_BASE_FOLDER_URL_MKDIR1);
-	strcat(filename, t); // generate a new unique dir identifier&
+void test_mock_mkdir_lfc(int errcode, char* url, mode_t mode){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
@@ -31,16 +24,32 @@ void test__mkdir_posix_lfc_simple()
 	if( gfal_check_GError(&mock_err))
 		return;
 
-	define_mock_filestatg(040664, 1,2);
+	define_mock_filestatg(040000 | mode, 1,2);
 	always_return(lfc_mock_endtrans,0);
 	always_return(lfc_mock_starttrans,0);
-	will_respond(lfc_mock_mkdir, EEXIST, want_string(path, TEST_LFC_EEXIST_MKDIR+4), want_non_null(guid), want(mode, 0664));
-	will_respond(lfc_mock_mkdir, 0, want_string(path, filename+4), want_non_null(guid), want(mode, 0664));
-	will_respond(lfc_mock_statg, 0, want_string(path, filename+4), want(mode, 0664));
-	will_respond(lfc_mock_mkdir, EACCES, want_string(path, TEST_LFC_UNACCESS_MKDIR+4), want_non_null(guid), want(mode, 0664));
-	always_return(lfc_mock_mkdir, EINVAL);
-	always_return(lfc_mock_statg, EINVAL);
+	will_respond(lfc_mock_mkdir, errcode, want_string(path, url+4), want_non_null(guid), want(mode, 0664));
+#endif	
+	
+}
+
+
+void test__mkdir_posix_lfc_simple()
+{
+	char filename[2048];
+	time_t tt;
+	time(&tt);
+	char *t = ctime(&tt);
+	strcpy(filename, TEST_LFC_BASE_FOLDER_URL_MKDIR1);
+	strcat(filename, t); // generate a new unique dir identifier&
+	
+	test_mock_mkdir_lfc(EEXIST, TEST_LFC_EEXIST_MKDIR, 040664 );
+	test_mock_mkdir_lfc(0, filename, 040664 );
+#if USE_MOCK
+	define_mock_filestatg(040664, 1, 1);
+	will_respond(lfc_mock_statg, 0, want_string(path, TEST_GFAL_LFC_FILE_STAT_OK+5), want_non_null(linkinfos));
 #endif
+	test_mock_mkdir_lfc(EACCES, TEST_LFC_UNACCESS_MKDIR, 040664 );
+
 	struct stat st;
 	int ret = gfal_mkdir(TEST_LFC_EEXIST_MKDIR, 0664);
 	assert_true_with_message(ret ==-1 && errno==EEXIST && gfal_posix_code_error()==EEXIST, " must be an already exist file");
