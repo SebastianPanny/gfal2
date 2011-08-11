@@ -158,7 +158,7 @@ def package_main():
 
 def package_main_devel():
 	env_pack_main_devel= env.Clone()
-	header_main = env_pack_main_devel.Install('/usr/include/gfal2/', Glob("include/gfal2/*.h") + Glob("include/gfal2/common/*.h") + Glob("include/gfal2/posix/*.h") )
+	header_main = env_pack_main_devel.Install('/usr/include/gfal2/', Glob("dist/include/gfal2/*.h") + Glob("dist/include/gfal2/common/*.h") + Glob("dist/include/gfal2/posix/*.h") )
 	static_main = env_pack_main_devel.Install('/usr/'+libdir+'/', staticlib)
 	example_main = env_pack_main_devel.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
@@ -180,7 +180,7 @@ def package_main_devel():
 def package_lfc():
 	env_pack_main= env.Clone()
 	lib_plugin_lfc = env_pack_main.Install('/usr/'+libdir+'/', plugin_lfc_lib)
-	lib_plugin_lfc_conf= env_pack_main.Install('/etc/profile.d/', Glob("scripts/gfal_plugin_lfc/*sh"))
+	lib_plugin_lfc_conf= env_pack_main.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_lfc/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
 	p_plugin_lfc = env_pack_main.Package( 
 			 NAME     = 'gfal2-plugin-lfc',
@@ -201,7 +201,7 @@ def package_lfc():
 def package_srm():
 	env_pack_main= env.Clone()
 	lib_plugin_srm = env_pack_main.Install('/usr/'+libdir+'/', plugin_srm_lib)
-	lib_plugin_srm_conf= env_pack_main.Install('/etc/profile.d/', Glob("scripts/gfal_plugin_srm/*sh"))
+	lib_plugin_srm_conf= env_pack_main.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_srm/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
 	p_plugin_srm = env_pack_main.Package( 
 			 NAME     = 'gfal2-plugin-srm',
@@ -222,7 +222,7 @@ def package_srm():
 def package_rfio():
 	env_pack_main= env.Clone()
 	lib_plugin_rfio = env_pack_main.Install('/usr/'+libdir+'/', plugin_rfio_lib)
-	lib_plugin_rfio_conf= env_pack_main.Install('/etc/profile.d/', Glob("scripts/gfal_plugin_rfio/*sh"))
+	lib_plugin_rfio_conf= env_pack_main.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_rfio/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
 	p_plugin_rfio = env_pack_main.Package( 
 			 NAME     = 'gfal2-plugin-rfio',
@@ -243,7 +243,7 @@ def package_rfio():
 def package_dcap():
 	env_pack_main= env.Clone()
 	lib_plugin_dcap = env_pack_main.Install('/usr/'+libdir+'/', plugin_dcap_lib)
-	lib_plugin_dcap_conf= env_pack_main.Install('/etc/profile.d/', Glob("scripts/gfal_plugin_dcap/*sh"))
+	lib_plugin_dcap_conf= env_pack_main.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_dcap/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
 	p_plugin_dcap = env_pack_main.Package( 
 			 NAME     = 'gfal2-plugin-dcap',
