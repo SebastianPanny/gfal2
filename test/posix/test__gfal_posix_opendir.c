@@ -193,13 +193,22 @@ void test__readdir_generic_test_simple(char * folder, GList* list_dir){
 		return;
 	
 	int count=0;
-	GList* tmpl = list_dir;
+
 	struct dirent* dirs;
 	do{
 		 dirs = gfal_readdir(d);
 		if(dirs != NULL){
-			assert_true_with_message( strcmp(dirs->d_name, tmpl->data) ==0, " must be the same string : %s %s ", dirs->d_name, tmpl->data);
-			tmpl = g_list_next(tmpl);
+			GList* tmpl = list_dir;
+			gboolean res = FALSE;
+			while( tmpl != NULL){
+				if(strcmp(dirs->d_name, tmpl->data) ==0){
+					res = TRUE;
+					break;
+				}
+				tmpl = g_list_next(tmpl);
+			}
+			assert_true_with_message( res, " must contain the dir name : %s", dirs->d_name);
+
 			count++;
 		}else{
 			assert_true_with_message(dirs == NULL && gfal_posix_code_error() == 0 && errno ==0, " error, must be the end of the dir list %ld %d %d",dirs,gfal_posix_code_error(), errno);
