@@ -4,7 +4,15 @@
 Import('*')	# import SConstruct exported var
 import os
 
-gfal_common_libs = [ 'vomsc','is_ifce'] 		# libraries linked
+# prod mode
+if ARGUMENTS.get('emi','0') =='yes':
+	vomslib = 'vomsapi'
+else:
+	vomslib = 'vomsc'
+
+env.Append(CFLAGS='-O3')
+
+gfal_common_libs = [ vomslib, 'is_ifce'] 		# libraries linked
 gsimplecache = ["externals/gsimplecache/gsimplecacheOS.os"]
 other_headers=['common/']
 common_src = Glob("common/*.c") 
