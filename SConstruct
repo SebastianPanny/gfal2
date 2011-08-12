@@ -42,8 +42,10 @@ def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_pat
 #### -> define by pkg config
 # voms get conf
 voms_header_dir, voms_lib_dir = get_depconf('voms_path', include_path='/include/glite/security/voms/')
+voms_header_dir_emi, voms_lib_dir_emi = get_depconf('voms_path_emi', include_path='/include/voms/')
 # get dpm conf
 dpm_header_dir, dpm_lib_dir = get_depconf('dpm_path', include_path='/include/lcgdm/')
+dpm_header_dir_emi, dpm_lib_dir_emi = get_depconf('dpm_path_emi', include_path='/include/dpm/')
 # get dcap conf
 dcap_header_dir, dcap_lib_dir = get_depconf('dcap_path')
 # get srmifce conf
@@ -67,8 +69,8 @@ build_dir_test= build_dir +'/test/src'
 
 	
 	
-headers= ['.', '#.', '#build/src/'] +  voms_header_dir+ dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir
-libs=[ '#'+build_dir+'/libs'] +  voms_lib_dir+ dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir
+headers= ['.', '#.', '#build/src/'] +  voms_header_dir+ dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir +voms_header_dir_emi + dpm_header_dir_emi
+libs=[ '#'+build_dir+'/libs'] +  voms_lib_dir+ dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir+ voms_lib_dir_emi+ dpm_lib_dir_emi
 cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 # create default env
 env = Environment(tools=['default', 'packaging'], CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
