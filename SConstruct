@@ -42,7 +42,6 @@ def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_pat
 #### -> define by pkg config
 # voms get conf
 voms_header_dir, voms_lib_dir = get_depconf('voms_path', include_path='/include/glite/security/voms/')
-voms_header_dir_emi, voms_lib_dir_emi = get_depconf('voms_path_emi', include_path='/include/voms/')
 # get dpm conf
 dpm_header_dir, dpm_lib_dir = get_depconf('dpm_path', include_path='/include/lcgdm/')
 # get dcap conf
@@ -68,8 +67,8 @@ build_dir_test= build_dir +'/test/src'
 
 	
 	
-headers= ['.', '#.', '#build/src/'] +  voms_header_dir+ dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir+ voms_header_dir_emi
-libs=[ '#'+build_dir+'/libs'] +  voms_lib_dir+ dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir+ voms_lib_dir_emi
+headers= ['.', '#.', '#build/src/'] +  voms_header_dir+ dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir
+libs=[ '#'+build_dir+'/libs'] +  voms_lib_dir+ dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir
 cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 # create default env
 env = Environment(tools=['default', 'packaging'], CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
@@ -160,7 +159,9 @@ def package_main():
 
 def package_main_devel():
 	env_pack_main_devel= env.Clone()
-	header_main = env_pack_main_devel.Install('/usr/include/gfal2/', Glob("dist/include/gfal2/*.h") + Glob("dist/include/gfal2/common/*.h") + Glob("dist/include/gfal2/posix/*.h") )
+	header_main = env_pack_main_devel.Install('/usr/include/gfal2/', Glob("dist/include/gfal2/*.h") )
+	header_main2= env_pack_main_devel.Install('/usr/include/gfal2/common/', Glob("dist/include/gfal2/common/*.h"))
+	header_main3= env_pack_main_devel.Install('/usr/include/gfal2/posix/', Glob("dist/include/gfal2/posix/*.h") )
 	static_main = env_pack_main_devel.Install('/usr/'+libdir+'/', staticlib)
 	example_main = env_pack_main_devel.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
@@ -175,7 +176,7 @@ def package_main_devel():
 			 X_RPM_GROUP    = 'CERN/grid',
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'glib2, gfal2-core',
-			 source= [header_main,static_main, example_main] 
+			 source= [header_main, header_main2, header_main3, static_main, example_main] 
 			 )
 	return p_main_devel
 	
