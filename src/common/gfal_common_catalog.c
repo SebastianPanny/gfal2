@@ -38,11 +38,8 @@
 #include "gfal_common_filedescriptor.h"
 
 
-/**
- *  Note that hte default catalog is the first one
- */
-//static gfal_catalog_interface (*constructor[50])(gfal_handle,GError**); // JUST MODIFY THIS TWO LINES IN ORDER TO ADD CATALOG
-//static int size_catalog = 0;
+
+
 
 /**
  * resolve and execute init func in a given module
@@ -54,7 +51,7 @@ static int gfal_module_init(gfal_handle handle, void* dlhandle, const char* modu
 	int ret =-1;
 	constructor= (gfal_catalog_interface (*)(gfal_handle,GError**)) dlsym(dlhandle, GFAL_PLUGIN_INIT_SYM);
 	if(constructor == NULL){
-		g_set_error(&tmp_err, 0, EINVAL, "No symbol %s found in the plugin %s, failure", __func__,  GFAL_PLUGIN_INIT_SYM, module_name);
+		g_set_error(&tmp_err, 0, EINVAL, "No symbol %s found in the plugin %s, failure", GFAL_PLUGIN_INIT_SYM, module_name);
 		*n=0;
 	}else{	
 		handle->catalog_opt.catalog_list[*n] = constructor(handle, &tmp_err);
@@ -164,6 +161,8 @@ static int gfal_modules_resolve(gfal_handle handle, GError** err){
 	if( (tab_args = gfal_search_plugin_list(&tmp_err)) != NULL){
 		char** p= tab_args;
 		while(*p  != NULL ){
+			if(**p=="\0")
+				break;
 			if( gfal_module_load(handle, *p, &tmp_err) != 0){
 				ret = -1;
 				break;

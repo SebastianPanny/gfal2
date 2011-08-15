@@ -218,6 +218,7 @@ int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_tu
  * @brief launch a surls-> turls translation in the synchronous mode
  * @param opts : srmv2 opts initiated
  * @param surls : tab of string, last char* must be NULL
+ * @param resu : pointer to a table of gfal_srm_result
  * @param err : GError** for error report
  * @return return positive if success else -1, check GError for more information
  */
@@ -266,6 +267,7 @@ int gfal_srm_putTURLS_catalog(catalog_handle ch, const char* surl, char* buff_tu
  * @brief launch a surls-> turls translation in the synchronous mode for file creation
  * @param opts : srmv2 opts initiated
  * @param surls : tab of string, last char* must be NULL
+ * @param resu : pointer to a table of gfal_srm_result
  * @param err : GError** for error report
  * @return return positive if success else -1, check GError for more information
  */

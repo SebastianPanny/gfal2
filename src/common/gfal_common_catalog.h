@@ -70,7 +70,10 @@ enum _catalog_mode{
 };
 
 /**
- * @struct Object for a catalog type, modelise all operation that can be done by the catalog
+ * @struct _gfal_catalog_interface 
+ * 
+ *  Interface to implement in each gfal_plugin_*
+ *  the needed calls are : getName, catalog_delete, check_catalog_url
  */
 struct _gfal_catalog_interface{
 	// handle
@@ -82,7 +85,9 @@ struct _gfal_catalog_interface{
 	 */
 	void (*catalog_delete)(catalog_handle); 
 	/**
-	 *  must check if the url and the operation are comaptible with this type of catalog 
+	 *  Check the url syntax and the operation, return TRUE if the operation is compatible with the plugin, else FALSE.
+	 *  THIS function MUST be implemented in EACH plugin.
+	 *  @warning This function is a key function of GFAL 2.0, It MUST be as fast as possible.
 	 */
 	gboolean (*check_catalog_url)(catalog_handle, const char* url,  catalog_mode mode, GError** err);
 	/**

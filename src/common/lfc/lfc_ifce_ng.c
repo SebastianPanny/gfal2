@@ -84,7 +84,7 @@ void lfc_set_session_timeout(int timeout){
 
 
 int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
-	if (ops->startsess (ops->lfc_endpoint, (char*) gfal_version ()) < 0){
+	if (ops->startsess (ops->lfc_endpoint, "gfal 2.0 auto-session") < 0){
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno,"[%s] Error while start session with lfc, lfc_endpoint: %s, Error : %s ",
 								__func__, ops->lfc_endpoint, gfal_lfc_get_strerror(ops));
@@ -184,7 +184,7 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 
 /**
  * convert a guid to a lfn link with a call to the lfclib
- * @param gfal handle
+ * @param handle handle of the lfc catalog
  * @param string of the guid
  * @param err : Error report system
  * @return : string of the lfn if success or NULL char* if error

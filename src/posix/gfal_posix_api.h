@@ -83,6 +83,7 @@ int gfal_posix_code_error();
 
 // define the verbose mode
 int gfal_set_verbose (int);
+char *gfal_version ();
 
 
 

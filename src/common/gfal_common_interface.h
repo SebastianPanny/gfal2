@@ -52,4 +52,4 @@ int gfal_wait_async_request(gfal_handle handle, long timeout);
 void gfal_set_nobdii_srm(gfal_handle handle, gboolean no_bdii_chk);
 
 
-const char *gfal_version ();
+

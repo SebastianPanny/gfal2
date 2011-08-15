@@ -385,7 +385,7 @@ int gfal_unlink(const char* path){
  *      gfal_listxattr  list all extended atributes associated with a file
 
  * @param path : path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..)
- * @param list: lsit of the attribute ina stirng format, separated by '\0'. the size is equal of of the return
+ * @param list: lsit of the attribute ina stirng format, separated by '\\0'. the size is equal of of the return
  * @param size : size of the buffer
  * @return  return the size of the data returned, or -1 if error. In the  latter  case,  errno  is  set
        appropriately, you can call @ref gfal_posix_check_error() for a more complete description. 

@@ -79,7 +79,7 @@ int gfal_access_srmv2_internal(gfal_srmv2_opt*  opts, char* endpoint, const char
  * check the right for a given SRM url, work only for SRMv2, V1 deprecated.
  * @param ch the handle of the catalog
  * @param surl srm url of a given file
- * @param mode, access mode to check
+ * @param mode access mode to check
  * @param err : GError error reprot system
  * @warning : not safe, surl must be verified
  */ 

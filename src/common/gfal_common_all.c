@@ -34,7 +34,7 @@
 
 
 /* the version should be set by a "define" at the makefile level */
-static const char *gfalversion = VERSION;
+const char *gfalversion = VERSION;
 
  /**
  * initiate a gfal's context with default parameters for use
@@ -126,8 +126,8 @@ int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int 
  * return a string of the current gfal version
  * 
  * */
-const char * gfal_version (){
-    return gfalversion;
+char *gfal_version(){
+    return (char*) gfalversion;
 }
 
 
