@@ -6,22 +6,24 @@
     <includes local="no">glib.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
     <incdepgraph>
-      <node id="317">
+      <node id="316">
         <label>stdarg.h</label>
       </node>
-      <node id="312">
+      <node id="311">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</label>
         <link refid="gfal_common_errverbose.c"/>
+        <childnode refid="312" relation="include">
+        </childnode>
         <childnode refid="313" relation="include">
         </childnode>
         <childnode refid="314" relation="include">
         </childnode>
-        <childnode refid="315" relation="include">
-        </childnode>
       </node>
-      <node id="315">
+      <node id="314">
         <label>gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
+        <childnode refid="315" relation="include">
+        </childnode>
         <childnode refid="316" relation="include">
         </childnode>
         <childnode refid="317" relation="include">
@@ -30,28 +32,26 @@
         </childnode>
         <childnode refid="319" relation="include">
         </childnode>
-        <childnode refid="320" relation="include">
+        <childnode refid="313" relation="include">
         </childnode>
-        <childnode refid="314" relation="include">
-        </childnode>
-      </node>
-      <node id="320">
-        <label>errno.h</label>
-      </node>
-      <node id="313">
-        <label>malloc.h</label>
       </node>
       <node id="319">
+        <label>errno.h</label>
+      </node>
+      <node id="312">
+        <label>malloc.h</label>
+      </node>
+      <node id="318">
         <label>string.h</label>
       </node>
-      <node id="314">
+      <node id="313">
         <label>glib.h</label>
       </node>
-      <node id="316">
+      <node id="315">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="318">
+      <node id="317">
         <label>stdio.h</label>
       </node>
     </incdepgraph>
@@ -69,27 +69,19 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="43" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="43" bodyend="45"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1g331e181c2fadd801321ad43033835052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__errverbose_8c_1df0f68db7d70d7ce1f530c7a51f9cc83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_set_verbose</definition>
         <argsstring>(int value)</argsstring>
         <name>gfal_set_verbose</name>
         <param>
           <type>int</type>
-          <defname>value</defname>
+          <declname>value</declname>
         </param>
         <briefdescription>
 <para>set the verbose mode for the current program </para>        </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>values</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>: { GFAL_VERBOSE_QUIET , GFAL_VERBOSE_NORMAL  , GFAL_VERBOSE_VERBOSE  , GFAL_VERBOSE_DEBUG  } </para></parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>        </detaileddescription>
+        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" line="49" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="48" bodyend="54"/>
@@ -368,7 +360,7 @@
 <codeline lineno="45"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g331e181c2fadd801321ad43033835052" kindref="member">gfal_set_verbose</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_1df0f68db7d70d7ce1f530c7a51f9cc83" kindref="member">gfal_set_verbose</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value)</highlight></codeline>
 <codeline lineno="49"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(value<sp/>&lt;<sp/>0)</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(-1);</highlight></codeline>

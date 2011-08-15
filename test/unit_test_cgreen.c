@@ -153,6 +153,7 @@ TestSuite* posix_mkdir_suite(void){
 	TestSuite* tc_mkdir = create_test_suite();
 	add_test(tc_mkdir, test__mkdir_posix_lfc_simple);
 	add_test(tc_mkdir, test__mkdir_posix_local_simple);
+	add_test(tc_mkdir, test__mkdir_posix_srm_simple);
 	return tc_mkdir;
 }
 

@@ -623,7 +623,14 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 }
 
 
-
+ /**
+ * parse a guid to check the validity
+ */
+gboolean gfal_checker_guid(const char* guid, GError** err){
+	g_return_val_err_if_fail(guid != NULL,FALSE,err,"[gfal_checker_guid] check URL failed : guid is empty");
+	const size_t sguid = strnlen(guid, GFAL_URL_MAX_LEN);
+	return ( sguid < GFAL_URL_MAX_LEN && sguid > 5 && strncmp(guid, "guid:",5)== 0);
+}  
 
 /**
  * Check if the passed url and operation is compatible with lfc

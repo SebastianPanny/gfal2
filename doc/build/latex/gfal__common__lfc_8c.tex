@@ -55,6 +55,8 @@ char $\ast$ \bf{lfc\_\-resolve\_\-guid} (catalog\_\-handle handle, const char $\
 \item 
 gfal\_\-catalog\_\-interface \bf{gfal\_\-plugin\_\-init} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
+gboolean \bf{gfal\_\-checker\_\-guid} (const char $\ast$guid, GError $\ast$$\ast$err)
+\item 
 gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$lfn\_\-url, catalog\_\-mode mode, GError $\ast$$\ast$err)
 \end{CompactItemize}
 \subsection*{Variables}
@@ -80,7 +82,12 @@ file for the lfc catalog module
 
 
 \subsection{Function Documentation}
-\index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}}
+\index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!gfal_checker_guid@{gfal\_\-checker\_\-guid}}
+\index{gfal_checker_guid@{gfal\_\-checker\_\-guid}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-checker\_\-guid (const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_c7f9448e809d5c82f58288d1491dc2d0}
+
+
+parse a guid to check the validity \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}}
 \index{gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (catalog\_\-handle {\em handle}, const char $\ast$ {\em lfn\_\-url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_8baa624b528deb15ff4ee61fa9948ac8}
 

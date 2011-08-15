@@ -15,6 +15,27 @@
 #include <errno.h>
 
 
+
+void create_srm_mkdir_mock(const char* url, int code){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	test_mock_lfc(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	will_respond(srm_mock_srm_mkdir, code, want_non_null(context), want_non_null(inut), want_non_null(output));	
+
+#endif		
+	
+	
+}
+
+
 void test_mock_mkdir_lfc(int errcode, char* url, mode_t mode){
 #if USE_MOCK
 	GError* mock_err=NULL;
@@ -73,7 +94,7 @@ void test__mkdir_posix_lfc_simple()
 	
 }
 
-
+/*
 
 void test__mkdir_posix_lfc_rec()
 {
@@ -155,7 +176,7 @@ void test__mkdir_posix_lfc_rec_with_slash()
 	gfal_posix_clear_error();
 	errno ==0;
 	
-}
+}*/
 
 
 
@@ -204,7 +225,7 @@ void test__mkdir_posix_local_simple()
 }
 
 
-
+/*
 void test__mkdir_posix_local_rec()
 {
 	struct stat st;
@@ -287,7 +308,7 @@ void test__mkdir_posix_local_rec_with_slash()
 	gfal_posix_clear_error();
 	errno ==0;
 	
-}
+}*/
 
 
 
@@ -297,6 +318,7 @@ void test__mkdir_posix_srm_simple()
 {
 	struct stat st;
 	int ret =-1;
+	/*  --> forget eexist test with srm...
 	ret = gfal_mkdir(TEST_SRM_EEXIST_MKDIR, 0664);
 	if( ret != 0 ){
 		assert_true_with_message(FALSE, " must be an existing dir %d %d %d", ret, errno, gfal_posix_code_error()); //---------> EEXIST ->  0 for srm
@@ -304,7 +326,7 @@ void test__mkdir_posix_srm_simple()
 		return;
 	}
 	gfal_posix_clear_error();
-	errno ==0;
+	errno ==0;*/
 	
 	char filename[2048];
 	time_t tt;
@@ -319,7 +341,7 @@ void test__mkdir_posix_srm_simple()
 	}
 	gfal_posix_clear_error();
 	errno ==0;
-	
+
 	ret = gfal_access(filename, F_OK);
 	if( ret != 0 ){
 		assert_true_with_message(FALSE, " directory must exist %d %o ", ret);
@@ -339,7 +361,7 @@ void test__mkdir_posix_srm_simple()
 }
 
 
-
+/*
 
 void test__mkdir_posix_srm_rec()
 {
@@ -413,14 +435,15 @@ void test__mkdir_posix_srm_rec_with_slash()
 		return;			
 	}	
 
-/*
-	ret = gfal_mkdir(filename, 0664);	
-	if(ret == 0 || errno != EEXIST || gfal_posix_code_error() != EEXIST){ // try to recreate on the same call, must fail
-		assert_true_with_message(FALSE, " must be a failed creation %d %d %d", ret, errno, gfal_posix_code_error()); 								--> SRM Call return 0 when EEXIST call
-		gfal_posix_clear_error();
-		return;		
-	}
-	gfal_posix_clear_error();
-	errno ==0;
-*/	
+
+//	ret = gfal_mkdir(filename, 0664);	
+//	if(ret == 0 || errno != EEXIST || gfal_posix_code_error() != EEXIST){ // try to recreate on the same call, must fail
+//		assert_true_with_message(FALSE, " must be a failed creation %d %d %d", ret, errno, gfal_posix_code_error()); 								--> SRM Call return 0 when EEXIST call
+//		gfal_posix_clear_error();
+//		return;		
+//	}
+//	gfal_posix_clear_error();
+//	errno ==0;
+	
 }
+*/

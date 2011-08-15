@@ -1,7 +1,7 @@
 /**
 	\mainpage Gfal Documentation
 	
-	\author Devresse Adrien ( adev88@gmail.com )
+	\author Devresse Adrien ( adrien.devresse@cern.ch )
 	
 	 <h1> Main API description here :  </h1> <b> <center> \ref posix_group</b> </center>
 		
@@ -12,7 +12,8 @@
 	- Compile :
 		- follow tutorial to have an etics installation and a gfal build on your pc
 		- Install scons ( http://www.scons.org, python script )
-		- checkout the source from the svn : git svn clone http://svnweb.cern.ch/guest/lcgutil/gfal
+		- " git svn clone http://svnweb.cern.ch/guest/lcgutil/gfal "
+		- " git checkout gfal_2_0_main "
 		- "cd CERNgfal"
 		- "scons -j 8"
 		- configure env vars ETICS_WORKSPACE if asked.

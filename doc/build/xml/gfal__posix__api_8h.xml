@@ -21,26 +21,76 @@
     <includedby refid="gfal__posix__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</includedby>
     <includedby refid="gfal__posix__symlink_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_symlink.c</includedby>
     <incdepgraph>
-      <node id="1885">
+      <node id="1880">
         <label>sys/stat.h</label>
       </node>
-      <node id="1886">
+      <node id="1881">
         <label>stdlib.h</label>
       </node>
-      <node id="1883">
+      <node id="1878">
         <label>fcntl.h</label>
       </node>
-      <node id="1881">
+      <node id="1876">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
         <link refid="gfal_posix_api.h"/>
+        <childnode refid="1877" relation="include">
+        </childnode>
+        <childnode refid="1878" relation="include">
+        </childnode>
+        <childnode refid="1879" relation="include">
+        </childnode>
+        <childnode refid="1880" relation="include">
+        </childnode>
+        <childnode refid="1881" relation="include">
+        </childnode>
         <childnode refid="1882" relation="include">
         </childnode>
         <childnode refid="1883" relation="include">
         </childnode>
         <childnode refid="1884" relation="include">
         </childnode>
-        <childnode refid="1885" relation="include">
-        </childnode>
+      </node>
+      <node id="1877">
+        <label>sys/types.h</label>
+      </node>
+      <node id="1883">
+        <label>unistd.h</label>
+      </node>
+      <node id="1884">
+        <label>../common/gfal_constants.h</label>
+        <link refid="gfal__constants_8h-source"/>
+      </node>
+      <node id="1882">
+        <label>stdio.h</label>
+      </node>
+      <node id="1879">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1890">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</label>
+        <link refid="gfal__posix__ng_8c"/>
+      </node>
+      <node id="1888">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
+        <link refid="gfal__posix__closedir_8c"/>
+      </node>
+      <node id="1889">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
+        <link refid="gfal__posix__mkdir_8c"/>
+      </node>
+      <node id="1886">
+        <label>/home/adevress/myworkspace/gfal/src/gfal_api.h</label>
+        <link refid="gfal__api_8h-source"/>
+      </node>
+      <node id="1892">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
+        <link refid="gfal__posix__readdir_8c"/>
+      </node>
+      <node id="1885">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
+        <link refid="gfal_posix_api.h"/>
         <childnode refid="1886" relation="include">
         </childnode>
         <childnode refid="1887" relation="include">
@@ -49,48 +99,8 @@
         </childnode>
         <childnode refid="1889" relation="include">
         </childnode>
-      </node>
-      <node id="1882">
-        <label>sys/types.h</label>
-      </node>
-      <node id="1888">
-        <label>unistd.h</label>
-      </node>
-      <node id="1889">
-        <label>../common/gfal_constants.h</label>
-        <link refid="gfal__constants_8h-source"/>
-      </node>
-      <node id="1887">
-        <label>stdio.h</label>
-      </node>
-      <node id="1884">
-        <label>dirent.h</label>
-      </node>
-    </incdepgraph>
-    <invincdepgraph>
-      <node id="1895">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c</label>
-        <link refid="gfal__posix__ng_8c"/>
-      </node>
-      <node id="1893">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
-        <link refid="gfal__posix__closedir_8c"/>
-      </node>
-      <node id="1894">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</label>
-        <link refid="gfal__posix__mkdir_8c"/>
-      </node>
-      <node id="1891">
-        <label>/home/adevress/myworkspace/gfal/src/gfal_api.h</label>
-        <link refid="gfal__api_8h-source"/>
-      </node>
-      <node id="1897">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
-        <link refid="gfal__posix__readdir_8c"/>
-      </node>
-      <node id="1890">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h</label>
-        <link refid="gfal_posix_api.h"/>
+        <childnode refid="1890" relation="include">
+        </childnode>
         <childnode refid="1891" relation="include">
         </childnode>
         <childnode refid="1892" relation="include">
@@ -101,34 +111,24 @@
         </childnode>
         <childnode refid="1895" relation="include">
         </childnode>
-        <childnode refid="1896" relation="include">
-        </childnode>
-        <childnode refid="1897" relation="include">
-        </childnode>
-        <childnode refid="1898" relation="include">
-        </childnode>
-        <childnode refid="1899" relation="include">
-        </childnode>
-        <childnode refid="1900" relation="include">
-        </childnode>
       </node>
-      <node id="1898">
+      <node id="1893">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</label>
         <link refid="gfal__posix__rename_8c"/>
       </node>
-      <node id="1892">
+      <node id="1887">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</label>
         <link refid="gfal__posix__access_8c"/>
       </node>
-      <node id="1900">
+      <node id="1895">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_symlink.c</label>
         <link refid="gfal__posix__symlink_8c"/>
       </node>
-      <node id="1899">
+      <node id="1894">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</label>
         <link refid="gfal__posix__rmdir_8c"/>
       </node>
-      <node id="1896">
+      <node id="1891">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
         <link refid="gfal__posix__opendir_8c"/>
       </node>
@@ -986,27 +986,18 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="81" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="441" bodyend="446"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1g331e181c2fadd801321ad43033835052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_1331e181c2fadd801321ad43033835052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_set_verbose</definition>
         <argsstring>(int)</argsstring>
         <name>gfal_set_verbose</name>
         <param>
           <type>int</type>
-          <defname>value</defname>
         </param>
         <briefdescription>
 <para>set the verbose mode for the current program </para>        </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>values</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>: { GFAL_VERBOSE_QUIET , GFAL_VERBOSE_NORMAL  , GFAL_VERBOSE_VERBOSE  , GFAL_VERBOSE_DEBUG  } </para></parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>        </detaileddescription>
+        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="85" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="48" bodyend="54"/>
@@ -1028,7 +1019,7 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="92"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1g267920b468d7578c10aa25469f8cadf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_1267920b468d7578c10aa25469f8cadf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void gfal_set_nobdii</definition>
         <argsstring>(int)</argsstring>
@@ -1045,7 +1036,7 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="97" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="480" bodyend="482"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1g62f544258aa58af5122f40f0eb1a7c92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_162f544258aa58af5122f40f0eb1a7c92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void gfal_set_timeout_connect</definition>
         <argsstring>(int)</argsstring>
@@ -1059,9 +1050,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="101" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_timeouts.c" bodystart="34" bodyend="47"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="101"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1g63ec5d282f39173b678ecad2d60a4a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_163ec5d282f39173b678ecad2d60a4a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_get_timeout_connect</definition>
         <argsstring>()</argsstring>
@@ -1072,16 +1063,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="106" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_timeouts.c" bodystart="49" bodyend="51"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="106"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1gedd91bb343f17bc2c0ba9db1203f1819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_1edd91bb343f17bc2c0ba9db1203f1819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void gfal_set_timeout_sendreceive</definition>
         <argsstring>(int)</argsstring>
         <name>gfal_set_timeout_sendreceive</name>
         <param>
           <type>int</type>
-          <defname>value</defname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -1089,9 +1079,9 @@
 <para>set the value for the send/receive timeout </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="110" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_timeouts.c" bodystart="54" bodyend="57"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="110"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1g198564ca7617a8f3dec7c6b925b2c760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_1198564ca7617a8f3dec7c6b925b2c760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_get_timeout_sendreceive</definition>
         <argsstring>()</argsstring>
@@ -1102,16 +1092,15 @@
 <para>get the value for the send/receive timeout default value : 0 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="115" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_timeouts.c" bodystart="59" bodyend="61"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="115"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1g7fc461515a2cdf649fd516319cb54ea9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_17fc461515a2cdf649fd516319cb54ea9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void gfal_set_timeout_bdii</definition>
         <argsstring>(int)</argsstring>
         <name>gfal_set_timeout_bdii</name>
         <param>
           <type>int</type>
-          <defname>value</defname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -1119,9 +1108,9 @@
 <para>set the timeout for the bdii queries </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="119" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_timeouts.c" bodystart="64" bodyend="67"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="119"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1g676f0d746479f2c9893609854099d614" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_1676f0d746479f2c9893609854099d614" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_get_timeout_bdii</definition>
         <argsstring>()</argsstring>
@@ -1132,16 +1121,15 @@
 <para>get the current the timeout for the bdii queries defautl value : 60 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="124" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_timeouts.c" bodystart="69" bodyend="71"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="124"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1gc0dac1437f150d4b5b8779f456050bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_1c0dac1437f150d4b5b8779f456050bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void gfal_set_timeout_srm</definition>
         <argsstring>(int)</argsstring>
         <name>gfal_set_timeout_srm</name>
         <param>
           <type>int</type>
-          <defname>value</defname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -1149,9 +1137,9 @@
 <para>set the timeout for the SRM queries </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="128" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_timeouts.c" bodystart="74" bodyend="77"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="128"/>
       </memberdef>
-      <memberdef kind="function" id="group__common__group_1g31f524748949fca765e6fb8aa20ef41c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_131f524748949fca765e6fb8aa20ef41c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_get_timeout_srm</definition>
         <argsstring>()</argsstring>
@@ -1162,9 +1150,9 @@
 <para>get the timeout for the SRM queries default value : 3600 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="133" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_timeouts.c" bodystart="79" bodyend="81"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="133"/>
       </memberdef>
-      <memberdef kind="function" id="group__internal__group_1g0d2a0557bdb571ccb85c6ab5c05ae56f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__posix__api_8h_10d2a0557bdb571ccb85c6ab5c05ae56f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_is_nobdii</definition>
         <argsstring>()</argsstring>
@@ -1258,20 +1246,20 @@
 <codeline lineno="82"><highlight class="normal"></highlight></codeline>
 <codeline lineno="83"><highlight class="normal"></highlight></codeline>
 <codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>define<sp/>the<sp/>verbose<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g331e181c2fadd801321ad43033835052" kindref="member">gfal_set_verbose</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_1df0f68db7d70d7ce1f530c7a51f9cc83" kindref="member">gfal_set_verbose</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"></highlight></codeline>
 <codeline lineno="87"><highlight class="normal"></highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="92"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1gcf4ae9045b7e5a2a697b1bb1f05994a8" kindref="member">gfal_set_vo</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*vo);</highlight></codeline>
-<codeline lineno="97"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g267920b468d7578c10aa25469f8cadf7" kindref="member">gfal_set_nobdii</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="101"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g62f544258aa58af5122f40f0eb1a7c92" kindref="member">gfal_set_timeout_connect</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="106"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g63ec5d282f39173b678ecad2d60a4a6f" kindref="member">gfal_get_timeout_connect</ref><sp/>();</highlight></codeline>
-<codeline lineno="110"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1gedd91bb343f17bc2c0ba9db1203f1819" kindref="member">gfal_set_timeout_sendreceive</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="115"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g198564ca7617a8f3dec7c6b925b2c760" kindref="member">gfal_get_timeout_sendreceive</ref><sp/>();</highlight></codeline>
-<codeline lineno="119"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g7fc461515a2cdf649fd516319cb54ea9" kindref="member">gfal_set_timeout_bdii</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="124"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g676f0d746479f2c9893609854099d614" kindref="member">gfal_get_timeout_bdii</ref><sp/>();</highlight></codeline>
-<codeline lineno="128"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1gc0dac1437f150d4b5b8779f456050bec" kindref="member">gfal_set_timeout_srm</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="133"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__common__group_1g31f524748949fca765e6fb8aa20ef41c" kindref="member">gfal_get_timeout_srm</ref><sp/>();</highlight></codeline>
+<codeline lineno="92"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_set_vo<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*vo);</highlight></codeline>
+<codeline lineno="97"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__posix__ng_8c_1a3f35e131b2db4c3b742a29790e08bdf" kindref="member">gfal_set_nobdii</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_set_timeout_connect<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_timeout_connect<sp/>();</highlight></codeline>
+<codeline lineno="110"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_set_timeout_sendreceive<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_timeout_sendreceive<sp/>();</highlight></codeline>
+<codeline lineno="119"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_set_timeout_bdii<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_timeout_bdii<sp/>();</highlight></codeline>
+<codeline lineno="128"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_set_timeout_srm<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_get_timeout_srm<sp/>();</highlight></codeline>
 <codeline lineno="134"><highlight class="normal"></highlight></codeline>
 <codeline lineno="135"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_is_nobdii<sp/>();</highlight></codeline>
 <codeline lineno="136"><highlight class="normal"></highlight></codeline>

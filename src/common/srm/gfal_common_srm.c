@@ -80,7 +80,9 @@ int gfal_surl_checker(catalog_handle ch, const char* surl, GError** err){
 		return -1;
 	}	
 	return regexec(&opts->rexurl,surl,0,NULL,0);
-} 
+}
+
+
 
 /**
  * url checker for the srm module, surl part
@@ -101,7 +103,7 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 		case GFAL_CATALOG_UNLINK:
 		case GFAL_CATALOG_GETXATTR:
 		case GFAL_CATALOG_LISTXATTR:
-			return (gfal_surl_checker(handle, url,  err)==0)?TRUE:FALSE;
+			return (gfal_surl_checker(handle, url,  err)==0);
 		default:
 			return FALSE;		
 	}

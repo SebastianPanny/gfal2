@@ -25,7 +25,7 @@ int \bf{resolve\_\-dlsym\_\-list\-G} (void $\ast$handle, void $\ast$$\ast$$\ast$
 
 \begin{CompactList}\small\item\em open dynamycally a list of symbols resolve all symbols from sym\_\-list to flist with the associated dlhandle set GError properly if error \item\end{CompactList}\item 
 const char $\ast$ \bf{gfal\_\-version} ()
-\begin{CompactList}\small\item\em return a string of the current gfal\_\-version define at the compilation time \item\end{CompactList}\item 
+\item 
 gboolean \textbf{is\_\-valid\_\-access\_\-result} (int status)\label{gfal__common__all_8c_aed64917ebc1c60ab8ccd2c4dfbd2c3a}
 
 \item 
@@ -79,3 +79,9 @@ convert glist of int to a table of int
 
 initiate a gfal's context with default parameters for use \begin{Desc}
 \item[Returns:]a gfal\_\-handle, need to be free after usage. return NULL if errors \end{Desc}
+\index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!gfal_version@{gfal\_\-version}}
+\index{gfal_version@{gfal\_\-version}!gfal_common_all.c@{gfal\_\-common\_\-all.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ gfal\_\-version ()}\label{gfal__common__all_8c_a5a8df616e6a5e6fc1d94e2374c7ccf2}
+
+
+return a string of the current gfal version 

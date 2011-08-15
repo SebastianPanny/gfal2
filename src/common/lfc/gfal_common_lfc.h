@@ -45,6 +45,7 @@
 
 // protos
 
+gboolean gfal_checker_guid(const char* guid, GError** err);
 
 gfal_catalog_interface lfc_initG(gfal_handle, GError**);
 
