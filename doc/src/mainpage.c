@@ -12,11 +12,9 @@
 	- Compile :
 		- follow tutorial to have an etics installation and a gfal build on your pc
 		- Install scons ( http://www.scons.org, python script )
-		- " git svn clone http://svnweb.cern.ch/guest/lcgutil/gfal "
-		- " git checkout gfal_2_0_main "
-		- "cd CERNgfal"
+		- " git svn clone  http://svnweb.cern.ch/guest/lcgutil/gfal/branches/gfal_2_0_main gfal2 "
+		- " cd gfal2 "
 		- "scons -j 8"
-		- configure env vars ETICS_WORKSPACE if asked.
 	- Compile tests :
 		- Install python >=2.4
 		- Install scons 
