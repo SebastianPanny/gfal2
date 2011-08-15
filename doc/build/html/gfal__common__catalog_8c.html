@@ -41,7 +41,7 @@ char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_get_
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#96ebd098ad2447a81f096207879b9d3a">gfal_catalogs_instance</a> (gfal_handle handle, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="50865ab5cba98b1c7e7f48d982120e3d"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalogs_operation_executor" ref="50865ab5cba98b1c7e7f48d982120e3d" args="(gfal_handle handle, gboolean(*checker)(gfal_catalog_interface *, GError **), int(*executor)(gfal_catalog_interface *, GError **), GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_operation_executor</b> (gfal_handle handle, gboolean(*checker)(gfal_catalog_interface *, GError **), int(*executor)(gfal_catalog_interface *, GError **), GError **err)</td></tr>
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_operation_executor</b> (gfal_handle handle, gboolean(*checker)(<a class="el" href="struct__gfal__catalog__interface.html">gfal_catalog_interface</a> *, GError **), int(*executor)(<a class="el" href="struct__gfal__catalog__interface.html">gfal_catalog_interface</a> *, GError **), GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#4fd85b35f2134b73207c12b54e85959d">gfal_catalogs_accessG</a> (gfal_handle handle, const char *path, int mode, GError **err)</td></tr>
 
@@ -1146,7 +1146,7 @@ Delete all instance of catalogs
 Instance all catalogs for use if it's not the case return the number of catalog available 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Aug 15 15:31:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Aug 15 17:06:33 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

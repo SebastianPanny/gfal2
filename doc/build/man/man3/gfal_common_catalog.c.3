@@ -41,7 +41,7 @@
 .RI "int \fBgfal_catalogs_instance\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_catalogs_operation_executor\fP (gfal_handle handle, gboolean(*checker)(gfal_catalog_interface *, GError **), int(*executor)(gfal_catalog_interface *, GError **), GError **err)"
+.RI "int \fBgfal_catalogs_operation_executor\fP (gfal_handle handle, gboolean(*checker)(\fBgfal_catalog_interface\fP *, GError **), int(*executor)(\fBgfal_catalog_interface\fP *, GError **), GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_catalogs_accessG\fP (gfal_handle handle, const char *path, int mode, GError **err)"

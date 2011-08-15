@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='iso-8859-1' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
+  <compounddef id="faq" kind="page">
+    <compoundname>faq</compoundname>
+    <detaileddescription>
+<para>Doc File for a FAQ</para><para><simplesect kind="author"><para>: Devresse Adrien</para></simplesect>
+<heading level="3">1. Which are the main changes from gfal 1.0 ? </heading>
+</para><para><itemizedlist>
+<listitem><para>GFal 2.0 is independant of the technologies provided ( plugin system )</para></listitem><listitem><para>GFal 2.0 is now designed to be as POSIX as possible, No non-posix like functions will be provided in the future</para></listitem><listitem><para>GFal 2.0 provide the getxattr, setxattr, listxattr calls for the plateform&apos;s specific calls ( turl resolution, guid resolution, ...)</para></listitem></itemizedlist>
+</para><para><heading level="3">2. I would make a SRM to TURL resolution with GFAL 2.0 and the gfal_srm_plugin, How to do it ? </heading>
+</para><para><itemizedlist>
+<listitem><para>char turl[2048];</para></listitem><listitem><para>gfal_getxattr(&quot;srm://masrul/monfichier&quot;, &quot;srm.turl&quot;, turl, 2048);</para></listitem></itemizedlist>
+</para><para><heading level="3">3. I would make a GUID to LFC resolution with GFAL 2.0 and the gfal_lfc_plugin, How to do it ? </heading>
+</para><para><itemizedlist>
+<listitem><para>char lfn[2048];</para></listitem><listitem><para>gfal_getxattr(&quot;srm://masrul/monfichier&quot;, &quot;lfc.guid&quot;, lfn, 2048);</para></listitem></itemizedlist>
+</para><para><heading level="3">4. I want a more verbose error report, How to do it ? </heading>
+</para><para><itemizedlist>
+<listitem><para><ref refid="gfal__common__errverbose_8h_1df0f68db7d70d7ce1f530c7a51f9cc83" kindref="member">gfal_set_verbose</ref> ( GFAL_VERBOSE_DEBUG | GFAL_VERBOSE_VERBOSE );</para></listitem><listitem><para>[...]</para></listitem><listitem><para><ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref> ; // called after each gfal_* call</para></listitem></itemizedlist>
+</para><para><heading level="3">4. I need to create a GFAL 2.0 plugin, How to do it ? </heading>
+</para><para><itemizedlist>
+<listitem><para>a tutorial will come for more details.</para></listitem></itemizedlist>
+</para><para><heading level="3">5 . I need to implement a specific non-POSIX call in GFAL, How to do it ? </heading>
+</para><para><itemizedlist>
+<listitem><para>just register the proper getxattr or setxattr with a specific key.</para></listitem></itemizedlist>
+</para><para><heading level="3">6. What about the licence ? : </heading>
+</para><para><itemizedlist>
+<listitem><para>The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : <ref refid="apl" kindref="compound">apl</ref>  </para></listitem></itemizedlist>
+</para>    </detaileddescription>
+  </compounddef>
+</doxygen>

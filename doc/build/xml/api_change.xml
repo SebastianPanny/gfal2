@@ -6,13 +6,19 @@
 <para><heading level="1">API CHANGE 2.0 : </heading>
 </para><para>List of the scheduled changes for the GFal 2.0 API</para><para><heading level="2">I. BRIEF OF THE CHANGES : </heading>
 </para><para><itemizedlist>
-<listitem><para>POSIX API is still unchanged</para></listitem><listitem><para>Old non-POSIX functions do not exist anymore, most of them are converted to a POSIX one ( ex : gfal_ls -&gt; gfal_opendir, gfal_readdir; gfal_turlsfromsurls -&gt; gfal_getxattr )</para></listitem><listitem><para>SRM related API is now in the gfal_plugin_lib. All the generic use case of the SRM API can be done with the POSIX API.</para></listitem><listitem><para>The old confusing error system disappear for a new GError system : <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error</ref>  , gfal_posix_print_error, gfal_posix_strerror_r</para></listitem><listitem><para>LRC/EDG legacy support is dropped.</para></listitem><listitem><para>Lots of the old dependencies are no more needed and are removed ( globus, gsoap, ccheck )</para></listitem><listitem><para>gfal works now with a plugin&apos;s architecture, it is easy to add/remove a plugin for a specific URL type with the env var GFAL_PLUGIN_LIST ( ex : GFAL_PLUGIN_LIST=libgfal_plugin_lfc.so:libgfal_plugin_srm.so:libgfal_plugin_rfio.so )</para></listitem></itemizedlist>
-</para><para><heading level="2">II. OFFICIAL API : </heading>
+<listitem><para>POSIX API is still unchanged</para></listitem></itemizedlist>
 </para><para><itemizedlist>
-<listitem><para>Gfal POSIX lib API:<itemizedlist>
-<listitem><para>the POSIX style API : <ref refid="group__posix__group" kindref="compound">all POSIX style function</ref>  <linebreak/>
-</para></listitem><listitem><para>the Error management API</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
+<listitem><para>Old non-POSIX functions do not exist anymore, most of them are converted to a POSIX one ( ex : gfal_ls -&gt; gfal_opendir, gfal_readdir; gfal_turlsfromsurls -&gt; gfal_getxattr )</para></listitem></itemizedlist>
+</para><para><itemizedlist>
+<listitem><para>SRM related API is now in the gfal_plugin_lib. All the generic use case of the SRM API can be done with the POSIX API.</para></listitem></itemizedlist>
+</para><para><itemizedlist>
+<listitem><para>The old confusing error system disappear for a new GError system : <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error</ref>  , <ref refid="group__posix__group_1g03fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error</ref> , <ref refid="group__posix__group_1g2a9e2951c934dd1c3205a89c0d25ac29" kindref="member">gfal_posix_strerror_r</ref> </para></listitem></itemizedlist>
+</para><para><itemizedlist>
+<listitem><para>LRC/EDG legacy support is dropped.</para></listitem></itemizedlist>
+</para><para><itemizedlist>
+<listitem><para>Lots of the old dependencies are no more needed and are removed ( globus, gsoap, ccheck )</para></listitem></itemizedlist>
+</para><para><itemizedlist>
+<listitem><para>gfal works now with a plugin&apos;s architecture, it is easy to add/remove a plugin for a specific URL type with the env var GFAL_PLUGIN_LIST ( ex : GFAL_PLUGIN_LIST=libgfal_plugin_lfc.so:libgfal_plugin_srm.so:libgfal_plugin_rfio.so )</para></listitem></itemizedlist>
 </para><para><heading level="2">III. ANOTHER DOCS : </heading>
 </para><para><itemizedlist>
 <listitem><para>More informations about the GError system : <ulink url="http://developer.gnome.org/glib/stable/glib-Error-Reporting.html">http://developer.gnome.org/glib/stable/glib-Error-Reporting.html</ulink></para></listitem><listitem><para>More informations about scons : <ulink url="http://www.scons.org/">http://www.scons.org/</ulink> </para></listitem></itemizedlist>

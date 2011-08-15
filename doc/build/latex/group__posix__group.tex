@@ -190,7 +190,7 @@ list all extended attributes gfal\_\-listxattr list all extended atributes assoc
 \begin{Desc}
 \item[Parameters:]
 \begin{description}
-\item[{\em path}]: path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..) \item[{\em list,:}]lsit of the attribute ina stirng format, separated by ''. the size is equal of of the return \item[{\em size}]: size of the buffer \end{description}
+\item[{\em path}]: path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..) \item[{\em list,:}]lsit of the attribute ina stirng format, separated by '$\backslash$0'. the size is equal of of the return \item[{\em size}]: size of the buffer \end{description}
 \end{Desc}
 \begin{Desc}
 \item[Returns:]return the size of the data returned, or -1 if error. In the latter case, errno is set appropriately, you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}

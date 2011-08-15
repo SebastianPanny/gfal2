@@ -3,23 +3,25 @@
   
   
 	<h1> API CHANGE 2.0  : </h1> 
-	List of the scheduled changes for the GFal 2.0 API
+		List of the scheduled changes for the GFal 2.0 API
 
 	<h2> I. BRIEF OF THE CHANGES : </h2>
 		- POSIX API is still unchanged
+
 		- Old non-POSIX functions do not exist anymore, most of them are converted to a POSIX one ( ex : gfal_ls -> gfal_opendir, gfal_readdir; gfal_turlsfromsurls -> gfal_getxattr )
+
 		- SRM related API is now in the gfal_plugin_lib. All the generic use case of the SRM API can be done with the POSIX API.
-		- The old confusing error system disappear for a new GError system : \ref gfal_posix_check_error , gfal_posix_print_error, gfal_posix_strerror_r
+
+		- The old confusing error system disappear for a new GError system : \ref gfal_posix_check_error , \ref gfal_posix_print_error, \ref gfal_posix_strerror_r
+
 		- LRC/EDG legacy support is dropped.
+
 		- Lots of the old dependencies are no more needed and are removed ( globus, gsoap, ccheck )
+
 		- gfal works now with a plugin's architecture, it is easy to add/remove a plugin for a specific URL type with the env var GFAL_PLUGIN_LIST ( ex : GFAL_PLUGIN_LIST=libgfal_plugin_lfc.so:libgfal_plugin_srm.so:libgfal_plugin_rfio.so )
 
+
 		
-	<h2> II. OFFICIAL API : </h2>
-	
-	- Gfal POSIX lib API:
-		- the POSIX style API : \ref posix_group \n
-		- the Error management API 
 
 
 	<h2> III. ANOTHER DOCS : </h2>

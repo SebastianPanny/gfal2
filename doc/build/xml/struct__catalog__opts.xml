@@ -5,7 +5,7 @@
     <includes refid="gfal__common__catalog_8h" local="no">gfal_common_catalog.h</includes>
       <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="struct__catalog__opts_1697c5a1807ecc48b1a7605785627e8b2" prot="public" static="no" mutable="no">
-        <type>gfal_catalog_interface</type>
+        <type><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref></type>
         <definition>gfal_catalog_interface _catalog_opts::catalog_list[MAX_CATALOG_LIST]</definition>
         <argsstring>[MAX_CATALOG_LIST]</argsstring>
         <name>catalog_list</name>
@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="137" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="137" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="142" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="142" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct__catalog__opts_1526de1a9121c7c0b31f0c3b8967c5e38" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -28,14 +28,27 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="138" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="138" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="143" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="143" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para>container for the catalog abstraction couch parameters </para>    </detaileddescription>
-    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="136" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="136" bodyend="139"/>
+    <collaborationgraph>
+      <node id="1">
+        <label>_catalog_opts</label>
+        <link refid="struct__catalog__opts"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>catalog_list</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>_gfal_catalog_interface</label>
+        <link refid="struct__gfal__catalog__interface"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="141" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" bodystart="141" bodyend="144"/>
     <listofallmembers>
       <member refid="struct__catalog__opts_1697c5a1807ecc48b1a7605785627e8b2" prot="public" virt="non-virtual"><scope>_catalog_opts</scope><name>catalog_list</name></member>
       <member refid="struct__catalog__opts_1526de1a9121c7c0b31f0c3b8967c5e38" prot="public" virt="non-virtual"><scope>_catalog_opts</scope><name>catalog_number</name></member>

@@ -1,23 +1,39 @@
 \begin{Desc}
 \item[Author:]Devresse Adrien ( \tt{adrien.devresse@cern.ch} )\end{Desc}
-\section*{Main API description here : }
+\subsection*{I.FAQ : }
 
-{\bf  \begin{center} \doxyref{all POSIX style function}{p.}{group__posix__group} \end{center} }
+\begin{itemize}
+\item \doxyref{faq}{p.}{faq}\end{itemize}
 
-{\bf \section*{I.Report of the Scheduled changes : }}
 
-{\bf \begin{itemize}
+\subsection*{II API : }
+
+\begin{itemize}
+\item Gfal POSIX lib API:\begin{itemize}
+\item the POSIX style API : \doxyref{all POSIX style function}{p.}{group__posix__group} \par
+\item the Error management API : \doxyref{gfal\_\-posix\_\-check\_\-error}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373}\end{itemize}
+\end{itemize}
+
+
+\begin{itemize}
+\item Gfal internal API to construct plugin ( not stable currently ) :\begin{itemize}
+\item \doxyref{\_\-gfal\_\-catalog\_\-interface}{p.}{struct__gfal__catalog__interface}\end{itemize}
+\end{itemize}
+
+
+\section*{III.Report of the Scheduled changes : }
+
+\begin{itemize}
 \item Changes between 1.X and 2.X are resumed \doxyref{api\_\-change}{p.}{api_change}\end{itemize}
-}
 
-{\bf \section*{II. How to compile locally}}
 
-{\bf \begin{itemize}
+\section*{IV. How to compile locally}
+
+\begin{itemize}
 \item Compile :\begin{itemize}
 \item follow tutorial to have an etics installation and a gfal build on your pc\item Install scons ( \tt{http://www.scons.org,} python script )\item \char`\"{} git svn clone  http://svnweb.cern.ch/guest/lcgutil/gfal/branches/gfal\_\-2\_\-0\_\-main gfal2 \char`\"{}\item \char`\"{} cd gfal2 \char`\"{}\item \char`\"{}scons -j 8\char`\"{}\end{itemize}
 \item Compile tests :\begin{itemize}
-\item Install python $>$=2.4\item Install scons\item execute \char`\"{}scons test\char`\"{} in the CERNgfal dir\end{itemize}
+\item Install cgreen, unit test framework\item Install scons\item execute \char`\"{}scons test -j 8\char`\"{} in the CERNgfal dir\end{itemize}
 \item Clean builds :\begin{itemize}
 \item scons -c \end{itemize}
 \end{itemize}
-}

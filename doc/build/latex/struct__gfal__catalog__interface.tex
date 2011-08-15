@@ -1,0 +1,126 @@
+\section{\_\-gfal\_\-catalog\_\-interface Struct Reference}
+\label{struct__gfal__catalog__interface}\index{_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}}
+{\tt \#include $<$gfal\_\-common\_\-catalog.h$>$}
+
+\subsection*{Data Fields}
+\begin{CompactItemize}
+\item 
+catalog\_\-handle \textbf{handle}\label{struct__gfal__catalog__interface_21ece9deeb92b4182cf5fe09e174d6c5}
+
+\item 
+const char $\ast$($\ast$ \textbf{get\-Name} )()\label{struct__gfal__catalog__interface_a76db9e70bcd22d79d2a40a12049cea9}
+
+\item 
+void($\ast$ \bf{catalog\_\-delete} )(catalog\_\-handle)
+\item 
+gboolean($\ast$ \bf{check\_\-catalog\_\-url} )(catalog\_\-handle, const char $\ast$url, catalog\_\-mode mode, GError $\ast$$\ast$err)
+\item 
+int($\ast$ \bf{access\-G} )(catalog\_\-handle, const char $\ast$path, int mode, GError $\ast$$\ast$err)
+\item 
+int($\ast$ \bf{chmod\-G} )(catalog\_\-handle, const char $\ast$, mode\_\-t, GError $\ast$$\ast$err)
+\item 
+int($\ast$ \textbf{rename\-G} )(catalog\_\-handle, const char $\ast$, const char $\ast$, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_3ff4627bf8b55f2a650e03e2be21637a}
+
+\item 
+int($\ast$ \textbf{symlink\-G} )(catalog\_\-handle, const char $\ast$, const char $\ast$, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_1cff8d0398d6f5fbbd74d4bbfb88a84b}
+
+\item 
+int($\ast$ \textbf{stat\-G} )(catalog\_\-handle, const char $\ast$, struct stat $\ast$buf, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_c93cfe7bbdd166977a30c0821188256d}
+
+\item 
+int($\ast$ \textbf{lstat\-G} )(catalog\_\-handle, const char $\ast$, struct stat $\ast$buf, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_29c3519fdaa2768abc5b0ca8d5b1b278}
+
+\item 
+ssize\_\-t($\ast$ \textbf{readlink\-G} )(catalog\_\-handle, const char $\ast$, char $\ast$buff, size\_\-t buffsiz, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_7ff4623ecf8fd8c5cd5055c20506b5c5}
+
+\item 
+gfal\_\-file\_\-handle($\ast$ \textbf{opendir\-G} )(catalog\_\-handle, const char $\ast$, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_74779ad5f9b964d6de25aa8968654b6f}
+
+\item 
+int($\ast$ \textbf{closedir\-G} )(catalog\_\-handle, gfal\_\-file\_\-handle, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_110fb04c3d951be3d863f8976076f6a0}
+
+\item 
+dirent $\ast$($\ast$ \textbf{readdir\-G} )(catalog\_\-handle, gfal\_\-file\_\-handle, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_d8223fb7b6916160c58777204cf44166}
+
+\item 
+int($\ast$ \textbf{mkdirp\-G} )(catalog\_\-handle, const char $\ast$, mode\_\-t, gboolean pflag, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_929e31cec058fd3af2b35925d138fce4}
+
+\item 
+int($\ast$ \textbf{rmdir\-G} )(catalog\_\-handle, const char $\ast$, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_bcfed6ce5edc988e207fdedce2249ca4}
+
+\item 
+gfal\_\-file\_\-handle($\ast$ \textbf{open\-G} )(catalog\_\-handle, const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_f13314d48d829c5a00688e53798740d6}
+
+\item 
+int($\ast$ \textbf{read\-G} )(catalog\_\-handle, gfal\_\-file\_\-handle fd, void $\ast$buff, size\_\-t count, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_06de34e63362030b21d7c543e2098a6e}
+
+\item 
+int($\ast$ \textbf{write\-G} )(catalog\_\-handle, gfal\_\-file\_\-handle fd, void $\ast$buff, size\_\-t count, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_6b6ac4cdc442e6682aa75a65e2f01094}
+
+\item 
+int($\ast$ \textbf{close\-G} )(catalog\_\-handle, gfal\_\-file\_\-handle fd, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_01f3c7263f9650b83328df65821a7fe8}
+
+\item 
+int($\ast$ \textbf{lseek\-G} )(catalog\_\-handle, gfal\_\-file\_\-handle fd, off\_\-t offset, int whence, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_7f66631bd2d7919666ea9383e55c5837}
+
+\item 
+int($\ast$ \textbf{unlink\-G} )(catalog\_\-handle, const char $\ast$path, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_1fc0c9cbd8821484dc6d2532ebdc2b28}
+
+\item 
+ssize\_\-t($\ast$ \textbf{getxattr\-G} )(catalog\_\-handle, const char $\ast$, const char $\ast$, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_8d6974ac822e7360db9ec11f88aa787d}
+
+\item 
+ssize\_\-t($\ast$ \textbf{listxattr\-G} )(catalog\_\-handle, const char $\ast$, char $\ast$list, size\_\-t s\_\-list, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_33b6ee495d6dbdf44097eab70094953f}
+
+\item 
+char $\ast$$\ast$($\ast$ \textbf{get\-SURLG} )(catalog\_\-handle, const char $\ast$, GError $\ast$$\ast$)\label{struct__gfal__catalog__interface_8a79a58a74fb3f7e4da85247d60d0323}
+
+\item 
+int($\ast$ \textbf{get\-TURLG} )(catalog\_\-handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_f2664982e4ee83af2145ea7e190f1169}
+
+\item 
+int($\ast$ \textbf{put\-TURLG} )(catalog\_\-handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_19227139e261ebb890bff5d22c20322a}
+
+\item 
+char $\ast$($\ast$ \bf{resolve\_\-guid} )(catalog\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Interface to implement in each gfal\_\-plugin\_\-$\ast$ the needed calls are : get\-Name, catalog\_\-delete, check\_\-catalog\_\-url 
+
+
+
+\subsection{Field Documentation}
+\index{_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}!accessG@{accessG}}
+\index{accessG@{accessG}!_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ \bf{\_\-gfal\_\-catalog\_\-interface::access\-G})(catalog\_\-handle, const char $\ast$path, int mode, GError $\ast$$\ast$err)}\label{struct__gfal__catalog__interface_c4ca96a6e83a9d3e906563771bf648f1}
+
+
+access function for the access for the normal associated url \index{_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}!catalog_delete@{catalog\_\-delete}}
+\index{catalog_delete@{catalog\_\-delete}!_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ \bf{\_\-gfal\_\-catalog\_\-interface::catalog\_\-delete})(catalog\_\-handle)}\label{struct__gfal__catalog__interface_5eb6aff7c054d09bcd584dfdc8a3d88e}
+
+
+Called before the destruction of the catalog interface \index{_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}!check_catalog_url@{check\_\-catalog\_\-url}}
+\index{check_catalog_url@{check\_\-catalog\_\-url}!_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean($\ast$ \bf{\_\-gfal\_\-catalog\_\-interface::check\_\-catalog\_\-url})(catalog\_\-handle, const char $\ast$url, catalog\_\-mode mode, GError $\ast$$\ast$err)}\label{struct__gfal__catalog__interface_3e21f3370e47099122b156472e25f6a7}
+
+
+Check the url syntax and the operation, return TRUE if the operation is compatible with the plugin, else FALSE. THIS function MUST be implemented in EACH plugin. \begin{Desc}
+\item[Warning:]This function is a key function of GFAL 2.0, It MUST be as fast as possible. \end{Desc}
+\index{_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}!chmodG@{chmodG}}
+\index{chmodG@{chmodG}!_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ \bf{\_\-gfal\_\-catalog\_\-interface::chmod\-G})(catalog\_\-handle, const char $\ast$, mode\_\-t, GError $\ast$$\ast$err)}\label{struct__gfal__catalog__interface_a2d423528930c419615115f14911238e}
+
+
+function pointer for the access using the guid url \index{_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}!resolve_guid@{resolve\_\-guid}}
+\index{resolve_guid@{resolve\_\-guid}!_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$($\ast$ \bf{\_\-gfal\_\-catalog\_\-interface::resolve\_\-guid})(catalog\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)}\label{struct__gfal__catalog__interface_03064e4d29e97a4017d6a0797bfc6c77}
+
+
+return a valid url if is able to resolve the guid or return NULL pointer 
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+/home/adevress/myworkspace/gfal/src/common/\bf{gfal\_\-common\_\-catalog.h}\end{CompactItemize}

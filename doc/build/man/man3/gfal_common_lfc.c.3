@@ -87,7 +87,7 @@
 .RI "char * \fBlfc_resolve_guid\fP (catalog_handle handle, const char *guid, GError **err)"
 .br
 .ti -1c
-.RI "gfal_catalog_interface \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
+.RI "\fBgfal_catalog_interface\fP \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
 .RI "gboolean \fBgfal_checker_guid\fP (const char *guid, GError **err)"
@@ -134,7 +134,7 @@ parse a guid to check the validity
 .SS "gboolean gfal_lfc_check_lfn_url (catalog_handle handle, const char * lfn_url, catalog_mode mode, GError ** err)"
 .PP
 Check if the passed url and operation is compatible with lfc 
-.SS "gfal_catalog_interface gfal_plugin_init (gfal_handle handle, GError ** err)"
+.SS "\fBgfal_catalog_interface\fP gfal_plugin_init (gfal_handle handle, GError ** err)"
 .PP
 Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 
 .SS "int lfc_accessG (catalog_handle handle, const char * lfn, int mode, GError ** err)"
