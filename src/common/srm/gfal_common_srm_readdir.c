@@ -128,10 +128,14 @@ int gfal_srm_readdir_internal(catalog_handle ch, gfal_srm_opendir_handle oh, int
 struct dirent* gfal_srm_readdir_pipeline(catalog_handle ch, gfal_srm_opendir_handle oh, GError** err){
 	struct dirent* ret = NULL;
 	GError* tmp_err=NULL;
-	const int max_resu_per_req= 5000;
+	int max_resu_per_req= 0;
 	
 	if(oh->srm_ls_resu == NULL){
-		gfal_srm_readdir_internal(ch, oh, max_resu_per_req, &tmp_err);		
+		gfal_srm_readdir_internal(ch, oh, max_resu_per_req, &tmp_err);	
+		if(tmp_err && tmp_err->code == EINVAL){// fix in the case of short size SRMLs support, ( dcap )
+			g_clear_error(&tmp_err);
+			gfal_srm_readdir_internal(ch, oh, 1000, &tmp_err);	
+		}	
 	}else if(oh->dir_offset >= (oh->resu_offset+ oh->srm_ls_resu->nbsubpaths) ){
 		return NULL; // limited mode in order to not overload the srm server ( slow )
 		/*

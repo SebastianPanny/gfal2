@@ -97,7 +97,7 @@ gfal_file_handle gfal_srm_opendirG(catalog_handle ch, const char* surl, GError *
 int gfal_srm_closedirG(catalog_handle handle, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_srm_opendirG] Invalid args");
 	gfal_srm_opendir_handle oh = (gfal_srm_opendir_handle) fh->fdesc;	
-	gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(oh->srm_ls_resu, 1);
+	//gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(oh->srm_ls_resu, 1); --> disable because of error in memory management in srm-ifce
 	free(oh);
 	free(fh);
 	return 0;
