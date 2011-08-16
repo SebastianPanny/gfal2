@@ -71,13 +71,14 @@ env_plugin.Depends(plugin_dcap_lib,dcap_headers )
 
 
 #gfal version
-env_version = env.Clone();
+env_version = Environment(LIBPATH=libs);
+env_version['ENV']['LD_LIBRARY_PATH'] = env['ENV']['LD_LIBRARY_PATH'];
 env_version.Append(LIBS=["gfal2"])
-version = env_version.Program("../libs/gfal2_version", Glob("version/*.c"))
-env_plugin.Depends(version, local_headers)
+versionexe = env_version.Program("../libs/gfal2_version", Glob("version/*.c"))
+env_plugin.Depends(versionexe, local_headers)
 
 
 
-Default(plugin_rfio_lib, plugin_dcap_lib, plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib, version)
+Default(plugin_rfio_lib, plugin_dcap_lib, plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib, versionexe)
 
-Return("mainlib", "staticlib", "version", "plugin_lfc_lib", "plugin_srm_lib", "plugin_rfio_lib", "plugin_dcap_lib")
+Return("mainlib", "staticlib", "versionexe", "plugin_lfc_lib", "plugin_srm_lib", "plugin_rfio_lib", "plugin_dcap_lib")
