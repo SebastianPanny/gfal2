@@ -31,10 +31,11 @@
 #include "gfal_types.h"
 #include "gfal_common_errverbose.h"
 
-
+#define XVERSION_STR(x) #x
+#define VERSION_STR(x) XVERSION_STR(x)
 
 /* the version should be set by a "define" at the makefile level */
-const char *gfalversion = VERSION;
+static const char *gfalversion = VERSION_STR(VERSION);
 
  /**
  * initiate a gfal's context with default parameters for use

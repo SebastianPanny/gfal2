@@ -161,7 +161,7 @@ static int gfal_modules_resolve(gfal_handle handle, GError** err){
 	if( (tab_args = gfal_search_plugin_list(&tmp_err)) != NULL){
 		char** p= tab_args;
 		while(*p  != NULL ){
-			if(**p=="\0")
+			if(**p=='\0')
 				break;
 			if( gfal_module_load(handle, *p, &tmp_err) != 0){
 				ret = -1;

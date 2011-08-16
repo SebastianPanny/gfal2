@@ -15,9 +15,6 @@
  * limitations under the License.
  */
 
-/*
- * @(#)$RCSfile: gfal_version.c,v $ $Revision: 1.2 $ $Date: 2008/05/08 13:16:36 $ CERN Jean-Philippe Baud
- */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +22,6 @@
 
 main(int argc, char **argv)
 {
-	printf ("GFAL-client-%s\n", gfal_version ());
+	printf("GFAL-client-%s\n", gfal_version());
 	exit (0);
 }
