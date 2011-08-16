@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "15 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "16 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -21,6 +21,16 @@
 \fC#include 'gfal_common_errverbose.h'\fP
 .br
 
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBXVERSION_STR\fP(x)   #x"
+.br
+.ti -1c
+.RI "#define \fBVERSION_STR\fP(x)   XVERSION_STR(x)"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
@@ -44,7 +54,7 @@
 .br
 .RI "\fIopen dynamycally a list of symbols resolve all symbols from sym_list to flist with the associated dlhandle set GError properly if error \fP"
 .ti -1c
-.RI "const char * \fBgfal_version\fP ()"
+.RI "char * \fBgfal_version\fP ()"
 .br
 .ti -1c
 .RI "gboolean \fBis_valid_access_result\fP (int status)"
@@ -116,7 +126,7 @@ a gfal_handle, need to be free after usage. return NULL if errors
 .RE
 .PP
 
-.SS "const char* gfal_version ()"
+.SS "char* gfal_version ()"
 .PP
 return a string of the current gfal version 
 .SH "Author"

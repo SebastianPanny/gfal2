@@ -17,11 +17,13 @@
 	- Gfal internal API to construct plugin ( not stable currently ) :
 		- \ref _gfal_catalog_interface
 
+	<h2>III. Library Design : </h2>
+		- \ref page_design
 
-	<h1>III.Report of the Scheduled changes : </h1>
+	<h2>IV. Report of the Scheduled changes : </h2>
 	- Changes between 1.X and 2.X are resumed \ref api_change 	
 	
-	<h1>IV. How to compile locally</h1>
+	<h2>V. How to compile locally</h2>
 	- Compile :
 		- follow tutorial to have an etics installation and a gfal build on your pc
 		- Install scons ( http://www.scons.org, python script )
