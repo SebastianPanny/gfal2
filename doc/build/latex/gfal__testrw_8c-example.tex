@@ -1,0 +1,90 @@
+\section{gfal\_\-testrw.c}
+This exemple show how to open, write a file and read it after ex : use case with SRM plugin : ./gfal\_\-testrw srm://grid05.lal.in2p3.fr:8446/dpm/lal.in2p3.fr/home/dteam/test\_\-yoda
+
+
+
+\begin{DocInclude}\begin{verbatim}1 
+2 
+3 #include <fcntl.h>
+4 #include <stdio.h>
+5 #include "gfal_api.h"
+6 #include <stdlib.h>
+7 #define BLKLEN 65536
+8 
+9 main(int argc, char **argv)
+10 {
+11    int fd;
+12    int i;
+13    char ibuf[BLKLEN];
+14    char obuf[BLKLEN];
+15    int rc;
+16 
+17    gfal_set_verbose(GFAL_VERBOSE_DEBUG);        // switch Gfal in verbose mode
+18    if (argc != 2) {
+19            fprintf (stderr, "usage: %s filename\n", argv[0]);
+20            exit (1);
+21    }
+22 
+23    for (i = 0; i < BLKLEN; i++)
+24            obuf[i] = i;
+25 
+26    printf ("creating file %s\n", argv[1]);
+27    if ((fd = gfal_open (argv[1], O_WRONLY|O_CREAT, 0644)) < 0) {
+28            perror ("gfal_open");
+29            exit (1);
+30    }
+31    
+32         printf ("open successful, fd = %d\n", fd);
+33 
+34         if ((rc = gfal_write (fd, obuf, BLKLEN)) != BLKLEN) {
+35            if (rc < 0)
+36                    perror ("gfal_write");
+37            else
+38                    fprintf (stderr, "gfal_write returns %d\n", rc);
+39            (void) gfal_close (fd);
+40            exit (1);
+41         }
+42         printf ("write successful\n");
+43 
+44         if ((rc = gfal_close (fd)) < 0) {
+45            perror ("gfal_close");
+46            exit (1);
+47         }
+48         printf ("close successful\n");
+49 
+50 
+51         printf ("reading back %s\n", argv[1]);
+52         if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
+53            perror ("gfal_open");
+54            exit (1);
+55         }
+56         printf ("open successful, fd = %d\n", fd);
+57 
+58         if ((rc = gfal_read (fd, ibuf, BLKLEN)) != BLKLEN) {
+59                    if (rc < 0)
+60                            perror ("gfal_read");
+61                    else
+62                            fprintf (stderr, "gfal_read returns %d\n", rc);
+63                    (void) gfal_close (fd);
+64                    exit (1);
+65            }
+66            printf ("read successful\n");
+67 
+68            if ((rc = gfal_close (fd)) < 0) {
+69                    perror ("gfal_close");
+70                    exit (1);
+71            }
+72            printf ("close successful\n");
+73 
+74            for (i = 0; i < BLKLEN; i++) {
+75                    if (ibuf[i] != obuf[i]) {
+76                            fprintf (stderr, "compare failed at offset %d\n", i);
+77                            exit (1);
+78                    }
+79            }
+80            printf ("compare successful\n");
+81            exit (0);
+82 }
+\end{verbatim}
+\end{DocInclude}
+ 

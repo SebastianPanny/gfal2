@@ -1,0 +1,48 @@
+\section{gfal\_\-testcreatedir.c}
+This exemple show how to create a directory ex : use case with SRM plugin : ./gfal\_\-testdir srm://grid05.lal.in2p3.fr:8446/dpm/lal.in2p3.fr/home/dteam/test\_\-tatooin
+
+
+
+\begin{DocInclude}\begin{verbatim}1 
+2 #include <stdio.h>
+3 #include <stdlib.h>
+4 #include "gfal_api.h"
+5 
+6 main(int argc, char **argv)
+7 {
+8         char *rootdir;
+9         char olddir[1024], newdir[1024];
+10 
+11         if (argc != 2) {
+12                 fprintf (stderr, "usage: %s rootdir\n", argv[0]);
+13                 exit (1);
+14         }
+15 
+16         rootdir = argv[1];
+17         snprintf (olddir, 1024, "%s/olddir", rootdir);
+18         snprintf (newdir, 1024, "%s/newdir", rootdir);
+19 
+20         printf ("Creating directory 'olddir'...\n");
+21         if (gfal_mkdir (olddir, 0700) < 0) {
+22                 perror ("gfal_mkdir");
+23                 exit (1);
+24         }
+25 
+26         printf ("Renaming directory 'olddir' to 'newdir'...\n");
+27         if (gfal_rename (olddir, newdir) < 0) {
+28                 perror ("gfal_rename");
+29                 exit (1);
+30         }
+31 
+32         printf ("Removing directory 'newdir'...\n");
+33         if (gfal_rmdir (newdir) < 0) {
+34                 perror ("gfal_rmdir");
+35                 exit (1);
+36         }
+37 
+38         printf ("All is ok.\n");
+39         exit (0);
+40 }
+\end{verbatim}
+\end{DocInclude}
+ 

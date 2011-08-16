@@ -1,0 +1,49 @@
+\section{gfal\_\-testread.c}
+This exemple show how to open and read a file ex : use case with LFC plugin : ./gfal\_\-testread lfn:/grid/dteam/test\_\-skywalker
+
+
+
+\begin{DocInclude}\begin{verbatim}1 
+2 
+3 #include <fcntl.h>
+4 #include <stdio.h>
+5 #include <stdlib.h>
+6 #include <errno.h>
+7 #include "gfal_api.h"
+8 #define BLKLEN 65536
+9 
+10 main(int argc, char **argv)
+11 {
+12         int fd;
+13         char ibuf[BLKLEN];
+14         int rc;
+15 
+16         if (argc != 2) {
+17                 fprintf (stderr, "usage: %s filename\n", argv[0]);
+18                 exit (1);
+19         }
+20 
+21         printf ("opening %s\n", argv[1]);
+22         if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
+23                 perror ("gfal_open");
+24                 exit (1);
+25         }
+26         printf ("open successful, fd = %d (errno = %d)\n", fd, errno);
+27 
+28         if ((rc = gfal_read (fd, ibuf, BLKLEN)) < 0) {
+29                 perror ("gfal_read");
+30                 (void) gfal_close (fd);
+31                 exit (1);
+32         }
+33         printf ("read successful (errno = %d)\n", errno);
+34 
+35         if ((rc = gfal_close (fd)) < 0) {
+36                 perror ("gfal_close");
+37                 exit (1);
+38         }
+39         printf ("close successful\n");
+40         exit (0);
+41 }
+\end{verbatim}
+\end{DocInclude}
+ 

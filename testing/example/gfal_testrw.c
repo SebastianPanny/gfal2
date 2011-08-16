@@ -1,9 +1,3 @@
-/**
- * Simple software for testing purpose created from gfal manual
- * @version 0.01
- * @date 14/03/2011
- * @author Devresse Adrien
- */
 
 
 #include <fcntl.h>

@@ -275,6 +275,9 @@ int gfal_closedir(DIR* d){
 int gfal_open(const char * path, int flag, mode_t mode){
 	return gfal_posix_internal_open(path, flag, mode);
 }
+
+
+
 /**
  *  @brief  create a new file or truncate an existing one
  * 	opens a file according to the value of flags.

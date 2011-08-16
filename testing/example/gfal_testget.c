@@ -1,23 +1,3 @@
-/*
- * Copyright (c) Members of the EGEE Collaboration. 2004.
- * See http://www.eu-egee.org/partners/ for details on the copyright holders.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/*
- * @(#)$RCSfile: gfal_testget.c,v $ $Revision: 1.7 $ $Date: 2009/04/08 14:21:34 $ CERN Jean-Philippe Baud
- */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,7 +10,43 @@
 #define DEFPOLLINT 10
 #define TURL_MAX_SIZE 1024
 
-#ifdef _GFAL_1_X
+
+#ifndef _GFAL_1_X
+
+#include <gfal_api.h>
+
+ // NORMAL NEW WAY TO USE IN GFAL 2.0
+
+int main(int argc,char **argv)
+{
+	int errsz = 500;
+	char err[errsz];
+
+	char turl_buff[TURL_MAX_SIZE];
+
+	if (argc < 2){
+		fprintf (stderr, "usage: %s SURLs\n", argv[0]);
+		exit (1);
+	}
+	gfal_set_verbose (GFAL_VERBOSE_VERBOSE);
+	
+	ssize_t res = gfal_getxattr(argv[1], "srm.turl", turl_buff,TURL_MAX_SIZE );
+	
+	if (res > 0)
+		printf("SURL %s Ready - TURL: %s\n", argv[1], turl_buff);
+	else {
+		printf("SURL %s Failed:\n%s\n", argv[1]);
+		perror(" gfal_getxattr");
+	}
+		
+	return((res>0)?0:-1);
+}
+
+#endif
+
+
+/*  This is the OLD WAY GFAL 1.0 to do IT, DONT USE IT WITH GFAL2.0, IT IS FOR A  EXAMPLE OF MIGRATION 1.X to 2.0
+#ifdef _GFAL_1_X 
 #define gfal_handle_free(x) gfal_internal_free(x)
 
 
@@ -40,7 +56,7 @@ main(argc, argv)
 int argc;
 char **argv;
 {
-		gfal_request req = NULL;
+	gfal_request req = NULL;
 	gfal_internal gobj = NULL;
 	gfal_filestatus *filestatuses = NULL;
 	int sav_errno = 0, n = 0, i = 0, nberrors = 0;
@@ -104,38 +120,5 @@ char **argv;
 	gfal_internal_free (gobj);
 	exit (nberrors > 0 ? 1 : 0);
 }
-
-#else
-
-#include <gfal_api.h>
-
-// new system for simple turl resolution 
-
-int main(int argc,char **argv)
-{
-	int errsz = 500;
-	char err[errsz];
-
-	char turl_buff[TURL_MAX_SIZE];
-
-	if (argc < 2){
-		fprintf (stderr, "usage: %s SURLs\n", argv[0]);
-		exit (1);
-	}
-	gfal_set_verbose (GFAL_VERBOSE_VERBOSE);
-	
-	ssize_t res = gfal_getxattr(argv[1], "srm.turl", turl_buff,TURL_MAX_SIZE );
-	
-	if (res > 0)
-		printf("SURL %s Ready - TURL: %s\n", argv[1], turl_buff);
-	else {
-		printf("SURL %s Failed:\n%s\n", argv[1]);
-		perror(" gfal_getxattr");
-	}
-		
-	return((res>0)?0:-1);
-}
-
-
-
 #endif
+*/

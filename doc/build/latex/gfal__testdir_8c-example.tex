@@ -1,0 +1,42 @@
+\section{gfal\_\-testdir.c}
+This exemple show how to list the files in a directory ex : use case with SRM plugin : ./gfal\_\-testdir srm://grid05.lal.in2p3.fr:8446/dpm/lal.in2p3.fr/home/dteam/test\_\-r2d2
+
+
+
+\begin{DocInclude}\begin{verbatim}1 
+2 #include <stdio.h>
+3 #include <stdlib.h>
+4 #include "gfal_api.h"
+5 
+6 main(int argc, char **argv)
+7 {
+8         struct dirent *d;
+9         DIR *dir;
+10 
+11         if (argc != 2) {
+12                 fprintf (stderr, "usage: %s filename\n", argv[0]);
+13                 exit (1);
+14         }
+15 
+16         if ((dir = gfal_opendir (argv[1])) == NULL) {
+17                 perror ("gfal_opendir");
+18                 exit (1);
+19         }
+20 
+21 #if defined(__USE_FILE_OFFSET64)
+22         while ((d = gfal_readdir64 (dir))) {
+23 #else
+24         while ((d = gfal_readdir (dir))) {
+25 #endif
+26                 printf ("%s\n", d->d_name);
+27         }
+28 
+29         if (gfal_closedir (dir) < 0) {
+30                 perror ("gfal_closedir");
+31                 exit (1);
+32         }
+33         exit (0);
+34 }
+\end{verbatim}
+\end{DocInclude}
+ 

@@ -71,7 +71,7 @@ build_dir_test= build_dir +'/test/src'
 	
 headers= ['.', '#.', '#build/src/'] +  voms_header_dir+ dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir +voms_header_dir_emi + dpm_header_dir_emi
 libs=[ '#'+build_dir+'/libs'] +  voms_lib_dir+ dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir+ voms_lib_dir_emi+ dpm_lib_dir_emi
-cflags=['-DVERSION='+version , '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
+cflags=['-DVERSION='+version , '-D_LARGEFILE64_SOURCE','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 # create default env
 env = Environment(tools=['default', 'packaging'], CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
 env.ParseConfig('pkg-config --cflags --libs glib-2.0')
