@@ -4,11 +4,11 @@
 Import('*')	# import SConstruct exported var
 import os
 
-# prod mode
-if ARGUMENTS.get('emi','0') =='yes':
-	vomslib = 'vomsapi'
+if(debug_mode ==True):
+	vomslib = 'libvomsc_gcc64dbgpthr'	
 else:
-	vomslib = 'vomsc'
+	vomslib = 'libvomsapi_gcc64pthr'
+
 
 env.Append(CFLAGS='-O3')
 

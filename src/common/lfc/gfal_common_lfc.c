@@ -76,14 +76,6 @@ static char* lfc_urlconverter(const char * lfn_url, const char* prefix){
 	return p;
 }
 
-/**
- * create a key stored in buff from the lfn url and the prefix
- */
-static inline char* create_key_from_lfn(const char* lfn, const char* prefix, char* buff, const size_t s_buff){
-	g_strlcpy(buff, "lstat_", s_buff);
-	g_strlcat(buff, lfn, s_buff);	
-	return buff;
-}
 
 /**
  *  Deleter to unload the lfc part
@@ -91,7 +83,7 @@ static inline char* create_key_from_lfn(const char* lfn, const char* prefix, cha
 static void lfc_destroyG(catalog_handle handle){
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
 	if(ops){
-		gsimplecache_delete(ops->cache);
+		gsimplecache_delete(ops->cache_stat);
 		free(ops->lfc_endpoint);
 		regfree(&(ops->rex));
 		free(ops);
@@ -103,7 +95,6 @@ static void lfc_destroyG(catalog_handle handle){
  */
 int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** err){
 	g_return_val_err_if_fail(handle && path, -1, err, "[lfc_chmodG] Invalid valid value in handle/path ");
-	char buff_key[2048];
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	gfal_lfc_init_thread(ops);
@@ -116,7 +107,7 @@ int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** er
 		g_set_error(&tmp_err, 0, myerrno, "Errno reported from lfc : %s ", gfal_lfc_get_strerror(ops));
 	}else{
 		errno =0;
-		gsimplecache_remove_kstr(ops->cache, create_key_from_lfn(url, lstat_key_prefix, buff_key, GFAL_URL_MAX_LEN));	
+		gsimplecache_remove_kstr(ops->cache_stat, url);	
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
@@ -157,7 +148,6 @@ int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
  * */
 int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath, GError** err){
 	g_return_val_err_if_fail(handle && oldpath && newpath, -1, err, "[lfc_renameG] Invalid value in args handle/oldpath/newpath");
-	char buff_key[GFAL_URL_MAX_LEN];
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	GError* tmp_err=NULL;
 	gfal_lfc_init_thread(ops);
@@ -169,7 +159,7 @@ int lfc_renameG(catalog_handle handle, const char* oldpath, const char* newpath,
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(&tmp_err,0,sav_errno, "Error report from LFC : %s",  gfal_lfc_get_strerror(ops) );
 	}else{
-		gsimplecache_remove_kstr(ops->cache, create_key_from_lfn(surl, lstat_key_prefix, buff_key, GFAL_URL_MAX_LEN));
+		gsimplecache_remove_kstr(ops->cache_stat, surl);
 	}
 	free(surl);
 	free(durl);
@@ -241,15 +231,12 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	int ret;	
 	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
 	struct lfc_filestat statbuf;
-	struct stat* buffered;
 	char buff_key[GFAL_URL_MAX_LEN];
-	create_key_from_lfn(lfn, lstat_key_prefix, buff_key, GFAL_URL_MAX_LEN);
 	
-	if( (buffered = (struct stat* ) gsimplecache_take_kstr (ops->cache, buff_key)) != NULL){ // take the version of the buffer
-		memcpy(st, buffered, sizeof(struct stat));
-		ret = 0;
-		free(buffered);
+	if( ( ret= gsimplecache_take_one_kstr(ops->cache_stat, lfn, st)) == 0){ // take the version of the buffer
+		gfal_print_verbose(GFAL_VERBOSE_DEBUG, " lfc_lstatG -> value taken from cache");
 	}else{	
+		gfal_print_verbose(GFAL_VERBOSE_DEBUG, " lfc_lstatG -> value not in cache, do normal call");
 		gfal_lfc_init_thread(ops);
 		gfal_auto_maintain_session(ops, &tmp_err);
 		ret = ops->lstat(lfn, &statbuf);
@@ -333,22 +320,21 @@ static gfal_file_handle lfc_opendirG(catalog_handle handle, const char* name, GE
 static struct dirent* lfc_convert_dirent_struct(struct lfc_ops *ops , struct dirent* dir , struct Cns_direnstat* filestat, const char* url){
 	if(filestat == NULL)
 		return NULL;
-	GSimpleCache* cache = ops->cache;
+	GSimpleCache* cache = ops->cache_stat;
 	char fullurl[GFAL_URL_MAX_LEN];
-	strcpy(fullurl, lstat_key_prefix);
-	g_strlcat(fullurl, url, GFAL_URL_MAX_LEN);
+	g_strlcpy(fullurl, url, GFAL_URL_MAX_LEN);
 	g_strlcat(fullurl, "/", GFAL_URL_MAX_LEN);
 	g_strlcat(fullurl, filestat->d_name, GFAL_URL_MAX_LEN);
 	
-	struct stat* st = g_new0(struct stat,1);
-	st->st_mode = (mode_t) filestat->filemode;
-	st->st_nlink = (nlink_t) filestat->nlink;
-	st->st_uid = (uid_t)filestat->uid;
-	st->st_gid = (gid_t)filestat->gid;
-	st->st_size = (off_t) filestat->filesize;
-	st->st_blocks = filestat->filesize/512+1;
-	st->st_blksize = 16384;
-	gsimplecache_add_item_kstr(cache, fullurl, (void*) st, &free);
+	struct stat st;
+	st.st_mode = (mode_t) filestat->filemode;
+	st.st_nlink = (nlink_t) filestat->nlink;
+	st.st_uid = (uid_t)filestat->uid;
+	st.st_gid = (gid_t)filestat->gid;
+	st.st_size = (off_t) filestat->filesize;
+	st.st_blocks = 0;
+	st.st_blksize = 0;
+	gsimplecache_add_item_kstr(cache, fullurl, (void*) &st);
 	dir->d_off +=1;
 	g_strlcpy(dir->d_name, filestat->d_name, NAME_MAX);
 	return dir;
@@ -519,7 +505,7 @@ static int lfc_unlinkG(catalog_handle handle, const char* path, GError** err){
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
 	}else{
-		gsimplecache_remove_kstr(ops->cache, create_key_from_lfn(lfn, lstat_key_prefix, buff_key, GFAL_URL_MAX_LEN));	// remove the key associated in the buffer	
+		gsimplecache_remove_kstr(ops->cache_stat, lfn);	// remove the key associated in the buffer	
 		errno=0;
 	}
 
@@ -558,6 +544,9 @@ static int lfc_readlinkG(catalog_handle handle, const char* path, char* buff, si
 	return ret;
 }
 
+static void internal_stat_copy(gpointer original, gpointer copy){
+	memcpy(copy, original, sizeof(struct stat));
+}
 
 /**
  * Map function for the lfc interface
@@ -586,7 +575,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	}
 	ops->lfc_endpoint = endpoint;
 	ops->handle = handle;
-	ops->cache = gsimplecache_new(50000000);
+	ops->cache_stat = gsimplecache_new(50000000,&internal_stat_copy, sizeof(struct stat) );
 	gfal_lfc_regex_compile(&(ops->rex), err);
 	gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[gfal][lfc] lfc endpoint : %s", endpoint);
 	lfc_catalog.handle = (void*) ops;
@@ -611,7 +600,6 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.listxattrG = &lfc_listxattrG;
 	lfc_catalog.readlinkG = &lfc_readlinkG;
 	lfc_catalog.unlinkG = &lfc_unlinkG;
-	//gfal_lfc_startSession(ops, "auto start sess gfal");
 	
 	if(init_thread== FALSE){ // initiate Cthread system
 		ops->Cthread_init();	// must be called one time for DPM thread safety	

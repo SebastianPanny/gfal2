@@ -15,86 +15,106 @@
 
 #include "gfal_posix_api.h"
 #include "../unit_test_constants.h"
+#include "../mock/gfal_srm_mock_test.h"
 
 
 
-void test__rmdir_posix_lfc_simple()
-{
+void test_mock_rmdir_lfc(int errcode, char* url, mode_t mode){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	test_mock_lfc(handle, &mock_err);
+	if( gfal_check_GError(&mock_err))
+		return;
+
+	always_return(lfc_mock_endtrans,0);
+	always_return(lfc_mock_starttrans,0);
+	will_respond(lfc_mock_rmdir, errcode, want_string(path, url+4));
+#endif	
+	
+}
+
+
+void create_srm_rmdir_mock(const char* url, int code){
+#if USE_MOCK
+	GError* mock_err=NULL;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_catalogs_instance(handle,NULL);
+	test_mock_lfc(handle, &mock_err);
+	setup_mock_srm();
+	if( gfal_check_GError(&mock_err))
+		return;
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
+	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
+	define_mock_defined_srm_rmdir_output(url, code);
+	will_respond(srm_mock_srm_rmdir, 0, want_non_null(context), want_non_null(input), want_non_null(output));	
+
+#endif		
+	
+	
+}
+
+
+void test_generic_rmdir_enoent(char* existingfile){
+	int ret = gfal_rmdir(existingfile);
+	assert_true_with_message(ret != 0 && gfal_posix_code_error() == ENOENT, " must be an invalid deletion, this dir is not existing : %d ", gfal_posix_code_error());
+	gfal_posix_clear_error();	
+	
+}
+
+
+
+void test_generic_rmdir_normal(char* existingfile){
+	gfal_posix_clear_error();
+	int ret = gfal_mkdir(existingfile,0664);
+	assert_true_with_message(ret ==0 || gfal_posix_code_error() == EEXIST, " must be a valid dir creation %d %d", ret, gfal_posix_code_error());
+
+	
+	ret = gfal_rmdir(existingfile);
+	assert_true_with_message(ret ==0 || gfal_posix_code_error() == 0, " must be a valid dir deletion %d %d", ret, gfal_posix_code_error());	
+}
+
+
+void test_generic_rmdir(char* existingfile, char* nonemptydir){
 	int ret = -1;
 	
 	ret = gfal_rmdir(NULL);
-	if( ret == 0 || gfal_posix_code_error() != EFAULT){
-		assert_true_with_message(FALSE, " must be a NULL path %d", gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;		
-	}
-	gfal_posix_clear_error();
-	ret = gfal_mkdir(TEST_LFC_RMDIR_CREATED,0777);
-	if( ret !=0 && gfal_posix_code_error() != EEXIST){
-		assert_true_with_message(FALSE, " must be a valid dir creation %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_LFC_RMDIR_CREATED);
-	if(ret != 0){
-		assert_true_with_message(FALSE, " must be a valid dir deletion %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_LFC_RMDIR_CREATED);
-	if(ret == 0 || gfal_posix_code_error() != ENOENT){
-		assert_true_with_message(FALSE, " must be an invalid deletion, this dir is not existing : %d ", gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	gfal_posix_clear_error();	
-}
+	assert_true_with_message(ret != 0 && gfal_posix_code_error() == EFAULT, " must be a NULL path %d", gfal_posix_code_error());
 
 
+	test_generic_rmdir_normal(existingfile);
 
-void test__rmdir_posix_lfc_existingfile()
-{
-	int ret = -1;
+	test_generic_rmdir_enoent(existingfile)	;
 	
-	ret = gfal_rmdir(TEST_LFC_RMDIR_EEXIST);
-	if( ret == 0 || gfal_posix_code_error() != ENOTEMPTY){
-		assert_true_with_message(FALSE, " must be an invalid deletion, this dir is not empty : %d ", gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;		
-	}	
+	
+	ret = gfal_rmdir(nonemptydir);
+	assert_true_with_message(ret != 0 && gfal_posix_code_error() == ENOTEMPTY, " must be an invalid deletion, this dir is not empty : %d ", gfal_posix_code_error());
 	gfal_posix_clear_error();		
+	
 }
+
+void test__rmdir_posix_lfc_simple()
+{
+	test_mock_mkdir_lfc(0, TEST_LFC_RMDIR_CREATED, 0664);
+	test_mock_rmdir_lfc(0, TEST_LFC_RMDIR_CREATED, 0664);
+	test_mock_rmdir_lfc(-ENOENT, TEST_LFC_RMDIR_CREATED, 0664);
+	test_mock_rmdir_lfc(-ENOTEMPTY, TEST_LFC_RMDIR_EEXIST, 0664);
+	test_generic_rmdir(TEST_LFC_RMDIR_CREATED, TEST_LFC_RMDIR_EEXIST);	
+	
+}
+
+
 
 
 
 void test__rmdir_posix_lfc_slash()
 {
-	int ret = -1;
-	
-	gfal_posix_clear_error();
-	ret = gfal_mkdir(TEST_LFC_RMDIR_CREATED_SLASH,0777);
-	if( ret !=0 && gfal_posix_code_error() != EEXIST){
-		assert_true_with_message(FALSE, " must be a valid dir creation %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_LFC_RMDIR_CREATED_SLASH);
-	if(ret != 0){
-		assert_true_with_message(FALSE, " must be a valid dir deletion %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_LFC_RMDIR_CREATED_SLASH);
-	if(ret == 0 || gfal_posix_code_error() != ENOENT){
-		assert_true_with_message(FALSE, " must be an invalid deletion, this dir is not existing : %d ", gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	gfal_posix_clear_error();	
+	test_mock_rmdir_lfc(0, TEST_LFC_RMDIR_CREATED, 0664);
+	test_mock_rmdir_lfc(-ENOENT, TEST_LFC_RMDIR_CREATED, 0664);
+	test_mock_rmdir_lfc(-ENOTEMPTY, TEST_LFC_RMDIR_EEXIST, 0664);
+	test_generic_rmdir(TEST_LFC_RMDIR_CREATED_SLASH, TEST_LFC_RMDIR_EEXIST);		
 }
 
 
@@ -106,75 +126,16 @@ void test__rmdir_posix_lfc_slash()
 
 void test__rmdir_posix_srm_simple()
 {
-	int ret = -1;
-	
-	gfal_posix_clear_error();
-	ret = gfal_mkdir(TEST_SRM_RMDIR_CREATED,0777);
-	if( ret !=0 && gfal_posix_code_error() != EEXIST){
-		assert_true_with_message(FALSE, " must be a valid dir creation %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	ret = gfal_rmdir(TEST_SRM_RMDIR_CREATED);
-	if(ret != 0){
-		assert_true_with_message(FALSE, " must be a valid dir deletion %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_SRM_RMDIR_CREATED);
-	if(ret == 0 || gfal_posix_code_error() != ENOENT){
-		assert_true_with_message(FALSE, " must be an invalid deletion, this dir is not existing : %d ", gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	gfal_posix_clear_error();	
+	create_srm_mkdir_mock(TEST_SRM_RMDIR_CREATED, 0);
+	create_srm_rmdir_mock(TEST_SRM_RMDIR_CREATED, 0);
+	test_generic_rmdir_normal(TEST_SRM_RMDIR_CREATED);
+	create_srm_rmdir_mock(TEST_SRM_RMDIR_CREATED, ENOENT);
+	test_generic_rmdir_enoent(TEST_SRM_RMDIR_CREATED);
+	//test_generic_rmdir(TEST_SRM_RMDIR_CREATED, TEST_SRM_RMDIR_EEXIST);	
 }
 
 
 
-void test__rmdir_posix_srm_existingfile()
-{
-	int ret = -1;
-	
-	ret = gfal_rmdir(TEST_SRM_RMDIR_EEXIST);
-	if( ret == 0 || gfal_posix_code_error() != ENOTEMPTY){
-		assert_true_with_message(FALSE, " must be an invalid deletion, this dir is not empty : %s %d %d %d ", TEST_SRM_RMDIR_EEXIST, ret, gfal_posix_code_error(), errno);
-		gfal_posix_release_error();
-		return;		
-	}	
-	gfal_posix_clear_error();		
-}
-
-
-
-void test__rmdir_posix_srm_slash()
-{
-	int ret = -1;
-	
-	gfal_posix_clear_error();
-	ret = gfal_mkdir(TEST_SRM_RMDIR_CREATED_SLASH,0777);
-	if( ret !=0 && gfal_posix_code_error() != EEXIST){
-		assert_true_with_message(FALSE, " must be a valid dir creation %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_SRM_RMDIR_CREATED_SLASH);
-	if(ret != 0){
-		assert_true_with_message(FALSE, " must be a valid dir deletion %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_SRM_RMDIR_CREATED_SLASH);
-	if(ret == 0 || gfal_posix_code_error() != ENOENT){
-		assert_true_with_message(FALSE, " must be an invalid deletion, this dir is not existing : %d ", gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	gfal_posix_clear_error();	
-}
 
 
 
@@ -182,75 +143,19 @@ void test__rmdir_posix_srm_slash()
 
 void test__rmdir_posix_local_simple()
 {
-	int ret = -1;
-	
-	gfal_posix_clear_error();
-	ret = gfal_mkdir(TEST_LOCAL_RMDIR_CREATED,0777);
-	if( ret !=0 && gfal_posix_code_error() != EEXIST){
-		assert_true_with_message(FALSE, " must be a valid dir creation %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_LOCAL_RMDIR_CREATED);
-	if(ret != 0){
-		assert_true_with_message(FALSE, " must be a valid dir deletion %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_LOCAL_RMDIR_CREATED);
-	if(ret == 0 || gfal_posix_code_error() != ENOENT){
-		assert_true_with_message(FALSE, " must be an invalid deletion, this dir is not existing : %d ", gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	gfal_posix_clear_error();	
-}
-
-
-
-void test__rmdir_posix_local_existingfile()
-{
-	int ret = -1;
-	
 	system(TEST_LOCAL_RMDIR_EEXIST_COMMAND);
-	ret = gfal_rmdir(TEST_LOCAL_RMDIR_EEXIST);
-	if( ret == 0 || gfal_posix_code_error() != ENOTEMPTY){
-		assert_true_with_message(FALSE, " must be an invalid deletion, this dir is not empty : %d ", gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;		
-	}	
-	gfal_posix_clear_error();	
+	test_generic_rmdir(TEST_LOCAL_RMDIR_CREATED, TEST_LOCAL_RMDIR_EEXIST);
+
 }
+
+
 
 
 
 
 void test__rmdir_posix_local_slash()
 {
-	int ret = -1;
-	
-	gfal_posix_clear_error();
-	ret = gfal_mkdir(TEST_LOCAL_RMDIR_CREATED_SLASH,0777);
-	if( ret !=0 && gfal_posix_code_error() != EEXIST){
-		assert_true_with_message(FALSE, " must be a valid dir creation %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_LOCAL_RMDIR_CREATED_SLASH);
-	if(ret != 0){
-		assert_true_with_message(FALSE, " must be a valid dir deletion %d %d", ret, gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	
-	ret = gfal_rmdir(TEST_LOCAL_RMDIR_CREATED_SLASH);
-	if(ret == 0 || gfal_posix_code_error() != ENOENT){
-		assert_true_with_message(FALSE, " must be an invalid deletion, this dir is not existing : %d ", gfal_posix_code_error());
-		gfal_posix_release_error();
-		return;
-	}
-	gfal_posix_clear_error();	
+
+	system(TEST_LOCAL_RMDIR_EEXIST_COMMAND);
+	test_generic_rmdir(TEST_LOCAL_RMDIR_CREATED_SLASH, TEST_LOCAL_RMDIR_EEXIST);	
 }

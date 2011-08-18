@@ -15,6 +15,9 @@
 #include "../../unit_test_constants.h"
 #include "../../mock/gfal_lfc_mock_test.h"
 
+static void test_internal_generic_copy(gpointer origin, gpointer copy){
+	memcpy(copy, origin, sizeof(struct stat));
+}
 
 // mocking function internal to gfal
 gfal_catalog_interface get_lfc_interface(gfal_handle handle, GError** err){
@@ -36,7 +39,7 @@ gfal_catalog_interface get_lfc_interface(gfal_handle handle, GError** err){
 	ops->lfc_endpoint = NULL;
 	gfal_lfc_regex_compile(&(ops->rex), err);
 	ops->statg = &lfc_mock_statg;
-	ops->cache = gsimplecache_new(40000);
+	ops->cache_stat = gsimplecache_new(40000, &test_internal_generic_copy, sizeof(struct stat));
 	ops->startsess = &lfc_mock_startsession;
 	ops->endsess = &lfc_mock_endsess;
 	ops->rename = &lfc_mock_rename;

@@ -17,22 +17,23 @@
 
 static const guint64 max_list_len = MAX_LIST_LEN;
 
-__thread gboolean skip_deletion = FALSE;
+
+
 
 typedef struct _Internal_item{
-	GDestroyNotify value_destroyer;
-	void *item;
+	int ref_count;
+	char item[];
 } Internal_item;
 
 struct _GSimpleCache_Handle{
 	GHashTable*  table;
+	GSimpleCache_CopyConstructor do_copy;
+	size_t size_item;
 	pthread_mutex_t mux;
 };
 
 static void gsimplecache_destroy_item_internal(gpointer a){
 	Internal_item* i = (Internal_item*) a;
-	if(skip_deletion == FALSE)
-		i->value_destroyer(i->item);
 	g_free(i);
 }
 
@@ -44,9 +45,11 @@ static gboolean hash_strings_are_equals(gconstpointer a, gconstpointer b){
 /**
  * Construct a new cache with a capacity of max_size bytes
  * */
-GSimpleCache* gsimplecache_new(guint64 max_size){
+GSimpleCache* gsimplecache_new(guint64 max_size, GSimpleCache_CopyConstructor value_copy, size_t size_item){
 	GSimpleCache* ret = (GSimpleCache*) g_new(struct _GSimpleCache_Handle,1);
 	ret->table = g_hash_table_new_full(&g_str_hash, &hash_strings_are_equals, &free, &gsimplecache_destroy_item_internal );
+	ret->do_copy = value_copy;
+	ret->size_item = size_item;
 	pthread_mutex_init(&ret->mux,NULL);
 	return ret;
 }
@@ -64,10 +67,10 @@ void gsimplecache_delete(GSimpleCache* cache){
 	}
 }
 
-inline void* gsimplecache_find_kstr_internal(GSimpleCache* cache, const char* key){
+inline Internal_item* gsimplecache_find_kstr_internal(GSimpleCache* cache, const char* key){
 	Internal_item* ret = (Internal_item*) g_hash_table_lookup(cache->table, (gconstpointer) key);
 	if(ret != NULL ){
-		return ret->item;
+		return ret;
 	}	
 	return NULL;
 }
@@ -79,22 +82,25 @@ inline gboolean gsimplecache_remove_internal_kstr(GSimpleCache* cache, const cha
 
 
 
-inline void gsimplecache_add_item_internal(GSimpleCache* cache, char* dup_key, Internal_item* item){
-	g_hash_table_insert(cache->table, dup_key, item);
+inline void gsimplecache_add_item_internal(GSimpleCache* cache, const char* key, void* item){
+	Internal_item* ret = gsimplecache_find_kstr_internal(cache, key);	
+	if(ret == NULL){
+		ret = malloc(sizeof(struct _Internal_item) + cache->size_item);
+		ret->ref_count = 1;
+		cache->do_copy(item, ret->item);
+		g_hash_table_insert(cache->table, strdup(key), ret);
+	}else{
+		(ret->ref_count)++;
+	}
 }
 
 
 /**
- * Add an item to the cache referenced by the Key key while a duration time (in sec )
- * After this duration, the item will be deleted by the value_destroyer function
- * @warning, the key is duplicated and free internally
+ * Add an item to the cache or increment the reference of this item of one if already exist
  * */
-void gsimplecache_add_item_kstr(GSimpleCache* cache, const char* key, void* item, GDestroyNotify value_destroyer){
+void gsimplecache_add_item_kstr(GSimpleCache* cache, const char* key, void* item){
 	pthread_mutex_lock(&cache->mux);	
-	Internal_item* it = g_new(struct _Internal_item,1);
-	it->value_destroyer = value_destroyer;
-	it->item = item;
-	gsimplecache_add_item_internal(cache, strdup(key), it);
+	gsimplecache_add_item_internal(cache, key, item);
 	pthread_mutex_unlock(&cache->mux);
 }
 
@@ -112,30 +118,20 @@ gboolean gsimplecache_remove_kstr(GSimpleCache* cache, const char* key){
 }
 
 /**
- * find the item in the cache, return it if exist , else return NULL
- * the returned value must be free by hand
+ * find the value in the cache, and decrease its internal reference count of 1.
+ * If the item exist, set the item resu to the correct value and return 0 else return -1
  * 
  * */
-void* gsimplecache_take_kstr(GSimpleCache* cache, const char* key){
+int gsimplecache_take_one_kstr(GSimpleCache* cache, const char* key, void* res){
 	pthread_mutex_lock(&cache->mux);	
-	void* ret = gsimplecache_find_kstr_internal(cache, key);
+	Internal_item* ret = gsimplecache_find_kstr_internal(cache, key);
 	if(ret){
-		skip_deletion = TRUE;
-		gsimplecache_remove_internal_kstr(cache, key);	
-		skip_deletion = FALSE;
+		(ret->ref_count)--;
+		cache->do_copy(ret->item, res);
+		if(ret->ref_count <= 0)
+			gsimplecache_remove_internal_kstr(cache, key);
 	}
 	pthread_mutex_unlock(&cache->mux);	
-	return ret;
+	return (ret)?0:-1;
 }
 
-
-/**
- * search the item in the cache, return it if exist and is not outdated, else return NULL
- * 
- * */
-void* gsimplecache_find_kstr(GSimpleCache* cache, const char* key){
-	pthread_mutex_lock(&cache->mux);
-	void* ret = gsimplecache_find_kstr_internal(cache, key);
-	pthread_mutex_unlock(&cache->mux);	
-	return ret;
-}

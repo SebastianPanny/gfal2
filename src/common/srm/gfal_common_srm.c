@@ -118,6 +118,11 @@ static void gfal_srm_destroyG(catalog_handle ch){
 	gsimplecache_delete(opts->cache);
 	free(opts);
 }
+
+static void srm_internal_copy_stat(gpointer origin, gpointer copy){
+	memcpy(copy, origin, sizeof(struct stat));
+}
+
 /**
  * Init an opts struct with the default parameters
  * */
@@ -127,7 +132,7 @@ void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle){
 	opts->srm_proto_type = PROTO_SRMv2;
 	opts->handle = handle;
 	opts->filesizes = GFAL_NEWFILE_SIZE;	
-	opts->cache = gsimplecache_new(500000);
+	opts->cache = gsimplecache_new(500000, &srm_internal_copy_stat, sizeof(struct stat));
 }
 
 /**

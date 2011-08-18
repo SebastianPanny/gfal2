@@ -141,7 +141,7 @@ void test__gfal_posix_stat_local()
 	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success");
 	
 	assert_true_with_message( buff.st_mode == TEST_GFAL_LOCAL_FILE_STAT_MODE_VALUE,
-		" this is not the correct value for the lfc stat mode %o, uid %d, gid %d, size %d", 
+		" this is not the correct value for the local stat mode %o, uid %d, gid %d, size %d", 
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
 	
 	res = gfal_stat(TEST_GFAL_LOCAL_STAT_NONEXIST, &buff);

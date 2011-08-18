@@ -35,6 +35,8 @@ void setup_mock_srm(){
 	gfal_srm_external_call.srm_context_init = &srm_mock_srm_context_init;
 	gfal_srm_external_call.srm_check_permission= &srm_mock_srm_check_permission;
 	gfal_srm_external_call.srm_ls = &srm_mock_srm_ls;
+	gfal_srm_external_call.srm_mkdir = &srm_mock_srm_mkdir;
+	gfal_srm_external_call.srm_rmdir = &srm_mock_srm_rmdir;
 	gfal_srm_external_call.srm_put_done = &srm_mock_srm_put_done;
 	gfal_srm_external_call.srm_setpermission= & srm_mock_srm_setpermission;
 	gfal_srm_external_call.srm_srmv2_pinfilestatus_delete = &srm_mock_srm_srmv2_pinfilestatus_delete;

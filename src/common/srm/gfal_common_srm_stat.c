@@ -88,12 +88,10 @@ int gfal_srm_statG(catalog_handle ch, const char* surl, struct stat* buf, GError
 	char key_buff[GFAL_URL_MAX_LEN];
 	enum gfal_srm_proto srm_type;
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
-	struct stat* stat_tmp;
 	gfal_srm_construct_key(surl, GFAL_SRM_LSTAT_PREFIX, key_buff, GFAL_URL_MAX_LEN);
 	
-	if( (stat_tmp = (struct stat*) gsimplecache_take_kstr(opts->cache, key_buff)) != NULL){
-		memcpy(buf, stat_tmp, sizeof(struct stat));
-		free(stat_tmp);
+	if( (ret = gsimplecache_take_one_kstr(opts->cache, key_buff, buf)) ==0){
+		gfal_print_verbose(GFAL_VERBOSE_DEBUG, " srm_statG -> value taken from the cache");
 		ret = 0;
 	}else{
 		ret =gfal_srm_determine_endpoint(opts, surl, &full_endpoint, GFAL_URL_MAX_LEN, &srm_type,   &tmp_err);

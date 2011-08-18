@@ -56,7 +56,7 @@ inline static void gfal_srm_bufferize_request(catalog_handle ch, const char* sur
 		st->st_mtime = (time_t) stat_statuses->st_mtime;
 		st->st_ctime = (time_t) stat_statuses->st_ctime;
 	}
-	gsimplecache_add_item_kstr(opts->cache, buff_key, st, &free);
+	gsimplecache_add_item_kstr(opts->cache, buff_key, st);
 }
 
 inline static struct dirent* gfal_srm_readdir_convert_result(catalog_handle ch, const char* surl, struct srmv2_mdfilestatus * statuses,  struct dirent* output, GError ** err){

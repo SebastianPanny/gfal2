@@ -113,6 +113,13 @@ void define_mock_srmv2_putoutput(int number, char** surl, char** explanation, ch
 	}
 }
 
+
+void define_mock_defined_srm_rmdir_output(char* surl, int status){
+	defined_srm_rmdir_output.statuses= calloc(sizeof(struct srmv2_filestatus), 1);
+	defined_srm_rmdir_output.statuses->surl = strdup(surl);
+	defined_srm_rmdir_output.statuses->status = status;	
+}
+
 void srm_mock_srm_context_init(struct srm_context *context,char *srm_endpoint,char *errbuf,int errbufsz,int verbose){
 	mock(context, srm_endpoint, errbuf, errbufsz, verbose);
 }
@@ -143,7 +150,7 @@ int srm_mock_srm_mkdir(struct srm_context *context,
 	struct srm_mkdir_input *input){
 	int a = mock(context, input);
 	if(a<0){
-		errno = a;
+		errno = -a;
 		return -1;
 	}
 	return a;		

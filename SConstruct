@@ -11,6 +11,17 @@ import subprocess
 import glob
 import time
 
+## global vars
+debug_mode = False;
+plugin_dcap = False
+plugin_rfio=False
+plugin_srm=False
+plugin_lfc=False
+main_core=False
+main_devel=False
+main_doc=False
+main_meta=False
+
 ##
 # try to find etics workspace or check if ETICS_WORKSPACE is defined
 def get_etics_dir():
@@ -52,6 +63,8 @@ dcap_header_dir, dcap_lib_dir = get_depconf('dcap_path')
 srmifce_header_dir, srmifce_lib_dir = get_depconf('srmifce_path')
 # get lfc conf
 lfc_header_dir, lfc_lib_dir = get_depconf('lfc_path', include_path='/include/lfc/')
+# get cgreen conf
+cgreen_header_dir, cgreen_lib_dir = get_depconf('cgreen_path', include_path='/local/include', lib_path='/local/lib/', lib64_path='/local/lib/')
 
 # old gfal header for testing/example 
 old_gfal_header= get_depconf('old_gfal_path')[0]
@@ -69,18 +82,23 @@ build_dir_test= build_dir +'/test/src'
 
 	
 	
-headers= ['.', '#.', '#build/src/'] +  voms_header_dir+ dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir +voms_header_dir_emi + dpm_header_dir_emi
-libs=[ '#'+build_dir+'/libs'] +  voms_lib_dir+ dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir+ voms_lib_dir_emi+ dpm_lib_dir_emi
-cflags=['-DVERSION='+version , '-D_LARGEFILE64_SOURCE','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
+headers= ['.', '#.', '#build/src/'] +  voms_header_dir+ dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir +voms_header_dir_emi + dpm_header_dir_emi + cgreen_header_dir
+libs=[ '#'+build_dir+'/libs'] +  voms_lib_dir+ dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir+ voms_lib_dir_emi+ dpm_lib_dir_emi + cgreen_lib_dir
+cflags=['-DVERSION=\\\"'+version+'\\\"', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 # create default env
 env = Environment(tools=['default', 'packaging'], CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
 env.ParseConfig('pkg-config --cflags --libs glib-2.0')
+#internal_ld_path = ''.join(map(lambda x: ":"+x, libs)+ ["build/libs/"])
 r = os.getenv('LD_LIBRARY_PATH')	# get ld path
 env['ENV']['LD_LIBRARY_PATH'] = (r is not None) and r or "" # set ld path or empty one if not exist
+env.PrependENVPath('LD_LIBRARY_PATH', map(lambda x :Dir(x).get_abspath(), libs)) # setup internal env LD PATH
+
+print " ld path : " + env['ENV']['LD_LIBRARY_PATH']
 
 # debug mode
 if ARGUMENTS.get('debug','0') =='yes':
 	print "DEBUG MODE"
+	debug_mode = True
 	env.Append(CFLAGS='-g')
 
 # profile mode
@@ -93,6 +111,24 @@ if ARGUMENTS.get('production','0') =='yes':
 	print "prod MODE"
 	env.Append(CFLAGS='-O3')
 	
+# scopes
+if ARGUMENTS.get('plugin_rfio','no') =='yes':
+	plugin_rfio=True
+if ARGUMENTS.get('plugin_dcap','no') =='yes':
+	plugin_dcap=True
+if ARGUMENTS.get('plugin_srm','no') =='yes':
+	plugin_srm=True
+if ARGUMENTS.get('plugin_lfc','no') =='yes':
+	plugin_lfc=True
+if ARGUMENTS.get('main_core','no') =='yes':
+	main_core=True
+if ARGUMENTS.get('main_devel','no') =='yes':
+	main_devel=True
+if ARGUMENTS.get('main_doc','no') =='yes':
+	main_doc=True
+if ARGUMENTS.get('main_meta','no') =='yes':
+	main_meta=True
+
 
 #externals builds
 env_libgcache = env.Clone()
@@ -101,18 +137,17 @@ gsimplecache = SConscript(build_dir_externals +'/gsimplecache/SConscript',['head
 
 #main build
 VariantDir(build_dir_src, 'src')
-mainlib, staticlib, versionexe,plugin_lfc_lib, plugin_srm_lib, plugin_rfio_lib, plugin_dcap_lib  = SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src'])
-
+mainlib, staticlib, versionexe,plugin_lfc_lib, plugin_srm_lib, plugin_rfio_lib, plugin_dcap_lib  = SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src','debug_mode'])
 
 # global testing build
-SConscript('testing/SConscript', ['env', 'headers', 'libs', 'old_gfal_header'])
+SConscript('testing/SConscript', ['env', 'headers', 'libs', 'old_gfal_header','debug_mode'])
 
 #unit tests
 env_test = env.Clone()
-env_test.Append(CPPPATH=[ "#src/common", "#src/", "#src/posix"])
+env_test.Append(CPPPATH=[ "#src/common", "#src/", "#src/posix"]+ cgreen_header_dir)
+env_test.Append(LIBPATH= cgreen_lib_dir)
 VariantDir(build_dir_test, 'test')
-SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src'])
-
+SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','debug_mode'])
 
 #VariantDir("rpmbuildir/", 'rpm/')
 #SConscript("rpmbuildir/SConscript", ["env","mainlib", "staticlib", "versionexe", "version", "package_version", "plugin_lfc_lib"] )
@@ -125,11 +160,6 @@ libdir = (os.uname()[4] == 'x86_64') and "lib64" or "lib"
 def define_rpm_install(opt):
 	return 'scons -j 8 '+ opt+ ' --install-sandbox="$RPM_BUILD_ROOT" "$RPM_BUILD_ROOT" '
 
-def define_rpm_install_with_file(str1, dest_file, content, mode):
-	str1 += " && mkdir -p `dirname " + dest_file + "` "
-	str1 +=	' && echo -e   "'+content+'" > '+ dest_file + " "
-	str1 +=	" && chmod "+str(mode)+'  '+ dest_file + " "
-	return str1
 
 def arguments_to_str():
 	ret = ' ';
@@ -137,14 +167,16 @@ def arguments_to_str():
 		ret += arg+ '=' +value+ ' '
 	return ret
 
+pack_list = []
+install_list = []
 
-
-def package_main():
-	env_pack_main= env.Clone()
-	lib_main = env_pack_main.Install('/usr/'+libdir+'/', mainlib)
-	version_main = env_pack_main.Install('/usr/bin/', versionexe)
+if(main_core):
+	print ""
+	lib_main = env.Install('/usr/'+libdir+'/', mainlib)
+	version_main = env.Install('/usr/bin/', versionexe)
+	install_list += [lib_main, version_main] 
 	x_rpm_install = define_rpm_install(arguments_to_str());
-	p_main = env_pack_main.Package( 
+	pack_list += env.Package( 
 			 NAME     = 'gfal2-core',
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
@@ -157,18 +189,17 @@ def package_main():
 			 X_RPM_REQUIRES = 'glib2',
 			 source= [lib_main, version_main] 
 			 )
-	return p_main
 
-def package_main_devel():
-	env_pack_main_devel= env.Clone()
-	header_main = env_pack_main_devel.Install('/usr/include/gfal2/', Glob("dist/include/gfal2/*.h") )
-	header_main2= env_pack_main_devel.Install('/usr/include/gfal2/common/', Glob("dist/include/gfal2/common/*.h"))
-	header_main3= env_pack_main_devel.Install('/usr/include/gfal2/posix/', Glob("dist/include/gfal2/posix/*.h") )
-	static_main = env_pack_main_devel.Install('/usr/'+libdir+'/', staticlib)
-	example_main = env_pack_main_devel.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
-	pkgconfig_main = env_pack_main_devel.Install('/usr/lib64/pkgconfig/', "dist/usr/lib64/pkgconfig/libgfal2.pc")
+
+if(main_devel):
+	header_main = env.Install('/usr/include/gfal2/', Glob("dist/include/gfal2/*.h") )
+	header_main2= env.Install('/usr/include/gfal2/common/', Glob("dist/include/gfal2/common/*.h"))
+	header_main3= env.Install('/usr/include/gfal2/posix/', Glob("dist/include/gfal2/posix/*.h") )
+	static_main = env.Install('/usr/'+libdir+'/', staticlib)
+	example_main = env.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
+	install_list += [header_main, header_main2, header_main3, static_main, example_main] 
 	x_rpm_install = define_rpm_install(arguments_to_str());
-	p_main_devel = env_pack_main_devel.Package( 
+	pack_list += env.Package( 
 			 NAME     = 'gfal2-core-devel',
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
@@ -181,14 +212,13 @@ def package_main_devel():
 			 X_RPM_REQUIRES = 'glib2, gfal2-core',
 			 source= [header_main, header_main2, header_main3, static_main, example_main, pkgconfig_main] 
 			 )
-	return p_main_devel
 	
-def package_lfc():
-	env_pack_main= env.Clone()
-	lib_plugin_lfc = env_pack_main.Install('/usr/'+libdir+'/', plugin_lfc_lib)
-	lib_plugin_lfc_conf= env_pack_main.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_lfc/*sh"))
+if(plugin_lfc):
+	lib_plugin_lfc = env.Install('/usr/'+libdir+'/', plugin_lfc_lib)
+	lib_plugin_lfc_conf= env.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_lfc/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
-	p_plugin_lfc = env_pack_main.Package( 
+	install_list += [lib_plugin_lfc, lib_plugin_lfc_conf]
+	pack_list += env.Package( 
 			 NAME     = 'gfal2-plugin-lfc',
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
@@ -201,15 +231,14 @@ def package_lfc():
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_lfc, lib_plugin_lfc_conf],
 			 )	
-	return p_plugin_lfc
 	
 
-def package_srm():
-	env_pack_main= env.Clone()
-	lib_plugin_srm = env_pack_main.Install('/usr/'+libdir+'/', plugin_srm_lib)
-	lib_plugin_srm_conf= env_pack_main.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_srm/*sh"))
+if(plugin_srm):
+	lib_plugin_srm = env.Install('/usr/'+libdir+'/', plugin_srm_lib)
+	lib_plugin_srm_conf= env.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_srm/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
-	p_plugin_srm = env_pack_main.Package( 
+	install_list += [lib_plugin_srm, lib_plugin_srm_conf]
+	pack_list += env.Package( 
 			 NAME     = 'gfal2-plugin-srm',
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
@@ -223,14 +252,14 @@ def package_srm():
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_srm, lib_plugin_srm_conf],
 			 )	
-	return p_plugin_srm
+
 	
-def package_rfio():
-	env_pack_main= env.Clone()
-	lib_plugin_rfio = env_pack_main.Install('/usr/'+libdir+'/', plugin_rfio_lib)
-	lib_plugin_rfio_conf= env_pack_main.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_rfio/*sh"))
+if(plugin_rfio):
+	lib_plugin_rfio = env.Install('/usr/'+libdir+'/', plugin_rfio_lib)
+	lib_plugin_rfio_conf= env.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_rfio/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
-	p_plugin_rfio = env_pack_main.Package( 
+	install_list += [lib_plugin_rfio, lib_plugin_rfio_conf]
+	pack_list += env.Package( 
 			 NAME     = 'gfal2-plugin-rfio',
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
@@ -243,15 +272,14 @@ def package_rfio():
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_rfio, lib_plugin_rfio_conf],
 			 )	
-	return p_plugin_rfio
 	
 
-def package_dcap():
-	env_pack_main= env.Clone()
-	lib_plugin_dcap = env_pack_main.Install('/usr/'+libdir+'/', plugin_dcap_lib)
-	lib_plugin_dcap_conf= env_pack_main.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_dcap/*sh"))
+if(plugin_dcap):
+	lib_plugin_dcap = env.Install('/usr/'+libdir+'/', plugin_dcap_lib)
+	lib_plugin_dcap_conf= env.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_dcap/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
-	p_plugin_dcap = env_pack_main.Package( 
+	install_list +=  [lib_plugin_dcap, lib_plugin_dcap_conf]
+	pack_list += env.Package( 
 			 NAME     = 'gfal2-plugin-dcap',
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
@@ -264,14 +292,13 @@ def package_dcap():
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_dcap, lib_plugin_dcap_conf],
 			 )	
-	return p_plugin_dcap	
 	
 	
-def package_doc():
-	env_doc = env.Clone()
-	docs_main = env_doc.Install('/usr/share/doc/gfal2/', Glob('doc/build/html/*') )
-	env_doc.Depends(docs_main, Glob('doc/build/html/*') )	
-	p_doc = env_doc.Package( 
+if(main_doc):
+	docs_main = env.Install('/usr/share/doc/gfal2/', Glob('doc/build/html/*') )
+	env.Depends(docs_main, Glob('doc/build/html/*') )	
+	install_list +=  [docs_main]
+	pack_list += env.Package( 
 				 NAME     = 'gfal2-doc',
 				 VERSION        = version,
 				 PACKAGEVERSION = package_version,
@@ -284,12 +311,11 @@ def package_doc():
 				 X_RPM_INSTALL= define_rpm_install(arguments_to_str()),		 
 				 source= [docs_main] 
 				 )	
-	return p_doc
 
-def package_meta():	
-	env_all = env.Clone()
-	license1 = env_all.Install('/usr/share/gfal2/', 'LICENSE' )	
-	p_all = env_all.Package( 
+if(main_meta):
+	license1 = env.Install('/usr/share/gfal2/', 'LICENSE' )	
+	install_list +=  [license1] 
+	pack_list +=  env.Package( 
 				 NAME     = 'gfal2-all',
 				 VERSION        = version,
 				 PACKAGEVERSION = package_version,
@@ -302,17 +328,11 @@ def package_meta():
 				 X_RPM_INSTALL= define_rpm_install(arguments_to_str()),
 				 source= [license1] 
 				 )	
-	return p_all
-	
 	
 
-if ARGUMENTS.get('package','0') !='0':
-	str_func = "package_" + ARGUMENTS.get('package','0')
-	print "package : "+ str_func
-	p_res = globals()[str_func]()
-	Default(p_res)	
+env.Alias("install", install_list);
 
-
+env.Alias("package_generator", pack_list);
 	
 	
 	

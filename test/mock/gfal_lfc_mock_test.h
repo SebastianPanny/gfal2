@@ -34,6 +34,8 @@ int* lfc_mock_C__serrno();
 
 int	lfc_mock_endsess();
 
+int lfc_mock_rmdir(const char* path);
+
 int lfc_mock_startsession(char* server, char* comment);
 
 int	lfc_mock_statg(const char * lfn, const char * guid, struct lfc_filestatg * f);

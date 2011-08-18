@@ -33,6 +33,10 @@ struct lfc_ops* find_lfc_ops(gfal_handle handle, GError** err){
 	return ops;
 }
 
+static void test_internal_generic_copy(gpointer origin, gpointer copy){
+	memcpy(copy, origin, sizeof(struct stat));
+}
+
 // mocking function internal to gfal
 void test_mock_lfc(gfal_handle handle, GError** err){
 
@@ -40,7 +44,7 @@ void test_mock_lfc(gfal_handle handle, GError** err){
 	struct lfc_ops* ops = find_lfc_ops(handle, err); 
 	ops->lfc_endpoint = NULL;
 	ops->handle = handle;
-	ops->cache= gsimplecache_new(50000000);
+	ops->cache_stat= gsimplecache_new(50000000, &test_internal_generic_copy, sizeof(struct stat));
 	gfal_lfc_regex_compile(&(ops->rex), err);
 	ops->statg = &lfc_mock_statg;
 	ops->rename = &lfc_mock_rename;
@@ -51,6 +55,7 @@ void test_mock_lfc(gfal_handle handle, GError** err){
 	ops->getlinks= &lfc_mock_getlinks;
 	ops->lstat= &lfc_mock_lstatg;
 	ops->chmod = &lfc_mock_chmod;
+	ops->rmdir = &lfc_mock_rmdir;
 	ops->mkdirg = &lfc_mock_mkdir;
 	ops->starttrans= &lfc_mock_starttrans;
 	ops->endtrans= &lfc_mock_endtrans;

@@ -193,6 +193,15 @@ int lfc_mock_mkdir(const char* path, const char* guid, mode_t mode){
 	return 0;	
 }
 
+int lfc_mock_rmdir(const char* path){
+	int a=  mock(path);
+	if(a < 0 ){
+		lfc_last_err = -a;
+		return -1;
+	}	
+	return 0;	
+}
+
 DIR* lfc_mock_opendir(const char* path, const char* guid){
 	DIR* a=  mock(path, guid);
 	if((int) a <0 ){

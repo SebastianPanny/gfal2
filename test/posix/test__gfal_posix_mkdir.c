@@ -25,10 +25,10 @@ void create_srm_mkdir_mock(const char* url, int code){
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;
-
+	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
 	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
-	will_respond(srm_mock_srm_mkdir, code, want_non_null(context), want_non_null(inut), want_non_null(output));	
+	will_respond(srm_mock_srm_mkdir, code, want_non_null(context), want_non_null(input));	
 
 #endif		
 	
@@ -184,7 +184,7 @@ void test__mkdir_posix_local_simple()
 {
 	struct stat st;
 	system(TEST_LOCAL_MKDIR_EXIST_COMMAND);
-	int ret = gfal_mkdir(TEST_LOCAL_MKDIR_EXIST_FILE, 0664);
+	int ret = gfal_mkdir(TEST_LOCAL_MKDIR_EXIST_FILE, 0644);
 	if( ret == 0 || errno != EEXIST || gfal_posix_code_error() != EEXIST){
 		assert_true_with_message(FALSE, " must be an existing dir %d %d %d", ret, errno, gfal_posix_code_error());
 		gfal_posix_clear_error();
@@ -197,7 +197,7 @@ void test__mkdir_posix_local_simple()
 	time_t tt;
 	time(&tt);
 	snprintf(filename, 2048, "%s%ld", TEST_LOCAL_BASE_FOLDER_URL_MKDIR1, tt);
-	ret = gfal_mkdir(filename, 0664);
+	ret = gfal_mkdir(filename, 0644);
 	if(ret != 0 || errno !=0 || gfal_posix_code_error() != 0){
 		assert_true_with_message(FALSE, " must be a valid create dir %d %d %d", ret, errno, gfal_posix_code_error());
 		gfal_posix_clear_error();
@@ -207,7 +207,7 @@ void test__mkdir_posix_local_simple()
 	errno ==0;
 	
 	ret = gfal_stat(filename,&st);
-	if( ret != 0 || st.st_mode != 040664){
+	if( ret != 0 || st.st_mode != 040644){
 		assert_true_with_message(FALSE, " bad right on the new created directory %d %o ", ret,st.st_mode );
 		gfal_posix_clear_error();
 		return;			
@@ -333,6 +333,7 @@ void test__mkdir_posix_srm_simple()
 	time(&tt);
 	snprintf(filename, 2048, "%stest%ld", TEST_SRM_BASE_FOLDER_URL_MKDIR1, tt);
 	//g_printerr(" filename %s ", filename);
+	create_srm_mkdir_mock(filename, 0);
 	ret = gfal_mkdir(filename, 0664);
 	if(ret != 0 || errno !=0 || gfal_posix_code_error() != 0){
 		assert_true_with_message(FALSE, " must be a valid create dir %d %d %d", ret, errno, gfal_posix_code_error());
@@ -341,14 +342,16 @@ void test__mkdir_posix_srm_simple()
 	}
 	gfal_posix_clear_error();
 	errno ==0;
-
+#if USE_MOCK
+	mock_srm_access_right_response(filename);
+#endif
 	ret = gfal_access(filename, F_OK);
 	if( ret != 0 ){
 		assert_true_with_message(FALSE, " directory must exist %d %o ", ret);
 		gfal_posix_clear_error();
 		return;			
 	}
-	
+	create_srm_mkdir_mock(filename, -EACCES);	
 	ret = gfal_mkdir(TEST_SRM_UNACCESS_MKDIR, 0644);
 	if( ret ==0 || errno != EACCES || gfal_posix_code_error() != EACCES){
 		assert_true_with_message(FALSE, " must be a non-access dir %d %d %d", ret, errno, gfal_posix_code_error());

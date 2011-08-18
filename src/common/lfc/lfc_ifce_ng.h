@@ -45,7 +45,7 @@ struct lfc_ops {
 	char* lfc_endpoint;
 	regex_t rex; // regular expression compiled 
 	gfal_handle handle;
-	GSimpleCache* cache;
+	GSimpleCache* cache_stat;
 #if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) && (defined(_MT) || defined(_DLL)))
 	int*	(*serrno)(void);
 #else
