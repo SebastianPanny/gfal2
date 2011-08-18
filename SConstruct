@@ -211,7 +211,7 @@ if(main_devel):
 			 X_RPM_GROUP    = 'CERN/grid',
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'glib2, gfal2-core',
-			 source= [header_main, header_main2, header_main3, static_main, example_main, pkgconfig_main] 
+			 source= [header_main, header_main2, header_main3, static_main, example_main] 
 			 )
 	
 if(plugin_lfc):
