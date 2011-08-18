@@ -166,6 +166,7 @@ def package_main_devel():
 	header_main3= env_pack_main_devel.Install('/usr/include/gfal2/posix/', Glob("dist/include/gfal2/posix/*.h") )
 	static_main = env_pack_main_devel.Install('/usr/'+libdir+'/', staticlib)
 	example_main = env_pack_main_devel.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
+	pkgconfig_main = env_pack_main_devel.Install('/usr/lib64/pkgconfig/', "dist/usr/lib64/pkgconfig/libgfal2.pc")
 	x_rpm_install = define_rpm_install(arguments_to_str());
 	p_main_devel = env_pack_main_devel.Package( 
 			 NAME     = 'gfal2-core-devel',
@@ -178,7 +179,7 @@ def package_main_devel():
 			 X_RPM_GROUP    = 'CERN/grid',
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'glib2, gfal2-core',
-			 source= [header_main, header_main2, header_main3, static_main, example_main] 
+			 source= [header_main, header_main2, header_main3, static_main, example_main, pkgconfig_main] 
 			 )
 	return p_main_devel
 	

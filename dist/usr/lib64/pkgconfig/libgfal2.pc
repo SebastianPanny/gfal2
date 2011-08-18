@@ -1,0 +1,9 @@
+prefix=/usr
+libdir=${prefix}/lib64
+includedir=${prefix}/include
+ 
+Name: libgfal2
+Description: provide a POSIX API for the interactions with the grid
+Version: 2.0.0
+Libs: -L${libdir} -lgfal2
+Cflags: -I${includedir}/gfal2/
