@@ -130,11 +130,13 @@
   </compound>
   <compound refid="struct__GSimpleCache__Handle" kind="struct"><name>_GSimpleCache_Handle</name>
     <member refid="struct__GSimpleCache__Handle_1ff6c41a303f39c0b1ebb52c5864aea43" kind="variable"><name>table</name></member>
+    <member refid="struct__GSimpleCache__Handle_1f7933d16168846abb9b88ceae463e5bb" kind="variable"><name>do_copy</name></member>
+    <member refid="struct__GSimpleCache__Handle_1d5fb3688b7e1f081ea226b8b3b12242f" kind="variable"><name>size_item</name></member>
     <member refid="struct__GSimpleCache__Handle_113873163c2133e528b4539fd9da2c9fa" kind="variable"><name>mux</name></member>
   </compound>
   <compound refid="struct__Internal__item" kind="struct"><name>_Internal_item</name>
-    <member refid="struct__Internal__item_1b2cb18a47aa23c5ae2c9480a99e4c11e" kind="variable"><name>value_destroyer</name></member>
-    <member refid="struct__Internal__item_1f965f9aed9d79b12bd97e14d8e4e61c5" kind="variable"><name>item</name></member>
+    <member refid="struct__Internal__item_1ceafa39229520ab11f7c045a9d2c90bb" kind="variable"><name>ref_count</name></member>
+    <member refid="struct__Internal__item_1b1152a229f6cda476ca0effcae457784" kind="variable"><name>item</name></member>
   </compound>
   <compound refid="struct__lfc__opendir__handle" kind="struct"><name>_lfc_opendir_handle</name>
     <member refid="struct__lfc__opendir__handle_1dee5f9f64adc6d3a8d8ebefbb3a4d8a6" kind="variable"><name>url</name></member>
@@ -181,7 +183,7 @@
     <member refid="structlfc__ops_13b1ac8f9030e7745491e6e2a8fc7a6a2" kind="variable"><name>lfc_endpoint</name></member>
     <member refid="structlfc__ops_1deffad4e3a308889cae40abb36c89246" kind="variable"><name>rex</name></member>
     <member refid="structlfc__ops_1199af0a0eeb03253d8a93f0eb397d749" kind="variable"><name>handle</name></member>
-    <member refid="structlfc__ops_168b3db76b9adc37c590c413649b9388f" kind="variable"><name>cache</name></member>
+    <member refid="structlfc__ops_1453b102a305b1cd665ea484907d9c472" kind="variable"><name>cache_stat</name></member>
     <member refid="structlfc__ops_1794eb4c188cbebcc9c92e2b5be4c1dea" kind="variable"><name>serrno</name></member>
     <member refid="structlfc__ops_19b0e298d185f9787243daf73ed2f9475" kind="variable"><name>sstrerror</name></member>
     <member refid="structlfc__ops_1f99983447548cf12e232fc9a94147768" kind="variable"><name>addreplica</name></member>
@@ -568,7 +570,6 @@
     <member refid="gfal__common__lfc_8c_15cac68b08f5b09ea46c43428e0fc2cc2" kind="typedef"><name>lfc_opendir_handle</name></member>
     <member refid="gfal__common__lfc_8c_167715cf749ea720de31abbc67f9f414e" kind="function"><name>lfc_getName</name></member>
     <member refid="gfal__common__lfc_8c_105a0cd9d24c745abfda4ecf4eac56aee" kind="function"><name>lfc_urlconverter</name></member>
-    <member refid="gfal__common__lfc_8c_112ddf65fff743ab6f8eeabd978a5d582" kind="function"><name>create_key_from_lfn</name></member>
     <member refid="gfal__common__lfc_8c_1bef4f40eebb042a8c21b5d5b2d4aa1a7" kind="function"><name>lfc_destroyG</name></member>
     <member refid="gfal__common__lfc_8c_1f40927feaad58de76b5406eb828102a6" kind="function"><name>lfc_chmodG</name></member>
     <member refid="gfal__common__lfc_8c_1c5d7bae3ad9aea9f912d6b91f8d5731e" kind="function"><name>lfc_accessG</name></member>
@@ -590,6 +591,7 @@
     <member refid="gfal__common__lfc_8c_1b8943f8f5fd7211851bf7732d9c3b50b" kind="function"><name>lfc_resolve_guid</name></member>
     <member refid="gfal__common__lfc_8c_171b8d4309c42041d305d1f20e5a2b919" kind="function"><name>lfc_unlinkG</name></member>
     <member refid="gfal__common__lfc_8c_180277e12046e56123b06bec8b3cf4af5" kind="function"><name>lfc_readlinkG</name></member>
+    <member refid="gfal__common__lfc_8c_1f57dc87af4a51cab1d4842d8046c44e1" kind="function"><name>internal_stat_copy</name></member>
     <member refid="gfal__common__lfc_8c_15c9edde4d67d96432a319d940a4799f1" kind="function"><name>gfal_plugin_init</name></member>
     <member refid="gfal__common__lfc_8c_1c7f9448e809d5c82f58288d1491dc2d0" kind="function"><name>gfal_checker_guid</name></member>
     <member refid="gfal__common__lfc_8c_18baa624b528deb15ff4ee61fa9948ac8" kind="function"><name>gfal_lfc_check_lfn_url</name></member>
@@ -741,6 +743,7 @@
     <member refid="gfal__common__srm_8c_149410f364584e278d824f27bad6777d1" kind="function"><name>gfal_surl_checker</name></member>
     <member refid="gfal__common__srm_8c_1ae7daa4f5c8d2af440ce6ed85efb283b" kind="function"><name>gfal_srm_check_url</name></member>
     <member refid="gfal__common__srm_8c_1dcf4f58d267d7a0a9e56b21889fd40b4" kind="function"><name>gfal_srm_destroyG</name></member>
+    <member refid="gfal__common__srm_8c_128b7bf7100a0868059a916d0c4279619" kind="function"><name>srm_internal_copy_stat</name></member>
     <member refid="gfal__common__srm_8c_100d7f2a5c374d306365e5dd0baf73c94" kind="function"><name>gfal_srm_opt_initG</name></member>
     <member refid="gfal__common__srm_8c_15c9edde4d67d96432a319d940a4799f1" kind="function"><name>gfal_plugin_init</name></member>
     <member refid="gfal__common__srm_8c_1583148369d56c8899aedf505a4bd2c5b" kind="function"><name>gfal_srm_construct_key</name></member>
@@ -956,28 +959,25 @@
     <member refid="gcachemain_8c_1a7da5760c5a17bf089041de410b4a405" kind="typedef"><name>Internal_item</name></member>
     <member refid="gcachemain_8c_160c588b8efa1f63b0cdaa74d2f073327" kind="function"><name>gsimplecache_destroy_item_internal</name></member>
     <member refid="gcachemain_8c_11819efad8225d245c03b48a0663e5a3c" kind="function"><name>hash_strings_are_equals</name></member>
-    <member refid="gcachemain_8c_1094fa49998e9ff6e0a3f03aae57d40ef" kind="function"><name>gsimplecache_new</name></member>
+    <member refid="gcachemain_8c_1eed8aed05c001c3fe50f9853a1439b3c" kind="function"><name>gsimplecache_new</name></member>
     <member refid="gcachemain_8c_19ac9104fa3f13219721d77331351dbb0" kind="function"><name>gsimplecache_delete</name></member>
-    <member refid="gcachemain_8c_19148a6f63297e234c89d21e3b75ffd9a" kind="function"><name>gsimplecache_find_kstr_internal</name></member>
+    <member refid="gcachemain_8c_1e9d4ca7732e6988557ab2eb3c2d6d7fe" kind="function"><name>gsimplecache_find_kstr_internal</name></member>
     <member refid="gcachemain_8c_1ae23e52f2e06e7b7380b1698a3a64f58" kind="function"><name>gsimplecache_remove_internal_kstr</name></member>
-    <member refid="gcachemain_8c_1ef518bee9e7825db1bfe1e6c6d2ab98b" kind="function"><name>gsimplecache_add_item_internal</name></member>
-    <member refid="gcachemain_8c_1cbd089d33200fd75d6781454a47487e6" kind="function"><name>gsimplecache_add_item_kstr</name></member>
+    <member refid="gcachemain_8c_1563b8b3bd8e0e67d05e414614392dd7f" kind="function"><name>gsimplecache_add_item_internal</name></member>
+    <member refid="gcachemain_8c_1dec3947859d7ceda3561171fed7b1d09" kind="function"><name>gsimplecache_add_item_kstr</name></member>
     <member refid="gcachemain_8c_1441b89c3092c6d6459fb0569a2071f11" kind="function"><name>gsimplecache_remove_kstr</name></member>
-    <member refid="gcachemain_8c_1e714b21c881bc0e9ec97a52325b208fc" kind="function"><name>gsimplecache_take_kstr</name></member>
-    <member refid="gcachemain_8c_187029895813769a1f6f8e15cc5b96eae" kind="function"><name>gsimplecache_find_kstr</name></member>
+    <member refid="gcachemain_8c_155499129945a7de46236041712c8f421" kind="function"><name>gsimplecache_take_one_kstr</name></member>
     <member refid="gcachemain_8c_1b45390cdee8de09f0e75de4eb73c7c76" kind="variable"><name>max_list_len</name></member>
-    <member refid="gcachemain_8c_1ef1635552a1417591b0a8f12d4401fee" kind="variable"><name>skip_deletion</name></member>
   </compound>
   <compound refid="gcachemain_8h" kind="file"><name>gcachemain.h</name>
     <member refid="gcachemain_8h_1c2cd60d9e3c3a47fd2b2d1302dfe4d18" kind="define"><name>MAX_LIST_LEN</name></member>
+    <member refid="gcachemain_8h_10824291f99075678848d5862317661d4" kind="typedef"><name>GSimpleCache_CopyConstructor</name></member>
     <member refid="gcachemain_8h_1c33b1a9da4c879df492d99a6acaa4581" kind="typedef"><name>GSimpleCache</name></member>
-    <member refid="gcachemain_8h_1094fa49998e9ff6e0a3f03aae57d40ef" kind="function"><name>gsimplecache_new</name></member>
+    <member refid="gcachemain_8h_1eed8aed05c001c3fe50f9853a1439b3c" kind="function"><name>gsimplecache_new</name></member>
     <member refid="gcachemain_8h_19ac9104fa3f13219721d77331351dbb0" kind="function"><name>gsimplecache_delete</name></member>
-    <member refid="gcachemain_8h_174d6735796f3f5b93977c068e0e706bd" kind="function"><name>gcache_add_item_kstr</name></member>
-    <member refid="gcachemain_8h_187029895813769a1f6f8e15cc5b96eae" kind="function"><name>gsimplecache_find_kstr</name></member>
-    <member refid="gcachemain_8h_1e714b21c881bc0e9ec97a52325b208fc" kind="function"><name>gsimplecache_take_kstr</name></member>
+    <member refid="gcachemain_8h_1dec3947859d7ceda3561171fed7b1d09" kind="function"><name>gsimplecache_add_item_kstr</name></member>
+    <member refid="gcachemain_8h_155499129945a7de46236041712c8f421" kind="function"><name>gsimplecache_take_one_kstr</name></member>
     <member refid="gcachemain_8h_1441b89c3092c6d6459fb0569a2071f11" kind="function"><name>gsimplecache_remove_kstr</name></member>
-    <member refid="gcachemain_8h_1cbd089d33200fd75d6781454a47487e6" kind="function"><name>gsimplecache_add_item_kstr</name></member>
   </compound>
   <compound refid="gfal__api_8h" kind="file"><name>gfal_api.h</name>
   </compound>

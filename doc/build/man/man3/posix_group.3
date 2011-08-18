@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "16 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "18 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -213,7 +213,7 @@ ERRNO list :
 .IP "  \(bu" 4
 usual errors:
 .IP "    \(bu" 6
-EBADF: fd is not a valid file descriptor.
+EBADF: fd is not a valid file descriptor
 .IP "    \(bu" 6
 ECOMM: Communication error
 .IP "    \(bu" 6
@@ -237,22 +237,16 @@ read a directory close the file descriptor of an opendir call
 .PP
 \fBReturns:\fP
 .RS 4
-0 if success else negative value and errno is set ( ( gfal_posix_error_print() )
+0 if success else negativevalue and errno is set ( ( gfal_posix_error_print() )
 .RE
 .PP
 .IP "\(bu" 2
 ERRNO list : 
 .br
 .IP "  \(bu" 4
-usual errors:
-.IP "    \(bu" 6
-EBADF : bad file descriptor
-.IP "      \(bu" 8
-ECOMM : Communication error 
-.PP
-
-.PP
-
+EBADF: bad file descriptor
+.IP "  \(bu" 4
+ECOMM: Communication error 
 .PP
 
 .PP
@@ -366,9 +360,9 @@ ENOENT: The named file/directory does not exist.
 .IP "    \(bu" 6
 EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)
 .IP "    \(bu" 6
-EFAULT: oldpath or newpath is a NULL pointer.
+EFAULT: oldpath or newpath is a NULL pointer
 .IP "    \(bu" 6
-ENOTDIR: A component of path prefix is not a directory.
+ENOTDIR: A component of path prefix is not a directory
 .IP "      \(bu" 8
 EEXIST: file already exist
 .PP
@@ -395,7 +389,7 @@ open a file opens a file according to the value of flags.
 .RS 4
 \fIpath\fP : url of the filename to open. can be in supported protocols (lfn, srm, file, guid,..) 
 .br
-\fIflag\fP : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. 
+\fIflag\fP : same flag supported value is built by OR’ing the bits defined in <fcntl.h> but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened 
 .br
 \fImode\fP is used only if the file is created. 
 .RE
@@ -438,7 +432,7 @@ ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other tha
 .PP
 
 .IP "    \(bu" 6
-ENOTDIR: path or a component in path is not a directory.
+ENOTDIR: path or a component in path is not a directory
 .IP "      \(bu" 8
 EMFILE: too many file open by the process
 .PP
@@ -555,33 +549,25 @@ change the name or location of a file oldpath and newpath need to be on the same
 ERRNO list : 
 .br
 .IP "  \(bu" 4
-usual errors:
-.IP "    \(bu" 6
 ENOENT: The named file/directory does not exist.
-.IP "    \(bu" 6
+.IP "  \(bu" 4
 EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)
-.IP "    \(bu" 6
-EFAULT: oldpath or newpath is a NULL pointer.
-.IP "      \(bu" 8
+.IP "  \(bu" 4
+EFAULT: oldpath or newpath is a NULL pointer
+.IP "  \(bu" 4
 EISDIR: newpath is an existing directory but oldpath is not a directory
-.IP "      \(bu" 8
+.IP "  \(bu" 4
 ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than '.' and '..'
-.PP
-
-.IP "    \(bu" 6
-ENOTDIR: A component of path prefix is not a directory.
-.IP "      \(bu" 8
-EXDEV oldpath and newpath are not on the same mounted file system.
-.PP
-
-.IP "    \(bu" 6
+.IP "  \(bu" 4
+ENOTDIR: A component of path prefix is not a directory
+.IP "  \(bu" 4
+EXDEV oldpath and newpath are not on the same mounted file system
+.IP "  \(bu" 4
 ECOMM: Communication error
-.IP "    \(bu" 6
+.IP "  \(bu" 4
 EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported
-.IP "    \(bu" 6
-EINVAL: oldpath or newpath has an invalid syntax . 
-.PP
-
+.IP "  \(bu" 4
+EINVAL: oldpath or newpath has an invalid syntax 
 .PP
 
 .PP
@@ -616,7 +602,7 @@ ENOTEMPTY : path is a nonempty directory, that is, contains entries other than '
 .PP
 
 .IP "    \(bu" 6
-ENOTDIR: A component of path prefix is not a directory.
+ENOTDIR: A component of path prefix is not a directory
 .IP "    \(bu" 6
 ECOMM: Communication error
 .IP "    \(bu" 6

@@ -49,8 +49,18 @@ Doc File for a FAQ<p>
 <h3>6. What about the licence ? : </h3>
 <p>
 <ul>
-<li>The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : <a class="el" href="apl.html">apl</a> </li></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Aug 16 17:53:28 2011 for CERN org.glite.Gfal by&nbsp;
+<li>The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : <a class="el" href="apl.html">apl</a></li></ul>
+<p>
+<h3>7. I get a Communication Error ( ECOMM ) on all my gfal Calls : </h3>
+<p>
+<ul>
+<li>In Most of the plugins (lfc, rfio, dcap, srm), this error is due to an access right problem. try to setup your voms-proxy with voms-prox-init --voms [your vo] and try again.</li></ul>
+<p>
+<h3>8. I Wish add/remove a plugin to the plugin list, How to do it ? </h3>
+<p>
+<ul>
+<li>The list of the gfal's plugin is present in the environment variable GFAL_PLUGIN_LIST, you have just to modify this environment variable before start your gfal's program. </li></ul>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Aug 18 13:49:57 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

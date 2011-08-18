@@ -218,6 +218,19 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="gcachemain_8h_10824291f99075678848d5862317661d4" prot="public" static="no">
+        <type>void(*)</type>
+        <definition>typedef void(*) GSimpleCache_CopyConstructor(gpointer original, gpointer copy)</definition>
+        <argsstring>(gpointer original, gpointer copy)</argsstring>
+        <name>GSimpleCache_CopyConstructor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>copy the original object to a new one </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="17" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="gcachemain_8h_1c33b1a9da4c879df492d99a6acaa4581" prot="public" static="no">
         <type>_GSimpleCache_Handle</type>
         <definition>typedef struct _GSimpleCache_Handle GSimpleCache</definition>
@@ -229,18 +242,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="14" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" bodystart="14" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="19" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" bodystart="19" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gcachemain_8h_1094fa49998e9ff6e0a3f03aae57d40ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gcachemain_8h_1eed8aed05c001c3fe50f9853a1439b3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>GSimpleCache *</type>
         <definition>GSimpleCache* gsimplecache_new</definition>
-        <argsstring>(guint64 max_size)</argsstring>
+        <argsstring>(guint64 max_size, GSimpleCache_CopyConstructor value_copy, size_t size_item)</argsstring>
         <name>gsimplecache_new</name>
         <param>
           <type>guint64</type>
           <declname>max_size</declname>
+        </param>
+        <param>
+          <type>GSimpleCache_CopyConstructor</type>
+          <declname>value_copy</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_item</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -248,7 +269,7 @@
 <para>Construct a new cache with a capacity of max_size bytes </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="16" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="47" bodyend="52"/>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="21" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="48" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="gcachemain_8h_19ac9104fa3f13219721d77331351dbb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -265,13 +286,17 @@
 <para>delete a cache object, all internals object are free </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="18" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="57" bodyend="65"/>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="23" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="60" bodyend="68"/>
       </memberdef>
-      <memberdef kind="function" id="gcachemain_8h_174d6735796f3f5b93977c068e0e706bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gcache_add_item_kstr</definition>
-        <argsstring>(const char *key, void *item, GDestroyNotify value_destroyer, long max_duration)</argsstring>
-        <name>gcache_add_item_kstr</name>
+      <memberdef kind="function" id="gcachemain_8h_1dec3947859d7ceda3561171fed7b1d09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gsimplecache_add_item_kstr</definition>
+        <argsstring>(GSimpleCache *cache, const char *key, void *item)</argsstring>
+        <name>gsimplecache_add_item_kstr</name>
+        <param>
+          <type>GSimpleCache *</type>
+          <declname>cache</declname>
+        </param>
         <param>
           <type>const char *</type>
           <declname>key</declname>
@@ -280,27 +305,19 @@
           <type>void *</type>
           <declname>item</declname>
         </param>
-        <param>
-          <type>GDestroyNotify</type>
-          <declname>value_destroyer</declname>
-        </param>
-        <param>
-          <type>long</type>
-          <declname>max_duration</declname>
-        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>Add an item to the cache or increment the reference of this item of one if already exist </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="20"/>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="25" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="101" bodyend="105"/>
       </memberdef>
-      <memberdef kind="function" id="gcachemain_8h_187029895813769a1f6f8e15cc5b96eae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void *</type>
-        <definition>void* gsimplecache_find_kstr</definition>
-        <argsstring>(GSimpleCache *cache, const char *key)</argsstring>
-        <name>gsimplecache_find_kstr</name>
+      <memberdef kind="function" id="gcachemain_8h_155499129945a7de46236041712c8f421" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gsimplecache_take_one_kstr</definition>
+        <argsstring>(GSimpleCache *cache, const char *key, void *res)</argsstring>
+        <name>gsimplecache_take_one_kstr</name>
         <param>
           <type>GSimpleCache *</type>
           <declname>cache</declname>
@@ -309,34 +326,17 @@
           <type>const char *</type>
           <declname>key</declname>
         </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para>search the item in the cache, return it if exist and is not outdated, else return NULL </para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="22" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="136" bodyend="141"/>
-      </memberdef>
-      <memberdef kind="function" id="gcachemain_8h_1e714b21c881bc0e9ec97a52325b208fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void *</type>
-        <definition>void* gsimplecache_take_kstr</definition>
-        <argsstring>(GSimpleCache *cache, const char *key)</argsstring>
-        <name>gsimplecache_take_kstr</name>
         <param>
-          <type>GSimpleCache *</type>
-          <declname>cache</declname>
-        </param>
-        <param>
-          <type>const char *</type>
-          <declname>key</declname>
+          <type>void *</type>
+          <declname>res</declname>
         </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>find the item in the cache, return it if exist , else return NULL the returned value must be free by hand </para>        </detaileddescription>
+<para>find the value in the cache, and decrease its internal reference count of 1. If the item exist, set the item resu to the correct value and return 0 else return -1 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="24" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="119" bodyend="129"/>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="27" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="125" bodyend="136"/>
       </memberdef>
       <memberdef kind="function" id="gcachemain_8h_1441b89c3092c6d6459fb0569a2071f11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
@@ -357,37 +357,7 @@
 <para>remove the item in the cache, return TRUE if removed else FALSE destroy the internal item automatically </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="26" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="107" bodyend="112"/>
-      </memberdef>
-      <memberdef kind="function" id="gcachemain_8h_1cbd089d33200fd75d6781454a47487e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void gsimplecache_add_item_kstr</definition>
-        <argsstring>(GSimpleCache *cache, const char *key, void *item, GDestroyNotify value_destroyer)</argsstring>
-        <name>gsimplecache_add_item_kstr</name>
-        <param>
-          <type>GSimpleCache *</type>
-          <declname>cache</declname>
-        </param>
-        <param>
-          <type>const char *</type>
-          <declname>key</declname>
-        </param>
-        <param>
-          <type>void *</type>
-          <declname>item</declname>
-        </param>
-        <param>
-          <type>GDestroyNotify</type>
-          <declname>value_destroyer</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para>Add an item to the cache referenced by the Key key while a duration time (in sec ) After this duration, the item will be deleted by the value_destroyer function <simplesect kind="warning"><para>, the key is duplicated and free internally </para></simplesect>
-</para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="28" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="92" bodyend="99"/>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h" line="29" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="113" bodyend="118"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -401,22 +371,21 @@
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MAX_LIST_LEN<sp/>20000</highlight></codeline>
-<codeline lineno="13"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_GSimpleCache_Handle<sp/>GSimpleCache;</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal">GSimpleCache*<sp/>gsimplecache_new(guint64<sp/>max_size);</highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gsimplecache_delete(GSimpleCache*<sp/>cache);</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gcache_add_item_kstr(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>item,<sp/>GDestroyNotify<sp/>value_destroyer,<sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>max_duration);</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>gsimplecache_find_kstr(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key);</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>gsimplecache_take_kstr(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key);</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal">gboolean<sp/>gsimplecache_remove_kstr(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key);</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gsimplecache_add_item_kstr(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>item,<sp/>GDestroyNotify<sp/>value_destroyer);</highlight></codeline>
+<codeline lineno="13"><highlight class="preprocessor"></highlight></codeline>
+<codeline lineno="17"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*GSimpleCache_CopyConstructor)(gpointer<sp/>original,<sp/>gpointer<sp/>copy);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_GSimpleCache_Handle<sp/>GSimpleCache;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">GSimpleCache*<sp/>gsimplecache_new(guint64<sp/>max_size,<sp/>GSimpleCache_CopyConstructor<sp/>value_copy,<sp/>size_t<sp/>size_item);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gsimplecache_delete(GSimpleCache*<sp/>cache);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gsimplecache_add_item_kstr(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>item);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gsimplecache_take_one_kstr(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>res);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">gboolean<sp/>gsimplecache_remove_kstr(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.h"/>
   </compounddef>

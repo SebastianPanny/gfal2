@@ -57,7 +57,7 @@
 <a name="l00045"></a>00045         <span class="keywordtype">char</span>* lfc_endpoint;
 <a name="l00046"></a>00046         regex_t rex; <span class="comment">// regular expression compiled </span>
 <a name="l00047"></a>00047         gfal_handle handle;
-<a name="l00048"></a>00048         GSimpleCache* cache;
+<a name="l00048"></a>00048         GSimpleCache* cache_stat;
 <a name="l00049"></a>00049 <span class="preprocessor">#if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) &amp;&amp; (defined(_MT) || defined(_DLL)))</span>
 <a name="l00050"></a>00050 <span class="preprocessor"></span>        <span class="keywordtype">int</span>*    (*serrno)(void);
 <a name="l00051"></a>00051 <span class="preprocessor">#else</span>
@@ -125,7 +125,7 @@
 <a name="l00113"></a>00113 
 <a name="l00114"></a>00114 ssize_t g_strv_catbuff(<span class="keywordtype">char</span>** strv, <span class="keywordtype">char</span>* buff, size_t size);
 <a name="l00115"></a>00115 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Aug 15 15:31:57 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Aug 18 13:49:57 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

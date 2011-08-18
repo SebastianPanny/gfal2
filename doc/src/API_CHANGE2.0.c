@@ -6,9 +6,9 @@
 		List of the scheduled changes for the GFal 2.0 API
 
 	<h2> I. BRIEF OF THE CHANGES : </h2>
-		- POSIX API is still unchanged
+		- The old POSIX API is still unchanged, some new POSIX functions are added to the old one.
 
-		- Old non-POSIX functions do not exist anymore, most of them are converted to a POSIX one ( ex : gfal_ls -> gfal_opendir, gfal_readdir; gfal_turlsfromsurls -> gfal_getxattr )
+		- the old non-POSIX functions do not exist anymore, most of them are converted to a POSIX one ( ex : gfal_ls -> gfal_opendir, gfal_readdir; gfal_turlsfromsurls -> gfal_getxattr )
 
 		- SRM related API is now in the gfal_plugin_lib. All the generic use case of the SRM API can be done with the POSIX API.
 

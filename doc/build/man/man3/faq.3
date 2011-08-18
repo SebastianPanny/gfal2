@@ -1,4 +1,4 @@
-.TH "faq" 3 "16 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "faq" 3 "18 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -60,6 +60,18 @@ just register the proper getxattr or setxattr with a specific key.
 .SS "6. What about the licence ? : "
 .PP
 .IP "\(bu" 2
-The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : \fBapl\fP 
+The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : \fBapl\fP
+.PP
+.PP
+.SS "7. I get a Communication Error ( ECOMM ) on all my gfal Calls : "
+.PP
+.IP "\(bu" 2
+In Most of the plugins (lfc, rfio, dcap, srm), this error is due to an access right problem. try to setup your voms-proxy with voms-prox-init --voms [your vo] and try again.
+.PP
+.PP
+.SS "8. I Wish add/remove a plugin to the plugin list, How to do it ? "
+.PP
+.IP "\(bu" 2
+The list of the gfal's plugin is present in the environment variable GFAL_PLUGIN_LIST, you have just to modify this environment variable before start your gfal's program. 
 .PP
 

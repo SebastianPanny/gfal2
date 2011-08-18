@@ -127,19 +127,13 @@
 <simplesect kind="return"><para>: return 0 if success, else -1 and errno / <ref refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref> <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.<itemizedlist>
-<listitem><para>EISDIR: newpath is an existing directory but oldpath is not a directory</para></listitem><listitem><para>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.<itemizedlist>
-<listitem><para>EXDEV oldpath and newpath are not on the same mounted file system.</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer</para></listitem><listitem><para>EISDIR: newpath is an existing directory but oldpath is not a directory</para></listitem><listitem><para>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory</para></listitem><listitem><para>EXDEV oldpath and newpath are not on the same mounted file system</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="104" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="104" bodyend="106"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="103" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="103" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1ga10c3c326c192d3a020bad7787b54845" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -183,7 +177,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="127" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="127" bodyend="129"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="126" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="126" bodyend="128"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g11b70df7b76efe90901b5cd09535d6d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -204,7 +198,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="136" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="136" bodyend="138"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="135" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="135" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g412d6606fcf2f735747f278eab8af19a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -241,7 +235,7 @@
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.<itemizedlist>
+<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory<itemizedlist>
 <listitem><para>EEXIST: file already exist</para></listitem></itemizedlist>
 </para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
@@ -250,7 +244,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="158" bodyend="161"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="157" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="157" bodyend="160"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g6389fe2808bf2e65e8ef633630b9eb31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -271,7 +265,7 @@
 <para>Wrapper to mkdir for comptibility, same behavior than <ref refid="group__posix__group_1g412d6606fcf2f735747f278eab8af19a" kindref="member">gfal_mkdirp</ref>  ( but subject to change in order to follow POSIX mkdir in the futur ) </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="165" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="165" bodyend="168"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="164" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="164" bodyend="167"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g29e44bed837fbb03e5de38cddc04b105" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -299,14 +293,14 @@
 <listitem><para>usual errors:<itemizedlist>
 <listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
 <listitem><para>ENOTEMPTY : path is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
+</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="188" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="188" bodyend="190"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="187" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="187" bodyend="189"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g219a2a2e9a6cd6ea3d154df5bfc8c6b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>DIR *</type>
@@ -335,7 +329,7 @@
 <listitem><para>usual errors:<itemizedlist>
 <listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
 <listitem><para>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ENOTDIR: path or a component in path is not a directory.<itemizedlist>
+</para></listitem><listitem><para>ENOTDIR: path or a component in path is not a directory<itemizedlist>
 <listitem><para>EMFILE: too many file open by the process</para></listitem></itemizedlist>
 </para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
@@ -343,7 +337,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="213" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="213" bodyend="215"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="212" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="212" bodyend="214"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gf501fb0827325e574ea6b300c62c7498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>dirent *</type>
@@ -379,7 +373,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="242" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="242" bodyend="244"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" line="241" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="241" bodyend="243"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g2b6b93ac22a6b998ff48bec9d2535745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -401,15 +395,11 @@
 <para>file handle ( return by opendir ) to close </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>0 if success else negative value and errno is set ( ( gfal_posix_error_print() )</para></simplesect>
+<simplesect kind="return"><para>0 if success else negativevalue and errno is set ( ( gfal_posix_error_print() )</para></simplesect>
 <itemizedlist>
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>EBADF : bad file descriptor<itemizedlist>
-<listitem><para>ECOMM : Communication error </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
+<listitem><para>EBADF: bad file descriptor</para></listitem><listitem><para>ECOMM: Communication error </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para>        </detaileddescription>
         <inbodydescription>
@@ -448,7 +438,7 @@
 <parametername>flag</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>: same flag supported value is built by OR’ing the bits defined in &lt;fcntl.h&gt; but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. </para></parameterdescription>
+<para>: same flag supported value is built by OR’ing the bits defined in &lt;fcntl.h&gt; but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
@@ -621,7 +611,7 @@
 <listitem><para>ERRNO list : <linebreak/>
 <itemizedlist>
 <listitem><para>usual errors:<itemizedlist>
-<listitem><para>EBADF: fd is not a valid file descriptor.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported </para></listitem></itemizedlist>
+<listitem><para>EBADF: fd is not a valid file descriptor</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></listitem></itemizedlist>
 </para></simplesect>

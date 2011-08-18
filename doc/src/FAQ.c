@@ -33,6 +33,14 @@
 
 	<h3> 6. What about the licence ?  : </h3> 
 		- The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : \ref apl
+	
+	<h3> 7. I get a Communication Error ( ECOMM ) on all my gfal Calls : </h3>
+		- In Most of the plugins (lfc, rfio, dcap, srm), this error is due to an access right problem.
+			try to setup your voms-proxy with voms-prox-init --voms [your vo] and try again.
+	
+	<h3> 8. I Wish add/remove a plugin to the plugin list, How to do it ? </h3>
+		- The list of the gfal's plugin is present in the environment variable GFAL_PLUGIN_LIST,
+		you have just to modify this environment variable before start your gfal's program.
 
 
 

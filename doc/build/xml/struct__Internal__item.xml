@@ -3,24 +3,11 @@
   <compounddef id="struct__Internal__item" kind="struct" prot="public">
     <compoundname>_Internal_item</compoundname>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="struct__Internal__item_1b2cb18a47aa23c5ae2c9480a99e4c11e" prot="public" static="no" mutable="no">
-        <type>GDestroyNotify</type>
-        <definition>GDestroyNotify _Internal_item::value_destroyer</definition>
+      <memberdef kind="variable" id="struct__Internal__item_1ceafa39229520ab11f7c045a9d2c90bb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int _Internal_item::ref_count</definition>
         <argsstring></argsstring>
-        <name>value_destroyer</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" line="23" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="23" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="struct__Internal__item_1f965f9aed9d79b12bd97e14d8e4e61c5" prot="public" static="no" mutable="no">
-        <type>void *</type>
-        <definition>void* _Internal_item::item</definition>
-        <argsstring></argsstring>
-        <name>item</name>
+        <name>ref_count</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -29,15 +16,28 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" line="24" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="24" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct__Internal__item_1b1152a229f6cda476ca0effcae457784" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char _Internal_item::item[]</definition>
+        <argsstring>[]</argsstring>
+        <name>item</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" line="25" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" line="22" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="22" bodyend="25"/>
+    <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" line="23" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="23" bodyend="26"/>
     <listofallmembers>
-      <member refid="struct__Internal__item_1f965f9aed9d79b12bd97e14d8e4e61c5" prot="public" virt="non-virtual"><scope>_Internal_item</scope><name>item</name></member>
-      <member refid="struct__Internal__item_1b2cb18a47aa23c5ae2c9480a99e4c11e" prot="public" virt="non-virtual"><scope>_Internal_item</scope><name>value_destroyer</name></member>
+      <member refid="struct__Internal__item_1b1152a229f6cda476ca0effcae457784" prot="public" virt="non-virtual"><scope>_Internal_item</scope><name>item</name></member>
+      <member refid="struct__Internal__item_1ceafa39229520ab11f7c045a9d2c90bb" prot="public" virt="non-virtual"><scope>_Internal_item</scope><name>ref_count</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

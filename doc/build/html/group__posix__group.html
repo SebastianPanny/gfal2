@@ -216,7 +216,7 @@ close a file closes the file whose descriptor fd is the one returned by gfal_ope
 <li>ERRNO list : <br>
 <ul>
 <li>usual errors:<ul>
-<li>EBADF: fd is not a valid file descriptor.</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported </li></ul>
+<li>EBADF: fd is not a valid file descriptor</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported </li></ul>
 </li></ul>
 </li></ul>
 </dd></dl>
@@ -247,15 +247,11 @@ read a directory close the file descriptor of an opendir call
     <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td>file handle ( return by opendir ) to close </td></tr>
   </table>
 </dl>
-<dl compact><dt><b>Returns:</b></dt><dd>0 if success else negative value and errno is set ( ( gfal_posix_error_print() )</dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>0 if success else negativevalue and errno is set ( ( gfal_posix_error_print() )</dd></dl>
 <ul>
 <li>ERRNO list : <br>
 <ul>
-<li>usual errors:<ul>
-<li>EBADF : bad file descriptor<ul>
-<li>ECOMM : Communication error </li></ul>
-</li></ul>
-</li></ul>
+<li>EBADF: bad file descriptor</li><li>ECOMM: Communication error </li></ul>
 </li></ul>
 
 </div>
@@ -509,7 +505,7 @@ create a new directory creates a new directory with permission bits taken from m
 <li>ERRNO list : <br>
 <ul>
 <li>usual errors:<ul>
-<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer.</li><li>ENOTDIR: A component of path prefix is not a directory.<ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer</li><li>ENOTDIR: A component of path prefix is not a directory<ul>
 <li>EEXIST: file already exist</li></ul>
 </li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax . </li></ul>
 </li></ul>
@@ -555,7 +551,7 @@ open a file opens a file according to the value of flags.
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>: url of the filename to open. can be in supported protocols (lfn, srm, file, guid,..) </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>flag</em>&nbsp;</td><td>: same flag supported value is built by OR’ing the bits defined in &lt;fcntl.h&gt; but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail. O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>flag</em>&nbsp;</td><td>: same flag supported value is built by OR’ing the bits defined in &lt;fcntl.h&gt; but one and only one of the first three flags below must be used O_RDONLY open for reading only O_WRONLY open for writing only O_RDWR open for reading and writing O_CREAT If the file exists already and O_EXCL is also set, gfal_open will fail O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>is used only if the file is created. </td></tr>
   </table>
 </dl>
@@ -594,7 +590,7 @@ opens a directory to be used in subsequent gfal_readdir operations the url suppo
 <li>usual errors:<ul>
 <li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: path is a NULL pointer.<ul>
 <li>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than "." and ".."</li></ul>
-</li><li>ENOTDIR: path or a component in path is not a directory.<ul>
+</li><li>ENOTDIR: path or a component in path is not a directory<ul>
 <li>EMFILE: too many file open by the process</li></ul>
 </li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</li><li>EINVAL: path has an invalid syntax . </li></ul>
 </li></ul>
@@ -848,13 +844,7 @@ change the name or location of a file oldpath and newpath need to be on the same
 <dl compact><dt><b>Returns:</b></dt><dd>: return 0 if success, else -1 and errno / <a class="el" href="group__posix__group.html#g57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error()</a><ul>
 <li>ERRNO list : <br>
 <ul>
-<li>usual errors:<ul>
-<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer.<ul>
-<li>EISDIR: newpath is an existing directory but oldpath is not a directory</li><li>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than "." and ".."</li></ul>
-</li><li>ENOTDIR: A component of path prefix is not a directory.<ul>
-<li>EXDEV oldpath and newpath are not on the same mounted file system.</li></ul>
-</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax . </li></ul>
-</li></ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer</li><li>EISDIR: newpath is an existing directory but oldpath is not a directory</li><li>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than "." and ".."</li><li>ENOTDIR: A component of path prefix is not a directory</li><li>EXDEV oldpath and newpath are not on the same mounted file system</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax </li></ul>
 </li></ul>
 </dd></dl>
 
@@ -890,7 +880,7 @@ removes a directory if it is empty remove an existing directory, return error if
 <li>usual errors:<ul>
 <li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: path is a NULL pointer.<ul>
 <li>ENOTEMPTY : path is a nonempty directory, that is, contains entries other than "." and ".."</li></ul>
-</li><li>ENOTDIR: A component of path prefix is not a directory.</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</li><li>EINVAL: path has an invalid syntax . </li></ul>
+</li><li>ENOTDIR: A component of path prefix is not a directory</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</li><li>EINVAL: path has an invalid syntax . </li></ul>
 </li></ul>
 </li></ul>
 </dd></dl>
@@ -1025,7 +1015,7 @@ write a file gfal_write writes size bytes from the buffer pointed by buff to the
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Aug 15 15:31:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Aug 18 13:49:57 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -87,19 +87,18 @@ int gfal_chmod(const char* path, mode_t mode){
  * @param newpath : the new path of the file, can be in supported protocols (lfn, srm, file, guid,..)
  * @return : return 0 if success, else -1 and errno / @ref gfal_posix_check_error()
  *  - ERRNO list : \n
- *    	- usual errors:
- *    		- ENOENT: The named file/directory does not exist.
- *    		- EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath,
+ *			- ENOENT: The named file/directory does not exist.
+ *			- EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath,
               or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
- *   		- EFAULT: oldpath or newpath is a NULL pointer.
- * 			- EISDIR: newpath is an existing directory but oldpath is not a directory
- * 			- ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than "." and ".."
- *   		- ENOTDIR: A component of path prefix is not a directory.
- * 			- EXDEV  oldpath  and  newpath  are  not on the same mounted file system. 
- *   		- ECOMM: Communication error
- *   		- EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported
- *   		- EINVAL: oldpath or newpath has an invalid syntax .
- * 
+ *			- EFAULT: oldpath or newpath is a NULL pointer
+ *			- EISDIR: newpath is an existing directory but oldpath is not a directory
+ *			- ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than "." and ".."
+ *			- ENOTDIR: A component of path prefix is not a directory
+ *			- EXDEV  oldpath  and  newpath  are  not on the same mounted file system
+ *			- ECOMM: Communication error
+ *			- EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported
+ *			- EINVAL: oldpath or newpath has an invalid syntax
+ *  
 */
 int gfal_rename(const char *oldpath, const char *newpath){
 	return gfal_posix_internal_rename(oldpath, newpath);
@@ -147,10 +146,10 @@ int gfal_lstat(const char* path, struct stat* buff){
  *    	- usual errors:
  *    		- ENOENT: The named file/directory does not exist.
  *    		- EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath,
-              or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
- *   		- EFAULT: oldpath or newpath is a NULL pointer.
- *   		- ENOTDIR: A component of path prefix is not a directory.
- * 			- EEXIST: file already exist
+ *            or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
+ *   		- EFAULT: oldpath or newpath is a NULL pointer
+ *   		- ENOTDIR: A component of path prefix is not a directory  
+ * 			- EEXIST: file already exist  
  *   		- ECOMM: Communication error
  *   		- EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported
  *   		- EINVAL: oldpath or newpath has an invalid syntax .
@@ -179,7 +178,7 @@ int gfal_mkdir( const char* path, mode_t mode){
               or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
  *   		- EFAULT: path is a NULL pointer.
  * 			- ENOTEMPTY : path is a nonempty directory, that is, contains entries other than "." and ".."
- *   		- ENOTDIR: A component of path prefix is not a directory.
+ *   		- ENOTDIR: A component of path prefix is not a directory 
  *   		- ECOMM: Communication error
  *   		- EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported
  *   		- EINVAL: path has an invalid syntax .
@@ -204,7 +203,7 @@ int gfal_rmdir(const char* path){
               or oldpath is a directory and does not allow write permission (needed to update the ..  entry)
  *   		- EFAULT: path is a NULL pointer.
  * 			- ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than "." and ".."
- *   		- ENOTDIR:  path or a component in path is not a directory.
+ *   		- ENOTDIR:  path or a component in path is not a directory 
  * 			- EMFILE: too many file open by the process
  *   		- ECOMM: Communication error
  *   		- EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported
@@ -248,12 +247,13 @@ struct dirent* gfal_readdir(DIR* d){
  *  close the file descriptor of an opendir call
  * 
  * @param d file handle ( return by opendir ) to close
- * @return 0 if success else negative value and errno is set (  ( gfal_posix_error_print() )
+ * @return 0 if success else negativevalue and errno is set (  ( gfal_posix_error_print() )
  * 
- *  - ERRNO list : \n
- *    	- usual errors:
- *    		- EBADF : bad file descriptor
- * 			- ECOMM : Communication error
+ *   - ERRNO list : \n 
+ *		- EBADF: bad file descriptor
+ *		- ECOMM: Communication error  
+ * 
+ * 
  * */
 int gfal_closedir(DIR* d){
 	return gfal_posix_internal_closedir(d);
@@ -267,8 +267,8 @@ int gfal_closedir(DIR* d){
  *            O_RDONLY    open for reading only
  *            O_WRONLY    open for writing only
  *            O_RDWR      open for reading and writing
- *            O_CREAT     If the file exists already and O_EXCL is also set, gfal_open will fail.
- *            O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened.
+ *            O_CREAT     If the file exists already and O_EXCL is also set, gfal_open will fail
+ *            O_LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened
  *  @param mode is used only if the file is created.
  *  @return return the file descriptor or -1 if errno is set call @ref gfal_posix_check_error() to check it
  * */
@@ -319,7 +319,7 @@ int gfal_write(int fd, const void *buff, size_t s_buff){
  *  @return This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately
  *  - ERRNO list : \n
  *    	- usual errors:
- *    		- EBADF:  fd is not a valid file descriptor.
+ *    		- EBADF:  fd is not a valid file descriptor
  *   		- ECOMM: Communication error
  *   		- EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported
  * */

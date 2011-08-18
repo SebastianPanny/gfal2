@@ -24,7 +24,13 @@
 <listitem><para>just register the proper getxattr or setxattr with a specific key.</para></listitem></itemizedlist>
 </para><para><heading level="3">6. What about the licence ? : </heading>
 </para><para><itemizedlist>
-<listitem><para>The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : <ref refid="apl" kindref="compound">apl</ref>  </para></listitem></itemizedlist>
+<listitem><para>The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : <ref refid="apl" kindref="compound">apl</ref> </para></listitem></itemizedlist>
+</para><para><heading level="3">7. I get a Communication Error ( ECOMM ) on all my gfal Calls : </heading>
+</para><para><itemizedlist>
+<listitem><para>In Most of the plugins (lfc, rfio, dcap, srm), this error is due to an access right problem. try to setup your voms-proxy with voms-prox-init --voms [your vo] and try again.</para></listitem></itemizedlist>
+</para><para><heading level="3">8. I Wish add/remove a plugin to the plugin list, How to do it ? </heading>
+</para><para><itemizedlist>
+<listitem><para>The list of the gfal&apos;s plugin is present in the environment variable GFAL_PLUGIN_LIST, you have just to modify this environment variable before start your gfal&apos;s program. </para></listitem></itemizedlist>
 </para>    </detaileddescription>
   </compounddef>
 </doxygen>
