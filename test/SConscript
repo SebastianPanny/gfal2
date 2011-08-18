@@ -28,6 +28,8 @@ src_tests_all = src_tests_main + src_tests_mocks
 lfc_gfal_infosys = get_env_var("LCG_GFAL_INFOSYS")
 
 lfc_host = get_env_var("LFC_HOST")
+
+
 env_test.PrependENVPath('LCG_GFAL_INFOSYS', lfc_gfal_infosys); # setup the bdii access point
 env_test.PrependENVPath('LFC_HOST', lfc_host); # setup the bdii access point
 env_test.PrependENVPath('GFAL_PLUGIN_LIST', "libgfal_plugin_lfc.so:libgfal_plugin_srm.so:libgfal_plugin_rfio.so"); # setup the GFAL PLUGIN SEARCH PATH

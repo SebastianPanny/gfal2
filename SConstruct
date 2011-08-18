@@ -191,6 +191,7 @@ if(main_core):
 			 )
 
 
+
 if(main_devel):
 	header_main = env.Install('/usr/include/gfal2/', Glob("dist/include/gfal2/*.h") )
 	header_main2= env.Install('/usr/include/gfal2/common/', Glob("dist/include/gfal2/common/*.h"))
@@ -232,6 +233,7 @@ if(plugin_lfc):
 			 source= [lib_plugin_lfc, lib_plugin_lfc_conf],
 			 )	
 	
+
 
 if(plugin_srm):
 	lib_plugin_srm = env.Install('/usr/'+libdir+'/', plugin_srm_lib)

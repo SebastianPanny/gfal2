@@ -35,7 +35,6 @@ void create_srm_mkdir_mock(const char* url, int code){
 	
 }
 
-
 void test_mock_mkdir_lfc(int errcode, char* url, mode_t mode){
 #if USE_MOCK
 	GError* mock_err=NULL;
