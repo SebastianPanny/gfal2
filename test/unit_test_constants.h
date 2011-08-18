@@ -143,7 +143,7 @@
 #define TEST_LFC_UNACCESS_MKDIR "lfn:/grid/dteam/testmkdirunaccess0011/testunacess0011"
 
 
-#define TEST_LOCAL_MKDIR_EXIST_COMMAND "mkdir /tmp/testmkdir0011 &> /dev/null"
+#define TEST_LOCAL_MKDIR_EXIST_COMMAND "mkdir -p /tmp/testmkdir0011 &> /dev/null"
 #define TEST_LOCAL_MKDIR_EXIST_FILE "file:///tmp/testmkdir0011"
 
 #define TEST_LOCAL_BASE_FOLDER_URL_MKDIR1 "file:///tmp/"
@@ -167,7 +167,7 @@
 
 #define TEST_LOCAL_RMDIR_CREATED "file:///tmp/testrmdir0011"
 #define TEST_LOCAL_RMDIR_EEXIST "file:///tmp/testrmdir0012"				// do not need to be created, created by system call
-#define TEST_LOCAL_RMDIR_EEXIST_COMMAND "mkdir /tmp/testrmdir0012 && touch /tmp/testrmdir0012/testrmdir0013"
+#define TEST_LOCAL_RMDIR_EEXIST_COMMAND "mkdir -p /tmp/testrmdir0012 && touch /tmp/testrmdir0012/testrmdir0013"
 #define TEST_LOCAL_RMDIR_CREATED_SLASH "file:///tmp/testrmdir0011"
 
 
