@@ -29,6 +29,8 @@
 #define _GNU_SOURCE
 
 #define GFAL_LFC_PREFIX "lfn:"
+#define GFAL_LFC_GUID_PREFIX "guid:"
+#define GFAL_LFC_GUID_PREFIX_LEN 5
 #define GFAL_LFC_PREFIX_LEN 4
 #define LFC_XATTR_GUID "lfc.guid"
 #define LFC_XATTR_SURLS "lfc.replicas"

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "18 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "22 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -68,6 +68,9 @@
 .br
 .ti -1c
 .RI "char * \fBgfal_convert_guid_to_lfn\fP (catalog_handle handle, char *guid, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_convert_guid_to_lfn_r\fP (catalog_handle handle, const char *guid, char *buff_lfn, size_t sbuff_lfn, GError **err)"
 .br
 .ti -1c
 .RI "char * \fBgfal_setup_lfchost\fP (gfal_handle handle, GError **err)"
@@ -141,6 +144,29 @@ convert a guid to a lfn link with a call to the lfclib
 \fBReturns:\fP
 .RS 4
 : string of the lfn if success or NULL char* if error 
+.RE
+.PP
+
+.SS "int gfal_convert_guid_to_lfn_r (catalog_handle handle, const char * guid, char * buff_lfn, size_t sbuff_lfn, GError ** err)"
+.PP
+convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mode ) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP catalog handle 
+.br
+\fIguid\fP string of the guid 
+.br
+\fIbuff_lfn\fP buffer for the lfn result 
+.br
+\fIsbuff_lfn\fP size of the buffer 
+.br
+\fIerr\fP : Error report system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+: 0 else -1 if error and err is set 
 .RE
 .PP
 

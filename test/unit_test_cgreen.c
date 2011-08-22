@@ -67,7 +67,7 @@ TestSuite * catalog_suite (void)
 	add_test (s2, test_get_cat_type);
 	add_test(s2, test_catalog_access_file);
 	add_test(s2, test_catalog_url_checker);
-	add_test(s2, test_catalog_guid_resolve);
+	//add_test(s2, test_catalog_guid_resolve);
 	add_test(s2, test__catalog_stat);
 	add_test(s2, test__catalog_lstat);
 	return s2;

@@ -47,8 +47,6 @@
 	}else{
 		if( gfal_check_local_url(path, NULL) == TRUE){
 			res = gfal_local_chmod(path, mode, &tmp_err);
-		}else if(gfal_guid_checker(path, NULL) == TRUE){
-			res = gfal_guid_chmodG(handle, path, mode, &tmp_err);
 		}else{
 			res = gfal_catalog_chmodG(handle, path, mode, &tmp_err);
 		}

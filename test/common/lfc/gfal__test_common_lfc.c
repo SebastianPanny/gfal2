@@ -282,8 +282,9 @@ void test_gfal_common_lfc_access_guid_file_exist()
 {
 	GError * tmp_err=NULL;
 	int i1;
-	char* ret =NULL;
+	int ret =-1;
 	gfal_handle handle = gfal_initG(&tmp_err);
+	char buff_guid[2048];
 
 	assert_true_with_message(handle != NULL, "error must be initiated");
 	if(handle==NULL)
@@ -301,16 +302,14 @@ void test_gfal_common_lfc_access_guid_file_exist()
 	will_respond(lfc_mock_getlinks, 0, want_string(guid, TEST_GUID_VALID_ACCESS+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
 	always_return(lfc_mock_getlinks, EINVAL);
 #endif
-	ret = i.resolve_guid(i.handle, TEST_GUID_NOEXIST_ACCESS, &tmp_err);
-	assert_true_with_message(ret ==NULL && tmp_err->code == ENOENT, "must fail, this file not exist");
+	ret = gfal_convert_guid_to_lfn_r(i.handle, TEST_GUID_NOEXIST_ACCESS+5, buff_guid, 2048, &tmp_err);
+	assert_true_with_message(ret != 0 && tmp_err->code == ENOENT, "must fail, this file not exist");
 
-	free(ret);
 	g_clear_error(&tmp_err);
-	ret = i.resolve_guid(i.handle, TEST_GUID_VALID_ACCESS, &tmp_err);
+	ret = gfal_convert_guid_to_lfn_r(i.handle, TEST_GUID_VALID_ACCESS+5, buff_guid, 2048, &tmp_err);
 	gfal_release_GError(&tmp_err);
-	assert_true_with_message(ret != NULL && tmp_err==NULL, "must be a success, file is present");
-
-	free(ret);	
+	assert_true_with_message(ret == 0 && tmp_err==NULL, "must be a success, file is present");
+	
 	gfal_handle_freeG(handle);
 }
 

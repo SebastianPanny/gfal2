@@ -40,7 +40,6 @@
 #include "../gfal_common_filedescriptor.h"
 #include "lfc_ifce_ng.h"
 
-const char* lstat_key_prefix = "lstat_";
 
 static gboolean init_thread = FALSE;
 pthread_mutex_t m_lfcinit=PTHREAD_MUTEX_INITIALIZER;
@@ -62,7 +61,7 @@ const char* lfc_getName(){
  * convert the lfn url for internal usage
  * result must be free
  */
-static char* lfc_urlconverter(const char * lfn_url, const char* prefix){
+static inline  char* lfc_urlconverter(const char * lfn_url, const char* prefix){
 	const int pref_len = strlen(prefix);
 	const int strsize = strnlen(lfn_url, GFAL_URL_MAX_LEN-1);
 	char* p = malloc(sizeof(char) * (strsize-pref_len+1));
@@ -75,6 +74,24 @@ static char* lfc_urlconverter(const char * lfn_url, const char* prefix){
 	}
 	return p;
 }
+
+static char* url_converter(catalog_handle handle, const char * url,GError** err){
+	GError* tmp_err=NULL;
+	if(strnlen(url, 5) != 5){ // bad string size, return empty string
+		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "lfc url converter -> bad url size");
+		return strdup("");
+	}
+	if(strncmp(url, "lfn", 3) == 0)
+		return lfc_urlconverter(url, GFAL_LFC_PREFIX);
+	char buff_lfn[GFAL_URL_MAX_LEN];
+	int ret = gfal_convert_guid_to_lfn_r(handle, url + GFAL_LFC_GUID_PREFIX_LEN, buff_lfn, GFAL_URL_MAX_LEN, &tmp_err);
+	if(ret ==0)
+		return strdup(buff_lfn);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return NULL;
+}
+
 
 
 /**
@@ -100,14 +117,16 @@ int lfc_chmodG(catalog_handle handle, const char* path, mode_t mode, GError** er
 	gfal_lfc_init_thread(ops);
 	gfal_auto_maintain_session(ops, &tmp_err);
 	int  ret=-1;
-	char* url = lfc_urlconverter(path, GFAL_LFC_PREFIX);
-	ret = ops->chmod(url, mode);
-	if(ret < 0){
-		const int myerrno = gfal_lfc_get_errno(ops);
-		g_set_error(&tmp_err, 0, myerrno, "Errno reported from lfc : %s ", gfal_lfc_get_strerror(ops));
-	}else{
-		errno =0;
-		gsimplecache_remove_kstr(ops->cache_stat, url);	
+	char* url = url_converter(handle, path, &tmp_err);
+	if(url){
+		ret = ops->chmod(url, mode);
+		if(ret < 0){
+			const int myerrno = gfal_lfc_get_errno(ops);
+			g_set_error(&tmp_err, 0, myerrno, "Errno reported from lfc : %s ", gfal_lfc_get_strerror(ops));
+		}else{
+			errno =0;
+			gsimplecache_remove_kstr(ops->cache_stat, url);	
+		}
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
@@ -126,13 +145,16 @@ int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
 	gfal_lfc_init_thread(ops); 
 	gfal_auto_maintain_session(ops, &tmp_err);
-	char* url = lfc_urlconverter(lfn, GFAL_LFC_PREFIX);
-	int ret = ops->access(url, mode);
-	if(ret <0){
-		int sav_errno = gfal_lfc_get_errno(ops);
-		g_set_error(&tmp_err, 0, sav_errno, "lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, gfal_lfc_get_strerror(ops) );
-	}else
-		errno=0;
+	char* url = url_converter(handle, lfn, &tmp_err);
+	int ret;
+	if(url){
+		ret = ops->access(url, mode);
+		if(ret <0){
+			int sav_errno = gfal_lfc_get_errno(ops);
+			g_set_error(&tmp_err, 0, sav_errno, "lfc access error, lfc_endpoint :%s,  file : %s, error : %s", ops->lfc_endpoint, lfn, gfal_lfc_get_strerror(ops) );
+		}else
+			errno=0;
+	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	free(url);
@@ -202,20 +224,20 @@ int lfc_symlinkG(catalog_handle handle, const char* oldpath, const char* newpath
 int lfc_statG(catalog_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path && st, -1, err, "[lfc_statG] Invalid value in args handle/path/stat");
 	GError* tmp_err=NULL;
-	int ret;
+	int ret=-1;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
 	gfal_lfc_init_thread(ops);
 	gfal_auto_maintain_session(ops, &tmp_err);
-	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+	char* lfn = url_converter(handle, path, &tmp_err);
 	struct lfc_filestatg statbuf;	
-
-	ret = gfal_lfc_statg(ops, lfn, &statbuf, &tmp_err);
-	if(ret == 0){
-		ret= gfal_lfc_convert_statg(st, &statbuf, err);
-		errno=0;
+	if(lfn){
+		ret = gfal_lfc_statg(ops, lfn, &statbuf, &tmp_err);
+		if(ret == 0){
+			ret= gfal_lfc_convert_statg(st, &statbuf, err);
+			errno=0;
+		}
+		free(lfn);
 	}
-	
-	free(lfn);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;
@@ -228,24 +250,25 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	g_return_val_err_if_fail(handle && path && st, -1, err, "[lfc_lstatG] Invalid value in args handle/path/stat");
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
-	int ret;	
-	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
+	int ret=-1;	
+	char* lfn = url_converter(handle, path, &tmp_err);
 	struct lfc_filestat statbuf;
-	char buff_key[GFAL_URL_MAX_LEN];
 	
-	if( ( ret= gsimplecache_take_one_kstr(ops->cache_stat, lfn, st)) == 0){ // take the version of the buffer
-		gfal_print_verbose(GFAL_VERBOSE_DEBUG, " lfc_lstatG -> value taken from cache");
-	}else{	
-		gfal_print_verbose(GFAL_VERBOSE_DEBUG, " lfc_lstatG -> value not in cache, do normal call");
-		gfal_lfc_init_thread(ops);
-		gfal_auto_maintain_session(ops, &tmp_err);
-		ret = ops->lstat(lfn, &statbuf);
-		if(ret != 0){
-			int sav_errno = gfal_lfc_get_errno(ops);
-			g_set_error(&tmp_err,0,sav_errno, "Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
-		}else{
-			ret= gfal_lfc_convert_lstat(st, &statbuf, err);
-			errno=0;
+	if(lfn){
+		if( ( ret= gsimplecache_take_one_kstr(ops->cache_stat, lfn, st)) == 0){ // take the version of the buffer
+			gfal_print_verbose(GFAL_VERBOSE_DEBUG, " lfc_lstatG -> value taken from cache");
+		}else{	
+			gfal_print_verbose(GFAL_VERBOSE_DEBUG, " lfc_lstatG -> value not in cache, do normal call");
+			gfal_lfc_init_thread(ops);
+			gfal_auto_maintain_session(ops, &tmp_err);
+			ret = ops->lstat(lfn, &statbuf);
+			if(ret != 0){
+				int sav_errno = gfal_lfc_get_errno(ops);
+				g_set_error(&tmp_err,0,sav_errno, "Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
+			}else{
+				ret= gfal_lfc_convert_lstat(st, &statbuf, err);
+				errno=0;
+			}
 		}
 	}
 	if(tmp_err)
@@ -261,15 +284,18 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
  static int lfc_mkdirpG(catalog_handle handle, const char* path, mode_t mode, gboolean pflag, GError** err){
 	g_return_val_err_if_fail(handle && path , -1, err, "[lfc_mkdirpG] Invalid value in args handle/path");	
 	GError* tmp_err = NULL; 
+	int ret= -1;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
 	gfal_lfc_init_thread(ops);
 	gfal_auto_maintain_session(ops, &tmp_err);
-	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
-	
-	int ret =gfal_lfc_ifce_mkdirpG(ops, lfn, mode, pflag, &tmp_err);
+	char* lfn = url_converter(handle, path, &tmp_err);
+	if(lfn){
+		 ret =gfal_lfc_ifce_mkdirpG(ops, lfn, mode, pflag, &tmp_err);
+
+		free(lfn);
+	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	free(lfn);
 	return ret; 
  }
  
@@ -278,16 +304,22 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
  * @return 0 on success else -1 and err is set with the correct value
  * */
  static int lfc_rmdirG(catalog_handle handle, const char* path, GError** err){
-	 g_return_val_err_if_fail( handle && path , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");	
+	g_return_val_err_if_fail( handle && path , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");	
+	GError* tmp_err=NULL;
+	int ret = -1;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;		
 	gfal_lfc_init_thread(ops);
-	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
-	const int ret = ops->rmdir(lfn);
-	if( ret < 0){
-		int sav_errno = gfal_lfc_get_errno(ops);
-		sav_errno = (sav_errno==EEXIST)?ENOTEMPTY:sav_errno;		// convert wrong reponse code
-		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
+	char* lfn = url_converter(handle, path, &tmp_err);
+	if(lfn){
+		ret = ops->rmdir(lfn);
+		if( ret < 0){
+			int sav_errno = gfal_lfc_get_errno(ops);
+			sav_errno = (sav_errno==EEXIST)?ENOTEMPTY:sav_errno;		// convert wrong reponse code
+			g_set_error(err,0, sav_errno, "Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
+		}
 	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	free(lfn);
 	return ret;	 
  }
@@ -302,16 +334,19 @@ static gfal_file_handle lfc_opendirG(catalog_handle handle, const char* name, GE
 	lfc_opendir_handle oh;
 	gfal_lfc_init_thread(ops);
 	gfal_auto_maintain_session(ops, &tmp_err);
-	char* lfn = lfc_urlconverter(name, GFAL_LFC_PREFIX);
-	DIR* d  = (DIR*) ops->opendirg(lfn,NULL);	
-	if(d==NULL){
-		int sav_errno = gfal_lfc_get_errno(ops);
-		g_set_error(err,0, sav_errno, "Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
-	}else{	
-		oh = g_new0(struct _lfc_opendir_handle,1);
-		g_strlcpy(oh->url, lfn, GFAL_URL_MAX_LEN );
+	char* lfn = url_converter(handle, name, &tmp_err);
+	DIR* d = NULL;
+	if(lfn){
+		d  = (DIR*) ops->opendirg(lfn,NULL);	
+		if(d==NULL){
+			int sav_errno = gfal_lfc_get_errno(ops);
+			g_set_error(err,0, sav_errno, "Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
+		}else{	
+			oh = g_new0(struct _lfc_opendir_handle,1);
+			g_strlcpy(oh->url, lfn, GFAL_URL_MAX_LEN );
+		}
+		free(lfn);
 	}
-	free(lfn);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return (d)?(gfal_file_handle_ext_new(lfc_getName(), (gpointer) d, (gpointer) oh)):NULL;		
@@ -386,8 +421,9 @@ char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err){
 	char** resu = NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	gfal_lfc_init_thread(ops);
-	char * lfn = lfc_urlconverter(path,  GFAL_LFC_PREFIX);
-	resu = gfal_lfc_getSURL(ops, lfn, &tmp_err);
+	char * lfn = url_converter(handle, path, &tmp_err);
+	if(lfn)
+		resu = gfal_lfc_getSURL(ops, lfn, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	free(lfn);
@@ -415,20 +451,23 @@ ssize_t lfc_getxattr_getsurl(catalog_handle handle, const char* path, void* buff
 /**
  * lfc getxattr for the path -> guid resolution
  * */
-ssize_t lfc_getxattr_getguid(struct lfc_ops* ops, const char* path, void* buff, size_t size, GError** err){
+ssize_t lfc_getxattr_getguid(catalog_handle handle, const char* path, void* buff, size_t size, GError** err){
 	GError* tmp_err=NULL;
 	ssize_t res = -1;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	if(size == 0 || buff ==NULL){ // just return the size of a guid
 		res = sizeof(char) * 36; // strng uuid are 36 bytes long
 	}else{
-		char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
-		struct lfc_filestatg statbuf;
-		int tmp_ret = gfal_lfc_statg(ops, lfn, &statbuf, &tmp_err);
-		if(tmp_ret == 0){
-			res = strnlen(statbuf.guid, GFAL_URL_MAX_LEN);
-			g_strlcpy(buff,statbuf.guid, size);
+		char* lfn = url_converter(handle, path, &tmp_err);
+		if(lfn){
+			struct lfc_filestatg statbuf;
+			int tmp_ret = gfal_lfc_statg(ops, lfn, &statbuf, &tmp_err);
+			if(tmp_ret == 0){
+				res = strnlen(statbuf.guid, GFAL_URL_MAX_LEN);
+				g_strlcpy(buff,statbuf.guid, size);
+			}
+			free(lfn);
 		}
-		free(lfn);
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
@@ -445,7 +484,7 @@ ssize_t lfc_getxattrG(catalog_handle handle, const char* path, const char* name,
 	gfal_lfc_init_thread(ops);
 	gfal_auto_maintain_session(ops, &tmp_err);
 	if( strncmp(name, LFC_XATTR_GUID, LFC_MAX_XATTR_LEN) == 0){
-		res = lfc_getxattr_getguid(ops, path, buff, size, &tmp_err );
+		res = lfc_getxattr_getguid(handle, path, buff, size, &tmp_err );
 	}else if(strncmp(name, LFC_XATTR_SURLS, LFC_MAX_XATTR_LEN) == 0){
 		res = lfc_getxattr_getsurl(handle, path, buff, size, &tmp_err);
 	}else{
@@ -482,7 +521,7 @@ ssize_t lfc_listxattrG(catalog_handle handle, const char* path, char* list, size
  */
 char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 	g_return_val_err_if_fail( handle && guid, NULL, err, "[lfc_resolve_guid] Invalid args in handle and/or guid ");
-	char* tmp_guid = lfc_urlconverter(guid, GFAL_GUID_PREFIX);
+	char* tmp_guid = lfc_urlconverter(guid, GFAL_LFC_GUID_PREFIX);
 	char* res =gfal_convert_guid_to_lfn(handle, tmp_guid, err);
 	if(res){
 		const int size_res = strnlen(res, GFAL_URL_MAX_LEN);
@@ -497,18 +536,23 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 
 static int lfc_unlinkG(catalog_handle handle, const char* path, GError** err){
 	g_return_val_err_if_fail(path, -1, err, "[lfc_unlink] Invalid value in args handle/path/stat");	
+	GError* tmp_err=NULL;
 	char buff_key[GFAL_URL_MAX_LEN];
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
-	char* lfn = lfc_urlconverter(path, GFAL_LFC_PREFIX);
-	int ret = ops->unlink(lfn);
-	if(ret != 0){
-		int sav_errno = gfal_lfc_get_errno(ops);
-		g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
-	}else{
-		gsimplecache_remove_kstr(ops->cache_stat, lfn);	// remove the key associated in the buffer	
-		errno=0;
+	int ret = -1;
+	char* lfn = url_converter(handle, path, &tmp_err);
+	if(lfn){
+		ret = ops->unlink(lfn);
+		if(ret != 0){
+			int sav_errno = gfal_lfc_get_errno(ops);
+			g_set_error(&tmp_err,0,sav_errno, "Error report from LFC : %s", gfal_lfc_get_strerror(ops) );
+		}else{
+			gsimplecache_remove_kstr(ops->cache_stat, lfn);	// remove the key associated in the buffer	
+			errno=0;
+		}
 	}
-
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	free(lfn);
 	return ret;
 }
@@ -517,7 +561,7 @@ static int lfc_unlinkG(catalog_handle handle, const char* path, GError** err){
  * execute a posix readlink request on the lfc 
  *  return size of the buffer if success and set the struct buf else return negative value and set GError
  */
-static int lfc_readlinkG(catalog_handle handle, const char* path, char* buff, size_t buffsiz, GError** err){
+static ssize_t lfc_readlinkG(catalog_handle handle, const char* path, char* buff, size_t buffsiz, GError** err){
 	g_return_val_err_if_fail(handle && path && buff, -1, err, "[lfc_readlinkG] Invalid value in args handle/path/stat");
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	GError* tmp_err=NULL;
@@ -587,7 +631,6 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_catalog.statG = &lfc_statG;
 	lfc_catalog.lstatG = &lfc_lstatG;
 	lfc_catalog.mkdirpG = &lfc_mkdirpG;
-	lfc_catalog.resolve_guid = &lfc_resolve_guid;
 	lfc_catalog.rmdirG = &lfc_rmdirG;
 	lfc_catalog.opendirG = &lfc_opendirG;
 	lfc_catalog.closedirG = &lfc_closedirG;
@@ -624,28 +667,33 @@ gboolean gfal_checker_guid(const char* guid, GError** err){
  * Check if the passed url and operation is compatible with lfc
  * 
  * */
- gboolean gfal_lfc_check_lfn_url(catalog_handle handle, const char* lfn_url, catalog_mode mode, GError** err){
+ gboolean gfal_lfc_check_lfn_url(catalog_handle handle, const char* url, catalog_mode mode, GError** err){
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	int ret;
 	switch(mode){
 		case GFAL_CATALOG_RESOLVE_GUID:
-			return TRUE;
+			return TRUE;	
+			
 		case GFAL_CATALOG_ACCESS:
-		case GFAL_CATALOG_CHMOD:
-		case GFAL_CATALOG_RENAME:
+		case GFAL_CATALOG_CHMOD:	
 		case GFAL_CATALOG_STAT:
-		case GFAL_CATALOG_LSTAT:
+		case GFAL_CATALOG_LSTAT:		
+		case GFAL_CATALOG_OPEN:
+		case GFAL_CATALOG_GETXATTR:
+		case GFAL_CATALOG_LISTXATTR:
+		case GFAL_CATALOG_UNLINK:
+			ret= regexec(&(ops->rex), url, 0, NULL, 0);
+			return (!ret || gfal_checker_guid(url, err ))?TRUE:FALSE;	
+
+		case GFAL_CATALOG_RENAME:
 		case GFAL_CATALOG_MKDIR:
 		case GFAL_CATALOG_RMDIR:
 		case GFAL_CATALOG_OPENDIR:
-		case GFAL_CATALOG_OPEN:
+
 		case GFAL_CATALOG_GETSURL:
 		case GFAL_CATALOG_SYMLINK:
-		case GFAL_CATALOG_GETXATTR:
-		case GFAL_CATALOG_LISTXATTR:
 		case GFAL_CATALOG_READLINK:
-		case GFAL_CATALOG_UNLINK:
-			ret= regexec(&(ops->rex), lfn_url, 0, NULL, 0);
+			ret= regexec(&(ops->rex), url, 0, NULL, 0);
 			return (!ret)?TRUE:FALSE;	
 		default:
 			return FALSE;

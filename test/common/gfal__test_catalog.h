@@ -27,9 +27,6 @@ void test_catalog_url_checker();
 
 
 
-void test_catalog_guid_resolve();
-
-
 
 void test__catalog_stat();
 

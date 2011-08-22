@@ -47,6 +47,8 @@ char $\ast$ \textbf{gfal\_\-get\_\-lfchost\_\-envar} (GError $\ast$$\ast$err)\la
 \item 
 char $\ast$ \bf{gfal\_\-convert\_\-guid\_\-to\_\-lfn} (catalog\_\-handle handle, char $\ast$guid, GError $\ast$$\ast$err)
 \item 
+int \bf{gfal\_\-convert\_\-guid\_\-to\_\-lfn\_\-r} (catalog\_\-handle handle, const char $\ast$guid, char $\ast$buff\_\-lfn, size\_\-t sbuff\_\-lfn, GError $\ast$$\ast$err)
+\item 
 char $\ast$ \bf{gfal\_\-setup\_\-lfchost} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 lfc\_\-ops $\ast$ \bf{gfal\_\-load\_\-lfc} (const char $\ast$name, GError $\ast$$\ast$err)
@@ -101,6 +103,18 @@ convert a guid to a lfn link with a call to the lfclib \begin{Desc}
 \end{Desc}
 \begin{Desc}
 \item[Returns:]: string of the lfn if success or NULL char$\ast$ if error \end{Desc}
+\index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_convert_guid_to_lfn_r@{gfal\_\-convert\_\-guid\_\-to\_\-lfn\_\-r}}
+\index{gfal_convert_guid_to_lfn_r@{gfal\_\-convert\_\-guid\_\-to\_\-lfn\_\-r}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-convert\_\-guid\_\-to\_\-lfn\_\-r (catalog\_\-handle {\em handle}, const char $\ast$ {\em guid}, char $\ast$ {\em buff\_\-lfn}, size\_\-t {\em sbuff\_\-lfn}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_71c39534ec877fc837f640c47dcf67b0}
+
+
+convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mode ) \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em handle}]catalog handle \item[{\em guid}]string of the guid \item[{\em buff\_\-lfn}]buffer for the lfn result \item[{\em sbuff\_\-lfn}]size of the buffer \item[{\em err}]: Error report system \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]: 0 else -1 if error and err is set \end{Desc}
 \index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_getSURL@{gfal\_\-lfc\_\-getSURL}}
 \index{gfal_lfc_getSURL@{gfal\_\-lfc\_\-getSURL}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ gfal\_\-lfc\_\-get\-SURL (struct lfc\_\-ops $\ast$ {\em ops}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_26c355c9cf576886a743ab1917de295d}

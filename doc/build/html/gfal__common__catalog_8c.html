@@ -93,18 +93,11 @@ ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_listx
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#e9c3e214dbb01960295148aa66c42cb8">gfal_catalog_writeG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4955825d7c275f3dfae9a57232642370"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_resolve_guid" ref="4955825d7c275f3dfae9a57232642370" args="(gfal_handle handle, const char *guid, GError **err)" -->
-char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_resolve_guid</b> (gfal_handle handle, const char *guid, GError **err)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c20aa1a376c802d0c60208854537851e"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_get_cat_type" ref="c20aa1a376c802d0c60208854537851e" args="(GError **err)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_cat_type</b> (GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#453f66b6e25bc2e9171d710357b8e899">gfal_catalog_open_resolve_guid</a> (gfal_handle handle, const char *path, char *buff, size_t s_buff, GError **err)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a1dcb0bef88f1cecc21ead5bf3812143"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_unlinkG" ref="a1dcb0bef88f1cecc21ead5bf3812143" args="(catalog_handle handle, const char *path, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalog_unlinkG</b> (catalog_handle handle, const char *path, GError **err)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8c.html#6698bf5c6d4e83f3734ac0793664894f">gfal_catalog_open_globalG</a> (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -461,101 +454,6 @@ Execute a mkdir function on the first compatible catalog ( checked with check ur
 <dl compact><dt><b>Warning:</b></dt><dd>no check on the path, please check the path before </dd></dl>
 <dl compact><dt><b>Returns:</b></dt><dd>return 0 if success else return -1 </dd></dl>
 
-</div>
-</div><p>
-<a class="anchor" name="6698bf5c6d4e83f3734ac0793664894f"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_open_globalG" ref="6698bf5c6d4e83f3734ac0793664894f" args="(gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">gfal_file_handle gfal_catalog_open_globalG           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>flag</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">mode_t&nbsp;</td>
-          <td class="paramname"> <em>mode</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Complete openG func with catalog-&gt;surl resolution This func try to resolve the path to a valid surl and open surl with the srm module else open is call on the first compatible catalog like in the normal way. <dl compact><dt><b>Returns:</b></dt><dd>pointer to file handle if success else NULL if error </dd></dl>
-
-</div>
-</div><p>
-<a class="anchor" name="453f66b6e25bc2e9171d710357b8e899"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_open_resolve_guid" ref="453f66b6e25bc2e9171d710357b8e899" args="(gfal_handle handle, const char *path, char *buff, size_t s_buff, GError **err)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void gfal_catalog_open_resolve_guid           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&nbsp;</td>
-          <td class="paramname"> <em>buff</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&nbsp;</td>
-          <td class="paramname"> <em>s_buff</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-if url is guid, resolve it and put the result in buffer, else put the url in the buffer 
 </div>
 </div><p>
 <a class="anchor" name="eb89b1d37a16ef8ecb50ac603366285c"></a><!-- doxytag: member="gfal_common_catalog.c::gfal_catalog_opendirG" ref="eb89b1d37a16ef8ecb50ac603366285c" args="(gfal_handle handle, const char *name, GError **err)" -->
@@ -1147,7 +1045,7 @@ Delete all instance of catalogs
 Instance all catalogs for use if it's not the case return the number of catalog available 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Aug 18 13:49:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Aug 22 13:44:18 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

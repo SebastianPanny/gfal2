@@ -31,7 +31,6 @@
 #include <glib.h>
 #include "gfal_posix_internal.h"
 #include "../common/gfal_types.h"
-#include "../common/gfal_common_guid.h"
 
  /**
   *  internal implementation of gfal_access
@@ -51,9 +50,7 @@ inline int gfal_posix_internal_stat(const char* path, struct stat* buf){
 	}else{
 		if( gfal_check_local_url(path, NULL) ){
 			ret = gfal_local_stat(path, buf, &tmp_err);
-		} else if( gfal_guid_checker(path, NULL) ){
-			ret = gfal_guid_statG(handle, path, buf, &tmp_err);
-		} else {
+		}else {
 			ret = gfal_catalog_statG(handle, path, buf, &tmp_err);
 		}
 	}	
@@ -81,9 +78,7 @@ inline int gfal_posix_internal_lstat(const char* path, struct stat* buf){
 	
 	if( gfal_check_local_url(path, NULL) ){
 		ret = gfal_local_lstat(path, buf, &tmp_err);
-	} else if( gfal_guid_checker(path, NULL) ){
-		ret = gfal_guid_lstatG(handle, path, buf, &tmp_err);
-	} else {
+	}else {
 		ret = gfal_catalog_lstatG(handle, path, buf, &tmp_err);
 	}
 	

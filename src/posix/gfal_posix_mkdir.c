@@ -32,7 +32,6 @@
 #include "gfal_posix_internal.h"
 #include "gfal_posix_local_file.h"
 #include  "../common/gfal_common_catalog.h"
-#include "../common/gfal_common_guid.h"
 #include "../common/gfal_constants.h"
 
 
@@ -55,9 +54,6 @@
 	}else{
 		if( gfal_check_local_url(path, NULL) == TRUE){
 			res = gfal_local_mkdir(path, mode, &tmp_err);
-		}else if(gfal_guid_checker(path, NULL) == TRUE){
-			res = -1;
-			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Protocol guid is not supported for directory creation");
 		}else{
 			res = gfal_catalog_mkdirp(handle, path, mode, TRUE, &tmp_err);
 		}

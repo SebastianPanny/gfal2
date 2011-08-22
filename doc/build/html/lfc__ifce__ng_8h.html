@@ -55,6 +55,8 @@ char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_get_strerr
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8h.html#c4daecd5aa0938a99eb86c367a0050f1">gfal_convert_guid_to_lfn</a> (catalog_handle handle, char *guid, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8h.html#71c39534ec877fc837f640c47dcf67b0">gfal_convert_guid_to_lfn_r</a> (catalog_handle handle, const char *guid, char *buff_lfn, size_t sbuff_lfn, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="afccde3c16147263025698f5481635cf"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_lfc_statg" ref="afccde3c16147263025698f5481635cf" args="(struct lfc_ops *ops, const char *, struct lfc_filestatg *resu, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_statg</b> (struct lfc_ops *ops, const char *, struct lfc_filestatg *resu, GError **err)</td></tr>
 
@@ -124,6 +126,63 @@ convert a guid to a lfn link with a call to the lfclib <dl compact><dt><b>Parame
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>: string of the lfn if success or NULL char* if error </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="71c39534ec877fc837f640c47dcf67b0"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_convert_guid_to_lfn_r" ref="71c39534ec877fc837f640c47dcf67b0" args="(catalog_handle handle, const char *guid, char *buff_lfn, size_t sbuff_lfn, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_convert_guid_to_lfn_r           </td>
+          <td>(</td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>guid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>buff_lfn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>sbuff_lfn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mode ) <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td>catalog handle </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>guid</em>&nbsp;</td><td>string of the guid </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>buff_lfn</em>&nbsp;</td><td>buffer for the lfn result </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sbuff_lfn</em>&nbsp;</td><td>size of the buffer </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: Error report system </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>: 0 else -1 if error and err is set </dd></dl>
 
 </div>
 </div><p>
@@ -299,7 +358,7 @@ setup the lfc_host correctly for the lfc calls <dl compact><dt><b>Parameters:</b
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Aug 18 13:49:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Aug 22 13:44:19 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

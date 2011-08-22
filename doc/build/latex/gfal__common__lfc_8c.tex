@@ -45,7 +45,7 @@ char $\ast$$\ast$ \bf{lfc\_\-get\-SURLG} (catalog\_\-handle handle, const char $
 \item 
 ssize\_\-t \bf{lfc\_\-getxattr\_\-getsurl} (catalog\_\-handle handle, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
 \item 
-ssize\_\-t \bf{lfc\_\-getxattr\_\-getguid} (struct lfc\_\-ops $\ast$ops, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
+ssize\_\-t \bf{lfc\_\-getxattr\_\-getguid} (catalog\_\-handle handle, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
 \item 
 ssize\_\-t \bf{lfc\_\-getxattr\-G} (catalog\_\-handle handle, const char $\ast$path, const char $\ast$name, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
 \item 
@@ -57,13 +57,10 @@ char $\ast$ \bf{lfc\_\-resolve\_\-guid} (catalog\_\-handle handle, const char $\
 \item 
 gboolean \bf{gfal\_\-checker\_\-guid} (const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
-gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$lfn\_\-url, catalog\_\-mode mode, GError $\ast$$\ast$err)
+gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$url, catalog\_\-mode mode, GError $\ast$$\ast$err)
 \end{CompactItemize}
 \subsection*{Variables}
 \begin{CompactItemize}
-\item 
-const char $\ast$ \textbf{lstat\_\-key\_\-prefix} = \char`\"{}lstat\_\-\char`\"{}\label{gfal__common__lfc_8c_7b9ab9eba66bd31a32acfacc42a87654}
-
 \item 
 pthread\_\-mutex\_\-t \textbf{m\_\-lfcinit} = PTHREAD\_\-MUTEX\_\-INITIALIZER\label{gfal__common__lfc_8c_a683cb37b7f14c7d477e4653816d20df}
 
@@ -89,7 +86,7 @@ file for the lfc catalog module
 
 parse a guid to check the validity \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}}
 \index{gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (catalog\_\-handle {\em handle}, const char $\ast$ {\em lfn\_\-url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_8baa624b528deb15ff4ee61fa9948ac8}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (catalog\_\-handle {\em handle}, const char $\ast$ {\em url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_58b6554069edac9b0626fb3ea9c7f851}
 
 
 Check if the passed url and operation is compatible with lfc \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!gfal_plugin_init@{gfal\_\-plugin\_\-init}}
@@ -119,7 +116,7 @@ just return the name of the layer \index{gfal_common_lfc.c@{gfal\_\-common\_\-lf
 
 resolve the lfc link to the surls \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattr_getguid@{lfc\_\-getxattr\_\-getguid}}
 \index{lfc_getxattr_getguid@{lfc\_\-getxattr\_\-getguid}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-getguid (struct lfc\_\-ops $\ast$ {\em ops}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_7190518fdee00f531882d241dc5b5ee2}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-getguid (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_91ab62f141c50564971c1be3a16b0e97}
 
 
 lfc getxattr for the path -$>$ guid resolution \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattr_getsurl@{lfc\_\-getxattr\_\-getsurl}}

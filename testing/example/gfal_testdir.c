@@ -1,3 +1,6 @@
+/**
+ * Compile command : gcc gfal_testdir.c `pkg-config --libs --cflags libgfal2`
+ */
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,4 +1,8 @@
 
+/**
+ * Compile command : gcc gfal_testrw.c `pkg-config --libs --cflags libgfal2`
+ */
+
 
 #include <fcntl.h>
 #include <stdio.h>

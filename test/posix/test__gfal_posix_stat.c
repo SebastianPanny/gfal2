@@ -123,7 +123,7 @@ void test__gfal_posix_stat_guid()
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
 	
 	res = gfal_stat(TEST_GUID_NOEXIST_ACCESS, &buff);
-	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat");
+	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat %d %d %d", res, gfal_posix_code_error(), errno);
 	gfal_posix_clear_error();	
 }
 
@@ -223,7 +223,7 @@ void test__gfal_posix_lstat_lfc()
 								buff.st_mode, buff.st_uid, buff.st_gid, buff.st_size);
 	
 	res = gfal_lstat(TEST_GFAL_LFC_FILE_STAT_NONEXIST, &buff);
-	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat");
+	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat %d %d %d ", res, gfal_posix_code_error(), errno);
 	gfal_posix_clear_error();		
 }
 
@@ -261,9 +261,8 @@ void test__gfal_posix_lstat_guid()
 	
 	gfal_posix_clear_error();
 	
-
 	res = gfal_lstat(TEST_GUID_NOEXIST_ACCESS, &buff);
-	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat");
+	assert_true_with_message( res == -1 && gfal_posix_code_error() == ENOENT && errno== ENOENT, " must be an invalid stat %d %d %d ", res, gfal_posix_code_error(), errno);
 	gfal_posix_clear_error();	
 }
 

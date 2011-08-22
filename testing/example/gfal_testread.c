@@ -1,3 +1,6 @@
+/**
+ * Compile command : gcc gfal_testread.c `pkg-config --libs --cflags libgfal2`
+ */
 
 
 #include <fcntl.h>

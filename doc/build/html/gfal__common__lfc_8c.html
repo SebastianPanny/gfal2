@@ -60,7 +60,7 @@ typedef _lfc_opendir_handle *&nbsp;</td><td class="memItemRight" valign="bottom"
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#3b14a6913fa0483a07076140d46bbf99">lfc_getxattr_getsurl</a> (catalog_handle handle, const char *path, void *buff, size_t size, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#7190518fdee00f531882d241dc5b5ee2">lfc_getxattr_getguid</a> (struct lfc_ops *ops, const char *path, void *buff, size_t size, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#91ab62f141c50564971c1be3a16b0e97">lfc_getxattr_getguid</a> (catalog_handle handle, const char *path, void *buff, size_t size, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#b4cd844c617093e2a9d612583fb334f7">lfc_getxattrG</a> (catalog_handle handle, const char *path, const char *name, void *buff, size_t size, GError **err)</td></tr>
 
@@ -72,12 +72,9 @@ typedef _lfc_opendir_handle *&nbsp;</td><td class="memItemRight" valign="bottom"
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#c7f9448e809d5c82f58288d1491dc2d0">gfal_checker_guid</a> (const char *guid, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#8baa624b528deb15ff4ee61fa9948ac8">gfal_lfc_check_lfn_url</a> (catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#58b6554069edac9b0626fb3ea9c7f851">gfal_lfc_check_lfn_url</a> (catalog_handle handle, const char *url, catalog_mode mode, GError **err)</td></tr>
 
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7b9ab9eba66bd31a32acfacc42a87654"></a><!-- doxytag: member="gfal_common_lfc.c::lstat_key_prefix" ref="7b9ab9eba66bd31a32acfacc42a87654" args="" -->
-const char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>lstat_key_prefix</b> = &quot;lstat_&quot;</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a683cb37b7f14c7d477e4653816d20df"></a><!-- doxytag: member="gfal_common_lfc.c::m_lfcinit" ref="a683cb37b7f14c7d477e4653816d20df" args="" -->
 pthread_mutex_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_lfcinit</b> = PTHREAD_MUTEX_INITIALIZER</td></tr>
 
@@ -118,7 +115,7 @@ file for the lfc catalog module
 parse a guid to check the validity 
 </div>
 </div><p>
-<a class="anchor" name="8baa624b528deb15ff4ee61fa9948ac8"></a><!-- doxytag: member="gfal_common_lfc.c::gfal_lfc_check_lfn_url" ref="8baa624b528deb15ff4ee61fa9948ac8" args="(catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)" -->
+<a class="anchor" name="58b6554069edac9b0626fb3ea9c7f851"></a><!-- doxytag: member="gfal_common_lfc.c::gfal_lfc_check_lfn_url" ref="58b6554069edac9b0626fb3ea9c7f851" args="(catalog_handle handle, const char *url, catalog_mode mode, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -132,7 +129,7 @@ parse a guid to check the validity
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>lfn_url</em>, </td>
+          <td class="paramname"> <em>url</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -324,15 +321,15 @@ just return the name of the layer
 resolve the lfc link to the surls 
 </div>
 </div><p>
-<a class="anchor" name="7190518fdee00f531882d241dc5b5ee2"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_getxattr_getguid" ref="7190518fdee00f531882d241dc5b5ee2" args="(struct lfc_ops *ops, const char *path, void *buff, size_t size, GError **err)" -->
+<a class="anchor" name="91ab62f141c50564971c1be3a16b0e97"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_getxattr_getguid" ref="91ab62f141c50564971c1be3a16b0e97" args="(catalog_handle handle, const char *path, void *buff, size_t size, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ssize_t lfc_getxattr_getguid           </td>
           <td>(</td>
-          <td class="paramtype">struct lfc_ops *&nbsp;</td>
-          <td class="paramname"> <em>ops</em>, </td>
+          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -676,7 +673,7 @@ execute a posix stat request on the lfc return 0 and set struct if correct answe
 Implementation of the symlinkG call for the lfc catalog return 0 if success else -1 if error and set GError 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Aug 18 13:49:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Aug 22 13:44:19 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -153,49 +153,6 @@ void test_catalog_url_checker()
 
 
 
-void test_catalog_guid_resolve()
-{
-	GError* tmp_err=NULL;
-	int i1;
-	gfal_handle handle = gfal_initG(&tmp_err);
-	assert_true_with_message(handle!=NULL, " must init properly");
-	gfal_release_GError(&tmp_err);
-	if(handle == NULL)
-		return;
-	
-	gfal_catalogs_instance(handle, &tmp_err);
-	assert_true_with_message(tmp_err==NULL, " must be a valid instance call");
-	if(tmp_err)
-		return;
-	test_mock_lfc(handle, &tmp_err);
-	assert_true_with_message(tmp_err==NULL, " must be a valid mock call");
-	if(tmp_err)
-		return;		
-#if USE_MOCK
-	will_respond(lfc_mock_getlinks, ENOENT, want_string(guid, TEST_GUID_NOEXIST_ACCESS+5), want(path,NULL), want_non_null(nbentries), want_non_null(linkinfos));
-	define_linkinfos= calloc(sizeof(struct lfc_linkinfo),3);
-	define_numberlinkinfos=3;
-	for(i1=0; i1< define_numberlinkinfos; ++i1)
-		g_strlcpy(define_linkinfos[i1].path, "lfn:/test/obiwankenobi", 2048);
-	will_respond(lfc_mock_getlinks, 0, want_string(guid, TEST_GUID_VALID_ACCESS+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
-	always_return(lfc_mock_getlinks, EINVAL);
-#endif
-
-	char* ret = gfal_catalog_resolve_guid(handle, TEST_GUID_NOEXIST_ACCESS, &tmp_err);
-	assert_true_with_message(ret==NULL && tmp_err!= NULL, " must be a non-valid guid");
-	free(ret);
-	g_clear_error(&tmp_err);	
-	ret = gfal_catalog_resolve_guid(handle, TEST_GUID_VALID_ACCESS, &tmp_err);
-	assert_true_with_message(ret!=NULL && tmp_err == NULL, " must be a success convertion");
-
-	free(ret);
-	g_clear_error(&tmp_err);
-
-	gfal_handle_freeG(handle);
-	
-	
-}
-
 
 
 void test__catalog_stat()

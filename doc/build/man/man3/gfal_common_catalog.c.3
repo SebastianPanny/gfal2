@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "18 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" 3 "22 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -114,19 +114,10 @@
 .RI "int \fBgfal_catalog_writeG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
-.RI "char * \fBgfal_catalog_resolve_guid\fP (gfal_handle handle, const char *guid, GError **err)"
-.br
-.ti -1c
 .RI "char * \fBgfal_get_cat_type\fP (GError **err)"
 .br
 .ti -1c
-.RI "void \fBgfal_catalog_open_resolve_guid\fP (gfal_handle handle, const char *path, char *buff, size_t s_buff, GError **err)"
-.br
-.ti -1c
 .RI "int \fBgfal_catalog_unlinkG\fP (catalog_handle handle, const char *path, GError **err)"
-.br
-.ti -1c
-.RI "gfal_file_handle \fBgfal_catalog_open_globalG\fP (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -228,19 +219,6 @@ return 0 if success else return -1
 .RE
 .PP
 
-.SS "gfal_file_handle gfal_catalog_open_globalG (gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err)"
-.PP
-Complete openG func with catalog->surl resolution This func try to resolve the path to a valid surl and open surl with the srm module else open is call on the first compatible catalog like in the normal way. 
-.PP
-\fBReturns:\fP
-.RS 4
-pointer to file handle if success else NULL if error 
-.RE
-.PP
-
-.SS "void gfal_catalog_open_resolve_guid (gfal_handle handle, const char * path, char * buff, size_t s_buff, GError ** err)"
-.PP
-if url is guid, resolve it and put the result in buffer, else put the url in the buffer 
 .SS "gfal_file_handle gfal_catalog_opendirG (gfal_handle handle, const char * name, GError ** err)"
 .PP
 Execute a opendir function on the first compatible catalog ( checked with check url func ) 

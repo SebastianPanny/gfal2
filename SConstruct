@@ -193,12 +193,13 @@ if(main_core):
 
 
 if(main_devel):
-	header_main = env.Install('/usr/include/gfal2/', Glob("dist/include/gfal2/*.h") )
-	header_main2= env.Install('/usr/include/gfal2/common/', Glob("dist/include/gfal2/common/*.h"))
-	header_main3= env.Install('/usr/include/gfal2/posix/', Glob("dist/include/gfal2/posix/*.h") )
+	header_main = env.Install('/usr/include/gfal2/', Glob("dist/include/*.h") )
+	header_main2= env.Install('/usr/include/gfal2/common/', Glob("dist/include/common/*.h"))
+	header_main3= env.Install('/usr/include/gfal2/posix/', Glob("dist/include/posix/*.h") )
 	static_main = env.Install('/usr/'+libdir+'/', staticlib)
 	example_main = env.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
-	install_list += [header_main, header_main2, header_main3, static_main, example_main] 
+	pkg_config = env.Install('/usr/lib64/pkgconfig/', Glob('dist/lib64/pkgconfig/libgfal2.pc'))
+	install_list += [header_main, header_main2, header_main3, static_main, example_main, pkg_config] 
 	x_rpm_install = define_rpm_install(arguments_to_str());
 	pack_list += env.Package( 
 			 NAME     = 'gfal2-core-devel',
@@ -211,7 +212,7 @@ if(main_devel):
 			 X_RPM_GROUP    = 'CERN/grid',
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'glib2, gfal2-core',
-			 source= [header_main, header_main2, header_main3, static_main, example_main] 
+			 source= [header_main, header_main2, header_main3, static_main, example_main, pkg_config] 
 			 )
 	
 if(plugin_lfc):

@@ -73,18 +73,11 @@ int \bf{gfal\_\-catalog\_\-lseek\-G} (gfal\_\-handle handle, gfal\_\-file\_\-han
 \item 
 int \bf{gfal\_\-catalog\_\-write\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
 \item 
-char $\ast$ \textbf{gfal\_\-catalog\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_4955825d7c275f3dfae9a57232642370}
-
-\item 
 char $\ast$ \textbf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_c20aa1a376c802d0c60208854537851e}
 
 \item 
-void \bf{gfal\_\-catalog\_\-open\_\-resolve\_\-guid} (gfal\_\-handle handle, const char $\ast$path, char $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
-\item 
 int \textbf{gfal\_\-catalog\_\-unlink\-G} (catalog\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)\label{gfal__common__catalog_8c_a1dcb0bef88f1cecc21ead5bf3812143}
 
-\item 
-gfal\_\-file\_\-handle \bf{gfal\_\-catalog\_\-open\_\-global\-G} (gfal\_\-handle handle, const char $\ast$path, int flag, mode\_\-t mode, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -157,19 +150,7 @@ Execute a mkdir function on the first compatible catalog ( checked with check ur
 \item[Warning:]no check on the path, please check the path before \end{Desc}
 \begin{Desc}
 \item[Returns:]return 0 if success else return -1 \end{Desc}
-\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_open_globalG@{gfal\_\-catalog\_\-open\_\-globalG}}
-\index{gfal_catalog_open_globalG@{gfal\_\-catalog\_\-open\_\-globalG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-catalog\_\-open\_\-global\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, int {\em flag}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_6698bf5c6d4e83f3734ac0793664894f}
-
-
-Complete open\-G func with catalog-$>$surl resolution This func try to resolve the path to a valid surl and open surl with the srm module else open is call on the first compatible catalog like in the normal way. \begin{Desc}
-\item[Returns:]pointer to file handle if success else NULL if error \end{Desc}
-\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_open_resolve_guid@{gfal\_\-catalog\_\-open\_\-resolve\_\-guid}}
-\index{gfal_catalog_open_resolve_guid@{gfal\_\-catalog\_\-open\_\-resolve\_\-guid}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-catalog\_\-open\_\-resolve\_\-guid (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, char $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_453f66b6e25bc2e9171d710357b8e899}
-
-
-if url is guid, resolve it and put the result in buffer, else put the url in the buffer \index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}}
+\index{gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}!gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}}
 \index{gfal_catalog_opendirG@{gfal\_\-catalog\_\-opendirG}!gfal_common_catalog.c@{gfal\_\-common\_\-catalog.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-catalog\_\-opendir\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8c_eb89b1d37a16ef8ecb50ac603366285c}
 

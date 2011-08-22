@@ -210,6 +210,45 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 	free(links);
 	return lfn;
  }
+ 
+ 
+ /**
+ * convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mode )
+ * @param handle catalog handle
+ * @param guid string of the guid
+ * @param buff_lfn buffer for the lfn result
+ *  @param sbuff_lfn size of the buffer
+ * @param err : Error report system
+ * @return : 0 else -1 if error and err is set
+ * */
+int gfal_convert_guid_to_lfn_r(catalog_handle handle, const char* guid, char* buff_lfn, size_t sbuff_lfn, GError ** err){
+	GError* tmp_err=NULL;
+	char* lfn=NULL;
+	int ret;
+	int size = 0;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	gfal_lfc_init_thread(ops);
+	struct lfc_linkinfo* links = NULL;
+	if(ops->getlinks(NULL, guid, &size, &links) <0){
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno, " Error while getlinks() with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint,guid, gfal_lfc_get_strerror(ops));
+		ret = -1;
+	}else{
+		if(!links || strnlen(links[0].path, GFAL_LFN_MAX_LEN) >= GFAL_LFN_MAX_LEN){
+			g_set_error(err,0,EINVAL, "Error no links associated with this guid or corrupted one : %s", guid);
+			ret = -1;
+		}else{
+			g_strlcpy(buff_lfn, links[0].path, sbuff_lfn);
+			ret =0;
+		}
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	free(links);
+	return ret;
+ }
+ 
+ 
 
 /**
  * setup the lfc_host correctly for the lfc calls 

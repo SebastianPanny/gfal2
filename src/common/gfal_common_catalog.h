@@ -128,10 +128,6 @@ struct _gfal_catalog_interface{
 	 char** (*getSURLG)(catalog_handle, const char*, GError**);	 
 	 int (*getTURLG)(catalog_handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
 	 int (*putTURLG)(catalog_handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
-	/**
-	 * return a valid url if is able to resolve the guid or return NULL pointer
-	 */
-	char* (*resolve_guid)(catalog_handle handle, const char* guid, GError** err);	
 	
 };
 
@@ -157,7 +153,6 @@ int gfal_catalogs_delete(gfal_handle, GError** err);
 int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError** err);
 
 
-int gfal_catalogs_guid_accessG(gfal_handle handle, char* guid, int mode, GError** err);
 
 
 
@@ -175,7 +170,6 @@ struct dirent* gfal_catalog_readdirG(gfal_handle handle, gfal_file_handle fh, GE
  	
 
 gfal_file_handle gfal_catalog_openG(gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err);
-gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err);
 int gfal_catalog_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
 int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
 int gfal_catalog_lseekG(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err);
@@ -191,8 +185,6 @@ ssize_t gfal_catalog_listxattrG(gfal_handle , const char*, char* list, size_t s_
 char** gfal_catalog_getSURL(gfal_handle handle, const char* path, GError** err);
 int gfal_catalog_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
 int gfal_catalog_putTURLG(gfal_handle handle, const char* surl, char* turl_buff, int turl, char** reqtoken, GError** err);
-
-char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err);
 
 
 

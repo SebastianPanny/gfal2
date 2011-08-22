@@ -89,6 +89,7 @@ char* gfal_setup_lfchost(gfal_handle handle, GError ** err);
 
 struct lfc_ops* gfal_load_lfc(const char* name, GError** err);
 
+
 int gfal_lfc_get_errno(struct lfc_ops* ops);
 
 int gfal_lfc_regex_compile(regex_t* rex, GError** err);
@@ -96,6 +97,8 @@ int gfal_lfc_regex_compile(regex_t* rex, GError** err);
 char*  gfal_lfc_get_strerror(struct lfc_ops* ops);
 
 char* gfal_convert_guid_to_lfn(catalog_handle handle, char* guid, GError ** err);
+
+int gfal_convert_guid_to_lfn_r(catalog_handle handle, const char* guid, char* buff_lfn, size_t sbuff_lfn, GError ** err);
 
 int gfal_lfc_statg(struct lfc_ops* ops, const char*, struct lfc_filestatg* resu, GError** err);
 

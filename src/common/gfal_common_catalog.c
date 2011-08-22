@@ -716,31 +716,7 @@ int gfal_catalog_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, siz
 	return ret; 	
 }
 
-/***
- *  Try to resolve the guid to a compatible catalog URL in all the catalogs.
- *  @return string of the new catalog URL or NULL value if error and set GError to the correct errno and msg
- *  @warning not safe, no checking on the url integrity
- * */
-char* gfal_catalog_resolve_guid(gfal_handle handle, const char* guid, GError** err){
-	g_return_val_err_if_fail(handle && guid, NULL,err, "[gfal_catalog_resolve_guid] Invalid args ");
-	GError *tmp_err=NULL;
-	char* ret = NULL;
-	int resu;
 
-	
-	gboolean resolveGUID_checker(gfal_catalog_interface* cata_list, GError** terr){
-		return cata_list->check_catalog_url(cata_list->handle, guid, GFAL_CATALOG_RESOLVE_GUID, terr);
-	}	
-	int resolveGUID_executor(gfal_catalog_interface* cata_list, GError** terr){
-		ret= cata_list->resolve_guid(cata_list->handle, guid, terr);
-		return (ret)?0:-1;
-	}	
-	
-	resu= gfal_catalogs_operation_executor(handle, &resolveGUID_checker, &resolveGUID_executor, &tmp_err);
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
-	return ret;		
-}
 
 
 
@@ -789,28 +765,6 @@ static gfal_file_handle gfal_catalog_open_surl(gfal_handle handle, char** res_su
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;	
 }
-/**
- * 
- *  if url is guid, resolve it and put the result in buffer,
- *  else put the url in the buffer
- * */
-void gfal_catalog_open_resolve_guid(gfal_handle handle, const char* path, char* buff, size_t s_buff, GError** err){
-	GError* tmp_err=NULL;
-	char* resu = NULL;
-	if( gfal_guid_checker(path, &tmp_err) == TRUE){
-		resu = gfal_catalog_resolve_guid(handle, path, &tmp_err);
-		if(resu){
-			g_strlcpy(buff, resu, s_buff);
-			g_free(resu);
-			return;
-		}
-	}
-	g_strlcpy(buff, path, s_buff);
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return;
-}
-
 
 int gfal_catalog_unlinkG(catalog_handle handle, const char* path, GError** err){
 	GError* tmp_err=NULL;
@@ -831,24 +785,3 @@ int gfal_catalog_unlinkG(catalog_handle handle, const char* path, GError** err){
 	
 }
 
-/**
- *  Complete openG func with catalog->surl resolution
- *  This func try to resolve the path to a valid surl and open surl with the srm module
- *  else open is call on the first compatible catalog like in the normal way.
- *  @return pointer to file handle if success else NULL if error
- * 
- */ 
-gfal_file_handle gfal_catalog_open_globalG(gfal_handle handle, const char * path, int flag, mode_t mode, GError** err){
-	char** res_surl=NULL;
-	GError* tmp_err=NULL;
-	char path_buffer[GFAL_URL_MAX_LEN];
-	gfal_file_handle ret = NULL;
-	gfal_catalog_open_resolve_guid(handle, path, path_buffer, GFAL_URL_MAX_LEN, &tmp_err);
-	if(!tmp_err)
-		ret = gfal_catalog_openG(handle, path_buffer, flag, mode, &tmp_err);
-	
-
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return ret;
-}

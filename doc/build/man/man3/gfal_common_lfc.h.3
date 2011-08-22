@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" 3 "18 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" 3 "22 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -27,6 +27,12 @@
 .br
 .ti -1c
 .RI "#define \fBGFAL_LFC_PREFIX\fP   'lfn:'"
+.br
+.ti -1c
+.RI "#define \fBGFAL_LFC_GUID_PREFIX\fP   'guid:'"
+.br
+.ti -1c
+.RI "#define \fBGFAL_LFC_GUID_PREFIX_LEN\fP   5"
 .br
 .ti -1c
 .RI "#define \fBGFAL_LFC_PREFIX_LEN\fP   4"
@@ -88,7 +94,7 @@ Adrien Devresse
 .SS "gboolean gfal_checker_guid (const char * guid, GError ** err)"
 .PP
 parse a guid to check the validity 
-.SS "gboolean gfal_lfc_check_lfn_url (catalog_handle handle, const char * lfn_url, catalog_mode mode, GError ** err)"
+.SS "gboolean gfal_lfc_check_lfn_url (catalog_handle handle, const char * url, catalog_mode mode, GError ** err)"
 .PP
 Check if the passed url and operation is compatible with lfc 
 .SS "char** lfc_getSURLG (catalog_handle handle, const char * path, GError ** err)"
