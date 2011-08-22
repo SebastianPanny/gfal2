@@ -25,7 +25,11 @@
 
 
 #include "gfal_common_srm_internal_layer.h"
-
+// hotfix for the old srm lib 
+void disable_srm_srmv2_pinfilestatus_delete(struct srmv2_pinfilestatus*  srmv2_pinstatuses, int n){}
+void disable_srm_srmv2_mdfilestatus_delete(struct srmv2_mdfilestatus* mdfilestatus, int n){}
+void disable_srm_srmv2_filestatus_delete(struct srmv2_filestatus*  srmv2_statuses, int n){}
+void disable_srm_srm2__TReturnStatus_delete(struct srm2__TReturnStatus* status){}
 
 
 struct _gfal_srm_external_call gfal_srm_external_call = { 
@@ -35,10 +39,10 @@ struct _gfal_srm_external_call gfal_srm_external_call = {
 	.srm_mkdir = &srm_mkdir,
 	.srm_getpermission = &srm_getpermission,
 	.srm_check_permission = &srm_check_permission,
-	.srm_srmv2_pinfilestatus_delete = &srm_srmv2_pinfilestatus_delete,
-	.srm_srmv2_mdfilestatus_delete = &srm_srmv2_mdfilestatus_delete,
-	.srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete,
-	.srm_srm2__TReturnStatus_delete = &srm_srm2__TReturnStatus_delete,
+	.srm_srmv2_pinfilestatus_delete = &disable_srm_srmv2_pinfilestatus_delete,
+	.srm_srmv2_mdfilestatus_delete = &disable_srm_srmv2_mdfilestatus_delete,
+	.srm_srmv2_filestatus_delete = &disable_srm_srmv2_filestatus_delete,
+	.srm_srm2__TReturnStatus_delete = &disable_srm_srm2__TReturnStatus_delete,
 	.srm_prepare_to_get= &srm_prepare_to_get,
 	.srm_prepare_to_put= &srm_prepare_to_put,
 	.srm_put_done = &srm_put_done,
