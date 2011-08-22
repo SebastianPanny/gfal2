@@ -39,7 +39,7 @@ def get_etics_dir():
 # global var
 etics_build_dir=get_etics_dir()
 version= '2.0'
-package_version = '2.0_preview'
+package_version = '1.3_preview'
 
 ## generic function to get conf value
 def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_path='/lib64/', etics_suffix="/stage/"):
