@@ -73,15 +73,7 @@ TestSuite * catalog_suite (void)
 	return s2;
  }
  
- /*
-TestSuite* voms_Suite(){
-	TestSuite* tc_voms = create_test_suite();
-	add_test (tc_voms, test_voms_parse_args);
-	add_test (tc_voms, test_voms_info_is_null);
-	add_test (tc_voms, test_voms_info_test_vo);
-	add_test (tc_voms,  test_voms_get_userdnG);
-	return tc_voms;	
-}*/
+
  
  
 TestSuite* srm_Suite(){

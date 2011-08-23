@@ -35,7 +35,6 @@
 #include "../gfal_types.h"
 #include "gfal_common_mds_layer.h"
 #include "../gfal_common_internal.h"
-#include "../voms/gfal_voms_if.h"
 
 pthread_mutex_t m_mds =PTHREAD_MUTEX_INITIALIZER; 
 
