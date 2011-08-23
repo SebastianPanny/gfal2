@@ -68,8 +68,6 @@ void gfal__test_get_lfchost_bdii()
 		return;		
 	
 #if USE_MOCK
-	voms_mock_init();
-	voms_mock_configure_all();
 	gfal_mds_external_call.sd_get_lfc_endpoint = &mds_mock_sd_get_lfc_endpoint;
 	define_lfc_endpoint = strdup("avalid.lfc.value.fr");	
 	will_respond(mds_mock_sd_get_lfc_endpoint, 0, want_non_null(lfc_endpoint));
