@@ -81,38 +81,12 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		size_t s_errbuff = GFAL_ERRMSG_LEN;
 		char errbuff[s_errbuff];
 		memset(errbuff, '\0', sizeof(char)*s_errbuff);
-		char* vo = gfal_get_voG(&tmp_err);		// get vo and fqans from voms module
 
-		if( gfal_get_nobdiiG(handle) ){		// check the bdii
-			g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_setup_lfchost] no_bdii_set : you must define the LFC_HOST env var correctly");
-			free(vo);
-			pthread_mutex_unlock(&m_mds);
-			return NULL;
-		}
-		if(!vo || tmp_err){
-			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost_bdii]");
-			free(vo);
-			pthread_mutex_unlock(&m_mds);
-			return NULL;
-		}
-		GList* fqan = gfal_get_fqanG(&tmp_err);
-		if(!fqan || tmp_err){
-			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost_bdii]");
-			free(vo);	
-			pthread_mutex_unlock(&m_mds);
-			return NULL;		
-		}
-		char** fqantab= gfal_GList_to_tab(fqan);
-		gfal_mds_external_call.set_gfal_vo(vo);
-		gfal_mds_external_call.set_gfal_fqan(fqantab, g_list_length(fqan));
-		//g_printerr(" vo : %s, fqann %d, fqan : %s \n", vo, g_list_length(fqan), *fqantab); 
 		const int ret =  gfal_mds_external_call.sd_get_lfc_endpoint(&lfc_host, errbuff, s_errbuff);
 		if(!lfc_host || ret <0){
 			g_set_error(err, 0, errno, "[gfal_get_lfchost_bdii] Error while get lfc endpoint from bdii system : %d & %s, %s", ret, strerror(errno), errbuff );
 			lfc_host = NULL;
 		}
-		free(fqantab);
-		free(vo);	
 		pthread_mutex_unlock(&m_mds);			  
 		return lfc_host;
  } 

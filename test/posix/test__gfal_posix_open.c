@@ -13,7 +13,6 @@
 #include "../mock/gfal_lfc_mock_test.h"
 #include "../mock/gfal_srm_mock_test.h"
 #include "../mock/gfal_mds_mock_test.h"
-#include "../mock/gfal_voms_mock_test.h"
 #include "../../src/posix/gfal_posix_internal.h"
 
 

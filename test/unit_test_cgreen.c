@@ -34,7 +34,7 @@
 #include "common/gfal_common_errverbose.h"
 #include "common/gfal__test_verbose.h"
 #include "common/gfal__test_catalog.h"
-#include "common/voms/gfal__test_voms.h"
+//#include "common/voms/gfal__test_voms.h"
 #include "common/gfal__test_common_srm.h"
 #include "common/gfal__test_common_srm_access.h"
 #include "common/mds/gfal__test_common_mds.h"
@@ -73,7 +73,7 @@ TestSuite * catalog_suite (void)
 	return s2;
  }
  
- 
+ /*
 TestSuite* voms_Suite(){
 	TestSuite* tc_voms = create_test_suite();
 	add_test (tc_voms, test_voms_parse_args);
@@ -81,7 +81,7 @@ TestSuite* voms_Suite(){
 	add_test (tc_voms, test_voms_info_test_vo);
 	add_test (tc_voms,  test_voms_get_userdnG);
 	return tc_voms;	
-}
+}*/
  
  
 TestSuite* srm_Suite(){
@@ -292,7 +292,6 @@ int main (int argc, char** argv)
 	TestSuite *global = create_test_suite();
 	add_suite(global, verbose_suite());
 	add_suite(global, catalog_suite());
-	add_suite(global, voms_Suite());
 	add_suite(global, srm_Suite());
 	//add_suite(global, no_glib_suite());
 	add_suite(global, lfc_suite());
