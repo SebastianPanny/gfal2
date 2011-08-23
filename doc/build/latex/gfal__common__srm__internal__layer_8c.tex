@@ -3,6 +3,21 @@
 file for the srm external function mapping for mocking purpose 
 
 {\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-internal\_\-layer.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \textbf{disable\_\-srm\_\-srmv2\_\-pinfilestatus\_\-delete} (struct srmv2\_\-pinfilestatus $\ast$srmv2\_\-pinstatuses, int n)\label{gfal__common__srm__internal__layer_8c_8e2cd5e00a1a2bd7e8d406f4ddf513b8}
+
+\item 
+void \textbf{disable\_\-srm\_\-srmv2\_\-mdfilestatus\_\-delete} (struct srmv2\_\-mdfilestatus $\ast$mdfilestatus, int n)\label{gfal__common__srm__internal__layer_8c_5409a0e92e9a9cf5fbc81175849af2e0}
+
+\item 
+void \textbf{disable\_\-srm\_\-srmv2\_\-filestatus\_\-delete} (struct srmv2\_\-filestatus $\ast$srmv2\_\-statuses, int n)\label{gfal__common__srm__internal__layer_8c_ac574c65ab7448db1b52793f0d0253ad}
+
+\item 
+void \textbf{disable\_\-srm\_\-srm2\_\-\_\-TReturn\-Status\_\-delete} (struct srm2\_\-\_\-TReturn\-Status $\ast$status)\label{gfal__common__srm__internal__layer_8c_a96c876905e63d4d3c90a7c8a986b2c9}
+
+\end{CompactItemize}
 \subsection*{Variables}
 \begin{CompactItemize}
 \item 
@@ -36,10 +51,10 @@ file for the srm external function mapping for mocking purpose
         .srm_mkdir = &srm_mkdir,
         .srm_getpermission = &srm_getpermission,
         .srm_check_permission = &srm_check_permission,
-        .srm_srmv2_pinfilestatus_delete = &srm_srmv2_pinfilestatus_delete,
-        .srm_srmv2_mdfilestatus_delete = &srm_srmv2_mdfilestatus_delete,
-        .srm_srmv2_filestatus_delete = &srm_srmv2_filestatus_delete,
-        .srm_srm2__TReturnStatus_delete = &srm_srm2__TReturnStatus_delete,
+        .srm_srmv2_pinfilestatus_delete = &disable_srm_srmv2_pinfilestatus_delete,
+        .srm_srmv2_mdfilestatus_delete = &disable_srm_srmv2_mdfilestatus_delete,
+        .srm_srmv2_filestatus_delete = &disable_srm_srmv2_filestatus_delete,
+        .srm_srm2__TReturnStatus_delete = &disable_srm_srm2__TReturnStatus_delete,
         .srm_prepare_to_get= &srm_prepare_to_get,
         .srm_prepare_to_put= &srm_prepare_to_put,
         .srm_put_done = &srm_put_done,

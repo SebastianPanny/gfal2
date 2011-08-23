@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='iso-8859-1' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
+  <compounddef id="gfal__rfio__plugin__layer_8c" kind="file">
+    <compoundname>gfal_rfio_plugin_layer.c</compoundname>
+    <includes local="no">regex.h</includes>
+    <includes local="no">time.h</includes>
+    <includes local="no">dlfcn.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes refid="gfal__common__internal_8h" local="yes">../gfal_common_internal.h</includes>
+    <includes refid="gfal__common__errverbose_8h" local="yes">../gfal_common_errverbose.h</includes>
+    <includes refid="gfal__common__catalog_8h" local="yes">../gfal_common_catalog.h</includes>
+    <includes refid="gfal__types_8h" local="yes">../gfal_types.h</includes>
+    <includes refid="gfal__rfio__plugin__layer_8h" local="yes">gfal_rfio_plugin_layer.h</includes>
+    <incdepgraph>
+      <node id="1023">
+        <label>sys/stat.h</label>
+      </node>
+      <node id="1027">
+        <label>stdarg.h</label>
+      </node>
+      <node id="1016">
+        <label>../gfal_common_internal.h</label>
+        <link refid="gfal__common__internal_8h"/>
+        <childnode refid="1017" relation="include">
+        </childnode>
+        <childnode refid="1019" relation="include">
+        </childnode>
+      </node>
+      <node id="1015">
+        <label>stdlib.h</label>
+      </node>
+      <node id="1031">
+        <label>../gfal_common_errverbose.h</label>
+        <link refid="gfal__common__errverbose_8h"/>
+        <childnode refid="1025" relation="include">
+        </childnode>
+        <childnode refid="1027" relation="include">
+        </childnode>
+        <childnode refid="1032" relation="include">
+        </childnode>
+        <childnode refid="1030" relation="include">
+        </childnode>
+        <childnode refid="1029" relation="include">
+        </childnode>
+        <childnode refid="1018" relation="include">
+        </childnode>
+      </node>
+      <node id="1017">
+        <label>gfal_prototypes.h</label>
+        <link refid="gfal__prototypes_8h-source"/>
+        <childnode refid="1018" relation="include">
+        </childnode>
+      </node>
+      <node id="1029">
+        <label>errno.h</label>
+      </node>
+      <node id="1024">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="1028">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="1021">
+        <label>sys/types.h</label>
+      </node>
+      <node id="1030">
+        <label>string.h</label>
+      </node>
+      <node id="1020">
+        <label>unistd.h</label>
+      </node>
+      <node id="1011">
+        <label>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c</label>
+        <link refid="gfal_rfio_plugin_layer.c"/>
+        <childnode refid="1012" relation="include">
+        </childnode>
+        <childnode refid="1013" relation="include">
+        </childnode>
+        <childnode refid="1014" relation="include">
+        </childnode>
+        <childnode refid="1015" relation="include">
+        </childnode>
+        <childnode refid="1016" relation="include">
+        </childnode>
+        <childnode refid="1031" relation="include">
+        </childnode>
+        <childnode refid="1026" relation="include">
+        </childnode>
+        <childnode refid="1019" relation="include">
+        </childnode>
+        <childnode refid="1033" relation="include">
+        </childnode>
+      </node>
+      <node id="1033">
+        <label>gfal_rfio_plugin_layer.h</label>
+        <link refid="gfal__rfio__plugin__layer_8h-source"/>
+        <childnode refid="1018" relation="include">
+        </childnode>
+        <childnode refid="1022" relation="include">
+        </childnode>
+        <childnode refid="1032" relation="include">
+        </childnode>
+        <childnode refid="1020" relation="include">
+        </childnode>
+      </node>
+      <node id="1018">
+        <label>glib.h</label>
+      </node>
+      <node id="1013">
+        <label>time.h</label>
+      </node>
+      <node id="1026">
+        <label>gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="1027" relation="include">
+        </childnode>
+        <childnode refid="1028" relation="include">
+        </childnode>
+        <childnode refid="1018" relation="include">
+        </childnode>
+        <childnode refid="1029" relation="include">
+        </childnode>
+        <childnode refid="1030" relation="include">
+        </childnode>
+        <childnode refid="1022" relation="include">
+        </childnode>
+        <childnode refid="1023" relation="include">
+        </childnode>
+        <childnode refid="1017" relation="include">
+        </childnode>
+        <childnode refid="1019" relation="include">
+        </childnode>
+      </node>
+      <node id="1025">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h-source"/>
+      </node>
+      <node id="1012">
+        <label>regex.h</label>
+      </node>
+      <node id="1032">
+        <label>stdio.h</label>
+      </node>
+      <node id="1019">
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="1020" relation="include">
+        </childnode>
+        <childnode refid="1018" relation="include">
+        </childnode>
+        <childnode refid="1021" relation="include">
+        </childnode>
+        <childnode refid="1022" relation="include">
+        </childnode>
+        <childnode refid="1023" relation="include">
+        </childnode>
+        <childnode refid="1024" relation="include">
+        </childnode>
+        <childnode refid="1025" relation="include">
+        </childnode>
+        <childnode refid="1017" relation="include">
+        </childnode>
+        <childnode refid="1026" relation="include">
+        </childnode>
+      </node>
+      <node id="1022">
+        <label>dirent.h</label>
+      </node>
+      <node id="1014">
+        <label>dlfcn.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="gfal__rfio__plugin__layer_8c_16c40bba38f2b638d298d27a8d8cdb5bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>rfio_proto_ops *</type>
+        <definition>struct rfio_proto_ops* gfal_rfio_internal_loader_base</definition>
+        <argsstring>(GError **err)</argsstring>
+        <name>gfal_rfio_internal_loader_base</name>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c" bodystart="42" bodyend="92"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="gfal__rfio__plugin__layer_8c_1656d873169df313454132eb87d9b5b00" prot="public" static="yes" mutable="no">
+        <type>char *</type>
+        <definition>char* libdpm_name</definition>
+        <argsstring></argsstring>
+        <name>libdpm_name</name>
+        <initializer> &quot;libdpm.so&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c" line="39" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="gfal__rfio__plugin__layer_8c_1d0ba8284a54a34eb47d233b5f697e5ec" prot="public" static="yes" mutable="no">
+        <type>char *</type>
+        <definition>char* libcastor_name</definition>
+        <argsstring></argsstring>
+        <name>libcastor_name</name>
+        <initializer> &quot;libshift.so&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c" line="40" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="gfal__rfio__plugin__layer_8c_16c17e62821e2194325693771c626b7bb" prot="public" static="no" mutable="no">
+        <type>rfio_proto_ops *(*)</type>
+        <definition>struct rfio_proto_ops*(*) gfal_rfio_internal_loader(GError **err)</definition>
+        <argsstring>(GError **err)</argsstring>
+        <name>gfal_rfio_internal_loader</name>
+        <initializer> &amp;gfal_rfio_internal_loader_base</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c" line="95" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>file for the external call, abstraction layer for mock purpose </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Devresse Adrien </para></simplesect>
+<simplesect kind="version"><para>0.1 </para></simplesect>
+<simplesect kind="date"><para>30/06/2011 </para></simplesect>
+</para>    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(c)<sp/>Members<sp/>of<sp/>the<sp/>EGEE<sp/>Collaboration.<sp/>2004.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>See<sp/>http://www.eu-egee.org/partners/<sp/>for<sp/>details<sp/>on<sp/>the<sp/>copyright<sp/>holders.</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Licensed<sp/>under<sp/>the<sp/>Apache<sp/>License,<sp/>Version<sp/>2.0<sp/>(the<sp/>&quot;License&quot;);</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>you<sp/>may<sp/>not<sp/>use<sp/>this<sp/>file<sp/>except<sp/>in<sp/>compliance<sp/>with<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>You<sp/>may<sp/>obtain<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>License<sp/>at</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>http://www.apache.org/licenses/LICENSE-2.0</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>Unless<sp/>required<sp/>by<sp/>applicable<sp/>law<sp/>or<sp/>agreed<sp/>to<sp/>in<sp/>writing,<sp/>software</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>distributed<sp/>under<sp/>the<sp/>License<sp/>is<sp/>distributed<sp/>on<sp/>an<sp/>&quot;AS<sp/>IS&quot;<sp/>BASIS,</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>WITHOUT<sp/>WARRANTIES<sp/>OR<sp/>CONDITIONS<sp/>OF<sp/>ANY<sp/>KIND,<sp/>either<sp/>express<sp/>or<sp/>implied.</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>See<sp/>the<sp/>License<sp/>for<sp/>the<sp/>specific<sp/>language<sp/>governing<sp/>permissions<sp/>and</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="preprocessor">#include<sp/>&lt;regex.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;dlfcn.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_rfio_plugin_layer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>libdpm_name=<sp/></highlight><highlight class="stringliteral">&quot;libdpm.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>libcastor_name=<sp/></highlight><highlight class="stringliteral">&quot;libshift.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">rfio_proto_ops<sp/>*<sp/>gfal_rfio_internal_loader_base(GError**<sp/>err){</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*dlhandle;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">rfio_proto_ops<sp/>*<sp/>pops<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*p;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>libname=NULL;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p<sp/>=<sp/>getenv<sp/>(</highlight><highlight class="stringliteral">&quot;LCG_RFIO_TYPE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p<sp/>&amp;&amp;<sp/>strcmp<sp/>(p,<sp/></highlight><highlight class="stringliteral">&quot;dpm&quot;</highlight><highlight class="normal">)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>libname<sp/>=<sp/>libdpm_name;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p<sp/>&amp;&amp;<sp/>strcmp<sp/>(p,<sp/></highlight><highlight class="stringliteral">&quot;castor&quot;</highlight><highlight class="normal">)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>libname=<sp/>libcastor_name;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>libname<sp/>!=<sp/>NULL){</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_DEBUG,<sp/></highlight><highlight class="stringliteral">&quot;<sp/>[gfal_rfio_plugin]<sp/>lib<sp/>rfio<sp/>defined<sp/>in<sp/>LCG_RFIO_TYPE<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>libname);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(dlhandle<sp/>=<sp/>dlopen(libname,<sp/>RTLD_LAZY))<sp/>==<sp/>NULL){</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(&amp;tmp_err,<sp/>0,<sp/>EPROTONOSUPPORT,<sp/></highlight><highlight class="stringliteral">&quot;<sp/>library<sp/>%s<sp/>for<sp/>the<sp/>rfio_plugin<sp/>cannot<sp/>be<sp/>loaded<sp/>properly,<sp/>failure<sp/>:<sp/>%s<sp/>&quot;</highlight><highlight class="normal">,<sp/>libname,<sp/>dlerror());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((dlhandle<sp/>=<sp/>dlopen<sp/>(libcastor_name,<sp/>RTLD_LAZY))<sp/>==<sp/>NULL<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(dlhandle<sp/>=<sp/>dlopen<sp/>(libdpm_name,<sp/>RTLD_LAZY))<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(&amp;tmp_err,<sp/>0,<sp/>EPROTONOSUPPORT,<sp/></highlight><highlight class="stringliteral">&quot;<sp/>Unable<sp/>to<sp/>find<sp/>%s<sp/>or<sp/>%s,<sp/>failure<sp/>:<sp/>%s<sp/>&quot;</highlight><highlight class="normal">,<sp/>libcastor_name,<sp/>libdpm_name,<sp/>dlerror());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(dlhandle){</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops<sp/>=<sp/>g_new0(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>rfio_proto_ops,<sp/>1);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;geterror<sp/>=<sp/>(int<sp/>(*)<sp/>())<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_serrno&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;access<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/>int))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_access&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;chmod<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/>mode_t))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_chmod&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;close<sp/>=<sp/>(int<sp/>(*)<sp/>(int))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_close&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;closedir<sp/>=<sp/>(int<sp/>(*)<sp/>(DIR<sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_closedir&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;lseek<sp/>=<sp/>(off_t<sp/>(*)<sp/>(int,<sp/>off_t,<sp/>int))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_lseek&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;lseek64<sp/>=<sp/>(off64_t<sp/>(*)<sp/>(int,<sp/>off64_t,<sp/>int))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_lseek64&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;lstat<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">stat<sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_lstat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;lstat64<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">stat64<sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_lstat64&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;mkdir<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/>mode_t))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_mkdir&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;open<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/>int,<sp/>...))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_open&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;opendir<sp/>=<sp/>(DIR<sp/>*<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_opendir&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;read<sp/>=<sp/>(ssize_t<sp/>(*)<sp/>(int,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_read&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;readdir<sp/>=<sp/>(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent<sp/>*<sp/>(*)<sp/>(DIR<sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_readdir&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;readdir64<sp/>=<sp/>(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent64<sp/>*<sp/>(*)<sp/>(DIR<sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_readdir64&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;rename<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_rename&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;rmdir<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_rmdir&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;setfilchg<sp/>=<sp/>(ssize_t<sp/>(*)<sp/>(int,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_HsmIf_FirstWrite&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;stat<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">stat<sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_stat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;stat64<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">stat64<sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_stat64&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;unlink<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_unlink&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;write<sp/>=<sp/>(ssize_t<sp/>(*)<sp/>(int,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;rfio_write&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pops;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">rfio_proto_ops<sp/>*<sp/>(*gfal_rfio_internal_loader)(GError**<sp/>err)=<sp/>&amp;gfal_rfio_internal_loader_base;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_layer.c"/>
+  </compounddef>
+</doxygen>

@@ -81,8 +81,6 @@ int($\ast$ \textbf{get\-TURLG} )(catalog\_\-handle, const char $\ast$surl, char 
 \item 
 int($\ast$ \textbf{put\-TURLG} )(catalog\_\-handle, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)\label{struct__gfal__catalog__interface_19227139e261ebb890bff5d22c20322a}
 
-\item 
-char $\ast$($\ast$ \bf{resolve\_\-guid} )(catalog\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -114,12 +112,7 @@ Check the url syntax and the operation, return TRUE if the operation is compatib
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ \bf{\_\-gfal\_\-catalog\_\-interface::chmod\-G})(catalog\_\-handle, const char $\ast$, mode\_\-t, GError $\ast$$\ast$err)}\label{struct__gfal__catalog__interface_a2d423528930c419615115f14911238e}
 
 
-function pointer for the access using the guid url \index{_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}!resolve_guid@{resolve\_\-guid}}
-\index{resolve_guid@{resolve\_\-guid}!_gfal_catalog_interface@{\_\-gfal\_\-catalog\_\-interface}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$($\ast$ \bf{\_\-gfal\_\-catalog\_\-interface::resolve\_\-guid})(catalog\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)}\label{struct__gfal__catalog__interface_03064e4d29e97a4017d6a0797bfc6c77}
-
-
-return a valid url if is able to resolve the guid or return NULL pointer 
+function pointer for the access using the guid url 
 
 The documentation for this struct was generated from the following file:\begin{CompactItemize}
 \item 

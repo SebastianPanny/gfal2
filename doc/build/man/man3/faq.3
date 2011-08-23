@@ -1,0 +1,77 @@
+.TH "faq" 3 "23 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+faq \- Doc File for a FAQ
+.PP
+\fBAuthor:\fP
+.RS 4
+: Devresse Adrien
+.RE
+.PP
+.SS "1. Which are the main changes from gfal 1.0 ? "
+.PP
+.IP "\(bu" 2
+GFal 2.0 is independant of the technologies provided ( plugin system )
+.IP "\(bu" 2
+GFal 2.0 is now designed to be as POSIX as possible, No non-posix like functions will be provided in the future
+.IP "\(bu" 2
+GFal 2.0 provide the getxattr, setxattr, listxattr calls for the plateform's specific calls ( turl resolution, guid resolution, ...)
+.PP
+.PP
+.SS "2. I would make a SRM to TURL resolution with GFAL 2.0 and the gfal_srm_plugin, How to do it ? "
+.PP
+.IP "\(bu" 2
+char turl[2048];
+.IP "\(bu" 2
+gfal_getxattr('srm://masrul/monfichier', 'srm.turl', turl, 2048);
+.PP
+.PP
+.SS "3. I would make a GUID to LFC resolution with GFAL 2.0 and the gfal_lfc_plugin, How to do it ? "
+.PP
+.IP "\(bu" 2
+char lfn[2048];
+.IP "\(bu" 2
+gfal_getxattr('srm://masrul/monfichier', 'lfc.guid', lfn, 2048);
+.PP
+.PP
+.SS "4. I want a more verbose error report, How to do it ? "
+.PP
+.IP "\(bu" 2
+\fBgfal_set_verbose\fP( GFAL_VERBOSE_DEBUG | GFAL_VERBOSE_VERBOSE );
+.IP "\(bu" 2
+[...]
+.IP "\(bu" 2
+\fBgfal_posix_check_error()\fP; // called after each gfal_* call
+.PP
+.PP
+.SS "4. I need to create a GFAL 2.0 plugin, How to do it ? "
+.PP
+.IP "\(bu" 2
+a tutorial will come for more details.
+.PP
+.PP
+.SS "5 . I need to implement a specific non-POSIX call in GFAL, How to do it ? "
+.PP
+.IP "\(bu" 2
+just register the proper getxattr or setxattr with a specific key.
+.PP
+.PP
+.SS "6. What about the licence ? : "
+.PP
+.IP "\(bu" 2
+The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : \fBapl\fP
+.PP
+.PP
+.SS "7. I get a Communication Error ( ECOMM ) on all my gfal Calls : "
+.PP
+.IP "\(bu" 2
+In Most of the plugins (lfc, rfio, dcap, srm), this error is due to an access right problem. try to setup your voms-proxy with voms-prox-init --voms [your vo] and try again.
+.PP
+.PP
+.SS "8. I Wish add/remove a plugin to the plugin list, How to do it ? "
+.PP
+.IP "\(bu" 2
+The list of the gfal's plugin is present in the environment variable GFAL_PLUGIN_LIST, you have just to modify this environment variable before start your gfal's program. 
+.PP
+

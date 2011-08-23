@@ -1,0 +1,54 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds_layer.c" 3 "23 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds_layer.c \- file for the external call to the bdii system, mock purpose 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <lber.h>\fP
+.br
+\fC#include <ldap.h>\fP
+.br
+\fC#include 'gfal_common_mds_layer.h'\fP
+.br
+
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "_gfal_mds_external_call \fBgfal_mds_external_call\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+file for the external call to the bdii system, mock purpose 
+
+\fBAuthor:\fP
+.RS 4
+Adrien Devresse 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+10/06/2011 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "struct _gfal_mds_external_call gfal_mds_external_call"
+.PP
+\fBInitial value:\fP
+.PP
+.nf
+ {
+        .sd_get_se_types_and_endpoints = &sd_get_se_types_and_endpoints,
+        .set_gfal_vo = &set_gfal_vo,
+        .set_gfal_fqan= &set_gfal_fqan,
+        .sd_get_lfc_endpoint = &sd_get_lfc_endpoint
+}
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

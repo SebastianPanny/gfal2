@@ -1,0 +1,60 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.c" 3 "23 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.c \- file for the getxattr function on the srm url type 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string.h>\fP
+.br
+\fC#include 'gfal_common_srm.h'\fP
+.br
+\fC#include '../gfal_constants.h'\fP
+.br
+\fC#include '../gfal_common_errverbose.h'\fP
+.br
+\fC#include 'gfal_common_srm_internal_layer.h'\fP
+.br
+\fC#include 'gfal_common_srm_getxattr.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "ssize_t \fBgfal_srm_geturl_getxattrG\fP (catalog_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_srm_getxattrG\fP (catalog_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_srm_listxattrG\fP (catalog_handle handle, const char *path, char *list, size_t size, GError **err)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+file for the getxattr function on the srm url type 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+02/08/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "ssize_t gfal_srm_getxattrG (catalog_handle handle, const char * path, const char * name, void * buff, size_t s_buff, GError ** err)"
+.PP
+implementation of the getxattr for turl resolution, pin management and spacetoken set/get 
+.SS "ssize_t gfal_srm_listxattrG (catalog_handle handle, const char * path, char * list, size_t size, GError ** err)"
+.PP
+lfc getxattr implem 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='iso-8859-1' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
+  <compounddef id="gfal__common__srm__mkdir_8h" kind="file">
+    <compoundname>gfal_common_srm_mkdir.h</compoundname>
+    <includes local="no">glib.h</includes>
+    <includes refid="gfal__types_8h" local="yes">../gfal_types.h</includes>
+    <includes refid="gfal__constants_8h" local="yes">../gfal_constants.h</includes>
+    <includedby refid="gfal__common__srm_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c</includedby>
+    <includedby refid="gfal__common__srm__mkdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c</includedby>
+    <incdepgraph>
+      <node id="1460">
+        <label>sys/stat.h</label>
+      </node>
+      <node id="1465">
+        <label>stdarg.h</label>
+      </node>
+      <node id="1463">
+        <label>gfal_prototypes.h</label>
+        <link refid="gfal__prototypes_8h-source"/>
+        <childnode refid="1455" relation="include">
+        </childnode>
+      </node>
+      <node id="1467">
+        <label>errno.h</label>
+      </node>
+      <node id="1461">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="1454">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.h</label>
+        <link refid="gfal_common_srm_mkdir.h"/>
+        <childnode refid="1455" relation="include">
+        </childnode>
+        <childnode refid="1456" relation="include">
+        </childnode>
+        <childnode refid="1462" relation="include">
+        </childnode>
+      </node>
+      <node id="1466">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="1458">
+        <label>sys/types.h</label>
+      </node>
+      <node id="1468">
+        <label>string.h</label>
+      </node>
+      <node id="1457">
+        <label>unistd.h</label>
+      </node>
+      <node id="1455">
+        <label>glib.h</label>
+      </node>
+      <node id="1464">
+        <label>gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="1465" relation="include">
+        </childnode>
+        <childnode refid="1466" relation="include">
+        </childnode>
+        <childnode refid="1455" relation="include">
+        </childnode>
+        <childnode refid="1467" relation="include">
+        </childnode>
+        <childnode refid="1468" relation="include">
+        </childnode>
+        <childnode refid="1459" relation="include">
+        </childnode>
+        <childnode refid="1460" relation="include">
+        </childnode>
+        <childnode refid="1463" relation="include">
+        </childnode>
+        <childnode refid="1456" relation="include">
+        </childnode>
+      </node>
+      <node id="1462">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h-source"/>
+      </node>
+      <node id="1456">
+        <label>../gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="1457" relation="include">
+        </childnode>
+        <childnode refid="1455" relation="include">
+        </childnode>
+        <childnode refid="1458" relation="include">
+        </childnode>
+        <childnode refid="1459" relation="include">
+        </childnode>
+        <childnode refid="1460" relation="include">
+        </childnode>
+        <childnode refid="1461" relation="include">
+        </childnode>
+        <childnode refid="1462" relation="include">
+        </childnode>
+        <childnode refid="1463" relation="include">
+        </childnode>
+        <childnode refid="1464" relation="include">
+        </childnode>
+      </node>
+      <node id="1459">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1470">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c</label>
+        <link refid="gfal__common__srm__mkdir_8c"/>
+      </node>
+      <node id="1469">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.h</label>
+        <link refid="gfal_common_srm_mkdir.h"/>
+        <childnode refid="1470" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="gfal__common__srm__mkdir_8h_14e66d8088eeabd271fbb3a6d1b56d09f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_srm_mkdirG</definition>
+        <argsstring>(catalog_handle handle, const char *surl, mode_t mode, gboolean pflag, GError **err)</argsstring>
+        <name>gfal_srm_mkdirG</name>
+        <param>
+          <type>catalog_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>surl</declname>
+        </param>
+        <param>
+          <type>mode_t</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>gboolean</type>
+          <declname>pflag</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.h" line="31" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c" bodystart="51" bodyend="76"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>header file for the mkdir function on the srm url type </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Devresse Adrien </para></simplesect>
+<simplesect kind="version"><para>2.0 </para></simplesect>
+<simplesect kind="date"><para>19/05/2011 </para></simplesect>
+</para>    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight></codeline>
+<codeline lineno="2"><highlight class="preprocessor"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(c)<sp/>Members<sp/>of<sp/>the<sp/>EGEE<sp/>Collaboration.<sp/>2004.</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>See<sp/>http://www.eu-egee.org/partners/<sp/>for<sp/>details<sp/>on<sp/>the<sp/>copyright<sp/>holders.</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Licensed<sp/>under<sp/>the<sp/>Apache<sp/>License,<sp/>Version<sp/>2.0<sp/>(the<sp/>&quot;License&quot;);</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>you<sp/>may<sp/>not<sp/>use<sp/>this<sp/>file<sp/>except<sp/>in<sp/>compliance<sp/>with<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>You<sp/>may<sp/>obtain<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>License<sp/>at</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>http://www.apache.org/licenses/LICENSE-2.0</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>Unless<sp/>required<sp/>by<sp/>applicable<sp/>law<sp/>or<sp/>agreed<sp/>to<sp/>in<sp/>writing,<sp/>software</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>distributed<sp/>under<sp/>the<sp/>License<sp/>is<sp/>distributed<sp/>on<sp/>an<sp/>&quot;AS<sp/>IS&quot;<sp/>BASIS,</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>WITHOUT<sp/>WARRANTIES<sp/>OR<sp/>CONDITIONS<sp/>OF<sp/>ANY<sp/>KIND,<sp/>either<sp/>express<sp/>or<sp/>implied.</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>See<sp/>the<sp/>License<sp/>for<sp/>the<sp/>specific<sp/>language<sp/>governing<sp/>permissions<sp/>and</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_mkdirG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/>mode_t<sp/>mode,<sp/>gboolean<sp/>pflag,<sp/>GError**<sp/>err);<sp/></highlight></codeline>
+    </programlisting>
+    <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.h"/>
+  </compounddef>
+</doxygen>

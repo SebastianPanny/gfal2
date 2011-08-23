@@ -4,39 +4,39 @@ This exemple show how to list the files in a directory ex : use case with SRM pl
 
 
 \begin{DocInclude}\begin{verbatim}1 
-2 #include <stdio.h>
-3 #include <stdlib.h>
-4 #include "gfal_api.h"
-5 
-6 main(int argc, char **argv)
-7 {
-8         struct dirent *d;
-9         DIR *dir;
-10 
-11         if (argc != 2) {
-12                 fprintf (stderr, "usage: %s filename\n", argv[0]);
-13                 exit (1);
-14         }
-15 
-16         if ((dir = gfal_opendir (argv[1])) == NULL) {
-17                 perror ("gfal_opendir");
-18                 exit (1);
-19         }
-20 
-21 #if defined(__USE_FILE_OFFSET64)
-22         while ((d = gfal_readdir64 (dir))) {
-23 #else
-24         while ((d = gfal_readdir (dir))) {
-25 #endif
-26                 printf ("%s\n", d->d_name);
-27         }
-28 
-29         if (gfal_closedir (dir) < 0) {
-30                 perror ("gfal_closedir");
-31                 exit (1);
-32         }
-33         exit (0);
-34 }
+5 #include <stdio.h>
+6 #include <stdlib.h>
+7 #include "gfal_api.h"
+8 
+9 main(int argc, char **argv)
+10 {
+11         struct dirent *d;
+12         DIR *dir;
+13 
+14         if (argc != 2) {
+15                 fprintf (stderr, "usage: %s filename\n", argv[0]);
+16                 exit (1);
+17         }
+18 
+19         if ((dir = gfal_opendir (argv[1])) == NULL) {
+20                 perror ("gfal_opendir");
+21                 exit (1);
+22         }
+23 
+24 #if defined(__USE_FILE_OFFSET64)
+25         while ((d = gfal_readdir64 (dir))) {
+26 #else
+27         while ((d = gfal_readdir (dir))) {
+28 #endif
+29                 printf ("%s\n", d->d_name);
+30         }
+31 
+32         if (gfal_closedir (dir) < 0) {
+33                 perror ("gfal_closedir");
+34                 exit (1);
+35         }
+36         exit (0);
+37 }
 \end{verbatim}
 \end{DocInclude}
  

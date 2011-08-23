@@ -1,0 +1,73 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h" 3 "23 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h \- The main Interface file for the SRM interface. 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gfal_prototypes.h'\fP
+.br
+\fC#include 'gfal_types.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "char * \fBgfal_last_error_string\fP (gfal_handle handle)"
+.br
+.ti -1c
+.RI "int \fBgfal_has_error\fP (gfal_handle handle)"
+.br
+.ti -1c
+.RI "gfal_handle \fBgfal_handle_new\fP ()"
+.br
+.ti -1c
+.RI "void \fBgfal_handle_free\fP (gfal_handle handle)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_async\fP (gfal_handle handle, char **surls)"
+.br
+.ti -1c
+.RI "int \fBgfal_async_request_is_finished\fP (gfal_handle handle)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_async_results\fP (gfal_handle handle, char ***turls)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_async_get_results_errcodes\fP (gfal_handle handle, int **turl_errcode)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_async_get_results_errstring\fP (gfal_handle handle, char ***turl_errstring)"
+.br
+.ti -1c
+.RI "int \fBgfal_wait_async_request\fP (gfal_handle handle, long timeout)"
+.br
+.ti -1c
+.RI "void \fBgfal_set_nobdii_srm\fP (gfal_handle handle, gboolean no_bdii_chk)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The main Interface file for the SRM interface. 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+2.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+12/04/2011 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

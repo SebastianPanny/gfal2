@@ -4,45 +4,45 @@ This exemple show how to create a directory ex : use case with SRM plugin : ./gf
 
 
 \begin{DocInclude}\begin{verbatim}1 
-2 #include <stdio.h>
-3 #include <stdlib.h>
-4 #include "gfal_api.h"
-5 
-6 main(int argc, char **argv)
-7 {
-8         char *rootdir;
-9         char olddir[1024], newdir[1024];
-10 
-11         if (argc != 2) {
-12                 fprintf (stderr, "usage: %s rootdir\n", argv[0]);
-13                 exit (1);
-14         }
-15 
-16         rootdir = argv[1];
-17         snprintf (olddir, 1024, "%s/olddir", rootdir);
-18         snprintf (newdir, 1024, "%s/newdir", rootdir);
-19 
-20         printf ("Creating directory 'olddir'...\n");
-21         if (gfal_mkdir (olddir, 0700) < 0) {
-22                 perror ("gfal_mkdir");
-23                 exit (1);
-24         }
-25 
-26         printf ("Renaming directory 'olddir' to 'newdir'...\n");
-27         if (gfal_rename (olddir, newdir) < 0) {
-28                 perror ("gfal_rename");
-29                 exit (1);
-30         }
-31 
-32         printf ("Removing directory 'newdir'...\n");
-33         if (gfal_rmdir (newdir) < 0) {
-34                 perror ("gfal_rmdir");
-35                 exit (1);
-36         }
-37 
-38         printf ("All is ok.\n");
-39         exit (0);
-40 }
+5 #include <stdio.h>
+6 #include <stdlib.h>
+7 #include "gfal_api.h"
+8 
+9 main(int argc, char **argv)
+10 {
+11         char *rootdir;
+12         char olddir[1024], newdir[1024];
+13 
+14         if (argc != 2) {
+15                 fprintf (stderr, "usage: %s rootdir\n", argv[0]);
+16                 exit (1);
+17         }
+18 
+19         rootdir = argv[1];
+20         snprintf (olddir, 1024, "%s/olddir", rootdir);
+21         snprintf (newdir, 1024, "%s/newdir", rootdir);
+22 
+23         printf ("Creating directory 'olddir'...\n");
+24         if (gfal_mkdir (olddir, 0700) < 0) {
+25                 perror ("gfal_mkdir");
+26                 exit (1);
+27         }
+28 
+29         printf ("Renaming directory 'olddir' to 'newdir'...\n");
+30         if (gfal_rename (olddir, newdir) < 0) {
+31                 perror ("gfal_rename");
+32                 exit (1);
+33         }
+34 
+35         printf ("Removing directory 'newdir'...\n");
+36         if (gfal_rmdir (newdir) < 0) {
+37                 perror ("gfal_rmdir");
+38                 exit (1);
+39         }
+40 
+41         printf ("All is ok.\n");
+42         exit (0);
+43 }
 \end{verbatim}
 \end{DocInclude}
  

@@ -1,0 +1,189 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h" 3 "23 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h \- internal header of the lfc catalog module 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <lfc_api.h>\fP
+.br
+\fC#include <Cthread_api.h>\fP
+.br
+\fC#include <Cthread_typedef.h>\fP
+.br
+\fC#include <regex.h>\fP
+.br
+\fC#include '../gfal_prototypes.h'\fP
+.br
+\fC#include '../gfal_types.h'\fP
+.br
+\fC#include '../../externals/gsimplecache/gcachemain.h'\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBlfc_ops\fP"
+.br
+.in -1c
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGFAL_MAX_LFCHOST_LEN\fP   1024"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "char * \fBgfal_setup_lfchost\fP (gfal_handle handle, GError **err)"
+.br
+.ti -1c
+.RI "lfc_ops * \fBgfal_load_lfc\fP (const char *name, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_get_errno\fP (struct lfc_ops *ops)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_regex_compile\fP (regex_t *rex, GError **err)"
+.br
+.ti -1c
+.RI "char * \fBgfal_lfc_get_strerror\fP (struct lfc_ops *ops)"
+.br
+.ti -1c
+.RI "char * \fBgfal_convert_guid_to_lfn\fP (catalog_handle handle, char *guid, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_convert_guid_to_lfn_r\fP (catalog_handle handle, const char *guid, char *buff_lfn, size_t sbuff_lfn, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_statg\fP (struct lfc_ops *ops, const char *, struct lfc_filestatg *resu, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_convert_statg\fP (struct stat *output, struct lfc_filestatg *input, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_ifce_mkdirpG\fP (struct lfc_ops *ops, const char *path, mode_t mode, gboolean pflag, GError **err)"
+.br
+.ti -1c
+.RI "char ** \fBgfal_lfc_getSURL\fP (struct lfc_ops *ops, const char *path, GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_lfc_init_thread\fP (struct lfc_ops *ops)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_startSession\fP (struct lfc_ops *ops, GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_auto_maintain_session\fP (struct lfc_ops *ops, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBg_strv_catbuff\fP (char **strv, char *buff, size_t size)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+internal header of the lfc catalog module 
+
+\fBAuthor:\fP
+.RS 4
+Adrien Devresse 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+0.0.1 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+02/05/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "char* gfal_convert_guid_to_lfn (catalog_handle handle, char * guid, GError ** err)"
+.PP
+convert a guid to a lfn link with a call to the lfclib 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP handle of the lfc catalog 
+.br
+\fIstring\fP of the guid 
+.br
+\fIerr\fP : Error report system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+: string of the lfn if success or NULL char* if error 
+.RE
+.PP
+
+.SS "int gfal_convert_guid_to_lfn_r (catalog_handle handle, const char * guid, char * buff_lfn, size_t sbuff_lfn, GError ** err)"
+.PP
+convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mode ) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP catalog handle 
+.br
+\fIguid\fP string of the guid 
+.br
+\fIbuff_lfn\fP buffer for the lfn result 
+.br
+\fIsbuff_lfn\fP size of the buffer 
+.br
+\fIerr\fP : Error report system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+: 0 else -1 if error and err is set 
+.RE
+.PP
+
+.SS "char** gfal_lfc_getSURL (struct lfc_ops * ops, const char * path, GError ** err)"
+.PP
+return a list of surls from a getreplica request 
+.SS "int gfal_lfc_ifce_mkdirpG (struct lfc_ops * ops, const char * path, mode_t mode, gboolean pflag, GError ** err)"
+.PP
+Implementation of mkdir -p call on the lfc 
+.SS "void gfal_lfc_init_thread (struct lfc_ops * ops)"
+.PP
+Routine for internal lfc hack, need to be call for the thread safety 
+.SS "struct lfc_ops* gfal_load_lfc (const char * name, GError ** err)"
+.PP
+load the shared library and link the symbol for the LFC usage 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname\fP : name of the library 
+.br
+\fIerr,:\fP error report 
+.RE
+.PP
+
+.SS "char* gfal_setup_lfchost (gfal_handle handle, GError ** err)"
+.PP
+setup the lfc_host correctly for the lfc calls 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerr\fP GError report system if 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+string of the endpoint, need to be free or NULL if error 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

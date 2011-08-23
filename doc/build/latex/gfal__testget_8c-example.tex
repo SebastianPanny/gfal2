@@ -4,129 +4,129 @@ This exemple show how to convert a surl to a turl ex : use case with SRM plugin 
 
 
 \begin{DocInclude}\begin{verbatim}1 
-2 #include <stdio.h>
-3 #include <stdlib.h>
-4 #include <unistd.h>
-5 #include <string.h>
-6 #include <sys/types.h>
-7 #include <errno.h>
-8 #include <sys/param.h>
-9 
-10 #define DEFPOLLINT 10
-11 #define TURL_MAX_SIZE 1024
-12 
+6 #include <stdio.h>
+7 #include <stdlib.h>
+8 #include <unistd.h>
+9 #include <string.h>
+10 #include <sys/types.h>
+11 #include <errno.h>
+12 #include <sys/param.h>
 13 
-14 #ifndef _GFAL_1_X
-15 
-16 #include <gfal_api.h>
+14 #define DEFPOLLINT 10
+15 #define TURL_MAX_SIZE 1024
+16 
 17 
-18  // NORMAL NEW WAY TO USE IN GFAL 2.0
+18 #ifndef _GFAL_1_X
 19 
-20 int main(int argc,char **argv)
-21 {
-22         int errsz = 500;
-23         char err[errsz];
-24 
-25         char turl_buff[TURL_MAX_SIZE];
-26 
-27         if (argc < 2){
-28                 fprintf (stderr, "usage: %s SURLs\n", argv[0]);
-29                 exit (1);
-30         }
-31         gfal_set_verbose (GFAL_VERBOSE_VERBOSE);
-32         
-33         ssize_t res = gfal_getxattr(argv[1], "srm.turl", turl_buff,TURL_MAX_SIZE );
-34         
-35         if (res > 0)
-36                 printf("SURL %s Ready - TURL: %s\n", argv[1], turl_buff);
-37         else {
-38                 printf("SURL %s Failed:\n%s\n", argv[1]);
-39                 perror(" gfal_getxattr");
-40         }
-41                 
-42         return((res>0)?0:-1);
-43 }
-44 
-45 #endif
-46 
-47 
-48 /*  This is the OLD WAY GFAL 1.0 to do IT, DONT USE IT WITH GFAL2.0, IT IS FOR A  EXAMPLE OF MIGRATION 1.X to 2.0
-49 #ifdef _GFAL_1_X 
-50 #define gfal_handle_free(x) gfal_internal_free(x)
+20 #include <gfal_api.h>
+21 
+22  // NORMAL NEW WAY TO USE IN GFAL 2.0
+23 
+24 int main(int argc,char **argv)
+25 {
+26         int errsz = 500;
+27         char err[errsz];
+28 
+29         char turl_buff[TURL_MAX_SIZE];
+30 
+31         if (argc < 2){
+32                 fprintf (stderr, "usage: %s SURLs\n", argv[0]);
+33                 exit (1);
+34         }
+35         gfal_set_verbose (GFAL_VERBOSE_VERBOSE);
+36         
+37         ssize_t res = gfal_getxattr(argv[1], "srm.turl", turl_buff,TURL_MAX_SIZE );
+38         
+39         if (res > 0)
+40                 printf("SURL %s Ready - TURL: %s\n", argv[1], turl_buff);
+41         else {
+42                 printf("SURL %s Failed:\n%s\n", argv[1]);
+43                 perror(" gfal_getxattr");
+44         }
+45                 
+46         return((res>0)?0:-1);
+47 }
+48 
+49 #endif
+50 
 51 
-52 
-53 #include <gfal_api.h>
-54 
-55 main(argc, argv)
-56 int argc;
-57 char **argv;
-58 {
-59         gfal_request req = NULL;
-60         gfal_internal gobj = NULL;
-61         gfal_filestatus *filestatuses = NULL;
-62         int sav_errno = 0, n = 0, i = 0, nberrors = 0;
-63         static char *protos[] = {"rfio", "dcap", "gsiftp"};
-64 
-65         if (argc < 2) {
-66                 fprintf (stderr, "usage: %s SURLs\n", argv[0]);
-67                 exit (1);
-68         }
-69 
-70         gfal_set_verbose (0);
-71 
-72         if ((req = gfal_request_new ()) == NULL)
-73                 exit (1);
-74         req->nbfiles = argc - 1;
-75         req->surls = argv + 1;
-76         req->protocols = protos;
-77 
-78         if (gfal_init (req, &gobj, NULL, 0) < 0) {
-79                 sav_errno = errno;
-80                 free (req);
-81                 errno = sav_errno;
-82                 perror (argv[0]);
-83                 exit (1);
-84         }
-85         free (req);
-86 
-87         if (gfal_turlsfromsurls (gobj, NULL, 0) < 0) {
-88                 sav_errno = errno;
-89                 gfal_internal_free (gobj);
-90                 errno = sav_errno;
-91                 perror (argv[0]);
-92                 exit (1);
-93         }
-94 
-95         if ((n = gfal_get_results (gobj, &filestatuses)) < 0) {
-96                 sav_errno = errno;
-97                 gfal_internal_free (gobj);
-98                 errno = sav_errno;
-99                 perror (argv[0]);
-100                 exit (1);
-101         }
-102 
-103         if (filestatuses == NULL) {
-104                 fprintf (stderr, "%s: Internal error (memory corruption?)\n", argv[0]);
-105                 exit (1);
-106         }
-107 
-108         for (i = 0; i < n; ++i) {
-109                 if (filestatuses[i].status == 0)
-110                         printf("SURL %s Ready - TURL: %s\n", filestatuses[i].surl, filestatuses[i].turl);
-111                 else {
-112                         ++nberrors;
-113                         if (filestatuses[i].explanation)
-114                                 printf("SURL %s Failed:\n%s\n", filestatuses[i].surl, filestatuses[i].explanation);
-115                         else
-116                                 printf("SURL %s Failed:\n%s\n", filestatuses[i].surl, strerror (filestatuses[i].status));
-117                 }
-118         }
-119 
-120         gfal_internal_free (gobj);
-121         exit (nberrors > 0 ? 1 : 0);
-122 }
-123 #endif
-124 */
+52 /*  This is the OLD WAY GFAL 1.0 to do IT, DONT USE IT WITH GFAL2.0, IT IS FOR A  EXAMPLE OF MIGRATION 1.X to 2.0
+53 #ifdef _GFAL_1_X 
+54 #define gfal_handle_free(x) gfal_internal_free(x)
+55 
+56 
+57 #include <gfal_api.h>
+58 
+59 main(argc, argv)
+60 int argc;
+61 char **argv;
+62 {
+63         gfal_request req = NULL;
+64         gfal_internal gobj = NULL;
+65         gfal_filestatus *filestatuses = NULL;
+66         int sav_errno = 0, n = 0, i = 0, nberrors = 0;
+67         static char *protos[] = {"rfio", "dcap", "gsiftp"};
+68 
+69         if (argc < 2) {
+70                 fprintf (stderr, "usage: %s SURLs\n", argv[0]);
+71                 exit (1);
+72         }
+73 
+74         gfal_set_verbose (0);
+75 
+76         if ((req = gfal_request_new ()) == NULL)
+77                 exit (1);
+78         req->nbfiles = argc - 1;
+79         req->surls = argv + 1;
+80         req->protocols = protos;
+81 
+82         if (gfal_init (req, &gobj, NULL, 0) < 0) {
+83                 sav_errno = errno;
+84                 free (req);
+85                 errno = sav_errno;
+86                 perror (argv[0]);
+87                 exit (1);
+88         }
+89         free (req);
+90 
+91         if (gfal_turlsfromsurls (gobj, NULL, 0) < 0) {
+92                 sav_errno = errno;
+93                 gfal_internal_free (gobj);
+94                 errno = sav_errno;
+95                 perror (argv[0]);
+96                 exit (1);
+97         }
+98 
+99         if ((n = gfal_get_results (gobj, &filestatuses)) < 0) {
+100                 sav_errno = errno;
+101                 gfal_internal_free (gobj);
+102                 errno = sav_errno;
+103                 perror (argv[0]);
+104                 exit (1);
+105         }
+106 
+107         if (filestatuses == NULL) {
+108                 fprintf (stderr, "%s: Internal error (memory corruption?)\n", argv[0]);
+109                 exit (1);
+110         }
+111 
+112         for (i = 0; i < n; ++i) {
+113                 if (filestatuses[i].status == 0)
+114                         printf("SURL %s Ready - TURL: %s\n", filestatuses[i].surl, filestatuses[i].turl);
+115                 else {
+116                         ++nberrors;
+117                         if (filestatuses[i].explanation)
+118                                 printf("SURL %s Failed:\n%s\n", filestatuses[i].surl, filestatuses[i].explanation);
+119                         else
+120                                 printf("SURL %s Failed:\n%s\n", filestatuses[i].surl, strerror (filestatuses[i].status));
+121                 }
+122         }
+123 
+124         gfal_internal_free (gobj);
+125         exit (nberrors > 0 ? 1 : 0);
+126 }
+127 #endif
+128 */
 \end{verbatim}
 \end{DocInclude}
  

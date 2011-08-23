@@ -1,0 +1,67 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c" 3 "23 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c \- file for the readdir function on the srm url type 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string.h>\fP
+.br
+\fC#include <stdio.h>\fP
+.br
+\fC#include 'gfal_common_srm_readdir.h'\fP
+.br
+\fC#include '../gfal_common_errverbose.h'\fP
+.br
+\fC#include 'gfal_common_srm_opendir.h'\fP
+.br
+\fC#include 'gfal_common_srm_internal_layer.h'\fP
+.br
+
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGFAL_FILENAME_MAX\fP   FILENAME_MAX"
+.br
+.ti -1c
+.RI "#define \fB_GNU_SOURCE\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBgfal_srm_readdir_internal\fP (catalog_handle ch, gfal_srm_opendir_handle oh, int nb_files, GError **err)"
+.br
+.ti -1c
+.RI "dirent * \fBgfal_srm_readdir_pipeline\fP (catalog_handle ch, gfal_srm_opendir_handle oh, GError **err)"
+.br
+.ti -1c
+.RI "dirent * \fBgfal_srm_readdirG\fP (catalog_handle ch, gfal_file_handle fh, GError **err)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+file for the readdir function on the srm url type 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+2.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+14/06/2011 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.
