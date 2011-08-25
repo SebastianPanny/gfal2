@@ -39,7 +39,7 @@ def get_etics_dir():
 # global var
 etics_build_dir=get_etics_dir()
 version= '2.0'
-package_version = '1.3_preview'
+package_version = '1.2_preview'
 
 ## generic function to get conf value
 def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_path='/lib64/', etics_suffix="/stage/"):
@@ -190,9 +190,9 @@ if(main_core):
 
 
 if(main_devel):
-	header_main = env.Install('/usr/include/gfal2/', Glob("dist/include/gfal2/*.h") )
-	header_main2= env.Install('/usr/include/gfal2/common/', Glob("dist/include/gfal2/common/*.h"))
-	header_main3= env.Install('/usr/include/gfal2/posix/', Glob("dist/include/gfal2/posix/*.h") )
+	header_main = env.Install('/usr/include/gfal2/', Glob("dist/include/*.h") )
+	header_main2= env.Install('/usr/include/gfal2/common/', Glob("dist/include/common/*.h"))
+	header_main3= env.Install('/usr/include/gfal2/posix/', Glob("dist/include/posix/*.h") )
 	static_main = env.Install('/usr/'+libdir+'/', staticlib)
 	example_main = env.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
 	pkg_config = env.Install('/usr/lib64/pkgconfig/', Glob('dist/lib64/pkgconfig/libgfal2.pc'))
