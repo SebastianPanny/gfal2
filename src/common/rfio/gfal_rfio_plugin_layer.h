@@ -38,6 +38,7 @@ struct rfio_proto_ops {
 	int	(*chmod)(const char *, mode_t);
 	int	(*close)(int);
 	int	(*closedir)(DIR *);
+	char* (*serror_r)(char* buff, size_t buff_size);
 	off_t	(*lseek)(int, off_t, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 	off64_t	(*lseek64)(int, off64_t, int);

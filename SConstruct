@@ -81,7 +81,7 @@ build_dir_test= build_dir +'/test/src'
 	
 headers= ['.', '#.', '#build/src/'] +   dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir  + dpm_header_dir_emi + cgreen_header_dir
 libs=[ '#'+build_dir+'/libs'] +   dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir+ dpm_lib_dir_emi + cgreen_lib_dir
-cflags=['-DVERSION='+version, '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
+cflags=['-DVERSION='+version, '-Wall', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 # create default env
 env = Environment(tools=['default', 'packaging'], CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
 env.ParseConfig('pkg-config --cflags --libs glib-2.0')
@@ -190,9 +190,9 @@ if(main_core):
 
 
 if(main_devel):
-	header_main = env.Install('/usr/include/gfal2/', Glob("dist/include/*.h") )
-	header_main2= env.Install('/usr/include/gfal2/common/', Glob("dist/include/common/*.h"))
-	header_main3= env.Install('/usr/include/gfal2/posix/', Glob("dist/include/posix/*.h") )
+	header_main = env.Install('/usr/include/gfal2/', Glob("dist/usr/include/gfal2/*.h") )
+	header_main2= env.Install('/usr/include/gfal2/common/', Glob("dist/usr/include/gfal2/common/*.h"))
+	header_main3= env.Install('/usr/include/gfal2/posix/', Glob("dist/usr/include/gfal2/posix/*.h") )
 	static_main = env.Install('/usr/'+libdir+'/', staticlib)
 	example_main = env.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
 	pkg_config = env.Install('/usr/lib64/pkgconfig/', Glob('dist/lib64/pkgconfig/libgfal2.pc'))

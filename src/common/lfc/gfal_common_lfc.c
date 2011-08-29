@@ -256,18 +256,20 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 	
 	if(lfn){
 		if( ( ret= gsimplecache_take_one_kstr(ops->cache_stat, lfn, st)) == 0){ // take the version of the buffer
-			gfal_print_verbose(GFAL_VERBOSE_DEBUG, " lfc_lstatG -> value taken from cache");
+			gfal_print_verbose(GFAL_VERBOSE_TRACE, " lfc_lstatG -> value taken from cache");
 		}else{	
-			gfal_print_verbose(GFAL_VERBOSE_DEBUG, " lfc_lstatG -> value not in cache, do normal call");
+			gfal_print_verbose(GFAL_VERBOSE_TRACE, " lfc_lstatG -> value not in cache, do normal call");
 			gfal_lfc_init_thread(ops);
 			gfal_auto_maintain_session(ops, &tmp_err);
-			ret = ops->lstat(lfn, &statbuf);
-			if(ret != 0){
-				int sav_errno = gfal_lfc_get_errno(ops);
-				g_set_error(&tmp_err,0,sav_errno, "Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
-			}else{
-				ret= gfal_lfc_convert_lstat(st, &statbuf, err);
-				errno=0;
+			if(!tmp_err){
+				ret = ops->lstat(lfn, &statbuf);
+				if(ret != 0){
+					int sav_errno = gfal_lfc_get_errno(ops);
+					g_set_error(&tmp_err,0,sav_errno, "Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
+				}else{
+					ret= gfal_lfc_convert_lstat(st, &statbuf, err);
+					errno=0;
+				}
 			}
 		}
 	}

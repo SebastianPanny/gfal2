@@ -63,6 +63,7 @@ struct rfio_proto_ops * gfal_rfio_internal_loader_base(GError** err){
 	if(dlhandle){
 			pops = g_new0(struct rfio_proto_ops, 1);
 			pops->geterror = (int (*) ()) dlsym (dlhandle, "rfio_serrno");
+			pops->serror_r = (char* (*) (char*, size_t)) dlsym(dlhandle, "rfio_serror_r");
 			pops->access = (int (*) (const char *, int)) dlsym (dlhandle, "rfio_access");
 			pops->chmod = (int (*) (const char *, mode_t)) dlsym (dlhandle, "rfio_chmod");
 			pops->close = (int (*) (int)) dlsym (dlhandle, "rfio_close");

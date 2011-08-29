@@ -259,32 +259,19 @@ char* gfal_setup_lfchost(gfal_handle handle, GError ** err){
 	g_return_val_err_if_fail(handle && err, NULL, err, "[gfal_setup_lfchost] Invalid parameters handle & err");
 	char* lfc_host = NULL;
 	GError* tmp_err = NULL;
+
 	
 	if ( (lfc_host = gfal_get_lfchost_envar(&tmp_err)) == NULL ) { // if env var not specified got one from bdii, and setup the env var
-		if(tmp_err){
-			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost]");
-			return NULL;
-		}
-		
-		if( (lfc_host = gfal_get_lfchost_bdii(handle, &tmp_err)) ==NULL ){ // call the bdii 
-			g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost]");
-			return NULL;	
-		}else{				
-			gfal_define_lfc_env_var(lfc_host, &tmp_err);		// define the env var if sucess
-			if(tmp_err){
-				g_propagate_prefixed_error(err, tmp_err,"[gfal_get_lfchost]");
-				free(lfc_host);
-				return NULL;
-			}	
-		}
-	} 
-
-	if (strnlen (lfc_host,GFAL_MAX_LFCHOST_LEN) + 6 >= GFAL_MAX_LFCHOST_LEN) { 
-		g_set_error(err, 0, ENAMETOOLONG, "[gfal_get_lfchost] lfc host name :  %s, Host name too long", lfc_host);
+		if(!tmp_err)
+			g_set_error(&tmp_err, 0, ENOENT, "Environment variable LFC_HOST does not exist"); // disable the bdii resolution, not used anymore.
+	}else if (strnlen (lfc_host,GFAL_MAX_LFCHOST_LEN) + 6 >= GFAL_MAX_LFCHOST_LEN) { 
+		g_set_error(&tmp_err, 0, ENAMETOOLONG, "lfc host name :  %s, Host name too long", lfc_host);
 		free(lfc_host);
-		return (NULL);		
+		lfc_host=NULL;
 	}	
 	//g_printerr(" my host : %s", lfc_host);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[gfal_get_lfchost]");
 	return lfc_host;
 }
 

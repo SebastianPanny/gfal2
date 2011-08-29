@@ -29,6 +29,7 @@
 #include <regex.h>
 #include <time.h> 
 #include <glib.h>
+#include <stdlib.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
@@ -39,16 +40,18 @@
 #include "gfal_rfio_plugin_layer.h"
 
 static void rfio_report_error(gfal_plugin_rfio_handle h,  const char * func_name, GError** err){
-	char buff_error[2048];
+	char buff_error[2048]= {0};
 	int status = h->rf->geterror();
 	status = (status > 1000)?ECOMM:status;
-	strerror_r(status, buff_error, 2048);
+	h->rf->serror_r(buff_error, 2048);
 	g_set_error(err, 0, status, "[%s] Error reported by the external library rfio : %s", func_name, buff_error);
 }
 
 gfal_file_handle gfal_rfio_openG(catalog_handle handle , const char* path, int flag, mode_t mode, GError** err){
 	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
 	gfal_file_handle ret = NULL;
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "  %s ->",__func__);
+	
 	int fd= h->rf->open(path, flag, mode);
 	if(fd <= 0)
 		rfio_report_error(h, __func__, err);

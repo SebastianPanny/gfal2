@@ -41,13 +41,18 @@ gfal_file_handle lfc_openG(catalog_handle ch, const char* path, int flag, mode_t
 	gfal_handle handle = ((struct lfc_ops*)ch)->handle;
 	GError* tmp_err=NULL;
 	gfal_file_handle res=NULL;
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "  %s ->",__func__);
+	
 	char** surls = lfc_getSURLG(ch, path, &tmp_err);
-	char** p = surls;
-	while( p != NULL){
-		res = gfal_catalog_openG(handle, *p, flag, mode, &tmp_err);
-		if(res || ( tmp_err && tmp_err->code!=ECOMM))
-			break;
-		p++;
+	if(surls != 0 && tmp_err == NULL){
+		char** p = surls;
+		while( *p != NULL){
+			gfal_print_verbose(GFAL_VERBOSE_VERBOSE, " LFC resolution %s -> %s ", path, *p);
+			res = gfal_catalog_openG(handle, *p, flag, mode, &tmp_err);
+			if(res || ( tmp_err && tmp_err->code!=ECOMM))
+				break;
+			p++;
+		}
 	}
 	g_strfreev(surls);
 	if(tmp_err)

@@ -24,10 +24,13 @@
  * @date 30/06/2011
  * 
  **/
+ 
+#define _GNU_SOURCE
 
 
 #include <regex.h>
 #include <time.h> 
+#include <string.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"

@@ -133,7 +133,6 @@ static int gfal_module_load(gfal_handle handle, char* module_name, GError** err)
  *  tab must be free with g_strfreev
  */
 static char** gfal_search_plugin_list(GError** err){
-	GError* tmp_err = NULL;
 	char* gfal_plugin_lst = getenv(GFAL_PLUGIN_ENVAR);
 	if( gfal_plugin_lst == NULL ){
 		g_set_error(err, 0, EINVAL, "[%s] env var %s not defined, no plugin loaded for gfal !", __func__, GFAL_PLUGIN_ENVAR);
@@ -155,7 +154,7 @@ static char** gfal_search_plugin_list(GError** err){
  */
 static int gfal_modules_resolve(gfal_handle handle, GError** err){
 	GError* tmp_err = NULL;
-	int ret=-1, count=0;
+	int ret=-1;
 	char** tab_args;
 	
 	if( (tab_args = gfal_search_plugin_list(&tmp_err)) != NULL){
@@ -186,11 +185,14 @@ static int gfal_modules_resolve(gfal_handle handle, GError** err){
 inline int gfal_catalogs_instance(gfal_handle handle, GError** err){
 	g_return_val_err_if_fail(handle, -1, err, "[gfal_catalogs_instance]  invalid value of handle");
 	const int catalog_number = handle->catalog_opt.catalog_number;
+	int ret;
 	if(catalog_number <= 0){
 		GError* tmp_err=NULL;
-		gfal_modules_resolve(handle, &tmp_err);
-		if(tmp_err)
+		ret = gfal_modules_resolve(handle, &tmp_err);
+		if(tmp_err){
 			g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+			handle->catalog_opt.catalog_number = -1;
+		}
 		return handle->catalog_opt.catalog_number;	
 	}
 	return catalog_number;
@@ -237,7 +239,6 @@ inline int gfal_catalogs_instance(gfal_handle handle, GError** err){
 int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError** err){
 	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalogs_accessG] Invalid arguments");
 	GError* tmp_err=NULL;
-	int i;
 	
 	gboolean access_checker(gfal_catalog_interface* cata_list, GError** terr){
 		return cata_list->check_catalog_url(cata_list->handle, path,  GFAL_CATALOG_ACCESS, terr);
@@ -258,7 +259,6 @@ int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError
 int gfal_catalog_statG(gfal_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalog_statG] Invalid arguments");
 	GError* tmp_err=NULL;
-	int i;
 	
 	gboolean stat_checker(gfal_catalog_interface* cata_list, GError** terr){
 		return cata_list->check_catalog_url(cata_list->handle, path,  GFAL_CATALOG_STAT, terr);
@@ -288,7 +288,7 @@ ssize_t gfal_catalog_readlinkG(gfal_handle handle, const char* path, char* buff,
 		return ((resu = cata_list->readlinkG(cata_list->handle, path, buff, buffsiz, terr)) !=-1)?0:-1;
 	}
 	
-	int ret = gfal_catalogs_operation_executor(handle, &readlink_checker, &readlink_executor, &tmp_err);
+	gfal_catalogs_operation_executor(handle, &readlink_checker, &readlink_executor, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__); 
 	return resu;	
@@ -302,7 +302,6 @@ ssize_t gfal_catalog_readlinkG(gfal_handle handle, const char* path, char* buff,
 int gfal_catalog_lstatG(gfal_handle handle, const char* path, struct stat* st, GError** err){
 	g_return_val_err_if_fail(handle && path, EINVAL, err, "[gfal_catalog_lstatG] Invalid arguments");
 	GError* tmp_err=NULL;
-	int i;
 	
 	gboolean lstat_checker(gfal_catalog_interface* cata_list, GError** terr){
 		return cata_list->check_catalog_url(cata_list->handle, path,  GFAL_CATALOG_LSTAT, terr);
@@ -341,7 +340,6 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
  int gfal_catalog_chmodG(gfal_handle handle, const char* path, mode_t mode, GError** err){
 	g_return_val_err_if_fail(handle && path, -1, err, "[gfal_catalog_chmodG] Invalid arguments");	
 	GError* tmp_err = NULL;		
-	int i;
 	
 		
 	gboolean chmod_checker(gfal_catalog_interface* cata_list, GError** terr){
@@ -364,7 +362,6 @@ int gfal_catalogs_delete(gfal_handle handle, GError** err){
 int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err){
 	g_return_val_err_if_fail(oldpath && newpath, -1, err, "[gfal_catalog_renameG] invalid value in args oldpath, handle or newpath");
 	GError* tmp_err=NULL;
-	int i;
 	
 	gboolean rename_checker(gfal_catalog_interface* cata_list, GError** terr){
 		return (cata_list->check_catalog_url(cata_list->handle, oldpath, GFAL_CATALOG_RENAME, terr) &&
@@ -387,7 +384,6 @@ int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* ne
 int gfal_catalog_symlinkG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err){
 	g_return_val_err_if_fail(oldpath && newpath, -1, err, "[gfal_catalog_symlinkG] invalid value in args oldpath, handle or newpath");
 	GError* tmp_err=NULL;
-	int i;
 	
 	gboolean symlink_checker(gfal_catalog_interface* cata_list, GError** terr){
 		return (cata_list->check_catalog_url(cata_list->handle, oldpath, GFAL_CATALOG_SYMLINK, terr) &&
@@ -478,7 +474,7 @@ int gfal_catalog_rmdirG(gfal_handle handle, const char* path, GError** err){
 		return (resu)?0:-1;
 	}
 	
-	int ret = gfal_catalogs_operation_executor(handle, &opendir_checker, &opendir_executor, &tmp_err);
+	gfal_catalogs_operation_executor(handle, &opendir_checker, &opendir_executor, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return resu;  
@@ -508,7 +504,8 @@ gfal_file_handle gfal_catalog_openG(gfal_handle handle, const char * path, int f
 	GError* tmp_err=NULL;
 	int ret =-1;
 	gfal_file_handle resu =NULL;
-	gfal_catalog_interface* pcata=NULL;
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, " %s ->",__func__);
+
 	
 	gboolean openG_checker(gfal_catalog_interface* cata_list, GError** terr){
 		return cata_list->check_catalog_url(cata_list->handle, path, GFAL_CATALOG_OPEN, terr);

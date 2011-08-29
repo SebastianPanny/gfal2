@@ -30,6 +30,8 @@
 #include <gfal_prototypes.h>
 #include "gfal_types.h"
 #include "gfal_common_errverbose.h"
+#include "gfal_common_dir_handle.h"
+#include "gfal_common_file_handle.h"
 
 #define XVERSION_STR(x) #x
 #define VERSION_STR(x) XVERSION_STR(x)
