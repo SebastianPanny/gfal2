@@ -36,7 +36,7 @@
 #include "../gfal_types.h"
 #include "gfal_rfio_plugin_layer.h"
 
-static char* libdpm_name= "libdpm.so";
+static char* libdpm_name= "libdpm.so.1";
 static char* libcastor_name= "libshift.so";
 
 struct rfio_proto_ops * gfal_rfio_internal_loader_base(GError** err){

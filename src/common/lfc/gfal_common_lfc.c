@@ -613,7 +613,7 @@ gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 		return lfc_catalog;
 	}
 	
-	struct lfc_ops* ops = gfal_load_lfc( "liblfc.so", &tmp_err); // load library
+	struct lfc_ops* ops = gfal_load_lfc(GFAL_LFC_LIBRARY_NAME, &tmp_err); // load library
 	if(ops ==NULL){
 		g_propagate_prefixed_error(err, tmp_err,"[%s]", __func__);
 		pthread_mutex_unlock(&m_lfcinit);

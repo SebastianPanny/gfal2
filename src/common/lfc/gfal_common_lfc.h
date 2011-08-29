@@ -28,6 +28,7 @@
 
 #define _GNU_SOURCE
 
+#define GFAL_LFC_LIBRARY_NAME	"liblfc.so.1"
 #define GFAL_LFC_PREFIX "lfn:"
 #define GFAL_LFC_GUID_PREFIX "guid:"
 #define GFAL_LFC_GUID_PREFIX_LEN 5

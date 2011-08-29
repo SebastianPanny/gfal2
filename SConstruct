@@ -168,7 +168,6 @@ pack_list = []
 install_list = []
 
 if(main_core):
-	print ""
 	lib_main = env.Install('/usr/'+libdir+'/', mainlib)
 	version_main = env.Install('/usr/bin/', versionexe)
 	install_list += [lib_main, version_main] 
@@ -248,7 +247,6 @@ if(plugin_srm):
 			 DESCRIPTION    = 'Provide the srm access for gfal2.0',
 			 X_RPM_GROUP    = 'CERN/grid',
 			 X_RPM_REQUIRES = 'glib2, gfal2-core, srm-ifce ',
-			 X_RPM_AUTOREQPROV = "no",
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_srm, lib_plugin_srm_conf],
 			 )	
