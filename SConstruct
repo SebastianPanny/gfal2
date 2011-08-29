@@ -23,21 +23,10 @@ main_doc=False
 main_meta=False
 
 ##
-# try to find etics workspace or check if ETICS_WORKSPACE is defined
-def get_etics_dir():
-	# check en var
-	r = os.environ.get('ETICS_WORKSPACE')
-	if(r !=''  and r != None):
-		return r	
-	# try to find	
-	home = os.environ.get('HOME')
-	if(os.path.exists(home +'/workspace/.etics')):
-		return home+'/workspace/'
-	print "NO ETICS WORKSPACE FOUND, configuration set to remote etics build"
-	return "";
+
 
 # global var
-etics_build_dir=get_etics_dir()
+etics_build_dir= "/usr/" # disable
 version= '2.0'
 package_version = '1.4_preview'
 
@@ -46,7 +35,7 @@ def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_pat
 	if ARGUMENTS.get(key_value,'0') !='0':
 		tmp_path = ARGUMENTS.get(key_value,'0')
 	else:
-		tmp_path= etics_build_dir+ etics_suffix 
+		tmp_path= etics_build_dir
 	return ([ tmp_path+ include_path],[ tmp_path + lib64_path, tmp_path + lib_path ] )
 
 # glib get conf

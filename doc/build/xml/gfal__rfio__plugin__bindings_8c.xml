@@ -5,6 +5,7 @@
     <includes local="no">regex.h</includes>
     <includes local="no">time.h</includes>
     <includes local="no">glib.h</includes>
+    <includes local="no">stdlib.h</includes>
     <includes refid="gfal__common__internal_8h" local="yes">../gfal_common_internal.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../gfal_common_errverbose.h</includes>
     <includes refid="gfal__common__catalog_8h" local="yes">../gfal_common_catalog.h</includes>
@@ -14,198 +15,203 @@
     <includes refid="gfal__rfio__plugin__main_8h" local="yes">gfal_rfio_plugin_main.h</includes>
     <includes refid="gfal__rfio__plugin__layer_8h" local="yes">gfal_rfio_plugin_layer.h</includes>
     <incdepgraph>
-      <node id="975">
+      <node id="980">
         <label>sys/stat.h</label>
       </node>
-      <node id="979">
+      <node id="984">
         <label>stdarg.h</label>
       </node>
-      <node id="969">
+      <node id="974">
         <label>../gfal_common_internal.h</label>
         <link refid="gfal__common__internal_8h"/>
-        <childnode refid="970" relation="include">
+        <childnode refid="975" relation="include">
         </childnode>
-        <childnode refid="971" relation="include">
+        <childnode refid="976" relation="include">
         </childnode>
-      </node>
-      <node id="983">
-        <label>../gfal_common_errverbose.h</label>
-        <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="977" relation="include">
-        </childnode>
-        <childnode refid="979" relation="include">
-        </childnode>
-        <childnode refid="984" relation="include">
-        </childnode>
-        <childnode refid="982" relation="include">
-        </childnode>
-        <childnode refid="981" relation="include">
-        </childnode>
-        <childnode refid="968" relation="include">
-        </childnode>
-      </node>
-      <node id="970">
-        <label>gfal_prototypes.h</label>
-        <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="968" relation="include">
-        </childnode>
-      </node>
-      <node id="981">
-        <label>errno.h</label>
-      </node>
-      <node id="976">
-        <label>gfal_srm_ifce_types.h</label>
-      </node>
-      <node id="980">
-        <label>uuid/uuid.h</label>
-      </node>
-      <node id="986">
-        <label>pthread.h</label>
       </node>
       <node id="973">
-        <label>sys/types.h</label>
+        <label>stdlib.h</label>
       </node>
-      <node id="982">
-        <label>string.h</label>
-      </node>
-      <node id="985">
-        <label>../gfal_common_filedescriptor.h</label>
-        <link refid="gfal__common__filedescriptor_8h"/>
-        <childnode refid="968" relation="include">
+      <node id="988">
+        <label>../gfal_common_errverbose.h</label>
+        <link refid="gfal__common__errverbose_8h"/>
+        <childnode refid="982" relation="include">
         </childnode>
-        <childnode refid="986" relation="include">
-        </childnode>
-        <childnode refid="970" relation="include">
-        </childnode>
-        <childnode refid="977" relation="include">
-        </childnode>
-      </node>
-      <node id="972">
-        <label>unistd.h</label>
-      </node>
-      <node id="965">
-        <label>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c</label>
-        <link refid="gfal_rfio_plugin_bindings.c"/>
-        <childnode refid="966" relation="include">
-        </childnode>
-        <childnode refid="967" relation="include">
-        </childnode>
-        <childnode refid="968" relation="include">
-        </childnode>
-        <childnode refid="969" relation="include">
-        </childnode>
-        <childnode refid="983" relation="include">
-        </childnode>
-        <childnode refid="978" relation="include">
-        </childnode>
-        <childnode refid="985" relation="include">
-        </childnode>
-        <childnode refid="971" relation="include">
-        </childnode>
-        <childnode refid="987" relation="include">
-        </childnode>
-        <childnode refid="988" relation="include">
+        <childnode refid="984" relation="include">
         </childnode>
         <childnode refid="989" relation="include">
         </childnode>
-      </node>
-      <node id="987">
-        <label>gfal_rfio_plugin_bindings.h</label>
-        <link refid="gfal__rfio__plugin__bindings_8h-source"/>
-        <childnode refid="966" relation="include">
+        <childnode refid="987" relation="include">
         </childnode>
-        <childnode refid="967" relation="include">
-        </childnode>
-        <childnode refid="984" relation="include">
-        </childnode>
-        <childnode refid="978" relation="include">
-        </childnode>
-      </node>
-      <node id="989">
-        <label>gfal_rfio_plugin_layer.h</label>
-        <link refid="gfal__rfio__plugin__layer_8h-source"/>
-        <childnode refid="968" relation="include">
-        </childnode>
-        <childnode refid="974" relation="include">
-        </childnode>
-        <childnode refid="984" relation="include">
+        <childnode refid="986" relation="include">
         </childnode>
         <childnode refid="972" relation="include">
         </childnode>
       </node>
-      <node id="968">
-        <label>glib.h</label>
+      <node id="975">
+        <label>gfal_prototypes.h</label>
+        <link refid="gfal__prototypes_8h-source"/>
+        <childnode refid="972" relation="include">
+        </childnode>
       </node>
-      <node id="967">
-        <label>time.h</label>
+      <node id="986">
+        <label>errno.h</label>
       </node>
-      <node id="988">
-        <label>gfal_rfio_plugin_main.h</label>
-        <link refid="gfal__rfio__plugin__main_8h-source"/>
-        <childnode refid="966" relation="include">
-        </childnode>
-        <childnode refid="967" relation="include">
-        </childnode>
-        <childnode refid="978" relation="include">
-        </childnode>
-        <childnode refid="971" relation="include">
-        </childnode>
+      <node id="981">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="985">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="991">
+        <label>pthread.h</label>
       </node>
       <node id="978">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="979" relation="include">
+        <label>sys/types.h</label>
+      </node>
+      <node id="987">
+        <label>string.h</label>
+      </node>
+      <node id="990">
+        <label>../gfal_common_filedescriptor.h</label>
+        <link refid="gfal__common__filedescriptor_8h"/>
+        <childnode refid="972" relation="include">
         </childnode>
-        <childnode refid="980" relation="include">
-        </childnode>
-        <childnode refid="968" relation="include">
-        </childnode>
-        <childnode refid="981" relation="include">
-        </childnode>
-        <childnode refid="982" relation="include">
-        </childnode>
-        <childnode refid="974" relation="include">
+        <childnode refid="991" relation="include">
         </childnode>
         <childnode refid="975" relation="include">
         </childnode>
+        <childnode refid="982" relation="include">
+        </childnode>
+      </node>
+      <node id="977">
+        <label>unistd.h</label>
+      </node>
+      <node id="969">
+        <label>/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c</label>
+        <link refid="gfal_rfio_plugin_bindings.c"/>
         <childnode refid="970" relation="include">
         </childnode>
         <childnode refid="971" relation="include">
         </childnode>
-      </node>
-      <node id="977">
-        <label>gfal_constants.h</label>
-        <link refid="gfal__constants_8h-source"/>
-      </node>
-      <node id="966">
-        <label>regex.h</label>
-      </node>
-      <node id="984">
-        <label>stdio.h</label>
-      </node>
-      <node id="971">
-        <label>gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
         <childnode refid="972" relation="include">
-        </childnode>
-        <childnode refid="968" relation="include">
         </childnode>
         <childnode refid="973" relation="include">
         </childnode>
         <childnode refid="974" relation="include">
         </childnode>
+        <childnode refid="988" relation="include">
+        </childnode>
+        <childnode refid="983" relation="include">
+        </childnode>
+        <childnode refid="990" relation="include">
+        </childnode>
+        <childnode refid="976" relation="include">
+        </childnode>
+        <childnode refid="992" relation="include">
+        </childnode>
+        <childnode refid="993" relation="include">
+        </childnode>
+        <childnode refid="994" relation="include">
+        </childnode>
+      </node>
+      <node id="992">
+        <label>gfal_rfio_plugin_bindings.h</label>
+        <link refid="gfal__rfio__plugin__bindings_8h-source"/>
+        <childnode refid="970" relation="include">
+        </childnode>
+        <childnode refid="971" relation="include">
+        </childnode>
+        <childnode refid="989" relation="include">
+        </childnode>
+        <childnode refid="983" relation="include">
+        </childnode>
+      </node>
+      <node id="994">
+        <label>gfal_rfio_plugin_layer.h</label>
+        <link refid="gfal__rfio__plugin__layer_8h-source"/>
+        <childnode refid="972" relation="include">
+        </childnode>
+        <childnode refid="979" relation="include">
+        </childnode>
+        <childnode refid="989" relation="include">
+        </childnode>
+        <childnode refid="977" relation="include">
+        </childnode>
+      </node>
+      <node id="972">
+        <label>glib.h</label>
+      </node>
+      <node id="971">
+        <label>time.h</label>
+      </node>
+      <node id="993">
+        <label>gfal_rfio_plugin_main.h</label>
+        <link refid="gfal__rfio__plugin__main_8h-source"/>
+        <childnode refid="970" relation="include">
+        </childnode>
+        <childnode refid="971" relation="include">
+        </childnode>
+        <childnode refid="983" relation="include">
+        </childnode>
+        <childnode refid="976" relation="include">
+        </childnode>
+      </node>
+      <node id="983">
+        <label>gfal_common_catalog.h</label>
+        <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="984" relation="include">
+        </childnode>
+        <childnode refid="985" relation="include">
+        </childnode>
+        <childnode refid="972" relation="include">
+        </childnode>
+        <childnode refid="986" relation="include">
+        </childnode>
+        <childnode refid="987" relation="include">
+        </childnode>
+        <childnode refid="979" relation="include">
+        </childnode>
+        <childnode refid="980" relation="include">
+        </childnode>
         <childnode refid="975" relation="include">
         </childnode>
         <childnode refid="976" relation="include">
         </childnode>
+      </node>
+      <node id="982">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h-source"/>
+      </node>
+      <node id="970">
+        <label>regex.h</label>
+      </node>
+      <node id="989">
+        <label>stdio.h</label>
+      </node>
+      <node id="976">
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
         <childnode refid="977" relation="include">
         </childnode>
-        <childnode refid="970" relation="include">
+        <childnode refid="972" relation="include">
         </childnode>
         <childnode refid="978" relation="include">
         </childnode>
+        <childnode refid="979" relation="include">
+        </childnode>
+        <childnode refid="980" relation="include">
+        </childnode>
+        <childnode refid="981" relation="include">
+        </childnode>
+        <childnode refid="982" relation="include">
+        </childnode>
+        <childnode refid="975" relation="include">
+        </childnode>
+        <childnode refid="983" relation="include">
+        </childnode>
       </node>
-      <node id="974">
+      <node id="979">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
@@ -233,7 +239,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="41" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="41" bodyend="47"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="42" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__bindings_8c_12911b27ef711d38b0dfad01ef66e76c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
@@ -266,7 +272,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="49" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="49" bodyend="58"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="50" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__bindings_8c_10aab52127b9b71dc323115bb9fb3173b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -299,7 +305,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="60" bodyend="68"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="63" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="63" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__bindings_8c_124d0ff93f1973a224c0556eae9798fbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -332,7 +338,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="70" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="70" bodyend="78"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="73" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="73" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__bindings_8c_144168ac8175ca672ef81de453f6a357e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -365,7 +371,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="80" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="80" bodyend="88"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="83" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="83" bodyend="91"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__bindings_8c_15c5ca0c0f3136fadccb0a0e073ba3fd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -390,7 +396,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="93" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="93" bodyend="101"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="96" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="96" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__bindings_8c_16349282c24d9a002bc6025cc916ee9ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -419,7 +425,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="103" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="103" bodyend="110"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="106" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="106" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__bindings_8c_16e09629391aa1493db5e40c80fe73b34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -448,7 +454,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="112" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="112" bodyend="119"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="115" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="115" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__bindings_8c_15b01ca6de47748ae9e691d5c008c1115" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
@@ -473,7 +479,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="121" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="121" bodyend="129"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="124" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="124" bodyend="132"/>
       </memberdef>
       <memberdef kind="function" id="gfal__rfio__plugin__bindings_8c_152d0ae5bb90146d1c3859f7eafa517fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const char *</type>
@@ -486,7 +492,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="133" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="133" bodyend="135"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" line="136" bodyfile="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c" bodystart="136" bodyend="138"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -515,111 +521,114 @@
 <codeline lineno="29"><highlight class="preprocessor">#include<sp/>&lt;regex.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_filedescriptor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_rfio_plugin_bindings.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_rfio_plugin_main.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_rfio_plugin_layer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rfio_report_error(gfal_plugin_rfio_handle<sp/>h,<sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>func_name,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buff_error[2048];</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>h-&gt;rf-&gt;geterror();</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>status<sp/>=<sp/>(status<sp/>&gt;<sp/>1000)?ECOMM:status;</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>strerror_r(status,<sp/>buff_error,<sp/>2048);</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>status,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>Error<sp/>reported<sp/>by<sp/>the<sp/>external<sp/>library<sp/>rfio<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>func_name,<sp/>buff_error);</highlight></codeline>
-<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal">gfal_file_handle<sp/>gfal_rfio_openG(catalog_handle<sp/>handle<sp/>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd=<sp/>h-&gt;rf-&gt;open(path,<sp/>flag,<sp/>mode);</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(fd<sp/>&lt;=<sp/>0)</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_file_handle_new(gfal_rfio_getName(),<sp/>GINT_TO_POINTER(fd));</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
-<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_readG(catalog_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>h-&gt;rf-&gt;read(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff);</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0)</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
-<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight></codeline>
-<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_lseekG(catalog_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/>off_t<sp/>offset,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>whence,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>off_t<sp/>ret<sp/>=<sp/>h-&gt;rf-&gt;lseek(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>offset,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>whence);</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>==<sp/>((off_t)0)-1)</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)ret;</highlight></codeline>
-<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_writeG(catalog_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>h-&gt;rf-&gt;write(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff);</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0)</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
-<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_filedescriptor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_rfio_plugin_bindings.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_rfio_plugin_main.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_rfio_plugin_layer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rfio_report_error(gfal_plugin_rfio_handle<sp/>h,<sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>func_name,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buff_error[2048]=<sp/>{0};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>h-&gt;rf-&gt;geterror();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>status<sp/>=<sp/>(status<sp/>&gt;<sp/>1000)?ECOMM:status;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h-&gt;rf-&gt;serror_r(buff_error,<sp/>2048);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>status,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>Error<sp/>reported<sp/>by<sp/>the<sp/>external<sp/>library<sp/>rfio<sp/>:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>func_name,<sp/>buff_error);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">gfal_file_handle<sp/>gfal_rfio_openG(catalog_handle<sp/>handle<sp/>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_TRACE,<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>%s<sp/>-&gt;&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd=<sp/>h-&gt;rf-&gt;open(path,<sp/>flag,<sp/>mode);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(fd<sp/>&lt;=<sp/>0)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_file_handle_new(gfal_rfio_getName(),<sp/>GINT_TO_POINTER(fd));</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_readG(catalog_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>h-&gt;rf-&gt;read(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_lseekG(catalog_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/>off_t<sp/>offset,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>whence,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>off_t<sp/>ret<sp/>=<sp/>h-&gt;rf-&gt;lseek(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>offset,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>whence);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>==<sp/>((off_t)0)-1)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)ret;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_writeG(catalog_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>h-&gt;rf-&gt;write(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"></highlight></codeline>
-<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_closeG(catalog_handle<sp/>handle,<sp/>gfal_file_handle<sp/>fd,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;rf-&gt;close(GPOINTER_TO_INT(fd-&gt;fdesc));</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(fd);</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_statG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buff,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;rf-&gt;stat(name,<sp/>buff);</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight></codeline>
-<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_lstatG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buff,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;rf-&gt;lstat(name,<sp/>buff);</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight></codeline>
-<codeline lineno="121"><highlight class="normal">gfal_file_handle<sp/>gfal_rfio_opendirG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DIR<sp/>*<sp/>ret<sp/>=<sp/>h-&gt;rf-&gt;opendir(name);</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>==<sp/>NULL){</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gfal_file_handle_new(gfal_rfio_getName(),<sp/>(gpointer)<sp/>ret);</highlight></codeline>
-<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"></highlight></codeline>
-<codeline lineno="131"><highlight class="normal"></highlight></codeline>
-<codeline lineno="132"><highlight class="normal"></highlight></codeline>
-<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_rfio_getName(){</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;rfio&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_closeG(catalog_handle<sp/>handle,<sp/>gfal_file_handle<sp/>fd,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;rf-&gt;close(GPOINTER_TO_INT(fd-&gt;fdesc));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(fd);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_statG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buff,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;rf-&gt;stat(name,<sp/>buff);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_rfio_lstatG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buff,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;rf-&gt;lstat(name,<sp/>buff);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">gfal_file_handle<sp/>gfal_rfio_opendirG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_rfio_handle<sp/>h<sp/>=<sp/>(gfal_plugin_rfio_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DIR<sp/>*<sp/>ret<sp/>=<sp/>h-&gt;rf-&gt;opendir(name);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>==<sp/>NULL){</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rfio_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gfal_file_handle_new(gfal_rfio_getName(),<sp/>(gpointer)<sp/>ret);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_rfio_getName(){</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;rfio&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_bindings.c"/>
   </compounddef>
