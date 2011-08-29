@@ -33,8 +33,9 @@
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_file_handle.h"
 #include "gfal_posix_internal.h"
+#include "gfal_posix_local_file.h"
  
-static gfal_posix_gfalfilehandle_lseek(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err){
+static int gfal_posix_gfalfilehandle_lseek(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err){
 	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_posix_gfalfilehandle_lseek] incorrect args");
 	GError *tmp_err=NULL;
 	int ret = -1;

@@ -22,7 +22,15 @@
  * @version 2.0
  * @date 06/05/2011
  * */
+ 
+#define _GNU_SOURCE
+ 
+#include <stdio.h>
+#include <string.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <glib.h>
 #include <sys/stat.h>
 #include <regex.h>
@@ -274,7 +282,6 @@ int gfal_local_symlink(const char* oldpath, const char* newpath, GError** err){
  * check the validity of a classique file url
  * */ 
 gboolean gfal_check_local_url(const char* path, GError** err){
-	const size_t str = strnlen(path, GFAL_URL_MAX_LEN);
 	int ret=  regexec(&rex, path,0,NULL,0);
 	return (!ret)?TRUE:FALSE;		
 }

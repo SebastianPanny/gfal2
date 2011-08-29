@@ -24,17 +24,18 @@
  * 
  **/
  
- #include <stdio.h>
- #include <errno.h>
- #include <glib.h>
- #include "../common/gfal_prototypes.h"
- #include "gfal_posix_internal.h"
+#include <stdio.h>
+#include <errno.h>
+#include <glib.h>
+#include "../common/gfal_prototypes.h"
+#include "gfal_posix_internal.h"
+#include "gfal_posix_local_file.h"
  
 
 /**
  *  list the extended attribute of a file, internal call
  * */ 
-ssize_t gfal_posix_internal_listxattr (const char *path, const char *list, size_t size){
+ssize_t gfal_posix_internal_listxattr (const char *path, char *list, size_t size){
 	 GError* tmp_err=NULL;
 	 gfal_handle handle;
 	 ssize_t res= -1;

@@ -64,7 +64,6 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 	GError* tmp_err=NULL;
 	gfal_handle handle;
 	gfal_file_handle fhandle=NULL;
-	int ret= -1;
 	int key = -1;
 	
 	gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s ->",__func__);

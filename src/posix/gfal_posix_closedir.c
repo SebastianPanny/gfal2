@@ -27,13 +27,13 @@
 #include <glib.h>
 #include "gfal_posix_api.h"
 #include "gfal_posix_internal.h"
+#include "gfal_posix_local_file.h"
 #include "../common/gfal_constants.h" 
 #include "../common/gfal_prototypes.h"
 #include "../common/gfal_common_filedescriptor.h"
 #include "../common/gfal_common_dir_handle.h"
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_catalog.h"
-#include "gfal_posix_local_file.h"
 
 
 

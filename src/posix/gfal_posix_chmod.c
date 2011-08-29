@@ -29,7 +29,9 @@
  #include <errno.h>
  #include <glib.h>
  #include "../common/gfal_prototypes.h"
+ #include "gfal_posix_local_file.h"
  #include "gfal_posix_internal.h"
+ #include  "../common/gfal_common_catalog.h"
  
  
  int gfal_posix_internal_chmod(const char* path, mode_t mode){

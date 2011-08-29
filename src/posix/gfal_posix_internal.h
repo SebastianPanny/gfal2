@@ -37,6 +37,8 @@ int gfal_posix_internal_access (const char *path, int amode);
 
 int gfal_posix_internal_chmod(const char* path, mode_t mode);
 
+int gfal_posix_internal_rename(const char* oldpath, const char* newpath);
+
 int gfal_posix_internal_stat(const char* path, struct stat* buf);
 
 int gfal_posix_internal_lstat(const char* path, struct stat* buf);
@@ -51,6 +53,8 @@ DIR* gfal_posix_internal_opendir(const char* name);
 
 int gfal_posix_internal_open(const char* path, int flag, mode_t mode);
 
+int gfal_posix_internal_lseek(int fd, off_t offset, int whence);
+
 int gfal_posix_internal_read(int fd, void* buff, size_t s_buff);
 
 int gfal_posix_internal_close(int fd);
@@ -59,7 +63,7 @@ int gfal_posix_internal_closedir(DIR* d);
 
 ssize_t gfal_posix_internal_getxattr (const char *path, const char *name,
                         void *value, size_t size);
-ssize_t gfal_posix_internal_listxattr (const char *path, const char *list, size_t size);
+ssize_t gfal_posix_internal_listxattr (const char *path, char *list, size_t size);
 
 struct dirent* gfal_posix_internal_readdir(DIR* dir);
 

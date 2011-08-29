@@ -146,7 +146,7 @@ int lfc_accessG(catalog_handle handle, const char* lfn, int mode, GError** err){
 	gfal_lfc_init_thread(ops); 
 	gfal_auto_maintain_session(ops, &tmp_err);
 	char* url = url_converter(handle, lfn, &tmp_err);
-	int ret;
+	int ret=-1;
 	if(url){
 		ret = ops->access(url, mode);
 		if(ret <0){

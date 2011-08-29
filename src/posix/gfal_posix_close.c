@@ -31,6 +31,7 @@
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_file_handle.h"
 #include "gfal_posix_internal.h"
+#include "gfal_posix_local_file.h"
  
 
 

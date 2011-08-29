@@ -156,7 +156,7 @@ int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError
 
 
 
-
+int gfal_catalog_chmodG(gfal_handle handle, const char* path, mode_t mode, GError** err);
 int gfal_catalog_statG(gfal_handle handle,const char* path, struct stat* st, GError** err);
 int gfal_catalog_renameG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err);
 int gfal_catalog_symlinkG(gfal_handle handle, const char* oldpath, const char* newpath, GError** err);

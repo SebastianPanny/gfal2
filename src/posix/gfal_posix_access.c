@@ -36,7 +36,7 @@
 
 
 int gfal_posix_internal_access (const char *path, int amode){
-	int resu = -1, ret;
+	int resu = -1;
 	GError* tmp_err=NULL;
 	gfal_handle handle;
 

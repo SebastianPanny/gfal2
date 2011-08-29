@@ -24,11 +24,12 @@
  * 
  **/
  
- #include <stdio.h>
- #include <errno.h>
- #include <glib.h>
- #include "../common/gfal_prototypes.h"
- #include "gfal_posix_internal.h"
+#include <stdio.h>
+#include <errno.h>
+#include <glib.h>
+#include "../common/gfal_prototypes.h"
+#include "gfal_posix_internal.h"
+#include "gfal_posix_local_file.h"
  
  
 ssize_t gfal_posix_internal_getxattr (const char *path, const char *name,

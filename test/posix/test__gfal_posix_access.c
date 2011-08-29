@@ -47,7 +47,7 @@ void test_access_posix_guid_exist()
 	gfal_posix_check_error();
 	gfal_posix_clear_error();
 	ret = gfal_access(TEST_GUID_NOEXIST_ACCESS, F_OK);
-	assert_true_with_message(ret == -1 && errno == ENOENT, "must be a non exist guid ");
+	assert_true_with_message(ret == -1 && errno == ENOENT && gfal_posix_code_error()== ENOENT, "must be a non exist guid %d %d %d", ret, errno, gfal_posix_code_error());
 	gfal_posix_clear_error();
 	ret = gfal_access("google.com", F_OK);
 	assert_true_with_message(ret == -1 && errno == EPROTONOSUPPORT && gfal_posix_code_error() == EPROTONOSUPPORT, " must be a syntax error");
