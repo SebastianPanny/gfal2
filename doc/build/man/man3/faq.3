@@ -24,7 +24,7 @@ GFal 2.0 provide the getxattr, setxattr, listxattr calls for the plateform's spe
 .IP "\(bu" 2
 char turl[2048];
 .IP "\(bu" 2
-gfal_getxattr('srm://masrul/monfichier', 'srm.turl', turl, 2048);
+gfal_getxattr('srm://masrul/monfichier', 'user.replicas', turl, 2048);
 .PP
 .PP
 .SS "3. I would make a GUID to LFC resolution with GFAL 2.0 and the gfal_lfc_plugin, How to do it ? "
@@ -32,7 +32,7 @@ gfal_getxattr('srm://masrul/monfichier', 'srm.turl', turl, 2048);
 .IP "\(bu" 2
 char lfn[2048];
 .IP "\(bu" 2
-gfal_getxattr('srm://masrul/monfichier', 'lfc.guid', lfn, 2048);
+gfal_getxattr('srm://masrul/monfichier', 'user.guid', lfn, 2048);
 .PP
 .PP
 .SS "4. I want a more verbose error report, How to do it ? "

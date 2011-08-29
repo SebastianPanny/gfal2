@@ -11,13 +11,13 @@ Doc File for a FAQ
 \paragraph*{2. I would make a SRM to TURL resolution with GFAL 2.0 and the gfal\_\-srm\_\-plugin, How to do it ? }
 
 \begin{itemize}
-\item char turl[2048];\item gfal\_\-getxattr(\char`\"{}srm://masrul/monfichier\char`\"{}, \char`\"{}srm.turl\char`\"{}, turl, 2048);\end{itemize}
+\item char turl[2048];\item gfal\_\-getxattr(\char`\"{}srm://masrul/monfichier\char`\"{}, \char`\"{}user.replicas\char`\"{}, turl, 2048);\end{itemize}
 
 
 \paragraph*{3. I would make a GUID to LFC resolution with GFAL 2.0 and the gfal\_\-lfc\_\-plugin, How to do it ? }
 
 \begin{itemize}
-\item char lfn[2048];\item gfal\_\-getxattr(\char`\"{}srm://masrul/monfichier\char`\"{}, \char`\"{}lfc.guid\char`\"{}, lfn, 2048);\end{itemize}
+\item char lfn[2048];\item gfal\_\-getxattr(\char`\"{}srm://masrul/monfichier\char`\"{}, \char`\"{}user.guid\char`\"{}, lfn, 2048);\end{itemize}
 
 
 \paragraph*{4. I want a more verbose error report, How to do it ? }

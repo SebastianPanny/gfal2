@@ -34,6 +34,7 @@
     <includedby refid="gfal__common__srm__open_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_open.c</includedby>
     <includedby refid="gfal__common__srm__rm_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rm.c</includedby>
     <includedby refid="gfal__posix__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_access.c</includedby>
+    <includedby refid="gfal__posix__chmod_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_chmod.c</includedby>
     <includedby refid="gfal__posix__closedir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</includedby>
     <includedby refid="gfal__posix__mkdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</includedby>
     <includedby refid="gfal__posix__open_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</includedby>
@@ -364,9 +365,17 @@
         <link refid="gfal__posix__local__file_8h-source"/>
         <childnode refid="265" relation="include">
         </childnode>
+        <childnode refid="267" relation="include">
+        </childnode>
+        <childnode refid="268" relation="include">
+        </childnode>
         <childnode refid="269" relation="include">
         </childnode>
+        <childnode refid="270" relation="include">
+        </childnode>
         <childnode refid="286" relation="include">
+        </childnode>
+        <childnode refid="271" relation="include">
         </childnode>
         <childnode refid="272" relation="include">
         </childnode>
@@ -539,6 +548,8 @@
         <childnode refid="235" relation="include">
         </childnode>
         <childnode refid="265" relation="include">
+        </childnode>
+        <childnode refid="267" relation="include">
         </childnode>
         <childnode refid="269" relation="include">
         </childnode>
@@ -979,6 +990,36 @@
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="153" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="239" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__catalog_8h_112b613d1db9c17e70e679ef7285f6a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_catalog_chmodG</definition>
+        <argsstring>(gfal_handle handle, const char *path, mode_t mode, GError **err)</argsstring>
+        <name>gfal_catalog_chmodG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>mode_t</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute the chmod function on the first compatible catalog ( checked with check_url func ) <simplesect kind="return"><para>0 if success or -1 and set the GError to the correct errno value with a description msg </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="159" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="340" bodyend="356"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_128ca68c00e4a67bc158975ef3e4f8013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -1749,7 +1790,7 @@
 <codeline lineno="156"><highlight class="normal"></highlight></codeline>
 <codeline lineno="157"><highlight class="normal"></highlight></codeline>
 <codeline lineno="158"><highlight class="normal"></highlight></codeline>
-<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_112b613d1db9c17e70e679ef7285f6a6f" kindref="member">gfal_catalog_chmodG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="160"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_128ca68c00e4a67bc158975ef3e4f8013" kindref="member">gfal_catalog_statG</ref>(gfal_handle<sp/>handle,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>st,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_199ffb13510951a6fe79f3c33305ea189" kindref="member">gfal_catalog_renameG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>oldpath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newpath,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="162"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_1b4055bd8f8a33a10ef7a5814a0c1e1bf" kindref="member">gfal_catalog_symlinkG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>oldpath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newpath,<sp/>GError**<sp/>err);</highlight></codeline>

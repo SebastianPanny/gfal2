@@ -2,9 +2,13 @@
 \label{gfal__posix__local__file_8c}\index{/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c@{/home/adevress/myworkspace/gfal/src/posix/gfal\_\-posix\_\-local\_\-file.c}}
 file for the internal func of the posix interface 
 
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
 {\tt \#include $<$unistd.h$>$}\par
-{\tt \#include $<$glib.h$>$}\par
+{\tt \#include $<$sys/types.h$>$}\par
 {\tt \#include $<$sys/stat.h$>$}\par
+{\tt \#include $<$fcntl.h$>$}\par
+{\tt \#include $<$glib.h$>$}\par
 {\tt \#include $<$regex.h$>$}\par
 {\tt \#include $<$attr/xattr.h$>$}\par
 {\tt \#include \char`\"{}../common/gfal\_\-common\_\-errverbose.h\char`\"{}}\par
@@ -12,6 +16,9 @@ file for the internal func of the posix interface
 {\tt \#include \char`\"{}gfal\_\-posix\_\-local\_\-file.h\char`\"{}}\par
 \subsection*{Defines}
 \begin{CompactItemize}
+\item 
+\#define \textbf{\_\-GNU\_\-SOURCE}\label{gfal__posix__local__file_8c_53abf256730d533302d1910e5fb61efe}
+
 \item 
 \#define \textbf{GFAL\_\-LOCAL\_\-PREFIX}~\char`\"{}file:\char`\"{}\label{gfal__posix__local__file_8c_72e3f23638773071a6db4d9a354ccfdb}
 

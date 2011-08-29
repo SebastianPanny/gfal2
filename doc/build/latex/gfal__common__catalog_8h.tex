@@ -68,6 +68,8 @@ int \bf{gfal\_\-catalogs\_\-delete} (gfal\_\-handle, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalogs\_\-access\-G} (gfal\_\-handle handle, const char $\ast$path, int mode, GError $\ast$$\ast$err)
 \item 
+int \bf{gfal\_\-catalog\_\-chmod\-G} (gfal\_\-handle handle, const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)
+\item 
 int \bf{gfal\_\-catalog\_\-stat\-G} (gfal\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-catalog\_\-rename\-G} (gfal\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
@@ -123,6 +125,13 @@ the header file of the common lib for the catalog management
 
 
 \subsection{Function Documentation}
+\index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_chmodG@{gfal\_\-catalog\_\-chmodG}}
+\index{gfal_catalog_chmodG@{gfal\_\-catalog\_\-chmodG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-chmod\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_12b613d1db9c17e70e679ef7285f6a6f}
+
+
+Execute the chmod function on the first compatible catalog ( checked with check\_\-url func ) \begin{Desc}
+\item[Returns:]0 if success or -1 and set the GError to the correct errno value with a description msg \end{Desc}
 \index{gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}!gfal_catalog_closedirG@{gfal\_\-catalog\_\-closedirG}}
 \index{gfal_catalog_closedirG@{gfal\_\-catalog\_\-closedirG}!gfal_common_catalog.h@{gfal\_\-common\_\-catalog.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-catalog\_\-closedir\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__catalog_8h_348fe15690faed2e2731d15eb6cc7856}

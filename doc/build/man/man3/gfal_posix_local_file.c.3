@@ -6,11 +6,19 @@
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <stdio.h>\fP
+.br
+\fC#include <string.h>\fP
+.br
 \fC#include <unistd.h>\fP
 .br
-\fC#include <glib.h>\fP
+\fC#include <sys/types.h>\fP
 .br
 \fC#include <sys/stat.h>\fP
+.br
+\fC#include <fcntl.h>\fP
+.br
+\fC#include <glib.h>\fP
 .br
 \fC#include <regex.h>\fP
 .br
@@ -26,6 +34,9 @@
 .SS "Defines"
 
 .in +1c
+.ti -1c
+.RI "#define \fB_GNU_SOURCE\fP"
+.br
 .ti -1c
 .RI "#define \fBGFAL_LOCAL_PREFIX\fP   'file:'"
 .br

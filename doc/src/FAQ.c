@@ -14,11 +14,11 @@
 
 	<h3> 2. I would make a SRM to TURL resolution with GFAL 2.0 and the gfal_srm_plugin, How to do it ? </h3>
 		- char turl[2048];
-		- gfal_getxattr("srm://masrul/monfichier", "srm.turl", turl, 2048);
+		- gfal_getxattr("srm://masrul/monfichier", "user.replicas", turl, 2048);
 
 	<h3> 3. I would make a GUID to LFC resolution with GFAL 2.0 and the gfal_lfc_plugin, How to do it ? </h3>
 		- char lfn[2048];
-		- gfal_getxattr("srm://masrul/monfichier", "lfc.guid", lfn, 2048);
+		- gfal_getxattr("srm://masrul/monfichier", "user.guid", lfn, 2048);
 
 	<h3 > 4. I want a more verbose error report, How to do it ? </h3>
 		- \ref gfal_set_verbose( GFAL_VERBOSE_DEBUG | GFAL_VERBOSE_VERBOSE );
