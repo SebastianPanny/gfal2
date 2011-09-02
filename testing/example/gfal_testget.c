@@ -40,7 +40,7 @@ int main(int argc,char **argv)
 		printf("SURL %s Ready - TURL: %s\n", argv[1], turl_buff);
 	else {
 		printf("SURL %s Failed:\n%s\n", argv[1]);
-		perror(" gfal_getxattr");
+		gfal_posix_check_error();
 	}
 		
 	return((res>0)?0:-1);

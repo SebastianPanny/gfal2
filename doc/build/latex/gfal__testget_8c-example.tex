@@ -41,7 +41,7 @@ This exemple show how to convert a surl to a turl ex : use case with SRM plugin 
 40                 printf("SURL %s Ready - TURL: %s\n", argv[1], turl_buff);
 41         else {
 42                 printf("SURL %s Failed:\n%s\n", argv[1]);
-43                 perror(" gfal_getxattr");
+43                 gfal_posix_check_error();
 44         }
 45                 
 46         return((res>0)?0:-1);

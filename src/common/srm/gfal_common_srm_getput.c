@@ -35,25 +35,11 @@
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
 #include "gfal_common_srm_internal_layer.h"
+#include "gfal_common_srm_endpoint.h"
 
 
 
 
-static gboolean gfal_srm_surl_group_checker(gfal_srmv2_opt* opts,char** surls, GError** err){
-	GError* tmp_err=NULL;
-	if(surls == NULL ){
-		g_set_error(err, 0, EINVAL, "[%s] Invalid argument surls ", __func__);
-		return FALSE;
-	}
-	while(*surls != NULL){
-		if( gfal_surl_checker(opts, *surls, &tmp_err) != 0){
-			g_propagate_prefixed_error(err,tmp_err,"[%s]",__func__);	
-			return FALSE;
-		}
-		surls++;
-	}
-	return TRUE;
-}
 
 
 static int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_pinfilestatus* statuses, char* reqtoken, int n, gfal_srm_result** resu, GError** err){
@@ -80,14 +66,13 @@ static int gfal_srm_getTURLS_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
 			
 	GError* tmp_err=NULL;
-	char** p;
 	struct srm_context context;
-	int ret=0,i=0;
+	int ret=0;
 	struct srm_preparetoget_input preparetoget_input;
 	struct srm_preparetoget_output preparetoget_output;
 	const int err_size = 2048;
 	
-	char errbuf[err_size] ; memset(errbuf,0,err_size*sizeof(char));
+	char errbuf[err_size]; errbuf[0]='\0';
 	size_t n_surl = g_strv_length (surls);									// n of surls
 		
 	// set the structures datafields	
@@ -101,7 +86,7 @@ static int gfal_srm_getTURLS_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint
 	
 	ret = gfal_srm_external_call.srm_prepare_to_get(&context,&preparetoget_input,&preparetoget_output);
 	if(ret < 0){
-		g_set_error(&tmp_err,0,errno,"call to srm_ifce error: %s",errbuf);
+		gfal_srm_report_error(errbuf, &tmp_err);
 	} else{
 		gfal_srm_convert_filestatuses_to_srm_result(preparetoget_output.filestatuses, preparetoget_output.token, ret, resu,  &tmp_err);
     	gfal_srm_external_call.srm_srmv2_pinfilestatus_delete(preparetoget_output.filestatuses, ret);
@@ -120,7 +105,6 @@ static int gfal_srm_putTURLS_srmv2_internal(gfal_srmv2_opt* opts , char* endpoin
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srm_putTURLS_srmv2_internal] GList passed null");
 			
 	GError* tmp_err=NULL;
-	char** p;
 	struct srm_context context;
 	int ret=0,i=0;
 	struct srm_preparetoput_input preparetoput_input;
@@ -128,7 +112,7 @@ static int gfal_srm_putTURLS_srmv2_internal(gfal_srmv2_opt* opts , char* endpoin
 	const int err_size = 2048;
 
 	
-	char errbuf[err_size] ; memset(errbuf,0,err_size*sizeof(char));
+	char errbuf[err_size]; errbuf[0]='\0';
 	size_t n_surl = g_strv_length (surls);									// n of surls
 	gint64 filesize_tab[n_surl];
 	for(i=0; i < n_surl;++i)
@@ -146,7 +130,7 @@ static int gfal_srm_putTURLS_srmv2_internal(gfal_srmv2_opt* opts , char* endpoin
 	
 	ret = gfal_srm_external_call.srm_prepare_to_put(&context,&preparetoput_input,&preparetoput_output);
 	if(ret < 0){
-		g_set_error(&tmp_err,0,errno,"call to srm_ifce error: %s",errbuf);
+		gfal_srm_report_error(errbuf, &tmp_err);
 	} else{
 		gfal_srm_convert_filestatuses_to_srm_result(preparetoput_output.filestatuses, preparetoput_output.token, ret, resu, &tmp_err);
     	gfal_srm_external_call.srm_srmv2_pinfilestatus_delete(preparetoput_output.filestatuses, ret);
@@ -292,13 +276,11 @@ static int gfal_srm_putdone_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint,
 	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srm_putdone_srmv2_internal] invalid args ");
 			
 	GError* tmp_err=NULL;
-	char** p;
 	struct srm_context context;
-	int ret=0,i=0;
+	int ret=0;
 	struct srm_putdone_input putdone_input;
 	struct srmv2_filestatus *statuses;
 	const int err_size = 2048;
-	gfal_srm_result* resu=NULL;
 	
 	char errbuf[err_size] ; memset(errbuf,0,err_size*sizeof(char));
 	size_t n_surl = g_strv_length (surls);									// n of surls

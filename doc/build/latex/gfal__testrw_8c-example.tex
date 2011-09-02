@@ -18,7 +18,7 @@ This exemple show how to open, write a file and read it after ex : use case with
 18    char obuf[BLKLEN];
 19    int rc;
 20 
-21    gfal_set_verbose(GFAL_VERBOSE_DEBUG);        // switch Gfal in verbose mode
+21    // gfal_set_verbose(GFAL_VERBOSE_TRACE | GFAL_VERBOSE_VERBOSE);      // switch Gfal in verbose mode
 22    if (argc != 2) {
 23            fprintf (stderr, "usage: %s filename\n", argv[0]);
 24            exit (1);
@@ -29,7 +29,7 @@ This exemple show how to open, write a file and read it after ex : use case with
 29 
 30    printf ("creating file %s\n", argv[1]);
 31    if ((fd = gfal_open (argv[1], O_WRONLY|O_CREAT, 0644)) < 0) {
-32            perror ("gfal_open");
+32                 gfal_posix_check_error();
 33            exit (1);
 34    }
 35    
@@ -37,7 +37,7 @@ This exemple show how to open, write a file and read it after ex : use case with
 37 
 38         if ((rc = gfal_write (fd, obuf, BLKLEN)) != BLKLEN) {
 39            if (rc < 0)
-40                    perror ("gfal_write");
+40                    gfal_posix_check_error();
 41            else
 42                    fprintf (stderr, "gfal_write returns %d\n", rc);
 43            (void) gfal_close (fd);
@@ -46,7 +46,7 @@ This exemple show how to open, write a file and read it after ex : use case with
 46         printf ("write successful\n");
 47 
 48         if ((rc = gfal_close (fd)) < 0) {
-49            perror ("gfal_close");
+49            gfal_posix_check_error();
 50            exit (1);
 51         }
 52         printf ("close successful\n");
@@ -54,14 +54,14 @@ This exemple show how to open, write a file and read it after ex : use case with
 54 
 55         printf ("reading back %s\n", argv[1]);
 56         if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
-57            perror ("gfal_open");
+57            gfal_posix_check_error();
 58            exit (1);
 59         }
 60         printf ("open successful, fd = %d\n", fd);
 61 
 62         if ((rc = gfal_read (fd, ibuf, BLKLEN)) != BLKLEN) {
 63                    if (rc < 0)
-64                            perror ("gfal_read");
+64                           gfal_posix_check_error();
 65                    else
 66                            fprintf (stderr, "gfal_read returns %d\n", rc);
 67                    (void) gfal_close (fd);
@@ -70,7 +70,7 @@ This exemple show how to open, write a file and read it after ex : use case with
 70            printf ("read successful\n");
 71 
 72            if ((rc = gfal_close (fd)) < 0) {
-73                    perror ("gfal_close");
+73                    gfal_posix_check_error();
 74                    exit (1);
 75            }
 76            printf ("close successful\n");

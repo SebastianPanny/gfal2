@@ -28,13 +28,13 @@ main(int argc, char **argv)
 	printf ("Checking RW access to '%s'...\n",file);
 	if (gfal_access (file, R_OK|W_OK) < 0) {
 		error = 1;
-		perror ("gfal_access");
+		gfal_posix_check_error();
 	}
 
 	printf ("Changing mode of '%s' to %o...\n", file, mode);
 	if (gfal_chmod (file, mode) < 0) {
 		error = 1;
-		perror ("gfal_chmod");
+		gfal_posix_check_error();
 	}
 
 	if (error) exit (1);

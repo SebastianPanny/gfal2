@@ -25,6 +25,7 @@
 #include "gfal_common_srm.h"
 #include "gfal_common_srm_rmdir.h"
 #include "gfal_common_srm_internal_layer.h"
+#include "gfal_common_srm_endpoint.h"
 
 #include "../gfal_constants.h"
 #include "../gfal_common_errverbose.h"
@@ -35,9 +36,10 @@ int gfal_srmv2_rmdir_internal(gfal_srmv2_opt* opts, char* endpoint, const char* 
 	struct srm_rmdir_input rmdir_input;
 	struct srm_rmdir_output rmdir_output;
 	GError* tmp_err=NULL;
+	char errbuf[GFAL_ERRMSG_LEN]={0};
 	int ret = -1;
 	
-	gfal_srm_external_call.srm_context_init(&context, endpoint, NULL, 0, gfal_get_verbose());
+	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());
 
 	rmdir_input.recursive = 0;
 	rmdir_input.surl = (char*)surl;
@@ -53,7 +55,7 @@ int gfal_srmv2_rmdir_internal(gfal_srmv2_opt* opts, char* endpoint, const char* 
 		gfal_srm_external_call.srm_srmv2_filestatus_delete(rmdir_output.statuses,1);
 		gfal_srm_external_call.srm_srm2__TReturnStatus_delete (rmdir_output.retstatus);
 	}else{
-		g_set_error(&tmp_err, 0, ECOMM, " COMM error reported with the srm_ifce %s",  strerror(errno));
+		gfal_srm_report_error(errbuf, &tmp_err);
 		ret=-1;		
 	}
 	
@@ -76,10 +78,10 @@ int gfal_srm_rmdirG(catalog_handle ch, const char* surl, GError** err){
 		if(srm_type == PROTO_SRMv2){
 			ret = gfal_srmv2_rmdir_internal(opts, full_endpoint, surl, &tmp_err);
 		}else if (srm_type == PROTO_SRM){
-			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
+			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "support for SRMv1 is removed in 2.0, failure");
 			ret = -1;
 		}else {
-			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] Unknow version of the protocol SRM , failure");
+			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Unknow version of the protocol SRM , failure");
 			ret = -1;			
 		}
 		

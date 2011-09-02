@@ -18,7 +18,7 @@ main(int argc, char **argv)
    char obuf[BLKLEN];
    int rc;
 
-   gfal_set_verbose(GFAL_VERBOSE_DEBUG);	// switch Gfal in verbose mode
+   // gfal_set_verbose(GFAL_VERBOSE_TRACE | GFAL_VERBOSE_VERBOSE);	// switch Gfal in verbose mode
    if (argc != 2) {
 	   fprintf (stderr, "usage: %s filename\n", argv[0]);
 	   exit (1);
@@ -29,7 +29,7 @@ main(int argc, char **argv)
 
    printf ("creating file %s\n", argv[1]);
    if ((fd = gfal_open (argv[1], O_WRONLY|O_CREAT, 0644)) < 0) {
-	   perror ("gfal_open");
+		gfal_posix_check_error();
 	   exit (1);
    }
    
@@ -37,7 +37,7 @@ main(int argc, char **argv)
 
 	if ((rc = gfal_write (fd, obuf, BLKLEN)) != BLKLEN) {
 	   if (rc < 0)
-		   perror ("gfal_write");
+		   gfal_posix_check_error();
 	   else
 		   fprintf (stderr, "gfal_write returns %d\n", rc);
 	   (void) gfal_close (fd);
@@ -46,7 +46,7 @@ main(int argc, char **argv)
 	printf ("write successful\n");
 
 	if ((rc = gfal_close (fd)) < 0) {
-	   perror ("gfal_close");
+	   gfal_posix_check_error();
 	   exit (1);
 	}
 	printf ("close successful\n");
@@ -54,14 +54,14 @@ main(int argc, char **argv)
 
 	printf ("reading back %s\n", argv[1]);
 	if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
-	   perror ("gfal_open");
+	   gfal_posix_check_error();
 	   exit (1);
 	}
 	printf ("open successful, fd = %d\n", fd);
 
 	if ((rc = gfal_read (fd, ibuf, BLKLEN)) != BLKLEN) {
 		   if (rc < 0)
-			   perror ("gfal_read");
+			  gfal_posix_check_error();
 		   else
 			   fprintf (stderr, "gfal_read returns %d\n", rc);
 		   (void) gfal_close (fd);
@@ -70,7 +70,7 @@ main(int argc, char **argv)
 	   printf ("read successful\n");
 
 	   if ((rc = gfal_close (fd)) < 0) {
-		   perror ("gfal_close");
+		   gfal_posix_check_error();
 		   exit (1);
 	   }
 	   printf ("close successful\n");

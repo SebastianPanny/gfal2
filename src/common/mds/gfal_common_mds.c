@@ -56,7 +56,7 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 	char err_buff[GFAL_ERRMSG_LEN];
 	memset(err_buff,'\0',GFAL_ERRMSG_LEN*sizeof(char));
 	const int ret = gfal_mds_external_call.sd_get_se_types_and_endpoints(host, se_types, se_endpoints, err_buff, GFAL_ERRMSG_LEN);
-	if(ret)
+	if(ret){
 		if(errno == ECOMM){
 			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return a COMM error, maybe the LCG_GFAL_INFOSYS env var is not set properly :%s ", err_buff);			
 		}else if(errno == EINVAL){
@@ -64,6 +64,7 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		}else{
 			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return an error ( maybe voms-proxy is no initiated properly ? ) :%s", err_buff);
 		}
+	}
 	pthread_mutex_unlock(&m_mds);
 	return ret;	
 }
@@ -76,7 +77,6 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
  char * gfal_get_lfchost_bdii(gfal_handle handle, GError** err){
 	 	pthread_mutex_lock(&m_mds);
 		char* lfc_host = NULL;
-		GError* tmp_err = NULL;
 		size_t s_errbuff = GFAL_ERRMSG_LEN;
 		char errbuff[s_errbuff];
 		memset(errbuff, '\0', sizeof(char)*s_errbuff);

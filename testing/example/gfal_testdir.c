@@ -21,11 +21,8 @@ main(int argc, char **argv)
 		exit (1);
 	}
 
-#if defined(__USE_FILE_OFFSET64)
-	while ((d = gfal_readdir64 (dir))) {
-#else
+
 	while ((d = gfal_readdir (dir))) {
-#endif
 		printf ("%s\n", d->d_name);
 	}
 

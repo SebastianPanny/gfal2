@@ -16,10 +16,16 @@
   </ul></div>
 Doc File for a FAQ<p>
 <dl compact><dt><b>Author:</b></dt><dd>: Devresse Adrien</dd></dl>
-<h3>1. Which are the main changes from gfal 1.0 ? </h3>
+<h3>1. Why switch to GFAL 2.0 ? </h3>
+<p>
+10 good reasons to switch to GFAL 2.0 : <br>
+ GFAL 2.0 :<ul>
+<li>is <b>extensible</b> with the new plugin system. Any protocol can be supported with a plugin.</li><li>is independant of the technologies provided ( <b>no</b> <b>globus</b> <b>dependencies</b>, no need to install technologies that are not used ).</li><li>is now <b>thread-safe</b>.</li><li>has a new error's system with full string errors and a "TRACE" mode.</li><li>is now designed to be as POSIX as possible, No non-posix like functions will be provided in the future.</li><li>manages the extended attributes system for advanced functions.</li><li>is smaller and faster</li><li>has an integrated cache system.</li><li>is given with <b>gfalFS</b> , a NEW file system which can mount any point in the GRID like a local folder.</li><li>is fully supported and easy to install on EMI.</li></ul>
+<p>
+<h3>1. What are the main changes from gfal 1.0 ? </h3>
 <p>
 <ul>
-<li>GFal 2.0 is independant of the technologies provided ( plugin system )</li><li>GFal 2.0 is now designed to be as POSIX as possible, No non-posix like functions will be provided in the future</li><li>GFal 2.0 provide the getxattr, setxattr, listxattr calls for the plateform's specific calls ( turl resolution, guid resolution, ...)</li></ul>
+<li>the NON-POSIX functions of 1.0 do not exist anymore, they are mapped to POSIX one.</li><li>the gfal_request system is now replaced by a more simpler one.</li><li>GFal 2.0 provide the getxattr, setxattr, listxattr calls for the plateform's specific calls ( turl resolution, guid resolution, ...)</li></ul>
 <p>
 <h3>2. I would make a SRM to TURL resolution with GFAL 2.0 and the gfal_srm_plugin, How to do it ? </h3>
 <p>
@@ -34,7 +40,7 @@ Doc File for a FAQ<p>
 <h3>4. I want a more verbose error report, How to do it ? </h3>
 <p>
 <ul>
-<li><a class="el" href="gfal__common__errverbose_8h.html#df0f68db7d70d7ce1f530c7a51f9cc83">gfal_set_verbose</a>( GFAL_VERBOSE_DEBUG | GFAL_VERBOSE_VERBOSE );</li><li>[...]</li><li><a class="el" href="group__posix__group.html#g57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error()</a>; // called after each gfal_* call</li></ul>
+<li><a class="el" href="group__posix__group.html#g331e181c2fadd801321ad43033835052">gfal_set_verbose</a>( GFAL_VERBOSE_DEBUG | GFAL_VERBOSE_VERBOSE );</li><li>[...]</li><li><a class="el" href="gfal__posix__ng_8c.html#57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error()</a>; // called after each gfal_* call</li></ul>
 <p>
 <h3>4. I need to create a GFAL 2.0 plugin, How to do it ? </h3>
 <p>
@@ -44,23 +50,23 @@ Doc File for a FAQ<p>
 <h3>5 . I need to implement a specific non-POSIX call in GFAL, How to do it ? </h3>
 <p>
 <ul>
-<li>just register the proper getxattr or setxattr with a specific key.</li></ul>
+<li>create a new xattr's key for your needs.</li></ul>
 <p>
 <h3>6. What about the licence ? : </h3>
 <p>
 <ul>
-<li>The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : <a class="el" href="apl.html">apl</a></li></ul>
+<li>The license is still unchanged from gfal 1.0, It is a Apache 2.0 license : <a class="el" href="apl.html">apl</a></li></ul>
 <p>
 <h3>7. I get a Communication Error ( ECOMM ) on all my gfal Calls : </h3>
 <p>
 <ul>
-<li>In Most of the plugins (lfc, rfio, dcap, srm), this error is due to an access right problem. try to setup your voms-proxy with voms-prox-init --voms [your vo] and try again.</li></ul>
+<li>ECOMM means an un-usual Error, reported by the server-side. In Most of the case, this error is due to an access right problem. try to setup your voms-proxy with voms-prox-init --voms [your vo] and try again.</li></ul>
 <p>
 <h3>8. I Wish add/remove a plugin to the plugin list, How to do it ? </h3>
 <p>
 <ul>
-<li>The list of the gfal's plugin is present in the environment variable GFAL_PLUGIN_LIST, you have just to modify this environment variable before start your gfal's program. </li></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Aug 29 17:04:21 2011 for CERN org.glite.Gfal by&nbsp;
+<li>The list of the gfal's plugin loaded is in the environment variable GFAL_PLUGIN_LIST, you have just to modify this environment variable before start your gfal's program. </li></ul>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Sep 1 15:47:13 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

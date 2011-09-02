@@ -22,19 +22,19 @@ main(int argc, char **argv)
 
 	printf ("Creating directory 'olddir'...\n");
 	if (gfal_mkdir (olddir, 0700) < 0) {
-		perror ("gfal_mkdir");
+		gfal_posix_check_error();
 		exit (1);
 	}
 
 	printf ("Renaming directory 'olddir' to 'newdir'...\n");
 	if (gfal_rename (olddir, newdir) < 0) {
-		perror ("gfal_rename");
+		gfal_posix_check_error();
 		exit (1);
 	}
 
 	printf ("Removing directory 'newdir'...\n");
 	if (gfal_rmdir (newdir) < 0) {
-		perror ("gfal_rmdir");
+		gfal_posix_check_error();
 		exit (1);
 	}
 

@@ -11,183 +11,196 @@
     <includes refid="gfal__common__internal_8h" local="yes">../gfal_common_internal.h</includes>
     <includes refid="gfal__common__srm__endpoint_8h" local="yes">gfal_common_srm_endpoint.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../gfal_common_errverbose.h</includes>
+    <includes refid="gfal__common__mds_8h" local="yes">../mds/gfal_common_mds.h</includes>
     <incdepgraph>
-      <node id="1276">
+      <node id="1280">
         <label>sys/stat.h</label>
       </node>
-      <node id="1280">
+      <node id="1284">
         <label>stdarg.h</label>
       </node>
-      <node id="1270">
+      <node id="1274">
         <label>../gfal_common_internal.h</label>
         <link refid="gfal__common__internal_8h"/>
-        <childnode refid="1271" relation="include">
+        <childnode refid="1275" relation="include">
         </childnode>
-        <childnode refid="1273" relation="include">
+        <childnode refid="1277" relation="include">
         </childnode>
       </node>
-      <node id="1268">
+      <node id="1272">
         <label>stdlib.h</label>
       </node>
-      <node id="1285">
+      <node id="1289">
         <label>../gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="1278" relation="include">
+        <childnode refid="1282" relation="include">
         </childnode>
-        <childnode refid="1280" relation="include">
+        <childnode refid="1284" relation="include">
         </childnode>
-        <childnode refid="1286" relation="include">
-        </childnode>
-        <childnode refid="1265" relation="include">
+        <childnode refid="1290" relation="include">
         </childnode>
         <childnode refid="1269" relation="include">
         </childnode>
-        <childnode refid="1272" relation="include">
+        <childnode refid="1273" relation="include">
+        </childnode>
+        <childnode refid="1276" relation="include">
         </childnode>
       </node>
-      <node id="1271">
+      <node id="1275">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="1272" relation="include">
+        <childnode refid="1276" relation="include">
         </childnode>
       </node>
-      <node id="1269">
+      <node id="1273">
         <label>errno.h</label>
       </node>
-      <node id="1263">
+      <node id="1267">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c</label>
         <link refid="gfal_common_srm_endpoint.c"/>
-        <childnode refid="1264" relation="include">
-        </childnode>
-        <childnode refid="1265" relation="include">
-        </childnode>
-        <childnode refid="1266" relation="include">
-        </childnode>
-        <childnode refid="1267" relation="include">
-        </childnode>
         <childnode refid="1268" relation="include">
         </childnode>
         <childnode refid="1269" relation="include">
         </childnode>
         <childnode refid="1270" relation="include">
         </childnode>
-        <childnode refid="1282" relation="include">
+        <childnode refid="1271" relation="include">
         </childnode>
-        <childnode refid="1285" relation="include">
+        <childnode refid="1272" relation="include">
+        </childnode>
+        <childnode refid="1273" relation="include">
+        </childnode>
+        <childnode refid="1274" relation="include">
+        </childnode>
+        <childnode refid="1286" relation="include">
+        </childnode>
+        <childnode refid="1289" relation="include">
+        </childnode>
+        <childnode refid="1291" relation="include">
         </childnode>
       </node>
-      <node id="1282">
+      <node id="1286">
         <label>gfal_common_srm_endpoint.h</label>
         <link refid="gfal__common__srm__endpoint_8h"/>
-        <childnode refid="1271" relation="include">
+        <childnode refid="1275" relation="include">
         </childnode>
-        <childnode refid="1273" relation="include">
+        <childnode refid="1277" relation="include">
         </childnode>
-        <childnode refid="1283" relation="include">
+        <childnode refid="1287" relation="include">
         </childnode>
-        <childnode refid="1278" relation="include">
+        <childnode refid="1282" relation="include">
         </childnode>
-        <childnode refid="1268" relation="include">
-        </childnode>
-      </node>
-      <node id="1277">
-        <label>gfal_srm_ifce_types.h</label>
-      </node>
-      <node id="1281">
-        <label>uuid/uuid.h</label>
-      </node>
-      <node id="1283">
-        <label>gfal_common_srm.h</label>
-        <link refid="gfal__common__srm_8h"/>
-        <childnode refid="1265" relation="include">
-        </childnode>
-        <childnode refid="1267" relation="include">
-        </childnode>
-        <childnode refid="1271" relation="include">
-        </childnode>
-        <childnode refid="1273" relation="include">
-        </childnode>
-        <childnode refid="1278" relation="include">
-        </childnode>
-        <childnode refid="1284" relation="include">
-        </childnode>
-      </node>
-      <node id="1274">
-        <label>sys/types.h</label>
-      </node>
-      <node id="1265">
-        <label>string.h</label>
-      </node>
-      <node id="1266">
-        <label>unistd.h</label>
-      </node>
-      <node id="1284">
-        <label>../../externals/gsimplecache/gcachemain.h</label>
-        <link refid="gcachemain_8h-source"/>
         <childnode refid="1272" relation="include">
         </childnode>
       </node>
-      <node id="1272">
+      <node id="1281">
+        <label>gfal_srm_ifce_types.h</label>
+      </node>
+      <node id="1291">
+        <label>../mds/gfal_common_mds.h</label>
+        <link refid="gfal__common__mds_8h-source"/>
+        <childnode refid="1276" relation="include">
+        </childnode>
+        <childnode refid="1275" relation="include">
+        </childnode>
+        <childnode refid="1277" relation="include">
+        </childnode>
+      </node>
+      <node id="1285">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="1287">
+        <label>gfal_common_srm.h</label>
+        <link refid="gfal__common__srm_8h"/>
+        <childnode refid="1269" relation="include">
+        </childnode>
+        <childnode refid="1271" relation="include">
+        </childnode>
+        <childnode refid="1275" relation="include">
+        </childnode>
+        <childnode refid="1277" relation="include">
+        </childnode>
+        <childnode refid="1282" relation="include">
+        </childnode>
+        <childnode refid="1288" relation="include">
+        </childnode>
+      </node>
+      <node id="1278">
+        <label>sys/types.h</label>
+      </node>
+      <node id="1269">
+        <label>string.h</label>
+      </node>
+      <node id="1270">
+        <label>unistd.h</label>
+      </node>
+      <node id="1288">
+        <label>../../externals/gsimplecache/gcachemain.h</label>
+        <link refid="gcachemain_8h-source"/>
+        <childnode refid="1276" relation="include">
+        </childnode>
+      </node>
+      <node id="1276">
         <label>glib.h</label>
       </node>
-      <node id="1264">
+      <node id="1268">
         <label>time.h</label>
       </node>
-      <node id="1279">
+      <node id="1283">
         <label>gfal_common_catalog.h</label>
         <link refid="gfal__common__catalog_8h"/>
+        <childnode refid="1284" relation="include">
+        </childnode>
+        <childnode refid="1285" relation="include">
+        </childnode>
+        <childnode refid="1276" relation="include">
+        </childnode>
+        <childnode refid="1273" relation="include">
+        </childnode>
+        <childnode refid="1269" relation="include">
+        </childnode>
+        <childnode refid="1279" relation="include">
+        </childnode>
+        <childnode refid="1280" relation="include">
+        </childnode>
+        <childnode refid="1275" relation="include">
+        </childnode>
+        <childnode refid="1277" relation="include">
+        </childnode>
+      </node>
+      <node id="1282">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h-source"/>
+      </node>
+      <node id="1271">
+        <label>regex.h</label>
+      </node>
+      <node id="1290">
+        <label>stdio.h</label>
+      </node>
+      <node id="1277">
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="1270" relation="include">
+        </childnode>
+        <childnode refid="1276" relation="include">
+        </childnode>
+        <childnode refid="1278" relation="include">
+        </childnode>
+        <childnode refid="1279" relation="include">
+        </childnode>
         <childnode refid="1280" relation="include">
         </childnode>
         <childnode refid="1281" relation="include">
         </childnode>
-        <childnode refid="1272" relation="include">
-        </childnode>
-        <childnode refid="1269" relation="include">
-        </childnode>
-        <childnode refid="1265" relation="include">
+        <childnode refid="1282" relation="include">
         </childnode>
         <childnode refid="1275" relation="include">
         </childnode>
-        <childnode refid="1276" relation="include">
-        </childnode>
-        <childnode refid="1271" relation="include">
-        </childnode>
-        <childnode refid="1273" relation="include">
+        <childnode refid="1283" relation="include">
         </childnode>
       </node>
-      <node id="1278">
-        <label>gfal_constants.h</label>
-        <link refid="gfal__constants_8h-source"/>
-      </node>
-      <node id="1267">
-        <label>regex.h</label>
-      </node>
-      <node id="1286">
-        <label>stdio.h</label>
-      </node>
-      <node id="1273">
-        <label>gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
-        <childnode refid="1266" relation="include">
-        </childnode>
-        <childnode refid="1272" relation="include">
-        </childnode>
-        <childnode refid="1274" relation="include">
-        </childnode>
-        <childnode refid="1275" relation="include">
-        </childnode>
-        <childnode refid="1276" relation="include">
-        </childnode>
-        <childnode refid="1277" relation="include">
-        </childnode>
-        <childnode refid="1278" relation="include">
-        </childnode>
-        <childnode refid="1271" relation="include">
-        </childnode>
-        <childnode refid="1279" relation="include">
-        </childnode>
-      </node>
-      <node id="1275">
+      <node id="1279">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
@@ -240,7 +253,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="46" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="46" bodyend="70"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="47" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm__endpoint_8c_199a6995d5d222d54f28d7952499f60ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
@@ -348,7 +361,7 @@
 <para>select the best protocol choice and the best endpoint choice from a list of protocol and endpoints obtained by the bdii </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="128" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="128" bodyend="151"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="128" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="128" bodyend="150"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm__endpoint_8c_1c986f73b04fffd801b49861414fd33b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -378,7 +391,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="158" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="158" bodyend="175"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="157" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="157" bodyend="174"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm__endpoint_8c_18ce7110e994216e73c28b439829b1d21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -416,7 +429,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="183" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="183" bodyend="203"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="182" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="182" bodyend="202"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -432,7 +445,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="38" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="38" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" line="39" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c" bodystart="39" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -471,15 +484,15 @@
 <codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__endpoint_8h" kindref="compound">gfal_common_srm_endpoint.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto<sp/>gfal_proto_list_prefG[]=<sp/>{<sp/>PROTO_SRMv2,<sp/>PROTO_SRM,<sp/>PROTO_ERROR_UNKNOW<sp/>};</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__srm__endpoint_8c_1e0b7b0c302d9d514df5518cbf8b4c215" kindref="member">gfal_srm_determine_endpoint</ref>(gfal_srmv2_opt*<sp/>opts,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_endpoint,<sp/>size_t<sp/>s_buff,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto*<sp/>srm_type,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(opts<sp/>&amp;&amp;<sp/>buff_endpoint<sp/>&amp;&amp;<sp/>srm_type<sp/>&amp;&amp;<sp/>surl<sp/>&amp;&amp;<sp/>s_buff,-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_srm_determine_endpoint]<sp/>invalid<sp/>value<sp/>in<sp/>params&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>check<sp/>params</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>-1;</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>tmp_endpoint=NULL;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../mds/gfal_common_mds.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto<sp/>gfal_proto_list_prefG[]=<sp/>{<sp/>PROTO_SRMv2,<sp/>PROTO_SRM,<sp/>PROTO_ERROR_UNKNOW<sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__srm__endpoint_8c_1e0b7b0c302d9d514df5518cbf8b4c215" kindref="member">gfal_srm_determine_endpoint</ref>(gfal_srmv2_opt*<sp/>opts,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_endpoint,<sp/>size_t<sp/>s_buff,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto*<sp/>srm_type,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(opts<sp/>&amp;&amp;<sp/>buff_endpoint<sp/>&amp;&amp;<sp/>srm_type<sp/>&amp;&amp;<sp/>surl<sp/>&amp;&amp;<sp/>s_buff,-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_srm_determine_endpoint]<sp/>invalid<sp/>value<sp/>in<sp/>params&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>check<sp/>params</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>-1;</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gboolean<sp/>isFullEndpoint<sp/>=<sp/><ref refid="gfal__common__srm__endpoint_8c_199a6995d5d222d54f28d7952499f60ba" kindref="member">gfal_check_fullendpoint_in_surlG</ref>(surl,<sp/>&amp;tmp_err);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>check<sp/>if<sp/>a<sp/>full<sp/>endpoint<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!tmp_err){</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
@@ -544,74 +557,73 @@
 <codeline lineno="123"><highlight class="normal"></highlight></codeline>
 <codeline lineno="128"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__srm__endpoint_8c_118f17508658a17b98000d81d5300306c" kindref="member">gfal_select_best_protocol_and_endpointG</ref>(gfal_srmv2_opt*<sp/>opts,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>tab_se_type,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>tab_endpoint,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_endpoint,<sp/>size_t<sp/>s_buff,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto*<sp/>srm_type,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(opts<sp/>&amp;&amp;<sp/>buff_endpoint<sp/>&amp;&amp;<sp/>s_buff<sp/>&amp;&amp;<sp/>srm_type<sp/>&amp;&amp;<sp/>tab_se_type<sp/>&amp;&amp;<sp/>tab_endpoint,<sp/>-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_select_best_protocol_and_endpoint]<sp/>Invalid<sp/>value&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i=0;</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>pse<sp/>=tab_se_type;</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto*<sp/>p_pref<sp/>=<sp/>&amp;(opts-&gt;srm_proto_type);<sp/><sp/></highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(<sp/>*p_pref<sp/>!=<sp/>PROTO_ERROR_UNKNOW){</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(pse<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/><sp/>tab_endpoint<sp/>!=<sp/>NULL<sp/>){</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>*p_pref<sp/>==<sp/>gfal_convert_proto_from_bdii(*pse)<sp/>){<sp/></highlight><highlight class="comment">//<sp/>test<sp/>if<sp/>the<sp/>response<sp/>is<sp/>the<sp/>actual<sp/>preferred<sp/>response</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strlcpy(buff_endpoint,<sp/>*tab_endpoint,<sp/>s_buff);</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*srm_type<sp/>=<sp/>*p_pref;</highlight></codeline>
-<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
-<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tab_endpoint++;</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pse++;</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(p_pref<sp/>==<sp/>&amp;(opts-&gt;srm_proto_type))<sp/></highlight><highlight class="comment">//<sp/>switch<sp/>desired<sp/>proto<sp/>to<sp/>the<sp/>list<sp/>if<sp/>the<sp/>default<sp/>choice<sp/>is<sp/>not<sp/>in<sp/>the<sp/>list</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_pref=gfal_proto_list_prefG;</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_pref++;</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,<sp/>EINVAL,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_select_best_protocol_and_endpoint]<sp/>cannot<sp/>obtain<sp/>a<sp/>valid<sp/>protocol<sp/>from<sp/>the<sp/>bdii<sp/>response,<sp/>fatal<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-2;</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>pse<sp/>=tab_se_type;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto*<sp/>p_pref<sp/>=<sp/>&amp;(opts-&gt;srm_proto_type);<sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(<sp/>*p_pref<sp/>!=<sp/>PROTO_ERROR_UNKNOW){</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(pse<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/><sp/>tab_endpoint<sp/>!=<sp/>NULL<sp/>){</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>*p_pref<sp/>==<sp/>gfal_convert_proto_from_bdii(*pse)<sp/>){<sp/></highlight><highlight class="comment">//<sp/>test<sp/>if<sp/>the<sp/>response<sp/>is<sp/>the<sp/>actual<sp/>preferred<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strlcpy(buff_endpoint,<sp/>*tab_endpoint,<sp/>s_buff);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*srm_type<sp/>=<sp/>*p_pref;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tab_endpoint++;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pse++;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(p_pref<sp/>==<sp/>&amp;(opts-&gt;srm_proto_type))<sp/></highlight><highlight class="comment">//<sp/>switch<sp/>desired<sp/>proto<sp/>to<sp/>the<sp/>list<sp/>if<sp/>the<sp/>default<sp/>choice<sp/>is<sp/>not<sp/>in<sp/>the<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_pref=gfal_proto_list_prefG;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_pref++;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,0,<sp/>EINVAL,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_select_best_protocol_and_endpoint]<sp/>cannot<sp/>obtain<sp/>a<sp/>valid<sp/>protocol<sp/>from<sp/>the<sp/>bdii<sp/>response,<sp/>fatal<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-2;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
 <codeline lineno="152"><highlight class="normal"></highlight></codeline>
-<codeline lineno="153"><highlight class="normal"></highlight></codeline>
-<codeline lineno="158"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="gfal__common__srm__endpoint_8c_1c986f73b04fffd801b49861414fd33b1" kindref="member">gfal_get_hostname_from_surlG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_hostname,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>srm_prefix_len<sp/>=<sp/>strlen(GFAL_PREFIX_SRM);</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>surl_len<sp/>=<sp/>strnlen(surl,GFAL_URL_MAX_LEN);</highlight></codeline>
-<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(surl<sp/>&amp;&amp;<sp/><sp/>(srm_prefix_len<sp/>&lt;<sp/>surl_len)<sp/><sp/>&amp;&amp;<sp/>(surl_len<sp/>&lt;<sp/>GFAL_URL_MAX_LEN),-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_get_hostname_from_surl]<sp/>invalid<sp/>value<sp/>in<sp/>params&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>p;</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((p<sp/>=<sp/>strchr(surl+srm_prefix_len,</highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">))<sp/>==NULL){</highlight></codeline>
-<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>EINVAL,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>url<sp/>invalid&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(s_buff<sp/>&gt;<sp/>(p-surl-srm_prefix_len)){<sp/><sp/></highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*((</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)<sp/>mempcpy(buff_hostname,<sp/>surl+srm_prefix_len,<sp/>p-surl-srm_prefix_len))<sp/>=<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>ENOBUFS,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>buffer<sp/>size<sp/>too<sp/>small&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/></highlight></codeline>
-<codeline lineno="175"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="gfal__common__srm__endpoint_8c_1c986f73b04fffd801b49861414fd33b1" kindref="member">gfal_get_hostname_from_surlG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_hostname,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>srm_prefix_len<sp/>=<sp/>strlen(GFAL_PREFIX_SRM);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>surl_len<sp/>=<sp/>strnlen(surl,GFAL_URL_MAX_LEN);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(surl<sp/>&amp;&amp;<sp/><sp/>(srm_prefix_len<sp/>&lt;<sp/>surl_len)<sp/><sp/>&amp;&amp;<sp/>(surl_len<sp/>&lt;<sp/>GFAL_URL_MAX_LEN),-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_get_hostname_from_surl]<sp/>invalid<sp/>value<sp/>in<sp/>params&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>p;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((p<sp/>=<sp/>strchr(surl+srm_prefix_len,</highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">))<sp/>==NULL){</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>EINVAL,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>url<sp/>invalid&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(s_buff<sp/>&gt;<sp/>(p-surl-srm_prefix_len)){<sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*((</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)<sp/>mempcpy(buff_hostname,<sp/>surl+srm_prefix_len,<sp/>p-surl-srm_prefix_len))<sp/>=<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>ENOBUFS,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>buffer<sp/>size<sp/>too<sp/>small&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
 <codeline lineno="176"><highlight class="normal"></highlight></codeline>
-<codeline lineno="177"><highlight class="normal"></highlight></codeline>
-<codeline lineno="183"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__srm__endpoint_8c_18ce7110e994216e73c28b439829b1d21" kindref="member">gfal_get_endpoint_and_setype_from_bdiiG</ref>(gfal_srmv2_opt*<sp/>opts,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_endpoint,<sp/>size_t<sp/>s_buff,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto*<sp/>srm_type,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(opts<sp/>&amp;&amp;<sp/>buff_endpoint<sp/>&amp;&amp;<sp/>srm_type<sp/>&amp;&amp;<sp/>surl<sp/>&amp;&amp;<sp/>s_buff,<sp/>-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_get_endpoint_and_setype_from_bdiiG]<sp/>invalid<sp/>parameters&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>tab_endpoint=NULL;</highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>tab_se_type=NULL;</highlight></codeline>
-<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>hostname[GFAL_URL_MAX_LEN];</highlight></codeline>
-<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=-1,<sp/>i;</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
-<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(ret<sp/>=<sp/><ref refid="gfal__common__srm__endpoint_8c_1c986f73b04fffd801b49861414fd33b1" kindref="member">gfal_get_hostname_from_surlG</ref>(surl,<sp/>hostname,<sp/>GFAL_URL_MAX_LEN,<sp/>&amp;tmp_err))<sp/>==<sp/>0){<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>get<sp/>the<sp/>hostname</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="191"><highlight class="normal"></highlight></codeline>
-<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(ret<sp/>=gfal_mds_get_se_types_and_endpoints(<sp/>hostname,<sp/><sp/>&amp;tab_se_type,<sp/>&amp;tab_endpoint,<sp/>&amp;tmp_err))<sp/>==<sp/>0){<sp/></highlight><highlight class="comment">//<sp/>questioning<sp/>the<sp/>bdii</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__srm__endpoint_8c_118f17508658a17b98000d81d5300306c" kindref="member">gfal_select_best_protocol_and_endpointG</ref>(opts,<sp/>tab_se_type,<sp/>tab_endpoint,<sp/>buff_endpoint,<sp/>GFAL_URL_MAX_LEN,<sp/>srm_type,<sp/>&amp;tmp_err);<sp/></highlight><highlight class="comment">//<sp/>map<sp/>the<sp/>response<sp/>if<sp/>correct</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strfreev(tab_endpoint);</highlight></codeline>
-<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strfreev(tab_se_type);</highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
-<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
-<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__srm__endpoint_8c_18ce7110e994216e73c28b439829b1d21" kindref="member">gfal_get_endpoint_and_setype_from_bdiiG</ref>(gfal_srmv2_opt*<sp/>opts,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_endpoint,<sp/>size_t<sp/>s_buff,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>gfal_srm_proto*<sp/>srm_type,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(opts<sp/>&amp;&amp;<sp/>buff_endpoint<sp/>&amp;&amp;<sp/>srm_type<sp/>&amp;&amp;<sp/>surl<sp/>&amp;&amp;<sp/>s_buff,<sp/>-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_get_endpoint_and_setype_from_bdiiG]<sp/>invalid<sp/>parameters&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>tab_endpoint=NULL;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>tab_se_type=NULL;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>hostname[GFAL_URL_MAX_LEN];</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=-1;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(ret<sp/>=<sp/><ref refid="gfal__common__srm__endpoint_8c_1c986f73b04fffd801b49861414fd33b1" kindref="member">gfal_get_hostname_from_surlG</ref>(surl,<sp/>hostname,<sp/>GFAL_URL_MAX_LEN,<sp/>&amp;tmp_err))<sp/>==<sp/>0){<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>get<sp/>the<sp/>hostname</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(ret<sp/>=gfal_mds_get_se_types_and_endpoints(<sp/>hostname,<sp/><sp/>&amp;tab_se_type,<sp/>&amp;tab_endpoint,<sp/>&amp;tmp_err))<sp/>==<sp/>0){<sp/></highlight><highlight class="comment">//<sp/>questioning<sp/>the<sp/>bdii</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__srm__endpoint_8c_118f17508658a17b98000d81d5300306c" kindref="member">gfal_select_best_protocol_and_endpointG</ref>(opts,<sp/>tab_se_type,<sp/>tab_endpoint,<sp/>buff_endpoint,<sp/>GFAL_URL_MAX_LEN,<sp/>srm_type,<sp/>&amp;tmp_err);<sp/></highlight><highlight class="comment">//<sp/>map<sp/>the<sp/>response<sp/>if<sp/>correct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strfreev(tab_endpoint);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strfreev(tab_se_type);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
 <codeline lineno="204"><highlight class="normal"></highlight></codeline>
 <codeline lineno="205"><highlight class="normal"></highlight></codeline>
-<codeline lineno="206"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c"/>
   </compounddef>

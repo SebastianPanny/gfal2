@@ -44,7 +44,9 @@ extern int gfal_get_verbose(){
 	return gfal_verbose;
 }
 
-
+/**
+ * set the verbose level of gfal 2
+ */
 extern int gfal_set_verbose (int value)
 {
     if (value < 0)

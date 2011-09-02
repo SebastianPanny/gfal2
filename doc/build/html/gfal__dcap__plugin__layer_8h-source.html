@@ -43,7 +43,7 @@
 <a name="l00032"></a>00032 <span class="preprocessor">#include "../gfal_types.h"</span>
 <a name="l00033"></a>00033 
 <a name="l00034"></a>00034 <span class="keyword">struct </span>dcap_proto_ops {
-<a name="l00035"></a>00035         int     (*geterror)();
+<a name="l00035"></a>00035         <span class="keywordtype">int</span>*    (*geterror)();
 <a name="l00036"></a>00036         <span class="keyword">const</span> <span class="keywordtype">char</span>*(*strerror)(int);
 <a name="l00037"></a>00037         int     (*access)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, int);
 <a name="l00038"></a>00038         int     (*chmod)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t);
@@ -80,7 +80,7 @@
 <a name="l00069"></a>00069 
 <a name="l00070"></a>00070 <span class="keyword">extern</span> <span class="keyword">struct </span>dcap_proto_ops * (*gfal_dcap_internal_loader)(GError** err);
 <a name="l00071"></a>00071 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Aug 29 17:04:21 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Sep 1 15:47:13 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

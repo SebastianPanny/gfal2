@@ -11,7 +11,7 @@
 \begin{itemize}
 \item Gfal POSIX lib API:\begin{itemize}
 \item the POSIX style API : \doxyref{all POSIX style function}{p.}{group__posix__group} \par
-\item the Error management API : \doxyref{gfal\_\-posix\_\-check\_\-error}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373}\end{itemize}
+\item the Error management API : \doxyref{gfal\_\-posix\_\-check\_\-error}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373}\end{itemize}
 \end{itemize}
 
 
@@ -21,23 +21,29 @@
 \end{itemize}
 
 
-\subsection*{III. Library Design : }
+\subsection*{III. Examples : }
+
+\begin{itemize}
+\item {\tt examples }\end{itemize}
+
+
+\subsection*{IV. Library Design : }
 
 \begin{itemize}
 \item \doxyref{page\_\-design}{p.}{page_design}\end{itemize}
 
 
-\subsection*{IV. Report of the Scheduled changes : }
+\subsection*{V. Report of the Scheduled changes : }
 
 \begin{itemize}
 \item Changes between 1.X and 2.X are resumed \doxyref{api\_\-change}{p.}{api_change}\end{itemize}
 
 
-\subsection*{V. How to compile locally}
+\subsection*{VI. How to compile locally}
 
 \begin{itemize}
 \item Compile :\begin{itemize}
-\item follow tutorial to have an etics installation and a gfal build on your pc\item Install scons ( \tt{http://www.scons.org,} python script )\item \char`\"{} git svn clone  http://svnweb.cern.ch/guest/lcgutil/gfal/branches/gfal\_\-2\_\-0\_\-main gfal2 \char`\"{}\item \char`\"{} cd gfal2 \char`\"{}\item \char`\"{}scons -j 8\char`\"{}\end{itemize}
+\item enable EMI and EPEL repositories ( and equivalent )\item Install scons ( \tt{http://www.scons.org,} python script )\item \char`\"{} git svn clone  http://svnweb.cern.ch/guest/lcgutil/gfal/branches/gfal\_\-2\_\-0\_\-main gfal2 \char`\"{}\item \char`\"{} cd gfal2 \char`\"{}\item \char`\"{}scons -j 8\char`\"{}\end{itemize}
 \item Compile tests :\begin{itemize}
 \item Install cgreen, unit test framework\item Install scons\item execute \char`\"{}scons test -j 8\char`\"{} in the CERNgfal dir\end{itemize}
 \item Clean builds :\begin{itemize}

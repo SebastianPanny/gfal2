@@ -23,20 +23,20 @@ main(int argc, char **argv)
 
 	printf ("opening %s\n", argv[1]);
 	if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
-		perror ("gfal_open");
+		gfal_posix_check_error();
 		exit (1);
 	}
 	printf ("open successful, fd = %d (errno = %d)\n", fd, errno);
 
 	if ((rc = gfal_read (fd, ibuf, BLKLEN)) < 0) {
-		perror ("gfal_read");
+		gfal_posix_check_error();
 		(void) gfal_close (fd);
 		exit (1);
 	}
 	printf ("read successful (errno = %d)\n", errno);
 
 	if ((rc = gfal_close (fd)) < 0) {
-		perror ("gfal_close");
+		gfal_posix_check_error();
 		exit (1);
 	}
 	printf ("close successful\n");

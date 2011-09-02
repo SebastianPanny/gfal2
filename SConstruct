@@ -28,7 +28,7 @@ main_meta=False
 # global var
 etics_build_dir= "/usr/" # disable
 version= '2.0'
-package_version = '1.4_preview'
+package_version = '1.5_preview'
 
 ## generic function to get conf value
 def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_path='/lib64/', etics_suffix="/stage/"):

@@ -33,6 +33,8 @@
 #include "gfal_common_srm_opendir.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_filedescriptor.h"
+#include "gfal_common_srm_access.h"
+#include "gfal_common_srm_endpoint.h"
 #include "gfal_common_srm_internal_layer.h"
 
 
@@ -79,10 +81,10 @@ gfal_file_handle gfal_srm_opendirG(catalog_handle ch, const char* surl, GError *
 		if(srm_type == PROTO_SRMv2){
 			resu = gfal_srm_opendir_internal(opts, endpoint, surl, &tmp_err);
 		}else if (srm_type == PROTO_SRM){
-			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
+			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "support for SRMv1 is removed in 2.0, failure");
 			resu = NULL;
 		}else {
-			g_set_error(err, 0, EPROTONOSUPPORT, "[%s] Unknow version of the protocol SRM , failure");
+			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Unknow version of the protocol SRM , failure");
 			resu = NULL;			
 		}
 		

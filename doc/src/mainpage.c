@@ -1,6 +1,5 @@
 /**
-	\mainpage Gfal Documentation
-	
+	\mainpage Gfal 2.0  Documentation
 	\author Devresse Adrien ( adrien.devresse@cern.ch )
 	
 		
@@ -17,15 +16,18 @@
 	- Gfal internal API to construct plugin ( not stable currently ) :
 		- \ref _gfal_catalog_interface
 
-	<h2>III. Library Design : </h2>
+	<h2> III. Examples : </h2>
+		- <a href="examples.html"> examples </a>
+
+	<h2>IV. Library Design : </h2>
 		- \ref page_design
 
-	<h2>IV. Report of the Scheduled changes : </h2>
+	<h2>V. Report of the Scheduled changes : </h2>
 	- Changes between 1.X and 2.X are resumed \ref api_change 	
 	
-	<h2>V. How to compile locally</h2>
+	<h2>VI. How to compile locally</h2>
 	- Compile :
-		- follow tutorial to have an etics installation and a gfal build on your pc
+		- enable EMI and EPEL repositories ( and equivalent )
 		- Install scons ( http://www.scons.org, python script )
 		- " git svn clone  http://svnweb.cern.ch/guest/lcgutil/gfal/branches/gfal_2_0_main gfal2 "
 		- " cd gfal2 "
@@ -37,6 +39,7 @@
 	- Clean builds :
 		- scons -c
 	
+
 
 
 */

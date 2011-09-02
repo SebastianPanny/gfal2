@@ -78,7 +78,6 @@ ssize_t gfal_srm_getxattrG(catalog_handle handle, const char* path, const char* 
  * lfc getxattr implem 
  * */
 ssize_t gfal_srm_listxattrG(catalog_handle handle, const char* path, char* list, size_t size, GError** err){
-	GError* tmp_err=NULL;
 	ssize_t res = 0;	
 	char** p= srm_listxattr;
 	char* plist= list;

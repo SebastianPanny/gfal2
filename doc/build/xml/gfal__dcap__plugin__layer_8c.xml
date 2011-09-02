@@ -180,7 +180,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c" line="39" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c" bodystart="39" bodyend="80"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c" line="39" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c" bodystart="39" bodyend="81"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -210,7 +210,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c" line="83" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c" bodystart="83" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c" line="84" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c" bodystart="84" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -261,7 +261,7 @@
 <codeline lineno="48"><highlight class="normal"></highlight></codeline>
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(dlhandle){</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops<sp/>=<sp/>g_new0(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>dcap_proto_ops,<sp/>1);</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;geterror<sp/>=<sp/>(int<sp/>(*)<sp/>())<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;__dc_errno&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;geterror<sp/>=<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>(*)<sp/>())<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;__dc_errno&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;strerror<sp/>=<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>(*)(int))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;dc_strerror&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;access<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/>int))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;dc_access&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;chmod<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*,<sp/>mode_t))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;dc_chmod&quot;</highlight><highlight class="normal">);</highlight></codeline>
@@ -284,17 +284,18 @@
 <codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;unlink<sp/>=<sp/>(int<sp/>(*)<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;dc_unlink&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;write<sp/>=<sp/>(ssize_t<sp/>(*)<sp/>(int,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/>size_t))<sp/>dlsym<sp/>(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;dc_write&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;debug_level=<sp/>(void(*)(int))<sp/>dlsym(dlhandle,<sp/></highlight><highlight class="stringliteral">&quot;dc_setDebugLevel&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;debug_level(8<sp/>|6<sp/>|<sp/>32);</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pops;</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose</ref>()<sp/>!=<sp/>0)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pops-&gt;debug_level(8<sp/>|6<sp/>|<sp/>32);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pops;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dcap_proto_ops<sp/>*<sp/>(*gfal_dcap_internal_loader)(GError**<sp/>err)=<sp/>&amp;gfal_dcap_internal_loader_base;</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dcap_proto_ops<sp/>*<sp/>(*gfal_dcap_internal_loader)(GError**<sp/>err)=<sp/>&amp;gfal_dcap_internal_loader_base;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c"/>
   </compounddef>

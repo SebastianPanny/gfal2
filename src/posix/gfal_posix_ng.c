@@ -30,14 +30,7 @@
 
 static int nobdii = 0;
 
-/**
-	\defgroup posix_group all POSIX style function
-*/
 
-/**
-	\addtogroup posix_group
-	@{
-*/
 
 
 /**
@@ -442,7 +435,6 @@ void gfal_posix_clear_error(){
  * 
  * */
 int gfal_posix_code_error(){
-	gfal_handle handle;
 	GError* err=NULL;
 	int ret = ((err = *gfal_posix_get_last_error()) != NULL)? err->code :0 ;
 	return ret;
@@ -453,9 +445,7 @@ int gfal_posix_code_error(){
  *  @warning this does not clear the error
  * */
 int gfal_posix_check_error(){
-	gfal_handle handle;
 	GError* err=NULL;
-	int ret = -1;
 	if((err = *gfal_posix_get_last_error()) != NULL) {
 		g_printerr("[gfal]%s\n", err->message);
 		return 1;
@@ -468,15 +458,10 @@ int gfal_posix_check_error(){
  * 
  */
 char* gfal_posix_strerror_r(char* buff_err, size_t s_err){
-	GError* err=NULL;
-	int ret = -1; 
 	return (char*)gfal_str_GError_r(gfal_posix_get_last_error(), buff_err, s_err);
  }
  
-/**
-	@} 
-	End of the POSIX groupe
-*/
+
 
 
  

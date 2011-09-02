@@ -30,13 +30,13 @@ This exemple show how to change the right on a file/directory ex : use case with
 28         printf ("Checking RW access to '%s'...\n",file);
 29         if (gfal_access (file, R_OK|W_OK) < 0) {
 30                 error = 1;
-31                 perror ("gfal_access");
+31                 gfal_posix_check_error();
 32         }
 33 
 34         printf ("Changing mode of '%s' to %o...\n", file, mode);
 35         if (gfal_chmod (file, mode) < 0) {
 36                 error = 1;
-37                 perror ("gfal_chmod");
+37                 gfal_posix_check_error();
 38         }
 39 
 40         if (error) exit (1);

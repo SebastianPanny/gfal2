@@ -16,7 +16,7 @@ main(int argc, char **argv)
 		exit (1);
 	}
 	if (gfal_stat (argv[1], &statbuf) < 0) {
-		perror ("gfal_stat");
+		gfal_posix_check_error();
 		exit (1);
 	}
 	printf ("stat successful\n");

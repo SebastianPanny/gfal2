@@ -33,18 +33,18 @@
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
+#include "gfal_common_srm_endpoint.h"
 
 
-static gfal_srm_rm_srmv2_internal(gfal_srmv2_opt* opts, const char* full_endpoint, char** surls, GError** err){
+static int gfal_srm_rm_srmv2_internal(gfal_srmv2_opt* opts, const char* full_endpoint, char** surls, GError** err){
 	GError* tmp_err=NULL;
 	struct srm_context context;
 	struct srm_rm_input input;
 	struct srm_rm_output output;
 	const int nb_request=1;
-	char errbuf[GFAL_ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN]={0};
 	int i;
 	int ret=-1;
-	int tab_resu[nb_request];
 
 
 	gfal_srm_external_call.srm_context_init(&context, (char*)full_endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());
@@ -71,7 +71,7 @@ static gfal_srm_rm_srmv2_internal(gfal_srmv2_opt* opts, const char* full_endpoin
 		gfal_srm_external_call.srm_srm2__TReturnStatus_delete(output.retstatus);
 		gfal_srm_external_call.srm_srmv2_filestatus_delete(output.statuses, ret);
 	}else{
-		g_set_error(&tmp_err, 0,ECOMM, "Bad answer of the libgfal_srm_ifce, Maybe voms-proxy is not set properly : %d", ret);
+		gfal_srm_report_error(errbuf, &tmp_err);
 		ret= -1;		
 	}
 	if(tmp_err)

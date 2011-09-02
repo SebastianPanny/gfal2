@@ -39,6 +39,7 @@
     <includedby refid="gfal__posix__mkdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_mkdir.c</includedby>
     <includedby refid="gfal__posix__open_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_open.c</includedby>
     <includedby refid="gfal__posix__read_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_read.c</includedby>
+    <includedby refid="gfal__posix__readlink_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readlink.c</includedby>
     <includedby refid="gfal__posix__rename_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rename.c</includedby>
     <includedby refid="gfal__posix__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_rmdir.c</includedby>
     <includedby refid="gfal__posix__symlink_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_symlink.c</includedby>
@@ -140,7 +141,7 @@
         <childnode refid="229" relation="include">
         </childnode>
       </node>
-      <node id="259">
+      <node id="252">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c</label>
         <link refid="gfal__common__srm__opendir_8c"/>
       </node>
@@ -190,14 +191,14 @@
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
         <link refid="gfal__posix__closedir_8c"/>
       </node>
-      <node id="256">
+      <node id="257">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.c</label>
         <link refid="gfal__common__srm__getxattr_8c"/>
       </node>
       <node id="261">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.h</label>
         <link refid="gfal__common__srm__getxattr_8h"/>
-        <childnode refid="256" relation="include">
+        <childnode refid="257" relation="include">
         </childnode>
       </node>
       <node id="235">
@@ -233,7 +234,17 @@
         <link refid="gfal__common__srm__endpoint_8h"/>
         <childnode refid="251" relation="include">
         </childnode>
+        <childnode refid="235" relation="include">
+        </childnode>
         <childnode refid="236" relation="include">
+        </childnode>
+        <childnode refid="259" relation="include">
+        </childnode>
+        <childnode refid="252" relation="include">
+        </childnode>
+        <childnode refid="256" relation="include">
+        </childnode>
+        <childnode refid="253" relation="include">
         </childnode>
       </node>
       <node id="274">
@@ -253,15 +264,17 @@
         <link refid="gfal__common__mds_8h-source"/>
         <childnode refid="243" relation="include">
         </childnode>
+        <childnode refid="236" relation="include">
+        </childnode>
       </node>
-      <node id="258">
+      <node id="259">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c</label>
         <link refid="gfal__common__srm__mkdir_8c"/>
       </node>
       <node id="263">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.h</label>
         <link refid="gfal__common__srm__mkdir_8h"/>
-        <childnode refid="258" relation="include">
+        <childnode refid="259" relation="include">
         </childnode>
       </node>
       <node id="281">
@@ -329,7 +342,7 @@
         <link refid="gfal__common__srm_8h"/>
         <childnode refid="250" relation="include">
         </childnode>
-        <childnode refid="253" relation="include">
+        <childnode refid="254" relation="include">
         </childnode>
         <childnode refid="233" relation="include">
         </childnode>
@@ -341,15 +354,15 @@
         </childnode>
         <childnode refid="235" relation="include">
         </childnode>
-        <childnode refid="256" relation="include">
-        </childnode>
-        <childnode refid="258" relation="include">
+        <childnode refid="257" relation="include">
         </childnode>
         <childnode refid="259" relation="include">
         </childnode>
-        <childnode refid="255" relation="include">
-        </childnode>
         <childnode refid="252" relation="include">
+        </childnode>
+        <childnode refid="256" relation="include">
+        </childnode>
+        <childnode refid="253" relation="include">
         </childnode>
       </node>
       <node id="284">
@@ -386,6 +399,8 @@
         <childnode refid="276" relation="include">
         </childnode>
         <childnode refid="277" relation="include">
+        </childnode>
+        <childnode refid="278" relation="include">
         </childnode>
         <childnode refid="279" relation="include">
         </childnode>
@@ -464,14 +479,14 @@
         <childnode refid="226" relation="include">
         </childnode>
       </node>
-      <node id="255">
+      <node id="256">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.c</label>
         <link refid="gfal__common__srm__rmdir_8c"/>
       </node>
-      <node id="254">
+      <node id="255">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.h</label>
         <link refid="gfal__common__srm__rmdir_8h"/>
-        <childnode refid="255" relation="include">
+        <childnode refid="256" relation="include">
         </childnode>
       </node>
       <node id="240">
@@ -506,6 +521,8 @@
         <childnode refid="251" relation="include">
         </childnode>
         <childnode refid="252" relation="include">
+        </childnode>
+        <childnode refid="253" relation="include">
         </childnode>
       </node>
       <node id="238">
@@ -559,6 +576,8 @@
         </childnode>
         <childnode refid="276" relation="include">
         </childnode>
+        <childnode refid="278" relation="include">
+        </childnode>
         <childnode refid="279" relation="include">
         </childnode>
         <childnode refid="280" relation="include">
@@ -568,7 +587,7 @@
         <childnode refid="284" relation="include">
         </childnode>
       </node>
-      <node id="252">
+      <node id="253">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.c</label>
         <link refid="gfal__common__srm__stat_8c"/>
       </node>
@@ -588,14 +607,14 @@
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</label>
         <link refid="gfal__common__all_8c"/>
       </node>
-      <node id="257">
+      <node id="258">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.c</label>
         <link refid="gfal__common__srm__internal__layer_8c"/>
       </node>
-      <node id="253">
+      <node id="254">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h</label>
         <link refid="gfal__common__srm__internal__layer_8h"/>
-        <childnode refid="254" relation="include">
+        <childnode refid="255" relation="include">
         </childnode>
         <childnode refid="234" relation="include">
         </childnode>
@@ -603,19 +622,19 @@
         </childnode>
         <childnode refid="235" relation="include">
         </childnode>
-        <childnode refid="256" relation="include">
-        </childnode>
         <childnode refid="257" relation="include">
         </childnode>
         <childnode refid="258" relation="include">
         </childnode>
         <childnode refid="259" relation="include">
         </childnode>
+        <childnode refid="252" relation="include">
+        </childnode>
         <childnode refid="260" relation="include">
         </childnode>
-        <childnode refid="255" relation="include">
+        <childnode refid="256" relation="include">
         </childnode>
-        <childnode refid="252" relation="include">
+        <childnode refid="253" relation="include">
         </childnode>
       </node>
       <node id="275">
@@ -669,13 +688,13 @@
         </childnode>
         <childnode refid="250" relation="include">
         </childnode>
-        <childnode refid="253" relation="include">
+        <childnode refid="254" relation="include">
         </childnode>
         <childnode refid="263" relation="include">
         </childnode>
         <childnode refid="264" relation="include">
         </childnode>
-        <childnode refid="254" relation="include">
+        <childnode refid="255" relation="include">
         </childnode>
         <childnode refid="262" relation="include">
         </childnode>
@@ -990,6 +1009,39 @@
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="153" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="239" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__catalog_8h_1fae05f4bcf41d9b6b1063cf6210a81de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t gfal_catalog_readlinkG</definition>
+        <argsstring>(gfal_handle handle, const char *path, char *buff, size_t buffsiz, GError **err)</argsstring>
+        <name>gfal_catalog_readlinkG</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>buff</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>buffsiz</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute a readlink function </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.h" line="154" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_catalog.c" bodystart="279" bodyend="295"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__catalog_8h_112b613d1db9c17e70e679ef7285f6a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -1785,7 +1837,7 @@
 <codeline lineno="151"><highlight class="normal"></highlight></codeline>
 <codeline lineno="152"><highlight class="normal"></highlight></codeline>
 <codeline lineno="153"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__catalog_8c_14fd85b35f2134b73207c12b54e85959d" kindref="member">gfal_catalogs_accessG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">ssize_t<sp/><ref refid="gfal__common__catalog_8c_1fae05f4bcf41d9b6b1063cf6210a81de" kindref="member">gfal_catalog_readlinkG</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>buffsiz,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
 <codeline lineno="156"><highlight class="normal"></highlight></codeline>
 <codeline lineno="157"><highlight class="normal"></highlight></codeline>

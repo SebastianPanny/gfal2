@@ -84,6 +84,8 @@ char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_catalogs_get_
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#4fd85b35f2134b73207c12b54e85959d">gfal_catalogs_accessG</a> (gfal_handle handle, const char *path, int mode, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#fae05f4bcf41d9b6b1063cf6210a81de">gfal_catalog_readlinkG</a> (gfal_handle handle, const char *path, char *buff, size_t buffsiz, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#12b613d1db9c17e70e679ef7285f6a6f">gfal_catalog_chmodG</a> (gfal_handle handle, const char *path, mode_t mode, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__catalog_8h.html#28ca68c00e4a67bc158975ef3e4f8013">gfal_catalog_statG</a> (gfal_handle handle, const char *path, struct stat *st, GError **err)</td></tr>
@@ -712,6 +714,53 @@ do a read operation on the catalog, read s_buff chars on the fd device <dl compa
 
 </div>
 </div><p>
+<a class="anchor" name="fae05f4bcf41d9b6b1063cf6210a81de"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_readlinkG" ref="fae05f4bcf41d9b6b1063cf6210a81de" args="(gfal_handle handle, const char *path, char *buff, size_t buffsiz, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t gfal_catalog_readlinkG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>buffsiz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Execute a readlink function 
+</div>
+</div><p>
 <a class="anchor" name="99ffb13510951a6fe79f3c33305ea189"></a><!-- doxytag: member="gfal_common_catalog.h::gfal_catalog_renameG" ref="99ffb13510951a6fe79f3c33305ea189" args="(gfal_handle handle, const char *oldpath, const char *newpath, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -984,7 +1033,7 @@ Delete all instance of catalogs
 Instance all catalogs for use if it's not the case return the number of catalog available 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Aug 29 17:04:21 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Sep 1 15:47:13 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

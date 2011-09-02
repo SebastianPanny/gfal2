@@ -31,6 +31,8 @@ enum \textbf{\_\-srm\_\-req\_\-type} \{ \textbf{SRM\_\-GET},
 int \textbf{gfal\_\-check\_\-fullendpoint\_\-in\_\-surl} (const char $\ast$surl, GError $\ast$$\ast$err)\label{gfal__common__srm__internal__layer_8h_d12926fb068b66769f28f2c4fc177bd2}
 
 \item 
+gboolean \bf{gfal\_\-srm\_\-surl\_\-group\_\-checker} (gfal\_\-srmv2\_\-opt $\ast$opts, char $\ast$$\ast$surls, GError $\ast$$\ast$err)
+\item 
 int \bf{gfal\_\-srm\_\-get\-TURLS\_\-catalog} (catalog\_\-handle ch, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-srm\_\-put\-TURLS\_\-catalog} (catalog\_\-handle ch, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
@@ -39,6 +41,9 @@ int \textbf{gfal\_\-srm\_\-putdone} (gfal\_\-srmv2\_\-opt $\ast$opts, char $\ast
 
 \item 
 int \textbf{gfal\_\-srm\_\-unlink\-G} (catalog\_\-handle ch, const char $\ast$path, GError $\ast$$\ast$err)\label{gfal__common__srm__internal__layer_8h_5f52f23ed20fcf63fe66e158a9748971}
+
+\item 
+void \textbf{gfal\_\-srm\_\-report\_\-error} (char $\ast$errbuff, GError $\ast$$\ast$err)\label{gfal__common__srm__internal__layer_8h_233010cc6723f86456203d1193fcb648}
 
 \end{CompactItemize}
 \subsection*{Variables}
@@ -71,4 +76,9 @@ simple wrapper to get\-TURLs for the gfal\_\-module layer \index{gfal_common_srm
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-put\-TURLS\_\-catalog (catalog\_\-handle {\em ch}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, char $\ast$$\ast$ {\em reqtoken}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_96bb61a1e4df92a074a6e173b8c02b4d}
 
 
-simple wrapper to put\-TURLs for the gfal\_\-module layer 
+simple wrapper to put\-TURLs for the gfal\_\-module layer \index{gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}!gfal_srm_surl_group_checker@{gfal\_\-srm\_\-surl\_\-group\_\-checker}}
+\index{gfal_srm_surl_group_checker@{gfal\_\-srm\_\-surl\_\-group\_\-checker}!gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-srm\_\-surl\_\-group\_\-checker (gfal\_\-srmv2\_\-opt $\ast$ {\em opts}, char $\ast$$\ast$ {\em surls}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_06188f12a730a8eafa7be73c312daae8}
+
+
+convenience func for a group of surls 

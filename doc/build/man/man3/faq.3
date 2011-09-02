@@ -1,4 +1,4 @@
-.TH "faq" 3 "29 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "faq" 3 "1 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -9,12 +9,39 @@ faq \- Doc File for a FAQ
 : Devresse Adrien
 .RE
 .PP
-.SS "1. Which are the main changes from gfal 1.0 ? "
+.SS "1. Why switch to GFAL 2.0 ? "
+.PP
+10 good reasons to switch to GFAL 2.0 : 
+.br
+ GFAL 2.0 :
+.IP "\(bu" 2
+is \fBextensible\fP with the new plugin system. Any protocol can be supported with a plugin.
+.IP "\(bu" 2
+is independant of the technologies provided ( \fBno\fP \fBglobus\fP \fBdependencies\fP, no need to install technologies that are not used ).
+.IP "\(bu" 2
+is now \fBthread-safe\fP.
+.IP "\(bu" 2
+has a new error's system with full string errors and a 'TRACE' mode.
+.IP "\(bu" 2
+is now designed to be as POSIX as possible, No non-posix like functions will be provided in the future.
+.IP "\(bu" 2
+manages the extended attributes system for advanced functions.
+.IP "\(bu" 2
+is smaller and faster
+.IP "\(bu" 2
+has an integrated cache system.
+.IP "\(bu" 2
+is given with \fBgfalFS\fP , a NEW file system which can mount any point in the GRID like a local folder.
+.IP "\(bu" 2
+is fully supported and easy to install on EMI.
+.PP
+.PP
+.SS "1. What are the main changes from gfal 1.0 ? "
 .PP
 .IP "\(bu" 2
-GFal 2.0 is independant of the technologies provided ( plugin system )
+the NON-POSIX functions of 1.0 do not exist anymore, they are mapped to POSIX one.
 .IP "\(bu" 2
-GFal 2.0 is now designed to be as POSIX as possible, No non-posix like functions will be provided in the future
+the gfal_request system is now replaced by a more simpler one.
 .IP "\(bu" 2
 GFal 2.0 provide the getxattr, setxattr, listxattr calls for the plateform's specific calls ( turl resolution, guid resolution, ...)
 .PP
@@ -54,24 +81,24 @@ a tutorial will come for more details.
 .SS "5 . I need to implement a specific non-POSIX call in GFAL, How to do it ? "
 .PP
 .IP "\(bu" 2
-just register the proper getxattr or setxattr with a specific key.
+create a new xattr's key for your needs.
 .PP
 .PP
 .SS "6. What about the licence ? : "
 .PP
 .IP "\(bu" 2
-The license is still unchanged from gfal 2.0, It is a Apache 2.0 license : \fBapl\fP
+The license is still unchanged from gfal 1.0, It is a Apache 2.0 license : \fBapl\fP
 .PP
 .PP
 .SS "7. I get a Communication Error ( ECOMM ) on all my gfal Calls : "
 .PP
 .IP "\(bu" 2
-In Most of the plugins (lfc, rfio, dcap, srm), this error is due to an access right problem. try to setup your voms-proxy with voms-prox-init --voms [your vo] and try again.
+ECOMM means an un-usual Error, reported by the server-side. In Most of the case, this error is due to an access right problem. try to setup your voms-proxy with voms-prox-init --voms [your vo] and try again.
 .PP
 .PP
 .SS "8. I Wish add/remove a plugin to the plugin list, How to do it ? "
 .PP
 .IP "\(bu" 2
-The list of the gfal's plugin is present in the environment variable GFAL_PLUGIN_LIST, you have just to modify this environment variable before start your gfal's program. 
+The list of the gfal's plugin loaded is in the environment variable GFAL_PLUGIN_LIST, you have just to modify this environment variable before start your gfal's program. 
 .PP
 

@@ -27,6 +27,7 @@
 #include <regex.h>
 #include <time.h> 
 #include <fcntl.h> 
+#include <stdlib.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
@@ -57,7 +58,7 @@ static gfal_file_handle gfal_srm_file_handle_map(gfal_file_handle fh){
 	return ((gfal_srm_handle_open) fh->fdesc)->internal_handle;
 }
 
-static gfal_srm_file_handle_delete(gfal_file_handle fh){
+static void gfal_srm_file_handle_delete(gfal_file_handle fh){
 	free(fh->fdesc);
 	free(fh);
 }

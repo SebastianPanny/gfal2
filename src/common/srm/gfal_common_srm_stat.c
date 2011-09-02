@@ -27,6 +27,7 @@
 #include "../gfal_constants.h"
 #include "../gfal_common_errverbose.h"
 #include "gfal_common_srm_internal_layer.h" 
+#include "gfal_common_srm_endpoint.h"
 
 
 
@@ -34,17 +35,15 @@ static int gfal_statG_srmv2_internal(gfal_srmv2_opt* opts, struct stat* buf, con
 	g_return_val_err_if_fail( opts && endpoint && surl 
 								 && buf && (sizeof(struct stat) == sizeof(struct stat64)),
 								-1, err, "[gfal_statG_srmv2_internal] Invalid args handle/endpoint or invalid stat sturct size");
+	GError* tmp_err=NULL;
 	struct srm_context context;
 	struct srm_ls_input input;
 	struct srm_ls_output output;
 	struct srmv2_mdfilestatus *srmv2_mdstatuses=NULL;
-	char * srmv2_token;
 	const int nb_request=1;
-	char errbuf[GFAL_ERRMSG_LEN];
-	int i;
+	char errbuf[GFAL_ERRMSG_LEN]={0};
 	int ret=-1;
 	char* tab_surl[] = { (char*)surl, NULL};
-	int tab_resu[nb_request];
 	
 	gfal_srm_external_call.srm_context_init(&context, (char*)endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());	// init context
 	
@@ -68,11 +67,13 @@ static int gfal_statG_srmv2_internal(gfal_srmv2_opt* opts, struct stat* buf, con
 			errno =0;
 		}
 	}else{
-		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
+		gfal_srm_report_error(errbuf, &tmp_err);
 		ret=-1;
 	}
 	gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(srmv2_mdstatuses, 1);
 	gfal_srm_external_call.srm_srm2__TReturnStatus_delete(output.retstatus);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;	
 }
 
@@ -94,15 +95,15 @@ int gfal_srm_statG(catalog_handle ch, const char* surl, struct stat* buf, GError
 		gfal_print_verbose(GFAL_VERBOSE_DEBUG, " srm_statG -> value taken from the cache");
 		ret = 0;
 	}else{
-		ret =gfal_srm_determine_endpoint(opts, surl, &full_endpoint, GFAL_URL_MAX_LEN, &srm_type,   &tmp_err);
+		ret =gfal_srm_determine_endpoint(opts, surl, full_endpoint, GFAL_URL_MAX_LEN, &srm_type,   &tmp_err);
 		if( ret >=0 ){
 			if(srm_type == PROTO_SRMv2){
 				ret = gfal_statG_srmv2_internal(opts, buf, full_endpoint, surl, &tmp_err);
 			}else if (srm_type == PROTO_SRM){
-				g_set_error(err, 0, EPROTONOSUPPORT, "[%s] support for SRMv1 is removed in 2.0, failure");
+				g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "support for SRMv1 is removed in 2.0, failure");
 				ret = -1;
 			}else {
-				g_set_error(err, 0, EPROTONOSUPPORT, "[%s] Unknow version of the protocol SRM , failure");
+				g_set_error(&tmp_err, 0, EPROTONOSUPPORT, "Unknow version of the protocol SRM , failure");
 				ret = -1;			
 			}
 			

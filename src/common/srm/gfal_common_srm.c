@@ -47,10 +47,7 @@
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"
 
-/**
- * list of the protols in the order of preference
- */
-static enum gfal_srm_proto gfal_proto_list_pref[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
+
 /**
  * 
  * list of the turls supported protocols
@@ -68,6 +65,7 @@ const char* gfal_srm_getName(){
 int gfal_checker_compile(gfal_srmv2_opt* opts, GError** err){
 	int ret = regcomp(&opts->rexurl, "^srm://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
 	g_return_val_err_if_fail(ret==0,-1,err,"[gfal_surl_checker_] fail to compile regex, report this bug");	
+	return ret;
 }
 
 /**
@@ -80,6 +78,26 @@ int gfal_surl_checker(catalog_handle ch, const char* surl, GError** err){
 		return -1;
 	}	
 	return regexec(&opts->rexurl,surl,0,NULL,0);
+}
+
+/**
+ * 
+ * convenience func for a group of surls 
+ * */
+gboolean gfal_srm_surl_group_checker(gfal_srmv2_opt* opts,char** surls, GError** err){
+	GError* tmp_err=NULL;
+	if(surls == NULL ){
+		g_set_error(err, 0, EINVAL, "[%s] Invalid argument surls ", __func__);
+		return FALSE;
+	}
+	while(*surls != NULL){
+		if( gfal_surl_checker(opts, *surls, &tmp_err) != 0){
+			g_propagate_prefixed_error(err,tmp_err,"[%s]",__func__);	
+			return FALSE;
+		}
+		surls++;
+	}
+	return TRUE;
 }
 
 
@@ -140,7 +158,6 @@ void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle){
  * */
 gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	gfal_catalog_interface srm_catalog;
-	GError* tmp_err=NULL;
 	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
 	gfal_srmv2_opt* opts = g_new0(struct _gfal_srmv2_opt,1);	// define the srmv2 option struct and clear it	
 	gfal_srm_opt_initG(opts, handle);
@@ -257,4 +274,8 @@ void gfal_set_default_storageG(gfal_srmv2_opt* opts, enum gfal_srm_proto proto){
 	return ret;
 }
  
+void gfal_srm_report_error(char* errbuff, GError** err){
+	int errcode = (errno != ECOMM && errno != 0)?errno:ECOMM;
+	g_set_error(err,0, errcode, "SRM_IFCE ERR: %s, %s, maybe voms-proxy is not initiated properly", strerror(errno), errbuff);	
+}
 

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" 3 "29 Aug 2011" "Version 1.90" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" 3 "1 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -45,6 +45,9 @@
 .RI "int \fBgfal_check_fullendpoint_in_surl\fP (const char *surl, GError **err)"
 .br
 .ti -1c
+.RI "gboolean \fBgfal_srm_surl_group_checker\fP (gfal_srmv2_opt *opts, char **surls, GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_srm_getTURLS_catalog\fP (catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
 .br
 .ti -1c
@@ -55,6 +58,9 @@
 .br
 .ti -1c
 .RI "int \fBgfal_srm_unlinkG\fP (catalog_handle ch, const char *path, GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_srm_report_error\fP (char *errbuff, GError **err)"
 .br
 .in -1c
 .SS "Variables"
@@ -92,6 +98,9 @@ simple wrapper to getTURLs for the gfal_module layer
 .SS "int gfal_srm_putTURLS_catalog (catalog_handle ch, const char * surl, char * buff_turl, int size_turl, char ** reqtoken, GError ** err)"
 .PP
 simple wrapper to putTURLs for the gfal_module layer 
+.SS "gboolean gfal_srm_surl_group_checker (gfal_srmv2_opt * opts, char ** surls, GError ** err)"
+.PP
+convenience func for a group of surls 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

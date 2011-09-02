@@ -33,7 +33,14 @@
 #include <unistd.h>
 #include "../common/gfal_constants.h"
 
+/**
+	\defgroup posix_group all POSIX style function
+*/
 
+/**
+	\addtogroup posix_group
+	@{
+*/
 
 
 int gfal_chmod(const char* path, mode_t mode);
@@ -86,10 +93,10 @@ int gfal_set_verbose (int);
 char *gfal_version();
 
 
-
+#if 0
 /**
  * \brief set the vo used by gfal
- */
+
 int gfal_set_vo (const char *vo);
 /**
  *  \brief define if bdii System is ignored or not
@@ -134,4 +141,10 @@ void gfal_set_timeout_srm (int);
 int gfal_get_timeout_srm ();
 
 int gfal_is_nobdii ();
+#endif
 
+
+/**
+	@} 
+	End of the POSIX groupe
+*/

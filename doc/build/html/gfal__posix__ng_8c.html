@@ -27,67 +27,67 @@
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g538a007e9811ed489ff2ecf5afd9ab15">gfal_access</a> (const char *path, int amode)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g33d6a4a93117a6c07405aa6ac0d42122">gfal_access</a> (const char *path, int amode)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">test access to the given file  <a href="group__posix__group.html#g538a007e9811ed489ff2ecf5afd9ab15"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">test access to the given file  <a href="group__posix__group.html#g33d6a4a93117a6c07405aa6ac0d42122"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#geed11d6e570d3a22977d860c2b000285">gfal_chmod</a> (const char *path, mode_t mode)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">change the right for a file or a folder  <a href="group__posix__group.html#geed11d6e570d3a22977d860c2b000285"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gc56b24046cef203517f30023a999bf1c">gfal_rename</a> (const char *oldpath, const char *newpath)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files  <a href="group__posix__group.html#gc56b24046cef203517f30023a999bf1c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#ga10c3c326c192d3a020bad7787b54845">gfal_stat</a> (const char *path, struct stat *buff)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g1d8c86d522d5dd26ee7ddcd9c6925964">gfal_stat</a> (const char *path, struct stat *buff)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">informations about a file These functions return information about a file. No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is required on all of the directories in path that lead to the file.  <a href="group__posix__group.html#ga10c3c326c192d3a020bad7787b54845"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g11b70df7b76efe90901b5cd09535d6d7"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_lstat" ref="g11b70df7b76efe90901b5cd09535d6d7" args="(const char *path, struct stat *buff)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g11b70df7b76efe90901b5cd09535d6d7">gfal_lstat</a> (const char *path, struct stat *buff)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">informations about a file These functions return information about a file. No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is required on all of the directories in path that lead to the file.  <a href="group__posix__group.html#g1d8c86d522d5dd26ee7ddcd9c6925964"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g347f867802a33bc04fdfb769da857103"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_lstat" ref="g347f867802a33bc04fdfb769da857103" args="(const char *path, struct stat *buff)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g347f867802a33bc04fdfb769da857103">gfal_lstat</a> (const char *path, struct stat *buff)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">gfal_lstat is identical to <a class="el" href="group__posix__group.html#ga10c3c326c192d3a020bad7787b54845">gfal_stat</a> except for symbolic links. In this case, the link itself is statted and not followed. <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g412d6606fcf2f735747f278eab8af19a">gfal_mkdirp</a> (const char *path, mode_t mode)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">gfal_lstat is identical to <a class="el" href="group__posix__group.html#g1d8c86d522d5dd26ee7ddcd9c6925964">gfal_stat</a> except for symbolic links. In this case, the link itself is statted and not followed. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__ng_8c.html#412d6606fcf2f735747f278eab8af19a">gfal_mkdirp</a> (const char *path, mode_t mode)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like "mkdir -p".  <a href="group__posix__group.html#g412d6606fcf2f735747f278eab8af19a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g6389fe2808bf2e65e8ef633630b9eb31">gfal_mkdir</a> (const char *path, mode_t mode)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like "mkdir -p".  <a href="#412d6606fcf2f735747f278eab8af19a"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g6f6affcf386900efc5443a9c97556a57">gfal_mkdir</a> (const char *path, mode_t mode)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g29e44bed837fbb03e5de38cddc04b105">gfal_rmdir</a> (const char *path)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gcc4b6347640a722674c2d6df437490df">gfal_rmdir</a> (const char *path)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">removes a directory if it is empty remove an existing directory, return error if the dir is not empty  <a href="group__posix__group.html#g29e44bed837fbb03e5de38cddc04b105"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">DIR *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g219a2a2e9a6cd6ea3d154df5bfc8c6b2">gfal_opendir</a> (const char *name)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">removes a directory if it is empty remove an existing directory, return error if the dir is not empty  <a href="group__posix__group.html#gcc4b6347640a722674c2d6df437490df"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">DIR *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g004ad5efbd544da820823e597e57be92">gfal_opendir</a> (const char *name)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">open a directory  <a href="group__posix__group.html#g219a2a2e9a6cd6ea3d154df5bfc8c6b2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gf501fb0827325e574ea6b300c62c7498">gfal_readdir</a> (DIR *d)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">open a directory  <a href="group__posix__group.html#g004ad5efbd544da820823e597e57be92"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g2a8ed205f7748d7817a18521268a1f2d">gfal_readdir</a> (DIR *d)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read a directory  <a href="group__posix__group.html#gf501fb0827325e574ea6b300c62c7498"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g2b6b93ac22a6b998ff48bec9d2535745">gfal_closedir</a> (DIR *d)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read a directory  <a href="group__posix__group.html#g2a8ed205f7748d7817a18521268a1f2d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g1c97c21d23c919b2647f17bbc8b79db2">gfal_closedir</a> (DIR *d)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read a directory close the file descriptor of an opendir call  <a href="group__posix__group.html#g2b6b93ac22a6b998ff48bec9d2535745"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gd2cb77ba96df312c4c30242c3dec377c">gfal_open</a> (const char *path, int flag, mode_t mode)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read a directory close the file descriptor of an opendir call  <a href="group__posix__group.html#g1c97c21d23c919b2647f17bbc8b79db2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622">gfal_open</a> (const char *path, int flag, mode_t mode)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">open a file opens a file according to the value of flags.  <a href="group__posix__group.html#gd2cb77ba96df312c4c30242c3dec377c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g49e67e884fa98ccb3f4790cdfe7e2aae">gfal_creat</a> (const char *filename, mode_t mode)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">open a file opens a file according to the value of flags.  <a href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g5fcdc6f3e7911787be049e20b6ab19b8">gfal_creat</a> (const char *filename, mode_t mode)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create a new file or truncate an existing one opens a file according to the value of flags.  <a href="group__posix__group.html#g49e67e884fa98ccb3f4790cdfe7e2aae"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g51127a65a25197f44faba20d06b16475">gfal_read</a> (int fd, void *buff, size_t s_buff)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create a new file or truncate an existing one opens a file according to the value of flags.  <a href="group__posix__group.html#g5fcdc6f3e7911787be049e20b6ab19b8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gbfe92147d0bf650be3e471747ef2096f">gfal_read</a> (int fd, void *buff, size_t s_buff)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff  <a href="group__posix__group.html#g51127a65a25197f44faba20d06b16475"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g7f06dd013a0a27f192db63efca360a9c">gfal_write</a> (int fd, const void *buff, size_t s_buff)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff  <a href="group__posix__group.html#gbfe92147d0bf650be3e471747ef2096f"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g7237b84e87965301f5030058eca38333">gfal_write</a> (int fd, const void *buff, size_t s_buff)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">write a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd.  <a href="group__posix__group.html#g7f06dd013a0a27f192db63efca360a9c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g8077757b4b1c9ffe6cfcb4a9aca46061">gfal_close</a> (int fd)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">write a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd.  <a href="group__posix__group.html#g7237b84e87965301f5030058eca38333"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g83b88bd27def4c4e2fdfea3c5bbf88b4">gfal_close</a> (int fd)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">close a file closes the file whose descriptor fd is the one returned by gfal_open.  <a href="group__posix__group.html#g8077757b4b1c9ffe6cfcb4a9aca46061"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gc9b6944315e891beca5a56d15292658f">gfal_symlink</a> (const char *oldpath, const char *newpath)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">close a file closes the file whose descriptor fd is the one returned by gfal_open.  <a href="group__posix__group.html#g83b88bd27def4c4e2fdfea3c5bbf88b4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__ng_8c.html#c9b6944315e891beca5a56d15292658f">gfal_symlink</a> (const char *oldpath, const char *newpath)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">make a new name for a file symlink() creates a symbolic link named newpath which contains the string oldpath.  <a href="group__posix__group.html#gc9b6944315e891beca5a56d15292658f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">off_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gcbdf64c01648b79b2c5ed066485e4565">gfal_lseek</a> (int fd, off_t offset, int whence)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">make a new name for a file symlink() creates a symbolic link named newpath which contains the string oldpath.  <a href="#c9b6944315e891beca5a56d15292658f"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">off_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g8ba4e1df5f2e6439641c56f245d5ce73">gfal_lseek</a> (int fd, off_t offset, int whence)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set position in a file gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value:  <a href="group__posix__group.html#gcbdf64c01648b79b2c5ed066485e4565"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set position in a file gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value:  <a href="group__posix__group.html#g8ba4e1df5f2e6439641c56f245d5ce73"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gc793467bb55cd10d991ee1023b321dae">gfal_getxattr</a> (const char *path, const char *name, void *value, size_t size)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">retrieve an extended attribute value gfal_getxattr retrieves an extended value from an url managed by gfal  <a href="group__posix__group.html#gc793467bb55cd10d991ee1023b321dae"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g3a5bc0f156017008ab7fdb92cb6f9c80"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_readlink" ref="g3a5bc0f156017008ab7fdb92cb6f9c80" args="(const char *path, char *buff, size_t buffsiz)" -->
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_readlink</b> (const char *path, char *buff, size_t buffsiz)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g62ca394b24df6a33810eadf083cf2468"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_unlink" ref="g62ca394b24df6a33810eadf083cf2468" args="(const char *path)" -->
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gdeb4c6cc47f507da3e3b498374e308fb"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_unlink" ref="gdeb4c6cc47f507da3e3b498374e308fb" args="(const char *path)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_unlink</b> (const char *path)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gb3af1720532d8ad4798b08fa0868f4c7">gfal_listxattr</a> (const char *path, char *list, size_t size)</td></tr>
@@ -101,13 +101,13 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_unlink</b> (const
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gc6149b0b3c9c8af05789169a18832634">gfal_posix_code_error</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__ng_8c.html#57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g2a9e2951c934dd1c3205a89c0d25ac29">gfal_posix_strerror_r</a> (char *buff_err, size_t s_err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__ng_8c.html#a3f35e131b2db4c3b742a29790e08bdf">gfal_set_nobdii</a> (int value)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a3f35e131b2db4c3b742a29790e08bdf"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_set_nobdii" ref="a3f35e131b2db4c3b742a29790e08bdf" args="(int value)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_nobdii</b> (int value)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">define if bdii System is ignored or not  <a href="#a3f35e131b2db4c3b742a29790e08bdf"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0d2a0557bdb571ccb85c6ab5c05ae56f"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_is_nobdii" ref="0d2a0557bdb571ccb85c6ab5c05ae56f" args="()" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_is_nobdii</b> ()</td></tr>
 
@@ -118,15 +118,61 @@ new file for the posix interface
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>09/05/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="a3f35e131b2db4c3b742a29790e08bdf"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_set_nobdii" ref="a3f35e131b2db4c3b742a29790e08bdf" args="(int value)" -->
+<a class="anchor" name="412d6606fcf2f735747f278eab8af19a"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_mkdirp" ref="412d6606fcf2f735747f278eab8af19a" args="(const char *path, mode_t mode)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void gfal_set_nobdii           </td>
+          <td class="memname">int gfal_mkdirp           </td>
           <td>(</td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>value</em>          </td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&nbsp;</td>
+          <td class="paramname"> <em>mode</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+create a new directory creates a new directory with permission bits taken from mode. The default behavior of this command is recursive, like "mkdir -p". 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>: url of the directory, can be in supported protocols (lfn, srm, file, guid,..) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>: right of the directory ( depend of the implementation ) </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return 0 if success else -1 and errno is set call <a class="el" href="gfal__posix__ng_8c.html#57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error()</a> to check it<ul>
+<li>ERRNO list : <br>
+<ul>
+<li>usual errors:<ul>
+<li>ENOENT: The named file/directory does not exist.</li><li>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</li><li>EFAULT: oldpath or newpath is a NULL pointer</li><li>ENOTDIR: A component of path prefix is not a directory<ul>
+<li>EEXIST: file already exist</li></ul>
+</li><li>ECOMM: Communication error</li><li>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</li><li>EINVAL: oldpath or newpath has an invalid syntax . </li></ul>
+</li></ul>
+</li></ul>
+</dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="57ced6eae7afd2d0413988da02fe0373"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_posix_check_error" ref="57ced6eae7afd2d0413988da02fe0373" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_posix_check_error           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"></td>
         </tr>
@@ -135,12 +181,50 @@ new file for the posix interface
 <div class="memdoc">
 
 <p>
-define if bdii System is ignored or not 
-<p>
-End of the POSIX groupe 
+check the current error, if no error report return 0 else return 1 and print the error on stderr <dl compact><dt><b>Warning:</b></dt><dd>this does not clear the error </dd></dl>
+<dl compact><dt><b>Examples: </b></dt><dd>
+<a class="el" href="gfal__testchmod_8c-example.html#a1">gfal_testchmod.c</a>, <a class="el" href="gfal__testcreatedir_8c-example.html#a4">gfal_testcreatedir.c</a>, <a class="el" href="gfal__testget_8c-example.html#a12">gfal_testget.c</a>, <a class="el" href="gfal__testread_8c-example.html#a14">gfal_testread.c</a>, and <a class="el" href="gfal__testrw_8c-example.html#a18">gfal_testrw.c</a>.</dl>
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Aug 29 17:04:21 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="c9b6944315e891beca5a56d15292658f"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_symlink" ref="c9b6944315e891beca5a56d15292658f" args="(const char *oldpath, const char *newpath)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_symlink           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>oldpath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>newpath</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+make a new name for a file symlink() creates a symbolic link named newpath which contains the string oldpath. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>newpath</em>&nbsp;</td><td>: path of the link, can be in supported protocols but need to be in the same adress space than newpath </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>oldpath</em>&nbsp;</td><td>: path of the linked file, can be in supported protocols (lfn, srm, file, guid,..) </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>0 if success else -1. if failure, errno is set, you can call <a class="el" href="gfal__posix__ng_8c.html#57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error()</a> for a more complete description. </dd></dl>
+
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Sep 1 15:47:13 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

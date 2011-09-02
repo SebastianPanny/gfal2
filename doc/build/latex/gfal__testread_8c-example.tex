@@ -24,20 +24,20 @@ This exemple show how to open and read a file ex : use case with LFC plugin : ./
 23 
 24         printf ("opening %s\n", argv[1]);
 25         if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
-26                 perror ("gfal_open");
+26                 gfal_posix_check_error();
 27                 exit (1);
 28         }
 29         printf ("open successful, fd = %d (errno = %d)\n", fd, errno);
 30 
 31         if ((rc = gfal_read (fd, ibuf, BLKLEN)) < 0) {
-32                 perror ("gfal_read");
+32                 gfal_posix_check_error();
 33                 (void) gfal_close (fd);
 34                 exit (1);
 35         }
 36         printf ("read successful (errno = %d)\n", errno);
 37 
 38         if ((rc = gfal_close (fd)) < 0) {
-39                 perror ("gfal_close");
+39                 gfal_posix_check_error();
 40                 exit (1);
 41         }
 42         printf ("close successful\n");

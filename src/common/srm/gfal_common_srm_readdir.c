@@ -78,17 +78,15 @@ inline static struct dirent* gfal_srm_readdir_convert_result(catalog_handle ch, 
 int gfal_srm_readdir_internal(catalog_handle ch, gfal_srm_opendir_handle oh, int nb_files, GError** err){
 	g_return_val_err_if_fail(ch && oh, -1, err, "[gfal_srmv2_opendir_internal] invaldi args");
 	GError* tmp_err=NULL;
-	int i=-1;
 	int resu =-1;
 	struct srm_context context;
 	struct srm_ls_input input;
 	struct srm_ls_output output;
 	struct srmv2_mdfilestatus *srmv2_mdstatuses=NULL;
-	char errbuf[GFAL_ERRMSG_LEN];
+	char errbuf[GFAL_ERRMSG_LEN]={0};
 	int ret =-1;
 	int offset = oh->dir_offset;
 	char* tab_surl[] = { (char*) oh->surl, NULL};
-	int tab_resu[nb_files];
 	
 	gfal_srm_external_call.srm_context_init(&context, oh->endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());	// init context
 	
@@ -114,7 +112,7 @@ int gfal_srm_readdir_internal(catalog_handle ch, gfal_srm_opendir_handle oh, int
 			resu = 0;
 		}	
 	}else{
-		g_set_error(err,0, ECOMM, "[%s] Bad answer from srm_ifce, maybe voms-proxy is not initiated properly", __func__);
+		gfal_srm_report_error(errbuf, &tmp_err);
 		resu=-1;
 	}
 

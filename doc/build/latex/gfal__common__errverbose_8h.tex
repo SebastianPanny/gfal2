@@ -22,8 +22,7 @@ the header file of the common lib for error management and verbose display
 \item 
 void \bf{gfal\_\-print\_\-verbose} (int verbose\_\-lvl, const char $\ast$msg,...)
 \begin{CompactList}\small\item\em display a verbose message \item\end{CompactList}\item 
-int \bf{gfal\_\-set\_\-verbose} (int value)\label{gfal__common__errverbose_8h_df0f68db7d70d7ce1f530c7a51f9cc83}
-
+int \bf{gfal\_\-set\_\-verbose} (int value)
 \begin{CompactList}\small\item\em set the verbose mode for the current program \item\end{CompactList}\item 
 int \bf{gfal\_\-get\_\-verbose} ()\label{gfal__common__errverbose_8h_135b3fdd775aa7215e2ab4de1eea495f}
 
@@ -74,7 +73,14 @@ the header file of the common lib for error management and verbose display
 
 display a verbose message 
 
-msg is displayed if current verbose level is superior to verbose mode specified \index{gfal_common_errverbose.h@{gfal\_\-common\_\-errverbose.h}!gfal_str_GError@{gfal\_\-str\_\-GError}}
+msg is displayed if current verbose level is superior to verbose mode specified \index{gfal_common_errverbose.h@{gfal\_\-common\_\-errverbose.h}!gfal_set_verbose@{gfal\_\-set\_\-verbose}}
+\index{gfal_set_verbose@{gfal\_\-set\_\-verbose}!gfal_common_errverbose.h@{gfal\_\-common\_\-errverbose.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-set\_\-verbose (int {\em value})}\label{gfal__common__errverbose_8h_df0f68db7d70d7ce1f530c7a51f9cc83}
+
+
+set the verbose mode for the current program 
+
+set the verbose level of gfal 2 \index{gfal_common_errverbose.h@{gfal\_\-common\_\-errverbose.h}!gfal_str_GError@{gfal\_\-str\_\-GError}}
 \index{gfal_str_GError@{gfal\_\-str\_\-GError}!gfal_common_errverbose.h@{gfal\_\-common\_\-errverbose.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-str\_\-GError (GError $\ast$$\ast$ {\em err})}\label{gfal__common__errverbose_8h_c35c45ff43533cc6e7c176b0fa0b3128}
 

@@ -24,19 +24,19 @@ This exemple show how to create a directory ex : use case with SRM plugin : ./gf
 22 
 23         printf ("Creating directory 'olddir'...\n");
 24         if (gfal_mkdir (olddir, 0700) < 0) {
-25                 perror ("gfal_mkdir");
+25                 gfal_posix_check_error();
 26                 exit (1);
 27         }
 28 
 29         printf ("Renaming directory 'olddir' to 'newdir'...\n");
 30         if (gfal_rename (olddir, newdir) < 0) {
-31                 perror ("gfal_rename");
+31                 gfal_posix_check_error();
 32                 exit (1);
 33         }
 34 
 35         printf ("Removing directory 'newdir'...\n");
 36         if (gfal_rmdir (newdir) < 0) {
-37                 perror ("gfal_rmdir");
+37                 gfal_posix_check_error();
 38                 exit (1);
 39         }
 40 

@@ -26,12 +26,15 @@
 #include "gfal_common_srm.h"
 #include "gfal_common_srm_mkdir.h"
 #include "gfal_common_srm_internal_layer.h"
+#include "gfal_common_srm_endpoint.h"
 #include "../gfal_common_errverbose.h"
 
 int gfal_mkdir_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint, const char* path, mode_t mode, GError** err){
 	struct srm_mkdir_input mkdir_input;
 	struct srm_context context;	
 	int res = -1;
+	GError* tmp_err=NULL;
+	char errbuf[GFAL_ERRMSG_LEN]={0};
 
 	errno =0;	
     gfal_srm_external_call.srm_context_init(&context, endpoint, NULL, 0, gfal_get_verbose());	  
@@ -39,10 +42,12 @@ int gfal_mkdir_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint, const char* 
    	res  = gfal_srm_external_call.srm_mkdir(&context, &mkdir_input);
 
    	if(res <0){
-		g_set_error(err,0, errno, "[%s] Error reported by srm_ifce ", __func__);
+		gfal_srm_report_error(errbuf, &tmp_err);
 		res = -1;
 	}
    //	g_printerr(" filename %s endpoint %s res %d mode %o \n", path, endpoint, res, mode);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return res;
 	
 }
@@ -54,7 +59,7 @@ int gfal_srm_mkdirG(catalog_handle ch, const char* surl, mode_t mode, gboolean p
 	GError* tmp_err=NULL;
 	enum gfal_srm_proto srm_types;
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
-	ret =gfal_srm_determine_endpoint(opts, surl, &full_endpoint, GFAL_URL_MAX_LEN, &srm_types,   &tmp_err);
+	ret =gfal_srm_determine_endpoint(opts, surl, full_endpoint, GFAL_URL_MAX_LEN, &srm_types,   &tmp_err);
 	if(ret >=0){
 		if (srm_types == PROTO_SRMv2){			// check the proto version
 			ret= gfal_mkdir_srmv2_internal(opts, full_endpoint, (char*)surl, mode, &tmp_err);	// execute the SRMv2 access test

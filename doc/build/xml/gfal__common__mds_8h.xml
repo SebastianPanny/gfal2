@@ -6,6 +6,7 @@
     <includes refid="gfal__prototypes_8h" local="yes">../gfal_prototypes.h</includes>
     <includes refid="gfal__types_8h" local="yes">../gfal_types.h</includes>
     <includedby refid="lfc__ifce__ng_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c</includedby>
+    <includedby refid="gfal__common__srm__endpoint_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c</includedby>
     <incdepgraph>
       <node id="949">
         <label>sys/stat.h</label>
@@ -103,10 +104,16 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="959">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_endpoint.c</label>
+        <link refid="gfal__common__srm__endpoint_8c"/>
+      </node>
       <node id="957">
         <label>/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.h</label>
         <link refid="gfal_common_mds.h"/>
         <childnode refid="958" relation="include">
+        </childnode>
+        <childnode refid="959" relation="include">
         </childnode>
       </node>
       <node id="958">
@@ -157,7 +164,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.h" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.c" bodystart="54" bodyend="69"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.h" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.c" bodystart="54" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__mds_8h_13ad92668d067c5dedc374ea13067cc00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -179,7 +186,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.h" line="38" bodyfile="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.c" bodystart="76" bodyend="98"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.h" line="38" bodyfile="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds.c" bodystart="77" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__mds_8h_1a3975dda72e623713566e510b0317796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>

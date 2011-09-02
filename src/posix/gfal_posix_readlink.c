@@ -31,6 +31,8 @@
 #include <glib.h>
 #include "gfal_posix_internal.h"
 #include "../common/gfal_types.h"
+#include "gfal_posix_local_file.h"
+#include "gfal_common_catalog.h"
 
  /**
   *  internal implementation of gfal_readlink

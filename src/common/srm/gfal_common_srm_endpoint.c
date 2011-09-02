@@ -34,6 +34,7 @@
 #include "../gfal_common_internal.h"
 #include "gfal_common_srm_endpoint.h"
 #include "../gfal_common_errverbose.h"
+#include "../mds/gfal_common_mds.h"
 
 static enum gfal_srm_proto gfal_proto_list_prefG[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
 
@@ -48,7 +49,6 @@ int gfal_srm_determine_endpoint(gfal_srmv2_opt* opts, const char* surl, char* bu
 	
 	GError* tmp_err=NULL;
 	int ret = -1;
-	char * tmp_endpoint=NULL;
 	gboolean isFullEndpoint = gfal_check_fullendpoint_in_surlG(surl, &tmp_err);		// check if a full endpoint exist
 	if(!tmp_err){
 
@@ -127,7 +127,6 @@ static enum gfal_srm_proto gfal_convert_proto_from_bdii(const char* se_type_bdii
  */
 int gfal_select_best_protocol_and_endpointG(gfal_srmv2_opt* opts, char** tab_se_type, char** tab_endpoint, char* buff_endpoint, size_t s_buff, enum gfal_srm_proto* srm_type, GError** err){
 	g_return_val_err_if_fail(opts && buff_endpoint && s_buff && srm_type && tab_se_type && tab_endpoint, -1, err, "[gfal_select_best_protocol_and_endpoint] Invalid value");
-	int i=0;
 	char** pse =tab_se_type;
 	enum gfal_srm_proto* p_pref = &(opts->srm_proto_type);	
 	while( *p_pref != PROTO_ERROR_UNKNOW){
@@ -162,7 +161,7 @@ int  gfal_get_hostname_from_surlG(const char * surl, char* buff_hostname, size_t
 	 
 	 char* p;
 	 if((p = strchr(surl+srm_prefix_len,'/')) ==NULL){
-		g_set_error(err, 0, EINVAL, "[%s] url invalid");
+		g_set_error(err, 0, EINVAL, "[%s] url invalid",__func__);
 		return -1; 		 
 	 }
 		
@@ -170,7 +169,7 @@ int  gfal_get_hostname_from_surlG(const char * surl, char* buff_hostname, size_t
 		*((char*) mempcpy(buff_hostname, surl+srm_prefix_len, p-surl-srm_prefix_len)) = '\0';
 		return 0;
 	}
-	g_set_error(err, 0, ENOBUFS, "[%s] buffer size too small");
+	g_set_error(err, 0, ENOBUFS, "[%s] buffer size too small",__func__);
 	return -1; 
  }
 
@@ -185,7 +184,7 @@ int gfal_get_endpoint_and_setype_from_bdiiG(gfal_srmv2_opt* opts, const char* su
 	char** tab_endpoint=NULL;
 	char** tab_se_type=NULL;
 	char hostname[GFAL_URL_MAX_LEN];
-	int ret =-1, i;
+	int ret =-1;
 	GError* tmp_err=NULL;
 	if( (ret = gfal_get_hostname_from_surlG(surl, hostname, GFAL_URL_MAX_LEN, &tmp_err)) == 0){ 		// get the hostname
 

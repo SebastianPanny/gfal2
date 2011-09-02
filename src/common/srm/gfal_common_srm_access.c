@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+#define _GNU_SOURCE
 /**
  * @file gfal_common_srm_access.c
  * @brief file for the access function on the srm url type
@@ -22,7 +23,7 @@
  * @version 2.0
  * @date 05/05/2011
  * */
-
+#include <string.h>
 #include "gfal_common_srm_access.h"
 #include "../gfal_constants.h"
 #include "../gfal_common_errverbose.h"
@@ -32,6 +33,7 @@
 
 
 int gfal_access_srmv2_internal(gfal_srmv2_opt*  opts, char* endpoint, const char* surl, int mode,  GError** err){
+	GError* tmp_err=NULL;
 	struct srm_context context;
 	struct srm_checkpermission_input checkpermission_input;
 	struct srmv2_filestatus *resu;
@@ -40,7 +42,6 @@ int gfal_access_srmv2_internal(gfal_srmv2_opt*  opts, char* endpoint, const char
 	int i;
 	int ret=-1;
 	char* tab_surl[] = { (char*)surl, NULL};
-	int tab_resu[nb_request];
 
 
 	gfal_srm_external_call.srm_context_init(&context, endpoint, errbuf, GFAL_ERRMSG_LEN, gfal_get_verbose());
@@ -51,15 +52,15 @@ int gfal_access_srmv2_internal(gfal_srmv2_opt*  opts, char* endpoint, const char
 
 	ret = gfal_srm_external_call.srm_check_permission(&context,&checkpermission_input, &resu);	
 	if(ret != nb_request){
-		g_set_error(err, 0,ECOMM, "[gfal_access_srmv2_internal] Bad answer of the libgfal_srm_ifce, Maybe voms-proxy is not set properly : %d", ret);
+		gfal_srm_report_error(errbuf, &tmp_err);
 		return -1;
 	}
 	for(i=0; i< nb_request; ++i){
 		if( resu[i].status ){
 			if( strnlen(resu[i].surl, GFAL_URL_MAX_LEN) >= GFAL_URL_MAX_LEN || strnlen(resu[i].explanation, GFAL_URL_MAX_LEN) >= GFAL_URL_MAX_LEN){
-				g_set_error(err, 0, resu[i].status, "[gfal_access_srmv2_internal] Memory corruption in the libgfal_srm_ifce answer, fatal");			
+				g_set_error(&tmp_err, 0, resu[i].status, " Memory corruption in the libgfal_srm_ifce answer, fatal");			
 			}else{
-				g_set_error(err, 0, resu[i].status, "[gfal_access_srmv2_internal] Error %d : %s  \
+				g_set_error(&tmp_err, 0, resu[i].status, "Error %d : %s  \
 , file %s: %s", resu[i].status, strerror(resu[i].status), resu[i].surl, resu[i].explanation);
 			}
 			ret= -1;
@@ -70,6 +71,8 @@ int gfal_access_srmv2_internal(gfal_srmv2_opt*  opts, char* endpoint, const char
 	errno = 0;
 	//g_printerr(" resu : %d , status %d, strerror : %s, explanation : %s \n", ret, resu[0].status, strerror(resu[0].status), resu[0].explanation);
 	gfal_srm_external_call.srm_srmv2_filestatus_delete(resu, nb_request);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret;
 }
 

@@ -151,7 +151,7 @@ int gfal_catalogs_delete(gfal_handle, GError** err);
 
 
 int gfal_catalogs_accessG(gfal_handle handle, const char* path, int mode, GError** err);
-
+ssize_t gfal_catalog_readlinkG(gfal_handle handle, const char* path, char* buff, size_t buffsiz, GError** err);
 
 
 
