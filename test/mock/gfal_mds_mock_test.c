@@ -7,7 +7,6 @@
 
 #include <cgreen/cgreen.h>
 #include "gfal_mds_mock_test.h" 
-#include "mds/gfal_common_mds_layer.h"
 
 char** define_se_endpoints;
 char** define_se_types;

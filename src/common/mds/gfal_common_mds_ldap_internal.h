@@ -1,3 +1,4 @@
+#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -16,8 +17,24 @@
  */
  
 /**
- * @file gfal_common_mds_layer.c
- * @brief file for the external call to the bdii system, mock purpose
+ * @file gfal_common_mds_ldap_internal.ch
+ * @brief header for the internal ldap query by gfal, without is interface
  * @author Adrien Devresse
- * @date 10/06/2011
+ * @date 05/09/2011
  * */
+
+#include <glib.h>
+#include <lber.h>
+#include <ldap.h>
+#include "../gfal_common_errverbose.h"
+#include "gfal_common_mds.h"
+
+
+
+LDAP* gfal_mds_ldap_connect(const char* uri, GError** err);
+
+int gfal_mds_get_ldapuri(char* buff, size_t s_buff, GError** err);
+
+int gfal_mds_get_srm_types_endpoint(LDAP* ld, LDAPMessage *result, gfal_mds_endpoint* endpoints, size_t s_endpoint, GError** err);
+
+int gfal_mds_bdii_get_srm_endpoint(const char* base_url, gfal_mds_endpoint* endpoints, size_t s_endpoint, GError** err);

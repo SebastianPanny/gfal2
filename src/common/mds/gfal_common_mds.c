@@ -33,7 +33,6 @@
 #include <pthread.h>
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
-#include "gfal_common_mds_layer.h"
 #include "../gfal_common_internal.h"
 #include "gfal_common_mds_ldap_internal.h"
 

@@ -14,7 +14,6 @@
 #include "gfal_types.h"
 #include "srm/gfal_common_srm_internal_layer.h"
 #include "../unit_test_constants.h"
-#include "mds/gfal_common_mds_layer.h"
 #include "srm/gfal_common_srm_endpoint.h"
 #include "../mock/gfal_mds_mock_test.h"
 #include "../mock/gfal_srm_mock_test.h"
