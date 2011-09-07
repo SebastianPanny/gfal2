@@ -6,6 +6,9 @@
 
 
 void test_check_bdii_endpoints_srm();
+
+void test_check_bdii_endpoints_srm_ng();
+
 void gfal__test_get_lfchost_bdii();
 void gfal__test_get_lfchost_bdii_with_nobdii(); 
 

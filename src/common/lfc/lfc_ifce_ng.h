@@ -116,3 +116,7 @@ void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err);
 
 ssize_t g_strv_catbuff(char** strv, char* buff, size_t size);
 
+int gfal_lfc_convert_lstat(struct stat* output, struct lfc_filestat* input, GError** err);
+
+void gfal_generate_guidG(char* buf, GError** err);
+

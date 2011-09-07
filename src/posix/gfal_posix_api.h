@@ -94,10 +94,7 @@ char *gfal_version();
 
 
 #if 0
-/**
- * \brief set the vo used by gfal
 
-int gfal_set_vo (const char *vo);
 /**
  *  \brief define if bdii System is ignored or not
  *  \param : 0 for False else true

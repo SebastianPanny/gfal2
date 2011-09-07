@@ -5,13 +5,13 @@ Import('*')	# import SConstruct exported var
 import os
 
 
-gfal_common_libs = [ ] 		# libraries linked
+gfal_common_libs = ['ldap_r' ] 		# libraries linked
 gsimplecache = ["externals/gsimplecache/gsimplecacheOS.os"]
 other_headers=['common/']
 common_src = Glob("common/*.c") 
 common_mds = Glob("common/mds/*.c") 
 posix_src_all = Glob("posix/*.c")
-src_all = common_src +  posix_src_all
+src_all = common_src +  posix_src_all + common_mds 
 
 local_headers = Glob("common/*.h") + Glob("posix/*.h")  + Glob("common/mds/*.h")  + Glob("*.h")
 lfc_headers = local_headers + Glob("common/lfc/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
@@ -20,7 +20,7 @@ rfio_headers = local_headers + Glob("common/rfio/*.h")  + Glob("externals/gsimpl
 dcap_headers = local_headers + Glob("common/dcap/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
 
 plugin_lfc = Glob("common/lfc/*.c")
-plugin_srm = Glob("common/srm/*.c")+ common_mds 
+plugin_srm = Glob("common/srm/*.c")
 plugin_rfio = Glob("common/rfio/*.c")
 plugin_dcap = Glob("common/dcap/*.c")
 
@@ -42,7 +42,7 @@ env_plugin = env.Clone();
 env_plugin.Append(LIBS=["gfal2"])
 
 env_plugin_srm = env_plugin.Clone()
-env_plugin_srm.Append(LIBS=['is_ifce', "gfal_srm_ifce" ] )
+env_plugin_srm.Append(LIBS=[ "gfal_srm_ifce" ] )
 plugin_srm_lib = env_plugin_srm.SharedLibrary('../libs/libgfal_plugin_srm', plugin_srm + gsimplecache)
 env_plugin_srm.Depends(plugin_srm_lib,srm_headers )
 

@@ -57,9 +57,13 @@ int gfal_posix_internal_lseek(int fd, off_t offset, int whence);
 
 int gfal_posix_internal_read(int fd, void* buff, size_t s_buff);
 
+int gfal_posix_internal_write(int fd, void* buff, size_t s_buff);
+
 int gfal_posix_internal_close(int fd);
 
 int gfal_posix_internal_closedir(DIR* d);
+
+ssize_t gfal_posix_internal_unlink(const char* path);
 
 ssize_t gfal_posix_internal_getxattr (const char *path, const char *name,
                         void *value, size_t size);

@@ -52,6 +52,8 @@ gfal_handle gfal_initG (GError** err)
 		g_set_error(err,0,ENOMEM, "[gfal_initG] bad allocation, no more memory free");
 		return NULL;
 	}
+	if(!g_thread_supported ())
+		g_thread_init(NULL);
 	handle->no_bdii_check=FALSE;
 	handle->catalog_opt.catalog_number= 0;
 	gfal_catalogs_instance(handle, &tmp_err);
@@ -157,19 +159,7 @@ char *gfal_version(){
 	 
 }
 
-/**
- * @brief generate an uiid string
- * Generate a uuid string and cpy it in the buf,
- * @warning buff must be > uuid size ( 37 bytes )
- * 
- * */
- void gfal_generate_guidG(char* buf, GError** err){
-    uuid_t uuid;
 
-    uuid_generate (uuid);
-    uuid_unparse (uuid, buf);
-    uuid_clear(uuid);
- }
  
 
  

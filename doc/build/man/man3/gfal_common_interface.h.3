@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h" 3 "1 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_interface.h" 3 "7 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -15,38 +15,9 @@
 
 .in +1c
 .ti -1c
-.RI "char * \fBgfal_last_error_string\fP (gfal_handle handle)"
+.RI "int \fBresolve_dlsym_listG\fP (void *handle, void ***flist, const char **sym_list, int num, GError **err)"
 .br
-.ti -1c
-.RI "int \fBgfal_has_error\fP (gfal_handle handle)"
-.br
-.ti -1c
-.RI "gfal_handle \fBgfal_handle_new\fP ()"
-.br
-.ti -1c
-.RI "void \fBgfal_handle_free\fP (gfal_handle handle)"
-.br
-.ti -1c
-.RI "int \fBgfal_get_async\fP (gfal_handle handle, char **surls)"
-.br
-.ti -1c
-.RI "int \fBgfal_async_request_is_finished\fP (gfal_handle handle)"
-.br
-.ti -1c
-.RI "int \fBgfal_get_async_results\fP (gfal_handle handle, char ***turls)"
-.br
-.ti -1c
-.RI "int \fBgfal_get_async_get_results_errcodes\fP (gfal_handle handle, int **turl_errcode)"
-.br
-.ti -1c
-.RI "int \fBgfal_get_async_get_results_errstring\fP (gfal_handle handle, char ***turl_errstring)"
-.br
-.ti -1c
-.RI "int \fBgfal_wait_async_request\fP (gfal_handle handle, long timeout)"
-.br
-.ti -1c
-.RI "void \fBgfal_set_nobdii_srm\fP (gfal_handle handle, gboolean no_bdii_chk)"
-.br
+.RI "\fIopen dynamycally a list of symbols resolve all symbols from sym_list to flist with the associated dlhandle set GError properly if error \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 

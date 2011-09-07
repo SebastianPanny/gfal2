@@ -6,52 +6,52 @@
     <includes local="no">glib.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
     <incdepgraph>
-      <node id="323">
+      <node id="327">
         <label>stdarg.h</label>
       </node>
-      <node id="318">
+      <node id="322">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c</label>
         <link refid="gfal_common_errverbose.c"/>
-        <childnode refid="319" relation="include">
-        </childnode>
-        <childnode refid="320" relation="include">
-        </childnode>
-        <childnode refid="321" relation="include">
-        </childnode>
-      </node>
-      <node id="321">
-        <label>gfal_common_errverbose.h</label>
-        <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="322" relation="include">
-        </childnode>
         <childnode refid="323" relation="include">
         </childnode>
         <childnode refid="324" relation="include">
         </childnode>
         <childnode refid="325" relation="include">
         </childnode>
-        <childnode refid="326" relation="include">
-        </childnode>
-        <childnode refid="320" relation="include">
-        </childnode>
-      </node>
-      <node id="326">
-        <label>errno.h</label>
-      </node>
-      <node id="319">
-        <label>malloc.h</label>
       </node>
       <node id="325">
+        <label>gfal_common_errverbose.h</label>
+        <link refid="gfal__common__errverbose_8h"/>
+        <childnode refid="326" relation="include">
+        </childnode>
+        <childnode refid="327" relation="include">
+        </childnode>
+        <childnode refid="328" relation="include">
+        </childnode>
+        <childnode refid="329" relation="include">
+        </childnode>
+        <childnode refid="330" relation="include">
+        </childnode>
+        <childnode refid="324" relation="include">
+        </childnode>
+      </node>
+      <node id="330">
+        <label>errno.h</label>
+      </node>
+      <node id="323">
+        <label>malloc.h</label>
+      </node>
+      <node id="329">
         <label>string.h</label>
       </node>
-      <node id="320">
+      <node id="324">
         <label>glib.h</label>
       </node>
-      <node id="322">
+      <node id="326">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h-source"/>
       </node>
-      <node id="324">
+      <node id="328">
         <label>stdio.h</label>
       </node>
     </incdepgraph>
@@ -293,7 +293,7 @@
         <definition>int gfal_verbose</definition>
         <argsstring></argsstring>
         <name>gfal_verbose</name>
-        <initializer> -1</initializer>
+        <initializer> 0</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -351,7 +351,7 @@
 <codeline lineno="33"><highlight class="comment"><sp/>*<sp/><sp/><sp/>API<sp/>mode<sp/>(no<sp/>messages<sp/>on<sp/>stderr)<sp/>by<sp/>default</highlight></codeline>
 <codeline lineno="34"><highlight class="comment"><sp/>*<sp/><sp/><sp/>CLI<sp/>has<sp/>to<sp/>set<sp/>it<sp/>to<sp/>&apos;0&apos;<sp/>to<sp/>get<sp/>normal<sp/>error<sp/>messages</highlight></codeline>
 <codeline lineno="35"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_verbose<sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_verbose<sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>internal<sp/>err<sp/>buff<sp/>for<sp/>print</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="38"><highlight class="normal">__thread<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>_gfal_err[GFAL_ERRMSG_LEN];</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight></codeline>
@@ -368,7 +368,7 @@
 <codeline lineno="56"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"></highlight></codeline>
 <codeline lineno="64"><highlight class="normal"><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>verbose_lvl,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>msg,<sp/>...){</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(verbose_lvl<sp/>&lt;=<sp/><ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose</ref>()){</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(verbose_lvl<sp/>&amp;<sp/><ref refid="gfal__common__errverbose_8c_1135b3fdd775aa7215e2ab4de1eea495f" kindref="member">gfal_get_verbose</ref>()<sp/>){</highlight></codeline>
 <codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>tab[2048];</highlight></codeline>
 <codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sprintf(tab,</highlight><highlight class="stringliteral">&quot;[GFAL]<sp/>[VERBOSE]<sp/>%s\n&quot;</highlight><highlight class="normal">,msg);</highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>va_list<sp/>args;</highlight></codeline>

@@ -26,8 +26,8 @@
 #include <stdlib.h>
 #include <glib.h>
 #include "gfal_posix_api.h"
-#include "gfal_posix_internal.h"
 #include "gfal_posix_local_file.h"
+#include "gfal_posix_internal.h"
 #include "../common/gfal_constants.h" 
 #include "../common/gfal_prototypes.h"
 #include "../common/gfal_common_filedescriptor.h"

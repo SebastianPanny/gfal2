@@ -33,7 +33,7 @@
  *   API mode (no messages on stderr) by default
  *   CLI has to set it to '0' to get normal error messages
  */
-static int gfal_verbose = -1;
+static int gfal_verbose = 0;
 // internal err buff for print
 __thread char _gfal_err[GFAL_ERRMSG_LEN];
 
@@ -62,7 +62,7 @@ extern int gfal_set_verbose (int value)
  * 
  */
  extern void gfal_print_verbose(int verbose_lvl, const char* msg, ...){
-	 if(verbose_lvl <= gfal_get_verbose()){
+	 if(verbose_lvl & gfal_get_verbose() ){
 			char tab[2048];
 			sprintf(tab,"[GFAL] [VERBOSE] %s\n",msg);
 			va_list args;

@@ -23,7 +23,7 @@
 
 void setup_mock_bdii(){
 #if USE_MOCK
-	gfal_mds_external_call.sd_get_se_types_and_endpoints = &mds_mock_sd_get_se_types_and_endpoints;	
+	
 #endif
 }
 
@@ -60,7 +60,6 @@ void mock_srm_access_right_response(char* surl){
 
 	define_mock_srmv2_filestatus(1, surls, NULL,  turls, status);
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));		
 #endif
@@ -80,7 +79,6 @@ void mock_srm_access_error_response(char* surl, int merror){
 	char* surls[] = { surl, NULL };	
 	define_mock_srmv2_filestatus(1, surls, explanation2, NULL, status2);
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	will_respond(srm_mock_srm_check_permission, 1, want_non_null(context), want_non_null(statuses), want_non_null(input));	
 #endif
@@ -96,7 +94,7 @@ void test_srm_mock_chmod(char* url, int retcode){
 	
 	setup_mock_srm();
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	will_respond(srm_mock_srm_setpermission, retcode, want_non_null(context), want_non_null(input));		
 #endif	
@@ -195,9 +193,9 @@ void test_gfal_get_endpoint_and_setype_from_bdiiG(){
 	char* types[] = { "srm_v1", "srm_v2", "srm_v1"};
 	for(i1=0;i1 <3; ++i1)
 		define_se_types[i1]= strdup(types[i1]);	
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, buff_tmp), want_non_null(se_types), want_non_null(se_endpoints));
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, EINVAL, want_non_null(host), want_non_null(se_types), want_non_null(se_endpoints));
-	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);
+
+
+
 
 #endif
 	gfal_handle handle = gfal_initG(&err);
@@ -212,7 +210,7 @@ void test_gfal_get_endpoint_and_setype_from_bdiiG(){
 	gfal_check_GError(&err);
 	memset(buff_endpoint, '\0', sizeof(char)*2048);
 	ret = gfal_get_endpoint_and_setype_from_bdiiG(&opts, "srm://lxb540dfshhhh9.cern.ch:8446/test/invalid", buff_endpoint, 2048, &proto, &err);
-	assert_true_with_message(ret != 0 && err != NULL && err->code==EINVAL && *buff_endpoint== '\0', " must fail, invalid point");
+	assert_true_with_message(ret != 0 && err != NULL && err->code==ENXIO && *buff_endpoint== '\0', " must fail, invalid point");
 	g_clear_error(&err);
 	gfal_handle_freeG(handle);
 }
@@ -222,7 +220,7 @@ void test_gfal_srm_determine_endpoint_full_endpointG()
 {
 #if USE_MOCK
 	setup_mock_bdii();
-	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);
+
 #endif
 	GError* err = NULL;
 	char buff_endpoint[2048];
@@ -251,7 +249,7 @@ void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
 {
 #if USE_MOCK
 	setup_mock_bdii();
-	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);
+
 #endif
 	GError* err = NULL;
 	char buff_endpoint[2048];
@@ -297,8 +295,8 @@ void test_gfal_srm_determine_endpoint_not_fullG()
 	char* types[] = { "srm_v1", "srm_v2", "srm_v1"};
 	for(i1=0;i1 <3; ++i1)
 		define_se_types[i1]= strdup(types[i1]);	
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, buff_tmp), want_non_null(se_types), want_non_null(se_endpoints));
-	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);
+
+
 
 #endif
 	GError* err = NULL;
@@ -389,8 +387,8 @@ void test_gfal_srm_getTURLS_one_success()
 	char* types[] = { "srm_v1", "srm_v2", "srm_v1"};
 	for(i1=0;i1 <3; ++i1)
 		define_se_types[i1]= strdup(types[i1]);	
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
-	always_return(mds_mock_sd_get_se_types_and_endpoints, EINVAL);
+
+
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	defined_get_output = calloc(sizeof(struct srmv2_pinfilestatus),1);
 	defined_get_output[0].turl= strdup(TEST_SRM_TURL_EXAMPLE1);
@@ -451,8 +449,8 @@ void test_gfal_srm_getTURLS_pipeline_success()
 	char* types[] = { "srm_v1", "srm_v2", "srm_v1"};
 	for(i1=0;i1 <3; ++i1)
 		define_se_types[i1]= strdup(types[i1]);	
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
-	always_return(mds_mock_sd_get_se_types_and_endpoints, EINVAL);
+
+
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	defined_get_output = calloc(sizeof(struct srmv2_pinfilestatus),3);
 	defined_get_output[0].turl= strdup(TEST_SRM_TURL_EXAMPLE1);

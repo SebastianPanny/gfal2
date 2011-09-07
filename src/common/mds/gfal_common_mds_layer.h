@@ -24,20 +24,3 @@
  * */
 
 
-#include "ServiceDiscoveryIfce.h"
- 
-struct _gfal_mds_external_call{
-	int (*sd_get_se_types_and_endpoints)(const char *host, char ***se_types, char ***se_endpoints,char *errbuf, int errbufsz);	
-	
-	void (*set_gfal_vo)(char *vo);
-	
-	void (*set_gfal_fqan)(char **fqan, int fqan_size);	
-	
-	int (*sd_get_lfc_endpoint)(char **lfc_endpoint,char *errbuf, int errbufsz);
-
-
-};
-
-
-
-extern struct _gfal_mds_external_call gfal_mds_external_call;

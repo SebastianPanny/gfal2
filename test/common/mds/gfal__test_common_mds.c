@@ -26,12 +26,7 @@ void test_check_bdii_endpoints_srm()
 	char** ptr = endpoints;
 	
 #if USE_MOCK
-	gfal_mds_external_call.sd_get_se_types_and_endpoints = &mds_mock_sd_get_se_types_and_endpoints;
-	define_mock_endpoints(TEST_MDS_VALID_ENDPOINT_RESU);
 
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_MDS_VALID_ENDPOINT_URL), want_non_null(se_types), want_non_null(se_endpoints));
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, EINVAL, want_string(host, TEST_MDS_INVALID_ENDPOINT_URL), want_non_null(se_types), want_non_null(se_endpoints));
-	always_return(mds_mock_sd_get_se_types_and_endpoints, EFAULT);
 #endif	
 	
 	while(*ptr != NULL){
@@ -39,7 +34,7 @@ void test_check_bdii_endpoints_srm()
 		se_endpoints=NULL;
 		ret = gfal_mds_get_se_types_and_endpoints (*ptr, &se_types, &se_endpoints, &err);
 		assert_true_with_message(ret == 0, " ret of bdii with error %d %d", ret, errno);
-		assert_true_with_message(ret == 0 && strings_are_equal(*se_types, "srm_v1") && strings_are_equal(*se_endpoints, TEST_MDS_VALID_ENDPOINT_RESU), " check if result is valid");
+		assert_true_with_message(ret == 0 && strings_are_equal(*se_types, "srm_v1") && strstr(*se_endpoints, TEST_MDS_VALID_ENDPOINT_RESU) != NULL, " check if result is valid");
 		g_strfreev(se_types);
 		g_strfreev(se_endpoints);
 		g_clear_error(&err);
@@ -49,11 +44,43 @@ void test_check_bdii_endpoints_srm()
 	se_types=NULL;
 	se_endpoints=NULL;	
 	ret = gfal_mds_get_se_types_and_endpoints (TEST_MDS_INVALID_ENDPOINT_URL, &se_types, &se_endpoints, &err);		
-	assert_true_with_message(ret != 0 &&  err->code == EINVAL , "must fail, invalid url");
+	assert_true_with_message(ret != 0 &&  err->code == ENXIO , "must fail, invalid url");
 	g_clear_error(&err);
 	g_strfreev(se_types);
 	g_strfreev(se_endpoints);
-	gfal_mds_external_call.sd_get_se_types_and_endpoints = &sd_get_se_types_and_endpoints;
+}
+
+
+void test_check_bdii_endpoints_srm_ng()
+{
+	gfal_mds_endpoint tabendpoint[100];
+
+	GError * err=NULL;
+	int ret=-1;
+	int i;
+	char* endpoints[] = { TEST_MDS_VALID_ENDPOINT_URL,
+						NULL };
+	char** ptr = endpoints;
+	
+	while(*ptr != NULL){
+		
+		ret = gfal_mds_resolve_srm_endpoint(*ptr, tabendpoint, 100, &err);
+		assert_true_with_message(ret > 0, " ret of bdii with error %d %d ", ret, errno);
+		if(err)
+			gfal_release_GError(&err);
+		else{
+			gboolean countain = FALSE;
+			for(i =0; i < ret; ++i){
+				countain = (strstr(tabendpoint[i].url, TEST_MDS_VALID_ENDPOINT_RESU) != NULL)?TRUE:countain;
+			}
+			assert_true_with_message(countain, " must countain the endpoint ");
+		}		
+		ptr++;
+	}
+
+	ret = gfal_mds_resolve_srm_endpoint (TEST_MDS_INVALID_ENDPOINT_URL, tabendpoint, 100, &err);	
+	assert_true_with_message(ret < 0 &&  err->code == ENXIO , "must fail, invalid url");
+	g_clear_error(&err);
 }
 
 
@@ -68,10 +95,7 @@ void gfal__test_get_lfchost_bdii()
 		return;		
 	
 #if USE_MOCK
-	gfal_mds_external_call.sd_get_lfc_endpoint = &mds_mock_sd_get_lfc_endpoint;
-	define_lfc_endpoint = strdup("avalid.lfc.value.fr");	
-	will_respond(mds_mock_sd_get_lfc_endpoint, 0, want_non_null(lfc_endpoint));
-	always_return(mds_mock_sd_get_lfc_endpoint, EFAULT);
+
 #endif
 	char* lfc = gfal_get_lfchost_bdii(handle, &tmp_err);
 	assert_true_with_message(lfc!=NULL && strings_are_equal(lfc, "avalid.lfc.value.fr"), "must return correct lfc value");
@@ -81,7 +105,6 @@ void gfal__test_get_lfchost_bdii()
 	g_clear_error(&tmp_err);
 	free(lfc);
 	gfal_handle_freeG(handle);	
-	gfal_mds_external_call.sd_get_lfc_endpoint = &sd_get_lfc_endpoint;
 }
 
 
@@ -96,8 +119,7 @@ void gfal__test_get_lfchost_bdii_with_nobdii()
 		return;
 	gfal_set_nobdiiG(handle, TRUE);	
 #if USE_MOCK
-	gfal_mds_external_call.sd_get_lfc_endpoint = &mds_mock_sd_get_lfc_endpoint;
-	always_return(mds_mock_sd_get_lfc_endpoint, EFAULT);
+
 #endif
 
 	char* lfc = gfal_get_lfchost_bdii(handle, &tmp_err); // No bdii connected
@@ -107,5 +129,4 @@ void gfal__test_get_lfchost_bdii_with_nobdii()
 	free(lfc);	
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);
-	gfal_mds_external_call.sd_get_lfc_endpoint = &sd_get_lfc_endpoint;
 }

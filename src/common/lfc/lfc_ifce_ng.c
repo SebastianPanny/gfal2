@@ -63,6 +63,26 @@ void gfal_lfc_init_thread(struct lfc_ops* ops){
 	}
 }
 
+int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
+	if (ops->startsess (ops->lfc_endpoint, "gfal 2.0 auto-session") < 0){
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno,"[%s] Error while start session with lfc, lfc_endpoint: %s, Error : %s ",
+								__func__, ops->lfc_endpoint, gfal_lfc_get_strerror(ops));
+		return -1;
+	}
+	return 0;
+}
+
+static int gfal_lfc_endSession(struct lfc_ops* ops, GError ** err){ 
+	if (ops->endsess() < 0){
+		int sav_errno = gfal_lfc_get_errno(ops);
+		g_set_error(err,0,sav_errno,"[%s] Error while start transaction with lfc, Error : %s ",
+										__func__, gfal_lfc_get_strerror(ops));
+		return -1;
+	}
+	return 0;
+}
+
 void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err){
 	time_t current = time(NULL);
 	if(session_timestamp < current){
@@ -70,7 +90,7 @@ void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err){
 		current = time(NULL);
 		if(session_timestamp < current){
 			session_timestamp = current + session_duration;
-			ops->endsess();
+			gfal_lfc_endSession(ops, NULL);
 			gfal_lfc_startSession(ops, err);
 		}
 		pthread_mutex_unlock(&m_session);	
@@ -83,18 +103,8 @@ void lfc_set_session_timeout(int timeout){
 }
 
 
-int gfal_lfc_startSession(struct lfc_ops* ops, GError ** err){ 
-	if (ops->startsess (ops->lfc_endpoint, "gfal 2.0 auto-session") < 0){
-		int sav_errno = gfal_lfc_get_errno(ops);
-		g_set_error(err,0,sav_errno,"[%s] Error while start session with lfc, lfc_endpoint: %s, Error : %s ",
-								__func__, ops->lfc_endpoint, gfal_lfc_get_strerror(ops));
-		return -1;
-	}
-	return 0;
-}
-
 static int gfal_lfc_startTransaction(struct lfc_ops* ops, GError ** err){ 
-	if (ops->starttrans(ops->lfc_endpoint, (char*) gfal_version ()) < 0){
+	if (ops->starttrans(ops->lfc_endpoint, "gfal 2.0 auto-trans")){
 		int sav_errno = gfal_lfc_get_errno(ops);
 		g_set_error(err,0,sav_errno,"[%s] Error while start transaction with lfc, lfc_endpoint: %s, Error : %s ",
 										__func__, ops->lfc_endpoint, gfal_lfc_get_strerror(ops));
@@ -113,15 +123,6 @@ static int gfal_lfc_endTransaction(struct lfc_ops* ops, GError ** err){
 	return 0;
 }
 
-static int gfal_lfc_endSession(struct lfc_ops* ops, GError ** err){ 
-	if (ops->endsess() < 0){
-		int sav_errno = gfal_lfc_get_errno(ops);
-		g_set_error(err,0,sav_errno,"[%s] Error while start transaction with lfc, Error : %s ",
-										__func__, gfal_lfc_get_strerror(ops));
-		return -1;
-	}
-	return 0;
-}
 
 
 
@@ -198,16 +199,17 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 	struct lfc_linkinfo* links = NULL;
 	if(ops->getlinks(NULL, guid, &size, &links) <0){
 		int sav_errno = gfal_lfc_get_errno(ops);
-		g_set_error(err,0,sav_errno, "[gfal_convert_guid_to_lfn] Error while getlinks() with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint,guid, gfal_lfc_get_strerror(ops));
-		return NULL;
-	}else
+		g_set_error(&tmp_err,0,sav_errno, "Error while getlinks() with lfclib, lfc_endpoint: %s, guid : %s, Error : %s ", ops->lfc_endpoint,guid, gfal_lfc_get_strerror(ops));
+	}else{
 		errno=0;
-	if(!links || strnlen(links[0].path, GFAL_LFN_MAX_LEN) >= GFAL_LFN_MAX_LEN){
-		g_set_error(err,0,EINVAL, "[gfal_convert_guid_to_lfn] Error no links associated with this guid or corrupted one : %s", guid);
-		return NULL;
+		if(!links || strnlen(links[0].path, GFAL_LFN_MAX_LEN) >= GFAL_LFN_MAX_LEN){
+			g_set_error(&tmp_err,0,EINVAL, "Error no links associated with this guid or corrupted one : %s", guid);
+		}else
+			lfn =  strdup(links[0].path);
 	}
-	lfn =  strdup(links[0].path);
 	free(links);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return lfn;
  }
  
@@ -222,8 +224,7 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
  * @return : 0 else -1 if error and err is set
  * */
 int gfal_convert_guid_to_lfn_r(catalog_handle handle, const char* guid, char* buff_lfn, size_t sbuff_lfn, GError ** err){
-	GError* tmp_err=NULL;
-	char* lfn=NULL;
+	GError* tmp_err=NULL;	
 	int ret;
 	int size = 0;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
@@ -408,7 +409,7 @@ int gfal_lfc_mkdir_rec(struct lfc_ops* ops, char* browser_path, const char* full
  * */
 int gfal_lfc_ifce_mkdirpG(struct lfc_ops* ops,const char* path, mode_t mode, gboolean pflag, GError**  err){
 	g_return_val_err_if_fail( ops && path, -1, err, "[gfal_lfc_ifce_mkdirpG] Invalid args in ops or/and path");
-	int ret, end_trans;
+	int ret;
 	GError* tmp_err = NULL;
 	
 	ret = gfal_lfc_startTransaction(ops, &tmp_err);
@@ -499,4 +500,19 @@ char*  gfal_lfc_get_strerror(struct lfc_ops* ops){
 	return ops->sstrerror (*ops->serrno);
 #endif
 }
+
+
+/**
+ * @brief generate an uiid string
+ * Generate a uuid string and cpy it in the buf,
+ * @warning buff must be > uuid size ( 37 bytes )
+ * 
+ * */
+ void gfal_generate_guidG(char* buf, GError** err){
+    uuid_t uuid;
+
+    uuid_generate (uuid);
+    uuid_unparse (uuid, buf);
+    uuid_clear(uuid);
+ }
 

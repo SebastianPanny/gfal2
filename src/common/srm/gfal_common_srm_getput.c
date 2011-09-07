@@ -63,7 +63,7 @@ static int gfal_srm_convert_filestatuses_to_srm_result(struct srmv2_pinfilestatu
  *  @brief execute a srmv2 request sync "GET" on the srm_ifce
 */
 static int gfal_srm_getTURLS_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint, char** surls, gfal_srm_result** resu,  GError** err){
-	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] GList passed null");
+	g_return_val_err_if_fail(surls!=NULL,-1,err,"[gfal_srmv2_getasync] tab null ");
 			
 	GError* tmp_err=NULL;
 	struct srm_context context;

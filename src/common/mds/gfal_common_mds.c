@@ -35,6 +35,7 @@
 #include "../gfal_types.h"
 #include "gfal_common_mds_layer.h"
 #include "../gfal_common_internal.h"
+#include "gfal_common_mds_ldap_internal.h"
 
 pthread_mutex_t m_mds =PTHREAD_MUTEX_INITIALIZER; 
 
@@ -50,23 +51,28 @@ gboolean gfal_get_nobdiiG(gfal_handle handle){
 }
 
 
-
+/**
+ * return the srm endpoints and their types, in the old way
+ * */
 int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, char ***se_endpoints, GError** err){
-	pthread_mutex_lock(&m_mds);
-	char err_buff[GFAL_ERRMSG_LEN];
-	memset(err_buff,'\0',GFAL_ERRMSG_LEN*sizeof(char));
-	const int ret = gfal_mds_external_call.sd_get_se_types_and_endpoints(host, se_types, se_endpoints, err_buff, GFAL_ERRMSG_LEN);
-	if(ret){
-		if(errno == ECOMM){
-			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return a COMM error, maybe the LCG_GFAL_INFOSYS env var is not set properly :%s ", err_buff);			
-		}else if(errno == EINVAL){
-			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system : EINVAL error, unable to get endpoint for this host : %s ( maybe the host doesn't exist anymore ? ) :%s", host, err_buff);			
-		}else{
-			g_set_error(err,0,errno,"[gfal_mds_get_se_types_and_endpoints] ServiceDiscovery system return an error ( maybe voms-proxy is no initiated properly ? ) :%s", err_buff);
+	GError* tmp_err=NULL;
+	gfal_mds_endpoint tabend[GFAL_MDS_MAX_SRM_ENDPOINT];
+	
+	
+	int n = gfal_mds_resolve_srm_endpoint(host, tabend, GFAL_MDS_MAX_SRM_ENDPOINT, &tmp_err);
+	if( n > 0){
+		int i;
+		*se_types = calloc(n+1, sizeof(char*));
+		*se_endpoints = calloc(n+1, sizeof(char*));	
+		for(i=0; i< n; ++i){
+			(*se_endpoints)[i] = strdup(tabend[i].url);
+			(*se_types)[i] = strdup(((tabend[i].type == SRMv2)?"srm_v2":"srm_v1"));
 		}
 	}
-	pthread_mutex_unlock(&m_mds);
-	return ret;	
+	
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return (n >0)?0:-1;	
 }
 
 /**
@@ -75,26 +81,16 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
  * 
  */
  char * gfal_get_lfchost_bdii(gfal_handle handle, GError** err){
-	 	pthread_mutex_lock(&m_mds);
-		char* lfc_host = NULL;
 		size_t s_errbuff = GFAL_ERRMSG_LEN;
 		char errbuff[s_errbuff];
 		memset(errbuff, '\0', sizeof(char)*s_errbuff);
-
-		if( gfal_get_nobdiiG(handle) ){		// check the bdii
-			g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_setup_lfchost] no_bdii_set : you must define the LFC_HOST env var correctly");
-			pthread_mutex_unlock(&m_mds);
-			return NULL;
-		}
-	
-	
-		const int ret =  gfal_mds_external_call.sd_get_lfc_endpoint(&lfc_host, errbuff, s_errbuff);
-		if(!lfc_host || ret <0){
-			g_set_error(err, 0, errno, "[gfal_get_lfchost_bdii] Error while get lfc endpoint from bdii system : %d & %s, %s", ret, strerror(errno), errbuff );
-			lfc_host = NULL;
-		}
-		pthread_mutex_unlock(&m_mds);			  
-		return lfc_host;
+		g_set_error(err, 0, EPROTONOSUPPORT, "[%s] disable in gfal 2.0, api broken in is interface",__func__);
+		return NULL;
  } 
+ 
+ 
+ int gfal_mds_resolve_srm_endpoint(const char* base_url, gfal_mds_endpoint* endpoints, size_t s_endpoint, GError** err){
+		return gfal_mds_bdii_get_srm_endpoint(base_url, endpoints, s_endpoint, err);
+ }
 
 

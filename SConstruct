@@ -28,7 +28,7 @@ main_meta=False
 # global var
 etics_build_dir= "/usr/" # disable
 version= '2.0'
-package_version = '1.5_preview'
+package_version = '1.6_preview'
 
 ## generic function to get conf value
 def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_path='/lib64/', etics_suffix="/stage/"):
@@ -74,6 +74,7 @@ cflags=['-DVERSION='+version, '-Wall', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE'
 # create default env
 env = Environment(tools=['default', 'packaging'], CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
 env.ParseConfig('pkg-config --cflags --libs glib-2.0')
+env.ParseConfig('pkg-config --libs gthread-2.0')
 #internal_ld_path = ''.join(map(lambda x: ":"+x, libs)+ ["build/libs/"])
 r = os.getenv('LD_LIBRARY_PATH')	# get ld path
 env['ENV']['LD_LIBRARY_PATH'] = (r is not None) and r or "" # set ld path or empty one if not exist
@@ -171,7 +172,7 @@ if(main_core):
 			 DESCRIPTION    = 'Provide a POSIX like API to manage file and directory with the multiples protocols of the grid',
 			 X_RPM_GROUP    = 'CERN/grid',
 			 X_RPM_INSTALL= x_rpm_install,
-			 X_RPM_REQUIRES = 'glib2',
+			 X_RPM_REQUIRES = 'glib2, openldap',
 			 source= [lib_main, version_main] 
 			 )
 

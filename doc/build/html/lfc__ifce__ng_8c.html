@@ -50,14 +50,14 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_regex_compile
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#aed5d8ab4c88e918990444e53930bfa4">gfal_lfc_init_thread</a> (struct lfc_ops *ops)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="191824f5c6bfee67e81f0c495e9bb778"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_startSession" ref="191824f5c6bfee67e81f0c495e9bb778" args="(struct lfc_ops *ops, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_startSession</b> (struct lfc_ops *ops, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9be7f93578b4772ec1498fe197f3c2c4"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_auto_maintain_session" ref="9be7f93578b4772ec1498fe197f3c2c4" args="(struct lfc_ops *ops, GError **err)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_auto_maintain_session</b> (struct lfc_ops *ops, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="656ee4eb29a1bcf4e9e1d9a4aafd4c82"></a><!-- doxytag: member="lfc_ifce_ng.c::lfc_set_session_timeout" ref="656ee4eb29a1bcf4e9e1d9a4aafd4c82" args="(int timeout)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_set_session_timeout</b> (int timeout)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="191824f5c6bfee67e81f0c495e9bb778"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_startSession" ref="191824f5c6bfee67e81f0c495e9bb778" args="(struct lfc_ops *ops, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_startSession</b> (struct lfc_ops *ops, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9a5b8e8e30853b920e3bbe41062e1d25"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_get_lfchost_envar" ref="9a5b8e8e30853b920e3bbe41062e1d25" args="(GError **err)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_lfchost_envar</b> (GError **err)</td></tr>
@@ -94,6 +94,9 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_get_errno</b>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="58172b62403dfd7a7b742548f074cd44"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_get_strerror" ref="58172b62403dfd7a7b742548f074cd44" args="(struct lfc_ops *ops)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_get_strerror</b> (struct lfc_ops *ops)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#4cb5e50a1af5612463aaa525162a2e9e">gfal_generate_guidG</a> (char *buf, GError **err)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">generate an uiid string Generate a uuid string and cpy it in the buf,  <a href="#4cb5e50a1af5612463aaa525162a2e9e"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 main internal file of the lfc catalog module 
@@ -199,6 +202,38 @@ convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mo
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>: 0 else -1 if error and err is set </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="4cb5e50a1af5612463aaa525162a2e9e"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_generate_guidG" ref="4cb5e50a1af5612463aaa525162a2e9e" args="(char *buf, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gfal_generate_guidG           </td>
+          <td>(</td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+generate an uiid string Generate a uuid string and cpy it in the buf, 
+<p>
+<dl compact><dt><b>Warning:</b></dt><dd>buff must be &gt; uuid size ( 37 bytes ) </dd></dl>
 
 </div>
 </div><p>
@@ -422,7 +457,7 @@ setup the lfc_host correctly for the lfc calls <dl compact><dt><b>Parameters:</b
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Sep 1 15:47:13 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Sep 7 14:28:51 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -1,0 +1,99 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds_ldap_internal.c" 3 "7 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds_ldap_internal.c \- file for the internal ldap query by gfal, without is interface 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <errno.h>\fP
+.br
+\fC#include <stdlib.h>\fP
+.br
+\fC#include <glib.h>\fP
+.br
+\fC#include <string.h>\fP
+.br
+\fC#include <lber.h>\fP
+.br
+\fC#include <ldap.h>\fP
+.br
+\fC#include 'gfal_common_mds_ldap_internal.h'\fP
+.br
+\fC#include 'gfal_common_mds_ldap_internal_layer.h'\fP
+.br
+\fC#include '../gfal_common_errverbose.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "LDAP * \fBgfal_mds_ldap_connect\fP (const char *uri, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_mds_ldap_search\fP (LDAP *ld, const char *basedn, const char *filter, char **tabattr, LDAPMessage **res, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_mds_get_srm_types_endpoint\fP (LDAP *ld, LDAPMessage *result, gfal_mds_endpoint *endpoints, size_t s_endpoint, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_mds_get_ldapuri\fP (char *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "void \fBgfal_mds_ldap_disconnect\fP (LDAP *ld)"
+.br
+.ti -1c
+.RI "int \fBgfal_mds_bdii_get_srm_endpoint\fP (const char *base_url, gfal_mds_endpoint *endpoints, size_t s_endpoint, GError **err)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+file for the internal ldap query by gfal, without is interface 
+
+\fBAuthor:\fP
+.RS 4
+Adrien Devresse 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+05/09/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "int gfal_mds_bdii_get_srm_endpoint (const char * base_url, gfal_mds_endpoint * endpoints, size_t s_endpoint, GError ** err)"
+.PP
+resolve the SRM endpoint associated with a given base_url with the bdii 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbase_url\fP : basic url to resolve 
+.br
+\fIendpoints\fP : table of gfal_mds_endpoint to set with a size of s_endpoint 
+.br
+\fIs_endpoint\fP : maximum number of endpoints to set 
+.br
+\fIerr,:\fP Gerror system for the report of the errors. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+: number of endpoints set or -1 if error 
+.RE
+.PP
+
+.SS "int gfal_mds_get_ldapuri (char * buff, size_t s_buff, GError ** err)"
+.PP
+get the current ldap URI 
+.SS "int gfal_mds_get_srm_types_endpoint (LDAP * ld, LDAPMessage * result, gfal_mds_endpoint * endpoints, size_t s_endpoint, GError ** err)"
+.PP
+parse the result of a query to get the srm endpoint 
+.SS "int gfal_mds_ldap_search (LDAP * ld, const char * basedn, const char * filter, char ** tabattr, LDAPMessage ** res, GError ** err)"
+.PP
+Execute a ldap query on a connected bdii 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

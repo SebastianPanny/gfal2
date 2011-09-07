@@ -50,15 +50,26 @@ struct rfio_proto_ops * gfal_rfio_internal_loader_base(GError** err){
 		libname = libdpm_name;
 	} else if (p && strcmp (p, "castor") == 0) {
 		libname= libcastor_name;
-	} 
+	}
 	if( libname != NULL){
-		gfal_print_verbose(GFAL_VERBOSE_DEBUG, " [gfal_rfio_plugin] lib rfio defined in LCG_RFIO_TYPE : %s", libname);
+		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, " lib rfio defined in LCG_RFIO_TYPE : %s", libname);
 		if( (dlhandle = dlopen(libname, RTLD_LAZY)) == NULL){
 			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, " library %s for the rfio_plugin cannot be loaded properly, failure : %s ", libname, dlerror());
 		}	
-	}else if ((dlhandle = dlopen (libcastor_name, RTLD_LAZY)) == NULL &&
-	    (dlhandle = dlopen (libdpm_name, RTLD_LAZY)) == NULL) {
+	}else{
+		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, " lib rfio is not defined in LCG_RFIO_TYPE, try to found it ");
+		char* tab_lib[] = { libdpm_name, libcastor_name, NULL};
+		char** p = tab_lib;
+		while(*p != NULL){
+			if((dlhandle = dlopen (*p, RTLD_LAZY)) != NULL){
+				gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "rfio library %s found  ! configured to us it", *p);
+				break;	
+			}
+			p++;
+		}
+	    if(!dlhandle){	
 			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, " Unable to find %s or %s, failure : %s ", libcastor_name, libdpm_name, dlerror());
+		}
 	}
 	if(dlhandle){
 			pops = g_new0(struct rfio_proto_ops, 1);

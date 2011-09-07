@@ -24,19 +24,27 @@
   * */
 #define _GNU_SOURCE
 
-
+#define GFAL_MDS_MAX_SRM_ENDPOINT 100
 
 #include <glib.h>
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
 
+typedef enum { SRMv2=0, SRMv1, WebDav } mds_type_endpoint;
+
+typedef struct _gfal_mds_endpoint{
+	char url[GFAL_URL_MAX_LEN];
+	mds_type_endpoint type;
+} gfal_mds_endpoint;
+
+
+
 
 int gfal_mds_get_se_types_and_endpoints(const char *host, char ***se_types, char ***se_endpoints, GError** err);
 
-
+int gfal_mds_resolve_srm_endpoint(const char* base_url, gfal_mds_endpoint* endpoints, size_t s_endpoint, GError** err);
 
 char * gfal_get_lfchost_bdii(gfal_handle handle, GError** err);
-
 
 void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk);
 

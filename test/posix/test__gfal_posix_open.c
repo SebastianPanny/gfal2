@@ -26,8 +26,8 @@ void test_mock_srm_open_valid(char** tab, char** tab_turl, int* res){
 	gfal_catalogs_instance(handle,NULL);
 	
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL); // mock the mds for the srm endpoitn resolution
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
-	//always_return(mds_mock_sd_get_se_types_and_endpoints, -1);
+
+
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	define_mock_srmv2_pinfilestatus(1, tab, NULL, tab_turl, res);
 	will_respond(srm_mock_srm_prepare_to_get, 1, want_non_null(context), want_non_null(input), want_non_null(output));
@@ -49,14 +49,14 @@ void test_mock_srm_open_write_valid(char** tab, char** tab_turl, int* res){
 	char* surls[] = { "srm://mockedsurl", NULL };
 	
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL); // mock the mds for the srm endpoitn resolution
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+
 
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	define_mock_srmv2_putoutput(1, tab, NULL, tab_turl, res);
 	will_respond(srm_mock_srm_prepare_to_put, 1, want_non_null(context), want_non_null(input), want_non_null(output));
 
 	will_respond(rfio_mock_open, 15, want_non_null(path));
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+
 	define_put_done(1, surls, NULL, turls, status);
 	will_respond(srm_mock_srm_put_done,1, want_non_null(context));
 	will_respond(rfio_mock_close, 0, want(fd, 15));
@@ -72,7 +72,7 @@ void test_mock_srm_open_invalid(char** tab, char** tab_exp, int* res){
 	gfal_catalogs_instance(handle,NULL);
 	
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL); // mock the mds for the srm endpoitn resolution
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+
 
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	define_mock_srmv2_pinfilestatus(1, tab, tab_exp, NULL , res);

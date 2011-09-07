@@ -40,13 +40,15 @@ struct dcap_proto_ops * gfal_dcap_internal_loader_base(GError** err){
 	void *dlhandle;
 	struct dcap_proto_ops * pops = NULL;
 	GError* tmp_err=NULL;
-	char *p;
 
 	if( (dlhandle = dlopen(libdcap_name, RTLD_LAZY)) == NULL){
 			g_set_error(&tmp_err, 0, EPROTONOSUPPORT, " library %s for the dcap_plugin cannot be loaded properly, failure : %s ", libdcap_name, dlerror());
-	}	
+	}
+
 
 	if(dlhandle){
+		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "dcap library's name : %s", libdcap_name);	
+		
 		pops = g_new0(struct dcap_proto_ops, 1);
 		pops->geterror = (int* (*) ()) dlsym (dlhandle, "__dc_errno");
 		pops->strerror = (const char* (*)(int)) dlsym (dlhandle, "dc_strerror");
@@ -70,7 +72,7 @@ struct dcap_proto_ops * gfal_dcap_internal_loader_base(GError** err){
 		pops->stat64 = (int (*) (const char *, struct stat64 *)) dlsym (dlhandle, "dc_stat64");
 		pops->unlink = (int (*) (const char *)) dlsym (dlhandle, "dc_unlink");
 		pops->write = (ssize_t (*) (int, const void *, size_t)) dlsym (dlhandle, "dc_write");
-		pops->debug_level= (void(*)(int)) dlsym(dlhandle, "dc_setDebugLevel");
+		pops->debug_level= (void(*)(unsigned int)) dlsym(dlhandle, "dc_setDebugLevel");
 		pops->active_mode = (void(*)(void)) dlsym(dlhandle, "dc_setClientActive");
 		
 		//

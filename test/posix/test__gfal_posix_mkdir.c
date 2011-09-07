@@ -26,7 +26,7 @@ void create_srm_mkdir_mock(const char* url, int code){
 	if( gfal_check_GError(&mock_err))
 		return;
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
-	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
+
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
 	will_respond(srm_mock_srm_mkdir, code, want_non_null(context), want_non_null(input));	
 

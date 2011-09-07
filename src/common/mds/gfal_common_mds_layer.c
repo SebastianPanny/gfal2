@@ -21,16 +21,3 @@
  * @author Adrien Devresse
  * @date 10/06/2011
  * */
-
-
-#include <lber.h>
-#include <ldap.h>
-#include "gfal_common_mds_layer.h"
-
-
-struct _gfal_mds_external_call gfal_mds_external_call = {
-	.sd_get_se_types_and_endpoints = &sd_get_se_types_and_endpoints,
-	.set_gfal_vo = &set_gfal_vo,
-	.set_gfal_fqan= &set_gfal_fqan,
-	.sd_get_lfc_endpoint = &sd_get_lfc_endpoint
-};

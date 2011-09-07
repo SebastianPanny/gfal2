@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "1 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" 3 "7 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -63,10 +63,6 @@
 .ti -1c
 .RI "gboolean \fBis_valid_access_result\fP (int status)"
 .br
-.ti -1c
-.RI "void \fBgfal_generate_guidG\fP (char *buf, GError **err)"
-.br
-.RI "\fIgenerate an uiid string Generate a uuid string and cpy it in the buf, \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -90,16 +86,6 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "void gfal_generate_guidG (char * buf, GError ** err)"
-.PP
-generate an uiid string Generate a uuid string and cpy it in the buf, 
-.PP
-\fBWarning:\fP
-.RS 4
-buff must be > uuid size ( 37 bytes ) 
-.RE
-.PP
-
 .SS "char** gfal_GList_to_tab (GList * surls)"
 .PP
 convert glist of surl char* to char** 

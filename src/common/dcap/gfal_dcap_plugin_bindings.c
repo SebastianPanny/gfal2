@@ -28,6 +28,7 @@
 #include <regex.h>
 #include <time.h> 
 #include <glib.h>
+#include <stdlib.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_catalog.h"

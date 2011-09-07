@@ -38,7 +38,7 @@ struct dcap_proto_ops {
 	int	(*chmod)(const char *, mode_t);
 	int	(*close)(int);
 	int	(*closedir)(DIR *);
-	int (*debug_level)(int);
+	void (*debug_level)(unsigned int);
 	void (*active_mode)();
 	off_t	(*lseek)(int, off_t, int);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)

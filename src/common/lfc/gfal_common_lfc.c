@@ -265,7 +265,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 				ret = ops->lstat(lfn, &statbuf);
 				if(ret != 0){
 					int sav_errno = gfal_lfc_get_errno(ops);
-					g_set_error(&tmp_err,0,sav_errno, "Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
+					g_set_error(&tmp_err,0,sav_errno, "Error report from LFC : %s", gfal_lfc_get_strerror(ops) );
 				}else{
 					ret= gfal_lfc_convert_lstat(st, &statbuf, err);
 					errno=0;
@@ -317,7 +317,7 @@ static int lfc_lstatG(catalog_handle handle, const char* path, struct stat* st, 
 		if( ret < 0){
 			int sav_errno = gfal_lfc_get_errno(ops);
 			sav_errno = (sav_errno==EEXIST)?ENOTEMPTY:sav_errno;		// convert wrong reponse code
-			g_set_error(err,0, sav_errno, "Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
+			g_set_error(err,0, sav_errno, "Error report from LFC %s", gfal_lfc_get_strerror(ops) );
 		}
 	}
 	if(tmp_err)
@@ -342,7 +342,7 @@ static gfal_file_handle lfc_opendirG(catalog_handle handle, const char* name, GE
 		d  = (DIR*) ops->opendirg(lfn,NULL);	
 		if(d==NULL){
 			int sav_errno = gfal_lfc_get_errno(ops);
-			g_set_error(err,0, sav_errno, "Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
+			g_set_error(err,0, sav_errno, "Error report from LFC %s", gfal_lfc_get_strerror(ops) );
 		}else{	
 			oh = g_new0(struct _lfc_opendir_handle,1);
 			g_strlcpy(oh->url, lfn, GFAL_URL_MAX_LEN );
@@ -400,7 +400,6 @@ static struct dirent* lfc_readdirG(catalog_handle handle, gfal_file_handle fh, G
  * */
 static int lfc_closedirG(catalog_handle handle, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail( handle && fh , -1, err, "[lfc_rmdirG] Invalid value in args handle/path");
-	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
 	gfal_lfc_init_thread(ops);
 	int ret = ops->closedir(fh->fdesc);	
@@ -502,9 +501,7 @@ ssize_t lfc_getxattrG(catalog_handle handle, const char* path, const char* name,
  * lfc getxattr implem 
  * */
 ssize_t lfc_listxattrG(catalog_handle handle, const char* path, char* list, size_t size, GError** err){
-	GError* tmp_err=NULL;
 	ssize_t res = 0;
-	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	char** p= file_xattr;
 	char* plist= list;
 	while(*p != NULL){
@@ -539,7 +536,6 @@ char* lfc_resolve_guid(catalog_handle handle, const char* guid, GError** err){
 static int lfc_unlinkG(catalog_handle handle, const char* path, GError** err){
 	g_return_val_err_if_fail(path, -1, err, "[lfc_unlink] Invalid value in args handle/path/stat");	
 	GError* tmp_err=NULL;
-	char buff_key[GFAL_URL_MAX_LEN];
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	int ret = -1;
 	char* lfn = url_converter(handle, path, &tmp_err);
@@ -575,7 +571,7 @@ static ssize_t lfc_readlinkG(catalog_handle handle, const char* path, char* buff
 	ssize_t ret = ops->readlink(lfn, res_buff, LFC_BUFF_SIZE );
 	if(ret == -1){
 		int sav_errno = gfal_lfc_get_errno(ops);
-		g_set_error(err,0,sav_errno, "Error report from LFC : %s", __func__, gfal_lfc_get_strerror(ops) );
+		g_set_error(err,0,sav_errno, "Error report from LFC : %s", gfal_lfc_get_strerror(ops) );
 	}else{
 		errno=0;
 		if(buffsiz > 0)

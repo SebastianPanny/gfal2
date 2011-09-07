@@ -33,13 +33,13 @@ int \textbf{gfal\_\-lfc\_\-regex\_\-compile} (regex\_\-t $\ast$rex, GError $\ast
 \item 
 void \bf{gfal\_\-lfc\_\-init\_\-thread} (struct lfc\_\-ops $\ast$ops)
 \item 
+int \textbf{gfal\_\-lfc\_\-start\-Session} (struct lfc\_\-ops $\ast$ops, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_191824f5c6bfee67e81f0c495e9bb778}
+
+\item 
 void \textbf{gfal\_\-auto\_\-maintain\_\-session} (struct lfc\_\-ops $\ast$ops, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_9be7f93578b4772ec1498fe197f3c2c4}
 
 \item 
 void \textbf{lfc\_\-set\_\-session\_\-timeout} (int timeout)\label{lfc__ifce__ng_8c_656ee4eb29a1bcf4e9e1d9a4aafd4c82}
-
-\item 
-int \textbf{gfal\_\-lfc\_\-start\-Session} (struct lfc\_\-ops $\ast$ops, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_191824f5c6bfee67e81f0c495e9bb778}
 
 \item 
 char $\ast$ \textbf{gfal\_\-get\_\-lfchost\_\-envar} (GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_9a5b8e8e30853b920e3bbe41062e1d25}
@@ -76,7 +76,9 @@ int \textbf{gfal\_\-lfc\_\-get\_\-errno} (struct lfc\_\-ops $\ast$ops)\label{lfc
 \item 
 char $\ast$ \textbf{gfal\_\-lfc\_\-get\_\-strerror} (struct lfc\_\-ops $\ast$ops)\label{lfc__ifce__ng_8c_58172b62403dfd7a7b742548f074cd44}
 
-\end{CompactItemize}
+\item 
+void \bf{gfal\_\-generate\_\-guid\-G} (char $\ast$buf, GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em generate an uiid string Generate a uuid string and cpy it in the buf, \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}
@@ -115,6 +117,15 @@ convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mo
 \end{Desc}
 \begin{Desc}
 \item[Returns:]: 0 else -1 if error and err is set \end{Desc}
+\index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_generate_guidG@{gfal\_\-generate\_\-guidG}}
+\index{gfal_generate_guidG@{gfal\_\-generate\_\-guidG}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-generate\_\-guid\-G (char $\ast$ {\em buf}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_4cb5e50a1af5612463aaa525162a2e9e}
+
+
+generate an uiid string Generate a uuid string and cpy it in the buf, 
+
+\begin{Desc}
+\item[Warning:]buff must be $>$ uuid size ( 37 bytes ) \end{Desc}
 \index{lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}!gfal_lfc_getSURL@{gfal\_\-lfc\_\-getSURL}}
 \index{gfal_lfc_getSURL@{gfal\_\-lfc\_\-getSURL}!lfc_ifce_ng.c@{lfc\_\-ifce\_\-ng.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ gfal\_\-lfc\_\-get\-SURL (struct lfc\_\-ops $\ast$ {\em ops}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8c_26c355c9cf576886a743ab1917de295d}

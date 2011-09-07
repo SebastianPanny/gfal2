@@ -104,8 +104,9 @@ TestSuite* no_glib_suite(){
 TestSuite* mds_suite(){
 	TestSuite *tc_mds= create_test_suite();
 	add_test(tc_mds, test_check_bdii_endpoints_srm);
-	add_test(tc_mds, gfal__test_get_lfchost_bdii);
-	add_test(tc_mds, gfal__test_get_lfchost_bdii_with_nobdii);	
+	add_test(tc_mds, test_check_bdii_endpoints_srm_ng);
+	//add_test(tc_mds, gfal__test_get_lfchost_bdii);
+	//add_test(tc_mds, gfal__test_get_lfchost_bdii_with_nobdii);	<-- functions now disable
 	return tc_mds;
 }
 

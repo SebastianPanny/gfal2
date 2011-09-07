@@ -60,7 +60,12 @@ void \textbf{gfal\_\-auto\_\-maintain\_\-session} (struct lfc\_\-ops $\ast$ops, 
 \item 
 ssize\_\-t \textbf{g\_\-strv\_\-catbuff} (char $\ast$$\ast$strv, char $\ast$buff, size\_\-t size)\label{lfc__ifce__ng_8h_bc04cd8d7342170700f02f6297fc4105}
 
-\end{CompactItemize}
+\item 
+int \textbf{gfal\_\-lfc\_\-convert\_\-lstat} (struct stat $\ast$output, struct lfc\_\-filestat $\ast$input, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8h_16e8d4c4177c6e1d39c1850f06042f97}
+
+\item 
+void \bf{gfal\_\-generate\_\-guid\-G} (char $\ast$buf, GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em generate an uiid string Generate a uuid string and cpy it in the buf, \item\end{CompactList}\end{CompactItemize}
 
 
 \subsection{Detailed Description}
@@ -99,6 +104,15 @@ convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mo
 \end{Desc}
 \begin{Desc}
 \item[Returns:]: 0 else -1 if error and err is set \end{Desc}
+\index{lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}!gfal_generate_guidG@{gfal\_\-generate\_\-guidG}}
+\index{gfal_generate_guidG@{gfal\_\-generate\_\-guidG}!lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-generate\_\-guid\-G (char $\ast$ {\em buf}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8h_4cb5e50a1af5612463aaa525162a2e9e}
+
+
+generate an uiid string Generate a uuid string and cpy it in the buf, 
+
+\begin{Desc}
+\item[Warning:]buff must be $>$ uuid size ( 37 bytes ) \end{Desc}
 \index{lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}!gfal_lfc_getSURL@{gfal\_\-lfc\_\-getSURL}}
 \index{gfal_lfc_getSURL@{gfal\_\-lfc\_\-getSURL}!lfc_ifce_ng.h@{lfc\_\-ifce\_\-ng.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ gfal\_\-lfc\_\-get\-SURL (struct lfc\_\-ops $\ast$ {\em ops}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{lfc__ifce__ng_8h_26c355c9cf576886a743ab1917de295d}
