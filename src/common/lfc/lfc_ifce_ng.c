@@ -45,7 +45,7 @@
 static __thread int _local_thread_init=FALSE;
 
 static volatile time_t session_timestamp= 0;
-static long session_duration = 10;
+static long session_duration = 20;
 static pthread_mutex_t m_session = PTHREAD_MUTEX_INITIALIZER;
 
 int gfal_lfc_regex_compile(regex_t* rex, GError** err){
@@ -87,11 +87,11 @@ void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err){
 	time_t current = time(NULL);
 	if(session_timestamp < current){
 		pthread_mutex_lock(&m_session);
-		current = time(NULL);
 		if(session_timestamp < current){
-			session_timestamp = current + session_duration;
 			gfal_lfc_endSession(ops, NULL);
 			gfal_lfc_startSession(ops, err);
+			current = time(NULL);
+			session_timestamp = current + session_duration;
 		}
 		pthread_mutex_unlock(&m_session);	
 	}
