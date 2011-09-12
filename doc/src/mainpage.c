@@ -39,7 +39,4 @@
 	- Clean builds :
 		- scons -c
 	
-
-
-
 */
