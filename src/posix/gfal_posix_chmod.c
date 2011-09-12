@@ -31,7 +31,7 @@
  #include "../common/gfal_prototypes.h"
  #include "gfal_posix_local_file.h"
  #include "gfal_posix_internal.h"
- #include  "../common/gfal_common_catalog.h"
+ #include  "../common/gfal_common_plugin.h"
  
  
  int gfal_posix_internal_chmod(const char* path, mode_t mode){
@@ -50,7 +50,7 @@
 		if( gfal_check_local_url(path, NULL) == TRUE){
 			res = gfal_local_chmod(path, mode, &tmp_err);
 		}else{
-			res = gfal_catalog_chmodG(handle, path, mode, &tmp_err);
+			res = gfal_plugin_chmodG(handle, path, mode, &tmp_err);
 		}
 	}
 	if(tmp_err){

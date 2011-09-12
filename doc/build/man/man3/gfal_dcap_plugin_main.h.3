@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_main.h" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_main.h" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,7 +12,7 @@
 .br
 \fC#include '../gfal_common_errverbose.h'\fP
 .br
-\fC#include '../gfal_common_catalog.h'\fP
+\fC#include '../gfal_common_plugin.h'\fP
 .br
 \fC#include '../gfal_types.h'\fP
 .br
@@ -35,7 +35,7 @@
 
 .in +1c
 .ti -1c
-.RI "\fBgfal_catalog_interface\fP \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
+.RI "\fBgfal_plugin_interface\fP \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -55,7 +55,7 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "\fBgfal_catalog_interface\fP gfal_plugin_init (gfal_handle handle, GError ** err)"
+.SS "\fBgfal_plugin_interface\fP gfal_plugin_init (gfal_handle handle, GError ** err)"
 .PP
 Init function, called before all 
 .SH "Author"

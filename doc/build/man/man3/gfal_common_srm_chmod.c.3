@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_chmod.c" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_chmod.c" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -16,7 +16,7 @@
 .br
 \fC#include '../gfal_common_errverbose.h'\fP
 .br
-\fC#include '../gfal_common_catalog.h'\fP
+\fC#include '../gfal_common_plugin.h'\fP
 .br
 \fC#include 'gfal_common_srm_internal_layer.h'\fP
 .br
@@ -29,7 +29,7 @@
 
 .in +1c
 .ti -1c
-.RI "int \fBgfal_srm_chmodG\fP (catalog_handle ch, const char *path, mode_t mode, GError **err)"
+.RI "int \fBgfal_srm_chmodG\fP (plugin_handle ch, const char *path, mode_t mode, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"

@@ -27,21 +27,9 @@
       <node id="1797">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="1789">
-        <label>sys/types.h</label>
-      </node>
-      <node id="1799">
-        <label>string.h</label>
-      </node>
-      <node id="1788">
-        <label>unistd.h</label>
-      </node>
-      <node id="1786">
-        <label>glib.h</label>
-      </node>
       <node id="1795">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
         <childnode refid="1796" relation="include">
         </childnode>
         <childnode refid="1797" relation="include">
@@ -60,6 +48,18 @@
         </childnode>
         <childnode refid="1787" relation="include">
         </childnode>
+      </node>
+      <node id="1789">
+        <label>sys/types.h</label>
+      </node>
+      <node id="1799">
+        <label>string.h</label>
+      </node>
+      <node id="1788">
+        <label>unistd.h</label>
+      </node>
+      <node id="1786">
+        <label>glib.h</label>
       </node>
       <node id="1785">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.h</label>
@@ -100,13 +100,13 @@
       </node>
     </incdepgraph>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__srm__stat_8h_1f7d374066f088638c5afe77ef8a1dd7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__stat_8h_152d92a48e01bae716eb4bdad7ffda34d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_srm_statG</definition>
-        <argsstring>(catalog_handle handle, const char *surl, struct stat *buf, GError **err)</argsstring>
+        <argsstring>(plugin_handle handle, const char *surl, struct stat *buf, GError **err)</argsstring>
         <name>gfal_srm_statG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>handle</declname>
           <defname>ch</defname>
         </param>
@@ -160,7 +160,7 @@
 <codeline lineno="27"><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__srm__stat_8c_15073234723ab7d40a031a9493a9cf8e6" kindref="member">gfal_srm_statG</ref>(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buf,<sp/>GError**<sp/>err);<sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__srm__stat_8c_146380c3a3586c2ad7fe5bcdc5e1c43fc" kindref="member">gfal_srm_statG</ref>(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buf,<sp/>GError**<sp/>err);<sp/></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>

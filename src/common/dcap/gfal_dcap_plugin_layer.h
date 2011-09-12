@@ -28,7 +28,7 @@
 
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "../gfal_types.h"
 
 struct dcap_proto_ops {

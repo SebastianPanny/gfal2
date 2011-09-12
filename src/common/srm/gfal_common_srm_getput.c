@@ -33,7 +33,7 @@
 #include "gfal_common_srm.h"
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "gfal_common_srm_internal_layer.h"
 #include "gfal_common_srm_endpoint.h"
 
@@ -174,7 +174,7 @@ int gfal_srm_mTURLS_internal(gfal_srmv2_opt* opts, srm_req_type req_type, char**
 /**
  *  simple wrapper to getTURLs for the gfal_module layer
  * */
-int gfal_srm_getTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken,  GError** err){
+int gfal_srm_getTURLS_plugin(plugin_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken,  GError** err){
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*)ch;
 	gfal_srm_result* resu=NULL;
 	GError* tmp_err=NULL;
@@ -223,7 +223,7 @@ int gfal_srm_getTURLS(gfal_srmv2_opt* opts, char** surls, gfal_srm_result** resu
 /**
  *  simple wrapper to putTURLs for the gfal_module layer
  * */
-int gfal_srm_putTURLS_catalog(catalog_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err){
+int gfal_srm_putTURLS_plugin(plugin_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err){
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*)ch;
 	gfal_srm_result* resu=NULL;
 	GError* tmp_err=NULL;

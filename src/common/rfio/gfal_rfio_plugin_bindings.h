@@ -29,23 +29,23 @@
 #include <regex.h>
 #include <time.h> 
 #include <stdio.h>
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 
 
-gfal_file_handle gfal_rfio_openG(catalog_handle ch , const char* path, int flag, mode_t mode, GError**);
+gfal_file_handle gfal_rfio_openG(plugin_handle ch , const char* path, int flag, mode_t mode, GError**);
 
-int gfal_rfio_closeG(catalog_handle handle, gfal_file_handle fd, GError ** err);
+int gfal_rfio_closeG(plugin_handle handle, gfal_file_handle fd, GError ** err);
 
-int gfal_rfio_writeG(catalog_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
+int gfal_rfio_writeG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
 
-int gfal_rfio_readG(catalog_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
+int gfal_rfio_readG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
 
-int gfal_rfio_lseekG(catalog_handle handle , gfal_file_handle fd, off_t offset, int whence, GError** err);
+int gfal_rfio_lseekG(plugin_handle handle , gfal_file_handle fd, off_t offset, int whence, GError** err);
 
-int gfal_rfio_statG(catalog_handle handle, const char* name, struct stat* buff, GError ** err);
+int gfal_rfio_statG(plugin_handle handle, const char* name, struct stat* buff, GError ** err);
 
-int gfal_rfio_lstatG(catalog_handle handle, const char* name, struct stat* buff, GError ** err);
+int gfal_rfio_lstatG(plugin_handle handle, const char* name, struct stat* buff, GError ** err);
 
-gfal_file_handle gfal_rfio_opendirG(catalog_handle handle, const char* name, GError ** err);
+gfal_file_handle gfal_rfio_opendirG(plugin_handle handle, const char* name, GError ** err);
 
 const char* gfal_rfio_getName();

@@ -25,7 +25,7 @@
 
 #include <stdio.h>
 #include <glib.h>
-#include "../common/gfal_common_catalog.h"
+#include "../common/gfal_common_plugin.h"
 #include "gfal_posix_internal.h"
 #include "gfal_posix_local_file.h"
 #include "gfal_posix_api.h"
@@ -50,7 +50,7 @@ int gfal_posix_internal_symlink(const char* oldpath, const char* newpath){
 				&& gfal_check_local_url(newpath, NULL)){
 			ret = gfal_local_symlink(oldpath, newpath, &tmp_err);			
 		}else{
-			ret = gfal_catalog_symlinkG(handle, oldpath, newpath, &tmp_err);
+			ret = gfal_plugin_symlinkG(handle, oldpath, newpath, &tmp_err);
 		}
 	}
 	

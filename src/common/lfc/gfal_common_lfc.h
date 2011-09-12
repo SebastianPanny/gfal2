@@ -20,7 +20,7 @@
  /**
   * 
   @file gfal_common_lfc.h
-  @brief header file for the lfc catalog module
+  @brief header file for the lfc plugin module
   @author Adrien Devresse
   @version 0.0.1
   @date 29/04/2011
@@ -40,7 +40,7 @@
 
 #include <sys/types.h>
 #include <glib.h>
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
 #include "../../externals/gsimplecache/gcachemain.h"
@@ -50,12 +50,12 @@
 
 gboolean gfal_checker_guid(const char* guid, GError** err);
 
-gfal_catalog_interface lfc_initG(gfal_handle, GError**);
+gfal_plugin_interface lfc_initG(gfal_handle, GError**);
 
 
-gboolean gfal_lfc_check_lfn_url(catalog_handle handle, const char* lfn_url, catalog_mode mode, GError** err);
+gboolean gfal_lfc_check_lfn_url(plugin_handle handle, const char* lfn_url, plugin_mode mode, GError** err);
 
-char ** lfc_getSURLG(catalog_handle handle, const char * path, GError** err);
+char ** lfc_getSURLG(plugin_handle handle, const char * path, GError** err);
 
 void lfc_set_session_timeout(int timeout);
 

@@ -33,5 +33,5 @@
 
 
 
-gfal_file_handle lfc_openG(catalog_handle ch, const char* path, int flag, mode_t mode, GError** err);
+gfal_file_handle lfc_openG(plugin_handle ch, const char* path, int flag, mode_t mode, GError** err);
 

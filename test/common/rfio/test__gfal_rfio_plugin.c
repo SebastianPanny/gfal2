@@ -35,7 +35,7 @@ void test_load_plugin(){
 	assert_true_with_message(err==NULL, " error must be NULL");
 	if(handle==NULL)
 		return;
-	char** res = gfal_catalogs_get_list(handle, &err);
+	char** res = gfal_plugins_get_list(handle, &err);
 	assert_true_with_message(err==NULL, " error must be NULL");
 	int i;
 	gboolean valid = FALSE;

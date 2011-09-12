@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/rfio/gfal_rfio_plugin_main.c" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -16,7 +16,7 @@
 .br
 \fC#include '../gfal_common_errverbose.h'\fP
 .br
-\fC#include '../gfal_common_catalog.h'\fP
+\fC#include '../gfal_common_plugin.h'\fP
 .br
 \fC#include '../gfal_types.h'\fP
 .br
@@ -31,7 +31,7 @@
 
 .in +1c
 .ti -1c
-.RI "gboolean \fBgfal_rfio_check_url\fP (catalog_handle, const char *url, catalog_mode mode, GError **err)"
+.RI "gboolean \fBgfal_rfio_check_url\fP (plugin_handle, const char *url, plugin_mode mode, GError **err)"
 .br
 .ti -1c
 .RI "gboolean \fBgfal_rfio_internal_check_url\fP (gfal_plugin_rfio_handle rh, const char *surl, GError **err)"
@@ -40,13 +40,13 @@
 .RI "const char * \fBgfal_rfio_getName\fP ()"
 .br
 .ti -1c
-.RI "void \fBgfal_rfio_destroyG\fP (catalog_handle handle)"
+.RI "void \fBgfal_rfio_destroyG\fP (plugin_handle handle)"
 .br
 .ti -1c
 .RI "int \fBgfal_rfio_regex_compile\fP (regex_t *rex, GError **err)"
 .br
 .ti -1c
-.RI "\fBgfal_catalog_interface\fP \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
+.RI "\fBgfal_plugin_interface\fP \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -71,10 +71,10 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "\fBgfal_catalog_interface\fP gfal_plugin_init (gfal_handle handle, GError ** err)"
+.SS "\fBgfal_plugin_interface\fP gfal_plugin_init (gfal_handle handle, GError ** err)"
 .PP
 Init function, called before all 
-.SS "gboolean gfal_rfio_check_url (catalog_handle ch, const char * url, catalog_mode mode, GError ** err)"
+.SS "gboolean gfal_rfio_check_url (plugin_handle ch, const char * url, plugin_mode mode, GError ** err)"
 .PP
 Check the rfio url in the gfal module way 
 .SH "Author"

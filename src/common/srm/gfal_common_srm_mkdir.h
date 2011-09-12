@@ -28,4 +28,4 @@
 #include "../gfal_types.h" 
 #include "../gfal_constants.h"
 
-int gfal_srm_mkdirG(catalog_handle handle, const char* surl, mode_t mode, gboolean pflag, GError** err); 
+int gfal_srm_mkdirG(plugin_handle handle, const char* surl, mode_t mode, gboolean pflag, GError** err); 

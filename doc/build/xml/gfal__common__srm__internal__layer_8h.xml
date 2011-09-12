@@ -44,6 +44,30 @@
       <node id="1497">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="1495">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="1496" relation="include">
+        </childnode>
+        <childnode refid="1497" relation="include">
+        </childnode>
+        <childnode refid="1484" relation="include">
+        </childnode>
+        <childnode refid="1498" relation="include">
+        </childnode>
+        <childnode refid="1486" relation="include">
+        </childnode>
+        <childnode refid="1487" relation="include">
+        </childnode>
+        <childnode refid="1488" relation="include">
+        </childnode>
+        <childnode refid="1489" relation="include">
+        </childnode>
+        <childnode refid="1488" relation="include">
+        </childnode>
+        <childnode refid="1489" relation="include">
+        </childnode>
+      </node>
       <node id="1485">
         <label>gfal_common_srm.h</label>
         <link refid="gfal__common__srm_8h"/>
@@ -80,28 +104,6 @@
       </node>
       <node id="1482">
         <label>gfal_srm_ifce.h</label>
-      </node>
-      <node id="1495">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1496" relation="include">
-        </childnode>
-        <childnode refid="1497" relation="include">
-        </childnode>
-        <childnode refid="1484" relation="include">
-        </childnode>
-        <childnode refid="1498" relation="include">
-        </childnode>
-        <childnode refid="1486" relation="include">
-        </childnode>
-        <childnode refid="1492" relation="include">
-        </childnode>
-        <childnode refid="1493" relation="include">
-        </childnode>
-        <childnode refid="1488" relation="include">
-        </childnode>
-        <childnode refid="1489" relation="include">
-        </childnode>
       </node>
       <node id="1494">
         <label>gfal_constants.h</label>
@@ -315,13 +317,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="95" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" bodystart="87" bodyend="101"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_1c51b90df2c43b149ad2f80afeb9200ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_1c85b3f997dc3eeb76f153e01e8c037d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_srm_getTURLS_catalog</definition>
-        <argsstring>(catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</argsstring>
-        <name>gfal_srm_getTURLS_catalog</name>
+        <definition>int gfal_srm_getTURLS_plugin</definition>
+        <argsstring>(plugin_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</argsstring>
+        <name>gfal_srm_getTURLS_plugin</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -352,13 +354,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="97" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getput.c" bodystart="177" bodyend="199"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_196bb61a1e4df92a074a6e173b8c02b4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_124220c90dc2c2c7b43544c77bfac96cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_srm_putTURLS_catalog</definition>
-        <argsstring>(catalog_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</argsstring>
-        <name>gfal_srm_putTURLS_catalog</name>
+        <definition>int gfal_srm_putTURLS_plugin</definition>
+        <argsstring>(plugin_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</argsstring>
+        <name>gfal_srm_putTURLS_plugin</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -418,13 +420,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="101" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getput.c" bodystart="308" bodyend="330"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_15f52f23ed20fcf63fe66e158a9748971" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_146ce9d66bcd7db433a250e0949603622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_srm_unlinkG</definition>
-        <argsstring>(catalog_handle ch, const char *path, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, const char *path, GError **err)</argsstring>
         <name>gfal_srm_unlinkG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -572,13 +574,13 @@
 <codeline lineno="94"><highlight class="normal"></highlight></codeline>
 <codeline lineno="95"><highlight class="normal">gboolean<sp/>gfal_srm_surl_group_checker(gfal_srmv2_opt*<sp/>opts,</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>surls,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="96"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_getTURLS_catalog(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_turl,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size_turl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>reqtoken,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_getTURLS_plugin(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_turl,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size_turl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>reqtoken,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_putTURLS_catalog(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_turl,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size_turl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>reqtoken,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_putTURLS_plugin(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_turl,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size_turl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>reqtoken,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"></highlight></codeline>
 <codeline lineno="101"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_putdone(gfal_srmv2_opt*<sp/>opts,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>surls,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>token,<sp/><sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_unlinkG(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>path,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_unlinkG(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>path,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight></codeline>
 <codeline lineno="105"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_srm_report_error(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>errbuff,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="106"><highlight class="normal"></highlight></codeline>

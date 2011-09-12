@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.c" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.c" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -23,7 +23,7 @@
 
 .in +1c
 .ti -1c
-.RI "int \fBgfal_srm_statG\fP (catalog_handle ch, const char *surl, struct stat *buf, GError **err)"
+.RI "int \fBgfal_srm_statG\fP (plugin_handle ch, const char *surl, struct stat *buf, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -48,7 +48,7 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_srm_statG (catalog_handle ch, const char * surl, struct stat * buf, GError ** err)"
+.SS "int gfal_srm_statG (plugin_handle ch, const char * surl, struct stat * buf, GError ** err)"
 .PP
 stat call, for the srm interface stat and lstat are the same call !! the default behavior is similar to stat by default and ignore links 
 .SH "Author"

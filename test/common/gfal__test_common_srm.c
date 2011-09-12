@@ -47,12 +47,12 @@ void mock_srm_access_right_response(char* surl){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;
-	gfal_catalogs_instance(handle, NULL);
+	gfal_plugins_instance(handle, NULL);
 	char* surls[] = { surl, NULL };
 	char* turls[] = { "nawak", NULL };
 	int status[] = { 0, 0 };
@@ -68,7 +68,7 @@ void mock_srm_access_error_response(char* surl, int merror){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
@@ -89,7 +89,7 @@ void test_srm_mock_chmod(char* url, int retcode){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	
 	setup_mock_srm();
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
@@ -257,7 +257,7 @@ void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
 	if(handle==NULL)
 		return;
-	gfal_catalogs_instance(handle, NULL);
+	gfal_plugins_instance(handle, NULL);
 	gfal_srmv2_opt opts;
 	gfal_srm_opt_initG(&opts, handle);
 	gfal_set_nobdiiG(handle, TRUE);
@@ -307,14 +307,14 @@ void test_gfal_srm_determine_endpoint_not_fullG()
 		return;
 	gfal_srmv2_opt opts;
 	gfal_srm_opt_initG(&opts, handle);
-	gfal_catalogs_instance(handle, NULL);
+	gfal_plugins_instance(handle, NULL);
 	int ret =-1;
 	ret = gfal_srm_determine_endpoint(&opts, TEST_SRM_DPM_ENDPOINT_PREFIX, buff_endpoint, 2048, &proto, &err);
 	assert_true_with_message( ret ==0 && err == NULL && strings_are_equal(buff_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL), " must be a succesfull endpoint determination %d %ld %s", ret, err, buff_endpoint);
 	gfal_check_GError(&err);	
 	
 	ret = gfal_srm_determine_endpoint(&opts, "http://google.com", buff_endpoint, 2048, &proto, &err);
-	assert_true_with_message( ret !=0 && err != NULL, "error must be reported");
+	assert_true_with_message( ret !=0 && err != NULL, "error must be reported %d %s", ret, ((err)?err->message:""));
 	g_clear_error(&err);
 	gfal_handle_freeG(handle);	
 }
@@ -352,7 +352,7 @@ void test_gfal_select_best_protocol_and_endpointG()
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");
 	if(handle==NULL)
 		return;
-	gfal_catalogs_instance(handle, NULL);
+	gfal_plugins_instance(handle, NULL);
 	gfal_srmv2_opt opts;
 	gfal_srm_opt_initG(&opts, handle);
 	gfal_set_default_storageG(&opts, PROTO_SRMv2);
@@ -401,7 +401,7 @@ void test_gfal_srm_getTURLS_one_success()
 	if(handle==NULL)
 		return;
 	gfal_srmv2_opt opts;
-	gfal_catalogs_instance(handle, NULL);	
+	gfal_plugins_instance(handle, NULL);	
 	gfal_srm_opt_initG(&opts, handle);
 
 	gfal_srm_result* resu=NULL;
@@ -467,7 +467,7 @@ void test_gfal_srm_getTURLS_pipeline_success()
 		return;
 	gfal_srmv2_opt opts;
 	gfal_srm_opt_initG(&opts, handle);
-	gfal_catalogs_instance(handle, NULL);
+	gfal_plugins_instance(handle, NULL);
 	gfal_srm_result* resu=NULL;
 	char* surls[] = {TEST_SRM_VALID_SURL_EXAMPLE1, TEST_SRM_INVALID_SURL_EXAMPLE2, TEST_SRM_VALID_SURL_EXAMPLE1, NULL};
 	int ret = gfal_srm_getTURLS(&opts, surls, &resu, &tmp_err);

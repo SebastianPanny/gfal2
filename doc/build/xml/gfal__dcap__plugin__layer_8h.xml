@@ -4,7 +4,7 @@
     <compoundname>gfal_dcap_plugin_layer.h</compoundname>
     <includes refid="gfal__common__internal_8h" local="yes">../gfal_common_internal.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../gfal_common_errverbose.h</includes>
-    <includes refid="gfal__common__catalog_8h" local="yes">../gfal_common_catalog.h</includes>
+    <includes refid="gfal__common__plugin_8h" local="yes">../gfal_common_plugin.h</includes>
     <includes refid="gfal__types_8h" local="yes">../gfal_types.h</includes>
     <includedby refid="gfal__dcap__plugin__bindings_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c</includedby>
     <includedby refid="gfal__dcap__plugin__layer_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_layer.c</includedby>
@@ -55,6 +55,28 @@
       <node id="107">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="105">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="106" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+        <childnode refid="109" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
+        <childnode refid="102" relation="include">
+        </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+      </node>
       <node id="100">
         <label>sys/types.h</label>
       </node>
@@ -78,28 +100,6 @@
       </node>
       <node id="97">
         <label>glib.h</label>
-      </node>
-      <node id="105">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="106" relation="include">
-        </childnode>
-        <childnode refid="107" relation="include">
-        </childnode>
-        <childnode refid="97" relation="include">
-        </childnode>
-        <childnode refid="108" relation="include">
-        </childnode>
-        <childnode refid="109" relation="include">
-        </childnode>
-        <childnode refid="101" relation="include">
-        </childnode>
-        <childnode refid="102" relation="include">
-        </childnode>
-        <childnode refid="96" relation="include">
-        </childnode>
-        <childnode refid="98" relation="include">
-        </childnode>
       </node>
       <node id="104">
         <label>gfal_constants.h</label>
@@ -195,7 +195,7 @@
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dcap_proto_ops<sp/>{</highlight></codeline>

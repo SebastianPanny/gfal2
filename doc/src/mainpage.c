@@ -13,8 +13,8 @@
 		- the POSIX style API : \ref posix_group \n
 		- the Error management API : \ref gfal_posix_check_error
 
-	- GFAL 2.0 internal API for plugins  :
-		- \ref _gfal_catalog_interface
+	- Gfal internal API to construct plugin ( not stable currently ) :
+		- \ref _gfal_plugin_interface
 
 	<h2> III. Examples : </h2>
 		- <a href="examples.html"> examples </a>

@@ -20,14 +20,14 @@ static void test_internal_generic_copy(gpointer origin, gpointer copy){
 }
 
 // mocking function internal to gfal
-gfal_catalog_interface get_lfc_interface(gfal_handle handle, GError** err){
-	gfal_catalog_interface i;
+gfal_plugin_interface get_lfc_interface(gfal_handle handle, GError** err){
+	gfal_plugin_interface i;
 	void* dl = dlopen("libgfal_plugin_lfc.so", RTLD_LAZY);
 	if(!dl){
 		g_set_error(err, 0, EINVAL, "unable to find the gfal plugin lfc");
 		return i;
 	}
-	gfal_catalog_interface (*constructor)(gfal_handle,GError**) = (gfal_catalog_interface (*)(gfal_handle,GError**)) dlsym(dl, "gfal_plugin_init");	
+	gfal_plugin_interface (*constructor)(gfal_handle,GError**) = (gfal_plugin_interface (*)(gfal_handle,GError**)) dlsym(dl, "gfal_plugin_init");	
 	if(constructor==NULL){
 		g_set_error(err, 0, EINVAL, "unable to resolve constructor in lfc plugin");
 		return i;		
@@ -132,7 +132,7 @@ void test_gfal_common_lfc_init()
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);
 	if(tmp_err){
 		assert_true_with_message(FALSE, " must not fail, valid value");
 		return;
@@ -150,7 +150,7 @@ void test_gfal_common_lfc_access(){
 	if(!handle)
 		return;
 
-	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);	
 	assert_true_with_message(tmp_err == NULL, " must be a valid init %ld ", tmp_err);
 	if(tmp_err)
 		return;
@@ -184,7 +184,7 @@ void test_gfal_common_lfc_no_exist()
 	if(handle == NULL)
 		return;
 	
-	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);	
 	assert_true_with_message(tmp_err==NULL, " must be a valid init");
 	if(tmp_err)
 		return;
@@ -216,19 +216,19 @@ GError * tmp_err=NULL;
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);	
 	assert_true_with_message(tmp_err== NULL, " must be a valid init");
 	if(tmp_err)	
 		return;
 		
-	gboolean b = i.check_catalog_url(i.handle, TEST_LFC_VALID_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
+	gboolean b = i.check_plugin_url(i.handle, TEST_LFC_VALID_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
 	assert_true_with_message(b && tmp_err==NULL, " must be a valid lfn url");
 
 	g_clear_error(&tmp_err);
-	b = i.check_catalog_url(i.handle, TEST_LFC_NOEXIST_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
+	b = i.check_plugin_url(i.handle, TEST_LFC_NOEXIST_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
 	assert_true_with_message(b && tmp_err==NULL, " must be a valid lfn url 2");
 	g_clear_error(&tmp_err);
-	b = i.check_catalog_url(i.handle, TEST_LFC_URL_SYNTAX_ERROR, GFAL_CATALOG_ACCESS, &tmp_err);
+	b = i.check_plugin_url(i.handle, TEST_LFC_URL_SYNTAX_ERROR, GFAL_CATALOG_ACCESS, &tmp_err);
 	assert_true_with_message(b==FALSE && tmp_err==NULL, " must an invalid lfn url 3 but must not report error");
 	g_clear_error(&tmp_err);
 
@@ -244,7 +244,7 @@ void test_gfal_common_lfc_getSURL()
 	gfal_handle handle = gfal_initG(&tmp_err);
 	assert_true_with_message(handle!=NULL, "error must be initiated");
 
-	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);	
 	assert_true_with_message(tmp_err ==NULL, "must be a valid init");
 	if(tmp_err)
 		return;
@@ -289,7 +289,7 @@ void test_gfal_common_lfc_access_guid_file_exist()
 	assert_true_with_message(handle != NULL, "error must be initiated");
 	if(handle==NULL)
 		return;
-	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);	
 	assert_true_with_message(tmp_err==NULL, "must be a valid init");
 	if(tmp_err)
 		return;
@@ -323,7 +323,7 @@ void test__gfal_common_lfc_rename()
 	assert_true_with_message(handle!=NULL, "error must be initiated ");
 	if(!handle)
 		return;
-	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);	
 	assert_true_with_message(tmp_err == NULL, "must be a valid init ");
 	if(tmp_err)
 		return;
@@ -362,7 +362,7 @@ void test__gfal_common_lfc_statg()
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_catalog_interface i = get_lfc_interface(handle, &tmp_err);	
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);	
 	if(tmp_err){
 		assert_true_with_message(FALSE, "must be a valid init");
 		gfal_release_GError(&tmp_err);

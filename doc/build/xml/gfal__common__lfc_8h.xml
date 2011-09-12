@@ -4,7 +4,7 @@
     <compoundname>gfal_common_lfc.h</compoundname>
     <includes local="no">sys/types.h</includes>
     <includes local="no">glib.h</includes>
-    <includes refid="gfal__common__catalog_8h" local="yes">../gfal_common_catalog.h</includes>
+    <includes refid="gfal__common__plugin_8h" local="yes">../gfal_common_plugin.h</includes>
     <includes refid="gfal__prototypes_8h" local="yes">../gfal_prototypes.h</includes>
     <includes refid="gfal__types_8h" local="yes">../gfal_types.h</includes>
     <includes refid="gcachemain_8h" local="yes">../../externals/gsimplecache/gcachemain.h</includes>
@@ -33,27 +33,9 @@
       <node id="808">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="804">
-        <label>sys/types.h</label>
-      </node>
-      <node id="810">
-        <label>string.h</label>
-      </node>
-      <node id="815">
-        <label>unistd.h</label>
-      </node>
-      <node id="818">
-        <label>../../externals/gsimplecache/gcachemain.h</label>
-        <link refid="gcachemain_8h-source"/>
-        <childnode refid="805" relation="include">
-        </childnode>
-      </node>
-      <node id="805">
-        <label>glib.h</label>
-      </node>
       <node id="806">
-        <label>../gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
+        <label>../gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
         <childnode refid="807" relation="include">
         </childnode>
         <childnode refid="808" relation="include">
@@ -72,6 +54,24 @@
         </childnode>
         <childnode refid="814" relation="include">
         </childnode>
+      </node>
+      <node id="804">
+        <label>sys/types.h</label>
+      </node>
+      <node id="810">
+        <label>string.h</label>
+      </node>
+      <node id="815">
+        <label>unistd.h</label>
+      </node>
+      <node id="818">
+        <label>../../externals/gsimplecache/gcachemain.h</label>
+        <link refid="gcachemain_8h-source"/>
+        <childnode refid="805" relation="include">
+        </childnode>
+      </node>
+      <node id="805">
+        <label>glib.h</label>
       </node>
       <node id="817">
         <label>gfal_constants.h</label>
@@ -278,9 +278,9 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="658" bodyend="662"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__lfc_8h_10d4af55002fa4216f9915b5a1a721ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref></type>
-        <definition>gfal_catalog_interface lfc_initG</definition>
+      <memberdef kind="function" id="gfal__common__lfc_8h_130773efdd2af3a2a53d6ffd3096049be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref></type>
+        <definition>gfal_plugin_interface lfc_initG</definition>
         <argsstring>(gfal_handle, GError **)</argsstring>
         <name>lfc_initG</name>
         <param>
@@ -297,13 +297,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" line="53"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__lfc_8h_18baa624b528deb15ff4ee61fa9948ac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__lfc_8h_188b02b9ae89630e0516554a409ed82e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
         <definition>gboolean gfal_lfc_check_lfn_url</definition>
-        <argsstring>(catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)</argsstring>
+        <argsstring>(plugin_handle handle, const char *lfn_url, plugin_mode mode, GError **err)</argsstring>
         <name>gfal_lfc_check_lfn_url</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>handle</declname>
         </param>
         <param>
@@ -312,7 +312,7 @@
           <defname>url</defname>
         </param>
         <param>
-          <type>catalog_mode</type>
+          <type>plugin_mode</type>
           <declname>mode</declname>
         </param>
         <param>
@@ -327,13 +327,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" bodystart="668" bodyend="699"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__lfc_8h_17c1d8699d8ad924234db163860dadf40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__lfc_8h_1ab2b9f80b14228974befa9d005ea7bc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char **</type>
         <definition>char** lfc_getSURLG</definition>
-        <argsstring>(catalog_handle handle, const char *path, GError **err)</argsstring>
+        <argsstring>(plugin_handle handle, const char *path, GError **err)</argsstring>
         <name>lfc_getSURLG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>handle</declname>
         </param>
         <param>
@@ -371,7 +371,7 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para>header file for the lfc catalog module </para>    </briefdescription>
+<para>header file for the lfc plugin module </para>    </briefdescription>
     <detaileddescription>
 <para><simplesect kind="author"><para>Adrien Devresse </para></simplesect>
 <simplesect kind="version"><para>0.0.1 </para></simplesect>
@@ -411,7 +411,7 @@
 <codeline lineno="40"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../../externals/gsimplecache/gcachemain.h&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -421,12 +421,12 @@
 <codeline lineno="50"><highlight class="normal"></highlight></codeline>
 <codeline lineno="51"><highlight class="normal">gboolean<sp/><ref refid="gfal__common__lfc_8c_1c7f9448e809d5c82f58288d1491dc2d0" kindref="member">gfal_checker_guid</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>guid,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref><sp/>lfc_initG(gfal_handle,<sp/>GError**);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref><sp/>lfc_initG(gfal_handle,<sp/>GError**);</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal">gboolean<sp/><ref refid="gfal__common__lfc_8c_158b6554069edac9b0626fb3ea9c7f851" kindref="member">gfal_lfc_check_lfn_url</ref>(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>lfn_url,<sp/>catalog_mode<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">gboolean<sp/><ref refid="gfal__common__lfc_8c_1dd0bcee4d6721102a3be26faf02d9ad8" kindref="member">gfal_lfc_check_lfn_url</ref>(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>lfn_url,<sp/>plugin_mode<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**<sp/><ref refid="gfal__common__lfc_8c_17c1d8699d8ad924234db163860dadf40" kindref="member">lfc_getSURLG</ref>(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>path,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**<sp/><ref refid="gfal__common__lfc_8c_1ab2b9f80b14228974befa9d005ea7bc9" kindref="member">lfc_getSURLG</ref>(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>path,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="59"><highlight class="normal"></highlight></codeline>
 <codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>lfc_set_session_timeout(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout);</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"></highlight></codeline>

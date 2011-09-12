@@ -73,6 +73,28 @@
       <node id="830">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="828">
+        <label>../gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="829" relation="include">
+        </childnode>
+        <childnode refid="830" relation="include">
+        </childnode>
+        <childnode refid="827" relation="include">
+        </childnode>
+        <childnode refid="831" relation="include">
+        </childnode>
+        <childnode refid="832" relation="include">
+        </childnode>
+        <childnode refid="833" relation="include">
+        </childnode>
+        <childnode refid="834" relation="include">
+        </childnode>
+        <childnode refid="835" relation="include">
+        </childnode>
+        <childnode refid="836" relation="include">
+        </childnode>
+      </node>
       <node id="848">
         <label>Cthread_api.h</label>
       </node>
@@ -132,28 +154,6 @@
       </node>
       <node id="827">
         <label>glib.h</label>
-      </node>
-      <node id="828">
-        <label>../gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="829" relation="include">
-        </childnode>
-        <childnode refid="830" relation="include">
-        </childnode>
-        <childnode refid="827" relation="include">
-        </childnode>
-        <childnode refid="831" relation="include">
-        </childnode>
-        <childnode refid="832" relation="include">
-        </childnode>
-        <childnode refid="833" relation="include">
-        </childnode>
-        <childnode refid="834" relation="include">
-        </childnode>
-        <childnode refid="835" relation="include">
-        </childnode>
-        <childnode refid="836" relation="include">
-        </childnode>
       </node>
       <node id="839">
         <label>gfal_constants.h</label>
@@ -220,13 +220,13 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__lfc__open_8c_14340e1acda83c339861d2e8c79c0724c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__lfc__open_8c_1a1205fd03e80a4145a8aba41eb279652" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
         <definition>gfal_file_handle lfc_openG</definition>
-        <argsstring>(catalog_handle ch, const char *path, int flag, mode_t mode, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, const char *path, int flag, mode_t mode, GError **err)</argsstring>
         <name>lfc_openG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -289,18 +289,18 @@
 <codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lfc__ifce__ng_8h" kindref="compound">lfc_ifce_ng.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal">gfal_file_handle<sp/><ref refid="gfal__common__lfc__open_8c_14340e1acda83c339861d2e8c79c0724c" kindref="member">lfc_openG</ref>(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">gfal_file_handle<sp/><ref refid="gfal__common__lfc__open_8c_1a1205fd03e80a4145a8aba41eb279652" kindref="member">lfc_openG</ref>(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle<sp/>=<sp/>((</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">lfc_ops*)ch)-&gt;handle;</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>res=NULL;</highlight></codeline>
 <codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_TRACE,<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>%s<sp/>-&gt;&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>surls<sp/>=<sp/><ref refid="gfal__common__lfc_8c_17c1d8699d8ad924234db163860dadf40" kindref="member">lfc_getSURLG</ref>(ch,<sp/>path,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>surls<sp/>=<sp/><ref refid="gfal__common__lfc_8c_1ab2b9f80b14228974befa9d005ea7bc9" kindref="member">lfc_getSURLG</ref>(ch,<sp/>path,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(surls<sp/>!=<sp/>0<sp/>&amp;&amp;<sp/>tmp_err<sp/>==<sp/>NULL){</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>p<sp/>=<sp/>surls;</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(<sp/>*p<sp/>!=<sp/>NULL){</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__errverbose_8c_18b05640b4b43a776603bd93703c29d30" kindref="member">gfal_print_verbose</ref>(GFAL_VERBOSE_VERBOSE,<sp/></highlight><highlight class="stringliteral">&quot;<sp/>LFC<sp/>resolution<sp/>%s<sp/>-&gt;<sp/>%s<sp/>&quot;</highlight><highlight class="normal">,<sp/>path,<sp/>*p);</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/><ref refid="gfal__common__catalog_8c_1cd4cabbd5effdf20bc0b20345c5cc4ab" kindref="member">gfal_catalog_openG</ref>(handle,<sp/>*p,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/><ref refid="gfal__common__plugin_8c_1322dfbe0ad1e144573719ed08151281e" kindref="member">gfal_plugin_openG</ref>(handle,<sp/>*p,<sp/>flag,<sp/>mode,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res<sp/>||<sp/>(<sp/>tmp_err<sp/>&amp;&amp;<sp/>tmp_err-&gt;code!=ECOMM))</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p++;</highlight></codeline>

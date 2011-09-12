@@ -25,7 +25,7 @@ void test_access_posix_guid_exist()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -63,7 +63,7 @@ void test_access_posix_guid_read()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -102,7 +102,7 @@ void test_access_posix_guid_write()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -138,7 +138,7 @@ void test_access_posix_lfn_exist()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -167,7 +167,7 @@ void test_access_posix_lfn_read()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -198,7 +198,7 @@ void test_access_posix_lfn_write()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;

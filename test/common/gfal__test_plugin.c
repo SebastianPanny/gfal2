@@ -1,13 +1,13 @@
 
 
-/* unit test for common_catalog */
+/* unit test for common_plugin */
 
 
 #include <cgreen/cgreen.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "gfal_constants.h"
-#include "gfal_common_catalog.h"
+#include "gfal_common_plugin.h"
 #include "gfal_common_errverbose.h"
 #include "lfc/lfc_ifce_ng.h"
 #include "../unit_test_constants.h"
@@ -15,11 +15,11 @@
 
 
 struct lfc_ops* find_lfc_ops(gfal_handle handle, GError** err){
-	int n = handle->catalog_opt.catalog_number;
+	int n = handle->plugin_opt.plugin_number;
 	int i;
 	gboolean found=FALSE;
 	for(i=0; i < n; ++i){
-		if(strcmp(handle->catalog_opt.catalog_list[i].getName(), "lfc_plugin") == 0){
+		if(strcmp(handle->plugin_opt.plugin_list[i].getName(), "lfc_plugin") == 0){
 			found = TRUE;
 			break;
 		}
@@ -28,8 +28,8 @@ struct lfc_ops* find_lfc_ops(gfal_handle handle, GError** err){
 		g_set_error(err, 0, EINVAL, "[gfal] [mock] unable to load and replace the ops ");
 		return NULL;
 	}
-	handle->catalog_opt.catalog_list[i].handle = calloc(1, sizeof(struct lfc_ops));
-	struct lfc_ops* ops = (struct lfc_ops*) handle->catalog_opt.catalog_list[i].handle; 	
+	handle->plugin_opt.plugin_list[i].handle = calloc(1, sizeof(struct lfc_ops));
+	struct lfc_ops* ops = (struct lfc_ops*) handle->plugin_opt.plugin_list[i].handle; 	
 	return ops;
 }
 
@@ -96,14 +96,14 @@ void test_env_var()
 }
 
 
-void test_catalog_access_file()
+void test_plugin_access_file()
 {
 	GError* tmp_err=NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
 	assert_true_with_message(handle != NULL, " must init properly");
 	if(handle == NULL)	
 		return;
-	gfal_catalogs_instance(handle, &tmp_err);
+	gfal_plugins_instance(handle, &tmp_err);
 	assert_true_with_message(tmp_err== NULL, " must be instance properly");
 	if(tmp_err)
 		return;
@@ -116,11 +116,11 @@ void test_catalog_access_file()
 	will_respond(lfc_mock_access, ENOENT, want_string(path, TEST_LFC_NOEXIST_ACCESS+4), want(mode, F_OK));
 	always_return(lfc_mock_access, EINVAL);
 #endif
-	int ret = gfal_catalogs_accessG(handle, TEST_LFC_VALID_ACCESS, F_OK, &tmp_err);
+	int ret = gfal_plugins_accessG(handle, TEST_LFC_VALID_ACCESS, F_OK, &tmp_err);
 	assert_true_with_message(ret == 0, " must be a valid access");
 
 	
-	ret = gfal_catalogs_accessG(handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);	
+	ret = gfal_plugins_accessG(handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);	
 	assert_true_with_message(ret!=0 && tmp_err!=0 && tmp_err->code == ENOENT, " must be a non-existing file %d %ld %d", (int)ret, (long)tmp_err, (int) (tmp_err)?(tmp_err->code):0);
 	
 	g_clear_error(&tmp_err);
@@ -129,7 +129,7 @@ void test_catalog_access_file()
 
 
 
-void test_catalog_url_checker()
+void test_plugin_url_checker()
 {
 	GError* tmp_err=NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
@@ -138,7 +138,7 @@ void test_catalog_url_checker()
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	int ret = gfal_catalogs_accessG(handle, TEST_LFC_URL_SYNTAX_ERROR, F_OK, &tmp_err);
+	int ret = gfal_plugins_accessG(handle, TEST_LFC_URL_SYNTAX_ERROR, F_OK, &tmp_err);
 	if(ret ==0 || tmp_err->code != EPROTONOSUPPORT){
 		assert_true_with_message(FALSE, " must be an invalid protocol");
 		gfal_release_GError(&tmp_err);
@@ -155,7 +155,7 @@ void test_catalog_url_checker()
 
 
 
-void test__catalog_stat()
+void test__plugin_stat()
 {
 	struct stat resu;
 	memset(&resu, 0, sizeof(struct stat));
@@ -168,7 +168,7 @@ void test__catalog_stat()
 		return;
 	}	
 	
-	gfal_catalogs_instance(handle, &tmp_err);
+	gfal_plugins_instance(handle, &tmp_err);
 	assert_true_with_message(tmp_err==NULL, " must be a valid instance call");
 	if(tmp_err)
 		return;
@@ -188,14 +188,14 @@ void test__catalog_stat()
 	always_return(lfc_mock_statg, EINVAL);
 #endif	
 
-	int ret = gfal_catalog_statG(handle, TEST_GFAL_LFC_FILE_STAT_OK, &resu, &tmp_err);
+	int ret = gfal_plugin_statG(handle, TEST_GFAL_LFC_FILE_STAT_OK, &resu, &tmp_err);
 	assert_true_with_message(ret==0 && tmp_err==NULL, " must be a success statg");
 	assert_true_with_message(resu.st_mode == TEST_GFAL_LFC_FILE_STAT_MODE_VALUE &&
 		resu.st_gid== TEST_GFAL_LFC_FILE_STAT_GID_VALUE
 		&& resu.st_uid==TEST_GFAL_LFC_FILE_STAT_UID_VALUE, " invalid params in the  statg resu %o %d %d", resu.st_mode, resu.st_gid,resu.st_uid );	
 	g_clear_error(&tmp_err);
 	//g_printerr(" extract from the stat struct : right : %o, owner : %d, group : %d, size : %lu", resu.st_mode, resu.st_uid, resu.st_gid, resu.st_size);	
-	ret = gfal_catalog_statG(handle, TEST_GFAL_LFC_FILE_STAT_NONEXIST, &resu, &tmp_err);
+	ret = gfal_plugin_statG(handle, TEST_GFAL_LFC_FILE_STAT_NONEXIST, &resu, &tmp_err);
 	assert_true_with_message(ret!= 0 && tmp_err!= NULL && tmp_err->code ==ENOENT, " must be a failure %d %d", ret, tmp_err);
 
 	
@@ -206,7 +206,7 @@ void test__catalog_stat()
 
 
 
-void test__catalog_lstat()
+void test__plugin_lstat()
 {
 	struct stat resu;
 	memset(&resu, 0, sizeof(struct stat));
@@ -217,7 +217,7 @@ void test__catalog_lstat()
 	if(handle == NULL)
 		return;
 
-	gfal_catalogs_instance(handle, &tmp_err);
+	gfal_plugins_instance(handle, &tmp_err);
 	assert_true_with_message(tmp_err==NULL, " must be a valid instance call");
 	if(tmp_err)
 		return;
@@ -240,16 +240,16 @@ void test__catalog_lstat()
 #endif	
 	
 
-	int ret = gfal_catalog_lstatG(handle, TEST_GFAL_LFC_FILE_STAT_OK, &resu, &tmp_err);
+	int ret = gfal_plugin_lstatG(handle, TEST_GFAL_LFC_FILE_STAT_OK, &resu, &tmp_err);
 	assert_true_with_message(ret==0 && tmp_err==NULL, " must be a success convertion");
 
 
-	ret = gfal_catalog_lstatG(handle, TEST_GFAL_LFC_LINK_STAT_OK, &resu, &tmp_err);
+	ret = gfal_plugin_lstatG(handle, TEST_GFAL_LFC_LINK_STAT_OK, &resu, &tmp_err);
 	assert_true_with_message(ret==0 && tmp_err==NULL, " must be a success convertion");
 
 	
 	//g_printerr(" extract from the stat struct : right : %o, owner : %d, group : %d, size : %lu", resu.st_mode, resu.st_uid, resu.st_gid, resu.st_size);	
-	ret = gfal_catalog_lstatG(handle, TEST_GFAL_LFC_FILE_STAT_NONEXIST, &resu, &tmp_err);
+	ret = gfal_plugin_lstatG(handle, TEST_GFAL_LFC_FILE_STAT_NONEXIST, &resu, &tmp_err);
 	assert_true_with_message(ret != 0 && tmp_err!=NULL && tmp_err->code == ENOENT, " must be a failure");
 	
 	

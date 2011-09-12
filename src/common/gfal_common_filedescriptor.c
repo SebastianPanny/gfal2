@@ -114,7 +114,7 @@ gboolean gfal_remove_file_desc(gfal_fdesc_container_handle fhandle, int key, GEr
  /***
  *  Create a new gfal_file_handle
  *  a gfal_handle is a rich file handle with additional information for the internal purpose
- *  @param id_module : id of the module which create the handle ( <10 -> gfal internal module, >=10 : plugin, catalog, external module ( ex : lfc )
+ *  @param id_module : id of the module which create the handle ( <10 -> gfal internal module, >=10 : plugin, plugin, external module ( ex : lfc )
  *  @param fdesc : original descriptor
  *  @warning need to be free manually
  * */

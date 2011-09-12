@@ -57,7 +57,7 @@ static int gfal_posix_file_handle_close(gfal_handle handle, gfal_file_handle fha
 	if( gfal_is_local_call(fhandle->module_name) )
 		ret = gfal_local_close(fhandle, &tmp_err);
 	else
-		ret = gfal_catalog_closeG(handle, fhandle, &tmp_err);	
+		ret = gfal_plugin_closeG(handle, fhandle, &tmp_err);	
 		
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

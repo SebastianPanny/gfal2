@@ -25,7 +25,7 @@
 <code>#include &quot;<a class="el" href="gfal__common__srm__access_8h-source.html">gfal_common_srm_access.h</a>&quot;</code><br>
 <code>#include &quot;../gfal_constants.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">../gfal_common_errverbose.h</a>&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__catalog_8h-source.html">../gfal_common_catalog.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__plugin_8h-source.html">../gfal_common_plugin.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__srm__internal__layer_8h-source.html">gfal_common_srm_internal_layer.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__srm__endpoint_8h-source.html">gfal_common_srm_endpoint.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
@@ -34,9 +34,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="482394e183f4026d547f17575dc4b8dd"></a><!-- doxytag: member="gfal_common_srm_access.c::gfal_access_srmv2_internal" ref="482394e183f4026d547f17575dc4b8dd" args="(gfal_srmv2_opt *opts, char *endpoint, const char *surl, int mode, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_access_srmv2_internal</b> (gfal_srmv2_opt *opts, char *endpoint, const char *surl, int mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__access_8c.html#c97d6cdbdc19261f398fece514431491">gfal_srm_accessG</a> (catalog_handle ch, const char *surl, int mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__access_8c.html#2d1197314163b3fd3b59e7d75579f1e9">gfal_srm_accessG</a> (plugin_handle ch, const char *surl, int mode, GError **err)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated.  <a href="#c97d6cdbdc19261f398fece514431491"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated.  <a href="#2d1197314163b3fd3b59e7d75579f1e9"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 file for the access function on the srm url type 
@@ -45,14 +45,14 @@ file for the access function on the srm url type
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>05/05/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="c97d6cdbdc19261f398fece514431491"></a><!-- doxytag: member="gfal_common_srm_access.c::gfal_srm_accessG" ref="c97d6cdbdc19261f398fece514431491" args="(catalog_handle ch, const char *surl, int mode, GError **err)" -->
+<a class="anchor" name="2d1197314163b3fd3b59e7d75579f1e9"></a><!-- doxytag: member="gfal_common_srm_access.c::gfal_srm_accessG" ref="2d1197314163b3fd3b59e7d75579f1e9" args="(plugin_handle ch, const char *surl, int mode, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int gfal_srm_accessG           </td>
           <td>(</td>
-          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramtype">plugin_handle&nbsp;</td>
           <td class="paramname"> <em>ch</em>, </td>
         </tr>
         <tr>
@@ -87,7 +87,7 @@ access method for SRMv2 check the right for a given SRM url, work only for SRMv2
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>ch</em>&nbsp;</td><td>the handle of the catalog </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ch</em>&nbsp;</td><td>the handle of the plugin </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>surl</em>&nbsp;</td><td>srm url of a given file </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>access mode to check </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: GError error reprot system </td></tr>
@@ -97,7 +97,7 @@ access method for SRMv2 check the right for a given SRM url, work only for SRMv2
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 9 16:18:23 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Sep 12 15:41:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

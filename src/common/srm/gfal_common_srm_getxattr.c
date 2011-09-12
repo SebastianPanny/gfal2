@@ -38,13 +38,13 @@ static const char* srm_geturl_key = SRM_XATTR_GETURL;
 static char* srm_listxattr[]= { SRM_XATTR_GETURL, NULL };
 
 
-ssize_t gfal_srm_geturl_getxattrG(catalog_handle handle, const char* path, const char* name , void* buff, size_t s_buff, GError** err){
+ssize_t gfal_srm_geturl_getxattrG(plugin_handle handle, const char* path, const char* name , void* buff, size_t s_buff, GError** err){
 	GError* tmp_err=NULL;
 	ssize_t ret = -1;
 	if(s_buff ==0 || buff == NULL)
 		return GFAL_URL_MAX_LEN;
 
-	ret = gfal_srm_getTURLS_catalog(handle, path, buff, s_buff, NULL, &tmp_err);
+	ret = gfal_srm_getTURLS_plugin(handle, path, buff, s_buff, NULL, &tmp_err);
 	if(ret >= 0){
 		ret = strlen(buff)* sizeof(char);
 	}
@@ -58,7 +58,7 @@ ssize_t gfal_srm_geturl_getxattrG(catalog_handle handle, const char* path, const
  * implementation of the getxattr for turl resolution, pin management and spacetoken set/get
  * 
  * */
-ssize_t gfal_srm_getxattrG(catalog_handle handle, const char* path, const char* name , void* buff, size_t s_buff, GError** err){
+ssize_t gfal_srm_getxattrG(plugin_handle handle, const char* path, const char* name , void* buff, size_t s_buff, GError** err){
 	GError* tmp_err=NULL;
 	ssize_t ret = -1;
 	if(strcmp(name, srm_geturl_key) == 0){
@@ -77,7 +77,7 @@ ssize_t gfal_srm_getxattrG(catalog_handle handle, const char* path, const char* 
 /**
  * lfc getxattr implem 
  * */
-ssize_t gfal_srm_listxattrG(catalog_handle handle, const char* path, char* list, size_t size, GError** err){
+ssize_t gfal_srm_listxattrG(plugin_handle handle, const char* path, char* list, size_t size, GError** err){
 	ssize_t res = 0;	
 	char** p= srm_listxattr;
 	char* plist= list;

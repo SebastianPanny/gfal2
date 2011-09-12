@@ -52,7 +52,7 @@ ssize_t gfal_posix_internal_unlink(const char* path){
 		if( gfal_check_local_url(path, NULL) ){
 			ret = gfal_local_unlink(path, &tmp_err);
 		} else {
-			ret = gfal_catalog_unlinkG(handle, path, &tmp_err);
+			ret = gfal_plugin_unlinkG(handle, path, &tmp_err);
 		}
 	}	
 	if(tmp_err){ // error reported

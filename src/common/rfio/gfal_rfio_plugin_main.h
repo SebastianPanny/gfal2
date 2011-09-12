@@ -28,7 +28,7 @@
 
 #include <regex.h>
 #include <time.h> 
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "../gfal_types.h"
 
 typedef struct _gfal_plugin_rfio_handle{
@@ -38,11 +38,11 @@ typedef struct _gfal_plugin_rfio_handle{
 }* gfal_plugin_rfio_handle;
 
 
-gboolean gfal_rfio_check_url(catalog_handle, const char* url,  catalog_mode mode, GError** err);
+gboolean gfal_rfio_check_url(plugin_handle, const char* url,  plugin_mode mode, GError** err);
 
 
 
-gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err);
+gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err);
 
 
 

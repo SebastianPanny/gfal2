@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,7 +13,7 @@ all POSIX style function \-
 .ti -1c
 .RI "int \fBgfal_rename\fP (const char *oldpath, const char *newpath)"
 .br
-.RI "\fIchange the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files \fP"
+.RI "\fIchange the name or location of a file oldpath and newpath need to be on the same plugin this functions work only with plugins (lfc ) and local files \fP"
 .ti -1c
 .RI "int \fBgfal_stat\fP (const char *, struct stat *)"
 .br
@@ -383,7 +383,7 @@ return the file descriptor or -1 if errno is set call \fBgfal_posix_check_error(
 .PP
 open a directory 
 .PP
-opens a directory to be used in subsequent gfal_readdir operations the url supported are : local files, surls, catalog url ( lfc,...) 
+opens a directory to be used in subsequent gfal_readdir operations the url supported are : local files, surls, plugin url ( lfc,...) 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -514,7 +514,7 @@ ECOMM : Communication error
 \fBgfal_testdir.c\fP.
 .SS "int gfal_rename (const char * oldpath, const char * newpath)"
 .PP
-change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files 
+change the name or location of a file oldpath and newpath need to be on the same plugin this functions work only with plugins (lfc ) and local files 
 .PP
 \fBParameters:\fP
 .RS 4

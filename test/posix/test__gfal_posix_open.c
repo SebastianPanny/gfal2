@@ -23,7 +23,7 @@ void test_mock_srm_open_valid(char** tab, char** tab_turl, int* res){
 	setup_mock_srm();
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL); // mock the mds for the srm endpoitn resolution
 
@@ -43,7 +43,7 @@ void test_mock_srm_open_write_valid(char** tab, char** tab_turl, int* res){
 	setup_mock_srm();
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	int status[] = { 0,0 };
 	char* turls[] = { "rfio://mockedturl", NULL };
 	char* surls[] = { "srm://mockedsurl", NULL };
@@ -69,7 +69,7 @@ void test_mock_srm_open_invalid(char** tab, char** tab_exp, int* res){
 	setup_mock_srm();
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL); // mock the mds for the srm endpoitn resolution
 
@@ -89,7 +89,7 @@ void test_mock_lfc_open_valid(const char* lfc_url){
 	test_mock_srm_open_valid(tab, tab_turl, res);
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 
 	if( gfal_check_GError(&mock_err))
@@ -105,7 +105,7 @@ void test_mock_lfc_open_enoent(const char* lfc_url){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
@@ -119,7 +119,7 @@ void test_mock_lfc_open_eacces(const char* lfc_url){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
@@ -145,7 +145,7 @@ void test_mock_guid_open_invalid(const char * guid1){
 #if USE_MOCK
 	int i1;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	GError* mock_err=NULL;
 		
 	will_respond(lfc_mock_getlinks, ENOENT, want_string(guid, ((char*)guid1)+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	

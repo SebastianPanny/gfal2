@@ -75,6 +75,28 @@
       <node id="2366">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="2364">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="2365" relation="include">
+        </childnode>
+        <childnode refid="2366" relation="include">
+        </childnode>
+        <childnode refid="2355" relation="include">
+        </childnode>
+        <childnode refid="2354" relation="include">
+        </childnode>
+        <childnode refid="2367" relation="include">
+        </childnode>
+        <childnode refid="2366" relation="include">
+        </childnode>
+        <childnode refid="2353" relation="include">
+        </childnode>
+        <childnode refid="2363" relation="include">
+        </childnode>
+        <childnode refid="2360" relation="include">
+        </childnode>
+      </node>
       <node id="2356">
         <label>gfal_posix_local_file.h</label>
         <link refid="gfal__posix__local__file_8h-source"/>
@@ -96,28 +118,6 @@
       </node>
       <node id="2355">
         <label>glib.h</label>
-      </node>
-      <node id="2364">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="2365" relation="include">
-        </childnode>
-        <childnode refid="2366" relation="include">
-        </childnode>
-        <childnode refid="2355" relation="include">
-        </childnode>
-        <childnode refid="2354" relation="include">
-        </childnode>
-        <childnode refid="2367" relation="include">
-        </childnode>
-        <childnode refid="2360" relation="include">
-        </childnode>
-        <childnode refid="2353" relation="include">
-        </childnode>
-        <childnode refid="2363" relation="include">
-        </childnode>
-        <childnode refid="2358" relation="include">
-        </childnode>
       </node>
       <node id="2362">
         <label>gfal_constants.h</label>
@@ -246,7 +246,7 @@
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(path,<sp/>NULL)<sp/>){</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_local_stat(path,<sp/>buf,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_128ca68c00e4a67bc158975ef3e4f8013" kindref="member">gfal_catalog_statG</ref>(handle,<sp/>path,<sp/>buf,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__plugin_8c_198b9e43ecd18ce2fc728d4a731e52ce1" kindref="member">gfal_plugin_statG</ref>(handle,<sp/>path,<sp/>buf,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err){<sp/></highlight><highlight class="comment">//<sp/>error<sp/>reported</highlight><highlight class="normal"></highlight></codeline>
@@ -274,7 +274,7 @@
 <codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(path,<sp/>NULL)<sp/>){</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_local_lstat(path,<sp/>buf,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_11ad1b1f96272dbf43a15e7ea5d35389d" kindref="member">gfal_catalog_lstatG</ref>(handle,<sp/>path,<sp/>buf,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__plugin_8c_181a0d301234958fc59518fb6ce306425" kindref="member">gfal_plugin_lstatG</ref>(handle,<sp/>path,<sp/>buf,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret){<sp/></highlight><highlight class="comment">//<sp/>error<sp/>reported</highlight><highlight class="normal"></highlight></codeline>

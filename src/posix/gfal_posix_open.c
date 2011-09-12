@@ -31,7 +31,7 @@
 #include "../common/gfal_constants.h"
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_file_handle.h"
-#include "../common/gfal_common_catalog.h"
+#include "../common/gfal_common_plugin.h"
 #include "gfal_posix_local_file.h"
 
 
@@ -78,7 +78,7 @@ int gfal_posix_internal_open(const char* path, int flag, mode_t mode){
 		if( gfal_check_local_url(path, NULL) == TRUE){
 			fhandle = gfal_local_open(path, flag, mode, &tmp_err);
 		}else{
-			fhandle = gfal_catalog_openG(handle, path, flag, mode, &tmp_err);
+			fhandle = gfal_plugin_openG(handle, path, flag, mode, &tmp_err);
 		}
 	}
 

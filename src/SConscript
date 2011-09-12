@@ -33,7 +33,11 @@ env_posix.Append(CPPPATH=other_headers)
 
 
 #main gfal lib
-mainlib = env_posix.SharedLibrary('../libs/libgfal2', src_all)
+mainlib_main = env_posix.SharedLibrary('../libs/libgfal2', src_all)
+mainlib_link1 = env_posix.Symlink("../libs/libgfal2.so.2", mainlib_main)
+mainlib_link2 = env_posix.Symlink("../libs/libgfal2.so.2.0", mainlib_main)
+mainlib_link3 = env_posix.Symlink("../libs/libgfal2.so.2.0.0", mainlib_main)
+mainlib = [mainlib_link1, mainlib_link2, mainlib_link3, mainlib_main]
 env_posix.Depends(mainlib,local_headers )
 staticlib = env_posix.StaticLibrary('../libs/libgfal2', src_all)
 

@@ -27,7 +27,7 @@
 #include <glib.h>
 #include "../gfal_types.h" 
 
-int gfal_srm_statG(catalog_handle handle, const char* surl, struct stat* buf, GError** err); 
+int gfal_srm_statG(plugin_handle handle, const char* surl, struct stat* buf, GError** err); 
 
 
 

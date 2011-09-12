@@ -13,7 +13,7 @@ int \bf{gfal\_\-access} (const char $\ast$path, int amode)
 int \bf{gfal\_\-chmod} (const char $\ast$path, mode\_\-t mode)
 \begin{CompactList}\small\item\em change the right for a file or a folder \item\end{CompactList}\item 
 int \bf{gfal\_\-rename} (const char $\ast$oldpath, const char $\ast$newpath)
-\begin{CompactList}\small\item\em change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files \item\end{CompactList}\item 
+\begin{CompactList}\small\item\em change the name or location of a file oldpath and newpath need to be on the same plugin this functions work only with plugins (lfc ) and local files \item\end{CompactList}\item 
 int \bf{gfal\_\-stat} (const char $\ast$path, struct stat $\ast$buff)
 \begin{CompactList}\small\item\em informations about a file These functions return information about a file. No permissions are required on the file itself, but \^{a}€” in the case of stat() and lstat() \^{a}€” execute (search) permission is required on all of the directories in path that lead to the file. \item\end{CompactList}\item 
 int \bf{gfal\_\-lstat} (const char $\ast$path, struct stat $\ast$buff)\label{group__posix__group_g347f867802a33bc04fdfb769da857103}

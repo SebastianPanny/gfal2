@@ -32,14 +32,14 @@
 #include <stdlib.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "../gfal_types.h"
 #include "gfal_dcap_plugin_layer.h"
 #include "gfal_dcap_plugin_main.h"
 #include "gfal_dcap_plugin_bindings.h"
 
-void gfal_dcap_destroyG(catalog_handle handle);
-gboolean gfal_dcap_check_url(catalog_handle ch, const char* url,  catalog_mode mode, GError** err);
+void gfal_dcap_destroyG(plugin_handle handle);
+gboolean gfal_dcap_check_url(plugin_handle ch, const char* url,  plugin_mode mode, GError** err);
 
 static int gfal_dcap_regex_compile(regex_t * rex, GError** err){
 	int ret = regcomp(rex, "^(dcap|gsidcap)://([:alnum:]|-|/|\.|_)+$",REG_ICASE | REG_EXTENDED);
@@ -58,31 +58,31 @@ static gfal_plugin_dcap_handle gfal_dcap_init_handle(gfal_handle handle, GError*
 /**
  * Init function, called before all
  * */
-gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
-	gfal_catalog_interface dcap_catalog;
+gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
+	gfal_plugin_interface dcap_plugin;
 	GError* tmp_err=NULL;
-	memset(&dcap_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
+	memset(&dcap_plugin,0,sizeof(gfal_plugin_interface));	// clear the plugin	
 	
-	dcap_catalog.handle = (catalog_handle) gfal_dcap_init_handle(handle, &tmp_err);
+	dcap_plugin.handle = (plugin_handle) gfal_dcap_init_handle(handle, &tmp_err);
 	
-	dcap_catalog.catalog_delete = &gfal_dcap_destroyG;
-	dcap_catalog.getName= &gfal_dcap_getName;
-	dcap_catalog.openG = &gfal_dcap_openG;
-	dcap_catalog.closeG = &gfal_dcap_closeG;
-	dcap_catalog.readG = &gfal_dcap_readG;
-	dcap_catalog.writeG= &gfal_dcap_writeG;
-	dcap_catalog.lseekG= &gfal_dcap_lseekG;
-	dcap_catalog.check_catalog_url = &gfal_dcap_check_url;
-	dcap_catalog.statG= &gfal_dcap_statG;
-	dcap_catalog.lstatG = &gfal_dcap_lstatG;
+	dcap_plugin.plugin_delete = &gfal_dcap_destroyG;
+	dcap_plugin.getName= &gfal_dcap_getName;
+	dcap_plugin.openG = &gfal_dcap_openG;
+	dcap_plugin.closeG = &gfal_dcap_closeG;
+	dcap_plugin.readG = &gfal_dcap_readG;
+	dcap_plugin.writeG= &gfal_dcap_writeG;
+	dcap_plugin.lseekG= &gfal_dcap_lseekG;
+	dcap_plugin.check_plugin_url = &gfal_dcap_check_url;
+	dcap_plugin.statG= &gfal_dcap_statG;
+	dcap_plugin.lstatG = &gfal_dcap_lstatG;
 	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return dcap_catalog;
+	return dcap_plugin;
 }
 
 
-void gfal_dcap_destroyG(catalog_handle handle){
+void gfal_dcap_destroyG(plugin_handle handle){
 	gfal_plugin_dcap_handle h = (gfal_plugin_dcap_handle) handle;
 	free(h->ops);
 	regfree(&(h->rex));
@@ -103,7 +103,7 @@ gboolean gfal_dcap_internal_check_url(gfal_plugin_dcap_handle dh, const char* su
 /**
  *  Check the dcap url in the gfal module way
  * */
-gboolean gfal_dcap_check_url(catalog_handle ch, const char* url,  catalog_mode mode, GError** err){
+gboolean gfal_dcap_check_url(plugin_handle ch, const char* url,  plugin_mode mode, GError** err){
 	int ret;
 	GError* tmp_err=NULL;
 	gfal_plugin_dcap_handle rh = (gfal_plugin_dcap_handle) ch;

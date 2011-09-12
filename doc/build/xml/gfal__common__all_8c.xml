@@ -52,6 +52,28 @@
       <node id="167">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="177">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="178" relation="include">
+        </childnode>
+        <childnode refid="167" relation="include">
+        </childnode>
+        <childnode refid="169" relation="include">
+        </childnode>
+        <childnode refid="179" relation="include">
+        </childnode>
+        <childnode refid="180" relation="include">
+        </childnode>
+        <childnode refid="173" relation="include">
+        </childnode>
+        <childnode refid="174" relation="include">
+        </childnode>
+        <childnode refid="168" relation="include">
+        </childnode>
+        <childnode refid="170" relation="include">
+        </childnode>
+      </node>
       <node id="172">
         <label>sys/types.h</label>
       </node>
@@ -78,28 +100,6 @@
         <childnode refid="176" relation="include">
         </childnode>
         <childnode refid="168" relation="include">
-        </childnode>
-      </node>
-      <node id="177">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="178" relation="include">
-        </childnode>
-        <childnode refid="167" relation="include">
-        </childnode>
-        <childnode refid="169" relation="include">
-        </childnode>
-        <childnode refid="179" relation="include">
-        </childnode>
-        <childnode refid="180" relation="include">
-        </childnode>
-        <childnode refid="173" relation="include">
-        </childnode>
-        <childnode refid="174" relation="include">
-        </childnode>
-        <childnode refid="168" relation="include">
-        </childnode>
-        <childnode refid="170" relation="include">
         </childnode>
       </node>
       <node id="176">
@@ -394,8 +394,8 @@
 <codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!g_thread_supported<sp/>())</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_thread_init(NULL);</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;no_bdii_check=FALSE;</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;catalog_opt.catalog_number=<sp/>0;</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__catalog_8c_196ebd098ad2447a81f096207879b9d3a" kindref="member">gfal_catalogs_instance</ref>(handle,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle-&gt;plugin_opt.plugin_number=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__plugin_8c_14d38083d4b9f51095013c0f3d233c0da" kindref="member">gfal_plugins_instance</ref>(handle,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err)</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>
 <codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>handle;</highlight></codeline>
@@ -404,7 +404,7 @@
 <codeline lineno="69"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gfal__common__all_8c_19dbd943eaed291897d852fc3ae560058" kindref="member">gfal_handle_freeG</ref><sp/>(gfal_handle<sp/>handle){</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(handle<sp/>==<sp/>NULL)</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__catalog_8c_1c0412247b6ddd6ceac7fb171c56adaad" kindref="member">gfal_catalogs_delete</ref>(handle,<sp/>NULL);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gfal__common__plugin_8c_13a5fd910584fad43a1a67c0e844ce528" kindref="member">gfal_plugins_delete</ref>(handle,<sp/>NULL);</highlight></codeline>
 <codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_dir_handle_container_delete(&amp;(handle-&gt;fdescs));</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(handle);</highlight></codeline>
 <codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle<sp/>=<sp/>NULL;</highlight></codeline>

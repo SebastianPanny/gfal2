@@ -93,6 +93,28 @@
       <node id="2276">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="2274">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="2275" relation="include">
+        </childnode>
+        <childnode refid="2276" relation="include">
+        </childnode>
+        <childnode refid="2261" relation="include">
+        </childnode>
+        <childnode refid="2277" relation="include">
+        </childnode>
+        <childnode refid="2278" relation="include">
+        </childnode>
+        <childnode refid="2262" relation="include">
+        </childnode>
+        <childnode refid="2266" relation="include">
+        </childnode>
+        <childnode refid="2266" relation="include">
+        </childnode>
+        <childnode refid="2272" relation="include">
+        </childnode>
+      </node>
       <node id="2263">
         <label>gfal_posix_api.h</label>
         <link refid="gfal__posix__api_8h-source"/>
@@ -157,28 +179,6 @@
       </node>
       <node id="2261">
         <label>glib.h</label>
-      </node>
-      <node id="2274">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="2275" relation="include">
-        </childnode>
-        <childnode refid="2276" relation="include">
-        </childnode>
-        <childnode refid="2261" relation="include">
-        </childnode>
-        <childnode refid="2277" relation="include">
-        </childnode>
-        <childnode refid="2278" relation="include">
-        </childnode>
-        <childnode refid="2262" relation="include">
-        </childnode>
-        <childnode refid="2266" relation="include">
-        </childnode>
-        <childnode refid="2271" relation="include">
-        </childnode>
-        <childnode refid="2272" relation="include">
-        </childnode>
       </node>
       <node id="2269">
         <label>../common/gfal_constants.h</label>
@@ -302,7 +302,7 @@
 <codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>gfal_is_local_call(fh-&gt;module_name)<sp/>)</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_local_readdir(fh,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_19ba0d48d73fe53d42d3a715e57473adb" kindref="member">gfal_catalog_readdirG</ref>(handle,<sp/>fh,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__plugin_8c_17fd9e55c89de0f0a85127972cecffcfd" kindref="member">gfal_plugin_readdirG</ref>(handle,<sp/>fh,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"></highlight></codeline>
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err){</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_propagate_prefixed_error(err,<sp/>tmp_err,<sp/></highlight><highlight class="stringliteral">&quot;[%s]&quot;</highlight><highlight class="normal">,<sp/>__func__);</highlight></codeline>

@@ -37,7 +37,7 @@ struct _gfal_file_descriptor_container{
 };
 
 struct _gfal_file_handle_{
-	char module_name[GFAL_MODULE_NAME_SIZE]; // This MUST be the Name of the catalog associated with this handle !
+	char module_name[GFAL_MODULE_NAME_SIZE]; // This MUST be the Name of the plugin associated with this handle !
 	gpointer ext_data;
 	gpointer fdesc;	
 };

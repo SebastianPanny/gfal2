@@ -51,7 +51,7 @@ ssize_t gfal_posix_internal_listxattr (const char *path, char *list, size_t size
 		if( gfal_check_local_url(path, NULL) == TRUE){
 			res = gfal_local_listxattr(path, list, size, &tmp_err);
 		}else{
-			res = gfal_catalog_listxattrG(handle, path, list, size, &tmp_err);
+			res = gfal_plugin_listxattrG(handle, path, list, size, &tmp_err);
 		}
 
 	}

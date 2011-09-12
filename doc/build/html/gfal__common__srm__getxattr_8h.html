@@ -30,9 +30,9 @@
 <a href="gfal__common__srm__getxattr_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__getxattr_8h.html#294634c95c41aced18458de57f4de555">gfal_srm_getxattrG</a> (catalog_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__getxattr_8h.html#965d1353923dbcca04d0feb99449bb47">gfal_srm_getxattrG</a> (plugin_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__getxattr_8h.html#5ed727e9131d092843d162ad577287f7">gfal_srm_listxattrG</a> (catalog_handle handle, const char *path, char *list, size_t size, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__getxattr_8h.html#522aab74f06436ef8ac83dc1dc1fc9e1">gfal_srm_listxattrG</a> (plugin_handle handle, const char *path, char *list, size_t size, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -41,14 +41,14 @@ header for the getxattr function on the srm url type
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>02/08/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="294634c95c41aced18458de57f4de555"></a><!-- doxytag: member="gfal_common_srm_getxattr.h::gfal_srm_getxattrG" ref="294634c95c41aced18458de57f4de555" args="(catalog_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)" -->
+<a class="anchor" name="965d1353923dbcca04d0feb99449bb47"></a><!-- doxytag: member="gfal_common_srm_getxattr.h::gfal_srm_getxattrG" ref="965d1353923dbcca04d0feb99449bb47" args="(plugin_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ssize_t gfal_srm_getxattrG           </td>
           <td>(</td>
-          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramtype">plugin_handle&nbsp;</td>
           <td class="paramname"> <em>handle</em>, </td>
         </tr>
         <tr>
@@ -94,14 +94,14 @@ header for the getxattr function on the srm url type
 implementation of the getxattr for turl resolution, pin management and spacetoken set/get 
 </div>
 </div><p>
-<a class="anchor" name="5ed727e9131d092843d162ad577287f7"></a><!-- doxytag: member="gfal_common_srm_getxattr.h::gfal_srm_listxattrG" ref="5ed727e9131d092843d162ad577287f7" args="(catalog_handle handle, const char *path, char *list, size_t size, GError **err)" -->
+<a class="anchor" name="522aab74f06436ef8ac83dc1dc1fc9e1"></a><!-- doxytag: member="gfal_common_srm_getxattr.h::gfal_srm_listxattrG" ref="522aab74f06436ef8ac83dc1dc1fc9e1" args="(plugin_handle handle, const char *path, char *list, size_t size, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ssize_t gfal_srm_listxattrG           </td>
           <td>(</td>
-          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramtype">plugin_handle&nbsp;</td>
           <td class="paramname"> <em>handle</em>, </td>
         </tr>
         <tr>
@@ -141,7 +141,7 @@ implementation of the getxattr for turl resolution, pin management and spacetoke
 lfc getxattr implem 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 9 16:18:23 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Sep 12 15:41:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

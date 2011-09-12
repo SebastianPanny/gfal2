@@ -29,11 +29,11 @@
 
 
 
- // catalog 
-typedef struct _catalog_opts catalog_opts;
-typedef struct _gfal_catalog_interface gfal_catalog_interface;
-typedef enum _catalog_mode catalog_mode;
-typedef gpointer catalog_handle;
+ // plugin 
+typedef struct _plugin_opts plugin_opts;
+typedef struct _gfal_plugin_interface gfal_plugin_interface;
+typedef enum _plugin_mode plugin_mode;
+typedef gpointer plugin_handle;
 
 // file descrisptor
 typedef struct _gfal_file_descriptor_container *gfal_fdesc_container_handle;

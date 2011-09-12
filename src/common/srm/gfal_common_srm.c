@@ -45,7 +45,7 @@
 
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 
 
 /**
@@ -71,7 +71,7 @@ int gfal_checker_compile(gfal_srmv2_opt* opts, GError** err){
 /**
  * parse a surl to check the validity
  */
-int gfal_surl_checker(catalog_handle ch, const char* surl, GError** err){
+int gfal_surl_checker(plugin_handle ch, const char* surl, GError** err){
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	if(surl == NULL || strnlen(surl, GFAL_URL_MAX_LEN) == GFAL_URL_MAX_LEN){
 		g_set_error(err, 0, EINVAL, "[%s] Invalid surl, surl too long or NULL",__func__);
@@ -106,7 +106,7 @@ gboolean gfal_srm_surl_group_checker(gfal_srmv2_opt* opts,char** surls, GError**
  * url checker for the srm module, surl part
  * 
  * */
-static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catalog_mode mode, GError** err){
+static gboolean gfal_srm_check_url(plugin_handle handle, const char* url, plugin_mode mode, GError** err){
 	switch(mode){
 		case GFAL_CATALOG_ACCESS:
 		case GFAL_CATALOG_MKDIR:
@@ -129,7 +129,7 @@ static gboolean gfal_srm_check_url(catalog_handle handle, const char* url, catal
 /**
  * destroyer function, call when the module is unload
  * */
-static void gfal_srm_destroyG(catalog_handle ch){
+static void gfal_srm_destroyG(plugin_handle ch){
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	regfree(&opts->rexurl);
 	regfree(&opts->rex_full);
@@ -157,35 +157,35 @@ void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle){
 /**
  * Init function, called before all
  * */
-gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
-	gfal_catalog_interface srm_catalog;
-	memset(&srm_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
+gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
+	gfal_plugin_interface srm_plugin;
+	memset(&srm_plugin,0,sizeof(gfal_plugin_interface));	// clear the plugin	
 	gfal_srmv2_opt* opts = g_new(struct _gfal_srmv2_opt,1);	// define the srmv2 option struct and clear it	
 	gfal_srm_opt_initG(opts, handle);
-	srm_catalog.handle = (void*) opts;	
-	srm_catalog.check_catalog_url = &gfal_srm_check_url;
-	srm_catalog.catalog_delete = &gfal_srm_destroyG;
-	srm_catalog.accessG = &gfal_srm_accessG;
-	srm_catalog.mkdirpG = &gfal_srm_mkdirG;
-	srm_catalog.statG= &gfal_srm_statG;
-	srm_catalog.lstatG = &gfal_srm_statG; // no management for symlink in srm protocol/srm-ifce, just map to stat
-	srm_catalog.rmdirG = &gfal_srm_rmdirG;
-	srm_catalog.opendirG = &gfal_srm_opendirG;
-	srm_catalog.readdirG = &gfal_srm_readdirG;
-	srm_catalog.closedirG = &gfal_srm_closedirG;
-	srm_catalog.getName= &gfal_srm_getName;
-	srm_catalog.getTURLG = &gfal_srm_getTURLS_catalog;
-	srm_catalog.putTURLG= &gfal_srm_putTURLS_catalog;
-	srm_catalog.openG = &gfal_srm_openG;
-	srm_catalog.closeG = &gfal_srm_closeG;
-	srm_catalog.readG= &gfal_srm_readG;
-	srm_catalog.writeG= &gfal_srm_writeG;
-	srm_catalog.chmodG= &gfal_srm_chmodG;
-	srm_catalog.lseekG= &gfal_srm_lseekG;
-	srm_catalog.unlinkG = &gfal_srm_unlinkG;
-	srm_catalog.getxattrG = &gfal_srm_getxattrG;
-	srm_catalog.listxattrG = &gfal_srm_listxattrG;
-	return srm_catalog;
+	srm_plugin.handle = (void*) opts;	
+	srm_plugin.check_plugin_url = &gfal_srm_check_url;
+	srm_plugin.plugin_delete = &gfal_srm_destroyG;
+	srm_plugin.accessG = &gfal_srm_accessG;
+	srm_plugin.mkdirpG = &gfal_srm_mkdirG;
+	srm_plugin.statG= &gfal_srm_statG;
+	srm_plugin.lstatG = &gfal_srm_statG; // no management for symlink in srm protocol/srm-ifce, just map to stat
+	srm_plugin.rmdirG = &gfal_srm_rmdirG;
+	srm_plugin.opendirG = &gfal_srm_opendirG;
+	srm_plugin.readdirG = &gfal_srm_readdirG;
+	srm_plugin.closedirG = &gfal_srm_closedirG;
+	srm_plugin.getName= &gfal_srm_getName;
+	srm_plugin.getTURLG = &gfal_srm_getTURLS_plugin;
+	srm_plugin.putTURLG= &gfal_srm_putTURLS_plugin;
+	srm_plugin.openG = &gfal_srm_openG;
+	srm_plugin.closeG = &gfal_srm_closeG;
+	srm_plugin.readG= &gfal_srm_readG;
+	srm_plugin.writeG= &gfal_srm_writeG;
+	srm_plugin.chmodG= &gfal_srm_chmodG;
+	srm_plugin.lseekG= &gfal_srm_lseekG;
+	srm_plugin.unlinkG = &gfal_srm_unlinkG;
+	srm_plugin.getxattrG = &gfal_srm_getxattrG;
+	srm_plugin.listxattrG = &gfal_srm_listxattrG;
+	return srm_plugin;
 }
 
 

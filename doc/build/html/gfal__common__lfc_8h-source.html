@@ -52,7 +52,7 @@
 <a name="l00040"></a>00040 <span class="preprocessor"></span>
 <a name="l00041"></a>00041 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
 <a name="l00042"></a>00042 <span class="preprocessor">#include &lt;glib.h&gt;</span>
-<a name="l00043"></a>00043 <span class="preprocessor">#include "../gfal_common_catalog.h"</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include "../gfal_common_plugin.h"</span>
 <a name="l00044"></a>00044 <span class="preprocessor">#include "../gfal_prototypes.h"</span>
 <a name="l00045"></a>00045 <span class="preprocessor">#include "../gfal_types.h"</span>
 <a name="l00046"></a>00046 <span class="preprocessor">#include "../../externals/gsimplecache/gcachemain.h"</span>
@@ -62,19 +62,19 @@
 <a name="l00050"></a>00050 
 <a name="l00051"></a>00051 gboolean <a class="code" href="gfal__common__lfc_8c.html#c7f9448e809d5c82f58288d1491dc2d0">gfal_checker_guid</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* guid, GError** err);
 <a name="l00052"></a>00052 
-<a name="l00053"></a>00053 <a class="code" href="struct__gfal__catalog__interface.html">gfal_catalog_interface</a> lfc_initG(gfal_handle, GError**);
+<a name="l00053"></a>00053 <a class="code" href="struct__gfal__plugin__interface.html">gfal_plugin_interface</a> lfc_initG(gfal_handle, GError**);
 <a name="l00054"></a>00054 
 <a name="l00055"></a>00055 
-<a name="l00056"></a>00056 gboolean <a class="code" href="gfal__common__lfc_8c.html#58b6554069edac9b0626fb3ea9c7f851">gfal_lfc_check_lfn_url</a>(catalog_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* lfn_url, catalog_mode mode, GError** err);
+<a name="l00056"></a>00056 gboolean <a class="code" href="gfal__common__lfc_8c.html#dd0bcee4d6721102a3be26faf02d9ad8">gfal_lfc_check_lfn_url</a>(plugin_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* lfn_url, plugin_mode mode, GError** err);
 <a name="l00057"></a>00057 
-<a name="l00058"></a>00058 <span class="keywordtype">char</span> ** <a class="code" href="gfal__common__lfc_8c.html#7c1d8699d8ad924234db163860dadf40">lfc_getSURLG</a>(catalog_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span> * path, GError** err);
+<a name="l00058"></a>00058 <span class="keywordtype">char</span> ** <a class="code" href="gfal__common__lfc_8c.html#ab2b9f80b14228974befa9d005ea7bc9">lfc_getSURLG</a>(plugin_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span> * path, GError** err);
 <a name="l00059"></a>00059 
 <a name="l00060"></a>00060 <span class="keywordtype">void</span> lfc_set_session_timeout(<span class="keywordtype">int</span> timeout);
 <a name="l00061"></a>00061 
 <a name="l00062"></a>00062 
 <a name="l00063"></a>00063 
 <a name="l00064"></a>00064 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Sep 9 16:18:23 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Sep 12 15:41:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

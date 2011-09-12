@@ -19,11 +19,11 @@
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h File Reference</h1>header file for the lfc catalog module <a href="#_details">More...</a>
+<h1>/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h File Reference</h1>header file for the lfc plugin module <a href="#_details">More...</a>
 <p>
 <code>#include &lt;sys/types.h&gt;</code><br>
 <code>#include &lt;glib.h&gt;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__catalog_8h-source.html">../gfal_common_catalog.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__plugin_8h-source.html">../gfal_common_plugin.h</a>&quot;</code><br>
 <code>#include &quot;../gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;../gfal_types.h&quot;</code><br>
 <code>#include &quot;../../externals/gsimplecache/gcachemain.h&quot;</code><br>
@@ -65,19 +65,19 @@
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8h.html#c7f9448e809d5c82f58288d1491dc2d0">gfal_checker_guid</a> (const char *guid, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0d4af55002fa4216f9915b5a1a721ef4"></a><!-- doxytag: member="gfal_common_lfc.h::lfc_initG" ref="0d4af55002fa4216f9915b5a1a721ef4" args="(gfal_handle, GError **)" -->
-<a class="el" href="struct__gfal__catalog__interface.html">gfal_catalog_interface</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_initG</b> (gfal_handle, GError **)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="30773efdd2af3a2a53d6ffd3096049be"></a><!-- doxytag: member="gfal_common_lfc.h::lfc_initG" ref="30773efdd2af3a2a53d6ffd3096049be" args="(gfal_handle, GError **)" -->
+<a class="el" href="struct__gfal__plugin__interface.html">gfal_plugin_interface</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_initG</b> (gfal_handle, GError **)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8h.html#8baa624b528deb15ff4ee61fa9948ac8">gfal_lfc_check_lfn_url</a> (catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8h.html#88b02b9ae89630e0516554a409ed82e9">gfal_lfc_check_lfn_url</a> (plugin_handle handle, const char *lfn_url, plugin_mode mode, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8h.html#7c1d8699d8ad924234db163860dadf40">lfc_getSURLG</a> (catalog_handle handle, const char *path, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8h.html#ab2b9f80b14228974befa9d005ea7bc9">lfc_getSURLG</a> (plugin_handle handle, const char *path, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="656ee4eb29a1bcf4e9e1d9a4aafd4c82"></a><!-- doxytag: member="gfal_common_lfc.h::lfc_set_session_timeout" ref="656ee4eb29a1bcf4e9e1d9a4aafd4c82" args="(int timeout)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_set_session_timeout</b> (int timeout)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-header file for the lfc catalog module 
+header file for the lfc plugin module 
 <p>
 <dl compact><dt><b>Author:</b></dt><dd>Adrien Devresse </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>0.0.1 </dd></dl>
@@ -112,14 +112,14 @@ header file for the lfc catalog module
 parse a guid to check the validity 
 </div>
 </div><p>
-<a class="anchor" name="8baa624b528deb15ff4ee61fa9948ac8"></a><!-- doxytag: member="gfal_common_lfc.h::gfal_lfc_check_lfn_url" ref="8baa624b528deb15ff4ee61fa9948ac8" args="(catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)" -->
+<a class="anchor" name="88b02b9ae89630e0516554a409ed82e9"></a><!-- doxytag: member="gfal_common_lfc.h::gfal_lfc_check_lfn_url" ref="88b02b9ae89630e0516554a409ed82e9" args="(plugin_handle handle, const char *lfn_url, plugin_mode mode, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">gboolean gfal_lfc_check_lfn_url           </td>
           <td>(</td>
-          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramtype">plugin_handle&nbsp;</td>
           <td class="paramname"> <em>handle</em>, </td>
         </tr>
         <tr>
@@ -131,7 +131,7 @@ parse a guid to check the validity
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">catalog_mode&nbsp;</td>
+          <td class="paramtype">plugin_mode&nbsp;</td>
           <td class="paramname"> <em>mode</em>, </td>
         </tr>
         <tr>
@@ -153,14 +153,14 @@ parse a guid to check the validity
 Check if the passed url and operation is compatible with lfc 
 </div>
 </div><p>
-<a class="anchor" name="7c1d8699d8ad924234db163860dadf40"></a><!-- doxytag: member="gfal_common_lfc.h::lfc_getSURLG" ref="7c1d8699d8ad924234db163860dadf40" args="(catalog_handle handle, const char *path, GError **err)" -->
+<a class="anchor" name="ab2b9f80b14228974befa9d005ea7bc9"></a><!-- doxytag: member="gfal_common_lfc.h::lfc_getSURLG" ref="ab2b9f80b14228974befa9d005ea7bc9" args="(plugin_handle handle, const char *path, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">char** lfc_getSURLG           </td>
           <td>(</td>
-          <td class="paramtype">catalog_handle&nbsp;</td>
+          <td class="paramtype">plugin_handle&nbsp;</td>
           <td class="paramname"> <em>handle</em>, </td>
         </tr>
         <tr>
@@ -188,7 +188,7 @@ Check if the passed url and operation is compatible with lfc
 resolve the lfc link to the surls 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 9 16:18:23 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Sep 12 15:41:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -64,7 +64,7 @@
 <a name="l00043"></a>00043 <span class="preprocessor">#include &lt;gfal_srm_ifce_types.h&gt;</span>
 <a name="l00044"></a>00044 <span class="preprocessor">#include "gfal_constants.h"</span>
 <a name="l00045"></a>00045 <span class="preprocessor">#include "gfal_prototypes.h"</span>
-<a name="l00046"></a>00046 <span class="preprocessor">#include "<a class="code" href="gfal__common__catalog_8h.html">gfal_common_catalog.h</a>"</span>
+<a name="l00046"></a>00046 <span class="preprocessor">#include "<a class="code" href="gfal__common__plugin_8h.html">gfal_common_plugin.h</a>"</span>
 <a name="l00047"></a>00047 
 <a name="l00048"></a>00048 
 <a name="l00049"></a>00049 
@@ -83,8 +83,8 @@
 <a name="l00062"></a>00062 <span class="keyword">struct </span>gfal_handle_ {           <span class="comment">// define the protocole version of SRM choosen by default</span>
 <a name="l00063"></a>00063         gboolean initiated;                                     <span class="comment">// 1 if initiated, else error</span>
 <a name="l00064"></a>00064         <span class="comment">// pointer to the last request resu</span>
-<a name="l00065"></a>00065         <span class="comment">// struct of the catalog opts</span>
-<a name="l00066"></a>00066         <span class="keyword">struct </span><a class="code" href="struct__catalog__opts.html">_catalog_opts</a> catalog_opt;
+<a name="l00065"></a>00065         <span class="comment">// struct of the plugin opts</span>
+<a name="l00066"></a>00066         <span class="keyword">struct </span><a class="code" href="struct__plugin__opts.html">_plugin_opts</a> plugin_opt;
 <a name="l00067"></a>00067         <span class="comment">//struct for the file descriptors</span>
 <a name="l00068"></a>00068         gfal_descriptors_container fdescs;
 <a name="l00069"></a>00069         <span class="keywordtype">int</span> no_bdii_check;
@@ -99,7 +99,7 @@
 <a name="l00078"></a>00078 <span class="preprocessor">#endif</span>
 <a name="l00079"></a>00079 <span class="preprocessor"></span>
 <a name="l00080"></a>00080 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Sep 9 16:18:23 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Sep 12 15:41:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

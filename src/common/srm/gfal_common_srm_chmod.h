@@ -31,9 +31,9 @@
 #include "gfal_common_srm.h"
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "gfal_common_srm_internal_layer.h"
 
 
 
-int	gfal_srm_chmodG(catalog_handle, const char *, mode_t, GError** err);
+int	gfal_srm_chmodG(plugin_handle, const char *, mode_t, GError** err);

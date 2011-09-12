@@ -27,7 +27,7 @@
 #include "gfal_common_srm_access.h"
 #include "../gfal_constants.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "gfal_common_srm_internal_layer.h"
 #include "gfal_common_srm_endpoint.h"
 
@@ -80,13 +80,13 @@ int gfal_access_srmv2_internal(gfal_srmv2_opt*  opts, char* endpoint, const char
 /**
  * @brief access method for SRMv2
  * check the right for a given SRM url, work only for SRMv2, V1 deprecated.
- * @param ch the handle of the catalog
+ * @param ch the handle of the plugin
  * @param surl srm url of a given file
  * @param mode access mode to check
  * @param err : GError error reprot system
  * @warning : not safe, surl must be verified
  */ 
-int gfal_srm_accessG(catalog_handle ch, const char* surl, int mode, GError** err){			// execute an access method on a srm url
+int gfal_srm_accessG(plugin_handle ch, const char* surl, int mode, GError** err){			// execute an access method on a srm url
 	g_return_val_err_if_fail(ch && surl, EINVAL, err, "[gfal_srm_accessG] Invalid value handle and/or surl");
 	GError* tmp_err=NULL;
 	gfal_srmv2_opt* opts= (gfal_srmv2_opt*) ch;

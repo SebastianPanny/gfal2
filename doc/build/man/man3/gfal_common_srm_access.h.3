@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.h" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.h" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -17,7 +17,7 @@
 
 .in +1c
 .ti -1c
-.RI "int \fBgfal_srm_accessG\fP (catalog_handle handle, const char *surl, int mode, GError **err)"
+.RI "int \fBgfal_srm_accessG\fP (plugin_handle handle, const char *surl, int mode, GError **err)"
 .br
 .RI "\fIaccess method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated. \fP"
 .ti -1c
@@ -46,13 +46,13 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_srm_accessG (catalog_handle ch, const char * surl, int mode, GError ** err)"
+.SS "int gfal_srm_accessG (plugin_handle ch, const char * surl, int mode, GError ** err)"
 .PP
 access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIch\fP the handle of the catalog 
+\fIch\fP the handle of the plugin 
 .br
 \fIsurl\fP srm url of a given file 
 .br

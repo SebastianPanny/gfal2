@@ -1,8 +1,8 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h \- header file for the lfc catalog module 
+/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h \- header file for the lfc plugin module 
 .SH SYNOPSIS
 .br
 .PP
@@ -10,7 +10,7 @@
 .br
 \fC#include <glib.h>\fP
 .br
-\fC#include '../gfal_common_catalog.h'\fP
+\fC#include '../gfal_common_plugin.h'\fP
 .br
 \fC#include '../gfal_prototypes.h'\fP
 .br
@@ -60,13 +60,13 @@
 .RI "gboolean \fBgfal_checker_guid\fP (const char *guid, GError **err)"
 .br
 .ti -1c
-.RI "\fBgfal_catalog_interface\fP \fBlfc_initG\fP (gfal_handle, GError **)"
+.RI "\fBgfal_plugin_interface\fP \fBlfc_initG\fP (gfal_handle, GError **)"
 .br
 .ti -1c
-.RI "gboolean \fBgfal_lfc_check_lfn_url\fP (catalog_handle handle, const char *lfn_url, catalog_mode mode, GError **err)"
+.RI "gboolean \fBgfal_lfc_check_lfn_url\fP (plugin_handle handle, const char *lfn_url, plugin_mode mode, GError **err)"
 .br
 .ti -1c
-.RI "char ** \fBlfc_getSURLG\fP (catalog_handle handle, const char *path, GError **err)"
+.RI "char ** \fBlfc_getSURLG\fP (plugin_handle handle, const char *path, GError **err)"
 .br
 .ti -1c
 .RI "void \fBlfc_set_session_timeout\fP (int timeout)"
@@ -74,7 +74,7 @@
 .in -1c
 .SH "Detailed Description"
 .PP 
-header file for the lfc catalog module 
+header file for the lfc plugin module 
 
 \fBAuthor:\fP
 .RS 4
@@ -97,10 +97,10 @@ Adrien Devresse
 .SS "gboolean gfal_checker_guid (const char * guid, GError ** err)"
 .PP
 parse a guid to check the validity 
-.SS "gboolean gfal_lfc_check_lfn_url (catalog_handle handle, const char * url, catalog_mode mode, GError ** err)"
+.SS "gboolean gfal_lfc_check_lfn_url (plugin_handle handle, const char * url, plugin_mode mode, GError ** err)"
 .PP
 Check if the passed url and operation is compatible with lfc 
-.SS "char** lfc_getSURLG (catalog_handle handle, const char * path, GError ** err)"
+.SS "char** lfc_getSURLG (plugin_handle handle, const char * path, GError ** err)"
 .PP
 resolve the lfc link to the surls 
 .SH "Author"

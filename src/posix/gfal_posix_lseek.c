@@ -42,7 +42,7 @@ static int gfal_posix_gfalfilehandle_lseek(gfal_handle handle, gfal_file_handle 
 	if( gfal_is_local_call(fh->module_name) )
 		ret = gfal_local_lseek(fh, offset, whence, &tmp_err);
 	else
-		ret = gfal_catalog_lseekG(handle, fh, offset, whence, &tmp_err);
+		ret = gfal_plugin_lseekG(handle, fh, offset, whence, &tmp_err);
 
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

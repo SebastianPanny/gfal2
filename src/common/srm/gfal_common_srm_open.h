@@ -31,22 +31,22 @@
 #include "gfal_common_srm.h"
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "gfal_common_srm.h"
 
 
 
-gfal_file_handle gfal_srm_openG(catalog_handle, const char* path, int flag, mode_t mode, GError**);
+gfal_file_handle gfal_srm_openG(plugin_handle, const char* path, int flag, mode_t mode, GError**);
 
-int gfal_srm_readG(catalog_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
+int gfal_srm_readG(plugin_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
 
-int gfal_srm_writeG(catalog_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
+int gfal_srm_writeG(plugin_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
 
-int gfal_srm_closeG(catalog_handle, gfal_file_handle fd, GError **);
+int gfal_srm_closeG(plugin_handle, gfal_file_handle fd, GError **);
 
 /**
  * lseek function for the srm  plugin
  */
-int gfal_srm_lseekG(catalog_handle ch, gfal_file_handle fd, off_t offset, int whence, GError** err);
+int gfal_srm_lseekG(plugin_handle ch, gfal_file_handle fd, off_t offset, int whence, GError** err);
 
 

@@ -9,7 +9,7 @@
     <includes refid="gfal__posix__internal_8h" local="yes">gfal_posix_internal.h</includes>
     <includes refid="gfal__types_8h" local="yes">../common/gfal_types.h</includes>
     <includes refid="gfal__posix__local__file_8h" local="yes">gfal_posix_local_file.h</includes>
-    <includes refid="gfal__common__catalog_8h" local="yes">gfal_common_catalog.h</includes>
+    <includes refid="gfal__common__plugin_8h" local="yes">gfal_common_plugin.h</includes>
     <incdepgraph>
       <node id="2287">
         <label>sys/stat.h</label>
@@ -71,9 +71,33 @@
         </childnode>
         <childnode refid="2290" relation="include">
         </childnode>
-        <childnode refid="2292" relation="include">
+        <childnode refid="2287" relation="include">
         </childnode>
         <childnode refid="2303" relation="include">
+        </childnode>
+        <childnode refid="2298" relation="include">
+        </childnode>
+      </node>
+      <node id="2298">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="2299" relation="include">
+        </childnode>
+        <childnode refid="2300" relation="include">
+        </childnode>
+        <childnode refid="2289" relation="include">
+        </childnode>
+        <childnode refid="2288" relation="include">
+        </childnode>
+        <childnode refid="2301" relation="include">
+        </childnode>
+        <childnode refid="2295" relation="include">
+        </childnode>
+        <childnode refid="2287" relation="include">
+        </childnode>
+        <childnode refid="2291" relation="include">
+        </childnode>
+        <childnode refid="2292" relation="include">
         </childnode>
         <childnode refid="2298" relation="include">
         </childnode>
@@ -99,28 +123,6 @@
       </node>
       <node id="2289">
         <label>glib.h</label>
-      </node>
-      <node id="2298">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="2299" relation="include">
-        </childnode>
-        <childnode refid="2300" relation="include">
-        </childnode>
-        <childnode refid="2289" relation="include">
-        </childnode>
-        <childnode refid="2288" relation="include">
-        </childnode>
-        <childnode refid="2301" relation="include">
-        </childnode>
-        <childnode refid="2295" relation="include">
-        </childnode>
-        <childnode refid="2287" relation="include">
-        </childnode>
-        <childnode refid="2291" relation="include">
-        </childnode>
-        <childnode refid="2292" relation="include">
-        </childnode>
       </node>
       <node id="2297">
         <label>gfal_constants.h</label>
@@ -215,7 +217,7 @@
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_local_file.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__catalog_8h" kindref="compound">gfal_common_catalog.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__plugin_8h" kindref="compound">gfal_common_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight></codeline>
 <codeline lineno="40"><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>ssize_t<sp/><ref refid="gfal__posix__readlink_8c_1eb0e2d14bb83951a480a411b9746dcb2" kindref="member">gfal_posix_internal_readlink</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buf,<sp/>size_t<sp/>buffsiz){</highlight></codeline>
 <codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle;</highlight></codeline>
@@ -233,7 +235,7 @@
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(path,<sp/>NULL)<sp/>){</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_local_readlink(path,<sp/>buf,<sp/>buffsiz,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_1fae05f4bcf41d9b6b1063cf6210a81de" kindref="member">gfal_catalog_readlinkG</ref>(handle,<sp/>path,<sp/>buf,<sp/>buffsiz,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__plugin_8c_1d2e6e573b52926185793ff4f0dd5e307" kindref="member">gfal_plugin_readlinkG</ref>(handle,<sp/>path,<sp/>buf,<sp/>buffsiz,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err){<sp/></highlight><highlight class="comment">//<sp/>error<sp/>reported</highlight><highlight class="normal"></highlight></codeline>

@@ -27,7 +27,7 @@
 #include <regex.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "../gfal_types.h"
 
 typedef struct _gfal_plugin_dcap_handle{
@@ -40,6 +40,6 @@ typedef struct _gfal_plugin_dcap_handle{
 /**
  * Init function, called before all
  * */
-gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err);
+gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err);
 
 

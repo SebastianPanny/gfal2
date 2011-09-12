@@ -87,6 +87,28 @@
       <node id="1672">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="1671">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="1658" relation="include">
+        </childnode>
+        <childnode refid="1672" relation="include">
+        </childnode>
+        <childnode refid="1651" relation="include">
+        </childnode>
+        <childnode refid="1659" relation="include">
+        </childnode>
+        <childnode refid="1648" relation="include">
+        </childnode>
+        <childnode refid="1652" relation="include">
+        </childnode>
+        <childnode refid="1670" relation="include">
+        </childnode>
+        <childnode refid="1655" relation="include">
+        </childnode>
+        <childnode refid="1667" relation="include">
+        </childnode>
+      </node>
       <node id="1665">
         <label>gfal_common_srm.h</label>
         <link refid="gfal__common__srm_8h"/>
@@ -138,28 +160,6 @@
       </node>
       <node id="1663">
         <label>gfal_srm_ifce.h</label>
-      </node>
-      <node id="1671">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1658" relation="include">
-        </childnode>
-        <childnode refid="1672" relation="include">
-        </childnode>
-        <childnode refid="1651" relation="include">
-        </childnode>
-        <childnode refid="1659" relation="include">
-        </childnode>
-        <childnode refid="1648" relation="include">
-        </childnode>
-        <childnode refid="1652" relation="include">
-        </childnode>
-        <childnode refid="1670" relation="include">
-        </childnode>
-        <childnode refid="1655" relation="include">
-        </childnode>
-        <childnode refid="1667" relation="include">
-        </childnode>
       </node>
       <node id="1656">
         <label>gfal_constants.h</label>
@@ -235,13 +235,13 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__srm__readdir_8c_16aced69d0963c2d0078a6af62a3391be" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__readdir_8c_19c9ec8c6f17e51a8ed1b8d759c3d4bc1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void gfal_srm_bufferize_request</definition>
-        <argsstring>(catalog_handle ch, const char *surl, struct srmv2_mdfilestatus *statuses)</argsstring>
+        <argsstring>(plugin_handle ch, const char *surl, struct srmv2_mdfilestatus *statuses)</argsstring>
         <name>gfal_srm_bufferize_request</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -260,13 +260,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c" line="36" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c" bodystart="36" bodyend="60"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__readdir_8c_1238e1ee07e392cf4558421ac9bf91316" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__readdir_8c_16e418f223cb678f04c3dcb943167d19e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>struct dirent *</type>
         <definition>static struct dirent* gfal_srm_readdir_convert_result</definition>
-        <argsstring>(catalog_handle ch, const char *surl, struct srmv2_mdfilestatus *statuses, struct dirent *output, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, const char *surl, struct srmv2_mdfilestatus *statuses, struct dirent *output, GError **err)</argsstring>
         <name>gfal_srm_readdir_convert_result</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -293,13 +293,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c" bodystart="62" bodyend="76"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__readdir_8c_16cd12051a919c3d0e07a6c5e2ac91cb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__readdir_8c_183a9d4f97ba144ace7d46dedae0d7ec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_srm_readdir_internal</definition>
-        <argsstring>(catalog_handle ch, gfal_srm_opendir_handle oh, int nb_files, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, gfal_srm_opendir_handle oh, int nb_files, GError **err)</argsstring>
         <name>gfal_srm_readdir_internal</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -322,13 +322,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c" line="78" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c" bodystart="78" bodyend="124"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__readdir_8c_122a02c9e8668edcc2b552ffbf6e9e433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__readdir_8c_15ffde8e4582f313779fe85d54d9aeee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>dirent *</type>
         <definition>struct dirent* gfal_srm_readdir_pipeline</definition>
-        <argsstring>(catalog_handle ch, gfal_srm_opendir_handle oh, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, gfal_srm_opendir_handle oh, GError **err)</argsstring>
         <name>gfal_srm_readdir_pipeline</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -347,13 +347,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c" line="126" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c" bodystart="126" bodyend="153"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__readdir_8c_1fbf0023f141e4c099c13cbc506bdf2dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__readdir_8c_1f94cfcd3e4eb1aff77ad898a13d49e22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>dirent *</type>
         <definition>struct dirent* gfal_srm_readdirG</definition>
-        <argsstring>(catalog_handle ch, gfal_file_handle fh, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, gfal_file_handle fh, GError **err)</argsstring>
         <name>gfal_srm_readdirG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -409,7 +409,7 @@
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__internal__layer_8h" kindref="compound">gfal_common_srm_internal_layer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_srm_bufferize_request(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>srmv2_mdfilestatus<sp/>*<sp/>statuses){</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_srm_bufferize_request(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>srmv2_mdfilestatus<sp/>*<sp/>statuses){</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buff_key[GFAL_URL_MAX_LEN];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srmv2_opt*<sp/>opts<sp/>=<sp/>(gfal_srmv2_opt*)<sp/>ch;</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srm_construct_key(surl,<sp/>GFAL_SRM_LSTAT_PREFIX,<sp/>buff_key,<sp/>GFAL_URL_MAX_LEN);</highlight></codeline>
@@ -435,7 +435,7 @@
 <codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsimplecache_add_item_kstr(opts-&gt;cache,<sp/>buff_key,<sp/>st);</highlight></codeline>
 <codeline lineno="60"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>gfal_srm_readdir_convert_result(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>srmv2_mdfilestatus<sp/>*<sp/>statuses,<sp/><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>dirent*<sp/>output,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>gfal_srm_readdir_convert_result(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>srmv2_mdfilestatus<sp/>*<sp/>statuses,<sp/><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>dirent*<sp/>output,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
 <codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>resu<sp/>=<sp/>NULL;</highlight></codeline>
 <codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resu<sp/>=<sp/>output;</highlight></codeline>
 <codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buff_surlfull[GFAL_URL_MAX_LEN];</highlight></codeline>
@@ -451,7 +451,7 @@
 <codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resu;</highlight></codeline>
 <codeline lineno="76"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_readdir_internal(catalog_handle<sp/>ch,<sp/>gfal_srm_opendir_handle<sp/>oh,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nb_files,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_readdir_internal(plugin_handle<sp/>ch,<sp/>gfal_srm_opendir_handle<sp/>oh,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nb_files,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(ch<sp/>&amp;&amp;<sp/>oh,<sp/>-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_srmv2_opendir_internal]<sp/>invaldi<sp/>args&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>resu<sp/>=-1;</highlight></codeline>
@@ -499,7 +499,7 @@
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resu;<sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="124"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>gfal_srm_readdir_pipeline(catalog_handle<sp/>ch,<sp/>gfal_srm_opendir_handle<sp/>oh,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>gfal_srm_readdir_pipeline(plugin_handle<sp/>ch,<sp/>gfal_srm_opendir_handle<sp/>oh,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
 <codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_resu_per_req=<sp/>0;</highlight></codeline>
@@ -529,7 +529,7 @@
 <codeline lineno="153"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="154"><highlight class="normal"></highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
-<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>gfal_srm_readdirG(catalog_handle<sp/>ch,<sp/>gfal_file_handle<sp/>fh,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>gfal_srm_readdirG(plugin_handle<sp/>ch,<sp/>gfal_file_handle<sp/>fh,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(<sp/>ch<sp/>&amp;&amp;<sp/>fh,<sp/>NULL,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_srm_readdirG]<sp/>Invalid<sp/>args&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">dirent*<sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>

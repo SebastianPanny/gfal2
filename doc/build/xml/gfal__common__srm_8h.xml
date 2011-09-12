@@ -46,6 +46,28 @@
       <node id="1209">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="1207">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="1208" relation="include">
+        </childnode>
+        <childnode refid="1209" relation="include">
+        </childnode>
+        <childnode refid="1199" relation="include">
+        </childnode>
+        <childnode refid="1210" relation="include">
+        </childnode>
+        <childnode refid="1196" relation="include">
+        </childnode>
+        <childnode refid="1203" relation="include">
+        </childnode>
+        <childnode refid="1204" relation="include">
+        </childnode>
+        <childnode refid="1198" relation="include">
+        </childnode>
+        <childnode refid="1200" relation="include">
+        </childnode>
+      </node>
       <node id="1195">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h</label>
         <link refid="gfal_common_srm.h"/>
@@ -79,28 +101,6 @@
       </node>
       <node id="1199">
         <label>glib.h</label>
-      </node>
-      <node id="1207">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1208" relation="include">
-        </childnode>
-        <childnode refid="1209" relation="include">
-        </childnode>
-        <childnode refid="1199" relation="include">
-        </childnode>
-        <childnode refid="1210" relation="include">
-        </childnode>
-        <childnode refid="1196" relation="include">
-        </childnode>
-        <childnode refid="1203" relation="include">
-        </childnode>
-        <childnode refid="1204" relation="include">
-        </childnode>
-        <childnode refid="1198" relation="include">
-        </childnode>
-        <childnode refid="1200" relation="include">
-        </childnode>
       </node>
       <node id="1206">
         <label>gfal_constants.h</label>
@@ -503,9 +503,9 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" line="98" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" bodystart="60" bodyend="62"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm_8h_10f8ff443c68a9f6177d717ad52b7d5a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref></type>
-        <definition>gfal_catalog_interface gfal_srm_initG</definition>
+      <memberdef kind="function" id="gfal__common__srm_8h_127d0d7b427ff691a29a73e147b195c61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref></type>
+        <definition>gfal_plugin_interface gfal_srm_initG</definition>
         <argsstring>(gfal_handle handle, GError **err)</argsstring>
         <name>gfal_srm_initG</name>
         <param>
@@ -691,7 +691,7 @@
 <codeline lineno="97"><highlight class="normal"></highlight></codeline>
 <codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_srm_getName();</highlight></codeline>
 <codeline lineno="99"><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref><sp/>gfal_srm_initG(gfal_handle<sp/>handle,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref><sp/>gfal_srm_initG(gfal_handle<sp/>handle,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"></highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_srm_opt_initG(gfal_srmv2_opt*<sp/>opts,<sp/>gfal_handle<sp/>handle);</highlight></codeline>
 <codeline lineno="103"><highlight class="normal"></highlight></codeline>

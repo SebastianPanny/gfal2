@@ -32,7 +32,7 @@
 #include "gfal_posix_internal.h"
 #include "../common/gfal_types.h"
 #include "gfal_posix_local_file.h"
-#include "gfal_common_catalog.h"
+#include "gfal_common_plugin.h"
 
  /**
   *  internal implementation of gfal_readlink
@@ -53,7 +53,7 @@ inline ssize_t gfal_posix_internal_readlink(const char* path, char* buf, size_t 
 		if( gfal_check_local_url(path, NULL) ){
 			ret = gfal_local_readlink(path, buf, buffsiz, &tmp_err);
 		} else {
-			ret = gfal_catalog_readlinkG(handle, path, buf, buffsiz, &tmp_err);
+			ret = gfal_plugin_readlinkG(handle, path, buf, buffsiz, &tmp_err);
 		}
 	}	
 	if(tmp_err){ // error reported

@@ -74,8 +74,8 @@ int gfal_chmod(const char* path, mode_t mode){
 
 /**
  * @brief  change the name or location of a file
- * oldpath and newpath need to be on the same catalog
- * this functions work only with catalogs (lfc ) and local files
+ * oldpath and newpath need to be on the same plugin
+ * this functions work only with plugins (lfc ) and local files
  * @param oldpath : the old path of the file, can be in supported protocols but need to be in the same adress space than newpath
  * @param newpath : the new path of the file, can be in supported protocols (lfn, srm, file, guid,..)
  * @return : return 0 if success, else -1 and errno / @ref gfal_posix_check_error()
@@ -185,7 +185,7 @@ int gfal_rmdir(const char* path){
  * @brief  open a directory
  * 
  * opens a directory to be used in subsequent gfal_readdir operations
- * the url supported are : local files, surls, catalog url ( lfc,...)
+ * the url supported are : local files, surls, plugin url ( lfc,...)
  * @param name of the directory to open, can be in supported protocols (lfn, srm, file, guid,..)
  * @return file descriptor DIR* if success else NULL if error and errno is set call @ref gfal_posix_check_error() to check it
  * 

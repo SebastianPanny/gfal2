@@ -1,10 +1,10 @@
 \section{/home/adevress/myworkspace/gfal/src/common/lfc/gfal\_\-common\_\-lfc.h File Reference}
 \label{gfal__common__lfc_8h}\index{/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.h@{/home/adevress/myworkspace/gfal/src/common/lfc/gfal\_\-common\_\-lfc.h}}
-header file for the lfc catalog module 
+header file for the lfc plugin module 
 
 {\tt \#include $<$sys/types.h$>$}\par
 {\tt \#include $<$glib.h$>$}\par
-{\tt \#include \char`\"{}../gfal\_\-common\_\-catalog.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-plugin.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-types.h\char`\"{}}\par
 {\tt \#include \char`\"{}../../externals/gsimplecache/gcachemain.h\char`\"{}}\par
@@ -46,12 +46,12 @@ header file for the lfc catalog module
 \item 
 gboolean \bf{gfal\_\-checker\_\-guid} (const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
-\bf{gfal\_\-catalog\_\-interface} \textbf{lfc\_\-init\-G} (gfal\_\-handle, GError $\ast$$\ast$)\label{gfal__common__lfc_8h_0d4af55002fa4216f9915b5a1a721ef4}
+\bf{gfal\_\-plugin\_\-interface} \textbf{lfc\_\-init\-G} (gfal\_\-handle, GError $\ast$$\ast$)\label{gfal__common__lfc_8h_30773efdd2af3a2a53d6ffd3096049be}
 
 \item 
-gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$lfn\_\-url, catalog\_\-mode mode, GError $\ast$$\ast$err)
+gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (plugin\_\-handle handle, const char $\ast$lfn\_\-url, plugin\_\-mode mode, GError $\ast$$\ast$err)
 \item 
-char $\ast$$\ast$ \bf{lfc\_\-get\-SURLG} (catalog\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
+char $\ast$$\ast$ \bf{lfc\_\-get\-SURLG} (plugin\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
 void \textbf{lfc\_\-set\_\-session\_\-timeout} (int timeout)\label{gfal__common__lfc_8h_656ee4eb29a1bcf4e9e1d9a4aafd4c82}
 
@@ -59,7 +59,7 @@ void \textbf{lfc\_\-set\_\-session\_\-timeout} (int timeout)\label{gfal__common_
 
 
 \subsection{Detailed Description}
-header file for the lfc catalog module 
+header file for the lfc plugin module 
 
 \begin{Desc}
 \item[Author:]Adrien Devresse \end{Desc}
@@ -77,12 +77,12 @@ header file for the lfc catalog module
 
 parse a guid to check the validity \index{gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}!gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}}
 \index{gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}!gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (catalog\_\-handle {\em handle}, const char $\ast$ {\em url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8h_8baa624b528deb15ff4ee61fa9948ac8}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (plugin\_\-handle {\em handle}, const char $\ast$ {\em url}, plugin\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8h_88b02b9ae89630e0516554a409ed82e9}
 
 
 Check if the passed url and operation is compatible with lfc \index{gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}!lfc_getSURLG@{lfc\_\-getSURLG}}
 \index{lfc_getSURLG@{lfc\_\-getSURLG}!gfal_common_lfc.h@{gfal\_\-common\_\-lfc.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ lfc\_\-get\-SURLG (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8h_7c1d8699d8ad924234db163860dadf40}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ lfc\_\-get\-SURLG (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8h_ab2b9f80b14228974befa9d005ea7bc9}
 
 
 resolve the lfc link to the surls 

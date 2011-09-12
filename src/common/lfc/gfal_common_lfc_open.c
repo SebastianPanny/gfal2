@@ -37,7 +37,7 @@
 /**
  * open function for the srm  plugin
  */
-gfal_file_handle lfc_openG(catalog_handle ch, const char* path, int flag, mode_t mode, GError** err){
+gfal_file_handle lfc_openG(plugin_handle ch, const char* path, int flag, mode_t mode, GError** err){
 	gfal_handle handle = ((struct lfc_ops*)ch)->handle;
 	GError* tmp_err=NULL;
 	gfal_file_handle res=NULL;
@@ -48,7 +48,7 @@ gfal_file_handle lfc_openG(catalog_handle ch, const char* path, int flag, mode_t
 		char** p = surls;
 		while( *p != NULL){
 			gfal_print_verbose(GFAL_VERBOSE_VERBOSE, " LFC resolution %s -> %s ", path, *p);
-			res = gfal_catalog_openG(handle, *p, flag, mode, &tmp_err);
+			res = gfal_plugin_openG(handle, *p, flag, mode, &tmp_err);
 			if(res || ( tmp_err && tmp_err->code!=ECOMM))
 				break;
 			p++;

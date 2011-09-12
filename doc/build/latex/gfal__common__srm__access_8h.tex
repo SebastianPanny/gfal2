@@ -8,7 +8,7 @@ header file for the access methode on the srm url type
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-int \bf{gfal\_\-srm\_\-access\-G} (catalog\_\-handle handle, const char $\ast$surl, int mode, GError $\ast$$\ast$err)
+int \bf{gfal\_\-srm\_\-access\-G} (plugin\_\-handle handle, const char $\ast$surl, int mode, GError $\ast$$\ast$err)
 \begin{CompactList}\small\item\em access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated. \item\end{CompactList}\item 
 int \textbf{gfal\_\-access\_\-srmv2\_\-internal} (gfal\_\-srmv2\_\-opt $\ast$opts, char $\ast$endpoint, const char $\ast$surl, int mode, GError $\ast$$\ast$err)\label{gfal__common__srm__access_8h_482394e183f4026d547f17575dc4b8dd}
 
@@ -29,7 +29,7 @@ header file for the access methode on the srm url type
 \subsection{Function Documentation}
 \index{gfal_common_srm_access.h@{gfal\_\-common\_\-srm\_\-access.h}!gfal_srm_accessG@{gfal\_\-srm\_\-accessG}}
 \index{gfal_srm_accessG@{gfal\_\-srm\_\-accessG}!gfal_common_srm_access.h@{gfal\_\-common\_\-srm\_\-access.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-access\-G (catalog\_\-handle {\em ch}, const char $\ast$ {\em surl}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__access_8h_fb067c53506a97a400866960ba75446c}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-access\-G (plugin\_\-handle {\em ch}, const char $\ast$ {\em surl}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__access_8h_c2aa3066438a3019a5bf6ae721c70a8e}
 
 
 access method for SRMv2 check the right for a given SRM url, work only for SRMv2, V1 deprecated. 
@@ -37,7 +37,7 @@ access method for SRMv2 check the right for a given SRM url, work only for SRMv2
 \begin{Desc}
 \item[Parameters:]
 \begin{description}
-\item[{\em ch}]the handle of the catalog \item[{\em surl}]srm url of a given file \item[{\em mode}]access mode to check \item[{\em err}]: GError error reprot system \end{description}
+\item[{\em ch}]the handle of the plugin \item[{\em surl}]srm url of a given file \item[{\em mode}]access mode to check \item[{\em err}]: GError error reprot system \end{description}
 \end{Desc}
 \begin{Desc}
 \item[Warning:]: not safe, surl must be verified \end{Desc}

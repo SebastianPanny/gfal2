@@ -208,7 +208,8 @@ gboolean gfal_is_local_call(const char * module_name){
 
 int gfal_local_read(gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
 	errno=0;
-	const int ret = read(GPOINTER_TO_INT(fh->fdesc), buff, s_buff);
+	const int fd = GPOINTER_TO_INT(fh->fdesc);
+	const int ret = read(fd, buff, s_buff);
 	if(ret <0)
 		gfal_local_report_error(__func__, err);
 	return ret;

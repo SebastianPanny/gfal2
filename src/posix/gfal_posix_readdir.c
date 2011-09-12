@@ -46,7 +46,7 @@ inline static struct dirent* gfal_posix_gfalfilehandle_readdir(gfal_handle handl
 	if( gfal_is_local_call(fh->module_name) )
 		ret = gfal_local_readdir(fh, &tmp_err);
 	else
-		ret = gfal_catalog_readdirG(handle, fh, &tmp_err);
+		ret = gfal_plugin_readdirG(handle, fh, &tmp_err);
 
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

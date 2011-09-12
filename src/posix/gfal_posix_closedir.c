@@ -33,7 +33,7 @@
 #include "../common/gfal_common_filedescriptor.h"
 #include "../common/gfal_common_dir_handle.h"
 #include "../common/gfal_common_errverbose.h"
-#include "../common/gfal_common_catalog.h"
+#include "../common/gfal_common_plugin.h"
 
 
 
@@ -59,7 +59,7 @@ static int gfal_posix_dir_handle_close(gfal_handle handle, gfal_file_handle fh, 
 	if( gfal_is_local_call(fh->module_name) )
 		ret = gfal_local_closedir(fh, &tmp_err);
 	else
-		ret = gfal_catalog_closedirG(handle, fh, &tmp_err);
+		ret = gfal_plugin_closedirG(handle, fh, &tmp_err);
 
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

@@ -103,6 +103,28 @@
       <node id="1623">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="1621">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="1622" relation="include">
+        </childnode>
+        <childnode refid="1623" relation="include">
+        </childnode>
+        <childnode refid="1614" relation="include">
+        </childnode>
+        <childnode refid="1624" relation="include">
+        </childnode>
+        <childnode refid="1608" relation="include">
+        </childnode>
+        <childnode refid="1609" relation="include">
+        </childnode>
+        <childnode refid="1618" relation="include">
+        </childnode>
+        <childnode refid="1613" relation="include">
+        </childnode>
+        <childnode refid="1615" relation="include">
+        </childnode>
+      </node>
       <node id="1611">
         <label>gfal_common_srm.h</label>
         <link refid="gfal__common__srm_8h"/>
@@ -161,28 +183,6 @@
         <childnode refid="1614" relation="include">
         </childnode>
         <childnode refid="1611" relation="include">
-        </childnode>
-        <childnode refid="1615" relation="include">
-        </childnode>
-      </node>
-      <node id="1621">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1622" relation="include">
-        </childnode>
-        <childnode refid="1623" relation="include">
-        </childnode>
-        <childnode refid="1614" relation="include">
-        </childnode>
-        <childnode refid="1624" relation="include">
-        </childnode>
-        <childnode refid="1608" relation="include">
-        </childnode>
-        <childnode refid="1609" relation="include">
-        </childnode>
-        <childnode refid="1618" relation="include">
-        </childnode>
-        <childnode refid="1613" relation="include">
         </childnode>
         <childnode refid="1615" relation="include">
         </childnode>
@@ -279,13 +279,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c" line="44" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c" bodystart="44" bodyend="66"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__opendir_8c_198735cc394e8308aff0d47bb13fda64f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__opendir_8c_158f9e4c9a67df383c89c62120cd2bc6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
         <definition>gfal_file_handle gfal_srm_opendirG</definition>
-        <argsstring>(catalog_handle ch, const char *surl, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, const char *surl, GError **err)</argsstring>
         <name>gfal_srm_opendirG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -304,13 +304,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c" line="70" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c" bodystart="70" bodyend="96"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__opendir_8c_1a9f63a5ff1be26668963f98f2fba9733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__opendir_8c_1a110ca5125e7c1ee1d21c8d8451060a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_srm_closedirG</definition>
-        <argsstring>(catalog_handle handle, gfal_file_handle fh, GError **err)</argsstring>
+        <argsstring>(plugin_handle handle, gfal_file_handle fh, GError **err)</argsstring>
         <name>gfal_srm_closedirG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>handle</declname>
         </param>
         <param>
@@ -398,7 +398,7 @@
 <codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="68"><highlight class="normal"></highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight></codeline>
-<codeline lineno="70"><highlight class="normal">gfal_file_handle<sp/>gfal_srm_opendirG(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">gfal_file_handle<sp/>gfal_srm_opendirG(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(ch<sp/>&amp;&amp;<sp/>surl,<sp/>NULL,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_srm_opendirG]<sp/>Invalid<sp/>args&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srmv2_opt*<sp/>opts<sp/>=<sp/>(gfal_srmv2_opt*)<sp/>ch;</highlight></codeline>
 <codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>resu<sp/>=<sp/>NULL;</highlight></codeline>
@@ -427,7 +427,7 @@
 <codeline lineno="96"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="97"><highlight class="normal"></highlight></codeline>
 <codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_closedirG(catalog_handle<sp/>handle,<sp/>gfal_file_handle<sp/>fh,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_closedirG(plugin_handle<sp/>handle,<sp/>gfal_file_handle<sp/>fh,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(handle<sp/>&amp;&amp;<sp/>fh,<sp/>-1,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_srm_opendirG]<sp/>Invalid<sp/>args&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srm_opendir_handle<sp/>oh<sp/>=<sp/>(gfal_srm_opendir_handle)<sp/>fh-&gt;fdesc;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//gfal_srm_external_call.srm_srmv2_mdfilestatus_delete(oh-&gt;srm_ls_resu,<sp/>1);<sp/>--&gt;<sp/>disable<sp/>because<sp/>of<sp/>error<sp/>in<sp/>memory<sp/>management<sp/>in<sp/>srm-ifce</highlight><highlight class="normal"></highlight></codeline>

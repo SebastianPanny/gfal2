@@ -33,7 +33,7 @@
 #include "unit_test_constants.h"
 #include "common/gfal_common_errverbose.h"
 #include "common/gfal__test_verbose.h"
-#include "common/gfal__test_catalog.h"
+#include "common/gfal__test_plugin.h"
 //#include "common/voms/gfal__test_voms.h"
 #include "common/gfal__test_common_srm.h"
 #include "common/gfal__test_common_srm_access.h"
@@ -60,16 +60,16 @@ TestSuite * verbose_suite (void)
  }
  
  
-TestSuite * catalog_suite (void)
+TestSuite * plugin_suite (void)
 {
 	TestSuite *s2 = create_test_suite();
 	// verbose test case /
 	add_test (s2, test_get_cat_type);
-	add_test(s2, test_catalog_access_file);
-	add_test(s2, test_catalog_url_checker);
-	//add_test(s2, test_catalog_guid_resolve);
-	add_test(s2, test__catalog_stat);
-	add_test(s2, test__catalog_lstat);
+	add_test(s2, test_plugin_access_file);
+	add_test(s2, test_plugin_url_checker);
+	//add_test(s2, test_plugin_guid_resolve);
+	add_test(s2, test__plugin_stat);
+	add_test(s2, test__plugin_lstat);
 	return s2;
  }
  
@@ -222,8 +222,8 @@ TestSuite* posix_access_suite (void)
   add_test(tc_access, test_access_posix_srm_write);
 /*
   TestSuite* tc_rename = create_test_suite();
-  add_test(tc_rename, test__gfal_posix_rename_catalog);
-  add_test(tc_rename, test__gfal_posix_move_dir_catalog);
+  add_test(tc_rename, test__gfal_posix_rename_plugin);
+  add_test(tc_rename, test__gfal_posix_move_dir_plugin);
   add_test(tc_rename, test__gfal_posix_rename_url_check);
   add_test(tc_rename, test__gfal_posix_rename_local);
   suite_add_tcase(s, tc_rename);
@@ -284,7 +284,7 @@ int main (int argc, char** argv)
 	fprintf(stderr, " tests : %s ", getenv("LD_LIBRARY_PATH"));
 	TestSuite *global = create_test_suite();
 	add_suite(global, verbose_suite());
-	add_suite(global, catalog_suite());
+	add_suite(global, plugin_suite());
 	add_suite(global, srm_Suite());
 	//add_suite(global, no_glib_suite());
 	add_suite(global, lfc_suite());

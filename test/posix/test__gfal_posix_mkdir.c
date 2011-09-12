@@ -20,7 +20,7 @@ void create_srm_mkdir_mock(const char* url, int code){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
@@ -39,7 +39,7 @@ void test_mock_mkdir_lfc(int errcode, char* url, mode_t mode){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;

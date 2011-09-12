@@ -55,8 +55,8 @@ gfal_handle gfal_initG (GError** err)
 	if(!g_thread_supported ())
 		g_thread_init(NULL);
 	handle->no_bdii_check=FALSE;
-	handle->catalog_opt.catalog_number= 0;
-	gfal_catalogs_instance(handle, &tmp_err);
+	handle->plugin_opt.plugin_number= 0;
+	gfal_plugins_instance(handle, &tmp_err);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return handle;
@@ -69,7 +69,7 @@ gfal_handle gfal_initG (GError** err)
 void gfal_handle_freeG (gfal_handle handle){
 	if(handle == NULL)
 		return;
-	gfal_catalogs_delete(handle, NULL);
+	gfal_plugins_delete(handle, NULL);
 	gfal_dir_handle_container_delete(&(handle->fdescs));
 	free(handle);
 	handle = NULL;

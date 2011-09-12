@@ -18,7 +18,7 @@ void create_srm_stat_env_mock(){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
@@ -39,7 +39,7 @@ void create_srm_stat_env_mock_noent(){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
@@ -62,7 +62,7 @@ void test__gfal_posix_stat_lfc()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -98,7 +98,7 @@ void test__gfal_posix_stat_guid()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -186,7 +186,7 @@ void test__gfal_posix_lstat_lfc()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -235,7 +235,7 @@ void test__gfal_posix_lstat_guid()
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	if( gfal_check_GError(&mock_err))
 		return;

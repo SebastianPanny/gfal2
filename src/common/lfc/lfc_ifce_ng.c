@@ -19,7 +19,7 @@
  /**
   * 
   @file lfc_ifce_ng.c
-  @brief main internal file of the lfc catalog module
+  @brief main internal file of the lfc plugin module
   @author Adrien Devresse
   @version 0.0.1
   @date 02/05/2011
@@ -185,12 +185,12 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
 
 /**
  * convert a guid to a lfn link with a call to the lfclib
- * @param handle handle of the lfc catalog
+ * @param handle handle of the lfc plugin
  * @param string of the guid
  * @param err : Error report system
  * @return : string of the lfn if success or NULL char* if error
  * */
- char* gfal_convert_guid_to_lfn(catalog_handle handle, char* guid, GError ** err){
+ char* gfal_convert_guid_to_lfn(plugin_handle handle, char* guid, GError ** err){
 	GError* tmp_err=NULL;
 	char* lfn=NULL;
 	int size = 0;
@@ -216,14 +216,14 @@ static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
  
  /**
  * convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mode )
- * @param handle catalog handle
+ * @param handle plugin handle
  * @param guid string of the guid
  * @param buff_lfn buffer for the lfn result
  *  @param sbuff_lfn size of the buffer
  * @param err : Error report system
  * @return : 0 else -1 if error and err is set
  * */
-int gfal_convert_guid_to_lfn_r(catalog_handle handle, const char* guid, char* buff_lfn, size_t sbuff_lfn, GError ** err){
+int gfal_convert_guid_to_lfn_r(plugin_handle handle, const char* guid, char* buff_lfn, size_t sbuff_lfn, GError ** err){
 	GError* tmp_err=NULL;	
 	int ret;
 	int size = 0;

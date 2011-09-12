@@ -1,8 +1,8 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c \- file for the lfc catalog module 
+/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c \- file for the lfc plugin module 
 .SH SYNOPSIS
 .br
 .PP
@@ -54,46 +54,46 @@
 .RI "const char * \fBlfc_getName\fP ()"
 .br
 .ti -1c
-.RI "int \fBlfc_chmodG\fP (catalog_handle handle, const char *path, mode_t mode, GError **err)"
+.RI "int \fBlfc_chmodG\fP (plugin_handle handle, const char *path, mode_t mode, GError **err)"
 .br
 .ti -1c
-.RI "int \fBlfc_accessG\fP (catalog_handle handle, const char *lfn, int mode, GError **err)"
+.RI "int \fBlfc_accessG\fP (plugin_handle handle, const char *lfn, int mode, GError **err)"
 .br
 .ti -1c
-.RI "int \fBlfc_renameG\fP (catalog_handle handle, const char *oldpath, const char *newpath, GError **err)"
+.RI "int \fBlfc_renameG\fP (plugin_handle handle, const char *oldpath, const char *newpath, GError **err)"
 .br
 .ti -1c
-.RI "int \fBlfc_symlinkG\fP (catalog_handle handle, const char *oldpath, const char *newpath, GError **err)"
+.RI "int \fBlfc_symlinkG\fP (plugin_handle handle, const char *oldpath, const char *newpath, GError **err)"
 .br
 .ti -1c
-.RI "int \fBlfc_statG\fP (catalog_handle handle, const char *path, struct stat *st, GError **err)"
+.RI "int \fBlfc_statG\fP (plugin_handle handle, const char *path, struct stat *st, GError **err)"
 .br
 .ti -1c
-.RI "char ** \fBlfc_getSURLG\fP (catalog_handle handle, const char *path, GError **err)"
+.RI "char ** \fBlfc_getSURLG\fP (plugin_handle handle, const char *path, GError **err)"
 .br
 .ti -1c
-.RI "ssize_t \fBlfc_getxattr_getsurl\fP (catalog_handle handle, const char *path, void *buff, size_t size, GError **err)"
+.RI "ssize_t \fBlfc_getxattr_getsurl\fP (plugin_handle handle, const char *path, void *buff, size_t size, GError **err)"
 .br
 .ti -1c
-.RI "ssize_t \fBlfc_getxattr_getguid\fP (catalog_handle handle, const char *path, void *buff, size_t size, GError **err)"
+.RI "ssize_t \fBlfc_getxattr_getguid\fP (plugin_handle handle, const char *path, void *buff, size_t size, GError **err)"
 .br
 .ti -1c
-.RI "ssize_t \fBlfc_getxattrG\fP (catalog_handle handle, const char *path, const char *name, void *buff, size_t size, GError **err)"
+.RI "ssize_t \fBlfc_getxattrG\fP (plugin_handle handle, const char *path, const char *name, void *buff, size_t size, GError **err)"
 .br
 .ti -1c
-.RI "ssize_t \fBlfc_listxattrG\fP (catalog_handle handle, const char *path, char *list, size_t size, GError **err)"
+.RI "ssize_t \fBlfc_listxattrG\fP (plugin_handle handle, const char *path, char *list, size_t size, GError **err)"
 .br
 .ti -1c
-.RI "char * \fBlfc_resolve_guid\fP (catalog_handle handle, const char *guid, GError **err)"
+.RI "char * \fBlfc_resolve_guid\fP (plugin_handle handle, const char *guid, GError **err)"
 .br
 .ti -1c
-.RI "\fBgfal_catalog_interface\fP \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
+.RI "\fBgfal_plugin_interface\fP \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
 .RI "gboolean \fBgfal_checker_guid\fP (const char *guid, GError **err)"
 .br
 .ti -1c
-.RI "gboolean \fBgfal_lfc_check_lfn_url\fP (catalog_handle handle, const char *url, catalog_mode mode, GError **err)"
+.RI "gboolean \fBgfal_lfc_check_lfn_url\fP (plugin_handle handle, const char *url, plugin_mode mode, GError **err)"
 .br
 .in -1c
 .SS "Variables"
@@ -105,7 +105,7 @@
 .in -1c
 .SH "Detailed Description"
 .PP 
-file for the lfc catalog module 
+file for the lfc plugin module 
 
 \fBAuthor:\fP
 .RS 4
@@ -128,48 +128,48 @@ Adrien Devresse
 .SS "gboolean gfal_checker_guid (const char * guid, GError ** err)"
 .PP
 parse a guid to check the validity 
-.SS "gboolean gfal_lfc_check_lfn_url (catalog_handle handle, const char * url, catalog_mode mode, GError ** err)"
+.SS "gboolean gfal_lfc_check_lfn_url (plugin_handle handle, const char * url, plugin_mode mode, GError ** err)"
 .PP
 Check if the passed url and operation is compatible with lfc 
-.SS "\fBgfal_catalog_interface\fP gfal_plugin_init (gfal_handle handle, GError ** err)"
+.SS "\fBgfal_plugin_interface\fP gfal_plugin_init (gfal_handle handle, GError ** err)"
 .PP
-Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. 
-.SS "int lfc_accessG (catalog_handle handle, const char * lfn, int mode, GError ** err)"
+Map function for the lfc interface this function provide the generic CATALOG interface for the LFC plugin. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and plugin function map. 
+.SS "int lfc_accessG (plugin_handle handle, const char * lfn, int mode, GError ** err)"
 .PP
-implementation of the access call with the lfc catalog return 0 or -1 if error and report GError** with error code and message 
-.SS "int lfc_chmodG (catalog_handle handle, const char * path, mode_t mode, GError ** err)"
+implementation of the access call with the lfc plugin return 0 or -1 if error and report GError** with error code and message 
+.SS "int lfc_chmodG (plugin_handle handle, const char * path, mode_t mode, GError ** err)"
 .PP
-Implementation of the chmod function with the LFC catalog return 0 or the errno if error, or set GError if serious error 
+Implementation of the chmod function with the LFC plugin return 0 or the errno if error, or set GError if serious error 
 .SS "const char* lfc_getName ()"
 .PP
 just return the name of the layer 
-.SS "char** lfc_getSURLG (catalog_handle handle, const char * path, GError ** err)"
+.SS "char** lfc_getSURLG (plugin_handle handle, const char * path, GError ** err)"
 .PP
 resolve the lfc link to the surls 
-.SS "ssize_t lfc_getxattr_getguid (catalog_handle handle, const char * path, void * buff, size_t size, GError ** err)"
+.SS "ssize_t lfc_getxattr_getguid (plugin_handle handle, const char * path, void * buff, size_t size, GError ** err)"
 .PP
 lfc getxattr for the path -> guid resolution 
-.SS "ssize_t lfc_getxattr_getsurl (catalog_handle handle, const char * path, void * buff, size_t size, GError ** err)"
+.SS "ssize_t lfc_getxattr_getsurl (plugin_handle handle, const char * path, void * buff, size_t size, GError ** err)"
 .PP
 lfc getxattr for the path -> surls resolution 
-.SS "ssize_t lfc_getxattrG (catalog_handle handle, const char * path, const char * name, void * buff, size_t size, GError ** err)"
+.SS "ssize_t lfc_getxattrG (plugin_handle handle, const char * path, const char * name, void * buff, size_t size, GError ** err)"
 .PP
 lfc getxattr implem 
-.SS "ssize_t lfc_listxattrG (catalog_handle handle, const char * path, char * list, size_t size, GError ** err)"
+.SS "ssize_t lfc_listxattrG (plugin_handle handle, const char * path, char * list, size_t size, GError ** err)"
 .PP
 lfc getxattr implem 
-.SS "int lfc_renameG (catalog_handle handle, const char * oldpath, const char * newpath, GError ** err)"
+.SS "int lfc_renameG (plugin_handle handle, const char * oldpath, const char * newpath, GError ** err)"
 .PP
-Implementation of the rename call for the lfc catalog return 0 if success else -1 if error and set GError 
-.SS "char* lfc_resolve_guid (catalog_handle handle, const char * guid, GError ** err)"
+Implementation of the rename call for the lfc plugin return 0 if success else -1 if error and set GError 
+.SS "char* lfc_resolve_guid (plugin_handle handle, const char * guid, GError ** err)"
 .PP
-Convert a guid to a catalog url if possible return the link in a catalog's url string or err and NULL if not found 
-.SS "int lfc_statG (catalog_handle handle, const char * path, struct stat * st, GError ** err)"
+Convert a guid to a plugin url if possible return the link in a plugin's url string or err and NULL if not found 
+.SS "int lfc_statG (plugin_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 execute a posix stat request on the lfc return 0 and set struct if correct answer, else return negative value and set GError 
-.SS "int lfc_symlinkG (catalog_handle handle, const char * oldpath, const char * newpath, GError ** err)"
+.SS "int lfc_symlinkG (plugin_handle handle, const char * oldpath, const char * newpath, GError ** err)"
 .PP
-Implementation of the symlinkG call for the lfc catalog return 0 if success else -1 if error and set GError 
+Implementation of the symlinkG call for the lfc plugin return 0 if success else -1 if error and set GError 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

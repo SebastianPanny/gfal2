@@ -1,6 +1,6 @@
 \section{/home/adevress/myworkspace/gfal/src/common/lfc/gfal\_\-common\_\-lfc.c File Reference}
 \label{gfal__common__lfc_8c}\index{/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c@{/home/adevress/myworkspace/gfal/src/common/lfc/gfal\_\-common\_\-lfc.c}}
-file for the lfc catalog module 
+file for the lfc plugin module 
 
 {\tt \#include $<$regex.h$>$}\par
 {\tt \#include $<$pthread.h$>$}\par
@@ -31,33 +31,33 @@ typedef \_\-lfc\_\-opendir\_\-handle $\ast$ \textbf{lfc\_\-opendir\_\-handle}\la
 \item 
 const char $\ast$ \bf{lfc\_\-get\-Name} ()
 \item 
-int \bf{lfc\_\-chmod\-G} (catalog\_\-handle handle, const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)
+int \bf{lfc\_\-chmod\-G} (plugin\_\-handle handle, const char $\ast$path, mode\_\-t mode, GError $\ast$$\ast$err)
 \item 
-int \bf{lfc\_\-access\-G} (catalog\_\-handle handle, const char $\ast$lfn, int mode, GError $\ast$$\ast$err)
+int \bf{lfc\_\-access\-G} (plugin\_\-handle handle, const char $\ast$lfn, int mode, GError $\ast$$\ast$err)
 \item 
-int \bf{lfc\_\-rename\-G} (catalog\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
+int \bf{lfc\_\-rename\-G} (plugin\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
 \item 
-int \bf{lfc\_\-symlink\-G} (catalog\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
+int \bf{lfc\_\-symlink\-G} (plugin\_\-handle handle, const char $\ast$oldpath, const char $\ast$newpath, GError $\ast$$\ast$err)
 \item 
-int \bf{lfc\_\-stat\-G} (catalog\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)
+int \bf{lfc\_\-stat\-G} (plugin\_\-handle handle, const char $\ast$path, struct stat $\ast$st, GError $\ast$$\ast$err)
 \item 
-char $\ast$$\ast$ \bf{lfc\_\-get\-SURLG} (catalog\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
+char $\ast$$\ast$ \bf{lfc\_\-get\-SURLG} (plugin\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
-ssize\_\-t \bf{lfc\_\-getxattr\_\-getsurl} (catalog\_\-handle handle, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
+ssize\_\-t \bf{lfc\_\-getxattr\_\-getsurl} (plugin\_\-handle handle, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
 \item 
-ssize\_\-t \bf{lfc\_\-getxattr\_\-getguid} (catalog\_\-handle handle, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
+ssize\_\-t \bf{lfc\_\-getxattr\_\-getguid} (plugin\_\-handle handle, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
 \item 
-ssize\_\-t \bf{lfc\_\-getxattr\-G} (catalog\_\-handle handle, const char $\ast$path, const char $\ast$name, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
+ssize\_\-t \bf{lfc\_\-getxattr\-G} (plugin\_\-handle handle, const char $\ast$path, const char $\ast$name, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
 \item 
-ssize\_\-t \bf{lfc\_\-listxattr\-G} (catalog\_\-handle handle, const char $\ast$path, char $\ast$list, size\_\-t size, GError $\ast$$\ast$err)
+ssize\_\-t \bf{lfc\_\-listxattr\-G} (plugin\_\-handle handle, const char $\ast$path, char $\ast$list, size\_\-t size, GError $\ast$$\ast$err)
 \item 
-char $\ast$ \bf{lfc\_\-resolve\_\-guid} (catalog\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
+char $\ast$ \bf{lfc\_\-resolve\_\-guid} (plugin\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
-\bf{gfal\_\-catalog\_\-interface} \bf{gfal\_\-plugin\_\-init} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+\bf{gfal\_\-plugin\_\-interface} \bf{gfal\_\-plugin\_\-init} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 gboolean \bf{gfal\_\-checker\_\-guid} (const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
-gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (catalog\_\-handle handle, const char $\ast$url, catalog\_\-mode mode, GError $\ast$$\ast$err)
+gboolean \bf{gfal\_\-lfc\_\-check\_\-lfn\_\-url} (plugin\_\-handle handle, const char $\ast$url, plugin\_\-mode mode, GError $\ast$$\ast$err)
 \end{CompactItemize}
 \subsection*{Variables}
 \begin{CompactItemize}
@@ -68,7 +68,7 @@ pthread\_\-mutex\_\-t \textbf{m\_\-lfcinit} = PTHREAD\_\-MUTEX\_\-INITIALIZER\la
 
 
 \subsection{Detailed Description}
-file for the lfc catalog module 
+file for the lfc plugin module 
 
 \begin{Desc}
 \item[Author:]Adrien Devresse \end{Desc}
@@ -86,72 +86,72 @@ file for the lfc catalog module
 
 parse a guid to check the validity \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}}
 \index{gfal_lfc_check_lfn_url@{gfal\_\-lfc\_\-check\_\-lfn\_\-url}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (catalog\_\-handle {\em handle}, const char $\ast$ {\em url}, catalog\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_58b6554069edac9b0626fb3ea9c7f851}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-lfc\_\-check\_\-lfn\_\-url (plugin\_\-handle {\em handle}, const char $\ast$ {\em url}, plugin\_\-mode {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_dd0bcee4d6721102a3be26faf02d9ad8}
 
 
 Check if the passed url and operation is compatible with lfc \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!gfal_plugin_init@{gfal\_\-plugin\_\-init}}
 \index{gfal_plugin_init@{gfal\_\-plugin\_\-init}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\bf{gfal\_\-catalog\_\-interface} gfal\_\-plugin\_\-init (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_5c9edde4d67d96432a319d940a4799f1}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\bf{gfal\_\-plugin\_\-interface} gfal\_\-plugin\_\-init (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_0d53404e0e873535bffdfb3197bb73af}
 
 
-Map function for the lfc interface this function provide the generic CATALOG interface for the LFC catalog. lfc\_\-init\-G do : liblfc shared library load, sym resolve, endpoint check, and catalog function map. \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_accessG@{lfc\_\-accessG}}
+Map function for the lfc interface this function provide the generic CATALOG interface for the LFC plugin. lfc\_\-init\-G do : liblfc shared library load, sym resolve, endpoint check, and plugin function map. \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_accessG@{lfc\_\-accessG}}
 \index{lfc_accessG@{lfc\_\-accessG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-access\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em lfn}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_c5d7bae3ad9aea9f912d6b91f8d5731e}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-access\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em lfn}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_3b184ab14ac0fac2931aeb7336989553}
 
 
-implementation of the access call with the lfc catalog return 0 or -1 if error and report GError$\ast$$\ast$ with error code and message \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_chmodG@{lfc\_\-chmodG}}
+implementation of the access call with the lfc plugin return 0 or -1 if error and report GError$\ast$$\ast$ with error code and message \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_chmodG@{lfc\_\-chmodG}}
 \index{lfc_chmodG@{lfc\_\-chmodG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-chmod\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_f40927feaad58de76b5406eb828102a6}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-chmod\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_e18ac164a5882443e74ba8f622186e42}
 
 
-Implementation of the chmod function with the LFC catalog return 0 or the errno if error, or set GError if serious error \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getName@{lfc\_\-getName}}
+Implementation of the chmod function with the LFC plugin return 0 or the errno if error, or set GError if serious error \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getName@{lfc\_\-getName}}
 \index{lfc_getName@{lfc\_\-getName}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ lfc\_\-get\-Name ()}\label{gfal__common__lfc_8c_67715cf749ea720de31abbc67f9f414e}
 
 
 just return the name of the layer \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getSURLG@{lfc\_\-getSURLG}}
 \index{lfc_getSURLG@{lfc\_\-getSURLG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ lfc\_\-get\-SURLG (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_7c1d8699d8ad924234db163860dadf40}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ lfc\_\-get\-SURLG (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_ab2b9f80b14228974befa9d005ea7bc9}
 
 
 resolve the lfc link to the surls \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattr_getguid@{lfc\_\-getxattr\_\-getguid}}
 \index{lfc_getxattr_getguid@{lfc\_\-getxattr\_\-getguid}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-getguid (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_91ab62f141c50564971c1be3a16b0e97}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-getguid (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_264e0ecec42fb618c37740ccbf38e427}
 
 
 lfc getxattr for the path -$>$ guid resolution \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattr_getsurl@{lfc\_\-getxattr\_\-getsurl}}
 \index{lfc_getxattr_getsurl@{lfc\_\-getxattr\_\-getsurl}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-getsurl (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_3b14a6913fa0483a07076140d46bbf99}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-getsurl (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_65c91b05b7dea8642374bc4e3e477c19}
 
 
 lfc getxattr for the path -$>$ surls resolution \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattrG@{lfc\_\-getxattrG}}
 \index{lfc_getxattrG@{lfc\_\-getxattrG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, const char $\ast$ {\em name}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b4cd844c617093e2a9d612583fb334f7}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, const char $\ast$ {\em name}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_81a95ba12afada4ce138ed309508f889}
 
 
 lfc getxattr implem \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_listxattrG@{lfc\_\-listxattrG}}
 \index{lfc_listxattrG@{lfc\_\-listxattrG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-listxattr\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, char $\ast$ {\em list}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_e0af2e851445fcb0339ed760a9a78aff}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-listxattr\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, char $\ast$ {\em list}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b1b1a0499ef8e0fda5a569d34b5e0bee}
 
 
 lfc getxattr implem \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_renameG@{lfc\_\-renameG}}
 \index{lfc_renameG@{lfc\_\-renameG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-rename\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_cb750f4f936abd772a5f53f5b1fbdaec}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-rename\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b9390ad8a22cb5a0137547bb894d85b7}
 
 
-Implementation of the rename call for the lfc catalog return 0 if success else -1 if error and set GError \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_resolve_guid@{lfc\_\-resolve\_\-guid}}
+Implementation of the rename call for the lfc plugin return 0 if success else -1 if error and set GError \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_resolve_guid@{lfc\_\-resolve\_\-guid}}
 \index{lfc_resolve_guid@{lfc\_\-resolve\_\-guid}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ lfc\_\-resolve\_\-guid (catalog\_\-handle {\em handle}, const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b8943f8f5fd7211851bf7732d9c3b50b}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ lfc\_\-resolve\_\-guid (plugin\_\-handle {\em handle}, const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_5e7057c566c276986a69faa94abd3b82}
 
 
-Convert a guid to a catalog url if possible return the link in a catalog's url string or err and NULL if not found \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_statG@{lfc\_\-statG}}
+Convert a guid to a plugin url if possible return the link in a plugin's url string or err and NULL if not found \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_statG@{lfc\_\-statG}}
 \index{lfc_statG@{lfc\_\-statG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-stat\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_51eb57986d959b753dbad4737f3e1b6f}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-stat\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_ab708b142708ecaa8283d0a996a4dd32}
 
 
 execute a posix stat request on the lfc return 0 and set struct if correct answer, else return negative value and set GError \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_symlinkG@{lfc\_\-symlinkG}}
 \index{lfc_symlinkG@{lfc\_\-symlinkG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-symlink\-G (catalog\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_28bfec8a5e66b63c082c444997ec5702}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-symlink\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_5d1f7f46eb2843996cf95fd020086675}
 
 
-Implementation of the symlink\-G call for the lfc catalog return 0 if success else -1 if error and set GError 
+Implementation of the symlink\-G call for the lfc plugin return 0 if success else -1 if error and set GError 

@@ -5,7 +5,7 @@
     <includes local="no">regex.h</includes>
     <includes refid="gfal__common__internal_8h" local="yes">../gfal_common_internal.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../gfal_common_errverbose.h</includes>
-    <includes refid="gfal__common__catalog_8h" local="yes">../gfal_common_catalog.h</includes>
+    <includes refid="gfal__common__plugin_8h" local="yes">../gfal_common_plugin.h</includes>
     <includes refid="gfal__types_8h" local="yes">../gfal_types.h</includes>
     <includedby refid="gfal__dcap__plugin__bindings_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c</includedby>
     <includedby refid="gfal__dcap__plugin__main_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_main.c</includedby>
@@ -69,21 +69,9 @@
       <node id="156">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="149">
-        <label>sys/types.h</label>
-      </node>
-      <node id="158">
-        <label>string.h</label>
-      </node>
-      <node id="148">
-        <label>unistd.h</label>
-      </node>
-      <node id="146">
-        <label>glib.h</label>
-      </node>
       <node id="154">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
         <childnode refid="155" relation="include">
         </childnode>
         <childnode refid="156" relation="include">
@@ -102,6 +90,18 @@
         </childnode>
         <childnode refid="147" relation="include">
         </childnode>
+      </node>
+      <node id="149">
+        <label>sys/types.h</label>
+      </node>
+      <node id="158">
+        <label>string.h</label>
+      </node>
+      <node id="148">
+        <label>unistd.h</label>
+      </node>
+      <node id="146">
+        <label>glib.h</label>
       </node>
       <node id="153">
         <label>gfal_constants.h</label>
@@ -168,9 +168,9 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__dcap__plugin__main_8h_15c9edde4d67d96432a319d940a4799f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref></type>
-        <definition>gfal_catalog_interface gfal_plugin_init</definition>
+      <memberdef kind="function" id="gfal__dcap__plugin__main_8h_10d53404e0e873535bffdfb3197bb73af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref></type>
+        <definition>gfal_plugin_interface gfal_plugin_init</definition>
         <argsstring>(gfal_handle handle, GError **err)</argsstring>
         <name>gfal_plugin_init</name>
         <param>
@@ -218,7 +218,7 @@
 <codeline lineno="27"><highlight class="preprocessor">#include<sp/>&lt;regex.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_plugin_dcap_handle{</highlight></codeline>
@@ -228,7 +228,7 @@
 <codeline lineno="37"><highlight class="normal">}*<sp/>gfal_plugin_dcap_handle;</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref><sp/><ref refid="gfal__dcap__plugin__main_8c_15c9edde4d67d96432a319d940a4799f1" kindref="member">gfal_plugin_init</ref>(gfal_handle<sp/>handle,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref><sp/><ref refid="gfal__dcap__plugin__main_8c_10d53404e0e873535bffdfb3197bb73af" kindref="member">gfal_plugin_init</ref>(gfal_handle<sp/>handle,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
     </programlisting>

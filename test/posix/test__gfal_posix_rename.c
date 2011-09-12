@@ -14,7 +14,7 @@
 #include <errno.h>
 
 
-void test__gfal_posix_rename_catalog()
+void test__gfal_posix_rename_plugin()
 {
 	int res = gfal_access(TEST_LFC_RENAME_VALID_SRC, F_OK);
 	if(res !=0){
@@ -49,7 +49,7 @@ void test__gfal_posix_rename_catalog()
 }
 
 
-void test__gfal_posix_move_dir_catalog()
+void test__gfal_posix_move_dir_plugin()
 {
 	int res = gfal_access(TEST_LFC_MOVABLE_DIR_SRC, F_OK);
 	if(res !=0){

@@ -30,7 +30,7 @@
 #include "gfal_common_srm.h"
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "gfal_common_srm_internal_layer.h"
 #include "gfal_common_srm_chmod.h"
 #include "gfal_common_srm_endpoint.h"
@@ -83,7 +83,7 @@ static int gfal_srmv2_chmod_internal(gfal_srmv2_opt* opts, char* endpoint, const
 	return ret;		
 }
 
-int	gfal_srm_chmodG(catalog_handle ch, const char * path , mode_t mode, GError** err){
+int	gfal_srm_chmodG(plugin_handle ch, const char * path , mode_t mode, GError** err){
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	GError* tmp_err=NULL;
 	int ret=-1;	

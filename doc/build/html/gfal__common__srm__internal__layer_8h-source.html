@@ -103,18 +103,18 @@
 <a name="l00094"></a>00094 
 <a name="l00095"></a>00095 gboolean gfal_srm_surl_group_checker(gfal_srmv2_opt* opts,<span class="keywordtype">char</span>** surls, GError** err);
 <a name="l00096"></a>00096 
-<a name="l00097"></a>00097 <span class="keywordtype">int</span> gfal_srm_getTURLS_catalog(catalog_handle ch, <span class="keyword">const</span> <span class="keywordtype">char</span>* surl, <span class="keywordtype">char</span>* buff_turl, <span class="keywordtype">int</span> size_turl, <span class="keywordtype">char</span>** reqtoken, GError** err);
+<a name="l00097"></a>00097 <span class="keywordtype">int</span> gfal_srm_getTURLS_plugin(plugin_handle ch, <span class="keyword">const</span> <span class="keywordtype">char</span>* surl, <span class="keywordtype">char</span>* buff_turl, <span class="keywordtype">int</span> size_turl, <span class="keywordtype">char</span>** reqtoken, GError** err);
 <a name="l00098"></a>00098 
-<a name="l00099"></a>00099 <span class="keywordtype">int</span> gfal_srm_putTURLS_catalog(catalog_handle ch, <span class="keyword">const</span> <span class="keywordtype">char</span>* surl, <span class="keywordtype">char</span>* buff_turl, <span class="keywordtype">int</span> size_turl, <span class="keywordtype">char</span>** reqtoken, GError** err);
+<a name="l00099"></a>00099 <span class="keywordtype">int</span> gfal_srm_putTURLS_plugin(plugin_handle ch, <span class="keyword">const</span> <span class="keywordtype">char</span>* surl, <span class="keywordtype">char</span>* buff_turl, <span class="keywordtype">int</span> size_turl, <span class="keywordtype">char</span>** reqtoken, GError** err);
 <a name="l00100"></a>00100 
 <a name="l00101"></a>00101 <span class="keywordtype">int</span> gfal_srm_putdone(gfal_srmv2_opt* opts, <span class="keywordtype">char</span>** surls, <span class="keywordtype">char</span>* token,  GError** err);
 <a name="l00102"></a>00102 
-<a name="l00103"></a>00103 <span class="keywordtype">int</span> gfal_srm_unlinkG(catalog_handle ch, <span class="keyword">const</span> <span class="keywordtype">char</span> * path, GError** err);
+<a name="l00103"></a>00103 <span class="keywordtype">int</span> gfal_srm_unlinkG(plugin_handle ch, <span class="keyword">const</span> <span class="keywordtype">char</span> * path, GError** err);
 <a name="l00104"></a>00104 
 <a name="l00105"></a>00105 <span class="keywordtype">void</span> gfal_srm_report_error(<span class="keywordtype">char</span>* errbuff, GError** err);
 <a name="l00106"></a>00106 
 <a name="l00107"></a>00107 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Sep 9 16:18:23 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Sep 12 15:41:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

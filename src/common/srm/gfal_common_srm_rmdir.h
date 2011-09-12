@@ -28,4 +28,4 @@
 #include "../gfal_types.h"
 #include "gfal_common_srm_internal_layer.h" 
 
-int gfal_srm_rmdirG(catalog_handle handle, const char* surl, GError** err); 
+int gfal_srm_rmdirG(plugin_handle handle, const char* surl, GError** err); 

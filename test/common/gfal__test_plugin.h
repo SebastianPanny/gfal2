@@ -1,6 +1,6 @@
 #pragma once
 
-/* unit test for common_catalog */
+/* unit test for common_plugin */
 
 #include <stdio.h>
 #include "lfc/lfc_ifce_ng.h"
@@ -16,11 +16,11 @@ void test_get_cat_type();
 void test_env_var();
 
 
-void test_catalog_access_file();
+void test_plugin_access_file();
 
 
 
-void test_catalog_url_checker();
+void test_plugin_url_checker();
 
 
 
@@ -28,7 +28,7 @@ void test_catalog_url_checker();
 
 
 
-void test__catalog_stat();
+void test__plugin_stat();
 
 
-void test__catalog_lstat();
+void test__plugin_lstat();

@@ -1,8 +1,8 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h \- internal header of the lfc catalog module 
+/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h \- internal header of the lfc plugin module 
 .SH SYNOPSIS
 .br
 .PP
@@ -54,10 +54,10 @@
 .RI "char * \fBgfal_lfc_get_strerror\fP (struct lfc_ops *ops)"
 .br
 .ti -1c
-.RI "char * \fBgfal_convert_guid_to_lfn\fP (catalog_handle handle, char *guid, GError **err)"
+.RI "char * \fBgfal_convert_guid_to_lfn\fP (plugin_handle handle, char *guid, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_convert_guid_to_lfn_r\fP (catalog_handle handle, const char *guid, char *buff_lfn, size_t sbuff_lfn, GError **err)"
+.RI "int \fBgfal_convert_guid_to_lfn_r\fP (plugin_handle handle, const char *guid, char *buff_lfn, size_t sbuff_lfn, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_lfc_statg\fP (struct lfc_ops *ops, const char *, struct lfc_filestatg *resu, GError **err)"
@@ -93,7 +93,7 @@
 .in -1c
 .SH "Detailed Description"
 .PP 
-internal header of the lfc catalog module 
+internal header of the lfc plugin module 
 
 \fBAuthor:\fP
 .RS 4
@@ -113,13 +113,13 @@ Adrien Devresse
 
 .SH "Function Documentation"
 .PP 
-.SS "char* gfal_convert_guid_to_lfn (catalog_handle handle, char * guid, GError ** err)"
+.SS "char* gfal_convert_guid_to_lfn (plugin_handle handle, char * guid, GError ** err)"
 .PP
 convert a guid to a lfn link with a call to the lfclib 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIhandle\fP handle of the lfc catalog 
+\fIhandle\fP handle of the lfc plugin 
 .br
 \fIstring\fP of the guid 
 .br
@@ -132,13 +132,13 @@ convert a guid to a lfn link with a call to the lfclib
 .RE
 .PP
 
-.SS "int gfal_convert_guid_to_lfn_r (catalog_handle handle, const char * guid, char * buff_lfn, size_t sbuff_lfn, GError ** err)"
+.SS "int gfal_convert_guid_to_lfn_r (plugin_handle handle, const char * guid, char * buff_lfn, size_t sbuff_lfn, GError ** err)"
 .PP
 convert a guid to a lfn link with a call to the lfclib in a reantrant( buffer mode ) 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIhandle\fP catalog handle 
+\fIhandle\fP plugin handle 
 .br
 \fIguid\fP string of the guid 
 .br

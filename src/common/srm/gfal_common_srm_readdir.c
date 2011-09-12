@@ -33,7 +33,7 @@
 #include "gfal_common_srm_internal_layer.h"
  
 
-inline static void gfal_srm_bufferize_request(catalog_handle ch, const char* surl, struct srmv2_mdfilestatus * statuses){
+inline static void gfal_srm_bufferize_request(plugin_handle ch, const char* surl, struct srmv2_mdfilestatus * statuses){
 	char buff_key[GFAL_URL_MAX_LEN];	
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	gfal_srm_construct_key(surl, GFAL_SRM_LSTAT_PREFIX, buff_key, GFAL_URL_MAX_LEN);
@@ -59,7 +59,7 @@ inline static void gfal_srm_bufferize_request(catalog_handle ch, const char* sur
 	gsimplecache_add_item_kstr(opts->cache, buff_key, st);
 }
 
-inline static struct dirent* gfal_srm_readdir_convert_result(catalog_handle ch, const char* surl, struct srmv2_mdfilestatus * statuses,  struct dirent* output, GError ** err){
+inline static struct dirent* gfal_srm_readdir_convert_result(plugin_handle ch, const char* surl, struct srmv2_mdfilestatus * statuses,  struct dirent* output, GError ** err){
 	struct dirent* resu = NULL;
 	resu = output;
 	char buff_surlfull[GFAL_URL_MAX_LEN];
@@ -75,7 +75,7 @@ inline static struct dirent* gfal_srm_readdir_convert_result(catalog_handle ch, 
 	return resu;
 }
 
-int gfal_srm_readdir_internal(catalog_handle ch, gfal_srm_opendir_handle oh, int nb_files, GError** err){
+int gfal_srm_readdir_internal(plugin_handle ch, gfal_srm_opendir_handle oh, int nb_files, GError** err){
 	g_return_val_err_if_fail(ch && oh, -1, err, "[gfal_srmv2_opendir_internal] invaldi args");
 	GError* tmp_err=NULL;
 	int resu =-1;
@@ -123,7 +123,7 @@ int gfal_srm_readdir_internal(catalog_handle ch, gfal_srm_opendir_handle oh, int
 	return resu;	
 }
 
-struct dirent* gfal_srm_readdir_pipeline(catalog_handle ch, gfal_srm_opendir_handle oh, GError** err){
+struct dirent* gfal_srm_readdir_pipeline(plugin_handle ch, gfal_srm_opendir_handle oh, GError** err){
 	struct dirent* ret = NULL;
 	GError* tmp_err=NULL;
 	int max_resu_per_req= 0;
@@ -153,7 +153,7 @@ struct dirent* gfal_srm_readdir_pipeline(catalog_handle ch, gfal_srm_opendir_han
 }
 
 
-struct dirent* gfal_srm_readdirG(catalog_handle ch, gfal_file_handle fh, GError** err){
+struct dirent* gfal_srm_readdirG(plugin_handle ch, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail( ch && fh, NULL, err, "[gfal_srm_readdirG] Invalid args");
 	GError* tmp_err=NULL;
 	struct dirent* ret = NULL;

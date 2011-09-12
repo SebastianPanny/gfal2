@@ -69,6 +69,28 @@
       <node id="2182">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="2180">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="2181" relation="include">
+        </childnode>
+        <childnode refid="2182" relation="include">
+        </childnode>
+        <childnode refid="2177" relation="include">
+        </childnode>
+        <childnode refid="2183" relation="include">
+        </childnode>
+        <childnode refid="2184" relation="include">
+        </childnode>
+        <childnode refid="2170" relation="include">
+        </childnode>
+        <childnode refid="2171" relation="include">
+        </childnode>
+        <childnode refid="2176" relation="include">
+        </childnode>
+        <childnode refid="2173" relation="include">
+        </childnode>
+      </node>
       <node id="2167">
         <label>gfal_posix_api.h</label>
         <link refid="gfal__posix__api_8h-source"/>
@@ -78,7 +100,7 @@
         </childnode>
         <childnode refid="2170" relation="include">
         </childnode>
-        <childnode refid="2171" relation="include">
+        <childnode refid="2166" relation="include">
         </childnode>
         <childnode refid="2172" relation="include">
         </childnode>
@@ -100,28 +122,6 @@
       </node>
       <node id="2177">
         <label>glib.h</label>
-      </node>
-      <node id="2180">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="2181" relation="include">
-        </childnode>
-        <childnode refid="2182" relation="include">
-        </childnode>
-        <childnode refid="2177" relation="include">
-        </childnode>
-        <childnode refid="2183" relation="include">
-        </childnode>
-        <childnode refid="2184" relation="include">
-        </childnode>
-        <childnode refid="2170" relation="include">
-        </childnode>
-        <childnode refid="2171" relation="include">
-        </childnode>
-        <childnode refid="2176" relation="include">
-        </childnode>
-        <childnode refid="2178" relation="include">
-        </childnode>
       </node>
       <node id="2166">
         <label>../common/gfal_constants.h</label>
@@ -260,7 +260,7 @@
           <declname>newpath</declname>
         </param>
         <briefdescription>
-<para>change the name or location of a file oldpath and newpath need to be on the same catalog this functions work only with catalogs (lfc ) and local files </para>        </briefdescription>
+<para>change the name or location of a file oldpath and newpath need to be on the same plugin this functions work only with plugins (lfc ) and local files </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -467,7 +467,7 @@
         <briefdescription>
 <para>open a directory </para>        </briefdescription>
         <detaileddescription>
-<para>opens a directory to be used in subsequent gfal_readdir operations the url supported are : local files, surls, catalog url ( lfc,...) <parameterlist kind="param"><parameteritem>
+<para>opens a directory to be used in subsequent gfal_readdir operations the url supported are : local files, surls, plugin url ( lfc,...) <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>name</parametername>
 </parameternamelist>

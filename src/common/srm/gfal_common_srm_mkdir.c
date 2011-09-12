@@ -53,7 +53,7 @@ int gfal_mkdir_srmv2_internal(gfal_srmv2_opt* opts, char* endpoint, const char* 
 }
 
 
-int gfal_srm_mkdirG(catalog_handle ch, const char* surl, mode_t mode, gboolean pflag, GError** err){
+int gfal_srm_mkdirG(plugin_handle ch, const char* surl, mode_t mode, gboolean pflag, GError** err){
 	int ret = -1;
 	char full_endpoint[GFAL_URL_MAX_LEN];
 	GError* tmp_err=NULL;

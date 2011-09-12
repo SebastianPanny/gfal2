@@ -81,7 +81,7 @@ static int gfal_statG_srmv2_internal(gfal_srmv2_opt* opts, struct stat* buf, con
  * stat call, for the srm interface stat and lstat are the same call !! the default behavior is similar to stat by default and ignore links
  * 
  * */
-int gfal_srm_statG(catalog_handle ch, const char* surl, struct stat* buf, GError** err){
+int gfal_srm_statG(plugin_handle ch, const char* surl, struct stat* buf, GError** err){
 	g_return_val_err_if_fail( ch && surl && buf, -1, err, "[gfal_srm_statG] Invalid args in handle/surl/bugg");
 	GError* tmp_err = NULL;
 	int ret =-1;

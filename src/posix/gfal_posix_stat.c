@@ -52,7 +52,7 @@ inline int gfal_posix_internal_stat(const char* path, struct stat* buf){
 		if( gfal_check_local_url(path, NULL) ){
 			ret = gfal_local_stat(path, buf, &tmp_err);
 		}else {
-			ret = gfal_catalog_statG(handle, path, buf, &tmp_err);
+			ret = gfal_plugin_statG(handle, path, buf, &tmp_err);
 		}
 	}	
 	if(tmp_err){ // error reported
@@ -80,7 +80,7 @@ inline int gfal_posix_internal_lstat(const char* path, struct stat* buf){
 	if( gfal_check_local_url(path, NULL) ){
 		ret = gfal_local_lstat(path, buf, &tmp_err);
 	}else {
-		ret = gfal_catalog_lstatG(handle, path, buf, &tmp_err);
+		ret = gfal_plugin_lstatG(handle, path, buf, &tmp_err);
 	}
 	
 	if(ret){ // error reported

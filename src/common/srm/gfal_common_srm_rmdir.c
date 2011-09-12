@@ -66,7 +66,7 @@ int gfal_srmv2_rmdir_internal(gfal_srmv2_opt* opts, char* endpoint, const char* 
 }
 
 
-int gfal_srm_rmdirG(catalog_handle ch, const char* surl, GError** err){
+int gfal_srm_rmdirG(plugin_handle ch, const char* surl, GError** err){
 	int ret = -1;
 	char full_endpoint[GFAL_URL_MAX_LEN];
 	GError* tmp_err=NULL;

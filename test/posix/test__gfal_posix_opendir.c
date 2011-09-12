@@ -23,7 +23,7 @@ void test_mock_srm_opendir_enoent(char* surl){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -49,7 +49,7 @@ void test_mock_srm_opendir_eacces(char* surl){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -74,7 +74,7 @@ void test_mock_srm_opendir_valid(char* surl){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
 		return;
@@ -100,7 +100,7 @@ void test_mock_srm_readdir_valid(char** surls, mode_t* modes, uid_t* uids, gid_t
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 	setup_mock_srm();
 	if( gfal_check_GError(&mock_err))
@@ -120,7 +120,7 @@ void test_mock_lfc_opendir(){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
-	gfal_catalogs_instance(handle,NULL);
+	gfal_plugins_instance(handle,NULL);
 	test_mock_lfc(handle, &mock_err);
 
 	if( gfal_check_GError(&mock_err))

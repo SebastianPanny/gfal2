@@ -4,7 +4,7 @@
     <compoundname>gfal_posix_rename.c</compoundname>
     <includes local="no">stdio.h</includes>
     <includes local="no">glib.h</includes>
-    <includes refid="gfal__common__catalog_8h" local="yes">../common/gfal_common_catalog.h</includes>
+    <includes refid="gfal__common__plugin_8h" local="yes">../common/gfal_common_plugin.h</includes>
     <includes refid="gfal__posix__internal_8h" local="yes">gfal_posix_internal.h</includes>
     <includes refid="gfal__posix__local__file_8h" local="yes">gfal_posix_local_file.h</includes>
     <includes refid="gfal__posix__api_8h" local="yes">gfal_posix_api.h</includes>
@@ -61,6 +61,28 @@
       </node>
       <node id="2310">
         <label>uuid/uuid.h</label>
+      </node>
+      <node id="2308">
+        <label>../common/gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="2309" relation="include">
+        </childnode>
+        <childnode refid="2310" relation="include">
+        </childnode>
+        <childnode refid="2307" relation="include">
+        </childnode>
+        <childnode refid="2311" relation="include">
+        </childnode>
+        <childnode refid="2312" relation="include">
+        </childnode>
+        <childnode refid="2313" relation="include">
+        </childnode>
+        <childnode refid="2314" relation="include">
+        </childnode>
+        <childnode refid="2315" relation="include">
+        </childnode>
+        <childnode refid="2316" relation="include">
+        </childnode>
       </node>
       <node id="2324">
         <label>gfal_posix_api.h</label>
@@ -119,28 +141,6 @@
       </node>
       <node id="2307">
         <label>glib.h</label>
-      </node>
-      <node id="2308">
-        <label>../common/gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="2309" relation="include">
-        </childnode>
-        <childnode refid="2310" relation="include">
-        </childnode>
-        <childnode refid="2307" relation="include">
-        </childnode>
-        <childnode refid="2311" relation="include">
-        </childnode>
-        <childnode refid="2312" relation="include">
-        </childnode>
-        <childnode refid="2313" relation="include">
-        </childnode>
-        <childnode refid="2314" relation="include">
-        </childnode>
-        <childnode refid="2315" relation="include">
-        </childnode>
-        <childnode refid="2316" relation="include">
-        </childnode>
       </node>
       <node id="2320">
         <label>gfal_constants.h</label>
@@ -226,7 +226,7 @@
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/gfal_common_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_local_file.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -248,7 +248,7 @@
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(newpath,<sp/>NULL)){</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_local_rename(oldpath,<sp/>newpath,<sp/>&amp;tmp_err);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__catalog_8c_199ffb13510951a6fe79f3c33305ea189" kindref="member">gfal_catalog_renameG</ref>(handle,<sp/>oldpath,<sp/>newpath,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/><ref refid="gfal__common__plugin_8c_1ee26850796f50439ded98dafc7cd064b" kindref="member">gfal_plugin_renameG</ref>(handle,<sp/>oldpath,<sp/>newpath,<sp/>&amp;tmp_err);</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>

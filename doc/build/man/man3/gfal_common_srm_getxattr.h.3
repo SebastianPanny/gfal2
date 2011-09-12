@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.h" 3 "9 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.h" 3 "12 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -19,10 +19,10 @@
 
 .in +1c
 .ti -1c
-.RI "ssize_t \fBgfal_srm_getxattrG\fP (catalog_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)"
+.RI "ssize_t \fBgfal_srm_getxattrG\fP (plugin_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
-.RI "ssize_t \fBgfal_srm_listxattrG\fP (catalog_handle handle, const char *path, char *list, size_t size, GError **err)"
+.RI "ssize_t \fBgfal_srm_listxattrG\fP (plugin_handle handle, const char *path, char *list, size_t size, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -42,10 +42,10 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "ssize_t gfal_srm_getxattrG (catalog_handle handle, const char * path, const char * name, void * buff, size_t s_buff, GError ** err)"
+.SS "ssize_t gfal_srm_getxattrG (plugin_handle handle, const char * path, const char * name, void * buff, size_t s_buff, GError ** err)"
 .PP
 implementation of the getxattr for turl resolution, pin management and spacetoken set/get 
-.SS "ssize_t gfal_srm_listxattrG (catalog_handle handle, const char * path, char * list, size_t size, GError ** err)"
+.SS "ssize_t gfal_srm_listxattrG (plugin_handle handle, const char * path, char * list, size_t size, GError ** err)"
 .PP
 lfc getxattr implem 
 .SH "Author"

@@ -33,16 +33,16 @@
 #include <string.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "../gfal_types.h"
 #include "gfal_rfio_plugin_layer.h"
 #include "gfal_rfio_plugin_main.h"
 #include "gfal_rfio_plugin_bindings.h"
 
-gboolean gfal_rfio_check_url(catalog_handle, const char* url,  catalog_mode mode, GError** err);
+gboolean gfal_rfio_check_url(plugin_handle, const char* url,  plugin_mode mode, GError** err);
 gboolean gfal_rfio_internal_check_url(gfal_plugin_rfio_handle rh, const char* surl, GError** err);
 const char* gfal_rfio_getName();
-void gfal_rfio_destroyG(catalog_handle handle);
+void gfal_rfio_destroyG(plugin_handle handle);
 
 
 int gfal_rfio_regex_compile(regex_t * rex, GError** err){
@@ -54,29 +54,29 @@ int gfal_rfio_regex_compile(regex_t * rex, GError** err){
 /**
  * Init function, called before all
  * */
-gfal_catalog_interface gfal_plugin_init(gfal_handle handle, GError** err){
-	gfal_catalog_interface rfio_catalog;
+gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
+	gfal_plugin_interface rfio_plugin;
 	GError* tmp_err=NULL;
-	memset(&rfio_catalog,0,sizeof(gfal_catalog_interface));	// clear the catalog	
+	memset(&rfio_plugin,0,sizeof(gfal_plugin_interface));	// clear the plugin	
 	gfal_plugin_rfio_handle h = g_new(struct _gfal_plugin_rfio_handle,1);
 	h->handle = handle;
 	h->rf = gfal_rfio_internal_loader(&tmp_err);
 	gfal_rfio_regex_compile(&h->rex, err);
-	rfio_catalog.handle = (void*) h;	
-	rfio_catalog.check_catalog_url = &gfal_rfio_check_url;
-	rfio_catalog.getName= &gfal_rfio_getName;
-	rfio_catalog.catalog_delete= &gfal_rfio_destroyG;
-	rfio_catalog.openG= &gfal_rfio_openG;
-	rfio_catalog.closeG= &gfal_rfio_closeG;
-	rfio_catalog.readG= &gfal_rfio_readG;
-	rfio_catalog.writeG= &gfal_rfio_writeG;
-	rfio_catalog.lseekG = &gfal_rfio_lseekG;
-	rfio_catalog.statG = &gfal_rfio_statG;
-	rfio_catalog.lstatG= &gfal_rfio_lstatG;
-	rfio_catalog.opendirG = &gfal_rfio_opendirG;
+	rfio_plugin.handle = (void*) h;	
+	rfio_plugin.check_plugin_url = &gfal_rfio_check_url;
+	rfio_plugin.getName= &gfal_rfio_getName;
+	rfio_plugin.plugin_delete= &gfal_rfio_destroyG;
+	rfio_plugin.openG= &gfal_rfio_openG;
+	rfio_plugin.closeG= &gfal_rfio_closeG;
+	rfio_plugin.readG= &gfal_rfio_readG;
+	rfio_plugin.writeG= &gfal_rfio_writeG;
+	rfio_plugin.lseekG = &gfal_rfio_lseekG;
+	rfio_plugin.statG = &gfal_rfio_statG;
+	rfio_plugin.lstatG= &gfal_rfio_lstatG;
+	rfio_plugin.opendirG = &gfal_rfio_opendirG;
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return rfio_catalog;
+	return rfio_plugin;
 }
 
 
@@ -93,7 +93,7 @@ gboolean gfal_rfio_internal_check_url(gfal_plugin_rfio_handle rh, const char* su
 /**
  *  Check the rfio url in the gfal module way
  * */
-gboolean gfal_rfio_check_url(catalog_handle ch, const char* url,  catalog_mode mode, GError** err){
+gboolean gfal_rfio_check_url(plugin_handle ch, const char* url,  plugin_mode mode, GError** err){
 	int ret;
 	GError* tmp_err=NULL;
 	gfal_plugin_rfio_handle rh = (gfal_plugin_rfio_handle) ch;
@@ -112,7 +112,7 @@ gboolean gfal_rfio_check_url(catalog_handle ch, const char* url,  catalog_mode m
 	return ret;
 }
 
-void gfal_rfio_destroyG(catalog_handle handle){
+void gfal_rfio_destroyG(plugin_handle handle){
 	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
 	g_free(h->rf);
 	regfree(&h->rex);

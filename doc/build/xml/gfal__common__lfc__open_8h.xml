@@ -41,6 +41,28 @@
       <node id="858">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="856">
+        <label>../gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="857" relation="include">
+        </childnode>
+        <childnode refid="858" relation="include">
+        </childnode>
+        <childnode refid="853" relation="include">
+        </childnode>
+        <childnode refid="859" relation="include">
+        </childnode>
+        <childnode refid="860" relation="include">
+        </childnode>
+        <childnode refid="861" relation="include">
+        </childnode>
+        <childnode refid="862" relation="include">
+        </childnode>
+        <childnode refid="863" relation="include">
+        </childnode>
+        <childnode refid="864" relation="include">
+        </childnode>
+      </node>
       <node id="871">
         <label>Cthread_api.h</label>
       </node>
@@ -85,28 +107,6 @@
       </node>
       <node id="853">
         <label>glib.h</label>
-      </node>
-      <node id="856">
-        <label>../gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="857" relation="include">
-        </childnode>
-        <childnode refid="858" relation="include">
-        </childnode>
-        <childnode refid="853" relation="include">
-        </childnode>
-        <childnode refid="859" relation="include">
-        </childnode>
-        <childnode refid="860" relation="include">
-        </childnode>
-        <childnode refid="861" relation="include">
-        </childnode>
-        <childnode refid="862" relation="include">
-        </childnode>
-        <childnode refid="863" relation="include">
-        </childnode>
-        <childnode refid="864" relation="include">
-        </childnode>
       </node>
       <node id="867">
         <label>gfal_constants.h</label>
@@ -182,13 +182,13 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__lfc__open_8h_14340e1acda83c339861d2e8c79c0724c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__lfc__open_8h_1a1205fd03e80a4145a8aba41eb279652" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
         <definition>gfal_file_handle lfc_openG</definition>
-        <argsstring>(catalog_handle ch, const char *path, int flag, mode_t mode, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, const char *path, int flag, mode_t mode, GError **err)</argsstring>
         <name>lfc_openG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -248,7 +248,7 @@
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal">gfal_file_handle<sp/><ref refid="gfal__common__lfc__open_8c_14340e1acda83c339861d2e8c79c0724c" kindref="member">lfc_openG</ref>(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">gfal_file_handle<sp/><ref refid="gfal__common__lfc__open_8c_1a1205fd03e80a4145a8aba41eb279652" kindref="member">lfc_openG</ref>(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc_open.h"/>

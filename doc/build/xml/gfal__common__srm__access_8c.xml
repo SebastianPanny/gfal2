@@ -6,7 +6,7 @@
     <includes refid="gfal__common__srm__access_8h" local="yes">gfal_common_srm_access.h</includes>
     <includes refid="gfal__constants_8h" local="yes">../gfal_constants.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../gfal_common_errverbose.h</includes>
-    <includes refid="gfal__common__catalog_8h" local="yes">../gfal_common_catalog.h</includes>
+    <includes refid="gfal__common__plugin_8h" local="yes">../gfal_common_plugin.h</includes>
     <includes refid="gfal__common__srm__internal__layer_8h" local="yes">gfal_common_srm_internal_layer.h</includes>
     <includes refid="gfal__common__srm__endpoint_8h" local="yes">gfal_common_srm_endpoint.h</includes>
     <incdepgraph>
@@ -26,7 +26,7 @@
         </childnode>
         <childnode refid="1245" relation="include">
         </childnode>
-        <childnode refid="1250" relation="include">
+        <childnode refid="1245" relation="include">
         </childnode>
         <childnode refid="1231" relation="include">
         </childnode>
@@ -63,6 +63,28 @@
       </node>
       <node id="1246">
         <label>uuid/uuid.h</label>
+      </node>
+      <node id="1244">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="1245" relation="include">
+        </childnode>
+        <childnode refid="1246" relation="include">
+        </childnode>
+        <childnode refid="1233" relation="include">
+        </childnode>
+        <childnode refid="1247" relation="include">
+        </childnode>
+        <childnode refid="1231" relation="include">
+        </childnode>
+        <childnode refid="1235" relation="include">
+        </childnode>
+        <childnode refid="1236" relation="include">
+        </childnode>
+        <childnode refid="1236" relation="include">
+        </childnode>
+        <childnode refid="1237" relation="include">
+        </childnode>
       </node>
       <node id="1234">
         <label>gfal_common_srm.h</label>
@@ -125,28 +147,6 @@
         <childnode refid="1233" relation="include">
         </childnode>
         <childnode refid="1234" relation="include">
-        </childnode>
-        <childnode refid="1237" relation="include">
-        </childnode>
-      </node>
-      <node id="1244">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1245" relation="include">
-        </childnode>
-        <childnode refid="1246" relation="include">
-        </childnode>
-        <childnode refid="1233" relation="include">
-        </childnode>
-        <childnode refid="1247" relation="include">
-        </childnode>
-        <childnode refid="1231" relation="include">
-        </childnode>
-        <childnode refid="1240" relation="include">
-        </childnode>
-        <childnode refid="1241" relation="include">
-        </childnode>
-        <childnode refid="1236" relation="include">
         </childnode>
         <childnode refid="1237" relation="include">
         </childnode>
@@ -247,13 +247,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.c" line="35" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.c" bodystart="35" bodyend="77"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__access_8c_1c97d6cdbdc19261f398fece514431491" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__access_8c_12d1197314163b3fd3b59e7d75579f1e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_srm_accessG</definition>
-        <argsstring>(catalog_handle ch, const char *surl, int mode, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, const char *surl, int mode, GError **err)</argsstring>
         <name>gfal_srm_accessG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -276,7 +276,7 @@
 <parametername>ch</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>the handle of the catalog </para></parameterdescription>
+<para>the handle of the plugin </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
@@ -338,7 +338,7 @@
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__access_8h" kindref="compound">gfal_common_srm_access.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__internal__layer_8h" kindref="compound">gfal_common_srm_internal_layer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__endpoint_8h" kindref="compound">gfal_common_srm_endpoint.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
@@ -388,7 +388,7 @@
 <codeline lineno="77"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"></highlight></codeline>
 <codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__srm__access_8c_1c97d6cdbdc19261f398fece514431491" kindref="member">gfal_srm_accessG</ref>(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err){<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>execute<sp/>an<sp/>access<sp/>method<sp/>on<sp/>a<sp/>srm<sp/>url</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__srm__access_8c_12d1197314163b3fd3b59e7d75579f1e9" kindref="member">gfal_srm_accessG</ref>(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mode,<sp/>GError**<sp/>err){<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>execute<sp/>an<sp/>access<sp/>method<sp/>on<sp/>a<sp/>srm<sp/>url</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_return_val_err_if_fail(ch<sp/>&amp;&amp;<sp/>surl,<sp/>EINVAL,<sp/>err,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_srm_accessG]<sp/>Invalid<sp/>value<sp/>handle<sp/>and/or<sp/>surl&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srmv2_opt*<sp/>opts=<sp/>(gfal_srmv2_opt*)<sp/>ch;</highlight></codeline>

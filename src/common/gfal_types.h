@@ -43,7 +43,7 @@ extern "C"
 #include <gfal_srm_ifce_types.h>
 #include "gfal_constants.h"
 #include "gfal_prototypes.h"
-#include "gfal_common_catalog.h"
+#include "gfal_common_plugin.h"
 
 
 
@@ -62,8 +62,8 @@ struct _gfal_descriptors_container{
 struct gfal_handle_ {		// define the protocole version of SRM choosen by default
 	gboolean initiated; 					// 1 if initiated, else error
 	// pointer to the last request resu
-	// struct of the catalog opts
-	struct _catalog_opts catalog_opt;
+	// struct of the plugin opts
+	struct _plugin_opts plugin_opt;
 	//struct for the file descriptors
 	gfal_descriptors_container fdescs;
 	int no_bdii_check;

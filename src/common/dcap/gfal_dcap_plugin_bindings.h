@@ -29,22 +29,22 @@
 #include <glib.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
-#include "../gfal_common_catalog.h"
+#include "../gfal_common_plugin.h"
 #include "../gfal_common_filedescriptor.h"
 #include "../gfal_types.h"
 
-gfal_file_handle gfal_dcap_openG(catalog_handle handle , const char* path, int flag, mode_t mode, GError** err);
+gfal_file_handle gfal_dcap_openG(plugin_handle handle , const char* path, int flag, mode_t mode, GError** err);
 
-int gfal_dcap_readG(catalog_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
+int gfal_dcap_readG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
 
-int gfal_dcap_lseekG(catalog_handle handle , gfal_file_handle fd, off_t offset, int whence, GError** err);
+int gfal_dcap_lseekG(plugin_handle handle , gfal_file_handle fd, off_t offset, int whence, GError** err);
 
-int gfal_dcap_writeG(catalog_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
+int gfal_dcap_writeG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
 
-int gfal_dcap_closeG(catalog_handle handle, gfal_file_handle fd, GError ** err);
+int gfal_dcap_closeG(plugin_handle handle, gfal_file_handle fd, GError ** err);
 
-int gfal_dcap_statG(catalog_handle handle, const char* name, struct stat* buff, GError ** err);
+int gfal_dcap_statG(plugin_handle handle, const char* name, struct stat* buff, GError ** err);
 
-int gfal_dcap_lstatG(catalog_handle handle, const char* name, struct stat* buff, GError ** err);
+int gfal_dcap_lstatG(plugin_handle handle, const char* name, struct stat* buff, GError ** err);
 
 const char* gfal_dcap_getName();

@@ -42,26 +42,26 @@
 <a name="l00029"></a>00029 <span class="preprocessor">#include &lt;glib.h&gt;</span>
 <a name="l00030"></a>00030 <span class="preprocessor">#include "../gfal_common_internal.h"</span>
 <a name="l00031"></a>00031 <span class="preprocessor">#include "../gfal_common_errverbose.h"</span>
-<a name="l00032"></a>00032 <span class="preprocessor">#include "../gfal_common_catalog.h"</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include "../gfal_common_plugin.h"</span>
 <a name="l00033"></a>00033 <span class="preprocessor">#include "../gfal_common_filedescriptor.h"</span>
 <a name="l00034"></a>00034 <span class="preprocessor">#include "../gfal_types.h"</span>
 <a name="l00035"></a>00035 
-<a name="l00036"></a>00036 gfal_file_handle gfal_dcap_openG(catalog_handle handle , <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> flag, mode_t mode, GError** err);
+<a name="l00036"></a>00036 gfal_file_handle gfal_dcap_openG(plugin_handle handle , <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> flag, mode_t mode, GError** err);
 <a name="l00037"></a>00037 
-<a name="l00038"></a>00038 <span class="keywordtype">int</span> gfal_dcap_readG(catalog_handle handle , gfal_file_handle fd, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00038"></a>00038 <span class="keywordtype">int</span> gfal_dcap_readG(plugin_handle handle , gfal_file_handle fd, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
 <a name="l00039"></a>00039 
-<a name="l00040"></a>00040 <span class="keywordtype">int</span> gfal_dcap_lseekG(catalog_handle handle , gfal_file_handle fd, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
+<a name="l00040"></a>00040 <span class="keywordtype">int</span> gfal_dcap_lseekG(plugin_handle handle , gfal_file_handle fd, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
 <a name="l00041"></a>00041 
-<a name="l00042"></a>00042 <span class="keywordtype">int</span> gfal_dcap_writeG(catalog_handle handle , gfal_file_handle fd, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00042"></a>00042 <span class="keywordtype">int</span> gfal_dcap_writeG(plugin_handle handle , gfal_file_handle fd, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
 <a name="l00043"></a>00043 
-<a name="l00044"></a>00044 <span class="keywordtype">int</span> gfal_dcap_closeG(catalog_handle handle, gfal_file_handle fd, GError ** err);
+<a name="l00044"></a>00044 <span class="keywordtype">int</span> gfal_dcap_closeG(plugin_handle handle, gfal_file_handle fd, GError ** err);
 <a name="l00045"></a>00045 
-<a name="l00046"></a>00046 <span class="keywordtype">int</span> gfal_dcap_statG(catalog_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keyword">struct</span> stat* buff, GError ** err);
+<a name="l00046"></a>00046 <span class="keywordtype">int</span> gfal_dcap_statG(plugin_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keyword">struct</span> stat* buff, GError ** err);
 <a name="l00047"></a>00047 
-<a name="l00048"></a>00048 <span class="keywordtype">int</span> gfal_dcap_lstatG(catalog_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keyword">struct</span> stat* buff, GError ** err);
+<a name="l00048"></a>00048 <span class="keywordtype">int</span> gfal_dcap_lstatG(plugin_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keyword">struct</span> stat* buff, GError ** err);
 <a name="l00049"></a>00049 
 <a name="l00050"></a>00050 <span class="keyword">const</span> <span class="keywordtype">char</span>* gfal_dcap_getName();
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Sep 9 16:18:23 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Sep 12 15:41:55 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

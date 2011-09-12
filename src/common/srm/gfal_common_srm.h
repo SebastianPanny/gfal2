@@ -97,7 +97,7 @@ typedef void* srm_request_handle;
 
 const char* gfal_srm_getName();
 
-gfal_catalog_interface gfal_srm_initG(gfal_handle handle, GError** err);
+gfal_plugin_interface gfal_srm_initG(gfal_handle handle, GError** err);
 
 void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle);
 

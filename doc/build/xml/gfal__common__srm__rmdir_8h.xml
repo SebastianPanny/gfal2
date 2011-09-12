@@ -29,6 +29,28 @@
       <node id="1749">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="1747">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="1748" relation="include">
+        </childnode>
+        <childnode refid="1749" relation="include">
+        </childnode>
+        <childnode refid="1738" relation="include">
+        </childnode>
+        <childnode refid="1750" relation="include">
+        </childnode>
+        <childnode refid="1751" relation="include">
+        </childnode>
+        <childnode refid="1742" relation="include">
+        </childnode>
+        <childnode refid="1743" relation="include">
+        </childnode>
+        <childnode refid="1746" relation="include">
+        </childnode>
+        <childnode refid="1739" relation="include">
+        </childnode>
+      </node>
       <node id="1754">
         <label>gfal_common_srm.h</label>
         <link refid="gfal__common__srm_8h"/>
@@ -75,28 +97,6 @@
       </node>
       <node id="1753">
         <label>gfal_srm_ifce.h</label>
-      </node>
-      <node id="1747">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1748" relation="include">
-        </childnode>
-        <childnode refid="1749" relation="include">
-        </childnode>
-        <childnode refid="1738" relation="include">
-        </childnode>
-        <childnode refid="1750" relation="include">
-        </childnode>
-        <childnode refid="1751" relation="include">
-        </childnode>
-        <childnode refid="1742" relation="include">
-        </childnode>
-        <childnode refid="1743" relation="include">
-        </childnode>
-        <childnode refid="1746" relation="include">
-        </childnode>
-        <childnode refid="1739" relation="include">
-        </childnode>
       </node>
       <node id="1745">
         <label>gfal_constants.h</label>
@@ -158,13 +158,13 @@
       </node>
     </invincdepgraph>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__srm__rmdir_8h_18b7d02475abc3094e00223e0fa5ec35d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__rmdir_8h_1ac5dd038fc8d96e74279ba989e7ee19b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_srm_rmdirG</definition>
-        <argsstring>(catalog_handle handle, const char *surl, GError **err)</argsstring>
+        <argsstring>(plugin_handle handle, const char *surl, GError **err)</argsstring>
         <name>gfal_srm_rmdirG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>handle</declname>
         </param>
         <param>
@@ -214,7 +214,7 @@
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__srm__internal__layer_8h" kindref="compound">gfal_common_srm_internal_layer.h</ref>&quot;</highlight><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_rmdirG(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/>GError**<sp/>err);<sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_rmdirG(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/>GError**<sp/>err);<sp/></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.h"/>
   </compounddef>

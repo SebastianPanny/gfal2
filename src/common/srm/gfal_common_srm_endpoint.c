@@ -167,6 +167,10 @@ int  gfal_get_hostname_from_surlG(const char * surl, char* buff_hostname, size_t
 		
 	 if(s_buff > (p-surl-srm_prefix_len)){	
 		*((char*) mempcpy(buff_hostname, surl+srm_prefix_len, p-surl-srm_prefix_len)) = '\0';
+		if(*buff_hostname =='\0'){
+			g_set_error(err, 0, EINVAL, "[%s] url invalid",__func__);
+			return -1;
+		}
 		return 0;
 	}
 	g_set_error(err, 0, ENOBUFS, "[%s] buffer size too small",__func__);

@@ -32,7 +32,7 @@
 #include "gfal_posix_internal.h"
 #include "../common/gfal_common_errverbose.h"
 #include "../common/gfal_common_file_handle.h"
-#include "../common/gfal_common_catalog.h"
+#include "../common/gfal_common_plugin.h"
 #include "gfal_posix_local_file.h"
 
 
@@ -46,7 +46,7 @@ int gfal_posix_gfalfilehandle_write(gfal_handle handle, gfal_file_handle fh, voi
 	if( gfal_is_local_call(fh->module_name) )
 		ret = gfal_local_write(fh, buff, s_buff, &tmp_err);
 	else
-		ret = gfal_catalog_writeG(handle, fh, buff, s_buff, &tmp_err);
+		ret = gfal_plugin_writeG(handle, fh, buff, s_buff, &tmp_err);
 
 	if(tmp_err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);

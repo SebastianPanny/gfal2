@@ -45,6 +45,30 @@
       <node id="1455">
         <label>uuid/uuid.h</label>
       </node>
+      <node id="1453">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="1454" relation="include">
+        </childnode>
+        <childnode refid="1455" relation="include">
+        </childnode>
+        <childnode refid="1446" relation="include">
+        </childnode>
+        <childnode refid="1456" relation="include">
+        </childnode>
+        <childnode refid="1443" relation="include">
+        </childnode>
+        <childnode refid="1444" relation="include">
+        </childnode>
+        <childnode refid="1445" relation="include">
+        </childnode>
+        <childnode refid="1447" relation="include">
+        </childnode>
+        <childnode refid="1445" relation="include">
+        </childnode>
+        <childnode refid="1447" relation="include">
+        </childnode>
+      </node>
       <node id="1442">
         <label>gfal_common_srm.h</label>
         <link refid="gfal__common__srm_8h"/>
@@ -78,28 +102,6 @@
       </node>
       <node id="1446">
         <label>glib.h</label>
-      </node>
-      <node id="1453">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1454" relation="include">
-        </childnode>
-        <childnode refid="1455" relation="include">
-        </childnode>
-        <childnode refid="1446" relation="include">
-        </childnode>
-        <childnode refid="1456" relation="include">
-        </childnode>
-        <childnode refid="1443" relation="include">
-        </childnode>
-        <childnode refid="1449" relation="include">
-        </childnode>
-        <childnode refid="1450" relation="include">
-        </childnode>
-        <childnode refid="1445" relation="include">
-        </childnode>
-        <childnode refid="1447" relation="include">
-        </childnode>
       </node>
       <node id="1452">
         <label>gfal_constants.h</label>
@@ -150,13 +152,13 @@
       </node>
     </invincdepgraph>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__srm__getxattr_8h_1294634c95c41aced18458de57f4de555" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__getxattr_8h_1965d1353923dbcca04d0feb99449bb47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
         <definition>ssize_t gfal_srm_getxattrG</definition>
-        <argsstring>(catalog_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)</argsstring>
+        <argsstring>(plugin_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)</argsstring>
         <name>gfal_srm_getxattrG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>handle</declname>
         </param>
         <param>
@@ -187,13 +189,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.h" line="34" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.c" bodystart="61" bodyend="73"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm__getxattr_8h_15ed727e9131d092843d162ad577287f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm__getxattr_8h_1522aab74f06436ef8ac83dc1dc1fc9e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
         <definition>ssize_t gfal_srm_listxattrG</definition>
-        <argsstring>(catalog_handle handle, const char *path, char *list, size_t size, GError **err)</argsstring>
+        <argsstring>(plugin_handle handle, const char *path, char *list, size_t size, GError **err)</argsstring>
         <name>gfal_srm_listxattrG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>handle</declname>
         </param>
         <param>
@@ -254,9 +256,9 @@
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal">ssize_t<sp/><ref refid="gfal__common__srm__getxattr_8c_1294634c95c41aced18458de57f4de555" kindref="member">gfal_srm_getxattrG</ref>(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name<sp/>,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">ssize_t<sp/><ref refid="gfal__common__srm__getxattr_8c_1965d1353923dbcca04d0feb99449bb47" kindref="member">gfal_srm_getxattrG</ref>(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name<sp/>,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal">ssize_t<sp/><ref refid="gfal__common__srm__getxattr_8c_15ed727e9131d092843d162ad577287f7" kindref="member">gfal_srm_listxattrG</ref>(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>list,<sp/>size_t<sp/>size,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">ssize_t<sp/><ref refid="gfal__common__srm__getxattr_8c_1522aab74f06436ef8ac83dc1dc1fc9e1" kindref="member">gfal_srm_listxattrG</ref>(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>list,<sp/>size_t<sp/>size,<sp/>GError**<sp/>err);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.h"/>
   </compounddef>

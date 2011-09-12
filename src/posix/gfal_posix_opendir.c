@@ -63,7 +63,7 @@ inline DIR* gfal_posix_internal_opendir(const char* name){
 		if( gfal_check_local_url(name, NULL) == TRUE){
 			ret = gfal_local_opendir(name, &tmp_err);
 		}else{
-			ret = gfal_catalog_opendirG(handle, name, &tmp_err);
+			ret = gfal_plugin_opendirG(handle, name, &tmp_err);
 		}
 	}
 	

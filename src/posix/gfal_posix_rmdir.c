@@ -31,7 +31,7 @@
 #include "../common/gfal_types.h"
 #include "gfal_posix_internal.h"
 #include "gfal_posix_local_file.h"
-#include  "../common/gfal_common_catalog.h"
+#include  "../common/gfal_common_plugin.h"
 #include "../common/gfal_constants.h"
 
 
@@ -55,7 +55,7 @@
 		if( gfal_check_local_url(path, NULL) == TRUE){
 			res = gfal_local_rmdir(path, &tmp_err);
 		}else{
-			res = gfal_catalog_rmdirG(handle, path, &tmp_err);
+			res = gfal_plugin_rmdirG(handle, path, &tmp_err);
 		}
 	}
 

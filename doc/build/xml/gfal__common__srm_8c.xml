@@ -17,7 +17,7 @@
     <includes refid="gfal__common__srm__getxattr_8h" local="yes">gfal_common_srm_getxattr.h</includes>
     <includes refid="gfal__common__internal_8h" local="yes">../gfal_common_internal.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../gfal_common_errverbose.h</includes>
-    <includes refid="gfal__common__catalog_8h" local="yes">../gfal_common_catalog.h</includes>
+    <includes refid="gfal__common__plugin_8h" local="yes">../gfal_common_plugin.h</includes>
     <incdepgraph>
       <node id="1168">
         <label>sys/stat.h</label>
@@ -148,6 +148,28 @@
         <childnode refid="1171" relation="include">
         </childnode>
       </node>
+      <node id="1171">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="1172" relation="include">
+        </childnode>
+        <childnode refid="1173" relation="include">
+        </childnode>
+        <childnode refid="1163" relation="include">
+        </childnode>
+        <childnode refid="1174" relation="include">
+        </childnode>
+        <childnode refid="1161" relation="include">
+        </childnode>
+        <childnode refid="1167" relation="include">
+        </childnode>
+        <childnode refid="1168" relation="include">
+        </childnode>
+        <childnode refid="1162" relation="include">
+        </childnode>
+        <childnode refid="1164" relation="include">
+        </childnode>
+      </node>
       <node id="1157">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c</label>
         <link refid="gfal_common_srm.c"/>
@@ -259,28 +281,6 @@
         <childnode refid="1164" relation="include">
         </childnode>
       </node>
-      <node id="1171">
-        <label>gfal_common_catalog.h</label>
-        <link refid="gfal__common__catalog_8h"/>
-        <childnode refid="1172" relation="include">
-        </childnode>
-        <childnode refid="1173" relation="include">
-        </childnode>
-        <childnode refid="1163" relation="include">
-        </childnode>
-        <childnode refid="1174" relation="include">
-        </childnode>
-        <childnode refid="1161" relation="include">
-        </childnode>
-        <childnode refid="1167" relation="include">
-        </childnode>
-        <childnode refid="1168" relation="include">
-        </childnode>
-        <childnode refid="1162" relation="include">
-        </childnode>
-        <childnode refid="1164" relation="include">
-        </childnode>
-      </node>
       <node id="1180">
         <label>gfal_common_srm_stat.h</label>
         <link refid="gfal__common__srm__stat_8h"/>
@@ -386,13 +386,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" line="65" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" bodystart="65" bodyend="69"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm_8c_149410f364584e278d824f27bad6777d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm_8c_195804638cdef2d4d0a1067c4390c31fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_surl_checker</definition>
-        <argsstring>(catalog_handle ch, const char *surl, GError **err)</argsstring>
+        <argsstring>(plugin_handle ch, const char *surl, GError **err)</argsstring>
         <name>gfal_surl_checker</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -436,13 +436,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" line="87" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" bodystart="87" bodyend="101"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm_8c_1ae7daa4f5c8d2af440ce6ed85efb283b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm_8c_14b4bd218d609d5669be688398b3531e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
         <definition>static gboolean gfal_srm_check_url</definition>
-        <argsstring>(catalog_handle handle, const char *url, catalog_mode mode, GError **err)</argsstring>
+        <argsstring>(plugin_handle handle, const char *url, plugin_mode mode, GError **err)</argsstring>
         <name>gfal_srm_check_url</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>handle</declname>
         </param>
         <param>
@@ -450,7 +450,7 @@
           <declname>url</declname>
         </param>
         <param>
-          <type>catalog_mode</type>
+          <type>plugin_mode</type>
           <declname>mode</declname>
         </param>
         <param>
@@ -465,13 +465,13 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" line="109" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" bodystart="109" bodyend="128"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm_8c_1dcf4f58d267d7a0a9e56b21889fd40b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__srm_8c_1861e016eb9b6424685c5d211b5f9abf9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>static void gfal_srm_destroyG</definition>
-        <argsstring>(catalog_handle ch)</argsstring>
+        <argsstring>(plugin_handle ch)</argsstring>
         <name>gfal_srm_destroyG</name>
         <param>
-          <type>catalog_handle</type>
+          <type>plugin_handle</type>
           <declname>ch</declname>
         </param>
         <briefdescription>
@@ -524,9 +524,9 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" line="147" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" bodystart="147" bodyend="155"/>
       </memberdef>
-      <memberdef kind="function" id="gfal__common__srm_8c_15c9edde4d67d96432a319d940a4799f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref></type>
-        <definition>gfal_catalog_interface gfal_plugin_init</definition>
+      <memberdef kind="function" id="gfal__common__srm_8c_10d53404e0e873535bffdfb3197bb73af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref></type>
+        <definition>gfal_plugin_interface gfal_plugin_init</definition>
         <argsstring>(gfal_handle handle, GError **err)</argsstring>
         <name>gfal_plugin_init</name>
         <param>
@@ -762,7 +762,7 @@
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_catalog.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="49"><highlight class="normal"></highlight></codeline>
 <codeline lineno="50"><highlight class="normal"></highlight></codeline>
 <codeline lineno="55"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>srm_turls_sup_protocols[]<sp/>=<sp/>{<sp/></highlight><highlight class="stringliteral">&quot;file&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rfio&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;gsidcap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dcap&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;kdcap&quot;</highlight><highlight class="normal">,<sp/><sp/>NULL<sp/>};</highlight></codeline>
@@ -777,7 +777,7 @@
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
 <codeline lineno="69"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_surl_checker(catalog_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="74"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_surl_checker(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srmv2_opt*<sp/>opts<sp/>=<sp/>(gfal_srmv2_opt*)<sp/>ch;</highlight></codeline>
 <codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(surl<sp/>==<sp/>NULL<sp/>||<sp/>strnlen(surl,<sp/>GFAL_URL_MAX_LEN)<sp/>==<sp/>GFAL_URL_MAX_LEN){</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>EINVAL,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>Invalid<sp/>surl,<sp/>surl<sp/>too<sp/>long<sp/>or<sp/>NULL&quot;</highlight><highlight class="normal">,__func__);</highlight></codeline>
@@ -804,7 +804,7 @@
 <codeline lineno="102"><highlight class="normal"></highlight></codeline>
 <codeline lineno="103"><highlight class="normal"></highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gboolean<sp/>gfal_srm_check_url(catalog_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>url,<sp/>catalog_mode<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="109"><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gboolean<sp/>gfal_srm_check_url(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>url,<sp/>plugin_mode<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal">(mode){</highlight></codeline>
 <codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>GFAL_CATALOG_ACCESS:</highlight></codeline>
 <codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>GFAL_CATALOG_MKDIR:</highlight></codeline>
@@ -824,7 +824,7 @@
 <codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>FALSE;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="128"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="132"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_srm_destroyG(catalog_handle<sp/>ch){</highlight></codeline>
+<codeline lineno="132"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_srm_destroyG(plugin_handle<sp/>ch){</highlight></codeline>
 <codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srmv2_opt*<sp/>opts<sp/>=<sp/>(gfal_srmv2_opt*)<sp/>ch;</highlight></codeline>
 <codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regfree(&amp;opts-&gt;rexurl);</highlight></codeline>
 <codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regfree(&amp;opts-&gt;rex_full);</highlight></codeline>
@@ -846,35 +846,35 @@
 <codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>opts-&gt;cache<sp/>=<sp/>gsimplecache_new(500000,<sp/>&amp;srm_internal_copy_stat,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat));</highlight></codeline>
 <codeline lineno="155"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="156"><highlight class="normal"></highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref><sp/><ref refid="gfal__dcap__plugin__main_8c_15c9edde4d67d96432a319d940a4799f1" kindref="member">gfal_plugin_init</ref>(gfal_handle<sp/>handle,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref><sp/>srm_catalog;</highlight></codeline>
-<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memset(&amp;srm_catalog,0,</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="struct__gfal__catalog__interface" kindref="compound">gfal_catalog_interface</ref>));<sp/><sp/></highlight><highlight class="comment">//<sp/>clear<sp/>the<sp/>catalog<sp/><sp/><sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref><sp/><ref refid="gfal__dcap__plugin__main_8c_10d53404e0e873535bffdfb3197bb73af" kindref="member">gfal_plugin_init</ref>(gfal_handle<sp/>handle,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref><sp/>srm_plugin;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memset(&amp;srm_plugin,0,</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="struct__gfal__plugin__interface" kindref="compound">gfal_plugin_interface</ref>));<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>clear<sp/>the<sp/>plugin<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srmv2_opt*<sp/>opts<sp/>=<sp/>g_new(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>_gfal_srmv2_opt,1);<sp/></highlight><highlight class="comment">//<sp/>define<sp/>the<sp/>srmv2<sp/>option<sp/>struct<sp/>and<sp/>clear<sp/>it<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_srm_opt_initG(opts,<sp/>handle);</highlight></codeline>
-<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_121ece9deeb92b4182cf5fe09e174d6c5" kindref="member">handle</ref><sp/>=<sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>opts;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_13e21f3370e47099122b156472e25f6a7" kindref="member">check_catalog_url</ref><sp/>=<sp/>&amp;gfal_srm_check_url;</highlight></codeline>
-<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_15eb6aff7c054d09bcd584dfdc8a3d88e" kindref="member">catalog_delete</ref><sp/>=<sp/>&amp;gfal_srm_destroyG;</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1c4ca96a6e83a9d3e906563771bf648f1" kindref="member">accessG</ref><sp/>=<sp/>&amp;<ref refid="gfal__common__srm__access_8c_1c97d6cdbdc19261f398fece514431491" kindref="member">gfal_srm_accessG</ref>;</highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1929e31cec058fd3af2b35925d138fce4" kindref="member">mkdirpG</ref><sp/>=<sp/>&amp;gfal_srm_mkdirG;</highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1c93cfe7bbdd166977a30c0821188256d" kindref="member">statG</ref>=<sp/>&amp;<ref refid="gfal__common__srm__stat_8c_15073234723ab7d40a031a9493a9cf8e6" kindref="member">gfal_srm_statG</ref>;</highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_129c3519fdaa2768abc5b0ca8d5b1b278" kindref="member">lstatG</ref><sp/>=<sp/>&amp;<ref refid="gfal__common__srm__stat_8c_15073234723ab7d40a031a9493a9cf8e6" kindref="member">gfal_srm_statG</ref>;<sp/></highlight><highlight class="comment">//<sp/>no<sp/>management<sp/>for<sp/>symlink<sp/>in<sp/>srm<sp/>protocol/srm-ifce,<sp/>just<sp/>map<sp/>to<sp/>stat</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1bcfed6ce5edc988e207fdedce2249ca4" kindref="member">rmdirG</ref><sp/>=<sp/>&amp;gfal_srm_rmdirG;</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_174779ad5f9b964d6de25aa8968654b6f" kindref="member">opendirG</ref><sp/>=<sp/>&amp;gfal_srm_opendirG;</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1d8223fb7b6916160c58777204cf44166" kindref="member">readdirG</ref><sp/>=<sp/>&amp;gfal_srm_readdirG;</highlight></codeline>
-<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1110fb04c3d951be3d863f8976076f6a0" kindref="member">closedirG</ref><sp/>=<sp/>&amp;gfal_srm_closedirG;</highlight></codeline>
-<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1a76db9e70bcd22d79d2a40a12049cea9" kindref="member">getName</ref>=<sp/>&amp;gfal_srm_getName;</highlight></codeline>
-<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1f2664982e4ee83af2145ea7e190f1169" kindref="member">getTURLG</ref><sp/>=<sp/>&amp;gfal_srm_getTURLS_catalog;</highlight></codeline>
-<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_119227139e261ebb890bff5d22c20322a" kindref="member">putTURLG</ref>=<sp/>&amp;gfal_srm_putTURLS_catalog;</highlight></codeline>
-<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1f13314d48d829c5a00688e53798740d6" kindref="member">openG</ref><sp/>=<sp/>&amp;gfal_srm_openG;</highlight></codeline>
-<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_101f3c7263f9650b83328df65821a7fe8" kindref="member">closeG</ref><sp/>=<sp/>&amp;gfal_srm_closeG;</highlight></codeline>
-<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_106de34e63362030b21d7c543e2098a6e" kindref="member">readG</ref>=<sp/>&amp;gfal_srm_readG;</highlight></codeline>
-<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_16b6ac4cdc442e6682aa75a65e2f01094" kindref="member">writeG</ref>=<sp/>&amp;gfal_srm_writeG;</highlight></codeline>
-<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_1a2d423528930c419615115f14911238e" kindref="member">chmodG</ref>=<sp/>&amp;gfal_srm_chmodG;</highlight></codeline>
-<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_17f66631bd2d7919666ea9383e55c5837" kindref="member">lseekG</ref>=<sp/>&amp;gfal_srm_lseekG;</highlight></codeline>
-<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_11fc0c9cbd8821484dc6d2532ebdc2b28" kindref="member">unlinkG</ref><sp/>=<sp/>&amp;gfal_srm_unlinkG;</highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_18d6974ac822e7360db9ec11f88aa787d" kindref="member">getxattrG</ref><sp/>=<sp/>&amp;<ref refid="gfal__common__srm__getxattr_8c_1294634c95c41aced18458de57f4de555" kindref="member">gfal_srm_getxattrG</ref>;</highlight></codeline>
-<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_catalog.<ref refid="struct__gfal__catalog__interface_133b6ee495d6dbdf44097eab70094953f" kindref="member">listxattrG</ref><sp/>=<sp/>&amp;<ref refid="gfal__common__srm__getxattr_8c_15ed727e9131d092843d162ad577287f7" kindref="member">gfal_srm_listxattrG</ref>;</highlight></codeline>
-<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>srm_catalog;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1510b7d8a34cd71f63211ee614ae265db" kindref="member">handle</ref><sp/>=<sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>opts;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1e1ab2d2c3ea35095446a2c14734b5f4c" kindref="member">check_plugin_url</ref><sp/>=<sp/>&amp;gfal_srm_check_url;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1d146f62bd310f1f265f0bc3c37cc70d8" kindref="member">plugin_delete</ref><sp/>=<sp/>&amp;gfal_srm_destroyG;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_11fa81d7a219629281c14b05116d32202" kindref="member">accessG</ref><sp/>=<sp/>&amp;<ref refid="gfal__common__srm__access_8c_12d1197314163b3fd3b59e7d75579f1e9" kindref="member">gfal_srm_accessG</ref>;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1cc4f3b17ce3b809ec001fb603a3fc7b4" kindref="member">mkdirpG</ref><sp/>=<sp/>&amp;gfal_srm_mkdirG;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_18db37c3af860f063277a40798821cfc2" kindref="member">statG</ref>=<sp/>&amp;<ref refid="gfal__common__srm__stat_8c_146380c3a3586c2ad7fe5bcdc5e1c43fc" kindref="member">gfal_srm_statG</ref>;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_15654611b3cce424dfa4bf03a5af7bed5" kindref="member">lstatG</ref><sp/>=<sp/>&amp;<ref refid="gfal__common__srm__stat_8c_146380c3a3586c2ad7fe5bcdc5e1c43fc" kindref="member">gfal_srm_statG</ref>;<sp/></highlight><highlight class="comment">//<sp/>no<sp/>management<sp/>for<sp/>symlink<sp/>in<sp/>srm<sp/>protocol/srm-ifce,<sp/>just<sp/>map<sp/>to<sp/>stat</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1a0042558b6182daee4f0c953097ce56f" kindref="member">rmdirG</ref><sp/>=<sp/>&amp;gfal_srm_rmdirG;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1e651878dc579a4a7d40bb928a3d2cecd" kindref="member">opendirG</ref><sp/>=<sp/>&amp;gfal_srm_opendirG;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1738e301f6073aca875b2bebc37f1be9c" kindref="member">readdirG</ref><sp/>=<sp/>&amp;gfal_srm_readdirG;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_16c4803547cc326897d7535c7ccb15fe2" kindref="member">closedirG</ref><sp/>=<sp/>&amp;gfal_srm_closedirG;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1f665fe60fb0e0a7d58234b21390d8b01" kindref="member">getName</ref>=<sp/>&amp;gfal_srm_getName;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1b80848456d5f1789ceeb38a8446e1689" kindref="member">getTURLG</ref><sp/>=<sp/>&amp;gfal_srm_getTURLS_plugin;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1925c6bd0897e927b22f9bd6275991b15" kindref="member">putTURLG</ref>=<sp/>&amp;gfal_srm_putTURLS_plugin;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1516c2debbc66416f16288ebc983399f0" kindref="member">openG</ref><sp/>=<sp/>&amp;gfal_srm_openG;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1036b74d493f02804c855681e6d4dc174" kindref="member">closeG</ref><sp/>=<sp/>&amp;gfal_srm_closeG;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1b3b7bd76e2e692533531fcb53b142bfa" kindref="member">readG</ref>=<sp/>&amp;gfal_srm_readG;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_118999bb57a5bbe8c0a0f171f36f15fac" kindref="member">writeG</ref>=<sp/>&amp;gfal_srm_writeG;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1e032ec6f13423ea516ca4c02332f5ecf" kindref="member">chmodG</ref>=<sp/>&amp;gfal_srm_chmodG;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1424d4d77e29e5e4cfe92eae0d6a8bdc2" kindref="member">lseekG</ref>=<sp/>&amp;gfal_srm_lseekG;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_175692c1e9487ff9ed7fce15dc2ddac62" kindref="member">unlinkG</ref><sp/>=<sp/>&amp;gfal_srm_unlinkG;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_19c6b4405f17d92e42aa40ff307188701" kindref="member">getxattrG</ref><sp/>=<sp/>&amp;<ref refid="gfal__common__srm__getxattr_8c_1965d1353923dbcca04d0feb99449bb47" kindref="member">gfal_srm_getxattrG</ref>;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>srm_plugin.<ref refid="struct__gfal__plugin__interface_1c3bae2e54ce8998722f03b588d423b18" kindref="member">listxattrG</ref><sp/>=<sp/>&amp;<ref refid="gfal__common__srm__getxattr_8c_1522aab74f06436ef8ac83dc1dc1fc9e1" kindref="member">gfal_srm_listxattrG</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>srm_plugin;</highlight></codeline>
 <codeline lineno="189"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="190"><highlight class="normal"></highlight></codeline>
 <codeline lineno="191"><highlight class="normal"></highlight></codeline>
