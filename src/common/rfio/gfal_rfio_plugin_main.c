@@ -74,6 +74,8 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	rfio_plugin.statG = &gfal_rfio_statG;
 	rfio_plugin.lstatG= &gfal_rfio_lstatG;
 	rfio_plugin.opendirG = &gfal_rfio_opendirG;
+	rfio_plugin.readdirG = &gfal_rfio_readdirG;
+	rfio_plugin.closedirG = &gfal_rfio_closedirG;
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return rfio_plugin;
@@ -101,6 +103,7 @@ gboolean gfal_rfio_check_url(plugin_handle ch, const char* url,  plugin_mode mod
 			case GFAL_CATALOG_OPEN:
 			case GFAL_CATALOG_STAT:
 			case GFAL_CATALOG_LSTAT:
+			case GFAL_CATALOG_OPENDIR:
 				ret = gfal_rfio_internal_check_url(rh, url, &tmp_err);
 				break;
 			default:

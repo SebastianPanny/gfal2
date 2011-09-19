@@ -42,6 +42,8 @@ struct _gfal_mds_ldap gfal_mds_ldap={
 	.ldap_get_values_len= ldap_get_values_len,
 	.ldap_value_free_len = ldap_value_free_len,
 	.ldap_memfree = ldap_memfree,
+	.ldap_msgfree = ldap_msgfree,
+	.ber_free = ber_free,
 	.ldap_count_entries = ldap_count_entries,
 	
 };

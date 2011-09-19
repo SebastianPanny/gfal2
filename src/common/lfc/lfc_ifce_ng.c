@@ -84,7 +84,7 @@ static int gfal_lfc_endSession(struct lfc_ops* ops, GError ** err){
 }
 
 void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err){
-	time_t current = time(NULL);
+	/*time_t current = time(NULL);
 	if(session_timestamp < current){
 		pthread_mutex_lock(&m_session);
 		if(session_timestamp < current){
@@ -94,7 +94,7 @@ void gfal_auto_maintain_session(struct lfc_ops* ops, GError ** err){
 			session_timestamp = current + session_duration;
 		}
 		pthread_mutex_unlock(&m_session);	
-	}
+	}*/
 }
 void lfc_set_session_timeout(int timeout){
 	pthread_mutex_lock(&m_session);	

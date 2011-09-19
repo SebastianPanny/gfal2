@@ -68,6 +68,11 @@ struct _gfal_mds_ldap{
 	void (*ldap_value_free_len) ( struct berval **vals );
  
 	void (*ldap_memfree)(void * p);
+
+	int (*ldap_msgfree)( LDAPMessage *msg );
+	
+	void (*ber_free)(BerElement *ber, int freebuf);
+
 	
 };
 

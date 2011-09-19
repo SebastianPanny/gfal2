@@ -48,4 +48,8 @@ int gfal_rfio_lstatG(plugin_handle handle, const char* name, struct stat* buff, 
 
 gfal_file_handle gfal_rfio_opendirG(plugin_handle handle, const char* name, GError ** err);
 
+struct dirent* gfal_rfio_readdirG(plugin_handle handle, gfal_file_handle fh , GError** err);
+
+int gfal_rfio_closedirG(plugin_handle handle, gfal_file_handle fh, GError** err);
+
 const char* gfal_rfio_getName();

@@ -136,7 +136,7 @@ static int gfal_mds_convert_entry_to_srm_information(LDAP* ld,LDAPMessage * entr
 	char srm_version[GFAL_URL_MAX_LEN]={0};
 	char srm_endpoint[GFAL_URL_MAX_LEN]={0};
 				
-	for ( a = gfal_mds_ldap.ldap_first_attribute( ld, entry, &ber );  a != NULL;
+	for (  a = gfal_mds_ldap.ldap_first_attribute( ld, entry, &ber );  a != NULL;
 			a = gfal_mds_ldap.ldap_next_attribute( ld, entry, ber ) ) {  // for each attribute
 	 
 		if ((vals = gfal_mds_ldap.ldap_get_values_len( ld, entry, a)) != NULL ) { 
@@ -158,9 +158,12 @@ static int gfal_mds_convert_entry_to_srm_information(LDAP* ld,LDAPMessage * entr
 			}
 			
 			gfal_mds_ldap.ldap_value_free_len( vals ); 
-		} 
-		gfal_mds_ldap.ldap_memfree( a ); 
-	} 
+		}
+		gfal_mds_ldap.ldap_memfree(a);  
+	}
+	if(ber) 
+		gfal_mds_ldap.ber_free(ber,0);
+      	
 	if(ret > 0)
 		ret = (gfal_mds_srm_endpoint_struct_builder(srm_name, srm_version, srm_endpoint, endpoints, &tmp_err) ==0 )?ret:-1;
 	
@@ -253,6 +256,7 @@ int gfal_mds_bdii_get_srm_endpoint(const char* base_url, gfal_mds_endpoint* endp
 			snprintf(buff_filter, GFAL_URL_MAX_LEN, srm_endpoint_filter, base_url, base_url); // construct the request
 			if(gfal_mds_ldap_search(ld, sbasedn, buff_filter, tabattr, &res, &tmp_err) >= 0){
 				ret = gfal_mds_get_srm_types_endpoint(ld, res, endpoints, s_endpoint, &tmp_err);
+				gfal_mds_ldap.ldap_msgfree(res);
 			}
 			gfal_mds_ldap_disconnect(ld);
 		}

@@ -132,6 +132,26 @@ gfal_file_handle gfal_rfio_opendirG(plugin_handle handle, const char* name, GErr
 }
 
 
+struct dirent* gfal_rfio_readdirG(plugin_handle handle, gfal_file_handle fh , GError** err){
+	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
+	struct dirent* dir = h->rf->readdir(fh->fdesc);
+	if(dir == NULL && h->rf->geterror() != 0){
+		rfio_report_error(h, __func__, err);
+		return NULL;
+	}
+	return dir;
+}
+
+int gfal_rfio_closedirG(plugin_handle handle, gfal_file_handle fh, GError** err){
+	gfal_plugin_rfio_handle h = (gfal_plugin_rfio_handle) handle;
+	int ret = h->rf->closedir(fh->fdesc);
+	if(ret != 0){
+		rfio_report_error(h, __func__, err);
+	}
+	return ret;	
+}
+
+
 
 const char* gfal_rfio_getName(){
 	return "rfio";
