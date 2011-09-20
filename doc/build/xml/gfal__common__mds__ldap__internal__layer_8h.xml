@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds_ldap_internal_layer.h" line="74" bodyfile="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds_ldap_internal_layer.c" bodystart="33" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds_ldap_internal_layer.h" line="79" bodyfile="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds_ldap_internal_layer.c" bodystart="33" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -120,10 +120,15 @@
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>void<sp/>(*ldap_value_free_len)<sp/>(<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">berval<sp/>**vals<sp/>);</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>void<sp/>(*ldap_memfree)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<sp/>p);</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_mds_ldap<sp/>gfal_mds_ldap;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int<sp/>(*ldap_msgfree)(<sp/>LDAPMessage<sp/>*msg<sp/>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>void<sp/>(*ber_free)(BerElement<sp/>*ber,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>freebuf);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_gfal_mds_ldap<sp/>gfal_mds_ldap;</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/mds/gfal_common_mds_ldap_internal_layer.h"/>
   </compounddef>

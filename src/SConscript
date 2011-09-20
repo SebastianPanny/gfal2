@@ -7,17 +7,20 @@ import os
 
 gfal_common_libs = ['ldap_r' ] 		# libraries linked
 gsimplecache = ["externals/gsimplecache/gsimplecacheOS.os"]
-other_headers=['common/']
+other_headers=['common/', 'externals/gwatchdog/']
 common_src = Glob("common/*.c") 
 common_mds = Glob("common/mds/*.c") 
 posix_src_all = Glob("posix/*.c")
 src_all = common_src +  posix_src_all + common_mds 
 
-local_headers = Glob("common/*.h") + Glob("posix/*.h")  + Glob("common/mds/*.h")  + Glob("*.h")
+gwatchdog_headers = Glob("externals/gwatchdog/*.h")
+
+local_headers = Glob("common/*.h") + Glob("posix/*.h")  + Glob("common/mds/*.h")  + Glob("*.h") 
 lfc_headers = local_headers + Glob("common/lfc/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
 srm_headers = local_headers + Glob("common/srm/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
 rfio_headers = local_headers + Glob("common/rfio/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
 dcap_headers = local_headers + Glob("common/dcap/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
+
 
 plugin_lfc = Glob("common/lfc/*.c")
 plugin_srm = Glob("common/srm/*.c")
@@ -52,8 +55,9 @@ env_plugin_srm.Depends(plugin_srm_lib,srm_headers )
 
 env_plugin_lfc = env_plugin.Clone();
 env_plugin_lfc.Append(CFLAGS="-D_REENTRANT")
+env_plugin_lfc.Append(CPPPATH=other_headers)
 plugin_lfc_lib = env_plugin_lfc.SharedLibrary('../libs/libgfal_plugin_lfc', plugin_lfc+ gsimplecache)
-env_plugin_lfc.Depends(plugin_lfc_lib,lfc_headers )
+env_plugin_lfc.Depends(plugin_lfc_lib, lfc_headers )
 
 plugin_rfio_lib= env_plugin.SharedLibrary('../libs/libgfal_plugin_rfio', plugin_rfio)
 env_plugin.Depends(plugin_rfio_lib,rfio_headers )

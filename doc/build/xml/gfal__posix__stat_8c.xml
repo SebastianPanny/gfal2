@@ -10,134 +10,44 @@
     <includes refid="gfal__posix__internal_8h" local="yes">gfal_posix_internal.h</includes>
     <includes refid="gfal__types_8h" local="yes">../common/gfal_types.h</includes>
     <incdepgraph>
-      <node id="2353">
+      <node id="2361">
         <label>sys/stat.h</label>
       </node>
-      <node id="2365">
+      <node id="2373">
         <label>stdarg.h</label>
       </node>
-      <node id="2369">
+      <node id="2377">
         <label>gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
+        <childnode refid="2370" relation="include">
+        </childnode>
+        <childnode refid="2373" relation="include">
+        </childnode>
+        <childnode refid="2360" relation="include">
+        </childnode>
+        <childnode refid="2375" relation="include">
+        </childnode>
         <childnode refid="2362" relation="include">
         </childnode>
-        <childnode refid="2365" relation="include">
-        </childnode>
-        <childnode refid="2352" relation="include">
-        </childnode>
-        <childnode refid="2367" relation="include">
-        </childnode>
-        <childnode refid="2354" relation="include">
-        </childnode>
-        <childnode refid="2355" relation="include">
+        <childnode refid="2363" relation="include">
         </childnode>
       </node>
-      <node id="2363">
+      <node id="2371">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="2355" relation="include">
-        </childnode>
-      </node>
-      <node id="2354">
-        <label>errno.h</label>
-      </node>
-      <node id="2361">
-        <label>gfal_srm_ifce_types.h</label>
-      </node>
-      <node id="2351">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</label>
-        <link refid="gfal_posix_stat.c"/>
-        <childnode refid="2352" relation="include">
-        </childnode>
-        <childnode refid="2353" relation="include">
-        </childnode>
-        <childnode refid="2354" relation="include">
-        </childnode>
-        <childnode refid="2355" relation="include">
-        </childnode>
-        <childnode refid="2356" relation="include">
-        </childnode>
-        <childnode refid="2368" relation="include">
-        </childnode>
-        <childnode refid="2358" relation="include">
-        </childnode>
-      </node>
-      <node id="2368">
-        <label>gfal_posix_internal.h</label>
-        <link refid="gfal__posix__internal_8h-source"/>
         <childnode refid="2363" relation="include">
         </childnode>
-        <childnode refid="2358" relation="include">
-        </childnode>
-        <childnode refid="2369" relation="include">
-        </childnode>
-      </node>
-      <node id="2366">
-        <label>uuid/uuid.h</label>
-      </node>
-      <node id="2364">
-        <label>gfal_common_plugin.h</label>
-        <link refid="gfal__common__plugin_8h"/>
-        <childnode refid="2365" relation="include">
-        </childnode>
-        <childnode refid="2366" relation="include">
-        </childnode>
-        <childnode refid="2355" relation="include">
-        </childnode>
-        <childnode refid="2354" relation="include">
-        </childnode>
-        <childnode refid="2367" relation="include">
-        </childnode>
-        <childnode refid="2366" relation="include">
-        </childnode>
-        <childnode refid="2353" relation="include">
-        </childnode>
-        <childnode refid="2363" relation="include">
-        </childnode>
-        <childnode refid="2360" relation="include">
-        </childnode>
-      </node>
-      <node id="2356">
-        <label>gfal_posix_local_file.h</label>
-        <link refid="gfal__posix__local__file_8h-source"/>
-        <childnode refid="2357" relation="include">
-        </childnode>
-        <childnode refid="2355" relation="include">
-        </childnode>
-        <childnode refid="2358" relation="include">
-        </childnode>
-      </node>
-      <node id="2357">
-        <label>sys/types.h</label>
-      </node>
-      <node id="2367">
-        <label>string.h</label>
-      </node>
-      <node id="2359">
-        <label>unistd.h</label>
-      </node>
-      <node id="2355">
-        <label>glib.h</label>
       </node>
       <node id="2362">
-        <label>gfal_constants.h</label>
-        <link refid="gfal__constants_8h-source"/>
+        <label>errno.h</label>
       </node>
-      <node id="2352">
-        <label>stdio.h</label>
+      <node id="2369">
+        <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="2358">
-        <label>../common/gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
-        <childnode refid="2359" relation="include">
-        </childnode>
-        <childnode refid="2355" relation="include">
-        </childnode>
-        <childnode refid="2357" relation="include">
-        </childnode>
+      <node id="2359">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_stat.c</label>
+        <link refid="gfal_posix_stat.c"/>
         <childnode refid="2360" relation="include">
-        </childnode>
-        <childnode refid="2353" relation="include">
         </childnode>
         <childnode refid="2361" relation="include">
         </childnode>
@@ -147,8 +57,98 @@
         </childnode>
         <childnode refid="2364" relation="include">
         </childnode>
+        <childnode refid="2376" relation="include">
+        </childnode>
+        <childnode refid="2366" relation="include">
+        </childnode>
+      </node>
+      <node id="2376">
+        <label>gfal_posix_internal.h</label>
+        <link refid="gfal__posix__internal_8h-source"/>
+        <childnode refid="2371" relation="include">
+        </childnode>
+        <childnode refid="2366" relation="include">
+        </childnode>
+        <childnode refid="2377" relation="include">
+        </childnode>
+      </node>
+      <node id="2374">
+        <label>uuid/uuid.h</label>
+      </node>
+      <node id="2372">
+        <label>gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="2373" relation="include">
+        </childnode>
+        <childnode refid="2374" relation="include">
+        </childnode>
+        <childnode refid="2363" relation="include">
+        </childnode>
+        <childnode refid="2362" relation="include">
+        </childnode>
+        <childnode refid="2375" relation="include">
+        </childnode>
+        <childnode refid="2368" relation="include">
+        </childnode>
+        <childnode refid="2361" relation="include">
+        </childnode>
+        <childnode refid="2371" relation="include">
+        </childnode>
+        <childnode refid="2366" relation="include">
+        </childnode>
+      </node>
+      <node id="2364">
+        <label>gfal_posix_local_file.h</label>
+        <link refid="gfal__posix__local__file_8h-source"/>
+        <childnode refid="2365" relation="include">
+        </childnode>
+        <childnode refid="2363" relation="include">
+        </childnode>
+        <childnode refid="2366" relation="include">
+        </childnode>
+      </node>
+      <node id="2365">
+        <label>sys/types.h</label>
+      </node>
+      <node id="2375">
+        <label>string.h</label>
+      </node>
+      <node id="2367">
+        <label>unistd.h</label>
+      </node>
+      <node id="2363">
+        <label>glib.h</label>
+      </node>
+      <node id="2370">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h-source"/>
       </node>
       <node id="2360">
+        <label>stdio.h</label>
+      </node>
+      <node id="2366">
+        <label>../common/gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="2367" relation="include">
+        </childnode>
+        <childnode refid="2363" relation="include">
+        </childnode>
+        <childnode refid="2365" relation="include">
+        </childnode>
+        <childnode refid="2368" relation="include">
+        </childnode>
+        <childnode refid="2361" relation="include">
+        </childnode>
+        <childnode refid="2369" relation="include">
+        </childnode>
+        <childnode refid="2370" relation="include">
+        </childnode>
+        <childnode refid="2371" relation="include">
+        </childnode>
+        <childnode refid="2372" relation="include">
+        </childnode>
+      </node>
+      <node id="2368">
         <label>dirent.h</label>
       </node>
     </incdepgraph>

@@ -30,6 +30,8 @@
     <member refid="struct__gfal__mds__ldap_119d5c95117b0310b94eeabc88ad6cfbd" kind="variable"><name>ldap_get_values_len</name></member>
     <member refid="struct__gfal__mds__ldap_1a49b22c9fb45a2040e2086380e6b4c67" kind="variable"><name>ldap_value_free_len</name></member>
     <member refid="struct__gfal__mds__ldap_1f0009402210f9790041fcaa10b8b1a3e" kind="variable"><name>ldap_memfree</name></member>
+    <member refid="struct__gfal__mds__ldap_1a5a65e84cadef5bc79db98a71f38498d" kind="variable"><name>ldap_msgfree</name></member>
+    <member refid="struct__gfal__mds__ldap_142bae0ee3f750d6e22859c0f9c81216f" kind="variable"><name>ber_free</name></member>
   </compound>
   <compound refid="struct__gfal__plugin__dcap__handle" kind="struct"><name>_gfal_plugin_dcap_handle</name>
     <member refid="struct__gfal__plugin__dcap__handle_1a49fe0aa1a1b701329f725d03590b148" kind="variable"><name>handle</name></member>
@@ -133,6 +135,16 @@
     <member refid="struct__GSimpleCache__Handle_1f7933d16168846abb9b88ceae463e5bb" kind="variable"><name>do_copy</name></member>
     <member refid="struct__GSimpleCache__Handle_1d5fb3688b7e1f081ea226b8b3b12242f" kind="variable"><name>size_item</name></member>
     <member refid="struct__GSimpleCache__Handle_113873163c2133e528b4539fd9da2c9fa" kind="variable"><name>mux</name></member>
+  </compound>
+  <compound refid="struct__GWatchdog" kind="struct"><name>_GWatchdog</name>
+    <member refid="struct__GWatchdog_1054b23f1c0f1fc537ea73efd48390e79" kind="variable"><name>time</name></member>
+    <member refid="struct__GWatchdog_1fa60e3cfbc4bdc43e7b6d6ed432f4fe6" kind="variable"><name>duration</name></member>
+    <member refid="struct__GWatchdog_1ae813719ce24164750d8610224661082" kind="variable"><name>data</name></member>
+    <member refid="struct__GWatchdog_160c60748fe025c27223b4ce032f5d368" kind="variable"><name>func</name></member>
+    <member refid="struct__GWatchdog_1671e29f5e58b6a185c3fa2d3ac49ae98" kind="variable"><name>mutex</name></member>
+    <member refid="struct__GWatchdog_1229b702a537127429204d00bdfcb5b2b" kind="variable"><name>started</name></member>
+    <member refid="struct__GWatchdog_1f0f249f8babbe7fdb95379281a57f29f" kind="variable"><name>cancel</name></member>
+    <member refid="struct__GWatchdog_10e171346bb7f7a4346e2a2f775aa0ab4" kind="variable"><name>thread</name></member>
   </compound>
   <compound refid="struct__Internal__item" kind="struct"><name>_Internal_item</name>
     <member refid="struct__Internal__item_1ceafa39229520ab11f7c045a9d2c90bb" kind="variable"><name>ref_count</name></member>
@@ -712,6 +724,8 @@
     <member refid="gfal__rfio__plugin__bindings_8c_16a327e62aacfb059e6568b4b694b66ca" kind="function"><name>gfal_rfio_statG</name></member>
     <member refid="gfal__rfio__plugin__bindings_8c_1d3dc8ea47569038c81c6406f91929a31" kind="function"><name>gfal_rfio_lstatG</name></member>
     <member refid="gfal__rfio__plugin__bindings_8c_1f9dfc6acee3f09c57e8b7895f117d111" kind="function"><name>gfal_rfio_opendirG</name></member>
+    <member refid="gfal__rfio__plugin__bindings_8c_1338365367799e30c2d36ed38d36fd7c9" kind="function"><name>gfal_rfio_readdirG</name></member>
+    <member refid="gfal__rfio__plugin__bindings_8c_18d219daed895c2060aa1d8b7c40e6aad" kind="function"><name>gfal_rfio_closedirG</name></member>
     <member refid="gfal__rfio__plugin__bindings_8c_152d0ae5bb90146d1c3859f7eafa517fa" kind="function"><name>gfal_rfio_getName</name></member>
   </compound>
   <compound refid="gfal__rfio__plugin__bindings_8h" kind="file"><name>gfal_rfio_plugin_bindings.h</name>
@@ -723,6 +737,8 @@
     <member refid="gfal__rfio__plugin__bindings_8h_16a327e62aacfb059e6568b4b694b66ca" kind="function"><name>gfal_rfio_statG</name></member>
     <member refid="gfal__rfio__plugin__bindings_8h_1d3dc8ea47569038c81c6406f91929a31" kind="function"><name>gfal_rfio_lstatG</name></member>
     <member refid="gfal__rfio__plugin__bindings_8h_1f9dfc6acee3f09c57e8b7895f117d111" kind="function"><name>gfal_rfio_opendirG</name></member>
+    <member refid="gfal__rfio__plugin__bindings_8h_1338365367799e30c2d36ed38d36fd7c9" kind="function"><name>gfal_rfio_readdirG</name></member>
+    <member refid="gfal__rfio__plugin__bindings_8h_18d219daed895c2060aa1d8b7c40e6aad" kind="function"><name>gfal_rfio_closedirG</name></member>
     <member refid="gfal__rfio__plugin__bindings_8h_152d0ae5bb90146d1c3859f7eafa517fa" kind="function"><name>gfal_rfio_getName</name></member>
   </compound>
   <compound refid="gfal__rfio__plugin__layer_8c" kind="file"><name>gfal_rfio_plugin_layer.c</name>
@@ -975,6 +991,20 @@
     <member refid="gcachemain_8h_1dec3947859d7ceda3561171fed7b1d09" kind="function"><name>gsimplecache_add_item_kstr</name></member>
     <member refid="gcachemain_8h_155499129945a7de46236041712c8f421" kind="function"><name>gsimplecache_take_one_kstr</name></member>
     <member refid="gcachemain_8h_1441b89c3092c6d6459fb0569a2071f11" kind="function"><name>gsimplecache_remove_kstr</name></member>
+  </compound>
+  <compound refid="gwatchdog_8c" kind="file"><name>gwatchdog.c</name>
+    <member refid="gwatchdog_8c_12ab41e971845c2f1fa975d939a7e2a6e" kind="function"><name>internal_runtime</name></member>
+    <member refid="gwatchdog_8c_1fc136998ed9fa30de0986a4b5bcc0cb2" kind="function"><name>gwatchdog_new</name></member>
+    <member refid="gwatchdog_8c_18cea7efc2d4a997806b39aa3cef91223" kind="function"><name>gwatchdog_start</name></member>
+    <member refid="gwatchdog_8c_1a437e512fce443400b2df0cc412f4e8e" kind="function"><name>gwatchdog_extend</name></member>
+    <member refid="gwatchdog_8c_1691da73e2ce6c61ff76bfacc36467abc" kind="function"><name>gwatchdog_delete</name></member>
+  </compound>
+  <compound refid="gwatchdog_8h" kind="file"><name>gwatchdog.h</name>
+    <member refid="gwatchdog_8h_10272c28c12cd24afc900976c251c8ff1" kind="typedef"><name>GWatchdog</name></member>
+    <member refid="gwatchdog_8h_18c3ccbaa09d8a6236300d36f17ad5e26" kind="function"><name>gwatchdog_new</name></member>
+    <member refid="gwatchdog_8h_18cea7efc2d4a997806b39aa3cef91223" kind="function"><name>gwatchdog_start</name></member>
+    <member refid="gwatchdog_8h_1a437e512fce443400b2df0cc412f4e8e" kind="function"><name>gwatchdog_extend</name></member>
+    <member refid="gwatchdog_8h_1691da73e2ce6c61ff76bfacc36467abc" kind="function"><name>gwatchdog_delete</name></member>
   </compound>
   <compound refid="gfal__api_8h" kind="file"><name>gfal_api.h</name>
   </compound>
@@ -1243,6 +1273,8 @@
   <compound refid="dir_041b58ee89bcb3a642ed3c9a19cc3a56" kind="dir"><name>/home/adevress/myworkspace/gfal/src/externals/</name>
   </compound>
   <compound refid="dir_f6ef8362764c83748b9d1f4630c700db" kind="dir"><name>/home/adevress/myworkspace/gfal/src/externals/gsimplecache/</name>
+  </compound>
+  <compound refid="dir_dcabb4e8aa03895b9104cf09e78f2c8f" kind="dir"><name>/home/adevress/myworkspace/gfal/src/externals/gwatchdog/</name>
   </compound>
   <compound refid="dir_30d23af81df9066d92a8c51e97291f98" kind="dir"><name>/home/adevress/myworkspace/gfal/src/common/lfc/</name>
   </compound>

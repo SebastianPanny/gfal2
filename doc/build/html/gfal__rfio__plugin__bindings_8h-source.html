@@ -59,8 +59,12 @@
 <a name="l00048"></a>00048 
 <a name="l00049"></a>00049 gfal_file_handle gfal_rfio_opendirG(plugin_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, GError ** err);
 <a name="l00050"></a>00050 
-<a name="l00051"></a>00051 <span class="keyword">const</span> <span class="keywordtype">char</span>* gfal_rfio_getName();
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Sep 12 15:41:55 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00051"></a>00051 <span class="keyword">struct </span>dirent* gfal_rfio_readdirG(plugin_handle handle, gfal_file_handle fh , GError** err);
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 <span class="keywordtype">int</span> gfal_rfio_closedirG(plugin_handle handle, gfal_file_handle fh, GError** err);
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 <span class="keyword">const</span> <span class="keywordtype">char</span>* gfal_rfio_getName();
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Sep 20 17:48:40 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
