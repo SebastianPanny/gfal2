@@ -86,7 +86,7 @@ inline void gsimplecache_add_item_internal(GSimpleCache* cache, const char* key,
 	Internal_item* ret = gsimplecache_find_kstr_internal(cache, key);	
 	if(ret == NULL){
 		ret = malloc(sizeof(struct _Internal_item) + cache->size_item);
-		ret->ref_count = 1;
+		ret->ref_count = 2;
 		cache->do_copy(item, ret->item);
 		g_hash_table_insert(cache->table, strdup(key), ret);
 	}else{

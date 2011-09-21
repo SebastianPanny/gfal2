@@ -200,6 +200,13 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 inline char* gfal_srm_construct_key(const char* url, const char* prefix, char* buff, const size_t s_buff){
 	g_strlcpy(buff, prefix, s_buff);
 	g_strlcat(buff, url, s_buff);
+	char* p2 = buff + strlen(prefix) + strlen(GFAL_PREFIX_SRM) + 2;
+	while(*p2 != '\0'){ //remove the duplicate //
+		if(*p2 == '/' && *(p2+1) == '/' ){
+			memmove(p2,p2+1,strlen(p2+1)+1);
+		}else
+			p2++;
+	}
 	return buff;
 }
 

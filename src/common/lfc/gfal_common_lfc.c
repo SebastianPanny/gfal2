@@ -76,8 +76,8 @@ static inline  char* lfc_urlconverter(const char * lfn_url, const char* prefix){
 	while(*p2 != '\0'){ //remove the duplicate //
 		if(*p2 == '/' && *(p2+1) == '/'){
 			memmove(p2,p2+1,strlen(p2+1)+1);
-		}
-		p2++;
+		}else
+			p2++;
 	}
 	return p;
 }

@@ -35,7 +35,6 @@
 
 
 
-
 int gfal_chmod(const char* path, mode_t mode);
 int gfal_rename (const char *oldpath, const char * newpath);
 
@@ -44,11 +43,12 @@ int gfal_stat (const char *, struct stat *);
 int gfal_lstat (const char *, struct stat *);
 int gfal_access (const char *, int);
 ssize_t gfal_readlink(const char* path, char* buff, size_t buffsiz);
+int gfal_symlink(const char* oldpath, const char * newpath);
 
 
 //classical read/write operations
 int gfal_creat (const char *, mode_t);
-int gfal_open (const char *, int, mode_t);
+int gfal_open(const char * path, int flag, ...);
 off_t gfal_lseek (int, off_t, int);
 int gfal_close (int);
 int gfal_read (int, void *, size_t);
@@ -83,54 +83,8 @@ int gfal_posix_code_error();
 
 // define the verbose mode
 int gfal_set_verbose (int);
+char *gfal_version();
 
 
 
-/**
- * \brief set the vo used by gfal
- */
-int gfal_set_vo (const char *vo);
-/**
- *  \brief define if bdii System is ignored or not
- *  \param : 0 for False else true
- * */
-void gfal_set_nobdii (int);
-/**
- * \brief change the default timeout 
- */
-void gfal_set_timeout_connect (int);
-/**
- * \brief get the current timeout
- * default value : 60
- */
-int gfal_get_timeout_connect ();
-/**
- * set the value for the send/receive timeout 
- */
-void gfal_set_timeout_sendreceive (int);
-/**
- *  get the value for the send/receive timeout 
- *  default value : 0
- */
-int gfal_get_timeout_sendreceive ();
-/**
- * set the timeout for the bdii queries
- */
-void gfal_set_timeout_bdii (int);
-/**
- * get the current the timeout for the bdii queries
- *  defautl value : 60
- */
-int gfal_get_timeout_bdii ();
-/**
- * 	set the timeout for the SRM queries
- * */
-void gfal_set_timeout_srm (int);
-/**
- * 	get the timeout for the SRM queries
- *  default value : 3600
- * */
-int gfal_get_timeout_srm ();
-
-int gfal_is_nobdii ();
 
