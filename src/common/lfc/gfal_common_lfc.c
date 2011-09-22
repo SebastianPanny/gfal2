@@ -64,21 +64,19 @@ const char* lfc_getName(){
 static inline  char* lfc_urlconverter(const char * lfn_url, const char* prefix){
 	const int pref_len = strlen(prefix);
 	const int strsize = strnlen(lfn_url, GFAL_URL_MAX_LEN-1);
-	char* p = malloc(sizeof(char) * (strsize-pref_len+1));
-	char* p2 = mempcpy(p,pref_len+ lfn_url,  MIN(strsize-pref_len, GFAL_URL_MAX_LEN) * sizeof(char));
-	*p2 = '\0';
-	p2--;
-	while(*p2 == '/'){ // remove the last /
-		*p2 ='\0';
-		p2--;
+	const int res_len = strsize-pref_len;
+	char* p, *pdest, *porg;
+	p = pdest = malloc(sizeof(char) * (res_len+1));
+	porg = lfn_url + pref_len;
+	while((pdest - p) <  res_len && (porg - lfn_url) < strsize){ // remove double sep, remove end sep
+		if((*porg == G_DIR_SEPARATOR && *(porg+1) == G_DIR_SEPARATOR) == FALSE &&
+		   (*porg == G_DIR_SEPARATOR && *(porg+1) == '\0') == FALSE ){
+			   *pdest = *porg;
+			   ++pdest;
+		   }
+		++porg;
 	}
-	p2 = p;
-	while(*p2 != '\0'){ //remove the duplicate //
-		if(*p2 == '/' && *(p2+1) == '/'){
-			memmove(p2,p2+1,strlen(p2+1)+1);
-		}else
-			p2++;
-	}
+	*(pdest) = '\0';
 	return p;
 }
 
