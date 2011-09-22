@@ -638,7 +638,6 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_plugin.opendirG = &lfc_opendirG;
 	lfc_plugin.closedirG = &lfc_closedirG;
 	lfc_plugin.readdirG = &lfc_readdirG;
-	lfc_plugin.getSURLG = &lfc_getSURLG;
 	lfc_plugin.getName = &lfc_getName;
 	lfc_plugin.openG = &lfc_openG;
 	lfc_plugin.symlinkG= &lfc_symlinkG;
@@ -693,7 +692,6 @@ gboolean gfal_checker_guid(const char* guid, GError** err){
 		case GFAL_CATALOG_RMDIR:
 		case GFAL_CATALOG_OPENDIR:
 
-		case GFAL_CATALOG_GETSURL:
 		case GFAL_CATALOG_SYMLINK:
 		case GFAL_CATALOG_READLINK:
 			ret= regexec(&(ops->rex), url, 0, NULL, 0);

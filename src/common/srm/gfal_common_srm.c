@@ -114,8 +114,6 @@ static gboolean gfal_srm_check_url(plugin_handle handle, const char* url, plugin
 		case GFAL_CATALOG_LSTAT:
 		case GFAL_CATALOG_RMDIR:
 		case GFAL_CATALOG_OPENDIR:
-		case GFAL_CATALOG_GETTURL:
-		case GFAL_CATALOG_PUTTURL:
 		case GFAL_CATALOG_OPEN:
 		case GFAL_CATALOG_CHMOD:
 		case GFAL_CATALOG_UNLINK:
@@ -174,8 +172,6 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_plugin.readdirG = &gfal_srm_readdirG;
 	srm_plugin.closedirG = &gfal_srm_closedirG;
 	srm_plugin.getName= &gfal_srm_getName;
-	srm_plugin.getTURLG = &gfal_srm_getTURLS_plugin;
-	srm_plugin.putTURLG= &gfal_srm_putTURLS_plugin;
 	srm_plugin.openG = &gfal_srm_openG;
 	srm_plugin.closeG = &gfal_srm_closeG;
 	srm_plugin.readG= &gfal_srm_readG;

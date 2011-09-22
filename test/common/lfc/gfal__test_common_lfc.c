@@ -260,10 +260,10 @@ void test_gfal_common_lfc_getSURL()
 	always_return(lfc_mock_getreplica, EINVAL);
 #endif	
 		
-	ret = i.getSURLG(i.handle, TEST_LFC_NOEXIST_ACCESS, &tmp_err);
+	ret = gfal_lfc_getSURL(i.handle, TEST_LFC_NOEXIST_ACCESS+4, &tmp_err);
 	assert_true_with_message( ret == NULL && tmp_err!=NULL, " must be a false convertion, file not exist");
 	g_clear_error(&tmp_err);
-	ret = i.getSURLG(i.handle, TEST_LFC_VALID_ACCESS, &tmp_err);
+	ret = gfal_lfc_getSURL(i.handle, TEST_LFC_VALID_ACCESS+4, &tmp_err);
 	assert_true_with_message(ret != NULL && tmp_err==NULL, "must be a successfull convert");
 
 	char** p = ret;

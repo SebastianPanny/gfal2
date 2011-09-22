@@ -58,9 +58,6 @@ enum _plugin_mode{
 	GFAL_CATALOG_RMDIR,
 	GFAL_CATALOG_OPENDIR, // concat of opendir readdir, closedir
 	GFAL_CATALOG_OPEN, // concat of open read, close
-	GFAL_CATALOG_GETSURL,
-	GFAL_CATALOG_GETTURL,
-	GFAL_CATALOG_PUTTURL,
 	GFAL_CATALOG_RESOLVE_GUID,
 	GFAL_CATALOG_GETXATTR,
 	GFAL_CATALOG_LISTXATTR,
@@ -125,9 +122,6 @@ struct _gfal_plugin_interface{
 	 ssize_t (*getxattrG)(plugin_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
 	 ssize_t (*listxattrG)(plugin_handle, const char*, char* list, size_t s_list, GError** err);
 	 
-	 char** (*getSURLG)(plugin_handle, const char*, GError**);	 
-	 int (*getTURLG)(plugin_handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
-	 int (*putTURLG)(plugin_handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
 	
 };
 
@@ -183,9 +177,7 @@ int gfal_plugin_unlinkG(plugin_handle handle, const char* path, GError** err);
 ssize_t gfal_plugin_getxattrG(gfal_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
 ssize_t gfal_plugin_listxattrG(gfal_handle , const char*, char* list, size_t s_list, GError** err);
 
-char** gfal_plugin_getSURL(gfal_handle handle, const char* path, GError** err);
-int gfal_plugin_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
-int gfal_plugin_putTURLG(gfal_handle handle, const char* surl, char* turl_buff, int turl, char** reqtoken, GError** err);
+
 
 
 

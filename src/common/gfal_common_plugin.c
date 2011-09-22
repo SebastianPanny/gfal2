@@ -552,28 +552,7 @@ struct dirent* gfal_plugin_readdirG(gfal_handle handle, gfal_file_handle fh, GEr
 	return ret; 
 }
 
-/**
- * Resolve a link on the plugin to a list of surl
- * @return pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
- * @warning must be free with g_list_free_full
- */
-char** gfal_plugin_getSURL(gfal_handle handle, const char* path, GError** err){
-	GError* tmp_err=NULL;
-	char** resu = NULL;
-	
-	gboolean getSURL_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path, GFAL_CATALOG_GETSURL, terr);
-	}	
-	int getSURL_executor(gfal_plugin_interface* cata_list, GError** terr){
-		resu= cata_list->getSURLG(cata_list->handle, path, terr);
-		return (resu)?0:-1;
-	}
-	
-	gfal_plugins_operation_executor(handle, &getSURL_checker, &getSURL_executor, &tmp_err);
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
-	return resu;
-}
+
 
 /**
  * @brief implementation in the plugin of the get extended attribute function
@@ -615,50 +594,6 @@ ssize_t gfal_plugin_listxattrG(gfal_handle handle, const char* path, char* list,
 	return resu;		 
 }
 
-
-/**
- * Resolve a surl to a "GET" turl
- * @return pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
- */
-int gfal_plugin_getTURLG(gfal_handle handle, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err){
-	GError* tmp_err=NULL;
-	int resu =-1;
-	
-	gboolean getTURLG_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, surl, GFAL_CATALOG_GETTURL, terr);
-	}	
-	int getTURLG_executor(gfal_plugin_interface* cata_list, GError** terr){
-		int ret= cata_list->getTURLG(cata_list->handle, surl, buff_turl, size_turl, reqtoken, terr);
-		return (ret);
-	}	
-	
-	resu= gfal_plugins_operation_executor(handle, &getTURLG_checker, &getTURLG_executor,  &tmp_err);
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
-	return resu;	
-}
-
-/**
- * Resolve a surl to a "PUT" turl
- * @return0 if success else -1 if error,  
- */
-int gfal_plugin_putTURLG(gfal_handle handle, const char* surl, char* turl_buff, int size_turl, char** reqtoken, GError** err){
-	GError* tmp_err=NULL;
-	int resu =-1;
-	
-	gboolean putTURLG_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, surl, GFAL_CATALOG_PUTTURL, terr);
-	}	
-	int putTURLG_executor(gfal_plugin_interface* cata_list, GError** terr){
-		int ret= cata_list->putTURLG(cata_list->handle, surl, turl_buff, size_turl, reqtoken, terr);
-		return (ret);
-	}	
-	
-	resu= gfal_plugins_operation_executor(handle, &putTURLG_checker, &putTURLG_executor, &tmp_err);
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
-	return resu;	
-}
 
 
 /**

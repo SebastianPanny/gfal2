@@ -17,7 +17,9 @@
  */
 
 // set to 1 if mock need to be used else to 0
+#ifndef USE_MOCK
 #define USE_MOCK 1
+#endif
 
 
 // to define
