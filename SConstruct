@@ -21,6 +21,7 @@ main_core=False
 main_devel=False
 main_doc=False
 main_meta=False
+main_tests=False
 
 ##
 
@@ -121,7 +122,8 @@ if ARGUMENTS.get('main_doc','no') =='yes':
 	main_doc=True
 if ARGUMENTS.get('main_meta','no') =='yes':
 	main_meta=True
-
+if ARGUMENTS.get('main_tests','no') =='yes':
+	main_tests=True
 
 #externals builds
 env_libgcache = env.Clone()
@@ -130,7 +132,7 @@ gsimplecache = SConscript(build_dir_externals +'/gsimplecache/SConscript',['head
 
 #main build
 VariantDir(build_dir_src, 'src')
-mainlib, staticlib, versionexe,plugin_lfc_lib, plugin_srm_lib, plugin_rfio_lib, plugin_dcap_lib  = SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src','debug_mode'])
+mainlib, staticlib, versionexe,plugin_lfc_lib, plugin_srm_lib, plugin_rfio_lib, plugin_dcap_lib, all_headers  = SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src','debug_mode'])
 
 # global testing build
 SConscript('testing/SConscript', ['env', 'headers', 'libs', 'old_gfal_header','debug_mode'])
@@ -140,7 +142,7 @@ env_test = env.Clone()
 env_test.Append(CPPPATH=[ "#src/common", "#src/", "#src/posix"]+ cgreen_header_dir)
 env_test.Append(LIBPATH= cgreen_lib_dir)
 VariantDir(build_dir_test, 'test')
-SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','debug_mode'])
+tests = SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','debug_mode', 'all_headers'])
 
 #VariantDir("rpmbuildir/", 'rpm/')
 #SConscript("rpmbuildir/SConscript", ["env","mainlib", "staticlib", "versionexe", "version", "package_version", "plugin_lfc_lib"] )
@@ -322,7 +324,26 @@ if(main_meta):
 				 X_RPM_INSTALL= define_rpm_install(arguments_to_str()),
 				 source= [license1] 
 				 )	
-	
+
+
+if(main_tests):
+	main_test = env.Install('/usr/share/gfal2/tests/mocked/', tests )
+	scripts_test = env.Install('/usr/share/gfal2/tests/mocked/', Glob("dist/usr/share/gfal2/tests/mocked/*"))
+	install_list += [scripts_test, main_test] 
+	x_rpm_install = define_rpm_install(arguments_to_str());
+	pack_list += env.Package( 
+			 NAME     = 'gfal2-tests-devel',
+			 VERSION        = version,
+			 PACKAGEVERSION = package_version,
+			 PACKAGETYPE    = 'rpm',
+			 LICENSE        = 'Apache2.0',
+			 SUMMARY        = 'binaries tests for GFAL 2.0',
+			 DESCRIPTION    = 'binaries tests for GFAL 2.0',
+			 X_RPM_GROUP    = 'CERN/grid',
+			 X_RPM_INSTALL= x_rpm_install,
+			 X_RPM_REQUIRES = 'gfal2-all',
+			 source= [scripts_test, main_test] 
+			 )	
 
 env.Alias("install", install_list);
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-package_list=(main_core main_devel main_meta main_doc plugin_dcap plugin_srm plugin_lfc plugin_rfio)
+package_list=(main_core main_devel main_meta main_doc plugin_dcap plugin_srm plugin_lfc plugin_rfio main_tests)
 
 if [ -z "$SCONS_EXE" ]
 then

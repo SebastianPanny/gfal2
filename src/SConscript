@@ -21,6 +21,7 @@ srm_headers = local_headers + Glob("common/srm/*.h")  + Glob("externals/gsimplec
 rfio_headers = local_headers + Glob("common/rfio/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
 dcap_headers = local_headers + Glob("common/dcap/*.h")  + Glob("externals/gsimplecache/*.h") + Glob("common/mds/*.h")+  Glob("common/*.h")
 
+all_headers  = local_headers + srm_headers+ srm_headers+ rfio_headers + dcap_headers
 
 plugin_lfc = Glob("common/lfc/*.c")
 plugin_srm = Glob("common/srm/*.c")
@@ -81,4 +82,4 @@ env_plugin.Depends(versionexe, local_headers)
 
 Default(plugin_rfio_lib, plugin_dcap_lib, plugin_lfc_lib, plugin_srm_lib, mainlib,staticlib, versionexe)
 
-Return("mainlib", "staticlib", "versionexe", "plugin_lfc_lib", "plugin_srm_lib", "plugin_rfio_lib", "plugin_dcap_lib")
+Return("mainlib", "staticlib", "versionexe", "plugin_lfc_lib", "plugin_srm_lib", "plugin_rfio_lib", "plugin_dcap_lib", "all_headers")
