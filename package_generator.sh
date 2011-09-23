@@ -14,7 +14,7 @@ do
 $SCONS_EXE -j 8 $i=yes "$@" package_generator
 if [ "$?" != "0" ]
   then
-	exit $?
+	exit -1
 fi
 rm *.tar.gz
 rm *.spec
