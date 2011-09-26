@@ -6,13 +6,13 @@
 */
 
 
- void test_access_posix_guid_exist();
-void test_access_posix_guid_read();
-void test_access_posix_guid_write();
-void test_access_posix_lfn_exist();
-void test_access_posix_lfn_read();
-void test_access_posix_lfn_write();
-void test_access_posix_srm_exist();
-void test_access_posix_srm_read();
-void test_access_posix_srm_write(); 
+ void gfal2_test_access_posix_guid_exist();
+void gfal2_test_access_posix_guid_read();
+void gfal2_test_access_posix_guid_write();
+void gfal2_test_access_posix_lfn_exist();
+void gfal2_test_access_posix_lfn_read();
+void gfal2_test_access_posix_lfn_write();
+void gfal2_test_access_posix_srm_exist();
+void gfal2_test_access_posix_srm_read();
+void gfal2_test_access_posix_srm_write(); 
 

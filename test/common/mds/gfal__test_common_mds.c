@@ -12,7 +12,7 @@
 
 
 
-void test_check_bdii_endpoints_srm()
+void gfal2_test_check_bdii_endpoints_srm()
 {
 
 	char **se_types=NULL;
@@ -50,7 +50,7 @@ void test_check_bdii_endpoints_srm()
 }
 
 
-void test_check_bdii_endpoints_srm_ng()
+void gfal2_gfal2_test_check_bdii_endpoints_srm_ng()
 {
 	gfal_mds_endpoint tabendpoint[100];
 

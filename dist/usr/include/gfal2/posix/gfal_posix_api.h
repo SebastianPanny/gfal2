@@ -33,6 +33,14 @@
 #include <unistd.h>
 #include "../common/gfal_constants.h"
 
+/**
+	\defgroup posix_group all POSIX style function
+*/
+
+/**
+	\addtogroup posix_group
+	@{
+*/
 
 
 int gfal_chmod(const char* path, mode_t mode);
@@ -85,6 +93,11 @@ int gfal_posix_code_error();
 int gfal_set_verbose (int);
 char *gfal_version();
 
+// sync
+int gfal_flush(int fd);
 
 
-
+/**
+	@} 
+	End of the POSIX groupe
+*/

@@ -29,7 +29,7 @@ main_tests=False
 # global var
 etics_build_dir= "/usr/" # disable
 version= '2.0'
-package_version = '1.8_preview'
+package_version = '1.9_preview'
 
 ## generic function to get conf value
 def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_path='/lib64/', etics_suffix="/stage/"):
@@ -327,9 +327,8 @@ if(main_meta):
 
 
 if(main_tests):
-	main_test = env.Install('/usr/share/gfal2/tests/mocked/', tests )
-	scripts_test = env.Install('/usr/share/gfal2/tests/mocked/', Glob("dist/usr/share/gfal2/tests/mocked/*"))
-	install_list += [scripts_test, main_test] 
+	main_test = env.Install('/usr/share/gfal2/tests/mocked/', [ tests,Glob("dist/usr/share/gfal2/tests/mocked/*")]  )
+	install_list += [main_test] 
 	x_rpm_install = define_rpm_install(arguments_to_str());
 	pack_list += env.Package( 
 			 NAME     = 'gfal2-tests-devel',
@@ -342,7 +341,7 @@ if(main_tests):
 			 X_RPM_GROUP    = 'CERN/grid',
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'gfal2-all',
-			 source= [scripts_test, main_test] 
+			 source= [main_test] 
 			 )	
 
 env.Alias("install", install_list);

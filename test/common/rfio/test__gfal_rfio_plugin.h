@@ -6,7 +6,7 @@
 
 #include "../../mock/gfal_rfio_mock_test.h"
 
-void test_load_plugin();
+void gfal2_test_load_plugin();
 
 void test_rfio_load_all();
 

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" 3 "20 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -46,7 +46,7 @@
 
 .in +1c
 .ti -1c
-.RI "enum \fB_plugin_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_SYMLINK\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_GETSURL\fP, \fBGFAL_CATALOG_GETTURL\fP, \fBGFAL_CATALOG_PUTTURL\fP, \fBGFAL_CATALOG_RESOLVE_GUID\fP, \fBGFAL_CATALOG_GETXATTR\fP, \fBGFAL_CATALOG_LISTXATTR\fP, \fBGFAL_CATALOG_READLINK\fP, \fBGFAL_CATALOG_UNLINK\fP }"
+.RI "enum \fB_plugin_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_SYMLINK\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_RESOLVE_GUID\fP, \fBGFAL_CATALOG_GETXATTR\fP, \fBGFAL_CATALOG_LISTXATTR\fP, \fBGFAL_CATALOG_READLINK\fP, \fBGFAL_CATALOG_UNLINK\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -125,15 +125,6 @@
 .ti -1c
 .RI "ssize_t \fBgfal_plugin_listxattrG\fP (gfal_handle, const char *, char *list, size_t s_list, GError **err)"
 .br
-.ti -1c
-.RI "char ** \fBgfal_plugin_getSURL\fP (gfal_handle handle, const char *path, GError **err)"
-.br
-.ti -1c
-.RI "int \fBgfal_plugin_getTURLG\fP (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
-.br
-.ti -1c
-.RI "int \fBgfal_plugin_putTURLG\fP (gfal_handle handle, const char *surl, char *turl_buff, int turl, char **reqtoken, GError **err)"
-.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -173,31 +164,6 @@ close the given dir handle in the proper plugin
 .SS "int gfal_plugin_closeG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
 .PP
 close the given file handle in the proper plugin 
-.SS "char** gfal_plugin_getSURL (gfal_handle handle, const char * path, GError ** err)"
-.PP
-Resolve a link on the plugin to a list of surl 
-.PP
-\fBReturns:\fP
-.RS 4
-pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
-.RE
-.PP
-\fBWarning:\fP
-.RS 4
-must be free with g_list_free_full 
-.RE
-.PP
-
-.SS "int gfal_plugin_getTURLG (gfal_handle handle, const char * surl, char * buff_turl, int size_turl, char ** reqtoken, GError ** err)"
-.PP
-Resolve a surl to a 'GET' turl 
-.PP
-\fBReturns:\fP
-.RS 4
-pointer to a table of string with all the surls, table end with NULL, or return NULL if error 
-.RE
-.PP
-
 .SS "int gfal_plugin_lseekG (gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError ** err)"
 .PP
 do a lseek operation on the plugin 
@@ -261,9 +227,6 @@ gfal_file_handle pointer given to the handle or NULL if error
 .SS "gfal_file_handle gfal_plugin_openG (gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err)"
 .PP
 open the file specified by path on the proper plugin with the specified flag and mode 
-.SS "int gfal_plugin_putTURLG (gfal_handle handle, const char * surl, char * turl_buff, int size_turl, char ** reqtoken, GError ** err)"
-.PP
-Resolve a surl to a 'PUT' turl  if success else -1 if error, 
 .SS "struct dirent* gfal_plugin_readdirG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
 .PP
 execute a readdir for the given file handle on the appropriate plugin 

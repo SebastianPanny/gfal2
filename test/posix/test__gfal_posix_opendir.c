@@ -225,7 +225,7 @@ void test__readdir_generic_test_simple(char * folder, GList* list_dir){
 	
 }
 
-void test__opendir_posix_local_simple()
+void gfal2_test__opendir_posix_local_simple()
 {
 	test__opendir_generic_test_simple(TEST_LOCAL_OPENDIR_OPEN_INVALID, TEST_LOCAL_OPENDIR_OPEN_NOACCESS, TEST_LOCAL_OPENDIR_OPEN);	
 }
@@ -233,14 +233,14 @@ void test__opendir_posix_local_simple()
 
 
 
-void test__opendir_posix_lfc_simple()
+void gfal2_test__opendir_posix_lfc_simple()
 {
 	test_mock_lfc_opendir_enoent_eaccess_valid(TEST_LFC_OPENDIR_OPEN_INVALID, TEST_LFC_OPENDIR_OPEN_NOACCESS, TEST_LFC_OPENDIR_OPEN);
 	test__opendir_generic_test_simple(TEST_LFC_OPENDIR_OPEN_INVALID, TEST_LFC_OPENDIR_OPEN_NOACCESS, TEST_LFC_OPENDIR_OPEN);	
 }
 
 
-void test__readdir_posix_local_simple()
+void gfal2_test__readdir_posix_local_simple()
 {
 	gfal_posix_clear_error();
 	system(TEST_LOCAL_READDIR_CREATE_COMMAND);
@@ -257,7 +257,7 @@ void test__readdir_posix_local_simple()
 
 
 
-void test__readdir_posix_lfc_simple()
+void gfal2_test__readdir_posix_lfc_simple()
 {
 	gfal_posix_clear_error();
 	GList* list_dir = g_list_append(NULL, TEST_LFC_READDIR_1);
@@ -270,7 +270,7 @@ void test__readdir_posix_lfc_simple()
 
 
 
-void test__opendir_posix_srm_simple_mock()
+void gfal2_test__opendir_posix_srm_simple_mock()
 {
 	test_mock_srm_opendir_enoent(TEST_SRML_OPENDIR_ENOENT);
 	test__opendir_generic_test_simple(TEST_SRML_OPENDIR_ENOENT, NULL, NULL);
@@ -282,7 +282,7 @@ void test__opendir_posix_srm_simple_mock()
 
 
 
-void test__readdir_posix_srm_simple_mock()
+void gfal2_test__readdir_posix_srm_simple_mock()
 {
 	int n = 4;
 	char* surls[] = { TEST_SRM_READDIR_1, TEST_SRM_READDIR_2, TEST_SRM_READDIR_3, TEST_SRM_READDIR_4 };

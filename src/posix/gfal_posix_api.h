@@ -93,7 +93,8 @@ int gfal_posix_code_error();
 int gfal_set_verbose (int);
 char *gfal_version();
 
-
+// sync
+int gfal_flush(int fd);
 
 
 /**

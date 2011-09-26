@@ -71,7 +71,7 @@ void test_mock_lfc(gfal_handle handle, GError** err){
 }
 
 
-void test_get_cat_type()
+void gfal2_test_get_cat_type()
 {
 	char* cat_type;
 	cat_type= gfal_get_cat_type(NULL);
@@ -96,7 +96,7 @@ void test_env_var()
 }
 
 
-void test_plugin_access_file()
+void gfal2_test_plugin_access_file()
 {
 	GError* tmp_err=NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
@@ -129,7 +129,7 @@ void test_plugin_access_file()
 
 
 
-void test_plugin_url_checker()
+void gfal2_test_plugin_url_checker()
 {
 	GError* tmp_err=NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
@@ -155,7 +155,7 @@ void test_plugin_url_checker()
 
 
 
-void test__plugin_stat()
+void gfal2_test__plugin_stat()
 {
 	struct stat resu;
 	memset(&resu, 0, sizeof(struct stat));
@@ -206,7 +206,7 @@ void test__plugin_stat()
 
 
 
-void test__plugin_lstat()
+void gfal2_test__plugin_lstat()
 {
 	struct stat resu;
 	memset(&resu, 0, sizeof(struct stat));

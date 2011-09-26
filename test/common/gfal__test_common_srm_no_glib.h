@@ -5,5 +5,5 @@
 */
 
 
- void test_srm_api_no_glib_full(); 
+ void gfal2_test_srm_api_no_glib_full(); 
 

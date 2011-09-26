@@ -74,18 +74,12 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_plugins_operation
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">dirent *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#7fd9e55c89de0f0a85127972cecffcfd">gfal_plugin_readdirG</a> (gfal_handle handle, gfal_file_handle fh, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#79e889a6f6f6297772952d69cdfceff7">gfal_plugin_getSURL</a> (gfal_handle handle, const char *path, GError **err)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="de1aadc6ff10f7fef83cb57a21ef1406"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugin_getxattrG" ref="de1aadc6ff10f7fef83cb57a21ef1406" args="(gfal_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)" -->
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#de1aadc6ff10f7fef83cb57a21ef1406">gfal_plugin_getxattrG</a> (gfal_handle handle, const char *path, const char *name, void *buff, size_t s_buff, GError **err)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">implementation in the plugin of the get extended attribute function <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ef696550c6ac4bab6dec58d7c857b3f4"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugin_listxattrG" ref="ef696550c6ac4bab6dec58d7c857b3f4" args="(gfal_handle handle, const char *path, char *list, size_t s_list, GError **err)" -->
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_plugin_listxattrG</b> (gfal_handle handle, const char *path, char *list, size_t s_list, GError **err)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#acf838514b0862d12fbfeab576959c1e">gfal_plugin_getTURLG</a> (gfal_handle handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#f41ab192a34685c9b4027ce029c94731">gfal_plugin_putTURLG</a> (gfal_handle handle, const char *surl, char *turl_buff, int size_turl, char **reqtoken, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#d536879bc7813a35bc79318ce43f0b57">gfal_plugin_readG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
 
@@ -216,97 +210,6 @@ close the given dir handle in the proper plugin
 
 <p>
 close the given file handle in the proper plugin 
-</div>
-</div><p>
-<a class="anchor" name="79e889a6f6f6297772952d69cdfceff7"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugin_getSURL" ref="79e889a6f6f6297772952d69cdfceff7" args="(gfal_handle handle, const char *path, GError **err)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char** gfal_plugin_getSURL           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Resolve a link on the plugin to a list of surl <dl compact><dt><b>Returns:</b></dt><dd>pointer to a table of string with all the surls, table end with NULL, or return NULL if error </dd></dl>
-<dl compact><dt><b>Warning:</b></dt><dd>must be free with g_list_free_full </dd></dl>
-
-</div>
-</div><p>
-<a class="anchor" name="acf838514b0862d12fbfeab576959c1e"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugin_getTURLG" ref="acf838514b0862d12fbfeab576959c1e" args="(gfal_handle handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int gfal_plugin_getTURLG           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>surl</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&nbsp;</td>
-          <td class="paramname"> <em>buff_turl</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>size_turl</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char **&nbsp;</td>
-          <td class="paramname"> <em>reqtoken</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Resolve a surl to a "GET" turl <dl compact><dt><b>Returns:</b></dt><dd>pointer to a table of string with all the surls, table end with NULL, or return NULL if error </dd></dl>
-
 </div>
 </div><p>
 <a class="anchor" name="c29b06ae43aa86049b513d1174393019"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugin_lseekG" ref="c29b06ae43aa86049b513d1174393019" args="(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError **err)" -->
@@ -544,59 +447,6 @@ Execute a opendir function on the first compatible plugin ( checked with check u
 
 <p>
 open the file specified by path on the proper plugin with the specified flag and mode 
-</div>
-</div><p>
-<a class="anchor" name="f41ab192a34685c9b4027ce029c94731"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugin_putTURLG" ref="f41ab192a34685c9b4027ce029c94731" args="(gfal_handle handle, const char *surl, char *turl_buff, int size_turl, char **reqtoken, GError **err)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int gfal_plugin_putTURLG           </td>
-          <td>(</td>
-          <td class="paramtype">gfal_handle&nbsp;</td>
-          <td class="paramname"> <em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>surl</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&nbsp;</td>
-          <td class="paramname"> <em>turl_buff</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>size_turl</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char **&nbsp;</td>
-          <td class="paramname"> <em>reqtoken</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Resolve a surl to a "PUT" turl  if success else -1 if error, 
 </div>
 </div><p>
 <a class="anchor" name="7fd9e55c89de0f0a85127972cecffcfd"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugin_readdirG" ref="7fd9e55c89de0f0a85127972cecffcfd" args="(gfal_handle handle, gfal_file_handle fh, GError **err)" -->
@@ -1045,7 +895,7 @@ Delete all instance of plugins
 Instance all plugins for use if it's not the case return the number of plugin available 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Sep 20 17:48:40 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:56 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

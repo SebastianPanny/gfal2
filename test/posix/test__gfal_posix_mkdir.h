@@ -5,13 +5,13 @@
 */
 
 
- void test__mkdir_posix_lfc_simple();
+ void gfal2_test__mkdir_posix_lfc_simple();
 void test__mkdir_posix_lfc_rec();
 void test__mkdir_posix_lfc_rec_with_slash();
-void test__mkdir_posix_local_simple();
+void gfal2_test__mkdir_posix_local_simple();
 void test__mkdir_posix_local_rec();
 void test__mkdir_posix_local_rec_with_slash();
-void test__mkdir_posix_srm_simple();
+void gfal2_test__mkdir_posix_srm_simple();
 void test__mkdir_posix_srm_rec();
 void test__mkdir_posix_srm_rec_with_slash(); 
 

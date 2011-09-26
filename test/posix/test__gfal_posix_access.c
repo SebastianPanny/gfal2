@@ -18,7 +18,7 @@
 
 
 
-void test_access_posix_guid_exist()
+void gfal2_test_access_posix_guid_exist()
 {
 	int i1;
 	// test exist guid
@@ -57,7 +57,7 @@ void test_access_posix_guid_exist()
 
 
 
-void test_access_posix_guid_read()
+void gfal2_test_access_posix_guid_read()
 {
 	int i1;
 #if USE_MOCK
@@ -95,7 +95,7 @@ void test_access_posix_guid_read()
 
 
 
-void test_access_posix_guid_write()
+void gfal2_test_access_posix_guid_write()
 {
 	// test exist guid
 	int ret,i1;
@@ -131,7 +131,7 @@ void test_access_posix_guid_write()
 
 
 
-void test_access_posix_lfn_exist()
+void gfal2_test_access_posix_lfn_exist()
 {
 	// test exist guid
 	int ret;
@@ -160,7 +160,7 @@ void test_access_posix_lfn_exist()
 
 
 
-void test_access_posix_lfn_read()
+void gfal2_test_access_posix_lfn_read()
 {
 	// test exist guid
 	int ret;
@@ -191,7 +191,7 @@ void test_access_posix_lfn_read()
 
 
 
-void test_access_posix_lfn_write()
+void gfal2_test_access_posix_lfn_write()
 {
 	// test exist guid
 	int ret;
@@ -223,7 +223,7 @@ void test_access_posix_lfn_write()
 
 
 
-void test_access_posix_srm_exist()
+void gfal2_test_access_posix_srm_exist()
 {
 	// test exist guid
 	int ret;
@@ -247,7 +247,7 @@ void test_access_posix_srm_exist()
 
 
 
-void test_access_posix_srm_read()
+void gfal2_test_access_posix_srm_read()
 {
 	// test exist guid
 	int ret;
@@ -273,7 +273,7 @@ void test_access_posix_srm_read()
 
 
 
-void test_access_posix_srm_write()
+void gfal2_test_access_posix_srm_write()
 {
 	// test exist guid
 	int ret;

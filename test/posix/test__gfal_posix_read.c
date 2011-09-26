@@ -66,27 +66,27 @@ void test_generic_read_simple(char* url_exist, const char* filename){
 
 
 
-void test_read_posix_local_simple()
+void gfal2_test_read_posix_local_simple()
 {
 	system(TEST_LOCAL_OPEN_CREATE_COMMAND);
 	test_generic_read_simple(TEST_LOCAL_OPEN_EXIST, TEST_LOCAL_READ_CONTENT);
 
 }
 
-void test_read_posix_srm_simple(){
+void gfal2_test_read_posix_srm_simple(){
 	test_mock_read_posix_srm(TEST_SRM_FILE_CONTENT);
 	test_generic_read_simple(TEST_SRM_ONLY_READ_HELLO, TEST_SRM_FILE_CONTENT);	
 }
 
 
-void test_read_posix_lfc_simple()
+void gfal2_test_read_posix_lfc_simple()
 {
 	test_mock_read_posix_lfc(TEST_LFC_ONLY_READ_ACCESS, TEST_SRM_FILE_CONTENT);
 	test_generic_read_simple(TEST_LFC_ONLY_READ_ACCESS, TEST_SRM_FILE_CONTENT);
 
 }
 
-void test_read_posix_guid_simple(){
+void gfal2_test_read_posix_guid_simple(){
 	test_mock_read_posix_guid(TEST_GUID_ONLY_READ_ACCESS, TEST_SRM_FILE_CONTENT);
 	test_generic_read_simple(TEST_GUID_ONLY_READ_ACCESS, TEST_SRM_FILE_CONTENT);	
 	

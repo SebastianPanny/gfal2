@@ -5,9 +5,9 @@
 */
 
 
- void test__gfal_posix_chmod_read_lfn();
-void test__gfal_posix_chmod_read_guid();
-void test__gfal_posix_chmod_read_local();
-void test__gfal_posix_chmod_write_lfn();
+ void gfal2_test__gfal_posix_chmod_read_lfn();
+void gfal2_test__gfal_posix_chmod_read_guid();
+void gfal2_test__gfal_posix_chmod_read_local();
+void gfal2_test__gfal_posix_chmod_write_lfn();
 
-void test__gfal_posix_chmod_srm();
+void gfal2_test__gfal_posix_chmod_srm();

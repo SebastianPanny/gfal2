@@ -57,7 +57,7 @@ void create_srm_stat_env_mock_noent(){
 }
 
 
-void test__gfal_posix_stat_lfc()
+void gfal2_test__gfal_posix_stat_lfc()
 {
 #if USE_MOCK
 	GError* mock_err=NULL;
@@ -93,7 +93,7 @@ void test__gfal_posix_stat_lfc()
 
 
 
-void test__gfal_posix_stat_guid()
+void gfal2_test__gfal_posix_stat_guid()
 {
 #if USE_MOCK
 	GError* mock_err=NULL;
@@ -129,7 +129,7 @@ void test__gfal_posix_stat_guid()
 
 
 
-void test__gfal_posix_stat_local()
+void gfal2_test__gfal_posix_stat_local()
 {
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
@@ -151,7 +151,7 @@ void test__gfal_posix_stat_local()
 
 
 
-void test__gfal_posix_stat_srm()
+void gfal2_test__gfal_posix_stat_srm()
 {
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
@@ -181,7 +181,7 @@ void test__gfal_posix_stat_srm()
 
 
 
-void test__gfal_posix_lstat_lfc()
+void gfal2_test__gfal_posix_lstat_lfc()
 {
 #if USE_MOCK
 	GError* mock_err=NULL;
@@ -230,7 +230,7 @@ void test__gfal_posix_lstat_lfc()
 
 
 
-void test__gfal_posix_lstat_guid()
+void gfal2_test__gfal_posix_lstat_guid()
 {
 #if USE_MOCK
 	GError* mock_err=NULL;
@@ -268,7 +268,7 @@ void test__gfal_posix_lstat_guid()
 
 
 
-void test__gfal_posix_lstat_local()
+void gfal2_test__gfal_posix_lstat_local()
 {
 	errno =0;
 	struct stat buff;
@@ -293,7 +293,7 @@ void test__gfal_posix_lstat_local()
 
 
 
-void test__gfal_posix_lstat_srm()
+void gfal2_test__gfal_posix_lstat_srm()
 {
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));

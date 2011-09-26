@@ -53,7 +53,7 @@ void test_mock_mkdir_lfc(int errcode, char* url, mode_t mode){
 }
 
 
-void test__mkdir_posix_lfc_simple()
+void gfal2_test__mkdir_posix_lfc_simple()
 {
 	char filename[2048];
 	time_t tt;
@@ -179,7 +179,7 @@ void test__mkdir_posix_lfc_rec_with_slash()
 
 
 
-void test__mkdir_posix_local_simple()
+void gfal2_test__mkdir_posix_local_simple()
 {
 	struct stat st;
 	system(TEST_LOCAL_MKDIR_EXIST_COMMAND);
@@ -313,7 +313,7 @@ void test__mkdir_posix_local_rec_with_slash()
 
 
 
-void test__mkdir_posix_srm_simple()
+void gfal2_test__mkdir_posix_srm_simple()
 {
 	struct stat st;
 	int ret =-1;

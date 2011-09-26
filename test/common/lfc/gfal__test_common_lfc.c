@@ -54,7 +54,7 @@ gfal_plugin_interface get_lfc_interface(gfal_handle handle, GError** err){
 
 
 
-void test_gfal_common_lfc_define_env()
+void gfal2_test_gfal_common_lfc_define_env()
 {
 	char* old_host = getenv("LFC_HOST");
 	char* old_port = getenv("LFC_PORT");
@@ -103,7 +103,7 @@ void test_gfal_common_lfc_define_env()
 }
 
 
-void test_gfal_common_lfc_resolve_sym()
+void gfal2_test_gfal_common_lfc_resolve_sym()
 {
 	GError* err = NULL;
 	struct lfc_ops* st = gfal_load_lfc("liblfc.so", &err);
@@ -122,7 +122,7 @@ void test_gfal_common_lfc_resolve_sym()
 
 
 
-void test_gfal_common_lfc_init()
+void gfal2_test_gfal_common_lfc_init()
 {
 	GError * tmp_err=NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
@@ -142,7 +142,7 @@ void test_gfal_common_lfc_init()
 
 
 
-void test_gfal_common_lfc_access(){
+void gfal2_test_gfal_common_lfc_access(){
 	GError * tmp_err=NULL;
 	int ret =-1;
 	gfal_handle handle = gfal_initG(&tmp_err);
@@ -174,7 +174,7 @@ void test_gfal_common_lfc_access(){
 
 
 
-void test_gfal_common_lfc_no_exist()
+void gfal2_test_gfal_common_lfc_no_exist()
 {
 	GError * tmp_err=NULL;
 	int ret =-1;
@@ -206,7 +206,7 @@ void test_gfal_common_lfc_no_exist()
 
 
 
-void test_gfal_common_lfc_check_filename()
+void gfal2_test_gfal_common_lfc_check_filename()
 {
 GError * tmp_err=NULL;
 	int ret =-1;
@@ -236,7 +236,7 @@ GError * tmp_err=NULL;
 }
 
 
-void test_gfal_common_lfc_getSURL()
+void gfal2_test_gfal_common_lfc_getSURL()
 {
 	GError * tmp_err=NULL;
 	int i1;
@@ -278,7 +278,7 @@ void test_gfal_common_lfc_getSURL()
 
 
 
-void test_gfal_common_lfc_access_guid_file_exist()
+void gfal2_gfal2_test_gfal_common_lfc_access_guid_file_exist()
 {
 	GError * tmp_err=NULL;
 	int i1;
@@ -315,7 +315,7 @@ void test_gfal_common_lfc_access_guid_file_exist()
 
 
 
-void test__gfal_common_lfc_rename()
+void gfal2_test__gfal_common_lfc_rename()
 {
 	GError * tmp_err=NULL;
 	int ret =-1;
@@ -352,7 +352,7 @@ void test__gfal_common_lfc_rename()
 
 
 
-void test__gfal_common_lfc_statg()
+void gfal2_test__gfal_common_lfc_statg()
 {
 	GError * tmp_err=NULL;
 	int ret =-1;

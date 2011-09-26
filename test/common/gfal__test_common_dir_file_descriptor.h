@@ -5,6 +5,6 @@
 */
 
 
- void test__dir_file_descriptor_low();
-void test__dir_file_descriptor_high(); 
+ void gfal2_test__dir_file_descriptor_low();
+void gfal2_test__dir_file_descriptor_high(); 
 

@@ -28,7 +28,7 @@ void test_rfio_mock_all(){
 	gfal_rfio_internal_loader= gfal_rfio_mock_loader;
 }
 
-void test_load_plugin(){
+void gfal2_test_load_plugin(){
 	GError* err=NULL;
 	gfal_handle handle = gfal_initG(&err);
 	assert_true_with_message(handle != NULL, " handle is not properly allocated");

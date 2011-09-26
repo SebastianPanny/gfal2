@@ -152,7 +152,7 @@ void test_mock_guid_open_invalid(const char * guid1){
 #endif	
 }
 
-void test_open_posix_all_simple()
+void gfal2_test_open_posix_all_simple()
 {
 	int ret = gfal_open(NULL, O_RDONLY, 555);
 	assert_true_with_message( ret < 0 && gfal_posix_code_error() == EFAULT && errno==EFAULT, " must be a EFAULT response");
@@ -190,7 +190,7 @@ static void test_generic_open_simple(char* url_exist, char* url_noent, char* url
 }
 
 
-void test_open_posix_local_simple()
+void gfal2_test_open_posix_local_simple()
 {
 	system(TEST_LOCAL_OPEN_CREATE_COMMAND);
 	
@@ -200,7 +200,7 @@ void test_open_posix_local_simple()
 
 
 
-void test_open_posix_lfc_simple()
+void gfal2_test_open_posix_lfc_simple()
 {
 	test_mock_lfc_open_valid(TEST_LFC_OPEN_EXIST);
 	test_mock_lfc_open_enoent(TEST_LFC_OPEN_NOEXIST);
@@ -211,7 +211,7 @@ void test_open_posix_lfc_simple()
 
 
 
-void test_open_posix_srm_simple()
+void gfal2_test_open_posix_srm_simple()
 {
 	char* tab[]= { TEST_SRM_VALID_SURL_EXAMPLE1, NULL };	
 	char* tab_turl[] = { TEST_SRM_TURL_EXAMPLE1, NULL };
@@ -227,7 +227,7 @@ void test_open_posix_srm_simple()
 
 
 
-void test_open_posix_guid_simple()
+void gfal2_test_open_posix_guid_simple()
 {
 	int ret = -1;
 	test_mock_guid_open_valid(TEST_GUID_OPEN_EXIST);

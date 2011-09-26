@@ -104,7 +104,7 @@ void test_srm_mock_chmod(char* url, int retcode){
 
 
 
-void test_create_srm_handle()
+void gfal2_test_create_srm_handle()
 {
 	GError* err=NULL;
 	gfal_handle handle = gfal_initG(&err);
@@ -113,7 +113,7 @@ void test_create_srm_handle()
 	gfal_handle_freeG(handle);
 }
 
-void test__gfal_convert_full_surl()
+void gfal2_test__gfal_convert_full_surl()
 {
 	int res = -1;
 	char buff[2048];
@@ -162,7 +162,7 @@ void test_gfal_check_surl()
 
 
 
-void test_gfal_full_endpoint_checkG()
+void gfal2_test_gfal_full_endpoint_checkG()
 {
 	GError* err = NULL;
 	assert_true_with_message( gfal_check_fullendpoint_in_surlG( "srm://srm-pps:8443/srm/managerv2?SFN=/castor/cern.ch/grid/dteam/castordev/test-srm-pps_8443-srm2_d0t1-ed6b7013-5329-4f5b-aaba-0e1341f30663",&err) ," fail, must be a success" );
@@ -173,7 +173,7 @@ void test_gfal_full_endpoint_checkG()
 	gfal_check_GError(&err);
 }
 	
-void test_gfal_get_endpoint_and_setype_from_bdiiG(){
+void gfal2_test_gfal_get_endpoint_and_setype_from_bdiiG(){
 	GError* err= NULL;
 	int i1;
 	char buff_endpoint[2048];
@@ -215,7 +215,7 @@ void test_gfal_get_endpoint_and_setype_from_bdiiG(){
 }
 
 
-void test_gfal_srm_determine_endpoint_full_endpointG()
+void gfal2_test_gfal_srm_determine_endpoint_full_endpointG()
 {
 #if USE_MOCK
 	setup_mock_bdii();
@@ -244,7 +244,7 @@ void test_gfal_srm_determine_endpoint_full_endpointG()
 
 
 
-void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
+void gfal2_test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
 {
 #if USE_MOCK
 	setup_mock_bdii();
@@ -278,7 +278,7 @@ void test_gfal_auto_get_srm_endpoint_full_endpoint_with_no_bdiiG()
 
 
 
-void test_gfal_srm_determine_endpoint_not_fullG()
+void gfal2_test_gfal_srm_determine_endpoint_not_fullG()
 {
 	
 #if USE_MOCK
@@ -325,7 +325,7 @@ void test_gfal_srm_determine_endpoint_not_fullG()
 
 
 
-void test_gfal_get_hostname_from_surl()
+void gfal2_test_gfal_get_hostname_from_surl()
 {
 	GError * tmp_err=NULL;
 	char hostname[2048];
@@ -342,7 +342,7 @@ void test_gfal_get_hostname_from_surl()
 
 
 
-void test_gfal_select_best_protocol_and_endpointG()
+void gfal2_test_gfal_select_best_protocol_and_endpointG()
 {
 	char endpoint[2048];
 	memset(endpoint, '\0', sizeof(char)*2048);
@@ -373,7 +373,7 @@ void test_gfal_select_best_protocol_and_endpointG()
 }
 
 
-void test_gfal_srm_getTURLS_one_success()
+void gfal2_test_gfal_srm_getTURLS_one_success()
 {
 	setup_mock_srm();
 	setup_mock_bdii();
@@ -416,7 +416,7 @@ void test_gfal_srm_getTURLS_one_success()
 }
 
 
-void test_gfal_srm_getTURLS_bad_urls()
+void gfal2_test_gfal_srm_getTURLS_bad_urls()
 {
 	GError* tmp_err=NULL;
 	gfal_handle handle  = gfal_initG(&tmp_err);
@@ -435,7 +435,7 @@ void test_gfal_srm_getTURLS_bad_urls()
 }
 
 
-void test_gfal_srm_getTURLS_pipeline_success()
+void gfal2_test_gfal_srm_getTURLS_pipeline_success()
 {
 	setup_mock_srm();
 	setup_mock_bdii();

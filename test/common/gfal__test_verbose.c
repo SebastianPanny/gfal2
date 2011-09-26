@@ -24,7 +24,7 @@
 
  	
 
-void test_verbose_set_get()
+void gfal2_test_verbose_set_get()
 {
 	gfal_set_verbose(GFAL_VERBOSE_DEBUG);
 	int r = gfal_get_verbose();

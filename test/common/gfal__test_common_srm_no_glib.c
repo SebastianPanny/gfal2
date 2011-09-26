@@ -10,7 +10,7 @@
 
 
 
-void test_srm_api_no_glib_full()
+void gfal2_test_srm_api_no_glib_full()
 {
 	assert_true_with_message(FALSE, " not implemented");
 	

@@ -53,7 +53,7 @@ void test_generic_write_simple(char* url_exist, const char* filename){
 
 
 
-void test_write_posix_local_simple()
+void gfal2_test_write_posix_local_simple()
 {
 
 	test_generic_write_simple(TEST_LOCAL_WRITE_VALID, TEST_LOCAL_READ_CONTENT);
@@ -62,7 +62,7 @@ void test_write_posix_local_simple()
 }
 
 
-void test_write_posix_srm_simple()
+void gfal2_test_write_posix_srm_simple()
 {
 	setup_mock_srm();
 	char buff_name[2048];
@@ -76,7 +76,7 @@ void test_write_posix_srm_simple()
 }
 
 
-void test_write_posix_lfc_simple()
+void gfal2_test_write_posix_lfc_simple()
 {
 	/*test_mock_write_posix_lfc(TEST_LFC_OPEN_WRITE, TEST_SRM_FILE_CONTENT); --> Not able to write on the lfc for the moment
 	test_generic_write_simple(TEST_LFC_OPEN_WRITE, TEST_SRM_FILE_CONTENT);

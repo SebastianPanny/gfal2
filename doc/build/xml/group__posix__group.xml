@@ -35,18 +35,11 @@
 <para>: right to configure </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid. </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="46" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="71" bodyend="73"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="46" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="56" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gc56b24046cef203517f30023a999bf1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -79,16 +72,11 @@
 <para>: the new path of the file, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>: return 0 if success, else -1 and errno / <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref> <itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer</para></listitem><listitem><para>EISDIR: newpath is an existing directory but oldpath is not a directory</para></listitem><listitem><para>ENOTEMPTY or EEXIST : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory</para></listitem><listitem><para>EXDEV oldpath and newpath are not on the same mounted file system</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
+<simplesect kind="return"><para>: return 0 if success, else -1 and errno / <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="96" bodyend="98"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="47" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="70" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g1d8c86d522d5dd26ee7ddcd9c6925964" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -121,18 +109,11 @@
 <para>: pointer to an allocated struct stat </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it</para></simplesect>
-<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for newpath or oldpath, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: oldpath or newpath is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: oldpath or newpath has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: oldpath or newpath has an invalid syntax . </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
+<simplesect kind="return"><para>return 0 if success else -1 and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="119" bodyend="121"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="83" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g347f867802a33bc04fdfb769da857103" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -151,7 +132,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="128" bodyend="130"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="51" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="92" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g33d6a4a93117a6c07405aa6ac0d42122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -184,19 +165,11 @@
 <para>access mode to check (R_OK, W_OK, X_OK or F_OK) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it. <linebreak/>
-<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Search permission is denied on a component of the path prefix or specified access to the file itself is denied.</para></listitem><listitem><para>EFAULT: path is a NULL pointer.</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory.</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: Access method not supported.</para></listitem><listitem><para>EINVAL: path has an invalid syntax or amode is invalid. </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
+<simplesect kind="return"><para>This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it. </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="52" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="52" bodyend="54"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="52" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="45" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g3a5bc0f156017008ab7fdb92cb6f9c80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
@@ -221,7 +194,44 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="371" bodyend="373"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="308" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="group__posix__group_1gc9b6944315e891beca5a56d15292658f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_symlink</definition>
+        <argsstring>(const char *oldpath, const char *newpath)</argsstring>
+        <name>gfal_symlink</name>
+        <param>
+          <type>const char *</type>
+          <declname>oldpath</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>newpath</declname>
+        </param>
+        <briefdescription>
+<para>make a new name for a file </para>        </briefdescription>
+        <detaileddescription>
+<para>similar to the POSIX call symlink . symlink() creates a symbolic link named newpath which contains the string oldpath. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newpath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: path of the link, can be in supported protocols but need to be in the same adress space than newpath </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>oldpath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: path of the linked file, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 if success else -1. if failure, errno is set, you can call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="54" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="263" bodyend="265"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g5fcdc6f3e7911787be049e20b6ab19b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -237,7 +247,7 @@
           <defname>mode</defname>
         </param>
         <briefdescription>
-<para>create a new file or truncate an existing one opens a file according to the value of flags. </para>        </briefdescription>
+<para>create a new file or truncate an existing one similar to the POSIX call creat opens a file according to the value of flags. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -251,34 +261,33 @@
 <parametername>mode</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>is used only if the file is created. </para></parameterdescription>
+<para>: is used only if the file is created. </para></parameterdescription>
 </parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>return the file descriptor or -1 if errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="57" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="281" bodyend="283"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="213" bodyend="215"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g6a431a0bdd01baf8cadbdcaa98b1c622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1gedd0cf1c9158d27dd3a9c4413ca04cfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_open</definition>
-        <argsstring>(const char *, int, mode_t)</argsstring>
+        <argsstring>(const char *path, int flag,...)</argsstring>
         <name>gfal_open</name>
         <param>
           <type>const char *</type>
-          <defname>path</defname>
+          <declname>path</declname>
         </param>
         <param>
           <type>int</type>
-          <defname>flag</defname>
+          <declname>flag</declname>
         </param>
         <param>
-          <type>mode_t</type>
-          <defname>mode</defname>
+          <type>...</type>
         </param>
         <briefdescription>
-<para>open a file opens a file according to the value of flags. </para>        </briefdescription>
+<para>open a file similar to the POSIX call open opens a file according to the value of flags. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -306,7 +315,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="58" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="268" bodyend="270"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="194" bodyend="201"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g8ba4e1df5f2e6439641c56f245d5ce73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>off_t</type>
@@ -326,9 +335,9 @@
           <defname>whence</defname>
         </param>
         <briefdescription>
-<para>set position in a file gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value: </para>        </briefdescription>
+<para>set position in a file </para>        </briefdescription>
         <detaileddescription>
-<para>SEEK_SET The offset is set from beginning of file.</para><para>SEEK_CUR The offset is added to current position.</para><para>SEEK_END The offset is added to current file size. <parameterlist kind="param"><parameteritem>
+<para>similar to the POSIX call lseek gfal_lseek positions/repositions to offset the file associated with the descriptor fd generated by a previous gfal_open. whence indicates how to interpret the offset value:</para><para>SEEK_SET The offset is set from beginning of file.</para><para>SEEK_CUR The offset is added to current position.</para><para>SEEK_END The offset is added to current file size. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>fd</parametername>
 </parameternamelist>
@@ -356,7 +365,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="350" bodyend="352"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="285" bodyend="287"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g83b88bd27def4c4e2fdfea3c5bbf88b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -368,28 +377,21 @@
           <defname>fd</defname>
         </param>
         <briefdescription>
-<para>close a file closes the file whose descriptor fd is the one returned by gfal_open. </para>        </briefdescription>
+<para>close a file similar to the POSIX call close closes the file whose descriptor fd is the one returned by gfal_open. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>fd</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>: descriptor or the file given by <ref refid="group__posix__group_1g6a431a0bdd01baf8cadbdcaa98b1c622" kindref="member">gfal_open</ref>  </para></parameterdescription>
+<para>: descriptor or the file given by <ref refid="group__posix__group_1gedd0cf1c9158d27dd3a9c4413ca04cfa" kindref="member">gfal_open</ref>  </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>EBADF: fd is not a valid file descriptor</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
+<simplesect kind="return"><para>This routine returns 0 if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="319" bodyend="321"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="250" bodyend="252"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gbfe92147d0bf650be3e471747ef2096f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -409,7 +411,7 @@
           <defname>s_buff</defname>
         </param>
         <briefdescription>
-<para>read a file gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff </para>        </briefdescription>
+<para>read a file similar to the POSIX call read gfal_read reads up to size bytes from the file descriptor fd into the buffer pointed by buff </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -437,7 +439,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="61" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="293" bodyend="295"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="226" bodyend="228"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g7237b84e87965301f5030058eca38333" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -457,7 +459,7 @@
           <defname>s_buff</defname>
         </param>
         <briefdescription>
-<para>write a file gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. </para>        </briefdescription>
+<para>write a file similar to the POSIX call write gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -485,7 +487,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="62" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="304" bodyend="306"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="63" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="238" bodyend="240"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gc793467bb55cd10d991ee1023b321dae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
@@ -509,9 +511,9 @@
           <declname>size</declname>
         </param>
         <briefdescription>
-<para>retrieve an extended attribute value gfal_getxattr retrieves an extended value from an url managed by gfal </para>        </briefdescription>
+<para>retrieve an extended attribute value </para>        </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
+<para>similar to the getxattr call of the libattr gfal_getxattr retrieves an extended value for an url in a supported protocol. The extended attributes are use for the advanced file operations ( like set/get replicas, grid status, comments, etc... ) <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>path</parametername>
 </parameternamelist>
@@ -542,11 +544,11 @@
 <para>: size of the buffer </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return the size of the data returned, or -1 if error. In the latter case, errno is set appropriately, you can call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
+<simplesect kind="return"><para>return the size of the data returned, or -1 if error. In this case, errno is set and you can call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="67" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="365" bodyend="368"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="302" bodyend="305"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gb3af1720532d8ad4798b08fa0868f4c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ssize_t</type>
@@ -566,14 +568,14 @@
           <declname>size</declname>
         </param>
         <briefdescription>
-<para>list all extended attributes gfal_listxattr list all extended atributes associated with a file </para>        </briefdescription>
+<para>list all extended attributes </para>        </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
+<para>similar to listxattr standard call of libattr gfal_listxattr list all extended atributes associated with a file The extended attributes are use for the advanced file operations ( like set/get replicas, grid status, comments, etc... )</para><para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>path</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>: path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
+<para>: path of the file/dir, can be in a supported protocol (lfn, srm, file, guid,..) </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
@@ -581,7 +583,7 @@
 <parametername>:</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>lsit of the attribute ina stirng format, separated by &apos;\0&apos;. the size is equal of of the return </para></parameterdescription>
+<para>a list of the attribute in a string format, on after each other, separated by &apos;\0&apos;. </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
@@ -591,11 +593,11 @@
 <para>: size of the buffer </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return the size of the data returned, or -1 if error. In the latter case, errno is set appropriately, you can call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
+<simplesect kind="return"><para>return the size of the data in list , or -1 if error. In this case, errno is set and you can call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="68" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="389" bodyend="391"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="69" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="344" bodyend="346"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g6f6affcf386900efc5443a9c97556a57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -616,7 +618,7 @@
 <para>Wrapper to mkdir for comptibility, same behavior than <ref refid="gfal__posix__ng_8c_1412d6606fcf2f735747f278eab8af19a" kindref="member">gfal_mkdirp</ref>  ( but subject to change in order to follow POSIX mkdir in the futur ) </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="73" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="157" bodyend="160"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="74" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="111" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g004ad5efbd544da820823e597e57be92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>DIR *</type>
@@ -638,22 +640,11 @@
 <para>of the directory to open, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>file descriptor DIR* if success else NULL if error and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it</para></simplesect>
-<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
-<listitem><para>ENOTEMPTY : newpath is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ENOTDIR: path or a component in path is not a directory<itemizedlist>
-<listitem><para>EMFILE: too many file open by the process</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
+<simplesect kind="return"><para>file descriptor DIR* if success else NULL if error and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="74" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="205" bodyend="207"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="136" bodyend="138"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g1c97c21d23c919b2647f17bbc8b79db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -665,7 +656,7 @@
           <defname>d</defname>
         </param>
         <briefdescription>
-<para>read a directory close the file descriptor of an opendir call </para>        </briefdescription>
+<para>close a file descriptor of a directory similar to the POSIX call closedir close the file descriptor of an opendir call </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -675,16 +666,11 @@
 <para>file handle ( return by opendir ) to close </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>0 if success else negativevalue and errno is set ( ( gfal_posix_error_print() )</para></simplesect>
-<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>EBADF: bad file descriptor</para></listitem><listitem><para>ECOMM: Communication error </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
+<simplesect kind="return"><para>0 if success else negativevalue and errno is set ( ( gfal_posix_error_print() ) </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="251" bodyend="253"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="76" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="176" bodyend="178"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g2a8ed205f7748d7817a18521268a1f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>dirent *</type>
@@ -696,9 +682,9 @@
           <defname>d</defname>
         </param>
         <briefdescription>
-<para>read a directory </para>        </briefdescription>
+<para>read a directory similar to the POSIX call readdir The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred. struct dirent { ino_t d_ino; // inode number off_t d_off; // offset to the next dirent unsigned short d_reclen; // length of this record unsigned char d_type; // type of file; not supported // by all file system types char d_name[256]; // filename }; </para>        </briefdescription>
         <detaileddescription>
-<para>The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred. struct dirent { ino_t d_ino; // inode number off_t d_off; // offset to the next dirent unsigned short d_reclen; // length of this record unsigned char d_type; // type of file; not supported // by all file system types char d_name[256]; // filename };</para><para><parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>d</parametername>
 </parameternamelist>
@@ -707,20 +693,11 @@
 </parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>pointer to struct dirent with file information or NULL if end of list or error, errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
-<simplesect kind="warning"><para>struct dirents are allocated statically, do not use free() on them</para></simplesect>
-<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>EBADF : bad file descriptor<itemizedlist>
-<listitem><para>ECOMM : Communication error </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
+<simplesect kind="warning"><para>struct dirents are allocated statically, do not use free() on them </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="76" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="234" bodyend="236"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="77" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="161" bodyend="163"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gcc4b6347640a722674c2d6df437490df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -742,20 +719,11 @@
 <para>specifies the directory name, can be in supported protocols (lfn, srm, file, guid,..) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>return 0 is success else -1 and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it<itemizedlist>
-<listitem><para>ERRNO list : <linebreak/>
-<itemizedlist>
-<listitem><para>usual errors:<itemizedlist>
-<listitem><para>ENOENT: The named file/directory does not exist.</para></listitem><listitem><para>EACCES: Write perimission is denied for path, or, search permission is denied for one of the directories in the path prefix of oldpath or newpath, or oldpath is a directory and does not allow write permission (needed to update the .. entry)</para></listitem><listitem><para>EFAULT: path is a NULL pointer.<itemizedlist>
-<listitem><para>ENOTEMPTY : path is a nonempty directory, that is, contains entries other than &quot;.&quot; and &quot;..&quot;</para></listitem></itemizedlist>
-</para></listitem><listitem><para>ENOTDIR: A component of path prefix is not a directory</para></listitem><listitem><para>ECOMM: Communication error</para></listitem><listitem><para>EPROTONOSUPPORT: path has a syntax error or the protocol speficied is not supported</para></listitem><listitem><para>EINVAL: path has an invalid syntax . </para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></listitem></itemizedlist>
-</para></simplesect>
+<simplesect kind="return"><para>return 0 is success else -1 and errno is set call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  to check it </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="79" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="180" bodyend="182"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="80" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="123" bodyend="125"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gdeb4c6cc47f507da3e3b498374e308fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -764,14 +732,16 @@
         <name>gfal_unlink</name>
         <param>
           <type>const char *</type>
+          <defname>path</defname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>delete a name and possibly the file it refers to </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>similar to the POSIX call unlink <ref refid="group__posix__group_1gdeb4c6cc47f507da3e3b498374e308fb" kindref="member">gfal_unlink()</ref> deletes a name from the file system. If that name was the last link to a file and no processes have the file open the file is deleted and the space it was using is made avail‐ able for reuse.</para><para>If the name was the last link to a file but any processes still have the file open the file will remain in existence until the last file descriptor referring to it is closed.</para><para>If the name referred to a symbolic link the link is removed.</para><para>If the name referred to a socket, fifo or device the name for it is removed but processes which have the object open may continue to use it. <simplesect kind="return"><para>On success, zero is returned. On error, -1 is returned, and errno is set appropriately and you can call <ref refid="gfal__posix__ng_8c_157ced6eae7afd2d0413988da02fe0373" kindref="member">gfal_posix_check_error()</ref>  for a more complete description. </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="80" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="375" bodyend="377"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="81" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="327" bodyend="329"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1ga8252652c1dc86d71ba37b401fb675f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -784,7 +754,7 @@
 <para>clear the last error reported by a gfal posix function </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="84" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="428" bodyend="431"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="85" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="384" bodyend="387"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g85337290460234042db0adfd54514df9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -794,10 +764,10 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Display and clear the last string error reported by the gfal error system for the posix API and similar to a <ref refid="group__posix__group_1g03fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> and a <ref refid="group__posix__group_1ga8252652c1dc86d71ba37b401fb675f9" kindref="member">gfal_posix_clear_error()</ref> </para>        </detaileddescription>
+<para>Display and clear the last string error reported by the gfal error system for the posix API equivalent to a <ref refid="group__posix__group_1g03fcc29bc5d79dc2f65010846b0db024" kindref="member">gfal_posix_print_error()</ref> and a <ref refid="group__posix__group_1ga8252652c1dc86d71ba37b401fb675f9" kindref="member">gfal_posix_clear_error()</ref> call </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="85" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="417" bodyend="420"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="86" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="372" bodyend="375"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g2a9e2951c934dd1c3205a89c0d25ac29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -815,10 +785,11 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>get the current error string </para>        </detaileddescription>
+<para>Get the last Error in a string format <simplesect kind="return"><para>return a pointer to the string buffer passed. </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="86" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="460" bodyend="462"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="87" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="418" bodyend="420"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g03fcc29bc5d79dc2f65010846b0db024" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -828,10 +799,10 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Display the last string error reported by the gfal error system for the posix API Errors are printed on stderr </para>        </detaileddescription>
+<para>print the last string error reported by the gfal error system for the posix API but DO NOT delete it Errors are printed on stderr </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="87" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="398" bodyend="411"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="88" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="353" bodyend="366"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gc6149b0b3c9c8af05789169a18832634" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -841,10 +812,11 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>return the current error code registered or if not exist </para>        </detaileddescription>
+<para>return the last error code ( ERRNO-style ) most of the error code are ERRNO codes. <simplesect kind="return"><para>last error code reported or 0 if nothing. </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="88" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="437" bodyend="441"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="89" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="395" bodyend="399"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1g331e181c2fadd801321ad43033835052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -861,7 +833,7 @@
 <para>set the verbose level of gfal 2 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="92" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="50" bodyend="56"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="93" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_errverbose.c" bodystart="50" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gddfc3a2a117a105f29a75d1864a527c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
@@ -874,7 +846,7 @@
 <para>return a string of the current gfal version </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="93" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="134" bodyend="136"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="94" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="134" bodyend="136"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

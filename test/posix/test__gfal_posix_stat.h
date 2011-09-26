@@ -7,12 +7,12 @@
 
 
 
- void test__gfal_posix_stat_lfc();
-void test__gfal_posix_stat_guid();
-void test__gfal_posix_stat_local();
-void test__gfal_posix_stat_srm();
-void test__gfal_posix_lstat_lfc();
-void test__gfal_posix_lstat_guid();
-void test__gfal_posix_lstat_local();
-void test__gfal_posix_lstat_srm(); 
+ void gfal2_test__gfal_posix_stat_lfc();
+void gfal2_test__gfal_posix_stat_guid();
+void gfal2_test__gfal_posix_stat_local();
+void gfal2_test__gfal_posix_stat_srm();
+void gfal2_test__gfal_posix_lstat_lfc();
+void gfal2_test__gfal_posix_lstat_guid();
+void gfal2_test__gfal_posix_lstat_local();
+void gfal2_test__gfal_posix_lstat_srm(); 
 

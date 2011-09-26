@@ -40,7 +40,7 @@
 <a name="l00028"></a>00028            obuf[i] = i;
 <a name="l00029"></a>00029 
 <a name="l00030"></a>00030    printf (<span class="stringliteral">"creating file %s\n"</span>, argv[1]);
-<a name="l00031"></a>00031    <span class="keywordflow">if</span> ((fd = <a name="a17"></a><a class="code" href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622">gfal_open</a> (argv[1], O_WRONLY|O_CREAT, 0644)) &lt; 0) {
+<a name="l00031"></a>00031    <span class="keywordflow">if</span> ((fd = <a name="a17"></a><a class="code" href="group__posix__group.html#gedd0cf1c9158d27dd3a9c4413ca04cfa">gfal_open</a> (argv[1], O_WRONLY|O_CREAT, 0644)) &lt; 0) {
 <a name="l00032"></a>00032                 <a name="a18"></a><a class="code" href="gfal__posix__ng_8c.html#57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a>();
 <a name="l00033"></a>00033            exit (1);
 <a name="l00034"></a>00034    }
@@ -65,7 +65,7 @@
 <a name="l00053"></a>00053 
 <a name="l00054"></a>00054 
 <a name="l00055"></a>00055         printf (<span class="stringliteral">"reading back %s\n"</span>, argv[1]);
-<a name="l00056"></a>00056         <span class="keywordflow">if</span> ((fd = <a class="code" href="group__posix__group.html#g6a431a0bdd01baf8cadbdcaa98b1c622">gfal_open</a> (argv[1], O_RDONLY, 0)) &lt; 0) {
+<a name="l00056"></a>00056         <span class="keywordflow">if</span> ((fd = <a class="code" href="group__posix__group.html#gedd0cf1c9158d27dd3a9c4413ca04cfa">gfal_open</a> (argv[1], O_RDONLY, 0)) &lt; 0) {
 <a name="l00057"></a>00057            <a class="code" href="gfal__posix__ng_8c.html#57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a>();
 <a name="l00058"></a>00058            exit (1);
 <a name="l00059"></a>00059         }
@@ -96,7 +96,7 @@
 <a name="l00084"></a>00084            printf (<span class="stringliteral">"compare successful\n"</span>);
 <a name="l00085"></a>00085            exit (0);
 <a name="l00086"></a>00086 }
-</pre></div> <hr size="1"><address style="align: right;"><small>Generated on Tue Sep 20 17:48:40 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div> <hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:56 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -23,4 +23,4 @@
 
  	
 
-void test_verbose_set_get();
+void gfal2_test_verbose_set_get();

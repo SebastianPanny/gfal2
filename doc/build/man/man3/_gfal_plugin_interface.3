@@ -1,4 +1,4 @@
-.TH "_gfal_plugin_interface" 3 "20 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "_gfal_plugin_interface" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -82,15 +82,6 @@ _gfal_plugin_interface \-
 .br
 .ti -1c
 .RI "ssize_t(* \fBlistxattrG\fP )(plugin_handle, const char *, char *list, size_t s_list, GError **err)"
-.br
-.ti -1c
-.RI "char **(* \fBgetSURLG\fP )(plugin_handle, const char *, GError **)"
-.br
-.ti -1c
-.RI "int(* \fBgetTURLG\fP )(plugin_handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
-.br
-.ti -1c
-.RI "int(* \fBputTURLG\fP )(plugin_handle, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"

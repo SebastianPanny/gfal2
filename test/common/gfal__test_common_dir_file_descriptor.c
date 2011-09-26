@@ -15,7 +15,7 @@
 #include "gfal_types.h"
 
 
-void test__dir_file_descriptor_low()
+void gfal2_test__dir_file_descriptor_low()
 {
 	
 	GError* tmp_err=NULL;
@@ -64,7 +64,7 @@ void test__dir_file_descriptor_low()
 
 
 
-void test__dir_file_descriptor_high()
+void gfal2_test__dir_file_descriptor_high()
 {
 	/*GError* tmp_err= NULL; -> need to be rewrite
 	const char* id_module = "mock name";

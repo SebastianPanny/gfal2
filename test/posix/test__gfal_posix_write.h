@@ -11,9 +11,9 @@ void test_mock_write_posix_guid(const char* guid1, const char* filename);
 
 void test_generic_write_simple(char* url_exist, const char* filename);
 
-void test_write_posix_srm_simple();
+void gfal2_test_write_posix_srm_simple();
 
-void test_write_posix_local_simple();
-void test_write_posix_lfc_simple();
+void gfal2_test_write_posix_local_simple();
+void gfal2_test_write_posix_lfc_simple();
 void test_write_posix_guid_simple();
 

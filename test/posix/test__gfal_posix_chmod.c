@@ -20,7 +20,7 @@
 
 
 
-void test__gfal_posix_chmod_read_lfn(){
+void gfal2_test__gfal_posix_chmod_read_lfn(){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
@@ -58,7 +58,7 @@ void test__gfal_posix_chmod_read_lfn(){
 }
 
 
-void test__gfal_posix_chmod_read_guid(){
+void gfal2_test__gfal_posix_chmod_read_guid(){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
@@ -109,7 +109,7 @@ void test__gfal_posix_chmod_read_guid(){
 }
 
 
-void test__gfal_posix_chmod_read_local(){
+void gfal2_test__gfal_posix_chmod_read_local(){
 	// create local file
 	const char * msg = "hello";
 	char nfile[500];
@@ -143,7 +143,7 @@ void test__gfal_posix_chmod_read_local(){
 
 
 
-void test__gfal_posix_chmod_write_lfn(){
+void gfal2_test__gfal_posix_chmod_write_lfn(){
 #if USE_MOCK
 	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
@@ -189,7 +189,7 @@ void test__gfal_posix_chmod_write_lfn(){
 
 
 
-void test__gfal_posix_chmod_srm(){
+void gfal2_test__gfal_posix_chmod_srm(){
 
 	errno =0;
 	test_srm_mock_chmod(TEST_SRM_CHMOD_FILE_EXIST, 0);
