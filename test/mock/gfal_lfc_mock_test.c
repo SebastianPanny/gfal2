@@ -26,7 +26,7 @@ struct lfc_filereplica* define_lastfilereplica=NULL;
 struct lfc_linkinfo *define_linkinfos=NULL;
 int define_numberlinkinfos;
 int define_numberreplica;
-
+char * lfc_comment=NULL;
 
 int* lfc_mock_C__serrno(){
 	return &lfc_last_err;
@@ -41,6 +41,10 @@ void define_mock_linkinfos(int number, char** resu){
 	}
 	define_numberlinkinfos= number;
 	
+}
+
+void define_lfc_comment(char* comment){
+	lfc_comment = strdup(comment);
 }
 
 void define_mock_filestatg(mode_t mode, int gid, int uid){
@@ -121,6 +125,17 @@ int	lfc_mock_endsess(){
 		return -1;
 	}	
 	return 0;	
+}
+
+int lfc_mock_getcomment (const char * path, char * comment){
+	int a = mock(path, comment);
+	if(a){
+		lfc_last_err = a;
+		return -1;
+	}
+	strcpy(comment, lfc_comment);
+	return 0;
+	
 }
 
 int lfc_mock_startsession(char* server, char* comment){

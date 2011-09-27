@@ -54,11 +54,10 @@
 #define GFAL_VERBOSE_DEBUG      0x02    /*!< \def GFAL_VERBOSE_DEBUG  extra information is printed */
 #define GFAL_VERBOSE_TRACE		0x08	/*! < \def GFAL_VERBOSE_TRACE execution trace */
 
-#define GFAL_CKSM_DEFAULT         GFAL_CKSM_ADLER32   // MD5 is the default algo
-
 
 #define GFAL_GUID_PREFIX "guid:"
 
+// default buffer size for address
 #define GFAL_URL_MAX_LEN 2048
 
 #define GFAL_MODULEID_LOCAL "local_file_module"
@@ -69,5 +68,8 @@
 #define GFAL_PLUGIN_INIT_SYM "gfal_plugin_init"
 #define GFAL_MAX_PLUGIN_LIST 2048
 
+#define GFAL_XATTR_REPLICA "user.replicas" // global key of replicas for the extended attributes 
+#define GFAL_XATTR_GUID "user.guid" // global key for the guid of a file 
+#define GFAL_XATTR_COMMENT "user.comment" // global key for the comments of a file 
 
 #endif

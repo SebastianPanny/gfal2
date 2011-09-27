@@ -232,5 +232,8 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 #define TEST_GUID_OPEN_EXIST TEST_GUID_VALID_FILE
 #define TEST_GUID_OPEN_NONEXIST TEST_GUID_NOEXIST_ACCESS
 
-
+// xattr
+#define TEST_LFC_VALID_COMMENT TEST_CONCAT_LFC_PREFIX("/testcomment0011")
+#define TEST_LFC_INVALID_COMMENT TEST_CONCAT_LFC_PREFIX("/testpsg0011")
+#define TEST_LFC_COMMENT_CONTENT "Hello World"
 

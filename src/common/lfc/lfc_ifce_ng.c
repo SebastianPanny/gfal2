@@ -307,14 +307,14 @@ struct lfc_ops* gfal_load_lfc(const char* name, GError** err){
 							(void**) &(lfc_sym->statg), (void**) &(lfc_sym->statr), (void**) &(lfc_sym->symlink), (void**) &(lfc_sym->unlink), (void**) &(lfc_sym->access), (void**) &(lfc_sym->chmod),
 							(void**) &(lfc_sym->rename), (void**) &(lfc_sym->opendirg), (void**) &(lfc_sym->rmdir), (void**) &(lfc_sym->startsess), (void**) &(lfc_sym->endsess), 
 							(void**) &(lfc_sym->closedir), (void**) &(lfc_sym->readdir), (void**) &(lfc_sym->Cthread_init), (void**) &(lfc_sym->_Cthread_addcid), (void**) &(lfc_sym->readlink),
-							(void**) &(lfc_sym->readdirx)};
+							(void**) &(lfc_sym->readdirx), (void**) &(lfc_sym->getcomment)};
 	const char* sym_list[] = { "C__serrno", "sstrerror", "lfc_creatg", "lfc_delreplica", "lfc_aborttrans",
 						"lfc_endtrans", "lfc_getpath", "lfc_getlinks", "lfc_getreplica", "lfc_lstat", 
 						"lfc_mkdirg", "lfc_seterrbuf", "lfc_setfsizeg", "lfc_setfsize", "lfc_starttrans",
 						"lfc_statg", "lfc_statr", "lfc_symlink", "lfc_unlink", "lfc_access", "lfc_chmod",
 						"lfc_rename", "lfc_opendirg", "lfc_rmdir", "lfc_startsess", "lfc_endsess", "lfc_closedir", "lfc_readdir",
-						"Cthread_init", "_Cthread_addcid", "lfc_readlink", "lfc_readdirx" };
-	ret = resolve_dlsym_listG(dlhandle, f_list, sym_list, 32, &tmp_err);
+						"Cthread_init", "_Cthread_addcid", "lfc_readlink", "lfc_readdirx", "lfc_getcomment" };
+	ret = resolve_dlsym_listG(dlhandle, f_list, sym_list, 33, &tmp_err);
 	if(ret != 0){
 		g_propagate_prefixed_error(err, tmp_err,"[gfal_load_lfc]");
 		free(lfc_sym);
@@ -454,6 +454,33 @@ char ** gfal_lfc_getSURL(struct lfc_ops* ops, const char* path, GError** err){
 	free(list);
 	return replicas;
 	
+}
+
+/***
+ * return the comment associated with this path
+ *  follow the xattr behavior, if buff==NULL, return only the appropriate buffer size for the call
+ * @return the size of the comment or -1 if error
+ */
+int gfal_lfc_getComment(struct lfc_ops *ops, const char* lfn, char* buff, size_t s_buff, GError** err){
+	g_return_val_err_if_fail(lfn, -1, err, "bad path");
+	const size_t req_size = CA_MAXCOMMENTLEN+1;
+	char local_buff[CA_MAXCOMMENTLEN+1];
+	GError* tmp_err = NULL;
+	int ret, resu_len;
+	
+	if(buff == NULL || s_buff == 0)
+		return req_size;
+	else{
+		ret = ops->getcomment(lfn, local_buff);
+		if(ret < 0){
+			int sav_errno = gfal_lfc_get_errno(ops);
+			g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  gfal_lfc_get_strerror(ops) );
+		}else{
+			resu_len = strnlen(buff, MIN(s_buff, req_size));
+			*((char*)mempcpy(buff, local_buff,resu_len )) = '\0';		
+		}
+		return (ret==0)?(resu_len+1):-1;
+	}
 }
 
 int gfal_lfc_statg(struct lfc_ops* ops, const char* lfn, struct lfc_filestatg* statbuf, GError** err){

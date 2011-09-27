@@ -60,6 +60,7 @@ struct lfc_ops {
 	int	(*getpath)(char *, u_signed64, char *);
 	int (*getlinks)(const char *, const char *, int *, struct lfc_linkinfo **);
 	int (*getreplica)(const char *, const char *, const char *, int *, struct lfc_filereplica **);
+	int (*getcomment) (const char * path, char * comment);
 	int	(*lstat)(const char *, struct lfc_filestat *);
 	int (*readlink)(const char *, char *, size_t);
 	int	(*mkdirg)(const char *, const char *, mode_t);
@@ -101,6 +102,8 @@ char* gfal_convert_guid_to_lfn(plugin_handle handle, char* guid, GError ** err);
 int gfal_convert_guid_to_lfn_r(plugin_handle handle, const char* guid, char* buff_lfn, size_t sbuff_lfn, GError ** err);
 
 int gfal_lfc_statg(struct lfc_ops* ops, const char*, struct lfc_filestatg* resu, GError** err);
+
+int gfal_lfc_getComment(struct lfc_ops *ops, const char* lfn, char* buff, size_t s_buff, GError** err);
 
 int gfal_lfc_convert_statg(struct stat* output, struct lfc_filestatg* input, GError** err);
 

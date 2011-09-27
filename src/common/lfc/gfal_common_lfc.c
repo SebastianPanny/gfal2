@@ -489,9 +489,9 @@ ssize_t lfc_getxattrG(plugin_handle handle, const char* path, const char* name, 
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	gfal_lfc_init_thread(ops);
 	gfal_auto_maintain_session(ops, &tmp_err);
-	if( strncmp(name, LFC_XATTR_GUID, LFC_MAX_XATTR_LEN) == 0){
+	if( strncmp(name, GFAL_XATTR_GUID, LFC_MAX_XATTR_LEN) == 0){
 		res = lfc_getxattr_getguid(handle, path, buff, size, &tmp_err );
-	}else if(strncmp(name, LFC_XATTR_SURLS, LFC_MAX_XATTR_LEN) == 0){
+	}else if(strncmp(name, GFAL_XATTR_REPLICA, LFC_MAX_XATTR_LEN) == 0){
 		res = lfc_getxattr_getsurl(handle, path, buff, size, &tmp_err);
 	}else{
 		g_set_error(&tmp_err,0, ENOATTR, "axttr not found");

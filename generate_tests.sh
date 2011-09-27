@@ -7,6 +7,7 @@ test_script_dir=`dirname $0`/dist/usr/share/gfal2/tests/mocked
 
 for i in $test_list
 do
-echo "#/bin/bash" > $test_script_dir/$i
-echo "\`dirname \$0\`/test_verbose $i" >> $test_script_dir/$i
+filename="$test_script_dir/$(echo "$i" | sed -e 's/_/-/g')"
+echo "#/bin/bash" > $filename
+echo "\`dirname \$0\`/test_verbose $i" >> $filename
 done

@@ -45,12 +45,14 @@ gfal_plugin_interface get_lfc_interface(gfal_handle handle, GError** err){
 	ops->rename = &lfc_mock_rename;
 	ops->serrno = &lfc_mock_C__serrno;
 	ops->access = &lfc_mock_access;
+	ops->getcomment = &lfc_mock_getcomment;
 	ops->sstrerror = &strerror;
 	ops->getreplica = &lfc_mock_getreplica;
 	ops->getlinks= &lfc_mock_getlinks;
 #endif
 	return i;
 }
+
 
 
 
@@ -348,7 +350,41 @@ void gfal2_test__gfal_common_lfc_rename()
 	gfal_handle_freeG(handle);
 }
 
-
+void gfal2_test_common_lfc_getcomment()
+{
+	GError * tmp_err=NULL;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		assert_true_with_message(FALSE, "error must be initiated");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);	// initialize interface
+	if(tmp_err){
+		assert_true_with_message(FALSE, "must be a valid init");
+		gfal_release_GError(&tmp_err);
+		return;
+	}	
+#if USE_MOCK
+	define_lfc_comment(TEST_LFC_COMMENT_CONTENT);
+	will_respond(lfc_mock_getcomment,0, want_string(path, TEST_LFC_VALID_COMMENT+4), want_non_null(comment));
+	will_respond(lfc_mock_getcomment, ENOENT, want_string(path, TEST_LFC_INVALID_COMMENT+4), want_non_null(comment));
+	always_return(lfc_mock_getcomment, EINVAL);
+	
+#endif
+	char buff[2048];
+	int ret = gfal_lfc_getComment(i.handle, TEST_LFC_VALID_COMMENT+4, NULL, 0, &tmp_err);
+	assert_true_with_message(ret == (CA_MAXCOMMENTLEN+1) && tmp_err == NULL, "must be the valid value of buffer size %d %ld", ret, (long) tmp_err );
+	ret = gfal_lfc_getComment(i.handle, TEST_LFC_VALID_COMMENT+4, buff, 2048, &tmp_err);
+	assert_true_with_message(ret >0  && tmp_err == NULL, "must be a valid return %d %s", ret, (tmp_err)?tmp_err->message:"" );
+	if(ret> 0){
+		int word_len = strlen(buff)+1;
+		assert_true_with_message(word_len == ret, "must be the good len for the return %d %d ", word_len, ret );
+	}	
+	ret = gfal_lfc_getComment(i.handle, TEST_LFC_INVALID_COMMENT+4, buff, 2048, &tmp_err);
+	assert_true_with_message(ret < 0  && tmp_err != NULL, "must be an error report" );
+	g_clear_error(&tmp_err);
+}
 
 
 

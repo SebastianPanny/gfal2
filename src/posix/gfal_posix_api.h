@@ -68,6 +68,12 @@ ssize_t gfal_getxattr (const char *path, const char *name,
                         void *value, size_t size);
 ssize_t gfal_listxattr (const char *path, char *list, size_t size);
 
+int gfal_setxattr (const char *path, const char *name,
+			   const void *value, size_t size, int flags);
+			   
+int gfal_removexattr(const char *path, const char *name);
+
+
 
 
 // directory management purpose

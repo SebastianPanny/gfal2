@@ -119,6 +119,7 @@ TestSuite* lfc_suite(){
 	add_test(tc_lfc, gfal2_test_gfal_common_lfc_check_filename);
 	add_test(tc_lfc, gfal2_test_gfal_common_lfc_getSURL);
 	add_test(tc_lfc, gfal2_gfal2_test_gfal_common_lfc_access_guid_file_exist);
+	add_test(tc_lfc, gfal2_test_common_lfc_getcomment);
 	return tc_lfc;
 }
 
@@ -288,10 +289,9 @@ int main (int argc, char** argv)
 	add_suite(global, posix_write_suite());
 	add_suite(global, posix_opendir_suite());
 	//add_suite(global, filedesc_suite());
-    if (argc > 1) {
+    if (argc > 1){
         return run_single_test(global, argv[1], create_text_reporter());
     }
-	run_test_suite(global, create_text_reporter());
-	return 0;
+	return run_test_suite(global, create_text_reporter());
 }
 
