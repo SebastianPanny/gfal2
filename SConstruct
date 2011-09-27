@@ -30,6 +30,7 @@ main_tests=False
 etics_build_dir= "/usr/" # disable
 version= '2.0'
 package_version = '1.9_preview'
+license_type = "Apache Software License"
 
 ## generic function to get conf value
 def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_path='/lib64/', etics_suffix="/stage/"):
@@ -175,7 +176,7 @@ if(main_core):
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
-			 LICENSE        = 'Apache2.0',
+			 LICENSE        = license_type,
 			 SUMMARY        = 'grid file access library 2.0',
 			 DESCRIPTION    = 'Provide a POSIX like API to manage file and directory with the multiples protocols of the grid',
 			 X_RPM_GROUP    = 'CERN/grid',
@@ -200,7 +201,7 @@ if(main_devel):
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
-			 LICENSE        = 'Apache2.0',
+			 LICENSE        = license_type,
 			 SUMMARY        = 'development files for grid file access library 2.0',
 			 DESCRIPTION    = 'development files for grid file access library 2.0',
 			 X_RPM_GROUP    = 'CERN/grid',
@@ -219,7 +220,7 @@ if(plugin_lfc):
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
-			 LICENSE        = 'Apache2.0',
+			 LICENSE        = license_type,
 			 SUMMARY        = 'plugin lfc for gfal 2.0',
 			 DESCRIPTION    = 'Provide the lfc access for gfal2.0',
 			 X_RPM_GROUP    = 'CERN/grid',
@@ -240,7 +241,7 @@ if(plugin_srm):
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
-			 LICENSE        = 'Apache2.0',
+			 LICENSE        = license_type,
 			 SUMMARY        = 'plugin srm for gfal 2.0',
 			 DESCRIPTION    = 'Provide the srm access for gfal2.0',
 			 X_RPM_GROUP    = 'CERN/grid',
@@ -260,7 +261,7 @@ if(plugin_rfio):
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
-			 LICENSE        = 'Apache2.0',
+			 LICENSE        = license_type,
 			 SUMMARY        = 'plugin rfio for gfal 2.0',
 			 DESCRIPTION    = 'Provide the rfio access for gfal2.0',
 			 X_RPM_GROUP    = 'CERN/grid',
@@ -280,7 +281,7 @@ if(plugin_dcap):
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
-			 LICENSE        = 'Apache2.0',
+			 LICENSE        = license_type,
 			 SUMMARY        = 'plugin dcap for gfal 2.0',
 			 DESCRIPTION    = 'Provide the dcap access for gfal2.0',
 			 X_RPM_GROUP    = 'CERN/grid',
@@ -299,7 +300,7 @@ if(main_doc):
 				 VERSION        = version,
 				 PACKAGEVERSION = package_version,
 				 PACKAGETYPE    = 'rpm',
-				 LICENSE        = 'Apache2.0',
+				 LICENSE        = license_type,
 				 SUMMARY        = 'doc gfal2.0',
 				 DESCRIPTION    = 'Documentation package for gfal2.X',
 				 X_RPM_GROUP    = 'CERN/grid',
@@ -316,7 +317,7 @@ if(main_meta):
 				 VERSION        = version,
 				 PACKAGEVERSION = package_version,
 				 PACKAGETYPE    = 'rpm',
-				 LICENSE        = 'Apache2.0',
+				 LICENSE        = license_type,
 				 SUMMARY        = 'gfal2.0 meta package',
 				 DESCRIPTION    = 'meta package for gfal2.X',
 				 X_RPM_GROUP    = 'CERN/grid',
@@ -335,7 +336,7 @@ if(main_tests):
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
-			 LICENSE        = 'Apache2.0',
+			 LICENSE        = license_type,
 			 SUMMARY        = 'binaries tests for GFAL 2.0',
 			 DESCRIPTION    = 'binaries tests for GFAL 2.0',
 			 X_RPM_GROUP    = 'CERN/grid',

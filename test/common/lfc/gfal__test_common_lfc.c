@@ -368,7 +368,7 @@ void gfal2_test_common_lfc_getcomment()
 #if USE_MOCK
 	define_lfc_comment(TEST_LFC_COMMENT_CONTENT);
 	will_respond(lfc_mock_getcomment,0, want_string(path, TEST_LFC_VALID_COMMENT+4), want_non_null(comment));
-	will_respond(lfc_mock_getcomment, ENOENT, want_string(path, TEST_LFC_INVALID_COMMENT+4), want_non_null(comment));
+	will_respond(lfc_mock_getcomment, EINVAL, want_string(path, TEST_LFC_INVALID_COMMENT+4), want_non_null(comment));
 	always_return(lfc_mock_getcomment, EINVAL);
 	
 #endif
@@ -378,11 +378,12 @@ void gfal2_test_common_lfc_getcomment()
 	ret = gfal_lfc_getComment(i.handle, TEST_LFC_VALID_COMMENT+4, buff, 2048, &tmp_err);
 	assert_true_with_message(ret >0  && tmp_err == NULL, "must be a valid return %d %s", ret, (tmp_err)?tmp_err->message:"" );
 	if(ret> 0){
-		int word_len = strlen(buff)+1;
+		int word_len = strlen(buff);
 		assert_true_with_message(word_len == ret, "must be the good len for the return %d %d ", word_len, ret );
+		assert_true_with_message(strcmp(buff, TEST_LFC_COMMENT_CONTENT) ==0, " result must be equals");
 	}	
 	ret = gfal_lfc_getComment(i.handle, TEST_LFC_INVALID_COMMENT+4, buff, 2048, &tmp_err);
-	assert_true_with_message(ret < 0  && tmp_err != NULL, "must be an error report" );
+	assert_true_with_message(ret < 0  && tmp_err != NULL, "must be an error report" ); // enoent can
 	g_clear_error(&tmp_err);
 }
 

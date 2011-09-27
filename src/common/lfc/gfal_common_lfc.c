@@ -49,7 +49,7 @@ typedef struct _lfc_opendir_handle{
 	struct dirent current_dir;
 } *lfc_opendir_handle;
 
-static char* file_xattr[] = { LFC_XATTR_GUID, LFC_XATTR_SURLS, NULL };
+static char* file_xattr[] = { GFAL_XATTR_GUID, GFAL_XATTR_REPLICA, GFAL_XATTR_COMMENT, NULL };
 /**
  * just return the name of the layer
  */
@@ -481,6 +481,22 @@ ssize_t lfc_getxattr_getguid(plugin_handle handle, const char* path, void* buff,
 }
 
 /**
+ * lfc getxattr for path -> comment resolution
+ * 
+ * */
+ ssize_t lfc_getxattr_comment(plugin_handle handle, const char* path, void* buff, size_t size, GError** err){
+	GError* tmp_err=NULL;
+	ssize_t res = -1;	 
+	struct lfc_ops* ops = (struct lfc_ops*) handle;	
+	char* lfn = url_converter(handle, path, &tmp_err);
+	if(lfn)
+		res = gfal_lfc_getComment(ops, lfn, buff, size, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return res;	 
+ }
+
+/**
  * lfc getxattr implem 
  * */
 ssize_t lfc_getxattrG(plugin_handle handle, const char* path, const char* name, void* buff, size_t size, GError** err){
@@ -493,6 +509,8 @@ ssize_t lfc_getxattrG(plugin_handle handle, const char* path, const char* name, 
 		res = lfc_getxattr_getguid(handle, path, buff, size, &tmp_err );
 	}else if(strncmp(name, GFAL_XATTR_REPLICA, LFC_MAX_XATTR_LEN) == 0){
 		res = lfc_getxattr_getsurl(handle, path, buff, size, &tmp_err);
+	}else if(strncmp(name, GFAL_XATTR_COMMENT, LFC_MAX_XATTR_LEN) == 0){
+		res= lfc_getxattr_comment(handle, path, buff, size, &tmp_err);
 	}else{
 		g_set_error(&tmp_err,0, ENOATTR, "axttr not found");
 		res = -1;

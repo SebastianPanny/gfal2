@@ -474,12 +474,17 @@ int gfal_lfc_getComment(struct lfc_ops *ops, const char* lfn, char* buff, size_t
 		ret = ops->getcomment(lfn, local_buff);
 		if(ret < 0){
 			int sav_errno = gfal_lfc_get_errno(ops);
-			g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  gfal_lfc_get_strerror(ops) );
+			if(sav_errno == ENOENT){ // no comments is define or not file exist, can be ambigous
+				resu_len = 0;
+				*buff = '\0';
+				ret = 0;
+			}else
+				g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  gfal_lfc_get_strerror(ops) );
 		}else{
-			resu_len = strnlen(buff, MIN(s_buff, req_size));
+			resu_len = strnlen(local_buff, MIN(s_buff, req_size));
 			*((char*)mempcpy(buff, local_buff,resu_len )) = '\0';		
 		}
-		return (ret==0)?(resu_len+1):-1;
+		return (ret==0)?(resu_len):-1;
 	}
 }
 
