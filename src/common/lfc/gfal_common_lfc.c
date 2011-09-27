@@ -67,7 +67,7 @@ static inline  char* lfc_urlconverter(const char * lfn_url, const char* prefix){
 	const int res_len = strsize-pref_len;
 	char* p, *pdest, *porg;
 	p = pdest = malloc(sizeof(char) * (res_len+1));
-	porg = lfn_url + pref_len;
+	porg = (char*)lfn_url + pref_len;
 	while((pdest - p) <  res_len && (porg - lfn_url) < strsize){ // remove double sep, remove end sep
 		if((*porg == G_DIR_SEPARATOR && *(porg+1) == G_DIR_SEPARATOR) == FALSE &&
 		   (*porg == G_DIR_SEPARATOR && *(porg+1) == '\0') == FALSE ){
@@ -527,13 +527,24 @@ ssize_t lfc_listxattrG(plugin_handle handle, const char* path, char* list, size_
 	ssize_t res = 0;
 	char** p= file_xattr;
 	char* plist= list;
-	while(*p != NULL){
-		const int size_str = strlen(*p)+1;
-		if( size > res && size - res >= size_str)
-			plist = mempcpy(plist, *p, size_str* sizeof(char) );
-		res += size_str;
-		p++;
+	GError* tmp_err=NULL;
+	
+	struct stat st;
+	if( lfc_lstatG(handle, path, &st, &tmp_err) < 0){
+		res = -1;
+	}else{
+		if( S_ISDIR(st.st_mode) == FALSE){
+			while(*p != NULL){
+				const int size_str = strlen(*p)+1;
+				if( size > res && size - res >= size_str)
+					plist = mempcpy(plist, *p, size_str* sizeof(char) );
+				res += size_str;
+				p++;
+			}
+		}
 	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return res;
 }
 

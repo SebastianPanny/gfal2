@@ -465,7 +465,6 @@ int gfal_lfc_getComment(struct lfc_ops *ops, const char* lfn, char* buff, size_t
 	g_return_val_err_if_fail(lfn, -1, err, "bad path");
 	const size_t req_size = CA_MAXCOMMENTLEN+1;
 	char local_buff[CA_MAXCOMMENTLEN+1];
-	GError* tmp_err = NULL;
 	int ret, resu_len;
 	
 	if(buff == NULL || s_buff == 0)

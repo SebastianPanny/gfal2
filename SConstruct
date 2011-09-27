@@ -206,7 +206,7 @@ if(main_devel):
 			 DESCRIPTION    = 'development files for grid file access library 2.0',
 			 X_RPM_GROUP    = 'CERN/grid',
 			 X_RPM_INSTALL= x_rpm_install,
-			 X_RPM_REQUIRES = 'glib2, gfal2-core',
+			 X_RPM_REQUIRES = 'glib2-devel, gfal2-core',
 			 source= [header_main, header_main2, header_main3, static_main, example_main, pkg_config] 
 			 )
 	
