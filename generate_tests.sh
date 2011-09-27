@@ -9,5 +9,6 @@ for i in $test_list
 do
 filename="$test_script_dir/$(echo "$i" | sed -e 's/_/-/g')"
 echo "#/bin/bash" > $filename
+echo "export LD_LIBRARY_PATH=/usr/local/lib/:$LD_LIBRARY_PATH" >> $filename
 echo "\`dirname \$0\`/test_verbose $i" >> $filename
 done
