@@ -1,3 +1,4 @@
 #/bin/bash
-export LD_LIBRARY_PATH=/usr/local/lib/:/home/adevress/myworkspace/gfal/build/libs/
+source /etc/profile
+export LD_LIBRARY_PATH=/usr/local/lib/:
 `dirname $0`/test_verbose gfal2_test__mkdir_posix_srm_simple

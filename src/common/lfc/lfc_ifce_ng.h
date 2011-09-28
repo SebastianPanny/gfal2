@@ -38,7 +38,10 @@
 #include "../../externals/gsimplecache/gcachemain.h"
 
 
-
+typedef struct _lfc_checksum{
+	char type[255];
+	char value[GFAL_URL_MAX_LEN];
+} lfc_checksum;
 
 
 struct lfc_ops {
@@ -104,6 +107,8 @@ int gfal_convert_guid_to_lfn_r(plugin_handle handle, const char* guid, char* buf
 int gfal_lfc_statg(struct lfc_ops* ops, const char*, struct lfc_filestatg* resu, GError** err);
 
 int gfal_lfc_getComment(struct lfc_ops *ops, const char* lfn, char* buff, size_t s_buff, GError** err);
+
+int gfal_lfc_getChecksum(struct lfc_ops* ops, const char* lfn, lfc_checksum* checksum, GError** err);
 
 int gfal_lfc_convert_statg(struct stat* output, struct lfc_filestatg* input, GError** err);
 

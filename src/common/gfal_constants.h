@@ -68,8 +68,12 @@
 #define GFAL_PLUGIN_INIT_SYM "gfal_plugin_init"
 #define GFAL_MAX_PLUGIN_LIST 2048
 
+
+// xattr std keys
 #define GFAL_XATTR_REPLICA "user.replicas" // global key of replicas for the extended attributes 
 #define GFAL_XATTR_GUID "user.guid" // global key for the guid of a file 
 #define GFAL_XATTR_COMMENT "user.comment" // global key for the comments of a file 
+#define GFAL_XATTR_CHKSUM_TYPE "user.chksumtype"
+#define GFAL_XATTR_CHKSUM_VALUE "user.checksum"
 
 #endif

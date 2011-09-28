@@ -487,6 +487,24 @@ int gfal_lfc_getComment(struct lfc_ops *ops, const char* lfn, char* buff, size_t
 	}
 }
 
+/***
+ * provide the checksum for a given file
+ *  @return the size of the checksum string or -1 if error
+ */
+int gfal_lfc_getChecksum(struct lfc_ops* ops, const char* lfn, lfc_checksum* checksum, GError** err){
+	g_return_val_err_if_fail(ops && checksum, -1, err, " inval args")
+	GError * tmp_err=NULL;
+	struct lfc_filestatg statbuf;
+	int ret;
+	if( (ret = gfal_lfc_statg(ops, lfn, &statbuf, &tmp_err)) == 0){
+		*((char*) mempcpy(checksum->type, statbuf.csumtype, sizeof(char)*3)) = '\0';
+		*((char*) mempcpy(checksum->value, statbuf.csumvalue, sizeof(char)*33)) = '\0';		
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret;
+}
+
 int gfal_lfc_statg(struct lfc_ops* ops, const char* lfn, struct lfc_filestatg* statbuf, GError** err){
 	int ret = ops->statg(lfn, NULL, statbuf);
 	if(ret != 0){

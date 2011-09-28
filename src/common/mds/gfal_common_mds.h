@@ -32,6 +32,10 @@
 
 typedef enum { SRMv2=0, SRMv1, WebDav } mds_type_endpoint;
 
+/**
+ * @struct gfal_mds_endpoint
+ * represente an endpoint URL and its type
+ */
 typedef struct _gfal_mds_endpoint{
 	char url[GFAL_URL_MAX_LEN];
 	mds_type_endpoint type;

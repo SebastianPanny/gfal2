@@ -120,6 +120,7 @@ TestSuite* lfc_suite(){
 	add_test(tc_lfc, gfal2_test_gfal_common_lfc_getSURL);
 	add_test(tc_lfc, gfal2_gfal2_test_gfal_common_lfc_access_guid_file_exist);
 	add_test(tc_lfc, gfal2_test_common_lfc_getcomment);
+	add_test(tc_lfc, gfal2_test_common_lfc_checksum);
 	return tc_lfc;
 }
 
@@ -271,7 +272,7 @@ TestSuite* posix_access_suite (void)
 
 int main (int argc, char** argv)
 {
-	fprintf(stderr, " tests : %s ", getenv("LD_LIBRARY_PATH"));
+	//fprintf(stderr, " tests : %s ", getenv("LD_LIBRARY_PATH"));
 	TestSuite *global = create_test_suite();
 	add_suite(global, verbose_suite());
 	add_suite(global, plugin_suite());
