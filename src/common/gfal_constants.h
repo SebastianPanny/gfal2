@@ -30,7 +30,7 @@
 #define GFAL_NEWFILE_SIZE         1024
 #define GFAL_MODULE_NAME_SIZE 	1024
 #define GFAL_OPEN_MAX             1024
-#define GFAL_DEFAULT_CATALOG_TYPE "lfc"
+#define GFAL_DEFAULT_PLUGIN_TYPE "lfc"
 #define GFAL_FQAN_MAX             64
 #define GFAL_GUID_LEN             37
 #define GFAL_VO_MAXLEN            255
@@ -41,7 +41,7 @@
 #define GFAL_BDII_TIMEOUT         60
 #define GFAL_SIZE_MARGIN          1048576     // 1MB
 #define GFAL_SRM_MAXRETRIES       10
-#define GFAL_MAX_CATALOG_ID_SIZE 512
+#define GFAL_MAX_PLUGIN_ID_SIZE 512
 
 /* GFAL error level for gfal_errmsg */
 #define GFAL_ERRMSG_LEN			  1024

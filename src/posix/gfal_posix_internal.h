@@ -69,6 +69,9 @@ ssize_t gfal_posix_internal_getxattr (const char *path, const char *name,
                         void *value, size_t size);
 ssize_t gfal_posix_internal_listxattr (const char *path, char *list, size_t size);
 
+int gfal_posix_internal_setxattr (const char *path, const char *name,
+			   const void *value, size_t size, int flags);
+
 struct dirent* gfal_posix_internal_readdir(DIR* dir);
 
 int gfal_posix_internal_symlink(const char * oldpath, const char *newpath);

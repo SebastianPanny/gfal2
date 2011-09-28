@@ -35,7 +35,7 @@
 #include <sys/stat.h>
  // protos
 #include "gfal_prototypes.h"
-#define MAX_CATALOG_LIST 64
+#define MAX_PLUGIN_LIST 64
 
 
 
@@ -47,22 +47,23 @@
  *  check_plugin_url send this mode to the plugin to know is this type of operation on it
  * */
 enum _plugin_mode{
-	GFAL_CATALOG_ALL=0,
-	GFAL_CATALOG_ACCESS,
-	GFAL_CATALOG_CHMOD,
-	GFAL_CATALOG_RENAME,
-	GFAL_CATALOG_SYMLINK,
-	GFAL_CATALOG_STAT,
-	GFAL_CATALOG_LSTAT,
-	GFAL_CATALOG_MKDIR,
-	GFAL_CATALOG_RMDIR,
-	GFAL_CATALOG_OPENDIR, // concat of opendir readdir, closedir
-	GFAL_CATALOG_OPEN, // concat of open read, close
-	GFAL_CATALOG_RESOLVE_GUID,
-	GFAL_CATALOG_GETXATTR,
-	GFAL_CATALOG_LISTXATTR,
-	GFAL_CATALOG_READLINK,
-	GFAL_CATALOG_UNLINK
+	GFAL_PLUGIN_ALL=0,
+	GFAL_PLUGIN_ACCESS,
+	GFAL_PLUGIN_CHMOD,
+	GFAL_PLUGIN_RENAME,
+	GFAL_PLUGIN_SYMLINK,
+	GFAL_PLUGIN_STAT,
+	GFAL_PLUGIN_LSTAT,
+	GFAL_PLUGIN_MKDIR,
+	GFAL_PLUGIN_RMDIR,
+	GFAL_PLUGIN_OPENDIR, // concat of opendir readdir, closedir
+	GFAL_PLUGIN_OPEN, // concat of open read, close
+	GFAL_PLUGIN_RESOLVE_GUID,
+	GFAL_PLUGIN_GETXATTR,
+	GFAL_PLUGIN_SETXATTR,
+	GFAL_PLUGIN_LISTXATTR,
+	GFAL_PLUGIN_READLINK,
+	GFAL_PLUGIN_UNLINK
 	
 };
 
@@ -70,7 +71,8 @@ enum _plugin_mode{
  * @struct _gfal_plugin_interface 
  * 
  *  Interface to implement in each gfal_plugin_*
- *  the needed calls are : getName, plugin_delete, check_plugin_url
+ *  the minimums calls are : getName, plugin_delete, check_plugin_url
+ *  all the unused function pointers must be set to NULL
  */
 struct _gfal_plugin_interface{
 	// handle
@@ -121,6 +123,7 @@ struct _gfal_plugin_interface{
 	 // advanced attributes management
 	 ssize_t (*getxattrG)(plugin_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
 	 ssize_t (*listxattrG)(plugin_handle, const char*, char* list, size_t s_list, GError** err);
+	 int (*setxattrG)(plugin_handle, const char*, const char*, const void*, size_t , int, GError** );
 	 
 	
 };
@@ -129,7 +132,7 @@ struct _gfal_plugin_interface{
  * container for the plugin abstraction couch parameters
  * */
 struct _plugin_opts{
-	gfal_plugin_interface plugin_list[MAX_CATALOG_LIST];
+	gfal_plugin_interface plugin_list[MAX_PLUGIN_LIST];
 	int plugin_number;
 };
 
@@ -171,11 +174,12 @@ int gfal_plugin_lseekG(gfal_handle handle, gfal_file_handle fh, off_t offset, in
 int gfal_plugin_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
 
 
-int gfal_plugin_unlinkG(plugin_handle handle, const char* path, GError** err);
+int gfal_plugin_unlinkG(gfal_handle handle, const char* path, GError** err);
 
 
 ssize_t gfal_plugin_getxattrG(gfal_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
-ssize_t gfal_plugin_listxattrG(gfal_handle , const char*, char* list, size_t s_list, GError** err);
+ssize_t gfal_plugin_listxattrG(gfal_handle, const char*, char* list, size_t s_list, GError** err);
+int gfal_plugin_setxattrG(gfal_handle, const char*, const char*, const void*, size_t, int, GError**);
 
 
 

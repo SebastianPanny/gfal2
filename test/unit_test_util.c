@@ -4,9 +4,12 @@
  * 
  * */
 
+#define _GNU_SOURCE
 
 #include <glib.h>
 #include <stdio.h> 
+#include <string.h>
+
 
 
 
@@ -16,12 +19,12 @@ gboolean check_GList_Result_String(GList* list, char** example){	// return true 
 	while(tmp_list != NULL){
 		if( tmp_list->data != NULL &&  *example != NULL){
 			if(strcmp(tmp_list->data, *example) != 0){
-				g_printerr(" error, the two string are different : %s, %s \n", tmp_list->data, *example);
+				g_printerr(" error, the two string are different : %s, %s \n", (char*) tmp_list->data, (char*) *example);
 				return FALSE;
 			} 
 		} else {
 			if(tmp_list->data != *example){
-					g_printerr(" one string is NULL but not the other : %s, %s \n", tmp_list->data, *example);
+					g_printerr(" one string is NULL but not the other : %s, %s \n", (char*) tmp_list->data, (char*) *example);
 					return FALSE;
 			}		
 		}

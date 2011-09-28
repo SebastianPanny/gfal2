@@ -44,6 +44,8 @@ int gfal_local_stat(const char* path, struct stat* buf, GError ** err);
  
 int gfal_local_lstat(const char* path, struct stat* buf, GError ** err);
 
+int gfal_local_symlink(const char* oldpath, const char* newpath, GError** err);
+
 ssize_t gfal_local_readlink(const char* path, char* buff, size_t buffsiz, GError** err);
 
 int gfal_local_lseek(gfal_file_handle fh, off_t offset, int whence, GError** err);
@@ -53,6 +55,8 @@ int gfal_local_mkdir(const char* path, mode_t mode, GError** err);
 ssize_t gfal_local_getxattr(const char* path, const char* name, void* buff, size_t s_buff, GError** err);
 
 ssize_t gfal_local_listxattr(const char* path, char* list, size_t s_list, GError** err);
+
+int gfal_local_setxattr(const char* path, const char* name, const void* value, size_t size, int flags, GError** err);
 
 int gfal_local_rmdir(const char* path, GError** err);
 

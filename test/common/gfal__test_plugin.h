@@ -11,24 +11,12 @@ void test_mock_lfc(gfal_handle handle, GError** err);
 
 void gfal2_test_get_cat_type();
 
-
-
 void test_env_var();
-
 
 void gfal2_test_plugin_access_file();
 
-
-
 void gfal2_test_plugin_url_checker();
 
-
-
-
-
-
-
 void gfal2_test__plugin_stat();
-
 
 void gfal2_test__plugin_lstat();

@@ -100,10 +100,10 @@ gboolean gfal_rfio_check_url(plugin_handle ch, const char* url,  plugin_mode mod
 	GError* tmp_err=NULL;
 	gfal_plugin_rfio_handle rh = (gfal_plugin_rfio_handle) ch;
 	switch(mode){
-			case GFAL_CATALOG_OPEN:
-			case GFAL_CATALOG_STAT:
-			case GFAL_CATALOG_LSTAT:
-			case GFAL_CATALOG_OPENDIR:
+			case GFAL_PLUGIN_OPEN:
+			case GFAL_PLUGIN_STAT:
+			case GFAL_PLUGIN_LSTAT:
+			case GFAL_PLUGIN_OPENDIR:
 				ret = gfal_rfio_internal_check_url(rh, url, &tmp_err);
 				break;
 			default:

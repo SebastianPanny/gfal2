@@ -75,7 +75,7 @@ void gfal2_test_get_cat_type()
 {
 	char* cat_type;
 	cat_type= gfal_get_cat_type(NULL);
-	assert_true_with_message(strncmp(cat_type, GFAL_DEFAULT_CATALOG_TYPE, 50) == 0, " must be true");
+	assert_true_with_message(strncmp(cat_type, GFAL_DEFAULT_PLUGIN_TYPE, 50) == 0, " must be true");
 	free(cat_type);
 }
 
@@ -85,12 +85,12 @@ void test_env_var()
 {
 	char* cat_type;
 	char* old_env;
-	old_env = getenv ("LCG_CATALOG_TYPE");
-	setenv("LCG_CATALOG_TYPE", "CATAX",1);
+	old_env = getenv ("LCG_PLUGIN_TYPE");
+	setenv("LCG_PLUGIN_TYPE", "CATAX",1);
 	cat_type= gfal_get_cat_type(NULL);
 	assert_true_with_message(strncmp(cat_type, "CATAX", 50) == 0, " must be true");
 	if(old_env != NULL)
-		setenv("LCG_CATALOG_TYPE", old_env,1);	// restore old env
+		setenv("LCG_PLUGIN_TYPE", old_env,1);	// restore old env
 	free(cat_type);
 	free(old_env);
 }

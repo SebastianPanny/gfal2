@@ -49,7 +49,7 @@ typedef struct _lfc_opendir_handle{
 	struct dirent current_dir;
 } *lfc_opendir_handle;
 
-static char* file_xattr[] = { GFAL_XATTR_GUID, GFAL_XATTR_REPLICA, GFAL_XATTR_COMMENT, GFAL_XATTR_CHKSUM_VALUE, NULL };
+static char* file_xattr[] = { GFAL_XATTR_GUID, GFAL_XATTR_REPLICA, GFAL_XATTR_COMMENT, GFAL_XATTR_CHKSUM_TYPE, GFAL_XATTR_CHKSUM_VALUE, NULL };
 /**
  * just return the name of the layer
  */
@@ -626,7 +626,7 @@ static void internal_stat_copy(gpointer original, gpointer copy){
 
 /**
  * Map function for the lfc interface
- * this function provide the generic CATALOG interface for the LFC plugin.
+ * this function provide the generic PLUGIN interface for the LFC plugin.
  * lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and plugin function map.
  * 
  * */
@@ -702,27 +702,27 @@ gboolean gfal_checker_guid(const char* guid, GError** err){
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	int ret;
 	switch(mode){
-		case GFAL_CATALOG_RESOLVE_GUID:
+		case GFAL_PLUGIN_RESOLVE_GUID:
 			return TRUE;	
 			
-		case GFAL_CATALOG_ACCESS:
-		case GFAL_CATALOG_CHMOD:	
-		case GFAL_CATALOG_STAT:
-		case GFAL_CATALOG_LSTAT:		
-		case GFAL_CATALOG_OPEN:
-		case GFAL_CATALOG_GETXATTR:
-		case GFAL_CATALOG_LISTXATTR:
-		case GFAL_CATALOG_UNLINK:
+		case GFAL_PLUGIN_ACCESS:
+		case GFAL_PLUGIN_CHMOD:	
+		case GFAL_PLUGIN_STAT:
+		case GFAL_PLUGIN_LSTAT:		
+		case GFAL_PLUGIN_OPEN:
+		case GFAL_PLUGIN_GETXATTR:
+		case GFAL_PLUGIN_LISTXATTR:
+		case GFAL_PLUGIN_UNLINK:
 			ret= regexec(&(ops->rex), url, 0, NULL, 0);
 			return (!ret || gfal_checker_guid(url, err ))?TRUE:FALSE;	
 
-		case GFAL_CATALOG_RENAME:
-		case GFAL_CATALOG_MKDIR:
-		case GFAL_CATALOG_RMDIR:
-		case GFAL_CATALOG_OPENDIR:
+		case GFAL_PLUGIN_RENAME:
+		case GFAL_PLUGIN_MKDIR:
+		case GFAL_PLUGIN_RMDIR:
+		case GFAL_PLUGIN_OPENDIR:
 
-		case GFAL_CATALOG_SYMLINK:
-		case GFAL_CATALOG_READLINK:
+		case GFAL_PLUGIN_SYMLINK:
+		case GFAL_PLUGIN_READLINK:
 			ret= regexec(&(ops->rex), url, 0, NULL, 0);
 			return (!ret)?TRUE:FALSE;	
 		default:

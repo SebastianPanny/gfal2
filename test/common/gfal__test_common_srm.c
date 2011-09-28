@@ -12,9 +12,11 @@
 #include "gfal_posix_internal.h"
 #include "gfal_prototypes.h"
 #include "gfal_types.h"
+#include "gfal__test_plugin.h"
 #include "srm/gfal_common_srm_internal_layer.h"
 #include "../unit_test_constants.h"
 #include "srm/gfal_common_srm_endpoint.h"
+#include "srm/gfal_common_srm.h"
 #include "../mock/gfal_mds_mock_test.h"
 #include "../mock/gfal_srm_mock_test.h"
 
@@ -147,18 +149,6 @@ void test_gfal_get_async_1()
 */
 
 
-
-void test_gfal_check_surl()
-{
-	GError* err=NULL;
-	int ret;
-	assert_true_with_message((ret = gfal_surl_checker(TEST_SRM_VALID_SURL_EXAMPLE1,&err) ) == 0, " error in url parse");
-	gfal_check_GError(&err);
-	assert_true_with_message((ret = gfal_surl_checker(TEST_SRM_VALID_SURL_EXAMPLE1,&err) ) == 0, " error in url parse 2");
-	gfal_check_GError(&err);
-	assert_false_with_message( (ret = gfal_surl_checker("http://google.com",&err ))== 0, " must fail , bad url");
-	g_clear_error(&err);
-}
 
 
 

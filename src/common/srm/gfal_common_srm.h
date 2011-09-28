@@ -101,6 +101,7 @@ gfal_plugin_interface gfal_srm_initG(gfal_handle handle, GError** err);
 
 void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle);
 
+
 inline char* gfal_srm_construct_key(const char* url, const char* prefix, char* buff, const size_t s_buff);
 
 /*

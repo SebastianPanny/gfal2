@@ -18,6 +18,7 @@
 
 
 #include "../../src/common/lfc/gfal_common_lfc.h"
+#include "../../src/common/gfal_common_filedescriptor.h"
 
 int lfc_last_err=0;
 struct lfc_filestatg* defined_filestatg=NULL;
@@ -218,9 +219,9 @@ int lfc_mock_rmdir(const char* path){
 }
 
 DIR* lfc_mock_opendir(const char* path, const char* guid){
-	DIR* a=  mock(path, guid);
-	if((int) a <0 ){
-		lfc_last_err = - ((int)a);	
+	DIR* a=  (void* )mock(path, guid);
+	if(GPOINTER_TO_INT(a) <0 ){
+		lfc_last_err = - (GPOINTER_TO_INT(a));	
 		return NULL;
 	}	
 	return (a)?(gfal_file_handle_new("lfc_plugin", (gpointer) a)):NULL;	

@@ -38,8 +38,18 @@
 #include "gfal_common_filedescriptor.h"
 
 
-
-
+/**
+ * convenience function for safe calls to the plugin checkers
+ * 
+ * */
+inline static gboolean gfal_plugin_checker_safe(gfal_plugin_interface* cata_list, const char* path, plugin_mode call_type, GError** terr ){
+	if(cata_list->check_plugin_url)
+		return cata_list->check_plugin_url(cata_list->handle, path, call_type, terr);
+	else{
+		g_set_error(terr, 0, EPROTONOSUPPORT, "[%s] unexcepted NULL pointer for a call to the chercker in the plugin %s",__func__, cata_list->getName());
+		return FALSE;
+	}
+}
 
 /**
  * resolve and execute init func in a given module
@@ -241,7 +251,7 @@ int gfal_plugins_accessG(gfal_handle handle, const char* path, int mode, GError*
 	GError* tmp_err=NULL;
 	
 	gboolean access_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path,  GFAL_CATALOG_ACCESS, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_ACCESS, terr);	
 	}
 	int access_executor(gfal_plugin_interface* cata_list, GError** terr){
 		return cata_list->accessG(cata_list->handle, path, mode, terr);
@@ -261,7 +271,7 @@ int gfal_plugin_statG(gfal_handle handle, const char* path, struct stat* st, GEr
 	GError* tmp_err=NULL;
 	
 	gboolean stat_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path,  GFAL_CATALOG_STAT, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_STAT, terr);
 	}
 	int stat_executor(gfal_plugin_interface* cata_list, GError** terr){
 		return cata_list->statG(cata_list->handle, path, st, terr);
@@ -282,7 +292,7 @@ ssize_t gfal_plugin_readlinkG(gfal_handle handle, const char* path, char* buff, 
 	ssize_t resu;
 	
 	gboolean readlink_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path,  GFAL_CATALOG_READLINK, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_READLINK, terr);
 	}
 	int readlink_executor(gfal_plugin_interface* cata_list, GError** terr){
 		return ((resu = cata_list->readlinkG(cata_list->handle, path, buff, buffsiz, terr)) !=-1)?0:-1;
@@ -304,7 +314,7 @@ int gfal_plugin_lstatG(gfal_handle handle, const char* path, struct stat* st, GE
 	GError* tmp_err=NULL;
 	
 	gboolean lstat_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path,  GFAL_CATALOG_LSTAT, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_LSTAT, terr);
 	}
 	int lstat_executor(gfal_plugin_interface* cata_list, GError** terr){
 		return cata_list->lstatG(cata_list->handle, path, st, terr);
@@ -343,7 +353,7 @@ int gfal_plugins_delete(gfal_handle handle, GError** err){
 	
 		
 	gboolean chmod_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path, GFAL_CATALOG_CHMOD, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_CHMOD, terr);	
 	}
 	int chmod_executor(gfal_plugin_interface* cata_list, GError** terr){
 		return cata_list->chmodG(cata_list->handle, path, mode, terr);
@@ -364,8 +374,8 @@ int gfal_plugin_renameG(gfal_handle handle, const char* oldpath, const char* new
 	GError* tmp_err=NULL;
 	
 	gboolean rename_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return (cata_list->check_plugin_url(cata_list->handle, oldpath, GFAL_CATALOG_RENAME, terr) &&
-					cata_list->check_plugin_url(cata_list->handle, newpath, GFAL_CATALOG_RENAME, terr));
+		return (gfal_plugin_checker_safe(cata_list, oldpath, GFAL_PLUGIN_RENAME, terr) && 
+			gfal_plugin_checker_safe(cata_list, newpath, GFAL_PLUGIN_RENAME, terr));	
 	}
 	int rename_executor(gfal_plugin_interface* cata_list, GError** terr){
 		return cata_list->renameG(cata_list->handle, oldpath, newpath, terr);
@@ -386,8 +396,8 @@ int gfal_plugin_symlinkG(gfal_handle handle, const char* oldpath, const char* ne
 	GError* tmp_err=NULL;
 	
 	gboolean symlink_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return (cata_list->check_plugin_url(cata_list->handle, oldpath, GFAL_CATALOG_SYMLINK, terr) &&
-					cata_list->check_plugin_url(cata_list->handle, newpath, GFAL_CATALOG_SYMLINK, terr));
+		return (gfal_plugin_checker_safe(cata_list, oldpath, GFAL_PLUGIN_SYMLINK, terr) && 
+			gfal_plugin_checker_safe(cata_list, newpath, GFAL_PLUGIN_SYMLINK, terr));	
 	}
 	int symlink_executor(gfal_plugin_interface* cata_list, GError** terr){
 		return cata_list->symlinkG(cata_list->handle, oldpath, newpath, terr);
@@ -416,7 +426,7 @@ int gfal_plugin_mkdirp(gfal_handle handle, const char* path, mode_t mode, gboole
 	GError* tmp_err=NULL;	
 
 	gboolean mkdirp_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path, GFAL_CATALOG_MKDIR, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_MKDIR, terr);	
 	}
 	int mkdirp_executor(gfal_plugin_interface* cata_list, GError** terr){
 		return cata_list->mkdirpG(cata_list->handle, path, mode, pflag, terr);
@@ -442,7 +452,7 @@ int gfal_plugin_rmdirG(gfal_handle handle, const char* path, GError** err){
 	GError* tmp_err=NULL;	
 
 	gboolean rmdir_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path, GFAL_CATALOG_RMDIR, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_RMDIR, terr);	
 	}
 	int rmdir_executor(gfal_plugin_interface* cata_list, GError** terr){
 		return cata_list->rmdirG(cata_list->handle, path, terr);
@@ -467,7 +477,7 @@ int gfal_plugin_rmdirG(gfal_handle handle, const char* path, GError** err){
 	gfal_file_handle resu=NULL;
 	
 	gboolean opendir_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, name, GFAL_CATALOG_OPENDIR, terr);
+		return gfal_plugin_checker_safe(cata_list, name, GFAL_PLUGIN_OPENDIR, terr);	
 	}
 	int opendir_executor(gfal_plugin_interface* cata_list, GError** terr){
 		resu= cata_list->opendirG(cata_list->handle, name, terr);
@@ -508,7 +518,7 @@ gfal_file_handle gfal_plugin_openG(gfal_handle handle, const char * path, int fl
 
 	
 	gboolean openG_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path, GFAL_CATALOG_OPEN, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_OPEN, terr);
 	}	
 	int openG_executor(gfal_plugin_interface* cata_list, GError** terr){
 		resu = cata_list->openG(cata_list->handle, path, flag, mode, terr);
@@ -562,7 +572,7 @@ ssize_t gfal_plugin_getxattrG(gfal_handle handle, const char* path, const char*n
 	ssize_t resu = -1;
 	
 	gboolean getxattr_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path, GFAL_CATALOG_GETXATTR, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_GETXATTR, terr);
 	}	
 	int getxattr_executor(gfal_plugin_interface* cata_list, GError** terr){
 		resu= cata_list->getxattrG(cata_list->handle, path, name, buff, s_buff, terr);
@@ -581,7 +591,7 @@ ssize_t gfal_plugin_listxattrG(gfal_handle handle, const char* path, char* list,
 	ssize_t resu = -1;
 	
 	gboolean listxattr_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path, GFAL_CATALOG_LISTXATTR, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_LISTXATTR, terr);
 	}	
 	int listxattr_executor(gfal_plugin_interface* cata_list, GError** terr){
 		resu= cata_list->listxattrG(cata_list->handle, path, list, s_list, terr);
@@ -657,7 +667,7 @@ int gfal_plugin_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size
  * return the plugin type configured at compilation time
  */
 static char* get_default_cat(){
-	return GFAL_DEFAULT_CATALOG_TYPE;
+	return GFAL_DEFAULT_PLUGIN_TYPE;
 }
 
 /***
@@ -667,12 +677,12 @@ extern char* gfal_get_cat_type(GError** err) {
     char *cat_env;
     char *cat_type;
 
-    if((cat_env = getenv ("LCG_CATALOG_TYPE")) == NULL) {
-		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[get_cat_type] LCG_CATALOG_TYPE env var is not defined, use default var instead");
+    if((cat_env = getenv ("LCG_PLUGIN_TYPE")) == NULL) {
+		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "[get_cat_type] LCG_PLUGIN_TYPE env var is not defined, use default var instead");
         cat_env = get_default_cat(); 
 	}
     if((cat_type = strndup(cat_env, 50)) == NULL) {
-		g_set_error(err,0,EINVAL,"[%s] invalid env var LCG_CATALOG_TYPE, please set it correctly or delete it",__func__);
+		g_set_error(err,0,EINVAL,"[%s] invalid env var LCG_PLUGIN_TYPE, please set it correctly or delete it",__func__);
         return NULL;
     }
     return cat_type;
@@ -682,28 +692,15 @@ extern char* gfal_get_cat_type(GError** err) {
 
 
 
-static gfal_file_handle gfal_plugin_open_surl(gfal_handle handle, char** res_surl, int flag, mode_t mode, GError** err){
-	gfal_file_handle ret = NULL;	
-	GError* tmp_err=NULL;
-	char** p = res_surl;
-	while(*p != NULL){
-		g_clear_error(&tmp_err);
-		ret = gfal_plugin_openG(handle, *p, flag, mode, &tmp_err);
-		if(ret != NULL)
-			break;
-		p++;
-	}
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return ret;	
-}
-
-int gfal_plugin_unlinkG(plugin_handle handle, const char* path, GError** err){
+/**
+ *  apply unlink on the appropriate plugin
+ * */
+int gfal_plugin_unlinkG(gfal_handle handle, const char* path, GError** err){
 	GError* tmp_err=NULL;
 	int resu = -1;
 	
 	gboolean unlink_checker(gfal_plugin_interface* cata_list, GError** terr){
-		return cata_list->check_plugin_url(cata_list->handle, path, GFAL_CATALOG_UNLINK, terr);
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_UNLINK, terr);
 	}	
 	int unlink_executor(gfal_plugin_interface* cata_list, GError** terr){
 		resu= cata_list->unlinkG(cata_list->handle, path, terr);
@@ -715,5 +712,30 @@ int gfal_plugin_unlinkG(plugin_handle handle, const char* path, GError** err){
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
 	return resu;	
 	
+}
+
+/**
+ * setxattr for the plugins
+ * */
+int gfal_plugin_setxattrG(gfal_handle handle, const char* path, const char* name, const void* value, size_t size, int flags, GError** err){
+	GError* tmp_err=NULL;
+	int resu = -1;
+	
+	gboolean setxattrG_checker(gfal_plugin_interface* cata_list, GError** terr){
+		return gfal_plugin_checker_safe(cata_list, path, GFAL_PLUGIN_SETXATTR, terr);		
+	}
+	int setxattrG_executor(gfal_plugin_interface* cata_list, GError** terr){
+		if(cata_list->setxattrG)
+			return cata_list->setxattrG(cata_list->handle, path, name, value, size, flags, terr);
+		else{
+			g_set_error(terr,0, EPROTONOSUPPORT, "unexcepted NULL pointer for the setxattrG call of the %s plugin", cata_list->getName());
+			return -1;
+		}
+	}
+
+	resu = gfal_plugins_operation_executor(handle, &setxattrG_checker, &setxattrG_executor, &tmp_err);
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
+	return resu;		
 }
 

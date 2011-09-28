@@ -108,9 +108,9 @@ gboolean gfal_dcap_check_url(plugin_handle ch, const char* url,  plugin_mode mod
 	GError* tmp_err=NULL;
 	gfal_plugin_dcap_handle rh = (gfal_plugin_dcap_handle) ch;
 	switch(mode){
-			case GFAL_CATALOG_OPEN:
-			case GFAL_CATALOG_LSTAT:
-			case GFAL_CATALOG_STAT:
+			case GFAL_PLUGIN_OPEN:
+			case GFAL_PLUGIN_LSTAT:
+			case GFAL_PLUGIN_STAT:
 				ret = gfal_dcap_internal_check_url(rh, url, &tmp_err);
 				break;
 			default:

@@ -31,6 +31,8 @@
 gfal_handle gfal_initG(GError** err);
 void gfal_handle_freeG(gfal_handle handle);
 
+
+
 // conversion funcs
 char** gfal_GList_to_tab(GList* surls);
 int* gfal_GList_to_tab_int(GList* int_list);

@@ -345,6 +345,12 @@ ssize_t gfal_listxattr (const char *path, char *list, size_t size){
 	return gfal_posix_internal_listxattr(path, list, size);
 }
 
+int gfal_setxattr (const char *path, const char *name,
+			   const void *value, size_t size, int flags){
+	return gfal_posix_internal_setxattr(path, name, value, size, flags);
+}
+
+
 
 /**
  * print the last string error reported by the gfal error system for the posix API but DO NOT delete it

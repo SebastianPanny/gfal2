@@ -108,17 +108,17 @@ gboolean gfal_srm_surl_group_checker(gfal_srmv2_opt* opts,char** surls, GError**
  * */
 static gboolean gfal_srm_check_url(plugin_handle handle, const char* url, plugin_mode mode, GError** err){
 	switch(mode){
-		case GFAL_CATALOG_ACCESS:
-		case GFAL_CATALOG_MKDIR:
-		case GFAL_CATALOG_STAT:
-		case GFAL_CATALOG_LSTAT:
-		case GFAL_CATALOG_RMDIR:
-		case GFAL_CATALOG_OPENDIR:
-		case GFAL_CATALOG_OPEN:
-		case GFAL_CATALOG_CHMOD:
-		case GFAL_CATALOG_UNLINK:
-		case GFAL_CATALOG_GETXATTR:
-		case GFAL_CATALOG_LISTXATTR:
+		case GFAL_PLUGIN_ACCESS:
+		case GFAL_PLUGIN_MKDIR:
+		case GFAL_PLUGIN_STAT:
+		case GFAL_PLUGIN_LSTAT:
+		case GFAL_PLUGIN_RMDIR:
+		case GFAL_PLUGIN_OPENDIR:
+		case GFAL_PLUGIN_OPEN:
+		case GFAL_PLUGIN_CHMOD:
+		case GFAL_PLUGIN_UNLINK:
+		case GFAL_PLUGIN_GETXATTR:
+		case GFAL_PLUGIN_LISTXATTR:
 			return (gfal_surl_checker(handle, url,  err)==0);
 		default:
 			return FALSE;		

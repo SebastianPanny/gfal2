@@ -223,14 +223,14 @@ GError * tmp_err=NULL;
 	if(tmp_err)	
 		return;
 		
-	gboolean b = i.check_plugin_url(i.handle, TEST_LFC_VALID_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
+	gboolean b = i.check_plugin_url(i.handle, TEST_LFC_VALID_ACCESS, GFAL_PLUGIN_ACCESS, &tmp_err);
 	assert_true_with_message(b && tmp_err==NULL, " must be a valid lfn url");
 
 	g_clear_error(&tmp_err);
-	b = i.check_plugin_url(i.handle, TEST_LFC_NOEXIST_ACCESS, GFAL_CATALOG_ACCESS, &tmp_err);
+	b = i.check_plugin_url(i.handle, TEST_LFC_NOEXIST_ACCESS, GFAL_PLUGIN_ACCESS, &tmp_err);
 	assert_true_with_message(b && tmp_err==NULL, " must be a valid lfn url 2");
 	g_clear_error(&tmp_err);
-	b = i.check_plugin_url(i.handle, TEST_LFC_URL_SYNTAX_ERROR, GFAL_CATALOG_ACCESS, &tmp_err);
+	b = i.check_plugin_url(i.handle, TEST_LFC_URL_SYNTAX_ERROR, GFAL_PLUGIN_ACCESS, &tmp_err);
 	assert_true_with_message(b==FALSE && tmp_err==NULL, " must an invalid lfn url 3 but must not report error");
 	g_clear_error(&tmp_err);
 
@@ -352,7 +352,7 @@ void gfal2_test__gfal_common_lfc_rename()
 
 
 void gfal2_test_common_lfc_checksum()
-{/*
+{
 	GError * tmp_err=NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
 	if(handle==NULL){
@@ -366,16 +366,26 @@ void gfal2_test_common_lfc_checksum()
 		gfal_release_GError(&tmp_err);
 		return;
 	}
+
+#if USE_MOCK
+	struct lfc_filestatg f;
+	memset(&f,0,sizeof(struct lfc_filestatg));
+	f.gid=TEST_GFAL_LFC_FILE_STAT_GID_VALUE ;
+	will_respond(lfc_mock_statg, 0, want_string(lfn, TEST_LFC_ONLY_READ_ACCESS+4));
+	defined_filestatg = &f;
+	will_respond(lfc_mock_statg, ENOENT, want_string(lfn, TEST_LFC_NOEXIST_ACCESS+4));
+	always_return(lfc_mock_statg, EINVAL);
+#endif	
 	
 	lfc_checksum chk;
 	memset(&chk, '\0', sizeof(lfc_checksum));
-	int ret = gfal_lfc_getChecksum(i.handle, "/grid/dteam/testread0012", &chk, &tmp_err);
+	int ret = gfal_lfc_getChecksum(i.handle, TEST_LFC_ONLY_READ_ACCESS+4, &chk, &tmp_err);
 	assert_true_with_message(ret==0, "must be a valid call");
 	assert_true_with_message(strcmp(chk.type, TEST_LFC_VALID_TESTREAD_CHKTYPE)==0, "must be a valid checksum type %s %s", chk.type, TEST_LFC_VALID_TESTREAD_CHKTYPE);
 	assert_true_with_message(strcmp(chk.value, TEST_LFC_VALID_TESTREAD_CHECKSUM)==0, "must be a valid checksum value %s %s", chk.value, TEST_LFC_VALID_TESTREAD_CHECKSUM);
 	ret = gfal_lfc_getChecksum(i.handle, TEST_LFC_NOEXIST_ACCESS+4, &chk, &tmp_err);
 	assert_true_with_message(ret != 0 && ((tmp_err)?(tmp_err->code):0)==ENOENT, "must be a non existing dir");	
-	g_clear_error(&tmp_err);	*/
+	g_clear_error(&tmp_err);	
 }
 
 

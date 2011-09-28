@@ -92,6 +92,15 @@ ssize_t gfal_local_listxattr(const char* path, char* list, size_t s_list, GError
 	return res;	
 }
 
+int gfal_local_setxattr(const char* path, const char* name, const void* value, size_t size, int flags, GError** err){
+	const int res = setxattr(path + strlen(GFAL_LOCAL_PREFIX), name, value, size, flags);
+	if(res <0){
+		gfal_local_report_error(__func__, err);
+	}else
+		errno =0;
+	return res;	
+}
+	
 
 
 int gfal_local_rename(const char* oldpath, const char* newpath, GError** err){
