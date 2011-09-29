@@ -6,6 +6,10 @@
 #include <cgreen/cgreen.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <common/gfal_common_internal.h>
+#include <common/gfal_types.h>
+#include <common/gfal_prototypes.h>
 #include <common/gfal_constants.h>
 #include <common/gfal_common_plugin.h>
 #include <common/gfal_common_errverbose.h>
