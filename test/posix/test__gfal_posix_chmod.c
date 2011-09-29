@@ -13,6 +13,14 @@
 #include "../unit_test_constants.h"
 #include "../../src/posix/gfal_posix_internal.h"
 
+
+#include "../mock/gfal_lfc_mock_test.h"
+#include "../mock/gfal_srm_mock_test.h"
+#include "../mock/gfal_mds_mock_test.h"
+#include "../common/rfio/test__gfal_rfio_plugin.h"
+#include "../common/gfal__test_common_srm.h"
+#include "../common/gfal__test_plugin.h"
+
 #include "gfal_posix_api.h"
 
 

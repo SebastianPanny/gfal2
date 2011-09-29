@@ -5,15 +5,25 @@
 #include <cgreen/cgreen.h>
 #include <time.h>
 #include <string.h>
-#include "gfal_constants.h"
-#include "gfal_prototypes.h"
-#include "gfal_types.h"
-#include <glib.h>
-#include "../unit_test_constants.h"
-#include <stdio.h>
-#include "gfal_posix_api.h"
 #include <errno.h>
+#include <stdio.h>
+#include <glib.h>
 
+#include <common/gfal_constants.h>
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_common_errverbose.h>
+#include <posix/gfal_posix_api.h>
+#include <posix/gfal_posix_internal.h>
+
+#include "../unit_test_constants.h"
+
+
+#include "../common/gfal__test_plugin.h"
+#include "../mock/gfal_mds_mock_test.h"
+#include "../mock/gfal_lfc_mock_test.h"
+#include "../mock/gfal_srm_mock_test.h"
+#include "../common/gfal__test_common_srm.h"
 
 
 void create_srm_mkdir_mock(const char* url, int code){
@@ -74,14 +84,14 @@ void gfal2_test__mkdir_posix_lfc_simple()
 	int ret = gfal_mkdir(TEST_LFC_EEXIST_MKDIR, 0664);
 	assert_true_with_message(ret ==-1 && errno==EEXIST && gfal_posix_code_error()==EEXIST, " must be an already exist file");
 	gfal_posix_clear_error();
-	errno ==0;
+	errno =0;
 	
 
 	ret = gfal_mkdir(filename, 0664);
 	assert_true_with_message( ret ==0 && errno==0 && gfal_posix_code_error() ==0, " must be a valid mkdir");
 	gfal_posix_check_error();
 	gfal_posix_clear_error();
-	errno ==0;
+	errno =0;
 	
 	ret = gfal_stat(filename,&st);
 	assert_true_with_message(ret ==0 && st.st_mode== 040664, " must be the correct right and dir must exist");
@@ -89,7 +99,7 @@ void gfal2_test__mkdir_posix_lfc_simple()
 	ret = gfal_mkdir(TEST_LFC_UNACCESS_MKDIR, 0664);
 	assert_true_with_message(ret == -1 && errno== EACCES && gfal_posix_code_error()== EACCES, " must be a bad access right");
 	gfal_posix_clear_error();
-	errno ==0;	
+	errno =0;	
 	
 }
 
@@ -190,7 +200,7 @@ void gfal2_test__mkdir_posix_local_simple()
 		return;
 	}
 	gfal_posix_clear_error();
-	errno ==0;
+	errno =0;
 	
 	char filename[2048];
 	time_t tt;
@@ -203,7 +213,7 @@ void gfal2_test__mkdir_posix_local_simple()
 		return;		
 	}
 	gfal_posix_clear_error();
-	errno ==0;
+	errno =0;
 	
 	ret = gfal_stat(filename,&st);
 	if( ret != 0 || st.st_mode != 040644){
@@ -219,7 +229,7 @@ void gfal2_test__mkdir_posix_local_simple()
 		return;			
 	}
 	gfal_posix_clear_error();
-	errno ==0;	
+	errno =0;	
 	
 }
 
@@ -315,9 +325,8 @@ void test__mkdir_posix_local_rec_with_slash()
 
 void gfal2_test__mkdir_posix_srm_simple()
 {
-	struct stat st;
 	int ret =-1;
-	/*  --> forget eexist test with srm...
+	/*  --> forget eexist test with srm due to the "mkdir -p" default behavior of the srm interface
 	ret = gfal_mkdir(TEST_SRM_EEXIST_MKDIR, 0664);
 	if( ret != 0 ){
 		assert_true_with_message(FALSE, " must be an existing dir %d %d %d", ret, errno, gfal_posix_code_error()); //---------> EEXIST ->  0 for srm
@@ -340,7 +349,7 @@ void gfal2_test__mkdir_posix_srm_simple()
 		return;		
 	}
 	gfal_posix_clear_error();
-	errno ==0;
+	errno =0;
 #if USE_MOCK
 	mock_srm_access_right_response(filename);
 #endif
@@ -358,7 +367,7 @@ void gfal2_test__mkdir_posix_srm_simple()
 		return;			
 	}
 	gfal_posix_clear_error();
-	errno ==0;	
+	errno =0;	
 	
 }
 

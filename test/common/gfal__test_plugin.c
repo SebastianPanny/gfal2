@@ -13,6 +13,8 @@
 #include "../unit_test_constants.h"
 #include "../mock/gfal_lfc_mock_test.h"
 
+#include "gfal__test_plugin.h"
+
 
 struct lfc_ops* find_lfc_ops(gfal_handle handle, GError** err){
 	int n = handle->plugin_opt.plugin_number;

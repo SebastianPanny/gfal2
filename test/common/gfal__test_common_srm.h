@@ -7,6 +7,9 @@
 
 void setup_mock_srm();
 
+void mock_srm_access_error_response(char* surl, int merror);
+void mock_srm_access_right_response(char* surl);
+
 void test_srm_mock_chmod(char* url, int retcode);
 
 void gfal2_test_create_srm_handle();

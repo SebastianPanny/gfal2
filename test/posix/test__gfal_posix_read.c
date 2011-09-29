@@ -1,16 +1,19 @@
 
 /* unit test for posix open func */
 
-
+#include <stdio.h>
+#include <errno.h>
 #include <cgreen/cgreen.h>
-#include "gfal_constants.h"
-#include "gfal_prototypes.h"
-#include "../../src/common/gfal_types.h"
+#include <common/gfal_constants.h>
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+
+#include <posix/gfal_posix_api.h>
+
 #include "../mock/gfal_rfio_mock_test.h"
 #include "../unit_test_constants.h"
-#include <stdio.h>
-#include "gfal_posix_api.h"
-#include <errno.h>
+#include "test__gfal_posix_open.h"
+
 
 
 void test_mock_read_posix_srm(const char* content){

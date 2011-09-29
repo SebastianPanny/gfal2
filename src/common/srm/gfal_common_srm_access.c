@@ -24,12 +24,12 @@
  * @date 05/05/2011
  * */
 #include <string.h>
-#include "gfal_common_srm_access.h"
-#include "../gfal_constants.h"
-#include "../gfal_common_errverbose.h"
-#include "../gfal_common_plugin.h"
-#include "gfal_common_srm_internal_layer.h"
-#include "gfal_common_srm_endpoint.h"
+#include <common/srm/gfal_common_srm_access.h>
+#include <common/gfal_constants.h>
+#include <common/gfal_common_errverbose.h>
+#include <common/gfal_common_plugin.h>
+#include <common/srm/gfal_common_srm_internal_layer.h>
+#include <common/srm/gfal_common_srm_endpoint.h>
 
 
 int gfal_access_srmv2_internal(gfal_srmv2_opt*  opts, char* endpoint, const char* surl, int mode,  GError** err){

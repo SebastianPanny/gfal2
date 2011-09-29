@@ -5,14 +5,23 @@
 #include <cgreen/cgreen.h>
 #include <unistd.h>
 #include <string.h>
+#include <errno.h>
+#include <stdio.h>
+
+
 #include "../../src/common/gfal_prototypes.h"
 #include "../../src/common/gfal_types.h"
 #include "../../src/common/gfal_constants.h"
 #include "../unit_test_constants.h"
-#include <stdio.h>
 #include "gfal_posix_api.h"
 #include "gfal_posix_internal.h"
-#include <errno.h>
+
+
+#include "../common/gfal__test_common_srm.h"
+#include "../common/gfal__test_plugin.h"
+#include "../mock/gfal_mds_mock_test.h"
+#include "../mock/gfal_lfc_mock_test.h"
+#include "../mock/gfal_srm_mock_test.h"
 
 void create_srm_stat_env_mock(){
 #if USE_MOCK

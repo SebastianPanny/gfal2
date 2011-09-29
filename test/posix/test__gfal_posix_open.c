@@ -1,19 +1,23 @@
 
 /* unit test for posix open func */
 
-
-#include <cgreen/cgreen.h>
-#include "../../src/common/gfal_prototypes.h"
-#include "../../src/common/gfal_types.h"
-#include "../../src/common/gfal_constants.h"
-#include "../unit_test_constants.h"
 #include <stdio.h>
-#include "gfal_posix_api.h"
+#include <cgreen/cgreen.h>
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_constants.h>
+#include "../unit_test_constants.h"
+#include <posix/gfal_posix_api.h>
+#include <posix/gfal_posix_internal.h>
 #include <errno.h>
 #include "../mock/gfal_lfc_mock_test.h"
 #include "../mock/gfal_srm_mock_test.h"
 #include "../mock/gfal_mds_mock_test.h"
-#include "../../src/posix/gfal_posix_internal.h"
+#include "../common/rfio/test__gfal_rfio_plugin.h"
+#include "../common/gfal__test_common_srm.h"
+#include "../common/gfal__test_plugin.h"
+#include "test__gfal_posix_open.h"
+
 
 
 
@@ -21,7 +25,6 @@ void test_mock_srm_open_valid(char** tab, char** tab_turl, int* res){
 #if USE_MOCK
 	test_rfio_mock_all();
 	setup_mock_srm();
-	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_plugins_instance(handle,NULL);
 	
@@ -41,7 +44,6 @@ void test_mock_srm_open_write_valid(char** tab, char** tab_turl, int* res){
 #if USE_MOCK
 	test_rfio_mock_all();
 	setup_mock_srm();
-	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_plugins_instance(handle,NULL);
 	int status[] = { 0,0 };
@@ -67,7 +69,6 @@ void test_mock_srm_open_invalid(char** tab, char** tab_exp, int* res){
 #if USE_MOCK
 	test_rfio_mock_all();
 	setup_mock_srm();
-	GError* mock_err=NULL;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_plugins_instance(handle,NULL);
 	
@@ -143,10 +144,8 @@ void test_mock_guid_open_valid(const char * guid1){
 
 void test_mock_guid_open_invalid(const char * guid1){
 #if USE_MOCK
-	int i1;
 	gfal_handle handle = gfal_posix_instance();
 	gfal_plugins_instance(handle,NULL);
-	GError* mock_err=NULL;
 		
 	will_respond(lfc_mock_getlinks, ENOENT, want_string(guid, ((char*)guid1)+5), want(path, NULL), want_non_null(nbentries), want_non_null(linkinfos));	
 #endif	
@@ -229,7 +228,6 @@ void gfal2_test_open_posix_srm_simple()
 
 void gfal2_test_open_posix_guid_simple()
 {
-	int ret = -1;
 	test_mock_guid_open_valid(TEST_GUID_OPEN_EXIST);
 	test_generic_open_simple(TEST_GUID_OPEN_EXIST, NULL, NULL);
 	test_mock_guid_open_invalid(TEST_GUID_OPEN_NONEXIST);

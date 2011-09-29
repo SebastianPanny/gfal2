@@ -9,15 +9,22 @@
 #include <stdio.h>
 #include <errno.h>
 
-#include "../../src/common/gfal_prototypes.h"
-#include "../../src/common/gfal_types.h"
-#include "../../src/common/gfal_constants.h"
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_constants.h>
+#include <posix/gfal_posix_internal.h>
+#include <posix/gfal_posix_api.h>
 
-#include "gfal_posix_api.h"
+
+
 #include "../unit_test_constants.h"
+#include "../common/gfal__test_plugin.h"
+#include "../mock/gfal_mds_mock_test.h"
+#include "../mock/gfal_lfc_mock_test.h"
 #include "../mock/gfal_srm_mock_test.h"
-
-
+#include "../common/gfal__test_common_srm.h"
+#include "test__gfal_posix_mkdir.h"
+#include "test__gfal_posix_rmdir.h"
 
 void test_mock_rmdir_lfc(int errcode, char* url, mode_t mode){
 #if USE_MOCK
@@ -48,7 +55,7 @@ void create_srm_rmdir_mock(const char* url, int code){
 	define_mock_endpoints(TEST_SRM_DPM_FULLENDPOINT_URL);
 	will_respond(mds_mock_sd_get_se_types_and_endpoints, 0, want_string(host, TEST_SRM_DPM_CORE_URL), want_non_null(se_types), want_non_null(se_endpoints));
 	will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, TEST_SRM_DPM_FULLENDPOINT_URL));
-	define_mock_defined_srm_rmdir_output(url, code);
+	define_mock_defined_srm_rmdir_output((char*)url, code);
 	will_respond(srm_mock_srm_rmdir, 0, want_non_null(context), want_non_null(input), want_non_null(output));	
 
 #endif		

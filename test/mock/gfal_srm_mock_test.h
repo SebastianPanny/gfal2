@@ -27,6 +27,8 @@ void define_mock_stat_file(mode_t mode, int uid, int gid);
 void define_mock_stat_file_error(char* surl, int status, char* err);
 void define_mock_srmv2_pinfilestatus(int number, char** surl, char** explanation, char** turl, int* status);
 void define_put_done(int number, char** surl, char** explanation, char** turl, int* status);
+void define_mock_defined_srm_rmdir_output(char* surl, int status);
+void define_mock_srmv2_putoutput(int number, char** surl, char** explanation, char** turl, int* status);
 // mock functions
 
 

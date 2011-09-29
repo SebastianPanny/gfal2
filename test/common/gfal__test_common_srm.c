@@ -8,19 +8,24 @@
 #include <unistd.h>
 #include <regex.h>
 #include <time.h> 
-#include "gfal_common_internal.h"
-#include "gfal_posix_internal.h"
-#include "gfal_prototypes.h"
-#include "gfal_types.h"
+
+#include <common/gfal_common_internal.h>
+#include <common/gfal_types.h>
+#include <common/gfal_prototypes.h>
+#include <common/srm/gfal_common_srm_internal_layer.h>
+#include <common/srm/gfal_common_srm_endpoint.h>
+#include <common/srm/gfal_common_srm.h>
+#include <common/srm/gfal_common_srm_checksum.h>
+#include <common/mds/gfal_common_mds.h>
+#include <posix/gfal_posix_internal.h>
+
+
+
 #include "gfal__test_plugin.h"
-#include "srm/gfal_common_srm_internal_layer.h"
 #include "../unit_test_constants.h"
-#include "srm/gfal_common_srm_endpoint.h"
-#include "srm/gfal_common_srm.h"
-#include "srm/gfal_common_srm_checksum.h"
-#include "mds/gfal_common_mds.h"
 #include "../mock/gfal_mds_mock_test.h"
 #include "../mock/gfal_srm_mock_test.h"
+#include "gfal__test_common_srm.h"
 
 #define TEST_SRM_
 

@@ -6,7 +6,14 @@
 #include <cgreen/cgreen.h>
 #include <glib.h>
 #include <string.h>
-#include "mds/gfal_common_mds.h"
+#include <common/mds/gfal_common_mds.h>
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_constants.h>
+#include <common/gfal_common_internal.h>
+#include <common/gfal_common_errverbose.h>
+#include <posix/gfal_posix_api.h>
+#include <posix/gfal_posix_internal.h>
 #include "../../unit_test_constants.h"
 #include "../../mock/gfal_mds_mock_test.h" 
 

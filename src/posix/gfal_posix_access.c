@@ -28,11 +28,13 @@
 #include <errno.h>
 #include "gfal_posix_api.h"
 #include <glib.h>
-#include "../common/gfal_types.h"
-#include "gfal_posix_internal.h"
-#include "gfal_posix_local_file.h"
-#include  "../common/gfal_common_plugin.h"
-#include "../common/gfal_constants.h"
+#include <common/gfal_types.h>
+#include <posix/gfal_posix_internal.h>
+#include <posix/gfal_posix_local_file.h>
+#include  <common/gfal_common_plugin.h>
+#include <common/gfal_constants.h>
+
+
 
 
 int gfal_posix_internal_access (const char *path, int amode){

@@ -40,7 +40,7 @@ static char* libdpm_name= "libdpm.so.1";
 static char* libcastor_name= "libshift.so";
 
 struct rfio_proto_ops * gfal_rfio_internal_loader_base(GError** err){
-	void *dlhandle;
+	void *dlhandle=NULL;
 	struct rfio_proto_ops * pops = NULL;
 	GError* tmp_err=NULL;
 	char *p;

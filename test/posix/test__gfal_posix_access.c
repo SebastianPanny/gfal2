@@ -4,16 +4,21 @@
 
 #include <cgreen/cgreen.h>
 #include <errno.h>
-#include "../../src/common/gfal_prototypes.h"
-#include "../../src/common/gfal_types.h"
-#include "../../src/common/gfal_constants.h"
-#include "../unit_test_constants.h"
 #include <stdio.h>
-#include "gfal_posix_api.h"
-#include "lfc/lfc_ifce_ng.h"
-#include "../mock/gfal_lfc_mock_test.h"
-#include "../../src/posix/gfal_posix_internal.h"
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_constants.h>
+#include <posix/gfal_posix_api.h>
+#include <common/lfc/lfc_ifce_ng.h>
+#include <posix/gfal_posix_internal.h>
 
+#include "../unit_test_constants.h"
+
+
+#include "../mock/gfal_lfc_mock_test.h"
+
+#include "../common/gfal__test_common_srm.h"
+#include "../common/gfal__test_plugin.h"
 
 
 
