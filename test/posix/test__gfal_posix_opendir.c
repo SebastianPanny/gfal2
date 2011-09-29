@@ -11,13 +11,14 @@
 #include <glib.h>
 #include <lfc_api.h>
 
-#include "../../src/common/gfal_prototypes.h"
-#include "../../src/common/gfal_types.h"
-#include "../../src/common/gfal_constants.h"
-#include "gfal_posix_internal.h"
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_constants.h>
+#include <posix/gfal_posix_api.h>
+#include <gfal_posix_internal.h>
 #include "../unit_test_constants.h"
-#include "gfal_posix_api.h"
 #include "../mock/gfal_srm_mock_test.h"
+#include "common/gfal__test_common_srm.h"
 
 void test_mock_srm_opendir_enoent(char* surl){
 #if USE_MOCK
@@ -286,7 +287,7 @@ void gfal2_test__readdir_posix_srm_simple_mock()
 {
 	int n = 4;
 	char* surls[] = { TEST_SRM_READDIR_1, TEST_SRM_READDIR_2, TEST_SRM_READDIR_3, TEST_SRM_READDIR_4 };
-	int none[] = { 0, 0, 0, 0 };
+	unsigned int none[] = { 0, 0, 0, 0 };
 	gfal_posix_clear_error();
 	test_mock_srm_opendir_valid(TEST_SRM_READDIR_VALID);
 	test_mock_srm_readdir_valid(surls, none, none, none, n)	;

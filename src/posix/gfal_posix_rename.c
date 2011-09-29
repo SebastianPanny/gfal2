@@ -34,7 +34,7 @@
 int gfal_posix_internal_rename(const char* oldpath, const char* newpath){
 	GError* tmp_err = NULL;
 	gfal_handle handle;
-	int ret;
+	int ret=-1;
 	
 	if( (handle = gfal_posix_instance() ) ==NULL){
 		errno = EIO;

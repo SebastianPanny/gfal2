@@ -21,7 +21,7 @@ struct srmv2_pinfilestatus * defined_get_output=NULL;
 struct srmv2_filestatus* defined_put_done=NULL;
 struct srmv2_pinfilestatus * defined_put_output=NULL;
 
-void define_mock_stat_file_valid(char* surl, mode_t mode, int uid, int gid){
+void define_mock_stat_file_valid(char* surl, mode_t mode, uid_t uid, gid_t gid){
 	defined_srm_ls_output.statuses= g_new0(struct srmv2_mdfilestatus,1);
 	defined_srm_ls_output.statuses->surl = strdup(surl);
 	memset(&defined_srm_ls_output.statuses->stat, 0, sizeof(struct stat));
@@ -31,7 +31,7 @@ void define_mock_stat_file_valid(char* surl, mode_t mode, int uid, int gid){
 	
 }
 
-void define_mock_readdir_file_valid(char** surls, mode_t* mode, int* uid, int* gid, int n){
+void define_mock_readdir_file_valid(char** surls, mode_t* mode, uid_t* uid, gid_t* gid, int n){
 	defined_srm_ls_output.statuses->subpaths = g_new0(struct srmv2_mdfilestatus,n);
 	defined_srm_ls_output.statuses->nbsubpaths= n;	
 	int i;
