@@ -13,7 +13,9 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <dlfcn.h>
-#include "gfal_constants.h"
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_constants.h>
 #include "gfal_lfc_mock_test.h"
 
 

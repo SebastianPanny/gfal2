@@ -549,6 +549,37 @@ ssize_t lfc_listxattrG(plugin_handle handle, const char* path, char* list, size_
 }
 
 /**
+ * setxattr function special for comments
+ * */
+int lfc_setxattr_comment(plugin_handle handle, const char* path, const char* name,
+							const void* value, size_t size, int flags, GError** err){
+								
+								
+								
+}
+
+
+/**
+ * lfc setxattr implem
+ * */
+int lfc_setxattrG(plugin_handle handle, const char *path, const char *name,
+                       const void *value, size_t size, int flags, GError** err){
+	g_return_val_err_if_fail(path && name, -1, err, "invalid name/path");
+	int res = -1;
+	GError* tmp_err=NULL;
+
+	if(strcmp(name, GFAL_XATTR_COMMENT)==0){
+		res = lfc_setxattr_comment(handle, path, name, value,
+										size, flags, err);
+	}else{
+		g_set_error(&tmp_err, 0, ENOATTR, " unable to set this attribute on this file");
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return res;	
+}
+
+/**
  * Convert a guid to a plugin url if possible
  *  return the link in a plugin's url string or err and NULL if not found
  */
@@ -671,6 +702,7 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	lfc_plugin.openG = &lfc_openG;
 	lfc_plugin.symlinkG= &lfc_symlinkG;
 	lfc_plugin.getxattrG= &lfc_getxattrG;
+	lfc_plugin.setxattrG= &lfc_setxattrG;
 	lfc_plugin.listxattrG = &lfc_listxattrG;
 	lfc_plugin.readlinkG = &lfc_readlinkG;
 	lfc_plugin.unlinkG = &lfc_unlinkG;
