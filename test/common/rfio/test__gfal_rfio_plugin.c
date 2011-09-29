@@ -8,8 +8,9 @@
 #include <glib.h>
 #include <dlfcn.h>
 #include <lfc_api.h>
-#include "rfio/gfal_rfio_plugin_main.h"
-#include "rfio/gfal_rfio_plugin_layer.h"
+#include <common/rfio/gfal_rfio_plugin_main.h>
+#include <common/rfio/gfal_rfio_plugin_layer.h>
+#include <common/gfal_common_internal.h>
 #include "../../unit_test_constants.h"
 #include "test__gfal_rfio_plugin.h"
 

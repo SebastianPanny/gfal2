@@ -13,7 +13,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <dlfcn.h>
-#include "gfal_constants.h"
+#include <common/gfal_constants.h>
 #include "gfal_rfio_mock_test.h"
 
 
@@ -44,7 +44,7 @@ ssize_t rfio_mock_read(int fd, void* buff, size_t size){
 }
 
 
-ssize_t rfio_mock_write(int fd, void* buff, size_t size){
+ssize_t rfio_mock_write(int fd, const void* buff, size_t size){
 	int i = mock(fd, buff, size);
 	if(i < 0){
 		errno=i;
@@ -53,7 +53,6 @@ ssize_t rfio_mock_write(int fd, void* buff, size_t size){
 	memcpy(buff, (void*) defined_buff_read, defined_buff_read_size);
 	return (ssize_t)i;
 }
-
 
 
 int rfio_mock_close(int fd){

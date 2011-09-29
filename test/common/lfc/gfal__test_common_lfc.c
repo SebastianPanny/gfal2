@@ -8,10 +8,15 @@
 #include <cgreen/cgreen.h>
 #include <glib.h>
 #include <dlfcn.h>
+
 #include <lfc_api.h>
-#include "lfc/gfal_common_lfc.h"
-#include "lfc/lfc_ifce_ng.h"
-#include "gfal_common_internal.h"
+
+#include <common/lfc/gfal_common_lfc.h>
+#include <common/lfc/lfc_ifce_ng.h>
+#include <common/gfal_common_internal.h>
+#include <common/gfal_common_errverbose.h>
+
+
 #include "../../unit_test_constants.h"
 #include "../../mock/gfal_lfc_mock_test.h"
 
@@ -134,7 +139,7 @@ void gfal2_test_gfal_common_lfc_init()
 		gfal_release_GError(&tmp_err);
 		return;
 	}
-	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);
+	get_lfc_interface(handle, &tmp_err);
 	if(tmp_err){
 		assert_true_with_message(FALSE, " must not fail, valid value");
 		return;
@@ -210,8 +215,7 @@ void gfal2_test_gfal_common_lfc_no_exist()
 
 void gfal2_test_gfal_common_lfc_check_filename()
 {
-GError * tmp_err=NULL;
-	int ret =-1;
+	GError * tmp_err=NULL;
 	gfal_handle handle = gfal_initG(&tmp_err);
 	if(handle==NULL){
 		assert_true_with_message(FALSE, " error must be initiated");

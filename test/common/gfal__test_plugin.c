@@ -6,10 +6,12 @@
 #include <cgreen/cgreen.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "gfal_constants.h"
-#include "gfal_common_plugin.h"
-#include "gfal_common_errverbose.h"
-#include "lfc/lfc_ifce_ng.h"
+#include <common/gfal_constants.h>
+#include <common/gfal_common_plugin.h>
+#include <common/gfal_common_errverbose.h>
+#include <common/lfc/lfc_ifce_ng.h>
+#include <common/gfal_common_internal.h>
+
 #include "../unit_test_constants.h"
 #include "../mock/gfal_lfc_mock_test.h"
 
@@ -123,7 +125,7 @@ void gfal2_test_plugin_access_file()
 
 	
 	ret = gfal_plugins_accessG(handle, TEST_LFC_NOEXIST_ACCESS, F_OK, &tmp_err);	
-	assert_true_with_message(ret!=0 && tmp_err!=0 && tmp_err->code == ENOENT, " must be a non-existing file %d %ld %d", (int)ret, (long)tmp_err, (int) (tmp_err)?(tmp_err->code):0);
+	assert_true_with_message(ret!=0 && tmp_err!=NULL && tmp_err->code == ENOENT, " must be a non-existing file %d %ld %d", (int)ret, (long)tmp_err, (int) (tmp_err)?(tmp_err->code):0);
 	
 	g_clear_error(&tmp_err);
 	gfal_handle_freeG(handle);
