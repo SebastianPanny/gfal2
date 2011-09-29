@@ -218,38 +218,38 @@ int lfc_mock_rmdir(const char* path){
 	return 0;	
 }
 
-DIR* lfc_mock_opendir(const char* path, const char* guid){
-	DIR* a=  (void* )mock(path, guid);
+lfc_DIR* lfc_mock_opendir(const char* path, const char* guid){
+	lfc_DIR* a=  (gpointer)mock(path, guid);
 	if(GPOINTER_TO_INT(a) <0 ){
 		lfc_last_err = - (GPOINTER_TO_INT(a));	
 		return NULL;
 	}	
-	return (a)?(gfal_file_handle_new("lfc_plugin", (gpointer) a)):NULL;	
+	return (a)?((gpointer)gfal_file_handle_new("lfc_plugin", (gpointer) a)):NULL;	
 }
 
-struct dirent* lfc_mock_readdir(DIR* d){
-	struct dirent* a=  mock(d);
+struct dirent* lfc_mock_readdir(lfc_DIR* d){
+	struct dirent* a =  (struct dirent*)mock(d);
 	if(a == (struct dirent*) EBADF){
-		lfc_last_err = a;	
+		lfc_last_err = GPOINTER_TO_INT(a);		
 		return NULL;
 	}	
 	return (struct dirent*)a;
 }
 
-struct Cns_direnstat* lfc_mock_readdirx(DIR* d){
-	struct Cns_direnstat* a=  mock(d);
+struct Cns_direnstat* lfc_mock_readdirx(lfc_DIR* d){
+	struct Cns_direnstat* a=  (struct Cns_direnstat*)mock(d);
 	if(a == (struct Cns_direnstat*) EBADF){
-		lfc_last_err = a;	
+		lfc_last_err = GPOINTER_TO_INT(a);	
 		return NULL;
 	}	
 	return (struct Cns_direnstat*)a;	
 }
 
-int lfc_mock_closedir(DIR* dir){
+int lfc_mock_closedir(lfc_DIR* dir){
 	int a=  mock(dir);
 	if(a <0 ){
 		lfc_last_err = -a;	
-		return NULL;
+		return -1;
 	}	
 	return a;	
 }

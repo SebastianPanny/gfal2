@@ -1,18 +1,23 @@
 
 /* unit test for posix open func */
 
-
-#include <cgreen/cgreen.h>
-#include "../../src/common/gfal_prototypes.h"
-#include "../../src/common/gfal_types.h"
-#include "../../src/common/gfal_constants.h"
-#include "../mock/gfal_rfio_mock_test.h"
-#include "../unit_test_constants.h"
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
-#include "gfal_posix_api.h"
 #include <errno.h>
+#include <cgreen/cgreen.h>
+
+#include "../../src/common/gfal_prototypes.h"
+#include "../../src/common/gfal_types.h"
+#include "../../src/common/gfal_constants.h"
+#include "../../src/common/gfal_common_errverbose.h"
+#include "../mock/gfal_rfio_mock_test.h"
+#include "../unit_test_constants.h"
+#include "test__gfal_posix_read.h"
+#include "test__gfal_posix_open.h"
+#include "../common/gfal__test_common_srm.h"
+#include "gfal_posix_api.h"
+
 
 
 
@@ -25,7 +30,7 @@ void test_mock_write_posix_srm(const char * url, const char* filename){
 	defined_buff_write_size = strlen(filename)+1;
 	will_respond(rfio_mock_write, strlen(filename), want_non_null(buff), want_non_null(size), want_non_null(fd));
 	char* turls[]= { "rfio://mocked_turl_nothing", NULL };
-	char* surls[] = { url, NULL };
+	char* surls[] = { (char*)url, NULL };
 	int  status[] = { 0,0 };
 	test_mock_srm_open_write_valid(surls, turls, status);
 #endif
@@ -35,7 +40,6 @@ void test_mock_write_posix_srm(const char * url, const char* filename){
 
 void test_generic_write_simple(char* url_exist, const char* filename){
 	char buff[2048];
-	char buff_resu[2048];
 	int ret = -1;
 	errno=0;
 	strcpy(buff, TEST_SRM_FILE_CONTENT);

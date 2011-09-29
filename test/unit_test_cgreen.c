@@ -89,6 +89,7 @@ TestSuite* srm_Suite(){
 	add_test(tc_srm, gfal2_test_gfal_srm_getTURLS_one_success);
 	add_test(tc_srm, gfal2_test_gfal_srm_getTURLS_bad_urls);
 	add_test(tc_srm, gfal2_test_gfal_srm_getTURLS_pipeline_success);
+	add_test(tc_srm, gfal2_test_srm_get_checksum);
 	return tc_srm;
 
 }

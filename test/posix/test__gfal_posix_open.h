@@ -1,3 +1,4 @@
+#pragma once
 /*
 
 *	auto-generated header file for file test/posix/test__gfal_posix_open.c 

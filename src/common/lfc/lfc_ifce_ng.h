@@ -35,6 +35,7 @@
 
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
+#include "../gfal_constants.h"
 #include "../../externals/gsimplecache/gcachemain.h"
 
 

@@ -239,3 +239,6 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 #define TEST_LFC_VALID_TESTREAD_CHECKSUM ""
 #define TEST_LFC_VALID_TESTREAD_CHKTYPE ""
 
+
+#define TEST_SRM_CHECKSUM_VALID ""
+#define TEST_SRM_CHKTYPE_VALID ""

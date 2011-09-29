@@ -88,6 +88,7 @@ int gfal_unlink (const char *);
 
 
 // error management
+int gfal_posix_check_error();
 void gfal_posix_clear_error();
 void gfal_posix_release_error();
 char* gfal_posix_strerror_r(char* buff_err, size_t s_err);

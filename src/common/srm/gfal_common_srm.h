@@ -104,20 +104,7 @@ void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle);
 
 inline char* gfal_srm_construct_key(const char* url, const char* prefix, char* buff, const size_t s_buff);
 
-/*
-int gfal_get_asyncG(gfal_handle handle, GList* surls, GError** err);
-
-int gfal_get_async_resultsG(gfal_handle handle, GList** turls,  GError** err);
-
-gboolean gfal_async_request_is_finishedG(gfal_handle handle, GError** err);
-
-int gfal_get_async_results_errcodesG(gfal_handle handle, GList** turl_errcode, GError** err);
-
-int gfal_get_async_results_errstringG(gfal_handle handle, GList** turl_errstring, GError** err);
-
-int gfal_get_async_results_structG(gfal_handle handle, gfal_srm_result** tab_struct, GError** err);
-
-int gfal_wait_async_requestG(gfal_handle handle, long timeout, GError** err);*/
+void gfal_set_default_storageG(gfal_srmv2_opt* opts, enum gfal_srm_proto proto);
 
 
 int gfal_srm_convert_filestatuses_to_GError(struct srmv2_filestatus* statuses, int n, GError** err);

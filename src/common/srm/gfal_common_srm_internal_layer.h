@@ -98,6 +98,8 @@ int gfal_srm_getTURLS_plugin(plugin_handle ch, const char* surl, char* buff_turl
 
 int gfal_srm_putTURLS_plugin(plugin_handle ch, const char* surl, char* buff_turl, int size_turl, char** reqtoken, GError** err);
 
+int gfal_srm_putTURLS(gfal_srmv2_opt* opts , char** surls, gfal_srm_result** resu,  GError** err);
+
 int gfal_srm_putdone(gfal_srmv2_opt* opts, char** surls, char* token,  GError** err);
 
 int gfal_srm_unlinkG(plugin_handle ch, const char * path, GError** err);

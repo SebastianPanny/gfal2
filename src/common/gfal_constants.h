@@ -17,9 +17,8 @@
  */
  
  /**
-  * 
-  \file gfal_constant.h
-  \brief list of all external constants of gfal
+  * @file gfal_constants.h 
+  * all the global declarations of gfal core.
  */
 
 

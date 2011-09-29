@@ -50,13 +50,13 @@ int lfc_mock_access(const char* path, int mode);
 
 int lfc_mock_chmod(const char* path, mode_t mode);
 
-DIR* lfc_mock_opendir(const char* path, const char* guid);
+lfc_DIR* lfc_mock_opendir(const char* path, const char* guid);
 
-int lfc_mock_closedir(DIR* dir);
+int lfc_mock_closedir(lfc_DIR* dir);
 
-struct dirent* lfc_mock_readdir(DIR* d);
+struct dirent* lfc_mock_readdir(lfc_DIR* d);
 
-struct Cns_direnstat* lfc_mock_readdirx(DIR* d);
+struct Cns_direnstat* lfc_mock_readdirx(lfc_DIR* d);
 
 int lfc_mock_mkdir(const char* path, const char* guid,  mode_t mode);
 

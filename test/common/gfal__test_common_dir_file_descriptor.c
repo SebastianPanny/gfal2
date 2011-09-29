@@ -12,6 +12,7 @@
 #include "../unit_test_constants.h"
 #include "gfal_common_dir_handle.h"
 #include "gfal_common_filedescriptor.h"
+#include "gfal_common_errverbose.h"
 #include "gfal_types.h"
 
 

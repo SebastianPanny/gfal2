@@ -4,7 +4,9 @@
  * 
  */
 
+#define _GNU_SOURCE
 
+#include <string.h>
 #include <cgreen/cgreen.h>
 #include "gfal_mds_mock_test.h" 
 
