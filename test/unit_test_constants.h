@@ -234,6 +234,7 @@ mkdir -p /tmp/testreaddir0011/testreaddir0015 &> /dev/null"
 
 // xattr
 #define TEST_LFC_VALID_COMMENT TEST_CONCAT_LFC_PREFIX("/testcomment0011")
+#define TEST_LFC_WRITEVALID_COMMENT TEST_CONCAT_LFC_PREFIX("/testcomment0012")
 #define TEST_LFC_INVALID_COMMENT TEST_CONCAT_LFC_PREFIX("/testpsg0011")
 #define TEST_LFC_COMMENT_CONTENT "Hello World"
 #define TEST_LFC_VALID_TESTREAD_CHECKSUM ""

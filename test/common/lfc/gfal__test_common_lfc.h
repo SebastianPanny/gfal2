@@ -16,5 +16,6 @@ void gfal2_gfal2_test_gfal_common_lfc_access_guid_file_exist();
 void gfal2_test__gfal_common_lfc_rename();
 void gfal2_test__gfal_common_lfc_statg(); 
 void gfal2_test_common_lfc_getcomment();
+void gfal2_test_common_lfc_setcomment();
 void gfal2_test_common_lfc_checksum();
 

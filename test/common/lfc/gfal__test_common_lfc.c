@@ -48,9 +48,10 @@ gfal_plugin_interface get_lfc_interface(gfal_handle handle, GError** err){
 	ops->startsess = &lfc_mock_startsession;
 	ops->endsess = &lfc_mock_endsess;
 	ops->rename = &lfc_mock_rename;
-	ops->serrno = &lfc_mock_C__serrno;
+	ops->get_serrno = &lfc_mock_C__serrno;
 	ops->access = &lfc_mock_access;
 	ops->getcomment = &lfc_mock_getcomment;
+	ops->setcomment = &lfc_mock_setcomment;
 	ops->sstrerror = &strerror;
 	ops->getreplica = &lfc_mock_getreplica;
 	ops->getlinks= &lfc_mock_getlinks;
@@ -429,6 +430,46 @@ void gfal2_test_common_lfc_getcomment()
 	g_clear_error(&tmp_err);
 }
 
+
+void gfal2_test_common_lfc_setcomment(){
+	GError * tmp_err=NULL;
+	gfal_handle handle = gfal_initG(&tmp_err);
+	if(handle==NULL){
+		assert_true_with_message(FALSE, "error must be initiated");
+		gfal_release_GError(&tmp_err);
+		return;
+	}
+	gfal_plugin_interface i = get_lfc_interface(handle, &tmp_err);	// initialize interface
+	if(tmp_err){
+		assert_true_with_message(FALSE, "must be a valid init");
+		gfal_release_GError(&tmp_err);
+		return;
+	}	
+#if USE_MOCK
+	define_lfc_comment(TEST_LFC_COMMENT_CONTENT);
+	will_respond(lfc_mock_setcomment, 0, want_string(path, TEST_LFC_WRITEVALID_COMMENT+4), want_string(comment, TEST_LFC_COMMENT_CONTENT));
+	will_respond(lfc_mock_setcomment, 0, want_string(path, TEST_LFC_WRITEVALID_COMMENT+4), want_string(comment, ""));
+	will_respond(lfc_mock_setcomment, -ENOENT, want_string(path, TEST_LFC_INVALID_COMMENT+4), want_string(comment, TEST_LFC_COMMENT_CONTENT));
+	will_respond(lfc_mock_getcomment,0, want_string(path, TEST_LFC_WRITEVALID_COMMENT+4), want_non_null(comment));
+	always_return(lfc_mock_getcomment, EINVAL);
+	
+#endif
+	char buff[2048];
+	int ret = gfal_lfc_setComment(i.handle, TEST_LFC_WRITEVALID_COMMENT+4, TEST_LFC_COMMENT_CONTENT, 2048, &tmp_err);
+	assert_true_with_message(ret ==0 && tmp_err== 0, " must be a valid answser %d",ret);
+	ret = gfal_lfc_getComment(i.handle, TEST_LFC_WRITEVALID_COMMENT+4, buff, 2048, &tmp_err);
+	assert_true_with_message(ret >0  && tmp_err == NULL, "must be a valid return %d %s", ret, (tmp_err)?tmp_err->message:"" );
+	if(ret> 0){
+		assert_true_with_message(strcmp(buff, TEST_LFC_COMMENT_CONTENT)==0, "must be the good message %s %s ", buff, TEST_LFC_COMMENT_CONTENT );
+	}	
+	ret = gfal_lfc_setComment(i.handle, TEST_LFC_WRITEVALID_COMMENT+4, "", 2048, &tmp_err);	// reinit the comment and test an empty set
+	assert_true_with_message(ret ==0 && tmp_err== 0, " must be a valid answser %d", ret);
+	
+	ret = gfal_lfc_setComment(i.handle, TEST_LFC_INVALID_COMMENT+4, TEST_LFC_COMMENT_CONTENT, 2048, &tmp_err);
+	assert_true_with_message(ret < 0  && tmp_err != NULL && ((tmp_err)?tmp_err->code:0)==ENOENT , "must be an error report" ); // impossible to détermine ENOENT due to a Cns_setcomment problem
+	g_clear_error(&tmp_err);	
+	
+}
 
 
 void gfal2_test__gfal_common_lfc_statg()

@@ -56,7 +56,7 @@ void test_mock_lfc(gfal_handle handle, GError** err){
 	gfal_lfc_regex_compile(&(ops->rex), err);
 	ops->statg = &lfc_mock_statg;
 	ops->rename = &lfc_mock_rename;
-	ops->serrno = &lfc_mock_C__serrno;
+	ops->get_serrno = &lfc_mock_C__serrno;
 	ops->access = &lfc_mock_access;
 	ops->sstrerror = &strerror;
 	ops->getreplica = &lfc_mock_getreplica;

@@ -29,7 +29,7 @@ main_tests=False
 # global var
 etics_build_dir= "/usr/" # disable
 version= '2.0'
-package_version = '1.10_preview'
+package_version = '1.11_preview'
 license_type = "Apache Software License"
 
 ## generic function to get conf value

@@ -35,6 +35,7 @@
 #include <dlfcn.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <serrno.h>
 #include "../gfal_constants.h"
 #include "../gfal_types.h"
 #include "../mds/gfal_common_mds.h"
@@ -301,20 +302,21 @@ struct lfc_ops* gfal_load_lfc(const char* name, GError** err){
 		lfc_sym->addreplica = (int (*) (const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *)) dlsym (dlhandle, "lfc_addreplica");
 	}
 	
-	void** f_list[] = {  (void**)&(lfc_sym->serrno), (void**) &(lfc_sym->sstrerror), (void**) &(lfc_sym->creatg), (void**) &(lfc_sym->delreplica), (void**) &(lfc_sym->aborttrans), 
+	void** f_list[] = {  (void**)&(lfc_sym->get_serrno), (void**) &(lfc_sym->sstrerror), (void**) &(lfc_sym->creatg), (void**) &(lfc_sym->delreplica), (void**) &(lfc_sym->aborttrans), 
 							(void**) &(lfc_sym->endtrans), (void**) &(lfc_sym->getpath), (void**) &(lfc_sym->getlinks), (void**) &(lfc_sym->getreplica), (void**) &(lfc_sym->lstat), 
 							(void**) &(lfc_sym->mkdirg), (void**) &(lfc_sym->seterrbuf), (void**) &(lfc_sym->setfsizeg), (void**) &(lfc_sym->setfsize), (void**) &(lfc_sym->starttrans),
 							(void**) &(lfc_sym->statg), (void**) &(lfc_sym->statr), (void**) &(lfc_sym->symlink), (void**) &(lfc_sym->unlink), (void**) &(lfc_sym->access), (void**) &(lfc_sym->chmod),
 							(void**) &(lfc_sym->rename), (void**) &(lfc_sym->opendirg), (void**) &(lfc_sym->rmdir), (void**) &(lfc_sym->startsess), (void**) &(lfc_sym->endsess), 
 							(void**) &(lfc_sym->closedir), (void**) &(lfc_sym->readdir), (void**) &(lfc_sym->Cthread_init), (void**) &(lfc_sym->_Cthread_addcid), (void**) &(lfc_sym->readlink),
-							(void**) &(lfc_sym->readdirx), (void**) &(lfc_sym->getcomment)};
+							(void**) &(lfc_sym->readdirx), (void**) &(lfc_sym->getcomment), (void**) &(lfc_sym->setcomment)};
 	const char* sym_list[] = { "C__serrno", "sstrerror", "lfc_creatg", "lfc_delreplica", "lfc_aborttrans",
 						"lfc_endtrans", "lfc_getpath", "lfc_getlinks", "lfc_getreplica", "lfc_lstat", 
 						"lfc_mkdirg", "lfc_seterrbuf", "lfc_setfsizeg", "lfc_setfsize", "lfc_starttrans",
 						"lfc_statg", "lfc_statr", "lfc_symlink", "lfc_unlink", "lfc_access", "lfc_chmod",
 						"lfc_rename", "lfc_opendirg", "lfc_rmdir", "lfc_startsess", "lfc_endsess", "lfc_closedir", "lfc_readdir",
-						"Cthread_init", "_Cthread_addcid", "lfc_readlink", "lfc_readdirx", "lfc_getcomment" };
-	ret = resolve_dlsym_listG(dlhandle, f_list, sym_list, 33, &tmp_err);
+						"Cthread_init", "_Cthread_addcid", "lfc_readlink", "lfc_readdirx", "lfc_getcomment",
+						"lfc_setcomment" };
+	ret = resolve_dlsym_listG(dlhandle, f_list, sym_list, 34, &tmp_err);
 	if(ret != 0){
 		g_propagate_prefixed_error(err, tmp_err,"[gfal_load_lfc]");
 		free(lfc_sym);
@@ -472,7 +474,7 @@ int gfal_lfc_getComment(struct lfc_ops *ops, const char* lfn, char* buff, size_t
 	else{
 		ret = ops->getcomment(lfn, local_buff);
 		if(ret < 0){
-			int sav_errno = gfal_lfc_get_errno(ops);
+			const int sav_errno = gfal_lfc_get_errno(ops);
 			if(sav_errno == ENOENT){ // no comments is define or not file exist, can be ambigous
 				resu_len = 0;
 				*buff = '\0';
@@ -485,6 +487,24 @@ int gfal_lfc_getComment(struct lfc_ops *ops, const char* lfn, char* buff, size_t
 		}
 		return (ret==0)?(resu_len):-1;
 	}
+}
+
+int gfal_lfc_setComment(struct lfc_ops * ops, const char* lfn, const char* buff, size_t s_buff, GError** err){
+	g_return_val_err_if_fail(lfn, -1, err, "bad path");	
+	int res = -1;
+	char internal_buff[GFAL_URL_MAX_LEN];
+	GError* tmp_err=NULL;
+	
+	if(s_buff > 0 && buff != NULL){
+		*((char*)mempcpy(internal_buff, buff, MIN(s_buff, GFAL_URL_MAX_LEN-1))) = '\0';
+		if( (res = ops->setcomment(lfn, internal_buff)) !=0 ){
+			const int sav_errno = gfal_lfc_get_errno(ops);
+			g_set_error(err,0,sav_errno, "[%s] Error report from LFC : %s",__func__,  gfal_lfc_get_strerror(ops) );		
+		}
+	}else{
+		g_set_error(&tmp_err, 0, EINVAL, "sizeof the buffer incorrect");
+	}
+	return res;
 }
 
 /***
@@ -535,18 +555,27 @@ ssize_t g_strv_catbuff(char** strv, char* buff, size_t size){
 
 
 int gfal_lfc_get_errno(struct lfc_ops* ops){
+	int lfc_error;
 #if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) && (defined(_MT) || defined(_DLL)))
-	return errno = (*(ops->serrno()) < 1000) ? (*(ops->serrno())) : ECOMM;
+	lfc_error = *(ops->get_serrno());
 #else
-	return errno = *ops->serrno < 1000 ? *ops->serrno : ECOMM;
+	lfc_error = *ops->get_serrno ;
 #endif
+	switch(lfc_error){
+		case ESEC_BAD_CREDENTIALS:
+			lfc_error = EPERM;
+		break;
+		default:
+			lfc_error = (lfc_error < 1000)?lfc_error:ECOMM;
+	}
+	return lfc_error;
 }
 
 char*  gfal_lfc_get_strerror(struct lfc_ops* ops){
 #if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) && (defined(_MT) || defined(_DLL)))
-	return ops->sstrerror (*(ops->serrno()));
+	return ops->sstrerror (*(ops->get_serrno()));
 #else
-	return ops->sstrerror (*ops->serrno);
+	return ops->sstrerror (*ops->get_serrno);
 #endif
 }
 

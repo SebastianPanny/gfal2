@@ -121,6 +121,7 @@ TestSuite* lfc_suite(){
 	add_test(tc_lfc, gfal2_test_gfal_common_lfc_getSURL);
 	add_test(tc_lfc, gfal2_gfal2_test_gfal_common_lfc_access_guid_file_exist);
 	add_test(tc_lfc, gfal2_test_common_lfc_getcomment);
+	add_test(tc_lfc, gfal2_test_common_lfc_setcomment);
 	add_test(tc_lfc, gfal2_test_common_lfc_checksum);
 	return tc_lfc;
 }

@@ -51,9 +51,9 @@ struct lfc_ops {
 	gfal_handle handle;
 	GSimpleCache* cache_stat;
 #if defined(_REENTRANT) || defined(_THREAD_SAFE) || (defined(_WIN32) && (defined(_MT) || defined(_DLL)))
-	int*	(*serrno)(void);
+	int*	(*get_serrno)(void);
 #else
-	int	serrno;
+	int	value_serrno;
 #endif
 	char	*(*sstrerror)(int);
 	int	(*addreplica)(const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *);
@@ -64,6 +64,7 @@ struct lfc_ops {
 	int	(*getpath)(char *, u_signed64, char *);
 	int (*getlinks)(const char *, const char *, int *, struct lfc_linkinfo **);
 	int (*getreplica)(const char *, const char *, const char *, int *, struct lfc_filereplica **);
+	int (*setcomment) (const char * path, char * comment );
 	int (*getcomment) (const char * path, char * comment);
 	int	(*lstat)(const char *, struct lfc_filestat *);
 	int (*readlink)(const char *, char *, size_t);
@@ -108,6 +109,8 @@ int gfal_convert_guid_to_lfn_r(plugin_handle handle, const char* guid, char* buf
 int gfal_lfc_statg(struct lfc_ops* ops, const char*, struct lfc_filestatg* resu, GError** err);
 
 int gfal_lfc_getComment(struct lfc_ops *ops, const char* lfn, char* buff, size_t s_buff, GError** err);
+
+int gfal_lfc_setComment(struct lfc_ops * ops, const char* lfn, const char* buff, size_t s_buff, GError** err);
 
 int gfal_lfc_getChecksum(struct lfc_ops* ops, const char* lfn, lfc_checksum* checksum, GError** err);
 

@@ -324,10 +324,10 @@ static int lfc_lstatG(plugin_handle handle, const char* path, struct stat* st, G
 			sav_errno = (sav_errno==EEXIST)?ENOTEMPTY:sav_errno;		// convert wrong reponse code
 			g_set_error(err,0, sav_errno, "Error report from LFC %s", gfal_lfc_get_strerror(ops) );
 		}
+		free(lfn);
 	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	free(lfn);
 	return ret;	 
  }
  
@@ -388,13 +388,13 @@ static struct dirent* lfc_convert_dirent_struct(struct lfc_ops *ops , struct dir
 static struct dirent* lfc_readdirG(plugin_handle handle, gfal_file_handle fh, GError** err){
 	g_return_val_err_if_fail( handle && fh , NULL, err, "[lfc_rmdirG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;	
+	int sav_errno =0;
 	struct lfc_ops *ops = (struct lfc_ops*) handle;
 	gfal_lfc_init_thread(ops);
 	gfal_auto_maintain_session(ops, &tmp_err);
 	lfc_opendir_handle oh = (lfc_opendir_handle )fh->ext_data;
 	struct dirent* ret=  lfc_convert_dirent_struct(ops, ((struct dirent*) &oh->current_dir), (ops->readdirx( (lfc_DIR*)fh->fdesc)), oh->url);
-	if(ret ==NULL && *ops->serrno ){
-		int sav_errno = gfal_lfc_get_errno(ops);
+	if(ret ==NULL && (sav_errno =gfal_lfc_get_errno(ops)) ){
 		g_set_error(err,0, sav_errno, "[%s] Error report from LFC %s", __func__, gfal_lfc_get_strerror(ops) );
 	}
 	return ret;
@@ -428,11 +428,12 @@ char ** lfc_getSURLG(plugin_handle handle, const char * path, GError** err){
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	gfal_lfc_init_thread(ops);
 	char * lfn = url_converter(handle, path, &tmp_err);
-	if(lfn)
+	if(lfn){
 		resu = gfal_lfc_getSURL(ops, lfn, &tmp_err);
+		free(lfn);		
+	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	free(lfn);
 	return resu;
 }
 
@@ -489,8 +490,10 @@ ssize_t lfc_getxattr_getguid(plugin_handle handle, const char* path, void* buff,
 	ssize_t res = -1;	 
 	struct lfc_ops* ops = (struct lfc_ops*) handle;	
 	char* lfn = url_converter(handle, path, &tmp_err);
-	if(lfn)
+	if(lfn){
 		res = gfal_lfc_getComment(ops, lfn, buff, size, &tmp_err);
+		free(lfn);
+	}
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return res;	 
@@ -553,9 +556,15 @@ ssize_t lfc_listxattrG(plugin_handle handle, const char* path, char* list, size_
  * */
 int lfc_setxattr_comment(plugin_handle handle, const char* path, const char* name,
 							const void* value, size_t size, int flags, GError** err){
-								
-								
-								
+	GError* tmp_err=NULL;
+	struct lfc_ops* ops = (struct lfc_ops*) handle;		
+	int res = -1;
+	char * lfn = url_converter(handle, path, &tmp_err);
+	if(lfn){				
+		res = gfal_lfc_setComment(ops, lfn, value, size, &tmp_err);
+		free(lfn);
+	}
+	return res;							
 }
 
 
@@ -744,6 +753,7 @@ gboolean gfal_checker_guid(const char* guid, GError** err){
 		case GFAL_PLUGIN_OPEN:
 		case GFAL_PLUGIN_GETXATTR:
 		case GFAL_PLUGIN_LISTXATTR:
+		case GFAL_PLUGIN_SETXATTR:
 		case GFAL_PLUGIN_UNLINK:
 			ret= regexec(&(ops->rex), url, 0, NULL, 0);
 			return (!ret || gfal_checker_guid(url, err ))?TRUE:FALSE;	

@@ -30,6 +30,7 @@ void define_mock_filereplica(int n, char** rep_turls);
 
 void define_lfc_comment(char* comment);
 
+
 // mock
 
 int* lfc_mock_C__serrno();
@@ -67,6 +68,8 @@ int	lfc_mock_endtrans();
 int lfc_mock_aborttrans();
 
 int lfc_mock_getcomment (const char * path, char * comment);
+
+int lfc_mock_setcomment (const char * path, char * comment);
 
 int lfc_mock_getreplica(const char *path, const char *guid, const char *se, int *nbentries, struct lfc_filereplica **rep_entries);
 

@@ -141,6 +141,17 @@ int lfc_mock_getcomment (const char * path, char * comment){
 	
 }
 
+
+int lfc_mock_setcomment (const char * path, char * comment){
+	int a = mock(path, comment);
+	if(a){
+		lfc_last_err = -a;
+		return -1;
+	}
+	return 0;
+	
+}
+
 int lfc_mock_startsession(char* server, char* comment){
 	int a=  mock(server, comment);
 	if(a){
