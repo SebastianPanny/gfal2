@@ -145,11 +145,11 @@
 #define TEST_LFC_UNACCESS_MKDIR "lfn:/grid/dteam/testmkdirunaccess0011/testunacess0011"
 
 
-#define TEST_LOCAL_MKDIR_EXIST_COMMAND "mkdir -p /tmp/testmkdir0011 &> /dev/null"
+#define TEST_LOCAL_MKDIR_EXIST_COMMAND "mkdir -p /tmp/testmkdir0011 &> /dev/null && mkdir -p -m 000 /tmp/testeaccesdir"
 #define TEST_LOCAL_MKDIR_EXIST_FILE "file:///tmp/testmkdir0011"
 
 #define TEST_LOCAL_BASE_FOLDER_URL_MKDIR1 "file:///tmp/"
-#define TEST_LOCAL_UNACCESS_MKDIR "file:///root/foo"
+#define TEST_LOCAL_UNACCESS_MKDIR "file:///tmp/testeaccesdir/santaclaus"
 
 #define TEST_SRM_EEXIST_MKDIR TEST_CONCAT_SRM_PREFIX("testmkdir0011")
 #define TEST_SRM_BASE_FOLDER_URL_MKDIR1 TEST_CONCAT_SRM_PREFIX("/testmkdirfolder/")
@@ -174,8 +174,9 @@
 
 
 // opendir
+#define TEST_LOCAL_OPENDIR_COMMAND "mkdir -m 000 -p /tmp/testopendireaccess"
 #define TEST_LOCAL_OPENDIR_OPEN_INVALID "file:///windowsdoesnotcrash"
-#define TEST_LOCAL_OPENDIR_OPEN_NOACCESS "file:///root/"
+#define TEST_LOCAL_OPENDIR_OPEN_NOACCESS "file:///tmp/testopendireaccess"
 #define TEST_LOCAL_OPENDIR_OPEN "file:///"
 
 #define TEST_LFC_OPENDIR_OPEN_INVALID TEST_CONCAT_LFC_PREFIX("/cannotbethere")

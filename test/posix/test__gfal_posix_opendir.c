@@ -228,6 +228,7 @@ void test__readdir_generic_test_simple(char * folder, GList* list_dir){
 
 void gfal2_test__opendir_posix_local_simple()
 {
+	system(TEST_LOCAL_OPENDIR_COMMAND);
 	test__opendir_generic_test_simple(TEST_LOCAL_OPENDIR_OPEN_INVALID, TEST_LOCAL_OPENDIR_OPEN_NOACCESS, TEST_LOCAL_OPENDIR_OPEN);	
 }
 
