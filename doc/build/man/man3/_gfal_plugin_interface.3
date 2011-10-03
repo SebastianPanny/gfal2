@@ -1,4 +1,4 @@
-.TH "_gfal_plugin_interface" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "_gfal_plugin_interface" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -83,10 +83,13 @@ _gfal_plugin_interface \-
 .ti -1c
 .RI "ssize_t(* \fBlistxattrG\fP )(plugin_handle, const char *, char *list, size_t s_list, GError **err)"
 .br
+.ti -1c
+.RI "int(* \fBsetxattrG\fP )(plugin_handle, const char *, const char *, const void *, size_t, int, GError **)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
-Interface to implement in each gfal_plugin_* the needed calls are : getName, plugin_delete, check_plugin_url 
+Interface to implement in each gfal_plugin_* the minimums calls are : getName, plugin_delete, check_plugin_url all the unused function pointers must be set to NULL 
 .PP
 .SH "Field Documentation"
 .PP 

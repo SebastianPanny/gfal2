@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -39,14 +39,14 @@
 
 .in +1c
 .ti -1c
-.RI "#define \fBMAX_CATALOG_LIST\fP   64"
+.RI "#define \fBMAX_PLUGIN_LIST\fP   64"
 .br
 .in -1c
 .SS "Enumerations"
 
 .in +1c
 .ti -1c
-.RI "enum \fB_plugin_mode\fP { \fBGFAL_CATALOG_ALL\fP = 0, \fBGFAL_CATALOG_ACCESS\fP, \fBGFAL_CATALOG_CHMOD\fP, \fBGFAL_CATALOG_RENAME\fP, \fBGFAL_CATALOG_SYMLINK\fP, \fBGFAL_CATALOG_STAT\fP, \fBGFAL_CATALOG_LSTAT\fP, \fBGFAL_CATALOG_MKDIR\fP, \fBGFAL_CATALOG_RMDIR\fP, \fBGFAL_CATALOG_OPENDIR\fP, \fBGFAL_CATALOG_OPEN\fP, \fBGFAL_CATALOG_RESOLVE_GUID\fP, \fBGFAL_CATALOG_GETXATTR\fP, \fBGFAL_CATALOG_LISTXATTR\fP, \fBGFAL_CATALOG_READLINK\fP, \fBGFAL_CATALOG_UNLINK\fP }"
+.RI "enum \fB_plugin_mode\fP { \fBGFAL_PLUGIN_ALL\fP = 0, \fBGFAL_PLUGIN_ACCESS\fP, \fBGFAL_PLUGIN_CHMOD\fP, \fBGFAL_PLUGIN_RENAME\fP, \fBGFAL_PLUGIN_SYMLINK\fP, \fBGFAL_PLUGIN_STAT\fP, \fBGFAL_PLUGIN_LSTAT\fP, \fBGFAL_PLUGIN_MKDIR\fP, \fBGFAL_PLUGIN_RMDIR\fP, \fBGFAL_PLUGIN_OPENDIR\fP, \fBGFAL_PLUGIN_OPEN\fP, \fBGFAL_PLUGIN_RESOLVE_GUID\fP, \fBGFAL_PLUGIN_GETXATTR\fP, \fBGFAL_PLUGIN_SETXATTR\fP, \fBGFAL_PLUGIN_LISTXATTR\fP, \fBGFAL_PLUGIN_READLINK\fP, \fBGFAL_PLUGIN_UNLINK\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -116,7 +116,7 @@
 .RI "int \fBgfal_plugin_readG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_plugin_unlinkG\fP (plugin_handle handle, const char *path, GError **err)"
+.RI "int \fBgfal_plugin_unlinkG\fP (gfal_handle handle, const char *path, GError **err)"
 .br
 .ti -1c
 .RI "ssize_t \fBgfal_plugin_getxattrG\fP (gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)"
@@ -124,6 +124,9 @@
 .RI "\fIimplementation in the plugin of the get extended attribute function \fP"
 .ti -1c
 .RI "ssize_t \fBgfal_plugin_listxattrG\fP (gfal_handle, const char *, char *list, size_t s_list, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_setxattrG\fP (gfal_handle, const char *, const char *, const void *, size_t, int, GError **)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -277,12 +280,18 @@ return 0 if success else return -1
 .RE
 .PP
 
+.SS "int gfal_plugin_setxattrG (gfal_handle handle, const char * path, const char * name, const void * value, size_t size, int flags, GError ** err)"
+.PP
+setxattr for the plugins 
 .SS "int gfal_plugin_statG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 Execute a stat function on the lfc plugin 
 .SS "int gfal_plugin_symlinkG (gfal_handle handle, const char * oldpath, const char * newpath, GError ** err)"
 .PP
 Execute the symlink function on the first compatible plugin 
+.SS "int gfal_plugin_unlinkG (gfal_handle handle, const char * path, GError ** err)"
+.PP
+apply unlink on the appropriate plugin 
 .SS "int gfal_plugin_writeG (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
 .PP
 do a write operation on the plugin, write s_buff chars on the fd device 

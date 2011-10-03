@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _GFAL2_API_
+#define _GFAL2_API_
+
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -15,6 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
 /**
  * @file gfal_posix_api
  * @brief main header file for API of the posix lib
@@ -33,3 +37,5 @@ extern "C"
  #ifdef __cplusplus
 }
 #endif
+
+#endif // _GFAL2_API_

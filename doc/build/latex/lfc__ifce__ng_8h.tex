@@ -8,9 +8,12 @@ internal header of the lfc plugin module
 {\tt \#include $<$regex.h$>$}\par
 {\tt \#include \char`\"{}../gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-types.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}../../externals/gsimplecache/gcachemain.h\char`\"{}}\par
 \subsection*{Data Structures}
 \begin{CompactItemize}
+\item 
+struct \textbf{\_\-lfc\_\-checksum}
 \item 
 struct \textbf{lfc\_\-ops}
 \end{CompactItemize}
@@ -18,6 +21,12 @@ struct \textbf{lfc\_\-ops}
 \begin{CompactItemize}
 \item 
 \#define \textbf{GFAL\_\-MAX\_\-LFCHOST\_\-LEN}~1024\label{lfc__ifce__ng_8h_4ba01f362057d237e7234f527da40cdb}
+
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef \_\-lfc\_\-checksum \textbf{lfc\_\-checksum}\label{lfc__ifce__ng_8h_d86e20d6f06b763b9bbeec769a96651e}
 
 \end{CompactItemize}
 \subsection*{Functions}
@@ -41,6 +50,15 @@ char $\ast$ \bf{gfal\_\-convert\_\-guid\_\-to\_\-lfn} (plugin\_\-handle handle, 
 int \bf{gfal\_\-convert\_\-guid\_\-to\_\-lfn\_\-r} (plugin\_\-handle handle, const char $\ast$guid, char $\ast$buff\_\-lfn, size\_\-t sbuff\_\-lfn, GError $\ast$$\ast$err)
 \item 
 int \textbf{gfal\_\-lfc\_\-statg} (struct lfc\_\-ops $\ast$ops, const char $\ast$, struct lfc\_\-filestatg $\ast$resu, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8h_afccde3c16147263025698f5481635cf}
+
+\item 
+int \textbf{gfal\_\-lfc\_\-get\-Comment} (struct lfc\_\-ops $\ast$ops, const char $\ast$lfn, char $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8h_71ac937c7262a53247ea1b204ae23c6c}
+
+\item 
+int \textbf{gfal\_\-lfc\_\-set\-Comment} (struct lfc\_\-ops $\ast$ops, const char $\ast$lfn, const char $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8h_0b9952562acf59969aefc9519956f877}
+
+\item 
+int \textbf{gfal\_\-lfc\_\-get\-Checksum} (struct lfc\_\-ops $\ast$ops, const char $\ast$lfn, lfc\_\-checksum $\ast$checksum, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8h_3285a6a2cf6d76aa8fadabaee79f7896}
 
 \item 
 int \textbf{gfal\_\-lfc\_\-convert\_\-statg} (struct stat $\ast$output, struct lfc\_\-filestatg $\ast$input, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8h_79cceda78f871c9bd8568a636dd31206}

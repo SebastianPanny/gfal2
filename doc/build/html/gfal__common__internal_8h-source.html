@@ -44,16 +44,18 @@
 <a name="l00031"></a>00031 gfal_handle <a class="code" href="gfal__common__all_8c.html#8410ba458f920d8f8a8f0e5594170fe4">gfal_initG</a>(GError** err);
 <a name="l00032"></a>00032 <span class="keywordtype">void</span> <a class="code" href="gfal__common__all_8c.html#9dbd943eaed291897d852fc3ae560058">gfal_handle_freeG</a>(gfal_handle handle);
 <a name="l00033"></a>00033 
-<a name="l00034"></a>00034 <span class="comment">// conversion funcs</span>
-<a name="l00035"></a>00035 <span class="keywordtype">char</span>** <a class="code" href="gfal__common__all_8c.html#a7e1120eb32c4c7f293f6fbcb4f0ea33">gfal_GList_to_tab</a>(GList* surls);
-<a name="l00036"></a>00036 <span class="keywordtype">int</span>* <a class="code" href="gfal__common__all_8c.html#87219c9e2c6323b67c2ac70354ee2645">gfal_GList_to_tab_int</a>(GList* int_list);
-<a name="l00037"></a>00037 
-<a name="l00038"></a>00038 
-<a name="l00039"></a>00039 <span class="comment">// convenience internal funcs</span>
-<a name="l00040"></a>00040 <span class="keywordtype">void</span> gfal_new_request_state(gfal_handle handle);
-<a name="l00041"></a>00041 <span class="keywordtype">int</span> <a class="code" href="gfal__common__all_8c.html#0323a4ab58106e316851c1ae06148e28">resolve_dlsym_listG</a>(<span class="keywordtype">void</span>* handle, <span class="keywordtype">void</span>*** flist, <span class="keyword">const</span> <span class="keywordtype">char</span>** sym_list, <span class="keywordtype">int</span> num, GError** err);
-<a name="l00042"></a>00042 gboolean is_valid_access_result(<span class="keywordtype">int</span> status);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:56 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 <span class="comment">// conversion funcs</span>
+<a name="l00037"></a>00037 <span class="keywordtype">char</span>** <a class="code" href="gfal__common__all_8c.html#a7e1120eb32c4c7f293f6fbcb4f0ea33">gfal_GList_to_tab</a>(GList* surls);
+<a name="l00038"></a>00038 <span class="keywordtype">int</span>* <a class="code" href="gfal__common__all_8c.html#87219c9e2c6323b67c2ac70354ee2645">gfal_GList_to_tab_int</a>(GList* int_list);
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="comment">// convenience internal funcs</span>
+<a name="l00042"></a>00042 <span class="keywordtype">void</span> gfal_new_request_state(gfal_handle handle);
+<a name="l00043"></a>00043 <span class="keywordtype">int</span> <a class="code" href="gfal__common__all_8c.html#0323a4ab58106e316851c1ae06148e28">resolve_dlsym_listG</a>(<span class="keywordtype">void</span>* handle, <span class="keywordtype">void</span>*** flist, <span class="keyword">const</span> <span class="keywordtype">char</span>** sym_list, <span class="keywordtype">int</span> num, GError** err);
+<a name="l00044"></a>00044 gboolean is_valid_access_result(<span class="keywordtype">int</span> status);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

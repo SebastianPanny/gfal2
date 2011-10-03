@@ -1,5 +1,5 @@
 /**
- * @brief Simple and flexible cache system with timeout
+ * @brief Simple cache system based on Hashmap
  * @author Adev
  * @date 27/07/11
  * 

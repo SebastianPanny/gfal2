@@ -188,9 +188,9 @@ if(main_core):
 
 
 if(main_devel):
-	header_main = env.Install('/usr/include/gfal2/', Glob("dist/usr/include/gfal2/*.h") )
-	header_main2= env.Install('/usr/include/gfal2/common/', Glob("dist/usr/include/gfal2/common/*.h"))
-	header_main3= env.Install('/usr/include/gfal2/posix/', Glob("dist/usr/include/gfal2/posix/*.h") )
+	header_main = env.Install('/usr/include/gfal2/', "src/gfal_api.h" )
+	header_main2= env.Install('/usr/include/gfal2/common/', "src/common/gfal_constants.h")
+	header_main3= env.Install('/usr/include/gfal2/posix/', "src/posix/gfal_posix_api.h" )
 	static_main = env.Install('/usr/'+libdir+'/', staticlib)
 	example_main = env.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
 	pkg_config = env.Install('/usr/lib64/pkgconfig/', Glob('dist/lib64/pkgconfig/libgfal2.pc'))

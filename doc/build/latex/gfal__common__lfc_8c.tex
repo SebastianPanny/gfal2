@@ -47,9 +47,15 @@ ssize\_\-t \bf{lfc\_\-getxattr\_\-getsurl} (plugin\_\-handle handle, const char 
 \item 
 ssize\_\-t \bf{lfc\_\-getxattr\_\-getguid} (plugin\_\-handle handle, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
 \item 
+ssize\_\-t \bf{lfc\_\-getxattr\_\-comment} (plugin\_\-handle handle, const char $\ast$path, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
+\item 
 ssize\_\-t \bf{lfc\_\-getxattr\-G} (plugin\_\-handle handle, const char $\ast$path, const char $\ast$name, void $\ast$buff, size\_\-t size, GError $\ast$$\ast$err)
 \item 
 ssize\_\-t \bf{lfc\_\-listxattr\-G} (plugin\_\-handle handle, const char $\ast$path, char $\ast$list, size\_\-t size, GError $\ast$$\ast$err)
+\item 
+int \bf{lfc\_\-setxattr\_\-comment} (plugin\_\-handle handle, const char $\ast$path, const char $\ast$name, const void $\ast$value, size\_\-t size, int flags, GError $\ast$$\ast$err)
+\item 
+int \bf{lfc\_\-setxattr\-G} (plugin\_\-handle handle, const char $\ast$path, const char $\ast$name, const void $\ast$value, size\_\-t size, int flags, GError $\ast$$\ast$err)
 \item 
 char $\ast$ \bf{lfc\_\-resolve\_\-guid} (plugin\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
@@ -94,7 +100,7 @@ Check if the passed url and operation is compatible with lfc \index{gfal_common_
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}\bf{gfal\_\-plugin\_\-interface} gfal\_\-plugin\_\-init (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_0d53404e0e873535bffdfb3197bb73af}
 
 
-Map function for the lfc interface this function provide the generic CATALOG interface for the LFC plugin. lfc\_\-init\-G do : liblfc shared library load, sym resolve, endpoint check, and plugin function map. \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_accessG@{lfc\_\-accessG}}
+Map function for the lfc interface this function provide the generic PLUGIN interface for the LFC plugin. lfc\_\-init\-G do : liblfc shared library load, sym resolve, endpoint check, and plugin function map. \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_accessG@{lfc\_\-accessG}}
 \index{lfc_accessG@{lfc\_\-accessG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-access\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em lfn}, int {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_3b184ab14ac0fac2931aeb7336989553}
 
@@ -114,7 +120,12 @@ just return the name of the layer \index{gfal_common_lfc.c@{gfal\_\-common\_\-lf
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ lfc\_\-get\-SURLG (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_ab2b9f80b14228974befa9d005ea7bc9}
 
 
-resolve the lfc link to the surls \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattr_getguid@{lfc\_\-getxattr\_\-getguid}}
+resolve the lfc link to the surls \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattr_comment@{lfc\_\-getxattr\_\-comment}}
+\index{lfc_getxattr_comment@{lfc\_\-getxattr\_\-comment}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-comment (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_78bd16529e609c94b3715efe38e901a5}
+
+
+lfc getxattr for path -$>$ comment resolution \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_getxattr_getguid@{lfc\_\-getxattr\_\-getguid}}
 \index{lfc_getxattr_getguid@{lfc\_\-getxattr\_\-getguid}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\_\-getguid (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_264e0ecec42fb618c37740ccbf38e427}
 
@@ -144,7 +155,17 @@ Implementation of the rename call for the lfc plugin return 0 if success else -1
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ lfc\_\-resolve\_\-guid (plugin\_\-handle {\em handle}, const char $\ast$ {\em guid}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_5e7057c566c276986a69faa94abd3b82}
 
 
-Convert a guid to a plugin url if possible return the link in a plugin's url string or err and NULL if not found \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_statG@{lfc\_\-statG}}
+Convert a guid to a plugin url if possible return the link in a plugin's url string or err and NULL if not found \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_setxattr_comment@{lfc\_\-setxattr\_\-comment}}
+\index{lfc_setxattr_comment@{lfc\_\-setxattr\_\-comment}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-setxattr\_\-comment (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, const char $\ast$ {\em name}, const void $\ast$ {\em value}, size\_\-t {\em size}, int {\em flags}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_08bd87b3857f5a147b6defda0c61c5e4}
+
+
+setxattr function special for comments \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_setxattrG@{lfc\_\-setxattrG}}
+\index{lfc_setxattrG@{lfc\_\-setxattrG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-setxattr\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, const char $\ast$ {\em name}, const void $\ast$ {\em value}, size\_\-t {\em size}, int {\em flags}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_678da8773fc09be4050e03a4a21eadf9}
+
+
+lfc setxattr implem \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_statG@{lfc\_\-statG}}
 \index{lfc_statG@{lfc\_\-statG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-stat\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_ab708b142708ecaa8283d0a996a4dd32}
 

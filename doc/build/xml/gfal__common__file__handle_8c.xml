@@ -11,134 +11,139 @@
     <includes refid="gfal__common__filedescriptor_8h" local="yes">gfal_common_filedescriptor.h</includes>
     <includes refid="gfal__common__file__handle_8h" local="yes">gfal_common_file_handle.h</includes>
     <incdepgraph>
-      <node id="292">
+      <node id="303">
         <label>sys/stat.h</label>
       </node>
-      <node id="296">
+      <node id="308">
         <label>stdarg.h</label>
       </node>
-      <node id="283">
-        <label>stdlib.h</label>
+      <node id="304">
+        <label>attr/xattr.h</label>
       </node>
       <node id="294">
+        <label>stdlib.h</label>
+      </node>
+      <node id="306">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="285" relation="include">
+        <childnode refid="296" relation="include">
         </childnode>
       </node>
-      <node id="284">
+      <node id="295">
         <label>errno.h</label>
       </node>
-      <node id="293">
+      <node id="305">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="297">
+      <node id="309">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="295">
+      <node id="307">
         <label>gfal_common_plugin.h</label>
         <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="308" relation="include">
+        </childnode>
+        <childnode refid="309" relation="include">
+        </childnode>
+        <childnode refid="296" relation="include">
+        </childnode>
+        <childnode refid="295" relation="include">
+        </childnode>
+        <childnode refid="310" relation="include">
+        </childnode>
+        <childnode refid="302" relation="include">
+        </childnode>
+        <childnode refid="303" relation="include">
+        </childnode>
+        <childnode refid="306" relation="include">
+        </childnode>
+        <childnode refid="299" relation="include">
+        </childnode>
+      </node>
+      <node id="297">
+        <label>pthread.h</label>
+      </node>
+      <node id="301">
+        <label>sys/types.h</label>
+      </node>
+      <node id="310">
+        <label>string.h</label>
+      </node>
+      <node id="311">
+        <label>gfal_common_filedescriptor.h</label>
+        <link refid="gfal__common__filedescriptor_8h"/>
         <childnode refid="296" relation="include">
         </childnode>
         <childnode refid="297" relation="include">
         </childnode>
-        <childnode refid="285" relation="include">
-        </childnode>
-        <childnode refid="284" relation="include">
+        <childnode refid="306" relation="include">
         </childnode>
         <childnode refid="298" relation="include">
         </childnode>
-        <childnode refid="291" relation="include">
-        </childnode>
-        <childnode refid="292" relation="include">
-        </childnode>
-        <childnode refid="294" relation="include">
-        </childnode>
-        <childnode refid="288" relation="include">
-        </childnode>
-      </node>
-      <node id="286">
-        <label>pthread.h</label>
-      </node>
-      <node id="290">
-        <label>sys/types.h</label>
-      </node>
-      <node id="298">
-        <label>string.h</label>
-      </node>
-      <node id="299">
-        <label>gfal_common_filedescriptor.h</label>
-        <link refid="gfal__common__filedescriptor_8h"/>
-        <childnode refid="285" relation="include">
-        </childnode>
-        <childnode refid="286" relation="include">
-        </childnode>
-        <childnode refid="294" relation="include">
-        </childnode>
-        <childnode refid="287" relation="include">
-        </childnode>
-      </node>
-      <node id="289">
-        <label>unistd.h</label>
-      </node>
-      <node id="285">
-        <label>glib.h</label>
-      </node>
-      <node id="282">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_file_handle.c</label>
-        <link refid="gfal_common_file_handle.c"/>
-        <childnode refid="283" relation="include">
-        </childnode>
-        <childnode refid="284" relation="include">
-        </childnode>
-        <childnode refid="285" relation="include">
-        </childnode>
-        <childnode refid="286" relation="include">
-        </childnode>
-        <childnode refid="287" relation="include">
-        </childnode>
-        <childnode refid="288" relation="include">
-        </childnode>
-        <childnode refid="299" relation="include">
-        </childnode>
-        <childnode refid="300" relation="include">
-        </childnode>
       </node>
       <node id="300">
-        <label>gfal_common_file_handle.h</label>
-        <link refid="gfal__common__file__handle_8h"/>
-        <childnode refid="287" relation="include">
-        </childnode>
-        <childnode refid="294" relation="include">
-        </childnode>
+        <label>unistd.h</label>
       </node>
-      <node id="287">
-        <label>gfal_constants.h</label>
-        <link refid="gfal__constants_8h-source"/>
+      <node id="296">
+        <label>glib.h</label>
       </node>
-      <node id="288">
-        <label>gfal_types.h</label>
-        <link refid="gfal__types_8h-source"/>
-        <childnode refid="289" relation="include">
-        </childnode>
-        <childnode refid="285" relation="include">
-        </childnode>
-        <childnode refid="290" relation="include">
-        </childnode>
-        <childnode refid="291" relation="include">
-        </childnode>
-        <childnode refid="292" relation="include">
-        </childnode>
-        <childnode refid="293" relation="include">
-        </childnode>
-        <childnode refid="287" relation="include">
-        </childnode>
+      <node id="293">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_file_handle.c</label>
+        <link refid="gfal_common_file_handle.c"/>
         <childnode refid="294" relation="include">
         </childnode>
         <childnode refid="295" relation="include">
         </childnode>
+        <childnode refid="296" relation="include">
+        </childnode>
+        <childnode refid="297" relation="include">
+        </childnode>
+        <childnode refid="298" relation="include">
+        </childnode>
+        <childnode refid="299" relation="include">
+        </childnode>
+        <childnode refid="311" relation="include">
+        </childnode>
+        <childnode refid="312" relation="include">
+        </childnode>
       </node>
-      <node id="291">
+      <node id="312">
+        <label>gfal_common_file_handle.h</label>
+        <link refid="gfal__common__file__handle_8h"/>
+        <childnode refid="298" relation="include">
+        </childnode>
+        <childnode refid="306" relation="include">
+        </childnode>
+      </node>
+      <node id="298">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h"/>
+      </node>
+      <node id="299">
+        <label>gfal_types.h</label>
+        <link refid="gfal__types_8h-source"/>
+        <childnode refid="300" relation="include">
+        </childnode>
+        <childnode refid="296" relation="include">
+        </childnode>
+        <childnode refid="301" relation="include">
+        </childnode>
+        <childnode refid="302" relation="include">
+        </childnode>
+        <childnode refid="303" relation="include">
+        </childnode>
+        <childnode refid="304" relation="include">
+        </childnode>
+        <childnode refid="305" relation="include">
+        </childnode>
+        <childnode refid="298" relation="include">
+        </childnode>
+        <childnode refid="306" relation="include">
+        </childnode>
+        <childnode refid="307" relation="include">
+        </childnode>
+      </node>
+      <node id="302">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
@@ -211,7 +216,7 @@
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;errno.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;pthread.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_constants.h&quot;</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__constants_8h" kindref="compound">gfal_constants.h</ref>&quot;</highlight><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__filedescriptor_8h" kindref="compound">gfal_common_filedescriptor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__file__handle_8h" kindref="compound">gfal_common_file_handle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>

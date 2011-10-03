@@ -18,7 +18,7 @@
  
  /**
   * @brief  file for the bdii request part of gfal
-  * @author : Devresse Adrien
+  * @author Devresse Adrien
   * @version 2.0.0
   * @date 18/04/2011
   * */

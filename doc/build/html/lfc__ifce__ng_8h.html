@@ -27,17 +27,24 @@
 <code>#include &lt;regex.h&gt;</code><br>
 <code>#include &quot;../gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;../gfal_types.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__constants_8h-source.html">../gfal_constants.h</a>&quot;</code><br>
 <code>#include &quot;../../externals/gsimplecache/gcachemain.h&quot;</code><br>
 
 <p>
 <a href="lfc__ifce__ng_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Data Structures</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><b>_lfc_checksum</b></td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_ops</b></td></tr>
 
 <tr><td colspan="2"><br><h2>Defines</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4ba01f362057d237e7234f527da40cdb"></a><!-- doxytag: member="lfc_ifce_ng.h::GFAL_MAX_LFCHOST_LEN" ref="4ba01f362057d237e7234f527da40cdb" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>GFAL_MAX_LFCHOST_LEN</b>&nbsp;&nbsp;&nbsp;1024</td></tr>
+
+<tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d86e20d6f06b763b9bbeec769a96651e"></a><!-- doxytag: member="lfc_ifce_ng.h::lfc_checksum" ref="d86e20d6f06b763b9bbeec769a96651e" args="" -->
+typedef _lfc_checksum&nbsp;</td><td class="memItemRight" valign="bottom"><b>lfc_checksum</b></td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8h.html#5d13dc09e91f66d74de768c2e4bf4872">gfal_setup_lfchost</a> (gfal_handle handle, GError **err)</td></tr>
@@ -59,6 +66,15 @@ char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_get_strerr
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="afccde3c16147263025698f5481635cf"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_lfc_statg" ref="afccde3c16147263025698f5481635cf" args="(struct lfc_ops *ops, const char *, struct lfc_filestatg *resu, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_statg</b> (struct lfc_ops *ops, const char *, struct lfc_filestatg *resu, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="71ac937c7262a53247ea1b204ae23c6c"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_lfc_getComment" ref="71ac937c7262a53247ea1b204ae23c6c" args="(struct lfc_ops *ops, const char *lfn, char *buff, size_t s_buff, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_getComment</b> (struct lfc_ops *ops, const char *lfn, char *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0b9952562acf59969aefc9519956f877"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_lfc_setComment" ref="0b9952562acf59969aefc9519956f877" args="(struct lfc_ops *ops, const char *lfn, const char *buff, size_t s_buff, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_setComment</b> (struct lfc_ops *ops, const char *lfn, const char *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3285a6a2cf6d76aa8fadabaee79f7896"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_lfc_getChecksum" ref="3285a6a2cf6d76aa8fadabaee79f7896" args="(struct lfc_ops *ops, const char *lfn, lfc_checksum *checksum, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_getChecksum</b> (struct lfc_ops *ops, const char *lfn, lfc_checksum *checksum, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="79cceda78f871c9bd8568a636dd31206"></a><!-- doxytag: member="lfc_ifce_ng.h::gfal_lfc_convert_statg" ref="79cceda78f871c9bd8568a636dd31206" args="(struct stat *output, struct lfc_filestatg *input, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_convert_statg</b> (struct stat *output, struct lfc_filestatg *input, GError **err)</td></tr>
@@ -396,7 +412,7 @@ setup the lfc_host correctly for the lfc calls <dl compact><dt><b>Parameters:</b
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

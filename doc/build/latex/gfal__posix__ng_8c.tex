@@ -54,9 +54,22 @@ int \bf{gfal\_\-unlink} (const char $\ast$path)
 \begin{CompactList}\small\item\em delete a name and possibly the file it refers to \item\end{CompactList}\item 
 ssize\_\-t \bf{gfal\_\-listxattr} (const char $\ast$path, char $\ast$list, size\_\-t size)
 \begin{CompactList}\small\item\em list all extended attributes \item\end{CompactList}\item 
+int \bf{gfal\_\-setxattr} (const char $\ast$path, const char $\ast$name, const void $\ast$value, size\_\-t size, int flags)
+\begin{CompactList}\small\item\em set an extended attribute to a given value similar to the setxattr standard call of libattr \item\end{CompactList}\item 
+int \bf{gfal\_\-removexattr} (const char $\ast$path, const char $\ast$name)
+\begin{CompactList}\small\item\em removes the extended attribute identified by name and associated with the given path in the filesystem similar to the removexattr standard call of libattr \item\end{CompactList}\item 
 void \bf{gfal\_\-posix\_\-print\_\-error} ()
 \item 
+int \textbf{gfal\_\-flush} (int fd)\label{group__posix__group_gae43f250cf82271ee59b19d008b29ad8}
+
+\item 
 void \bf{gfal\_\-posix\_\-release\_\-error} ()
+\item 
+int \textbf{gfal\_\-set\_\-parameter} (const char $\ast$module, const char $\ast$name, const char $\ast$value)\label{group__posix__group_g01a013db524a02dc45658985e08ea6ba}
+
+\item 
+int \textbf{gfal\_\-get\_\-parameter} (const char $\ast$module, const char $\ast$name, char $\ast$buff\_\-value, size\_\-t s\_\-buff)\label{group__posix__group_g85aca9c2894e49c38c7c8592894e67a6}
+
 \item 
 void \bf{gfal\_\-posix\_\-clear\_\-error} ()
 \item 
@@ -97,14 +110,4 @@ create a new directory creates a new directory with permission bits taken from m
 \item[{\em path}]: url of the directory, can be in supported protocols (lfn, srm, file, guid,..) \item[{\em mode}]: right of the directory ( depend of the implementation ) \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return 0 if success else -1 and errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
-\index{gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}!gfal_posix_check_error@{gfal\_\-posix\_\-check\_\-error}}
-\index{gfal_posix_check_error@{gfal\_\-posix\_\-check\_\-error}!gfal_posix_ng.c@{gfal\_\-posix\_\-ng.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-check\_\-error ()}\label{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373}
-
-
-check the last Error, if no error report return 0 else return 1 and print the error on stderr \begin{Desc}
-\item[Warning:]this does not clear the error \end{Desc}
-\begin{Desc}
-\item[Examples: ]\par
-\bf{gfal\_\-testchmod.c}, \bf{gfal\_\-testcreatedir.c}, \bf{gfal\_\-testget.c}, \bf{gfal\_\-testread.c}, and \bf{gfal\_\-testrw.c}.\end{Desc}
+\item[Returns:]return 0 if success else -1 and errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}

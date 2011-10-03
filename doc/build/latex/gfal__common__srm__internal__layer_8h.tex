@@ -37,6 +37,10 @@ int \bf{gfal\_\-srm\_\-get\-TURLS\_\-plugin} (plugin\_\-handle ch, const char $\
 \item 
 int \bf{gfal\_\-srm\_\-put\-TURLS\_\-plugin} (plugin\_\-handle ch, const char $\ast$surl, char $\ast$buff\_\-turl, int size\_\-turl, char $\ast$$\ast$reqtoken, GError $\ast$$\ast$err)
 \item 
+int \bf{gfal\_\-srm\_\-get\-TURLS} (gfal\_\-srmv2\_\-opt $\ast$opts, char $\ast$$\ast$surls, gfal\_\-srm\_\-result $\ast$$\ast$resu, GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em launch a surls-$>$ turls translation in the synchronous mode \item\end{CompactList}\item 
+int \bf{gfal\_\-srm\_\-put\-TURLS} (gfal\_\-srmv2\_\-opt $\ast$opts, char $\ast$$\ast$surls, gfal\_\-srm\_\-result $\ast$$\ast$resu, GError $\ast$$\ast$err)
+\begin{CompactList}\small\item\em launch a surls-$>$ turls translation in the synchronous mode for file creation \item\end{CompactList}\item 
 int \textbf{gfal\_\-srm\_\-putdone} (gfal\_\-srmv2\_\-opt $\ast$opts, char $\ast$$\ast$surls, char $\ast$token, GError $\ast$$\ast$err)\label{gfal__common__srm__internal__layer_8h_0b73cfc8697e7ab0d68dc121047f405f}
 
 \item 
@@ -66,12 +70,40 @@ header file for the srm external function mapping for mocking purpose
 
 
 \subsection{Function Documentation}
+\index{gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}!gfal_srm_getTURLS@{gfal\_\-srm\_\-getTURLS}}
+\index{gfal_srm_getTURLS@{gfal\_\-srm\_\-getTURLS}!gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-get\-TURLS (gfal\_\-srmv2\_\-opt $\ast$ {\em opts}, char $\ast$$\ast$ {\em surls}, gfal\_\-srm\_\-result $\ast$$\ast$ {\em resu}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_dd4b348aabe59b3580911b0bc0e69b8b}
+
+
+launch a surls-$>$ turls translation in the synchronous mode 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em opts}]: srmv2 opts initiated \item[{\em surls}]: tab of string, last char$\ast$ must be NULL \item[{\em resu}]: pointer to a table of gfal\_\-srm\_\-result \item[{\em err}]: GError$\ast$$\ast$ for error report \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return positive if success else -1, check GError for more information \end{Desc}
 \index{gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}!gfal_srm_getTURLS_plugin@{gfal\_\-srm\_\-getTURLS\_\-plugin}}
 \index{gfal_srm_getTURLS_plugin@{gfal\_\-srm\_\-getTURLS\_\-plugin}!gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-get\-TURLS\_\-plugin (plugin\_\-handle {\em ch}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, char $\ast$$\ast$ {\em reqtoken}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_c85b3f997dc3eeb76f153e01e8c037d5}
 
 
-simple wrapper to get\-TURLs for the gfal\_\-module layer \index{gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}!gfal_srm_putTURLS_plugin@{gfal\_\-srm\_\-putTURLS\_\-plugin}}
+simple wrapper to get\-TURLs for the gfal\_\-module layer \index{gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}!gfal_srm_putTURLS@{gfal\_\-srm\_\-putTURLS}}
+\index{gfal_srm_putTURLS@{gfal\_\-srm\_\-putTURLS}!gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-put\-TURLS (gfal\_\-srmv2\_\-opt $\ast$ {\em opts}, char $\ast$$\ast$ {\em surls}, gfal\_\-srm\_\-result $\ast$$\ast$ {\em resu}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_acba3586236f05c7fd77c17ca9c36504}
+
+
+launch a surls-$>$ turls translation in the synchronous mode for file creation 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em opts}]: srmv2 opts initiated \item[{\em surls}]: tab of string, last char$\ast$ must be NULL \item[{\em resu}]: pointer to a table of gfal\_\-srm\_\-result \item[{\em err}]: GError$\ast$$\ast$ for error report \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return positive if success else -1, check GError for more information \end{Desc}
+\index{gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}!gfal_srm_putTURLS_plugin@{gfal\_\-srm\_\-putTURLS\_\-plugin}}
 \index{gfal_srm_putTURLS_plugin@{gfal\_\-srm\_\-putTURLS\_\-plugin}!gfal_common_srm_internal_layer.h@{gfal\_\-common\_\-srm\_\-internal\_\-layer.h}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-put\-TURLS\_\-plugin (plugin\_\-handle {\em ch}, const char $\ast$ {\em surl}, char $\ast$ {\em buff\_\-turl}, int {\em size\_\-turl}, char $\ast$$\ast$ {\em reqtoken}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__internal__layer_8h_24220c90dc2c2c7b43544c77bfac96cb}
 

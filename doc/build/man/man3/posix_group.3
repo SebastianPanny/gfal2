@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -66,6 +66,14 @@ all POSIX style function \-
 .br
 .RI "\fIlist all extended attributes \fP"
 .ti -1c
+.RI "int \fBgfal_setxattr\fP (const char *path, const char *name, const void *value, size_t size, int flags)"
+.br
+.RI "\fIset an extended attribute to a given value similar to the setxattr standard call of libattr \fP"
+.ti -1c
+.RI "int \fBgfal_removexattr\fP (const char *path, const char *name)"
+.br
+.RI "\fIremoves the extended attribute identified by name and associated with the given path in the filesystem similar to the removexattr standard call of libattr \fP"
+.ti -1c
 .RI "int \fBgfal_mkdir\fP (const char *, mode_t)"
 .br
 .ti -1c
@@ -89,6 +97,9 @@ all POSIX style function \-
 .br
 .RI "\fIdelete a name and possibly the file it refers to \fP"
 .ti -1c
+.RI "int \fBgfal_posix_check_error\fP ()"
+.br
+.ti -1c
 .RI "void \fBgfal_posix_clear_error\fP ()"
 .br
 .ti -1c
@@ -109,6 +120,15 @@ all POSIX style function \-
 .RI "\fIset the verbose mode for the current program \fP"
 .ti -1c
 .RI "char * \fBgfal_version\fP ()"
+.br
+.ti -1c
+.RI "int \fBgfal_flush\fP (int fd)"
+.br
+.ti -1c
+.RI "int \fBgfal_set_parameter\fP (const char *module, const char *name, const char *value)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_parameter\fP (const char *module, const char *name, char *buff_value, size_t s_buff)"
 .br
 .in -1c
 .SH "Function Documentation"
@@ -336,6 +356,20 @@ file descriptor DIR* if success else NULL if error and errno is set call \fBgfal
 \fBExamples: \fP
 .in +1c
 \fBgfal_testdir.c\fP.
+.SS "int gfal_posix_check_error ()"
+.PP
+check the last Error, if no error report return 0 else return 1 and print the error on stderr 
+.PP
+\fBWarning:\fP
+.RS 4
+this does not clear the error 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBgfal_testchmod.c\fP, \fBgfal_testcreatedir.c\fP, \fBgfal_testget.c\fP, \fBgfal_testread.c\fP, and \fBgfal_testrw.c\fP.
 .SS "void gfal_posix_clear_error ()"
 .PP
 clear the last error reported by a gfal posix function 
@@ -412,6 +446,25 @@ struct dirents are allocated statically, do not use free() on them
 \fBExamples: \fP
 .in +1c
 \fBgfal_testdir.c\fP.
+.SS "int gfal_removexattr (const char * path, const char * name)"
+.PP
+removes the extended attribute identified by name and associated with the given path in the filesystem similar to the removexattr standard call of libattr 
+.PP
+the effect of this call can be specific to the plugin used. ( ex : guid are read only)
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpath\fP : path of the file 
+.br
+\fIname\fP : key of the extended to remove 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success or -1 if error. In this case, errno is set and you can call \fBgfal_posix_check_error()\fP for a more complete description. 
+.RE
+.PP
+
 .SS "int gfal_rename (const char * oldpath, const char * newpath)"
 .PP
 change the name or location of a file oldpath and newpath need to be on the same plugin this functions work only with plugins (lfc ) and local files 
@@ -457,6 +510,31 @@ return 0 is success else -1 and errno is set call \fBgfal_posix_check_error()\fP
 set the verbose mode for the current program 
 .PP
 set the verbose level of gfal 2 
+.SS "int gfal_setxattr (const char * path, const char * name, const void * value, size_t size, int flags)"
+.PP
+set an extended attribute to a given value similar to the setxattr standard call of libattr 
+.PP
+the effect of this call can be specific to the plugin used. ( ex : guid are read only)
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpath\fP : path of the file 
+.br
+\fIname\fP : key of the extended atribute to set 
+.br
+\fIvalue\fP : value to set, must be at least of the size size 
+.br
+\fIsize\fP : size of the attriute to set 
+.br
+\fIflags\fP : flags similar to the setxattr call, can be ignored by some plugins/call 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success else or -1 if error. In this case, errno is set and you can call \fBgfal_posix_check_error()\fP for a more complete description. 
+.RE
+.PP
+
 .SS "int gfal_stat (const char * path, struct stat * buff)"
 .PP
 informations about a file These functions return information about a file. No permissions are required on the file itself, but — in the case of stat() and lstat() — execute (search) permission is required on all of the directories in path that lead to the file. 

@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.h" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -92,6 +92,10 @@
 .ti -1c
 .RI "char * \fBgfal_srm_construct_key\fP (const char *url, const char *prefix, char *buff, const size_t s_buff)"
 .br
+.ti -1c
+.RI "void \fBgfal_set_default_storageG\fP (gfal_srmv2_opt *opts, enum gfal_srm_proto proto)"
+.br
+.RI "\fIaccessor for the default storage type definition \fP"
 .ti -1c
 .RI "int \fBgfal_srm_convert_filestatuses_to_GError\fP (struct srmv2_filestatus *statuses, int n, GError **err)"
 .br

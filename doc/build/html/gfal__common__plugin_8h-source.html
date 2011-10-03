@@ -46,7 +46,7 @@
 <a name="l00035"></a>00035 <span class="preprocessor">#include &lt;sys/stat.h&gt;</span>
 <a name="l00036"></a>00036  <span class="comment">// protos</span>
 <a name="l00037"></a>00037 <span class="preprocessor">#include "gfal_prototypes.h"</span>
-<a name="l00038"></a>00038 <span class="preprocessor">#define MAX_CATALOG_LIST 64</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#define MAX_PLUGIN_LIST 64</span>
 <a name="l00039"></a>00039 <span class="preprocessor"></span>
 <a name="l00040"></a>00040 
 <a name="l00041"></a>00041 
@@ -54,118 +54,121 @@
 <a name="l00043"></a>00043 
 <a name="l00044"></a>00044 
 <a name="l00049"></a>00049 <span class="keyword">enum</span> _plugin_mode{
-<a name="l00050"></a>00050         GFAL_CATALOG_ALL=0,
-<a name="l00051"></a>00051         GFAL_CATALOG_ACCESS,
-<a name="l00052"></a>00052         GFAL_CATALOG_CHMOD,
-<a name="l00053"></a>00053         GFAL_CATALOG_RENAME,
-<a name="l00054"></a>00054         GFAL_CATALOG_SYMLINK,
-<a name="l00055"></a>00055         GFAL_CATALOG_STAT,
-<a name="l00056"></a>00056         GFAL_CATALOG_LSTAT,
-<a name="l00057"></a>00057         GFAL_CATALOG_MKDIR,
-<a name="l00058"></a>00058         GFAL_CATALOG_RMDIR,
-<a name="l00059"></a>00059         GFAL_CATALOG_OPENDIR, <span class="comment">// concat of opendir readdir, closedir</span>
-<a name="l00060"></a>00060         GFAL_CATALOG_OPEN, <span class="comment">// concat of open read, close</span>
-<a name="l00061"></a>00061         GFAL_CATALOG_RESOLVE_GUID,
-<a name="l00062"></a>00062         GFAL_CATALOG_GETXATTR,
-<a name="l00063"></a>00063         GFAL_CATALOG_LISTXATTR,
-<a name="l00064"></a>00064         GFAL_CATALOG_READLINK,
-<a name="l00065"></a>00065         GFAL_CATALOG_UNLINK
-<a name="l00066"></a>00066         
-<a name="l00067"></a>00067 };
-<a name="l00068"></a>00068 
-<a name="l00075"></a><a class="code" href="struct__gfal__plugin__interface.html">00075</a> <span class="keyword">struct </span><a class="code" href="struct__gfal__plugin__interface.html">_gfal_plugin_interface</a>{
-<a name="l00076"></a>00076         <span class="comment">// handle</span>
-<a name="l00077"></a>00077         plugin_handle handle;
-<a name="l00078"></a>00078         <span class="comment">// to have name/id of the plugin MUST be IMPLEMENTED</span>
-<a name="l00079"></a>00079         <span class="keyword">const</span> <span class="keywordtype">char</span>* (*getName)();
-<a name="l00083"></a>00083         void (*<a class="code" href="struct__gfal__plugin__interface.html#d146f62bd310f1f265f0bc3c37cc70d8">plugin_delete</a>)(plugin_handle); 
-<a name="l00089"></a>00089         gboolean (*<a class="code" href="struct__gfal__plugin__interface.html#e1ab2d2c3ea35095446a2c14734b5f4c">check_plugin_url</a>)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* url,  plugin_mode mode, GError** err);
-<a name="l00093"></a>00093         int (*<a class="code" href="struct__gfal__plugin__interface.html#1fa81d7a219629281c14b05116d32202">accessG</a>)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
-<a name="l00097"></a>00097         int     (*<a class="code" href="struct__gfal__plugin__interface.html#e032ec6f13423ea516ca4c02332f5ecf">chmodG</a>)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t, GError** err);
-<a name="l00098"></a>00098         int     (*renameG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, GError** err);
-<a name="l00099"></a>00099         int (*symlinkG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, GError** err);
-<a name="l00100"></a>00100         int (*statG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">struct </span>stat *buf, GError** err);
-<a name="l00101"></a>00101         int (*lstatG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">struct </span>stat *buf, GError** err);
-<a name="l00102"></a>00102         ssize_t (*readlinkG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>* buff, size_t buffsiz, GError** );
-<a name="l00103"></a>00103 
-<a name="l00104"></a>00104         <span class="comment">// directory management</span>
-<a name="l00105"></a>00105          gfal_file_handle (*opendirG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, GError**); 
-<a name="l00106"></a>00106          int (*closedirG)(plugin_handle, gfal_file_handle, GError**);
-<a name="l00107"></a>00107          <span class="keyword">struct </span>dirent* (*readdirG)(plugin_handle, gfal_file_handle, GError**);
-<a name="l00108"></a>00108         int (*mkdirpG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, mode_t, gboolean pflag, GError**);  <span class="comment">//function pointer for the mkdir call, if pflag is set, the call is considered like a recursive call for a full path creation</span>
-<a name="l00109"></a>00109         int (*rmdirG )(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, GError**);            
-<a name="l00110"></a>00110 
-<a name="l00111"></a>00111          <span class="comment">// basic file operation, </span>
-<a name="l00112"></a>00112          gfal_file_handle (*openG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> flag, mode_t mode, GError**);
-<a name="l00113"></a>00113          int (*readG)(plugin_handle, gfal_file_handle fd, <span class="keywordtype">void</span>* buff, size_t count, GError**);
-<a name="l00114"></a>00114          int (*writeG)(plugin_handle, gfal_file_handle fd, <span class="keywordtype">void</span>* buff, size_t count, GError**);
-<a name="l00115"></a>00115          int (*closeG)(plugin_handle, gfal_file_handle fd, GError **);
-<a name="l00116"></a>00116          int (*lseekG)(plugin_handle, gfal_file_handle fd, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
-<a name="l00117"></a>00117          
-<a name="l00118"></a>00118          <span class="comment">// remove operations</span>
-<a name="l00119"></a>00119          int (*unlinkG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError**);
-<a name="l00120"></a>00120          
-<a name="l00121"></a>00121          <span class="comment">// advanced attributes management</span>
-<a name="l00122"></a>00122          ssize_t (*getxattrG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
-<a name="l00123"></a>00123          ssize_t (*listxattrG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>* list, size_t s_list, GError** err);
-<a name="l00124"></a>00124          
-<a name="l00125"></a>00125         
-<a name="l00126"></a>00126 };
-<a name="l00127"></a>00127 
-<a name="l00131"></a><a class="code" href="struct__plugin__opts.html">00131</a> <span class="keyword">struct </span><a class="code" href="struct__plugin__opts.html">_plugin_opts</a>{
-<a name="l00132"></a>00132         <a class="code" href="struct__gfal__plugin__interface.html">gfal_plugin_interface</a> plugin_list[MAX_CATALOG_LIST];
-<a name="l00133"></a>00133         <span class="keywordtype">int</span> plugin_number;
-<a name="l00134"></a>00134 };
-<a name="l00135"></a>00135 
-<a name="l00136"></a>00136 <span class="preprocessor">#include "gfal_types.h"</span>
-<a name="l00137"></a>00137 
+<a name="l00050"></a>00050         GFAL_PLUGIN_ALL=0,
+<a name="l00051"></a>00051         GFAL_PLUGIN_ACCESS,
+<a name="l00052"></a>00052         GFAL_PLUGIN_CHMOD,
+<a name="l00053"></a>00053         GFAL_PLUGIN_RENAME,
+<a name="l00054"></a>00054         GFAL_PLUGIN_SYMLINK,
+<a name="l00055"></a>00055         GFAL_PLUGIN_STAT,
+<a name="l00056"></a>00056         GFAL_PLUGIN_LSTAT,
+<a name="l00057"></a>00057         GFAL_PLUGIN_MKDIR,
+<a name="l00058"></a>00058         GFAL_PLUGIN_RMDIR,
+<a name="l00059"></a>00059         GFAL_PLUGIN_OPENDIR, <span class="comment">// concat of opendir readdir, closedir</span>
+<a name="l00060"></a>00060         GFAL_PLUGIN_OPEN, <span class="comment">// concat of open read, close</span>
+<a name="l00061"></a>00061         GFAL_PLUGIN_RESOLVE_GUID,
+<a name="l00062"></a>00062         GFAL_PLUGIN_GETXATTR,
+<a name="l00063"></a>00063         GFAL_PLUGIN_SETXATTR,
+<a name="l00064"></a>00064         GFAL_PLUGIN_LISTXATTR,
+<a name="l00065"></a>00065         GFAL_PLUGIN_READLINK,
+<a name="l00066"></a>00066         GFAL_PLUGIN_UNLINK
+<a name="l00067"></a>00067         
+<a name="l00068"></a>00068 };
+<a name="l00069"></a>00069 
+<a name="l00077"></a><a class="code" href="struct__gfal__plugin__interface.html">00077</a> <span class="keyword">struct </span><a class="code" href="struct__gfal__plugin__interface.html">_gfal_plugin_interface</a>{
+<a name="l00078"></a>00078         <span class="comment">// handle</span>
+<a name="l00079"></a>00079         plugin_handle handle;
+<a name="l00080"></a>00080         <span class="comment">// to have name/id of the plugin MUST be IMPLEMENTED</span>
+<a name="l00081"></a>00081         <span class="keyword">const</span> <span class="keywordtype">char</span>* (*getName)();
+<a name="l00085"></a>00085         void (*<a class="code" href="struct__gfal__plugin__interface.html#d146f62bd310f1f265f0bc3c37cc70d8">plugin_delete</a>)(plugin_handle); 
+<a name="l00091"></a>00091         gboolean (*<a class="code" href="struct__gfal__plugin__interface.html#e1ab2d2c3ea35095446a2c14734b5f4c">check_plugin_url</a>)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* url,  plugin_mode mode, GError** err);
+<a name="l00095"></a>00095         int (*<a class="code" href="struct__gfal__plugin__interface.html#1fa81d7a219629281c14b05116d32202">accessG</a>)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
+<a name="l00099"></a>00099         int     (*<a class="code" href="struct__gfal__plugin__interface.html#e032ec6f13423ea516ca4c02332f5ecf">chmodG</a>)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span> *, mode_t, GError** err);
+<a name="l00100"></a>00100         int     (*renameG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, GError** err);
+<a name="l00101"></a>00101         int (*symlinkG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, GError** err);
+<a name="l00102"></a>00102         int (*statG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">struct </span>stat *buf, GError** err);
+<a name="l00103"></a>00103         int (*lstatG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">struct </span>stat *buf, GError** err);
+<a name="l00104"></a>00104         ssize_t (*readlinkG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>* buff, size_t buffsiz, GError** );
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106         <span class="comment">// directory management</span>
+<a name="l00107"></a>00107          gfal_file_handle (*opendirG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, GError**); 
+<a name="l00108"></a>00108          int (*closedirG)(plugin_handle, gfal_file_handle, GError**);
+<a name="l00109"></a>00109          <span class="keyword">struct </span>dirent* (*readdirG)(plugin_handle, gfal_file_handle, GError**);
+<a name="l00110"></a>00110         int (*mkdirpG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, mode_t, gboolean pflag, GError**);  <span class="comment">//function pointer for the mkdir call, if pflag is set, the call is considered like a recursive call for a full path creation</span>
+<a name="l00111"></a>00111         int (*rmdirG )(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, GError**);            
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113          <span class="comment">// basic file operation, </span>
+<a name="l00114"></a>00114          gfal_file_handle (*openG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> flag, mode_t mode, GError**);
+<a name="l00115"></a>00115          int (*readG)(plugin_handle, gfal_file_handle fd, <span class="keywordtype">void</span>* buff, size_t count, GError**);
+<a name="l00116"></a>00116          int (*writeG)(plugin_handle, gfal_file_handle fd, <span class="keywordtype">void</span>* buff, size_t count, GError**);
+<a name="l00117"></a>00117          int (*closeG)(plugin_handle, gfal_file_handle fd, GError **);
+<a name="l00118"></a>00118          int (*lseekG)(plugin_handle, gfal_file_handle fd, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
+<a name="l00119"></a>00119          
+<a name="l00120"></a>00120          <span class="comment">// remove operations</span>
+<a name="l00121"></a>00121          int (*unlinkG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError**);
+<a name="l00122"></a>00122          
+<a name="l00123"></a>00123          <span class="comment">// advanced attributes management</span>
+<a name="l00124"></a>00124          ssize_t (*getxattrG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00125"></a>00125          ssize_t (*listxattrG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>* list, size_t s_list, GError** err);
+<a name="l00126"></a>00126          int (*setxattrG)(plugin_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">void</span>*, size_t , int, GError** );
+<a name="l00127"></a>00127          
+<a name="l00128"></a>00128         
+<a name="l00129"></a>00129 };
+<a name="l00130"></a>00130 
+<a name="l00134"></a><a class="code" href="struct__plugin__opts.html">00134</a> <span class="keyword">struct </span><a class="code" href="struct__plugin__opts.html">_plugin_opts</a>{
+<a name="l00135"></a>00135         <a class="code" href="struct__gfal__plugin__interface.html">gfal_plugin_interface</a> plugin_list[MAX_PLUGIN_LIST];
+<a name="l00136"></a>00136         <span class="keywordtype">int</span> plugin_number;
+<a name="l00137"></a>00137 };
 <a name="l00138"></a>00138 
-<a name="l00139"></a>00139 <span class="keyword">extern</span> <span class="keywordtype">char</span>* gfal_get_cat_type(GError**);
+<a name="l00139"></a>00139 <span class="preprocessor">#include "gfal_types.h"</span>
 <a name="l00140"></a>00140 
 <a name="l00141"></a>00141 
-<a name="l00142"></a>00142 <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#4d38083d4b9f51095013c0f3d233c0da">gfal_plugins_instance</a>(gfal_handle, GError** err);
-<a name="l00143"></a>00143 <span class="keywordtype">char</span>** gfal_plugins_get_list(gfal_handle, GError** err);
-<a name="l00144"></a>00144 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#3a5fd910584fad43a1a67c0e844ce528">gfal_plugins_delete</a>(gfal_handle, GError** err);
-<a name="l00145"></a>00145 
-<a name="l00146"></a>00146 
-<a name="l00147"></a>00147 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#b59f407ec7865163a60faaa56cbae432">gfal_plugins_accessG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
-<a name="l00148"></a>00148 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#d3bcfafdf8d90935cb312388cdd6bb92">gfal_plugin_rmdirG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
-<a name="l00149"></a>00149 ssize_t <a class="code" href="gfal__common__plugin_8c.html#d2e6e573b52926185793ff4f0dd5e307">gfal_plugin_readlinkG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">char</span>* buff, size_t buffsiz, GError** err);
-<a name="l00150"></a>00150 
-<a name="l00151"></a>00151 
-<a name="l00152"></a>00152 
+<a name="l00142"></a>00142 <span class="keyword">extern</span> <span class="keywordtype">char</span>* gfal_get_cat_type(GError**);
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145 <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#4d38083d4b9f51095013c0f3d233c0da">gfal_plugins_instance</a>(gfal_handle, GError** err);
+<a name="l00146"></a>00146 <span class="keywordtype">char</span>** gfal_plugins_get_list(gfal_handle, GError** err);
+<a name="l00147"></a>00147 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#3a5fd910584fad43a1a67c0e844ce528">gfal_plugins_delete</a>(gfal_handle, GError** err);
+<a name="l00148"></a>00148 
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#b59f407ec7865163a60faaa56cbae432">gfal_plugins_accessG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> mode, GError** err);
+<a name="l00151"></a>00151 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#d3bcfafdf8d90935cb312388cdd6bb92">gfal_plugin_rmdirG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+<a name="l00152"></a>00152 ssize_t <a class="code" href="gfal__common__plugin_8c.html#d2e6e573b52926185793ff4f0dd5e307">gfal_plugin_readlinkG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">char</span>* buff, size_t buffsiz, GError** err);
 <a name="l00153"></a>00153 
-<a name="l00154"></a>00154 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#f9780b8c4a097a65b42aee466a9218e0">gfal_plugin_chmodG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode, GError** err);
-<a name="l00155"></a>00155 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#98b9e43ecd18ce2fc728d4a731e52ce1">gfal_plugin_statG</a>(gfal_handle handle,<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* st, GError** err);
-<a name="l00156"></a>00156 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#ee26850796f50439ded98dafc7cd064b">gfal_plugin_renameG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* oldpath, <span class="keyword">const</span> <span class="keywordtype">char</span>* newpath, GError** err);
-<a name="l00157"></a>00157 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#6ff9d39b564be7d0a560a09288e19b9e">gfal_plugin_symlinkG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* oldpath, <span class="keyword">const</span> <span class="keywordtype">char</span>* newpath, GError** err);
-<a name="l00158"></a>00158 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#81a0d301234958fc59518fb6ce306425">gfal_plugin_lstatG</a>(gfal_handle handle,<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* st, GError** err);
-<a name="l00159"></a>00159 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#815a97902a1067b99f9bcc2f63b19e11">gfal_plugin_mkdirp</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode, gboolean pflag,  GError** err);
-<a name="l00160"></a>00160 
-<a name="l00161"></a>00161 
-<a name="l00162"></a>00162 gfal_file_handle <a class="code" href="gfal__common__plugin_8c.html#0f8363d00d0f3418edaef414a84df034">gfal_plugin_opendirG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, GError** err);
-<a name="l00163"></a>00163 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#980a66f9ea2946189c0d70f13471900f">gfal_plugin_closedirG</a>(gfal_handle handle, gfal_file_handle fh, GError** err);
-<a name="l00164"></a>00164 <span class="keyword">struct </span>dirent* <a class="code" href="gfal__common__plugin_8c.html#7fd9e55c89de0f0a85127972cecffcfd">gfal_plugin_readdirG</a>(gfal_handle handle, gfal_file_handle fh, GError** err);
-<a name="l00165"></a>00165         
-<a name="l00166"></a>00166 
-<a name="l00167"></a>00167 gfal_file_handle <a class="code" href="gfal__common__plugin_8c.html#322dfbe0ad1e144573719ed08151281e">gfal_plugin_openG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span> * path, <span class="keywordtype">int</span> flag, mode_t mode, GError ** err);
-<a name="l00168"></a>00168 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#13d1db9798e5a830c745e2f909a484f4">gfal_plugin_closeG</a>(gfal_handle handle, gfal_file_handle fh, GError** err);
-<a name="l00169"></a>00169 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#caaf6298a84f453bb6ddd50c36b6dfd7">gfal_plugin_writeG</a>(gfal_handle handle, gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
-<a name="l00170"></a>00170 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#c29b06ae43aa86049b513d1174393019">gfal_plugin_lseekG</a>(gfal_handle handle, gfal_file_handle fh, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
-<a name="l00171"></a>00171 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#d536879bc7813a35bc79318ce43f0b57">gfal_plugin_readG</a>(gfal_handle handle, gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
-<a name="l00172"></a>00172 
-<a name="l00173"></a>00173 
-<a name="l00174"></a>00174 <span class="keywordtype">int</span> gfal_plugin_unlinkG(plugin_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#f9780b8c4a097a65b42aee466a9218e0">gfal_plugin_chmodG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode, GError** err);
+<a name="l00158"></a>00158 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#98b9e43ecd18ce2fc728d4a731e52ce1">gfal_plugin_statG</a>(gfal_handle handle,<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* st, GError** err);
+<a name="l00159"></a>00159 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#ee26850796f50439ded98dafc7cd064b">gfal_plugin_renameG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* oldpath, <span class="keyword">const</span> <span class="keywordtype">char</span>* newpath, GError** err);
+<a name="l00160"></a>00160 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#6ff9d39b564be7d0a560a09288e19b9e">gfal_plugin_symlinkG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* oldpath, <span class="keyword">const</span> <span class="keywordtype">char</span>* newpath, GError** err);
+<a name="l00161"></a>00161 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#81a0d301234958fc59518fb6ce306425">gfal_plugin_lstatG</a>(gfal_handle handle,<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* st, GError** err);
+<a name="l00162"></a>00162 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#815a97902a1067b99f9bcc2f63b19e11">gfal_plugin_mkdirp</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode, gboolean pflag,  GError** err);
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165 gfal_file_handle <a class="code" href="gfal__common__plugin_8c.html#0f8363d00d0f3418edaef414a84df034">gfal_plugin_opendirG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, GError** err);
+<a name="l00166"></a>00166 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#980a66f9ea2946189c0d70f13471900f">gfal_plugin_closedirG</a>(gfal_handle handle, gfal_file_handle fh, GError** err);
+<a name="l00167"></a>00167 <span class="keyword">struct </span>dirent* <a class="code" href="gfal__common__plugin_8c.html#7fd9e55c89de0f0a85127972cecffcfd">gfal_plugin_readdirG</a>(gfal_handle handle, gfal_file_handle fh, GError** err);
+<a name="l00168"></a>00168         
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170 gfal_file_handle <a class="code" href="gfal__common__plugin_8c.html#322dfbe0ad1e144573719ed08151281e">gfal_plugin_openG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span> * path, <span class="keywordtype">int</span> flag, mode_t mode, GError ** err);
+<a name="l00171"></a>00171 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#13d1db9798e5a830c745e2f909a484f4">gfal_plugin_closeG</a>(gfal_handle handle, gfal_file_handle fh, GError** err);
+<a name="l00172"></a>00172 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#caaf6298a84f453bb6ddd50c36b6dfd7">gfal_plugin_writeG</a>(gfal_handle handle, gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00173"></a>00173 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#c29b06ae43aa86049b513d1174393019">gfal_plugin_lseekG</a>(gfal_handle handle, gfal_file_handle fh, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
+<a name="l00174"></a>00174 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#d536879bc7813a35bc79318ce43f0b57">gfal_plugin_readG</a>(gfal_handle handle, gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
 <a name="l00175"></a>00175 
 <a name="l00176"></a>00176 
-<a name="l00177"></a>00177 ssize_t <a class="code" href="gfal__common__plugin_8c.html#de1aadc6ff10f7fef83cb57a21ef1406">gfal_plugin_getxattrG</a>(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
-<a name="l00178"></a>00178 ssize_t gfal_plugin_listxattrG(gfal_handle , <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>* list, size_t s_list, GError** err);
+<a name="l00177"></a>00177 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#1a4632c68c7d81f87071733081900dee">gfal_plugin_unlinkG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+<a name="l00178"></a>00178 
 <a name="l00179"></a>00179 
-<a name="l00180"></a>00180 
-<a name="l00181"></a>00181 
-<a name="l00182"></a>00182 
+<a name="l00180"></a>00180 ssize_t <a class="code" href="gfal__common__plugin_8c.html#de1aadc6ff10f7fef83cb57a21ef1406">gfal_plugin_getxattrG</a>(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00181"></a>00181 ssize_t gfal_plugin_listxattrG(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>* list, size_t s_list, GError** err);
+<a name="l00182"></a>00182 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#5bba59659f7b0e1a123db9d8b990b58c">gfal_plugin_setxattrG</a>(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">void</span>*, size_t, <span class="keywordtype">int</span>, GError**);
 <a name="l00183"></a>00183 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:56 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

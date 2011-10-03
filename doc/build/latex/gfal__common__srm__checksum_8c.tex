@@ -1,0 +1,35 @@
+\section{/home/adevress/myworkspace/gfal/src/common/srm/gfal\_\-common\_\-srm\_\-checksum.c File Reference}
+\label{gfal__common__srm__checksum_8c}\index{/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_checksum.c@{/home/adevress/myworkspace/gfal/src/common/srm/gfal\_\-common\_\-srm\_\-checksum.c}}
+funtion to get the checksum of a file 
+
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-access.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-constants.h\char`\"{}}\par
+{\tt \#include \char`\"{}../gfal\_\-common\_\-errverbose.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-internal\_\-layer.h\char`\"{}}\par
+{\tt \#include \char`\"{}gfal\_\-common\_\-srm\_\-endpoint.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \bf{gfal\_\-srm\_\-cheksum\-G} (plugin\_\-handle ch, const char $\ast$surl, char $\ast$buf\_\-checksum, size\_\-t s\_\-checksum, char $\ast$buf\_\-chktype, size\_\-t s\_\-chktype, GError $\ast$$\ast$err)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+funtion to get the checksum of a file 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Version:]2.0 \end{Desc}
+\begin{Desc}
+\item[Date:]29/09/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common_srm_checksum.c@{gfal\_\-common\_\-srm\_\-checksum.c}!gfal_srm_cheksumG@{gfal\_\-srm\_\-cheksumG}}
+\index{gfal_srm_cheksumG@{gfal\_\-srm\_\-cheksumG}!gfal_common_srm_checksum.c@{gfal\_\-common\_\-srm\_\-checksum.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-srm\_\-cheksum\-G (plugin\_\-handle {\em ch}, const char $\ast$ {\em surl}, char $\ast$ {\em buf\_\-checksum}, size\_\-t {\em s\_\-checksum}, char $\ast$ {\em buf\_\-chktype}, size\_\-t {\em s\_\-chktype}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__srm__checksum_8c_e65ec03caef1b84a84b4689991aa1eb2}
+
+
+get checksum from a remote SRM URL 

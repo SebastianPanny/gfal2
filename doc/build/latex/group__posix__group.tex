@@ -35,6 +35,10 @@ ssize\_\-t \bf{gfal\_\-getxattr} (const char $\ast$path, const char $\ast$name, 
 \begin{CompactList}\small\item\em retrieve an extended attribute value \item\end{CompactList}\item 
 ssize\_\-t \bf{gfal\_\-listxattr} (const char $\ast$path, char $\ast$list, size\_\-t size)
 \begin{CompactList}\small\item\em list all extended attributes \item\end{CompactList}\item 
+int \bf{gfal\_\-setxattr} (const char $\ast$path, const char $\ast$name, const void $\ast$value, size\_\-t size, int flags)
+\begin{CompactList}\small\item\em set an extended attribute to a given value similar to the setxattr standard call of libattr \item\end{CompactList}\item 
+int \bf{gfal\_\-removexattr} (const char $\ast$path, const char $\ast$name)
+\begin{CompactList}\small\item\em removes the extended attribute identified by name and associated with the given path in the filesystem similar to the removexattr standard call of libattr \item\end{CompactList}\item 
 int \bf{gfal\_\-mkdir} (const char $\ast$, mode\_\-t)
 \item 
 DIR $\ast$ \bf{gfal\_\-opendir} (const char $\ast$)
@@ -47,6 +51,8 @@ int \bf{gfal\_\-rmdir} (const char $\ast$)
 \begin{CompactList}\small\item\em removes a directory if it is empty remove an existing directory, return error if the dir is not empty \item\end{CompactList}\item 
 int \bf{gfal\_\-unlink} (const char $\ast$)
 \begin{CompactList}\small\item\em delete a name and possibly the file it refers to \item\end{CompactList}\item 
+int \bf{gfal\_\-posix\_\-check\_\-error} ()
+\item 
 void \bf{gfal\_\-posix\_\-clear\_\-error} ()
 \item 
 void \bf{gfal\_\-posix\_\-release\_\-error} ()
@@ -60,6 +66,15 @@ int \bf{gfal\_\-posix\_\-code\_\-error} ()
 int \bf{gfal\_\-set\_\-verbose} (int)
 \begin{CompactList}\small\item\em set the verbose mode for the current program \item\end{CompactList}\item 
 char $\ast$ \bf{gfal\_\-version} ()
+\item 
+int \textbf{gfal\_\-flush} (int fd)\label{group__posix__group_gae43f250cf82271ee59b19d008b29ad8}
+
+\item 
+int \textbf{gfal\_\-set\_\-parameter} (const char $\ast$module, const char $\ast$name, const char $\ast$value)\label{group__posix__group_g01a013db524a02dc45658985e08ea6ba}
+
+\item 
+int \textbf{gfal\_\-get\_\-parameter} (const char $\ast$module, const char $\ast$name, char $\ast$buff\_\-value, size\_\-t s\_\-buff)\label{group__posix__group_g85aca9c2894e49c38c7c8592894e67a6}
+
 \end{CompactItemize}
 
 
@@ -77,7 +92,7 @@ test access to the given file
 \item[{\em path}]path of the file to access, can be in supported protocols (lfn, srm, file, guid,..) \item[{\em amode}]access mode to check (R\_\-OK, W\_\-OK, X\_\-OK or F\_\-OK) \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it. \end{Desc}
+\item[Returns:]This routine return 0 if the operation was successful, or -1 if error occured and errno is set, call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it. \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testchmod.c}.\end{Desc}
@@ -94,7 +109,7 @@ change the right for a file or a folder
 \item[{\em path}]: path of the file or the folder, can be in all supported protocols (lfn, srm, file, guid,..) \item[{\em mode}]: right to configure \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return 0 if success else -1 and errno is set, call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
+\item[Returns:]return 0 if success else -1 and errno is set, call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testchmod.c}.\end{Desc}
@@ -145,7 +160,7 @@ create a new file or truncate an existing one similar to the POSIX call creat op
 \item[{\em filename}]: url of the filename to create, can be in supported protocols (lfn, srm, file, guid,..) \item[{\em mode}]: is used only if the file is created. \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return the file descriptor or -1 if errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
+\item[Returns:]return the file descriptor or -1 if errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_getxattr@{gfal\_\-getxattr}}
 \index{gfal_getxattr@{gfal\_\-getxattr}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-getxattr (const char $\ast$ {\em path}, const char $\ast$ {\em name}, void $\ast$ {\em value}, size\_\-t {\em size})}\label{group__posix__group_gc793467bb55cd10d991ee1023b321dae}
@@ -159,7 +174,7 @@ similar to the getxattr call of the libattr gfal\_\-getxattr retrieves an extend
 \item[{\em path}]: path of the file/dir, can be in supported protocols (lfn, srm, file, guid,..) \item[{\em name,:}]name of the attribute to get \item[{\em value,:}]pointer to buffer to get the value \item[{\em size}]: size of the buffer \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return the size of the data returned, or -1 if error. In this case, errno is set and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
+\item[Returns:]return the size of the data returned, or -1 if error. In this case, errno is set and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testget.c}.\end{Desc}
@@ -178,7 +193,7 @@ similar to listxattr standard call of libattr gfal\_\-listxattr list all extende
 \item[{\em path}]: path of the file/dir, can be in a supported protocol (lfn, srm, file, guid,..) \item[{\em list,:}]a list of the attribute in a string format, on after each other, separated by '$\backslash$0'. \item[{\em size}]: size of the buffer \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return the size of the data in list , or -1 if error. In this case, errno is set and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
+\item[Returns:]return the size of the data in list , or -1 if error. In this case, errno is set and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_lseek@{gfal\_\-lseek}}
 \index{gfal_lseek@{gfal\_\-lseek}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}off\_\-t gfal\_\-lseek (int {\em fd}, off\_\-t {\em offset}, int {\em whence})}\label{group__posix__group_g8ba4e1df5f2e6439641c56f245d5ce73}
@@ -198,7 +213,7 @@ SEEK\_\-END The offset is added to current file size. \begin{Desc}
 \item[{\em fd}]: file descriptor to lseek \item[{\em offset,:}]offset in byte \item[{\em whence,:}]flag \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]This routine returns the actual offset from the beginning of the file if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately, you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
+\item[Returns:]This routine returns the actual offset from the beginning of the file if the operation was successful or -1 if the operation failed. In the latter case, errno is set appropriately, you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_mkdir@{gfal\_\-mkdir}}
 \index{gfal_mkdir@{gfal\_\-mkdir}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-mkdir (const char $\ast$ {\em path}, mode\_\-t {\em mode})}\label{group__posix__group_g6f6affcf386900efc5443a9c97556a57}
@@ -220,7 +235,7 @@ open a file similar to the POSIX call open opens a file according to the value o
 \item[{\em path}]: url of the filename to open. can be in supported protocols (lfn, srm, file, guid,..) \item[{\em flag}]: same flag supported value is built by OR\^{a}€™ing the bits defined in $<$fcntl.h$>$ but one and only one of the first three flags below must be used O\_\-RDONLY open for reading only O\_\-WRONLY open for writing only O\_\-RDWR open for reading and writing O\_\-CREAT If the file exists already and O\_\-EXCL is also set, gfal\_\-open will fail O\_\-LARGEFILE allows files whose sizes cannot be represented in 31 bits to be opened \item[{\em mode}]is used only if the file is created. \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return the file descriptor or -1 if errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
+\item[Returns:]return the file descriptor or -1 if errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testread.c}, and \bf{gfal\_\-testrw.c}.\end{Desc}
@@ -237,10 +252,20 @@ opens a directory to be used in subsequent gfal\_\-readdir operations the url su
 \item[{\em name}]of the directory to open, can be in supported protocols (lfn, srm, file, guid,..) \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]file descriptor DIR$\ast$ if success else NULL if error and errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
+\item[Returns:]file descriptor DIR$\ast$ if success else NULL if error and errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testdir.c}.\end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_posix_check_error@{gfal\_\-posix\_\-check\_\-error}}
+\index{gfal_posix_check_error@{gfal\_\-posix\_\-check\_\-error}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-check\_\-error ()}\label{group__posix__group_g57ced6eae7afd2d0413988da02fe0373}
+
+
+check the last Error, if no error report return 0 else return 1 and print the error on stderr \begin{Desc}
+\item[Warning:]this does not clear the error \end{Desc}
+\begin{Desc}
+\item[Examples: ]\par
+\bf{gfal\_\-testchmod.c}, \bf{gfal\_\-testcreatedir.c}, \bf{gfal\_\-testget.c}, \bf{gfal\_\-testread.c}, and \bf{gfal\_\-testrw.c}.\end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_posix_clear_error@{gfal\_\-posix\_\-clear\_\-error}}
 \index{gfal_posix_clear_error@{gfal\_\-posix\_\-clear\_\-error}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-posix\_\-clear\_\-error ()}\label{group__posix__group_ga8252652c1dc86d71ba37b401fb675f9}
@@ -283,7 +308,7 @@ read a file similar to the POSIX call read gfal\_\-read reads up to size bytes f
 \item[{\em fd}]file descriptor \item[{\em buff}]buffer of the data to read \item[{\em s\_\-buff}]size of the data read in bytes \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]number of byte read or -1 if error, errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
+\item[Returns:]number of byte read or -1 if error, errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testread.c}, and \bf{gfal\_\-testrw.c}.\end{Desc}
@@ -300,12 +325,28 @@ read a directory similar to the POSIX call readdir The readdir() function return
 \item[{\em d}]file handle ( return by opendir ) to read \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]pointer to struct dirent with file information or NULL if end of list or error, errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
+\item[Returns:]pointer to struct dirent with file information or NULL if end of list or error, errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \begin{Desc}
 \item[Warning:]struct dirents are allocated statically, do not use free() on them \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testdir.c}.\end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_removexattr@{gfal\_\-removexattr}}
+\index{gfal_removexattr@{gfal\_\-removexattr}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-removexattr (const char $\ast$ {\em path}, const char $\ast$ {\em name})}\label{group__posix__group_g8ea3cb3121985599bd7453f28891748a}
+
+
+removes the extended attribute identified by name and associated with the given path in the filesystem similar to the removexattr standard call of libattr 
+
+the effect of this call can be specific to the plugin used. ( ex : guid are read only)
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em path}]: path of the file \item[{\em name}]: key of the extended to remove \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 if success or -1 if error. In this case, errno is set and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_rename@{gfal\_\-rename}}
 \index{gfal_rename@{gfal\_\-rename}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-rename (const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath})}\label{group__posix__group_gc56b24046cef203517f30023a999bf1c}
@@ -319,7 +360,7 @@ change the name or location of a file oldpath and newpath need to be on the same
 \item[{\em oldpath}]: the old path of the file, can be in supported protocols but need to be in the same adress space than newpath \item[{\em newpath}]: the new path of the file, can be in supported protocols (lfn, srm, file, guid,..) \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]: return 0 if success, else -1 and errno / \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} \end{Desc}
+\item[Returns:]: return 0 if success, else -1 and errno / \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testcreatedir.c}.\end{Desc}
@@ -336,7 +377,7 @@ removes a directory if it is empty remove an existing directory, return error if
 \item[{\em path}]specifies the directory name, can be in supported protocols (lfn, srm, file, guid,..) \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return 0 is success else -1 and errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
+\item[Returns:]return 0 is success else -1 and errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testcreatedir.c}.\end{Desc}
@@ -347,7 +388,23 @@ removes a directory if it is empty remove an existing directory, return error if
 
 set the verbose mode for the current program 
 
-set the verbose level of gfal 2 \index{posix_group@{posix\_\-group}!gfal_stat@{gfal\_\-stat}}
+set the verbose level of gfal 2 \index{posix_group@{posix\_\-group}!gfal_setxattr@{gfal\_\-setxattr}}
+\index{gfal_setxattr@{gfal\_\-setxattr}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-setxattr (const char $\ast$ {\em path}, const char $\ast$ {\em name}, const void $\ast$ {\em value}, size\_\-t {\em size}, int {\em flags})}\label{group__posix__group_g79d4f4e15b5915fe7f09b57cf09491c5}
+
+
+set an extended attribute to a given value similar to the setxattr standard call of libattr 
+
+the effect of this call can be specific to the plugin used. ( ex : guid are read only)
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em path}]: path of the file \item[{\em name}]: key of the extended atribute to set \item[{\em value}]: value to set, must be at least of the size size \item[{\em size}]: size of the attriute to set \item[{\em flags}]: flags similar to the setxattr call, can be ignored by some plugins/call \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]0 if success else or -1 if error. In this case, errno is set and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_stat@{gfal\_\-stat}}
 \index{gfal_stat@{gfal\_\-stat}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-stat (const char $\ast$ {\em path}, struct stat $\ast$ {\em buff})}\label{group__posix__group_g1d8c86d522d5dd26ee7ddcd9c6925964}
 
@@ -360,7 +417,7 @@ informations about a file These functions return information about a file. No pe
 \item[{\em path}]: path of the file, can be in supported protocols (lfn, srm, file, guid,..) \item[{\em buff}]: pointer to an allocated struct stat \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]return 0 if success else -1 and errno is set, call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
+\item[Returns:]return 0 if success else -1 and errno is set, call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_symlink@{gfal\_\-symlink}}
 \index{gfal_symlink@{gfal\_\-symlink}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-symlink (const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath})}\label{group__posix__group_gc9b6944315e891beca5a56d15292658f}
@@ -374,7 +431,7 @@ similar to the POSIX call symlink . symlink() creates a symbolic link named newp
 \item[{\em newpath}]: path of the link, can be in supported protocols but need to be in the same adress space than newpath \item[{\em oldpath}]: path of the linked file, can be in supported protocols (lfn, srm, file, guid,..) \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]0 if success else -1. if failure, errno is set, you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
+\item[Returns:]0 if success else -1. if failure, errno is set, you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_unlink@{gfal\_\-unlink}}
 \index{gfal_unlink@{gfal\_\-unlink}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-unlink (const char $\ast$ {\em path})}\label{group__posix__group_gdeb4c6cc47f507da3e3b498374e308fb}
@@ -389,7 +446,7 @@ If the name was the last link to a file but any processes still have the file op
 If the name referred to a symbolic link the link is removed.
 
 If the name referred to a socket, fifo or device the name for it is removed but processes which have the object open may continue to use it. \begin{Desc}
-\item[Returns:]On success, zero is returned. On error, -1 is returned, and errno is set appropriately and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
+\item[Returns:]On success, zero is returned. On error, -1 is returned, and errno is set appropriately and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description. \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_version@{gfal\_\-version}}
 \index{gfal_version@{gfal\_\-version}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-version ()}\label{group__posix__group_gddfc3a2a117a105f29a75d1864a527c0}
@@ -408,7 +465,7 @@ write a file similar to the POSIX call write gfal\_\-write writes size bytes fro
 \item[{\em fd}]file descriptor \item[{\em buff}]buffer of the data to write \item[{\em s\_\-buff}]size of the data write in bytes \end{description}
 \end{Desc}
 \begin{Desc}
-\item[Returns:]number of byte write or -1 if error, errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{gfal__posix__ng_8c_57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
+\item[Returns:]number of byte write or -1 if error, errno is set call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} to check it \end{Desc}
 \begin{Desc}
 \item[Examples: ]\par
 \bf{gfal\_\-testrw.c}.\end{Desc}

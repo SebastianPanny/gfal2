@@ -339,17 +339,45 @@ int gfal_unlink(const char* path){
  * @param list: a list of the attribute in a string format, on after each other, separated by '\\0'. 
  * @param size : size of the buffer
  * @return  return the size of the data in list , or -1 if error. In this case,  errno  is  set
-       and you can call @ref gfal_posix_check_error() for a more complete description. 
+ *     and you can call @ref gfal_posix_check_error() for a more complete description. 
 */
 ssize_t gfal_listxattr (const char *path, char *list, size_t size){
 	return gfal_posix_internal_listxattr(path, list, size);
 }
 
+/**
+ * @brief set an extended attribute to a given value
+ *  similar to the setxattr standard call of libattr
+ * 
+ *  the effect of this call can be specific to the plugin used. ( ex : guid are read only)
+ *  
+ *  @param path : path of the file
+ *  @param name : key of the extended atribute to set
+ *  @param value : value to set, must be at least of the size size
+ *  @param size : size of the attriute to set
+ *  @param flags : flags similar to the setxattr call, can be ignored by some plugins/call
+ *  @return 0 if success else or -1 if error. In this case,  errno  is  set
+ *      and you can call @ref gfal_posix_check_error() for a more complete description. 
+ * */
 int gfal_setxattr (const char *path, const char *name,
 			   const void *value, size_t size, int flags){
 	return gfal_posix_internal_setxattr(path, name, value, size, flags);
 }
 
+/**
+ * @brief removes the extended attribute identified by name and associated with the given path in the filesystem
+ *  similar to the removexattr standard call of libattr
+ * 
+ *  the effect of this call can be specific to the plugin used. ( ex : guid are read only)
+ *  
+ *  @param path : path of the file
+ *  @param name : key of the extended to remove
+ *  @return 0 if success or -1 if error. In this case,  errno  is  set
+ *      and you can call @ref gfal_posix_check_error() for a more complete description. 
+ * */
+int gfal_removexattr(const char *path, const char *name){
+	return -1;
+}
 
 
 /**
@@ -388,7 +416,39 @@ void gfal_posix_release_error(){
 	gfal_posix_clear_error();
 }
 
+/***
+ * @brief set a parameter of configuration in gfal
+ * 
+ *  set a parameter identified by name in the module module with a specific string value
+ *  
+ * @param module : namespace of the parameter ( plugin name, isifce, NULL for core), etc....
+ * @param name : key of the parameter to set
+ * @param value : value of the parameter
+ * @return 0 if success or -1 if error. In this case,  errno  is  set
+ *      and you can call @ref gfal_posix_check_error() for a more complete description. 
+ * */
+int gfal_set_parameter(const char* module, const char* name, const char* value){
+	return -1;
+}
 
+
+/***
+ * @brief get a parameter of configuration in gfal
+ * 
+ *  get a parameter identified by name in the module module 
+ *  
+ * @param module : namespace of the parameter ( plugin name, isifce, NULL for core), etc....
+ * @param name : key of the parameter to set
+ * @param  buff_value : buffer where store the result
+ * @param s_buff : maximum size to use in the buffer * 
+ * @return 0 if success or -1 if error. In this case,  errno  is  set
+ *      and you can call @ref gfal_posix_check_error() for a more complete description. 
+ * 
+ * */
+int gfal_get_parameter(const char* module, const char* name, char* buff_value, size_t s_buff){
+	return -1;
+	
+}
 
 
 /**

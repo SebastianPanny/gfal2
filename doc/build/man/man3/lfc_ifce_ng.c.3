@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -21,6 +21,8 @@
 \fC#include <stdlib.h>\fP
 .br
 \fC#include <pthread.h>\fP
+.br
+\fC#include <serrno.h>\fP
 .br
 \fC#include '../gfal_constants.h'\fP
 .br
@@ -92,6 +94,15 @@
 .br
 .ti -1c
 .RI "char ** \fBgfal_lfc_getSURL\fP (struct lfc_ops *ops, const char *path, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_getComment\fP (struct lfc_ops *ops, const char *lfn, char *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_setComment\fP (struct lfc_ops *ops, const char *lfn, const char *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_getChecksum\fP (struct lfc_ops *ops, const char *lfn, lfc_checksum *checksum, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_lfc_statg\fP (struct lfc_ops *ops, const char *lfn, struct lfc_filestatg *statbuf, GError **err)"

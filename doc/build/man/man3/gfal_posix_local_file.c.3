@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -66,6 +66,9 @@
 .br
 .ti -1c
 .RI "ssize_t \fBgfal_local_listxattr\fP (const char *path, char *list, size_t s_list, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_local_setxattr\fP (const char *path, const char *name, const void *value, size_t size, int flags, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_local_rename\fP (const char *oldpath, const char *newpath, GError **err)"

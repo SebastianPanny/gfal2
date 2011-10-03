@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.c" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.c" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -108,7 +108,10 @@
 .RI "char * \fBgfal_get_cat_type\fP (GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_plugin_unlinkG\fP (plugin_handle handle, const char *path, GError **err)"
+.RI "int \fBgfal_plugin_unlinkG\fP (gfal_handle handle, const char *path, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_setxattrG\fP (gfal_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -257,12 +260,18 @@ return 0 if success else return -1
 .RE
 .PP
 
+.SS "int gfal_plugin_setxattrG (gfal_handle handle, const char * path, const char * name, const void * value, size_t size, int flags, GError ** err)"
+.PP
+setxattr for the plugins 
 .SS "int gfal_plugin_statG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 Execute a stat function on the lfc plugin 
 .SS "int gfal_plugin_symlinkG (gfal_handle handle, const char * oldpath, const char * newpath, GError ** err)"
 .PP
 Execute the symlink function on the first compatible plugin 
+.SS "int gfal_plugin_unlinkG (gfal_handle handle, const char * path, GError ** err)"
+.PP
+apply unlink on the appropriate plugin 
 .SS "int gfal_plugin_writeG (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
 .PP
 do a write operation on the plugin, write s_buff chars on the fd device 

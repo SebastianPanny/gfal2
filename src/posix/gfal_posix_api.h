@@ -19,8 +19,8 @@
  * @file gfal_posix_api
  * @brief main header file for API of the posix lib
  * @author Devresse Adrien
- * @version 2.0
- * @date 11/04/2011
+ * @version 2.0.1
+ * @date 30/09/2011
  * */
  
  
@@ -31,7 +31,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "../common/gfal_constants.h"
+
+#include <common/gfal_constants.h>
 
 /**
 	\defgroup posix_group all POSIX style function
@@ -76,6 +77,7 @@ int gfal_removexattr(const char *path, const char *name);
 
 
 
+
 // directory management purpose
 int gfal_mkdir (const char *, mode_t);
 DIR *gfal_opendir (const char *);
@@ -104,7 +106,11 @@ char *gfal_version();
 int gfal_flush(int fd);
 
 
+int gfal_set_parameter(const char* module, const char* name, const char* value);
+
+int gfal_get_parameter(const char* module, const char* name, char* buff_value, size_t s_buff);
+
 /**
 	@} 
-	End of the POSIX groupe
+	End of the POSIX group
 */

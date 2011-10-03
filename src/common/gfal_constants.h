@@ -16,10 +16,11 @@
  * limitations under the License.
  */
  
- /**
+/**
   * @file gfal_constants.h 
-  * all the global declarations of gfal core.
- */
+  * the global declarations of gfal core
+  * @author Devresse Adrien , Baud Jean-Philippe 
+*/
 
 
 #ifndef _GFAL_CONSTANTS_H

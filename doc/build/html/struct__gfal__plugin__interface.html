@@ -92,9 +92,12 @@ ssize_t(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>getxattrG</b> )(
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c3bae2e54ce8998722f03b588d423b18"></a><!-- doxytag: member="_gfal_plugin_interface::listxattrG" ref="c3bae2e54ce8998722f03b588d423b18" args=")(plugin_handle, const char *, char *list, size_t s_list, GError **err)" -->
 ssize_t(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>listxattrG</b> )(plugin_handle, const char *, char *list, size_t s_list, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2ededf4f6bc7f284ac31234110ee1444"></a><!-- doxytag: member="_gfal_plugin_interface::setxattrG" ref="2ededf4f6bc7f284ac31234110ee1444" args=")(plugin_handle, const char *, const char *, const void *, size_t, int, GError **)" -->
+int(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>setxattrG</b> )(plugin_handle, const char *, const char *, const void *, size_t, int, GError **)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-Interface to implement in each gfal_plugin_* the needed calls are : getName, plugin_delete, check_plugin_url 
+Interface to implement in each gfal_plugin_* the minimums calls are : getName, plugin_delete, check_plugin_url all the unused function pointers must be set to NULL 
 <p>
 <hr><h2>Field Documentation</h2>
 <a class="anchor" name="1fa81d7a219629281c14b05116d32202"></a><!-- doxytag: member="_gfal_plugin_interface::accessG" ref="1fa81d7a219629281c14b05116d32202" args=")(plugin_handle, const char *path, int mode, GError **err)" -->
@@ -160,7 +163,7 @@ Called before the destruction of the plugin interface
 </div><p>
 <hr>The documentation for this struct was generated from the following file:<ul>
 <li>/home/adevress/myworkspace/gfal/src/common/<a class="el" href="gfal__common__plugin_8h-source.html">gfal_common_plugin.h</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

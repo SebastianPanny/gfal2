@@ -40,30 +40,32 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__plugin__opts.html">_plugin_opts</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Defines</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c39f705683e893b91f559704ee2a707e"></a><!-- doxytag: member="gfal_common_plugin.h::MAX_CATALOG_LIST" ref="c39f705683e893b91f559704ee2a707e" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>MAX_CATALOG_LIST</b>&nbsp;&nbsp;&nbsp;64</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1cae6e1f74c422acdfd33457179e5777"></a><!-- doxytag: member="gfal_common_plugin.h::MAX_PLUGIN_LIST" ref="1cae6e1f74c422acdfd33457179e5777" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>MAX_PLUGIN_LIST</b>&nbsp;&nbsp;&nbsp;64</td></tr>
 
 <tr><td colspan="2"><br><h2>Enumerations</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><b>_plugin_mode</b> { <br>
-&nbsp;&nbsp;<b>GFAL_CATALOG_ALL</b> = 0, 
-<b>GFAL_CATALOG_ACCESS</b>, 
-<b>GFAL_CATALOG_CHMOD</b>, 
-<b>GFAL_CATALOG_RENAME</b>, 
+&nbsp;&nbsp;<b>GFAL_PLUGIN_ALL</b> = 0, 
+<b>GFAL_PLUGIN_ACCESS</b>, 
+<b>GFAL_PLUGIN_CHMOD</b>, 
+<b>GFAL_PLUGIN_RENAME</b>, 
 <br>
-&nbsp;&nbsp;<b>GFAL_CATALOG_SYMLINK</b>, 
-<b>GFAL_CATALOG_STAT</b>, 
-<b>GFAL_CATALOG_LSTAT</b>, 
-<b>GFAL_CATALOG_MKDIR</b>, 
+&nbsp;&nbsp;<b>GFAL_PLUGIN_SYMLINK</b>, 
+<b>GFAL_PLUGIN_STAT</b>, 
+<b>GFAL_PLUGIN_LSTAT</b>, 
+<b>GFAL_PLUGIN_MKDIR</b>, 
 <br>
-&nbsp;&nbsp;<b>GFAL_CATALOG_RMDIR</b>, 
-<b>GFAL_CATALOG_OPENDIR</b>, 
-<b>GFAL_CATALOG_OPEN</b>, 
-<b>GFAL_CATALOG_RESOLVE_GUID</b>, 
+&nbsp;&nbsp;<b>GFAL_PLUGIN_RMDIR</b>, 
+<b>GFAL_PLUGIN_OPENDIR</b>, 
+<b>GFAL_PLUGIN_OPEN</b>, 
+<b>GFAL_PLUGIN_RESOLVE_GUID</b>, 
 <br>
-&nbsp;&nbsp;<b>GFAL_CATALOG_GETXATTR</b>, 
-<b>GFAL_CATALOG_LISTXATTR</b>, 
-<b>GFAL_CATALOG_READLINK</b>, 
-<b>GFAL_CATALOG_UNLINK</b>
+&nbsp;&nbsp;<b>GFAL_PLUGIN_GETXATTR</b>, 
+<b>GFAL_PLUGIN_SETXATTR</b>, 
+<b>GFAL_PLUGIN_LISTXATTR</b>, 
+<b>GFAL_PLUGIN_READLINK</b>, 
+<br>
+&nbsp;&nbsp;<b>GFAL_PLUGIN_UNLINK</b>
 <br>
  }</td></tr>
 
@@ -112,8 +114,7 @@ char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_plugins_get_l
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#d536879bc7813a35bc79318ce43f0b57">gfal_plugin_readG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="23ee550b9dd10a5561e6c9c233fb621f"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_unlinkG" ref="23ee550b9dd10a5561e6c9c233fb621f" args="(plugin_handle handle, const char *path, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_plugin_unlinkG</b> (plugin_handle handle, const char *path, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#1a4632c68c7d81f87071733081900dee">gfal_plugin_unlinkG</a> (gfal_handle handle, const char *path, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e67fef2ab537815ac8ed072b179f9e67"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_getxattrG" ref="e67fef2ab537815ac8ed072b179f9e67" args="(gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)" -->
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#e67fef2ab537815ac8ed072b179f9e67">gfal_plugin_getxattrG</a> (gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)</td></tr>
@@ -121,6 +122,8 @@ ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="g
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">implementation in the plugin of the get extended attribute function <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b91265adebaddf5ca37245a0f971a303"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_listxattrG" ref="b91265adebaddf5ca37245a0f971a303" args="(gfal_handle, const char *, char *list, size_t s_list, GError **err)" -->
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_plugin_listxattrG</b> (gfal_handle, const char *, char *list, size_t s_list, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#f416447f5b15d199a28ca58b16807847">gfal_plugin_setxattrG</a> (gfal_handle, const char *, const char *, const void *, size_t, int, GError **)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -695,6 +698,65 @@ Execute a rmdir function on the first compatible plugin ( checked with check url
 
 </div>
 </div><p>
+<a class="anchor" name="f416447f5b15d199a28ca58b16807847"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_setxattrG" ref="f416447f5b15d199a28ca58b16807847" args="(gfal_handle, const char *, const char *, const void *, size_t, int, GError **)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_plugin_setxattrG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&nbsp;</td>
+          <td class="paramname"> <em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>flags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+setxattr for the plugins 
+</div>
+</div><p>
 <a class="anchor" name="98b9e43ecd18ce2fc728d4a731e52ce1"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_statG" ref="98b9e43ecd18ce2fc728d4a731e52ce1" args="(gfal_handle handle, const char *path, struct stat *st, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -775,6 +837,41 @@ Execute a stat function on the lfc plugin
 
 <p>
 Execute the symlink function on the first compatible plugin 
+</div>
+</div><p>
+<a class="anchor" name="1a4632c68c7d81f87071733081900dee"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_unlinkG" ref="1a4632c68c7d81f87071733081900dee" args="(gfal_handle handle, const char *path, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_plugin_unlinkG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+apply unlink on the appropriate plugin 
 </div>
 </div><p>
 <a class="anchor" name="caaf6298a84f453bb6ddd50c36b6dfd7"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_writeG" ref="caaf6298a84f453bb6ddd50c36b6dfd7" args="(gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)" -->
@@ -925,7 +1022,7 @@ Delete all instance of plugins
 Instance all plugins for use if it's not the case return the number of plugin available 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:56 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

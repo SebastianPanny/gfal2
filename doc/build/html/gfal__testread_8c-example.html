@@ -36,26 +36,26 @@
 <a name="l00023"></a>00023 
 <a name="l00024"></a>00024         printf (<span class="stringliteral">"opening %s\n"</span>, argv[1]);
 <a name="l00025"></a>00025         <span class="keywordflow">if</span> ((fd = <a name="a13"></a><a class="code" href="group__posix__group.html#gedd0cf1c9158d27dd3a9c4413ca04cfa">gfal_open</a> (argv[1], O_RDONLY, 0)) &lt; 0) {
-<a name="l00026"></a>00026                 <a name="a14"></a><a class="code" href="gfal__posix__ng_8c.html#57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a>();
+<a name="l00026"></a>00026                 <a name="a14"></a><a class="code" href="group__posix__group.html#g57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a>();
 <a name="l00027"></a>00027                 exit (1);
 <a name="l00028"></a>00028         }
 <a name="l00029"></a>00029         printf (<span class="stringliteral">"open successful, fd = %d (errno = %d)\n"</span>, fd, errno);
 <a name="l00030"></a>00030 
 <a name="l00031"></a>00031         <span class="keywordflow">if</span> ((rc = <a name="a15"></a><a class="code" href="group__posix__group.html#gbfe92147d0bf650be3e471747ef2096f">gfal_read</a> (fd, ibuf, BLKLEN)) &lt; 0) {
-<a name="l00032"></a>00032                 <a class="code" href="gfal__posix__ng_8c.html#57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a>();
+<a name="l00032"></a>00032                 <a class="code" href="group__posix__group.html#g57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a>();
 <a name="l00033"></a>00033                 (void) <a name="a16"></a><a class="code" href="group__posix__group.html#g83b88bd27def4c4e2fdfea3c5bbf88b4">gfal_close</a> (fd);
 <a name="l00034"></a>00034                 exit (1);
 <a name="l00035"></a>00035         }
 <a name="l00036"></a>00036         printf (<span class="stringliteral">"read successful (errno = %d)\n"</span>, errno);
 <a name="l00037"></a>00037 
 <a name="l00038"></a>00038         <span class="keywordflow">if</span> ((rc = <a class="code" href="group__posix__group.html#g83b88bd27def4c4e2fdfea3c5bbf88b4">gfal_close</a> (fd)) &lt; 0) {
-<a name="l00039"></a>00039                 <a class="code" href="gfal__posix__ng_8c.html#57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a>();
+<a name="l00039"></a>00039                 <a class="code" href="group__posix__group.html#g57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error</a>();
 <a name="l00040"></a>00040                 exit (1);
 <a name="l00041"></a>00041         }
 <a name="l00042"></a>00042         printf (<span class="stringliteral">"close successful\n"</span>);
 <a name="l00043"></a>00043         exit (0);
 <a name="l00044"></a>00044 }
-</pre></div> <hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:56 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div> <hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

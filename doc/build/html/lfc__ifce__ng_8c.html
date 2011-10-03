@@ -29,7 +29,8 @@
 <code>#include &lt;dlfcn.h&gt;</code><br>
 <code>#include &lt;stdlib.h&gt;</code><br>
 <code>#include &lt;pthread.h&gt;</code><br>
-<code>#include &quot;../gfal_constants.h&quot;</code><br>
+<code>#include &lt;serrno.h&gt;</code><br>
+<code>#include &quot;<a class="el" href="gfal__constants_8h-source.html">../gfal_constants.h</a>&quot;</code><br>
 <code>#include &quot;../gfal_types.h&quot;</code><br>
 <code>#include &quot;../mds/gfal_common_mds.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__interface_8h-source.html">../gfal_common_interface.h</a>&quot;</code><br>
@@ -81,6 +82,15 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_convert_lstat
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#9fa43925882e2e196e0020b529827d3c">gfal_lfc_ifce_mkdirpG</a> (struct lfc_ops *ops, const char *path, mode_t mode, gboolean pflag, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lfc__ifce__ng_8c.html#26c355c9cf576886a743ab1917de295d">gfal_lfc_getSURL</a> (struct lfc_ops *ops, const char *path, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="71ac937c7262a53247ea1b204ae23c6c"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_getComment" ref="71ac937c7262a53247ea1b204ae23c6c" args="(struct lfc_ops *ops, const char *lfn, char *buff, size_t s_buff, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_getComment</b> (struct lfc_ops *ops, const char *lfn, char *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0b9952562acf59969aefc9519956f877"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_setComment" ref="0b9952562acf59969aefc9519956f877" args="(struct lfc_ops *ops, const char *lfn, const char *buff, size_t s_buff, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_setComment</b> (struct lfc_ops *ops, const char *lfn, const char *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3285a6a2cf6d76aa8fadabaee79f7896"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_getChecksum" ref="3285a6a2cf6d76aa8fadabaee79f7896" args="(struct lfc_ops *ops, const char *lfn, lfc_checksum *checksum, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_getChecksum</b> (struct lfc_ops *ops, const char *lfn, lfc_checksum *checksum, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="220714510c3f197e656ddea9f04ffec3"></a><!-- doxytag: member="lfc_ifce_ng.c::gfal_lfc_statg" ref="220714510c3f197e656ddea9f04ffec3" args="(struct lfc_ops *ops, const char *lfn, struct lfc_filestatg *statbuf, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_lfc_statg</b> (struct lfc_ops *ops, const char *lfn, struct lfc_filestatg *statbuf, GError **err)</td></tr>
@@ -457,7 +467,7 @@ setup the lfc_host correctly for the lfc calls <dl compact><dt><b>Parameters:</b
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

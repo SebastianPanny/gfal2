@@ -57,34 +57,38 @@
 <a name="l00044"></a>00044  
 <a name="l00045"></a>00045 <span class="keywordtype">int</span> gfal_local_lstat(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">struct</span> stat* buf, GError ** err);
 <a name="l00046"></a>00046 
-<a name="l00047"></a>00047 ssize_t gfal_local_readlink(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">char</span>* buff, size_t buffsiz, GError** err);
+<a name="l00047"></a>00047 <span class="keywordtype">int</span> gfal_local_symlink(<span class="keyword">const</span> <span class="keywordtype">char</span>* oldpath, <span class="keyword">const</span> <span class="keywordtype">char</span>* newpath, GError** err);
 <a name="l00048"></a>00048 
-<a name="l00049"></a>00049 <span class="keywordtype">int</span> gfal_local_lseek(gfal_file_handle fh, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
+<a name="l00049"></a>00049 ssize_t gfal_local_readlink(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">char</span>* buff, size_t buffsiz, GError** err);
 <a name="l00050"></a>00050 
-<a name="l00051"></a>00051 <span class="keywordtype">int</span> gfal_local_mkdir(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode, GError** err);
+<a name="l00051"></a>00051 <span class="keywordtype">int</span> gfal_local_lseek(gfal_file_handle fh, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
 <a name="l00052"></a>00052 
-<a name="l00053"></a>00053 ssize_t gfal_local_getxattr(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00053"></a>00053 <span class="keywordtype">int</span> gfal_local_mkdir(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, mode_t mode, GError** err);
 <a name="l00054"></a>00054 
-<a name="l00055"></a>00055 ssize_t gfal_local_listxattr(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">char</span>* list, size_t s_list, GError** err);
+<a name="l00055"></a>00055 ssize_t gfal_local_getxattr(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
 <a name="l00056"></a>00056 
-<a name="l00057"></a>00057 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__local__file_8c.html#a89a8db8cb79bf7c575b08305704c248">gfal_local_rmdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+<a name="l00057"></a>00057 ssize_t gfal_local_listxattr(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">char</span>* list, size_t s_list, GError** err);
 <a name="l00058"></a>00058 
-<a name="l00059"></a>00059 <span class="keyword">struct </span>dirent* gfal_local_readdir(gfal_file_handle d, GError** err);
+<a name="l00059"></a>00059 <span class="keywordtype">int</span> gfal_local_setxattr(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keyword">const</span> <span class="keywordtype">void</span>* value, size_t size, <span class="keywordtype">int</span> flags, GError** err);
 <a name="l00060"></a>00060 
-<a name="l00061"></a>00061 gfal_file_handle gfal_local_opendir(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+<a name="l00061"></a>00061 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__local__file_8c.html#a89a8db8cb79bf7c575b08305704c248">gfal_local_rmdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
 <a name="l00062"></a>00062 
-<a name="l00063"></a>00063 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__local__file_8c.html#483fdd49a5459dc85237e75fd03280bf">gfal_local_closedir</a>(gfal_file_handle fh, GError** err);
+<a name="l00063"></a>00063 <span class="keyword">struct </span>dirent* gfal_local_readdir(gfal_file_handle d, GError** err);
 <a name="l00064"></a>00064 
-<a name="l00065"></a>00065 gfal_file_handle gfal_local_open(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> flag, mode_t mode, GError** err);
+<a name="l00065"></a>00065 gfal_file_handle gfal_local_opendir(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
 <a name="l00066"></a>00066 
-<a name="l00067"></a>00067 <span class="keywordtype">int</span> gfal_local_read(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00067"></a>00067 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__local__file_8c.html#483fdd49a5459dc85237e75fd03280bf">gfal_local_closedir</a>(gfal_file_handle fh, GError** err);
 <a name="l00068"></a>00068 
-<a name="l00069"></a>00069 <span class="keywordtype">int</span> gfal_local_write(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00069"></a>00069 gfal_file_handle gfal_local_open(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> flag, mode_t mode, GError** err);
 <a name="l00070"></a>00070 
-<a name="l00071"></a>00071 <span class="keywordtype">int</span> gfal_local_close(gfal_file_handle fh, GError** err);
+<a name="l00071"></a>00071 <span class="keywordtype">int</span> gfal_local_read(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
 <a name="l00072"></a>00072 
-<a name="l00073"></a>00073 <span class="keywordtype">int</span> gfal_local_unlink(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:56 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00073"></a>00073 <span class="keywordtype">int</span> gfal_local_write(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 <span class="keywordtype">int</span> gfal_local_close(gfal_file_handle fh, GError** err);
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077 <span class="keywordtype">int</span> gfal_local_unlink(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

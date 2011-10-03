@@ -22,7 +22,7 @@
 
 
 /**
- * Unit tests for gfal ased on the cgreen library
+ * Unit tests for gfal based on the cgreen library
  * @author : Devresse Adrien
  * @version : 0.0.1
  */

@@ -30,7 +30,7 @@
 <code>#include &quot;<a class="el" href="gfal__common__lfc_8h-source.html">gfal_common_lfc.h</a>&quot;</code><br>
 <code>#include &quot;gfal_common_lfc_open.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__internal_8h-source.html">../gfal_common_internal.h</a>&quot;</code><br>
-<code>#include &quot;../gfal_constants.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__constants_8h-source.html">../gfal_constants.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">../gfal_common_errverbose.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">../gfal_common_filedescriptor.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="lfc__ifce__ng_8h-source.html">lfc_ifce_ng.h</a>&quot;</code><br>
@@ -62,9 +62,15 @@ typedef _lfc_opendir_handle *&nbsp;</td><td class="memItemRight" valign="bottom"
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#264e0ecec42fb618c37740ccbf38e427">lfc_getxattr_getguid</a> (plugin_handle handle, const char *path, void *buff, size_t size, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#78bd16529e609c94b3715efe38e901a5">lfc_getxattr_comment</a> (plugin_handle handle, const char *path, void *buff, size_t size, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#81a95ba12afada4ce138ed309508f889">lfc_getxattrG</a> (plugin_handle handle, const char *path, const char *name, void *buff, size_t size, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#b1b1a0499ef8e0fda5a569d34b5e0bee">lfc_listxattrG</a> (plugin_handle handle, const char *path, char *list, size_t size, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#08bd87b3857f5a147b6defda0c61c5e4">lfc_setxattr_comment</a> (plugin_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#678da8773fc09be4050e03a4a21eadf9">lfc_setxattrG</a> (plugin_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__lfc_8c.html#5e7057c566c276986a69faa94abd3b82">lfc_resolve_guid</a> (plugin_handle handle, const char *guid, GError **err)</td></tr>
 
@@ -182,7 +188,7 @@ Check if the passed url and operation is compatible with lfc
 <div class="memdoc">
 
 <p>
-Map function for the lfc interface this function provide the generic CATALOG interface for the LFC plugin. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and plugin function map. 
+Map function for the lfc interface this function provide the generic PLUGIN interface for the LFC plugin. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and plugin function map. 
 </div>
 </div><p>
 <a class="anchor" name="3b184ab14ac0fac2931aeb7336989553"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_accessG" ref="3b184ab14ac0fac2931aeb7336989553" args="(plugin_handle handle, const char *lfn, int mode, GError **err)" -->
@@ -319,6 +325,53 @@ just return the name of the layer
 
 <p>
 resolve the lfc link to the surls 
+</div>
+</div><p>
+<a class="anchor" name="78bd16529e609c94b3715efe38e901a5"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_getxattr_comment" ref="78bd16529e609c94b3715efe38e901a5" args="(plugin_handle handle, const char *path, void *buff, size_t size, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t lfc_getxattr_comment           </td>
+          <td>(</td>
+          <td class="paramtype">plugin_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+lfc getxattr for path -&gt; comment resolution 
 </div>
 </div><p>
 <a class="anchor" name="264e0ecec42fb618c37740ccbf38e427"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_getxattr_getguid" ref="264e0ecec42fb618c37740ccbf38e427" args="(plugin_handle handle, const char *path, void *buff, size_t size, GError **err)" -->
@@ -591,6 +644,124 @@ Implementation of the rename call for the lfc plugin return 0 if success else -1
 Convert a guid to a plugin url if possible return the link in a plugin's url string or err and NULL if not found 
 </div>
 </div><p>
+<a class="anchor" name="08bd87b3857f5a147b6defda0c61c5e4"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_setxattr_comment" ref="08bd87b3857f5a147b6defda0c61c5e4" args="(plugin_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lfc_setxattr_comment           </td>
+          <td>(</td>
+          <td class="paramtype">plugin_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&nbsp;</td>
+          <td class="paramname"> <em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>flags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+setxattr function special for comments 
+</div>
+</div><p>
+<a class="anchor" name="678da8773fc09be4050e03a4a21eadf9"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_setxattrG" ref="678da8773fc09be4050e03a4a21eadf9" args="(plugin_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lfc_setxattrG           </td>
+          <td>(</td>
+          <td class="paramtype">plugin_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&nbsp;</td>
+          <td class="paramname"> <em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>flags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+lfc setxattr implem 
+</div>
+</div><p>
 <a class="anchor" name="ab708b142708ecaa8283d0a996a4dd32"></a><!-- doxytag: member="gfal_common_lfc.c::lfc_statG" ref="ab708b142708ecaa8283d0a996a4dd32" args="(plugin_handle handle, const char *path, struct stat *st, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -673,7 +844,7 @@ execute a posix stat request on the lfc return 0 and set struct if correct answe
 Implementation of the symlinkG call for the lfc plugin return 0 if success else -1 if error and set GError 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:56 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

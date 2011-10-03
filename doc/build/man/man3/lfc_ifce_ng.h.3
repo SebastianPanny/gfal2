@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.h" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -18,12 +18,17 @@
 .br
 \fC#include '../gfal_types.h'\fP
 .br
+\fC#include '../gfal_constants.h'\fP
+.br
 \fC#include '../../externals/gsimplecache/gcachemain.h'\fP
 .br
 
 .SS "Data Structures"
 
 .in +1c
+.ti -1c
+.RI "struct \fB_lfc_checksum\fP"
+.br
 .ti -1c
 .RI "struct \fBlfc_ops\fP"
 .br
@@ -33,6 +38,13 @@
 .in +1c
 .ti -1c
 .RI "#define \fBGFAL_MAX_LFCHOST_LEN\fP   1024"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef _lfc_checksum \fBlfc_checksum\fP"
 .br
 .in -1c
 .SS "Functions"
@@ -61,6 +73,15 @@
 .br
 .ti -1c
 .RI "int \fBgfal_lfc_statg\fP (struct lfc_ops *ops, const char *, struct lfc_filestatg *resu, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_getComment\fP (struct lfc_ops *ops, const char *lfn, char *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_setComment\fP (struct lfc_ops *ops, const char *lfn, const char *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_lfc_getChecksum\fP (struct lfc_ops *ops, const char *lfn, lfc_checksum *checksum, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_lfc_convert_statg\fP (struct stat *output, struct lfc_filestatg *input, GError **err)"

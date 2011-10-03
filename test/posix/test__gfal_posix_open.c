@@ -182,7 +182,7 @@ static void test_generic_open_simple(char* url_exist, char* url_noent, char* url
 	if(url_noaccess){	
 		gfal_posix_clear_error();
 		fd = gfal_open(url_noaccess, O_RDONLY, 555);
-		assert_true_with_message( fd <=0 && gfal_posix_code_error()==EACCES && errno==EACCES, " must be a non accessible file %d %d %d", ret, gfal_posix_code_error(), errno);
+		assert_true_with_message( fd <=0 && gfal_posix_code_error()==EACCES && errno==EACCES, " must be a non accessible file %d %d %d", fd, gfal_posix_code_error(), errno);
 		gfal_posix_clear_error();	
 	}	
 	

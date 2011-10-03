@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "23 Sep 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -78,10 +78,19 @@
 .RI "ssize_t \fBlfc_getxattr_getguid\fP (plugin_handle handle, const char *path, void *buff, size_t size, GError **err)"
 .br
 .ti -1c
+.RI "ssize_t \fBlfc_getxattr_comment\fP (plugin_handle handle, const char *path, void *buff, size_t size, GError **err)"
+.br
+.ti -1c
 .RI "ssize_t \fBlfc_getxattrG\fP (plugin_handle handle, const char *path, const char *name, void *buff, size_t size, GError **err)"
 .br
 .ti -1c
 .RI "ssize_t \fBlfc_listxattrG\fP (plugin_handle handle, const char *path, char *list, size_t size, GError **err)"
+.br
+.ti -1c
+.RI "int \fBlfc_setxattr_comment\fP (plugin_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)"
+.br
+.ti -1c
+.RI "int \fBlfc_setxattrG\fP (plugin_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)"
 .br
 .ti -1c
 .RI "char * \fBlfc_resolve_guid\fP (plugin_handle handle, const char *guid, GError **err)"
@@ -133,7 +142,7 @@ parse a guid to check the validity
 Check if the passed url and operation is compatible with lfc 
 .SS "\fBgfal_plugin_interface\fP gfal_plugin_init (gfal_handle handle, GError ** err)"
 .PP
-Map function for the lfc interface this function provide the generic CATALOG interface for the LFC plugin. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and plugin function map. 
+Map function for the lfc interface this function provide the generic PLUGIN interface for the LFC plugin. lfc_initG do : liblfc shared library load, sym resolve, endpoint check, and plugin function map. 
 .SS "int lfc_accessG (plugin_handle handle, const char * lfn, int mode, GError ** err)"
 .PP
 implementation of the access call with the lfc plugin return 0 or -1 if error and report GError** with error code and message 
@@ -146,6 +155,9 @@ just return the name of the layer
 .SS "char** lfc_getSURLG (plugin_handle handle, const char * path, GError ** err)"
 .PP
 resolve the lfc link to the surls 
+.SS "ssize_t lfc_getxattr_comment (plugin_handle handle, const char * path, void * buff, size_t size, GError ** err)"
+.PP
+lfc getxattr for path -> comment resolution 
 .SS "ssize_t lfc_getxattr_getguid (plugin_handle handle, const char * path, void * buff, size_t size, GError ** err)"
 .PP
 lfc getxattr for the path -> guid resolution 
@@ -164,6 +176,12 @@ Implementation of the rename call for the lfc plugin return 0 if success else -1
 .SS "char* lfc_resolve_guid (plugin_handle handle, const char * guid, GError ** err)"
 .PP
 Convert a guid to a plugin url if possible return the link in a plugin's url string or err and NULL if not found 
+.SS "int lfc_setxattr_comment (plugin_handle handle, const char * path, const char * name, const void * value, size_t size, int flags, GError ** err)"
+.PP
+setxattr function special for comments 
+.SS "int lfc_setxattrG (plugin_handle handle, const char * path, const char * name, const void * value, size_t size, int flags, GError ** err)"
+.PP
+lfc setxattr implem 
 .SS "int lfc_statG (plugin_handle handle, const char * path, struct stat * st, GError ** err)"
 .PP
 execute a posix stat request on the lfc return 0 and set struct if correct answer, else return negative value and set GError 

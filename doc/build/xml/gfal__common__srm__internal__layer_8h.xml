@@ -10,7 +10,8 @@
     <includedby refid="gfal__common__srm_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c</includedby>
     <includedby refid="gfal__common__srm__rmdir_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.h</includedby>
     <includedby refid="gfal__common__srm__chmod_8h" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_chmod.h</includedby>
-    <includedby refid="gfal__common__srm__access_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.c</includedby>
+    <includedby refid="gfal__common__srm__access_8c" local="no">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.c</includedby>
+    <includedby refid="gfal__common__srm__checksum_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_checksum.c</includedby>
     <includedby refid="gfal__common__srm__chmod_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_chmod.c</includedby>
     <includedby refid="gfal__common__srm__getput_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getput.c</includedby>
     <includedby refid="gfal__common__srm__getxattr_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.c</includedby>
@@ -23,208 +24,217 @@
     <includedby refid="gfal__common__srm__rmdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.c</includedby>
     <includedby refid="gfal__common__srm__stat_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.c</includedby>
     <incdepgraph>
-      <node id="1493">
+      <node id="1601">
         <label>sys/stat.h</label>
       </node>
-      <node id="1496">
+      <node id="1605">
         <label>stdarg.h</label>
       </node>
-      <node id="1488">
+      <node id="1602">
+        <label>attr/xattr.h</label>
+      </node>
+      <node id="1596">
         <label>../gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="1484" relation="include">
+        <childnode refid="1592" relation="include">
         </childnode>
       </node>
-      <node id="1498">
+      <node id="1607">
         <label>errno.h</label>
       </node>
-      <node id="1483">
+      <node id="1591">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="1497">
+      <node id="1606">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="1495">
+      <node id="1604">
         <label>gfal_common_plugin.h</label>
         <link refid="gfal__common__plugin_8h"/>
-        <childnode refid="1496" relation="include">
+        <childnode refid="1605" relation="include">
         </childnode>
-        <childnode refid="1497" relation="include">
+        <childnode refid="1606" relation="include">
         </childnode>
-        <childnode refid="1484" relation="include">
+        <childnode refid="1592" relation="include">
         </childnode>
-        <childnode refid="1498" relation="include">
+        <childnode refid="1607" relation="include">
         </childnode>
-        <childnode refid="1486" relation="include">
+        <childnode refid="1594" relation="include">
         </childnode>
-        <childnode refid="1487" relation="include">
+        <childnode refid="1600" relation="include">
         </childnode>
-        <childnode refid="1488" relation="include">
+        <childnode refid="1601" relation="include">
         </childnode>
-        <childnode refid="1489" relation="include">
+        <childnode refid="1596" relation="include">
         </childnode>
-        <childnode refid="1488" relation="include">
-        </childnode>
-        <childnode refid="1489" relation="include">
+        <childnode refid="1597" relation="include">
         </childnode>
       </node>
-      <node id="1485">
+      <node id="1593">
         <label>gfal_common_srm.h</label>
         <link refid="gfal__common__srm_8h"/>
-        <childnode refid="1486" relation="include">
+        <childnode refid="1594" relation="include">
         </childnode>
-        <childnode refid="1487" relation="include">
+        <childnode refid="1595" relation="include">
         </childnode>
-        <childnode refid="1488" relation="include">
+        <childnode refid="1596" relation="include">
         </childnode>
-        <childnode refid="1489" relation="include">
+        <childnode refid="1597" relation="include">
         </childnode>
-        <childnode refid="1494" relation="include">
+        <childnode refid="1603" relation="include">
         </childnode>
-        <childnode refid="1499" relation="include">
+        <childnode refid="1608" relation="include">
         </childnode>
       </node>
-      <node id="1491">
+      <node id="1599">
         <label>sys/types.h</label>
       </node>
-      <node id="1486">
+      <node id="1594">
         <label>string.h</label>
       </node>
-      <node id="1490">
+      <node id="1598">
         <label>unistd.h</label>
       </node>
-      <node id="1499">
+      <node id="1608">
         <label>../../externals/gsimplecache/gcachemain.h</label>
         <link refid="gcachemain_8h-source"/>
-        <childnode refid="1484" relation="include">
+        <childnode refid="1592" relation="include">
         </childnode>
       </node>
-      <node id="1484">
+      <node id="1592">
         <label>glib.h</label>
       </node>
-      <node id="1482">
+      <node id="1590">
         <label>gfal_srm_ifce.h</label>
       </node>
-      <node id="1494">
+      <node id="1603">
         <label>gfal_constants.h</label>
-        <link refid="gfal__constants_8h-source"/>
+        <link refid="gfal__constants_8h"/>
       </node>
-      <node id="1487">
+      <node id="1595">
         <label>regex.h</label>
       </node>
-      <node id="1481">
+      <node id="1589">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h</label>
         <link refid="gfal_common_srm_internal_layer.h"/>
-        <childnode refid="1482" relation="include">
+        <childnode refid="1590" relation="include">
         </childnode>
-        <childnode refid="1483" relation="include">
+        <childnode refid="1591" relation="include">
         </childnode>
-        <childnode refid="1484" relation="include">
+        <childnode refid="1592" relation="include">
         </childnode>
-        <childnode refid="1485" relation="include">
+        <childnode refid="1593" relation="include">
         </childnode>
-        <childnode refid="1489" relation="include">
+        <childnode refid="1597" relation="include">
         </childnode>
       </node>
-      <node id="1489">
+      <node id="1597">
         <label>../gfal_types.h</label>
         <link refid="gfal__types_8h-source"/>
-        <childnode refid="1490" relation="include">
+        <childnode refid="1598" relation="include">
         </childnode>
-        <childnode refid="1484" relation="include">
+        <childnode refid="1592" relation="include">
         </childnode>
-        <childnode refid="1491" relation="include">
+        <childnode refid="1599" relation="include">
         </childnode>
-        <childnode refid="1492" relation="include">
+        <childnode refid="1600" relation="include">
         </childnode>
-        <childnode refid="1493" relation="include">
+        <childnode refid="1601" relation="include">
         </childnode>
-        <childnode refid="1483" relation="include">
+        <childnode refid="1602" relation="include">
         </childnode>
-        <childnode refid="1494" relation="include">
+        <childnode refid="1591" relation="include">
         </childnode>
-        <childnode refid="1488" relation="include">
+        <childnode refid="1603" relation="include">
         </childnode>
-        <childnode refid="1495" relation="include">
+        <childnode refid="1596" relation="include">
+        </childnode>
+        <childnode refid="1604" relation="include">
         </childnode>
       </node>
-      <node id="1492">
+      <node id="1600">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="1509">
+      <node id="1619">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_opendir.c</label>
         <link refid="gfal__common__srm__opendir_8c"/>
       </node>
-      <node id="1506">
+      <node id="1616">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getxattr.c</label>
         <link refid="gfal__common__srm__getxattr_8c"/>
       </node>
-      <node id="1504">
+      <node id="1613">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_chmod.c</label>
         <link refid="gfal__common__srm__chmod_8c"/>
       </node>
-      <node id="1503">
+      <node id="1612">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_chmod.h</label>
         <link refid="gfal__common__srm__chmod_8h-source"/>
-        <childnode refid="1504" relation="include">
+        <childnode refid="1613" relation="include">
         </childnode>
       </node>
-      <node id="1510">
+      <node id="1620">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_readdir.c</label>
         <link refid="gfal__common__srm__readdir_8c"/>
       </node>
-      <node id="1508">
+      <node id="1618">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_mkdir.c</label>
         <link refid="gfal__common__srm__mkdir_8c"/>
       </node>
-      <node id="1502">
+      <node id="1611">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.c</label>
         <link refid="gfal__common__srm__rmdir_8c"/>
       </node>
-      <node id="1501">
+      <node id="1610">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rmdir.h</label>
         <link refid="gfal__common__srm__rmdir_8h"/>
-        <childnode refid="1502" relation="include">
+        <childnode refid="1611" relation="include">
         </childnode>
       </node>
-      <node id="1505">
+      <node id="1615">
+        <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_checksum.c</label>
+        <link refid="gfal__common__srm__checksum_8c"/>
+      </node>
+      <node id="1614">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_access.c</label>
         <link refid="gfal__common__srm__access_8c"/>
       </node>
-      <node id="1511">
+      <node id="1621">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_stat.c</label>
         <link refid="gfal__common__srm__stat_8c"/>
       </node>
-      <node id="1507">
+      <node id="1617">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.c</label>
         <link refid="gfal__common__srm__internal__layer_8c"/>
       </node>
-      <node id="1500">
+      <node id="1609">
         <label>/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h</label>
         <link refid="gfal_common_srm_internal_layer.h"/>
-        <childnode refid="1501" relation="include">
+        <childnode refid="1610" relation="include">
         </childnode>
-        <childnode refid="1503" relation="include">
+        <childnode refid="1612" relation="include">
         </childnode>
-        <childnode refid="1505" relation="include">
+        <childnode refid="1614" relation="include">
         </childnode>
-        <childnode refid="1504" relation="include">
+        <childnode refid="1615" relation="include">
         </childnode>
-        <childnode refid="1506" relation="include">
+        <childnode refid="1613" relation="include">
         </childnode>
-        <childnode refid="1507" relation="include">
+        <childnode refid="1616" relation="include">
         </childnode>
-        <childnode refid="1508" relation="include">
+        <childnode refid="1617" relation="include">
         </childnode>
-        <childnode refid="1509" relation="include">
+        <childnode refid="1618" relation="include">
         </childnode>
-        <childnode refid="1510" relation="include">
+        <childnode refid="1619" relation="include">
         </childnode>
-        <childnode refid="1502" relation="include">
+        <childnode refid="1620" relation="include">
         </childnode>
-        <childnode refid="1511" relation="include">
+        <childnode refid="1611" relation="include">
+        </childnode>
+        <childnode refid="1621" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -391,6 +401,124 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="99" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getput.c" bodystart="226" bodyend="248"/>
       </memberdef>
+      <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_1dd4b348aabe59b3580911b0bc0e69b8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_srm_getTURLS</definition>
+        <argsstring>(gfal_srmv2_opt *opts, char **surls, gfal_srm_result **resu, GError **err)</argsstring>
+        <name>gfal_srm_getTURLS</name>
+        <param>
+          <type>gfal_srmv2_opt *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>surls</declname>
+        </param>
+        <param>
+          <type>gfal_srm_result **</type>
+          <declname>resu</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>launch a surls-&gt; turls translation in the synchronous mode </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: srmv2 opts initiated </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>surls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: tab of string, last char* must be NULL </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: pointer to a table of gfal_srm_result </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: GError** for error report </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return positive if success else -1, check GError for more information </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="101" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getput.c" bodystart="209" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_1acba3586236f05c7fd77c17ca9c36504" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_srm_putTURLS</definition>
+        <argsstring>(gfal_srmv2_opt *opts, char **surls, gfal_srm_result **resu, GError **err)</argsstring>
+        <name>gfal_srm_putTURLS</name>
+        <param>
+          <type>gfal_srmv2_opt *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>surls</declname>
+        </param>
+        <param>
+          <type>gfal_srm_result **</type>
+          <declname>resu</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>launch a surls-&gt; turls translation in the synchronous mode for file creation </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: srmv2 opts initiated </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>surls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: tab of string, last char* must be NULL </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: pointer to a table of gfal_srm_result </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: GError** for error report </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return positive if success else -1, check GError for more information </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="103" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getput.c" bodystart="258" bodyend="269"/>
+      </memberdef>
       <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_10b73cfc8697e7ab0d68dc121047f405f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_srm_putdone</definition>
@@ -418,7 +546,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="101" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getput.c" bodystart="308" bodyend="330"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="105" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_getput.c" bodystart="308" bodyend="330"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_146ce9d66bcd7db433a250e0949603622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -443,7 +571,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="103" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rm.c" bodystart="113" bodyend="123"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="107" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_rm.c" bodystart="113" bodyend="123"/>
       </memberdef>
       <memberdef kind="function" id="gfal__common__srm__internal__layer_8h_1233010cc6723f86456203d1193fcb648" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -464,7 +592,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="105" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" bodystart="281" bodyend="284"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h" line="109" bodyfile="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm.c" bodystart="281" bodyend="284"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -578,13 +706,17 @@
 <codeline lineno="98"><highlight class="normal"></highlight></codeline>
 <codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_putTURLS_plugin(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>surl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buff_turl,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size_turl,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>reqtoken,<sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_putdone(gfal_srmv2_opt*<sp/>opts,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>surls,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>token,<sp/><sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_getTURLS(gfal_srmv2_opt*<sp/>opts,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>surls,<sp/>gfal_srm_result**<sp/>resu,<sp/><sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_unlinkG(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>path,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_putTURLS(gfal_srmv2_opt*<sp/>opts<sp/>,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>surls,<sp/>gfal_srm_result**<sp/>resu,<sp/><sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_srm_report_error(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>errbuff,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_putdone(gfal_srmv2_opt*<sp/>opts,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>surls,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>token,<sp/><sp/>GError**<sp/>err);</highlight></codeline>
 <codeline lineno="106"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_srm_unlinkG(plugin_handle<sp/>ch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>path,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gfal_srm_report_error(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>errbuff,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/srm/gfal_common_srm_internal_layer.h"/>
   </compounddef>

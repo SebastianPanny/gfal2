@@ -38,14 +38,14 @@ LDAP *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_mds_ldap_conne
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__mds__ldap__internal_8c.html#cddb3a7427f2316670b0d71ff94dd6ee">gfal_mds_ldap_search</a> (LDAP *ld, const char *basedn, const char *filter, char **tabattr, LDAPMessage **res, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__mds__ldap__internal_8c.html#058a2581cea3066c602941b334b8ec06">gfal_mds_get_srm_types_endpoint</a> (LDAP *ld, LDAPMessage *result, gfal_mds_endpoint *endpoints, size_t s_endpoint, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__mds__ldap__internal_8c.html#058a2581cea3066c602941b334b8ec06">gfal_mds_get_srm_types_endpoint</a> (LDAP *ld, LDAPMessage *result, <a class="el" href="structgfal__mds__endpoint.html">gfal_mds_endpoint</a> *endpoints, size_t s_endpoint, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__mds__ldap__internal_8c.html#b93065c14371b4ed95d7b5ba6557f237">gfal_mds_get_ldapuri</a> (char *buff, size_t s_buff, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6faad786f3e54dba0b195be6d3d37268"></a><!-- doxytag: member="gfal_common_mds_ldap_internal.c::gfal_mds_ldap_disconnect" ref="6faad786f3e54dba0b195be6d3d37268" args="(LDAP *ld)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_mds_ldap_disconnect</b> (LDAP *ld)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__mds__ldap__internal_8c.html#90e81f1cb8465df2bc1be169b9beb47e">gfal_mds_bdii_get_srm_endpoint</a> (const char *base_url, gfal_mds_endpoint *endpoints, size_t s_endpoint, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__mds__ldap__internal_8c.html#90e81f1cb8465df2bc1be169b9beb47e">gfal_mds_bdii_get_srm_endpoint</a> (const char *base_url, <a class="el" href="structgfal__mds__endpoint.html">gfal_mds_endpoint</a> *endpoints, size_t s_endpoint, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -67,7 +67,7 @@ file for the internal ldap query by gfal, without is interface
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">gfal_mds_endpoint *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structgfal__mds__endpoint.html">gfal_mds_endpoint</a> *&nbsp;</td>
           <td class="paramname"> <em>endpoints</em>, </td>
         </tr>
         <tr>
@@ -95,7 +95,7 @@ file for the internal ldap query by gfal, without is interface
 resolve the SRM endpoint associated with a given base_url with the bdii <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>base_url</em>&nbsp;</td><td>: basic url to resolve </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endpoints</em>&nbsp;</td><td>: table of gfal_mds_endpoint to set with a size of s_endpoint </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endpoints</em>&nbsp;</td><td>: table of <a class="el" href="structgfal__mds__endpoint.html">gfal_mds_endpoint</a> to set with a size of s_endpoint </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>s_endpoint</em>&nbsp;</td><td>: maximum number of endpoints to set </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>err,:</em>&nbsp;</td><td>Gerror system for the report of the errors. </td></tr>
   </table>
@@ -158,7 +158,7 @@ get the current ldap URI
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">gfal_mds_endpoint *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structgfal__mds__endpoint.html">gfal_mds_endpoint</a> *&nbsp;</td>
           <td class="paramname"> <em>endpoints</em>, </td>
         </tr>
         <tr>
@@ -239,7 +239,7 @@ parse the result of a query to get the srm endpoint
 Execute a ldap query on a connected bdii 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

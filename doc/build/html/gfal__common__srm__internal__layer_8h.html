@@ -52,6 +52,12 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_check_fullendpoin
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__internal__layer_8h.html#24220c90dc2c2c7b43544c77bfac96cb">gfal_srm_putTURLS_plugin</a> (plugin_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__internal__layer_8h.html#dd4b348aabe59b3580911b0bc0e69b8b">gfal_srm_getTURLS</a> (gfal_srmv2_opt *opts, char **surls, gfal_srm_result **resu, GError **err)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">launch a surls-&gt; turls translation in the synchronous mode  <a href="#dd4b348aabe59b3580911b0bc0e69b8b"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__srm__internal__layer_8h.html#acba3586236f05c7fd77c17ca9c36504">gfal_srm_putTURLS</a> (gfal_srmv2_opt *opts, char **surls, gfal_srm_result **resu, GError **err)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">launch a surls-&gt; turls translation in the synchronous mode for file creation  <a href="#acba3586236f05c7fd77c17ca9c36504"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0b73cfc8697e7ab0d68dc121047f405f"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_putdone" ref="0b73cfc8697e7ab0d68dc121047f405f" args="(gfal_srmv2_opt *opts, char **surls, char *token, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_srm_putdone</b> (gfal_srmv2_opt *opts, char **surls, char *token, GError **err)</td></tr>
 
@@ -73,6 +79,58 @@ header file for the srm external function mapping for mocking purpose
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>09/06/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="dd4b348aabe59b3580911b0bc0e69b8b"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_getTURLS" ref="dd4b348aabe59b3580911b0bc0e69b8b" args="(gfal_srmv2_opt *opts, char **surls, gfal_srm_result **resu, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_srm_getTURLS           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_srmv2_opt *&nbsp;</td>
+          <td class="paramname"> <em>opts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&nbsp;</td>
+          <td class="paramname"> <em>surls</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gfal_srm_result **&nbsp;</td>
+          <td class="paramname"> <em>resu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+launch a surls-&gt; turls translation in the synchronous mode 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>opts</em>&nbsp;</td><td>: srmv2 opts initiated </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>surls</em>&nbsp;</td><td>: tab of string, last char* must be NULL </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>resu</em>&nbsp;</td><td>: pointer to a table of gfal_srm_result </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: GError** for error report </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return positive if success else -1, check GError for more information </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="c85b3f997dc3eeb76f153e01e8c037d5"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_getTURLS_plugin" ref="c85b3f997dc3eeb76f153e01e8c037d5" args="(plugin_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -124,6 +182,58 @@ header file for the srm external function mapping for mocking purpose
 
 <p>
 simple wrapper to getTURLs for the gfal_module layer 
+</div>
+</div><p>
+<a class="anchor" name="acba3586236f05c7fd77c17ca9c36504"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_putTURLS" ref="acba3586236f05c7fd77c17ca9c36504" args="(gfal_srmv2_opt *opts, char **surls, gfal_srm_result **resu, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_srm_putTURLS           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_srmv2_opt *&nbsp;</td>
+          <td class="paramname"> <em>opts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&nbsp;</td>
+          <td class="paramname"> <em>surls</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gfal_srm_result **&nbsp;</td>
+          <td class="paramname"> <em>resu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+launch a surls-&gt; turls translation in the synchronous mode for file creation 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>opts</em>&nbsp;</td><td>: srmv2 opts initiated </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>surls</em>&nbsp;</td><td>: tab of string, last char* must be NULL </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>resu</em>&nbsp;</td><td>: pointer to a table of gfal_srm_result </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>err</em>&nbsp;</td><td>: GError** for error report </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return positive if success else -1, check GError for more information </dd></dl>
+
 </div>
 </div><p>
 <a class="anchor" name="24220c90dc2c2c7b43544c77bfac96cb"></a><!-- doxytag: member="gfal_common_srm_internal_layer.h::gfal_srm_putTURLS_plugin" ref="24220c90dc2c2c7b43544c77bfac96cb" args="(plugin_handle ch, const char *surl, char *buff_turl, int size_turl, char **reqtoken, GError **err)" -->
@@ -214,7 +324,7 @@ simple wrapper to putTURLs for the gfal_module layer
 convenience func for a group of surls 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Sep 23 14:32:57 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

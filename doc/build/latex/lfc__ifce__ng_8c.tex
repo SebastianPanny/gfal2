@@ -10,6 +10,7 @@ main internal file of the lfc plugin module
 {\tt \#include $<$dlfcn.h$>$}\par
 {\tt \#include $<$stdlib.h$>$}\par
 {\tt \#include $<$pthread.h$>$}\par
+{\tt \#include $<$serrno.h$>$}\par
 {\tt \#include \char`\"{}../gfal\_\-constants.h\char`\"{}}\par
 {\tt \#include \char`\"{}../gfal\_\-types.h\char`\"{}}\par
 {\tt \#include \char`\"{}../mds/gfal\_\-common\_\-mds.h\char`\"{}}\par
@@ -64,6 +65,15 @@ int \bf{gfal\_\-lfc\_\-mkdir\_\-rec} (struct lfc\_\-ops $\ast$ops, char $\ast$br
 int \bf{gfal\_\-lfc\_\-ifce\_\-mkdirp\-G} (struct lfc\_\-ops $\ast$ops, const char $\ast$path, mode\_\-t mode, gboolean pflag, GError $\ast$$\ast$err)
 \item 
 char $\ast$$\ast$ \bf{gfal\_\-lfc\_\-get\-SURL} (struct lfc\_\-ops $\ast$ops, const char $\ast$path, GError $\ast$$\ast$err)
+\item 
+int \textbf{gfal\_\-lfc\_\-get\-Comment} (struct lfc\_\-ops $\ast$ops, const char $\ast$lfn, char $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_71ac937c7262a53247ea1b204ae23c6c}
+
+\item 
+int \textbf{gfal\_\-lfc\_\-set\-Comment} (struct lfc\_\-ops $\ast$ops, const char $\ast$lfn, const char $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_0b9952562acf59969aefc9519956f877}
+
+\item 
+int \textbf{gfal\_\-lfc\_\-get\-Checksum} (struct lfc\_\-ops $\ast$ops, const char $\ast$lfn, lfc\_\-checksum $\ast$checksum, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_3285a6a2cf6d76aa8fadabaee79f7896}
+
 \item 
 int \textbf{gfal\_\-lfc\_\-statg} (struct lfc\_\-ops $\ast$ops, const char $\ast$lfn, struct lfc\_\-filestatg $\ast$statbuf, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8c_220714510c3f197e656ddea9f04ffec3}
 
