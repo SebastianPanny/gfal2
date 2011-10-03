@@ -32,7 +32,7 @@ extern "C"
 {
 #endif 
 
-#include "posix/gfal_posix_api.h" 
+#include <posix/gfal_posix_api.h>
  
  #ifdef __cplusplus
 }

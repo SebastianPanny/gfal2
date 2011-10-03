@@ -64,6 +64,7 @@
     <member refid="struct__gfal__plugin__interface_19c6b4405f17d92e42aa40ff307188701" kind="variable"><name>getxattrG</name></member>
     <member refid="struct__gfal__plugin__interface_1c3bae2e54ce8998722f03b588d423b18" kind="variable"><name>listxattrG</name></member>
     <member refid="struct__gfal__plugin__interface_12ededf4f6bc7f284ac31234110ee1444" kind="variable"><name>setxattrG</name></member>
+    <member refid="struct__gfal__plugin__interface_1b2066a5ab243e3d43726b0ab9631a94e" kind="variable"><name>plugin_parameter</name></member>
   </compound>
   <compound refid="struct__gfal__plugin__rfio__handle" kind="struct"><name>_gfal_plugin_rfio_handle</name>
     <member refid="struct__gfal__plugin__rfio__handle_126d84d69b3c0c9d76113c388d3e53a00" kind="variable"><name>handle</name></member>
@@ -418,6 +419,15 @@
     <member refid="gfal__common__internal_8h_13453c8a22faa54f7bf3278d5ecd7785d" kind="function"><name>gfal_new_request_state</name></member>
     <member refid="gfal__common__internal_8h_10323a4ab58106e316851c1ae06148e28" kind="function"><name>resolve_dlsym_listG</name></member>
     <member refid="gfal__common__internal_8h_1aed64917ebc1c60ab8ccd2c4dfbd2c3a" kind="function"><name>is_valid_access_result</name></member>
+    <member refid="gfal__common__internal_8h_1692d45e6c2082530025172498559130a" kind="function"><name>gfal_common_parameter</name></member>
+  </compound>
+  <compound refid="gfal__common__parameter_8c" kind="file"><name>gfal_common_parameter.c</name>
+    <member refid="gfal__common__parameter_8c_1718a348e4e319e83dc8883ae4b38059e" kind="function"><name>gfal_common_bdii</name></member>
+    <member refid="gfal__common__parameter_8c_1769d0783e110250d545591112deee95e" kind="function"><name>gfal_common_parameter</name></member>
+    <member refid="gfal__common__parameter_8c_1aca8f856e172fc8489296e7459c315ec" kind="variable"><name>no_bdii</name></member>
+  </compound>
+  <compound refid="gfal__common__parameter_8h" kind="file"><name>gfal_common_parameter.h</name>
+    <member refid="gfal__common__parameter_8h_1769d0783e110250d545591112deee95e" kind="function"><name>gfal_common_parameter</name></member>
   </compound>
   <compound refid="gfal__common__plugin_8c" kind="file"><name>gfal_common_plugin.c</name>
     <member refid="gfal__common__plugin_8c_153abf256730d533302d1910e5fb61efe" kind="define"><name>_GNU_SOURCE</name></member>
@@ -425,6 +435,7 @@
     <member refid="gfal__common__plugin_8c_1aee104d19f8bcee459f1ae9370ef718c" kind="function"><name>gfal_module_init</name></member>
     <member refid="gfal__common__plugin_8c_143e4087b42a6f17808d913376d8b738b" kind="function"><name>gfal_plugin_getModuleFromHandle</name></member>
     <member refid="gfal__common__plugin_8c_159f53151c28e45f965a554a2a6806ad6" kind="function"><name>gfal_plugins_get_list</name></member>
+    <member refid="gfal__common__plugin_8c_1bd45330c7e213e68805dbb1505101275" kind="function"><name>gfal_search_plugin_with_name</name></member>
     <member refid="gfal__common__plugin_8c_1eacbdde483007be38cefa20fbf008589" kind="function"><name>gfal_module_load</name></member>
     <member refid="gfal__common__plugin_8c_17328c74ce4722c831ce2747ff6d43c7f" kind="function"><name>gfal_search_plugin_list</name></member>
     <member refid="gfal__common__plugin_8c_1eea61ff47da2dff88e4e7b94ebec011d" kind="function"><name>gfal_modules_resolve</name></member>
@@ -454,6 +465,7 @@
     <member refid="gfal__common__plugin_8c_1c20aa1a376c802d0c60208854537851e" kind="function"><name>gfal_get_cat_type</name></member>
     <member refid="gfal__common__plugin_8c_11a4632c68c7d81f87071733081900dee" kind="function"><name>gfal_plugin_unlinkG</name></member>
     <member refid="gfal__common__plugin_8c_15bba59659f7b0e1a123db9d8b990b58c" kind="function"><name>gfal_plugin_setxattrG</name></member>
+    <member refid="gfal__common__plugin_8c_1fdd3f89f29e84eecfddc8fb0fb8dddae" kind="function"><name>gfal_common_plugin_parameter</name></member>
   </compound>
   <compound refid="gfal__common__plugin_8h" kind="file"><name>gfal_common_plugin.h</name>
     <member refid="gfal__common__plugin_8h_11cae6e1f74c422acdfd33457179e5777" kind="define"><name>MAX_PLUGIN_LIST</name></member>
@@ -500,6 +512,7 @@
     <member refid="gfal__common__plugin_8h_1e67fef2ab537815ac8ed072b179f9e67" kind="function"><name>gfal_plugin_getxattrG</name></member>
     <member refid="gfal__common__plugin_8h_1b91265adebaddf5ca37245a0f971a303" kind="function"><name>gfal_plugin_listxattrG</name></member>
     <member refid="gfal__common__plugin_8h_1f416447f5b15d199a28ca58b16807847" kind="function"><name>gfal_plugin_setxattrG</name></member>
+    <member refid="gfal__common__plugin_8h_1fdd3f89f29e84eecfddc8fb0fb8dddae" kind="function"><name>gfal_common_plugin_parameter</name></member>
   </compound>
   <compound refid="gfal__constants_8h" kind="file"><name>gfal_constants.h</name>
     <member refid="gfal__constants_8h_1297519d49026662a60955d6d5e83ffe6" kind="define"><name>GFAL_NEWFILE_SIZE</name></member>
@@ -538,6 +551,11 @@
     <member refid="gfal__constants_8h_143f447aa0c1b5fe95a4c79b23c770952" kind="define"><name>GFAL_XATTR_COMMENT</name></member>
     <member refid="gfal__constants_8h_1fc6ffd43ad73ab219155b61c02405aec" kind="define"><name>GFAL_XATTR_CHKSUM_TYPE</name></member>
     <member refid="gfal__constants_8h_12e084155870841ad60f7353089f3bdf4" kind="define"><name>GFAL_XATTR_CHKSUM_VALUE</name></member>
+    <member refid="gfal__constants_8h_18d6cea8cc3a7d3a797e0cc71b49b54b5" kind="define"><name>GFAL_PARAM_SET</name></member>
+    <member refid="gfal__constants_8h_187ac256399e97963fc1f886063d501e0" kind="define"><name>GFAL_PARAM_GET</name></member>
+    <member refid="gfal__constants_8h_10e60b5e9098e963993001610e63a9292" kind="define"><name>GFAL_PARAM_TRUE</name></member>
+    <member refid="gfal__constants_8h_142e1bfd7e5df56bf29df8968f28f1700" kind="define"><name>GFAL_PARAM_FALSE</name></member>
+    <member refid="gfal__constants_8h_1992716aa0db1782d63f1fa57fd7f7d19" kind="define"><name>GFAL_NO_BDII_OPTION</name></member>
   </compound>
   <compound refid="gfal__prototypes_8h" kind="file"><name>gfal_prototypes.h</name>
     <member refid="gfal__prototypes_8h_1ff205e05b10c0953ccfa617c1ec94a54" kind="typedef"><name>plugin_opts</name></member>
@@ -1068,7 +1086,7 @@
     <member refid="group__posix__group_1g331e181c2fadd801321ad43033835052" kind="function"><name>gfal_set_verbose</name></member>
     <member refid="group__posix__group_1gddfc3a2a117a105f29a75d1864a527c0" kind="function"><name>gfal_version</name></member>
     <member refid="group__posix__group_1gae43f250cf82271ee59b19d008b29ad8" kind="function"><name>gfal_flush</name></member>
-    <member refid="group__posix__group_1g01a013db524a02dc45658985e08ea6ba" kind="function"><name>gfal_set_parameter</name></member>
+    <member refid="group__posix__group_1g0321ae1a7ef09a7f99a2be78069c4631" kind="function"><name>gfal_set_parameter</name></member>
     <member refid="group__posix__group_1g85aca9c2894e49c38c7c8592894e67a6" kind="function"><name>gfal_get_parameter</name></member>
   </compound>
   <compound refid="gfal__posix__chmod_8c" kind="file"><name>gfal_posix_chmod.c</name>
@@ -1119,6 +1137,8 @@
     <member refid="gfal__posix__internal_8h_1c67a63706af21829d0e7b9209be4cfce" kind="function"><name>gfal_posix_internal_setxattr</name></member>
     <member refid="gfal__posix__internal_8h_1e8c201ec9e7b66c815761bb6b460d6bf" kind="function"><name>gfal_posix_internal_readdir</name></member>
     <member refid="gfal__posix__internal_8h_1dc9e646bbdc504844fab47bdcb1699f0" kind="function"><name>gfal_posix_internal_symlink</name></member>
+    <member refid="gfal__posix__internal_8h_13dae3c5318c5fe3ac31e6e4e2f56fd96" kind="function"><name>gfal_posix_internal_set_parameter</name></member>
+    <member refid="gfal__posix__internal_8h_126ebc53d8a66ea8899033bf662bd84fa" kind="function"><name>gfal_posix_internal_get_parameter</name></member>
     <member refid="gfal__posix__internal_8h_1f19b799252be42cf1250bb49f88f76a7" kind="function"><name>gfal_posix_register_internal_error</name></member>
   </compound>
   <compound refid="gfal__posix__listxattr_8c" kind="file"><name>gfal_posix_listxattr.c</name>
@@ -1217,7 +1237,7 @@
     <member refid="group__posix__group_1g03fcc29bc5d79dc2f65010846b0db024" kind="function"><name>gfal_posix_print_error</name></member>
     <member refid="group__posix__group_1gae43f250cf82271ee59b19d008b29ad8" kind="function"><name>gfal_flush</name></member>
     <member refid="group__posix__group_1g85337290460234042db0adfd54514df9" kind="function"><name>gfal_posix_release_error</name></member>
-    <member refid="group__posix__group_1g01a013db524a02dc45658985e08ea6ba" kind="function"><name>gfal_set_parameter</name></member>
+    <member refid="group__posix__group_1g0321ae1a7ef09a7f99a2be78069c4631" kind="function"><name>gfal_set_parameter</name></member>
     <member refid="group__posix__group_1g85aca9c2894e49c38c7c8592894e67a6" kind="function"><name>gfal_get_parameter</name></member>
     <member refid="group__posix__group_1ga8252652c1dc86d71ba37b401fb675f9" kind="function"><name>gfal_posix_clear_error</name></member>
     <member refid="group__posix__group_1gc6149b0b3c9c8af05789169a18832634" kind="function"><name>gfal_posix_code_error</name></member>
@@ -1234,6 +1254,10 @@
   <compound refid="gfal__posix__opendir_8c" kind="file"><name>gfal_posix_opendir.c</name>
     <member refid="gfal__posix__opendir_8c_1ed566583ed7a689f0edf3de175f1fa58" kind="function"><name>gfal_posix_dir_handle_store</name></member>
     <member refid="gfal__posix__opendir_8c_1b2e2608cd7c4ff0cecf68e04923d93cc" kind="function"><name>gfal_posix_internal_opendir</name></member>
+  </compound>
+  <compound refid="gfal__posix__parameters_8c" kind="file"><name>gfal_posix_parameters.c</name>
+    <member refid="gfal__posix__parameters_8c_13dae3c5318c5fe3ac31e6e4e2f56fd96" kind="function"><name>gfal_posix_internal_set_parameter</name></member>
+    <member refid="gfal__posix__parameters_8c_126ebc53d8a66ea8899033bf662bd84fa" kind="function"><name>gfal_posix_internal_get_parameter</name></member>
   </compound>
   <compound refid="gfal__posix__read_8c" kind="file"><name>gfal_posix_read.c</name>
     <member refid="gfal__posix__read_8c_1457f702a225b897e723c0787e42b4ade" kind="function"><name>gfal_posix_gfalfilehandle_read</name></member>
@@ -1305,7 +1329,7 @@
     <member refid="group__posix__group_1g331e181c2fadd801321ad43033835052" kind="function"><name>gfal_set_verbose</name></member>
     <member refid="group__posix__group_1gddfc3a2a117a105f29a75d1864a527c0" kind="function"><name>gfal_version</name></member>
     <member refid="group__posix__group_1gae43f250cf82271ee59b19d008b29ad8" kind="function"><name>gfal_flush</name></member>
-    <member refid="group__posix__group_1g01a013db524a02dc45658985e08ea6ba" kind="function"><name>gfal_set_parameter</name></member>
+    <member refid="group__posix__group_1g0321ae1a7ef09a7f99a2be78069c4631" kind="function"><name>gfal_set_parameter</name></member>
     <member refid="group__posix__group_1g85aca9c2894e49c38c7c8592894e67a6" kind="function"><name>gfal_get_parameter</name></member>
   </compound>
   <compound refid="api_change" kind="page"><name>api_change</name>

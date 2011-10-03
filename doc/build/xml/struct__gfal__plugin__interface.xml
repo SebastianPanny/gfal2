@@ -330,12 +330,25 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" line="126"/>
       </memberdef>
+      <memberdef kind="variable" id="struct__gfal__plugin__interface_1b2066a5ab243e3d43726b0ab9631a94e" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* _gfal_plugin_interface::plugin_parameter)(plugin_handle handle, const char *name, char *value, size_t max_size, int flag_mode, GError **err)</definition>
+        <argsstring>)(plugin_handle handle, const char *name, char *value, size_t max_size, int flag_mode, GError **err)</argsstring>
+        <name>plugin_parameter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" line="128"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para>Interface to implement in each gfal_plugin_* the minimums calls are : getName, plugin_delete, check_plugin_url all the unused function pointers must be set to NULL </para>    </detaileddescription>
-    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" line="77" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" bodystart="77" bodyend="129"/>
+    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" line="77" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" bodystart="77" bodyend="130"/>
     <listofallmembers>
       <member refid="struct__gfal__plugin__interface_11fa81d7a219629281c14b05116d32202" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>accessG</name></member>
       <member refid="struct__gfal__plugin__interface_1e1ab2d2c3ea35095446a2c14734b5f4c" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>check_plugin_url</name></member>
@@ -352,6 +365,7 @@
       <member refid="struct__gfal__plugin__interface_1e651878dc579a4a7d40bb928a3d2cecd" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>opendirG</name></member>
       <member refid="struct__gfal__plugin__interface_1516c2debbc66416f16288ebc983399f0" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>openG</name></member>
       <member refid="struct__gfal__plugin__interface_1d146f62bd310f1f265f0bc3c37cc70d8" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>plugin_delete</name></member>
+      <member refid="struct__gfal__plugin__interface_1b2066a5ab243e3d43726b0ab9631a94e" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>plugin_parameter</name></member>
       <member refid="struct__gfal__plugin__interface_1738e301f6073aca875b2bebc37f1be9c" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>readdirG</name></member>
       <member refid="struct__gfal__plugin__interface_1b3b7bd76e2e692533531fcb53b142bfa" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>readG</name></member>
       <member refid="struct__gfal__plugin__interface_1bea2af03bf457f18bb6576ee8dc918a3" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>readlinkG</name></member>

@@ -86,6 +86,9 @@ _gfal_plugin_interface \-
 .ti -1c
 .RI "int(* \fBsetxattrG\fP )(plugin_handle, const char *, const char *, const void *, size_t, int, GError **)"
 .br
+.ti -1c
+.RI "int(* \fBplugin_parameter\fP )(plugin_handle handle, const char *name, char *value, size_t max_size, int flag_mode, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 

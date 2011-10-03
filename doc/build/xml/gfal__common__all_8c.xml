@@ -6,7 +6,7 @@
     <includes local="no">regex.h</includes>
     <includes local="no">stdlib.h</includes>
     <includes local="no">uuid/uuid.h</includes>
-    <includes refid="gfal__prototypes_8h" local="no">gfal_prototypes.h</includes>
+    <includes refid="gfal__prototypes_8h" local="yes">gfal_prototypes.h</includes>
     <includes refid="gfal__types_8h" local="yes">gfal_types.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">gfal_common_errverbose.h</includes>
     <includes refid="gfal__common__dir__handle_8h" local="yes">gfal_common_dir_handle.h</includes>
@@ -324,7 +324,8 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>check the validity of a result for a &quot;access&quot; standard call <simplesect kind="return"><para>TRUE if status is a valid and standard access methode error, else return FALSE </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" line="144" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="144" bodyend="160"/>
@@ -375,7 +376,7 @@
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;uuid/uuid.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gfal_prototypes.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__errverbose_8h" kindref="compound">gfal_common_errverbose.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__common__dir__handle_8h" kindref="compound">gfal_common_dir_handle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -459,11 +460,7 @@
 <codeline lineno="137"><highlight class="normal"></highlight></codeline>
 <codeline lineno="138"><highlight class="normal"></highlight></codeline>
 <codeline lineno="139"><highlight class="normal"></highlight></codeline>
-<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">/***</highlight></codeline>
-<codeline lineno="141"><highlight class="comment"><sp/>*<sp/>check<sp/>the<sp/>validity<sp/>of<sp/>a<sp/>result<sp/>for<sp/>a<sp/>&quot;access&quot;<sp/>standard<sp/>call</highlight></codeline>
-<codeline lineno="142"><highlight class="comment"><sp/>*<sp/>@return<sp/>TRUE<sp/>if<sp/>status<sp/>is<sp/>a<sp/>valid<sp/>and<sp/>standard<sp/>access<sp/>methode<sp/>error,<sp/>else<sp/>return<sp/>FALSE</highlight></codeline>
-<codeline lineno="143"><highlight class="comment"><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/>gboolean<sp/>is_valid_access_result(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status){</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/>gboolean<sp/><ref refid="gfal__common__all_8c_1aed64917ebc1c60ab8ccd2c4dfbd2c3a" kindref="member">is_valid_access_result</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status){</highlight></codeline>
 <codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal">(status){</highlight></codeline>
 <codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>0:</highlight></codeline>
 <codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ENOENT:</highlight></codeline>
@@ -485,6 +482,8 @@
 <codeline lineno="163"><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="164"><highlight class="normal"></highlight></codeline>
 <codeline lineno="165"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c"/>
   </compounddef>

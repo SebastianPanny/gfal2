@@ -39,6 +39,9 @@
 .ti -1c
 .RI "gboolean \fBis_valid_access_result\fP (int status)"
 .br
+.ti -1c
+.RI "int \fBgfal_common_parameter\fP (const char *name, const char *value, size_t max_size, int flag_mode, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -89,6 +92,16 @@ initiate a gfal's context with default parameters for use
 \fBReturns:\fP
 .RS 4
 a gfal_handle, need to be free after usage. return NULL if errors 
+.RE
+.PP
+
+.SS "gboolean is_valid_access_result (int status)"
+.PP
+check the validity of a result for a 'access' standard call 
+.PP
+\fBReturns:\fP
+.RS 4
+TRUE if status is a valid and standard access methode error, else return FALSE 
 .RE
 .PP
 

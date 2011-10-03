@@ -128,6 +128,9 @@
 .ti -1c
 .RI "int \fBgfal_plugin_setxattrG\fP (gfal_handle, const char *, const char *, const void *, size_t, int, GError **)"
 .br
+.ti -1c
+.RI "int \fBgfal_common_plugin_parameter\fP (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, int flag_mode, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -315,6 +318,9 @@ result of the access method or -1 if error and set GError with the correct value
 .SS "int gfal_plugins_delete (gfal_handle handle, GError ** err)"
 .PP
 Delete all instance of plugins 
+.SS "char** gfal_plugins_get_list (gfal_handle handle, GError ** err)"
+.PP
+external function to get the list of the plugins loaded 
 .SS "int gfal_plugins_instance (gfal_handle handle, GError ** err)\fC [inline]\fP"
 .PP
 Instance all plugins for use if it's not the case return the number of plugin available 

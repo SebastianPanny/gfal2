@@ -104,7 +104,9 @@ static gfal_plugin_interface* gfal_plugin_getModuleFromHandle(gfal_handle handle
 	return cata_list;
 }
 
-
+/**
+ * external function to get the list of the plugins loaded
+ */
 char** gfal_plugins_get_list(gfal_handle handle, GError** err){
 	GError* tmp_err=NULL;
 	char** resu =NULL;
@@ -120,6 +122,33 @@ char** gfal_plugins_get_list(gfal_handle handle, GError** err){
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return resu;
+}
+
+/**
+ * external function to return a gfal_plugin_interface from a given plugin name
+ * */
+gfal_plugin_interface* gfal_search_plugin_with_name(gfal_handle handle, const char* name, GError** err){
+  g_return_val_err_if_fail(name && handle, NULL, err, "must be non NULL value");
+  GError* tmp_err=NULL;
+  gfal_plugin_interface* resu= NULL;
+  int n = gfal_plugins_instance(handle, &tmp_err);
+  if(n > 0){
+    int i;
+    gfal_plugin_interface* cata_list = handle->plugin_opt.plugin_list;
+    for(i=0; i < n; ++i, ++cata_list){
+      char* plugin_name = cata_list->getName();
+      if(plugin_name != NULL && strcmp(plugin_name, name) ==0){
+	  resu = cata_list;
+	  break;
+      }
+    }
+    if(resu ==NULL)
+      g_set_error(&tmp_err, 0, ENOENT, " No plugin loaded with this name %s", name);
+  }
+
+  if(tmp_err)
+	  g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+  return resu;  
 }
 
 /**
@@ -739,3 +768,28 @@ int gfal_plugin_setxattrG(gfal_handle handle, const char* path, const char* name
 	return resu;		
 }
 
+/***
+ *  function for plugings, plugin wrapper for set/get options/parameters
+ * 
+ */
+int gfal_common_plugin_parameter(gfal_handle handle, const char* module, const char* name, char* value, size_t max_size, int flag_mode, GError** err){
+  g_return_val_err_if_fail(handle && module, -1, err, "einval value");
+  GError* tmp_err=NULL;
+  int res = -1;
+  
+  
+  gfal_plugin_interface* interface = gfal_search_plugin_with_name(handle, module, &tmp_err);
+  if(interface != NULL){
+    if( interface->plugin_parameter){
+      res = interface->plugin_parameter(interface->handle, name, value, max_size, flag_mode, &tmp_err);      
+    }else{
+      g_set_error(&tmp_err, 0, EFAULT, " Impossible to set settings in this plugin, no appropriate funtion is mapped");
+    }
+    
+  }
+  // fix it
+  if(tmp_err)
+	g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
+  return res;
+    
+}

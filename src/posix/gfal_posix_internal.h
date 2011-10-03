@@ -76,6 +76,9 @@ struct dirent* gfal_posix_internal_readdir(DIR* dir);
 
 int gfal_posix_internal_symlink(const char * oldpath, const char *newpath);
 
+int gfal_posix_internal_set_parameter(const char* module, const char* name, char* value, size_t max_size);
+
+int gfal_posix_internal_get_parameter(const char* module, const char* name, char* value, size_t buff_size);
 
 void gfal_posix_register_internal_error(gfal_handle handle, const char* prefix, GError * tmp_err);
  

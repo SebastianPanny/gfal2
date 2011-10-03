@@ -23,7 +23,8 @@
  * */
 
 
-#include "../common/gfal_constants.h" 
+#include <common/gfal_constants.h>
+
 #include "gfal_posix_api.h"
 #include "gfal_posix_internal.h"
 
@@ -424,11 +425,12 @@ void gfal_posix_release_error(){
  * @param module : namespace of the parameter ( plugin name, isifce, NULL for core), etc....
  * @param name : key of the parameter to set
  * @param value : value of the parameter
+ * @param max_size : absolute maximum size for the reads
  * @return 0 if success or -1 if error. In this case,  errno  is  set
  *      and you can call @ref gfal_posix_check_error() for a more complete description. 
  * */
-int gfal_set_parameter(const char* module, const char* name, const char* value){
-	return -1;
+int gfal_set_parameter(const char* module, const char* name, const char* value, size_t max_size){
+	return gfal_posix_internal_set_parameter(module, name, (char*)value, max_size);
 }
 
 
@@ -446,8 +448,7 @@ int gfal_set_parameter(const char* module, const char* name, const char* value){
  * 
  * */
 int gfal_get_parameter(const char* module, const char* name, char* buff_value, size_t s_buff){
-	return -1;
-	
+	return gfal_posix_internal_get_parameter(module, name, buff_value, s_buff);	
 }
 
 

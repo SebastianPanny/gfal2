@@ -38,6 +38,9 @@
 .RI "char ** \fBgfal_plugins_get_list\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
+.RI "\fBgfal_plugin_interface\fP * \fBgfal_search_plugin_with_name\fP (gfal_handle handle, const char *name, GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_plugins_instance\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
@@ -112,6 +115,9 @@
 .br
 .ti -1c
 .RI "int \fBgfal_plugin_setxattrG\fP (gfal_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_common_plugin_parameter\fP (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, int flag_mode, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -295,9 +301,15 @@ result of the access method or -1 if error and set GError with the correct value
 .SS "int gfal_plugins_delete (gfal_handle handle, GError ** err)"
 .PP
 Delete all instance of plugins 
+.SS "char** gfal_plugins_get_list (gfal_handle handle, GError ** err)"
+.PP
+external function to get the list of the plugins loaded 
 .SS "int gfal_plugins_instance (gfal_handle handle, GError ** err)\fC [inline]\fP"
 .PP
 Instance all plugins for use if it's not the case return the number of plugin available 
+.SS "\fBgfal_plugin_interface\fP* gfal_search_plugin_with_name (gfal_handle handle, const char * name, GError ** err)"
+.PP
+external function to return a gfal_plugin_interface from a given plugin name 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

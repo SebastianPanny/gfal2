@@ -17,8 +17,9 @@ the file of the common lib for the plugin management
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-char $\ast$$\ast$ \textbf{gfal\_\-plugins\_\-get\_\-list} (gfal\_\-handle handle, GError $\ast$$\ast$err)\label{gfal__common__plugin_8c_59f53151c28e45f965a554a2a6806ad6}
-
+char $\ast$$\ast$ \bf{gfal\_\-plugins\_\-get\_\-list} (gfal\_\-handle handle, GError $\ast$$\ast$err)
+\item 
+\bf{gfal\_\-plugin\_\-interface} $\ast$ \bf{gfal\_\-search\_\-plugin\_\-with\_\-name} (gfal\_\-handle handle, const char $\ast$name, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-plugins\_\-instance} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
@@ -73,6 +74,9 @@ char $\ast$ \textbf{gfal\_\-get\_\-cat\_\-type} (GError $\ast$$\ast$err)\label{g
 int \bf{gfal\_\-plugin\_\-unlink\-G} (gfal\_\-handle handle, const char $\ast$path, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-plugin\_\-setxattr\-G} (gfal\_\-handle handle, const char $\ast$path, const char $\ast$name, const void $\ast$value, size\_\-t size, int flags, GError $\ast$$\ast$err)
+\item 
+int \textbf{gfal\_\-common\_\-plugin\_\-parameter} (gfal\_\-handle handle, const char $\ast$module, const char $\ast$name, char $\ast$value, size\_\-t max\_\-size, int flag\_\-mode, GError $\ast$$\ast$err)\label{gfal__common__plugin_8c_fdd3f89f29e84eecfddc8fb0fb8dddae}
+
 \end{CompactItemize}
 
 
@@ -223,9 +227,19 @@ Execute an access function on the first plugin compatible in the plugin list ret
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-plugins\_\-delete (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_3a5fd910584fad43a1a67c0e844ce528}
 
 
-Delete all instance of plugins \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugins_instance@{gfal\_\-plugins\_\-instance}}
+Delete all instance of plugins \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugins_get_list@{gfal\_\-plugins\_\-get\_\-list}}
+\index{gfal_plugins_get_list@{gfal\_\-plugins\_\-get\_\-list}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ gfal\_\-plugins\_\-get\_\-list (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_59f53151c28e45f965a554a2a6806ad6}
+
+
+external function to get the list of the plugins loaded \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugins_instance@{gfal\_\-plugins\_\-instance}}
 \index{gfal_plugins_instance@{gfal\_\-plugins\_\-instance}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-plugins\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})\hspace{0.3cm}{\tt  [inline]}}\label{gfal__common__plugin_8c_4d38083d4b9f51095013c0f3d233c0da}
 
 
-Instance all plugins for use if it's not the case return the number of plugin available 
+Instance all plugins for use if it's not the case return the number of plugin available \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_search_plugin_with_name@{gfal\_\-search\_\-plugin\_\-with\_\-name}}
+\index{gfal_search_plugin_with_name@{gfal\_\-search\_\-plugin\_\-with\_\-name}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\bf{gfal\_\-plugin\_\-interface}$\ast$ gfal\_\-search\_\-plugin\_\-with\_\-name (gfal\_\-handle {\em handle}, const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_bd45330c7e213e68805dbb1505101275}
+
+
+external function to return a gfal\_\-plugin\_\-interface from a given plugin name 

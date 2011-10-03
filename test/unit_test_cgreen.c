@@ -49,6 +49,7 @@
 #include "posix/test__gfal_posix_read.h"
 #include "posix/test__gfal_posix_write.h"
 #include "posix/test__gfal_posix_opendir.h"
+#include "posix/test__gfal_posix_parameter.h"
 #include "common/rfio/test__gfal_rfio_plugin.h"
 
 TestSuite * verbose_suite (void)
@@ -199,14 +200,21 @@ TestSuite* posix_rfio_plugin_suite(){
 }
 
 TestSuite* posix_opendir_suite(){
-	TestSuite* tc_opendir = create_test_suite();
-	add_test(tc_opendir, gfal2_test__opendir_posix_local_simple);
-	add_test(tc_opendir, gfal2_test__opendir_posix_lfc_simple);
-	add_test(tc_opendir, gfal2_test__readdir_posix_local_simple);
-	add_test(tc_opendir, gfal2_test__readdir_posix_lfc_simple);
-	add_test(tc_opendir, gfal2_test__opendir_posix_srm_simple_mock);
-	add_test(tc_opendir, gfal2_test__readdir_posix_srm_simple_mock);
-	return tc_opendir;	
+      TestSuite* tc_opendir = create_test_suite();
+      add_test(tc_opendir, gfal2_test__opendir_posix_local_simple);
+      add_test(tc_opendir, gfal2_test__opendir_posix_lfc_simple);
+      add_test(tc_opendir, gfal2_test__readdir_posix_local_simple);
+      add_test(tc_opendir, gfal2_test__readdir_posix_lfc_simple);
+      add_test(tc_opendir, gfal2_test__opendir_posix_srm_simple_mock);
+      add_test(tc_opendir, gfal2_test__readdir_posix_srm_simple_mock);
+      return tc_opendir;	
+}
+
+
+TestSuite* posix_parameter_suite(){
+  TestSuite* tc_parameter = create_test_suite();  
+  add_test(tc_parameter, test_posix_set_get_parameter);
+  return tc_parameter;  
 }
 
 TestSuite* posix_access_suite (void)
@@ -228,28 +236,6 @@ TestSuite* posix_access_suite (void)
  // add_test(tc_rename, test__gfal_posix_rename_url_check);
 //  add_test(tc_rename, test__gfal_posix_rename_local);
  // suite_add_tcase(s, tc_rename);
-//  TestSuite* tc_mkdir = create_test_suite();
- // add_test(tc_mkdir, gfal2_test__mkdir_posix_lfc_simple);
- // add_test(tc_mkdir, test__mkdir_posix_lfc_rec);
- // add_test(tc_mkdir, test__mkdir_posix_lfc_rec_with_slash);
-//  add_test(tc_mkdir, gfal2_test__mkdir_posix_local_simple);
-//  add_test(tc_mkdir, test__mkdir_posix_local_rec);
- // add_test(tc_mkdir, test__mkdir_posix_local_rec_with_slash);
- // add_test(tc_mkdir, gfal2_test__mkdir_posix_srm_simple);
- // add_test(tc_mkdir, test__mkdir_posix_srm_rec);
- // add_test(tc_mkdir, test__mkdir_posix_srm_rec_with_slash);
- // suite_add_tcase(s, tc_mkdir);
- // TestSuite* tc_rmdir = create_test_suite();
- // add_test(tc_rmdir, test__rmdir_posix_lfc_simple);
- // add_test(tc_rmdir, test__rmdir_posix_lfc_existingfile);
- // add_test(tc_rmdir, test__rmdir_posix_lfc_slash);
-  //add_test(tc_rmdir, test__rmdir_posix_srm_simple);
- // add_test(tc_rmdir, test__rmdir_posix_srm_existingfile);
- // add_test(tc_rmdir, test__rmdir_posix_srm_slash);
- // add_test(tc_rmdir, test__rmdir_posix_local_simple);
- // add_test(tc_rmdir, test__rmdir_posix_local_existingfile);
-//  add_test(tc_rmdir, test__rmdir_posix_local_slash);
- // suite_add_tcase(s, tc_rmdir);
  // TestSuite* tc_opendir = create_test_suite();
   //add_test(tc_opendir, gfal2_test__opendir_posix_local_simple);
  // add_test(tc_opendir, gfal2_test__opendir_posix_lfc_simple);
@@ -291,6 +277,7 @@ int main (int argc, char** argv)
 	add_suite(global, posix_read_suite());
 	add_suite(global, posix_write_suite());
 	add_suite(global, posix_opendir_suite());
+	add_suite(global, posix_parameter_suite());
 	//add_suite(global, filedesc_suite());
     if (argc > 1){
         return run_single_test(global, argv[1], create_text_reporter());

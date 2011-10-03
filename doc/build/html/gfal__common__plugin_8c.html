@@ -36,8 +36,9 @@
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="59f53151c28e45f965a554a2a6806ad6"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugins_get_list" ref="59f53151c28e45f965a554a2a6806ad6" args="(gfal_handle handle, GError **err)" -->
-char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_plugins_get_list</b> (gfal_handle handle, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#59f53151c28e45f965a554a2a6806ad6">gfal_plugins_get_list</a> (gfal_handle handle, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__gfal__plugin__interface.html">gfal_plugin_interface</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#bd45330c7e213e68805dbb1505101275">gfal_search_plugin_with_name</a> (gfal_handle handle, const char *name, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#4d38083d4b9f51095013c0f3d233c0da">gfal_plugins_instance</a> (gfal_handle handle, GError **err)</td></tr>
 
@@ -93,6 +94,9 @@ char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_cat_type</
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#1a4632c68c7d81f87071733081900dee">gfal_plugin_unlinkG</a> (gfal_handle handle, const char *path, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#5bba59659f7b0e1a123db9d8b990b58c">gfal_plugin_setxattrG</a> (gfal_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fdd3f89f29e84eecfddc8fb0fb8dddae"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_common_plugin_parameter" ref="fdd3f89f29e84eecfddc8fb0fb8dddae" args="(gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, int flag_mode, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_plugin_parameter</b> (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, int flag_mode, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -961,6 +965,35 @@ Execute an access function on the first plugin compatible in the plugin list ret
 Delete all instance of plugins 
 </div>
 </div><p>
+<a class="anchor" name="59f53151c28e45f965a554a2a6806ad6"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugins_get_list" ref="59f53151c28e45f965a554a2a6806ad6" args="(gfal_handle handle, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** gfal_plugins_get_list           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+external function to get the list of the plugins loaded 
+</div>
+</div><p>
 <a class="anchor" name="4d38083d4b9f51095013c0f3d233c0da"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_plugins_instance" ref="4d38083d4b9f51095013c0f3d233c0da" args="(gfal_handle handle, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -990,7 +1023,42 @@ Delete all instance of plugins
 Instance all plugins for use if it's not the case return the number of plugin available 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="bd45330c7e213e68805dbb1505101275"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_search_plugin_with_name" ref="bd45330c7e213e68805dbb1505101275" args="(gfal_handle handle, const char *name, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct__gfal__plugin__interface.html">gfal_plugin_interface</a>* gfal_search_plugin_with_name           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+external function to return a gfal_plugin_interface from a given plugin name 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

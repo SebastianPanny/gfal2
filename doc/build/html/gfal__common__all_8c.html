@@ -25,7 +25,7 @@
 <code>#include &lt;regex.h&gt;</code><br>
 <code>#include &lt;stdlib.h&gt;</code><br>
 <code>#include &lt;uuid/uuid.h&gt;</code><br>
-<code>#include &lt;gfal_prototypes.h&gt;</code><br>
+<code>#include &quot;gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;gfal_types.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">gfal_common_errverbose.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__dir__handle_8h-source.html">gfal_common_dir_handle.h</a>&quot;</code><br>
@@ -58,8 +58,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal_
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">open dynamycally a list of symbols resolve all symbols from sym_list to flist with the associated dlhandle set GError properly if error <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gddfc3a2a117a105f29a75d1864a527c0">gfal_version</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="aed64917ebc1c60ab8ccd2c4dfbd2c3a"></a><!-- doxytag: member="gfal_common_all.c::is_valid_access_result" ref="aed64917ebc1c60ab8ccd2c4dfbd2c3a" args="(int status)" -->
-gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><b>is_valid_access_result</b> (int status)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__all_8c.html#aed64917ebc1c60ab8ccd2c4dfbd2c3a">is_valid_access_result</a> (int status)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -136,7 +135,28 @@ initiate a gfal's context with default parameters for use <dl compact><dt><b>Ret
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="aed64917ebc1c60ab8ccd2c4dfbd2c3a"></a><!-- doxytag: member="gfal_common_all.c::is_valid_access_result" ref="aed64917ebc1c60ab8ccd2c4dfbd2c3a" args="(int status)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean is_valid_access_result           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>status</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+check the validity of a result for a "access" standard call <dl compact><dt><b>Returns:</b></dt><dd>TRUE if status is a valid and standard access methode error, else return FALSE </dd></dl>
+
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -6,7 +6,7 @@ core file for the utility function of gfal common part
 {\tt \#include $<$regex.h$>$}\par
 {\tt \#include $<$stdlib.h$>$}\par
 {\tt \#include $<$uuid/uuid.h$>$}\par
-{\tt \#include $<$gfal\_\-prototypes.h$>$}\par
+{\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-errverbose.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-common\_\-dir\_\-handle.h\char`\"{}}\par
@@ -37,8 +37,7 @@ int \bf{resolve\_\-dlsym\_\-list\-G} (void $\ast$handle, void $\ast$$\ast$$\ast$
 \begin{CompactList}\small\item\em open dynamycally a list of symbols resolve all symbols from sym\_\-list to flist with the associated dlhandle set GError properly if error \item\end{CompactList}\item 
 char $\ast$ \bf{gfal\_\-version} ()
 \item 
-gboolean \textbf{is\_\-valid\_\-access\_\-result} (int status)\label{gfal__common__all_8c_aed64917ebc1c60ab8ccd2c4dfbd2c3a}
-
+gboolean \bf{is\_\-valid\_\-access\_\-result} (int status)
 \end{CompactItemize}
 
 
@@ -79,3 +78,10 @@ convert glist of int to a table of int
 
 initiate a gfal's context with default parameters for use \begin{Desc}
 \item[Returns:]a gfal\_\-handle, need to be free after usage. return NULL if errors \end{Desc}
+\index{gfal_common_all.c@{gfal\_\-common\_\-all.c}!is_valid_access_result@{is\_\-valid\_\-access\_\-result}}
+\index{is_valid_access_result@{is\_\-valid\_\-access\_\-result}!gfal_common_all.c@{gfal\_\-common\_\-all.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean is\_\-valid\_\-access\_\-result (int {\em status})}\label{gfal__common__all_8c_aed64917ebc1c60ab8ccd2c4dfbd2c3a}
+
+
+check the validity of a result for a \char`\"{}access\char`\"{} standard call \begin{Desc}
+\item[Returns:]TRUE if status is a valid and standard access methode error, else return FALSE \end{Desc}

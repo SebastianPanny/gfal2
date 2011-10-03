@@ -89,11 +89,14 @@
 <a name="l00076"></a>00076 
 <a name="l00077"></a>00077 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__symlink_8c.html#dc9e646bbdc504844fab47bdcb1699f0">gfal_posix_internal_symlink</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * oldpath, <span class="keyword">const</span> <span class="keywordtype">char</span> *newpath);
 <a name="l00078"></a>00078 
-<a name="l00079"></a>00079 
-<a name="l00080"></a>00080 <span class="keywordtype">void</span> gfal_posix_register_internal_error(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* prefix, GError * tmp_err);
-<a name="l00081"></a>00081  
+<a name="l00079"></a>00079 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__parameters_8c.html#3dae3c5318c5fe3ac31e6e4e2f56fd96">gfal_posix_internal_set_parameter</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* module, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keywordtype">char</span>* value, size_t max_size);
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__parameters_8c.html#26ebc53d8a66ea8899033bf662bd84fa">gfal_posix_internal_get_parameter</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* module, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keywordtype">char</span>* value, size_t buff_size);
 <a name="l00082"></a>00082 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00083"></a>00083 <span class="keywordtype">void</span> gfal_posix_register_internal_error(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* prefix, GError * tmp_err);
+<a name="l00084"></a>00084  
+<a name="l00085"></a>00085 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -27,7 +27,7 @@
 #include <regex.h>
 #include <stdlib.h>
 #include <uuid/uuid.h>
-#include <gfal_prototypes.h>
+#include "gfal_prototypes.h"
 #include "gfal_types.h"
 #include "gfal_common_errverbose.h"
 #include "gfal_common_dir_handle.h"
@@ -137,7 +137,7 @@ char *gfal_version(){
 
 
 
-/***
+/**
  * check the validity of a result for a "access" standard call
  * @return TRUE if status is a valid and standard access methode error, else return FALSE
  * */
@@ -163,3 +163,5 @@ char *gfal_version(){
  
 
  
+
+

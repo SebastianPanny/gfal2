@@ -6,7 +6,7 @@
 .SH SYNOPSIS
 .br
 .PP
-\fC#include '../common/gfal_constants.h'\fP
+\fC#include <common/gfal_constants.h>\fP
 .br
 \fC#include 'gfal_posix_api.h'\fP
 .br
@@ -120,7 +120,7 @@
 .RI "void \fBgfal_posix_release_error\fP ()"
 .br
 .ti -1c
-.RI "int \fBgfal_set_parameter\fP (const char *module, const char *name, const char *value)"
+.RI "int \fBgfal_set_parameter\fP (const char *module, const char *name, const char *value, size_t max_size)"
 .br
 .ti -1c
 .RI "int \fBgfal_get_parameter\fP (const char *module, const char *name, char *buff_value, size_t s_buff)"

@@ -42,3 +42,7 @@ int* gfal_GList_to_tab_int(GList* int_list);
 void gfal_new_request_state(gfal_handle handle);
 int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int num, GError** err);
 gboolean is_valid_access_result(int status);
+
+
+// internal parameters 
+int gfal_common_parameter(const char* name, const char * value, size_t max_size, int flag_mode, GError** err);

@@ -75,8 +75,7 @@ char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_cat_type</
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#8027342c27c88b8170ca7cec4f1efc49">gfal_plugins_instance</a> (gfal_handle, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ca6ec8380220e804c83f6aeae7810b34"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugins_get_list" ref="ca6ec8380220e804c83f6aeae7810b34" args="(gfal_handle, GError **err)" -->
-char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_plugins_get_list</b> (gfal_handle, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char **&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#ca6ec8380220e804c83f6aeae7810b34">gfal_plugins_get_list</a> (gfal_handle, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#592f77dab6aa1a1e206f2cac7bf9ce3e">gfal_plugins_delete</a> (gfal_handle, GError **err)</td></tr>
 
@@ -124,6 +123,9 @@ ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="g
 ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_plugin_listxattrG</b> (gfal_handle, const char *, char *list, size_t s_list, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#f416447f5b15d199a28ca58b16807847">gfal_plugin_setxattrG</a> (gfal_handle, const char *, const char *, const void *, size_t, int, GError **)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fdd3f89f29e84eecfddc8fb0fb8dddae"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_common_plugin_parameter" ref="fdd3f89f29e84eecfddc8fb0fb8dddae" args="(gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, int flag_mode, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_plugin_parameter</b> (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, int flag_mode, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -993,6 +995,35 @@ Execute an access function on the first plugin compatible in the plugin list ret
 Delete all instance of plugins 
 </div>
 </div><p>
+<a class="anchor" name="ca6ec8380220e804c83f6aeae7810b34"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugins_get_list" ref="ca6ec8380220e804c83f6aeae7810b34" args="(gfal_handle, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** gfal_plugins_get_list           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+external function to get the list of the plugins loaded 
+</div>
+</div><p>
 <a class="anchor" name="8027342c27c88b8170ca7cec4f1efc49"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugins_instance" ref="8027342c27c88b8170ca7cec4f1efc49" args="(gfal_handle, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1022,7 +1053,7 @@ Delete all instance of plugins
 Instance all plugins for use if it's not the case return the number of plugin available 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

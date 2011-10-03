@@ -54,8 +54,12 @@
 <a name="l00041"></a>00041 <span class="comment">// convenience internal funcs</span>
 <a name="l00042"></a>00042 <span class="keywordtype">void</span> gfal_new_request_state(gfal_handle handle);
 <a name="l00043"></a>00043 <span class="keywordtype">int</span> <a class="code" href="gfal__common__all_8c.html#0323a4ab58106e316851c1ae06148e28">resolve_dlsym_listG</a>(<span class="keywordtype">void</span>* handle, <span class="keywordtype">void</span>*** flist, <span class="keyword">const</span> <span class="keywordtype">char</span>** sym_list, <span class="keywordtype">int</span> num, GError** err);
-<a name="l00044"></a>00044 gboolean is_valid_access_result(<span class="keywordtype">int</span> status);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 09:34:45 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00044"></a>00044 gboolean <a class="code" href="gfal__common__all_8c.html#aed64917ebc1c60ab8ccd2c4dfbd2c3a">is_valid_access_result</a>(<span class="keywordtype">int</span> status);
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 <span class="comment">// internal parameters </span>
+<a name="l00048"></a>00048 <span class="keywordtype">int</span> gfal_common_parameter(<span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keyword">const</span> <span class="keywordtype">char</span> * value, size_t max_size, <span class="keywordtype">int</span> flag_mode, GError** err);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
