@@ -429,18 +429,18 @@ void gfal_posix_release_error(){
  * @return 0 if success or -1 if error. In this case,  errno  is  set
  *      and you can call @ref gfal_posix_check_error() for a more complete description. 
  * */
-int gfal_set_parameter(const char* module, const char* name, const char* value, size_t max_size){
-	return gfal_posix_internal_set_parameter(module, name, (char*)value, max_size);
+int gfal_set_parameter_string(const char* module, const char* name, const char* value){
+	return gfal_posix_internal_set_parameter(module, name, (char*)value, GFAL_URL_MAX_LEN, GFAL_TYPE_STRING);
 }
 
 
 /***
  * @brief get a parameter of configuration in gfal
  * 
- *  get a parameter identified by name in the module module 
+ *  get a string parameter identified by name in the module module 
  *  
  * @param module : namespace of the parameter ( plugin name, isifce, NULL for core), etc....
- * @param name : key of the parameter to set
+ * @param name : key of the parameter to get
  * @param  buff_value : buffer where store the result
  * @param s_buff : maximum size to use in the buffer * 
  * @return 0 if success or -1 if error. In this case,  errno  is  set
@@ -448,7 +448,39 @@ int gfal_set_parameter(const char* module, const char* name, const char* value, 
  * 
  * */
 int gfal_get_parameter(const char* module, const char* name, char* buff_value, size_t s_buff){
-	return gfal_posix_internal_get_parameter(module, name, buff_value, s_buff);	
+	return gfal_posix_internal_get_parameter(module, name, buff_value, s_buff, GFAL_TYPE_STRING);	
+}
+
+
+
+/***
+ * @brief set a parameter of configuration in gfal
+ * 
+ *  set a parameter identified by name in the module module with a specific int value 
+ *  store a -1 value in this way is discouraged
+ *  
+ * @param module : namespace of the parameter ( plugin name, isifce, NULL for core), etc....
+ * @param name : key of the parameter to set
+ * @param value : int value to set
+ * @return 0 if success or -1 if error. In this case,  errno  is  set
+ *      and you can call @ref gfal_posix_check_error() for a more complete description. 
+ * */
+int gfal_set_parameter_int(const char* module, const char* name, int value){
+  return gfal_posix_internal_set_parameter(module, name, GINT_TO_POINTER(value), NULL, GFAL_TYPE_INT);
+}
+
+/***
+ * @brief sget a parameter of configuration in gfal
+ * 
+ *  get a parameter identified by name in the module module 
+ *  
+ * @param module : namespace of the parameter ( plugin name, isifce, NULL for core), etc....
+ * @param name : key of the parameter to get
+ * @return value if success or -1 if error. In this case,  errno  is  set
+ *      and you can call @ref gfal_posix_check_error() for a more complete description. 
+ * */
+int gfal_get_parameter_int(const char* module, const char* name){
+  return gfal_posix_internal_get_parameter(module, name, NULL, NULL,GFAL_TYPE_INT );	 
 }
 
 

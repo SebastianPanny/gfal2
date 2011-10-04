@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.c" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.c" 3 "4 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -117,7 +117,7 @@
 .RI "int \fBgfal_plugin_setxattrG\fP (gfal_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_common_plugin_parameter\fP (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, int flag_mode, GError **err)"
+.RI "int \fBgfal_common_plugin_parameter\fP (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"

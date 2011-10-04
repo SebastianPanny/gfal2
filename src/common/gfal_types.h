@@ -49,7 +49,9 @@ extern "C"
 
 
 
+enum _GFAL_TYPE { GFAL_TYPE_INT, GFAL_TYPE_STRING };
 
+enum _GFAL_PARAM_FUNC{ GFAL_PARAM_SET, GFAL_PARAM_GET };
 
 
 

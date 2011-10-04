@@ -107,9 +107,14 @@ int gfal_flush(int fd);
 
 
 
-int gfal_set_parameter(const char* module, const char* name, const char* value, size_t max_size);
+int gfal_set_parameter_string(const char* module, const char* name, const char* value);
 
-int gfal_get_parameter(const char* module, const char* name, char* buff_value, size_t s_buff);
+int gfal_get_parameter_string(const char* module, const char* name, char* buff_value, size_t s_buff);
+
+int gfal_set_parameter_int(const char* module, const char* name, int value);
+
+int gfal_get_parameter_int(const char* module, const char* name);
+
 
 /**
 	@} 

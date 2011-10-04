@@ -19,7 +19,7 @@
     <li><a href="annotated.html"><span>Data&nbsp;Structures</span></a></li>
     <li><a href="functions.html"><span>Data&nbsp;Fields</span></a></li>
   </ul></div>
-<h1>_gfal_plugin_interface Struct Reference</h1><!-- doxytag: class="_gfal_plugin_interface" --><code>#include &lt;<a class="el" href="gfal__common__plugin_8h-source.html">gfal_common_plugin.h</a>&gt;</code>
+<h1>_gfal_plugin_interface Struct Reference</h1><!-- doxytag: class="_gfal_plugin_interface" --><code>#include &lt;<a class="el" href="gfal__common__plugin__interface_8h-source.html">gfal_common_plugin_interface.h</a>&gt;</code>
 <p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
@@ -95,12 +95,12 @@ ssize_t(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>listxattrG</b> )
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2ededf4f6bc7f284ac31234110ee1444"></a><!-- doxytag: member="_gfal_plugin_interface::setxattrG" ref="2ededf4f6bc7f284ac31234110ee1444" args=")(plugin_handle, const char *, const char *, const void *, size_t, int, GError **)" -->
 int(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>setxattrG</b> )(plugin_handle, const char *, const char *, const void *, size_t, int, GError **)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b2066a5ab243e3d43726b0ab9631a94e"></a><!-- doxytag: member="_gfal_plugin_interface::plugin_parameter" ref="b2066a5ab243e3d43726b0ab9631a94e" args=")(plugin_handle handle, const char *name, char *value, size_t max_size, int flag_mode, GError **err)" -->
-int(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>plugin_parameter</b> )(plugin_handle handle, const char *name, char *value, size_t max_size, int flag_mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4a4be363e714afa487e8abc21dce2ae7"></a><!-- doxytag: member="_gfal_plugin_interface::plugin_parameter" ref="4a4be363e714afa487e8abc21dce2ae7" args=")(plugin_handle handle, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)" -->
+int(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>plugin_parameter</b> )(plugin_handle handle, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-Interface to implement in each gfal_plugin_* the minimums calls are : getName, plugin_delete, check_plugin_url all the unused function pointers must be set to NULL 
+Main Interface that Must return the function "gfal_plugin_init" of each plugin of GFAL 2.0 the minimums calls are : getName, plugin_delete, check_plugin_url all the unused function pointers must be set to NULL 
 <p>
 <hr><h2>Field Documentation</h2>
 <a class="anchor" name="1fa81d7a219629281c14b05116d32202"></a><!-- doxytag: member="_gfal_plugin_interface::accessG" ref="1fa81d7a219629281c14b05116d32202" args=")(plugin_handle, const char *path, int mode, GError **err)" -->
@@ -165,8 +165,8 @@ Called before the destruction of the plugin interface
 </div>
 </div><p>
 <hr>The documentation for this struct was generated from the following file:<ul>
-<li>/home/adevress/myworkspace/gfal/src/common/<a class="el" href="gfal__common__plugin_8h-source.html">gfal_common_plugin.h</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
+<li>/home/adevress/myworkspace/gfal/src/common/<a class="el" href="gfal__common__plugin__interface_8h-source.html">gfal_common_plugin_interface.h</a></ul>
+<hr size="1"><address style="align: right;"><small>Generated on Tue Oct 4 17:23:36 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

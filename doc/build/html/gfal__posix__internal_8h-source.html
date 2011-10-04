@@ -40,7 +40,7 @@
 <a name="l00019"></a>00019  
 <a name="l00028"></a>00028 <span class="preprocessor">#include "../common/gfal_prototypes.h"</span>
 <a name="l00029"></a>00029 <span class="preprocessor">#include "../common/gfal_types.h"</span>
-<a name="l00030"></a>00030 <span class="preprocessor">#include "<a class="code" href="gfal__common__errverbose_8h.html">gfal_common_errverbose.h</a>"</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;<a class="code" href="gfal__common__errverbose_8h.html">common/gfal_common_errverbose.h</a>&gt;</span>
 <a name="l00031"></a>00031 
 <a name="l00032"></a>00032 gfal_handle gfal_posix_instance();
 <a name="l00033"></a>00033 
@@ -89,14 +89,14 @@
 <a name="l00076"></a>00076 
 <a name="l00077"></a>00077 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__symlink_8c.html#dc9e646bbdc504844fab47bdcb1699f0">gfal_posix_internal_symlink</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * oldpath, <span class="keyword">const</span> <span class="keywordtype">char</span> *newpath);
 <a name="l00078"></a>00078 
-<a name="l00079"></a>00079 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__parameters_8c.html#3dae3c5318c5fe3ac31e6e4e2f56fd96">gfal_posix_internal_set_parameter</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* module, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keywordtype">char</span>* value, size_t max_size);
+<a name="l00079"></a>00079 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__parameters_8c.html#9e65a28adbfb32235bf789b0ea290b87">gfal_posix_internal_set_parameter</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* module, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keywordtype">char</span>* value, size_t max_size, GFAL_TYPE req_type);
 <a name="l00080"></a>00080 
-<a name="l00081"></a>00081 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__parameters_8c.html#26ebc53d8a66ea8899033bf662bd84fa">gfal_posix_internal_get_parameter</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* module, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keywordtype">char</span>* value, size_t buff_size);
+<a name="l00081"></a>00081 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__parameters_8c.html#a76b7fd2e55d130e60ce5b0e82d93d53">gfal_posix_internal_get_parameter</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* module, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keywordtype">char</span>* value, size_t buff_size, GFAL_TYPE req_type);
 <a name="l00082"></a>00082 
 <a name="l00083"></a>00083 <span class="keywordtype">void</span> gfal_posix_register_internal_error(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* prefix, GError * tmp_err);
 <a name="l00084"></a>00084  
 <a name="l00085"></a>00085 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Oct 4 17:23:36 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -25,16 +25,16 @@
 <code>#include &lt;stdlib.h&gt;</code><br>
 <code>#include &lt;common/gfal_prototypes.h&gt;</code><br>
 <code>#include &lt;common/gfal_types.h&gt;</code><br>
-<code>#include &lt;<a class="el" href="gfal__constants_8h-source.html">common/gfal_constants.h</a>&gt;</code><br>
+<code>#include &lt;common/gfal_common_plugin.h&gt;</code><br>
 <code>#include &lt;<a class="el" href="gfal__common__errverbose_8h-source.html">common/gfal_common_errverbose.h</a>&gt;</code><br>
 <code>#include &lt;<a class="el" href="gfal__common__parameter_8h-source.html">common/gfal_common_parameter.h</a>&gt;</code><br>
 <code>#include &quot;gfal_posix_internal.h&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#3dae3c5318c5fe3ac31e6e4e2f56fd96">gfal_posix_internal_set_parameter</a> (const char *module, const char *name, char *value, size_t max_size)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#9e65a28adbfb32235bf789b0ea290b87">gfal_posix_internal_set_parameter</a> (const char *module, const char *name, char *value, size_t max_size, GFAL_TYPE req_type)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#26ebc53d8a66ea8899033bf662bd84fa">gfal_posix_internal_get_parameter</a> (const char *module, const char *name, char *value, size_t buff_size)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#a76b7fd2e55d130e60ce5b0e82d93d53">gfal_posix_internal_get_parameter</a> (const char *module, const char *name, char *value, size_t buff_size, GFAL_TYPE req_type)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -43,7 +43,7 @@ new file for the parameters management
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>02/10/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="26ebc53d8a66ea8899033bf662bd84fa"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_posix_internal_get_parameter" ref="26ebc53d8a66ea8899033bf662bd84fa" args="(const char *module, const char *name, char *value, size_t buff_size)" -->
+<a class="anchor" name="a76b7fd2e55d130e60ce5b0e82d93d53"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_posix_internal_get_parameter" ref="a76b7fd2e55d130e60ce5b0e82d93d53" args="(const char *module, const char *name, char *value, size_t buff_size, GFAL_TYPE req_type)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -69,7 +69,13 @@ new file for the parameters management
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&nbsp;</td>
-          <td class="paramname"> <em>buff_size</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>buff_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GFAL_TYPE&nbsp;</td>
+          <td class="paramname"> <em>req_type</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -84,7 +90,7 @@ new file for the parameters management
 internal function for get parameter / options 
 </div>
 </div><p>
-<a class="anchor" name="3dae3c5318c5fe3ac31e6e4e2f56fd96"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_posix_internal_set_parameter" ref="3dae3c5318c5fe3ac31e6e4e2f56fd96" args="(const char *module, const char *name, char *value, size_t max_size)" -->
+<a class="anchor" name="9e65a28adbfb32235bf789b0ea290b87"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_posix_internal_set_parameter" ref="9e65a28adbfb32235bf789b0ea290b87" args="(const char *module, const char *name, char *value, size_t max_size, GFAL_TYPE req_type)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -110,7 +116,13 @@ internal function for get parameter / options
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&nbsp;</td>
-          <td class="paramname"> <em>max_size</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>max_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GFAL_TYPE&nbsp;</td>
+          <td class="paramname"> <em>req_type</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -125,7 +137,7 @@ internal function for get parameter / options
 internal function to set parameter / options 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Oct 4 17:23:36 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

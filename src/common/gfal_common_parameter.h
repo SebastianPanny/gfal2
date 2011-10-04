@@ -25,7 +25,9 @@
  * */
 
 #include <stdlib.h>
+#include "gfal_prototypes.h"
+#include "gfal_types.h"
 
-int gfal_common_parameter(const char* name, char * value, size_t max_size, int flag_mode, GError** err);
+int gfal_common_parameter(const char* name, void* value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError** err);
 
 

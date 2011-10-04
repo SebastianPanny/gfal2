@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "4 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -125,10 +125,16 @@ all POSIX style function \-
 .RI "int \fBgfal_flush\fP (int fd)"
 .br
 .ti -1c
-.RI "int \fBgfal_set_parameter\fP (const char *module, const char *name, const char *value, size_t max_size)"
+.RI "int \fBgfal_set_parameter_string\fP (const char *module, const char *name, const char *value)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_parameter\fP (const char *module, const char *name, char *buff_value, size_t s_buff)"
+.RI "int \fBgfal_get_parameter_string\fP (const char *module, const char *name, char *buff_value, size_t s_buff)"
+.br
+.ti -1c
+.RI "int \fBgfal_set_parameter_int\fP (const char *module, const char *name, int value)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_parameter_int\fP (const char *module, const char *name)"
 .br
 .in -1c
 .SH "Function Documentation"

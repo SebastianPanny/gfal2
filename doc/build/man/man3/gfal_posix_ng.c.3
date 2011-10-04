@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "3 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "4 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -120,10 +120,16 @@
 .RI "void \fBgfal_posix_release_error\fP ()"
 .br
 .ti -1c
-.RI "int \fBgfal_set_parameter\fP (const char *module, const char *name, const char *value, size_t max_size)"
+.RI "int \fBgfal_set_parameter_string\fP (const char *module, const char *name, const char *value)"
 .br
 .ti -1c
 .RI "int \fBgfal_get_parameter\fP (const char *module, const char *name, char *buff_value, size_t s_buff)"
+.br
+.ti -1c
+.RI "int \fBgfal_set_parameter_int\fP (const char *module, const char *name, int value)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_parameter_int\fP (const char *module, const char *name)"
 .br
 .ti -1c
 .RI "void \fBgfal_posix_clear_error\fP ()"

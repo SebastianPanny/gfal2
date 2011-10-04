@@ -25,44 +25,38 @@
 
 #include <glib.h>
 #include <stdlib.h>
+#include "gfal_prototypes.h"
+#include "gfal_types.h"
 #include "gfal_common_errverbose.h"
 
 
 static gboolean no_bdii = FALSE;
 
-int gfal_common_bdii(char* value, size_t max_size, int flag_mode, GError ** err){
+int gfal_common_bdii(void* value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type,GError ** err){
   GError* tmp_err = NULL;
   int res = -1;
-  if(value !=NULL){
-      if( flag_mode == GFAL_PARAM_SET){
-	if(strncmp(value, GFAL_PARAM_TRUE, max_size)== 0){
-	  no_bdii = TRUE;
-	  res = 0;
-	}else if(strncmp(value, GFAL_PARAM_FALSE, max_size)== 0){
-	  no_bdii = FALSE;
-	  res = 0;
-	}else{
-	g_set_error(&tmp_err, 0, EINVAL, "bad value for this parameter %s, but be %s or %s",GFAL_NO_BDII_OPTION, GFAL_PARAM_TRUE, GFAL_PARAM_FALSE );  
-	}
+  if(req_type == GFAL_TYPE_INT){
+      if(ops == GFAL_PARAM_SET){
+	no_bdii = GPOINTER_TO_INT(value);
+	res =0;
       }else{
-	  g_strlcpy((char*) value, (no_bdii)? GFAL_PARAM_TRUE:GFAL_PARAM_FALSE, max_size);
-	  res=0;
+	return no_bdii;
       }
     
   } else{
-     g_set_error(&tmp_err, 0, EINVAL, "value  of the parameter set to NULL");   
+     g_set_error(&tmp_err, 0, EINVAL, "bdii is of type INT, invalid set/get");   
   }
   return res;
 }
 
-int gfal_common_parameter(const char* name, char * value, size_t max_size, int flag_mode, GError** err){
+int gfal_common_parameter(const char* name, void * value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError** err){
   GError* tmp_err=NULL;
   int res = -1;
   
   if(name != NULL){
 
-      if(strcmp(name, GFAL_NO_BDII_OPTION) ==0){
-	res = gfal_common_bdii(value, max_size, flag_mode, &tmp_err);
+      if(strcmp(name, GFAL_NO_BDII_OPTION) ==0 ){
+	res = gfal_common_bdii(value, max_size, ops, req_type, &tmp_err);
       }else{
 	  g_set_error(&tmp_err, 0, ENOENT, "Unknow parameter %s ", value);    
       }

@@ -118,7 +118,7 @@ struct _gfal_plugin_interface{
 	 ssize_t (*listxattrG)(plugin_handle, const char*, char* list, size_t s_list, GError** err);
 	 int (*setxattrG)(plugin_handle, const char*, const char*, const void*, size_t , int, GError** );
 	
-	 int (*plugin_parameter)(plugin_handle handle, const char* name, char* value, size_t max_size, int flag_mode, GError** err);
+	 int (*plugin_parameter)(plugin_handle handle, const char* name, char* value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError** err);
 	
 };
 

@@ -40,67 +40,65 @@
 <a name="l00026"></a>00026 <span class="preprocessor">#ifndef _GFAL_CONSTANTS_H</span>
 <a name="l00027"></a>00027 <span class="preprocessor"></span><span class="preprocessor">#define _GFAL_CONSTANTS_H</span>
 <a name="l00028"></a>00028 <span class="preprocessor"></span>
-<a name="l00029"></a>00029 <span class="comment">/* used to check wether there is enough space on the SE */</span>
-<a name="l00030"></a>00030 <span class="preprocessor">#define GFAL_NEWFILE_SIZE         1024</span>
-<a name="l00031"></a>00031 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_MODULE_NAME_SIZE   1024</span>
-<a name="l00032"></a>00032 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_OPEN_MAX             1024</span>
-<a name="l00033"></a>00033 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_DEFAULT_PLUGIN_TYPE "lfc"</span>
-<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_FQAN_MAX             64</span>
-<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_GUID_LEN             37</span>
-<a name="l00036"></a>00036 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_VO_MAXLEN            255</span>
-<a name="l00037"></a>00037 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_FQAN_MAXLEN          511</span>
-<a name="l00038"></a>00038 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_HOSTNAME_MAXLEN      255</span>
-<a name="l00039"></a>00039 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_PATH_MAXLEN          1024</span>
-<a name="l00040"></a>00040 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_ERRMSG_LEN           1024</span>
-<a name="l00041"></a>00041 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_BDII_TIMEOUT         60</span>
-<a name="l00042"></a>00042 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_SIZE_MARGIN          1048576     // 1MB</span>
-<a name="l00043"></a>00043 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_SRM_MAXRETRIES       10</span>
-<a name="l00044"></a>00044 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_MAX_PLUGIN_ID_SIZE 512</span>
-<a name="l00045"></a>00045 <span class="preprocessor"></span>
-<a name="l00046"></a>00046 <span class="comment">/* GFAL error level for gfal_errmsg */</span>
-<a name="l00047"></a>00047 <span class="preprocessor">#define GFAL_ERRMSG_LEN                   1024</span>
-<a name="l00048"></a>00048 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_ERRLEVEL_ERROR       0</span>
-<a name="l00049"></a>00049 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_ERRLEVEL_WARN        1</span>
-<a name="l00050"></a>00050 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_ERRLEVEL_INFO        2</span>
-<a name="l00051"></a>00051 <span class="preprocessor"></span>
-<a name="l00052"></a>00052 <span class="preprocessor">#define GFAL_VERBOSE_NORMAL     0x00    </span>
-<a name="l00053"></a>00053 <span class="preprocessor">#define GFAL_VERBOSE_VERBOSE    0x01    </span>
-<a name="l00054"></a>00054 <span class="preprocessor">#define GFAL_VERBOSE_DEBUG      0x02    </span>
-<a name="l00055"></a>00055 <span class="preprocessor">#define GFAL_VERBOSE_TRACE              0x08    </span>
-<a name="l00058"></a>00058 <span class="preprocessor">#define GFAL_GUID_PREFIX "guid:"</span>
-<a name="l00059"></a>00059 <span class="preprocessor"></span>
-<a name="l00060"></a>00060 <span class="comment">// default buffer size for address</span>
-<a name="l00061"></a>00061 <span class="preprocessor">#define GFAL_URL_MAX_LEN 2048</span>
-<a name="l00062"></a>00062 <span class="preprocessor"></span>
-<a name="l00063"></a>00063 <span class="preprocessor">#define GFAL_MODULEID_LOCAL "local_file_module"</span>
-<a name="l00064"></a>00064 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_MODULEID_SRM 2</span>
-<a name="l00065"></a>00065 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_EXTERNAL_MODULE_OFFSET 10</span>
-<a name="l00066"></a>00066 <span class="preprocessor"></span>
-<a name="l00067"></a>00067 <span class="preprocessor">#define GFAL_PLUGIN_ENVAR "GFAL_PLUGIN_LIST"</span>
-<a name="l00068"></a>00068 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_PLUGIN_INIT_SYM "gfal_plugin_init"</span>
-<a name="l00069"></a>00069 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_MAX_PLUGIN_LIST 2048</span>
-<a name="l00070"></a>00070 <span class="preprocessor"></span>
-<a name="l00071"></a>00071 
-<a name="l00072"></a>00072 <span class="comment">// xattr std keys</span>
-<a name="l00073"></a>00073 <span class="preprocessor">#define GFAL_XATTR_REPLICA "user.replicas" // global key of replicas for the extended attributes </span>
-<a name="l00074"></a>00074 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_XATTR_GUID "user.guid" // global key for the guid of a file </span>
-<a name="l00075"></a>00075 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_XATTR_COMMENT "user.comment" // global key for the comments of a file </span>
-<a name="l00076"></a>00076 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_XATTR_CHKSUM_TYPE "user.chksumtype"</span>
-<a name="l00077"></a>00077 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_XATTR_CHKSUM_VALUE "user.checksum"</span>
-<a name="l00078"></a>00078 <span class="preprocessor"></span>
-<a name="l00079"></a>00079 <span class="comment">// parameters attritutes</span>
-<a name="l00080"></a>00080 <span class="preprocessor">#define GFAL_PARAM_SET 0</span>
-<a name="l00081"></a>00081 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_PARAM_GET 1</span>
-<a name="l00082"></a>00082 <span class="preprocessor"></span>
-<a name="l00083"></a>00083 <span class="preprocessor">#define GFAL_PARAM_TRUE "True" // string for boolean parameters</span>
-<a name="l00084"></a>00084 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_PARAM_FALSE "False"</span>
-<a name="l00085"></a>00085 <span class="preprocessor"></span>
-<a name="l00086"></a>00086 
-<a name="l00087"></a>00087 <span class="comment">// parameters list for core</span>
-<a name="l00088"></a>00088 <span class="preprocessor">#define GFAL_NO_BDII_OPTION "no_bdii" // set bdii value, can be True or False</span>
-<a name="l00089"></a>00089 <span class="preprocessor"></span>
-<a name="l00090"></a>00090 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00029"></a>00029 <span class="preprocessor">#define MAX_PLUGIN_LIST 64</span>
+<a name="l00030"></a>00030 <span class="preprocessor"></span>
+<a name="l00031"></a>00031 <span class="comment">/* used to check wether there is enough space on the SE */</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#define GFAL_NEWFILE_SIZE         1024</span>
+<a name="l00033"></a>00033 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_MODULE_NAME_SIZE   1024</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_OPEN_MAX             1024</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_DEFAULT_PLUGIN_TYPE "lfc"</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_FQAN_MAX             64</span>
+<a name="l00037"></a>00037 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_GUID_LEN             37</span>
+<a name="l00038"></a>00038 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_VO_MAXLEN            255</span>
+<a name="l00039"></a>00039 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_FQAN_MAXLEN          511</span>
+<a name="l00040"></a>00040 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_HOSTNAME_MAXLEN      255</span>
+<a name="l00041"></a>00041 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_PATH_MAXLEN          1024</span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_ERRMSG_LEN           1024</span>
+<a name="l00043"></a>00043 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_BDII_TIMEOUT         60</span>
+<a name="l00044"></a>00044 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_SIZE_MARGIN          1048576     // 1MB</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_SRM_MAXRETRIES       10</span>
+<a name="l00046"></a>00046 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_MAX_PLUGIN_ID_SIZE 512</span>
+<a name="l00047"></a>00047 <span class="preprocessor"></span>
+<a name="l00048"></a>00048 <span class="comment">/* GFAL error level for gfal_errmsg */</span>
+<a name="l00049"></a>00049 <span class="preprocessor">#define GFAL_ERRMSG_LEN                   1024</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_ERRLEVEL_ERROR       0</span>
+<a name="l00051"></a>00051 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_ERRLEVEL_WARN        1</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_ERRLEVEL_INFO        2</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span>
+<a name="l00054"></a>00054 <span class="preprocessor">#define GFAL_VERBOSE_NORMAL     0x00    </span>
+<a name="l00055"></a>00055 <span class="preprocessor">#define GFAL_VERBOSE_VERBOSE    0x01    </span>
+<a name="l00056"></a>00056 <span class="preprocessor">#define GFAL_VERBOSE_DEBUG      0x02    </span>
+<a name="l00057"></a>00057 <span class="preprocessor">#define GFAL_VERBOSE_TRACE              0x08    </span>
+<a name="l00060"></a>00060 <span class="preprocessor">#define GFAL_GUID_PREFIX "guid:"</span>
+<a name="l00061"></a>00061 <span class="preprocessor"></span>
+<a name="l00062"></a>00062 <span class="comment">// default buffer size for address</span>
+<a name="l00063"></a>00063 <span class="preprocessor">#define GFAL_URL_MAX_LEN 2048</span>
+<a name="l00064"></a>00064 <span class="preprocessor"></span>
+<a name="l00065"></a>00065 <span class="preprocessor">#define GFAL_MODULEID_LOCAL "local_file_module"</span>
+<a name="l00066"></a>00066 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_MODULEID_SRM 2</span>
+<a name="l00067"></a>00067 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_EXTERNAL_MODULE_OFFSET 10</span>
+<a name="l00068"></a>00068 <span class="preprocessor"></span>
+<a name="l00069"></a>00069 <span class="preprocessor">#define GFAL_PLUGIN_ENVAR "GFAL_PLUGIN_LIST"</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_PLUGIN_INIT_SYM "gfal_plugin_init"</span>
+<a name="l00071"></a>00071 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_MAX_PLUGIN_LIST 2048</span>
+<a name="l00072"></a>00072 <span class="preprocessor"></span>
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 <span class="comment">// xattr std keys</span>
+<a name="l00075"></a>00075 <span class="preprocessor">#define GFAL_XATTR_REPLICA "user.replicas" // global key of replicas for the extended attributes </span>
+<a name="l00076"></a>00076 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_XATTR_GUID "user.guid" // global key for the guid of a file </span>
+<a name="l00077"></a>00077 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_XATTR_COMMENT "user.comment" // global key for the comments of a file </span>
+<a name="l00078"></a>00078 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_XATTR_CHKSUM_TYPE "user.chksumtype"</span>
+<a name="l00079"></a>00079 <span class="preprocessor"></span><span class="preprocessor">#define GFAL_XATTR_CHKSUM_VALUE "user.checksum"</span>
+<a name="l00080"></a>00080 <span class="preprocessor"></span>
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085 <span class="comment">// parameters list for core</span>
+<a name="l00086"></a>00086 <span class="preprocessor">#define GFAL_NO_BDII_OPTION "no_bdii" // set bdii value, can be True or False</span>
+<a name="l00087"></a>00087 <span class="preprocessor"></span>
+<a name="l00088"></a>00088 <span class="preprocessor">#endif</span>
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Oct 4 17:23:36 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

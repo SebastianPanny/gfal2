@@ -1,6 +1,6 @@
 \section{\_\-gfal\_\-plugin\_\-interface Struct Reference}
 \label{struct__gfal__plugin__interface}\index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
-{\tt \#include $<$gfal\_\-common\_\-plugin.h$>$}
+{\tt \#include $<$gfal\_\-common\_\-plugin\_\-interface.h$>$}
 
 \subsection*{Data Fields}
 \begin{CompactItemize}
@@ -76,13 +76,13 @@ ssize\_\-t($\ast$ \textbf{listxattr\-G} )(plugin\_\-handle, const char $\ast$, c
 int($\ast$ \textbf{setxattr\-G} )(plugin\_\-handle, const char $\ast$, const char $\ast$, const void $\ast$, size\_\-t, int, GError $\ast$$\ast$)\label{struct__gfal__plugin__interface_2ededf4f6bc7f284ac31234110ee1444}
 
 \item 
-int($\ast$ \textbf{plugin\_\-parameter} )(plugin\_\-handle handle, const char $\ast$name, char $\ast$value, size\_\-t max\_\-size, int flag\_\-mode, GError $\ast$$\ast$err)\label{struct__gfal__plugin__interface_b2066a5ab243e3d43726b0ab9631a94e}
+int($\ast$ \textbf{plugin\_\-parameter} )(plugin\_\-handle handle, const char $\ast$name, char $\ast$value, size\_\-t max\_\-size, GFAL\_\-PARAM\_\-FUNC func, GFAL\_\-TYPE req\_\-type, GError $\ast$$\ast$err)\label{struct__gfal__plugin__interface_4a4be363e714afa487e8abc21dce2ae7}
 
 \end{CompactItemize}
 
 
 \subsection{Detailed Description}
-Interface to implement in each gfal\_\-plugin\_\-$\ast$ the minimums calls are : get\-Name, plugin\_\-delete, check\_\-plugin\_\-url all the unused function pointers must be set to NULL 
+Main Interface that Must return the function \char`\"{}gfal\_\-plugin\_\-init\char`\"{} of each plugin of GFAL 2.0 the minimums calls are : get\-Name, plugin\_\-delete, check\_\-plugin\_\-url all the unused function pointers must be set to NULL 
 
 
 
@@ -113,4 +113,4 @@ Called before the destruction of the plugin interface
 
 The documentation for this struct was generated from the following file:\begin{CompactItemize}
 \item 
-/home/adevress/myworkspace/gfal/src/common/\bf{gfal\_\-common\_\-plugin.h}\end{CompactItemize}
+/home/adevress/myworkspace/gfal/src/common/gfal\_\-common\_\-plugin\_\-interface.h\end{CompactItemize}

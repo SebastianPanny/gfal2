@@ -1,0 +1,42 @@
+\section{/home/adevress/myworkspace/gfal/src/posix/gfal\_\-posix\_\-parameters.c File Reference}
+\label{gfal__posix__parameters_8c}\index{/home/adevress/myworkspace/gfal/src/posix/gfal_posix_parameters.c@{/home/adevress/myworkspace/gfal/src/posix/gfal\_\-posix\_\-parameters.c}}
+new file for the parameters management 
+
+{\tt \#include $<$glib.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$common/gfal\_\-prototypes.h$>$}\par
+{\tt \#include $<$common/gfal\_\-types.h$>$}\par
+{\tt \#include $<$common/gfal\_\-common\_\-plugin.h$>$}\par
+{\tt \#include $<$common/gfal\_\-common\_\-errverbose.h$>$}\par
+{\tt \#include $<$common/gfal\_\-common\_\-parameter.h$>$}\par
+{\tt \#include \char`\"{}gfal\_\-posix\_\-internal.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \bf{gfal\_\-posix\_\-internal\_\-set\_\-parameter} (const char $\ast$module, const char $\ast$name, char $\ast$value, size\_\-t max\_\-size, GFAL\_\-TYPE req\_\-type)
+\item 
+int \bf{gfal\_\-posix\_\-internal\_\-get\_\-parameter} (const char $\ast$module, const char $\ast$name, char $\ast$value, size\_\-t buff\_\-size, GFAL\_\-TYPE req\_\-type)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+new file for the parameters management 
+
+\begin{Desc}
+\item[Author:]Devresse Adrien \end{Desc}
+\begin{Desc}
+\item[Date:]02/10/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}!gfal_posix_internal_get_parameter@{gfal\_\-posix\_\-internal\_\-get\_\-parameter}}
+\index{gfal_posix_internal_get_parameter@{gfal\_\-posix\_\-internal\_\-get\_\-parameter}!gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-internal\_\-get\_\-parameter (const char $\ast$ {\em module}, const char $\ast$ {\em name}, char $\ast$ {\em value}, size\_\-t {\em buff\_\-size}, GFAL\_\-TYPE {\em req\_\-type})\hspace{0.3cm}{\tt  [inline]}}\label{gfal__posix__parameters_8c_a76b7fd2e55d130e60ce5b0e82d93d53}
+
+
+internal function for get parameter / options \index{gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}!gfal_posix_internal_set_parameter@{gfal\_\-posix\_\-internal\_\-set\_\-parameter}}
+\index{gfal_posix_internal_set_parameter@{gfal\_\-posix\_\-internal\_\-set\_\-parameter}!gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-internal\_\-set\_\-parameter (const char $\ast$ {\em module}, const char $\ast$ {\em name}, char $\ast$ {\em value}, size\_\-t {\em max\_\-size}, GFAL\_\-TYPE {\em req\_\-type})\hspace{0.3cm}{\tt  [inline]}}\label{gfal__posix__parameters_8c_9e65a28adbfb32235bf789b0ea290b87}
+
+
+internal function to set parameter / options 

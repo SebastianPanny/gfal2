@@ -22,13 +22,15 @@
 <h1>/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h File Reference</h1>header for internal settings set/get <a href="#_details">More...</a>
 <p>
 <code>#include &lt;stdlib.h&gt;</code><br>
+<code>#include &quot;gfal_prototypes.h&quot;</code><br>
+<code>#include &quot;gfal_types.h&quot;</code><br>
 
 <p>
 <a href="gfal__common__parameter_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="769d0783e110250d545591112deee95e"></a><!-- doxytag: member="gfal_common_parameter.h::gfal_common_parameter" ref="769d0783e110250d545591112deee95e" args="(const char *name, char *value, size_t max_size, int flag_mode, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_parameter</b> (const char *name, char *value, size_t max_size, int flag_mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="868b0b6b628b4f7b1cd09bd41522a4a2"></a><!-- doxytag: member="gfal_common_parameter.h::gfal_common_parameter" ref="868b0b6b628b4f7b1cd09bd41522a4a2" args="(const char *name, void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_parameter</b> (const char *name, void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -37,7 +39,7 @@ header for internal settings set/get
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>02/10/2011 </dd></dl>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Oct 4 17:23:36 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

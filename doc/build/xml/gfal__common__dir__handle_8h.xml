@@ -6,44 +6,15 @@
     <includes refid="gfal__prototypes_8h" local="yes">gfal_prototypes.h</includes>
     <includedby refid="gfal__common__all_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</includedby>
     <includedby refid="gfal__common__dir__handle_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</includedby>
-    <includedby refid="gfal__posix__closedir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</includedby>
+    <includedby refid="gfal__posix__closedir_8c" local="no">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</includedby>
     <includedby refid="gfal__posix__opendir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</includedby>
     <includedby refid="gfal__posix__readdir_8c" local="yes">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</includedby>
     <incdepgraph>
-      <node id="216">
+      <node id="220">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="217" relation="include">
+        <childnode refid="221" relation="include">
         </childnode>
-      </node>
-      <node id="214">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h</label>
-        <link refid="gfal_common_dir_handle.h"/>
-        <childnode refid="215" relation="include">
-        </childnode>
-        <childnode refid="216" relation="include">
-        </childnode>
-      </node>
-      <node id="217">
-        <label>glib.h</label>
-      </node>
-      <node id="215">
-        <label>gfal_constants.h</label>
-        <link refid="gfal__constants_8h"/>
-      </node>
-    </incdepgraph>
-    <invincdepgraph>
-      <node id="221">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
-        <link refid="gfal__posix__closedir_8c"/>
-      </node>
-      <node id="223">
-        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
-        <link refid="gfal__posix__readdir_8c"/>
-      </node>
-      <node id="220">
-        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</label>
-        <link refid="gfal__common__dir__handle_8c"/>
       </node>
       <node id="218">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h</label>
@@ -52,18 +23,47 @@
         </childnode>
         <childnode refid="220" relation="include">
         </childnode>
-        <childnode refid="221" relation="include">
-        </childnode>
-        <childnode refid="222" relation="include">
-        </childnode>
-        <childnode refid="223" relation="include">
-        </childnode>
+      </node>
+      <node id="221">
+        <label>glib.h</label>
       </node>
       <node id="219">
+        <label>gfal_constants.h</label>
+        <link refid="gfal__constants_8h"/>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="225">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_closedir.c</label>
+        <link refid="gfal__posix__closedir_8c"/>
+      </node>
+      <node id="227">
+        <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_readdir.c</label>
+        <link refid="gfal__posix__readdir_8c"/>
+      </node>
+      <node id="224">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.c</label>
+        <link refid="gfal__common__dir__handle_8c"/>
+      </node>
+      <node id="222">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_dir_handle.h</label>
+        <link refid="gfal_common_dir_handle.h"/>
+        <childnode refid="223" relation="include">
+        </childnode>
+        <childnode refid="224" relation="include">
+        </childnode>
+        <childnode refid="225" relation="include">
+        </childnode>
+        <childnode refid="226" relation="include">
+        </childnode>
+        <childnode refid="227" relation="include">
+        </childnode>
+      </node>
+      <node id="223">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c</label>
         <link refid="gfal__common__all_8c"/>
       </node>
-      <node id="222">
+      <node id="226">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_opendir.c</label>
         <link refid="gfal__posix__opendir_8c"/>
       </node>

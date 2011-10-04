@@ -29,7 +29,7 @@
 <code>#include &lt;sys/types.h&gt;</code><br>
 <code>#include &lt;fcntl.h&gt;</code><br>
 <code>#include &quot;gfal_types.h&quot;</code><br>
-<code>#include &quot;<a class="el" href="gfal__common__plugin_8h-source.html">gfal_common_plugin.h</a>&quot;</code><br>
+<code>#include &quot;gfal_common_plugin.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__constants_8h-source.html">gfal_constants.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">gfal_common_errverbose.h</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__filedescriptor_8h-source.html">gfal_common_filedescriptor.h</a>&quot;</code><br>
@@ -95,8 +95,8 @@ char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_cat_type</
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8c.html#5bba59659f7b0e1a123db9d8b990b58c">gfal_plugin_setxattrG</a> (gfal_handle handle, const char *path, const char *name, const void *value, size_t size, int flags, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fdd3f89f29e84eecfddc8fb0fb8dddae"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_common_plugin_parameter" ref="fdd3f89f29e84eecfddc8fb0fb8dddae" args="(gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, int flag_mode, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_plugin_parameter</b> (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, int flag_mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7d56cca8673fb6b3c6e98111754ea6c4"></a><!-- doxytag: member="gfal_common_plugin.c::gfal_common_plugin_parameter" ref="7d56cca8673fb6b3c6e98111754ea6c4" args="(gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_plugin_parameter</b> (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -1058,7 +1058,7 @@ Instance all plugins for use if it's not the case return the number of plugin av
 external function to return a gfal_plugin_interface from a given plugin name 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Oct 4 17:23:36 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

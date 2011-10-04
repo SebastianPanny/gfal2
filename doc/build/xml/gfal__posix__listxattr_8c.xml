@@ -5,152 +5,172 @@
     <includes local="no">stdio.h</includes>
     <includes local="no">errno.h</includes>
     <includes local="no">glib.h</includes>
-    <includes refid="gfal__prototypes_8h" local="yes">../common/gfal_prototypes.h</includes>
+    <includes refid="gfal__prototypes_8h" local="no">common/gfal_prototypes.h</includes>
+    <includes refid="gfal__types_8h" local="no">common/gfal_types.h</includes>
+    <includes refid="gfal__common__plugin_8h" local="no">common/gfal_common_plugin.h</includes>
     <includes refid="gfal__posix__internal_8h" local="yes">gfal_posix_internal.h</includes>
     <includes refid="gfal__posix__local__file_8h" local="yes">gfal_posix_local_file.h</includes>
     <incdepgraph>
-      <node id="2210">
+      <node id="2252">
         <label>sys/stat.h</label>
       </node>
-      <node id="2215">
+      <node id="2256">
+        <label>gfal_common_plugin_interface.h</label>
+        <link refid="gfal__common__plugin__interface_8h-source"/>
+        <childnode refid="2246" relation="include">
+        </childnode>
+        <childnode refid="2247" relation="include">
+        </childnode>
+        <childnode refid="2248" relation="include">
+        </childnode>
+        <childnode refid="2255" relation="include">
+        </childnode>
+      </node>
+      <node id="2258">
         <label>stdarg.h</label>
       </node>
-      <node id="2211">
+      <node id="2253">
         <label>attr/xattr.h</label>
       </node>
-      <node id="2218">
-        <label>gfal_common_errverbose.h</label>
+      <node id="2262">
+        <label>common/gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="2213" relation="include">
+        <childnode refid="2255" relation="include">
         </childnode>
-        <childnode refid="2215" relation="include">
+        <childnode refid="2258" relation="include">
         </childnode>
-        <childnode refid="2201" relation="include">
+        <childnode refid="2244" relation="include">
         </childnode>
-        <childnode refid="2217" relation="include">
+        <childnode refid="2260" relation="include">
         </childnode>
-        <childnode refid="2202" relation="include">
+        <childnode refid="2245" relation="include">
         </childnode>
-        <childnode refid="2203" relation="include">
+        <childnode refid="2246" relation="include">
         </childnode>
       </node>
-      <node id="2204">
-        <label>../common/gfal_prototypes.h</label>
+      <node id="2247">
+        <label>common/gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="2203" relation="include">
+        <childnode refid="2246" relation="include">
         </childnode>
       </node>
-      <node id="2202">
+      <node id="2245">
         <label>errno.h</label>
       </node>
-      <node id="2212">
+      <node id="2254">
         <label>gfal_srm_ifce_types.h</label>
       </node>
-      <node id="2205">
+      <node id="2261">
         <label>gfal_posix_internal.h</label>
         <link refid="gfal__posix__internal_8h-source"/>
-        <childnode refid="2204" relation="include">
+        <childnode refid="2247" relation="include">
         </childnode>
-        <childnode refid="2206" relation="include">
+        <childnode refid="2248" relation="include">
         </childnode>
-        <childnode refid="2218" relation="include">
+        <childnode refid="2262" relation="include">
         </childnode>
       </node>
-      <node id="2216">
+      <node id="2259">
         <label>uuid/uuid.h</label>
       </node>
-      <node id="2214">
-        <label>gfal_common_plugin.h</label>
-        <link refid="gfal__common__plugin_8h"/>
-        <childnode refid="2215" relation="include">
+      <node id="2257">
+        <label>common/gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h-source"/>
+        <childnode refid="2258" relation="include">
         </childnode>
-        <childnode refid="2216" relation="include">
+        <childnode refid="2259" relation="include">
         </childnode>
-        <childnode refid="2203" relation="include">
+        <childnode refid="2246" relation="include">
         </childnode>
-        <childnode refid="2202" relation="include">
+        <childnode refid="2245" relation="include">
         </childnode>
-        <childnode refid="2217" relation="include">
+        <childnode refid="2260" relation="include">
         </childnode>
-        <childnode refid="2209" relation="include">
+        <childnode refid="2251" relation="include">
         </childnode>
-        <childnode refid="2210" relation="include">
+        <childnode refid="2252" relation="include">
         </childnode>
-        <childnode refid="2204" relation="include">
+        <childnode refid="2247" relation="include">
         </childnode>
-        <childnode refid="2206" relation="include">
+        <childnode refid="2248" relation="include">
+        </childnode>
+        <childnode refid="2256" relation="include">
         </childnode>
       </node>
-      <node id="2219">
+      <node id="2263">
         <label>gfal_posix_local_file.h</label>
         <link refid="gfal__posix__local__file_8h-source"/>
-        <childnode refid="2208" relation="include">
+        <childnode refid="2250" relation="include">
         </childnode>
-        <childnode refid="2203" relation="include">
+        <childnode refid="2246" relation="include">
         </childnode>
-        <childnode refid="2206" relation="include">
+        <childnode refid="2248" relation="include">
         </childnode>
       </node>
-      <node id="2208">
+      <node id="2250">
         <label>sys/types.h</label>
       </node>
-      <node id="2217">
+      <node id="2260">
         <label>string.h</label>
       </node>
-      <node id="2207">
+      <node id="2249">
         <label>unistd.h</label>
       </node>
-      <node id="2203">
+      <node id="2246">
         <label>glib.h</label>
       </node>
-      <node id="2213">
+      <node id="2255">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h"/>
       </node>
-      <node id="2200">
+      <node id="2243">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_listxattr.c</label>
         <link refid="gfal_posix_listxattr.c"/>
-        <childnode refid="2201" relation="include">
+        <childnode refid="2244" relation="include">
         </childnode>
-        <childnode refid="2202" relation="include">
+        <childnode refid="2245" relation="include">
         </childnode>
-        <childnode refid="2203" relation="include">
+        <childnode refid="2246" relation="include">
         </childnode>
-        <childnode refid="2204" relation="include">
+        <childnode refid="2247" relation="include">
         </childnode>
-        <childnode refid="2205" relation="include">
+        <childnode refid="2248" relation="include">
         </childnode>
-        <childnode refid="2219" relation="include">
+        <childnode refid="2257" relation="include">
+        </childnode>
+        <childnode refid="2261" relation="include">
+        </childnode>
+        <childnode refid="2263" relation="include">
         </childnode>
       </node>
-      <node id="2201">
+      <node id="2244">
         <label>stdio.h</label>
       </node>
-      <node id="2206">
-        <label>../common/gfal_types.h</label>
+      <node id="2248">
+        <label>common/gfal_types.h</label>
         <link refid="gfal__types_8h-source"/>
-        <childnode refid="2207" relation="include">
+        <childnode refid="2249" relation="include">
         </childnode>
-        <childnode refid="2203" relation="include">
+        <childnode refid="2246" relation="include">
         </childnode>
-        <childnode refid="2208" relation="include">
+        <childnode refid="2250" relation="include">
         </childnode>
-        <childnode refid="2209" relation="include">
+        <childnode refid="2251" relation="include">
         </childnode>
-        <childnode refid="2210" relation="include">
+        <childnode refid="2252" relation="include">
         </childnode>
-        <childnode refid="2211" relation="include">
+        <childnode refid="2253" relation="include">
         </childnode>
-        <childnode refid="2212" relation="include">
+        <childnode refid="2254" relation="include">
         </childnode>
-        <childnode refid="2213" relation="include">
+        <childnode refid="2255" relation="include">
         </childnode>
-        <childnode refid="2204" relation="include">
+        <childnode refid="2247" relation="include">
         </childnode>
-        <childnode refid="2214" relation="include">
+        <childnode refid="2256" relation="include">
         </childnode>
       </node>
-      <node id="2209">
+      <node id="2251">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
@@ -178,7 +198,7 @@
 <para>list the extended attribute of a file, internal call </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_listxattr.c" line="38" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_listxattr.c" bodystart="38" bodyend="65"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_listxattr.c" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_listxattr.c" bodystart="42" bodyend="69"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -207,43 +227,47 @@
 <codeline lineno="27"><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;errno.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_local_file.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;common/gfal_prototypes.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;common/gfal_types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;common/gfal_common_plugin.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal">ssize_t<sp/>gfal_posix_internal_listxattr<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*list,<sp/>size_t<sp/>size){</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle;</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ssize_t<sp/>res=<sp/>-1;</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((handle<sp/>=<sp/>gfal_posix_instance())<sp/>==<sp/>NULL){</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EIO;</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(path<sp/>==<sp/>NULL){</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(&amp;tmp_err,<sp/>0,<sp/>EFAULT,<sp/></highlight><highlight class="stringliteral">&quot;<sp/>path<sp/>is<sp/>an<sp/>incorrect<sp/>argument&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(path,<sp/>NULL)<sp/>==<sp/>TRUE){</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/>gfal_local_listxattr(path,<sp/>list,<sp/>size,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/>gfal_plugin_listxattrG(handle,<sp/>path,<sp/>list,<sp/>size,<sp/>&amp;tmp_err);</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err){</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_posix_register_internal_error(handle,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_listxattr]&quot;</highlight><highlight class="normal">,<sp/>tmp_err);</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>tmp_err-&gt;code;<sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_posix_local_file.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">ssize_t<sp/>gfal_posix_internal_listxattr<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*path,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*list,<sp/>size_t<sp/>size){</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GError*<sp/>tmp_err=NULL;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_handle<sp/>handle;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ssize_t<sp/>res=<sp/>-1;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((handle<sp/>=<sp/>gfal_posix_instance())<sp/>==<sp/>NULL){</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>EIO;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(path<sp/>==<sp/>NULL){</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(&amp;tmp_err,<sp/>0,<sp/>EFAULT,<sp/></highlight><highlight class="stringliteral">&quot;<sp/>path<sp/>is<sp/>an<sp/>incorrect<sp/>argument&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/><ref refid="gfal__posix__local__file_8c_102987ce8beeb908c36ee3d4ef3bc5618" kindref="member">gfal_check_local_url</ref>(path,<sp/>NULL)<sp/>==<sp/>TRUE){</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/>gfal_local_listxattr(path,<sp/>list,<sp/>size,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/>gfal_plugin_listxattrG(handle,<sp/>path,<sp/>list,<sp/>size,<sp/>&amp;tmp_err);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(tmp_err){</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_posix_register_internal_error(handle,<sp/></highlight><highlight class="stringliteral">&quot;[gfal_listxattr]&quot;</highlight><highlight class="normal">,<sp/>tmp_err);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=<sp/>tmp_err-&gt;code;<sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_listxattr.c"/>
   </compounddef>

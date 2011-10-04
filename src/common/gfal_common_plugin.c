@@ -772,7 +772,9 @@ int gfal_plugin_setxattrG(gfal_handle handle, const char* path, const char* name
  *  function for plugings, plugin wrapper for set/get options/parameters
  * 
  */
-int gfal_common_plugin_parameter(gfal_handle handle, const char* module, const char* name, char* value, size_t max_size, int flag_mode, GError** err){
+int gfal_common_plugin_parameter(gfal_handle handle, const char* module, const char* name, char* value,
+				 size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError** err)
+{
   g_return_val_err_if_fail(handle && module, -1, err, "einval value");
   GError* tmp_err=NULL;
   int res = -1;
@@ -781,7 +783,7 @@ int gfal_common_plugin_parameter(gfal_handle handle, const char* module, const c
   gfal_plugin_interface* interface = gfal_search_plugin_with_name(handle, module, &tmp_err);
   if(interface != NULL){
     if( interface->plugin_parameter){
-      res = interface->plugin_parameter(interface->handle, name, value, max_size, flag_mode, &tmp_err);      
+      res = interface->plugin_parameter(interface->handle, name, value, max_size, func, req_type, &tmp_err);      
     }else{
       g_set_error(&tmp_err, 0, EFAULT, " Impossible to set settings in this plugin, no appropriate funtion is mapped");
     }

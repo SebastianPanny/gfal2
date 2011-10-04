@@ -23,15 +23,17 @@
 <p>
 <code>#include &lt;glib.h&gt;</code><br>
 <code>#include &lt;stdlib.h&gt;</code><br>
+<code>#include &quot;gfal_prototypes.h&quot;</code><br>
+<code>#include &quot;gfal_types.h&quot;</code><br>
 <code>#include &quot;<a class="el" href="gfal__common__errverbose_8h-source.html">gfal_common_errverbose.h</a>&quot;</code><br>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="718a348e4e319e83dc8883ae4b38059e"></a><!-- doxytag: member="gfal_common_parameter.c::gfal_common_bdii" ref="718a348e4e319e83dc8883ae4b38059e" args="(char *value, size_t max_size, int flag_mode, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_bdii</b> (char *value, size_t max_size, int flag_mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="49158a5e865fbb262db8b2dae84b7e2a"></a><!-- doxytag: member="gfal_common_parameter.c::gfal_common_bdii" ref="49158a5e865fbb262db8b2dae84b7e2a" args="(void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_bdii</b> (void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="769d0783e110250d545591112deee95e"></a><!-- doxytag: member="gfal_common_parameter.c::gfal_common_parameter" ref="769d0783e110250d545591112deee95e" args="(const char *name, char *value, size_t max_size, int flag_mode, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_parameter</b> (const char *name, char *value, size_t max_size, int flag_mode, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="868b0b6b628b4f7b1cd09bd41522a4a2"></a><!-- doxytag: member="gfal_common_parameter.c::gfal_common_parameter" ref="868b0b6b628b4f7b1cd09bd41522a4a2" args="(const char *name, void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_parameter</b> (const char *name, void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -40,7 +42,7 @@ file for internal settings set/get
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>02/10/2011 </dd></dl>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Oct 4 17:23:36 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

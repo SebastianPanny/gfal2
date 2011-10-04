@@ -106,11 +106,17 @@ ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_readlink</b> 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gae43f250cf82271ee59b19d008b29ad8"></a><!-- doxytag: member="posix_group::gfal_flush" ref="gae43f250cf82271ee59b19d008b29ad8" args="(int fd)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_flush</b> (int fd)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g0321ae1a7ef09a7f99a2be78069c4631"></a><!-- doxytag: member="posix_group::gfal_set_parameter" ref="g0321ae1a7ef09a7f99a2be78069c4631" args="(const char *module, const char *name, const char *value, size_t max_size)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_parameter</b> (const char *module, const char *name, const char *value, size_t max_size)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g1aa9cc5bf3e6e9938b5ffbdd1ad8a302"></a><!-- doxytag: member="posix_group::gfal_set_parameter_string" ref="g1aa9cc5bf3e6e9938b5ffbdd1ad8a302" args="(const char *module, const char *name, const char *value)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_parameter_string</b> (const char *module, const char *name, const char *value)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g85aca9c2894e49c38c7c8592894e67a6"></a><!-- doxytag: member="posix_group::gfal_get_parameter" ref="g85aca9c2894e49c38c7c8592894e67a6" args="(const char *module, const char *name, char *buff_value, size_t s_buff)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_parameter</b> (const char *module, const char *name, char *buff_value, size_t s_buff)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gb5afef98e5a6e7d5391fca65d079c3ef"></a><!-- doxytag: member="posix_group::gfal_get_parameter_string" ref="gb5afef98e5a6e7d5391fca65d079c3ef" args="(const char *module, const char *name, char *buff_value, size_t s_buff)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_parameter_string</b> (const char *module, const char *name, char *buff_value, size_t s_buff)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g4b27a01e6f158b40d4859a86cdf41b7f"></a><!-- doxytag: member="posix_group::gfal_set_parameter_int" ref="g4b27a01e6f158b40d4859a86cdf41b7f" args="(const char *module, const char *name, int value)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_parameter_int</b> (const char *module, const char *name, int value)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gefbd5409747e219b938e93d8576aa7a0"></a><!-- doxytag: member="posix_group::gfal_get_parameter_int" ref="gefbd5409747e219b938e93d8576aa7a0" args="(const char *module, const char *name)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_parameter_int</b> (const char *module, const char *name)</td></tr>
 
 </table>
 <hr><h2>Function Documentation</h2>
@@ -1100,7 +1106,7 @@ write a file similar to the POSIX call write gfal_write writes size bytes from t
 <a class="el" href="gfal__testrw_8c-example.html#a19">gfal_testrw.c</a>.</dl>
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 3 15:31:34 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Oct 4 17:23:36 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

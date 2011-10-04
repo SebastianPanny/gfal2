@@ -78,12 +78,8 @@
 #define GFAL_XATTR_CHKSUM_TYPE "user.chksumtype"
 #define GFAL_XATTR_CHKSUM_VALUE "user.checksum"
 
-// parameters attritutes
-#define GFAL_PARAM_SET 0
-#define GFAL_PARAM_GET 1
 
-#define GFAL_PARAM_TRUE "True" // string for boolean parameters
-#define GFAL_PARAM_FALSE "False"
+
 
 
 // parameters list for core

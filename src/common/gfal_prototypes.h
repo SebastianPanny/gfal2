@@ -46,3 +46,6 @@ typedef struct _gfal_file_handle_* gfal_file_handle;
 typedef struct gfal_handle_* gfal_handle;
 typedef struct _gfal_descriptors_container gfal_descriptors_container;
 
+typedef enum _GFAL_TYPE GFAL_TYPE;
+typedef enum _GFAL_PARAM_FUNC GFAL_PARAM_FUNC;
+

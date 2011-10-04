@@ -39,7 +39,7 @@
  * internal function to set parameter / options
  * 
  */
-inline int gfal_posix_internal_set_parameter(const char* module, const char* name, char* value, size_t max_size){
+inline int gfal_posix_internal_set_parameter(const char* module, const char* name, char* value, size_t max_size, GFAL_TYPE req_type){
   GError* tmp_err=NULL;
   gfal_handle handle;
   int res = -1;
@@ -52,9 +52,9 @@ inline int gfal_posix_internal_set_parameter(const char* module, const char* nam
   }
   
   if(module == NULL){ // internal parameters
-    res = gfal_common_parameter(name, value, max_size, GFAL_PARAM_SET, &tmp_err);
+    res = gfal_common_parameter(name, value, max_size, GFAL_PARAM_SET, req_type, &tmp_err);
   }else{
-    res = gfal_common_plugin_parameter(handle, module, name, value, max_size, GFAL_PARAM_SET, &tmp_err);
+    res = gfal_common_plugin_parameter(handle, module, name, value, max_size, GFAL_PARAM_SET, req_type, &tmp_err);
   }
   
   if(tmp_err){
@@ -71,7 +71,7 @@ inline int gfal_posix_internal_set_parameter(const char* module, const char* nam
  * internal function for get parameter / options
  * 
  */
-inline int gfal_posix_internal_get_parameter(const char* module, const char* name, char* value, size_t buff_size){
+inline int gfal_posix_internal_get_parameter(const char* module, const char* name, char* value, size_t buff_size, GFAL_TYPE req_type){
   GError* tmp_err=NULL;
   gfal_handle handle;
   int res = -1;
@@ -84,9 +84,9 @@ inline int gfal_posix_internal_get_parameter(const char* module, const char* nam
   }
   
   if(module == NULL){ // internal parameters
-    res = gfal_common_parameter(name, value, buff_size, GFAL_PARAM_GET, &tmp_err);
+    res = gfal_common_parameter(name, value, buff_size, GFAL_PARAM_GET, req_type, &tmp_err);
   }else{
-    res = gfal_common_plugin_parameter(handle, module, name, value, buff_size, GFAL_PARAM_GET, &tmp_err);
+    res = gfal_common_plugin_parameter(handle, module, name, value, buff_size, GFAL_PARAM_GET,req_type, &tmp_err);
   }
   
   if(tmp_err){

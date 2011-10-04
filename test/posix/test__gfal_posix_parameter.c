@@ -24,22 +24,21 @@ void test_posix_set_get_parameter(){
     char buff[2048];
     buff[0]='\0';
   
-    int ret = gfal_set_parameter(NULL, "no_bdii", "True", 255); // set a variable
+    int ret = gfal_set_parameter_int(NULL, "no_bdii", TRUE); // set a variable
     assert_true_with_message(ret == 0 && gfal_posix_check_error() == FALSE, " must be a valid return");
     
-    ret = gfal_get_parameter(NULL, "no_bdii", buff, 2048); // verify the variable status 
+    ret = gfal_get_parameter_int(NULL, "no_bdii"); // verify the variable status 
     
-    assert_true_with_message(ret == 0 && (strcmp(buff, "True") == 0), " must be the value set before");
+    assert_true_with_message(ret == TRUE && gfal_posix_check_error() == FALSE, " must be the value set before");
     
-    ret = gfal_set_parameter(NULL, "no_bdii", "False", 255); // set a variable
+    ret = gfal_set_parameter_int(NULL, "no_bdii", FALSE); // set a variable
     assert_true_with_message(ret == 0 && gfal_posix_check_error() == FALSE, " must be a valid return 2");
     
-    ret = gfal_get_parameter(NULL, "no_bdii", buff, 2048); // verify the variable status 
+    ret = gfal_get_parameter_int(NULL, "no_bdii"); // verify the variable status 
     
-    assert_true_with_message(ret == 0 && (strcmp(buff, "False") == 0), " must be the value set before 2");
+    assert_true_with_message(ret == FALSE && gfal_posix_check_error() == FALSE, " must be the value set before 2");
 
     
-  
   
 }
 
