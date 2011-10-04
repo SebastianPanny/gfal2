@@ -8,6 +8,11 @@
 #include <glib.h>
 #include <dlfcn.h>
 #include <lfc_api.h>
+
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_common_plugin.h>
+
 #include <common/rfio/gfal_rfio_plugin_main.h>
 #include <common/rfio/gfal_rfio_plugin_layer.h>
 #include <common/gfal_common_internal.h>

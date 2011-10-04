@@ -27,8 +27,12 @@
 #include <regex.h>
 #include <stdlib.h>
 #include <uuid/uuid.h>
+
+
+
 #include "gfal_prototypes.h"
 #include "gfal_types.h"
+#include "gfal_common_plugin.h"
 #include "gfal_common_errverbose.h"
 #include "gfal_common_dir_handle.h"
 #include "gfal_common_file_handle.h"

@@ -11,6 +11,11 @@
 
 #include <lfc_api.h>
 
+
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_common_plugin.h>
+
 #include <common/lfc/gfal_common_lfc.h>
 #include <common/lfc/lfc_ifce_ng.h>
 #include <common/gfal_common_internal.h>

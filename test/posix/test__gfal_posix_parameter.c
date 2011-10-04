@@ -12,7 +12,9 @@
 
 #include <common/gfal_prototypes.h>
 #include <common/gfal_types.h>
-#include <common/gfal_constants.h>
+#include <common/gfal_common_plugin.h>
+
+
 #include <posix/gfal_posix_api.h>
 
 
@@ -40,3 +42,4 @@ void test_posix_set_get_parameter(){
   
   
 }
+

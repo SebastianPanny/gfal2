@@ -36,8 +36,13 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <serrno.h>
-#include "../gfal_constants.h"
-#include "../gfal_types.h"
+
+
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_common_plugin.h>
+
+
 #include "../mds/gfal_common_mds.h"
 #include "../gfal_common_interface.h"
 #include "lfc_ifce_ng.h"

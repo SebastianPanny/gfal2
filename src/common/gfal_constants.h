@@ -26,6 +26,8 @@
 #ifndef _GFAL_CONSTANTS_H
 #define _GFAL_CONSTANTS_H
 
+#define MAX_PLUGIN_LIST 64
+
 /* used to check wether there is enough space on the SE */
 #define GFAL_NEWFILE_SIZE         1024
 #define GFAL_MODULE_NAME_SIZE 	1024

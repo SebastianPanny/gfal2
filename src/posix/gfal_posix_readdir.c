@@ -26,10 +26,14 @@
 #include <stdlib.h>
 #include <glib.h>
 #include <dirent.h>
+
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_common_plugin.h>
+
+
 #include "gfal_posix_api.h"
 #include "gfal_posix_internal.h"
-#include "../common/gfal_constants.h" 
-#include "../common/gfal_prototypes.h"
 #include "../common/gfal_common_filedescriptor.h"
 #include "../common/gfal_common_dir_handle.h"
 #include "../common/gfal_common_errverbose.h"

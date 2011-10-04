@@ -32,10 +32,14 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <attr/xattr.h>
+
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_common_plugin.h>
+
 #include "gfal_common_lfc.h"
 #include "gfal_common_lfc_open.h"
 #include "../gfal_common_internal.h"
-#include "../gfal_constants.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_filedescriptor.h"
 #include "lfc_ifce_ng.h"
@@ -49,7 +53,7 @@ typedef struct _lfc_opendir_handle{
 	struct dirent current_dir;
 } *lfc_opendir_handle;
 
-static char* file_xattr[] = { GFAL_XATTR_GUID, GFAL_XATTR_REPLICA, GFAL_XATTR_COMMENT, GFAL_XATTR_CHKSUM_TYPE, GFAL_XATTR_CHKSUM_VALUE, NULL };
+static char* file_xattr[] = { GFAL_XATTR_GUID, GFAL_XATTR_REPLICA, GFAL_XATTR_COMMENT,  NULL }; //GFAL_XATTR_CHKSUM_TYPE, GFAL_XATTR_CHKSUM_VALUE removed attributes, no checksum is correctly set on LFC
 /**
  * just return the name of the layer
  */

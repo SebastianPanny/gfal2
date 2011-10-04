@@ -7,11 +7,15 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-#include "../../src/common/gfal_prototypes.h"
-#include "../../src/common/gfal_types.h"
-#include "../../src/common/gfal_constants.h"
-#include "../unit_test_constants.h"
-#include "../../src/posix/gfal_posix_internal.h"
+
+
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_common_plugin.h>
+
+
+
+#include <posix/gfal_posix_internal.h>
 
 
 #include "../mock/gfal_lfc_mock_test.h"
@@ -20,6 +24,8 @@
 #include "../common/rfio/test__gfal_rfio_plugin.h"
 #include "../common/gfal__test_common_srm.h"
 #include "../common/gfal__test_plugin.h"
+
+#include "../unit_test_constants.h"
 
 #include "gfal_posix_api.h"
 

@@ -44,7 +44,8 @@ extern "C"
 #include <gfal_srm_ifce_types.h>
 #include "gfal_constants.h"
 #include "gfal_prototypes.h"
-#include "gfal_common_plugin.h"
+#include "gfal_common_plugin_interface.h"
+
 
 
 

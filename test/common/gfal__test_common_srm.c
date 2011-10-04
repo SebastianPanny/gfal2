@@ -9,9 +9,12 @@
 #include <regex.h>
 #include <time.h> 
 
-#include <common/gfal_common_internal.h>
-#include <common/gfal_types.h>
 #include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_common_plugin.h>
+
+
+#include <common/gfal_common_internal.h>
 #include <common/srm/gfal_common_srm_internal_layer.h>
 #include <common/srm/gfal_common_srm_endpoint.h>
 #include <common/srm/gfal_common_srm.h>
