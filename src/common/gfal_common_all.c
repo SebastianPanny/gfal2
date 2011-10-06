@@ -19,7 +19,7 @@
  * @file gfal_common_all.c
  * @brief core file for the utility function of gfal common part
  * @author Devresse Adrien
- * @version 0.0.1
+ * @version 1.0
  * @date 02/05/2011
  * */
 

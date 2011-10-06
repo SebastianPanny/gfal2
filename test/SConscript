@@ -21,8 +21,8 @@ def get_env_var(str_name):
 
 src_tests_link = ['gfal2', 'gfal_plugin_lfc', 'gfal_plugin_srm', 'gfal_plugin_rfio', 'cgreen']
 src_tests_mocks = Glob('mock/*.c')
-src_tests_main = Glob("*.c") + Glob("common/*.c") + Glob("common/lfc/*.c")  + Glob("common/mds/*.c") + Glob("common/rfio/*.c") + Glob("posix/*.c")
-src_tests_all = src_tests_main + src_tests_mocks
+src_tests_main = Glob("*.c") + Glob("common/*.c") + Glob("common/lfc/*.c")  + Glob("common/mds/*.c") + Glob("common/rfio/*.c") + Glob("posix/*.c") + Glob("externals/*.c") 
+src_tests_all = src_tests_main + src_tests_mocks + [ static_gskiplist ]
 ## build test config
 
 lfc_gfal_infosys = get_env_var("LCG_GFAL_INFOSYS")

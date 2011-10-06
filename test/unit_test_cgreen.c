@@ -52,6 +52,8 @@
 #include "posix/test__gfal_posix_parameter.h"
 #include "common/rfio/test__gfal_rfio_plugin.h"
 
+#include "externals/test_skiplist.h"
+
 TestSuite * verbose_suite (void)
 {
    TestSuite *s1 = create_test_suite();
@@ -217,6 +219,14 @@ TestSuite* posix_parameter_suite(){
   return tc_parameter;  
 }
 
+TestSuite* skip_list_tests(){
+  TestSuite* test_skiplist = create_test_suite();  
+  add_test(test_skiplist, test_gskiplist_create_delete);
+  add_test(test_skiplist, test_gskiplist_insert_len);
+  add_test(test_skiplist, test_gskiplist_insert_multi);
+  return test_skiplist;  
+}
+
 TestSuite* posix_access_suite (void)
 {
   TestSuite* tc_access = create_test_suite();
@@ -278,6 +288,7 @@ int main (int argc, char** argv)
 	add_suite(global, posix_write_suite());
 	add_suite(global, posix_opendir_suite());
 	add_suite(global, posix_parameter_suite());
+	add_suite(global, skip_list_tests());
 	//add_suite(global, filedesc_suite());
     if (argc > 1){
         return run_single_test(global, argv[1], create_text_reporter());

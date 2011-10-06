@@ -128,8 +128,10 @@ if ARGUMENTS.get('main_tests','no') =='yes':
 
 #externals builds
 env_libgcache = env.Clone()
+env_gskiplist = env.Clone()
 VariantDir(build_dir_externals, 'src/externals/')
 gsimplecache = SConscript(build_dir_externals +'/gsimplecache/SConscript',['headers', 'libs', 'env_libgcache'])
+static_gskiplist, OS_gskiplist = SConscript(build_dir_externals +'/gskiplist/SConscript',['headers', 'libs', 'env_gskiplist'])
 
 #main build
 VariantDir(build_dir_src, 'src')
@@ -143,7 +145,7 @@ env_test = env.Clone()
 env_test.Append(CPPPATH=[ "#src/common", "#src/", "#src/posix"]+ cgreen_header_dir)
 env_test.Append(LIBPATH= cgreen_lib_dir)
 VariantDir(build_dir_test, 'test')
-tests = SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','debug_mode', 'all_headers'])
+tests = SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','debug_mode', 'all_headers','static_gskiplist'])
 
 #VariantDir("rpmbuildir/", 'rpm/')
 #SConscript("rpmbuildir/SConscript", ["env","mainlib", "staticlib", "versionexe", "version", "package_version", "plugin_lfc_lib"] )
