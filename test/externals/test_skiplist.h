@@ -30,3 +30,7 @@ void test_gskiplist_create_delete();
 void test_gskiplist_insert_len();
 
 void test_gskiplist_insert_multi();
+
+void test_gskiplist_insert_search_remove();
+
+void test_gskiplist_insert_get_clean();

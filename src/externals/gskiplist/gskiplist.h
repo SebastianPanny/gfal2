@@ -61,6 +61,7 @@ void gskiplist_delete(GSkiplist* sk);
 
 gboolean gskiplist_insert(GSkiplist* sk, gpointer key, gpointer value);
 
+
 size_t gskiplist_length(GSkiplist* sk);
 
 gpointer gskiplist_remove(GSkiplist* sk, gpointer key);
@@ -68,6 +69,8 @@ gpointer gskiplist_remove(GSkiplist* sk, gpointer key);
 gpointer gskiplist_search(GSkiplist* sk, gpointer key);
 
 gpointer gskiplist_get_first_value(GSkiplist* sk);
+
+void gskiplist_clean(GSkiplist* sk);
 
 
 

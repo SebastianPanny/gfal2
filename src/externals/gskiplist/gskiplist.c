@@ -89,12 +89,12 @@ gboolean gskiplist_insert_internal(GSkiplist* sk, gpointer key, gpointer value){
   int i;
   for(i= max_size-1; i >= 0; --i){
 
-    cmp_value = gskiplist_compare(sk, node, new_node);
+    cmp_value = gskiplist_compare_node(sk, node, new_node);
     while(node != NULL && cmp_value <0 ){ // walk in a level list to search a given value  
       prec_node = node;
       node = node->link[i].next;
       if(node != NULL)
-	cmp_value = gskiplist_compare(sk, node, new_node);       
+	cmp_value = gskiplist_compare_node(sk, node, new_node);       
     }
 
     
@@ -218,6 +218,21 @@ gpointer gskiplist_get_first_value_internal(GSkiplist* sk){
   return (firstn)?(firstn->data):NULL;
 }
 
+/**
+ * clean all value in the SkipList
+ */
+void gskiplist_clean(GSkiplist* sk){
+    g_static_rw_lock_writer_lock (&sk->lock);
+    GSkipNode* node = sk->head_node->link[0].next; // clear everything
+    while( node != NULL){
+	GSkipNode* prev_node = node;
+	node = node->link[0].next;
+	g_free(prev_node);
+    }
+    sk->length=0;
+    memset(&sk->head_node->link, 0, sizeof(GSkipLink)*max_size);
+    g_static_rw_lock_writer_unlock(&sk->lock);   
+}
 
 
 GSkipNode* gskiplist_create_node(GSkiplist* sk, gpointer key, gpointer data, guint size){
@@ -230,7 +245,7 @@ GSkipNode* gskiplist_create_node(GSkiplist* sk, gpointer key, gpointer data, gui
 }
 
 
-int gskiplist_compare_node(GSkiplist* sk, GSkipNode* a, GSkipNode*  b){
+inline int gskiplist_compare_node(GSkiplist* sk, GSkipNode* a, GSkipNode*  b){
   if( a == sk->head_node)
     return -1;
   if( b==  sk->head_node)
@@ -239,10 +254,8 @@ int gskiplist_compare_node(GSkiplist* sk, GSkipNode* a, GSkipNode*  b){
 }
 
 
-int gskiplist_compare(GSkiplist* sk, GSkipNode* a, gpointer  b){
-  if( a == sk->head_node)
-    return -1;
-  return sk->cmp_func(a->key, b);
+inline int gskiplist_compare(GSkiplist* sk, GSkipNode* a, gpointer  b){
+  return( a == sk->head_node)?(-1):(sk->cmp_func(a->key, b));
 }
 
 
@@ -253,9 +266,9 @@ int gskiplist_compare(GSkiplist* sk, GSkipNode* a, gpointer  b){
 guint gskiplist_get_random_size(GSkiplist * sk){
   guint res_rand = g_random_int();
   int ret =1;
-  while(res_rand & 0x01){ // improve ret until last bit of rand is 0
+  while(res_rand %2){ // improve ret until last bit of rand is 0
     ret++;
-    res_rand >>=1;
+    res_rand = g_random_int();
   }
   //printf("%d\n ",ret);
   return MIN(ret,max_size);

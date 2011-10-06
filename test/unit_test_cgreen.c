@@ -223,6 +223,8 @@ TestSuite* skip_list_tests(){
   TestSuite* test_skiplist = create_test_suite();  
   add_test(test_skiplist, test_gskiplist_create_delete);
   add_test(test_skiplist, test_gskiplist_insert_len);
+  add_test(test_skiplist, test_gskiplist_insert_search_remove);
+  add_test(test_skiplist, test_gskiplist_insert_get_clean);
   add_test(test_skiplist, test_gskiplist_insert_multi);
   return test_skiplist;  
 }
