@@ -32,14 +32,14 @@ void test_gskiplist_insert_len()
     assert_true_with_message(ret == TRUE, " must be a valid insert");
  
     init_size = gskiplist_length(gsk); // test if size increase
-    assert_true_with_message(init_size == 1L, " test if valid value");   
+    assert_true_with_message(init_size == 1L, " test if valid number before remove");   
 
     
     gpointer value = gskiplist_remove(gsk, GINT_TO_POINTER(1)); // add one value
-    assert_true_with_message(value == GINT_TO_POINTER(10), " must be a valid insert");
+    assert_true_with_message(value == GINT_TO_POINTER(10), " must be a valid remove");
     
     init_size = gskiplist_length(gsk); // test initial size
-    assert_true_with_message(init_size == 0L, " test if valid value");     
+    assert_true_with_message(init_size == 0L, " test if valid number after remove");     
     
   }
   gskiplist_delete(gsk);
@@ -66,25 +66,25 @@ void test_gskiplist_insert_multi()
 
     for(i=0; i < msize; ++i){
       size_t init_size = gskiplist_length(gsk); // test initial size
-      assert_true_with_message(init_size == i, " test if valid number before insert");   
+      assert_true(init_size == i);   
       
       gboolean ret = gskiplist_insert(gsk, tab_key[i], tab_value[i]); // add one value
-      assert_true_with_message(ret == TRUE, " must be a valid insert");
+      assert_true(ret == TRUE);
   
       init_size = gskiplist_length(gsk); // test if size increase
-      assert_true_with_message(init_size == i+1, " test if valid number after insert");     
+     assert_true(init_size == i+1);     
     }
     
 
-    for(i=0; i < msize; ++i){     
+    for(i=0; i> 0; ++i){     
       size_t init_size = gskiplist_length(gsk); // test initial size
-      assert_true_with_message(init_size == max_size- i, " test if valid number before remove");  
+      assert_true(init_size == msize- i);  
       
       gpointer value = gskiplist_remove(gsk, tab_key[i]); // add one value
-      assert_true_with_message(value = GINT_TO_POINTER(tab_value[i]), " must be a valid remove");
+      assert_true(value == GINT_TO_POINTER(tab_value[i]));
       
       init_size = gskiplist_length(gsk); // test initial size
-      assert_true_with_message(init_size == max_size- i-1, " test if valid number after remove");   
+      assert_true(init_size == msize- i-1);   
     }
   }
   gskiplist_delete(gsk);

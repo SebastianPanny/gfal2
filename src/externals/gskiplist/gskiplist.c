@@ -50,6 +50,12 @@ GSkiplist* gskiplist_new(GCompareFunc func){
 void gskiplist_delete(GSkiplist* sk){
   if(sk){
     g_static_rw_lock_writer_lock (&sk->lock);
+    GSkipNode* node = sk->head_node->link[0].next; // clear everything
+    while( node != NULL){
+	GSkipNode* prev_node = node;
+	node = node->link[0].next;
+	g_free(prev_node);
+    }
     g_static_rw_lock_writer_unlock(&sk->lock);   
     g_free(sk);
   }
@@ -80,38 +86,37 @@ gboolean gskiplist_insert_internal(GSkiplist* sk, gpointer key, gpointer value){
   GSkipNode* node, * prec_node;
   node = prec_node = sk->head_node;
   int cmp_value;
-  for(int i = max_size-1; i >= 0; --i){
+  int i;
+  for(i= max_size-1; i >= 0; --i){
 
-    while(node != NULL){ // walk in a level list to search a given value
-      cmp_value = gskiplist_compare_node(sk, new_node, node);
-      if( cmp_value < 0){ // inferior to the next value -> insert
-	if( i < new_node->height){
-	  new_node->link[i].next = node;
-	  prec_node->link[i].next = new_node;
-	}
-	break;
-      }
-      if( cmp_value == 0){ // equal to the next value to the next value -> insert and delete the old
-	for(; i>= 0; --i){
-	  if( i < new_node->height){
-	    new_node->link[i].next = node->link[i].next;
-	    prec_node->link[i].next = new_node;
-	  }else{
-	    prec_node->link[i].next = node->link[i].next;
-	  }
-	}
-
-	g_free(node);
-	return FALSE;
-      }
+    cmp_value = gskiplist_compare(sk, node, new_node);
+    while(node != NULL && cmp_value <0 ){ // walk in a level list to search a given value  
       prec_node = node;
       node = node->link[i].next;
+      if(node != NULL)
+	cmp_value = gskiplist_compare(sk, node, new_node);       
+    }
+
+    
+    if( ( cmp_value > 0 || node == NULL) && i < new_node->height){
+	new_node->link[i].next = node;
+	prec_node->link[i].next = new_node;
+    }
       
+    if( cmp_value == 0){ // equal to the next value to the next value -> insert and delete the old
+      for(; i>= 0; --i){
+	if( i < new_node->height){
+	  new_node->link[i].next = node->link[i].next;
+	  prec_node->link[i].next = new_node;
+	}else{
+	  prec_node->link[i].next = node->link[i].next;
+	}
+      }
+      g_free(node);
+      return FALSE;
     }
     
-    if(node == NULL) // end of the list, add queue
-      prec_node->link[i].next= new_node;
-    
+    node = prec_node;
   }
   sk->length++; 
   return TRUE;
@@ -125,39 +130,37 @@ gboolean gskiplist_insert_internal(GSkiplist* sk, gpointer key, gpointer value){
 gpointer gskiplist_remove(GSkiplist* sk, gpointer key){
   g_assert(sk != NULL);
   g_static_rw_lock_writer_lock(&sk->lock);
-  GSkipNode* node = sk->head_node->link[0].next;
-  while( node != NULL){
-      GSkipNode* prev_node = node;
-      node = node->link[0].next;
-      g_free(prev_node);
-  }
   gpointer res = gskiplist_remove_internal(sk, key);
   g_static_rw_lock_writer_unlock(&sk->lock);
   return res;   
 }
 
 gpointer gskiplist_remove_internal(GSkiplist* sk, gpointer key){
-  GSkipNode* node, * prec_node;
-  node = prec_node = sk->head_node; 
-  int cmp_value;
-  for(int i = max_size-1; i >= 0; --i){
+  GSkipNode* node, * prev_node;
+  node = prev_node = sk->head_node; 
+  int cmp_value=0;
+  int i;
+  for(i = max_size-1; i >= 0; --i){ // begin to the high level and decrease lvl by level
 
-    while(node  != NULL){ // walk in a level list to search a given value
-      cmp_value = gskiplist_compare(sk, node, key);
-      
-      if( cmp_value == 0){ // equal to the next value to the next value -> insert and delete the old
-	for(; i>= 0; --i){
-	    prec_node->link[i].next = node->link[i].next;
-	}
-	gpointer resu = node->data;
-	sk->length--;
-	g_free(node);
-	return resu;
-      }
-      prec_node = node;
+    cmp_value = gskiplist_compare(sk, node, key);
+    while(node != NULL && cmp_value <0 ){ // walk in a level list to search a given value  
+      prev_node = node;
       node = node->link[i].next;
-      
+      if(node != NULL)
+	cmp_value = gskiplist_compare(sk, node, key);       
     }
+
+    if( cmp_value == 0){ // equal to the current node -> delete it
+      for(; i>= 0; --i){
+	  prev_node->link[i].next = node->link[i].next;
+      }
+      gpointer resu = node->data;
+      sk->length--;
+      g_free(node);
+      return resu;
+    }
+    
+    node = prev_node; // take the inferior nearest one
   }
     
   return NULL;
@@ -177,19 +180,22 @@ gpointer gskiplist_search(GSkiplist* sk, gpointer key)
 }
 
 gpointer gskiplist_search_internal(GSkiplist* sk, gpointer key){
-  GSkipNode* node;
-  node = sk->head_node;
-  int cmp_value;
+  GSkipNode* node,* prev_node;
+  node = prev_node= sk->head_node;
+  int cmp_value=0;
   for(int i = max_size-1; i >= 0; --i){
-
-    while(node  != NULL){ // walk in a level list to search a given value
-      cmp_value = gskiplist_compare(sk, node, key);
-      if( cmp_value == 0){ // equal to the next value to the next value -> insert and delete the old
-	  return node->data;
-      }
+    cmp_value = gskiplist_compare(sk, node, key);
+    while(node != NULL && cmp_value <0 ){ // walk in a level list to search a given value  
+      prev_node = node;
       node = node->link[i].next;
-      
+      if(node != NULL)
+	cmp_value = gskiplist_compare(sk, node, key);         
     }
+ 
+    if( cmp_value == 0){ // equal to the next value to the next value -> insert and delete the old
+	  return node->data;
+    }
+    node = prev_node;
   }
   return NULL;
   
@@ -251,5 +257,6 @@ guint gskiplist_get_random_size(GSkiplist * sk){
     ret++;
     res_rand >>=1;
   }
-  return ret;
+  //printf("%d\n ",ret);
+  return MIN(ret,max_size);
 }
