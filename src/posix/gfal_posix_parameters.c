@@ -52,7 +52,7 @@ inline int gfal_posix_internal_set_parameter(const char* module, const char* nam
   }
   
   if(module == NULL){ // internal parameters
-    res = gfal_common_parameter(name, value, max_size, GFAL_PARAM_SET, req_type, &tmp_err);
+    res = gfal_common_parameter(name, (void*) value, max_size, GFAL_PARAM_SET, req_type, &tmp_err);
   }else{
     res = gfal_common_plugin_parameter(handle, module, name, value, max_size, GFAL_PARAM_SET, req_type, &tmp_err);
   }

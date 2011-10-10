@@ -29,7 +29,7 @@ lfc_gfal_infosys = get_env_var("LCG_GFAL_INFOSYS")
 
 lfc_host = get_env_var("LFC_HOST")
 
-tests_headers = all_headers +  Glob('mock/*.h') + Glob("*.h") + Glob("common/*.h") + Glob("common/lfc/*.h")  + Glob("common/mds/*.h") + Glob("common/rfio/*.h") + Glob("posix/*.h")
+tests_headers = all_headers +  Glob('mock/*.h') + Glob("externals/*.h")+ Glob("*.h") + Glob("common/*.h") + Glob("common/lfc/*.h")  + Glob("common/mds/*.h") + Glob("common/rfio/*.h") + Glob("posix/*.h")
 
 env_test.PrependENVPath('LCG_GFAL_INFOSYS', lfc_gfal_infosys); # setup the bdii access point
 env_test.PrependENVPath('LFC_HOST', lfc_host); # setup the bdii access point

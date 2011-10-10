@@ -23,6 +23,9 @@ main_doc=False
 main_meta=False
 main_tests=False
 
+## config var
+isifce=False
+
 ##
 
 
@@ -56,6 +59,8 @@ srmifce_header_dir, srmifce_lib_dir = get_depconf('srmifce_path')
 lfc_header_dir, lfc_lib_dir = get_depconf('lfc_path', include_path='/include/lfc/')
 # get cgreen conf
 cgreen_header_dir, cgreen_lib_dir = get_depconf('cgreen_path', include_path='/local/include', lib_path='/local/lib/', lib64_path='/local/lib/')
+# get is interface path
+isifce_header_dir, isifce_lib_dir = get_depconf('isifce_path', include_path='include', lib_path='/lib/', lib64_path='/lib64/')
 
 # old gfal header for testing/example 
 old_gfal_header= get_depconf('old_gfal_path')[0]
@@ -73,8 +78,8 @@ build_dir_test= build_dir +'/test/src'
 
 	
 	
-headers= ['.', '#.', '#build/src/'] +   dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir  + dpm_header_dir_emi + cgreen_header_dir
-libs=[ '#'+build_dir+'/libs'] +   dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir+ dpm_lib_dir_emi + cgreen_lib_dir
+headers= ['.', '#.', '#build/src/'] +   dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir  + dpm_header_dir_emi + cgreen_header_dir + isifce_header_dir	
+libs=[ '#'+build_dir+'/libs'] +   dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir+ dpm_lib_dir_emi + cgreen_lib_dir + isifce_lib_dir
 cflags=['-DVERSION='+version, '-Wall', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
 # create default env
 env = Environment(tools=['default', 'packaging'], CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
@@ -125,6 +130,9 @@ if ARGUMENTS.get('main_meta','no') =='yes':
 	main_meta=True
 if ARGUMENTS.get('main_tests','no') =='yes':
 	main_tests=True
+if ARGUMENTS.get("isifce", "no") == "yes":
+	isifce = True
+
 
 #externals builds
 env_libgcache = env.Clone()
@@ -135,7 +143,7 @@ static_gskiplist, OS_gskiplist = SConscript(build_dir_externals +'/gskiplist/SCo
 
 #main build
 VariantDir(build_dir_src, 'src')
-mainlib, staticlib, versionexe,plugin_lfc_lib, plugin_srm_lib, plugin_rfio_lib, plugin_dcap_lib, all_headers  = SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src','debug_mode'])
+mainlib, staticlib, versionexe,plugin_lfc_lib, plugin_srm_lib, plugin_rfio_lib, plugin_dcap_lib, all_headers  = SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src','debug_mode', 'isifce'])
 
 # global testing build
 SConscript('testing/SConscript', ['env', 'headers', 'libs', 'old_gfal_header','debug_mode'])

@@ -4,12 +4,24 @@
 Import('*')	# import SConstruct exported var
 import os
 
+gfal_common_libs = None
+gfal_common_flag = None
+common_mds =  Glob("common/mds/*.c") 
 
-gfal_common_libs = ['ldap_r' ] 		# libraries linked
+if( isifce == True):				# preprocessor switch for internal /external bdii resolution 
+	gfal_common_libs = ["is_ifce"];
+	gfal_common_flag =["-DMDS_BDII_EXTERNAL=1"]
+	common_mds =  ["common/mds/gfal_common_mds.c"]
+  
+else:
+	gfal_common_libs = ['ldap_r' ] 		# libraries linked
+	gfal_common_flag = []
+
+
 gsimplecache = ["externals/gsimplecache/gsimplecacheOS.os"]
 other_headers=['common/', 'externals/gwatchdog/', Dir('./')]
 common_src = Glob("common/*.c") 
-common_mds = Glob("common/mds/*.c") 
+
 posix_src_all = Glob("posix/*.c")
 src_all = common_src +  posix_src_all + common_mds 
 
@@ -33,6 +45,7 @@ plugin_dcap = Glob("common/dcap/*.c")
 
 env_posix = env.Clone()
 env_posix.Append(LIBS=gfal_common_libs)
+env_posix.Append(CFLAGS=gfal_common_flag)
 env_posix.Append(CPPPATH=other_headers)
 
 

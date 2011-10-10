@@ -87,9 +87,43 @@ int gfal_mds_get_se_types_and_endpoints (const char *host, char ***se_types, cha
 		return NULL;
  } 
  
- 
+#if MDS_BDII_EXTERNAL
+/**
+ * external call to the is interface for external bdii resolution
+ * 
+ */
+int gfal_mds_isifce_wrapper(const char* base_url, gfal_mds_endpoint* endpoints, size_t s_endpoint, GError** err){
+  char ** name_endpoints;
+  char** types_endpoints;
+  char errbuff[GFAL_ERRMSG_LEN]= {0};
+  GError* tmp_err=NULL;
+  int res = -1;
+  if(sd_get_se_types_and_endpoints(base_url, &types_endpoints, &name_endpoints, errbuff, GFAL_ERRMSG_LEN-1) != 0){
+    g_set_error(&tmp_err, 0, ENXIO, "IS INTERFACE ERROR : %s ", errbuff);
+  }else{
+    int i;
+    char ** p1 =name_endpoints;
+    char **p2 =types_endpoints;
+    for(i=0; i< s_endpoint && *p1 != NULL && *p2 != NULL; ++i,++p2,++p1){
+      g_strlcpy(endpoints[i].url, *p1, GFAL_URL_MAX_LEN);
+      endpoints[i].type = (strcmp(*p2, "srm_v2")==0)?SRMv2:SRMv1;
+    }
+    res =i+1;
+  }
+    
+  if(tmp_err)
+    g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+  return res;
+}
+
+#endif
+
  int gfal_mds_resolve_srm_endpoint(const char* base_url, gfal_mds_endpoint* endpoints, size_t s_endpoint, GError** err){
-		return gfal_mds_bdii_get_srm_endpoint(base_url, endpoints, s_endpoint, err);
+#if MDS_BDII_EXTERNAL // call the is interface if configured for
+	return gfal_mds_isifce_wrapper(base_url, endpoints, s_endpoint, err);
+#else
+	return gfal_mds_bdii_get_srm_endpoint(base_url, endpoints, s_endpoint, err);
+#endif
  }
 
 

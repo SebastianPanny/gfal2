@@ -17,9 +17,9 @@
  */
 
 /**
- * @file gfal_common_plugin.hint int flag_modflag_mod
+ * @file gfal_common_plugin.h
  * @brief the header file of the common lib for the plugin management
- * @author Devresse Adrienint flag_mod
+ * @author Devresse Adrien
  * @version 0.0.1
  * @date 8/04/2011
  * */
@@ -37,12 +37,6 @@
 #include "gfal_prototypes.h"
 #include "gfal_types.h"
 #include "gfal_common_plugin_interface.h"
-
-
-//#include "gfal_prototypes.h"
-//#include "gfal_types.h"
-
-
 
 
 

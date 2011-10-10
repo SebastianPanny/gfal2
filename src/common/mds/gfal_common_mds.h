@@ -30,6 +30,10 @@
 #include "../gfal_prototypes.h"
 #include "../gfal_types.h"
 
+#ifndef MDS_BDII_EXTERNAL
+#define MDS_BDII_EXTERNAL 0
+#endif
+
 typedef enum { SRMv2=0, SRMv1, WebDav } mds_type_endpoint;
 
 /**

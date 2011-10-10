@@ -466,7 +466,7 @@ int gfal_get_parameter(const char* module, const char* name, char* buff_value, s
  *      and you can call @ref gfal_posix_check_error() for a more complete description. 
  * */
 int gfal_set_parameter_int(const char* module, const char* name, int value){
-  return gfal_posix_internal_set_parameter(module, name, GINT_TO_POINTER(value), NULL, GFAL_TYPE_INT);
+  return gfal_posix_internal_set_parameter(module, name, GINT_TO_POINTER(value), 0, GFAL_TYPE_INT);
 }
 
 /***
@@ -480,7 +480,7 @@ int gfal_set_parameter_int(const char* module, const char* name, int value){
  *      and you can call @ref gfal_posix_check_error() for a more complete description. 
  * */
 int gfal_get_parameter_int(const char* module, const char* name){
-  return gfal_posix_internal_get_parameter(module, name, NULL, NULL,GFAL_TYPE_INT );	 
+  return gfal_posix_internal_get_parameter(module, name, NULL, 0,GFAL_TYPE_INT );	 
 }
 
 
