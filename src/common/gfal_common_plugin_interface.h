@@ -111,13 +111,29 @@ struct _gfal_plugin_interface{
 	 int (*lseekG)(plugin_handle, gfal_file_handle fd, off_t offset, int whence, GError** err);
 	 
 	 // remove operations
+	/**
+	  * unlink implementation, follow the \ref unlink behavior but with GError report system.
+	  * */	
 	 int (*unlinkG)(plugin_handle, const char* path, GError**);
 	 
 	 // advanced attributes management
+	 /**
+	  * getxattr implementation, follow the \ref getxattr behavior but with GError report system.
+	  * */	
 	 ssize_t (*getxattrG)(plugin_handle, const char*, const char*, void* buff, size_t s_buff, GError** err);
+	 /**
+	  * listxattr implementation, follow the \ref listxattr behavior but with GError report system.
+	  * */
 	 ssize_t (*listxattrG)(plugin_handle, const char*, char* list, size_t s_list, GError** err);
+	 /**
+	  * setxattr implementation, follow the \ref setxattr behavior but with GError report system.
+	  * */
 	 int (*setxattrG)(plugin_handle, const char*, const char*, const void*, size_t , int, GError** );
 	
+	 /**
+	  *  parameters handle in order to provide a generic way to set/get parameters to the gfal 2.0 plugins
+	  *  if not the function pointer is not null and for module== getName(), a call to this function is done for each call to \ref gfal_set_parameter / \ref gfal_get_parameter 
+	  * */
 	 int (*plugin_parameter)(plugin_handle handle, const char* name, char* value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError** err);
 	
 };

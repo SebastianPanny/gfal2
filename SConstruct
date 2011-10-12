@@ -22,6 +22,7 @@ main_devel=False
 main_doc=False
 main_meta=False
 main_tests=False
+plugin_devel = False
 
 ## config var
 isifce=False
@@ -32,7 +33,7 @@ isifce=False
 # global var
 etics_build_dir= "/usr/" # disable
 version= '2.0'
-package_version = '1.11_preview'
+package_version = '1.12_preview'
 license_type = "Apache Software License"
 
 ## generic function to get conf value
@@ -132,7 +133,8 @@ if ARGUMENTS.get('main_tests','no') =='yes':
 	main_tests=True
 if ARGUMENTS.get("isifce", "no") == "yes":
 	isifce = True
-
+if ARGUMENTS.get("plugin_devel", "no") == "yes":
+	plugin_devel= True
 
 #externals builds
 env_libgcache = env.Clone()
@@ -218,6 +220,28 @@ if(main_devel):
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'glib2-devel, gfal2-core',
 			 source= [header_main, header_main2, header_main3, static_main, example_main, pkg_config] 
+			 )
+			 
+			 
+if(plugin_devel):
+	header_main = env.Install('/usr/include/gfal2/common/', "src/common/gfal_common_plugin_interface.h" )
+	header_main2= env.Install('/usr/include/gfal2/common/', "src/common/gfal_prototypes.h")
+	header_main3= env.Install('/usr/include/gfal2/common/', "src/common/gfal_types.h" )
+	header_main4= env.Install('/usr/include/gfal2/common/', "src/common/gfal_common_plugin.h" )
+	install_list += [header_main, header_main2, header_main3, header_main4] 
+	x_rpm_install = define_rpm_install(arguments_to_str());
+	pack_list += env.Package( 
+			 NAME     = 'gfal2-plugin-devel',
+			 VERSION        = version,
+			 PACKAGEVERSION = package_version,
+			 PACKAGETYPE    = 'rpm',
+			 LICENSE        = license_type,
+			 SUMMARY        = 'development files for the gfal 2.0 plugins ',
+			 DESCRIPTION    = 'development files for the plugins of the grid file access library 2.0',
+			 X_RPM_GROUP    = 'CERN/grid',
+			 X_RPM_INSTALL= x_rpm_install,
+			 X_RPM_REQUIRES = 'glib2-devel, gfal2-core-devel',
+			 source= [header_main, header_main2, header_main3, header_main4] 
 			 )
 	
 if(plugin_lfc):

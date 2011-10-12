@@ -18,7 +18,7 @@
  
 /**
   * @file gfal_constants.h 
-  * the global declarations of gfal core
+  * the global constant declarations of gfal core
   * @author Devresse Adrien , Baud Jean-Philippe 
 */
 
