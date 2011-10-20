@@ -40,7 +40,9 @@ void gfal2_test_check_bdii_endpoints_srm()
 		se_endpoints=NULL;
 		ret = gfal_mds_get_se_types_and_endpoints (*ptr, &se_types, &se_endpoints, &err);
 		assert_true_with_message(ret == 0, " ret of bdii with error %d %d", ret, errno);
-		assert_true_with_message(ret == 0 && strings_are_equal(*se_types, "srm_v1") && strstr(*se_endpoints, TEST_MDS_VALID_ENDPOINT_RESU) != NULL, " check if result is valid");
+		assert_true_with_message(ret == 0 && 
+				((strings_are_equal(*se_types, "srm_v1") && strstr(*se_endpoints, TEST_MDS_VALID_ENDPOINT_RESU_1) != NULL) ||
+				(strings_are_equal(*(se_types+1), "srm_v1") && strstr(*(se_endpoints+1), TEST_MDS_VALID_ENDPOINT_RESU_1) != NULL)) 	, " check if ountain first value ");
 		g_strfreev(se_types);
 		g_strfreev(se_endpoints);
 		g_clear_error(&err);
@@ -77,7 +79,7 @@ void gfal2_gfal2_test_check_bdii_endpoints_srm_ng()
 		else{
 			gboolean countain = FALSE;
 			for(i =0; i < ret; ++i){
-				countain = (strstr(tabendpoint[i].url, TEST_MDS_VALID_ENDPOINT_RESU) != NULL)?TRUE:countain;
+				countain = (strstr(tabendpoint[i].url, TEST_MDS_VALID_ENDPOINT_RESU_2) != NULL)?TRUE:countain;
 			}
 			assert_true_with_message(countain, " must countain the endpoint ");
 		}		

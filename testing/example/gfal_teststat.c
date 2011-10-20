@@ -5,9 +5,9 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "gfal_api.h"
+#include <gfal_api.h>
 
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	struct stat statbuf;
 
@@ -21,9 +21,9 @@ main(int argc, char **argv)
 	}
 	printf ("stat successful\n");
 	printf ("mode = %o\n", statbuf.st_mode);
-	printf ("nlink = %d\n", statbuf.st_nlink);
+	printf ("nlink = %ld\n", statbuf.st_nlink);
 	printf ("uid = %d\n", statbuf.st_uid);
 	printf ("gid = %d\n", statbuf.st_gid);
 	printf ("size = %ld\n", statbuf.st_size);
-	exit (0);
+	return 0;
 }

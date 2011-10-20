@@ -63,6 +63,9 @@ int gfal_close (int);
 int gfal_read (int, void *, size_t);
 int gfal_write (int, const void *, size_t);
 
+// pipelined calls 
+ssize_t gfal_pread(int fd, void * buffer, size_t count, off_t offset);
+ssize_t gfal_pwrite(int fd, const void * buffer, size_t count, off_t offset);
 
 // advanced use purpose ( set properties, guid, replicas )
 ssize_t gfal_getxattr (const char *path, const char *name,

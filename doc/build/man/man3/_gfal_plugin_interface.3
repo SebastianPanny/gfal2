@@ -1,4 +1,4 @@
-.TH "_gfal_plugin_interface" 3 "4 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "_gfal_plugin_interface" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -112,9 +112,24 @@ This function is a key function of GFAL 2.0, It MUST be as fast as possible.
 .SS "int(* \fB_gfal_plugin_interface::chmodG\fP)(plugin_handle, const char *, mode_t, GError **err)"
 .PP
 function pointer for the access using the guid url 
+.SS "ssize_t(* \fB_gfal_plugin_interface::getxattrG\fP)(plugin_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)"
+.PP
+getxattr implementation, follow the \fBgetxattr\fP behavior but with GError report system. 
+.SS "ssize_t(* \fB_gfal_plugin_interface::listxattrG\fP)(plugin_handle, const char *, char *list, size_t s_list, GError **err)"
+.PP
+listxattr implementation, follow the \fBlistxattr\fP behavior but with GError report system. 
 .SS "void(* \fB_gfal_plugin_interface::plugin_delete\fP)(plugin_handle)"
 .PP
 Called before the destruction of the plugin interface 
+.SS "int(* \fB_gfal_plugin_interface::plugin_parameter\fP)(plugin_handle handle, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)"
+.PP
+parameters handle in order to provide a generic way to set/get parameters to the gfal 2.0 plugins if not the function pointer is not null and for module== getName(), a call to this function is done for each call to \fBgfal_set_parameter\fP / \fBgfal_get_parameter\fP 
+.SS "int(* \fB_gfal_plugin_interface::setxattrG\fP)(plugin_handle, const char *, const char *, const void *, size_t, int, GError **)"
+.PP
+setxattr implementation, follow the \fBsetxattr\fP behavior but with GError report system. 
+.SS "int(* \fB_gfal_plugin_interface::unlinkG\fP)(plugin_handle, const char *path, GError **)"
+.PP
+unlink implementation, follow the \fBunlink\fP behavior but with GError report system. 
 
 .SH "Author"
 .PP 

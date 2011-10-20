@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "4 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -57,6 +57,12 @@ all POSIX style function \-
 .RI "int \fBgfal_write\fP (int, const void *, size_t)"
 .br
 .RI "\fIwrite a file similar to the POSIX call write gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd. \fP"
+.ti -1c
+.RI "ssize_t \fBgfal_pread\fP (int fd, void *buffer, size_t count, off_t offset)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_pwrite\fP (int fd, const void *buffer, size_t count, off_t offset)"
+.br
 .ti -1c
 .RI "ssize_t \fBgfal_getxattr\fP (const char *path, const char *name, void *value, size_t size)"
 .br
@@ -402,6 +408,48 @@ Get the last Error in a string format
 \fBReturns:\fP
 .RS 4
 return a pointer to the string buffer passed. 
+.RE
+.PP
+
+.SS "ssize_t gfal_pread (int fd, void * buffer, size_t count, off_t offset)"
+.PP
+pipelined call for read call, support parallels access similar to system call pread 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfd\fP : file descriptor 
+.br
+\fIbuffer\fP : buffer with the data 
+.br
+\fIs_buff\fP : maximum size of the buffer 
+.br
+\fIoffset\fP : offset in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return the number of bytes read, 0 means end of the file, and you can call \fBgfal_posix_check_error()\fP for a more complete description 
+.RE
+.PP
+
+.SS "ssize_t gfal_pwrite (int fd, const void * buffer, size_t count, off_t offset)"
+.PP
+pipelined write for write call, support parallels access similar to system call pwrite 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfd\fP : file descriptor 
+.br
+\fIbuffer\fP : buffer with the data 
+.br
+\fIs_buff\fP : maximum size of the buffer 
+.br
+\fIoffset\fP : offset in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return the number of bytes write, 0 means end of the file, and you can call \fBgfal_posix_check_error()\fP for a more complete description 
 .RE
 .PP
 

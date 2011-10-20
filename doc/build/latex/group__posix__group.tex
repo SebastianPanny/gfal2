@@ -31,6 +31,10 @@ int \bf{gfal\_\-read} (int, void $\ast$, size\_\-t)
 \begin{CompactList}\small\item\em read a file similar to the POSIX call read gfal\_\-read reads up to size bytes from the file descriptor fd into the buffer pointed by buff \item\end{CompactList}\item 
 int \bf{gfal\_\-write} (int, const void $\ast$, size\_\-t)
 \begin{CompactList}\small\item\em write a file similar to the POSIX call write gfal\_\-write writes size bytes from the buffer pointed by buff to the file descriptor fd. \item\end{CompactList}\item 
+ssize\_\-t \bf{gfal\_\-pread} (int fd, void $\ast$buffer, size\_\-t count, off\_\-t offset)
+\item 
+ssize\_\-t \bf{gfal\_\-pwrite} (int fd, const void $\ast$buffer, size\_\-t count, off\_\-t offset)
+\item 
 ssize\_\-t \bf{gfal\_\-getxattr} (const char $\ast$path, const char $\ast$name, void $\ast$value, size\_\-t size)
 \begin{CompactList}\small\item\em retrieve an extended attribute value \item\end{CompactList}\item 
 ssize\_\-t \bf{gfal\_\-listxattr} (const char $\ast$path, char $\ast$list, size\_\-t size)
@@ -301,6 +305,30 @@ Display and clear the last string error reported by the gfal error system for th
 
 Get the last Error in a string format \begin{Desc}
 \item[Returns:]return a pointer to the string buffer passed. \end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_pread@{gfal\_\-pread}}
+\index{gfal_pread@{gfal\_\-pread}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-pread (int {\em fd}, void $\ast$ {\em buffer}, size\_\-t {\em count}, off\_\-t {\em offset})}\label{group__posix__group_gb1918905381341a2dd35916d86d43449}
+
+
+pipelined call for read call, support parallels access similar to system call pread \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em fd}]: file descriptor \item[{\em buffer}]: buffer with the data \item[{\em s\_\-buff}]: maximum size of the buffer \item[{\em offset}]: offset in bytes \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return the number of bytes read, 0 means end of the file, and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description \end{Desc}
+\index{posix_group@{posix\_\-group}!gfal_pwrite@{gfal\_\-pwrite}}
+\index{gfal_pwrite@{gfal\_\-pwrite}!posix_group@{posix\_\-group}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-pwrite (int {\em fd}, const void $\ast$ {\em buffer}, size\_\-t {\em count}, off\_\-t {\em offset})}\label{group__posix__group_g2de061fcdbdec58660d5917a90772d6d}
+
+
+pipelined write for write call, support parallels access similar to system call pwrite \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em fd}]: file descriptor \item[{\em buffer}]: buffer with the data \item[{\em s\_\-buff}]: maximum size of the buffer \item[{\em offset}]: offset in bytes \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]return the number of bytes write, 0 means end of the file, and you can call \doxyref{gfal\_\-posix\_\-check\_\-error()}{p.}{group__posix__group_g57ced6eae7afd2d0413988da02fe0373} for a more complete description \end{Desc}
 \index{posix_group@{posix\_\-group}!gfal_read@{gfal\_\-read}}
 \index{gfal_read@{gfal\_\-read}!posix_group@{posix\_\-group}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-read (int {\em fd}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff})}\label{group__posix__group_gbfe92147d0bf650be3e471747ef2096f}

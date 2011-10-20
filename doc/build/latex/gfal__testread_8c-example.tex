@@ -8,7 +8,7 @@ This exemple show how to open and read a file ex : use case with LFC plugin : ./
 7 #include <stdio.h>
 8 #include <stdlib.h>
 9 #include <errno.h>
-10 #include "gfal_api.h"
+10 #include <gfal_api.h>
 11 #define BLKLEN 65536
 12 
 13 main(int argc, char **argv)
@@ -36,7 +36,7 @@ This exemple show how to open and read a file ex : use case with LFC plugin : ./
 35         }
 36         printf ("read successful (errno = %d)\n", errno);
 37 
-38         if ((rc = gfal_close (fd)) < 0) {
+38         if ((gfal_close (fd)) < 0) {
 39                 gfal_posix_check_error();
 40                 exit (1);
 41         }

@@ -1,0 +1,307 @@
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h \- the header file of the common lib for the plugin management 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdarg.h>\fP
+.br
+\fC#include <uuid/uuid.h>\fP
+.br
+\fC#include <glib.h>\fP
+.br
+\fC#include <errno.h>\fP
+.br
+\fC#include <string.h>\fP
+.br
+\fC#include <dirent.h>\fP
+.br
+\fC#include <sys/stat.h>\fP
+.br
+\fC#include 'gfal_prototypes.h'\fP
+.br
+\fC#include 'gfal_types.h'\fP
+.br
+\fC#include 'gfal_common_plugin_interface.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "char * \fBgfal_get_cat_type\fP (GError **)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugins_instance\fP (gfal_handle, GError **err)"
+.br
+.ti -1c
+.RI "char ** \fBgfal_plugins_get_list\fP (gfal_handle, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugins_delete\fP (gfal_handle, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugins_accessG\fP (gfal_handle handle, const char *path, int mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_rmdirG\fP (gfal_handle handle, const char *path, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_plugin_readlinkG\fP (gfal_handle handle, const char *path, char *buff, size_t buffsiz, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_chmodG\fP (gfal_handle handle, const char *path, mode_t mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_statG\fP (gfal_handle handle, const char *path, struct stat *st, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_renameG\fP (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_symlinkG\fP (gfal_handle handle, const char *oldpath, const char *newpath, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_lstatG\fP (gfal_handle handle, const char *path, struct stat *st, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_mkdirp\fP (gfal_handle handle, const char *path, mode_t mode, gboolean pflag, GError **err)"
+.br
+.ti -1c
+.RI "gfal_file_handle \fBgfal_plugin_opendirG\fP (gfal_handle handle, const char *name, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_closedirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
+.br
+.ti -1c
+.RI "dirent * \fBgfal_plugin_readdirG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
+.br
+.ti -1c
+.RI "gfal_file_handle \fBgfal_plugin_openG\fP (gfal_handle handle, const char *path, int flag, mode_t mode, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_closeG\fP (gfal_handle handle, gfal_file_handle fh, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_writeG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_lseekG\fP (gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_readG\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_unlinkG\fP (gfal_handle handle, const char *path, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_plugin_getxattrG\fP (gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)"
+.br
+.RI "\fIimplementation in the plugin of the get extended attribute function \fP"
+.ti -1c
+.RI "ssize_t \fBgfal_plugin_listxattrG\fP (gfal_handle, const char *, char *list, size_t s_list, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_plugin_setxattrG\fP (gfal_handle, const char *, const char *, const void *, size_t, int, GError **)"
+.br
+.ti -1c
+.RI "int \fBgfal_common_plugin_parameter\fP (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+the header file of the common lib for the plugin management 
+
+\fBAuthor:\fP
+.RS 4
+Devresse Adrien 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+0.0.1 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+8/04/2011 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "int gfal_plugin_chmodG (gfal_handle handle, const char * path, mode_t mode, GError ** err)"
+.PP
+Execute the chmod function on the first compatible plugin ( checked with check_url func ) 
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success or -1 and set the GError to the correct errno value with a description msg 
+.RE
+.PP
+
+.SS "int gfal_plugin_closedirG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
+.PP
+close the given dir handle in the proper plugin 
+.SS "int gfal_plugin_closeG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
+.PP
+close the given file handle in the proper plugin 
+.SS "int gfal_plugin_lseekG (gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError ** err)"
+.PP
+do a lseek operation on the plugin 
+.PP
+\fBReturns:\fP
+.RS 4
+return number of bytes readed else -1 if errors and GError is set 
+.RE
+.PP
+
+.SS "int gfal_plugin_lstatG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
+.PP
+Execute a lstat function in the lfc 
+.SS "int gfal_plugin_mkdirp (gfal_handle handle, const char * path, mode_t mode, gboolean pflag, GError ** err)"
+.PP
+Execute a mkdir function on the first compatible plugin ( checked with check url func ) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP handle of the current context 
+.br
+\fIpath\fP path to create 
+.br
+\fImode\fP right of the file created 
+.br
+\fIpflag\fP if TRUE, execute the request recursively if necessary else work as the common mkdir system call 
+.br
+\fIGError\fP error report system 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+no check on the path, please check the path before 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return 0 if success else return -1 
+.RE
+.PP
+
+.SS "gfal_file_handle gfal_plugin_opendirG (gfal_handle handle, const char * name, GError ** err)"
+.PP
+Execute a opendir function on the first compatible plugin ( checked with check url func ) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP handle of the current context 
+.br
+\fIpath\fP path to open 
+.br
+\fIGError\fP error report system 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+gfal_file_handle pointer given to the handle or NULL if error 
+.RE
+.PP
+
+.SS "gfal_file_handle gfal_plugin_openG (gfal_handle handle, const char * path, int flag, mode_t mode, GError ** err)"
+.PP
+open the file specified by path on the proper plugin with the specified flag and mode 
+.SS "struct dirent* gfal_plugin_readdirG (gfal_handle handle, gfal_file_handle fh, GError ** err)"
+.PP
+execute a readdir for the given file handle on the appropriate plugin 
+.SS "int gfal_plugin_readG (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
+.PP
+do a read operation on the plugin, read s_buff chars on the fd device 
+.PP
+\fBReturns:\fP
+.RS 4
+return number of bytes readed else -1 if errors and GError is set 
+.RE
+.PP
+
+.SS "ssize_t gfal_plugin_readlinkG (gfal_handle handle, const char * path, char * buff, size_t buffsiz, GError ** err)"
+.PP
+Execute a readlink function 
+.SS "int gfal_plugin_renameG (gfal_handle handle, const char * oldpath, const char * newpath, GError ** err)"
+.PP
+Execute the rename function on the first compatible plugin ( checked with check_url func ) 
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success or -1 and set the GError to the correct errno value with a description msg 
+.RE
+.PP
+
+.SS "int gfal_plugin_rmdirG (gfal_handle handle, const char * path, GError ** err)"
+.PP
+Execute a rmdir function on the first compatible plugin ( checked with check url func ) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhandle\fP handle of the current context 
+.br
+\fIpath\fP path to delete 
+.br
+\fIGError\fP error report system 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+no check on the path, please check the path before 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+return 0 if success else return -1 
+.RE
+.PP
+
+.SS "int gfal_plugin_setxattrG (gfal_handle handle, const char * path, const char * name, const void * value, size_t size, int flags, GError ** err)"
+.PP
+setxattr for the plugins 
+.SS "int gfal_plugin_statG (gfal_handle handle, const char * path, struct stat * st, GError ** err)"
+.PP
+Execute a stat function on the lfc plugin 
+.SS "int gfal_plugin_symlinkG (gfal_handle handle, const char * oldpath, const char * newpath, GError ** err)"
+.PP
+Execute the symlink function on the first compatible plugin 
+.SS "int gfal_plugin_unlinkG (gfal_handle handle, const char * path, GError ** err)"
+.PP
+apply unlink on the appropriate plugin 
+.SS "int gfal_plugin_writeG (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
+.PP
+do a write operation on the plugin, write s_buff chars on the fd device 
+.PP
+\fBReturns:\fP
+.RS 4
+return number of bytes readed else -1 if errors and GError is set 
+.RE
+.PP
+
+.SS "int gfal_plugins_accessG (gfal_handle handle, const char * path, int mode, GError ** err)"
+.PP
+Execute an access function on the first plugin compatible in the plugin list return the result of the first valid plugin for a given URL 
+.PP
+\fBReturns:\fP
+.RS 4
+result of the access method or -1 if error and set GError with the correct value error : EPROTONOSUPPORT means that the URL is not matched by a plugin 
+.RE
+.PP
+
+.SS "int gfal_plugins_delete (gfal_handle handle, GError ** err)"
+.PP
+Delete all instance of plugins 
+.SS "char** gfal_plugins_get_list (gfal_handle handle, GError ** err)"
+.PP
+external function to get the list of the plugins loaded 
+.SS "int gfal_plugins_instance (gfal_handle handle, GError ** err)\fC [inline]\fP"
+.PP
+Instance all plugins for use if it's not the case return the number of plugin available 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

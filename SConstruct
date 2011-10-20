@@ -33,7 +33,7 @@ isifce=False
 # global var
 etics_build_dir= "/usr/" # disable
 version= '2.0'
-package_version = '1.12_preview'
+package_version = '1.13_preview'
 license_type = "Apache Software License"
 
 ## generic function to get conf value
@@ -189,11 +189,13 @@ if(main_core):
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
 			 LICENSE        = license_type,
-			 SUMMARY        = 'grid file access library 2.0',
-			 DESCRIPTION    = 'Provide a POSIX like API to manage file and directory with the multiples protocols of the grid',
-			 X_RPM_GROUP    = 'CERN/grid',
+			 SUMMARY        = 'Grid file access library 2.0',
+			 DESCRIPTION    = 'POSIX abtraction layer for grid storage system',
+			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_INSTALL= x_rpm_install,
-			 X_RPM_REQUIRES = 'glib2, openldap',
+			 X_RPM_POSTINSTALL = "ldconfig",
+			 X_RPM_POSTUNINSTALL = "ldconfig",
+			 X_RPM_REQUIRES = 'openldap',
 			 source= [lib_main, version_main] 
 			 )
 
@@ -216,7 +218,7 @@ if(main_devel):
 			 LICENSE        = license_type,
 			 SUMMARY        = 'development files for grid file access library 2.0',
 			 DESCRIPTION    = 'development files for grid file access library 2.0',
-			 X_RPM_GROUP    = 'CERN/grid',
+			 X_RPM_GROUP    = 'Development/Libraries',
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'glib2-devel, gfal2-core',
 			 source= [header_main, header_main2, header_main3, static_main, example_main, pkg_config] 
@@ -238,8 +240,9 @@ if(plugin_devel):
 			 LICENSE        = license_type,
 			 SUMMARY        = 'development files for the gfal 2.0 plugins ',
 			 DESCRIPTION    = 'development files for the plugins of the grid file access library 2.0',
-			 X_RPM_GROUP    = 'CERN/grid',
+			 X_RPM_GROUP    = 'Development/Libraries',
 			 X_RPM_INSTALL= x_rpm_install,
+			 X_RPM_POSTINSTALL = "ldconfig",			
 			 X_RPM_REQUIRES = 'glib2-devel, gfal2-core-devel',
 			 source= [header_main, header_main2, header_main3, header_main4] 
 			 )
@@ -257,8 +260,9 @@ if(plugin_lfc):
 			 LICENSE        = license_type,
 			 SUMMARY        = 'plugin lfc for gfal 2.0',
 			 DESCRIPTION    = 'Provide the lfc access for gfal2.0',
-			 X_RPM_GROUP    = 'CERN/grid',
+			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_REQUIRES = 'lfc-libs, glib2, gfal2-core ',
+			 X_RPM_POSTINSTALL = "ldconfig",
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_lfc, lib_plugin_lfc_conf],
 			 )	
@@ -278,8 +282,9 @@ if(plugin_srm):
 			 LICENSE        = license_type,
 			 SUMMARY        = 'plugin srm for gfal 2.0',
 			 DESCRIPTION    = 'Provide the srm access for gfal2.0',
-			 X_RPM_GROUP    = 'CERN/grid',
+			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_REQUIRES = 'glib2, gfal2-core, srm-ifce ',
+			 X_RPM_POSTINSTALL = "ldconfig",
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_srm, lib_plugin_srm_conf],
 			 )	
@@ -298,8 +303,9 @@ if(plugin_rfio):
 			 LICENSE        = license_type,
 			 SUMMARY        = 'plugin rfio for gfal 2.0',
 			 DESCRIPTION    = 'Provide the rfio access for gfal2.0',
-			 X_RPM_GROUP    = 'CERN/grid',
+			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_REQUIRES = 'dpm-libs, glib2, gfal2-core ',
+			 X_RPM_POSTINSTALL = "ldconfig",			 
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_rfio, lib_plugin_rfio_conf],
 			 )	
@@ -318,8 +324,9 @@ if(plugin_dcap):
 			 LICENSE        = license_type,
 			 SUMMARY        = 'plugin dcap for gfal 2.0',
 			 DESCRIPTION    = 'Provide the dcap access for gfal2.0',
-			 X_RPM_GROUP    = 'CERN/grid',
+			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_REQUIRES = 'dcap-libs, glib2, gfal2-core ',
+			 X_RPM_POSTINSTALL = "ldconfig",			 
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_dcap, lib_plugin_dcap_conf],
 			 )	
@@ -373,7 +380,7 @@ if(main_tests):
 			 LICENSE        = license_type,
 			 SUMMARY        = 'binaries tests for GFAL 2.0',
 			 DESCRIPTION    = 'binaries tests for GFAL 2.0',
-			 X_RPM_GROUP    = 'CERN/grid',
+			 X_RPM_GROUP    = 'Development/Tools',
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'gfal2-all',
 			 source= [main_test] 

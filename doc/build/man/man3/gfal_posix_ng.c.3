@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "4 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -142,6 +142,12 @@
 .br
 .ti -1c
 .RI "char * \fBgfal_posix_strerror_r\fP (char *buff_err, size_t s_err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_pread\fP (int fd, void *buffer, size_t count, off_t offset)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_pwrite\fP (int fd, const void *buffer, size_t count, off_t offset)"
 .br
 .ti -1c
 .RI "void \fBgfal_set_nobdii\fP (int value)"

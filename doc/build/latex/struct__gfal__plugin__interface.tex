@@ -64,20 +64,15 @@ int($\ast$ \textbf{close\-G} )(plugin\_\-handle, gfal\_\-file\_\-handle fd, GErr
 int($\ast$ \textbf{lseek\-G} )(plugin\_\-handle, gfal\_\-file\_\-handle fd, off\_\-t offset, int whence, GError $\ast$$\ast$err)\label{struct__gfal__plugin__interface_424d4d77e29e5e4cfe92eae0d6a8bdc2}
 
 \item 
-int($\ast$ \textbf{unlink\-G} )(plugin\_\-handle, const char $\ast$path, GError $\ast$$\ast$)\label{struct__gfal__plugin__interface_75692c1e9487ff9ed7fce15dc2ddac62}
-
+int($\ast$ \bf{unlink\-G} )(plugin\_\-handle, const char $\ast$path, GError $\ast$$\ast$)
 \item 
-ssize\_\-t($\ast$ \textbf{getxattr\-G} )(plugin\_\-handle, const char $\ast$, const char $\ast$, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)\label{struct__gfal__plugin__interface_9c6b4405f17d92e42aa40ff307188701}
-
+ssize\_\-t($\ast$ \bf{getxattr\-G} )(plugin\_\-handle, const char $\ast$, const char $\ast$, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
 \item 
-ssize\_\-t($\ast$ \textbf{listxattr\-G} )(plugin\_\-handle, const char $\ast$, char $\ast$list, size\_\-t s\_\-list, GError $\ast$$\ast$err)\label{struct__gfal__plugin__interface_c3bae2e54ce8998722f03b588d423b18}
-
+ssize\_\-t($\ast$ \bf{listxattr\-G} )(plugin\_\-handle, const char $\ast$, char $\ast$list, size\_\-t s\_\-list, GError $\ast$$\ast$err)
 \item 
-int($\ast$ \textbf{setxattr\-G} )(plugin\_\-handle, const char $\ast$, const char $\ast$, const void $\ast$, size\_\-t, int, GError $\ast$$\ast$)\label{struct__gfal__plugin__interface_2ededf4f6bc7f284ac31234110ee1444}
-
+int($\ast$ \bf{setxattr\-G} )(plugin\_\-handle, const char $\ast$, const char $\ast$, const void $\ast$, size\_\-t, int, GError $\ast$$\ast$)
 \item 
-int($\ast$ \textbf{plugin\_\-parameter} )(plugin\_\-handle handle, const char $\ast$name, char $\ast$value, size\_\-t max\_\-size, GFAL\_\-PARAM\_\-FUNC func, GFAL\_\-TYPE req\_\-type, GError $\ast$$\ast$err)\label{struct__gfal__plugin__interface_4a4be363e714afa487e8abc21dce2ae7}
-
+int($\ast$ \bf{plugin\_\-parameter} )(plugin\_\-handle handle, const char $\ast$name, char $\ast$value, size\_\-t max\_\-size, GFAL\_\-PARAM\_\-FUNC func, GFAL\_\-TYPE req\_\-type, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -104,12 +99,37 @@ Check the url syntax and the operation, return TRUE if the operation is compatib
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::chmod\-G})(plugin\_\-handle, const char $\ast$, mode\_\-t, GError $\ast$$\ast$err)}\label{struct__gfal__plugin__interface_e032ec6f13423ea516ca4c02332f5ecf}
 
 
-function pointer for the access using the guid url \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!plugin_delete@{plugin\_\-delete}}
+function pointer for the access using the guid url \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!getxattrG@{getxattrG}}
+\index{getxattrG@{getxattrG}!_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::getxattr\-G})(plugin\_\-handle, const char $\ast$, const char $\ast$, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)}\label{struct__gfal__plugin__interface_9c6b4405f17d92e42aa40ff307188701}
+
+
+getxattr implementation, follow the getxattr behavior but with GError report system. \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!listxattrG@{listxattrG}}
+\index{listxattrG@{listxattrG}!_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::listxattr\-G})(plugin\_\-handle, const char $\ast$, char $\ast$list, size\_\-t s\_\-list, GError $\ast$$\ast$err)}\label{struct__gfal__plugin__interface_c3bae2e54ce8998722f03b588d423b18}
+
+
+listxattr implementation, follow the listxattr behavior but with GError report system. \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!plugin_delete@{plugin\_\-delete}}
 \index{plugin_delete@{plugin\_\-delete}!_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::plugin\_\-delete})(plugin\_\-handle)}\label{struct__gfal__plugin__interface_d146f62bd310f1f265f0bc3c37cc70d8}
 
 
-Called before the destruction of the plugin interface 
+Called before the destruction of the plugin interface \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!plugin_parameter@{plugin\_\-parameter}}
+\index{plugin_parameter@{plugin\_\-parameter}!_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::plugin\_\-parameter})(plugin\_\-handle handle, const char $\ast$name, char $\ast$value, size\_\-t max\_\-size, GFAL\_\-PARAM\_\-FUNC func, GFAL\_\-TYPE req\_\-type, GError $\ast$$\ast$err)}\label{struct__gfal__plugin__interface_4a4be363e714afa487e8abc21dce2ae7}
+
+
+parameters handle in order to provide a generic way to set/get parameters to the gfal 2.0 plugins if not the function pointer is not null and for module== get\-Name(), a call to this function is done for each call to gfal\_\-set\_\-parameter / gfal\_\-get\_\-parameter \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!setxattrG@{setxattrG}}
+\index{setxattrG@{setxattrG}!_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::setxattr\-G})(plugin\_\-handle, const char $\ast$, const char $\ast$, const void $\ast$, size\_\-t, int, GError $\ast$$\ast$)}\label{struct__gfal__plugin__interface_2ededf4f6bc7f284ac31234110ee1444}
+
+
+setxattr implementation, follow the setxattr behavior but with GError report system. \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!unlinkG@{unlinkG}}
+\index{unlinkG@{unlinkG}!_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::unlink\-G})(plugin\_\-handle, const char $\ast$path, GError $\ast$$\ast$)}\label{struct__gfal__plugin__interface_75692c1e9487ff9ed7fce15dc2ddac62}
+
+
+unlink implementation, follow the unlink behavior but with GError report system. 
 
 The documentation for this struct was generated from the following file:\begin{CompactItemize}
 \item 

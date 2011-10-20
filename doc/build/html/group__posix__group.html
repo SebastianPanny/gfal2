@@ -57,6 +57,10 @@ ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_readlink</b> 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g7237b84e87965301f5030058eca38333">gfal_write</a> (int, const void *, size_t)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">write a file similar to the POSIX call write gfal_write writes size bytes from the buffer pointed by buff to the file descriptor fd.  <a href="#g7237b84e87965301f5030058eca38333"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gb1918905381341a2dd35916d86d43449">gfal_pread</a> (int fd, void *buffer, size_t count, off_t offset)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g2de061fcdbdec58660d5917a90772d6d">gfal_pwrite</a> (int fd, const void *buffer, size_t count, off_t offset)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gc793467bb55cd10d991ee1023b321dae">gfal_getxattr</a> (const char *path, const char *name, void *value, size_t size)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">retrieve an extended attribute value  <a href="#gc793467bb55cd10d991ee1023b321dae"></a><br></td></tr>
@@ -674,6 +678,106 @@ Get the last Error in a string format <dl compact><dt><b>Returns:</b></dt><dd>re
 
 </div>
 </div><p>
+<a class="anchor" name="gb1918905381341a2dd35916d86d43449"></a><!-- doxytag: member="gfal_posix_api.h::gfal_pread" ref="gb1918905381341a2dd35916d86d43449" args="(int fd, void *buffer, size_t count, off_t offset)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t gfal_pread           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">off_t&nbsp;</td>
+          <td class="paramname"> <em>offset</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+pipelined call for read call, support parallels access similar to system call pread <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>fd</em>&nbsp;</td><td>: file descriptor </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>buffer</em>&nbsp;</td><td>: buffer with the data </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>s_buff</em>&nbsp;</td><td>: maximum size of the buffer </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>offset</em>&nbsp;</td><td>: offset in bytes </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return the number of bytes read, 0 means end of the file, and you can call <a class="el" href="group__posix__group.html#g57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error()</a> for a more complete description </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="g2de061fcdbdec58660d5917a90772d6d"></a><!-- doxytag: member="gfal_posix_api.h::gfal_pwrite" ref="g2de061fcdbdec58660d5917a90772d6d" args="(int fd, const void *buffer, size_t count, off_t offset)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t gfal_pwrite           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&nbsp;</td>
+          <td class="paramname"> <em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">off_t&nbsp;</td>
+          <td class="paramname"> <em>offset</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+pipelined write for write call, support parallels access similar to system call pwrite <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>fd</em>&nbsp;</td><td>: file descriptor </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>buffer</em>&nbsp;</td><td>: buffer with the data </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>s_buff</em>&nbsp;</td><td>: maximum size of the buffer </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>offset</em>&nbsp;</td><td>: offset in bytes </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>return the number of bytes write, 0 means end of the file, and you can call <a class="el" href="group__posix__group.html#g57ced6eae7afd2d0413988da02fe0373">gfal_posix_check_error()</a> for a more complete description </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="gbfe92147d0bf650be3e471747ef2096f"></a><!-- doxytag: member="gfal_posix_api.h::gfal_read" ref="gbfe92147d0bf650be3e471747ef2096f" args="(int, void *, size_t)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1106,7 +1210,7 @@ write a file similar to the POSIX call write gfal_write writes size bytes from t
 <a class="el" href="gfal__testrw_8c-example.html#a19">gfal_testrw.c</a>.</dl>
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Oct 4 17:23:36 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:15 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

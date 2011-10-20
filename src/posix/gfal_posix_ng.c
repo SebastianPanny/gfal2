@@ -526,9 +526,36 @@ char* gfal_posix_strerror_r(char* buff_err, size_t s_err){
 	return (char*)gfal_str_GError_r(gfal_posix_get_last_error(), buff_err, s_err);
  }
  
+/**
+ * pipelined call for read call, support parallels access
+ *  similar to system call pread
+ * @param fd : file descriptor
+ * @param buffer : buffer with the data
+ * @param s_buff : maximum size of the buffer
+ * @param offset : offset in bytes
+ * @return return the number of bytes read, 0 means end of the file, 
+ * and you can call @ref gfal_posix_check_error() for a more complete description
+ * 
+ * */
+ssize_t gfal_pread(int fd, void * buffer, size_t count, off_t offset){
+	return -1;
+}
 
 
-
+/**
+ * pipelined write for write call, support parallels access
+ *  similar to system call pwrite
+ * @param fd : file descriptor
+ * @param buffer : buffer with the data
+ * @param s_buff : maximum size of the buffer
+ * @param offset : offset in bytes
+ * @return return the number of bytes write, 0 means end of the file, 
+ * and you can call @ref gfal_posix_check_error() for a more complete description
+ * 
+ * */
+ssize_t gfal_pwrite(int fd, const void * buffer, size_t count, off_t offset){
+	return -1;
+}
  
  void gfal_set_nobdii (int value){
     nobdii = value;

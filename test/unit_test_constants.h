@@ -43,9 +43,10 @@
 #define TEST_CONCAT_LFC_PREFIX(x) TEST_XFUSION_STRING(TEST_LFC_PREFIX, x)
 
 // mds part
-#define TEST_MDS_VALID_ENDPOINT_URL "grid-cert-03.roma1.infn.it"
+#define TEST_MDS_VALID_ENDPOINT_URL "grid05.lal.in2p3.fr"
 #define TEST_MDS_INVALID_ENDPOINT_URL "google.com"
-#define TEST_MDS_VALID_ENDPOINT_RESU "grid-cert-03.roma1.infn.it"
+#define TEST_MDS_VALID_ENDPOINT_RESU_1 "httpg://grid05.lal.in2p3.fr:8443/srm/managerv1"
+#define TEST_MDS_VALID_ENDPOINT_RESU_2 "httpg://grid05.lal.in2p3.fr:8446/srm/managerv2"
  
  // constant to define for succefull unit test
 #define TEST_LFC_VALID_ACCESS "lfn:/grid/dteam/hello001"		// this file must be a lfc file with read access and no write access

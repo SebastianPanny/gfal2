@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "gfal_api.h"
+#include <gfal_api.h>
 #define BLKLEN 65536
 
 main(int argc, char **argv)
@@ -35,7 +35,7 @@ main(int argc, char **argv)
 	}
 	printf ("read successful (errno = %d)\n", errno);
 
-	if ((rc = gfal_close (fd)) < 0) {
+	if ((gfal_close (fd)) < 0) {
 		gfal_posix_check_error();
 		exit (1);
 	}

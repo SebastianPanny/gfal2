@@ -135,6 +135,21 @@
     <member refid="struct__GSimpleCache__Handle_1d5fb3688b7e1f081ea226b8b3b12242f" kind="variable"><name>size_item</name></member>
     <member refid="struct__GSimpleCache__Handle_113873163c2133e528b4539fd9da2c9fa" kind="variable"><name>mux</name></member>
   </compound>
+  <compound refid="struct__GSkipLink" kind="struct"><name>_GSkipLink</name>
+    <member refid="struct__GSkipLink_112c9a687eadc97a88170125674d7d30e" kind="variable"><name>next</name></member>
+  </compound>
+  <compound refid="struct__GSkiplist" kind="struct"><name>_GSkiplist</name>
+    <member refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kind="variable"><name>head_node</name></member>
+    <member refid="struct__GSkiplist_172b4f5cdaabb8df62ab5c0b7f6935a57" kind="variable"><name>cmp_func</name></member>
+    <member refid="struct__GSkiplist_1bb6a38faf9d0dd2c523a35e9601aed62" kind="variable"><name>length</name></member>
+    <member refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kind="variable"><name>lock</name></member>
+  </compound>
+  <compound refid="struct__GSkipNode" kind="struct"><name>_GSkipNode</name>
+    <member refid="struct__GSkipNode_162ce405731a383f60f01a2a31bbf231d" kind="variable"><name>key</name></member>
+    <member refid="struct__GSkipNode_1e47ba231c3a39c05ed1495eeba962f96" kind="variable"><name>data</name></member>
+    <member refid="struct__GSkipNode_1a9fb8c7da8cc80f132548d9aece23722" kind="variable"><name>height</name></member>
+    <member refid="struct__GSkipNode_14fa7934bbb269c18e41ec463b4c77ef3" kind="variable"><name>link</name></member>
+  </compound>
   <compound refid="struct__GWatchdog" kind="struct"><name>_GWatchdog</name>
     <member refid="struct__GWatchdog_1054b23f1c0f1fc537ea73efd48390e79" kind="variable"><name>time</name></member>
     <member refid="struct__GWatchdog_1fa60e3cfbc4bdc43e7b6d6ed432f4fe6" kind="variable"><name>duration</name></member>
@@ -713,6 +728,7 @@
   <compound refid="gfal__common__mds_8h" kind="file"><name>gfal_common_mds.h</name>
     <member refid="gfal__common__mds_8h_153abf256730d533302d1910e5fb61efe" kind="define"><name>_GNU_SOURCE</name></member>
     <member refid="gfal__common__mds_8h_14f386ed7fb35592835a49ffe193349fe" kind="define"><name>GFAL_MDS_MAX_SRM_ENDPOINT</name></member>
+    <member refid="gfal__common__mds_8h_1d155f106d1999092487d06fd0206be8e" kind="define"><name>MDS_BDII_EXTERNAL</name></member>
     <member refid="gfal__common__mds_8h_10fdfb694c017ea0ce492e319c7a47cb9" kind="typedef"><name>gfal_mds_endpoint</name></member>
     <member refid="gfal__common__mds_8h_16124113dfac85a14d261523dd54510e5" kind="enum"><name>mds_type_endpoint</name></member>
     <member refid="gfal__common__mds_8h_16124113dfac85a14d261523dd54510e54c2b34c544e3a2be9c96d0675f5c6d6d" kind="enumvalue"><name>SRMv2</name></member>
@@ -1040,6 +1056,39 @@
     <member refid="gcachemain_8h_155499129945a7de46236041712c8f421" kind="function"><name>gsimplecache_take_one_kstr</name></member>
     <member refid="gcachemain_8h_1441b89c3092c6d6459fb0569a2071f11" kind="function"><name>gsimplecache_remove_kstr</name></member>
   </compound>
+  <compound refid="gskiplist_8c" kind="file"><name>gskiplist.c</name>
+    <member refid="gskiplist_8c_1fb5f4a57e73f242d7de0a91964f42b77" kind="function"><name>gskiplist_get_first_value_internal</name></member>
+    <member refid="gskiplist_8c_104a30a3835e007b36df90ac24e2ab65d" kind="function"><name>gskiplist_remove_internal</name></member>
+    <member refid="gskiplist_8c_134de6feb84c7aff6841d3f38fed58a7d" kind="function"><name>gskiplist_insert_internal</name></member>
+    <member refid="gskiplist_8c_1c2ec36e6d6935b03d1a063b214156f6b" kind="function"><name>gskiplist_search_internal</name></member>
+    <member refid="gskiplist_8c_100a6474dd1ab41bc253b2ecd656511c3" kind="function"><name>gskiplist_create_node</name></member>
+    <member refid="gskiplist_8c_1fc7328181527fa4f869fb6834e00397f" kind="function"><name>gskiplist_compare</name></member>
+    <member refid="gskiplist_8c_1cc7724bd2ed746d8a3908494ae6ad811" kind="function"><name>gskiplist_compare_node</name></member>
+    <member refid="gskiplist_8c_165f1f326cb7917530dae183d390431c5" kind="function"><name>gskiplist_get_random_size</name></member>
+    <member refid="gskiplist_8c_1ed9a6d0709aa074224daa2fd10c911f1" kind="function"><name>gskiplist_new</name></member>
+    <member refid="gskiplist_8c_18dbc9df706526778d5488631c1d2059f" kind="function"><name>gskiplist_delete</name></member>
+    <member refid="gskiplist_8c_186a8ad88934b67be2b081bb15c11224b" kind="function"><name>gskiplist_insert</name></member>
+    <member refid="gskiplist_8c_1c6460c21749fac9d17f5f4511075b1f9" kind="function"><name>gskiplist_length</name></member>
+    <member refid="gskiplist_8c_15faf49deba35b0999985b0bca02cd534" kind="function"><name>gskiplist_remove</name></member>
+    <member refid="gskiplist_8c_14ddc52005069405498667b8d10b03f1d" kind="function"><name>gskiplist_search</name></member>
+    <member refid="gskiplist_8c_14a8426868ce08758a306970a924ed313" kind="function"><name>gskiplist_get_first_value</name></member>
+    <member refid="gskiplist_8c_1c34d3152469c860413e3836f875dfbf8" kind="function"><name>gskiplist_clean</name></member>
+    <member refid="gskiplist_8c_1b1dfcfc979918393c534c1415cf67c21" kind="variable"><name>max_size</name></member>
+  </compound>
+  <compound refid="gskiplist_8h" kind="file"><name>gskiplist.h</name>
+    <member refid="gskiplist_8h_1da8b91cd42e756f098a953aa8087f335" kind="typedef"><name>GSkiplist</name></member>
+    <member refid="gskiplist_8h_1d699cd92335ffe077d2b7ab2efbdb132" kind="typedef"><name>GSkipNode</name></member>
+    <member refid="gskiplist_8h_1a65c5c63dcb76b2be4a6e67468bbb209" kind="typedef"><name>GSkipLink</name></member>
+    <member refid="gskiplist_8h_1ed9a6d0709aa074224daa2fd10c911f1" kind="function"><name>gskiplist_new</name></member>
+    <member refid="gskiplist_8h_18dbc9df706526778d5488631c1d2059f" kind="function"><name>gskiplist_delete</name></member>
+    <member refid="gskiplist_8h_186a8ad88934b67be2b081bb15c11224b" kind="function"><name>gskiplist_insert</name></member>
+    <member refid="gskiplist_8h_1c6460c21749fac9d17f5f4511075b1f9" kind="function"><name>gskiplist_length</name></member>
+    <member refid="gskiplist_8h_15faf49deba35b0999985b0bca02cd534" kind="function"><name>gskiplist_remove</name></member>
+    <member refid="gskiplist_8h_14ddc52005069405498667b8d10b03f1d" kind="function"><name>gskiplist_search</name></member>
+    <member refid="gskiplist_8h_14a8426868ce08758a306970a924ed313" kind="function"><name>gskiplist_get_first_value</name></member>
+    <member refid="gskiplist_8h_1c34d3152469c860413e3836f875dfbf8" kind="function"><name>gskiplist_clean</name></member>
+    <member refid="gskiplist_8h_1b1dfcfc979918393c534c1415cf67c21" kind="variable"><name>max_size</name></member>
+  </compound>
   <compound refid="gwatchdog_8c" kind="file"><name>gwatchdog.c</name>
     <member refid="gwatchdog_8c_12ab41e971845c2f1fa975d939a7e2a6e" kind="function"><name>internal_runtime</name></member>
     <member refid="gwatchdog_8c_1fc136998ed9fa30de0986a4b5bcc0cb2" kind="function"><name>gwatchdog_new</name></member>
@@ -1073,6 +1122,8 @@
     <member refid="group__posix__group_1g83b88bd27def4c4e2fdfea3c5bbf88b4" kind="function"><name>gfal_close</name></member>
     <member refid="group__posix__group_1gbfe92147d0bf650be3e471747ef2096f" kind="function"><name>gfal_read</name></member>
     <member refid="group__posix__group_1g7237b84e87965301f5030058eca38333" kind="function"><name>gfal_write</name></member>
+    <member refid="group__posix__group_1gb1918905381341a2dd35916d86d43449" kind="function"><name>gfal_pread</name></member>
+    <member refid="group__posix__group_1g2de061fcdbdec58660d5917a90772d6d" kind="function"><name>gfal_pwrite</name></member>
     <member refid="group__posix__group_1gc793467bb55cd10d991ee1023b321dae" kind="function"><name>gfal_getxattr</name></member>
     <member refid="group__posix__group_1gb3af1720532d8ad4798b08fa0868f4c7" kind="function"><name>gfal_listxattr</name></member>
     <member refid="group__posix__group_1g79d4f4e15b5915fe7f09b57cf09491c5" kind="function"><name>gfal_setxattr</name></member>
@@ -1253,6 +1304,8 @@
     <member refid="group__posix__group_1gc6149b0b3c9c8af05789169a18832634" kind="function"><name>gfal_posix_code_error</name></member>
     <member refid="group__posix__group_1g57ced6eae7afd2d0413988da02fe0373" kind="function"><name>gfal_posix_check_error</name></member>
     <member refid="group__posix__group_1g2a9e2951c934dd1c3205a89c0d25ac29" kind="function"><name>gfal_posix_strerror_r</name></member>
+    <member refid="group__posix__group_1gb1918905381341a2dd35916d86d43449" kind="function"><name>gfal_pread</name></member>
+    <member refid="group__posix__group_1g2de061fcdbdec58660d5917a90772d6d" kind="function"><name>gfal_pwrite</name></member>
     <member refid="gfal__posix__ng_8c_1a3f35e131b2db4c3b742a29790e08bdf" kind="function"><name>gfal_set_nobdii</name></member>
     <member refid="gfal__posix__ng_8c_10d2a0557bdb571ccb85c6ab5c05ae56f" kind="function"><name>gfal_is_nobdii</name></member>
     <member refid="gfal__posix__ng_8c_18d2039688b4b5c5523bd647e8b4fdcf6" kind="variable"><name>nobdii</name></member>
@@ -1320,6 +1373,8 @@
     <member refid="group__posix__group_1g83b88bd27def4c4e2fdfea3c5bbf88b4" kind="function"><name>gfal_close</name></member>
     <member refid="group__posix__group_1gbfe92147d0bf650be3e471747ef2096f" kind="function"><name>gfal_read</name></member>
     <member refid="group__posix__group_1g7237b84e87965301f5030058eca38333" kind="function"><name>gfal_write</name></member>
+    <member refid="group__posix__group_1gb1918905381341a2dd35916d86d43449" kind="function"><name>gfal_pread</name></member>
+    <member refid="group__posix__group_1g2de061fcdbdec58660d5917a90772d6d" kind="function"><name>gfal_pwrite</name></member>
     <member refid="group__posix__group_1gc793467bb55cd10d991ee1023b321dae" kind="function"><name>gfal_getxattr</name></member>
     <member refid="group__posix__group_1gb3af1720532d8ad4798b08fa0868f4c7" kind="function"><name>gfal_listxattr</name></member>
     <member refid="group__posix__group_1g79d4f4e15b5915fe7f09b57cf09491c5" kind="function"><name>gfal_setxattr</name></member>
@@ -1359,6 +1414,8 @@
   <compound refid="dir_041b58ee89bcb3a642ed3c9a19cc3a56" kind="dir"><name>/home/adevress/myworkspace/gfal/src/externals/</name>
   </compound>
   <compound refid="dir_f6ef8362764c83748b9d1f4630c700db" kind="dir"><name>/home/adevress/myworkspace/gfal/src/externals/gsimplecache/</name>
+  </compound>
+  <compound refid="dir_2dba9a5666d4edcf54d174c1fa6282fb" kind="dir"><name>/home/adevress/myworkspace/gfal/src/externals/gskiplist/</name>
   </compound>
   <compound refid="dir_dcabb4e8aa03895b9104cf09e78f2c8f" kind="dir"><name>/home/adevress/myworkspace/gfal/src/externals/gwatchdog/</name>
   </compound>

@@ -1,0 +1,636 @@
+<?xml version='1.0' encoding='iso-8859-1' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.4.7">
+  <compounddef id="gskiplist_8c" kind="file">
+    <compoundname>gskiplist.c</compoundname>
+    <includes local="no">time.h</includes>
+    <includes refid="gskiplist_8h" local="yes">gskiplist.h</includes>
+    <incdepgraph>
+      <node id="1979">
+        <label>glib.h</label>
+      </node>
+      <node id="1977">
+        <label>time.h</label>
+      </node>
+      <node id="1976">
+        <label>/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c</label>
+        <link refid="gskiplist.c"/>
+        <childnode refid="1977" relation="include">
+        </childnode>
+        <childnode refid="1978" relation="include">
+        </childnode>
+      </node>
+      <node id="1978">
+        <label>gskiplist.h</label>
+        <link refid="gskiplist_8h-source"/>
+        <childnode refid="1979" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="gskiplist_8c_1fb5f4a57e73f242d7de0a91964f42b77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gpointer</type>
+        <definition>gpointer gskiplist_get_first_value_internal</definition>
+        <argsstring>(GSkiplist *sk)</argsstring>
+        <name>gskiplist_get_first_value_internal</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="23" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="216" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_104a30a3835e007b36df90ac24e2ab65d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gpointer</type>
+        <definition>gpointer gskiplist_remove_internal</definition>
+        <argsstring>(GSkiplist *sk, gpointer key)</argsstring>
+        <name>gskiplist_remove_internal</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="24" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="138" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_134de6feb84c7aff6841d3f38fed58a7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gboolean</type>
+        <definition>gboolean gskiplist_insert_internal</definition>
+        <argsstring>(GSkiplist *sk, gpointer key, gpointer value)</argsstring>
+        <name>gskiplist_insert_internal</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="25" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="83" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_1c2ec36e6d6935b03d1a063b214156f6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gpointer</type>
+        <definition>gpointer gskiplist_search_internal</definition>
+        <argsstring>(GSkiplist *sk, gpointer key)</argsstring>
+        <name>gskiplist_search_internal</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="26" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="182" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_100a6474dd1ab41bc253b2ecd656511c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GSkipNode *</type>
+        <definition>GSkipNode * gskiplist_create_node</definition>
+        <argsstring>(GSkiplist *sk, gpointer key, gpointer data, guint size)</argsstring>
+        <name>gskiplist_create_node</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>guint</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="27" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="238" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_1fc7328181527fa4f869fb6834e00397f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int gskiplist_compare</definition>
+        <argsstring>(GSkiplist *sk, GSkipNode *a, gpointer b)</argsstring>
+        <name>gskiplist_compare</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>GSkipNode *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="28" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="257" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_1cc7724bd2ed746d8a3908494ae6ad811" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int gskiplist_compare_node</definition>
+        <argsstring>(GSkiplist *sk, GSkipNode *a, GSkipNode *b)</argsstring>
+        <name>gskiplist_compare_node</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>GSkipNode *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>GSkipNode *</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="29" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="248" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_165f1f326cb7917530dae183d390431c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>guint</type>
+        <definition>guint gskiplist_get_random_size</definition>
+        <argsstring>(GSkiplist *sk)</argsstring>
+        <name>gskiplist_get_random_size</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>return the height for a skip list point [1..] </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="30" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="266" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_1ed9a6d0709aa074224daa2fd10c911f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+        <definition>GSkiplist* gskiplist_new</definition>
+        <argsstring>(GCompareFunc func)</argsstring>
+        <name>gskiplist_new</name>
+        <param>
+          <type>GCompareFunc</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>create a new skip list </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="38" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="38" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_18dbc9df706526778d5488631c1d2059f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gskiplist_delete</definition>
+        <argsstring>(GSkiplist *sk)</argsstring>
+        <name>gskiplist_delete</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>delete an existing skip list </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="50" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="50" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_186a8ad88934b67be2b081bb15c11224b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gboolean</type>
+        <definition>gboolean gskiplist_insert</definition>
+        <argsstring>(GSkiplist *sk, gpointer key, gpointer value)</argsstring>
+        <name>gskiplist_insert</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert an element in the SkipList sk replace an existing one if already exist <simplesect kind="return"><para>return true if insert else False if replaced </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="70" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="69" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_1c6460c21749fac9d17f5f4511075b1f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t gskiplist_length</definition>
+        <argsstring>(GSkiplist *sk)</argsstring>
+        <name>gskiplist_length</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="78" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_15faf49deba35b0999985b0bca02cd534" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gpointer</type>
+        <definition>gpointer gskiplist_remove</definition>
+        <argsstring>(GSkiplist *sk, gpointer key)</argsstring>
+        <name>gskiplist_remove</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>remove a element from the list with the given key, return the value if found else NULL </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="130" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_14ddc52005069405498667b8d10b03f1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gpointer</type>
+        <definition>gpointer gskiplist_search</definition>
+        <argsstring>(GSkiplist *sk, gpointer key)</argsstring>
+        <name>gskiplist_search</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <param>
+          <type>gpointer</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Search an element and return the value if found else NULL pointer </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="174" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="173" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_14a8426868ce08758a306970a924ed313" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gpointer</type>
+        <definition>gpointer gskiplist_get_first_value</definition>
+        <argsstring>(GSkiplist *sk)</argsstring>
+        <name>gskiplist_get_first_value</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the first value of the list </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="208" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="207" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="gskiplist_8c_1c34d3152469c860413e3836f875dfbf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gskiplist_clean</definition>
+        <argsstring>(GSkiplist *sk)</argsstring>
+        <name>gskiplist_clean</name>
+        <param>
+          <type><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref> *</type>
+          <declname>sk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>clean all value in the SkipList </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="224" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="224" bodyend="235"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="gskiplist_8c_1b1dfcfc979918393c534c1415cf67c21" prot="public" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int max_size</definition>
+        <argsstring></argsstring>
+        <name>max_size</name>
+        <initializer>32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" line="33" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(c)<sp/>Members<sp/>of<sp/>the<sp/>EGEE<sp/>Collaboration.<sp/>2004.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>See<sp/>http://www.eu-egee.org/partners/<sp/>for<sp/>details<sp/>on<sp/>the<sp/>copyright<sp/>holders.</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Licensed<sp/>under<sp/>the<sp/>Apache<sp/>License,<sp/>Version<sp/>2.0<sp/>(the<sp/>&quot;License&quot;);</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>you<sp/>may<sp/>not<sp/>use<sp/>this<sp/>file<sp/>except<sp/>in<sp/>compliance<sp/>with<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>You<sp/>may<sp/>obtain<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>License<sp/>at</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>http://www.apache.org/licenses/LICENSE-2.0</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>Unless<sp/>required<sp/>by<sp/>applicable<sp/>law<sp/>or<sp/>agreed<sp/>to<sp/>in<sp/>writing,<sp/>software</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>distributed<sp/>under<sp/>the<sp/>License<sp/>is<sp/>distributed<sp/>on<sp/>an<sp/>&quot;AS<sp/>IS&quot;<sp/>BASIS,</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>WITHOUT<sp/>WARRANTIES<sp/>OR<sp/>CONDITIONS<sp/>OF<sp/>ANY<sp/>KIND,<sp/>either<sp/>express<sp/>or<sp/>implied.</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>See<sp/>the<sp/>License<sp/>for<sp/>the<sp/>specific<sp/>language<sp/>governing<sp/>permissions<sp/>and</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gskiplist.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>proto</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">gpointer<sp/>gskiplist_get_first_value_internal(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">gpointer<sp/>gskiplist_remove_internal(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">gboolean<sp/>gskiplist_insert_internal(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key,<sp/>gpointer<sp/>value);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">gpointer<sp/>gskiplist_search_internal(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">GSkipNode*<sp/>gskiplist_create_node(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key,<sp/>gpointer<sp/>data,<sp/>guint<sp/>size);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gskiplist_compare(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>GSkipNode*<sp/>a,<sp/>gpointer<sp/><sp/>b);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gskiplist_compare_node(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>GSkipNode*<sp/>a,<sp/>GSkipNode*<sp/><sp/>b);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">guint<sp/>gskiplist_get_random_size(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref><sp/>*<sp/>sk);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_size=32;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>gskiplist_new(GCompareFunc<sp/>func){</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>skip<sp/>=<sp/>g_new0(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/>skip-&gt;<ref refid="struct__GSkiplist_172b4f5cdaabb8df62ab5c0b7f6935a57" kindref="member">cmp_func</ref><sp/>=<sp/>func;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/>g_static_rw_lock_init(&amp;skip-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/>skip-&gt;<ref refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kindref="member">head_node</ref><sp/>=<sp/>gskiplist_create_node(skip,<sp/>NULL,<sp/>NULL,<sp/>32);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>skip;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gskiplist_delete(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk){</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(sk){</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>g_static_rw_lock_writer_lock<sp/>(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>GSkipNode*<sp/>node<sp/>=<sp/>sk-&gt;<ref refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kindref="member">head_node</ref>-&gt;link[0].next;<sp/></highlight><highlight class="comment">//<sp/>clear<sp/>everything</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(<sp/>node<sp/>!=<sp/>NULL){</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GSkipNode*<sp/>prev_node<sp/>=<sp/>node;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node<sp/>=<sp/>node-&gt;link[0].next;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_free(prev_node);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>g_static_rw_lock_writer_unlock(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>g_free(sk);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">gboolean<sp/>gskiplist_insert(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key,<sp/>gpointer<sp/>value)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/>g_assert(sk<sp/>!=<sp/>NULL);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/>g_static_rw_lock_writer_lock(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/>gboolean<sp/>res<sp/>=<sp/>gskiplist_insert_internal(sk,<sp/>key,<sp/>value);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/>g_static_rw_lock_writer_unlock(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">size_t<sp/>gskiplist_length(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk){</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>g_assert(sk<sp/>!=<sp/>NULL);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sk-&gt;<ref refid="struct__GSkiplist_1bb6a38faf9d0dd2c523a35e9601aed62" kindref="member">length</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">gboolean<sp/>gskiplist_insert_internal(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key,<sp/>gpointer<sp/>value){</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/>g_assert(sk<sp/>!=<sp/>NULL);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>GSkipNode*<sp/>new_node<sp/>=<sp/>gskiplist_create_node(sk,<sp/>key,<sp/>value,<sp/>gskiplist_get_random_size(sk));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/>GSkipNode*<sp/>node,<sp/>*<sp/>prec_node;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/>node<sp/>=<sp/>prec_node<sp/>=<sp/>sk-&gt;<ref refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kindref="member">head_node</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cmp_value;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(i=<sp/>max_size-1;<sp/>i<sp/>&gt;=<sp/>0;<sp/>--i){</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>cmp_value<sp/>=<sp/>gskiplist_compare_node(sk,<sp/>node,<sp/>new_node);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(node<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>cmp_value<sp/>&lt;0<sp/>){<sp/></highlight><highlight class="comment">//<sp/>walk<sp/>in<sp/>a<sp/>level<sp/>list<sp/>to<sp/>search<sp/>a<sp/>given<sp/>value<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>prec_node<sp/>=<sp/>node;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>node<sp/>=<sp/>node-&gt;link[i].next;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(node<sp/>!=<sp/>NULL)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cmp_value<sp/>=<sp/>gskiplist_compare_node(sk,<sp/>node,<sp/>new_node);<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(<sp/>cmp_value<sp/>&gt;<sp/>0<sp/>||<sp/>node<sp/>==<sp/>NULL)<sp/>&amp;&amp;<sp/>i<sp/>&lt;<sp/>new_node-&gt;height){</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_node-&gt;link[i].next<sp/>=<sp/>node;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prec_node-&gt;link[i].next<sp/>=<sp/>new_node;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>cmp_value<sp/>==<sp/>0){<sp/></highlight><highlight class="comment">//<sp/>equal<sp/>to<sp/>the<sp/>next<sp/>value<sp/>to<sp/>the<sp/>next<sp/>value<sp/>-&gt;<sp/>insert<sp/>and<sp/>delete<sp/>the<sp/>old</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(;<sp/>i&gt;=<sp/>0;<sp/>--i){</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>i<sp/>&lt;<sp/>new_node-&gt;height){</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_node-&gt;link[i].next<sp/>=<sp/>node-&gt;link[i].next;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prec_node-&gt;link[i].next<sp/>=<sp/>new_node;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prec_node-&gt;link[i].next<sp/>=<sp/>node-&gt;link[i].next;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>g_free(node);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>FALSE;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>node<sp/>=<sp/>prec_node;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/>sk-&gt;<ref refid="struct__GSkiplist_1bb6a38faf9d0dd2c523a35e9601aed62" kindref="member">length</ref>++;<sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TRUE;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">gpointer<sp/>gskiplist_remove(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key){</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/>g_assert(sk<sp/>!=<sp/>NULL);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/>g_static_rw_lock_writer_lock(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/>gpointer<sp/>res<sp/>=<sp/>gskiplist_remove_internal(sk,<sp/>key);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/>g_static_rw_lock_writer_unlock(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">gpointer<sp/>gskiplist_remove_internal(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key){</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/>GSkipNode*<sp/>node,<sp/>*<sp/>prev_node;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>node<sp/>=<sp/>prev_node<sp/>=<sp/>sk-&gt;<ref refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kindref="member">head_node</ref>;<sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cmp_value=0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(i<sp/>=<sp/>max_size-1;<sp/>i<sp/>&gt;=<sp/>0;<sp/>--i){<sp/></highlight><highlight class="comment">//<sp/>begin<sp/>to<sp/>the<sp/>high<sp/>level<sp/>and<sp/>decrease<sp/>lvl<sp/>by<sp/>level</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>cmp_value<sp/>=<sp/>gskiplist_compare(sk,<sp/>node,<sp/>key);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(node<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>cmp_value<sp/>&lt;0<sp/>){<sp/></highlight><highlight class="comment">//<sp/>walk<sp/>in<sp/>a<sp/>level<sp/>list<sp/>to<sp/>search<sp/>a<sp/>given<sp/>value<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>prev_node<sp/>=<sp/>node;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>node<sp/>=<sp/>node-&gt;link[i].next;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(node<sp/>!=<sp/>NULL)</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cmp_value<sp/>=<sp/>gskiplist_compare(sk,<sp/>node,<sp/>key);<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>cmp_value<sp/>==<sp/>0){<sp/></highlight><highlight class="comment">//<sp/>equal<sp/>to<sp/>the<sp/>current<sp/>node<sp/>-&gt;<sp/>delete<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(;<sp/>i&gt;=<sp/>0;<sp/>--i){</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prev_node-&gt;link[i].next<sp/>=<sp/>node-&gt;link[i].next;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>gpointer<sp/>resu<sp/>=<sp/>node-&gt;data;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sk-&gt;<ref refid="struct__GSkiplist_1bb6a38faf9d0dd2c523a35e9601aed62" kindref="member">length</ref>--;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>g_free(node);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resu;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>node<sp/>=<sp/>prev_node;<sp/></highlight><highlight class="comment">//<sp/>take<sp/>the<sp/>inferior<sp/>nearest<sp/>one</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">gpointer<sp/>gskiplist_search(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/>g_assert(sk<sp/>!=<sp/>NULL);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/>g_static_rw_lock_reader_lock(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/>gpointer<sp/>res=<sp/>gskiplist_search_internal(sk,<sp/>key);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/>g_static_rw_lock_reader_lock(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">gpointer<sp/>gskiplist_search_internal(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key){</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/>GSkipNode*<sp/>node,*<sp/>prev_node;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/>node<sp/>=<sp/>prev_node=<sp/>sk-&gt;<ref refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kindref="member">head_node</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cmp_value=0;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>max_size-1;<sp/>i<sp/>&gt;=<sp/>0;<sp/>--i){</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>cmp_value<sp/>=<sp/>gskiplist_compare(sk,<sp/>node,<sp/>key);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(node<sp/>!=<sp/>NULL<sp/>&amp;&amp;<sp/>cmp_value<sp/>&lt;0<sp/>){<sp/></highlight><highlight class="comment">//<sp/>walk<sp/>in<sp/>a<sp/>level<sp/>list<sp/>to<sp/>search<sp/>a<sp/>given<sp/>value<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>prev_node<sp/>=<sp/>node;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>node<sp/>=<sp/>node-&gt;link[i].next;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(node<sp/>!=<sp/>NULL)</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cmp_value<sp/>=<sp/>gskiplist_compare(sk,<sp/>node,<sp/>key);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>cmp_value<sp/>==<sp/>0){<sp/></highlight><highlight class="comment">//<sp/>equal<sp/>to<sp/>the<sp/>next<sp/>value<sp/>to<sp/>the<sp/>next<sp/>value<sp/>-&gt;<sp/>insert<sp/>and<sp/>delete<sp/>the<sp/>old</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>node-&gt;data;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>node<sp/>=<sp/>prev_node;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">gpointer<sp/>gskiplist_get_first_value(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/>g_assert(sk<sp/>!=<sp/>NULL);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/>g_static_rw_lock_reader_lock(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/>gpointer<sp/>res=<sp/>gskiplist_get_first_value_internal(sk);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/>g_static_rw_lock_reader_lock(&amp;sk-&gt;<ref refid="struct__GSkiplist_1818a67fc72769d933b2f1ced0c1f94a4" kindref="member">lock</ref>);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">gpointer<sp/>gskiplist_get_first_value_internal(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk){</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/>GSkipNode*<sp/>firstn<sp/>=<sp/>sk-&gt;<ref refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kindref="member">head_node</ref>-&gt;link[0].next;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(firstn)?(firstn-&gt;data):NULL;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gskiplist_clean(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk){</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>g_static_rw_lock_writer_lock<sp/>(&amp;sk-&gt;lock);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>GSkipNode*<sp/>node<sp/>=<sp/>sk-&gt;head_node-&gt;link[0].next;<sp/></highlight><highlight class="comment">//<sp/>clear<sp/>everything</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(<sp/>node<sp/>!=<sp/>NULL){</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GSkipNode*<sp/>prev_node<sp/>=<sp/>node;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node<sp/>=<sp/>node-&gt;link[0].next;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_free(prev_node);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>sk-&gt;length=0;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>memset(&amp;sk-&gt;head_node-&gt;link,<sp/>0,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(GSkipLink)*max_size);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>g_static_rw_lock_writer_unlock(&amp;sk-&gt;lock);<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal">GSkipNode*<sp/>gskiplist_create_node(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>gpointer<sp/>key,<sp/>gpointer<sp/>data,<sp/>guint<sp/>size){</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>size_t<sp/>memsize<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(GSkipNode)<sp/>+<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(GSkipLink)*size;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/>GSkipNode*<sp/>ret<sp/>=<sp/>g_malloc0(memsize);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/>ret-&gt;data<sp/>=<sp/>data;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/>ret-&gt;key<sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/>ret-&gt;height<sp/>=<sp/>size;<sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gskiplist_compare_node(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>GSkipNode*<sp/>a,<sp/>GSkipNode*<sp/><sp/>b){</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>a<sp/>==<sp/>sk-&gt;<ref refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kindref="member">head_node</ref>)</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>b==<sp/><sp/>sk-&gt;<ref refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kindref="member">head_node</ref>)</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sk-&gt;<ref refid="struct__GSkiplist_172b4f5cdaabb8df62ab5c0b7f6935a57" kindref="member">cmp_func</ref>(a-&gt;key,<sp/>b-&gt;key);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gskiplist_compare(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref>*<sp/>sk,<sp/>GSkipNode*<sp/>a,<sp/>gpointer<sp/><sp/>b){</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">(<sp/>a<sp/>==<sp/>sk-&gt;<ref refid="struct__GSkiplist_1ceee4c66cbdc3177900b2330779c21e9" kindref="member">head_node</ref>)?(-1):(sk-&gt;<ref refid="struct__GSkiplist_172b4f5cdaabb8df62ab5c0b7f6935a57" kindref="member">cmp_func</ref>(a-&gt;key,<sp/>b));</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal">guint<sp/>gskiplist_get_random_size(<ref refid="struct__GSkiplist" kindref="compound">GSkiplist</ref><sp/>*<sp/>sk){</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/>guint<sp/>res_rand<sp/>=<sp/>g_random_int();</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=1;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(res_rand<sp/>%2){<sp/></highlight><highlight class="comment">//<sp/>improve<sp/>ret<sp/>until<sp/>last<sp/>bit<sp/>of<sp/>rand<sp/>is<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>ret++;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>res_rand<sp/>=<sp/>g_random_int();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//printf(&quot;%d\n<sp/>&quot;,ret);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>MIN(ret,max_size);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/adevress/myworkspace/gfal/src/externals/gskiplist/gskiplist.c"/>
+  </compounddef>
+</doxygen>

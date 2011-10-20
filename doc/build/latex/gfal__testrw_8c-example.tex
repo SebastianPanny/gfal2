@@ -6,7 +6,7 @@ This exemple show how to open, write a file and read it after ex : use case with
 \begin{DocInclude}\begin{verbatim}1 
 7 #include <fcntl.h>
 8 #include <stdio.h>
-9 #include "gfal_api.h"
+9 #include <gfal_api.h>
 10 #include <stdlib.h>
 11 #define BLKLEN 65536
 12 
@@ -30,60 +30,54 @@ This exemple show how to open, write a file and read it after ex : use case with
 30    printf ("creating file %s\n", argv[1]);
 31    if ((fd = gfal_open (argv[1], O_WRONLY|O_CREAT, 0644)) < 0) {
 32                 gfal_posix_check_error();
-33            exit (1);
+33                 exit (1);
 34    }
 35    
 36         printf ("open successful, fd = %d\n", fd);
 37 
 38         if ((rc = gfal_write (fd, obuf, BLKLEN)) != BLKLEN) {
-39            if (rc < 0)
-40                    gfal_posix_check_error();
-41            else
-42                    fprintf (stderr, "gfal_write returns %d\n", rc);
-43            (void) gfal_close (fd);
-44            exit (1);
-45         }
-46         printf ("write successful\n");
-47 
-48         if ((rc = gfal_close (fd)) < 0) {
-49            gfal_posix_check_error();
-50            exit (1);
-51         }
-52         printf ("close successful\n");
-53 
-54 
-55         printf ("reading back %s\n", argv[1]);
-56         if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
-57            gfal_posix_check_error();
-58            exit (1);
-59         }
-60         printf ("open successful, fd = %d\n", fd);
-61 
-62         if ((rc = gfal_read (fd, ibuf, BLKLEN)) != BLKLEN) {
-63                    if (rc < 0)
-64                           gfal_posix_check_error();
-65                    else
-66                            fprintf (stderr, "gfal_read returns %d\n", rc);
-67                    (void) gfal_close (fd);
-68                    exit (1);
+39                 gfal_posix_check_error();
+40                 (void) gfal_close (fd);
+41                 exit (1);
+42         }
+43         printf ("write successful\n");
+44 
+45         if ((rc = gfal_close (fd)) < 0) {
+46                 gfal_posix_check_error();
+47                 exit (1);
+48         }
+49         printf ("close successful\n");
+50 
+51 
+52         printf ("reading back %s\n", argv[1]);
+53         if ((fd = gfal_open (argv[1], O_RDONLY, 0)) < 0) {
+54                 gfal_posix_check_error();
+55                 exit (1);
+56         }
+57         printf ("open successful, fd = %d\n", fd);
+58 
+59         if ((rc = gfal_read (fd, ibuf, BLKLEN)) != BLKLEN) {
+60                         gfal_posix_check_error();
+61                         (void) gfal_close (fd);
+62                         exit (1);
+63            }
+64            printf ("read successful\n");
+65 
+66            if ((rc = gfal_close (fd)) < 0) {
+67                         gfal_posix_check_error();
+68                         exit (1);
 69            }
-70            printf ("read successful\n");
+70            printf ("close successful\n");
 71 
-72            if ((rc = gfal_close (fd)) < 0) {
-73                    gfal_posix_check_error();
-74                    exit (1);
-75            }
-76            printf ("close successful\n");
-77 
-78            for (i = 0; i < BLKLEN; i++) {
-79                    if (ibuf[i] != obuf[i]) {
-80                            fprintf (stderr, "compare failed at offset %d\n", i);
-81                            exit (1);
-82                    }
-83            }
-84            printf ("compare successful\n");
-85            exit (0);
-86 }
+72            for (i = 0; i < BLKLEN; i++) {
+73                    if (ibuf[i] != obuf[i]) {
+74                                 fprintf (stderr, "compare failed at offset %d\n", i);
+75                                 exit (1);
+76                    }
+77            }
+78            printf ("compare successful\n");
+79            exit (0);
+80 }
 \end{verbatim}
 \end{DocInclude}
  
