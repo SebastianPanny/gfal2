@@ -34,12 +34,12 @@ int main(int argc,char **argv)
 	}
 	gfal_set_verbose (GFAL_VERBOSE_VERBOSE);
 	
-	ssize_t res = gfal_getxattr(argv[1], "srm.turl", turl_buff,TURL_MAX_SIZE );
+	ssize_t res = gfal_getxattr(argv[1], "user.replicas", turl_buff, TURL_MAX_SIZE );
 	
 	if (res > 0)
 		printf("SURL %s Ready - TURL: %s\n", argv[1], turl_buff);
 	else {
-		printf("SURL %s Failed:\n%s\n", argv[1]);
+		printf("SURL %s Failed:\n", argv[1]);
 		gfal_posix_check_error();
 	}
 		

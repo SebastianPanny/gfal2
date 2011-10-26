@@ -23,7 +23,8 @@ static struct rfio_proto_ops rf = {
 		.open =  rfio_mock_open,
 		.read = rfio_mock_read,
 		.write = rfio_mock_write,
-		.close= rfio_mock_close
+		.close= rfio_mock_close,
+		.lseek = rfio_mock_lseek,
 	};
 
 struct rfio_proto_ops * gfal_rfio_mock_loader(GError** err){

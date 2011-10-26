@@ -70,7 +70,9 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	dcap_plugin.openG = &gfal_dcap_openG;
 	dcap_plugin.closeG = &gfal_dcap_closeG;
 	dcap_plugin.readG = &gfal_dcap_readG;
+	dcap_plugin.preadG= &gfal_dcap_preadG;
 	dcap_plugin.writeG= &gfal_dcap_writeG;
+	dcap_plugin.pwriteG = &gfal_dcap_pwriteG;
 	dcap_plugin.lseekG= &gfal_dcap_lseekG;
 	dcap_plugin.check_plugin_url = &gfal_dcap_check_url;
 	dcap_plugin.statG= &gfal_dcap_statG;

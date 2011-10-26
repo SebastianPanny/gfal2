@@ -21,16 +21,18 @@
 #define USE_MOCK 1
 #endif
 
+// srm://grid05.lal.in2p3.fr:8446/dpm/lal.in2p3.fr/home/dteam/
+// srm://grid05.lal.in2p3.fr:8446/srm/managerv2?SFN=/dpm/lal.in2p3.fr/home/dteam
 
 // to define
-#define TEST_SRM_DPM_ENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/dpm/lal.in2p3.fr/home/dteam/"
-#define TEST_SRM_DPM_FULLENDPOINT_PREFIX "srm://grid05.lal.in2p3.fr:8446/srm/managerv2?SFN=/dpm/lal.in2p3.fr/home/dteam" 
-#define TEST_SRM_DPM_FULLENDPOINT_URL "httpg://grid05.lal.in2p3.fr:8446/srm/managerv2"
-#define TEST_SRM_DPM_CORE_URL "grid05.lal.in2p3.fr:8446"
+#define TEST_SRM_DPM_ENDPOINT_PREFIX "srm://cvitbdpm1.cern.ch/dpm/cern.ch/home/dteam/gfal2-tests/"
+#define TEST_SRM_DPM_FULLENDPOINT_PREFIX "srm://cvitbdpm1.cern.ch:8446/srm/managerv2?SFN=/dpm/cern.ch/home/dteam/gfal2-tests/" 
+#define TEST_SRM_DPM_FULLENDPOINT_URL "httpg://cvitbdpm1.cern.ch:8446/srm/managerv2"
+#define TEST_SRM_DPM_CORE_URL "cvitbdpm1.cern.ch:8446"
 #define TEST_SRM_FILE_CONTENT "Hello world\n"
 #define TEST_LFC_PREFIX "lfn:/grid/dteam"
 
-#define TEST_GUID_VALID_FILE "guid:b7ba213b-829d-4a2e-b744-7c9cc685fe2d"
+#define TEST_GUID_VALID_FILE "guid:f2f49f94-a4fc-4bad-95d7-cc9479b0123b"
 // macros
 
 #define TEST_FUSION_STRING(x,y) x y
@@ -43,10 +45,10 @@
 #define TEST_CONCAT_LFC_PREFIX(x) TEST_XFUSION_STRING(TEST_LFC_PREFIX, x)
 
 // mds part
-#define TEST_MDS_VALID_ENDPOINT_URL "grid05.lal.in2p3.fr"
+#define TEST_MDS_VALID_ENDPOINT_URL "cvitbdpm1.cern.ch"
 #define TEST_MDS_INVALID_ENDPOINT_URL "google.com"
-#define TEST_MDS_VALID_ENDPOINT_RESU_1 "httpg://grid05.lal.in2p3.fr:8443/srm/managerv1"
-#define TEST_MDS_VALID_ENDPOINT_RESU_2 "httpg://grid05.lal.in2p3.fr:8446/srm/managerv2"
+#define TEST_MDS_VALID_ENDPOINT_RESU_1 "httpg://cvitbdpm1.cern.ch:8443/srm/managerv1"
+#define TEST_MDS_VALID_ENDPOINT_RESU_2 "httpg://cvitbdpm1.cern.ch:8446/srm/managerv2"
  
  // constant to define for succefull unit test
 #define TEST_LFC_VALID_ACCESS "lfn:/grid/dteam/hello001"		// this file must be a lfc file with read access and no write access
@@ -58,11 +60,11 @@
 #define TEST_LFC_URL_SYNTAX_ERROR "jardiland.com"
 
 // GUID constants
-#define TEST_GUID_VALID_ACCESS "guid:ae571282-81ea-41af-ac3c-8b1a084bfc82"
-#define TEST_GUID_ONLY_READ_ACCESS "guid:c8b5ed56-1653-4de6-8303-9ecf3c510da8"
-#define TEST_GUID_WRITE_ACCESS "guid:e15f0bce-813e-44d1-98c6-c3501d5fa707"
-#define TEST_GUID_NO_READ_ACCESS "guid:e1424365-4ac5-43c2-a74b-bceff612408e"
-#define TEST_GUID_NO_WRITE_ACCESS "guid:f4dbd41e-509c-4769-a86f-ca49bb0a9533"
+#define TEST_GUID_VALID_ACCESS "guid:4ff6feed-a6f4-4266-b783-9aff66ff54dc"
+#define TEST_GUID_ONLY_READ_ACCESS "guid:4ff6feed-a6f4-4266-b783-9aff66ff54dc"
+#define TEST_GUID_WRITE_ACCESS "guid:0e8d1f2b-6e11-4777-b6f4-3e3a41af9403"
+#define TEST_GUID_NO_READ_ACCESS "guid:bf83c34a-97d4-4fc4-b2a0-439178efe568"
+#define TEST_GUID_NO_WRITE_ACCESS "guid:98ec152b-9c2f-469e-9b9d-0eecda381f55"
 #define TEST_GUID_NOEXIST_ACCESS "guid:ae595782-81be-40af-ac3c-8b1a084bfc82"
 
 // srm part constant

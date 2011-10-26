@@ -40,7 +40,7 @@
 
 
 
-
+gfal_plugin_interface* gfal_plugin_interface_new();
 
 
 extern char* gfal_get_cat_type(GError**);
@@ -76,6 +76,8 @@ int gfal_plugin_closeG(gfal_handle handle, gfal_file_handle fh, GError** err);
 int gfal_plugin_writeG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
 int gfal_plugin_lseekG(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError** err);
 int gfal_plugin_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, GError** err);
+
+ssize_t gfal_plugin_preadG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, off_t offset, GError** err);
 
 
 int gfal_plugin_unlinkG(gfal_handle handle, const char* path, GError** err);

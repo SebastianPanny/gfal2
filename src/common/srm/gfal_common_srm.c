@@ -175,6 +175,7 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_plugin.openG = &gfal_srm_openG;
 	srm_plugin.closeG = &gfal_srm_closeG;
 	srm_plugin.readG= &gfal_srm_readG;
+	srm_plugin.preadG = &gfal_srm_preadG;
 	srm_plugin.writeG= &gfal_srm_writeG;
 	srm_plugin.chmodG= &gfal_srm_chmodG;
 	srm_plugin.lseekG= &gfal_srm_lseekG;

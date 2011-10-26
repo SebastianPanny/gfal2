@@ -99,7 +99,7 @@ int gfal_rfio_closeG(plugin_handle handle, gfal_file_handle fd, GError ** err){
 	if(ret != 0){
 		rfio_report_error(h, __func__, err);
 	}else
-		free(fd);
+		gfal_file_handle_delete(fd);
 	return ret;	
 }
 

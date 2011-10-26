@@ -64,6 +64,7 @@ struct dcap_proto_ops * gfal_dcap_internal_loader_base(GError** err){
 		pops->open = (int (*) (const char *, int, ...)) dlsym (dlhandle, "dc_open");
 		pops->opendir = (DIR * (*) (const char *)) dlsym (dlhandle, "dc_opendir");
 		pops->read = (ssize_t (*) (int, void *, size_t)) dlsym (dlhandle, "dc_read");
+		pops->pread = (ssize_t (*)(int fildes, void *buf, size_t nbytes, off_t offset)) dlsym(dlhandle, "dc_pread");
 		pops->readdir = (struct dirent * (*) (DIR *)) dlsym (dlhandle, "dc_readdir");
 		pops->readdir64 = (struct dirent64 * (*) (DIR *)) dlsym (dlhandle, "dc_readdir64");
 		pops->rename = (int (*) (const char *, const char *)) &rename;
@@ -72,6 +73,7 @@ struct dcap_proto_ops * gfal_dcap_internal_loader_base(GError** err){
 		pops->stat64 = (int (*) (const char *, struct stat64 *)) dlsym (dlhandle, "dc_stat64");
 		pops->unlink = (int (*) (const char *)) dlsym (dlhandle, "dc_unlink");
 		pops->write = (ssize_t (*) (int, const void *, size_t)) dlsym (dlhandle, "dc_write");
+		pops->pwrite = (ssize_t (*)(int fildes, const void *buf, size_t nbytes, off_t offset)) dlsym(dlhandle, "dc_pwrite");
 		pops->debug_level= (void(*)(unsigned int)) dlsym(dlhandle, "dc_setDebugLevel");
 		pops->active_mode = (void(*)(void)) dlsym(dlhandle, "dc_setClientActive");
 		

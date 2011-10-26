@@ -538,7 +538,7 @@ char* gfal_posix_strerror_r(char* buff_err, size_t s_err){
  * 
  * */
 ssize_t gfal_pread(int fd, void * buffer, size_t count, off_t offset){
-	return -1;
+	return gfal_posix_internal_pread(fd, buffer, count, offset);
 }
 
 
@@ -554,7 +554,7 @@ ssize_t gfal_pread(int fd, void * buffer, size_t count, off_t offset){
  * 
  * */
 ssize_t gfal_pwrite(int fd, const void * buffer, size_t count, off_t offset){
-	return -1;
+	return gfal_posix_internal_pwrite(fd, buffer, count, offset);
 }
  
  void gfal_set_nobdii (int value){

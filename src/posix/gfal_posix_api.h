@@ -63,7 +63,7 @@ int gfal_close (int);
 int gfal_read (int, void *, size_t);
 int gfal_write (int, const void *, size_t);
 
-// pipelined calls 
+// pipelined calls, for vector read/write
 ssize_t gfal_pread(int fd, void * buffer, size_t count, off_t offset);
 ssize_t gfal_pwrite(int fd, const void * buffer, size_t count, off_t offset);
 

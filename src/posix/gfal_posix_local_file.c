@@ -215,10 +215,25 @@ gboolean gfal_is_local_call(const char * module_name){
 	return (strncmp(module_name, GFAL_MODULEID_LOCAL, GFAL_MODULE_NAME_SIZE) == 0);
 }
 
+/**
+ *  map the gfal_read call to the local read call for file://
+ * */
 int gfal_local_read(gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
 	errno=0;
 	const int fd = GPOINTER_TO_INT(fh->fdesc);
 	const int ret = read(fd, buff, s_buff);
+	if(ret <0)
+		gfal_local_report_error(__func__, err);
+	return ret;
+}
+
+/**
+ *  map the gfal_pread call to the local pread call for file://
+ * */
+ssize_t gfal_local_pread(gfal_file_handle fh, void* buff, size_t s_buff, off_t offset, GError** err){
+	errno=0;
+	const int fd = GPOINTER_TO_INT(fh->fdesc);
+	const ssize_t ret = pread(fd, buff, s_buff, offset);
 	if(ret <0)
 		gfal_local_report_error(__func__, err);
 	return ret;
@@ -232,9 +247,23 @@ int gfal_local_lseek(gfal_file_handle fh, off_t offset, int whence, GError** err
 	return ret;
 }
 
+/**
+ *  map to the local write call
+ * */
 int gfal_local_write(gfal_file_handle fh, void* buff, size_t s_buff, GError** err){
 	errno=0;
 	const int ret = write(GPOINTER_TO_INT(fh->fdesc), buff, s_buff);
+	if(ret <0)
+		gfal_local_report_error(__func__, err);
+	return ret;
+}
+
+/**
+ * map to the local pwrite call
+ */
+ssize_t gfal_local_pwrite(gfal_file_handle fh, void* buff, size_t s_buff, off_t offset, GError** err){
+	errno=0;
+	const ssize_t ret = pwrite(GPOINTER_TO_INT(fh->fdesc), buff, s_buff, offset);
 	if(ret <0)
 		gfal_local_report_error(__func__, err);
 	return ret;

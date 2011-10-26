@@ -64,7 +64,7 @@ ssize_t gfal_srm_getxattrG(plugin_handle handle, const char* path, const char* n
 	if(strcmp(name, srm_geturl_key) == 0){
 		ret = gfal_srm_geturl_getxattrG(handle, path, name, buff, s_buff, &tmp_err);
 	}else{ // need to add pin and spacetoken
-		g_set_error(&tmp_err, 0, ENOATTR, "no an existing extended attribute");
+		g_set_error(&tmp_err, 0, ENOATTR, "not an existing extended attribute");
 	}
 	
 	if(tmp_err)

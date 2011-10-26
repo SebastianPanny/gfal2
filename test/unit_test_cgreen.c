@@ -183,13 +183,20 @@ TestSuite* posix_read_suite(void){
 	add_test(tc_read, gfal2_test_read_posix_srm_simple);
 	add_test(tc_read, gfal2_test_read_posix_lfc_simple);
 	add_test(tc_read, gfal2_test_read_posix_guid_simple);
+	add_test(tc_read, gfal2_test_pread_posix_local_simple);
+	add_test(tc_read, gfal2_test_pread_posix_srm_simple);
+	add_test(tc_read, gfal2_test_pread_posix_lfc_simple);
+	add_test(tc_read, gfal2_test_pread_posix_guid_simple);
 	return tc_read;
 }
 
 TestSuite* posix_write_suite(void){
 	TestSuite* tc_write = create_test_suite();
 	add_test(tc_write, gfal2_test_write_posix_local_simple);
+	add_test(tc_write, gfal2_test_pwrite_posix_local_simple);
 	add_test(tc_write, gfal2_test_write_posix_srm_simple);
+	add_test(tc_write, gfal2_test_pwrite_posix_srm_simple);
+	
 	add_test(tc_write, gfal2_test_write_posix_lfc_simple);
 	return tc_write;
 }

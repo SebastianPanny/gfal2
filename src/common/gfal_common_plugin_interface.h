@@ -110,6 +110,15 @@ struct _gfal_plugin_interface{
 	 int (*closeG)(plugin_handle, gfal_file_handle fd, GError **);
 	 int (*lseekG)(plugin_handle, gfal_file_handle fd, off_t offset, int whence, GError** err);
 	 
+	 // vector operations
+	 /**
+	  *  Vector operation, similar to the POSIX call pread
+	  *  The vector operation needs to be set to NULL if not implemented
+	  *  Vector operation permits an improvement of the performances.  
+	  * * */
+	 ssize_t (*preadG)(plugin_handle, gfal_file_handle fd, void* buff, size_t count, off_t offset, GError**);	 
+	 ssize_t (*pwriteG)(plugin_handle, gfal_file_handle fd, const void* buff, size_t count, off_t offset, GError**);
+	 	 
 	 // remove operations
 	/**
 	  * unlink implementation, follow the \ref unlink behavior but with GError report system.
@@ -145,6 +154,8 @@ struct _plugin_opts{
 	gfal_plugin_interface plugin_list[MAX_PLUGIN_LIST];
 	int plugin_number;
 };
+
+
 
 
 #endif

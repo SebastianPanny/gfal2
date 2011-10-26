@@ -39,6 +39,19 @@
 
 
 /**
+ * function to use in order to create a new plugin interface
+ *  permit to keep the ABI compatibility
+ *  must be use in ALL the plugin's "gfal_plugin_init" functions
+ */
+gfal_plugin_interface* gfal_plugin_interface_new(){
+	size_t s_plugin = sizeof(gfal_plugin_interface) *2;
+	gfal_plugin_interface* ret = malloc( s_plugin); // bigger allocation that needed for futur extensions
+	memset(ret, 0,s_plugin);
+	return ret;
+}
+
+
+/**
  * convenience function for safe calls to the plugin checkers
  * 
  * */
@@ -651,6 +664,106 @@ int gfal_plugin_readG(gfal_handle handle, gfal_file_handle fh, void* buff, size_
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret; 	
 }
+
+/**
+ * Execute an atomic thread-safe read on a file descriptor with a given offset
+ * simulate the feature of pread for plugins with no support of it
+ * */
+inline ssize_t gfal_plugin_simulate_preadG(gfal_handle handle, gfal_plugin_interface* if_cata, gfal_file_handle fh, 
+						void* buff, size_t s_buff, off_t offset, GError** err){
+	GError* tmp_err=NULL;
+	ssize_t ret = -1;
+	
+	gfal_file_handle_lock(fh);		
+	ret = if_cata->lseekG(if_cata->handle, fh, offset, SEEK_SET, &tmp_err);
+	if(ret == offset){
+		ret = if_cata->readG(if_cata->handle, fh, buff, s_buff, &tmp_err);
+	}else if( !tmp_err){
+		g_set_error(&tmp_err, 0, EOVERFLOW, "Unknown return from plugin_lseek call");
+		ret = -1;
+	}
+	gfal_file_handle_unlock(fh);
+	
+	
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret;
+}
+
+/**
+ * do a pread operation on the plugin, read s_buff chars on the fd device after the offset
+ * @return return number of bytes readed else -1 if errors and GError is set
+ * 
+ * */
+ssize_t gfal_plugin_preadG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, off_t offset, GError** err){
+	g_return_val_err_if_fail(handle && fh && buff, -1,err, "[gfal_plugin_preadG] Invalid args ");	
+	GError* tmp_err=NULL;
+	ssize_t ret = -1;
+	gfal_plugin_interface* if_cata = gfal_plugin_getModuleFromHandle(handle, fh, &tmp_err);
+	if(!tmp_err){
+		if(if_cata->preadG)
+			ret = if_cata->preadG(if_cata->handle, fh, buff, s_buff, offset,  &tmp_err);
+		else{
+			ret = gfal_plugin_simulate_preadG(handle, if_cata, fh, buff, s_buff, offset, &tmp_err);
+		}	
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret; 	
+}
+
+
+/**
+ * Execute an atomic thread-safe write on a file descriptor with a given offset
+ * simulate the feature of pwrite for plugins with no support of it
+ * */
+inline ssize_t gfal_plugin_simulate_pwriteG(gfal_handle handle, gfal_plugin_interface* if_cata, gfal_file_handle fh, 
+						void* buff, size_t s_buff, off_t offset, GError** err){
+	GError* tmp_err=NULL;
+	ssize_t ret = -1;
+	
+	gfal_file_handle_lock(fh);		
+	ret = if_cata->lseekG(if_cata->handle, fh, offset, SEEK_SET, &tmp_err);
+	if(ret == offset){
+		ret = if_cata->writeG(if_cata->handle, fh, buff, s_buff, &tmp_err);
+	}else if( !tmp_err){
+		g_set_error(&tmp_err, 0, EOVERFLOW, "Unknown return from plugin_lseek call");
+		ret = -1;
+	}
+	gfal_file_handle_unlock(fh);
+	
+	
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret;
+}
+
+
+
+
+/**
+ * do a pread operation on the plugin, read s_buff chars on the fd device after the offset
+ * @return return number of bytes readed else -1 if errors and GError is set
+ * 
+ * */
+ssize_t gfal_plugin_pwriteG(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, off_t offset, GError** err){
+	g_return_val_err_if_fail(handle && fh && buff, -1,err, "[gfal_plugin_pwriteG] Invalid args ");	
+	GError* tmp_err=NULL;
+	ssize_t ret = -1;
+	gfal_plugin_interface* if_cata = gfal_plugin_getModuleFromHandle(handle, fh, &tmp_err);
+	if(!tmp_err){
+		if(if_cata->pwriteG)
+			ret = if_cata->pwriteG(if_cata->handle, fh, buff, s_buff, offset,  &tmp_err);
+		else{
+			ret = gfal_plugin_simulate_pwriteG(handle, if_cata, fh, buff, s_buff, offset, &tmp_err);
+		}	
+	}
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
+	return ret; 	
+}
+
+
 
 /**
  * do a lseek operation on the plugin

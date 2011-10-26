@@ -56,7 +56,7 @@ int gfal_posix_gfalfilehandle_write(gfal_handle handle, gfal_file_handle fh, voi
 
 
 /**
- * Implementation of the read functions
+ * Implementation of the write call
  * 
  */
 int gfal_posix_internal_write(int fd, void* buff, size_t s_buff){
@@ -81,6 +81,59 @@ int gfal_posix_internal_write(int fd, void* buff, size_t s_buff){
 	}
 	if(tmp_err){
 		gfal_posix_register_internal_error(handle, "[gfal_write]", tmp_err);
+		errno = tmp_err->code;	
+	}
+	return res; 	
+}
+
+
+
+/**
+ *  map the file handle to the correct call for pwrite
+ */ 
+int gfal_posix_gfalfilehandle_pwrite(gfal_handle handle, gfal_file_handle fh, void* buff, size_t s_buff, off_t offset, GError** err){
+	g_return_val_err_if_fail(handle && fh, -1, err, "[gfal_posix_gfalfilehandle_pwrite] incorrect args");
+	GError *tmp_err=NULL;
+	int ret = -1;
+	if( gfal_is_local_call(fh->module_name) )
+		ret = gfal_local_pwrite(fh, buff, s_buff, offset, &tmp_err);
+	else 
+		ret = gfal_plugin_pwriteG(handle, fh, buff, s_buff, offset, &tmp_err);
+
+	if(tmp_err){
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	}
+	return ret;		
+}
+
+
+
+/**
+ * Implementation of the pwrite call
+ * 
+ */
+ssize_t gfal_posix_internal_pwrite(int fd, void* buff, size_t s_buff, off_t offset){
+	 GError* tmp_err=NULL;
+	 gfal_handle handle;
+	 int res = -1;
+
+	if((handle = gfal_posix_instance()) == NULL){
+		errno = EIO;
+		return -1;
+	}
+	
+	if(fd <=0){
+		g_set_error(&tmp_err, 0, EBADF, "Incorrect file descriptor");
+	}else{
+		gfal_fdesc_container_handle container= gfal_file_handle_container_instance(&(handle->fdescs), &tmp_err);	
+		const int key = fd;
+		gfal_file_handle fh = gfal_file_handle_bind(container, key, &tmp_err);
+		if( fh != NULL){
+			res = gfal_posix_gfalfilehandle_pwrite(handle, fh, buff, s_buff, offset, &tmp_err);
+		}
+	}
+	if(tmp_err){
+		gfal_posix_register_internal_error(handle, "[gfal_pwrite]", tmp_err);
 		errno = tmp_err->code;	
 	}
 	return res; 	

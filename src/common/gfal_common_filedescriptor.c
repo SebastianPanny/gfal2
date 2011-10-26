@@ -121,6 +121,8 @@ gboolean gfal_remove_file_desc(gfal_fdesc_container_handle fhandle, int key, GEr
 gfal_file_handle gfal_file_handle_new(const char*  module_name, gpointer fdesc){
 	gfal_file_handle f = g_new(struct _gfal_file_handle_,1);
 	g_strlcpy(f->module_name, module_name, GFAL_MODULE_NAME_SIZE);
+	f->lock = g_mutex_new ();
+	f->offset = 0;
 	f->fdesc = fdesc;
 	f->ext_data = NULL;
 	return f;
@@ -151,21 +153,26 @@ gfal_file_handle gfal_file_handle_bind(gfal_fdesc_container_handle h, int file_d
 }
 
 
+void gfal_file_handle_lock(gfal_file_handle fh){
+	g_assert(fh);
+	g_mutex_lock(fh->lock);
+}
+
+void gfal_file_handle_unlock(gfal_file_handle fh){
+	g_assert(fh);
+	g_mutex_unlock(fh->lock);
+}
 
 
 /**
- * 
- *  delete the handle associated with the given key, return TRUE if success else FALSE
+ *  Delete a gfal_file handle 
  * 
  *  * */
-gboolean gfal_file_handle_delete(gfal_fdesc_container_handle h, int file_desc, GError** err){
-	g_return_val_err_if_fail(file_desc, FALSE, err, "[gfal_dir_handle_delete] invalid dir descriptor");
-	GError* tmp_err = NULL;
-	gboolean resu=FALSE;	
-	resu = gfal_remove_file_desc(h, file_desc, &tmp_err);			
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return resu;	
+void gfal_file_handle_delete(gfal_file_handle fh){
+	if(fh){
+		g_mutex_free(fh->lock);	
+		free(fh);
+	}
 }
 
 

@@ -40,6 +40,8 @@ gfal_file_handle gfal_srm_openG(plugin_handle, const char* path, int flag, mode_
 
 int gfal_srm_readG(plugin_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
 
+ssize_t gfal_srm_preadG(plugin_handle ch, gfal_file_handle fd, void* buff, size_t count, off_t offset, GError** err);
+
 int gfal_srm_writeG(plugin_handle, gfal_file_handle fd, void* buff, size_t count, GError**);
 
 int gfal_srm_closeG(plugin_handle, gfal_file_handle fd, GError **);

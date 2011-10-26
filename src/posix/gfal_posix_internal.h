@@ -59,6 +59,10 @@ int gfal_posix_internal_read(int fd, void* buff, size_t s_buff);
 
 int gfal_posix_internal_write(int fd, void* buff, size_t s_buff);
 
+ssize_t gfal_posix_internal_pwrite(int fd, void* buff, size_t s_buff, off_t offset);
+
+ssize_t gfal_posix_internal_pread(int fd, void* buff, size_t s_buff, off_t offset);
+
 int gfal_posix_internal_close(int fd);
 
 int gfal_posix_internal_closedir(DIR* d);

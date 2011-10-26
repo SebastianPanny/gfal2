@@ -27,6 +27,7 @@
  * */
  
 #include <glib.h>
+#include <stdlib.h>
 #include <pthread.h>
 #include "gfal_prototypes.h"
 #include "gfal_constants.h"
@@ -38,6 +39,8 @@ struct _gfal_file_descriptor_container{
 
 struct _gfal_file_handle_{
 	char module_name[GFAL_MODULE_NAME_SIZE]; // This MUST be the Name of the plugin associated with this handle !
+	GMutex* lock;
+	off_t offset;
 	gpointer ext_data;
 	gpointer fdesc;	
 };
@@ -54,8 +57,6 @@ gpointer gfal_get_file_desc(gfal_fdesc_container_handle fhandle, int key, GError
 
 
 // high level funcs
-gboolean gfal_file_handle_delete(gfal_fdesc_container_handle h, int file_desc, GError** err);
-
 
 gfal_file_handle gfal_file_handle_bind(gfal_fdesc_container_handle h, int file_desc, GError** err);
 
@@ -63,5 +64,11 @@ gfal_file_handle gfal_file_handle_bind(gfal_fdesc_container_handle h, int file_d
 
 gfal_file_handle gfal_file_handle_new(const char* module_name, gpointer fdesc);
 
-
 gfal_file_handle gfal_file_handle_ext_new(const char* module_name, gpointer fdesc, gpointer ext_data);
+
+
+void gfal_file_handle_delete(gfal_file_handle fh);
+
+void gfal_file_handle_lock(gfal_file_handle fh);
+
+void gfal_file_handle_unlock(gfal_file_handle fh);

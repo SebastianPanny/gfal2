@@ -29,6 +29,7 @@
 #include <time.h> 
 #include <glib.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include "../gfal_common_internal.h"
 #include "../gfal_common_errverbose.h"
 #include "../gfal_common_plugin.h"
@@ -48,7 +49,8 @@ static void dcap_report_error(gfal_plugin_dcap_handle h,  const char * func_name
 gfal_file_handle gfal_dcap_openG(plugin_handle handle , const char* path, int flag, mode_t mode, GError** err){
 	gfal_plugin_dcap_handle h = (gfal_plugin_dcap_handle) handle;
 	gfal_file_handle ret = NULL;
-	int fd= h->ops->open(path, flag, mode);
+	const int internal_flag = flag & (~ 0100000) ; // filter non supported flags
+	int fd= h->ops->open(path, internal_flag, mode);
 	if(fd == -1)
 		dcap_report_error(h, __func__, err);
 	else 
@@ -56,9 +58,41 @@ gfal_file_handle gfal_dcap_openG(plugin_handle handle , const char* path, int fl
 	return ret;
 }
 
+/**
+ * map to the libdcap read call
+ * 
+ * */
 int gfal_dcap_readG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err){
 	gfal_plugin_dcap_handle h = (gfal_plugin_dcap_handle) handle;
 	int ret = h->ops->read(GPOINTER_TO_INT(fd->fdesc), buff, s_buff);
+	if(ret <0)
+		dcap_report_error(h, __func__, err);
+	else
+		errno =0;
+	return ret;
+}
+
+/**
+ * map to the libdcap pread call
+ * 
+ * */
+ssize_t gfal_dcap_preadG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, off_t offset,  GError** err){
+	gfal_plugin_dcap_handle h = (gfal_plugin_dcap_handle) handle;
+	ssize_t ret = h->ops->pread(GPOINTER_TO_INT(fd->fdesc), buff, s_buff, offset);
+	if(ret <0)
+		dcap_report_error(h, __func__, err);
+	else
+		errno =0;
+	return ret;
+}
+
+/**
+ * map to the libdcap pwrite call
+ * 
+ * */
+ssize_t gfal_dcap_pwriteG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, off_t offset,  GError** err){
+	gfal_plugin_dcap_handle h = (gfal_plugin_dcap_handle) handle;
+	ssize_t ret = h->ops->pwrite(GPOINTER_TO_INT(fd->fdesc), buff, s_buff, offset);
 	if(ret <0)
 		dcap_report_error(h, __func__, err);
 	else

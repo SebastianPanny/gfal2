@@ -33,7 +33,15 @@ int rfio_mock_open(const char* path, int flag, ...){
 	return i;
 }
 
-
+off_t rfio_mock_lseek(int fd, off_t offset, int whence){
+	off_t i = mock(fd, offset, whence);
+	if(i < 0){
+		errno=i;
+		return -1;
+	}
+	return (off_t)i;	
+	
+}
 
 ssize_t rfio_mock_read(int fd, void* buff, size_t size){
 	int i = mock(fd, buff, size);

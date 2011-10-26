@@ -130,7 +130,7 @@ int gfal_select_best_protocol_and_endpointG(gfal_srmv2_opt* opts, char** tab_se_
 	char** pse =tab_se_type;
 	enum gfal_srm_proto* p_pref = &(opts->srm_proto_type);	
 	while( *p_pref != PROTO_ERROR_UNKNOW){
-		while(pse != NULL &&  tab_endpoint != NULL ){
+		while(*pse != NULL &&  *tab_endpoint != NULL ){
 			if( *p_pref == gfal_convert_proto_from_bdii(*pse) ){ // test if the response is the actual preferred response
 				g_strlcpy(buff_endpoint, *tab_endpoint, s_buff);
 				*srm_type = *p_pref;

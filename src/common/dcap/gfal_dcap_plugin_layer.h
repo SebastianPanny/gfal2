@@ -52,6 +52,9 @@ struct dcap_proto_ops {
 	int	(*open)(const char *, int, ...);
 	DIR	*(*opendir)(const char *);
 	ssize_t	(*read)(int, void *, size_t);
+	
+	ssize_t (*pread)(int fildes, void *buf, size_t nbytes, off_t offset);
+	ssize_t (*pwrite)(int fildes, const void *buf, size_t nbytes, off_t offset);
 	struct dirent	*(*readdir)(DIR *);
 #if ! defined(linux) || defined(_LARGEFILE64_SOURCE)
 	struct dirent64	*(*readdir64)(DIR *);

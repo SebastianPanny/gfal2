@@ -177,8 +177,10 @@ def arguments_to_str():
 
 pack_list = []
 install_list = []
+comp_list = []
 
 if(main_core):
+	comp_list += [ mainlib, versionexe ]
 	lib_main = env.Install('/usr/'+libdir+'/', mainlib)
 	version_main = env.Install('/usr/bin/', versionexe)
 	install_list += [lib_main, version_main] 
@@ -248,6 +250,7 @@ if(plugin_devel):
 			 )
 	
 if(plugin_lfc):
+	comp_list += [ plugin_lfc_lib]
 	lib_plugin_lfc = env.Install('/usr/'+libdir+'/', plugin_lfc_lib)
 	lib_plugin_lfc_conf= env.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_lfc/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
@@ -270,6 +273,7 @@ if(plugin_lfc):
 
 
 if(plugin_srm):
+	comp_list += [ plugin_srm_lib]
 	lib_plugin_srm = env.Install('/usr/'+libdir+'/', plugin_srm_lib)
 	lib_plugin_srm_conf= env.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_srm/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
@@ -291,6 +295,7 @@ if(plugin_srm):
 
 	
 if(plugin_rfio):
+	comp_list += [ plugin_rfio_lib]
 	lib_plugin_rfio = env.Install('/usr/'+libdir+'/', plugin_rfio_lib)
 	lib_plugin_rfio_conf= env.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_rfio/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
@@ -312,6 +317,7 @@ if(plugin_rfio):
 	
 
 if(plugin_dcap):
+	comp_list += [ plugin_dcap_lib]
 	lib_plugin_dcap = env.Install('/usr/'+libdir+'/', plugin_dcap_lib)
 	lib_plugin_dcap_conf= env.Install('/etc/profile.d/', Glob("dist/scripts/gfal_plugin_dcap/*sh"))
 	x_rpm_install = define_rpm_install(arguments_to_str());
@@ -387,6 +393,8 @@ if(main_tests):
 			 )	
 
 env.Alias("install", install_list);
+
+env.Alias("build", comp_list);
 
 env.Alias("package_generator", pack_list);
 	

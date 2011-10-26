@@ -58,7 +58,7 @@ int gfal_common_parameter(const char* name, void * value, size_t max_size, GFAL_
       if(strcmp(name, GFAL_NO_BDII_OPTION) ==0 ){
 	res = gfal_common_bdii(value, max_size, ops, req_type, &tmp_err);
       }else{
-	  g_set_error(&tmp_err, 0, ENOENT, "Unknow parameter %s ", value);    
+	  g_set_error(&tmp_err, 0, ENOENT, "Unknow parameter %s", name);    
       }
   }else{
     g_set_error(&tmp_err, 0, EINVAL, "Name of the parameter set to NULL");

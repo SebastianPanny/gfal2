@@ -22,6 +22,8 @@ extern int defined_buff_read_size;
 extern char defined_buff_write[2048];
 extern int defined_buff_write_size;
 
+off_t rfio_mock_lseek(int fd, off_t offset, int whence);
+
 ssize_t rfio_mock_read(int fd, void* buff, size_t size);
 
 ssize_t rfio_mock_write(int fd, const void* buff, size_t size);

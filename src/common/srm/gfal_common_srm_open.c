@@ -60,7 +60,7 @@ static gfal_file_handle gfal_srm_file_handle_map(gfal_file_handle fh){
 
 static void gfal_srm_file_handle_delete(gfal_file_handle fh){
 	free(fh->fdesc);
-	free(fh);
+	gfal_file_handle_delete(fh);
 }
 
 /**
@@ -106,6 +106,18 @@ int gfal_srm_readG(plugin_handle ch, gfal_file_handle fd, void* buff, size_t cou
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;	
 	GError* tmp_err=NULL;
 	int ret =  gfal_plugin_readG(opts->handle, gfal_srm_file_handle_map(fd), buff, count, &tmp_err);	
+	if(tmp_err)
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	return ret;		
+}
+
+/**
+ * pread function for the srm  plugin
+ */
+ssize_t gfal_srm_preadG(plugin_handle ch, gfal_file_handle fd, void* buff, size_t count, off_t offset, GError** err){
+	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;	
+	GError* tmp_err=NULL;
+	int ret =  gfal_plugin_preadG(opts->handle, gfal_srm_file_handle_map(fd), buff, count, offset, &tmp_err);	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;		

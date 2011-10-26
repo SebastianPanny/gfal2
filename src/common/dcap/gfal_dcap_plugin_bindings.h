@@ -37,6 +37,10 @@ gfal_file_handle gfal_dcap_openG(plugin_handle handle , const char* path, int fl
 
 int gfal_dcap_readG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
 
+ssize_t gfal_dcap_preadG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, off_t offset,  GError** err);
+
+ssize_t gfal_dcap_pwriteG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, off_t offset,  GError** err);
+
 int gfal_dcap_lseekG(plugin_handle handle , gfal_file_handle fd, off_t offset, int whence, GError** err);
 
 int gfal_dcap_writeG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, GError** err);
