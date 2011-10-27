@@ -86,15 +86,15 @@ void gfal2_test__mkdir_posix_lfc_simple()
 	gfal_posix_clear_error();
 	errno =0;
 	
-
+	printf(" filename : %s ", filename);
 	ret = gfal_mkdir(filename, 0664);
-	assert_true_with_message( ret ==0 && errno==0 && gfal_posix_code_error() ==0, " must be a valid mkdir");
+	assert_true_with_message( ret ==0 && errno==0 && gfal_posix_code_error() ==0, " must be a valid mkdir %d %d %d", ret, errno, gfal_posix_code_error());
 	gfal_posix_check_error();
 	gfal_posix_clear_error();
 	errno =0;
 	
 	ret = gfal_stat(filename,&st);
-	assert_true_with_message(ret ==0 && st.st_mode== 040664, " must be the correct right and dir must exist");
+	assert_true_with_message(ret ==0 && st.st_mode== 040664, " must be the correct right and dir must exist %d %o", ret,  st.st_mode);
 	
 	ret = gfal_mkdir(TEST_LFC_UNACCESS_MKDIR, 0664);
 	assert_true_with_message(ret == -1 && errno== EACCES && gfal_posix_code_error()== EACCES, " must be a bad access right");

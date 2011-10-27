@@ -32,7 +32,7 @@
 #define TEST_SRM_FILE_CONTENT "Hello world\n"
 #define TEST_LFC_PREFIX "lfn:/grid/dteam"
 
-#define TEST_GUID_VALID_FILE "guid:f2f49f94-a4fc-4bad-95d7-cc9479b0123b"
+#define TEST_GUID_VALID_FILE "guid:a5bf667d-dd72-45b9-9b8f-fc69b999f653"
 // macros
 
 #define TEST_FUSION_STRING(x,y) x y
@@ -78,7 +78,7 @@
 #define TEST_SRM_WRITE_ACCESS TEST_CONCAT_SRM_PREFIX("testwrite0011")
 #define TEST_SRM_NO_WRITE_ACCESS TEST_CONCAT_SRM_PREFIX("testnowrite0011")
 
-#define TEST_SRM_TURL_EXAMPLE1 "rfio://grid28.lal.in2p3.fr//dpmpart/part1/dteam/2011-05-26/file75715ccc-1c54-4d18-8824-bdd3716a2b54.51704540.0"
+#define TEST_SRM_TURL_EXAMPLE1 "rfio://cvitbdpm1.cern.ch//storage/dteam/2011-10-26/file75715ccc-1c54-4d18-8824-bdd3716a2b54.43869.0"
 #define TEST_SRM_IFCE_INVALID_PATH_REP "[SE][StatusOfPutRequest][SRM_INVALID_PATH] <none>"
 // rfio
 #define TEST_SRM_RFIO_EXAMPLE1 TEST_SRM_TURL_EXAMPLE1
@@ -88,7 +88,7 @@
 #define TEST_LFC_MOD_UNEXIST_FILE "lfn:/grid/dteam/OpenSourceAndMicrosoft"
 #define TEST_LFC_MOD_WRITE_FILE "lfn:/grid/dteam/testchmodwrite0011"
 
-#define TEST_GUID_MODE_READ_FILE "guid:6eb27247-4387-4899-a37b-c4d40f1264fc"
+#define TEST_GUID_MODE_READ_FILE "guid:6a26c234-f241-44d8-b5f7-889c742d4378"
 
 #define TEST_LFC_RENAME_VALID_DEST "lfn:/grid/dteam/testrename0012"
 #define TEST_LFC_RENAME_VALID_SRC "lfn:/grid/dteam/testrename0011"
@@ -121,15 +121,15 @@
 #define TEST_GFAL_GUID_FILE_STAT_OK TEST_GUID_VALID_FILE 
 
 #define TEST_GFAL_LFC_FILE_STAT_SIZE_VALUE 2048
-#define TEST_GFAL_LFC_FILE_STAT_MODE_VALUE 0100555
-#define TEST_GFAL_LFC_FILE_STAT_UID_VALUE 20124
-#define TEST_GFAL_LFC_FILE_STAT_GID_VALUE 2688
+#define TEST_GFAL_LFC_FILE_STAT_MODE_VALUE 0100664
+#define TEST_GFAL_LFC_FILE_STAT_UID_VALUE 105
+#define TEST_GFAL_LFC_FILE_STAT_GID_VALUE 105
 
 
 #define TEST_GFAL_LFC_LINK_STAT_SIZE_VALUE 0
 #define TEST_GFAL_LFC_LINK_STAT_MODE_VALUE 0120777
-#define TEST_GFAL_LFC_LINK_STAT_UID_VALUE 20124
-#define TEST_GFAL_LFC_LINK_STAT_GID_VALUE 2688
+#define TEST_GFAL_LFC_LINK_STAT_UID_VALUE 105
+#define TEST_GFAL_LFC_LINK_STAT_GID_VALUE 105
 
 #define TEST_GFAL_LOCAL_STAT_COMMAND "dd if=/dev/zero of=/tmp/teststat0011 bs=512 count=4 &> /dev/null && chmod 0644 /tmp/teststat0011"
 #define TEST_GFAL_LOCAL_LINK_COMMAND "ln -s /tmp/teststat0011 /tmp/teststatlink0011 &> /dev/null"

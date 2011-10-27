@@ -33,7 +33,7 @@ isifce=False
 # global var
 etics_build_dir= "/usr/" # disable
 version= '2.0'
-package_version = '1.13_preview'
+package_version = '1.14_preview'
 license_type = "Apache Software License"
 
 ## generic function to get conf value
