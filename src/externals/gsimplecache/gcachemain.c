@@ -67,7 +67,7 @@ void gsimplecache_delete(GSimpleCache* cache){
 	}
 }
 
-inline Internal_item* gsimplecache_find_kstr_internal(GSimpleCache* cache, const char* key){
+Internal_item* gsimplecache_find_kstr_internal(GSimpleCache* cache, const char* key){
 	Internal_item* ret = (Internal_item*) g_hash_table_lookup(cache->table, (gconstpointer) key);
 	if(ret != NULL ){
 		return ret;
@@ -75,14 +75,14 @@ inline Internal_item* gsimplecache_find_kstr_internal(GSimpleCache* cache, const
 	return NULL;
 }
 
-inline gboolean gsimplecache_remove_internal_kstr(GSimpleCache* cache, const char* key){
+static gboolean gsimplecache_remove_internal_kstr(GSimpleCache* cache, const char* key){
 		return g_hash_table_remove(cache->table, (gconstpointer) key);	
 }
 
 
 
 
-inline void gsimplecache_add_item_internal(GSimpleCache* cache, const char* key, void* item){
+void gsimplecache_add_item_internal(GSimpleCache* cache, const char* key, void* item){
 	Internal_item* ret = gsimplecache_find_kstr_internal(cache, key);	
 	if(ret == NULL){
 		ret = malloc(sizeof(struct _Internal_item) + cache->size_item);
