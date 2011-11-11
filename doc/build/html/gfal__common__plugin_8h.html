@@ -36,6 +36,8 @@
 <a href="gfal__common__plugin_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__gfal__plugin__interface.html">gfal_plugin_interface</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#6ecd3253665d357ecf47bad157e24e63">gfal_plugin_interface_new</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="791ad55a9c8aaca0bb8ae74a3538c202"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_get_cat_type" ref="791ad55a9c8aaca0bb8ae74a3538c202" args="(GError **)" -->
 char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_cat_type</b> (GError **)</td></tr>
 
@@ -79,6 +81,8 @@ char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_cat_type</
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#d536879bc7813a35bc79318ce43f0b57">gfal_plugin_readG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#fcf8bb3dbf51a9b85e7ce27542cf928b">gfal_plugin_preadG</a> (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#1a4632c68c7d81f87071733081900dee">gfal_plugin_unlinkG</a> (gfal_handle handle, const char *path, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e67fef2ab537815ac8ed072b179f9e67"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_getxattrG" ref="e67fef2ab537815ac8ed072b179f9e67" args="(gfal_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)" -->
@@ -90,8 +94,9 @@ ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_plugin_listxa
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#f416447f5b15d199a28ca58b16807847">gfal_plugin_setxattrG</a> (gfal_handle, const char *, const char *, const void *, size_t, int, GError **)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7d56cca8673fb6b3c6e98111754ea6c4"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_common_plugin_parameter" ref="7d56cca8673fb6b3c6e98111754ea6c4" args="(gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_plugin_parameter</b> (gfal_handle handle, const char *module, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#5aa3f5f9b4e732b1841c6b367a0aa4fe">gfal_plugins_has_parameter</a> (gfal_handle handle, const char *namespace, const char *key, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__plugin_8h.html#4594ecd9436c82f11317d0a3a2672c0b">gfal_plugins_notify_all</a> (gfal_handle handle, const char *namespace, const char *key, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -211,6 +216,25 @@ close the given dir handle in the proper plugin
 
 <p>
 close the given file handle in the proper plugin 
+</div>
+</div><p>
+<a class="anchor" name="6ecd3253665d357ecf47bad157e24e63"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_interface_new" ref="6ecd3253665d357ecf47bad157e24e63" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct__gfal__plugin__interface.html">gfal_plugin_interface</a>* gfal_plugin_interface_new           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+function to use in order to create a new plugin interface permit to keep the ABI compatibility must be use in ALL the plugin's "gfal_plugin_init" functions 
 </div>
 </div><p>
 <a class="anchor" name="c29b06ae43aa86049b513d1174393019"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_lseekG" ref="c29b06ae43aa86049b513d1174393019" args="(gfal_handle handle, gfal_file_handle fh, off_t offset, int whence, GError **err)" -->
@@ -448,6 +472,60 @@ Execute a opendir function on the first compatible plugin ( checked with check u
 
 <p>
 open the file specified by path on the proper plugin with the specified flag and mode 
+</div>
+</div><p>
+<a class="anchor" name="fcf8bb3dbf51a9b85e7ce27542cf928b"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_preadG" ref="fcf8bb3dbf51a9b85e7ce27542cf928b" args="(gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t gfal_plugin_preadG           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>s_buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">off_t&nbsp;</td>
+          <td class="paramname"> <em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+do a pread operation on the plugin, read s_buff chars on the fd device after the offset <dl compact><dt><b>Returns:</b></dt><dd>return number of bytes readed else -1 if errors and GError is set </dd></dl>
+
 </div>
 </div><p>
 <a class="anchor" name="7fd9e55c89de0f0a85127972cecffcfd"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugin_readdirG" ref="7fd9e55c89de0f0a85127972cecffcfd" args="(gfal_handle handle, gfal_file_handle fh, GError **err)" -->
@@ -990,6 +1068,48 @@ Delete all instance of plugins
 external function to get the list of the plugins loaded 
 </div>
 </div><p>
+<a class="anchor" name="5aa3f5f9b4e732b1841c6b367a0aa4fe"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugins_has_parameter" ref="5aa3f5f9b4e732b1841c6b367a0aa4fe" args="(gfal_handle handle, const char *namespace, const char *key, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_plugins_has_parameter           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>namespace</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Check if a parameter key is used by a plugin or not <dl compact><dt><b>Returns:</b></dt><dd>0 if used else -1 -&gt; not used, set GError only if major error occures </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="8027342c27c88b8170ca7cec4f1efc49"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugins_instance" ref="8027342c27c88b8170ca7cec4f1efc49" args="(gfal_handle, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1019,7 +1139,48 @@ external function to get the list of the plugins loaded
 Instance all plugins for use if it's not the case return the number of plugin available 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:14 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="4594ecd9436c82f11317d0a3a2672c0b"></a><!-- doxytag: member="gfal_common_plugin.h::gfal_plugins_notify_all" ref="4594ecd9436c82f11317d0a3a2672c0b" args="(gfal_handle handle, const char *namespace, const char *key, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_plugins_notify_all           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>namespace</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Notify all the plugins of a change on a given parameter plugins must ignore and return 0 if this key is not used, or if it is a correct change they must return -1 and GError if an error occures with the new value 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

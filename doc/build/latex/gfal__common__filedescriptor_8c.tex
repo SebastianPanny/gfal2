@@ -28,7 +28,13 @@ gfal\_\-file\_\-handle \bf{gfal\_\-file\_\-handle\_\-ext\_\-new} (const char $\a
 \item 
 gfal\_\-file\_\-handle \bf{gfal\_\-file\_\-handle\_\-bind} (gfal\_\-fdesc\_\-container\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)
 \item 
-gboolean \bf{gfal\_\-file\_\-handle\_\-delete} (gfal\_\-fdesc\_\-container\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)
+void \textbf{gfal\_\-file\_\-handle\_\-lock} (gfal\_\-file\_\-handle fh)\label{gfal__common__filedescriptor_8c_6d367603c796be72a8444434ba19cf6b}
+
+\item 
+void \textbf{gfal\_\-file\_\-handle\_\-unlock} (gfal\_\-file\_\-handle fh)\label{gfal__common__filedescriptor_8c_8346baf190ac219cfc91ac45e0576449}
+
+\item 
+void \bf{gfal\_\-file\_\-handle\_\-delete} (gfal\_\-file\_\-handle fh)
 \end{CompactItemize}
 
 
@@ -60,10 +66,10 @@ return the file handle associated with the file\_\-desc \begin{Desc}
 \item[Warning:]does not free the handle \end{Desc}
 \index{gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}!gfal_file_handle_delete@{gfal\_\-file\_\-handle\_\-delete}}
 \index{gfal_file_handle_delete@{gfal\_\-file\_\-handle\_\-delete}!gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-file\_\-handle\_\-delete (gfal\_\-fdesc\_\-container\_\-handle {\em h}, int {\em file\_\-desc}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8c_5434be84154718254a4e90dbcc196359}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-file\_\-handle\_\-delete (gfal\_\-file\_\-handle {\em fh})}\label{gfal__common__filedescriptor_8c_161698b3aec533e12f608111b8da5c2f}
 
 
-delete the handle associated with the given key, return TRUE if success else FALSE
+Delete a gfal\_\-file handle
 
 $\ast$ \index{gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}!gfal_file_handle_ext_new@{gfal\_\-file\_\-handle\_\-ext\_\-new}}
 \index{gfal_file_handle_ext_new@{gfal\_\-file\_\-handle\_\-ext\_\-new}!gfal_common_filedescriptor.c@{gfal\_\-common\_\-filedescriptor.c}}

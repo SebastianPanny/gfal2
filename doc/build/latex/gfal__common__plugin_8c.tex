@@ -17,6 +17,8 @@ the file of the common lib for the plugin management
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
+\bf{gfal\_\-plugin\_\-interface} $\ast$ \bf{gfal\_\-plugin\_\-interface\_\-new} ()
+\item 
 char $\ast$$\ast$ \bf{gfal\_\-plugins\_\-get\_\-list} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 \bf{gfal\_\-plugin\_\-interface} $\ast$ \bf{gfal\_\-search\_\-plugin\_\-with\_\-name} (gfal\_\-handle handle, const char $\ast$name, GError $\ast$$\ast$err)
@@ -64,6 +66,14 @@ ssize\_\-t \textbf{gfal\_\-plugin\_\-listxattr\-G} (gfal\_\-handle handle, const
 \item 
 int \bf{gfal\_\-plugin\_\-read\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
 \item 
+ssize\_\-t \bf{gfal\_\-plugin\_\-simulate\_\-pread\-G} (gfal\_\-handle handle, \bf{gfal\_\-plugin\_\-interface} $\ast$if\_\-cata, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, off\_\-t offset, GError $\ast$$\ast$err)
+\item 
+ssize\_\-t \bf{gfal\_\-plugin\_\-pread\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, off\_\-t offset, GError $\ast$$\ast$err)
+\item 
+ssize\_\-t \bf{gfal\_\-plugin\_\-simulate\_\-pwrite\-G} (gfal\_\-handle handle, \bf{gfal\_\-plugin\_\-interface} $\ast$if\_\-cata, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, off\_\-t offset, GError $\ast$$\ast$err)
+\item 
+ssize\_\-t \bf{gfal\_\-plugin\_\-pwrite\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, off\_\-t offset, GError $\ast$$\ast$err)
+\item 
 int \bf{gfal\_\-plugin\_\-lseek\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, off\_\-t offset, int whence, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-plugin\_\-write\-G} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
@@ -75,8 +85,9 @@ int \bf{gfal\_\-plugin\_\-unlink\-G} (gfal\_\-handle handle, const char $\ast$pa
 \item 
 int \bf{gfal\_\-plugin\_\-setxattr\-G} (gfal\_\-handle handle, const char $\ast$path, const char $\ast$name, const void $\ast$value, size\_\-t size, int flags, GError $\ast$$\ast$err)
 \item 
-int \textbf{gfal\_\-common\_\-plugin\_\-parameter} (gfal\_\-handle handle, const char $\ast$module, const char $\ast$name, char $\ast$value, size\_\-t max\_\-size, GFAL\_\-PARAM\_\-FUNC func, GFAL\_\-TYPE req\_\-type, GError $\ast$$\ast$err)\label{gfal__common__plugin_8c_7d56cca8673fb6b3c6e98111754ea6c4}
-
+int \bf{gfal\_\-plugins\_\-has\_\-parameter} (gfal\_\-handle handle, const char $\ast$namespace, const char $\ast$key, GError $\ast$$\ast$err)
+\item 
+int \bf{gfal\_\-plugins\_\-notify\_\-all} (gfal\_\-handle handle, const char $\ast$namespace, const char $\ast$key, GError $\ast$$\ast$err)
 \end{CompactItemize}
 
 
@@ -107,7 +118,12 @@ close the given dir handle in the proper plugin \index{gfal_common_plugin.c@{gfa
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-plugin\_\-close\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_13d1db9798e5a830c745e2f909a484f4}
 
 
-close the given file handle in the proper plugin \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_lseekG@{gfal\_\-plugin\_\-lseekG}}
+close the given file handle in the proper plugin \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_interface_new@{gfal\_\-plugin\_\-interface\_\-new}}
+\index{gfal_plugin_interface_new@{gfal\_\-plugin\_\-interface\_\-new}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\bf{gfal\_\-plugin\_\-interface}$\ast$ gfal\_\-plugin\_\-interface\_\-new ()}\label{gfal__common__plugin_8c_6ecd3253665d357ecf47bad157e24e63}
+
+
+function to use in order to create a new plugin interface permit to keep the ABI compatibility must be use in ALL the plugin's \char`\"{}gfal\_\-plugin\_\-init\char`\"{} functions \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_lseekG@{gfal\_\-plugin\_\-lseekG}}
 \index{gfal_plugin_lseekG@{gfal\_\-plugin\_\-lseekG}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-plugin\_\-lseek\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, off\_\-t {\em offset}, int {\em whence}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_c29b06ae43aa86049b513d1174393019}
 
@@ -150,7 +166,21 @@ Execute a opendir function on the first compatible plugin ( checked with check u
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}gfal\_\-file\_\-handle gfal\_\-plugin\_\-open\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, int {\em flag}, mode\_\-t {\em mode}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_322dfbe0ad1e144573719ed08151281e}
 
 
-open the file specified by path on the proper plugin with the specified flag and mode \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_readdirG@{gfal\_\-plugin\_\-readdirG}}
+open the file specified by path on the proper plugin with the specified flag and mode \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_preadG@{gfal\_\-plugin\_\-preadG}}
+\index{gfal_plugin_preadG@{gfal\_\-plugin\_\-preadG}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-plugin\_\-pread\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, off\_\-t {\em offset}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_fcf8bb3dbf51a9b85e7ce27542cf928b}
+
+
+do a pread operation on the plugin, read s\_\-buff chars on the fd device after the offset \begin{Desc}
+\item[Returns:]return number of bytes readed else -1 if errors and GError is set \end{Desc}
+\index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_pwriteG@{gfal\_\-plugin\_\-pwriteG}}
+\index{gfal_plugin_pwriteG@{gfal\_\-plugin\_\-pwriteG}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-plugin\_\-pwrite\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, off\_\-t {\em offset}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_aa31327b18d7e2a107de75aa58bb7ce2}
+
+
+do a pread operation on the plugin, read s\_\-buff chars on the fd device after the offset \begin{Desc}
+\item[Returns:]return number of bytes readed else -1 if errors and GError is set \end{Desc}
+\index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_readdirG@{gfal\_\-plugin\_\-readdirG}}
 \index{gfal_plugin_readdirG@{gfal\_\-plugin\_\-readdirG}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct dirent$\ast$ gfal\_\-plugin\_\-readdir\-G (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_7fd9e55c89de0f0a85127972cecffcfd}
 
@@ -193,7 +223,17 @@ Execute a rmdir function on the first compatible plugin ( checked with check url
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-plugin\_\-setxattr\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, const char $\ast$ {\em name}, const void $\ast$ {\em value}, size\_\-t {\em size}, int {\em flags}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_5bba59659f7b0e1a123db9d8b990b58c}
 
 
-setxattr for the plugins \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_statG@{gfal\_\-plugin\_\-statG}}
+setxattr for the plugins \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_simulate_preadG@{gfal\_\-plugin\_\-simulate\_\-preadG}}
+\index{gfal_plugin_simulate_preadG@{gfal\_\-plugin\_\-simulate\_\-preadG}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-plugin\_\-simulate\_\-pread\-G (gfal\_\-handle {\em handle}, \bf{gfal\_\-plugin\_\-interface} $\ast$ {\em if\_\-cata}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, off\_\-t {\em offset}, GError $\ast$$\ast$ {\em err})\hspace{0.3cm}{\tt  [inline]}}\label{gfal__common__plugin_8c_bef78cd24b45fd68c77cba088347d0c2}
+
+
+Execute an atomic thread-safe read on a file descriptor with a given offset simulate the feature of pread for plugins with no support of it \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_simulate_pwriteG@{gfal\_\-plugin\_\-simulate\_\-pwriteG}}
+\index{gfal_plugin_simulate_pwriteG@{gfal\_\-plugin\_\-simulate\_\-pwriteG}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-plugin\_\-simulate\_\-pwrite\-G (gfal\_\-handle {\em handle}, \bf{gfal\_\-plugin\_\-interface} $\ast$ {\em if\_\-cata}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, off\_\-t {\em offset}, GError $\ast$$\ast$ {\em err})\hspace{0.3cm}{\tt  [inline]}}\label{gfal__common__plugin_8c_418dcc57eb6359902128ec734791f938}
+
+
+Execute an atomic thread-safe write on a file descriptor with a given offset simulate the feature of pwrite for plugins with no support of it \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugin_statG@{gfal\_\-plugin\_\-statG}}
 \index{gfal_plugin_statG@{gfal\_\-plugin\_\-statG}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-plugin\_\-stat\-G (gfal\_\-handle {\em handle}, const char $\ast$ {\em path}, struct stat $\ast$ {\em st}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_98b9e43ecd18ce2fc728d4a731e52ce1}
 
@@ -232,12 +272,24 @@ Delete all instance of plugins \index{gfal_common_plugin.c@{gfal\_\-common\_\-pl
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ gfal\_\-plugins\_\-get\_\-list (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_59f53151c28e45f965a554a2a6806ad6}
 
 
-external function to get the list of the plugins loaded \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugins_instance@{gfal\_\-plugins\_\-instance}}
+external function to get the list of the plugins loaded \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugins_has_parameter@{gfal\_\-plugins\_\-has\_\-parameter}}
+\index{gfal_plugins_has_parameter@{gfal\_\-plugins\_\-has\_\-parameter}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-plugins\_\-has\_\-parameter (gfal\_\-handle {\em handle}, const char $\ast$ {\em namespace}, const char $\ast$ {\em key}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_5aa3f5f9b4e732b1841c6b367a0aa4fe}
+
+
+Check if a parameter key is used by a plugin or not \begin{Desc}
+\item[Returns:]0 if used else -1 -$>$ not used, set GError only if major error occures \end{Desc}
+\index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugins_instance@{gfal\_\-plugins\_\-instance}}
 \index{gfal_plugins_instance@{gfal\_\-plugins\_\-instance}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-plugins\_\-instance (gfal\_\-handle {\em handle}, GError $\ast$$\ast$ {\em err})\hspace{0.3cm}{\tt  [inline]}}\label{gfal__common__plugin_8c_4d38083d4b9f51095013c0f3d233c0da}
 
 
-Instance all plugins for use if it's not the case return the number of plugin available \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_search_plugin_with_name@{gfal\_\-search\_\-plugin\_\-with\_\-name}}
+Instance all plugins for use if it's not the case return the number of plugin available \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_plugins_notify_all@{gfal\_\-plugins\_\-notify\_\-all}}
+\index{gfal_plugins_notify_all@{gfal\_\-plugins\_\-notify\_\-all}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-plugins\_\-notify\_\-all (gfal\_\-handle {\em handle}, const char $\ast$ {\em namespace}, const char $\ast$ {\em key}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_4594ecd9436c82f11317d0a3a2672c0b}
+
+
+Notify all the plugins of a change on a given parameter plugins must ignore and return 0 if this key is not used, or if it is a correct change they must return -1 and GError if an error occures with the new value \index{gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}!gfal_search_plugin_with_name@{gfal\_\-search\_\-plugin\_\-with\_\-name}}
 \index{gfal_search_plugin_with_name@{gfal\_\-search\_\-plugin\_\-with\_\-name}!gfal_common_plugin.c@{gfal\_\-common\_\-plugin.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}\bf{gfal\_\-plugin\_\-interface}$\ast$ gfal\_\-search\_\-plugin\_\-with\_\-name (gfal\_\-handle {\em handle}, const char $\ast$ {\em name}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__plugin_8c_bd45330c7e213e68805dbb1505101275}
 

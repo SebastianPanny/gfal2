@@ -38,6 +38,9 @@
 #define LFC_MAX_XATTR_LEN 2048
 #define LFC_BUFF_SIZE 2048
 
+#define LFC_PARAMETER_NAMESPACE "lfc"
+#define LFC_PARAMETER_HOST "host"
+
 #include <sys/types.h>
 #include <glib.h>
 #include "../gfal_common_plugin.h"

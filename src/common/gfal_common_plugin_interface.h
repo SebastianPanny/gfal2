@@ -118,6 +118,7 @@ struct _gfal_plugin_interface{
 	  * * */
 	 ssize_t (*preadG)(plugin_handle, gfal_file_handle fd, void* buff, size_t count, off_t offset, GError**);	 
 	 ssize_t (*pwriteG)(plugin_handle, gfal_file_handle fd, const void* buff, size_t count, off_t offset, GError**);
+	 
 	 	 
 	 // remove operations
 	/**
@@ -138,13 +139,24 @@ struct _gfal_plugin_interface{
 	  * setxattr implementation, follow the \ref setxattr behavior but with GError report system.
 	  * */
 	 int (*setxattrG)(plugin_handle, const char*, const char*, const void*, size_t , int, GError** );
-	
+
+
 	 /**
-	  *  parameters handle in order to provide a generic way to set/get parameters to the gfal 2.0 plugins
-	  *  if not the function pointer is not null and for module== getName(), a call to this function is done for each call to \ref gfal_set_parameter / \ref gfal_get_parameter 
+	  *  this function is called to inform plugin of a new parameter
+	  *  must return 1 if this parameter is used by the plugin else return 0
+	  *  @warning must be a NULL pointer if not used
+	  * 
 	  * */
-	 int (*plugin_parameter)(plugin_handle handle, const char* name, char* value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError** err);
-	
+	 int (*is_used_parameter)(plugin_handle, const char* namespace, const char* key);
+
+	 /**
+	  *  called when a change occures on a parameter
+	  *  push the information to the plugins
+	  *  to check the new value associated with the key, call gfal_get_*_parameter functions
+	  *  @warning must be a NULL pointer if not used
+	  *  @return 0 if parameter changed or if no parameter triggered, -1 if major error with the new parameter
+	  **/
+	 void (*notify_change_parameter)(plugin_handle, const char* namespace, const char* key);
 };
 
 /**

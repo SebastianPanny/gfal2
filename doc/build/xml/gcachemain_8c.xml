@@ -10,46 +10,46 @@
     <includes local="no">pthread.h</includes>
     <includes refid="gcachemain_8h" local="yes">gcachemain.h</includes>
     <incdepgraph>
-      <node id="1941">
+      <node id="1999">
         <label>stdlib.h</label>
       </node>
-      <node id="1944">
+      <node id="2002">
         <label>pthread.h</label>
       </node>
-      <node id="1942">
+      <node id="2000">
         <label>string.h</label>
       </node>
-      <node id="1938">
+      <node id="1996">
         <label>/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c</label>
         <link refid="gcachemain.c"/>
-        <childnode refid="1939" relation="include">
+        <childnode refid="1997" relation="include">
         </childnode>
-        <childnode refid="1940" relation="include">
+        <childnode refid="1998" relation="include">
         </childnode>
-        <childnode refid="1941" relation="include">
+        <childnode refid="1999" relation="include">
         </childnode>
-        <childnode refid="1942" relation="include">
+        <childnode refid="2000" relation="include">
         </childnode>
-        <childnode refid="1943" relation="include">
+        <childnode refid="2001" relation="include">
         </childnode>
-        <childnode refid="1944" relation="include">
+        <childnode refid="2002" relation="include">
         </childnode>
-        <childnode refid="1945" relation="include">
+        <childnode refid="2003" relation="include">
         </childnode>
       </node>
-      <node id="1945">
+      <node id="2003">
         <label>gcachemain.h</label>
         <link refid="gcachemain_8h-source"/>
-        <childnode refid="1940" relation="include">
+        <childnode refid="1998" relation="include">
         </childnode>
       </node>
-      <node id="1940">
+      <node id="1998">
         <label>glib.h</label>
       </node>
-      <node id="1943">
+      <node id="2001">
         <label>time.h</label>
       </node>
-      <node id="1939">
+      <node id="1997">
         <label>stdio.h</label>
       </node>
     </incdepgraph>
@@ -165,7 +165,7 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" line="60" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="60" bodyend="68"/>
       </memberdef>
-      <memberdef kind="function" id="gcachemain_8c_1e9d4ca7732e6988557ab2eb3c2d6d7fe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="gcachemain_8c_1e9d4ca7732e6988557ab2eb3c2d6d7fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Internal_item *</type>
         <definition>Internal_item* gsimplecache_find_kstr_internal</definition>
         <argsstring>(GSimpleCache *cache, const char *key)</argsstring>
@@ -186,9 +186,9 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" line="70" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="70" bodyend="76"/>
       </memberdef>
-      <memberdef kind="function" id="gcachemain_8c_1ae23e52f2e06e7b7380b1698a3a64f58" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="gcachemain_8c_13ed7c14a03ece9b660625c2b1a7d86f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gboolean</type>
-        <definition>gboolean gsimplecache_remove_internal_kstr</definition>
+        <definition>static gboolean gsimplecache_remove_internal_kstr</definition>
         <argsstring>(GSimpleCache *cache, const char *key)</argsstring>
         <name>gsimplecache_remove_internal_kstr</name>
         <param>
@@ -207,7 +207,7 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" line="78" bodyfile="/home/adevress/myworkspace/gfal/src/externals/gsimplecache/gcachemain.c" bodystart="78" bodyend="80"/>
       </memberdef>
-      <memberdef kind="function" id="gcachemain_8c_1563b8b3bd8e0e67d05e414614392dd7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="gcachemain_8c_1563b8b3bd8e0e67d05e414614392dd7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void gsimplecache_add_item_internal</definition>
         <argsstring>(GSimpleCache *cache, const char *key, void *item)</argsstring>
@@ -382,7 +382,7 @@
 <codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="68"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight></codeline>
-<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>Internal_item*<sp/>gsimplecache_find_kstr_internal(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key){</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">Internal_item*<sp/>gsimplecache_find_kstr_internal(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key){</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Internal_item*<sp/>ret<sp/>=<sp/>(Internal_item*)<sp/>g_hash_table_lookup(cache-&gt;table,<sp/>(gconstpointer)<sp/>key);</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>NULL<sp/>){</highlight></codeline>
 <codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
@@ -390,14 +390,14 @@
 <codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
 <codeline lineno="76"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>gboolean<sp/>gsimplecache_remove_internal_kstr(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key){</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>gboolean<sp/>gsimplecache_remove_internal_kstr(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key){</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g_hash_table_remove(cache-&gt;table,<sp/>(gconstpointer)<sp/>key);<sp/><sp/></highlight></codeline>
 <codeline lineno="80"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight></codeline>
 <codeline lineno="82"><highlight class="normal"></highlight></codeline>
 <codeline lineno="83"><highlight class="normal"></highlight></codeline>
 <codeline lineno="84"><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gsimplecache_add_item_internal(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>item){</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gsimplecache_add_item_internal(GSimpleCache*<sp/>cache,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>item){</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Internal_item*<sp/>ret<sp/>=<sp/>gsimplecache_find_kstr_internal(cache,<sp/>key);<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>==<sp/>NULL){</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>_Internal_item)<sp/>+<sp/>cache-&gt;size_item);</highlight></codeline>

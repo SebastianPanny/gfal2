@@ -81,14 +81,19 @@
 <a name="l00068"></a>00068 
 <a name="l00069"></a>00069 gfal_file_handle gfal_local_open(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">int</span> flag, mode_t mode, GError** err);
 <a name="l00070"></a>00070 
-<a name="l00071"></a>00071 <span class="keywordtype">int</span> gfal_local_read(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00071"></a>00071 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__local__file_8c.html#45d46420d93abbaa7bbeb345bd8a6584">gfal_local_read</a>(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
 <a name="l00072"></a>00072 
-<a name="l00073"></a>00073 <span class="keywordtype">int</span> gfal_local_write(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00073"></a>00073 ssize_t <a class="code" href="gfal__posix__local__file_8c.html#a125db353a6fad3952a991fd416068b9">gfal_local_pread</a>(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, off_t offset, GError** err);
 <a name="l00074"></a>00074 
-<a name="l00075"></a>00075 <span class="keywordtype">int</span> gfal_local_close(gfal_file_handle fh, GError** err);
-<a name="l00076"></a>00076 
-<a name="l00077"></a>00077 <span class="keywordtype">int</span> gfal_local_unlink(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:14 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076 <span class="keywordtype">int</span> <a class="code" href="gfal__posix__local__file_8c.html#b9335b2236704108f4492032685d5ba2">gfal_local_write</a>(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 ssize_t <a class="code" href="gfal__posix__local__file_8c.html#8e2ea01514707426a55d24e0e99a048c">gfal_local_pwrite</a>(gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, off_t offset, GError** err);
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080 <span class="keywordtype">int</span> gfal_local_close(gfal_file_handle fh, GError** err);
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082 <span class="keywordtype">int</span> gfal_local_unlink(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

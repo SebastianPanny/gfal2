@@ -65,16 +65,22 @@ int \textbf{gfal\_\-flush} (int fd)\label{group__posix__group_gae43f250cf82271ee
 \item 
 void \bf{gfal\_\-posix\_\-release\_\-error} ()
 \item 
-int \textbf{gfal\_\-set\_\-parameter\_\-string} (const char $\ast$module, const char $\ast$name, const char $\ast$value)\label{group__posix__group_g1aa9cc5bf3e6e9938b5ffbdd1ad8a302}
+int \textbf{gfal\_\-set\_\-parameter\_\-string} (const char $\ast$namespace, const char $\ast$key, const char $\ast$value)\label{group__posix__group_g1e2e8a22bfc4927e4d4ca91d501633a5}
 
 \item 
-int \textbf{gfal\_\-get\_\-parameter} (const char $\ast$module, const char $\ast$name, char $\ast$buff\_\-value, size\_\-t s\_\-buff)\label{gfal__posix__ng_8c_85aca9c2894e49c38c7c8592894e67a6}
+char $\ast$ \textbf{gfal\_\-get\_\-parameter\_\-string} (const char $\ast$namespace, const char $\ast$key)\label{group__posix__group_g9cddf85bdb0e56b21c8bc57583ecd5fa}
 
 \item 
-int \textbf{gfal\_\-set\_\-parameter\_\-int} (const char $\ast$module, const char $\ast$name, int value)\label{group__posix__group_g4b27a01e6f158b40d4859a86cdf41b7f}
+int \textbf{gfal\_\-set\_\-parameter\_\-int} (const char $\ast$module, const char $\ast$name, int value)\label{group__posix__group_gb2f2e3e4ce52a9b4e306a8af2ce1642b}
 
 \item 
-int \textbf{gfal\_\-get\_\-parameter\_\-int} (const char $\ast$module, const char $\ast$name)\label{group__posix__group_gefbd5409747e219b938e93d8576aa7a0}
+int \textbf{gfal\_\-get\_\-parameter\_\-int} (const char $\ast$module, const char $\ast$name)\label{group__posix__group_g87fe88667990c1c3b288e62d708831ee}
+
+\item 
+int \textbf{gfal\_\-set\_\-parameter\_\-boolean} (const char $\ast$namespace, const char $\ast$key, int value)\label{group__posix__group_g1566e98417764b361a733c55ea4d5c2d}
+
+\item 
+int \textbf{gfal\_\-get\_\-parameter\_\-boolean} (const char $\ast$namespace, const char $\ast$key)\label{group__posix__group_g2b30e8c9e59dada006127568d016cd1d}
 
 \item 
 void \bf{gfal\_\-posix\_\-clear\_\-error} ()
@@ -88,12 +94,6 @@ char $\ast$ \bf{gfal\_\-posix\_\-strerror\_\-r} (char $\ast$buff\_\-err, size\_\
 ssize\_\-t \bf{gfal\_\-pread} (int fd, void $\ast$buffer, size\_\-t count, off\_\-t offset)
 \item 
 ssize\_\-t \bf{gfal\_\-pwrite} (int fd, const void $\ast$buffer, size\_\-t count, off\_\-t offset)
-\item 
-void \textbf{gfal\_\-set\_\-nobdii} (int value)\label{gfal__posix__ng_8c_a3f35e131b2db4c3b742a29790e08bdf}
-
-\item 
-int \textbf{gfal\_\-is\_\-nobdii} ()\label{gfal__posix__ng_8c_0d2a0557bdb571ccb85c6ab5c05ae56f}
-
 \end{CompactItemize}
 
 

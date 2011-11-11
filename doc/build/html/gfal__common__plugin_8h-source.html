@@ -51,7 +51,7 @@
 <a name="l00040"></a>00040 
 <a name="l00041"></a>00041 
 <a name="l00042"></a>00042 
-<a name="l00043"></a>00043 
+<a name="l00043"></a>00043 <a class="code" href="struct__gfal__plugin__interface.html">gfal_plugin_interface</a>* <a class="code" href="gfal__common__plugin_8c.html#6ecd3253665d357ecf47bad157e24e63">gfal_plugin_interface_new</a>();
 <a name="l00044"></a>00044 
 <a name="l00045"></a>00045 
 <a name="l00046"></a>00046 <span class="keyword">extern</span> <span class="keywordtype">char</span>* gfal_get_cat_type(GError**);
@@ -88,22 +88,26 @@
 <a name="l00077"></a>00077 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#c29b06ae43aa86049b513d1174393019">gfal_plugin_lseekG</a>(gfal_handle handle, gfal_file_handle fh, off_t offset, <span class="keywordtype">int</span> whence, GError** err);
 <a name="l00078"></a>00078 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#d536879bc7813a35bc79318ce43f0b57">gfal_plugin_readG</a>(gfal_handle handle, gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
 <a name="l00079"></a>00079 
-<a name="l00080"></a>00080 
-<a name="l00081"></a>00081 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#1a4632c68c7d81f87071733081900dee">gfal_plugin_unlinkG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+<a name="l00080"></a>00080 ssize_t <a class="code" href="gfal__common__plugin_8c.html#fcf8bb3dbf51a9b85e7ce27542cf928b">gfal_plugin_preadG</a>(gfal_handle handle, gfal_file_handle fh, <span class="keywordtype">void</span>* buff, size_t s_buff, off_t offset, GError** err);
+<a name="l00081"></a>00081 
 <a name="l00082"></a>00082 
-<a name="l00083"></a>00083 
-<a name="l00084"></a>00084 ssize_t <a class="code" href="gfal__common__plugin_8c.html#de1aadc6ff10f7fef83cb57a21ef1406">gfal_plugin_getxattrG</a>(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
-<a name="l00085"></a>00085 ssize_t gfal_plugin_listxattrG(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>* list, size_t s_list, GError** err);
-<a name="l00086"></a>00086 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#5bba59659f7b0e1a123db9d8b990b58c">gfal_plugin_setxattrG</a>(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">void</span>*, size_t, <span class="keywordtype">int</span>, GError**);
-<a name="l00087"></a>00087 
-<a name="l00088"></a>00088 
-<a name="l00089"></a>00089 <span class="keywordtype">int</span> gfal_common_plugin_parameter(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* module, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keywordtype">char</span>* value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError** err);
+<a name="l00083"></a>00083 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#1a4632c68c7d81f87071733081900dee">gfal_plugin_unlinkG</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* path, GError** err);
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086 ssize_t <a class="code" href="gfal__common__plugin_8c.html#de1aadc6ff10f7fef83cb57a21ef1406">gfal_plugin_getxattrG</a>(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">void</span>* buff, size_t s_buff, GError** err);
+<a name="l00087"></a>00087 ssize_t gfal_plugin_listxattrG(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>* list, size_t s_list, GError** err);
+<a name="l00088"></a>00088 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#5bba59659f7b0e1a123db9d8b990b58c">gfal_plugin_setxattrG</a>(gfal_handle, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*, <span class="keyword">const</span> <span class="keywordtype">void</span>*, size_t, <span class="keywordtype">int</span>, GError**);
+<a name="l00089"></a>00089 
 <a name="l00090"></a>00090 
 <a name="l00091"></a>00091 
 <a name="l00092"></a>00092 
 <a name="l00093"></a>00093 
 <a name="l00094"></a>00094 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:14 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00095"></a>00095 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#5aa3f5f9b4e732b1841c6b367a0aa4fe">gfal_plugins_has_parameter</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* <span class="keyword">namespace</span>, <span class="keyword">const</span> <span class="keywordtype">char</span>* key, GError** err);
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097 <span class="keywordtype">int</span> <a class="code" href="gfal__common__plugin_8c.html#4594ecd9436c82f11317d0a3a2672c0b">gfal_plugins_notify_all</a>(gfal_handle handle, <span class="keyword">const</span> <span class="keywordtype">char</span>* <span class="keyword">namespace</span>, <span class="keyword">const</span> <span class="keywordtype">char</span>* key, GError** err);
+<a name="l00098"></a>00098 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

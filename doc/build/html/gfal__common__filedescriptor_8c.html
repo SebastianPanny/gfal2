@@ -47,7 +47,13 @@ gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_file
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#b1a9b764baa7c997a354d18bbe43e2cb">gfal_file_handle_bind</a> (gfal_fdesc_container_handle h, int file_desc, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#5434be84154718254a4e90dbcc196359">gfal_file_handle_delete</a> (gfal_fdesc_container_handle h, int file_desc, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6d367603c796be72a8444434ba19cf6b"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_handle_lock" ref="6d367603c796be72a8444434ba19cf6b" args="(gfal_file_handle fh)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_file_handle_lock</b> (gfal_file_handle fh)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8346baf190ac219cfc91ac45e0576449"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_handle_unlock" ref="8346baf190ac219cfc91ac45e0576449" args="(gfal_file_handle fh)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_file_handle_unlock</b> (gfal_file_handle fh)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__filedescriptor_8c.html#161698b3aec533e12f608111b8da5c2f">gfal_file_handle_delete</a> (gfal_file_handle fh)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -129,39 +135,24 @@ return the file handle associated with the file_desc <dl compact><dt><b>Warning:
 
 </div>
 </div><p>
-<a class="anchor" name="5434be84154718254a4e90dbcc196359"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_handle_delete" ref="5434be84154718254a4e90dbcc196359" args="(gfal_fdesc_container_handle h, int file_desc, GError **err)" -->
+<a class="anchor" name="161698b3aec533e12f608111b8da5c2f"></a><!-- doxytag: member="gfal_common_filedescriptor.c::gfal_file_handle_delete" ref="161698b3aec533e12f608111b8da5c2f" args="(gfal_file_handle fh)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">gboolean gfal_file_handle_delete           </td>
+          <td class="memname">void gfal_file_handle_delete           </td>
           <td>(</td>
-          <td class="paramtype">gfal_fdesc_container_handle&nbsp;</td>
-          <td class="paramname"> <em>h</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>file_desc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GError **&nbsp;</td>
-          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
 <p>
-delete the handle associated with the given key, return TRUE if success else FALSE<p>
+Delete a gfal_file handle<p>
 * 
 </div>
 </div><p>
@@ -270,7 +261,7 @@ return the associated file handle for the given file descriptor or NULL if the k
 remove the associated file handle associated with the given file descriptor return true if success else false 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:14 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

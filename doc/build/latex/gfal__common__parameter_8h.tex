@@ -3,12 +3,20 @@
 header for internal settings set/get 
 
 {\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$glib.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-types.h\char`\"{}}\par
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-int \textbf{gfal\_\-common\_\-parameter} (const char $\ast$name, void $\ast$value, size\_\-t max\_\-size, GFAL\_\-PARAM\_\-FUNC ops, GFAL\_\-TYPE req\_\-type, GError $\ast$$\ast$err)\label{gfal__common__parameter_8h_868b0b6b628b4f7b1cd09bd41522a4a2}
+int \bf{gfal\_\-common\_\-parameter\_\-set\_\-string} (gfal\_\-handle handle, const char $\ast$namespace, const char $\ast$key, const char $\ast$value, GError $\ast$$\ast$err)
+\item 
+char $\ast$ \bf{gfal\_\-common\_\-parameter\_\-get\_\-string} (gfal\_\-handle handle, const char $\ast$namespace, const char $\ast$key, GError $\ast$$\ast$err)
+\item 
+gboolean \textbf{gfal\_\-common\_\-parameter\_\-get\_\-boolean} (gfal\_\-handle handle, const char $\ast$namespace, const char $\ast$key, GError $\ast$$\ast$err)\label{gfal__common__parameter_8h_b57c6f6aed12cfceb7ee631a0ef01b44}
+
+\item 
+int \textbf{gfal\_\-common\_\-parameter\_\-set\_\-boolean} (gfal\_\-handle handle, const char $\ast$namespace, const char $\ast$key, gboolean value, GError $\ast$$\ast$err)\label{gfal__common__parameter_8h_b1a9abb4de98df443fec2e491b4b6c54}
 
 \end{CompactItemize}
 
@@ -22,3 +30,17 @@ header for internal settings set/get
 \item[Version:]2.0 \end{Desc}
 \begin{Desc}
 \item[Date:]02/10/2011 \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{gfal_common_parameter.h@{gfal\_\-common\_\-parameter.h}!gfal_common_parameter_get_string@{gfal\_\-common\_\-parameter\_\-get\_\-string}}
+\index{gfal_common_parameter_get_string@{gfal\_\-common\_\-parameter\_\-get\_\-string}!gfal_common_parameter.h@{gfal\_\-common\_\-parameter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-common\_\-parameter\_\-get\_\-string (gfal\_\-handle {\em handle}, const char $\ast$ {\em namespace}, const char $\ast$ {\em key}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__parameter_8h_21177481b78f4ed95ac7cb7904e79f93}
+
+
+getter for string value \index{gfal_common_parameter.h@{gfal\_\-common\_\-parameter.h}!gfal_common_parameter_set_string@{gfal\_\-common\_\-parameter\_\-set\_\-string}}
+\index{gfal_common_parameter_set_string@{gfal\_\-common\_\-parameter\_\-set\_\-string}!gfal_common_parameter.h@{gfal\_\-common\_\-parameter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-common\_\-parameter\_\-set\_\-string (gfal\_\-handle {\em handle}, const char $\ast$ {\em namespace}, const char $\ast$ {\em key}, const char $\ast$ {\em value}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__parameter_8h_7600e15a62b68dd3a88db707e9081c87}
+
+
+setter for string value 

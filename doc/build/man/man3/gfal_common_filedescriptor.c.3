@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_filedescriptor.c" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -46,7 +46,13 @@
 .RI "gfal_file_handle \fBgfal_file_handle_bind\fP (gfal_fdesc_container_handle h, int file_desc, GError **err)"
 .br
 .ti -1c
-.RI "gboolean \fBgfal_file_handle_delete\fP (gfal_fdesc_container_handle h, int file_desc, GError **err)"
+.RI "void \fBgfal_file_handle_lock\fP (gfal_file_handle fh)"
+.br
+.ti -1c
+.RI "void \fBgfal_file_handle_unlock\fP (gfal_file_handle fh)"
+.br
+.ti -1c
+.RI "void \fBgfal_file_handle_delete\fP (gfal_file_handle fh)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -91,9 +97,9 @@ does not free the handle
 .RE
 .PP
 
-.SS "gboolean gfal_file_handle_delete (gfal_fdesc_container_handle h, int file_desc, GError ** err)"
+.SS "void gfal_file_handle_delete (gfal_file_handle fh)"
 .PP
-delete the handle associated with the given key, return TRUE if success else FALSE
+Delete a gfal_file handle
 .PP
 * 
 .SS "gfal_file_handle gfal_file_handle_ext_new (const char * module_name, gpointer fdesc, gpointer ext_data)"

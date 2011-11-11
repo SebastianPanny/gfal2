@@ -32,9 +32,13 @@
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#9e65a28adbfb32235bf789b0ea290b87">gfal_posix_internal_set_parameter</a> (const char *module, const char *name, char *value, size_t max_size, GFAL_TYPE req_type)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#98b19bc6f63e4a3f0a741ed251af03b3">gfal_set_parameter_boolean_internal</a> (const char *namespace, const char *key, int value)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#a76b7fd2e55d130e60ce5b0e82d93d53">gfal_posix_internal_get_parameter</a> (const char *module, const char *name, char *value, size_t buff_size, GFAL_TYPE req_type)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#23635b7c02de0165acdc8b68880a4e87">gfal_set_parameter_string_internal</a> (const char *namespace, const char *key, const char *value)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#870af5bd0aa51f88dbe475c250a64152">gfal_get_parameter_string_internal</a> (const char *namespace, const char *key)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__parameters_8c.html#5dd091f80a40fb000fff38087a99dde3">gfal_get_parameter_boolean_internal</a> (const char *namespace, const char *key)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -43,101 +47,135 @@ new file for the parameters management
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>02/10/2011 </dd></dl>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="a76b7fd2e55d130e60ce5b0e82d93d53"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_posix_internal_get_parameter" ref="a76b7fd2e55d130e60ce5b0e82d93d53" args="(const char *module, const char *name, char *value, size_t buff_size, GFAL_TYPE req_type)" -->
+<a class="anchor" name="5dd091f80a40fb000fff38087a99dde3"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_get_parameter_boolean_internal" ref="5dd091f80a40fb000fff38087a99dde3" args="(const char *namespace, const char *key)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int gfal_posix_internal_get_parameter           </td>
+          <td class="memname">int gfal_get_parameter_boolean_internal           </td>
           <td>(</td>
           <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>module</em>, </td>
+          <td class="paramname"> <em>namespace</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&nbsp;</td>
-          <td class="paramname"> <em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&nbsp;</td>
-          <td class="paramname"> <em>buff_size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GFAL_TYPE&nbsp;</td>
-          <td class="paramname"> <em>req_type</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>key</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td width="100%"><code> [inline]</code></td>
+          <td></td><td></td><td width="100%"></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
 <p>
-internal function for get parameter / options 
+Internal wrapper for posix api to get parameter boolean 
 </div>
 </div><p>
-<a class="anchor" name="9e65a28adbfb32235bf789b0ea290b87"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_posix_internal_set_parameter" ref="9e65a28adbfb32235bf789b0ea290b87" args="(const char *module, const char *name, char *value, size_t max_size, GFAL_TYPE req_type)" -->
+<a class="anchor" name="870af5bd0aa51f88dbe475c250a64152"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_get_parameter_string_internal" ref="870af5bd0aa51f88dbe475c250a64152" args="(const char *namespace, const char *key)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int gfal_posix_internal_set_parameter           </td>
+          <td class="memname">char* gfal_get_parameter_string_internal           </td>
           <td>(</td>
           <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>module</em>, </td>
+          <td class="paramname"> <em>namespace</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&nbsp;</td>
-          <td class="paramname"> <em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&nbsp;</td>
-          <td class="paramname"> <em>max_size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GFAL_TYPE&nbsp;</td>
-          <td class="paramname"> <em>req_type</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>key</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td width="100%"><code> [inline]</code></td>
+          <td></td><td></td><td width="100%"></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
 <p>
-internal function to set parameter / options 
+Internal wrapper for posix api to set parameter string 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:15 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="98b19bc6f63e4a3f0a741ed251af03b3"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_set_parameter_boolean_internal" ref="98b19bc6f63e4a3f0a741ed251af03b3" args="(const char *namespace, const char *key, int value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_set_parameter_boolean_internal           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>namespace</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Internal wrapper for posix api to set parameter boolean 
+</div>
+</div><p>
+<a class="anchor" name="23635b7c02de0165acdc8b68880a4e87"></a><!-- doxytag: member="gfal_posix_parameters.c::gfal_set_parameter_string_internal" ref="23635b7c02de0165acdc8b68880a4e87" args="(const char *namespace, const char *key, const char *value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_set_parameter_string_internal           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>namespace</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Internal wrapper for posix api to set parameter string 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

@@ -17,6 +17,10 @@ file for the internal write function for the posix interface
 int \bf{gfal\_\-posix\_\-gfalfilehandle\_\-write} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, GError $\ast$$\ast$err)
 \item 
 int \bf{gfal\_\-posix\_\-internal\_\-write} (int fd, void $\ast$buff, size\_\-t s\_\-buff)
+\item 
+int \bf{gfal\_\-posix\_\-gfalfilehandle\_\-pwrite} (gfal\_\-handle handle, gfal\_\-file\_\-handle fh, void $\ast$buff, size\_\-t s\_\-buff, off\_\-t offset, GError $\ast$$\ast$err)
+\item 
+ssize\_\-t \bf{gfal\_\-posix\_\-internal\_\-pwrite} (int fd, void $\ast$buff, size\_\-t s\_\-buff, off\_\-t offset)
 \end{CompactItemize}
 
 
@@ -32,14 +36,24 @@ file for the internal write function for the posix interface
 
 
 \subsection{Function Documentation}
-\index{gfal_posix_write.c@{gfal\_\-posix\_\-write.c}!gfal_posix_gfalfilehandle_write@{gfal\_\-posix\_\-gfalfilehandle\_\-write}}
+\index{gfal_posix_write.c@{gfal\_\-posix\_\-write.c}!gfal_posix_gfalfilehandle_pwrite@{gfal\_\-posix\_\-gfalfilehandle\_\-pwrite}}
+\index{gfal_posix_gfalfilehandle_pwrite@{gfal\_\-posix\_\-gfalfilehandle\_\-pwrite}!gfal_posix_write.c@{gfal\_\-posix\_\-write.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-gfalfilehandle\_\-pwrite (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, off\_\-t {\em offset}, GError $\ast$$\ast$ {\em err})}\label{gfal__posix__write_8c_d28884b91e56015463fb806440fda279}
+
+
+map the file handle to the correct call for pwrite \index{gfal_posix_write.c@{gfal\_\-posix\_\-write.c}!gfal_posix_gfalfilehandle_write@{gfal\_\-posix\_\-gfalfilehandle\_\-write}}
 \index{gfal_posix_gfalfilehandle_write@{gfal\_\-posix\_\-gfalfilehandle\_\-write}!gfal_posix_write.c@{gfal\_\-posix\_\-write.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-gfalfilehandle\_\-write (gfal\_\-handle {\em handle}, gfal\_\-file\_\-handle {\em fh}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, GError $\ast$$\ast$ {\em err})}\label{gfal__posix__write_8c_bce2c385519d3c7ec5c80539d80962f4}
 
 
-map the file handle to the correct call \index{gfal_posix_write.c@{gfal\_\-posix\_\-write.c}!gfal_posix_internal_write@{gfal\_\-posix\_\-internal\_\-write}}
+map the file handle to the correct call \index{gfal_posix_write.c@{gfal\_\-posix\_\-write.c}!gfal_posix_internal_pwrite@{gfal\_\-posix\_\-internal\_\-pwrite}}
+\index{gfal_posix_internal_pwrite@{gfal\_\-posix\_\-internal\_\-pwrite}!gfal_posix_write.c@{gfal\_\-posix\_\-write.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t gfal\_\-posix\_\-internal\_\-pwrite (int {\em fd}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff}, off\_\-t {\em offset})}\label{gfal__posix__write_8c_eda9f322f611299fdefc253488a26f35}
+
+
+Implementation of the pwrite call \index{gfal_posix_write.c@{gfal\_\-posix\_\-write.c}!gfal_posix_internal_write@{gfal\_\-posix\_\-internal\_\-write}}
 \index{gfal_posix_internal_write@{gfal\_\-posix\_\-internal\_\-write}!gfal_posix_write.c@{gfal\_\-posix\_\-write.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-internal\_\-write (int {\em fd}, void $\ast$ {\em buff}, size\_\-t {\em s\_\-buff})}\label{gfal__posix__write_8c_fccb68462e2f770a8691d2358f2b75b6}
 
 
-Implementation of the read functions 
+Implementation of the write call 

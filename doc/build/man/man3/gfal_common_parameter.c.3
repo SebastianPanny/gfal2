@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.c" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.c" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,25 +6,45 @@
 .SH SYNOPSIS
 .br
 .PP
-\fC#include <glib.h>\fP
+\fC#include 'gfal_common_parameter.h'\fP
 .br
-\fC#include <stdlib.h>\fP
-.br
-\fC#include 'gfal_prototypes.h'\fP
-.br
-\fC#include 'gfal_types.h'\fP
+\fC#include 'gfal_common_plugin.h'\fP
 .br
 \fC#include 'gfal_common_errverbose.h'\fP
 .br
+\fC#include 'gfal_common_config.h'\fP
+.br
+\fC#include 'mds/gfal_common_mds.h'\fP
+.br
 
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fB_gfal_internal_parameter\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef _gfal_internal_parameter \fBgfal_internal_parameter\fP"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "int \fBgfal_common_bdii\fP (void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)"
+.RI "int \fBgfal_common_parameter_set_string\fP (gfal_handle handle, const char *namespace, const char *key, const char *value, GError **err)"
 .br
 .ti -1c
-.RI "int \fBgfal_common_parameter\fP (const char *name, void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)"
+.RI "char * \fBgfal_common_parameter_get_string\fP (gfal_handle handle, const char *namespace, const char *key, GError **err)"
+.br
+.ti -1c
+.RI "gboolean \fBgfal_common_parameter_get_boolean\fP (gfal_handle handle, const char *namespace, const char *key, GError **err)"
+.br
+.ti -1c
+.RI "int \fBgfal_common_parameter_set_boolean\fP (gfal_handle handle, const char *namespace, const char *key, gboolean value, GError **err)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -47,6 +67,14 @@ Devresse Adrien
 .RE
 .PP
 
+.SH "Function Documentation"
+.PP 
+.SS "char* gfal_common_parameter_get_string (gfal_handle handle, const char * namespace, const char * key, GError ** err)"
+.PP
+getter for string value 
+.SS "int gfal_common_parameter_set_string (gfal_handle handle, const char * namespace, const char * key, const char * value, GError ** err)"
+.PP
+setter for string value 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

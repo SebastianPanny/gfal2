@@ -98,14 +98,16 @@ gfal_file_handle&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_loca
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="41bf6452e794fbfd86b1cfd95fe61f5b"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_is_local_call" ref="41bf6452e794fbfd86b1cfd95fe61f5b" args="(const char *module_name)" -->
 gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_is_local_call</b> (const char *module_name)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="45d46420d93abbaa7bbeb345bd8a6584"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_read" ref="45d46420d93abbaa7bbeb345bd8a6584" args="(gfal_file_handle fh, void *buff, size_t s_buff, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_read</b> (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__local__file_8c.html#45d46420d93abbaa7bbeb345bd8a6584">gfal_local_read</a> (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__local__file_8c.html#a125db353a6fad3952a991fd416068b9">gfal_local_pread</a> (gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3e1930273b0fa1021de561b1f1598f4a"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_lseek" ref="3e1930273b0fa1021de561b1f1598f4a" args="(gfal_file_handle fh, off_t offset, int whence, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_lseek</b> (gfal_file_handle fh, off_t offset, int whence, GError **err)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b9335b2236704108f4492032685d5ba2"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_write" ref="b9335b2236704108f4492032685d5ba2" args="(gfal_file_handle fh, void *buff, size_t s_buff, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_write</b> (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__local__file_8c.html#b9335b2236704108f4492032685d5ba2">gfal_local_write</a> (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__posix__local__file_8c.html#8e2ea01514707426a55d24e0e99a048c">gfal_local_pwrite</a> (gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="145bf9e9edbe0321103e13a665c08d8a"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_close" ref="145bf9e9edbe0321103e13a665c08d8a" args="(gfal_file_handle fh, GError **err)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_local_close</b> (gfal_file_handle fh, GError **err)</td></tr>
@@ -188,6 +190,141 @@ check the validity of a classique file url
 local closedir mapper 
 </div>
 </div><p>
+<a class="anchor" name="a125db353a6fad3952a991fd416068b9"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_pread" ref="a125db353a6fad3952a991fd416068b9" args="(gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t gfal_local_pread           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>s_buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">off_t&nbsp;</td>
+          <td class="paramname"> <em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+map the gfal_pread call to the local pread call for <a href="file://">file://</a> 
+</div>
+</div><p>
+<a class="anchor" name="8e2ea01514707426a55d24e0e99a048c"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_pwrite" ref="8e2ea01514707426a55d24e0e99a048c" args="(gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t gfal_local_pwrite           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>s_buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">off_t&nbsp;</td>
+          <td class="paramname"> <em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+map to the local pwrite call 
+</div>
+</div><p>
+<a class="anchor" name="45d46420d93abbaa7bbeb345bd8a6584"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_read" ref="45d46420d93abbaa7bbeb345bd8a6584" args="(gfal_file_handle fh, void *buff, size_t s_buff, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_local_read           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>s_buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+map the gfal_read call to the local read call for <a href="file://">file://</a> 
+</div>
+</div><p>
 <a class="anchor" name="a89a8db8cb79bf7c575b08305704c248"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_rmdir" ref="a89a8db8cb79bf7c575b08305704c248" args="(const char *path, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +354,48 @@ local closedir mapper
 local rmdir mapper 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:15 2011 for CERN org.glite.Gfal by&nbsp;
+<a class="anchor" name="b9335b2236704108f4492032685d5ba2"></a><!-- doxytag: member="gfal_posix_local_file.c::gfal_local_write" ref="b9335b2236704108f4492032685d5ba2" args="(gfal_file_handle fh, void *buff, size_t s_buff, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_local_write           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_file_handle&nbsp;</td>
+          <td class="paramname"> <em>fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>s_buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+map to the local write call 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

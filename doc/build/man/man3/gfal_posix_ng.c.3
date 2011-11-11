@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -120,16 +120,22 @@
 .RI "void \fBgfal_posix_release_error\fP ()"
 .br
 .ti -1c
-.RI "int \fBgfal_set_parameter_string\fP (const char *module, const char *name, const char *value)"
+.RI "int \fBgfal_set_parameter_string\fP (const char *namespace, const char *key, const char *value)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_parameter\fP (const char *module, const char *name, char *buff_value, size_t s_buff)"
+.RI "char * \fBgfal_get_parameter_string\fP (const char *namespace, const char *key)"
 .br
 .ti -1c
 .RI "int \fBgfal_set_parameter_int\fP (const char *module, const char *name, int value)"
 .br
 .ti -1c
 .RI "int \fBgfal_get_parameter_int\fP (const char *module, const char *name)"
+.br
+.ti -1c
+.RI "int \fBgfal_set_parameter_boolean\fP (const char *namespace, const char *key, int value)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_parameter_boolean\fP (const char *namespace, const char *key)"
 .br
 .ti -1c
 .RI "void \fBgfal_posix_clear_error\fP ()"
@@ -148,12 +154,6 @@
 .br
 .ti -1c
 .RI "ssize_t \fBgfal_pwrite\fP (int fd, const void *buffer, size_t count, off_t offset)"
-.br
-.ti -1c
-.RI "void \fBgfal_set_nobdii\fP (int value)"
-.br
-.ti -1c
-.RI "int \fBgfal_is_nobdii\fP ()"
 .br
 .in -1c
 .SH "Detailed Description"

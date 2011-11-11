@@ -35,6 +35,7 @@ typedef struct _gfal_plugin_interface gfal_plugin_interface;
 typedef enum _plugin_mode plugin_mode;
 typedef gpointer plugin_handle;
 
+
 // file descrisptor
 typedef struct _gfal_file_descriptor_container *gfal_fdesc_container_handle;
 typedef enum _gfal_type_desc gfal_type_desc;
@@ -45,6 +46,8 @@ typedef struct _gfal_file_handle_* gfal_file_handle;
 // main 
 typedef struct gfal_handle_* gfal_handle;
 typedef struct _gfal_descriptors_container gfal_descriptors_container;
+typedef struct _gfal_conf_container gfal_conf_container;
+
 
 typedef enum _GFAL_TYPE GFAL_TYPE;
 typedef enum _GFAL_PARAM_FUNC GFAL_PARAM_FUNC;

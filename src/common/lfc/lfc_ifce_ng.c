@@ -169,26 +169,6 @@ char* gfal_get_lfchost_envar(GError** err){
 	return lfc_endpoint;
 }
 
-static int gfal_define_lfc_env_var(char* lfc_host, GError** err){
-	char* lfc_endpoint=NULL, *lfc_port = NULL;
-	if (strncmp (lfc_host, "lfc://", 6) == 0)				// correct the url begining with lfc://
-		lfc_endpoint =strndupa ( lfc_host + 6, GFAL_HOSTNAME_MAXLEN);
-	else /* just a plain hostname */
-		lfc_endpoint =strndupa (lfc_host, GFAL_HOSTNAME_MAXLEN);
-
-	if ((lfc_port = strchr (lfc_endpoint, ':')) != NULL){	// register LFC_PORT var and clear port number
-		if (strnlen (lfc_port+1,6) > 5  && atoi(lfc_port) ==0) {
-			g_set_error(err,0, EINVAL, "[gfal_define_lfc_env_var] %s: Invalid LFC port number", lfc_port+1);
-			free(lfc_endpoint);
-			return (-1);
-		}
-		setenv("LFC_PORT", lfc_port+1,1);
-		*lfc_port = '\0';	
-		setenv("LFC_HOST", lfc_host, 1);
-	}
-	return 0;
-}
-
 /**
  * convert a guid to a lfn link with a call to the lfclib
  * @param handle handle of the lfc plugin
@@ -597,5 +577,14 @@ char*  gfal_lfc_get_strerror(struct lfc_ops* ops){
     uuid_generate (uuid);
     uuid_unparse (uuid, buf);
     uuid_clear(uuid);
+ }
+ 
+ 
+ int gfal_lfc_set_host(const char* host, GError** err){
+	 g_return_val_if_fail(host != NULL, -1);
+	 const int ret = setenv(LFC_ENV_VAR_HOST, host, TRUE);
+	 if(ret)
+		g_set_error(err, 0, EINVAL, " invalid lfc host value");
+	return ret;
  }
 

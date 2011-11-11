@@ -29,72 +29,128 @@
 #include <common/gfal_types.h>
 #include <common/gfal_common_plugin.h>
 
-
 #include <common/gfal_common_errverbose.h>
 #include <common/gfal_common_parameter.h>
 
 #include "gfal_posix_internal.h"
 
+
 /**
- * internal function to set parameter / options
- * 
- */
-inline int gfal_posix_internal_set_parameter(const char* module, const char* name, char* value, size_t max_size, GFAL_TYPE req_type){
-  GError* tmp_err=NULL;
-  gfal_handle handle;
-  int res = -1;
+ * Internal wrapper for posix api to set parameter boolean
+ * */
+int gfal_set_parameter_boolean_internal(const char* namespace, const char* key, int value){
+	GError* tmp_err=NULL;
+	gfal_handle handle;
 
-  gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s ->",__func__);
+	int ret = -1;
+	
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s ->",__func__);
 
-  if((handle = gfal_posix_instance()) == NULL){
-    errno = EIO;
-    return -1;
-  }
-  
-  if(module == NULL){ // internal parameters
-    res = gfal_common_parameter(name, (void*) value, max_size, GFAL_PARAM_SET, req_type, &tmp_err);
-  }else{
-    res = gfal_common_plugin_parameter(handle, module, name, value, max_size, GFAL_PARAM_SET, req_type, &tmp_err);
-  }
-  
-  if(tmp_err){
-    gfal_posix_register_internal_error(handle, "[gfal_set_parameter]", tmp_err);
-    errno = tmp_err->code;	
-  }else
-    errno=0;
-  
-  return res;
+	if((handle = gfal_posix_instance()) == NULL){
+		errno = EIO;
+		return -1;
+	}
+	if(key == NULL){
+		g_set_error(&tmp_err, 0, EINVAL, "Invalid key value");
+	}else {
+		ret = gfal_common_parameter_set_boolean(handle, namespace, key, value, &tmp_err);
+	}
+	
+	if(tmp_err){
+		gfal_posix_register_internal_error(handle, "[gfal_set_parameter_boolean]", tmp_err);
+	}else
+		errno=0;
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s <-",__func__);
+	return ret;	
+}
+
+/**
+ * Internal wrapper for posix api to set parameter string
+ * */
+int gfal_set_parameter_string_internal(const char* namespace, const char* key, const char* value){
+	GError* tmp_err=NULL;
+	gfal_handle handle;
+
+	int ret = -1;
+	
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s ->",__func__);
+
+	if((handle = gfal_posix_instance()) == NULL){
+		errno = EIO;
+		return -1;
+	}
+	if(key == NULL){
+		g_set_error(&tmp_err, 0, EINVAL, "Invalid key value");
+	}else {
+		ret = gfal_common_parameter_set_string(handle, namespace, key, value, &tmp_err);
+	}
+	
+	if(tmp_err){
+		gfal_posix_register_internal_error(handle, "[gfal_set_parameter_string]", tmp_err);
+	}else
+		errno=0;
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s <-",__func__);
+	return ret;	
 }
 
 
 /**
- * internal function for get parameter / options
- * 
- */
-inline int gfal_posix_internal_get_parameter(const char* module, const char* name, char* value, size_t buff_size, GFAL_TYPE req_type){
-  GError* tmp_err=NULL;
-  gfal_handle handle;
-  int res = -1;
+ * Internal wrapper for posix api to set parameter string
+ * */
+char* gfal_get_parameter_string_internal(const char* namespace, const char* key){
+	GError* tmp_err=NULL;
+	gfal_handle handle;
 
-  gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s ->",__func__);
+	char* ret = NULL;
+	
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s ->",__func__);
 
-  if((handle = gfal_posix_instance()) == NULL){
-    errno = EIO;
-    return -1;
-  }
-  
-  if(module == NULL){ // internal parameters
-    res = gfal_common_parameter(name, value, buff_size, GFAL_PARAM_GET, req_type, &tmp_err);
-  }else{
-    res = gfal_common_plugin_parameter(handle, module, name, value, buff_size, GFAL_PARAM_GET,req_type, &tmp_err);
-  }
-  
-  if(tmp_err){
-    gfal_posix_register_internal_error(handle, "[gfal_get_parameter]", tmp_err);
-    errno = tmp_err->code;	
-  }else
-    errno=0;
-  
-  return res;
+	if((handle = gfal_posix_instance()) == NULL){
+		errno = EIO;
+		return NULL;
+	}
+	if(key == NULL){
+		g_set_error(&tmp_err, 0, EINVAL, "Invalid key value");
+	}else {
+		ret = gfal_common_parameter_get_string(handle, namespace, key, &tmp_err);
+	}
+	
+	if(tmp_err){
+		gfal_posix_register_internal_error(handle, "[gfal_get_parameter_string]", tmp_err);
+	}else
+		errno=0;
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s <-",__func__);
+	return ret;	
 }
 
+
+/**
+ * Internal wrapper for posix api to get parameter boolean
+ * */
+int gfal_get_parameter_boolean_internal(const char* namespace, const char* key){
+	GError* tmp_err=NULL;
+	gfal_handle handle;
+
+	int ret = -1;
+	
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s ->",__func__);
+
+	if((handle = gfal_posix_instance()) == NULL){
+		errno = EIO;
+		return -1;
+	}
+	
+	if(key == NULL){
+		g_set_error(&tmp_err, 0, EINVAL, "Invalid key value");
+	}else {
+		ret = gfal_common_parameter_get_boolean(handle, namespace, key, &tmp_err);
+	}
+	
+	if(tmp_err){
+		gfal_posix_register_internal_error(handle, "[gfal_get_parameter_boolean]", tmp_err);
+		ret =-1;
+	}else
+		errno=0;
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, "%s <-",__func__);
+	return ret;	
+}

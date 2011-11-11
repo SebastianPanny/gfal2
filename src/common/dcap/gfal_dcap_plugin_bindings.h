@@ -39,7 +39,7 @@ int gfal_dcap_readG(plugin_handle handle , gfal_file_handle fd, void* buff, size
 
 ssize_t gfal_dcap_preadG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, off_t offset,  GError** err);
 
-ssize_t gfal_dcap_pwriteG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, off_t offset,  GError** err);
+ssize_t gfal_dcap_pwriteG(plugin_handle handle , gfal_file_handle fd, const void* buff, size_t s_buff, off_t offset,  GError** err);
 
 int gfal_dcap_lseekG(plugin_handle handle , gfal_file_handle fd, off_t offset, int whence, GError** err);
 

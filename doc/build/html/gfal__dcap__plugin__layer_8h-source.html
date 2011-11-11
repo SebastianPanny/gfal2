@@ -63,25 +63,28 @@
 <a name="l00052"></a>00052         int     (*open)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, int, ...);
 <a name="l00053"></a>00053         DIR     *(*opendir)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
 <a name="l00054"></a>00054         ssize_t (*read)(int, <span class="keywordtype">void</span> *, size_t);
-<a name="l00055"></a>00055         <span class="keyword">struct </span>dirent   *(*readdir)(DIR *);
-<a name="l00056"></a>00056 <span class="preprocessor">#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)</span>
-<a name="l00057"></a>00057 <span class="preprocessor"></span>        <span class="keyword">struct </span>dirent64 *(*readdir64)(DIR *);
-<a name="l00058"></a>00058 <span class="preprocessor">#endif</span>
-<a name="l00059"></a>00059 <span class="preprocessor"></span>        int     (*rename)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00060"></a>00060         int     (*rmdir)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00061"></a>00061         ssize_t (*setfilchg)(int, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
-<a name="l00062"></a>00062         int     (*stat)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>stat *);
-<a name="l00063"></a>00063 <span class="preprocessor">#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)</span>
-<a name="l00064"></a>00064 <span class="preprocessor"></span>        int     (*stat64)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>stat64 *);
-<a name="l00065"></a>00065 <span class="preprocessor">#endif</span>
-<a name="l00066"></a>00066 <span class="preprocessor"></span>        int     (*unlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
-<a name="l00067"></a>00067         ssize_t (*write)(int, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
-<a name="l00068"></a>00068 };
-<a name="l00069"></a>00069 
-<a name="l00070"></a>00070 
-<a name="l00071"></a>00071 <span class="keyword">extern</span> <span class="keyword">struct </span>dcap_proto_ops * (*gfal_dcap_internal_loader)(GError** err);
+<a name="l00055"></a>00055         
+<a name="l00056"></a>00056         ssize_t (*pread)(<span class="keywordtype">int</span> fildes, <span class="keywordtype">void</span> *buf, size_t nbytes, off_t offset);
+<a name="l00057"></a>00057         ssize_t (*pwrite)(<span class="keywordtype">int</span> fildes, <span class="keyword">const</span> <span class="keywordtype">void</span> *buf, size_t nbytes, off_t offset);
+<a name="l00058"></a>00058         <span class="keyword">struct </span>dirent   *(*readdir)(DIR *);
+<a name="l00059"></a>00059 <span class="preprocessor">#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)</span>
+<a name="l00060"></a>00060 <span class="preprocessor"></span>        <span class="keyword">struct </span>dirent64 *(*readdir64)(DIR *);
+<a name="l00061"></a>00061 <span class="preprocessor">#endif</span>
+<a name="l00062"></a>00062 <span class="preprocessor"></span>        int     (*rename)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00063"></a>00063         int     (*rmdir)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00064"></a>00064         ssize_t (*setfilchg)(int, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
+<a name="l00065"></a>00065         int     (*stat)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>stat *);
+<a name="l00066"></a>00066 <span class="preprocessor">#if ! defined(linux) || defined(_LARGEFILE64_SOURCE)</span>
+<a name="l00067"></a>00067 <span class="preprocessor"></span>        int     (*stat64)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">struct </span>stat64 *);
+<a name="l00068"></a>00068 <span class="preprocessor">#endif</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span>        int     (*unlink)(<span class="keyword">const</span> <span class="keywordtype">char</span> *);
+<a name="l00070"></a>00070         ssize_t (*write)(int, <span class="keyword">const</span> <span class="keywordtype">void</span> *, size_t);
+<a name="l00071"></a>00071 };
 <a name="l00072"></a>00072 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:14 2011 for CERN org.glite.Gfal by&nbsp;
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 <span class="keyword">extern</span> <span class="keyword">struct </span>dcap_proto_ops * (*gfal_dcap_internal_loader)(GError** err);
+<a name="l00075"></a>00075 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:57 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

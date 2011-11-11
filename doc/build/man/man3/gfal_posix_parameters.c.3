@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_parameters.c" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_parameters.c" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -27,10 +27,16 @@
 
 .in +1c
 .ti -1c
-.RI "int \fBgfal_posix_internal_set_parameter\fP (const char *module, const char *name, char *value, size_t max_size, GFAL_TYPE req_type)"
+.RI "int \fBgfal_set_parameter_boolean_internal\fP (const char *namespace, const char *key, int value)"
 .br
 .ti -1c
-.RI "int \fBgfal_posix_internal_get_parameter\fP (const char *module, const char *name, char *value, size_t buff_size, GFAL_TYPE req_type)"
+.RI "int \fBgfal_set_parameter_string_internal\fP (const char *namespace, const char *key, const char *value)"
+.br
+.ti -1c
+.RI "char * \fBgfal_get_parameter_string_internal\fP (const char *namespace, const char *key)"
+.br
+.ti -1c
+.RI "int \fBgfal_get_parameter_boolean_internal\fP (const char *namespace, const char *key)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -50,12 +56,18 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_posix_internal_get_parameter (const char * module, const char * name, char * value, size_t buff_size, GFAL_TYPE req_type)\fC [inline]\fP"
+.SS "int gfal_get_parameter_boolean_internal (const char * namespace, const char * key)"
 .PP
-internal function for get parameter / options 
-.SS "int gfal_posix_internal_set_parameter (const char * module, const char * name, char * value, size_t max_size, GFAL_TYPE req_type)\fC [inline]\fP"
+Internal wrapper for posix api to get parameter boolean 
+.SS "char* gfal_get_parameter_string_internal (const char * namespace, const char * key)"
 .PP
-internal function to set parameter / options 
+Internal wrapper for posix api to set parameter string 
+.SS "int gfal_set_parameter_boolean_internal (const char * namespace, const char * key, int value)"
+.PP
+Internal wrapper for posix api to set parameter boolean 
+.SS "int gfal_set_parameter_string_internal (const char * namespace, const char * key, const char * value)"
+.PP
+Internal wrapper for posix api to set parameter string 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

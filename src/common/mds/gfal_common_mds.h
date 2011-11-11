@@ -45,8 +45,7 @@ typedef struct _gfal_mds_endpoint{
 	mds_type_endpoint type;
 } gfal_mds_endpoint;
 
-
-
+extern const char* bdii_env_var;
 
 // 
 int gfal_mds_resolve_srm_endpoint(const char* base_url, gfal_mds_endpoint* endpoints, size_t s_endpoint, GError** err);
@@ -60,6 +59,8 @@ char * gfal_get_lfchost_bdii(gfal_handle handle, GError** err);
 void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk);
 
 gboolean gfal_get_nobdiiG(gfal_handle handle);
+
+void gfal_mds_set_infosys(gfal_handle handle, const char * infosys, GError** err);
  
  
  

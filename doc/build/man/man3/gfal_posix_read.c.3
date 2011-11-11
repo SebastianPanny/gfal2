@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_read.c" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_read.c" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -34,6 +34,12 @@
 .ti -1c
 .RI "int \fBgfal_posix_internal_read\fP (int fd, void *buff, size_t s_buff)"
 .br
+.ti -1c
+.RI "ssize_t \fBgfal_posix_gfalfilehandle_pread\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_posix_internal_pread\fP (int fd, void *buff, size_t s_buff, off_t offset)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -57,10 +63,16 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
-.SS "int gfal_posix_gfalfilehandle_read (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
+.SS "ssize_t gfal_posix_gfalfilehandle_pread (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, off_t offset, GError ** err)\fC [inline]\fP"
 .PP
 map the file handle to the correct call 
-.SS "int gfal_posix_internal_read (int fd, void * buff, size_t s_buff)"
+.SS "int gfal_posix_gfalfilehandle_read (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)\fC [inline]\fP"
+.PP
+map the file handle to the correct call 
+.SS "ssize_t gfal_posix_internal_pread (int fd, void * buff, size_t s_buff, off_t offset)\fC [inline]\fP"
+.PP
+Implementation of the pread function 
+.SS "int gfal_posix_internal_read (int fd, void * buff, size_t s_buff)\fC [inline]\fP"
 .PP
 Implementation of the read functions 
 .SH "Author"

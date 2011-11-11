@@ -39,6 +39,8 @@
 #include "../../externals/gsimplecache/gcachemain.h"
 
 
+#define LFC_ENV_VAR_HOST "LFC_HOST"
+
 typedef struct _lfc_checksum{
 	char type[255];
 	char value[GFAL_URL_MAX_LEN];
@@ -131,4 +133,7 @@ ssize_t g_strv_catbuff(char** strv, char* buff, size_t size);
 int gfal_lfc_convert_lstat(struct stat* output, struct lfc_filestat* input, GError** err);
 
 void gfal_generate_guidG(char* buf, GError** err);
+
+
+int gfal_lfc_set_host(const char* host, GError** err);
 

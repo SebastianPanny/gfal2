@@ -38,6 +38,8 @@
 
 pthread_mutex_t m_mds =PTHREAD_MUTEX_INITIALIZER; 
 
+const char* bdii_env_var = "LCG_GFAL_INFOSYS";
+
 /**
  * set the bdii value of the handle specified
  */
@@ -47,6 +49,19 @@ void gfal_set_nobdiiG(gfal_handle handle, gboolean no_bdii_chk){
 
 gboolean gfal_get_nobdiiG(gfal_handle handle){
 	return handle->no_bdii_check;
+}
+
+/**
+ * define the bdii endpoint for the current handle
+ * same purpose that the old LCG_GFAL_INFOSYS environment variable
+ */
+void gfal_mds_set_infosys(gfal_handle handle, const char * infosys, GError** err){
+	g_return_if_fail(handle && infosys);
+	// no manner to define infosys in is interface currently, just setup the env var, 
+	// TODO : change this in is-interface and integrated module
+	const int ret = setenv(bdii_env_var, infosys, TRUE);
+	if(ret == -1)
+		g_set_error(err, 0, EINVAL, "Unable to set the infosys properly");
 }
 
 
@@ -125,5 +140,8 @@ int gfal_mds_isifce_wrapper(const char* base_url, gfal_mds_endpoint* endpoints, 
 	return gfal_mds_bdii_get_srm_endpoint(base_url, endpoints, s_endpoint, err);
 #endif
  }
+ 
+ 
+ 
 
 

@@ -3,123 +3,187 @@
   <compounddef id="gfal__common__parameter_8h" kind="file">
     <compoundname>gfal_common_parameter.h</compoundname>
     <includes local="no">stdlib.h</includes>
+    <includes local="no">glib.h</includes>
     <includes refid="gfal__prototypes_8h" local="yes">gfal_prototypes.h</includes>
     <includes refid="gfal__types_8h" local="yes">gfal_types.h</includes>
+    <includedby refid="gfal__common__parameter_8c" local="yes">/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.c</includedby>
     <includedby refid="gfal__posix__parameters_8c" local="no">/home/adevress/myworkspace/gfal/src/posix/gfal_posix_parameters.c</includedby>
     <incdepgraph>
-      <node id="444">
+      <node id="488">
         <label>sys/stat.h</label>
       </node>
-      <node id="447">
+      <node id="491">
         <label>gfal_common_plugin_interface.h</label>
         <link refid="gfal__common__plugin__interface_8h-source"/>
-        <childnode refid="439" relation="include">
+        <childnode refid="482" relation="include">
         </childnode>
-        <childnode refid="438" relation="include">
+        <childnode refid="483" relation="include">
         </childnode>
-        <childnode refid="440" relation="include">
+        <childnode refid="484" relation="include">
         </childnode>
-        <childnode refid="446" relation="include">
+        <childnode refid="490" relation="include">
         </childnode>
       </node>
-      <node id="445">
+      <node id="489">
         <label>attr/xattr.h</label>
       </node>
-      <node id="437">
+      <node id="481">
         <label>stdlib.h</label>
       </node>
-      <node id="438">
+      <node id="483">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
-        <childnode refid="439" relation="include">
+        <childnode refid="482" relation="include">
         </childnode>
       </node>
-      <node id="442">
+      <node id="486">
         <label>sys/types.h</label>
       </node>
-      <node id="441">
+      <node id="485">
         <label>unistd.h</label>
       </node>
-      <node id="439">
+      <node id="482">
         <label>glib.h</label>
       </node>
-      <node id="436">
+      <node id="480">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h</label>
         <link refid="gfal_common_parameter.h"/>
-        <childnode refid="437" relation="include">
+        <childnode refid="481" relation="include">
         </childnode>
-        <childnode refid="438" relation="include">
+        <childnode refid="482" relation="include">
         </childnode>
-        <childnode refid="440" relation="include">
+        <childnode refid="483" relation="include">
+        </childnode>
+        <childnode refid="484" relation="include">
         </childnode>
       </node>
-      <node id="446">
+      <node id="490">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h"/>
       </node>
-      <node id="440">
+      <node id="484">
         <label>gfal_types.h</label>
         <link refid="gfal__types_8h-source"/>
-        <childnode refid="441" relation="include">
+        <childnode refid="485" relation="include">
         </childnode>
-        <childnode refid="439" relation="include">
+        <childnode refid="482" relation="include">
         </childnode>
-        <childnode refid="442" relation="include">
+        <childnode refid="486" relation="include">
         </childnode>
-        <childnode refid="443" relation="include">
+        <childnode refid="487" relation="include">
         </childnode>
-        <childnode refid="444" relation="include">
+        <childnode refid="488" relation="include">
         </childnode>
-        <childnode refid="445" relation="include">
+        <childnode refid="489" relation="include">
         </childnode>
-        <childnode refid="446" relation="include">
+        <childnode refid="490" relation="include">
         </childnode>
-        <childnode refid="438" relation="include">
+        <childnode refid="483" relation="include">
         </childnode>
-        <childnode refid="447" relation="include">
+        <childnode refid="491" relation="include">
         </childnode>
       </node>
-      <node id="443">
+      <node id="487">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="449">
+      <node id="494">
         <label>/home/adevress/myworkspace/gfal/src/posix/gfal_posix_parameters.c</label>
         <link refid="gfal__posix__parameters_8c"/>
       </node>
-      <node id="448">
+      <node id="493">
+        <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.c</label>
+        <link refid="gfal__common__parameter_8c"/>
+      </node>
+      <node id="492">
         <label>/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h</label>
         <link refid="gfal_common_parameter.h"/>
-        <childnode refid="449" relation="include">
+        <childnode refid="493" relation="include">
+        </childnode>
+        <childnode refid="494" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
       <sectiondef kind="func">
-      <memberdef kind="function" id="gfal__common__parameter_8h_1868b0b6b628b4f7b1cd09bd41522a4a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="gfal__common__parameter_8h_17600e15a62b68dd3a88db707e9081c87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int gfal_common_parameter</definition>
-        <argsstring>(const char *name, void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)</argsstring>
-        <name>gfal_common_parameter</name>
+        <definition>int gfal_common_parameter_set_string</definition>
+        <argsstring>(gfal_handle handle, const char *namespace, const char *key, const char *value, GError **err)</argsstring>
+        <name>gfal_common_parameter_set_string</name>
         <param>
-          <type>const char *</type>
-          <declname>name</declname>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
         </param>
         <param>
-          <type>void *</type>
+          <type>const char *</type>
+          <declname>namespace</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const char *</type>
           <declname>value</declname>
         </param>
         <param>
-          <type>size_t</type>
-          <declname>max_size</declname>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>setter for string value </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h" line="43" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.c" bodystart="80" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__parameter_8h_121177481b78f4ed95ac7cb7904e79f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char* gfal_common_parameter_get_string</definition>
+        <argsstring>(gfal_handle handle, const char *namespace, const char *key, GError **err)</argsstring>
+        <name>gfal_common_parameter_get_string</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
         </param>
         <param>
-          <type>GFAL_PARAM_FUNC</type>
-          <declname>ops</declname>
+          <type>const char *</type>
+          <declname>namespace</declname>
         </param>
         <param>
-          <type>GFAL_TYPE</type>
-          <declname>req_type</declname>
+          <type>const char *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>getter for string value </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h" line="53" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.c" bodystart="107" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__parameter_8h_1b57c6f6aed12cfceb7ee631a0ef01b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>gboolean</type>
+        <definition>gboolean gfal_common_parameter_get_boolean</definition>
+        <argsstring>(gfal_handle handle, const char *namespace, const char *key, GError **err)</argsstring>
+        <name>gfal_common_parameter_get_boolean</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>namespace</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>key</declname>
         </param>
         <param>
           <type>GError **</type>
@@ -131,7 +195,40 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h" line="31" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.c" bodystart="52" bodyend="71"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h" line="56" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.c" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__common__parameter_8h_1b1a9abb4de98df443fec2e491b4b6c54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gfal_common_parameter_set_boolean</definition>
+        <argsstring>(gfal_handle handle, const char *namespace, const char *key, gboolean value, GError **err)</argsstring>
+        <name>gfal_common_parameter_set_boolean</name>
+        <param>
+          <type>gfal_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>namespace</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>gboolean</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.c" bodystart="132" bodyend="153"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -161,12 +258,24 @@
 <codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_common_parameter(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>value,<sp/>size_t<sp/>max_size,<sp/>GFAL_PARAM_FUNC<sp/>ops,<sp/>GFAL_TYPE<sp/>req_type,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_prototypes.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="gfal__common__parameter_8c_17600e15a62b68dd3a88db707e9081c87" kindref="member">gfal_common_parameter_set_string</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">namespace</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>value,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="gfal__common__parameter_8c_121177481b78f4ed95ac7cb7904e79f93" kindref="member">gfal_common_parameter_get_string</ref>(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">namespace</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">gboolean<sp/>gfal_common_parameter_get_boolean(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">namespace</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/>GError**<sp/>err);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_common_parameter_set_boolean(gfal_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">namespace</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key,<sp/>gboolean<sp/>value,<sp/>GError**<sp/>err);</highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h"/>
   </compounddef>

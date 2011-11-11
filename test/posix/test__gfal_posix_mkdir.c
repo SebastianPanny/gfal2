@@ -86,7 +86,7 @@ void gfal2_test__mkdir_posix_lfc_simple()
 	gfal_posix_clear_error();
 	errno =0;
 	
-	printf(" filename : %s ", filename);
+//	printf(" filename : %s ", filename);
 	ret = gfal_mkdir(filename, 0664);
 	assert_true_with_message( ret ==0 && errno==0 && gfal_posix_code_error() ==0, " must be a valid mkdir %d %d %d", ret, errno, gfal_posix_code_error());
 	gfal_posix_check_error();

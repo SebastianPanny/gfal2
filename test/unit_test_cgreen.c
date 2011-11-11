@@ -223,6 +223,9 @@ TestSuite* posix_opendir_suite(){
 TestSuite* posix_parameter_suite(){
   TestSuite* tc_parameter = create_test_suite();  
   add_test(tc_parameter, test_posix_set_get_parameter);
+  add_test(tc_parameter, test_posix_set_get_false_parameter);
+  add_test(tc_parameter, test_posix_set_get_infosys_parameter);
+  add_test(tc_parameter, test_posix_set_get_lfc_host_parameter);
   return tc_parameter;  
 }
 

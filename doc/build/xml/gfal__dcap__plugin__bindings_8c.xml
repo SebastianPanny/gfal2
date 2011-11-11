@@ -6,6 +6,7 @@
     <includes local="no">time.h</includes>
     <includes local="no">glib.h</includes>
     <includes local="no">stdlib.h</includes>
+    <includes local="no">fcntl.h</includes>
     <includes refid="gfal__common__internal_8h" local="yes">../gfal_common_internal.h</includes>
     <includes refid="gfal__common__errverbose_8h" local="yes">../gfal_common_errverbose.h</includes>
     <includes refid="gfal__common__plugin_8h" local="yes">../gfal_common_plugin.h</includes>
@@ -15,44 +16,42 @@
     <includes refid="gfal__dcap__plugin__bindings_8h" local="yes">gfal_dcap_plugin_bindings.h</includes>
     <includes refid="gfal__dcap__plugin__main_8h" local="yes">gfal_dcap_plugin_main.h</includes>
     <incdepgraph>
-      <node id="31">
+      <node id="32">
         <label>sys/stat.h</label>
       </node>
-      <node id="34">
+      <node id="35">
         <label>gfal_common_plugin_interface.h</label>
         <link refid="gfal__common__plugin__interface_8h-source"/>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
         </childnode>
       </node>
-      <node id="36">
+      <node id="37">
         <label>stdarg.h</label>
       </node>
-      <node id="32">
+      <node id="33">
         <label>attr/xattr.h</label>
       </node>
-      <node id="25">
+      <node id="26">
         <label>../gfal_common_internal.h</label>
         <link refid="gfal__common__internal_8h"/>
-        <childnode refid="26" relation="include">
-        </childnode>
         <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="24">
         <label>stdlib.h</label>
       </node>
-      <node id="35">
+      <node id="36">
         <label>../gfal_common_errverbose.h</label>
         <link refid="gfal__common__errverbose_8h"/>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
@@ -60,33 +59,38 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
         <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="26">
+      <node id="27">
         <label>gfal_prototypes.h</label>
         <link refid="gfal__prototypes_8h-source"/>
         <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="39">
+      <node id="40">
         <label>errno.h</label>
       </node>
-      <node id="46">
+      <node id="25">
+        <label>fcntl.h</label>
+      </node>
+      <node id="47">
         <label>gfal_dcap_plugin_main.h</label>
         <link refid="gfal__dcap__plugin__main_8h"/>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
+        <childnode refid="41" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
-      <node id="41">
+      <node id="42">
         <label>uuid/uuid.h</label>
       </node>
       <node id="20">
@@ -102,22 +106,24 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="42" relation="include">
+        <childnode refid="41" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
       </node>
-      <node id="45">
+      <node id="46">
         <label>gfal_dcap_plugin_bindings.h</label>
         <link refid="gfal__dcap__plugin__bindings_8h-source"/>
         <childnode refid="21" relation="include">
@@ -126,75 +132,77 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-      </node>
-      <node id="40">
-        <label>../gfal_common_plugin.h</label>
-        <link refid="gfal__common__plugin_8h"/>
         <childnode refid="36" relation="include">
         </childnode>
         <childnode refid="41" relation="include">
         </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>../gfal_common_plugin.h</label>
+        <link refid="gfal__common__plugin_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
         <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
         <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>pthread.h</label>
+      </node>
+      <node id="30">
+        <label>sys/types.h</label>
+      </node>
+      <node id="39">
+        <label>string.h</label>
+      </node>
+      <node id="43">
+        <label>../gfal_common_filedescriptor.h</label>
+        <link refid="gfal__common__filedescriptor_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
         <childnode refid="34" relation="include">
         </childnode>
       </node>
-      <node id="43">
-        <label>pthread.h</label>
-      </node>
       <node id="29">
-        <label>sys/types.h</label>
-      </node>
-      <node id="38">
-        <label>string.h</label>
-      </node>
-      <node id="42">
-        <label>../gfal_common_filedescriptor.h</label>
-        <link refid="gfal__common__filedescriptor_8h"/>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-      </node>
-      <node id="28">
         <label>unistd.h</label>
       </node>
-      <node id="44">
+      <node id="45">
         <label>gfal_dcap_plugin_layer.h</label>
         <link refid="gfal__dcap__plugin__layer_8h"/>
-        <childnode refid="25" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
+        <childnode refid="41" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="23">
@@ -203,24 +211,22 @@
       <node id="22">
         <label>time.h</label>
       </node>
-      <node id="33">
+      <node id="34">
         <label>gfal_constants.h</label>
         <link refid="gfal__constants_8h"/>
       </node>
       <node id="21">
         <label>regex.h</label>
       </node>
-      <node id="37">
+      <node id="38">
         <label>stdio.h</label>
       </node>
-      <node id="27">
+      <node id="28">
         <label>gfal_types.h</label>
         <link refid="gfal__types_8h-source"/>
-        <childnode refid="28" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
@@ -230,12 +236,14 @@
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
         <childnode refid="34" relation="include">
         </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
       </node>
-      <node id="30">
+      <node id="31">
         <label>dirent.h</label>
       </node>
     </incdepgraph>
@@ -263,7 +271,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="41" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="41" bodyend="46"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="42" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="42" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_1aa3aeba8d12df0e1bccf4c9d55e861d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>gfal_file_handle</type>
@@ -296,7 +304,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="48" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="48" bodyend="57"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="49" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="49" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_17b02aa108cf1bdf9a513296aafe8e3b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -326,10 +334,84 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>map to the libdcap read call </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="59" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="59" bodyend="67"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="65" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="65" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_1f3aaa22187350f38d20b3942855cc25f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t gfal_dcap_preadG</definition>
+        <argsstring>(plugin_handle handle, gfal_file_handle fd, void *buff, size_t s_buff, off_t offset, GError **err)</argsstring>
+        <name>gfal_dcap_preadG</name>
+        <param>
+          <type>plugin_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>gfal_file_handle</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>buff</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>s_buff</declname>
+        </param>
+        <param>
+          <type>off_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>map to the libdcap pread call </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="79" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="79" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_184333bd96611b21fa9902eb531ef6750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t gfal_dcap_pwriteG</definition>
+        <argsstring>(plugin_handle handle, gfal_file_handle fd, const void *buff, size_t s_buff, off_t offset, GError **err)</argsstring>
+        <name>gfal_dcap_pwriteG</name>
+        <param>
+          <type>plugin_handle</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>gfal_file_handle</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buff</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>s_buff</declname>
+        </param>
+        <param>
+          <type>off_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>GError **</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>map to the libdcap pwrite call </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="93" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="93" bodyend="101"/>
       </memberdef>
       <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_1ed23542fec7eaa9fff4a7493f8f20c8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -362,7 +444,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="69" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="69" bodyend="77"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="103" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="103" bodyend="111"/>
       </memberdef>
       <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_1d2beb991ac311ca0ebd8699d25767310" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -395,7 +477,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="79" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="79" bodyend="87"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="113" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="113" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_15f4c48b5bf4af90b3f54393696363156" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -420,7 +502,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="92" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="92" bodyend="100"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="126" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="126" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_11432f90cc46fd3e6f104d2b8012fda70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -449,7 +531,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="103" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="103" bodyend="110"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="137" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="137" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_136d8e8e38035f7e294c2f8d53cfae849" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -478,7 +560,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="112" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="112" bodyend="119"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="146" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="146" bodyend="153"/>
       </memberdef>
       <memberdef kind="function" id="gfal__dcap__plugin__bindings_8c_1dc5bce296fc1e2af5b7ce0584c49bad0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const char *</type>
@@ -491,7 +573,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="122" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="122" bodyend="124"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" line="156" bodyfile="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c" bodystart="156" bodyend="158"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -521,56 +603,48 @@
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"><sp/></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_filedescriptor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__dcap__plugin__layer_8h" kindref="compound">gfal_dcap_plugin_layer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_dcap_plugin_bindings.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__dcap__plugin__main_8h" kindref="compound">gfal_dcap_plugin_main.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>dcap_report_error(gfal_plugin_dcap_handle<sp/>h,<sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>func_name,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buff_error[2048];</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>*(h-&gt;ops-&gt;geterror());</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strlcpy(buff_error,<sp/>h-&gt;ops-&gt;strerror(status),<sp/>2048);</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>status,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>Error<sp/>reported<sp/>by<sp/>the<sp/>external<sp/>library<sp/>dcap<sp/>:<sp/>%s,<sp/>number<sp/>:<sp/>%d<sp/>&quot;</highlight><highlight class="normal">,<sp/>func_name,<sp/>buff_error,<sp/>status);</highlight></codeline>
-<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal">gfal_file_handle<sp/>gfal_dcap_openG(plugin_handle<sp/>handle<sp/>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd=<sp/>h-&gt;ops-&gt;open(path,<sp/>flag,<sp/>mode);</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(fd<sp/>==<sp/>-1)</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_file_handle_new(gfal_dcap_getName(),<sp/>GINT_TO_POINTER(fd));</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
-<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_readG(plugin_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>h-&gt;ops-&gt;read(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff);</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0)</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
-<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_lseekG(plugin_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/>off_t<sp/>offset,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>whence,<sp/>GError**<sp/>err){</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>off_t<sp/>ret<sp/>=<sp/>h-&gt;ops-&gt;lseek(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>offset,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>whence);</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>==<sp/>((off_t)0)-1)</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
-<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_writeG(plugin_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fcntl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_errverbose.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_common_filedescriptor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../gfal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__dcap__plugin__layer_8h" kindref="compound">gfal_dcap_plugin_layer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gfal_dcap_plugin_bindings.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gfal__dcap__plugin__main_8h" kindref="compound">gfal_dcap_plugin_main.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>dcap_report_error(gfal_plugin_dcap_handle<sp/>h,<sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>func_name,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buff_error[2048];</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>*(h-&gt;ops-&gt;geterror());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_strlcpy(buff_error,<sp/>h-&gt;ops-&gt;strerror(status),<sp/>2048);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_set_error(err,<sp/>0,<sp/>status,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>Error<sp/>reported<sp/>by<sp/>the<sp/>external<sp/>library<sp/>dcap<sp/>:<sp/>%s,<sp/>number<sp/>:<sp/>%d<sp/>&quot;</highlight><highlight class="normal">,<sp/>func_name,<sp/>buff_error,<sp/>status);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">gfal_file_handle<sp/>gfal_dcap_openG(plugin_handle<sp/>handle<sp/>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>path,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flag,<sp/>mode_t<sp/>mode,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_file_handle<sp/>ret<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>internal_flag<sp/>=<sp/>flag<sp/>&amp;<sp/>(~<sp/>0100000)<sp/>;<sp/></highlight><highlight class="comment">//<sp/>filter<sp/>non<sp/>supported<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd=<sp/>h-&gt;ops-&gt;open(path,<sp/>internal_flag,<sp/>mode);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(fd<sp/>==<sp/>-1)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>gfal_file_handle_new(gfal_dcap_getName(),<sp/>GINT_TO_POINTER(fd));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_readG(plugin_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>h-&gt;ops-&gt;read(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">ssize_t<sp/>gfal_dcap_preadG(plugin_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>off_t<sp/>offset,<sp/><sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>h-&gt;ops-&gt;write(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ssize_t<sp/>ret<sp/>=<sp/>h-&gt;ops-&gt;pread(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff,<sp/>offset);</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0)</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
@@ -578,43 +652,73 @@
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
 <codeline lineno="87"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"></highlight></codeline>
-<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_closeG(plugin_handle<sp/>handle,<sp/>gfal_file_handle<sp/>fd,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;ops-&gt;close(GPOINTER_TO_INT(fd-&gt;fdesc));</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(fd);</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">ssize_t<sp/>gfal_dcap_pwriteG(plugin_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>off_t<sp/>offset,<sp/><sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ssize_t<sp/>ret<sp/>=<sp/>h-&gt;ops-&gt;pwrite(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff,<sp/>offset);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_statG(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buff,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_lseekG(plugin_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/>off_t<sp/>offset,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>whence,<sp/>GError**<sp/>err){</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;ops-&gt;stat(name,<sp/>buff);</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>off_t<sp/>ret<sp/>=<sp/>h-&gt;ops-&gt;lseek(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>offset,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>whence);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>==<sp/>((off_t)0)-1)</highlight></codeline>
 <codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight></codeline>
-<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_lstatG(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buff,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;ops-&gt;lstat(name,<sp/>buff);</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight></codeline>
-<codeline lineno="121"><highlight class="normal"></highlight></codeline>
-<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_dcap_getName(){</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;dcap&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_writeG(plugin_handle<sp/>handle<sp/>,<sp/>gfal_file_handle<sp/>fd,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buff,<sp/>size_t<sp/>s_buff,<sp/>GError**<sp/>err){</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>h-&gt;ops-&gt;write(GPOINTER_TO_INT(fd-&gt;fdesc),<sp/>buff,<sp/>s_buff);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>&lt;0)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errno<sp/>=0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
 <codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_closeG(plugin_handle<sp/>handle,<sp/>gfal_file_handle<sp/>fd,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;ops-&gt;close(GPOINTER_TO_INT(fd-&gt;fdesc));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(fd);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_statG(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buff,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;ops-&gt;stat(name,<sp/>buff);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gfal_dcap_lstatG(plugin_handle<sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>stat*<sp/>buff,<sp/>GError<sp/>**<sp/>err){</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gfal_plugin_dcap_handle<sp/>h<sp/>=<sp/>(gfal_plugin_dcap_handle)<sp/>handle;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret=<sp/>h-&gt;ops-&gt;lstat(name,<sp/>buff);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ret<sp/>!=<sp/>0){</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dcap_report_error(h,<sp/>__func__,<sp/>err);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ret;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>gfal_dcap_getName(){</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;dcap&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/adevress/myworkspace/gfal/src/common/dcap/gfal_dcap_plugin_bindings.c"/>
   </compounddef>

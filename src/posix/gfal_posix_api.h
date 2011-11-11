@@ -110,13 +110,18 @@ int gfal_flush(int fd);
 
 
 
-int gfal_set_parameter_string(const char* module, const char* name, const char* value);
+int gfal_set_parameter_string(const char* namespace, const char* key, const char* value);
+char* gfal_get_parameter_string(const char* namespace, const char* key);
 
-int gfal_get_parameter_string(const char* module, const char* name, char* buff_value, size_t s_buff);
+int gfal_set_parameter_string_list(const char* namespace, const char* key, const char* value[], size_t len);
+char** gfal_get_parameter_string_list(const char* namespace, const char* key, size_t* s_buff);
 
-int gfal_set_parameter_int(const char* module, const char* name, int value);
+int gfal_set_parameter_int(const char* namespace, const char* key, int value);
+int gfal_get_parameter_int(const char* namespace, const char* key);
 
-int gfal_get_parameter_int(const char* module, const char* name);
+
+int gfal_get_parameter_boolean(const char* namespace, const char* key);
+int gfal_set_parameter_boolean(const char* namespace, const char* key, int bool_value);
 
 
 /**

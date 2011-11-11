@@ -3,6 +3,7 @@
 header file for the file descriptor management 
 
 {\tt \#include $<$glib.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
 {\tt \#include $<$pthread.h$>$}\par
 {\tt \#include \char`\"{}gfal\_\-prototypes.h\char`\"{}}\par
 {\tt \#include \char`\"{}gfal\_\-constants.h\char`\"{}}\par
@@ -25,14 +26,20 @@ gboolean \bf{gfal\_\-remove\_\-file\_\-desc} (gfal\_\-fdesc\_\-container\_\-hand
 \item 
 gpointer \bf{gfal\_\-get\_\-file\_\-desc} (gfal\_\-fdesc\_\-container\_\-handle fhandle, int key, GError $\ast$$\ast$err)
 \item 
-gboolean \bf{gfal\_\-file\_\-handle\_\-delete} (gfal\_\-fdesc\_\-container\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)
-\item 
 gfal\_\-file\_\-handle \bf{gfal\_\-file\_\-handle\_\-bind} (gfal\_\-fdesc\_\-container\_\-handle h, int file\_\-desc, GError $\ast$$\ast$err)
 \item 
 gfal\_\-file\_\-handle \textbf{gfal\_\-file\_\-handle\_\-new} (const char $\ast$module\_\-name, gpointer fdesc)\label{gfal__common__filedescriptor_8h_5891a96d47726421216140dba73f5e27}
 
 \item 
 gfal\_\-file\_\-handle \bf{gfal\_\-file\_\-handle\_\-ext\_\-new} (const char $\ast$module\_\-name, gpointer fdesc, gpointer ext\_\-data)
+\item 
+void \bf{gfal\_\-file\_\-handle\_\-delete} (gfal\_\-file\_\-handle fh)
+\item 
+void \textbf{gfal\_\-file\_\-handle\_\-lock} (gfal\_\-file\_\-handle fh)\label{gfal__common__filedescriptor_8h_6d367603c796be72a8444434ba19cf6b}
+
+\item 
+void \textbf{gfal\_\-file\_\-handle\_\-unlock} (gfal\_\-file\_\-handle fh)\label{gfal__common__filedescriptor_8h_8346baf190ac219cfc91ac45e0576449}
+
 \end{CompactItemize}
 
 
@@ -64,10 +71,10 @@ return the file handle associated with the file\_\-desc \begin{Desc}
 \item[Warning:]does not free the handle \end{Desc}
 \index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_file_handle_delete@{gfal\_\-file\_\-handle\_\-delete}}
 \index{gfal_file_handle_delete@{gfal\_\-file\_\-handle\_\-delete}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gboolean gfal\_\-file\_\-handle\_\-delete (gfal\_\-fdesc\_\-container\_\-handle {\em h}, int {\em file\_\-desc}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__filedescriptor_8h_5434be84154718254a4e90dbcc196359}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gfal\_\-file\_\-handle\_\-delete (gfal\_\-file\_\-handle {\em fh})}\label{gfal__common__filedescriptor_8h_161698b3aec533e12f608111b8da5c2f}
 
 
-delete the handle associated with the given key, return TRUE if success else FALSE
+Delete a gfal\_\-file handle
 
 $\ast$ \index{gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}!gfal_file_handle_ext_new@{gfal\_\-file\_\-handle\_\-ext\_\-new}}
 \index{gfal_file_handle_ext_new@{gfal\_\-file\_\-handle\_\-ext\_\-new}!gfal_common_filedescriptor.h@{gfal\_\-common\_\-filedescriptor.h}}

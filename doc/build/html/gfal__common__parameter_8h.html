@@ -22,6 +22,7 @@
 <h1>/home/adevress/myworkspace/gfal/src/common/gfal_common_parameter.h File Reference</h1>header for internal settings set/get <a href="#_details">More...</a>
 <p>
 <code>#include &lt;stdlib.h&gt;</code><br>
+<code>#include &lt;glib.h&gt;</code><br>
 <code>#include &quot;gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;gfal_types.h&quot;</code><br>
 
@@ -29,8 +30,15 @@
 <a href="gfal__common__parameter_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="868b0b6b628b4f7b1cd09bd41522a4a2"></a><!-- doxytag: member="gfal_common_parameter.h::gfal_common_parameter" ref="868b0b6b628b4f7b1cd09bd41522a4a2" args="(const char *name, void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_parameter</b> (const char *name, void *value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__parameter_8h.html#7600e15a62b68dd3a88db707e9081c87">gfal_common_parameter_set_string</a> (gfal_handle handle, const char *namespace, const char *key, const char *value, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gfal__common__parameter_8h.html#21177481b78f4ed95ac7cb7904e79f93">gfal_common_parameter_get_string</a> (gfal_handle handle, const char *namespace, const char *key, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b57c6f6aed12cfceb7ee631a0ef01b44"></a><!-- doxytag: member="gfal_common_parameter.h::gfal_common_parameter_get_boolean" ref="b57c6f6aed12cfceb7ee631a0ef01b44" args="(gfal_handle handle, const char *namespace, const char *key, GError **err)" -->
+gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_parameter_get_boolean</b> (gfal_handle handle, const char *namespace, const char *key, GError **err)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b1a9abb4de98df443fec2e491b4b6c54"></a><!-- doxytag: member="gfal_common_parameter.h::gfal_common_parameter_set_boolean" ref="b1a9abb4de98df443fec2e491b4b6c54" args="(gfal_handle handle, const char *namespace, const char *key, gboolean value, GError **err)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_common_parameter_set_boolean</b> (gfal_handle handle, const char *namespace, const char *key, gboolean value, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -39,7 +47,96 @@ header for internal settings set/get
 <dl compact><dt><b>Author:</b></dt><dd>Devresse Adrien </dd></dl>
 <dl compact><dt><b>Version:</b></dt><dd>2.0 </dd></dl>
 <dl compact><dt><b>Date:</b></dt><dd>02/10/2011 </dd></dl>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:14 2011 for CERN org.glite.Gfal by&nbsp;
+<hr><h2>Function Documentation</h2>
+<a class="anchor" name="21177481b78f4ed95ac7cb7904e79f93"></a><!-- doxytag: member="gfal_common_parameter.h::gfal_common_parameter_get_string" ref="21177481b78f4ed95ac7cb7904e79f93" args="(gfal_handle handle, const char *namespace, const char *key, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* gfal_common_parameter_get_string           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>namespace</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+getter for string value 
+</div>
+</div><p>
+<a class="anchor" name="7600e15a62b68dd3a88db707e9081c87"></a><!-- doxytag: member="gfal_common_parameter.h::gfal_common_parameter_set_string" ref="7600e15a62b68dd3a88db707e9081c87" args="(gfal_handle handle, const char *namespace, const char *key, const char *value, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gfal_common_parameter_set_string           </td>
+          <td>(</td>
+          <td class="paramtype">gfal_handle&nbsp;</td>
+          <td class="paramname"> <em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>namespace</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GError **&nbsp;</td>
+          <td class="paramname"> <em>err</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+setter for string value 
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

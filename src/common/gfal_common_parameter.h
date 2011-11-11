@@ -25,9 +25,35 @@
  * */
 
 #include <stdlib.h>
+#include <glib.h>
+
 #include "gfal_prototypes.h"
 #include "gfal_types.h"
 
-int gfal_common_parameter(const char* name, void* value, size_t max_size, GFAL_PARAM_FUNC ops, GFAL_TYPE req_type, GError** err);
 
 
+
+/**
+ * set the value of a GFAL 2.0 string parameter
+ * @param namespace of the parameter, NULL for the core parameters, equal to the plugin_name for the plugin specific parameter
+ * @param key : key of the parameter to set
+ * @param value : value of the parameter to set
+ * @param err : GError report
+ * */
+int gfal_common_parameter_set_string(gfal_handle handle, const char* namespace, const char* key, const char* value, GError** err);
+
+
+/**
+ * get a GFAL 2.0 the value string parameter
+ * @param namespace of the parameter, NULL for the core parameters, equal to the plugin_name for the plugin specific parameter
+ * @param key : key of the parameter to set
+ * @param value : value of the parameter to set
+ * @param err : GError report
+ * */
+char* gfal_common_parameter_get_string(gfal_handle handle, const char* namespace, const char* key, GError** err);
+
+
+gboolean gfal_common_parameter_get_boolean(gfal_handle handle, const char* namespace, const char* key, GError** err);
+
+
+int gfal_common_parameter_set_boolean(gfal_handle handle, const char* namespace, const char* key, gboolean value, GError** err);

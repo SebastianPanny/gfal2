@@ -106,17 +106,23 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_flush</b> (int fd
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g85337290460234042db0adfd54514df9">gfal_posix_release_error</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g1aa9cc5bf3e6e9938b5ffbdd1ad8a302"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_set_parameter_string" ref="g1aa9cc5bf3e6e9938b5ffbdd1ad8a302" args="(const char *module, const char *name, const char *value)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_parameter_string</b> (const char *module, const char *name, const char *value)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g1e2e8a22bfc4927e4d4ca91d501633a5"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_set_parameter_string" ref="g1e2e8a22bfc4927e4d4ca91d501633a5" args="(const char *namespace, const char *key, const char *value)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_parameter_string</b> (const char *namespace, const char *key, const char *value)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="85aca9c2894e49c38c7c8592894e67a6"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_get_parameter" ref="85aca9c2894e49c38c7c8592894e67a6" args="(const char *module, const char *name, char *buff_value, size_t s_buff)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_parameter</b> (const char *module, const char *name, char *buff_value, size_t s_buff)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g9cddf85bdb0e56b21c8bc57583ecd5fa"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_get_parameter_string" ref="g9cddf85bdb0e56b21c8bc57583ecd5fa" args="(const char *namespace, const char *key)" -->
+char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_parameter_string</b> (const char *namespace, const char *key)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g4b27a01e6f158b40d4859a86cdf41b7f"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_set_parameter_int" ref="g4b27a01e6f158b40d4859a86cdf41b7f" args="(const char *module, const char *name, int value)" -->
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gb2f2e3e4ce52a9b4e306a8af2ce1642b"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_set_parameter_int" ref="gb2f2e3e4ce52a9b4e306a8af2ce1642b" args="(const char *module, const char *name, int value)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_parameter_int</b> (const char *module, const char *name, int value)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gefbd5409747e219b938e93d8576aa7a0"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_get_parameter_int" ref="gefbd5409747e219b938e93d8576aa7a0" args="(const char *module, const char *name)" -->
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g87fe88667990c1c3b288e62d708831ee"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_get_parameter_int" ref="g87fe88667990c1c3b288e62d708831ee" args="(const char *module, const char *name)" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_parameter_int</b> (const char *module, const char *name)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g1566e98417764b361a733c55ea4d5c2d"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_set_parameter_boolean" ref="g1566e98417764b361a733c55ea4d5c2d" args="(const char *namespace, const char *key, int value)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_parameter_boolean</b> (const char *namespace, const char *key, int value)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g2b30e8c9e59dada006127568d016cd1d"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_get_parameter_boolean" ref="g2b30e8c9e59dada006127568d016cd1d" args="(const char *namespace, const char *key)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_parameter_boolean</b> (const char *namespace, const char *key)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#ga8252652c1dc86d71ba37b401fb675f9">gfal_posix_clear_error</a> ()</td></tr>
 
@@ -129,12 +135,6 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_get_parameter_int
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#gb1918905381341a2dd35916d86d43449">gfal_pread</a> (int fd, void *buffer, size_t count, off_t offset)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__posix__group.html#g2de061fcdbdec58660d5917a90772d6d">gfal_pwrite</a> (int fd, const void *buffer, size_t count, off_t offset)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a3f35e131b2db4c3b742a29790e08bdf"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_set_nobdii" ref="a3f35e131b2db4c3b742a29790e08bdf" args="(int value)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_set_nobdii</b> (int value)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0d2a0557bdb571ccb85c6ab5c05ae56f"></a><!-- doxytag: member="gfal_posix_ng.c::gfal_is_nobdii" ref="0d2a0557bdb571ccb85c6ab5c05ae56f" args="()" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>gfal_is_nobdii</b> ()</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -181,7 +181,7 @@ create a new directory creates a new directory with permission bits taken from m
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:15 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

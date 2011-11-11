@@ -35,12 +35,12 @@ This exemple show how to convert a surl to a turl ex : use case with SRM plugin 
 34         }
 35         gfal_set_verbose (GFAL_VERBOSE_VERBOSE);
 36         
-37         ssize_t res = gfal_getxattr(argv[1], "srm.turl", turl_buff,TURL_MAX_SIZE );
+37         ssize_t res = gfal_getxattr(argv[1], "user.replicas", turl_buff, TURL_MAX_SIZE );
 38         
 39         if (res > 0)
 40                 printf("SURL %s Ready - TURL: %s\n", argv[1], turl_buff);
 41         else {
-42                 printf("SURL %s Failed:\n%s\n", argv[1]);
+42                 printf("SURL %s Failed:\n", argv[1]);
 43                 gfal_posix_check_error();
 44         }
 45                 

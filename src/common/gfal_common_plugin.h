@@ -38,6 +38,8 @@
 #include "gfal_types.h"
 #include "gfal_common_plugin_interface.h"
 
+#include "gfal_common_parameter.h"
+
 
 
 gfal_plugin_interface* gfal_plugin_interface_new();
@@ -88,9 +90,11 @@ ssize_t gfal_plugin_listxattrG(gfal_handle, const char*, char* list, size_t s_li
 int gfal_plugin_setxattrG(gfal_handle, const char*, const char*, const void*, size_t, int, GError**);
 
 
-int gfal_common_plugin_parameter(gfal_handle handle, const char* module, const char* name, char* value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError** err);
 
 
 
 
+int gfal_plugins_has_parameter(gfal_handle handle, const char* namespace, const char* key, GError** err);
+
+int gfal_plugins_notify_all(gfal_handle handle, const char* namespace, const char* key, GError** err);
 

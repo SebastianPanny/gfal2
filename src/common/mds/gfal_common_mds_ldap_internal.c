@@ -41,7 +41,7 @@
 
 static char* tabattr[] = {"GlueServiceVersion",  "GlueServiceEndpoint", "GlueServiceType", NULL};
 static const char *sbasedn = "o=grid";
-static const char* bdii_env_var = "LCG_GFAL_INFOSYS";
+
 static const char* srm_endpoint_filter = "(|(GlueSEUniqueID=%s)(&(GlueServiceType=srm*)(GlueServiceEndpoint=*://%s*)))";
 
 static const char* SRM_PREFIX_NAME="SRM";
@@ -224,7 +224,7 @@ int gfal_mds_get_ldapuri(char* buff, size_t s_buff, GError** err){
 		g_strlcat(buff, var, s_buff);
 		ret = 0;
 	}else
-		g_set_error(&tmp_err, 0, EINVAL, " %s env var is not set with the bdii value", bdii_env_var);
+		g_set_error(&tmp_err, 0, EINVAL, " %s env var is not set with the bdii infohost", bdii_env_var);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);
 	return ret;

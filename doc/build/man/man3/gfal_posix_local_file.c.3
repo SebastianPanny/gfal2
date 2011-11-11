@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_local_file.c" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -104,10 +104,16 @@
 .RI "int \fBgfal_local_read\fP (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
 .br
 .ti -1c
+.RI "ssize_t \fBgfal_local_pread\fP (gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)"
+.br
+.ti -1c
 .RI "int \fBgfal_local_lseek\fP (gfal_file_handle fh, off_t offset, int whence, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_local_write\fP (gfal_file_handle fh, void *buff, size_t s_buff, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_local_pwrite\fP (gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)"
 .br
 .ti -1c
 .RI "int \fBgfal_local_close\fP (gfal_file_handle fh, GError **err)"
@@ -156,9 +162,21 @@ check the validity of a classique file url
 .SS "int gfal_local_closedir (gfal_file_handle fh, GError ** err)"
 .PP
 local closedir mapper 
+.SS "ssize_t gfal_local_pread (gfal_file_handle fh, void * buff, size_t s_buff, off_t offset, GError ** err)"
+.PP
+map the gfal_pread call to the local pread call for file:// 
+.SS "ssize_t gfal_local_pwrite (gfal_file_handle fh, void * buff, size_t s_buff, off_t offset, GError ** err)"
+.PP
+map to the local pwrite call 
+.SS "int gfal_local_read (gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
+.PP
+map the gfal_read call to the local read call for file:// 
 .SS "int gfal_local_rmdir (const char * path, GError ** err)"
 .PP
 local rmdir mapper 
+.SS "int gfal_local_write (gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
+.PP
+map to the local write call 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

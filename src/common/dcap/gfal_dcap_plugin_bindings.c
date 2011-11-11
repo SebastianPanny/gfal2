@@ -90,7 +90,7 @@ ssize_t gfal_dcap_preadG(plugin_handle handle , gfal_file_handle fd, void* buff,
  * map to the libdcap pwrite call
  * 
  * */
-ssize_t gfal_dcap_pwriteG(plugin_handle handle , gfal_file_handle fd, void* buff, size_t s_buff, off_t offset,  GError** err){
+ssize_t gfal_dcap_pwriteG(plugin_handle handle , gfal_file_handle fd, const void* buff, size_t s_buff, off_t offset,  GError** err){
 	gfal_plugin_dcap_handle h = (gfal_plugin_dcap_handle) handle;
 	ssize_t ret = h->ops->pwrite(GPOINTER_TO_INT(fd->fdesc), buff, s_buff, offset);
 	if(ret <0)

@@ -36,6 +36,7 @@
 #include "gfal_common_errverbose.h"
 #include "gfal_common_dir_handle.h"
 #include "gfal_common_file_handle.h"
+#include "gfal_common_config.h"
 
 #define XVERSION_STR(x) #x
 #define VERSION_STR(x) XVERSION_STR(x)
@@ -60,7 +61,7 @@ gfal_handle gfal_initG (GError** err)
 		g_thread_init(NULL);
 	handle->no_bdii_check=FALSE;
 	handle->plugin_opt.plugin_number= 0;
-	gfal_plugins_instance(handle, &tmp_err);
+	gfal_config_container_init(handle);
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return handle;
@@ -75,6 +76,7 @@ void gfal_handle_freeG (gfal_handle handle){
 		return;
 	gfal_plugins_delete(handle, NULL);
 	gfal_dir_handle_container_delete(&(handle->fdescs));
+	gfal_config_container_delete(handle);
 	free(handle);
 	handle = NULL;
 }

@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="66" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="66" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="71" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structgfal__handle___12505c0f92105e38128f70e3dfaa38c00" prot="public" static="no" mutable="no">
         <type><ref refid="struct__plugin__opts" kindref="compound">_plugin_opts</ref></type>
@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="69" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="69" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="73" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structgfal__handle___113f26b9305ca69f6233b75af02213133" prot="public" static="no" mutable="no">
         <type>gfal_descriptors_container</type>
@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="71" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="71" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="75" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="75" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structgfal__handle___1e523f7915e9497b01f072461b8efe33a" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -53,7 +53,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="72" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="72" bodyend="-1"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="76" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structgfal__handle___13f17903404f67e31165080dac31df851" prot="public" static="no" mutable="no">
+        <type>gfal_conf_container</type>
+        <definition>gfal_conf_container gfal_handle_::st_config</definition>
+        <argsstring></argsstring>
+        <name>st_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="77" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="77" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -61,30 +74,31 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="51">
+      <node id="55">
         <label>gfal_handle_</label>
-        <childnode refid="52" relation="usage">
+        <childnode refid="56" relation="usage">
           <edgelabel>plugin_opt</edgelabel>
         </childnode>
       </node>
-      <node id="52">
+      <node id="56">
         <label>_plugin_opts</label>
         <link refid="struct__plugin__opts"/>
-        <childnode refid="53" relation="usage">
+        <childnode refid="57" relation="usage">
           <edgelabel>plugin_list</edgelabel>
         </childnode>
       </node>
-      <node id="53">
+      <node id="57">
         <label>_gfal_plugin_interface</label>
         <link refid="struct__gfal__plugin__interface"/>
       </node>
     </collaborationgraph>
-    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="65" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="65" bodyend="73"/>
+    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" line="70" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_types.h" bodystart="70" bodyend="78"/>
     <listofallmembers>
       <member refid="structgfal__handle___113f26b9305ca69f6233b75af02213133" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>fdescs</name></member>
       <member refid="structgfal__handle___169fd842c25daf65a4db66509a7373fc1" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>initiated</name></member>
       <member refid="structgfal__handle___1e523f7915e9497b01f072461b8efe33a" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>no_bdii_check</name></member>
       <member refid="structgfal__handle___12505c0f92105e38128f70e3dfaa38c00" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>plugin_opt</name></member>
+      <member refid="structgfal__handle___13f17903404f67e31165080dac31df851" prot="public" virt="non-virtual"><scope>gfal_handle_</scope><name>st_config</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -13,9 +13,13 @@ new file for the parameters management
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-int \bf{gfal\_\-posix\_\-internal\_\-set\_\-parameter} (const char $\ast$module, const char $\ast$name, char $\ast$value, size\_\-t max\_\-size, GFAL\_\-TYPE req\_\-type)
+int \bf{gfal\_\-set\_\-parameter\_\-boolean\_\-internal} (const char $\ast$namespace, const char $\ast$key, int value)
 \item 
-int \bf{gfal\_\-posix\_\-internal\_\-get\_\-parameter} (const char $\ast$module, const char $\ast$name, char $\ast$value, size\_\-t buff\_\-size, GFAL\_\-TYPE req\_\-type)
+int \bf{gfal\_\-set\_\-parameter\_\-string\_\-internal} (const char $\ast$namespace, const char $\ast$key, const char $\ast$value)
+\item 
+char $\ast$ \bf{gfal\_\-get\_\-parameter\_\-string\_\-internal} (const char $\ast$namespace, const char $\ast$key)
+\item 
+int \bf{gfal\_\-get\_\-parameter\_\-boolean\_\-internal} (const char $\ast$namespace, const char $\ast$key)
 \end{CompactItemize}
 
 
@@ -29,14 +33,24 @@ new file for the parameters management
 
 
 \subsection{Function Documentation}
-\index{gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}!gfal_posix_internal_get_parameter@{gfal\_\-posix\_\-internal\_\-get\_\-parameter}}
-\index{gfal_posix_internal_get_parameter@{gfal\_\-posix\_\-internal\_\-get\_\-parameter}!gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-internal\_\-get\_\-parameter (const char $\ast$ {\em module}, const char $\ast$ {\em name}, char $\ast$ {\em value}, size\_\-t {\em buff\_\-size}, GFAL\_\-TYPE {\em req\_\-type})\hspace{0.3cm}{\tt  [inline]}}\label{gfal__posix__parameters_8c_a76b7fd2e55d130e60ce5b0e82d93d53}
+\index{gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}!gfal_get_parameter_boolean_internal@{gfal\_\-get\_\-parameter\_\-boolean\_\-internal}}
+\index{gfal_get_parameter_boolean_internal@{gfal\_\-get\_\-parameter\_\-boolean\_\-internal}!gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-get\_\-parameter\_\-boolean\_\-internal (const char $\ast$ {\em namespace}, const char $\ast$ {\em key})}\label{gfal__posix__parameters_8c_5dd091f80a40fb000fff38087a99dde3}
 
 
-internal function for get parameter / options \index{gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}!gfal_posix_internal_set_parameter@{gfal\_\-posix\_\-internal\_\-set\_\-parameter}}
-\index{gfal_posix_internal_set_parameter@{gfal\_\-posix\_\-internal\_\-set\_\-parameter}!gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-posix\_\-internal\_\-set\_\-parameter (const char $\ast$ {\em module}, const char $\ast$ {\em name}, char $\ast$ {\em value}, size\_\-t {\em max\_\-size}, GFAL\_\-TYPE {\em req\_\-type})\hspace{0.3cm}{\tt  [inline]}}\label{gfal__posix__parameters_8c_9e65a28adbfb32235bf789b0ea290b87}
+Internal wrapper for posix api to get parameter boolean \index{gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}!gfal_get_parameter_string_internal@{gfal\_\-get\_\-parameter\_\-string\_\-internal}}
+\index{gfal_get_parameter_string_internal@{gfal\_\-get\_\-parameter\_\-string\_\-internal}!gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gfal\_\-get\_\-parameter\_\-string\_\-internal (const char $\ast$ {\em namespace}, const char $\ast$ {\em key})}\label{gfal__posix__parameters_8c_870af5bd0aa51f88dbe475c250a64152}
 
 
-internal function to set parameter / options 
+Internal wrapper for posix api to set parameter string \index{gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}!gfal_set_parameter_boolean_internal@{gfal\_\-set\_\-parameter\_\-boolean\_\-internal}}
+\index{gfal_set_parameter_boolean_internal@{gfal\_\-set\_\-parameter\_\-boolean\_\-internal}!gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-set\_\-parameter\_\-boolean\_\-internal (const char $\ast$ {\em namespace}, const char $\ast$ {\em key}, int {\em value})}\label{gfal__posix__parameters_8c_98b19bc6f63e4a3f0a741ed251af03b3}
+
+
+Internal wrapper for posix api to set parameter boolean \index{gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}!gfal_set_parameter_string_internal@{gfal\_\-set\_\-parameter\_\-string\_\-internal}}
+\index{gfal_set_parameter_string_internal@{gfal\_\-set\_\-parameter\_\-string\_\-internal}!gfal_posix_parameters.c@{gfal\_\-posix\_\-parameters.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gfal\_\-set\_\-parameter\_\-string\_\-internal (const char $\ast$ {\em namespace}, const char $\ast$ {\em key}, const char $\ast$ {\em value})}\label{gfal__posix__parameters_8c_23635b7c02de0165acdc8b68880a4e87}
+
+
+Internal wrapper for posix api to set parameter string 

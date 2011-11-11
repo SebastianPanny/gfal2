@@ -74,16 +74,28 @@ char $\ast$ \bf{gfal\_\-version} ()
 int \textbf{gfal\_\-flush} (int fd)\label{group__posix__group_gae43f250cf82271ee59b19d008b29ad8}
 
 \item 
-int \textbf{gfal\_\-set\_\-parameter\_\-string} (const char $\ast$module, const char $\ast$name, const char $\ast$value)\label{group__posix__group_g1aa9cc5bf3e6e9938b5ffbdd1ad8a302}
+int \textbf{gfal\_\-set\_\-parameter\_\-string} (const char $\ast$namespace, const char $\ast$key, const char $\ast$value)\label{group__posix__group_g1e2e8a22bfc4927e4d4ca91d501633a5}
 
 \item 
-int \textbf{gfal\_\-get\_\-parameter\_\-string} (const char $\ast$module, const char $\ast$name, char $\ast$buff\_\-value, size\_\-t s\_\-buff)\label{group__posix__group_gb5afef98e5a6e7d5391fca65d079c3ef}
+char $\ast$ \textbf{gfal\_\-get\_\-parameter\_\-string} (const char $\ast$namespace, const char $\ast$key)\label{group__posix__group_g9cddf85bdb0e56b21c8bc57583ecd5fa}
 
 \item 
-int \textbf{gfal\_\-set\_\-parameter\_\-int} (const char $\ast$module, const char $\ast$name, int value)\label{group__posix__group_g4b27a01e6f158b40d4859a86cdf41b7f}
+int \textbf{gfal\_\-set\_\-parameter\_\-string\_\-list} (const char $\ast$namespace, const char $\ast$key, const char $\ast$value[$\,$], size\_\-t len)\label{group__posix__group_gf217564835bb0d0db65ee5b8615da2dd}
 
 \item 
-int \textbf{gfal\_\-get\_\-parameter\_\-int} (const char $\ast$module, const char $\ast$name)\label{group__posix__group_gefbd5409747e219b938e93d8576aa7a0}
+char $\ast$$\ast$ \textbf{gfal\_\-get\_\-parameter\_\-string\_\-list} (const char $\ast$namespace, const char $\ast$key, size\_\-t $\ast$s\_\-buff)\label{group__posix__group_g9712ced15f262bc99b2c65c960cc80ee}
+
+\item 
+int \textbf{gfal\_\-set\_\-parameter\_\-int} (const char $\ast$namespace, const char $\ast$key, int value)\label{group__posix__group_gb2f2e3e4ce52a9b4e306a8af2ce1642b}
+
+\item 
+int \textbf{gfal\_\-get\_\-parameter\_\-int} (const char $\ast$namespace, const char $\ast$key)\label{group__posix__group_g87fe88667990c1c3b288e62d708831ee}
+
+\item 
+int \textbf{gfal\_\-get\_\-parameter\_\-boolean} (const char $\ast$namespace, const char $\ast$key)\label{group__posix__group_g2b30e8c9e59dada006127568d016cd1d}
+
+\item 
+int \textbf{gfal\_\-set\_\-parameter\_\-boolean} (const char $\ast$namespace, const char $\ast$key, int bool\_\-value)\label{group__posix__group_g1566e98417764b361a733c55ea4d5c2d}
 
 \end{CompactItemize}
 

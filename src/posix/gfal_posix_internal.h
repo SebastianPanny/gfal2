@@ -80,10 +80,14 @@ struct dirent* gfal_posix_internal_readdir(DIR* dir);
 
 int gfal_posix_internal_symlink(const char * oldpath, const char *newpath);
 
-int gfal_posix_internal_set_parameter(const char* module, const char* name, char* value, size_t max_size, GFAL_TYPE req_type);
-
-int gfal_posix_internal_get_parameter(const char* module, const char* name, char* value, size_t buff_size, GFAL_TYPE req_type);
-
 void gfal_posix_register_internal_error(gfal_handle handle, const char* prefix, GError * tmp_err);
  
+ 
+int gfal_get_parameter_boolean_internal(const char* namespace, const char* key);
+
+int gfal_set_parameter_boolean_internal(const char* namespace, const char* key, int value);
+
+int gfal_set_parameter_string_internal(const char* namespace, const char* key, const char* value);
+
+char* gfal_get_parameter_string_internal(const char* namespace, const char* key);
 

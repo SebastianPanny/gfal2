@@ -83,6 +83,11 @@ int(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>closeG</b> )(plugin_
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="424d4d77e29e5e4cfe92eae0d6a8bdc2"></a><!-- doxytag: member="_gfal_plugin_interface::lseekG" ref="424d4d77e29e5e4cfe92eae0d6a8bdc2" args=")(plugin_handle, gfal_file_handle fd, off_t offset, int whence, GError **err)" -->
 int(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>lseekG</b> )(plugin_handle, gfal_file_handle fd, off_t offset, int whence, GError **err)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#efa114485546905f199568eb1648ddd3">preadG</a> )(plugin_handle, gfal_file_handle fd, void *buff, size_t count, off_t offset, GError **)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6de31ed116e6223b75fd068a1bd66779"></a><!-- doxytag: member="_gfal_plugin_interface::pwriteG" ref="6de31ed116e6223b75fd068a1bd66779" args=")(plugin_handle, gfal_file_handle fd, const void *buff, size_t count, off_t offset, GError **)" -->
+ssize_t(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>pwriteG</b> )(plugin_handle, gfal_file_handle fd, const void *buff, size_t count, off_t offset, GError **)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#75692c1e9487ff9ed7fce15dc2ddac62">unlinkG</a> )(plugin_handle, const char *path, GError **)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#9c6b4405f17d92e42aa40ff307188701">getxattrG</a> )(plugin_handle, const char *, const char *, void *buff, size_t s_buff, GError **err)</td></tr>
@@ -91,7 +96,9 @@ int(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>lseekG</b> )(plugin_
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#2ededf4f6bc7f284ac31234110ee1444">setxattrG</a> )(plugin_handle, const char *, const char *, const void *, size_t, int, GError **)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#4a4be363e714afa487e8abc21dce2ae7">plugin_parameter</a> )(plugin_handle handle, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#ec669e59c0089062136f1c213bf95bd0">is_used_parameter</a> )(plugin_handle, const char *namespace, const char *key)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#e0602ea71c149e21090912c6ac1b556f">notify_change_parameter</a> )(plugin_handle, const char *namespace, const char *key, GError **err)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -159,6 +166,22 @@ function pointer for the access using the guid url
 getxattr implementation, follow the getxattr behavior but with GError report system. 
 </div>
 </div><p>
+<a class="anchor" name="ec669e59c0089062136f1c213bf95bd0"></a><!-- doxytag: member="_gfal_plugin_interface::is_used_parameter" ref="ec669e59c0089062136f1c213bf95bd0" args=")(plugin_handle, const char *namespace, const char *key)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int(* <a class="el" href="struct__gfal__plugin__interface.html#ec669e59c0089062136f1c213bf95bd0">_gfal_plugin_interface::is_used_parameter</a>)(plugin_handle, const char *namespace, const char *key)          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+this function is called to inform plugin of a new parameter must return 0 if this parameter is used by the plugin else return -1 <dl compact><dt><b>Warning:</b></dt><dd>must be a NULL pointer if not used </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="c3bae2e54ce8998722f03b588d423b18"></a><!-- doxytag: member="_gfal_plugin_interface::listxattrG" ref="c3bae2e54ce8998722f03b588d423b18" args=")(plugin_handle, const char *, char *list, size_t s_list, GError **err)" -->
 <div class="memitem">
 <div class="memproto">
@@ -172,6 +195,22 @@ getxattr implementation, follow the getxattr behavior but with GError report sys
 
 <p>
 listxattr implementation, follow the listxattr behavior but with GError report system. 
+</div>
+</div><p>
+<a class="anchor" name="e0602ea71c149e21090912c6ac1b556f"></a><!-- doxytag: member="_gfal_plugin_interface::notify_change_parameter" ref="e0602ea71c149e21090912c6ac1b556f" args=")(plugin_handle, const char *namespace, const char *key, GError **err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int(* <a class="el" href="struct__gfal__plugin__interface.html#e0602ea71c149e21090912c6ac1b556f">_gfal_plugin_interface::notify_change_parameter</a>)(plugin_handle, const char *namespace, const char *key, GError **err)          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Notify a change of a parameter with the given Key to check the new value associated with the key, call gfal_get_*_parameter functions <dl compact><dt><b>Warning:</b></dt><dd>must be a NULL pointer if not used </dd></dl>
+
 </div>
 </div><p>
 <a class="anchor" name="d146f62bd310f1f265f0bc3c37cc70d8"></a><!-- doxytag: member="_gfal_plugin_interface::plugin_delete" ref="d146f62bd310f1f265f0bc3c37cc70d8" args=")(plugin_handle)" -->
@@ -189,19 +228,19 @@ listxattr implementation, follow the listxattr behavior but with GError report s
 Called before the destruction of the plugin interface 
 </div>
 </div><p>
-<a class="anchor" name="4a4be363e714afa487e8abc21dce2ae7"></a><!-- doxytag: member="_gfal_plugin_interface::plugin_parameter" ref="4a4be363e714afa487e8abc21dce2ae7" args=")(plugin_handle handle, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)" -->
+<a class="anchor" name="efa114485546905f199568eb1648ddd3"></a><!-- doxytag: member="_gfal_plugin_interface::preadG" ref="efa114485546905f199568eb1648ddd3" args=")(plugin_handle, gfal_file_handle fd, void *buff, size_t count, off_t offset, GError **)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int(* <a class="el" href="struct__gfal__plugin__interface.html#4a4be363e714afa487e8abc21dce2ae7">_gfal_plugin_interface::plugin_parameter</a>)(plugin_handle handle, const char *name, char *value, size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError **err)          </td>
+          <td class="memname">ssize_t(* <a class="el" href="struct__gfal__plugin__interface.html#efa114485546905f199568eb1648ddd3">_gfal_plugin_interface::preadG</a>)(plugin_handle, gfal_file_handle fd, void *buff, size_t count, off_t offset, GError **)          </td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
 <p>
-parameters handle in order to provide a generic way to set/get parameters to the gfal 2.0 plugins if not the function pointer is not null and for module== getName(), a call to this function is done for each call to gfal_set_parameter / gfal_get_parameter 
+Vector operation, similar to the POSIX call pread The vector operation needs to be set to NULL if not implemented Vector operation permits an improvement of the performances. * 
 </div>
 </div><p>
 <a class="anchor" name="2ededf4f6bc7f284ac31234110ee1444"></a><!-- doxytag: member="_gfal_plugin_interface::setxattrG" ref="2ededf4f6bc7f284ac31234110ee1444" args=")(plugin_handle, const char *, const char *, const void *, size_t, int, GError **)" -->
@@ -236,7 +275,7 @@ unlink implementation, follow the unlink behavior but with GError report system.
 </div><p>
 <hr>The documentation for this struct was generated from the following file:<ul>
 <li>/home/adevress/myworkspace/gfal/src/common/<a class="el" href="gfal__common__plugin__interface_8h-source.html">gfal_common_plugin_interface.h</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Oct 17 15:38:15 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

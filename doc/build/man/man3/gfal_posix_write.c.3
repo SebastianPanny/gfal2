@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_write.c" 3 "17 Oct 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/posix/gfal_posix_write.c" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -34,6 +34,12 @@
 .ti -1c
 .RI "int \fBgfal_posix_internal_write\fP (int fd, void *buff, size_t s_buff)"
 .br
+.ti -1c
+.RI "int \fBgfal_posix_gfalfilehandle_pwrite\fP (gfal_handle handle, gfal_file_handle fh, void *buff, size_t s_buff, off_t offset, GError **err)"
+.br
+.ti -1c
+.RI "ssize_t \fBgfal_posix_internal_pwrite\fP (int fd, void *buff, size_t s_buff, off_t offset)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -57,12 +63,18 @@ Devresse Adrien
 
 .SH "Function Documentation"
 .PP 
+.SS "int gfal_posix_gfalfilehandle_pwrite (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, off_t offset, GError ** err)"
+.PP
+map the file handle to the correct call for pwrite 
 .SS "int gfal_posix_gfalfilehandle_write (gfal_handle handle, gfal_file_handle fh, void * buff, size_t s_buff, GError ** err)"
 .PP
 map the file handle to the correct call 
+.SS "ssize_t gfal_posix_internal_pwrite (int fd, void * buff, size_t s_buff, off_t offset)"
+.PP
+Implementation of the pwrite call 
 .SS "int gfal_posix_internal_write (int fd, void * buff, size_t s_buff)"
 .PP
-Implementation of the read functions 
+Implementation of the write call 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CERN org.glite.Gfal from the source code.

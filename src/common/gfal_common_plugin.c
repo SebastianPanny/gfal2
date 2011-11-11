@@ -881,30 +881,61 @@ int gfal_plugin_setxattrG(gfal_handle handle, const char* path, const char* name
 	return resu;		
 }
 
-/***
- *  function for plugings, plugin wrapper for set/get options/parameters
+
+
+/**
  * 
+ * Check if a parameter key is used by a plugin or not
+ *  @return 0 if used else -1 -> not used, set GError only if major error occures 
  */
-int gfal_common_plugin_parameter(gfal_handle handle, const char* module, const char* name, char* value,
-				 size_t max_size, GFAL_PARAM_FUNC func, GFAL_TYPE req_type, GError** err)
-{
-  g_return_val_err_if_fail(handle && module, -1, err, "einval value");
-  GError* tmp_err=NULL;
-  int res = -1;
-  
-  
-  gfal_plugin_interface* interface = gfal_search_plugin_with_name(handle, module, &tmp_err);
-  if(interface != NULL){
-    if( interface->plugin_parameter){
-      res = interface->plugin_parameter(interface->handle, name, value, max_size, func, req_type, &tmp_err);      
-    }else{
-      g_set_error(&tmp_err, 0, EFAULT, " Impossible to set settings in this plugin, no appropriate funtion is mapped");
-    }
-    
-  }
-  // fix it
-  if(tmp_err)
-	g_propagate_prefixed_error(err, tmp_err, "[%s]",__func__);	
-  return res;
-    
+int gfal_plugins_has_parameter(gfal_handle handle, const char* namespace, const char* key, GError** err){
+	g_return_val_err_if_fail(handle , -1, err, "inval value for handle");	
+	
+	GError* tmp_err=NULL;
+	int res = 0;	
+	int i;
+	const int n_plugins = gfal_plugins_instance(handle, &tmp_err);
+	if(n_plugins > 0){
+		gfal_plugin_interface* cata_list = handle->plugin_opt.plugin_list;
+		for(i=0; i < n_plugins; ++i, ++cata_list){
+			if(cata_list->is_used_parameter){
+				if( (res = cata_list->is_used_parameter(cata_list->handle, namespace, key)) ==1)
+					break;
+
+			}
+		}
+	}
+	if(tmp_err){	
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	}
+	return res;	
 }
+
+/**
+ * Notify all the plugins of a change on a given parameter
+ * plugins must ignore and return 0 if this key is not used, or if it is a correct change
+ * they must return -1 and GError if an error occures with the new value
+ * */
+int gfal_plugins_notify_all(gfal_handle handle, const char* namespace, const char* key, GError** err){
+	g_return_val_err_if_fail(handle , -1, err, "inval value for handle");	
+	
+	GError* tmp_err=NULL;
+	int res = -1;	
+	int i;
+	const int n_plugins = gfal_plugins_instance(handle, &tmp_err);
+	if(n_plugins > 0){
+		res =0;
+		gfal_plugin_interface* cata_list = handle->plugin_opt.plugin_list;
+		for(i=0; i < n_plugins; ++i, ++cata_list){
+			if(cata_list->notify_change_parameter)
+				cata_list->notify_change_parameter(cata_list->handle, namespace, key);
+			
+		}
+	}
+	if(tmp_err){	
+		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+	}
+	return res;	
+	
+}
+

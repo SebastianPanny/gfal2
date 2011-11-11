@@ -48,9 +48,9 @@ extern "C"
 
 
 
-enum _GFAL_TYPE { GFAL_TYPE_INT, GFAL_TYPE_STRING };
+enum _GFAL_TYPE { GFAL_TYPE_INT=0, GFAL_TYPE_STRING=1 };
 
-enum _GFAL_PARAM_FUNC{ GFAL_PARAM_SET, GFAL_PARAM_GET };
+enum _GFAL_PARAM_FUNC{ GFAL_PARAM_SET=0, GFAL_PARAM_GET=1 };
 
 
 
@@ -60,16 +60,21 @@ struct _gfal_descriptors_container{
 	
 };
 
+struct _gfal_conf_container{
+	GData*  conf;
+	GMutex* mux;	
+};
+
 
  
 struct gfal_handle_ {		// define the protocole version of SRM choosen by default
 	gboolean initiated; 					// 1 if initiated, else error
-	// pointer to the last request resu
 	// struct of the plugin opts
 	struct _plugin_opts plugin_opt;
 	//struct for the file descriptors
 	gfal_descriptors_container fdescs;
 	int no_bdii_check;
+	gfal_conf_container st_config;
 };
 
 
