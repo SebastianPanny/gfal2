@@ -11,6 +11,9 @@ import subprocess
 import glob
 import time
 
+from scons_mods import packaging_lib
+from scons_mods import changelog_utils
+
 ## global vars
 debug_mode = False;
 plugin_dcap = False
@@ -35,6 +38,11 @@ etics_build_dir= "/usr/" # disable
 version= '2.0'
 package_version = '1.16_preview'
 license_type = "Apache Software License"
+
+scons_mods_files = Glob("#scons_mods/*.py")
+changelog = changelog_utils.get_rpm_changelog_from_file()
+
+build_deps = scons_mods_files + [File("#CHANGELOG")]
 
 ## generic function to get conf value
 def get_depconf(key_value, include_path='/include/', lib_path='/lib/', lib64_path='/lib64/', etics_suffix="/stage/"):
@@ -94,7 +102,7 @@ r = os.getenv('LD_LIBRARY_PATH')	# get ld path
 env['ENV']['LD_LIBRARY_PATH'] = (r is not None) and r or "" # set ld path or empty one if not exist
 env.PrependENVPath('LD_LIBRARY_PATH', map(lambda x :Dir(x).get_abspath(), libs)) # setup internal env LD PATH
 
-print " ld path : " + env['ENV']['LD_LIBRARY_PATH']
+print " ld path : " + env['ENV']['LD_LIBRARY_PATH'] 
 
 # debug mode
 if ARGUMENTS.get('debug','0') =='yes':
@@ -145,17 +153,17 @@ static_gskiplist, OS_gskiplist = SConscript(build_dir_externals +'/gskiplist/SCo
 
 #main build
 VariantDir(build_dir_src, 'src')
-mainlib, staticlib, versionexe,plugin_lfc_lib, plugin_srm_lib, plugin_rfio_lib, plugin_dcap_lib, all_headers  = SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src','debug_mode', 'isifce'])
+mainlib, staticlib, versionexe,plugin_lfc_lib, plugin_srm_lib, plugin_rfio_lib, plugin_dcap_lib, all_headers  = SConscript(build_dir_src +'/SConscript',['env', 'headers', 'libs', 'build_dir_src','debug_mode', 'isifce', 'build_deps'])
 
 # global testing build
-SConscript('testing/SConscript', ['env', 'headers', 'libs', 'old_gfal_header','debug_mode'])
+SConscript('testing/SConscript', ['env', 'headers', 'libs', 'old_gfal_header','debug_mode', 'build_deps'])
 
 #unit tests
 env_test = env.Clone()
 env_test.Append(CPPPATH=[ "#src/common", "#src/", "#src/posix"]+ cgreen_header_dir)
 env_test.Append(LIBPATH= cgreen_lib_dir)
 VariantDir(build_dir_test, 'test')
-tests = SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','debug_mode', 'all_headers','static_gskiplist'])
+tests = SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs', 'build_dir_src','debug_mode', 'all_headers','static_gskiplist', 'build_deps'])
 
 #VariantDir("rpmbuildir/", 'rpm/')
 #SConscript("rpmbuildir/SConscript", ["env","mainlib", "staticlib", "versionexe", "version", "package_version", "plugin_lfc_lib"] )
@@ -166,7 +174,10 @@ tests = SConscript(build_dir_test +'/SConscript',['env_test', 'headers', 'libs',
 libdir = (os.uname()[4] == 'x86_64') and "lib64" or "lib"
 
 def define_rpm_install(opt):
-	return 'scons -j 8 '+ opt+ ' --install-sandbox="$RPM_BUILD_ROOT" "$RPM_BUILD_ROOT" '
+	return 'scons '+ opt+ ' --install-sandbox="$RPM_BUILD_ROOT" install '
+	
+def define_rpm_build(opt):
+	return 'scons '+ opt+ ' build'
 
 
 def arguments_to_str():
@@ -191,12 +202,15 @@ if(main_core):
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
 			 LICENSE        = license_type,
+			 CHANGELOG		= changelog,
 			 SUMMARY        = 'Grid file access library 2.0',
 			 DESCRIPTION    = 'POSIX abtraction layer for grid storage system',
 			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_INSTALL= x_rpm_install,
+			 X_RPM_BUILD = define_rpm_build(arguments_to_str()),
 			 X_RPM_POSTINSTALL = "ldconfig",
 			 X_RPM_POSTUNINSTALL = "ldconfig",
+			 X_RPM_BUILDREQUIRES = 'scons, glib2-devel, openldap-devel',			 
 			 X_RPM_REQUIRES = 'openldap',
 			 source= [lib_main, version_main] 
 			 )
@@ -217,10 +231,12 @@ if(main_devel):
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
-			 LICENSE        = license_type,
+			 LICENSE        = license_type,			 
+			 CHANGELOG		= changelog,			 
 			 SUMMARY        = 'development files for grid file access library 2.0',
 			 DESCRIPTION    = 'development files for grid file access library 2.0',
 			 X_RPM_GROUP    = 'Development/Libraries',
+			 X_RPM_BUILD = define_rpm_build(arguments_to_str()),			 
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'glib2-devel, gfal2-core',
 			 source= [header_main, header_main2, header_main3, static_main, example_main, pkg_config] 
@@ -243,6 +259,7 @@ if(plugin_devel):
 			 SUMMARY        = 'development files for the gfal 2.0 plugins ',
 			 DESCRIPTION    = 'development files for the plugins of the grid file access library 2.0',
 			 X_RPM_GROUP    = 'Development/Libraries',
+			 CHANGELOG		= changelog,			
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_POSTINSTALL = "ldconfig",			
 			 X_RPM_REQUIRES = 'glib2-devel, gfal2-core-devel',
@@ -261,11 +278,13 @@ if(plugin_lfc):
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
 			 LICENSE        = license_type,
+			 CHANGELOG		= changelog,			 
 			 SUMMARY        = 'plugin lfc for gfal 2.0',
 			 DESCRIPTION    = 'Provide the lfc access for gfal2.0',
 			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_REQUIRES = 'lfc-libs, glib2, gfal2-core ',
 			 X_RPM_POSTINSTALL = "ldconfig",
+			 X_RPM_BUILD = define_rpm_build(arguments_to_str()),			 
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_lfc, lib_plugin_lfc_conf],
 			 )	
@@ -284,11 +303,13 @@ if(plugin_srm):
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
 			 LICENSE        = license_type,
+			 CHANGELOG		= changelog,			 
 			 SUMMARY        = 'plugin srm for gfal 2.0',
 			 DESCRIPTION    = 'Provide the srm access for gfal2.0',
 			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_REQUIRES = 'glib2, gfal2-core, srm-ifce ',
 			 X_RPM_POSTINSTALL = "ldconfig",
+			 X_RPM_BUILD = define_rpm_build(arguments_to_str()),			 
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_srm, lib_plugin_srm_conf],
 			 )	
@@ -306,11 +327,13 @@ if(plugin_rfio):
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
 			 LICENSE        = license_type,
+			 CHANGELOG		= changelog,			 
 			 SUMMARY        = 'plugin rfio for gfal 2.0',
 			 DESCRIPTION    = 'Provide the rfio access for gfal2.0',
 			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_REQUIRES = 'dpm-libs, glib2, gfal2-core ',
-			 X_RPM_POSTINSTALL = "ldconfig",			 
+			 X_RPM_POSTINSTALL = "ldconfig",	
+			 X_RPM_BUILD = define_rpm_build(arguments_to_str()),			 		 
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_rfio, lib_plugin_rfio_conf],
 			 )	
@@ -328,11 +351,13 @@ if(plugin_dcap):
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
 			 LICENSE        = license_type,
+			 CHANGELOG		= changelog,			 
 			 SUMMARY        = 'plugin dcap for gfal 2.0',
 			 DESCRIPTION    = 'Provide the dcap access for gfal2.0',
 			 X_RPM_GROUP    = 'System Environment/Libraries',
 			 X_RPM_REQUIRES = 'dcap-libs, glib2, gfal2-core ',
-			 X_RPM_POSTINSTALL = "ldconfig",			 
+			 X_RPM_POSTINSTALL = "ldconfig",	
+			 X_RPM_BUILD = define_rpm_build(arguments_to_str()),			 		 
 			 X_RPM_INSTALL= x_rpm_install,
 			 source= [lib_plugin_dcap, lib_plugin_dcap_conf],
 			 )	
@@ -348,6 +373,7 @@ if(main_doc):
 				 PACKAGEVERSION = package_version,
 				 PACKAGETYPE    = 'rpm',
 				 LICENSE        = license_type,
+				CHANGELOG		= changelog,				 
 				 SUMMARY        = 'doc gfal2.0',
 				 DESCRIPTION    = 'Documentation package for gfal2.X',
 				 X_RPM_GROUP    = 'CERN/grid',
@@ -365,6 +391,7 @@ if(main_meta):
 				 PACKAGEVERSION = package_version,
 				 PACKAGETYPE    = 'rpm',
 				 LICENSE        = license_type,
+				 CHANGELOG		= changelog,				 
 				 SUMMARY        = 'gfal2.0 meta package',
 				 DESCRIPTION    = 'meta package for gfal2.X',
 				 X_RPM_GROUP    = 'CERN/grid',
@@ -383,10 +410,12 @@ if(main_tests):
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',
+			 CHANGELOG		= changelog,			 
 			 LICENSE        = license_type,
 			 SUMMARY        = 'binaries tests for GFAL 2.0',
 			 DESCRIPTION    = 'binaries tests for GFAL 2.0',
 			 X_RPM_GROUP    = 'Development/Tools',
+			 X_RPM_BUILD = define_rpm_build(arguments_to_str()),			 
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'gfal2-all',
 			 source= [main_test] 
@@ -397,6 +426,7 @@ env.Alias("install", install_list);
 env.Alias("build", comp_list);
 
 env.Alias("package_generator", pack_list);
+
 	
 	
 	

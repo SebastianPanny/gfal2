@@ -65,23 +65,23 @@ env_plugin.Append(LIBS=["gfal2"])
 env_plugin_srm = env_plugin.Clone()
 env_plugin_srm.Append(LIBS=[ "gfal_srm_ifce" ] )
 plugin_srm_lib = env_plugin_srm.SharedLibrary('../libs/libgfal_plugin_srm', plugin_srm + gsimplecache)
-env_plugin_srm.Depends(plugin_srm_lib,srm_headers )
+env_plugin_srm.Depends(plugin_srm_lib,srm_headers + build_deps )
 
 env_plugin_lfc = env_plugin.Clone();
 env_plugin_lfc.Append(CFLAGS="-D_REENTRANT")
 env_plugin_lfc.Append(CPPPATH=other_headers)
 plugin_lfc_lib = env_plugin_lfc.SharedLibrary('../libs/libgfal_plugin_lfc', plugin_lfc+ gsimplecache)
-env_plugin_lfc.Depends(plugin_lfc_lib, lfc_headers )
+env_plugin_lfc.Depends(plugin_lfc_lib, lfc_headers  + build_deps)
 
 plugin_rfio_lib= env_plugin.SharedLibrary('../libs/libgfal_plugin_rfio', plugin_rfio)
-env_plugin.Depends(plugin_rfio_lib,rfio_headers )
+env_plugin.Depends(plugin_rfio_lib,rfio_headers+ build_deps)
 
 plugin_dcap_lib = env_plugin.SharedLibrary('../libs/libgfal_plugin_dcap', plugin_dcap)
-env_plugin.Depends(plugin_dcap_lib,dcap_headers )
+env_plugin.Depends(plugin_dcap_lib,dcap_headers + build_deps )
 
 
 plugin_dcap_lib = env_plugin.SharedLibrary('../libs/libgfal_plugin_dcap', plugin_dcap)
-env_plugin.Depends(plugin_dcap_lib,dcap_headers )
+env_plugin.Depends(plugin_dcap_lib,dcap_headers + build_deps)
 
 
 #gfal version

@@ -37,7 +37,7 @@ env_test.PrependENVPath('GFAL_PLUGIN_LIST', "libgfal_plugin_lfc.so:libgfal_plugi
 env_test.Append(LIBS=src_tests_link);
 env_test.Append(CFLAGS="-D_REENTRANT");
 tests =env_test.Program("test_verbose",  src_tests_all)
-env_test.Depends(tests, tests_headers)
+env_test.Depends(tests, tests_headers + build_deps)
 
 
 
