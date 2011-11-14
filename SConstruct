@@ -210,7 +210,7 @@ if(main_core):
 			 X_RPM_BUILD = define_rpm_build(arguments_to_str()),
 			 X_RPM_POSTINSTALL = "ldconfig",
 			 X_RPM_POSTUNINSTALL = "ldconfig",
-			 X_RPM_BUILDREQUIRES = 'scons, glib2-devel, openldap-devel',			 
+			 X_RPM_BUILDREQUIRES = 'scons, glib2-devel, openldap-devel, libattr-devel',			 
 			 X_RPM_REQUIRES = 'openldap',
 			 source= [lib_main, version_main] 
 			 )
