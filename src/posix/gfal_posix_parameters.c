@@ -50,8 +50,8 @@ int gfal_set_parameter_boolean_internal(const char* namespace, const char* key, 
 		errno = EIO;
 		return -1;
 	}
-	if(key == NULL){
-		g_set_error(&tmp_err, 0, EINVAL, "Invalid key value");
+	if(namespace == NULL || key == NULL){
+		g_set_error(&tmp_err, 0, EINVAL, "Invalid namespace/key value");
 	}else {
 		ret = gfal_common_parameter_set_boolean(handle, namespace, key, value, &tmp_err);
 	}
@@ -79,7 +79,7 @@ int gfal_set_parameter_string_internal(const char* namespace, const char* key, c
 		errno = EIO;
 		return -1;
 	}
-	if(key == NULL){
+	if(namespace == NULL || key == NULL){
 		g_set_error(&tmp_err, 0, EINVAL, "Invalid key value");
 	}else {
 		ret = gfal_common_parameter_set_string(handle, namespace, key, value, &tmp_err);
@@ -109,7 +109,7 @@ char* gfal_get_parameter_string_internal(const char* namespace, const char* key)
 		errno = EIO;
 		return NULL;
 	}
-	if(key == NULL){
+	if(namespace == NULL || key == NULL){
 		g_set_error(&tmp_err, 0, EINVAL, "Invalid key value");
 	}else {
 		ret = gfal_common_parameter_get_string(handle, namespace, key, &tmp_err);
@@ -140,7 +140,7 @@ int gfal_get_parameter_boolean_internal(const char* namespace, const char* key){
 		return -1;
 	}
 	
-	if(key == NULL){
+	if(namespace == NULL || key == NULL){
 		g_set_error(&tmp_err, 0, EINVAL, "Invalid key value");
 	}else {
 		ret = gfal_common_parameter_get_boolean(handle, namespace, key, &tmp_err);

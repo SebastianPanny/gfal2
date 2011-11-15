@@ -36,7 +36,7 @@ isifce=False
 # global var
 etics_build_dir= "/usr/" # disable
 version= '2.0'
-package_version = '1.16_preview'
+package_version = '1.17_preview'
 license_type = "Apache Software License"
 
 scons_mods_files = Glob("#scons_mods/*.py")

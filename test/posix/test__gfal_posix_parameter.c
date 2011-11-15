@@ -25,17 +25,17 @@ void test_posix_set_get_parameter(){
     char buff[2048];
     buff[0]='\0';
   
-    int ret = gfal_set_parameter_boolean(NULL, "no_bdii", TRUE); // set a variable
+    int ret = gfal_set_parameter_boolean("core", "no_bdii", TRUE); // set a variable
     assert_true_with_message(ret == 0 && gfal_posix_check_error() == FALSE, " must be a valid return %d %d ", ret , gfal_posix_code_error());
     
-    ret = gfal_get_parameter_boolean(NULL, "no_bdii"); // verify the variable status 
+    ret = gfal_get_parameter_boolean("core", "no_bdii"); // verify the variable status 
     
     assert_true_with_message(ret == TRUE && gfal_posix_check_error() == FALSE, " must be the value set before");
     
-    ret = gfal_set_parameter_boolean(NULL, "no_bdii", FALSE); // set a variable
+    ret = gfal_set_parameter_boolean("core", "no_bdii", FALSE); // set a variable
     assert_true_with_message(ret == 0 && gfal_posix_check_error() == FALSE, " must be a valid return 2");
     
-    ret = gfal_get_parameter_boolean(NULL, "no_bdii"); // verify the variable status 
+    ret = gfal_get_parameter_boolean("core", "no_bdii"); // verify the variable status 
     
     assert_true_with_message(ret == FALSE && gfal_posix_check_error() == FALSE, " must be the value set before 2");
 
@@ -58,10 +58,10 @@ void test_posix_set_get_false_parameter(){
     assert_true_with_message(ret == -1 && gfal_posix_code_error() == EINVAL, " must be an error for the get");
 	gfal_posix_clear_error();
 	
-	ret = gfal_get_parameter_boolean(NULL, "unexisting_parameter"); // get an unexisting variable
+	ret = gfal_get_parameter_boolean("core", "unexisting_parameter"); // get an unexisting variable
     assert_true_with_message(ret == -1 && gfal_posix_code_error() == ENOENT, " must be an error for the get %d %d", gfal_posix_code_error(),ret);
 	
-	ret = gfal_set_parameter_boolean(NULL, "unexisting_parameter", TRUE); // set an unexisting variable
+	ret = gfal_set_parameter_boolean("core", "unexisting_parameter", TRUE); // set an unexisting variable
     assert_true_with_message(ret == -1 && gfal_posix_code_error() == ENOENT, " must be an error for the set %d %d", gfal_posix_code_error(), ret);	
 	gfal_posix_clear_error();   
 }
@@ -73,23 +73,23 @@ void test_posix_set_get_infosys_parameter(){
 	old_infosys = getenv(bdii_env_var);
 	assert_true_with_message(old_infosys != NULL, " must be a valid infosys var");
   
-    int ret = gfal_set_parameter_string(NULL, "infosys", ""); // set a variable to empty
+    int ret = gfal_set_parameter_string("core", "infosys", ""); // set a variable to empty
     assert_true_with_message(ret == 0 && gfal_posix_code_error() == 0, " must be a valid set %d %d", ret, gfal_posix_code_error());
 	gfal_posix_clear_error();
 
 	new_infosys = getenv(bdii_env_var);	
 	assert_true_with_message(strcmp(new_infosys,"")==0, " must be the new infosys value");
 	
-    param = gfal_get_parameter_string(NULL, "infosys"); // set a variable NULL with namespace
+    param = gfal_get_parameter_string("core", "infosys"); // set a variable NULL with namespace
     assert_true_with_message(ret == 0 && gfal_posix_code_error() == 0 && strcmp("",param) ==0, " must be a valid empty infosys");
     free(param);
 	gfal_posix_clear_error();
 	
-    ret = gfal_set_parameter_string(NULL, "infosys", old_infosys); // set a variable to the old value 
+    ret = gfal_set_parameter_string("core", "infosys", old_infosys); // set a variable to the old value 
     assert_true_with_message(ret == 0 && gfal_posix_code_error() == 0, " must be a valid set");
 	gfal_posix_clear_error();
 	
-    param = gfal_get_parameter_string(NULL, "infosys"); // get the new value
+    param = gfal_get_parameter_string("core", "infosys"); // get the new value
     assert_true_with_message(ret == 0 && gfal_posix_code_error() == 0 && strcmp(old_infosys,param) ==0, " must be a valid old infosys");
     free(param);
 	gfal_posix_clear_error();

@@ -38,6 +38,7 @@ typedef struct _gfal_internal_parameter{
 static gfal_internal_parameter _gfal_core_parameters[] = { { "no_bdii"}, {"infosys"}, {"global_conn_timeout"}, {"conf_version"}, {"plugin_list"} };
 static int _gfal_core_parameters_number = sizeof(_gfal_core_parameters)/sizeof(gfal_internal_parameter);
 
+static char* gfal_parameter_core_namespace = "core";
 
 static int gfal_common_core_parameter_lookup(const char* key){
 	int i;
@@ -47,20 +48,18 @@ static int gfal_common_core_parameter_lookup(const char* key){
 	return 0;
 }
 
-static const char* group_name_valid(const char* namespace){
-	return (namespace)?namespace:"core";
-}
+
 
 static int gfal_common_notify_core(gfal_handle handle, const char* namespace, const char* key, GError** err){
 	GError* tmp_err=NULL;
 	int ret = -1;
-	if( namespace == NULL && strcmp(key, _gfal_core_parameters[0].key) ==0 ){ // no bdii
+	if( strcmp(namespace, gfal_parameter_core_namespace) == 0 && strcmp(key, _gfal_core_parameters[0].key) ==0 ){ // no bdii
 		gboolean b = gfal_common_parameter_get_boolean(handle, namespace, key, &tmp_err);
 		if(!tmp_err){
 			gfal_set_nobdiiG(handle, b);
 			ret = 0;
 		}
-	} else if( namespace == NULL && strcmp(key, _gfal_core_parameters[1].key) ==0 ){ // infosys
+	} else if( strcmp(namespace, gfal_parameter_core_namespace) == 0 && strcmp(key, _gfal_core_parameters[1].key) ==0 ){ // infosys
 		char* infosys = gfal_common_parameter_get_string(handle, namespace, key, &tmp_err);
 		if(!tmp_err){
 			gfal_mds_set_infosys(handle, infosys, &tmp_err);
@@ -82,10 +81,10 @@ int gfal_common_parameter_set_string(gfal_handle handle, const char* namespace, 
 	g_mutex_lock(handle->st_config.mux);
 	GError* tmp_err=NULL;
 	int ret = -1;
-	if( (namespace == NULL && gfal_common_core_parameter_lookup(key) == 1)
-		|| (namespace != NULL && gfal_plugins_has_parameter(handle, namespace, key, &tmp_err) ==1))
+	if( ( gfal_common_core_parameter_lookup(key) == 1)
+		|| (gfal_plugins_has_parameter(handle, namespace, key, &tmp_err) ==1))
 	{
-		gfal_config_set_string(handle, group_name_valid(namespace), key, value);
+		gfal_config_set_string(handle, namespace, key, value);
 		ret =0;
 		
 	}else if(!tmp_err){ // NO keys found
@@ -108,7 +107,7 @@ int gfal_common_parameter_set_string(gfal_handle handle, const char* namespace, 
 char* gfal_common_parameter_get_string(gfal_handle handle, const char* namespace, const char* key, GError** err){
 	g_mutex_lock(handle->st_config.mux);
 	GError* tmp_err=NULL;
-	char* ret = gfal_config_get_string(handle, group_name_valid(namespace), key, &tmp_err);
+	char* ret = gfal_config_get_string(handle, namespace, key, &tmp_err);
 	
 	g_mutex_unlock(handle->st_config.mux);
 	if(tmp_err)
@@ -121,7 +120,7 @@ char* gfal_common_parameter_get_string(gfal_handle handle, const char* namespace
 gboolean gfal_common_parameter_get_boolean(gfal_handle handle, const char* namespace, const char* key, GError** err){
 	g_mutex_lock(handle->st_config.mux);
 	GError* tmp_err=NULL;
-	gboolean b = gfal_config_get_boolean(handle, group_name_valid(namespace), key, &tmp_err);
+	gboolean b = gfal_config_get_boolean(handle, namespace, key, &tmp_err);
 	
 	g_mutex_unlock(handle->st_config.mux);
 	if(tmp_err)
@@ -134,10 +133,10 @@ int gfal_common_parameter_set_boolean(gfal_handle handle, const char* namespace,
 	g_mutex_lock(handle->st_config.mux);
 	GError* tmp_err=NULL;
 	int ret = -1;
-	if( (namespace == NULL && gfal_common_core_parameter_lookup(key) == 1)
-		|| (namespace != NULL && gfal_plugins_has_parameter(handle, namespace, key, &tmp_err) ==1))
+	if( (gfal_common_core_parameter_lookup(key) == 1)
+		||  (gfal_plugins_has_parameter(handle, namespace, key, &tmp_err) ==1))
 	{
-		gfal_config_set_boolean(handle, group_name_valid(namespace), key, value);
+		gfal_config_set_boolean(handle, namespace, key, value);
 		ret =0;
 		
 	}	
