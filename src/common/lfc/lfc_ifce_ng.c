@@ -36,6 +36,8 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <serrno.h>
+#include <uuid/uuid.h>
+
 
 
 #include <common/gfal_prototypes.h>

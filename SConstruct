@@ -67,7 +67,7 @@ srmifce_header_dir, srmifce_lib_dir = get_depconf('srmifce_path')
 # get lfc conf
 lfc_header_dir, lfc_lib_dir = get_depconf('lfc_path', include_path='/include/lfc/')
 # get cgreen conf
-cgreen_header_dir, cgreen_lib_dir = get_depconf('cgreen_path', include_path='/local/include', lib_path='/local/lib/', lib64_path='/local/lib/')
+cgreen_header_dir, cgreen_lib_dir = get_depconf('cgreen_path', include_path='/local/include', lib_path='/local/lib/', lib64_path='/local/lib64/')
 # get is interface path
 isifce_header_dir, isifce_lib_dir = get_depconf('isifce_path', include_path='include', lib_path='/lib/', lib64_path='/lib64/')
 
@@ -89,7 +89,7 @@ build_dir_test= build_dir +'/test/src'
 	
 headers= ['.', '#.', '#build/src/'] +   dpm_header_dir+ dcap_header_dir+ srmifce_header_dir +lfc_header_dir  + dpm_header_dir_emi + cgreen_header_dir + isifce_header_dir	
 libs=[ '#'+build_dir+'/libs'] +   dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lfc_lib_dir+ dpm_lib_dir_emi + cgreen_lib_dir + isifce_lib_dir
-cflags=['-DVERSION='+version, '-Wall', '-DGFAL_SECURE' , '-D_LARGEFILE64_SOURCE','-DGFAL_ENABLE_RFIO','-DGFAL_ENABLE_DCAP','-pthread' ] # largefile flag needed in 64 bits mod, Version setter, Warning flags and other legacy flags 
+cflags=['-DVERSION='+version, '-Wall','-D_LARGEFILE64_SOURCE','-pthread' ] # 
 # create default env
 env = Environment(tools=['default', 'packaging'], CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
 env.ParseConfig('pkg-config --cflags --libs glib-2.0')

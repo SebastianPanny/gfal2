@@ -27,7 +27,6 @@
  
  
 #include <stdarg.h>
-#include <uuid/uuid.h>
 #include <glib.h>
 #include <errno.h>
 #include <string.h> 
