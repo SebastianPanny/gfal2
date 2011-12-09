@@ -98,7 +98,7 @@ ssize_t(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>pwriteG</b> )(pl
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#ec669e59c0089062136f1c213bf95bd0">is_used_parameter</a> )(plugin_handle, const char *namespace, const char *key)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#e0602ea71c149e21090912c6ac1b556f">notify_change_parameter</a> )(plugin_handle, const char *namespace, const char *key, GError **err)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__gfal__plugin__interface.html#1de0c0eb24ae2dae8ada69aec8670ddd">notify_change_parameter</a> )(plugin_handle, const char *namespace, const char *key)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -178,7 +178,7 @@ getxattr implementation, follow the getxattr behavior but with GError report sys
 <div class="memdoc">
 
 <p>
-this function is called to inform plugin of a new parameter must return 0 if this parameter is used by the plugin else return -1 <dl compact><dt><b>Warning:</b></dt><dd>must be a NULL pointer if not used </dd></dl>
+this function is called to inform plugin of a new parameter must return 1 if this parameter is used by the plugin else return 0 <dl compact><dt><b>Warning:</b></dt><dd>must be a NULL pointer if not used </dd></dl>
 
 </div>
 </div><p>
@@ -197,19 +197,20 @@ this function is called to inform plugin of a new parameter must return 0 if thi
 listxattr implementation, follow the listxattr behavior but with GError report system. 
 </div>
 </div><p>
-<a class="anchor" name="e0602ea71c149e21090912c6ac1b556f"></a><!-- doxytag: member="_gfal_plugin_interface::notify_change_parameter" ref="e0602ea71c149e21090912c6ac1b556f" args=")(plugin_handle, const char *namespace, const char *key, GError **err)" -->
+<a class="anchor" name="1de0c0eb24ae2dae8ada69aec8670ddd"></a><!-- doxytag: member="_gfal_plugin_interface::notify_change_parameter" ref="1de0c0eb24ae2dae8ada69aec8670ddd" args=")(plugin_handle, const char *namespace, const char *key)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int(* <a class="el" href="struct__gfal__plugin__interface.html#e0602ea71c149e21090912c6ac1b556f">_gfal_plugin_interface::notify_change_parameter</a>)(plugin_handle, const char *namespace, const char *key, GError **err)          </td>
+          <td class="memname">void(* <a class="el" href="struct__gfal__plugin__interface.html#1de0c0eb24ae2dae8ada69aec8670ddd">_gfal_plugin_interface::notify_change_parameter</a>)(plugin_handle, const char *namespace, const char *key)          </td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
 <p>
-Notify a change of a parameter with the given Key to check the new value associated with the key, call gfal_get_*_parameter functions <dl compact><dt><b>Warning:</b></dt><dd>must be a NULL pointer if not used </dd></dl>
+called when a change occures on a parameter push the information to the plugins to check the new value associated with the key, call gfal_get_*_parameter functions <dl compact><dt><b>Warning:</b></dt><dd>must be a NULL pointer if not used </dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>0 if parameter changed or if no parameter triggered, -1 if major error with the new parameter </dd></dl>
 
 </div>
 </div><p>
@@ -275,7 +276,7 @@ unlink implementation, follow the unlink behavior but with GError report system.
 </div><p>
 <hr>The documentation for this struct was generated from the following file:<ul>
 <li>/home/adevress/myworkspace/gfal/src/common/<a class="el" href="gfal__common__plugin__interface_8h-source.html">gfal_common_plugin_interface.h</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Dec 9 09:20:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

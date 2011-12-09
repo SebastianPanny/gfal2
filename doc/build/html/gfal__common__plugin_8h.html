@@ -22,7 +22,6 @@
 <h1>/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin.h File Reference</h1>the header file of the common lib for the plugin management <a href="#_details">More...</a>
 <p>
 <code>#include &lt;stdarg.h&gt;</code><br>
-<code>#include &lt;uuid/uuid.h&gt;</code><br>
 <code>#include &lt;glib.h&gt;</code><br>
 <code>#include &lt;errno.h&gt;</code><br>
 <code>#include &lt;string.h&gt;</code><br>
@@ -31,6 +30,7 @@
 <code>#include &quot;gfal_prototypes.h&quot;</code><br>
 <code>#include &quot;gfal_types.h&quot;</code><br>
 <code>#include &quot;gfal_common_plugin_interface.h&quot;</code><br>
+<code>#include &quot;<a class="el" href="gfal__common__parameter_8h-source.html">gfal_common_parameter.h</a>&quot;</code><br>
 
 <p>
 <a href="gfal__common__plugin_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -1180,7 +1180,7 @@ Instance all plugins for use if it's not the case return the number of plugin av
 Notify all the plugins of a change on a given parameter plugins must ignore and return 0 if this key is not used, or if it is a correct change they must return -1 and GError if an error occures with the new value 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 10 15:40:58 2011 for CERN org.glite.Gfal by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Dec 9 09:20:45 2011 for CERN org.glite.Gfal by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
