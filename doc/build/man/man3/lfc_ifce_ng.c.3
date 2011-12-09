@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/lfc_ifce_ng.c" 3 "9 Dec 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -23,6 +23,8 @@
 \fC#include <pthread.h>\fP
 .br
 \fC#include <serrno.h>\fP
+.br
+\fC#include <uuid/uuid.h>\fP
 .br
 \fC#include <common/gfal_prototypes.h>\fP
 .br
@@ -122,6 +124,9 @@
 .RI "void \fBgfal_generate_guidG\fP (char *buf, GError **err)"
 .br
 .RI "\fIgenerate an uiid string Generate a uuid string and cpy it in the buf, \fP"
+.ti -1c
+.RI "int \fBgfal_lfc_set_host\fP (const char *host, GError **err)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 

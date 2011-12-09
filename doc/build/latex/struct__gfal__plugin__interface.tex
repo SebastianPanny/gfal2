@@ -79,7 +79,7 @@ int($\ast$ \bf{setxattr\-G} )(plugin\_\-handle, const char $\ast$, const char $\
 \item 
 int($\ast$ \bf{is\_\-used\_\-parameter} )(plugin\_\-handle, const char $\ast$namespace, const char $\ast$key)
 \item 
-int($\ast$ \bf{notify\_\-change\_\-parameter} )(plugin\_\-handle, const char $\ast$namespace, const char $\ast$key, GError $\ast$$\ast$err)
+void($\ast$ \bf{notify\_\-change\_\-parameter} )(plugin\_\-handle, const char $\ast$namespace, const char $\ast$key)
 \end{CompactItemize}
 
 
@@ -116,7 +116,7 @@ getxattr implementation, follow the getxattr behavior but with GError report sys
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::is\_\-used\_\-parameter})(plugin\_\-handle, const char $\ast$namespace, const char $\ast$key)}\label{struct__gfal__plugin__interface_ec669e59c0089062136f1c213bf95bd0}
 
 
-this function is called to inform plugin of a new parameter must return 0 if this parameter is used by the plugin else return -1 \begin{Desc}
+this function is called to inform plugin of a new parameter must return 1 if this parameter is used by the plugin else return 0 \begin{Desc}
 \item[Warning:]must be a NULL pointer if not used \end{Desc}
 \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!listxattrG@{listxattrG}}
 \index{listxattrG@{listxattrG}!_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
@@ -125,11 +125,13 @@ this function is called to inform plugin of a new parameter must return 0 if thi
 
 listxattr implementation, follow the listxattr behavior but with GError report system. \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!notify_change_parameter@{notify\_\-change\_\-parameter}}
 \index{notify_change_parameter@{notify\_\-change\_\-parameter}!_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
-\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::notify\_\-change\_\-parameter})(plugin\_\-handle, const char $\ast$namespace, const char $\ast$key, GError $\ast$$\ast$err)}\label{struct__gfal__plugin__interface_e0602ea71c149e21090912c6ac1b556f}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::notify\_\-change\_\-parameter})(plugin\_\-handle, const char $\ast$namespace, const char $\ast$key)}\label{struct__gfal__plugin__interface_1de0c0eb24ae2dae8ada69aec8670ddd}
 
 
-Notify a change of a parameter with the given Key to check the new value associated with the key, call gfal\_\-get\_\-$\ast$\_\-parameter functions \begin{Desc}
+called when a change occures on a parameter push the information to the plugins to check the new value associated with the key, call gfal\_\-get\_\-$\ast$\_\-parameter functions \begin{Desc}
 \item[Warning:]must be a NULL pointer if not used \end{Desc}
+\begin{Desc}
+\item[Returns:]0 if parameter changed or if no parameter triggered, -1 if major error with the new parameter \end{Desc}
 \index{_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}!plugin_delete@{plugin\_\-delete}}
 \index{plugin_delete@{plugin\_\-delete}!_gfal_plugin_interface@{\_\-gfal\_\-plugin\_\-interface}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ \bf{\_\-gfal\_\-plugin\_\-interface::plugin\_\-delete})(plugin\_\-handle)}\label{struct__gfal__plugin__interface_d146f62bd310f1f265f0bc3c37cc70d8}

@@ -1,4 +1,4 @@
-.TH "_gfal_plugin_interface" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "_gfal_plugin_interface" 3 "9 Dec 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -96,7 +96,7 @@ _gfal_plugin_interface \-
 .RI "int(* \fBis_used_parameter\fP )(plugin_handle, const char *namespace, const char *key)"
 .br
 .ti -1c
-.RI "int(* \fBnotify_change_parameter\fP )(plugin_handle, const char *namespace, const char *key, GError **err)"
+.RI "void(* \fBnotify_change_parameter\fP )(plugin_handle, const char *namespace, const char *key)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -126,7 +126,7 @@ function pointer for the access using the guid url
 getxattr implementation, follow the \fBgetxattr\fP behavior but with GError report system. 
 .SS "int(* \fB_gfal_plugin_interface::is_used_parameter\fP)(plugin_handle, const char *namespace, const char *key)"
 .PP
-this function is called to inform plugin of a new parameter must return 0 if this parameter is used by the plugin else return -1 
+this function is called to inform plugin of a new parameter must return 1 if this parameter is used by the plugin else return 0 
 .PP
 \fBWarning:\fP
 .RS 4
@@ -137,13 +137,18 @@ must be a NULL pointer if not used
 .SS "ssize_t(* \fB_gfal_plugin_interface::listxattrG\fP)(plugin_handle, const char *, char *list, size_t s_list, GError **err)"
 .PP
 listxattr implementation, follow the \fBlistxattr\fP behavior but with GError report system. 
-.SS "int(* \fB_gfal_plugin_interface::notify_change_parameter\fP)(plugin_handle, const char *namespace, const char *key, GError **err)"
+.SS "void(* \fB_gfal_plugin_interface::notify_change_parameter\fP)(plugin_handle, const char *namespace, const char *key)"
 .PP
-Notify a change of a parameter with the given Key to check the new value associated with the key, call gfal_get_*_parameter functions 
+called when a change occures on a parameter push the information to the plugins to check the new value associated with the key, call gfal_get_*_parameter functions 
 .PP
 \fBWarning:\fP
 .RS 4
 must be a NULL pointer if not used 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if parameter changed or if no parameter triggered, -1 if major error with the new parameter 
 .RE
 .PP
 

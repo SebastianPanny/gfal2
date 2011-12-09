@@ -1,4 +1,4 @@
-.TH "all POSIX style function" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "all POSIX style function" 3 "9 Dec 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -131,28 +131,28 @@ all POSIX style function \-
 .RI "int \fBgfal_flush\fP (int fd)"
 .br
 .ti -1c
-.RI "int \fBgfal_set_parameter_string\fP (const char *namespace, const char *key, const char *value)"
+.RI "int \fBgfal_set_parameter_string\fP (const char *namespc, const char *key, const char *value)"
 .br
 .ti -1c
-.RI "char * \fBgfal_get_parameter_string\fP (const char *namespace, const char *key)"
+.RI "char * \fBgfal_get_parameter_string\fP (const char *namespc, const char *key)"
 .br
 .ti -1c
-.RI "int \fBgfal_set_parameter_string_list\fP (const char *namespace, const char *key, const char *value[], size_t len)"
+.RI "int \fBgfal_set_parameter_string_list\fP (const char *namespc, const char *key, const char *value[], size_t len)"
 .br
 .ti -1c
-.RI "char ** \fBgfal_get_parameter_string_list\fP (const char *namespace, const char *key, size_t *s_buff)"
+.RI "char ** \fBgfal_get_parameter_string_list\fP (const char *namespc, const char *key, size_t *s_buff)"
 .br
 .ti -1c
-.RI "int \fBgfal_set_parameter_int\fP (const char *namespace, const char *key, int value)"
+.RI "int \fBgfal_set_parameter_int\fP (const char *namespc, const char *key, int value)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_parameter_int\fP (const char *namespace, const char *key)"
+.RI "int \fBgfal_get_parameter_int\fP (const char *namespc, const char *key)"
 .br
 .ti -1c
-.RI "int \fBgfal_get_parameter_boolean\fP (const char *namespace, const char *key)"
+.RI "int \fBgfal_get_parameter_boolean\fP (const char *namespc, const char *key)"
 .br
 .ti -1c
-.RI "int \fBgfal_set_parameter_boolean\fP (const char *namespace, const char *key, int bool_value)"
+.RI "int \fBgfal_set_parameter_boolean\fP (const char *namespc, const char *key, int bool_value)"
 .br
 .in -1c
 .SH "Function Documentation"

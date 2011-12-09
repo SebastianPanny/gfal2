@@ -61,6 +61,10 @@ int \bf{lfc\_\-setxattr\-G} (plugin\_\-handle handle, const char $\ast$path, con
 \item 
 char $\ast$ \bf{lfc\_\-resolve\_\-guid} (plugin\_\-handle handle, const char $\ast$guid, GError $\ast$$\ast$err)
 \item 
+int \bf{lfc\_\-is\_\-used\_\-parameter} (plugin\_\-handle handle, const char $\ast$namespace, const char $\ast$key)
+\item 
+void \bf{lfc\_\-notify\_\-change\_\-parameter} (plugin\_\-handle handle, const char $\ast$namespace, const char $\ast$key)
+\item 
 \bf{gfal\_\-plugin\_\-interface} \bf{gfal\_\-plugin\_\-init} (gfal\_\-handle handle, GError $\ast$$\ast$err)
 \item 
 gboolean \bf{gfal\_\-checker\_\-guid} (const char $\ast$guid, GError $\ast$$\ast$err)
@@ -142,12 +146,24 @@ lfc getxattr for the path -$>$ surls resolution \index{gfal_common_lfc.c@{gfal\_
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-getxattr\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, const char $\ast$ {\em name}, void $\ast$ {\em buff}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_81a95ba12afada4ce138ed309508f889}
 
 
-lfc getxattr implem \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_listxattrG@{lfc\_\-listxattrG}}
+lfc getxattr implem \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_is_used_parameter@{lfc\_\-is\_\-used\_\-parameter}}
+\index{lfc_is_used_parameter@{lfc\_\-is\_\-used\_\-parameter}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-is\_\-used\_\-parameter (plugin\_\-handle {\em handle}, const char $\ast$ {\em namespace}, const char $\ast$ {\em key})}\label{gfal__common__lfc_8c_f669f5bc357dba43cc9bf452d5cebf1c}
+
+
+signals the lfc parameters :\begin{itemize}
+\item LFC\_\-HOST : (lfc, host) \end{itemize}
+\index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_listxattrG@{lfc\_\-listxattrG}}
 \index{lfc_listxattrG@{lfc\_\-listxattrG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t lfc\_\-listxattr\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em path}, char $\ast$ {\em list}, size\_\-t {\em size}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b1b1a0499ef8e0fda5a569d34b5e0bee}
 
 
-lfc getxattr implem \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_renameG@{lfc\_\-renameG}}
+lfc getxattr implem \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_notify_change_parameter@{lfc\_\-notify\_\-change\_\-parameter}}
+\index{lfc_notify_change_parameter@{lfc\_\-notify\_\-change\_\-parameter}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void lfc\_\-notify\_\-change\_\-parameter (plugin\_\-handle {\em handle}, const char $\ast$ {\em namespace}, const char $\ast$ {\em key})}\label{gfal__common__lfc_8c_17278b0b118ad8453aae47db7bee6b67}
+
+
+Receive notification of a change in the parameter, take care of it \index{gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}!lfc_renameG@{lfc\_\-renameG}}
 \index{lfc_renameG@{lfc\_\-renameG}!gfal_common_lfc.c@{gfal\_\-common\_\-lfc.c}}
 \subsubsection{\setlength{\rightskip}{0pt plus 5cm}int lfc\_\-rename\-G (plugin\_\-handle {\em handle}, const char $\ast$ {\em oldpath}, const char $\ast$ {\em newpath}, GError $\ast$$\ast$ {\em err})}\label{gfal__common__lfc_8c_b9390ad8a22cb5a0137547bb894d85b7}
 

@@ -22,6 +22,9 @@ struct \textbf{lfc\_\-ops}
 \item 
 \#define \textbf{GFAL\_\-MAX\_\-LFCHOST\_\-LEN}~1024\label{lfc__ifce__ng_8h_4ba01f362057d237e7234f527da40cdb}
 
+\item 
+\#define \textbf{LFC\_\-ENV\_\-VAR\_\-HOST}~\char`\"{}LFC\_\-HOST\char`\"{}\label{lfc__ifce__ng_8h_84a94dcd9eab9338b6c0158a51483274}
+
 \end{CompactItemize}
 \subsection*{Typedefs}
 \begin{CompactItemize}
@@ -83,7 +86,10 @@ int \textbf{gfal\_\-lfc\_\-convert\_\-lstat} (struct stat $\ast$output, struct l
 
 \item 
 void \bf{gfal\_\-generate\_\-guid\-G} (char $\ast$buf, GError $\ast$$\ast$err)
-\begin{CompactList}\small\item\em generate an uiid string Generate a uuid string and cpy it in the buf, \item\end{CompactList}\end{CompactItemize}
+\begin{CompactList}\small\item\em generate an uiid string Generate a uuid string and cpy it in the buf, \item\end{CompactList}\item 
+int \textbf{gfal\_\-lfc\_\-set\_\-host} (const char $\ast$host, GError $\ast$$\ast$err)\label{lfc__ifce__ng_8h_8d1fdb84029a45d15dcd460c648f0fbc}
+
+\end{CompactItemize}
 
 
 \subsection{Detailed Description}

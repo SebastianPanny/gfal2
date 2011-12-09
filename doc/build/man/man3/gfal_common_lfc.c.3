@@ -1,4 +1,4 @@
-.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "10 Nov 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
+.TH "/home/adevress/myworkspace/gfal/src/common/lfc/gfal_common_lfc.c" 3 "9 Dec 2011" "Version 2.0.1" "CERN org.glite.Gfal" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -100,6 +100,12 @@
 .RI "char * \fBlfc_resolve_guid\fP (plugin_handle handle, const char *guid, GError **err)"
 .br
 .ti -1c
+.RI "int \fBlfc_is_used_parameter\fP (plugin_handle handle, const char *namespace, const char *key)"
+.br
+.ti -1c
+.RI "void \fBlfc_notify_change_parameter\fP (plugin_handle handle, const char *namespace, const char *key)"
+.br
+.ti -1c
 .RI "\fBgfal_plugin_interface\fP \fBgfal_plugin_init\fP (gfal_handle handle, GError **err)"
 .br
 .ti -1c
@@ -171,9 +177,19 @@ lfc getxattr for the path -> surls resolution
 .SS "ssize_t lfc_getxattrG (plugin_handle handle, const char * path, const char * name, void * buff, size_t size, GError ** err)"
 .PP
 lfc getxattr implem 
+.SS "int lfc_is_used_parameter (plugin_handle handle, const char * namespace, const char * key)"
+.PP
+signals the lfc parameters :
+.IP "\(bu" 2
+LFC_HOST : (lfc, host) 
+.PP
+
 .SS "ssize_t lfc_listxattrG (plugin_handle handle, const char * path, char * list, size_t size, GError ** err)"
 .PP
 lfc getxattr implem 
+.SS "void lfc_notify_change_parameter (plugin_handle handle, const char * namespace, const char * key)"
+.PP
+Receive notification of a change in the parameter, take care of it 
 .SS "int lfc_renameG (plugin_handle handle, const char * oldpath, const char * newpath, GError ** err)"
 .PP
 Implementation of the rename call for the lfc plugin return 0 if success else -1 if error and set GError 

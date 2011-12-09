@@ -364,32 +364,33 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>this function is called to inform plugin of a new parameter must return 0 if this parameter is used by the plugin else return -1 <simplesect kind="warning"><para>must be a NULL pointer if not used </para></simplesect>
+<para>this function is called to inform plugin of a new parameter must return 1 if this parameter is used by the plugin else return 0 <simplesect kind="warning"><para>must be a NULL pointer if not used </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin_interface.h" line="150"/>
       </memberdef>
-      <memberdef kind="variable" id="struct__gfal__plugin__interface_1e0602ea71c149e21090912c6ac1b556f" prot="public" static="no" mutable="no">
-        <type>int(*</type>
-        <definition>int(* _gfal_plugin_interface::notify_change_parameter)(plugin_handle, const char *namespace, const char *key, GError **err)</definition>
-        <argsstring>)(plugin_handle, const char *namespace, const char *key, GError **err)</argsstring>
+      <memberdef kind="variable" id="struct__gfal__plugin__interface_11de0c0eb24ae2dae8ada69aec8670ddd" prot="public" static="no" mutable="no">
+        <type>void(*</type>
+        <definition>void(* _gfal_plugin_interface::notify_change_parameter)(plugin_handle, const char *namespace, const char *key)</definition>
+        <argsstring>)(plugin_handle, const char *namespace, const char *key)</argsstring>
         <name>notify_change_parameter</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Notify a change of a parameter with the given Key to check the new value associated with the key, call gfal_get_*_parameter functions <simplesect kind="warning"><para>must be a NULL pointer if not used </para></simplesect>
+<para>called when a change occures on a parameter push the information to the plugins to check the new value associated with the key, call gfal_get_*_parameter functions <simplesect kind="warning"><para>must be a NULL pointer if not used </para></simplesect>
+<simplesect kind="return"><para>0 if parameter changed or if no parameter triggered, -1 if major error with the new parameter </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin_interface.h" line="157"/>
+        <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin_interface.h" line="159"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para>Main Interface that Must return the function &quot;gfal_plugin_init&quot; of each plugin of GFAL 2.0 the minimums calls are : getName, plugin_delete, check_plugin_url all the unused function pointers must be set to NULL </para>    </detaileddescription>
-    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin_interface.h" line="70" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin_interface.h" bodystart="70" bodyend="158"/>
+    <location file="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin_interface.h" line="70" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_plugin_interface.h" bodystart="70" bodyend="160"/>
     <listofallmembers>
       <member refid="struct__gfal__plugin__interface_11fa81d7a219629281c14b05116d32202" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>accessG</name></member>
       <member refid="struct__gfal__plugin__interface_1e1ab2d2c3ea35095446a2c14734b5f4c" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>check_plugin_url</name></member>
@@ -404,7 +405,7 @@
       <member refid="struct__gfal__plugin__interface_1424d4d77e29e5e4cfe92eae0d6a8bdc2" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>lseekG</name></member>
       <member refid="struct__gfal__plugin__interface_15654611b3cce424dfa4bf03a5af7bed5" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>lstatG</name></member>
       <member refid="struct__gfal__plugin__interface_1cc4f3b17ce3b809ec001fb603a3fc7b4" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>mkdirpG</name></member>
-      <member refid="struct__gfal__plugin__interface_1e0602ea71c149e21090912c6ac1b556f" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>notify_change_parameter</name></member>
+      <member refid="struct__gfal__plugin__interface_11de0c0eb24ae2dae8ada69aec8670ddd" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>notify_change_parameter</name></member>
       <member refid="struct__gfal__plugin__interface_1e651878dc579a4a7d40bb928a3d2cecd" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>opendirG</name></member>
       <member refid="struct__gfal__plugin__interface_1516c2debbc66416f16288ebc983399f0" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>openG</name></member>
       <member refid="struct__gfal__plugin__interface_1d146f62bd310f1f265f0bc3c37cc70d8" prot="public" virt="non-virtual"><scope>_gfal_plugin_interface</scope><name>plugin_delete</name></member>

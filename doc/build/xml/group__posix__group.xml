@@ -1085,7 +1085,7 @@
 <para>return a string of the current gfal version </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="106" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="140" bodyend="142"/>
+        <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="106" bodyfile="/home/adevress/myworkspace/gfal/src/common/gfal_common_all.c" bodystart="139" bodyend="141"/>
       </memberdef>
       <memberdef kind="function" id="group__posix__group_1gae43f250cf82271ee59b19d008b29ad8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -1104,14 +1104,14 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="109" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="406" bodyend="408"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g1e2e8a22bfc4927e4d4ca91d501633a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g4d93cdd2e28dc1999a6d4bec9b31a871" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_set_parameter_string</definition>
-        <argsstring>(const char *namespace, const char *key, const char *value)</argsstring>
+        <argsstring>(const char *namespc, const char *key, const char *value)</argsstring>
         <name>gfal_set_parameter_string</name>
         <param>
           <type>const char *</type>
-          <declname>namespace</declname>
+          <declname>namespc</declname>
         </param>
         <param>
           <type>const char *</type>
@@ -1129,14 +1129,14 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="113" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="430" bodyend="432"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g9cddf85bdb0e56b21c8bc57583ecd5fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g936e56956c5c0edcd5e1123cc48a1d27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
         <definition>char* gfal_get_parameter_string</definition>
-        <argsstring>(const char *namespace, const char *key)</argsstring>
+        <argsstring>(const char *namespc, const char *key)</argsstring>
         <name>gfal_get_parameter_string</name>
         <param>
           <type>const char *</type>
-          <declname>namespace</declname>
+          <declname>namespc</declname>
         </param>
         <param>
           <type>const char *</type>
@@ -1150,14 +1150,14 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="114" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="445" bodyend="447"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gf217564835bb0d0db65ee5b8615da2dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g9bafab6b2307823110e7663d997d58fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_set_parameter_string_list</definition>
-        <argsstring>(const char *namespace, const char *key, const char *value[], size_t len)</argsstring>
+        <argsstring>(const char *namespc, const char *key, const char *value[], size_t len)</argsstring>
         <name>gfal_set_parameter_string_list</name>
         <param>
           <type>const char *</type>
-          <declname>namespace</declname>
+          <declname>namespc</declname>
         </param>
         <param>
           <type>const char *</type>
@@ -1180,14 +1180,14 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="116"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g9712ced15f262bc99b2c65c960cc80ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g0634782c1537beb3b8d9735935b33104" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char **</type>
         <definition>char** gfal_get_parameter_string_list</definition>
-        <argsstring>(const char *namespace, const char *key, size_t *s_buff)</argsstring>
+        <argsstring>(const char *namespc, const char *key, size_t *s_buff)</argsstring>
         <name>gfal_get_parameter_string_list</name>
         <param>
           <type>const char *</type>
-          <declname>namespace</declname>
+          <declname>namespc</declname>
         </param>
         <param>
           <type>const char *</type>
@@ -1205,14 +1205,14 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="117"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1gb2f2e3e4ce52a9b4e306a8af2ce1642b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g5b629794b469291523731d18e37d47f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_set_parameter_int</definition>
-        <argsstring>(const char *namespace, const char *key, int value)</argsstring>
+        <argsstring>(const char *namespc, const char *key, int value)</argsstring>
         <name>gfal_set_parameter_int</name>
         <param>
           <type>const char *</type>
-          <declname>namespace</declname>
+          <declname>namespc</declname>
         </param>
         <param>
           <type>const char *</type>
@@ -1230,14 +1230,14 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="119" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="462" bodyend="464"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g87fe88667990c1c3b288e62d708831ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g6e4c9f15ebca7fb0a2eabff3c1358a7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_get_parameter_int</definition>
-        <argsstring>(const char *namespace, const char *key)</argsstring>
+        <argsstring>(const char *namespc, const char *key)</argsstring>
         <name>gfal_get_parameter_int</name>
         <param>
           <type>const char *</type>
-          <declname>namespace</declname>
+          <declname>namespc</declname>
         </param>
         <param>
           <type>const char *</type>
@@ -1251,14 +1251,14 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="120" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="478" bodyend="480"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g2b30e8c9e59dada006127568d016cd1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g2466ac95396b160d91a85f5720e3372d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_get_parameter_boolean</definition>
-        <argsstring>(const char *namespace, const char *key)</argsstring>
+        <argsstring>(const char *namespc, const char *key)</argsstring>
         <name>gfal_get_parameter_boolean</name>
         <param>
           <type>const char *</type>
-          <declname>namespace</declname>
+          <declname>namespc</declname>
         </param>
         <param>
           <type>const char *</type>
@@ -1272,14 +1272,14 @@
         </inbodydescription>
         <location file="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_api.h" line="123" bodyfile="/home/adevress/myworkspace/gfal/src/posix/gfal_posix_ng.c" bodystart="508" bodyend="510"/>
       </memberdef>
-      <memberdef kind="function" id="group__posix__group_1g1566e98417764b361a733c55ea4d5c2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__posix__group_1g7fc063358123fdac94ef6b519f7be89d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int gfal_set_parameter_boolean</definition>
-        <argsstring>(const char *namespace, const char *key, int bool_value)</argsstring>
+        <argsstring>(const char *namespc, const char *key, int bool_value)</argsstring>
         <name>gfal_set_parameter_boolean</name>
         <param>
           <type>const char *</type>
-          <declname>namespace</declname>
+          <declname>namespc</declname>
         </param>
         <param>
           <type>const char *</type>

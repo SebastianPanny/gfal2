@@ -15,7 +15,7 @@ echo "#!/bin/bash " > $filename
 echo "source /etc/profile" >> $filename
 echo "export LCG_GFAL_INFOSYS=$BDII_ENDPOINT" >> $filename
 echo "export LFC_HOST=$LFC_ENDPOINT" >> $filename
-echo "export LD_LIBRARY_PATH=/usr/local/lib/:$LD_LIBRARY_PATH" >> $filename
+echo "export LD_LIBRARY_PATH=/usr/local/lib/:/usr/local/lib64/:$LD_LIBRARY_PATH" >> $filename
 echo "\`dirname \$0\`/test_verbose $i" >> $filename
 chmod 775 $filename
 done
