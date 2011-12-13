@@ -35,7 +35,10 @@ isifce=False
 
 # global var
 etics_build_dir= "/usr/" # disable
-version= '2.0'
+version_major= '2'
+version_minor= '0'
+version_patch= '0'
+version = ".".join([version_major, version_minor, version_patch])
 package_version = '1.17_preview'
 license_type = "Apache Software License"
 
@@ -92,6 +95,13 @@ libs=[ '#'+build_dir+'/libs'] +   dpm_lib_dir+ dcap_lib_dir+ srmifce_lib_dir+ lf
 cflags=['-DVERSION='+version, '-Wall','-D_LARGEFILE64_SOURCE','-pthread' ] # 
 # create default env
 env = Environment(tools=['default', 'packaging'], CPPPATH= headers, LIBPATH=libs, CFLAGS=cflags, LIBS=link_libs)
+
+
+env["VERSION_MAJOR"]=version_major
+env["VERSION_MINOR"]=version_minor
+env["VERSION_PATCH"]=version_patch
+
+
 env.ParseConfig('pkg-config --cflags --libs glib-2.0')
 env.ParseConfig('pkg-config --libs gthread-2.0')
 ## add generic builder for symlink
@@ -221,10 +231,9 @@ if(main_devel):
 	header_main = env.Install('/usr/include/gfal2/', "src/gfal_api.h" )
 	header_main2= env.Install('/usr/include/gfal2/common/', "src/common/gfal_constants.h")
 	header_main3= env.Install('/usr/include/gfal2/posix/', "src/posix/gfal_posix_api.h" )
-	static_main = env.Install('/usr/'+libdir+'/', staticlib)
 	example_main = env.Install('/usr/share/gfal2/example/', Glob("testing/example/*.c"))
 	pkg_config = env.Install('/usr/lib64/pkgconfig/', Glob('dist/lib64/pkgconfig/libgfal2.pc'))
-	install_list += [header_main, header_main2, header_main3, static_main, example_main, pkg_config] 
+	install_list += [header_main, header_main2, header_main3, example_main, pkg_config] 
 	x_rpm_install = define_rpm_install(arguments_to_str());
 	pack_list += env.Package( 
 			 NAME     = 'gfal2-core-devel',
@@ -239,7 +248,7 @@ if(main_devel):
 			 X_RPM_BUILD = define_rpm_build(arguments_to_str()),			 
 			 X_RPM_INSTALL= x_rpm_install,
 			 X_RPM_REQUIRES = 'glib2-devel, gfal2-core',
-			 source= [header_main, header_main2, header_main3, static_main, example_main, pkg_config] 
+			 source= [header_main, header_main2, header_main3, example_main, pkg_config] 
 			 )
 			 
 			 

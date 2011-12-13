@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <attr/xattr.h>
 
 #include <common/gfal_constants.h>
 

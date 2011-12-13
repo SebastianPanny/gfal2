@@ -63,8 +63,8 @@ enum _plugin_mode{
 /**
  * @struct _gfal_plugin_interface 
  * 
- *  Main Interface that Must return the function "gfal_plugin_init" of each plugin of GFAL 2.0
- *  the minimums calls are : getName, plugin_delete, check_plugin_url
+ *  main Interface that MUST be returned the entry point function "gfal_plugin_init" of each GFAL 2.0 plugin.
+ *  the minimum calls are : getName, plugin_delete, check_plugin_url
  *  all the unused function pointers must be set to NULL
  */
 struct _gfal_plugin_interface{
