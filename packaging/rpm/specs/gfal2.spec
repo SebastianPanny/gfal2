@@ -33,8 +33,8 @@ Core and main files of GFAL 2.0
 %package devel
 Summary:			Development files for GFAL 2.0
 Group:				Applications/Internet
-Requires: 			gfal2-core%{?_isa} >= %{version}
-Requires: 			libattr-devel%{?_isa} 
+Requires:			gfal2-core%{?_isa} >= %{version}
+Requires:			libattr-devel%{?_isa} 
 
 %description devel
 development files for GFAL 2.0
@@ -51,8 +51,8 @@ Doxygen documentation of gfal 2.0 .
 Summary:			Provide the lfc access for gfal2.0
 Group:				Applications/Internet
 BuildRequires:		lfc-devel%{?_isa}
-Requires: 			gfal2-core%{?_isa} >= %{version}
-Requires: 			lfc-libs%{?_isa}
+Requires:			gfal2-core%{?_isa} >= %{version}
+Requires:			lfc-libs%{?_isa}
 
 %description plugin-lfc
 Provide the lfc access (lfn :// ) for gfal2.0, lfc plugin
@@ -184,7 +184,7 @@ main_doc=yes --install-sandbox="$RPM_BUILD_ROOT" install
 
 %files all
 %defattr (-,root,root)
-%{_datadir}/gfal2/LICENSE
+%doc %{_datadir}/gfal2/LICENSE
 
 %files plugin-devel
 %defattr (-,root,root)

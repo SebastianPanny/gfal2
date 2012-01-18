@@ -11,8 +11,8 @@ import subprocess
 import glob
 import time
 
-from scons_mods import packaging_lib
-from scons_mods import changelog_utils
+from SConsAddons import packaging_lib
+from SConsAddons import changelog_utils
 
 ## global vars
 debug_mode = False;
