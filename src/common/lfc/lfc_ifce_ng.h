@@ -28,15 +28,16 @@
  
 #define GFAL_MAX_LFCHOST_LEN 1024
 
-#include <lfc_api.h>
+#include <lfc/lfc_api.h>
+#include <lfc/serrno.h>
 #include <Cthread_api.h>
 #include <Cthread_typedef.h>
 #include <regex.h>
 
-#include "../gfal_prototypes.h"
-#include "../gfal_types.h"
-#include "../gfal_constants.h"
-#include "../../externals/gsimplecache/gcachemain.h"
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_constants.h>
+#include <externals/gsimplecache/gcachemain.h>
 
 
 #define LFC_ENV_VAR_HOST "LFC_HOST"
@@ -74,7 +75,7 @@ struct lfc_ops {
 	int	(*seterrbuf)(char *, int);
 	int	(*setfsizeg)(const char *, u_signed64, const char *, char *);
 	int	(*setfsize)(const char *, struct lfc_fileid *, u_signed64);
-	int	(*starttrans)(const char *, const char *);
+	int	(*starttrans)(char *, char *);
 	int	(*statg)(const char *, const char *, struct lfc_filestatg *);
 	int	(*statr)(const char *, struct lfc_filestatg *);
 	int	(*symlink)(const char *, const char *);
@@ -89,7 +90,7 @@ struct lfc_ops {
 	int	(*rmdir)(const char *);
 	int (*startsess) (char *, char *); 
 	int (*endsess) ();
-	void (*Cthread_init)();
+	int (*Cthread_init)();
 	void (*_Cthread_addcid)(char *, int, char *, int, Cth_pid_t *, unsigned, void *(*)(void *), int);
 };
 

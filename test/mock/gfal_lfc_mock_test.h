@@ -5,10 +5,17 @@
  
 */
 
-#include <lfc_api.h>
+#include <lfc/lfc_api.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <dirent.h>
+
+void test_mock_lfc(gfal_handle handle, GError** err);
+
+void add_mock_error_lfc_guid_resolution(const char * lfn, int error);
+void add_mock_valid_lfc_guid_resolution(const char * lfn, const char* guid);
+
+void setup_mock_lfc();
 
 
 extern int lfc_last_err;

@@ -6,6 +6,10 @@
  */
 
 
+void setup_mock_bdii();
+
+void mock_endpoint_answer(const char * endpoint, const char * basename);
+
 
 extern char** define_se_endpoints;
 extern char** define_se_types;

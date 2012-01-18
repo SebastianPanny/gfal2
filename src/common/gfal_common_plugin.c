@@ -618,7 +618,7 @@ ssize_t gfal_plugin_getxattrG(gfal_handle handle, const char* path, const char*n
 	}	
 	int getxattr_executor(gfal_plugin_interface* cata_list, GError** terr){
 		resu= cata_list->getxattrG(cata_list->handle, path, name, buff, s_buff, terr);
-		return (int)resu;
+		return (int)(resu>=0)?0:-1;
 	}
 	
 	gfal_plugins_operation_executor(handle, &getxattr_checker, &getxattr_executor, &tmp_err);
@@ -637,7 +637,7 @@ ssize_t gfal_plugin_listxattrG(gfal_handle handle, const char* path, char* list,
 	}	
 	int listxattr_executor(gfal_plugin_interface* cata_list, GError** terr){
 		resu= cata_list->listxattrG(cata_list->handle, path, list, s_list, terr);
-		return (int)resu;
+		return (int)(resu>=0)?0:-1;
 	}
 	
 	gfal_plugins_operation_executor(handle, &listxattr_checker, &listxattr_executor, &tmp_err);

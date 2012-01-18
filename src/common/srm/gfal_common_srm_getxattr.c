@@ -28,14 +28,15 @@
 #include <string.h>
 
 #include "gfal_common_srm.h"
-#include "../gfal_constants.h"
-#include "../gfal_common_errverbose.h"
+#include <common/gfal_constants.h>
+#include <common/gfal_common_errverbose.h>
 #include "gfal_common_srm_internal_layer.h" 
 #include "gfal_common_srm_getxattr.h"
 
 static const char* srm_geturl_key = SRM_XATTR_GETURL;
+static const char* srm_status_key = GFAL_XATTR_STATUS;
 
-static char* srm_listxattr[]= { SRM_XATTR_GETURL, NULL };
+static char* srm_listxattr[]= { SRM_XATTR_GETURL, GFAL_XATTR_STATUS, NULL };
 
 
 ssize_t gfal_srm_geturl_getxattrG(plugin_handle handle, const char* path, const char* name , void* buff, size_t s_buff, GError** err){
@@ -49,10 +50,9 @@ ssize_t gfal_srm_geturl_getxattrG(plugin_handle handle, const char* path, const 
 		ret = strlen(buff)* sizeof(char);
 	}
 
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return ret;		
+	G_RETURN_ERR(ret, tmp_err, err);	
 }
+
 
 /**
  * implementation of the getxattr for turl resolution, pin management and spacetoken set/get
@@ -61,15 +61,17 @@ ssize_t gfal_srm_geturl_getxattrG(plugin_handle handle, const char* path, const 
 ssize_t gfal_srm_getxattrG(plugin_handle handle, const char* path, const char* name , void* buff, size_t s_buff, GError** err){
 	GError* tmp_err=NULL;
 	ssize_t ret = -1;
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, " gfal_srm_getxattrG ->");
 	if(strcmp(name, srm_geturl_key) == 0){
 		ret = gfal_srm_geturl_getxattrG(handle, path, name, buff, s_buff, &tmp_err);
+	}else if(strcmp(name, srm_status_key) ==0 ){
+		ret = gfal_srm_status_getxattrG(handle, path, name, buff, s_buff, &tmp_err);
 	}else{ // need to add pin and spacetoken
 		g_set_error(&tmp_err, 0, ENOATTR, "not an existing extended attribute");
 	}
 	
-	if(tmp_err)
-		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
-	return ret;	
+	gfal_print_verbose(GFAL_VERBOSE_TRACE, " gfal_srm_getxattrG <- ");
+	G_RETURN_ERR(ret, tmp_err, err);	
 }
 
 

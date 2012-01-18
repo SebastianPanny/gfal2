@@ -12,6 +12,46 @@
 #include <errno.h>
 #include <stdlib.h>
 
+#include "../unit_test_util.h"
+
+void setup_mock_srm(){
+	if(gfal2_tests_is_mock() ){
+		setup_mock_bdii();
+		gfal_srm_external_call.srm_prepare_to_get = &srm_mock_srm_prepare_to_get;
+		gfal_srm_external_call.srm_prepare_to_put = &srm_mock_srm_prepare_to_put;
+		gfal_srm_external_call.srm_context_init = &srm_mock_srm_context_init;
+		gfal_srm_external_call.srm_check_permission= &srm_mock_srm_check_permission;
+		gfal_srm_external_call.srm_ls = &srm_mock_srm_ls;
+		gfal_srm_external_call.srm_mkdir = &srm_mock_srm_mkdir;
+		gfal_srm_external_call.srm_rmdir = &srm_mock_srm_rmdir;
+		gfal_srm_external_call.srm_put_done = &srm_mock_srm_put_done;
+		gfal_srm_external_call.srm_setpermission= & srm_mock_srm_setpermission;
+		gfal_srm_external_call.srm_srmv2_pinfilestatus_delete = &srm_mock_srm_srmv2_pinfilestatus_delete;
+		gfal_srm_external_call.srm_srm2__TReturnStatus_delete = &srm_mock_srm_srm2__TReturnStatus_delete;
+	}
+}
+
+
+void add_mock_srm_ls_locality_valid(const char* file, const char* endpoint, TFileLocality tl){
+	if(gfal2_tests_is_mock() ){
+		define_mock_locality_file_valid(file, tl);
+		define_mock_endpoints(endpoint);
+
+		will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, endpoint));
+		will_respond(srm_mock_srm_ls, 0, want_non_null(context), want_non_null(inut), want_non_null(output));	
+	}	
+}
+
+
+void add_mock_srm_ls_error(const char* file, const char* endpoint, int status, const char* err){
+	if(gfal2_tests_is_mock()){
+		define_mock_stat_file_error(file, status, err);
+		define_mock_endpoints(endpoint);
+		will_respond(srm_mock_srm_context_init, 0, want_non_null(context), want_string(srm_endpoint, endpoint));
+		will_respond(srm_mock_srm_ls, 0, want_non_null(context), want_non_null(inut), want_non_null(output));			
+	}	
+}
+
 
 struct srm_ls_output defined_srm_ls_output;
 struct srm_rmdir_output defined_srm_rmdir_output;
@@ -28,6 +68,14 @@ void define_mock_stat_file_valid(char* surl, mode_t mode, uid_t uid, gid_t gid){
 	defined_srm_ls_output.statuses->stat.st_mode = mode;
 	defined_srm_ls_output.statuses->stat.st_uid = uid;
 	defined_srm_ls_output.statuses->stat.st_gid= gid;
+	
+}
+
+void define_mock_locality_file_valid(char* surl, TFileLocality tl){
+	defined_srm_ls_output.statuses= g_new0(struct srmv2_mdfilestatus,1);
+	defined_srm_ls_output.statuses->surl = strdup(surl);
+	memset(&defined_srm_ls_output.statuses->stat, 0, sizeof(struct stat));
+	defined_srm_ls_output.statuses->locality = tl;
 	
 }
 

@@ -27,10 +27,10 @@
 #include <string.h>
 #include <regex.h>
 
-#include "../gfal_prototypes.h"
-#include "../gfal_types.h"
-#include "../gfal_constants.h"
-#include "../../externals/gsimplecache/gcachemain.h"
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_constants.h>
+#include <externals/gsimplecache/gcachemain.h>
 
 
 

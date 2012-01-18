@@ -33,4 +33,6 @@
 
 ssize_t gfal_srm_getxattrG(plugin_handle handle, const char* path, const char* name , void* buff, size_t s_buff, GError** err);
 
+ssize_t gfal_srm_status_getxattrG(plugin_handle handle, const char* path, const char* name , void* buff, size_t s_buff, GError** err);
+
 ssize_t gfal_srm_listxattrG(plugin_handle handle, const char* path, char* list, size_t size, GError** err);

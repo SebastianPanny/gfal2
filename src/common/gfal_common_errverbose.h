@@ -34,10 +34,19 @@
 
 extern const char* no_err;
 
-/** @def macro for fast debug purpose
+/** @def macro for error error report on args
  * 
  */
 #define g_return_val_err_if_fail(exp,val,err,msg) if(!(exp)){ g_set_error(err,0,EINVAL,msg); return val; }
+
+/**
+ * @def macro for one-line return with error management exception-like
+ * */
+#define G_RETURN_ERR(ret, tmp_err, err) \
+if(tmp_err)\
+	g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);\
+return ret
+
 
 void gfal_print_verbose(int verbose_lvl,const char* msg, ...);
 /**
@@ -59,7 +68,7 @@ char* gfal_str_GError(GError** err);
 char* gfal_str_GError_r(GError** err, char* buff_err, size_t s_err);
 
 
-#if (GLIB_CHECK_VERSION(2,16,0) != TRUE)			// add a advanced functions of glib for old version of glib
+#if (GLIB_CHECK_VERSION(2,16,0) != TRUE)			// add a advanced functions of glib for the old versions 
 
 #define ERROR_OVERWRITTEN_WARNING "GError set over the top of a previous GError or uninitialized memory.\n"
  

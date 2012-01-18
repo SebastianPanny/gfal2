@@ -22,12 +22,14 @@
  * @version 2.0
  * @date 29/09/2011
  * */
-#include "gfal_common_srm.h"
-#include "gfal_common_srm_access.h"
-#include "../gfal_constants.h"
-#include "../gfal_common_errverbose.h"
-#include "gfal_common_srm_internal_layer.h" 
-#include "gfal_common_srm_endpoint.h"
+
+#define _GNU_SOURCE
+ 
+#include <common/gfal_constants.h>
+#include <common/gfal_common_errverbose.h> 
+ 
+#include "gfal_common_srm_internal_layer.h"
+
 
 
 

@@ -87,7 +87,7 @@ int	gfal_srm_chmodG(plugin_handle ch, const char * path , mode_t mode, GError** 
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	GError* tmp_err=NULL;
 	int ret=-1;	
-	char full_endpoint[2048];
+	char full_endpoint[GFAL_URL_MAX_LEN];
 	enum gfal_srm_proto srm_types;
 	if((gfal_srm_determine_endpoint(opts, path, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint										
 		gfal_print_verbose(GFAL_VERBOSE_NORMAL, "[gfal_srm_chmodG] endpoint %s", full_endpoint);

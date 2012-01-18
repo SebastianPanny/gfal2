@@ -9,7 +9,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <glib.h>
-#include <lfc_api.h>
+#include <lfc/lfc_api.h>
 
 #include <common/gfal_prototypes.h>
 #include <common/gfal_types.h>

@@ -5,7 +5,7 @@
  
 */
 
-void setup_mock_srm();
+
 
 void mock_srm_access_error_response(char* surl, int merror);
 void mock_srm_access_right_response(char* surl);

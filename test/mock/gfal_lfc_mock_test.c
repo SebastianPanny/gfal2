@@ -16,11 +16,73 @@
 #include <common/gfal_prototypes.h>
 #include <common/gfal_types.h>
 #include <common/gfal_constants.h>
+#include <common/lfc/lfc_ifce_ng.h>
+
 #include "gfal_lfc_mock_test.h"
 
 
-#include "../../src/common/lfc/gfal_common_lfc.h"
-#include "../../src/common/gfal_common_filedescriptor.h"
+#include <common/lfc/gfal_common_lfc.h>
+#include <common/gfal_common_filedescriptor.h>
+
+#include "../unit_test_util.h"
+
+static void test_internal_generic_copy(gpointer origin, gpointer copy){
+	memcpy(copy, origin, sizeof(struct stat));
+}
+
+// mocking function internal to gfal
+void test_mock_lfc(gfal_handle handle, GError** err){
+
+	if(gfal2_tests_is_mock()){
+		struct lfc_ops* ops = find_lfc_ops(handle, err); 
+		ops->lfc_endpoint = NULL;
+		ops->handle = handle;
+		ops->cache_stat= gsimplecache_new(50000000, &test_internal_generic_copy, sizeof(struct stat));
+		gfal_lfc_regex_compile(&(ops->rex), err);
+		ops->statg = &lfc_mock_statg;
+		ops->rename = &lfc_mock_rename;
+		ops->get_serrno = &lfc_mock_C__serrno;
+		ops->access = &lfc_mock_access;
+		ops->sstrerror = &strerror;
+		ops->getreplica = &lfc_mock_getreplica;
+		ops->getlinks= &lfc_mock_getlinks;
+		ops->lstat= &lfc_mock_lstatg;
+		ops->chmod = &lfc_mock_chmod;
+		ops->rmdir = &lfc_mock_rmdir;
+		ops->mkdirg = &lfc_mock_mkdir;
+		ops->starttrans= &lfc_mock_starttrans;
+		ops->endtrans= &lfc_mock_endtrans;
+		ops->aborttrans= &lfc_mock_aborttrans;
+		ops->opendirg = &lfc_mock_opendir;
+		ops->readdir = &lfc_mock_readdir;
+		ops->closedir = &lfc_mock_closedir;
+		ops->endsess= &lfc_mock_endsess;
+		ops->startsess = &lfc_mock_startsession;
+		ops->readdirx = &lfc_mock_readdirx;
+
+	}
+}
+
+void add_mock_error_lfc_guid_resolution(const char * lfn, int error){
+	if(gfal2_tests_is_mock()){
+		will_respond(lfc_mock_statg, error, want_string(path, lfn), want_non_null(linkinfos));
+	}
+}
+
+void add_mock_valid_lfc_guid_resolution(const char * lfn, const char* guid){
+	if(gfal2_tests_is_mock()){
+		define_mock_filestatg_guid(555,1,1,guid);
+		will_respond(lfc_mock_statg, 0, want_string(path, lfn), want_non_null(linkinfos));
+	}
+}
+
+void setup_mock_lfc(){
+	GError * mock_err;
+	gfal_handle handle = gfal_posix_instance();
+	gfal_plugins_instance(handle,NULL);
+	test_mock_lfc(handle, &mock_err);
+}
+
 
 int lfc_last_err=0;
 struct lfc_filestatg* defined_filestatg=NULL;
@@ -53,6 +115,14 @@ void define_lfc_comment(char* comment){
 void define_mock_filestatg(mode_t mode, int gid, int uid){
 	defined_filestatg= calloc(sizeof(struct lfc_filestatg),1);
 	defined_filestatg->filemode = mode;
+	defined_filestatg->uid = uid ;
+	defined_filestatg->gid= gid ;		
+}
+
+void define_mock_filestatg_guid(mode_t mode, int gid, int uid, char* guid){
+	defined_filestatg= calloc(sizeof(struct lfc_filestatg),1);
+	defined_filestatg->filemode = mode;
+	strcpy(defined_filestatg->guid, guid);
 	defined_filestatg->uid = uid ;
 	defined_filestatg->gid= gid ;		
 }

@@ -13,22 +13,26 @@ import time
 
 from SConsAddons import packaging_lib
 from SConsAddons import changelog_utils
+from SConsAddons import ArgumentUtils
+from SConsAddons import EnvironmentBuilder
+from SConsAddons import ReleaseDebugConfig
 
 ## global vars
+# scopes
 debug_mode = False;
-plugin_dcap = False
-plugin_rfio=False
-plugin_srm=False
-plugin_lfc=False
-main_core=False
-main_devel=False
-main_doc=False
-main_meta=False
-main_tests=False
-plugin_devel = False
+plugin_dcap = ArgumentUtils.Parameter_bool("plugin_dcap", False) 
+plugin_rfio= ArgumentUtils.Parameter_bool("plugin_rfio", False)
+plugin_srm= ArgumentUtils.Parameter_bool("plugin_srm", False)
+plugin_lfc= ArgumentUtils.Parameter_bool("plugin_lfc", False)
+main_core= ArgumentUtils.Parameter_bool("main_core", False)
+main_devel= ArgumentUtils.Parameter_bool("main_devel", False)
+main_doc= ArgumentUtils.Parameter_bool("main_doc", False)
+main_meta= ArgumentUtils.Parameter_bool("main_meta", False)
+main_tests= ArgumentUtils.Parameter_bool("main_tests", False)
+plugin_devel = ArgumentUtils.Parameter_bool("plugin_devel", False)
 
 ## config var
-isifce=False
+isifce= ArgumentUtils.Parameter_bool("isifce", False)
 
 ##
 
@@ -42,7 +46,7 @@ version = ".".join([version_major, version_minor, version_patch])
 package_version = '1.17_preview'
 license_type = "Apache Software License"
 
-scons_mods_files = Glob("#scons_mods/*.py")
+scons_mods_files = Glob("#SConsAddons/*.py")
 changelog = changelog_utils.get_rpm_changelog_from_file()
 
 build_deps = scons_mods_files + [File("#CHANGELOG")]
@@ -77,7 +81,7 @@ isifce_header_dir, isifce_lib_dir = get_depconf('isifce_path', include_path='inc
 # old gfal header for testing/example 
 old_gfal_header= get_depconf('old_gfal_path')[0]
 
-link_libs= ['m','uuid','c','dl','glib-2.0']
+link_libs= ['m','uuid','c','dl']
 
 build_dir = 'build'
 
@@ -85,7 +89,6 @@ build_dir = 'build'
 build_dir_src = build_dir +'/src'
 build_dir_externals = build_dir_src + '/externals'
 build_dir_test= build_dir +'/test/src'
-
 
 
 	
@@ -114,45 +117,8 @@ env.PrependENVPath('LD_LIBRARY_PATH', map(lambda x :Dir(x).get_abspath(), libs))
 
 print " ld path : " + env['ENV']['LD_LIBRARY_PATH'] 
 
-# debug mode
-if ARGUMENTS.get('debug','0') =='yes':
-	print "DEBUG MODE"
-	debug_mode = True
-	env.Append(CFLAGS='-g')
-
-# profile mode
-if ARGUMENTS.get('profile','0') =='yes':
-	print "PROFILE MODE"
-	env.Append(CFLAGS='-pg', LINKFLAGS=['-pg'])
+env = ReleaseDebugConfig.ConfigureBuildTarget(env) # add rel/debug/profile
 	
-# prod mode
-if ARGUMENTS.get('production','0') =='yes':
-	print "prod MODE"
-	env.Append(CFLAGS='-O3')
-	
-# scopes
-if ARGUMENTS.get('plugin_rfio','no') =='yes':
-	plugin_rfio=True
-if ARGUMENTS.get('plugin_dcap','no') =='yes':
-	plugin_dcap=True
-if ARGUMENTS.get('plugin_srm','no') =='yes':
-	plugin_srm=True
-if ARGUMENTS.get('plugin_lfc','no') =='yes':
-	plugin_lfc=True
-if ARGUMENTS.get('main_core','no') =='yes':
-	main_core=True
-if ARGUMENTS.get('main_devel','no') =='yes':
-	main_devel=True
-if ARGUMENTS.get('main_doc','no') =='yes':
-	main_doc=True
-if ARGUMENTS.get('main_meta','no') =='yes':
-	main_meta=True
-if ARGUMENTS.get('main_tests','no') =='yes':
-	main_tests=True
-if ARGUMENTS.get("isifce", "no") == "yes":
-	isifce = True
-if ARGUMENTS.get("plugin_devel", "no") == "yes":
-	plugin_devel= True
 
 #externals builds
 env_libgcache = env.Clone()
@@ -236,7 +202,7 @@ if(main_devel):
 	install_list += [header_main, header_main2, header_main3, example_main, pkg_config] 
 	x_rpm_install = define_rpm_install(arguments_to_str());
 	pack_list += env.Package( 
-			 NAME     = 'gfal2-core-devel',
+			 NAME     = 'gfal2-devel',
 			 VERSION        = version,
 			 PACKAGEVERSION = package_version,
 			 PACKAGETYPE    = 'rpm',

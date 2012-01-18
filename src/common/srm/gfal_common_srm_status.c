@@ -1,4 +1,3 @@
-#pragma once
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -15,24 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * @file gfal_common_srm_status.c
+ * @brief status / pin functions layer from srm
+ * @author Devresse Adrien
+ * @version 2.0
+ * @date 19/12/2011
+ * */
  
- 
-/* unit test for the gskiplist */
+#define _GNU_SOURCE 
 
-#include <stdio.h>
-
-
+#include <regex.h>
+#include <time.h> 
 
 
-void test_gskiplist_create_delete();
 
+#include "gfal_common_srm.h"
 
-void test_gskiplist_insert_len();
-
-void test_gskiplist_insert_multi();
-
-void test_gskiplist_insert_search_remove();
-
-void test_gskiplist_insert_get_clean();
+#include <common/gfal_common_internal.h>
+#include <common/gfal_common_errverbose.h>
+#include <common/gfal_common_plugin.h>
 
 

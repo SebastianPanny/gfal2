@@ -50,6 +50,7 @@
 #include "posix/test__gfal_posix_write.h"
 #include "posix/test__gfal_posix_opendir.h"
 #include "posix/test__gfal_posix_parameter.h"
+#include "posix/test__gfal_posix_xattr.h"
 #include "common/rfio/test__gfal_rfio_plugin.h"
 
 #include "externals/test_skiplist.h"
@@ -229,6 +230,13 @@ TestSuite* posix_parameter_suite(){
   return tc_parameter;  
 }
 
+TestSuite* posix_xattr_suite(){
+  TestSuite* tc_xattr = create_test_suite();  
+  add_test(tc_xattr, gfal2_test_getxattr_guid_lfn_base);
+  add_test(tc_xattr, gfal2_test_getxattr_status_srm_base);
+  return tc_xattr;  
+}
+
 TestSuite* skip_list_tests(){
   TestSuite* test_skiplist = create_test_suite();  
   add_test(test_skiplist, test_gskiplist_create_delete);
@@ -300,6 +308,7 @@ int main (int argc, char** argv)
 	add_suite(global, posix_write_suite());
 	add_suite(global, posix_opendir_suite());
 	add_suite(global, posix_parameter_suite());
+	add_suite(global, posix_xattr_suite());
 	add_suite(global, skip_list_tests());
 	//add_suite(global, filedesc_suite());
     if (argc > 1){

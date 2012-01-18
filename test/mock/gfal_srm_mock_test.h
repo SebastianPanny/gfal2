@@ -12,6 +12,13 @@
 #include "srm/gfal_common_srm_internal_layer.h"
 
 
+void setup_mock_srm();
+
+void add_mock_srm_ls_locality_valid(const char* file, const char* endpoint, TFileLocality tl);
+
+void add_mock_srm_ls_error(const char* file, const char* endpoint, int status, const char* err);
+
+
 extern struct srm_ls_output defined_srm_ls_output;
 extern struct srm_rmdir_output defined_srm_rmdir_output;
 extern struct srm_getpermission_output defined_srm_getpermission_output;
@@ -29,6 +36,8 @@ void define_mock_srmv2_pinfilestatus(int number, char** surl, char** explanation
 void define_put_done(int number, char** surl, char** explanation, char** turl, int* status);
 void define_mock_defined_srm_rmdir_output(char* surl, int status);
 void define_mock_srmv2_putoutput(int number, char** surl, char** explanation, char** turl, int* status);
+
+void define_mock_locality_file_valid(char* surl, TFileLocality tl);
 // mock functions
 
 

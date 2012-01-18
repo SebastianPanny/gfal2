@@ -183,7 +183,8 @@ gpointer gskiplist_search_internal(GSkiplist* sk, gpointer key){
   GSkipNode* node,* prev_node;
   node = prev_node= sk->head_node;
   int cmp_value=0;
-  for(int i = max_size-1; i >= 0; --i){
+  int i;
+  for(i = max_size-1; i >= 0; --i){
     cmp_value = gskiplist_compare(sk, node, key);
     while(node != NULL && cmp_value <0 ){ // walk in a level list to search a given value  
       prev_node = node;
@@ -245,7 +246,7 @@ GSkipNode* gskiplist_create_node(GSkiplist* sk, gpointer key, gpointer data, gui
 }
 
 
-inline int gskiplist_compare_node(GSkiplist* sk, GSkipNode* a, GSkipNode*  b){
+int gskiplist_compare_node(GSkiplist* sk, GSkipNode* a, GSkipNode*  b){
   if( a == sk->head_node)
     return -1;
   if( b==  sk->head_node)
@@ -254,7 +255,7 @@ inline int gskiplist_compare_node(GSkiplist* sk, GSkipNode* a, GSkipNode*  b){
 }
 
 
-inline int gskiplist_compare(GSkiplist* sk, GSkipNode* a, gpointer  b){
+int gskiplist_compare(GSkiplist* sk, GSkipNode* a, gpointer  b){
   return( a == sk->head_node)?(-1):(sk->cmp_func(a->key, b));
 }
 

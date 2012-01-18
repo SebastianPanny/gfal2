@@ -25,11 +25,13 @@
  **/
 
 
+#include <glib.h>
+#include <common/gfal_common_internal.h>
+#include <common/gfal_common_errverbose.h>
+#include <common/gfal_common_plugin.h>
+#include <common/gfal_types.h>
 
-#include "../gfal_common_internal.h"
-#include "../gfal_common_errverbose.h"
-#include "../gfal_common_plugin.h"
-#include "../gfal_types.h"
+#include <dcap.h>
 
 struct dcap_proto_ops {
 	int*	(*geterror)();

@@ -9,7 +9,7 @@
 #include <glib.h>
 #include <dlfcn.h>
 
-#include <lfc_api.h>
+#include <lfc/lfc_api.h>
 
 
 #include <common/gfal_prototypes.h>

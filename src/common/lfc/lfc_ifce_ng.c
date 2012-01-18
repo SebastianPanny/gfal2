@@ -45,10 +45,12 @@
 #include <common/gfal_common_plugin.h>
 
 
-#include "../mds/gfal_common_mds.h"
-#include "../gfal_common_interface.h"
+#include <common/mds/gfal_common_mds.h>
+#include <common/gfal_common_interface.h>
 #include "lfc_ifce_ng.h"
-#include "../gfal_common_errverbose.h"
+#include <common/gfal_common_errverbose.h>
+
+int   _Cthread_addcid _PROTO((char *, int, char *, int, Cth_pid_t *, unsigned, void *(*)(void *), int)); // hack in order to use the internal CThread API ( DPNS limitation )
 
 static __thread int _local_thread_init=FALSE;
 
@@ -265,51 +267,57 @@ char* gfal_setup_lfchost(gfal_handle handle, GError ** err){
 }
 
 /**
+ *  Resolve the lfc symbols, allow mocking
+ * 
+ * */
+
+/**
  * load the shared library and link the symbol for the LFC usage
  * @param name : name of the library
  * @param err:  error report
 */
 struct lfc_ops* gfal_load_lfc(const char* name, GError** err){
 	struct lfc_ops* lfc_sym=NULL;
-	GError* tmp_err=NULL;
-	int ret = -1;
-	void* dlhandle=NULL;
-	if ((dlhandle = dlopen (NULL, RTLD_LAZY)) == NULL) {		// try to dlopen on the dependencies
-		g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_load_lfc] Error in lfc module shared library was not open properly : %s",dlerror () );
-		return NULL;
-	}
-	lfc_sym = calloc(1, sizeof(struct lfc_ops));
-	lfc_sym->addreplica = (int (*) (const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *)) dlsym (dlhandle, "lfc_addreplica");	
-	if (lfc_sym->addreplica == NULL) {
-		if ((dlhandle = dlopen (name, RTLD_LAZY)) == NULL) { // try to dlopen on a fixed name shared library
-			g_set_error(err, 0, EPROTONOSUPPORT, "[gfal_load_lfc] Error in lfc module shared library was not open properly : %s",dlerror () );
-			return NULL;
-		}
-
-		lfc_sym->addreplica = (int (*) (const char *, struct lfc_fileid *, const char *, const char *, const char, const char, const char *, const char *)) dlsym (dlhandle, "lfc_addreplica");
-	}
+	GError * tmp_err=NULL;
 	
-	void** f_list[] = {  (void**)&(lfc_sym->get_serrno), (void**) &(lfc_sym->sstrerror), (void**) &(lfc_sym->creatg), (void**) &(lfc_sym->delreplica), (void**) &(lfc_sym->aborttrans), 
-							(void**) &(lfc_sym->endtrans), (void**) &(lfc_sym->getpath), (void**) &(lfc_sym->getlinks), (void**) &(lfc_sym->getreplica), (void**) &(lfc_sym->lstat), 
-							(void**) &(lfc_sym->mkdirg), (void**) &(lfc_sym->seterrbuf), (void**) &(lfc_sym->setfsizeg), (void**) &(lfc_sym->setfsize), (void**) &(lfc_sym->starttrans),
-							(void**) &(lfc_sym->statg), (void**) &(lfc_sym->statr), (void**) &(lfc_sym->symlink), (void**) &(lfc_sym->unlink), (void**) &(lfc_sym->access), (void**) &(lfc_sym->chmod),
-							(void**) &(lfc_sym->rename), (void**) &(lfc_sym->opendirg), (void**) &(lfc_sym->rmdir), (void**) &(lfc_sym->startsess), (void**) &(lfc_sym->endsess), 
-							(void**) &(lfc_sym->closedir), (void**) &(lfc_sym->readdir), (void**) &(lfc_sym->Cthread_init), (void**) &(lfc_sym->_Cthread_addcid), (void**) &(lfc_sym->readlink),
-							(void**) &(lfc_sym->readdirx), (void**) &(lfc_sym->getcomment), (void**) &(lfc_sym->setcomment)};
-	const char* sym_list[] = { "C__serrno", "sstrerror", "lfc_creatg", "lfc_delreplica", "lfc_aborttrans",
-						"lfc_endtrans", "lfc_getpath", "lfc_getlinks", "lfc_getreplica", "lfc_lstat", 
-						"lfc_mkdirg", "lfc_seterrbuf", "lfc_setfsizeg", "lfc_setfsize", "lfc_starttrans",
-						"lfc_statg", "lfc_statr", "lfc_symlink", "lfc_unlink", "lfc_access", "lfc_chmod",
-						"lfc_rename", "lfc_opendirg", "lfc_rmdir", "lfc_startsess", "lfc_endsess", "lfc_closedir", "lfc_readdir",
-						"Cthread_init", "_Cthread_addcid", "lfc_readlink", "lfc_readdirx", "lfc_getcomment",
-						"lfc_setcomment" };
-	ret = resolve_dlsym_listG(dlhandle, f_list, sym_list, 34, &tmp_err);
-	if(ret != 0){
-		g_propagate_prefixed_error(err, tmp_err,"[gfal_load_lfc]");
-		free(lfc_sym);
-		return NULL;
-	} 
-	return lfc_sym;
+	lfc_sym = calloc(1, sizeof(struct lfc_ops));
+	// static resolution
+	lfc_sym->addreplica = &lfc_addreplica;
+	lfc_sym->get_serrno = &C__serrno;
+	lfc_sym->sstrerror = &sstrerror;
+	lfc_sym->creatg= &lfc_creatg;
+	lfc_sym->delreplica = &lfc_delreplica;
+	lfc_sym->aborttrans = &lfc_aborttrans;
+	lfc_sym->endtrans = &lfc_endtrans;
+	lfc_sym->getpath = &lfc_getpath;
+	lfc_sym->getlinks = &lfc_getlinks;
+	lfc_sym->getreplica = &lfc_getreplica;
+	lfc_sym->lstat = &lfc_lstat;
+	lfc_sym->mkdirg =  &lfc_mkdirg;
+	lfc_sym->seterrbuf = &lfc_seterrbuf; 
+	lfc_sym->setfsizeg = &lfc_setfsizeg;
+	lfc_sym->setfsize = &lfc_setfsize;
+	lfc_sym->starttrans = &lfc_starttrans;
+	lfc_sym->statg = &lfc_statg;
+	lfc_sym->statr = &lfc_statr;
+	lfc_sym->symlink = &lfc_symlink;
+	lfc_sym->unlink = &lfc_unlink;
+	lfc_sym->access = &lfc_access;
+	lfc_sym->chmod = &lfc_chmod;
+	lfc_sym->rename = &lfc_rename;
+	lfc_sym->opendirg = &lfc_opendirg;
+	lfc_sym->rmdir = &lfc_rmdir;
+	lfc_sym->startsess = &lfc_startsess;
+	lfc_sym->endsess = &lfc_endsess;
+	lfc_sym->closedir = &lfc_closedir;
+	lfc_sym->readdir= &lfc_readdir;
+	lfc_sym->Cthread_init = &Cthread_init;
+	lfc_sym->readlink = &lfc_readlink;
+	lfc_sym->readdirx= &lfc_readdirx;
+	lfc_sym->getcomment = &lfc_getcomment;
+	lfc_sym->setcomment = &lfc_setcomment;
+	lfc_sym->_Cthread_addcid =&_Cthread_addcid;
+	G_RETURN_ERR(lfc_sym, tmp_err, err);
 }
 
 /***

@@ -476,6 +476,7 @@ ssize_t lfc_getxattr_getguid(plugin_handle handle, const char* path, void* buff,
 			if(tmp_ret == 0){
 				res = strnlen(statbuf.guid, GFAL_URL_MAX_LEN);
 				g_strlcpy(buff,statbuf.guid, size);
+				errno=0;
 			}
 			free(lfn);
 		}

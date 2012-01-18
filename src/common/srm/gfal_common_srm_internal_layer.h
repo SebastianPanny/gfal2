@@ -28,9 +28,11 @@
 #include <gfal_srm_ifce_types.h> 
 #include <glib.h>
 
+#include <common/gfal_types.h>
+#include "gfal_common_srm_endpoint.h"
 #include "gfal_common_srm.h"
 
-#include "../gfal_types.h"
+
 
 // request type for surl <-> turl translation 
 typedef enum _srm_req_type{

@@ -10,6 +10,15 @@
 #include <stdio.h> 
 #include <string.h>
 
+#include "unit_test_util.h"
+
+gboolean gfal2_tests_is_mock(){
+#if USE_MOCK
+	return TRUE;
+#else
+	return FALSE;
+#endif
+}
 
 
 

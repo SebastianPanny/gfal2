@@ -207,7 +207,7 @@ void gfal2_test__gfal_posix_lstat_lfc()
 	struct stat buff;
 	memset(&buff,0, sizeof(struct stat));
 	int res = gfal_lstat(TEST_GFAL_LFC_FILE_STAT_OK, &buff);
-	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success stat %d %d %d", res, errno, gfal_posix_code_error());
 	
 	assert_true_with_message( buff.st_mode == TEST_GFAL_LFC_FILE_STAT_MODE_VALUE &&
 		buff.st_uid==TEST_GFAL_LFC_FILE_STAT_UID_VALUE &&
@@ -223,7 +223,7 @@ void gfal2_test__gfal_posix_lstat_lfc()
 #endif	
 
 	res = gfal_lstat(TEST_GFAL_LFC_LINK_STAT_OK, &buff);
-	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success %d %d %d", res, errno, gfal_posix_code_error());
+	assert_true_with_message(res ==0 && errno==0 && gfal_posix_code_error()==0, " must be a success lstat %d %d %d", res, errno, gfal_posix_code_error());
 	
 	assert_true_with_message( buff.st_mode == TEST_GFAL_LFC_LINK_STAT_MODE_VALUE &&
 		buff.st_uid==TEST_GFAL_LFC_LINK_STAT_UID_VALUE &&

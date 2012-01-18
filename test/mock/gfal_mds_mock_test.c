@@ -10,6 +10,20 @@
 #include <cgreen/cgreen.h>
 #include "gfal_mds_mock_test.h" 
 
+#include "../unit_test_util.h"
+
+
+void setup_mock_bdii(){
+#if USE_MOCK
+	
+#endif
+}
+
+void mock_endpoint_answer(const char * endpoint, const char * basename){
+	
+}
+
+
 char** define_se_endpoints;
 char** define_se_types;
 char* define_lfc_endpoint;

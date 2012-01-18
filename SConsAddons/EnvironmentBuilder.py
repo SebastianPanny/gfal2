@@ -22,7 +22,7 @@ import os, sys, string, copy, re
 import SCons.Environment
 import SCons.Platform
 import SCons
-import Options
+import SCons.Options
 from Util import GetPlatform, GetArch
 default_funcs = []
 

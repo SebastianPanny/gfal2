@@ -71,13 +71,22 @@
 #define GFAL_MAX_PLUGIN_LIST 2048
 
 
-// xattr std keys
+// xattr standard keys for getxattr / setxattr
 #define GFAL_XATTR_REPLICA "user.replicas" // global key of replicas for the extended attributes 
 #define GFAL_XATTR_GUID "user.guid" // global key for the guid of a file 
 #define GFAL_XATTR_COMMENT "user.comment" // global key for the comments of a file 
 #define GFAL_XATTR_CHKSUM_TYPE "user.chksumtype"
 #define GFAL_XATTR_CHKSUM_VALUE "user.checksum"
+#define GFAL_XATTR_STATUS "user.status" 
 
+// xattr standard values 
+// list of standard values return by getxattr for status key
+#define GFAL_XATTR_STATUS_ONLINE "ONLINE"
+#define GFAL_XATTR_STATUS_NEARLINE "NEARLINE "
+#define GFAL_XATTR_STATUS_NEARLINE_ONLINE "ONLINE_AND_NEARLINE"
+#define GFAL_XATTR_STATUS_UNKNOW "UNKNOW"
+#define GFAL_XATTR_STATUS_LOST "LOST"
+#define GFAL_XATTR_STATUS_UNAVAILABLE "UNAVAILABLE"
 
 
 

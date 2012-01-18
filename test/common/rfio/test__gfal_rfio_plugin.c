@@ -7,7 +7,7 @@
 #include <cgreen/cgreen.h>
 #include <glib.h>
 #include <dlfcn.h>
-#include <lfc_api.h>
+
 
 #include <common/gfal_prototypes.h>
 #include <common/gfal_types.h>
