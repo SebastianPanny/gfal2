@@ -24,8 +24,13 @@
  * @date 12/04/2011
  * */
 
-#include "gfal_prototypes.h"
-#include "gfal_types.h"
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 
 gfal_handle gfal_initG(GError** err);
@@ -44,3 +49,6 @@ int resolve_dlsym_listG(void* handle, void*** flist, const char** sym_list, int 
 gboolean is_valid_access_result(int status);
 
 
+#ifdef __cplusplus
+}
+#endif
