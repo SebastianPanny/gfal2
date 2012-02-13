@@ -110,8 +110,6 @@ Requires:			%{name}-plugin-rfio%{?_isa} = %{version}
 %description all
 Install gfal 2.0 and all the associated plugins.
 
-%post -p /sbin/ldconfig
-
 %clean
 rm -rf "$RPM_BUILD_ROOT";
 make clean
