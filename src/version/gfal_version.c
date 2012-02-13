@@ -20,8 +20,8 @@
 #include <stdlib.h>
 #include "../gfal_api.h"
 
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	printf("GFAL-client-%s\n", gfal_version());
-	exit (0);
+	return (0);
 }

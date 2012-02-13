@@ -29,20 +29,13 @@ BuildRequires:		srm-ifce-devel
 #dcap plugin dependencies
 BuildRequires:		dcap-devel
 
-Requires:			%{name}-core = %{version}
+Requires:			openldap%{?_isa}
 
 %description
 GFAL 2.0 offers a POSIX API for the distributed file systems.
 Designed for the WLCG file system, It offers an extensible \
 plugin systems able to support new protocols. 
 
-%package core
-Summary:			Core of the Grid File access Library 2.0
-Group:				Applications/Internet
-Requires:			openldap%{?_isa}
-
-%description core
-Core and main files of GFAL 2.0
 
 %package devel
 Summary:			Development files for GFAL 2.0
@@ -57,48 +50,51 @@ development files for GFAL 2.0
 %package doc
 Summary:			Documentation for GFAL 2.0 core
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}%{?_isa} = %{version}
 
 %description doc
-Doxygen documentation of gfal 2.0 .
+User and developper documentation for gfal-2.0
 
 %package plugin-lfc
-Summary:			Provide the lfc access for gfal2.0
+Summary:			Provide the lfc access for gfal-2.0
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}%{?_isa} = %{version}
 
 %description plugin-lfc
 Provide the lfc access (lfn :// ) for gfal2.0, lfc plugin
 
 %package plugin-rfio
-Summary:			Provide the rfio access for gfal2.0
+Summary:			Provide the rfio support for gfal-2.0
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}%{?_isa} = %{version}
 Requires:			dpm-libs%{?_isa}
 
 %description plugin-rfio
-Provide the rfio access (rfio:// ) for gfal2.0, rfio plugin
+Provide the rfio protocol support (rfio:// ) for gfal-2.0, \
+plugin rfio
 
 %package plugin-dcap
-Summary:			Provide the dcap access for gfal2.0
+Summary:			Provide the dcap support for gfal-2.0
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}%{?_isa} = %{version}
 
 %description plugin-dcap
-Provide the dcap access (gsidcap://, dcap:// ) for gfal2.0, dcap plugin
+Provide the dcap support (gsidcap://, dcap:// ) for gfal-2.0, \
+dcap plugin. dcap is a protocol used by the dCache storage system.
 
 %package plugin-srm
-Summary:			Provide the srm access for gfal2.0
+Summary:			Provide the srm support for gfal-2.0
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}%{?_isa} = %{version}
 
 %description plugin-srm
-Provide the srm access (srm:// ) for gfal2.0, srm plugin
+Provide the srm support (srm:// ) for gfal2.0, \
+srm plugin ( Storage Resource Manager ).
 
 %package plugin-devel
 Summary:			Development files for GFAL 2.0 plugin development
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}%{?_isa} = %{version}
 
 %description plugin-devel
 Provide the headers files for plugin development
@@ -106,14 +102,13 @@ Provide the headers files for plugin development
 %package all
 Summary:			Meta package for gfal 2.0 global install
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
 Requires:			%{name}-plugin-lfc%{?_isa} = %{version}
 Requires:			%{name}-plugin-dcap%{?_isa} = %{version}
 Requires:			%{name}-plugin-srm%{?_isa} = %{version}
 Requires:			%{name}-plugin-rfio%{?_isa} = %{version}
 
 %description all
-Install gfal 2.0 and all standard plugins
+Install gfal 2.0 and all the associated plugins.
 
 %post -p /sbin/ldconfig
 
@@ -128,9 +123,9 @@ make clean
 %cmake -DDOC_INSTALL_DIR=%{_docdir}/%{name}-%{version} .
 make %{?_smp_mflags}
 
-%post core -p /sbin/ldconfig
+%post -p /sbin/ldconfig
 
-%postun core -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %post plugin-lfc -p /sbin/ldconfig
 
@@ -157,9 +152,6 @@ make %{?_smp_mflags} DESTDIR=$RPM_BUILD_ROOT install
 %{_bindir}/gfal2_version
 %{_docdir}/%{name}-%{version}/DESCRIPTION
 %{_docdir}/%{name}-%{version}/VERSION
-
-%files core
-%defattr (-,root,root)
 %{_libdir}/libgfal2.so.*
 %{_docdir}/%{name}-%{version}/LICENSE
 
