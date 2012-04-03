@@ -180,6 +180,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %files transfer
 %defattr (-,root,root)
 %{_libdir}/libgfal_transfer.so.*
+%{_docdir}/%{name}-%{version}/README_TRANSFER
 
 %files devel
 %defattr (-,root,root)
