@@ -42,6 +42,13 @@ extern "C"
 
 
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif  // __cplusplus
+
+
+
 gfal_handle gfal_initG(GError** err);
 void gfal_handle_freeG(gfal_handle handle);
 

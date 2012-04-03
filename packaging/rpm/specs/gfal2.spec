@@ -180,14 +180,6 @@ make %{?_smp_mflags} DESTDIR=$RPM_BUILD_ROOT install
 %{_docdir}/%{name}-%{version}/DESCRIPTION
 %{_docdir}/%{name}-%{version}/VERSION
 
-%postun plugin-rfio -p /sbin/ldconfig
-
-%post plugin-srm -p /sbin/ldconfig
-
-%postun plugin-srm -p /sbin/ldconfig
-
-%post plugin-dcap -p /sbin/ldconfig
-
 %postun plugin-dcap -p /sbin/ldconfig
 
 %install
