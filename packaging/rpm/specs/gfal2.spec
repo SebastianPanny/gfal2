@@ -180,13 +180,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %{_docdir}/%{name}-%{version}/DESCRIPTION
 %{_docdir}/%{name}-%{version}/VERSION
 
-%postun plugin-dcap -p /sbin/ldconfig
-
-%install
-rm -rf "$RPM_BUILD_ROOT"; 
-make %{?_smp_mflags} DESTDIR=$RPM_BUILD_ROOT install
-
-%files
+%files core
 %defattr (-,root,root)
 %{_libdir}/libgfal2.so.*
 %{_docdir}/%{name}-%{version}/LICENSE
