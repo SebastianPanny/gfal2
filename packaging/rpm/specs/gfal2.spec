@@ -1,6 +1,6 @@
 Name:				gfal2
 Version:			2.0.0
-Release:			5beta1%{?dist}
+Release:			0.6.beta%{?dist}
 Summary:			Grid file access library 2.0
 Group:				Applications/Internet
 License:			ASL 2.0
@@ -212,28 +212,33 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %{_libdir}/%{name}-plugins/libgfal_plugin_lfc.so*
 %config(noreplace) %{_sysconfdir}/profile.d/gfal_plugin_lfc.csh
 %config(noreplace) %{_sysconfdir}/profile.d/gfal_plugin_lfc.sh
+%{_docdir}/%{name}-%{version}/README_PLUGIN_LFC
 
 %files plugin-rfio
 %defattr (-,root,root)
 %{_libdir}/%{name}-plugins/libgfal_plugin_rfio.so*
 %config(noreplace) %{_sysconfdir}/profile.d/gfal_plugin_rfio.csh
 %config(noreplace) %{_sysconfdir}/profile.d/gfal_plugin_rfio.sh
+%{_docdir}/%{name}-%{version}/README_PLUGIN_RFIO
 
 %files plugin-dcap
 %defattr (-,root,root)
 %{_libdir}/%{name}-plugins/libgfal_plugin_dcap.so*
 %config(noreplace) %{_sysconfdir}/profile.d/gfal_plugin_dcap.csh
 %config(noreplace) %{_sysconfdir}/profile.d/gfal_plugin_dcap.sh
+%{_docdir}/%{name}-%{version}/README_PLUGIN_DCAP
 
 %files plugin-srm
 %defattr (-,root,root)
 %{_libdir}/%{name}-plugins/libgfal_plugin_srm.so*
 %config(noreplace) %{_sysconfdir}/profile.d/gfal_plugin_srm.csh
 %config(noreplace) %{_sysconfdir}/profile.d/gfal_plugin_srm.sh
+%{_docdir}/%{name}-%{version}/README_PLUGIN_SRM
 
 %files plugin-gridftp
 %defattr (-,root,root)
 %{_libdir}/%{name}-plugins/libgfal_plugin_gridftp.so*
+%{_docdir}/%{name}-%{version}/README_PLUGIN_GRIDFTP
 
 %files all
 %defattr (-,root,root)
@@ -247,5 +252,5 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %{_includedir}/gfal2/common/gfal_common_plugin.h
 
 %changelog
-* Mon Dec 12 2011 Adrien Devress <adevress at cern.ch> - 2.0.0-5beta1
+* Mon Dec 12 2011 Adrien Devress <adevress at cern.ch> - 2.0.0-6beta1
  - Initial gfal 2.0 preview release
