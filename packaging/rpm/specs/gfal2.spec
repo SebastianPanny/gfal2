@@ -161,6 +161,9 @@ make clean
 make %{?_smp_mflags}
 make doc
 
+
+
+
 %post core -p /sbin/ldconfig
 
 %postun core -p /sbin/ldconfig
