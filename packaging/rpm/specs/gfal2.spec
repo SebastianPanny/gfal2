@@ -127,14 +127,6 @@ Provide the gridftp support (gsiftp:// , ftp:// ) for %{name}, \
 The gridftp plugin allow to do third party transfer with the gsiftp \
 protocols in addition of the POSIX file access.
 
-%package plugin-devel
-Summary:			Development files for GFAL 2.0 plugin development
-Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
-
-%description plugin-devel
-Provide the headers files for %{name} 's plugin development
-
 %package all
 Summary:			Meta package for gfal 2.0 global install
 Group:				Applications/Internet
@@ -192,7 +184,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %files devel
 %defattr (-,root,root)
 %{_includedir}/gfal2/gfal_api.h
-%{_includedir}/gfal2/common/gfal_constants.h
+%{_includedir}/gfal2/common/*
 %{_includedir}/gfal2/posix/gfal_posix_api.h
 %{_includedir}/gfal2/global/*.h*
 %{_includedir}/gfal2/transfer/*.h*
@@ -244,13 +236,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %defattr (-,root,root)
 %{_docdir}/%{name}-%{version}/README
 
-%files plugin-devel
-%defattr (-,root,root)
-%{_includedir}/gfal2/common/gfal_common_plugin_interface.h
-%{_includedir}/gfal2/common/gfal_prototypes.h
-%{_includedir}/gfal2/common/gfal_types.h
-%{_includedir}/gfal2/common/gfal_common_plugin.h
 
 %changelog
-* Mon Dec 12 2011 Adrien Devress <adevress at cern.ch> - 2.0.0-6beta1
+* Mon Dec 12 2011 Adrien Devress <adevress at cern.ch> - 2.0.0-0.6.beta%{?dist}
  - Initial gfal 2.0 preview release
