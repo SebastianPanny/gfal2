@@ -162,7 +162,7 @@ make %{?_smp_mflags}
 make doc
 
 %install
-rm -rf "$RPM_BUILD_ROOT"; 
+rm -rf "$RPM_BUILD_ROOT"
 make DESTDIR=$RPM_BUILD_ROOT install
 
 %post core -p /sbin/ldconfig
@@ -172,6 +172,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %post transfer -p /sbin/ldconfig
 
 %postun transfer -p /sbin/ldconfig
+
 
 %files
 %defattr (-,root,root)
