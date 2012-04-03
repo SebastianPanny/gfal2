@@ -37,6 +37,9 @@
 #include "gfal_common_errverbose.h"
 #include "gfal_common_filedescriptor.h"
 
+#ifndef GFAL_PLUGIN_DIR_DEFAULT
+#error "GFAL_PLUGIN_DIR_DEFAULT should be define at compile time"
+#endif
 
 /**
  * function to use in order to create a new plugin interface
@@ -265,8 +268,7 @@ char ** gfal_localize_plugins(GError** err){
 	}else{
 		/* GFAL_PLUGIN_DIR_DEFAULT defined at compilation time */
 		gfal_plugin_dir = GFAL_PLUGIN_DIR_DEFAULT 
-						  G_DIR_SEPARATOR_S
-						  GFAL_PLUGIN_DIR_SUFFIX;
+						  G_DIR_SEPARATOR_S;
 		gfal_print_verbose(GFAL_VERBOSE_VERBOSE, "... no %s environnement variable specified, try to load plugins in the default directory : %s",GFAL_PLUGIN_DIR_ENV,   gfal_plugin_dir);		
 			
 	}
