@@ -60,6 +60,6 @@ class CoreLayer: public PluginFactory
 };
 
 
-};
+}
 
 #endif /* CORELAYER_H */ 

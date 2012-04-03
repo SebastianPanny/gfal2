@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PluginFactory_H
-#define PluginFactory_H
+#ifndef PLUGIN_INTERFACE_H
+#define PLUGIN_INTERFACE_H
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -18,9 +18,10 @@
  * limitations under the License.
  */
 
-#include <iostream>
 #include <string>
 #include <vector>
+#include <iostream>
+
 
 namespace Gfal{
 
@@ -74,5 +75,5 @@ class PluginFactory{
 
 };
 
-};
+}
 #endif /* PluginFactory_H */ 

@@ -15,12 +15,16 @@
  * limitations under the License.
  */
 
-#include <dlfcn.h>
+
+
 #include <common/gfal_types.h>
 #include <common/gfal_common_internal.h>
 #include <exceptions/gfalcoreexception.hpp>
 
 #include "corelayer.h"
+
+#include <dlfcn.h>
+
 
 using namespace Utilpp;
  

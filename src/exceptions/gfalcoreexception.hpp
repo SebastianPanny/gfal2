@@ -37,6 +37,6 @@ class CoreException: public Glib::Error
 		/* add your private declarations */
 };
 
-};
+}
 
 #endif /* GFALCOREEXCEPTION_H */ 

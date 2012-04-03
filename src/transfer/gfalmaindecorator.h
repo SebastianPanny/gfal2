@@ -37,6 +37,6 @@ class MainDecorator: public PluginFactory
 		std::auto_ptr<PluginFactory> _core;
 };
 
-};
+}
 
 #endif /* GFALMAINDECORATOR_H */ 
