@@ -1,5 +1,5 @@
 /**
- * Compile command : gcc gfal_testcreatedir.c `pkg-config --libs --cflags libgfal2`
+ * Compile command : gcc gfal_testcreatedir.c `pkg-config --libs --cflags gfal2`
  */
 
 #include <stdio.h>

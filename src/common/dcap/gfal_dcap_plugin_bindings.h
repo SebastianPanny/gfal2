@@ -51,4 +51,6 @@ int gfal_dcap_statG(plugin_handle handle, const char* name, struct stat* buff, G
 
 int gfal_dcap_lstatG(plugin_handle handle, const char* name, struct stat* buff, GError ** err);
 
+int gfal_dcap_mkdirG(plugin_handle handle, const char* name, mode_t mode, gboolean pflag, GError** err);
+
 const char* gfal_dcap_getName();

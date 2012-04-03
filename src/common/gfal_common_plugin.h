@@ -33,23 +33,42 @@
 #include <dirent.h>
 #include <sys/stat.h>
  // protos
-#include "gfal_prototypes.h"
-#include "gfal_types.h"
-#include "gfal_common_plugin_interface.h"
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
+#include <common/gfal_common_plugin_interface.h>
 
-#include "gfal_common_parameter.h"
+#include <common/gfal_common_parameter.h>
 
+ 
+#ifdef __cplusplus
+extern "C"
+{
+#endif  // __cplusplus
 
+typedef struct _plugin_pointer_handle{
+	void* dlhandle;
+	void* plugin_data;
+	char plugin_name[GFAL_URL_MAX_LEN];
+	char plugin_lib[GFAL_URL_MAX_LEN];
+} *plugin_pointer_handle;
 
 gfal_plugin_interface* gfal_plugin_interface_new();
 
 
 extern char* gfal_get_cat_type(GError**);
 
+/**
+ * @brief plugins walker
+ * provide a list of plugin handlers, each plugin handler is a reference to an usable plugin
+ * @return give a NULL-ended table of plugin_pointer_handle, return NULL if error
+ * */
+plugin_pointer_handle gfal_plugins_list_handler(gfal_handle, GError** err);
 
 inline int gfal_plugins_instance(gfal_handle, GError** err);
 char** gfal_plugins_get_list(gfal_handle, GError** err);
 int gfal_plugins_delete(gfal_handle, GError** err);
+
+
 
 
 int gfal_plugins_accessG(gfal_handle handle, const char* path, int mode, GError** err);
@@ -93,7 +112,10 @@ int gfal_plugin_setxattrG(gfal_handle, const char*, const char*, const void*, si
 
 
 
-int gfal_plugins_has_parameter(gfal_handle handle, const char* namespace, const char* key, GError** err);
+int gfal_plugins_has_parameter(gfal_handle handle, const char* nmespace, const char* key, GError** err);
 
-int gfal_plugins_notify_all(gfal_handle handle, const char* namespace, const char* key, GError** err);
+int gfal_plugins_notify_all(gfal_handle handle, const char* nmespace, const char* key, GError** err);
 
+#ifdef __cplusplus
+}
+#endif // __cplusplus

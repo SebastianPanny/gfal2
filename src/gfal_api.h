@@ -20,22 +20,15 @@
  */
  
 /**
- * @file gfal_posix_api
- * @brief main header file for API of the posix lib
+ * @file gfal_api
+ * @brief main header for the old gfal compatibility
  * @author Devresse Adrien
  * @version 2.0
  * @date 11/04/2011
  * */
  
-#ifdef __cplusplus
-extern "C"
-{
-#endif 
-
-#include <posix/gfal_posix_api.h>
+// please use <posix/gfal_posix_api.h> directly instead of this
+#include <posix/gfal_posix_api.h> 
  
- #ifdef __cplusplus
-}
-#endif
 
 #endif // _GFAL2_API_

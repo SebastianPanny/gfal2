@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _GFAL_CONSTANTS_H
+#define _GFAL_CONSTANTS_H
+
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -16,15 +19,21 @@
  * limitations under the License.
  */
  
+
+ 
 /**
   * @file gfal_constants.h 
   * the global constant declarations of gfal core
   * @author Devresse Adrien , Baud Jean-Philippe 
 */
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif 
 
-#ifndef _GFAL_CONSTANTS_H
-#define _GFAL_CONSTANTS_H
+
+
 
 #define MAX_PLUGIN_LIST 64
 
@@ -66,7 +75,8 @@
 #define GFAL_MODULEID_SRM 2
 #define GFAL_EXTERNAL_MODULE_OFFSET 10
 
-#define GFAL_PLUGIN_ENVAR "GFAL_PLUGIN_LIST"
+#define GFAL_PLUGIN_DIR_ENV "GFAL_PLUGIN_DIR" /**<  environment variable for personnalized plugin directory  */
+#define GFAL_PLUGIN_DIR_SUFFIX "gfal2-plugins" /**< default directory name for gfal 2 plugin search */
 #define GFAL_PLUGIN_INIT_SYM "gfal_plugin_init"
 #define GFAL_MAX_PLUGIN_LIST 2048
 
@@ -90,8 +100,18 @@
 
 
 
+// plugins entry points for the new system of plugins
+//  int plugin_url_transfer_check(plugin_handle handle, const char* src, const char* dst, gfal_transfer_type type )
+// return true if url is compatible with this plugin else false
+#define GFAL_PLUGIN_URL_TRANSFER_CHECK "plugin_url_transfer_check"
+
 
 // parameters list for core
 #define GFAL_NO_BDII_OPTION "no_bdii" // set bdii value, can be True or False
+
+
+#ifdef __cplusplus
+}
+#endif 
 
 #endif

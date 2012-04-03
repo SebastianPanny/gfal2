@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-#include "../unit_test_util.h"
+#include "unit_test_util.h"
 
 void setup_mock_srm(){
 	if(gfal2_tests_is_mock() ){

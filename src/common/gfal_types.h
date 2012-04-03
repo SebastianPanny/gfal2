@@ -24,33 +24,34 @@
 #ifndef _GFAL_TYPES_H
 #define _GFAL_TYPES_H
 
+
+
+#include <unistd.h>
+#include <glib.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <attr/xattr.h>
+
+#include <common/gfal_prototypes.h>
+#include <common/gfal_constants.h>
+#include <common/gfal_common_plugin_interface.h>
+
+
 /* enforce proper calling convention */
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#ifdef _WIN32
-#include <io.h>
-#else
-#include <unistd.h>
-#include <glib.h>
-#endif
 
-#include <sys/types.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <attr/xattr.h>
-#include "gfal_constants.h"
-#include "gfal_prototypes.h"
-#include "gfal_common_plugin_interface.h"
+/**
+ * @enum list the type of the check associated with the url
+ *  check_plugin_url send this mode to the plugin to know is this type of operation on it
+ * */
 
 
 
-
-enum _GFAL_TYPE { GFAL_TYPE_INT=0, GFAL_TYPE_STRING=1 };
-
-enum _GFAL_PARAM_FUNC{ GFAL_PARAM_SET=0, GFAL_PARAM_GET=1 };
 
 
 

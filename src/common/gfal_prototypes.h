@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _GFAL_PROTOTYPES_H
+#define _GFAL_PROTOTYPES_H
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -27,18 +29,52 @@
 #include <glib.h>
  
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif 
 
+// globals enums list
+// plugin check type
+typedef enum _plugin_mode{
+	GFAL_PLUGIN_ALL=0,
+	GFAL_PLUGIN_ACCESS,
+	GFAL_PLUGIN_CHMOD,
+	GFAL_PLUGIN_RENAME,
+	GFAL_PLUGIN_SYMLINK,
+	GFAL_PLUGIN_STAT,
+	GFAL_PLUGIN_LSTAT,
+	GFAL_PLUGIN_MKDIR,
+	GFAL_PLUGIN_RMDIR,
+	GFAL_PLUGIN_OPENDIR,	 // concat of opendir readdir, closedir
+	GFAL_PLUGIN_OPEN, 		 // concat of open read, close
+	GFAL_PLUGIN_RESOLVE_GUID,
+	GFAL_PLUGIN_GETXATTR,
+	GFAL_PLUGIN_SETXATTR,
+	GFAL_PLUGIN_LISTXATTR,
+	GFAL_PLUGIN_READLINK,
+	GFAL_PLUGIN_UNLINK
+	
+} plugin_mode;
+
+typedef enum _gfal_url2_check{
+	GFAL_FILE_COPY
+
+} gfal_url2_check;
+
+enum _GFAL_TYPE { GFAL_TYPE_INT=0, GFAL_TYPE_STRING=1 };
+
+enum _GFAL_PARAM_FUNC{ GFAL_PARAM_SET=0, GFAL_PARAM_GET=1 };
 
  // plugin 
 typedef struct _plugin_opts plugin_opts;
 typedef struct _gfal_plugin_interface gfal_plugin_interface;
-typedef enum _plugin_mode plugin_mode;
 typedef gpointer plugin_handle;
 
 
 // file descrisptor
 typedef struct _gfal_file_descriptor_container *gfal_fdesc_container_handle;
-typedef enum _gfal_type_desc gfal_type_desc;
+//typedef enum _gfal_type_desc gfal_type_desc;
 
 // dir part file descriptor
 typedef struct _gfal_file_handle_* gfal_file_handle;
@@ -52,3 +88,10 @@ typedef struct _gfal_conf_container gfal_conf_container;
 typedef enum _GFAL_TYPE GFAL_TYPE;
 typedef enum _GFAL_PARAM_FUNC GFAL_PARAM_FUNC;
 
+
+
+#ifdef __cplusplus
+}
+#endif 
+
+#endif

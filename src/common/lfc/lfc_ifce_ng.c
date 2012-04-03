@@ -50,7 +50,7 @@
 #include "lfc_ifce_ng.h"
 #include <common/gfal_common_errverbose.h>
 
-int   _Cthread_addcid _PROTO((char *, int, char *, int, Cth_pid_t *, unsigned, void *(*)(void *), int)); // hack in order to use the internal CThread API ( DPNS limitation )
+int _Cthread_addcid(char *, int, char *, int, Cth_pid_t *, unsigned, void *(*)(void *), int); // hack in order to use the internal CThread API ( DPNS limitation )
 
 static __thread int _local_thread_init=FALSE;
 

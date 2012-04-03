@@ -1,10 +1,7 @@
-## src cmake build script for srm-ifce
-
 ## default set of build
 SET(MAIN_CORE TRUE
 	CACHE STRING "enable compilation of the main library")
-SET(MAIN_DOC TRUE
-	CACHE STRING "enable installation of the main library documentation")	
+
 SET(PLUGIN_LFC TRUE
 	CACHE STRING "enable compilation of the lfc plugin")
 SET(PLUGIN_SRM TRUE
@@ -13,6 +10,7 @@ SET(PLUGIN_RFIO TRUE
 	CACHE STRING "enable compilation of the RFIO plugin")
 SET(PLUGIN_DCAP TRUE
 	CACHE STRING "enable compilation of the DCAP plugin")
+
 	
 SET(IS_IFCE FALSE)
 
@@ -30,7 +28,10 @@ FILE(GLOB src_srm "common/srm/*.c")
 FILE(GLOB src_rfio "common/rfio/*.c")
 #define dcap sources
 FILE(GLOB src_dcap "common/dcap/*.c")
-
+#define libcpp source
+FILE(GLOB src_libcpp "libcpp/*.cpp")
+#define exceptions source
+FILE(GLOB src_exceptions "exceptions/*.cpp")
 
 # global headers
 SET(common_dir	"common/")
@@ -85,7 +86,8 @@ IF (MAIN_CORE)
 	)
 	add_PkgConfigFile_for_Library("gfal2.pc" gfal2 
 										HEADER_DIRS "gfal2"
-										DESCRIPTION "GFAL 2.0 pkgconfig file")	
+										DESCRIPTION "GFAL 2.0 pkgconfig file"
+										REQUIRES "glib-2.0")	
 	add_executable(gfal2_version ${src_version})
 	target_link_libraries(gfal2_version "gfal2")
 
@@ -111,22 +113,20 @@ IF (MAIN_CORE)
 	FILE(GLOB l_examples "../testing/example/*.c")
 	install(FILES ${l_examples}
 			DESTINATION ${DOC_INSTALL_DIR}/examples/ ) # install examples 
+			
+	install(FILES 	"global/gfal_global.h"
+					"global/gfal_global.hpp"
+			DESTINATION ${INCLUDE_INSTALL_DIR}/gfal2/global)
 
 ENDIF (MAIN_CORE)
 
-IF(MAIN_DOC)
 
-	FILE(GLOB l_doc "../doc/build/html/*")
-	install(FILES ${l_doc}
-			DESTINATION ${DOC_INSTALL_DIR}/html/) # install examples 
-
-ENDIF(MAIN_DOC)
 
 IF(PLUGIN_LFC)
 
 find_package(LFC REQUIRED)
 find_package(DPM REQUIRED)
-pkg_check_modules(UUID_PKG REQUIRED uuid)
+
 
 # lfc headers
 SET(lfc_dir "common/lfc/")
@@ -145,11 +145,11 @@ include_directories(${LFC_INCLUDE_DIR} ${LCGDM_INCLUDE_DIR} ${UUID_PKG_INCLUDE_D
 set_target_properties(plugin_lfc	 	PROPERTIES
 								CLEAN_DIRECT_OUTPUT 1
 								OUTPUT_NAME ${OUTPUT_NAME_LFC}
+								LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins
 )
 
 install(TARGETS		plugin_lfc
-	    RUNTIME		DESTINATION ${CMAKE_INSTALL_PREFIX}
-	    LIBRARY		DESTINATION ${LIB_INSTALL_DIR} )
+	    LIBRARY		DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(FILES ${lfc_scripts} DESTINATION ${SYSCONF_INSTALL_DIR}/profile.d/ )
 	    
 ENDIF(PLUGIN_LFC)
@@ -162,18 +162,18 @@ pkg_check_modules(SRM_IFCE_PKG REQUIRED srm-ifce)
 FILE(GLOB srm_scripts "../dist/scripts/gfal_plugin_srm/*sh")
 add_library(plugin_srm  SHARED ${src_srm} ${src_gsimplecache} )
 
-target_link_libraries(plugin_srm ${gfal2_link} ${SRM_IFCE_PKG_LIBRARIES})
+target_link_libraries(plugin_srm ${gfal2_link} ${SRM_IFCE_PKG_LIBRARIES} gfal2_transfer)
 include_directories( ${SRM_IFCE_PKG_INCLUDE_DIR} )
 add_definitions( ${SRM_IFCE_PKG_CFLAGS} )
 
 set_target_properties(plugin_srm	 	PROPERTIES
 								CLEAN_DIRECT_OUTPUT 1
 								OUTPUT_NAME ${OUTPUT_NAME_SRM}
+								LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins								
 )
 
 install(TARGETS		plugin_srm
-	    RUNTIME		DESTINATION ${CMAKE_INSTALL_PREFIX}
-	    LIBRARY		DESTINATION ${LIB_INSTALL_DIR} )
+	    LIBRARY		DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 install(FILES ${srm_scripts} DESTINATION ${SYSCONF_INSTALL_DIR}/profile.d/ )
 
@@ -194,11 +194,11 @@ add_definitions( ${DPM_CFLAGS} )
 set_target_properties(plugin_rfio	 	PROPERTIES
 								CLEAN_DIRECT_OUTPUT 1
 								OUTPUT_NAME ${OUTPUT_NAME_RFIO}
+								LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins								
 )
 
 install(TARGETS		plugin_rfio
-	    RUNTIME		DESTINATION ${CMAKE_INSTALL_PREFIX}
-	    LIBRARY		DESTINATION ${LIB_INSTALL_DIR} )
+	    LIBRARY		DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(FILES ${rfio_scripts} DESTINATION ${SYSCONF_INSTALL_DIR}/profile.d/ )
 
 ENDIF(PLUGIN_RFIO)
@@ -219,16 +219,20 @@ add_definitions( ${DCAP_CFLAGS} )
 set_target_properties(plugin_dcap	 	PROPERTIES
 								CLEAN_DIRECT_OUTPUT 1
 								OUTPUT_NAME ${OUTPUT_NAME_DCAP}
+								LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins								
 )
 
 install(TARGETS		plugin_dcap
-	    RUNTIME		DESTINATION ${CMAKE_INSTALL_PREFIX}
-	    LIBRARY		DESTINATION ${LIB_INSTALL_DIR} )
+	    LIBRARY		DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(FILES ${dcap_scripts} DESTINATION ${SYSCONF_INSTALL_DIR}/profile.d/ )
 
 ENDIF(PLUGIN_DCAP)
 
-                         
+
+add_subdirectory(global)
+add_subdirectory(transfer)                         
+add_subdirectory(common/gridftp)    
+add_subdirectory(common/srm/test)                        
 
 
 

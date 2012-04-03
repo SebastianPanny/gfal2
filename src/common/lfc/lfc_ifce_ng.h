@@ -91,7 +91,7 @@ struct lfc_ops {
 	int (*startsess) (char *, char *); 
 	int (*endsess) ();
 	int (*Cthread_init)();
-	void (*_Cthread_addcid)(char *, int, char *, int, Cth_pid_t *, unsigned, void *(*)(void *), int);
+	int (*_Cthread_addcid)(char *, int, char *, int, Cth_pid_t *, unsigned, void *(*)(void *), int);
 };
 
 char* gfal_setup_lfchost(gfal_handle handle, GError ** err);

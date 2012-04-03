@@ -54,6 +54,11 @@
  */
 static char* srm_turls_sup_protocols[] = { "file", "rfio", "gsidcap", "dcap",  "kdcap",  NULL };
 /**
+ * list of protocols supporting third party transfer
+ */
+char* srm_turls_thirdparty_protocols[] = { "gsiftp", "ftp", NULL };
+
+/**
  * 
  * srm plugin id
  */
@@ -127,7 +132,7 @@ static gboolean gfal_srm_check_url(plugin_handle handle, const char* url, plugin
 /**
  * destroyer function, call when the module is unload
  * */
-static void gfal_srm_destroyG(plugin_handle ch){
+void gfal_srm_destroyG(plugin_handle ch){
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*) ch;
 	regfree(&opts->rexurl);
 	regfree(&opts->rex_full);
@@ -146,11 +151,14 @@ void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle){
 	memset(opts, 0, sizeof(gfal_srmv2_opt));
 	gfal_checker_compile(opts, NULL);
 	opts->opt_srmv2_protocols = srm_turls_sup_protocols;
+	opts->opt_srmv2_tp3_protocols = srm_turls_thirdparty_protocols; // thrid party protocols
 	opts->srm_proto_type = PROTO_SRMv2;
 	opts->handle = handle;
 	opts->filesizes = GFAL_NEWFILE_SIZE;	
 	opts->cache = gsimplecache_new(500000, &srm_internal_copy_stat, sizeof(struct stat));
 }
+
+
 
 /**
  * Init function, called before all

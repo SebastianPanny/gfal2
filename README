@@ -1,22 +1,20 @@
 How to compile GFAL 2.0 ?
 
 
-- general compilation :
-cd [gfal_dir]
-scons 
+- install glib2, openldap in development version
+- install all the plugin development files that you need ( lfc-dev, dcap-dev, etc...)
 
-- compile and execute tests :
-cd [gfal_dir]
-scons test
+compilation :
+cd [src_dir]
+mkdir build
+cd build
+cmake ../
+ccmake ../ # configure the plugin that you need : default = all !
+make -j 8
 
-- compile and execute examples  :
-cd [gfal_dir]
-scons testing
+- installation
+make install 
 
-
-- generates all RPMS  :
-cd [gfal_dir]
-./package_generator.sh
 
 
 

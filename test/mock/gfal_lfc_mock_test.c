@@ -24,7 +24,7 @@
 #include <common/lfc/gfal_common_lfc.h>
 #include <common/gfal_common_filedescriptor.h>
 
-#include "../unit_test_util.h"
+#include "unit_test_util.h"
 
 static void test_internal_generic_copy(gpointer origin, gpointer copy){
 	memcpy(copy, origin, sizeof(struct stat));

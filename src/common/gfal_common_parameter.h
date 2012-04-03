@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _GFAL_COMMON_PARAMETER_H
+#define _GFAL_COMMON_PARAMETER_H
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -27,11 +29,14 @@
 #include <stdlib.h>
 #include <glib.h>
 
-#include "gfal_prototypes.h"
-#include "gfal_types.h"
+#include <common/gfal_prototypes.h>
+#include <common/gfal_types.h>
 
 
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 /**
  * set the value of a GFAL 2.0 string parameter
@@ -40,7 +45,7 @@
  * @param value : value of the parameter to set
  * @param err : GError report
  * */
-int gfal_common_parameter_set_string(gfal_handle handle, const char* namespace, const char* key, const char* value, GError** err);
+int gfal_common_parameter_set_string(gfal_handle handle, const char* nmespace, const char* key, const char* value, GError** err);
 
 
 /**
@@ -50,10 +55,22 @@ int gfal_common_parameter_set_string(gfal_handle handle, const char* namespace, 
  * @param value : value of the parameter to set
  * @param err : GError report
  * */
-char* gfal_common_parameter_get_string(gfal_handle handle, const char* namespace, const char* key, GError** err);
+char* gfal_common_parameter_get_string(gfal_handle handle, const char* nmespace, const char* key, GError** err);
 
 
-gboolean gfal_common_parameter_get_boolean(gfal_handle handle, const char* namespace, const char* key, GError** err);
+gboolean gfal_common_parameter_get_boolean(gfal_handle handle, const char* nmespace, const char* key, GError** err);
 
 
-int gfal_common_parameter_set_boolean(gfal_handle handle, const char* namespace, const char* key, gboolean value, GError** err);
+int gfal_common_parameter_set_boolean(gfal_handle handle, const char* nmespace, const char* key, gboolean value, GError** err);
+
+
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
+
+#endif //_GFAL_COMMON_PARAMETER_H
+

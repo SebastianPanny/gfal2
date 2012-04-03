@@ -26,37 +26,15 @@
  * @date 02/10/2011
  * 
  * */
-struct _plugin_opts;
 
 #include <glib.h>
-#include <common/gfal_prototypes.h>
 #include <common/gfal_types.h>
 #include <common/gfal_constants.h>
 
-/**
- * @enum list the type of the check associated with the url
- *  check_plugin_url send this mode to the plugin to know is this type of operation on it
- * */
-enum _plugin_mode{
-	GFAL_PLUGIN_ALL=0,
-	GFAL_PLUGIN_ACCESS,
-	GFAL_PLUGIN_CHMOD,
-	GFAL_PLUGIN_RENAME,
-	GFAL_PLUGIN_SYMLINK,
-	GFAL_PLUGIN_STAT,
-	GFAL_PLUGIN_LSTAT,
-	GFAL_PLUGIN_MKDIR,
-	GFAL_PLUGIN_RMDIR,
-	GFAL_PLUGIN_OPENDIR, // concat of opendir readdir, closedir
-	GFAL_PLUGIN_OPEN, // concat of open read, close
-	GFAL_PLUGIN_RESOLVE_GUID,
-	GFAL_PLUGIN_GETXATTR,
-	GFAL_PLUGIN_SETXATTR,
-	GFAL_PLUGIN_LISTXATTR,
-	GFAL_PLUGIN_READLINK,
-	GFAL_PLUGIN_UNLINK
-	
-};
+#ifdef __cplusplus
+extern "C"
+{
+#endif 
 
 
 
@@ -68,6 +46,9 @@ enum _plugin_mode{
  *  all the unused function pointers must be set to NULL
  */
 struct _gfal_plugin_interface{
+	// internal datas*
+	void * gfal_data;
+	
 	// handle
 	plugin_handle handle;
 	// to have name/id of the plugin MUST be IMPLEMENTED
@@ -82,6 +63,7 @@ struct _gfal_plugin_interface{
 	 *  @warning This function is a key function of GFAL 2.0, It MUST be as fast as possible.
 	 */
 	gboolean (*check_plugin_url)(plugin_handle, const char* url,  plugin_mode mode, GError** err);
+	 
 	/**
 	 *  access function for the access for the normal associated url
 	 * */
@@ -147,7 +129,7 @@ struct _gfal_plugin_interface{
 	  *  @warning must be a NULL pointer if not used
 	  * 
 	  * */
-	 int (*is_used_parameter)(plugin_handle, const char* namespace, const char* key);
+	 int (*is_used_parameter)(plugin_handle, const char* namespacep, const char* key);
 
 	 /**
 	  *  called when a change occures on a parameter
@@ -156,7 +138,7 @@ struct _gfal_plugin_interface{
 	  *  @warning must be a NULL pointer if not used
 	  *  @return 0 if parameter changed or if no parameter triggered, -1 if major error with the new parameter
 	  **/
-	 void (*notify_change_parameter)(plugin_handle, const char* namespace, const char* key);
+	 void (*notify_change_parameter)(plugin_handle, const char* namespacep, const char* key);
 };
 
 /**
@@ -168,6 +150,9 @@ struct _plugin_opts{
 };
 
 
+#ifdef __cplusplus
+}
+#endif 
 
 
 #endif

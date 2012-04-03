@@ -42,3 +42,5 @@ int gfal_select_best_protocol_and_endpointG(gfal_srmv2_opt* opts, char** tab_se_
 int gfal_get_endpoint_and_setype_from_bdiiG(gfal_srmv2_opt* opts, const char* surl, char* buff_endpoint, size_t s_buff, enum gfal_srm_proto* srm_type, GError** err);
 
 int  gfal_get_hostname_from_surlG(const char * surl, char* buff_hostname, size_t s_buff, GError** err);
+
+

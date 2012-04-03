@@ -10,7 +10,7 @@
 #include <cgreen/cgreen.h>
 #include "gfal_mds_mock_test.h" 
 
-#include "../unit_test_util.h"
+#include "unit_test_util.h"
 
 
 void setup_mock_bdii(){

@@ -342,7 +342,7 @@ static gfal_file_handle lfc_opendirG(plugin_handle handle, const char* name, GEr
 	g_return_val_err_if_fail( handle && name , NULL, err, "[lfc_rmdirG] Invalid value in args handle/path");
 	GError* tmp_err=NULL;
 	struct lfc_ops* ops = (struct lfc_ops*) handle;
-	lfc_opendir_handle oh;
+	lfc_opendir_handle oh=NULL;
 	gfal_lfc_init_thread(ops);
 	gfal_auto_maintain_session(ops, &tmp_err);
 	char* lfn = url_converter(handle, name, &tmp_err);

@@ -72,6 +72,7 @@ typedef struct _gfal_srmv2_opt{
 	enum gfal_srm_proto srm_proto_type;		// default protocol version
 	int opt_srmv2_desiredpintime;			//	optional desired default endpoint
 	char** opt_srmv2_protocols;				// optional protocols list for manual set
+	char** opt_srmv2_tp3_protocols;
 	char * opt_srmv2_spacetokendesc;		// optional spacetokens desc for srmv2	 
 	regex_t rexurl;
 	regex_t rex_full;
@@ -80,6 +81,8 @@ typedef struct _gfal_srmv2_opt{
 	gfal_request_state* last_request_state;
 	GSimpleCache* cache;
 } gfal_srmv2_opt;
+
+typedef gfal_srmv2_opt* gfal_srm_plugin_t;
 
 
 
@@ -90,24 +93,32 @@ typedef struct _gfal_srm_result{
 	char err_str[GFAL_ERRMSG_LEN+1];	// explanation about the error
 } gfal_srm_result;
 
+typedef struct _gfal_srm_params{
+	char** protocols;				// optional protocols list for manual set
+	enum gfal_srm_proto proto_version;		// default protocol version
+	char * spacetokendesc;		// optional spacetokens desc for srmv2	 
+	int desiredpintime;			//	optional desired default endpoint
+}* gfal_srm_params_t;
 
 typedef void* srm_request_handle;
-
-
 
 const char* gfal_srm_getName();
 
 gfal_plugin_interface gfal_srm_initG(gfal_handle handle, GError** err);
 
+void gfal_srm_destroyG(plugin_handle ch);
+
 void gfal_srm_opt_initG(gfal_srmv2_opt* opts, gfal_handle handle);
 
 
 inline char* gfal_srm_construct_key(const char* url, const char* prefix, char* buff, const size_t s_buff);
-
 void gfal_set_default_storageG(gfal_srmv2_opt* opts, enum gfal_srm_proto proto);
 
 
 int gfal_srm_convert_filestatuses_to_GError(struct srmv2_filestatus* statuses, int n, GError** err);
+
+
+					
 
 
 

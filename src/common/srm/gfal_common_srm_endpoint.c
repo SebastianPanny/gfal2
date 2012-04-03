@@ -205,5 +205,3 @@ int gfal_get_endpoint_and_setype_from_bdiiG(gfal_srmv2_opt* opts, const char* su
 	
 }
 
-
-

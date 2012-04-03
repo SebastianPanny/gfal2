@@ -30,10 +30,10 @@
 #include <time.h> 
 #include <string.h>
 #include <stdlib.h>
-#include "../gfal_common_internal.h"
-#include "../gfal_common_errverbose.h"
-#include "../gfal_common_plugin.h"
-#include "../gfal_types.h"
+#include <common/gfal_common_internal.h>
+#include <common/gfal_common_errverbose.h>
+#include <common/gfal_common_plugin.h>
+#include <common/gfal_types.h>
 #include "gfal_dcap_plugin_layer.h"
 #include "gfal_dcap_plugin_main.h"
 #include "gfal_dcap_plugin_bindings.h"
@@ -77,6 +77,7 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	dcap_plugin.check_plugin_url = &gfal_dcap_check_url;
 	dcap_plugin.statG= &gfal_dcap_statG;
 	dcap_plugin.lstatG = &gfal_dcap_lstatG;
+	dcap_plugin.mkdirpG = &gfal_dcap_mkdirG;
 	
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
@@ -113,6 +114,7 @@ gboolean gfal_dcap_check_url(plugin_handle ch, const char* url,  plugin_mode mod
 			case GFAL_PLUGIN_OPEN:
 			case GFAL_PLUGIN_LSTAT:
 			case GFAL_PLUGIN_STAT:
+			case GFAL_PLUGIN_MKDIR:
 				ret = gfal_dcap_internal_check_url(rh, url, &tmp_err);
 				break;
 			default:

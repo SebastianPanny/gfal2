@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _GFAL_COMMON_INTERNAL_H_
+#define _GFAL_COMMON_INTERNAL_H_
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -33,6 +35,13 @@ extern "C"
 #endif
 
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif  // __cplusplus
+
+
+
 gfal_handle gfal_initG(GError** err);
 void gfal_handle_freeG(gfal_handle handle);
 
@@ -51,4 +60,6 @@ gboolean is_valid_access_result(int status);
 
 #ifdef __cplusplus
 }
-#endif
+#endif // __cplusplus
+
+#endif // _GFAL_COMMON_INTERNAL_H_

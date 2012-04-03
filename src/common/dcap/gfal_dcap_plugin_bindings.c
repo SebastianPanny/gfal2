@@ -152,6 +152,15 @@ int gfal_dcap_lstatG(plugin_handle handle, const char* name, struct stat* buff, 
 	return ret;	
 }
 
+int gfal_dcap_mkdirG(plugin_handle handle, const char* name, mode_t mode, gboolean pflag, GError** err){
+	gfal_plugin_dcap_handle h = (gfal_plugin_dcap_handle) handle;
+	int ret = h->ops->mkdir(name, mode);	
+	if(ret !=0){
+		dcap_report_error(h, __func__, err);		
+	}
+	return ret;
+}
+
 
 const char* gfal_dcap_getName(){
 	return "dcap";

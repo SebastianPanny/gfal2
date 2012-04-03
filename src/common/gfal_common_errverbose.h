@@ -25,12 +25,21 @@
  * */
 
 
-#include "gfal_constants.h"
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <glib.h>
+#include <common/gfal_constants.h>
+
+
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif 
+
 
 extern const char* no_err;
 
@@ -86,8 +95,9 @@ void g_prefix_error(GError **err,
 
 
 #if (GLIB_CHECK_VERSION(2,28,0) != TRUE)
-
-
 void g_list_free_full(GList *list, GDestroyNotify free_func);
-
 #endif
+
+#ifdef __cplusplus
+}
+#endif 

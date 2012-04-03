@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _GFAL2_POSIX_API_
+#define _GFAL2_POSIX_API_
 /*
  * Copyright (c) Members of the EGEE Collaboration. 2004.
  * See http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -22,8 +24,8 @@
  * @version 2.0.1
  * @date 30/09/2011
  * */
- 
- 
+
+
 #include <sys/types.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -34,6 +36,16 @@
 #include <attr/xattr.h>
 
 #include <common/gfal_constants.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif 
+
+ 
+
+
+
 
 /**
 	\defgroup posix_group all POSIX style function
@@ -129,3 +141,9 @@ int gfal_set_parameter_boolean(const char* namespc, const char* key, int bool_va
 	@} 
 	End of the POSIX group
 */
+#ifdef __cplusplus
+}
+#endif 
+
+
+#endif // _GFAL2_POSIX_API_
