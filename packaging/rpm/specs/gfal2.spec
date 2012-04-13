@@ -79,7 +79,7 @@ Group:				Applications/Internet
 Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 
 %description doc
-Doxygen documentation of %{name} .
+documentation, Doxygen and examples of %{name} .
 
 %package plugin-lfc
 Summary:			Provide the lfc support for %{name}
@@ -87,7 +87,7 @@ Group:				Applications/Internet
 Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 
 %description plugin-lfc
-Provide the lfc support (lfn://) for %{name}.
+Provide the lfc support (LFN://) for %{name}.
 The LFC plugin allows read-only POSIX operations \ 
 for the LFC catalog.
 
@@ -98,7 +98,7 @@ Requires:			%{name}-core%{?_isa} = %{version}-%{release}
 Requires:			dpm-libs%{?_isa}
 
 %description plugin-rfio
-Provide the rfio support (rfio://) for %{name}. \
+Provide the rfio support (RFIO://) for %{name}. \
 The rfio plugin provides the POSIX operations for \
 the rfio URLs, the rfio protocol is used on the DPM \
 and on the Castor storage systems.
@@ -110,7 +110,7 @@ Requires:			%{name}-core%{?_isa} = %{version}-%{release}
 Requires:			dcap-tunnel-gsi%{?_isa}
 
 %description plugin-dcap
-Provide the dcap support (gsidcap://, dcap://) for %{name}. \
+Provide the dcap support (GSIDCAP://, DCAP://) for %{name}. \
 The dcap plugin provides the POSIX operations for the dcap \
 URLs, the dcap protocol is used on the dCache storage system.
 
@@ -120,7 +120,7 @@ Group:				Applications/Internet
 Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 
 %description plugin-srm
-Provide the srm support (srm://) for %{name}. \
+Provide the srm support (SRM://) for %{name}. \
 The srm plugin provides the POSIX operations and \
 the third party transfer support on the SRM URLs.
 
@@ -130,23 +130,24 @@ Group:				Applications/Internet
 Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 
 %description plugin-gridftp
-Provide the gridftp support (gsiftp://) for %{name}. \
+Provide the gridftp support (GSIFTP://) for %{name}. \
 The gridftp plugin provides the POSIX operations and \
 the third party transfer support on the gsiftp URLs.
 
 %package all
-Summary:			Meta package for gfal 2.0 global install
+Summary:			Meta package for GFAL 2.0 install
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
-Requires:			%{name}-transfer%{?_isa} = %{version}
-Requires:			%{name}-plugin-lfc%{?_isa} = %{version}
-Requires:			%{name}-plugin-dcap%{?_isa} = %{version}
-Requires:			%{name}-plugin-srm%{?_isa} = %{version}
-Requires:			%{name}-plugin-rfio%{?_isa} = %{version}
-Requires:			%{name}-plugin-gridftp%{?_isa} = %{version}
+Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
+Requires:			%{name}-transfer%{?_isa} = %{version}-%{release} 
+Requires:			%{name}-plugin-lfc%{?_isa} = %{version}-%{release} 
+Requires:			%{name}-plugin-dcap%{?_isa} = %{version}-%{release} 
+Requires:			%{name}-plugin-srm%{?_isa} = %{version}-%{release} 
+Requires:			%{name}-plugin-rfio%{?_isa} = %{version}-%{release} 
+Requires:			%{name}-plugin-gridftp%{?_isa} = %{version}-%{release} 
 
 %description all
-Install gfal 2.0 and all standard plugins
+Meta-package for complete install of GFAL 2.0 \
+with all the protocol plugins.
 
 %clean
 rm -rf "$RPM_BUILD_ROOT";
