@@ -37,10 +37,10 @@ Requires:			%{name}-core = %{version}
 Requires:			%{name}-transfer = %{version}
 
 %description
-GFAL 2.0 offers an a single, simple and portable API \
-for the file operations in grids environments \
-and cloud environments. The set of supported protocols \
-depends of the %{name} plugins installation.
+GFAL 2.0 offers an a single and simple POSIX-like API \
+for the file operations in grids and cloud environments. \
+The set of supported protocols depends \
+of the %{name} plugin install.
 
 %package core
 Summary:			Core of the Grid File access Library 2.0
@@ -179,6 +179,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %{_bindir}/gfal2_version
 %{_docdir}/%{name}-%{version}/DESCRIPTION
 %{_docdir}/%{name}-%{version}/VERSION
+%{_mandir}/man1/gfal2_version.1*
 
 %files core
 %defattr (-,root,root)
