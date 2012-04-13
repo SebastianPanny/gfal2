@@ -112,7 +112,7 @@ Requires:			dcap-tunnel-gsi%{?_isa}
 %description plugin-dcap
 Provide the dcap support (GSIDCAP://, DCAP://) for %{name}. \
 The dcap plugin provides the POSIX operations for the dcap \
-URLs, the dcap protocol is used on the dCache storage system.
+URLs, the dcap protocol is used on the DCACHE storage system.
 
 %package plugin-srm
 Summary:			Provide the srm access for %{name}
@@ -132,7 +132,7 @@ Requires:			%{name}-core%{?_isa} = %{version}-%{release}
 %description plugin-gridftp
 Provide the gridftp support (GSIFTP://) for %{name}. \
 The gridftp plugin provides the POSIX operations and \
-the third party transfer support on the gsiftp URLs.
+the third party transfer support on the GSIFTP URLs.
 
 %package all
 Summary:			Meta package for GFAL 2.0 install
