@@ -64,8 +64,8 @@ are supported.
 %package devel
 Summary:			Development files of %{name}
 Group:				Applications/Internet
-Requires:			%{name}%{?_isa} = %{version}
-Requires:			%{name}-transfer%{?_isa} = %{version}
+Requires:			%{name}%{?_isa} = %{version}-%{release} 
+Requires:			%{name}-transfer%{?_isa} = %{version}-%{release} 
 Requires:			glib2-devel%{?_isa} 
 Requires:			libattr-devel%{?_isa} 
 Requires:			pkgconfig
@@ -76,7 +76,7 @@ development files for %{name}
 %package doc
 Summary:			Documentation for %{name}
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 
 %description doc
 Doxygen documentation of %{name} .
@@ -84,7 +84,7 @@ Doxygen documentation of %{name} .
 %package plugin-lfc
 Summary:			Provide the lfc support for %{name}
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 
 %description plugin-lfc
 Provide the lfc support (lfn://) for %{name}.
@@ -94,7 +94,7 @@ for the LFC catalog.
 %package plugin-rfio
 Summary:			Provide the rfio support for %{name}
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 Requires:			dpm-libs%{?_isa}
 
 %description plugin-rfio
@@ -106,7 +106,7 @@ and on the Castor storage systems.
 %package plugin-dcap
 Summary:			Provide the support access for %{name}
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 Requires:			dcap-tunnel-gsi%{?_isa}
 
 %description plugin-dcap
@@ -117,7 +117,7 @@ URLs, the dcap protocol is used on the dCache storage system.
 %package plugin-srm
 Summary:			Provide the srm access for %{name}
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 
 %description plugin-srm
 Provide the srm support (srm://) for %{name}. \
@@ -127,7 +127,7 @@ the third party transfer support on the SRM URLs.
 %package plugin-gridftp
 Summary:			Provide the gridftp support for %{name}
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}-core%{?_isa} = %{version}-%{release} 
 
 %description plugin-gridftp
 Provide the gridftp support (gsiftp://) for %{name}. \
