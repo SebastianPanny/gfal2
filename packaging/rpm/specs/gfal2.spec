@@ -33,8 +33,8 @@ BuildRequires:		dcap-devel
 #gridftp plugin dependencies
 BuildRequires:		globus-gass-copy-devel
 
-Requires:			%{name}-core = %{version}
-Requires:			%{name}-transfer = %{version}
+Requires:			%{name}-core = %{version}-%{release}
+Requires:			%{name}-transfer = %{version}-%{release}
 
 %description
 GFAL 2.0 offers an a single and simple POSIX-like API \
@@ -54,7 +54,7 @@ the %{name} protocol support relies on a plugin system.
 %package transfer
 Summary:			File Transfer logic of %{name}
 Group:				Applications/Internet
-Requires:			%{name}-core%{?_isa} = %{version}
+Requires:			%{name}-core%{?_isa} = %{version}-%{release}
 
 %description transfer
 %{name}-transfer is the high level API for file transfer operations \

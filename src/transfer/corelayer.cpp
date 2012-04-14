@@ -77,7 +77,7 @@ Gfal::CoreLayer::CoreLayer(gfal_handle handle)
 
 Gfal::CoreLayer::~CoreLayer()
 {
-	for(int i=0; i < _plugins.size(); ++i){
+	for(unsigned int i=0; i < _plugins.size(); ++i){
 		delete _plugins[i];
 	}
 	

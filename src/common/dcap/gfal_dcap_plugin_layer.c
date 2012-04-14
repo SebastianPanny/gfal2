@@ -34,8 +34,6 @@
 #include <common/gfal_types.h>
 #include "gfal_dcap_plugin_layer.h"
 
-static char* libdcap_name= "libdcap.so.1";
-
 struct dcap_proto_ops * gfal_dcap_internal_loader_base(GError** err){
 	struct dcap_proto_ops * pops = NULL;
 	GError* tmp_err=NULL;
