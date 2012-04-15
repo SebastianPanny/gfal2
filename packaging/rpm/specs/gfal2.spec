@@ -250,5 +250,5 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
-* Mon Dec 12 2011 Adrien Devress <adevress at cern.ch> - 2.0.0-0.6.beta%{?dist}
+* Mon Dec 12 2011 Adrien Devress <adevress at cern.ch> - 2.0.0-0.6.2012041515snap%{?dist}
  - Initial gfal 2.0 preview release
