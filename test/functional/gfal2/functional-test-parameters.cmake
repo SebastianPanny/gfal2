@@ -94,6 +94,7 @@ ENDIF(PLUGIN_DCAP)
 
 IF(PLUGIN_GRIDFTP)
 	stat_test_all( "GRIDFTP" ${gsiftp_valid_dpm_stat})
+        checksum_test_all("GRIDFTP" ${gsiftp_valid_dir_root})
 	mkdir_test_all("GRIDFTP" ${gsiftp_prefix_dpm})	
 	chmod_test_all("GRIDFTP" ${gsiftp_valid_dpm_chmod} 0565 060 0360 0767)	
 	chmod_test_all("GRIDFTP_2" ${gsiftp_valid_dpm_chmod} 000 0555 0666 0777)	

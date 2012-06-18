@@ -93,6 +93,7 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	ret.readG = &gfal_gridftp_readG;
 	ret.writeG = &gfal_gridftp_writeG;
 	ret.lseekG = &gfal_gridftp_lseekG;
+    ret.checksum_calcG = &gfal_gridftp_checksumG;
 	
 	G_RETURN_ERR(ret, tmp_err, err);
 }

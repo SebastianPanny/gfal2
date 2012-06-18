@@ -25,6 +25,16 @@ char* generate_random_uri(const char* uri_dir, const char* prefix, char* buff, s
 	return buff;
 }
 
+char * generate_random_string_content(size_t size){
+    char * res = malloc(size * sizeof(char));
+    size_t i =0;
+    while(i < size){
+        res[i]= (char) (((rand()%2)?65:97)+(rand()%26));
+        i++;
+    }
+    return res;
+}
+
 #include "gfal_lib_test.h"
 
 

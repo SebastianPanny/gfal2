@@ -69,9 +69,16 @@ int gfal_plugins_instance(gfal_handle, GError** err);
 char** gfal_plugins_get_list(gfal_handle, GError** err);
 int gfal_plugins_delete(gfal_handle, GError** err);
 
-int gfal_plugins_has_parameter(gfal_handle handle, const char* nmespace, const char* key, GError** err);
 
-int gfal_plugins_notify_all(gfal_handle handle, const char* nmespace, const char* key, GError** err);
+// find a compatible catalog or return NULL + error
+gfal_plugin_interface* gfal_find_catalog(gfal_handle handle,
+                                         const char * url,
+                                         plugin_mode acc_mode, GError** err);
+
+plugin_handle gfal_get_plugin_handle(gfal_plugin_interface* p_interface);
+
+// default plugin checker for a given operation and call_type
+gboolean gfal_plugin_checker_safe(gfal_plugin_interface* cata_list, const char* path, plugin_mode call_type, GError** terr );
 
 #ifdef __cplusplus
 }

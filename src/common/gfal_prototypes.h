@@ -53,7 +53,8 @@ typedef enum _plugin_mode{
 	GFAL_PLUGIN_SETXATTR,
 	GFAL_PLUGIN_LISTXATTR,
 	GFAL_PLUGIN_READLINK,
-	GFAL_PLUGIN_UNLINK
+    GFAL_PLUGIN_UNLINK,
+    GFAL_PLUGIN_CHECKSUM
 	
 } plugin_mode;
 
@@ -61,6 +62,8 @@ typedef enum _gfal_url2_check{
 	GFAL_FILE_COPY
 
 } gfal_url2_check;
+
+
 
 enum _GFAL_TYPE { GFAL_TYPE_INT=0, GFAL_TYPE_STRING=1 };
 

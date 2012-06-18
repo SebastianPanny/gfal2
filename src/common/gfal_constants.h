@@ -105,15 +105,14 @@ extern "C"
 
 
 // plugins entry points for the new system of plugins
-//  int plugin_url_transfer_check(plugin_handle handle, const char* src, const char* dst, gfal_transfer_type type )
-// return true if url is compatible with this plugin else false
 #define GFAL_PLUGIN_URL_TRANSFER_CHECK "plugin_url_transfer_check"
 
-
-// parameters list for gfal 2.0 
-
-//! boolean parameter key to set for enable/disable  bdii information system usage.
-#define GFAL_NO_BDII_OPTION "no_bdii" 
+//! gfal checksum type key
+//! note : checksum type support depends of the plugin implementation
+#define GFAL_CHKSUM_MD5 "MD5"
+#define GFAL_CHKSUM_SHA1 "SHA1"
+#define GFAL_CHKSUM_ADLER32 "ADLER32"
+#define GFAL_CHKSUM_CRC32 "CRC32"
 
 
 #ifdef __cplusplus

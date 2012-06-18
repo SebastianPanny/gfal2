@@ -5,6 +5,7 @@
 FILE(GLOB src_lib_test "gfal_lib_test.c")
 
 # list tests
+FILE(GLOB src_gfalchecksum "gfal_testchecksum.c")
 FILE(GLOB src_gfalstat "gfal_teststat.c")
 FILE(GLOB src_gfal_testchmod "gfal_testchmod.c")
 FILE(GLOB src_gfalread "gfal_testread.c")
@@ -27,16 +28,24 @@ SET(COPY_DST "${CMAKE_CURRENT_BINARY_DIR}/")
 
 IF (FUNCTIONAL_TESTS)
 
+    pkg_search_module(NETTLE_PKG REQUIRED nettle)
 
+        include_directories( "${CMAKE_SOURCE_DIR}/src "  "${CMAKE_SOURCE_DIR}/src/posix/"
+                    ${GLIB2_PKG_INCLUDE_DIRS} ${NETTLE_PKG_INCLUDE_DIRS} )
 
-	include_directories( "${CMAKE_SOURCE_DIR}/src "  "${CMAKE_SOURCE_DIR}/src/posix/" ${GLIB2_PKG_INCLUDE_DIRS} )
-
-	add_executable(gfal_stat	${src_gfalstat} )
+        add_executable(gfal_stat	${src_gfalstat} )
 	target_link_libraries(gfal_stat ${OUTPUT_NAME_MAIN} )
+
+        add_executable(gfal_checksum	${src_gfalchecksum} ${src_lib_test} )
+        target_link_libraries(gfal_checksum ${OUTPUT_NAME_MAIN} ${NETTLE_PKG_LIBRARIES})
 	
 	FUNCTION(stat_test_all name valid)
 		add_test(gfal_stat_${name} gfal_stat ${valid})
 	ENDFUNCTION(stat_test_all valid)
+
+        FUNCTION(checksum_test_all name valid)
+                add_test(gfal_checksum_${name} gfal_checksum ${valid})
+        ENDFUNCTION(checksum_test_all name valid)
 	
 	FUNCTION(chmod_test_all name valid right1 right2 right3 right4)
 		add_test(gfal_test_right_change_${name} gfal_test_right_change ${valid} ${right1} ${right2} ${right3} ${right4})

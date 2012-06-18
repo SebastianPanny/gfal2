@@ -41,6 +41,7 @@
 #include "gridftp_opendir_module.h"
 #include "gridftp_unlink_module.h"
 #include "gridftp_rw_module.h"
+#include "gridftp_checksum_module.h"
 
 typedef globus_gass_copy_glob_stat_t gfal_globus_stat_t;
 
@@ -83,7 +84,9 @@ class GridftpModule
 		 // Execute a mkdir query on path
 		 virtual void mkdir(const char* path, mode_t mode);
 		 
-
+        virtual void checksum(const char* url, const char* check_type,
+                               char * checksum_buffer, size_t buffer_length,
+                               off_t start_offset, size_t data_length);
 		
 		// rmdir query on path
 	    virtual void rmdir(const char* path);	
@@ -100,6 +103,7 @@ class GridftpModule
 		 // Execute a file transfer operation for gridftp URLs
 		virtual int filecopy(gfalt_params_t params, const char* src, const char* dst);
 		
+
 				 
 		void internal_globus_gass_stat(const char* path,  gfal_globus_stat_t * gl_stat);
 
