@@ -29,6 +29,19 @@ int main(int argc, char **argv)
     generate_random_uri(argv[1], "test_checksum", filename, 2048);
    // printf(" string : %s\n", c);
 
+    printf(" initialize gfal2 context..\n");
+
+    gfal2_context_t context = gfal2_context_new(&tmp_err);
+    g_assert(context != NULL);
+    g_assert(tmp_err == NULL);
+
+    printf("try with enoent file checksum algorithm \n");
+    res= gfal2_checksum(context, filename, GFAL_CHKSUM_MD5,0,0, remote_md5_char,1024, &tmp_err);
+    g_assert(res != 0);
+    g_assert(tmp_err != 0);
+    g_assert(tmp_err->code == ENOENT);
+    g_clear_error(&tmp_err);
+
     printf(" try to create file %s ... \n",filename);
     int fd = gfal_open(filename, O_WRONLY);
     g_assert(fd > 0);
@@ -51,11 +64,25 @@ int main(int argc, char **argv)
         snprintf(nettle_md5_char+i*2, 1024, "%02x",  (unsigned char) nettle_md5[i]);
     printf("%s\n",nettle_md5_char);
 
+
+
+    printf(" test NULL args for safety \n");
+    res= gfal2_checksum(context, NULL, NULL,0,0, NULL,1024, &tmp_err);
+    g_assert(res != 0);
+    g_assert(tmp_err != 0);
+    g_assert(tmp_err->code == EFAULT);
+    g_clear_error(&tmp_err);
+
+    printf("try with inconsistent checksum algorithm \n");
+    res= gfal2_checksum(context, filename, "SNCF_BONJOUR",0,0, remote_md5_char,1024, &tmp_err);
+    g_assert(res != 0);
+    g_assert(tmp_err != 0);
+    g_assert(tmp_err->code == ENOTSUP);
+    g_clear_error(&tmp_err);
+
+
     printf(" calc remote checksum with gfal ... \n");
 
-    gfal2_context_t context = gfal2_context_new(&tmp_err);
-    g_assert(context != NULL);
-    g_assert(tmp_err == NULL);
 
     res= gfal2_checksum(context, filename, GFAL_CHKSUM_MD5,0,0, remote_md5_char,1024, &tmp_err);
     if(tmp_err){
@@ -73,5 +100,5 @@ int main(int argc, char **argv)
 
     gfal2_context_free(context);
     g_free(c);
-    return -1;
+    return 0;
 }

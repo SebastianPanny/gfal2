@@ -229,6 +229,8 @@ static int scan_errstring(const char *p) {
         ret = EEXIST;
     else if (strstr(p, "ot a direct"))
 		ret = ENOTDIR;
+    else if (strstr(p, "ation not sup"))
+        ret = ENOTSUP;
     return ret;
 }
 
