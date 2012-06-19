@@ -10,6 +10,8 @@
 #include <string.h>
 #include "gfal_lib_test.h"
 
+
+
 int main(int argc, char **argv)
 {
     int s_content = rand()%65635;
@@ -43,7 +45,7 @@ int main(int argc, char **argv)
     g_clear_error(&tmp_err);
 
     printf(" try to create file %s ... \n",filename);
-    int fd = gfal_open(filename, O_WRONLY);
+    int fd = gfal_open(filename, O_WRONLY | O_CREAT );
     g_assert(fd > 0);
     size = gfal_write(fd, c, s_content);
     g_assert(size == s_content);

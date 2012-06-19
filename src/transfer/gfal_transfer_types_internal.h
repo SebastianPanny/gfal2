@@ -46,6 +46,10 @@ struct _gfalt_params_t{
     // spacetoken management for SRM
     gchar * src_space_token;
     gchar* dst_space_token;
+    // checksum management
+    gboolean checksum_check;
+    gchar* user_checksum;
+    gchar* user_checksum_type;
 
     // performance callback
 	gpointer user_data;			// user data information for the monitoring callback

@@ -31,10 +31,11 @@
 #include <regex.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "../gfal_common_internal.h"
+#include <common/gfal_common_internal.h>
+#include <common/gfal_common_errverbose.h>
+#include  <common/mds/gfal_common_mds.h>
+
 #include "gfal_common_srm_endpoint.h"
-#include "../gfal_common_errverbose.h"
-#include "../mds/gfal_common_mds.h"
 
 static enum gfal_srm_proto gfal_proto_list_prefG[]= { PROTO_SRMv2, PROTO_SRM, PROTO_ERROR_UNKNOW };
 

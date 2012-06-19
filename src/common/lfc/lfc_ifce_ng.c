@@ -502,6 +502,7 @@ int gfal_lfc_getChecksum(struct lfc_ops* ops, const char* lfn, lfc_checksum* che
 	g_return_val_err_if_fail(ops && checksum, -1, err, " inval args")
 	GError * tmp_err=NULL;
 	struct lfc_filestatg statbuf;
+    memset(&statbuf, 0, sizeof(struct lfc_filestatg));
 	int ret;
 	if( (ret = gfal_lfc_statg(ops, lfn, &statbuf, &tmp_err)) == 0){
 		*((char*) mempcpy(checksum->type, statbuf.csumtype, sizeof(char)*3)) = '\0';

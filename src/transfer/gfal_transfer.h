@@ -73,6 +73,8 @@ void gfalt_params_handle_delete(gfalt_params_t params, GError ** err);
 // they must be called before starting the transfer
 //
 
+
+// TIMEOUT OPTIONS
 /**
  * define the maximum time acceptable for the file tranfer
  * */
@@ -83,6 +85,7 @@ gint gfalt_set_timeout(gfalt_params_t, guint64 timeout, GError** err);
  **/
 guint64 gfalt_get_timeout(gfalt_params_t handle, GError** err);
 
+// STREAM OPTIONS
 /**
  * define the maximum number of parallels connexion to use for the file tranfer
  * */
@@ -93,6 +96,7 @@ gint gfalt_set_nbstreams(gfalt_params_t, guint nbstreams, GError** err);
  **/
 guint gfalt_get_nbstreams(gfalt_params_t params, GError** err);
 
+// SRM SPECIFIC OPTIONS
 /**
   set the source spacetoken for SRM transfers
 */
@@ -113,6 +117,7 @@ gint gfalt_set_dst_spacetoken(gfalt_params_t params, const char* srm_spacetoken,
 */
 gchar* gfalt_get_dst_spacetoken(gfalt_params_t params, GError** err);
 
+// CONSISTENCY OPTIONS
 
 /**
  * set the policy in case of destination file already existing ( replace or cancel )
@@ -127,20 +132,46 @@ gint gfalt_set_replace_existing_file(gfalt_params_t, gboolean replace, GError** 
 gboolean gfalt_get_replace_existing_file(gfalt_params_t,  GError** err);
 
 /**
- * default offset for the copy of the file ( retry function )
- * default : 0
- * */
-gint gfalt_set_offset_from_source(gfalt_params_t, off_t offset, GError** err);
+  force additional checksum verification between source and destination
+  an Error is return by the copy function is case of checksum failure.
+  @warning for safety reason, even in case of checksum failure the destination file is not removed.
+*/
+gint gfalt_set_checksum_check(gfalt_params_t, gboolean value, GError** err);
+
+/**
+  get the checksum verification boolean
+*/
+gboolean gfalt_get_checksum_check(gfalt_params_t, GError** err);
+
+/**
+  set an user-defined checksum for file content verification
+  set NULL & NULL clear the current one.
+  This function requires to enable global checksum verification with \ref gfalt_set_checksum_check
+
+  @param param : parameter handle
+  @param chktype : checksum type string ( MD5, ADLER32, CRC32, etc... )
+  @param checksum : value of checksum in string format
+  @param err : GError error report
+
+*/
+gint gfalt_set_user_defined_checksum(gfalt_params_t param, const gchar* chktype,
+                                const gchar* checksum, GError** err);
+
+/**
+  get the current user-defined checksum for file content verification
+  if current user-defined checksum is NULL, both of the buffer are set to empty string
+
+*/
+gint gfalt_get_user_defined_checksum(gfalt_params_t params, gchar* chktype_buff, size_t chk_type_len,
+                                gchar* checksum_buff, size_t checksum_len, GError** err);
+
 
 /**
  * set the user_data pointer for statefull usages.
  * */
 gint gfalt_set_user_data(gfalt_params_t, gpointer user_data, GError** err);
 
-/**
- * set the uid of the transfer
- * */
-gint gfalt_set_uuid(gfalt_params_t, uuid_t uuid, GError** err);
+
 
 /**
  * set the minimum among of time between two calls of gfalt_monitor_tfr

@@ -30,7 +30,9 @@
  
 #include "gfal_common_srm_internal_layer.h"
 
-
+GQuark srm_checksum_quark(){
+    return g_quark_from_static_string("gfal_srm_cheksumG");
+}
 
 
 static int gfal_checksumG_srmv2_internal(gfal_srmv2_opt* opts, const char* endpoint, const char* surl, 
@@ -63,16 +65,22 @@ static int gfal_checksumG_srmv2_internal(gfal_srmv2_opt* opts, const char* endpo
 
 	if(ret >=0){
 		srmv2_mdstatuses = output.statuses;
-		if(srmv2_mdstatuses->checksum && srmv2_mdstatuses->checksumtype){
-			g_strlcpy(buf_checksum, srmv2_mdstatuses->checksum, s_checksum);
-			g_strlcpy(buf_chktype, srmv2_mdstatuses->checksumtype, s_chktype);	
-		}else{
-			if(s_checksum > 0)
-				buf_checksum='\0';
-			if(s_chktype > 0)
-				buf_chktype ='\0';
-		}	
-		ret = 0;
+        if(srmv2_mdstatuses->status != 0){
+            g_set_error(&tmp_err, srm_checksum_quark(), srmv2_mdstatuses->status, "Error reported from srm_ifce : %d %s",
+                            srmv2_mdstatuses->status, srmv2_mdstatuses->explanation);
+            ret = -1;
+        }else{
+            if(srmv2_mdstatuses->checksum && srmv2_mdstatuses->checksumtype){
+                g_strlcpy(buf_checksum, srmv2_mdstatuses->checksum, s_checksum);
+                g_strlcpy(buf_chktype, srmv2_mdstatuses->checksumtype, s_chktype);
+            }else{
+                if(s_checksum > 0)
+                    buf_checksum='\0';
+                if(s_chktype > 0)
+                    buf_chktype ='\0';
+            }
+            ret = 0;
+        }
 	}else{
 		gfal_srm_report_error(errbuf, &tmp_err);
 		ret=-1;
@@ -88,7 +96,7 @@ static int gfal_checksumG_srmv2_internal(gfal_srmv2_opt* opts, const char* endpo
  * get checksum from a remote SRM URL
  * 
  * */
-int gfal_srm_cheksumG(plugin_handle ch, const char* surl, 
+int gfal_srm_cheksumG_internal(plugin_handle ch, const char* surl,
 											char* buf_checksum, size_t s_checksum,
 											char* buf_chktype, size_t s_chktype, GError** err){
 	g_return_val_err_if_fail( ch && surl && buf_checksum && buf_chktype, -1, err, "[gfal_srm_cheksumG] Invalid args in handle/surl/bugg");
@@ -115,4 +123,27 @@ int gfal_srm_cheksumG(plugin_handle ch, const char* surl,
 	if(tmp_err)
 		g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
 	return ret;
+}
+
+
+int gfal_srm_checksumG(plugin_handle handle, const char* url, const char* check_type,
+                       char * checksum_buffer, size_t buffer_length,
+                       off_t start_offset, size_t data_length,
+                       GError ** err){
+    gfal_log(GFAL_VERBOSE_TRACE, " [gfal_srm_checksumG] ->");
+    gfal_log(GFAL_VERBOSE_DEBUG, "[gfal_srm_checksumG] try to get checksum %s for %s", check_type, url);
+
+    char buffer_type[GFAL_URL_MAX_LEN]={0};
+    GError * tmp_err=NULL;
+    int res =  gfal_srm_cheksumG_internal(handle, url,
+                                   checksum_buffer, buffer_length,
+                                   buffer_type, GFAL_URL_MAX_LEN, &tmp_err);
+    if(res == 0){
+        gfal_log(GFAL_VERBOSE_DEBUG, "registered checksum type %s", buffer_type);
+        if(strncasecmp(check_type, buffer_type,GFAL_URL_MAX_LEN) != 0){
+            res = -1;
+            g_set_error(&tmp_err, srm_checksum_quark(), ENOTSUP, " checksum type %s is not supported for %s, anwser of type %s", check_type, url, buffer_type);
+        }
+    }
+    G_RETURN_ERR(res, tmp_err, err);
 }

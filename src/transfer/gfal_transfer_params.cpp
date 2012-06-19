@@ -125,6 +125,40 @@ gchar* gfalt_get_dst_spacetoken(gfalt_params_t params, GError** err){
     return params->dst_space_token;
 }
 
+
+gint gfalt_set_checksum_check(gfalt_params_t params, gboolean value, GError** err){
+    params->checksum_check=value;
+    return 0;
+}
+
+
+gboolean gfalt_get_checksum_check(gfalt_params_t params, GError** err){
+    return params->checksum_check;
+}
+
+
+gint gfalt_set_user_defined_checksum(gfalt_params_t params, const gchar* chktype,
+                                const gchar* checksum, GError** err){
+    g_free(params->user_checksum);
+    g_free(params->user_checksum_type);
+    if(chktype && checksum){
+         params->user_checksum = g_strdup(checksum);
+         params->user_checksum_type = g_strdup(chktype);
+    }
+    return 0;
+}
+
+gint gfalt_get_user_defined_checksum(gfalt_params_t params, gchar* chktype_buff, size_t chk_type_len,
+                                gchar* checksum_buff, size_t checksum_len, GError** err){
+    g_assert(chktype_buff && checksum_buff);
+    if(!params->user_checksum || !params->user_checksum_type)
+        *checksum_buff = *chktype_buff = '\0';
+
+    g_strlcpy(chktype_buff, params->user_checksum_type, chk_type_len);
+    g_strlcpy(checksum_buff, params->user_checksum, checksum_len);
+    return 0;
+}
+
 /*
 int gfalt_set_uuid(gfalt_params_t, uuid_t uuid, GError** err);
 

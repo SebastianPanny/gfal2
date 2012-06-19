@@ -40,6 +40,7 @@
 #include "gfal_common_srm_readdir.h"
 #include "gfal_common_srm_chmod.h"
 #include "gfal_common_srm_getxattr.h"
+#include "gfal_common_srm_checksum.h"
 
 #include <common/gfal_common_internal.h>
 #include <common/gfal_common_errverbose.h>
@@ -121,6 +122,7 @@ static gboolean gfal_srm_check_url(plugin_handle handle, const char* url, plugin
 		case GFAL_PLUGIN_UNLINK:
 		case GFAL_PLUGIN_GETXATTR:
 		case GFAL_PLUGIN_LISTXATTR:
+        case GFAL_PLUGIN_CHECKSUM:
 			return (gfal_surl_checker(handle, url,  err)==0);
 		default:
 			return FALSE;		
@@ -187,6 +189,7 @@ gfal_plugin_interface gfal_plugin_init(gfal_handle handle, GError** err){
 	srm_plugin.unlinkG = &gfal_srm_unlinkG;
 	srm_plugin.getxattrG = &gfal_srm_getxattrG;
 	srm_plugin.listxattrG = &gfal_srm_listxattrG;
+    srm_plugin.checksum_calcG = &gfal_srm_checksumG;
 	return srm_plugin;
 }
 
