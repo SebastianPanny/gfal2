@@ -87,6 +87,7 @@ class GridftpModule
         virtual void checksum(const char* url, const char* check_type,
                                char * checksum_buffer, size_t buffer_length,
                                off_t start_offset, size_t data_length);
+
 		
 		// rmdir query on path
 	    virtual void rmdir(const char* path);	
@@ -109,6 +110,7 @@ class GridftpModule
 
 	private:
 		GridFTPFactoryInterface * _handle_factory;
+
 };
 
 #endif /* GRIDFTOMODULE_H */ 

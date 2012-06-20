@@ -30,6 +30,7 @@
 #include <common/gfal_common_errverbose.h>
 
 #include <global/gfal_global.h>
+#include <config/gfal_config.h>
 
 #include <transfer/gfal_transfer.h>
 #include <transfer/gfal_transfer_plugins.h>

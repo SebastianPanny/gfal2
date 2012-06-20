@@ -67,3 +67,5 @@ void GridftpModule::checksum(const char* url, const char* check_type,
     gridftp_wait_for_callback(scope_checksum, req.get());
     gfal_log(GFAL_VERBOSE_TRACE," <- [GridftpModule::checksum] ");
 }
+
+

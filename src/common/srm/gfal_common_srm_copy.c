@@ -40,12 +40,12 @@ int srm_plugin_get_3rdparty(plugin_handle handle, gfalt_params_t params, const c
 	int res = -1;
 	if( srm_check_url(surl) ){
         if( (res =gfal_srm_get_rd3_turl(handle, params, surl, buff , s_buff, NULL,  err)) == 0){
-			gfal_log(GFAL_VERBOSE_TRACE, "		GET : surl -> turl dst resolution : %s -> %s", surl, buff);		
+            gfal_log(GFAL_VERBOSE_TRACE, "\t\tGET : surl -> turl dst resolution : %s -> %s", surl, buff);
 		}
 	}else{
 		res =0;
 		g_strlcpy(buff, surl, s_buff);
-		gfal_log(GFAL_VERBOSE_TRACE, "		no SRM resolution needed on %s", surl);					
+        gfal_log(GFAL_VERBOSE_TRACE, "\t\tno SRM resolution needed on %s", surl);
 	}	
 	G_RETURN_ERR(res, tmp_err, err);		
 }
@@ -107,8 +107,8 @@ int plugin_filecopy(plugin_handle handle, gfal2_context_t context,
 	char buff_turl_dst[GFAL_URL_MAX_LEN];
 	char* reqtoken = NULL;
 
-    GError * tmp_err1, *tmp_err2;
-    tmp_err1 = tmp_err2 = NULL;
+    GError * tmp_err_get, *tmp_err_put;
+    tmp_err_get = tmp_err_put = NULL;
 
     #pragma omp parallel num_threads(2)
     {
@@ -117,17 +117,17 @@ int plugin_filecopy(plugin_handle handle, gfal2_context_t context,
         {
             #pragma omp section
             {
-                srm_plugin_get_3rdparty(handle, params, src, buff_turl_src, GFAL_URL_MAX_LEN, &tmp_err1);
+                srm_plugin_get_3rdparty(handle, params, src, buff_turl_src, GFAL_URL_MAX_LEN, &tmp_err_get);
             }
             #pragma omp section
             {
-                srm_plugin_put_3rdparty(handle, context, params, dst, buff_turl_dst, GFAL_URL_MAX_LEN, &reqtoken, &tmp_err2);
+                srm_plugin_put_3rdparty(handle, context, params, dst, buff_turl_dst, GFAL_URL_MAX_LEN, &reqtoken, &tmp_err_put);
             }
         }
 
     }
 
-   if( !gfal_error_keep_first_err(&tmp_err, &tmp_err1, &tmp_err2,NULL) ){ // do the first resolution
+   if( !gfal_error_keep_first_err(&tmp_err, &tmp_err_get, &tmp_err_put,NULL) ){ // do the first resolution
             res = gfalt_copy_file(context, params, buff_turl_src, buff_turl_dst, &tmp_err);
             if( res == 0 && reqtoken){
                 gfal_log(GFAL_VERBOSE_TRACE, "  transfer executed, execute srm put done");

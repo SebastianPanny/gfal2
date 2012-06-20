@@ -172,7 +172,7 @@ add_definitions( ${SRM_IFCE_PKG_CFLAGS} ${OpenMP_C_FLAGS} )
 include_directories( ${SRM_IFCE_PKG_INCLUDE_DIR} ${OpenMP_INCLUDE_DIRS})
 
 add_library(plugin_srm  SHARED ${src_srm} ${src_gsimplecache} ${src_uri} )
-target_link_libraries(plugin_srm ${gfal2_link} ${SRM_IFCE_PKG_LIBRARIES} ${OpenMP_LIBRARIES} -lgomp gfal2_transfer)
+target_link_libraries(plugin_srm ${gfal2_link} ${SRM_IFCE_PKG_LIBRARIES} ${OpenMP_LIBRARIES} gomp gfal2_transfer)
 
 
 set_target_properties(plugin_srm	 	PROPERTIES
