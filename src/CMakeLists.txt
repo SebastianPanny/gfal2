@@ -147,7 +147,6 @@ SET(lfc_dir "common/lfc/")
 SET(lfc_headers_dir "${LFC_INCLUDE}/lfc/")
 #lcgdm headers
 SET(lcgdm_headers_dir "${DPM_INCLUDE}/lcgdm/")
-FILE(GLOB lfc_scripts "../dist/scripts/gfal_plugin_lfc/*sh")
 
 add_definitions( -D_REENTRANT)
 add_library(plugin_lfc  SHARED ${src_lfc} ${src_gsimplecache})
@@ -175,7 +174,7 @@ IF(PLUGIN_SRM)
 
 pkg_check_modules(SRM_IFCE_PKG REQUIRED srm-ifce)
 
-FILE(GLOB srm_scripts "../dist/scripts/gfal_plugin_srm/*sh")
+
 add_library(plugin_srm  SHARED ${src_srm} ${src_gsimplecache} )
 
 target_link_libraries(plugin_srm ${gfal2_link} ${SRM_IFCE_PKG_LIBRARIES} gfal2_transfer)
@@ -201,7 +200,6 @@ IF(PLUGIN_RFIO)
 
 find_package(DPM REQUIRED)
 
-FILE(GLOB rfio_scripts "../dist/scripts/gfal_plugin_rfio/*sh")
 add_library(plugin_rfio  SHARED ${src_rfio} ${src_gsimplecache} )
 
 target_link_libraries(plugin_rfio ${gfal2_link} ${DPM_LIBRARIES})
@@ -227,7 +225,6 @@ ENDIF(PLUGIN_RFIO)
 IF(PLUGIN_DCAP)
 
 find_package(DCAP REQUIRED)
-FILE(GLOB dcap_scripts "../dist/scripts/gfal_plugin_dcap/*sh")
 
 add_definitions( -D_REENTRANT)
 add_library(plugin_dcap  SHARED ${src_dcap} ${src_gsimplecache} )
