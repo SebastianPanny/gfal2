@@ -168,7 +168,6 @@ IF(PLUGIN_SRM)
 
 pkg_check_modules(SRM_IFCE_PKG REQUIRED srm-ifce)
 
-message(" openmp fags : ${OpenMP_C_FLAGS} ${OpenMP_LIBRARIES}")
 add_definitions( ${SRM_IFCE_PKG_CFLAGS} ${OpenMP_C_FLAGS} )
 include_directories( ${SRM_IFCE_PKG_INCLUDE_DIR} ${OpenMP_INCLUDE_DIRS})
 

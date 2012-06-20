@@ -29,7 +29,7 @@ SET(COPY_DST "${CMAKE_CURRENT_BINARY_DIR}/")
 
 IF (FUNCTIONAL_TESTS)
 
-    pkg_search_module(NETTLE_PKG REQUIRED nettle)
+  #  pkg_search_module(NETTLE_PKG REQUIRED nettle)
 
         include_directories( "${CMAKE_SOURCE_DIR}/src "  "${CMAKE_SOURCE_DIR}/src/posix/"
                     ${GLIB2_PKG_INCLUDE_DIRS} ${NETTLE_PKG_INCLUDE_DIRS} )
@@ -37,8 +37,8 @@ IF (FUNCTIONAL_TESTS)
         add_executable(gfal_stat	${src_gfalstat} )
 	target_link_libraries(gfal_stat ${OUTPUT_NAME_MAIN} )
 
-        add_executable(gfal_checksum_test	${src_gfalchecksum_test} ${src_lib_test} )
-        target_link_libraries(gfal_checksum_test ${OUTPUT_NAME_MAIN} ${NETTLE_PKG_LIBRARIES})
+   #     add_executable(gfal_checksum_test	${src_gfalchecksum_test} ${src_lib_test} )
+    #    target_link_libraries(gfal_checksum_test ${OUTPUT_NAME_MAIN} ${NETTLE_PKG_LIBRARIES})
 
         add_executable(gfal_checksum_tool	${src_gfal_checksum_tool})
         target_link_libraries(gfal_checksum_tool ${OUTPUT_NAME_MAIN})
@@ -48,7 +48,7 @@ IF (FUNCTIONAL_TESTS)
 	ENDFUNCTION(stat_test_all valid)
 
         FUNCTION(checksum_test_all name valid)
-                add_test(gfal_checksum_${name} gfal_checksum_test ${valid})
+       #         add_test(gfal_checksum_${name} gfal_checksum_test ${valid})
         ENDFUNCTION(checksum_test_all name valid)
 
         FUNCTION(checksum_test_simple name valid_file algo)
