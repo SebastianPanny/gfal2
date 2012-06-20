@@ -24,6 +24,7 @@ int gfal_srm_put_rd3_turl(plugin_handle ch, gfalt_params_t params, const char* s
 
 int gfal_srm_get_rd3_turl(plugin_handle ch, gfalt_params_t params, const char* surl, char* buff_turl, int size_turl, char** reqtoken,  GError** err);
 
+int gfal_srm_getTURL_checksum(plugin_handle ch, const char* surl, char* buff_turl, int size_turl,   GError** err);
 
 int gfal_srm_putdone_simple(plugin_handle * handle , const char* surl, char* token,  GError** err);
 

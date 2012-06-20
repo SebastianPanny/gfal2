@@ -141,6 +141,8 @@ gint gfalt_set_user_defined_checksum(gfalt_params_t params, const gchar* chktype
                                 const gchar* checksum, GError** err){
     g_free(params->user_checksum);
     g_free(params->user_checksum_type);
+    params->user_checksum= NULL;
+    params->user_checksum_type= NULL;
     if(chktype && checksum){
          params->user_checksum = g_strdup(checksum);
          params->user_checksum_type = g_strdup(chktype);
@@ -151,11 +153,12 @@ gint gfalt_set_user_defined_checksum(gfalt_params_t params, const gchar* chktype
 gint gfalt_get_user_defined_checksum(gfalt_params_t params, gchar* chktype_buff, size_t chk_type_len,
                                 gchar* checksum_buff, size_t checksum_len, GError** err){
     g_assert(chktype_buff && checksum_buff);
-    if(!params->user_checksum || !params->user_checksum_type)
+    if(!params->user_checksum || !params->user_checksum_type){
         *checksum_buff = *chktype_buff = '\0';
-
-    g_strlcpy(chktype_buff, params->user_checksum_type, chk_type_len);
-    g_strlcpy(checksum_buff, params->user_checksum, checksum_len);
+    }else{
+        g_strlcpy(chktype_buff, params->user_checksum_type, chk_type_len);
+        g_strlcpy(checksum_buff, params->user_checksum, checksum_len);
+    }
     return 0;
 }
 

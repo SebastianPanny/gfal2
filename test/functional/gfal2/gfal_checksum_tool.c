@@ -21,6 +21,7 @@ int main(int argc, char **argv)
         fprintf(stdout, "\t\t Example: %s srm://cvitbdpm1.cern.ch/dpm/cern.ch/home/dteam/testcheck00011 MD5 \n", argv[0]);
         return 1;
     }
+    gfal_set_verbose(GFAL_VERBOSE_TRACE | GFAL_VERBOSE_VERBOSE | GFAL_VERBOSE_DEBUG);
     gfal2_context_t context = gfal2_context_new(&tmp_err);
 
     if(context){

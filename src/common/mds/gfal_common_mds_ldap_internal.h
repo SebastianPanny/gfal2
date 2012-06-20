@@ -26,7 +26,7 @@
 #include <glib.h>
 #include <lber.h>
 #include <ldap.h>
-#include "../gfal_common_errverbose.h"
+#include <common/gfal_common_errverbose.h>
 #include "gfal_common_mds.h"
 
 

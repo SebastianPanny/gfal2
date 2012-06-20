@@ -87,22 +87,28 @@ int GridftpModule::filecopy(gfalt_params_t params, const char* src, const char* 
     char checksum_dst[GFAL_URL_MAX_LEN]={0};
     char checksum_user_defined[GFAL_URL_MAX_LEN];
     char checksum_type_user_define[GFAL_URL_MAX_LEN];
-    char * checksum_algo=NULL;
     gboolean checksum_check = gfalt_get_checksum_check(params, &tmp_err);
     Gfal::gerror_to_cpp(&tmp_err);
+    struct scoped_free{
+        scoped_free() {checksum_algo=NULL;}
+        ~scoped_free(){
+            g_free(checksum_algo);
+        }
+        char *checksum_algo;
+    }chk_algo; // automated destruction
 
     if(checksum_check){
         gfalt_get_user_defined_checksum(params, checksum_type_user_define, GFAL_URL_MAX_LEN,
                                         checksum_user_defined, GFAL_URL_MAX_LEN, &tmp_err); // fetch the user defined chk
         Gfal::gerror_to_cpp(&tmp_err);
         if(*checksum_user_defined == '\0' || *checksum_type_user_define == '\0'){ // check if user defined checksum exist
-             checksum_algo = gfal2_get_opt_string(_handle_factory->get_handle(), GRIDFTP_CONFIG_GROUP, gridftp_checksum_transfer_config, &tmp_err);
+             chk_algo.checksum_algo = gfal2_get_opt_string(_handle_factory->get_handle(), GRIDFTP_CONFIG_GROUP, gridftp_checksum_transfer_config, &tmp_err);
             Gfal::gerror_to_cpp(&tmp_err);
-            gfal_log(GFAL_VERBOSE_TRACE, "\t\t No user defined checksum, fetch the default one from configuration ");
+            gfal_log(GFAL_VERBOSE_TRACE, "\t\tNo user defined checksum, fetch the default one from configuration ");
         }else{
-            checksum_algo = checksum_user_defined;
+            chk_algo.checksum_algo = g_strdup(checksum_type_user_define);
         }
-        gfal_log(GFAL_VERBOSE_DEBUG, "\t\t Checksum Algorithm for transfer verification %s", checksum_algo);
+        gfal_log(GFAL_VERBOSE_DEBUG, "\t\tChecksum Algorithm for transfer verification %s", chk_algo.checksum_algo);
     }
 
     #pragma omp parallel num_threads(2)
@@ -113,8 +119,8 @@ int GridftpModule::filecopy(gfalt_params_t params, const char* src, const char* 
             {
                CPP_GERROR_TRY
                if(checksum_check)
-                    checksum(src, checksum_algo, checksum_src, GFAL_URL_MAX_LEN, 0,0);
-               CPP_GERROR_CATCH(&tmp_err_chk_copy);
+                    checksum(src, chk_algo.checksum_algo, checksum_src, GFAL_URL_MAX_LEN, 0,0);
+               CPP_GERROR_CATCH(&tmp_err_chk_src);
             }
             #pragma omp section // start transfert and replace logic
             {
@@ -124,15 +130,15 @@ int GridftpModule::filecopy(gfalt_params_t params, const char* src, const char* 
             }
         }
     }
-    g_free(checksum_algo);
 
-    if(gfal_error_keep_first_err(&tmp_err, &tmp_err_chk_src, &tmp_err_chk_copy, &tmp_err_chk_dst, NULL)){
+
+    if(gfal_error_keep_first_err(&tmp_err,&tmp_err_chk_copy , &tmp_err_chk_src, &tmp_err_chk_dst, NULL)){
         Gfal::gerror_to_cpp(&tmp_err);
     }
 
     // calc checksum for dst
     if(checksum_check){
-        checksum(dst, checksum_algo, checksum_dst, GFAL_URL_MAX_LEN, 0,0);
+        checksum(dst, chk_algo.checksum_algo, checksum_dst, GFAL_URL_MAX_LEN, 0,0);
         gridftp_checksum_transfer_verify(checksum_src, checksum_dst, checksum_user_defined);
     }
     return 0;

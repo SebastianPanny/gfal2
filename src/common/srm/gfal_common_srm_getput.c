@@ -212,6 +212,37 @@ int gfal_srm_getTURLS_plugin(plugin_handle ch, const char* surl, char* buff_turl
 }
 
 
+//  special call for TURL resolution for checksum fallback solution
+int gfal_srm_getTURL_checksum(plugin_handle ch, const char* surl, char* buff_turl, int size_turl,   GError** err){
+    gfal_srmv2_opt* opts = (gfal_srmv2_opt*)ch;
+    gfal_srm_result* resu=NULL;
+    GError* tmp_err=NULL;
+    char* surls[]= { (char*)surl, NULL };
+    int ret = -1;
+
+    gfal_srm_params_t params = gfal_srm_params_new(opts, & tmp_err);
+    gfal_srm_params_set_protocols(params, opts->opt_srmv2_tp3_protocols);
+    if(params != NULL){
+        ret= gfal_srm_mTURLS_internal(opts, params, SRM_GET, surls, &resu, &tmp_err);
+        if(ret >0){
+            if(resu[0].err_code == 0){
+                g_strlcpy(buff_turl, resu[0].turl, size_turl);
+                ret=0;
+            }else{
+                g_set_error(&tmp_err,0 , resu[0].err_code, " error on the turl request : %s ", resu[0].err_str);
+                ret = -1;
+            }
+            free(resu);
+        }
+        gfal_srm_params_free(params);
+    }
+    if(tmp_err)
+        g_propagate_prefixed_error(err, tmp_err, "[%s]", __func__);
+    return ret;
+}
+
+
+
 
 //  execute a get for thirdparty transfer turl
 int gfal_srm_get_rd3_turl(plugin_handle ch, gfalt_params_t p, const char* surl, char* buff_turl, int size_turl, char** reqtoken,  GError** err){

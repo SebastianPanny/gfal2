@@ -23,6 +23,8 @@ FILE(GLOB src_gfalmkdir_full "gfal_mkdir_full.c")
 FILE(GLOB src_gfaltcopy "gfalt_copyfile.c")
 FILE(GLOB src_gfaltcopy_test "gfalt_copyfile_test.c")
 FILE(GLOB src_copyfile_replace "gfalt_copyfile_replace_test.c")
+FILE(GLOB src_copyfile_checksum "gfalt_copyfile_checksum_test_simple.c")
+FILE(GLOB src_copyfile_checksum_user "gfalt_copyfile_checksum_test_userdefined.c")
 
 SET(COPY_SRC "*.sh")
 SET(COPY_DST "${CMAKE_CURRENT_BINARY_DIR}/")
@@ -129,12 +131,20 @@ IF (FUNCTIONAL_TESTS)
 		
 		add_executable(copyfile_replace ${src_copyfile_replace} ${src_lib_test})
 		target_link_libraries(copyfile_replace ${OUTPUT_NAME_TRANSFER} ${OUTPUT_NAME_MAIN})
+
+                add_executable(copyfile_checksum ${src_copyfile_checksum} ${src_lib_test})
+                target_link_libraries(copyfile_checksum ${OUTPUT_NAME_TRANSFER} ${OUTPUT_NAME_MAIN})
+
+                add_executable(copyfile_checksum_user ${src_copyfile_checksum_user} ${src_lib_test})
+                target_link_libraries(copyfile_checksum_user ${OUTPUT_NAME_TRANSFER} ${OUTPUT_NAME_MAIN})
 		
 #		copy_files(${COPY_SRC} ${COPY_DST})
 #		add_test(functional_copyfile gfal2_copyfile.sh)
 #		add_test(functional_copyfile_srm gfal2_copyfile_srm.sh)
 		
 	FUNCTION(copy_file_test_full name src_file dir_src)
+                add_test(copyfile_checksum_${name} copyfile_checksum ${src_file} ${dir_src})
+                add_test(copyfile_checksum_user_${name} copyfile_checksum_user ${src_file} ${dir_src})
 		add_test(copyfile_replace_${name} copyfile_replace ${src_file} ${dir_src})
 		add_test(copyfile_test_${name} gfal_copyfile_test ${src_file} ${dir_src})
 	ENDFUNCTION(copy_file_test_full name dir_src)

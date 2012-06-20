@@ -24,6 +24,7 @@
  * */
 
 const char * srm_config_group= "SRM PLUGIN";
+const char * srm_config_transfer_checksum= "COPY_CHECKSUM_TYPE";
 const char * srm_ops_timeout_key= "OPERATION_TIMEOUT";
 const char * srm_conn_timeout_key= "CONN_TIMEOUT";
 

@@ -36,7 +36,8 @@
 #include "gfal_common_srm_endpoint.h"
 #include "gfal_common_srm.h"
 
-
+extern const char * srm_config_group;
+extern const char * srm_config_transfer_checksum;
 
 // request type for surl <-> turl translation 
 typedef enum _srm_req_type{
