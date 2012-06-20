@@ -21,10 +21,12 @@
  * @brief file for the third party transfer implementation
  * @author Devresse Adrien
  * */
+#include <omp.h>
 
 #include <common/gfal_types.h>
 #include <common/gfal_common_errverbose.h>
 #include <transfer/gfal_transfer.h>
+#include <externals/utils/uri_util.h>
 
 #include "gfal_common_srm_getput.h"
 #include "gfal_common_srm_stat.h"
@@ -99,23 +101,39 @@ int plugin_filecopy(plugin_handle handle, gfal2_context_t context,
 			&& dst != NULL , -1, err, "[plugin_filecopy][gridftp] einval params");	
 	
 	gfal_log(GFAL_VERBOSE_TRACE, "  -> [srm_plugin_filecopy] ");
-	GError * tmp_err=NULL;
-	int res = -1;
+    GError * tmp_err=NULL;
+    int res = -1;
 	char buff_turl_src[GFAL_URL_MAX_LEN];
 	char buff_turl_dst[GFAL_URL_MAX_LEN];
 	char* reqtoken = NULL;
-	
-    if( (res = srm_plugin_get_3rdparty(handle, params, src, buff_turl_src, GFAL_URL_MAX_LEN, &tmp_err)) ==0 ){ // do the first resolution
-		
-		if( ( res = srm_plugin_put_3rdparty(handle, context, params, dst, buff_turl_dst, GFAL_URL_MAX_LEN, &reqtoken, &tmp_err) ) ==0){		
-					
-			res = gfalt_copy_file(context, params, buff_turl_src, buff_turl_dst, &tmp_err);
-			if( res == 0 && reqtoken){
-				gfal_log(GFAL_VERBOSE_TRACE, "  transfer executed, execute srm put done");				
-				res= gfal_srm_putdone_simple(handle, dst, reqtoken, &tmp_err);
-			}
-		}
-	}
+
+    GError * tmp_err1, *tmp_err2;
+    tmp_err1 = tmp_err2 = NULL;
+
+    #pragma omp parallel num_threads(2)
+    {
+
+         #pragma omp sections
+        {
+            #pragma omp section
+            {
+                srm_plugin_get_3rdparty(handle, params, src, buff_turl_src, GFAL_URL_MAX_LEN, &tmp_err1);
+            }
+            #pragma omp section
+            {
+                srm_plugin_put_3rdparty(handle, context, params, dst, buff_turl_dst, GFAL_URL_MAX_LEN, &reqtoken, &tmp_err2);
+            }
+        }
+
+    }
+
+   if( !gfal_error_keep_first_err(&tmp_err, &tmp_err1, &tmp_err2,NULL) ){ // do the first resolution
+            res = gfalt_copy_file(context, params, buff_turl_src, buff_turl_dst, &tmp_err);
+            if( res == 0 && reqtoken){
+                gfal_log(GFAL_VERBOSE_TRACE, "  transfer executed, execute srm put done");
+                res= gfal_srm_putdone_simple(handle, dst, reqtoken, &tmp_err);
+            }
+    }
 
 	gfal_log(GFAL_VERBOSE_TRACE, " [srm_plugin_filecopy] <-");	
 	G_RETURN_ERR(res, tmp_err, err);		

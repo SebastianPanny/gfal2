@@ -60,12 +60,6 @@ include_directories(${headers_main} ${GLIB2_PKG_INCLUDE_DIRS}
 						${GTHREAD2_PKG_INCLUDE_DIRS})
 add_definitions( -DVERSION="${VERSION_STRING}" -Wall ${GLIB2_PKG_CFLAGS} ${GTHREAD2_PKG_CFLAGS} -D_LARGEFILE64_SOURCE)
 
-#FILE(GLOB src_program "gfal_srm_ifce_version.c")
-
-#FILE(GLOB src_unit_tests "*unittest*.c")
-#FILE(GLOB src_system_tests "*systemtest*.c")
-
-
 ## link to internal bdii system if IS_IFCE=false else to the is_interface
 IF (IS_IFCE)
 
@@ -174,17 +168,18 @@ IF(PLUGIN_SRM)
 
 pkg_check_modules(SRM_IFCE_PKG REQUIRED srm-ifce)
 
+message(" openmp fags : ${OpenMP_C_FLAGS} ${OpenMP_LIBRARIES}")
+add_definitions( ${SRM_IFCE_PKG_CFLAGS} ${OpenMP_C_FLAGS} )
+include_directories( ${SRM_IFCE_PKG_INCLUDE_DIR} ${OpenMP_INCLUDE_DIRS})
 
-add_library(plugin_srm  SHARED ${src_srm} ${src_gsimplecache} )
+add_library(plugin_srm  SHARED ${src_srm} ${src_gsimplecache} ${src_uri} )
+target_link_libraries(plugin_srm ${gfal2_link} ${SRM_IFCE_PKG_LIBRARIES} ${OpenMP_LIBRARIES} -lgomp gfal2_transfer)
 
-target_link_libraries(plugin_srm ${gfal2_link} ${SRM_IFCE_PKG_LIBRARIES} gfal2_transfer)
-include_directories( ${SRM_IFCE_PKG_INCLUDE_DIR} )
-add_definitions( ${SRM_IFCE_PKG_CFLAGS} )
 
 set_target_properties(plugin_srm	 	PROPERTIES
 								CLEAN_DIRECT_OUTPUT 1
 								OUTPUT_NAME ${OUTPUT_NAME_SRM}
-								LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins								
+                                                                LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins
 )
 
 install(TARGETS		plugin_srm
@@ -202,7 +197,7 @@ find_package(DPM REQUIRED)
 
 add_library(plugin_rfio  SHARED ${src_rfio} ${src_gsimplecache} )
 
-target_link_libraries(plugin_rfio ${gfal2_link} ${DPM_LIBRARIES})
+target_link_libraries(plugin_rfio ${gfal2_link} ${DPM_LIBRARIES} )
 include_directories( ${DPM_INCLUDE_DIR} )
 add_definitions( ${DPM_CFLAGS} )
 
