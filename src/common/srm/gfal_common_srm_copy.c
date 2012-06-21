@@ -193,20 +193,26 @@ int plugin_filecopy(plugin_handle handle, gfal2_context_t context,
     }
 
    if( !gfal_error_keep_first_err(&tmp_err, &tmp_err_get, &tmp_err_chk_src, &tmp_err_put,NULL) ){ // do the first resolution
-            res = gfalt_copy_file(context, params, buff_turl_src, buff_turl_dst, &tmp_err);
-            if( res == 0 && reqtoken){
-                gfal_log(GFAL_VERBOSE_TRACE, "  transfer executed, execute srm put done");
-                res= gfal_srm_putdone_simple(handle, dst, reqtoken, &tmp_err);
-                if(res ==0){
-                    if( (res = srm_plugin_check_checksum(handle, context, params, dst, buff_dst_checksum, &tmp_err)) ==0 ){
-                        res= srm_compare_checksum_transfer(params, src, dst,
-                                                          buff_src_checksum,
-                                                          buff_dst_checksum, &tmp_err);
+            gfalt_params_t params_turl = gfalt_params_handle_copy(params, &tmp_err);
+
+            if(!tmp_err){
+                res = gfalt_copy_file(context, params_turl, buff_turl_src, buff_turl_dst, &tmp_err);
+                gfalt_params_handle_delete(params_turl, NULL);
+                if( res == 0 && reqtoken){
+
+                    gfal_log(GFAL_VERBOSE_TRACE, "  transfer executed, execute srm put done"); // commit transaction
+
+                    res= gfal_srm_putdone_simple(handle, dst, reqtoken, &tmp_err);
+                    if(res ==0){
+                        if( (res = srm_plugin_check_checksum(handle, context, params, dst, buff_dst_checksum, &tmp_err)) ==0 ){  // try to get resu checksum
+                            res= srm_compare_checksum_transfer(params, src, dst,
+                                                              buff_src_checksum,
+                                                              buff_dst_checksum, &tmp_err);
+                        }
                     }
                 }
+
             }
-
-
     }
 
 

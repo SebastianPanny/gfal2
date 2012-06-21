@@ -31,6 +31,7 @@
  
 #include "gfal_common_srm_internal_layer.h"
 #include "gfal_common_srm_getput.h"
+#include "gfal_common_srm_url_check.h"
 
 GQuark srm_checksum_quark(){
     return g_quark_from_static_string("gfal_srm_cheksumG");
@@ -138,25 +139,32 @@ int gfal_srm_checksumG(plugin_handle handle, const char* url, const char* check_
     char buffer_type[GFAL_URL_MAX_LEN]={0};
     GError * tmp_err=NULL;
     gfal_srmv2_opt* opts = (gfal_srmv2_opt*)handle;
+    const gboolean srm_url = srm_check_url(url);
     int res =  -1;
 
-    if(start_offset==0 && data_length==0) // try SRM checksum only if full file checksum is requested
+    if(srm_url && start_offset==0 && data_length==0 ){ // try SRM checksum only if full file checksum is requested
         res= gfal_srm_cheksumG_internal(handle, url,
                                    checksum_buffer, buffer_length,
                                    buffer_type, GFAL_URL_MAX_LEN, &tmp_err);
+    }
+
     if(res == 0){
         gfal_log(GFAL_VERBOSE_DEBUG, "registered checksum type %s", buffer_type);
         if(strncasecmp(check_type, buffer_type,GFAL_URL_MAX_LEN) != 0){
             // does not match the correct type
             // this can be because checksum is nto populated on DPM server, cause the first gsiftp checksum calculation
-            gfal_log(GFAL_VERBOSE_TRACE, "\t\tNo valid SRM checksum, fallback to TURL checksum");
-            char buff_turl[GFAL_URL_MAX_LEN];
-            if( (res = gfal_srm_getTURL_checksum(handle, url, buff_turl, GFAL_URL_MAX_LEN,  &tmp_err)) >= 0){
-                 gfal_log(GFAL_VERBOSE_TRACE, "\t\t\tExecute checksum on turl %s", buff_turl);
-                 res= gfal2_checksum(opts->handle, buff_turl, check_type, 0,0, checksum_buffer, buffer_length, &tmp_err);
-            }else{
-                res = -1;
-            }
+            res = -1; // cancel result
+        }
+    }
+
+    if(res != 0 && !tmp_err){
+        gfal_log(GFAL_VERBOSE_TRACE, "\t\tNo valid SRM checksum, fallback to TURL checksum");
+        char buff_turl[GFAL_URL_MAX_LEN];
+        if( (res = gfal_srm_getTURL_checksum(handle, url, buff_turl, GFAL_URL_MAX_LEN,  &tmp_err)) >= 0){
+             gfal_log(GFAL_VERBOSE_TRACE, "\t\t\tExecute checksum on turl %s", buff_turl);
+             res= gfal2_checksum(opts->handle, buff_turl, check_type, 0,0, checksum_buffer, buffer_length, &tmp_err);
+        }else{
+            res = -1;
         }
     }
     G_RETURN_ERR(res, tmp_err, err);

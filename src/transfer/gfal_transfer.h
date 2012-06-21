@@ -67,6 +67,11 @@ gfalt_params_t gfalt_params_handle_new(GError ** err);
 void gfalt_params_handle_delete(gfalt_params_t params, GError ** err);
 
 
+/**
+    create a copy of a parameter handle
+*/
+gfalt_params_t gfalt_params_handle_copy(gfalt_params_t params, GError ** err);
+
 //
 // parameters management functions
 // these functions provide a way to configure a context for a transfer

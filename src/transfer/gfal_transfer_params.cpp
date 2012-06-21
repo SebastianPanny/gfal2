@@ -32,6 +32,16 @@ void gfalt_params_handle_init(gfalt_params_t p, GError ** err){
 	uuid_clear(p->uuid);		
 }
 
+gfalt_params_t gfalt_params_handle_copy(gfalt_params_t params, GError ** err){
+    gfalt_params_t p = g_new0(struct _gfalt_params_t,1);
+    memcpy(p, params, sizeof(struct _gfalt_params_t));
+    p->src_space_token = g_strdup(params->src_space_token);
+    p->dst_space_token = g_strdup(params->dst_space_token);
+    p->user_checksum = g_strdup(params->user_checksum);
+    p->user_checksum_type = g_strdup(params->user_checksum_type);
+    return p;
+}
+
 gfalt_params_t gfalt_params_handle_new(GError ** err){
 	
     gfalt_params_t p = g_new0(struct _gfalt_params_t,1);
@@ -45,6 +55,8 @@ void gfalt_params_handle_delete(gfalt_params_t params, GError ** err){
 		params->lock = false;
         g_free(params->src_space_token);
         g_free(params->dst_space_token);
+        g_free(params->user_checksum);
+        g_free(params->user_checksum_type);
         g_free(params);
 
 	}

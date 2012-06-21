@@ -39,10 +39,15 @@ void create_params(){
 	gfalt_params_t  p = gfalt_params_handle_new(&tmp_err);
 	g_assert(p != NULL);
 	g_assert(tmp_err == NULL);
+    gfalt_params_t  p2 = gfalt_params_handle_copy(p, &tmp_err);
+    g_assert(p2 != NULL);
+    g_assert(tmp_err == NULL);
 	gfalt_params_handle_delete(NULL, &tmp_err);
 	g_assert(tmp_err == NULL);
 	gfalt_params_handle_delete(p,&tmp_err);
-	g_assert(tmp_err == NULL);		
+    g_assert(tmp_err == NULL);
+    gfalt_params_handle_delete(p2,&tmp_err);
+    g_assert(tmp_err == NULL);
 }
 
 

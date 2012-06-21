@@ -72,7 +72,8 @@ void gridftp_checksum_transfer_verify(const char * src_chk, const char* dst_chk,
         if(strncasecmp(src_chk, dst_chk,GFAL_URL_MAX_LEN) != 0)
             throw Gfal::CoreException(scope_filecopy, Glib::ustring::compose("SRC and DST checksum are different %1 %2", src_chk, dst_chk),EIO);
     }else{
-        if(strncasecmp(src_chk, dst_chk, GFAL_URL_MAX_LEN) != 0)
+        if(strncasecmp(src_chk, user_defined_chk, GFAL_URL_MAX_LEN) != 0
+                || strncasecmp(dst_chk, user_defined_chk, GFAL_URL_MAX_LEN) != 0)
             throw Gfal::CoreException(scope_filecopy, Glib::ustring::compose("USER_DEFINE, SRC and DST checksum are different %1 %2 %3", user_defined_chk, src_chk, dst_chk),EIO);
     }
 }
