@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+#include <string>
+#include <sstream>
 
 #include "gridftp_exist.h"
 #include "gridftp_ifce_filecopy.h"
@@ -69,12 +71,19 @@ int gridftp_filecopy_copy_file_internal(GridFTPFactoryInterface * factory, gfalt
 
 void gridftp_checksum_transfer_verify(const char * src_chk, const char* dst_chk, const char* user_defined_chk){
     if(*user_defined_chk == '\0'){
-        if(strncasecmp(src_chk, dst_chk,GFAL_URL_MAX_LEN) != 0)
-            throw Gfal::CoreException(scope_filecopy, Glib::ustring::compose("SRC and DST checksum are different %1 %2", src_chk, dst_chk),EIO);
+        if(strncasecmp(src_chk, dst_chk,GFAL_URL_MAX_LEN) != 0){
+            std::ostringstream ss;
+            ss << "SRC and DST checksum are different: " << src_chk << " " << dst_chk ;
+            throw Gfal::CoreException(scope_filecopy, ss.str(), EIO);
+        }
     }else{
         if(strncasecmp(src_chk, user_defined_chk, GFAL_URL_MAX_LEN) != 0
-                || strncasecmp(dst_chk, user_defined_chk, GFAL_URL_MAX_LEN) != 0)
-            throw Gfal::CoreException(scope_filecopy, Glib::ustring::compose("USER_DEFINE, SRC and DST checksum are different %1 %2 %3", user_defined_chk, src_chk, dst_chk),EIO);
+                || strncasecmp(dst_chk, user_defined_chk, GFAL_URL_MAX_LEN) != 0){
+            std::ostringstream ss;
+            ss << "USER_DEFINE, SRC and DST checksum are different " << user_defined_chk << " " << src_chk << " " << dst_chk;
+            throw Gfal::CoreException(scope_filecopy, ss.str(),EIO);
+        }
+
     }
 }
 

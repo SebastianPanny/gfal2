@@ -220,12 +220,6 @@ int gfalt_copy_file(gfal2_context_t context, gfalt_params_t params, const char* 
  * */
 gint gfalt_copy_cancel(gfalt_transfer_status_t, GError** err);
 
-/* // not implemented
-gint gfalt_copy_pause(gfalt_transfer_status_t, GError ** err );
-gint  gfalt_copy_resume(gfalt_transfer_status_t, GError ** err);
-
-*/
-
 /**
  * 
  * */
@@ -245,8 +239,11 @@ time_t gfalt_copy_get_elapsed_time(gfalt_transfer_status_t, GError ** err);
 
 /**
     @}
-    End of the POSIX group
+    End of the File Transfer API
 */
+
+// plugin reserved API
+
 
 #ifdef __cplusplus
 }
