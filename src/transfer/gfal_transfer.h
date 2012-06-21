@@ -172,19 +172,15 @@ gint gfalt_get_user_defined_checksum(gfalt_params_t params, gchar* chktype_buff,
 
 
 /**
- * set the user_data pointer for statefull usages.
+ * set the user_data pointer for the monitoring callback
  * */
 gint gfalt_set_user_data(gfalt_params_t, gpointer user_data, GError** err);
 
 
-
 /**
- * set the minimum among of time between two calls of gfalt_monitor_tfr
- * 
+ * get the user_data pointer for the monitoring callback
  * */
-gint gfalt_set_callback_mperiod(gfalt_params_t, guint mtime, GError** err); // time in ms between two callback calls.
-// etc ......     
-
+gpointer gfalt_get_user_data(gfalt_params_t,  GError** err);
 
 
      
@@ -192,9 +188,12 @@ gint gfalt_set_callback_mperiod(gfalt_params_t, guint mtime, GError** err); // t
  * @brief define a callback for monitoring the current transfer
  * The default value is NULL and no monitoring will occures
 */
-void gfalt_set_monitor_callback(gfalt_params_t params, gfalt_monitor_func callback);
+gint gfalt_set_monitor_callback(gfalt_params_t params, gfalt_monitor_func callback, GError** err);
 
-
+/**
+ * @brief get the current monitor callback
+*/
+gfalt_monitor_func gfalt_get_monitor_callback(gfalt_params_t params, GError** err);
 
 //
 // Main function for transfer launch 
@@ -217,17 +216,25 @@ int gfalt_copy_file(gfal2_context_t context, gfalt_params_t params, const char* 
 
 /**
  * cancel the current file copy
+ * NOT YET implemented
  * */
 gint gfalt_copy_cancel(gfalt_transfer_status_t, GError** err);
 
 /**
- * 
+ *  get a transfer status indicator
+ *
  * */
 gint gfalt_copy_get_status(gfalt_transfer_status_t, GError ** err);
 /**
- * get an estimation of the baudrate
+ * get an estimation of the average baudrate in bytes/s
  * */
-gint gfalt_copy_get_baudrate(gfalt_transfer_status_t, GError ** err);
+size_t gfalt_copy_get_average_baudrate(gfalt_transfer_status_t, GError ** err);
+
+/**
+ * get an estimation of the instant baudrate in bytes/s
+ * */
+size_t gfalt_copy_get_instant_baudrate(gfalt_transfer_status_t, GError ** err);
+
 /**
  * get the current number of bytes transfered
  * */
@@ -243,6 +250,10 @@ time_t gfalt_copy_get_elapsed_time(gfalt_transfer_status_t, GError ** err);
 */
 
 // plugin reserved API
+//! @cond
+gfalt_transfer_status_t gfalt_transfer_status_create(const gfalt_hook_transfer_plugin_t * hook);
+void gfalt_transfer_status_delete(gfalt_transfer_status_t state);
+//! @endcond
 
 
 #ifdef __cplusplus

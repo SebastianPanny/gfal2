@@ -45,6 +45,51 @@ void gridftp_filecopy_delete_existing(GridFTP_session * sess, gfalt_params_t par
 	
 }
 
+void gsiftp_rd3p_callback(void* user_args, globus_gass_copy_handle_t* handle, globus_off_t total_bytes, float throughput, float avg_throughput);
+
+struct Callback_handler{
+
+    Callback_handler(gfalt_params_t params, GridFTP_session* sess, const char* src, const char* dst){
+        GError * tmp_err=NULL;
+        args.callback = gfalt_get_monitor_callback(params, &tmp_err);
+        Gfal::gerror_to_cpp(&tmp_err);
+
+        args.sess = sess;
+        args.user_args = gfalt_get_user_data(params, &tmp_err);
+        args.src = src;
+        args.dst = dst;
+        args.start_time = time(NULL);
+        Gfal::gerror_to_cpp(&tmp_err);
+        if(args.callback)
+            globus_gass_copy_register_performance_cb(args.sess->get_gass_handle(), gsiftp_rd3p_callback, (gpointer) &args);
+    }
+
+    virtual ~Callback_handler(){
+        globus_gass_copy_register_performance_cb(args.sess->get_gass_handle(), NULL, NULL);
+    }
+    struct callback_args{
+        gfalt_monitor_func callback;
+        gpointer user_args;
+        GridFTP_session* sess;
+        const char* src;
+        const char* dst;
+        time_t start_time;
+    } args;
+};
+
+void gsiftp_rd3p_callback(void* user_args, globus_gass_copy_handle_t* handle, globus_off_t total_bytes, float throughput, float avg_throughput){
+    Callback_handler::callback_args * args = (Callback_handler::callback_args *) user_args;
+    gfalt_hook_transfer_plugin_t hook;
+    hook.bytes_transfered = total_bytes;
+    hook.average_baudrate= (size_t) avg_throughput;
+    hook.instant_baudrate = (size_t) throughput;
+    hook.transfer_time = (time(NULL) - args->start_time);
+
+    gfalt_transfer_status_t state = gfalt_transfer_status_create(&hook);
+    args->callback(state, args->src, args->dst, args->user_args);
+    gfalt_transfer_status_delete(state);
+}
+
 
 int gridftp_filecopy_copy_file_internal(GridFTPFactoryInterface * factory, gfalt_params_t params,
                                         const char* src, const char* dst){
@@ -56,6 +101,9 @@ int gridftp_filecopy_copy_file_internal(GridFTPFactoryInterface * factory, gfalt
     std::auto_ptr<GridFTP_session> sess(factory->gfal_globus_ftp_take_handle(gridftp_hostname_from_url(src)));
 
     gridftp_filecopy_delete_existing(sess.get(), params, dst);
+
+    Callback_handler callback_handler(params, sess.get(), src, dst);
+
 
     gfal_log(GFAL_VERBOSE_TRACE, "   [GridFTPFileCopyModule::filecopy] start gridftp transfer %s -> %s", src, dst);
     gfal_globus_result_t res = globus_gass_copy_url_to_url 	(sess->get_gass_handle(),

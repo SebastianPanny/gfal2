@@ -59,6 +59,10 @@ struct _gfalt_params_t{
 };
 
 
+struct _gfalt_transfer_status{
+    const gfalt_hook_transfer_plugin_t* hook;
+};
+
 namespace Gfal{
 	
 namespace Transfer{

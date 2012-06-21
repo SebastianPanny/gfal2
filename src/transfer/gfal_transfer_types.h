@@ -46,7 +46,7 @@ typedef struct _gfalt_params_t* gfalt_params_t;
 /**
  * @brief internal status of a copy file action
  * */
-typedef gpointer gfalt_transfer_status_t;
+typedef struct _gfalt_transfer_status* gfalt_transfer_status_t;
 
 /**
  * @brief copy gfalt_monitor_transfer
@@ -57,6 +57,25 @@ typedef gpointer gfalt_transfer_status_t;
  * */
 typedef void (*gfalt_monitor_func)(gfalt_transfer_status_t h, const char* src, const char* dst, gpointer user_data)  ;
 
+
+
+
+
+
+
+
+// plugin reserved API
+//! @cond
+typedef struct _gfalt_hook_transfer_plugin{
+    gpointer plugin_transfer_data;
+    int status;
+    size_t average_baudrate;
+    size_t instant_baudrate;
+    time_t transfer_time;
+    size_t bytes_transfered;
+    void* futur_usage[25];
+} gfalt_hook_transfer_plugin_t;
+//! @endcond
 #ifdef __cplusplus
 }
 #endif // __cplusplus

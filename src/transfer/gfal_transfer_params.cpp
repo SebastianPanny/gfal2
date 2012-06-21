@@ -105,6 +105,24 @@ gint gfalt_set_user_data(gfalt_params_t params, gpointer user_data, GError** err
 	return 0;	
 }
 
+gpointer gfalt_get_user_data(gfalt_params_t params, GError** err){
+    g_return_val_err_if_fail(params != NULL, NULL, err, "[BUG] invalid params handle");
+    return params->user_data;
+}
+
+
+gint gfalt_set_monitor_callback(gfalt_params_t params, gfalt_monitor_func callback, GError** err){
+    g_return_val_err_if_fail(params != NULL, -1, err, "[BUG] invalid params handle");
+    params->callback = callback;
+    return 0;
+}
+
+
+gfalt_monitor_func gfalt_get_monitor_callback(gfalt_params_t params, GError** err){
+    g_return_val_err_if_fail(params != NULL, NULL, err, "[BUG] invalid params handle");
+    return params->callback;
+}
+
 guint gfalt_get_nbstreams(gfalt_params_t params, GError** err){
 	g_return_val_err_if_fail(params != NULL, -1, err, "[BUG] invalid parameter handle");
 	return params->nb_data_streams ;
@@ -173,6 +191,34 @@ gint gfalt_get_user_defined_checksum(gfalt_params_t params, gchar* chktype_buff,
     }
     return 0;
 }
+
+
+gint gfalt_copy_get_status(gfalt_transfer_status_t s, GError ** err){
+    g_return_val_err_if_fail(s != NULL, -1, err, "[BUG] invalid transfer status handle");
+    return s->hook->status;
+}
+
+size_t gfalt_copy_get_average_baudrate(gfalt_transfer_status_t s, GError ** err){
+    g_return_val_err_if_fail(s != NULL, -1, err, "[BUG] invalid transfer status handle");
+    return s->hook->average_baudrate;
+}
+
+size_t gfalt_copy_get_instant_baudrate(gfalt_transfer_status_t s, GError ** err){
+    g_return_val_err_if_fail(s != NULL, -1, err, "[BUG] invalid transfer status handle");
+    return s->hook->instant_baudrate;
+}
+
+size_t gfalt_copy_get_bytes_transfered(gfalt_transfer_status_t s, GError ** err){
+    g_return_val_err_if_fail(s != NULL, -1, err, "[BUG] invalid transfer status handle");
+    return s->hook->bytes_transfered;
+}
+
+time_t gfalt_copy_get_elapsed_time(gfalt_transfer_status_t s, GError ** err){
+    g_return_val_err_if_fail(s != NULL, -1, err, "[BUG] invalid transfer status handle");
+    return s->hook->transfer_time;
+}
+
+
 
 /*
 int gfalt_set_uuid(gfalt_params_t, uuid_t uuid, GError** err);
