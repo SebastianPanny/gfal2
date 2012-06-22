@@ -28,4 +28,7 @@ int gfal_srm_getTURL_checksum(plugin_handle ch, const char* surl, char* buff_tur
 
 int gfal_srm_putdone_simple(plugin_handle * handle , const char* surl, char* token,  GError** err);
 
+int srm_abort_request_plugin (plugin_handle * handle , const char* surl,
+        char *reqtoken, GError** err);
+
 

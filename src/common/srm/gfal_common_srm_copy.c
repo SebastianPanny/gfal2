@@ -44,8 +44,9 @@ int srm_plugin_get_3rdparty(plugin_handle handle, gfalt_params_t params, const c
 	GError * tmp_err=NULL;
 	int res = -1;
 	if( srm_check_url(surl) ){
+        gfal_log(GFAL_VERBOSE_TRACE, "\t\tGET surl -> turl dst resolution start");
         if( (res =gfal_srm_get_rd3_turl(handle, params, surl, buff , s_buff, NULL,  err)) == 0){
-            gfal_log(GFAL_VERBOSE_TRACE, "\t\tGET : surl -> turl dst resolution : %s -> %s", surl, buff);
+            gfal_log(GFAL_VERBOSE_TRACE, "\t\tGET surl -> turl dst resolution ended : %s -> %s", surl, buff);
 		}
 	}else{
 		res =0;
@@ -85,9 +86,10 @@ int srm_plugin_put_3rdparty(plugin_handle handle, gfal2_context_t context,
 	int res = -1;
 	
 	if( srm_check_url(surl)){
+        gfal_log(GFAL_VERBOSE_TRACE, "\t\tPUT surl -> turl src resolution start ");
 		if( (res = srm_plugin_delete_existing_copy(handle, params, surl, &tmp_err)) ==0){						
             if(( res= gfal_srm_put_rd3_turl(handle, params, surl, buff , s_buff, reqtoken,  err))==0)
-				gfal_log(GFAL_VERBOSE_TRACE, "		PUT surl -> turl src resolution : %s -> %s", surl, buff);			
+                gfal_log(GFAL_VERBOSE_TRACE, "\t\tPUT surl -> turl src resolution ended : %s -> %s", surl, buff);
 		}
 	}else{
 		res =0;
@@ -162,6 +164,7 @@ int plugin_filecopy(plugin_handle handle, gfal2_context_t context,
 	gfal_log(GFAL_VERBOSE_TRACE, "  -> [srm_plugin_filecopy] ");
     GError * tmp_err=NULL;
     int res = -1;
+    gboolean put_waiting= FALSE;
 	char buff_turl_src[GFAL_URL_MAX_LEN];
     char buff_src_checksum[GFAL_URL_MAX_LEN];
 	char buff_turl_dst[GFAL_URL_MAX_LEN];
@@ -187,6 +190,8 @@ int plugin_filecopy(plugin_handle handle, gfal2_context_t context,
             #pragma omp section
             {
                 srm_plugin_put_3rdparty(handle, context, params, dst, buff_turl_dst, GFAL_URL_MAX_LEN, &reqtoken, &tmp_err_put);
+                if(!tmp_err_put && reqtoken != NULL)
+                    put_waiting = TRUE;
             }
         }
 
@@ -198,12 +203,12 @@ int plugin_filecopy(plugin_handle handle, gfal2_context_t context,
             if(!tmp_err){
                 res = gfalt_copy_file(context, params_turl, buff_turl_src, buff_turl_dst, &tmp_err);
                 gfalt_params_handle_delete(params_turl, NULL);
-                if( res == 0 && reqtoken){
-
-                    gfal_log(GFAL_VERBOSE_TRACE, "  transfer executed, execute srm put done"); // commit transaction
+                if( res == 0 && put_waiting){
+                    gfal_log(GFAL_VERBOSE_TRACE, "\ttransfer executed, execute srm put done"); // commit transaction
 
                     res= gfal_srm_putdone_simple(handle, dst, reqtoken, &tmp_err);
                     if(res ==0){
+                        put_waiting = FALSE;
                         if( (res = srm_plugin_check_checksum(handle, context, params, dst, buff_dst_checksum, &tmp_err)) ==0 ){  // try to get resu checksum
                             res= srm_compare_checksum_transfer(params, src, dst,
                                                               buff_src_checksum,
@@ -213,6 +218,17 @@ int plugin_filecopy(plugin_handle handle, gfal2_context_t context,
                 }
 
             }
+    }
+
+    if(put_waiting){ // abort request
+           gfal_log(GFAL_VERBOSE_TRACE, "\tCancel PUT request for %s", dst);
+           GError * tmp_err_cancel=NULL;
+           srm_abort_request_plugin(handle, dst, reqtoken, &tmp_err_cancel);
+           // log silent error
+           if(tmp_err_cancel)
+               gfal_log(GFAL_VERBOSE_DEBUG, " Error while canceling put on %s: %s", dst, tmp_err_cancel->message);
+          // clear the trash file silently
+           gfal_srm_unlinkG(handle, dst,NULL);
     }
 
 

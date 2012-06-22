@@ -417,7 +417,7 @@ int gfal_srm_putdone(gfal_srmv2_opt* opts , char** surls, char* token,  GError**
 	GError* tmp_err=NULL;
 	int ret=-1;	
 
-	char full_endpoint[2048];
+    char full_endpoint[GFAL_URL_MAX_LEN];
 	enum gfal_srm_proto srm_types;
 	gfal_log(GFAL_VERBOSE_TRACE, "   -> [gfal_srm_putdone] ");
 	
@@ -444,6 +444,50 @@ int gfal_srm_putdone_simple(plugin_handle * handle , const char* surl, char* tok
 	gfal_srmv2_opt* opts = (gfal_srmv2_opt*)handle;
 	char* surls[]= { (char*)surl, NULL };
 	return gfal_srm_putdone(opts, surls, token, err);
+}
+
+int srmv2_abort_request_internal(gfal_srmv2_opt* opts , char* endpoint, char* req_token,  GError** err){
+    GError* tmp_err=NULL;
+    struct srm_context context;
+    int ret=0;
+
+    char errbuf[GFAL_URL_MAX_LEN] = {0};
+
+    gfal_srm_ifce_context_init(&context, opts->handle, endpoint,
+                                  errbuf, GFAL_URL_MAX_LEN, &tmp_err);
+
+    if((ret = srm_abort_request(&context, req_token)) < 0){
+        g_set_error(&tmp_err,0,errno,"SRMv2 abort request error : %s",errbuf);
+    }
+    G_RETURN_ERR(ret, tmp_err, err);
+}
+
+int srm_abort_request_plugin (plugin_handle * handle , const char* surl,
+        char *reqtoken, GError** err){
+    g_return_val_err_if_fail(handle != NULL && reqtoken != NULL, -1, err, "[srm_abort_request_plugin] invalid values for token/handle");
+    gfal_srmv2_opt* opts = (gfal_srmv2_opt*)handle;
+    GError* tmp_err=NULL;
+    int ret=-1;
+
+    char full_endpoint[GFAL_URL_MAX_LEN];
+    enum gfal_srm_proto srm_types;
+    gfal_log(GFAL_VERBOSE_TRACE, "   -> [srm_abort_request] ");
+
+    if((gfal_srm_determine_endpoint(opts, surl, full_endpoint, GFAL_URL_MAX_LEN, &srm_types, &tmp_err)) == 0){		// check & get endpoint
+        gfal_log(GFAL_VERBOSE_NORMAL, "[srm_abort_request] endpoint %s", full_endpoint);
+
+        if (srm_types == PROTO_SRMv2){
+            ret = srmv2_abort_request_internal(opts, full_endpoint, reqtoken, &tmp_err);
+        } else if(srm_types == PROTO_SRM){
+            g_set_error(&tmp_err,0, EPROTONOSUPPORT, "support for SRMv1 is removed in gfal 2.0, failure");
+        } else{
+            g_set_error(&tmp_err,0,EPROTONOSUPPORT, "Unknow SRM protocol, failure ");
+        }
+    }
+    gfal_log(GFAL_VERBOSE_TRACE, " [srm_abort_request] <-");
+
+    G_RETURN_ERR(ret, tmp_err, err);
+
 }
 
 
