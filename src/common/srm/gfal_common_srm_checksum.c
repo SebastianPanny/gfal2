@@ -158,14 +158,24 @@ int gfal_srm_checksumG(plugin_handle handle, const char* url, const char* check_
     }
 
     if(res != 0 && !tmp_err){
-        gfal_log(GFAL_VERBOSE_TRACE, "\t\tNo valid SRM checksum, fallback to TURL checksum");
+        gfal_log(GFAL_VERBOSE_TRACE, "\t\tNo valid SRM checksum, fallback to the TURL checksum");
         char buff_turl[GFAL_URL_MAX_LEN];
-        if( (res = gfal_srm_getTURL_checksum(handle, url, buff_turl, GFAL_URL_MAX_LEN,  &tmp_err)) >= 0){
-             gfal_log(GFAL_VERBOSE_TRACE, "\t\t\tExecute checksum on turl %s", buff_turl);
-             res= gfal2_checksum(opts->handle, buff_turl, check_type, 0,0, checksum_buffer, buffer_length, &tmp_err);
-        }else{
-            res = -1;
+        char *res_turl;
+        if(srm_url){ // SRM URL do TURL resolution
+            if( (res = gfal_srm_getTURL_checksum(handle, url, buff_turl, GFAL_URL_MAX_LEN,  &tmp_err)) >= 0){
+                 res_turl = buff_turl;
+            }else{
+                res = -1;
+            }
+        }else{ // native protocol -> act like this
+            res_turl = (char*)url;
+            res =0;
         }
+        if(res == 0){
+          gfal_log(GFAL_VERBOSE_TRACE, "\t\t\tExecute checksum on turl %s", res_turl);
+          res= gfal2_checksum(opts->handle, res_turl, check_type, 0,0, checksum_buffer, buffer_length, &tmp_err);
+        }
+
     }
     G_RETURN_ERR(res, tmp_err, err);
 }
